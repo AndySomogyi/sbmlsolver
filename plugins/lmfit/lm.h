@@ -6,13 +6,15 @@
 #include "rrPlugin.h"
 #include "rrRoadRunner.h"
 #include "rrMinimizationData.h"
+#include "rrc_types.h"
 #include "lm_thread.h"
 //---------------------------------------------------------------------------
 
-using namespace rr;
-using namespace rrc;
+namespace lm
+{
 using namespace rrp;
-using namespace std;
+using rr::RoadRunner;
+using std::string;
 
 class LM : public Plugin
 {
@@ -34,8 +36,8 @@ class LM : public Plugin
         LMFitThread                             mLMFitThread;
 
     public:
-                                                LM(rr::RoadRunner* aRR = NULL);
-                                                ~LM();
+                                                LM(RoadRunner* aRR = NULL);
+                                               ~LM();
         bool                                    execute(void* inputData);
         string                                  getResult();
         bool                                    resetPlugin();
@@ -50,9 +52,8 @@ class LM : public Plugin
 
 extern "C"
 {
-RR_PLUGIN_DECLSPEC Plugin*      plugins_cc createPlugin(rr::RoadRunner* aRR);
-RR_PLUGIN_DECLSPEC const char*  plugins_cc getImplementationLanguage();
+RR_PLUGIN_DECLSPEC LM*         plugins_cc    createPlugin(rr::RoadRunner* aRR);
+RR_PLUGIN_DECLSPEC const char* plugins_cc    getImplementationLanguage();
 }
-
-
+}
 #endif

@@ -11,7 +11,12 @@
 #include "../../wrappers/C/rrc_utilities.h"
 
 //---------------------------------------------------------------------------
+namespace lm
+{
 using namespace rr;
+using namespace rrc;
+using namespace std;
+
 LMFitThread::LMFitThread(LM& host)
 :
 threadEnterCB(NULL),
@@ -40,7 +45,7 @@ void LMFitThread::start()
 {
     if(mThread.isRunning())
     {
-        Log(Logger::LOG_ERROR)<<"Tried to start an already working thread!";
+        Log(lError)<<"Tried to start an already working thread!";
         return;
     }
 
@@ -109,7 +114,7 @@ void LMFitThread::run()
     mMinData.setModelData(data);
 
     data = createResidualsData();
-//    mMinData.setResidualsData(data);
+    mMinData.setResidualsData(data);
 
     if(threadExitCB)
     {
@@ -239,9 +244,7 @@ void evaluate(const double *par,       //Parameter vector
     if(!rrData)
     {
         char* lastError = getLastError();
-
-        Log(Logger::LOG_ERROR)<<"Error in simulateEx: "<<lastError;
-
+        Log(lError)<<"Error in simulateEx: "<<lastError;
         rr::freeText(lastError);
         return;
     }
@@ -342,7 +345,7 @@ RoadRunnerData LMFitThread::createResidualsData()
                 }
                 else
                 {
-                    Log(Logger::LOG_ERROR)<<"Problem with column names when creating residual data!";
+                    Log(lError)<<"Problem with column names when creating residual data!";
                 }
             }
         }
@@ -351,4 +354,4 @@ RoadRunnerData LMFitThread::createResidualsData()
     return resData;
 }
 
-
+}

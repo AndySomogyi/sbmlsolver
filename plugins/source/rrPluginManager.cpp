@@ -103,7 +103,7 @@ bool PluginManager::load(const string& pluginName)
     }
 
     std::set<std::string>::iterator it = files.begin();
-
+    //Try to load.. failing to load a plugin do not mean we abort. Catch and report the problem
     for (; it != files.end(); ++it)
     {
         string plugin = getFileName(*it);

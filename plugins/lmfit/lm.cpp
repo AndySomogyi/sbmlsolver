@@ -8,6 +8,8 @@
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
 
+namespace lm
+{
 using namespace rr;
 using namespace rrc;
 
@@ -48,7 +50,7 @@ string LM::getStatus()
 
 string LM::getImplementationLanguage()
 {
-    return ::getImplementationLanguage();
+    return lm::getImplementationLanguage();
 }
 
 bool LM::resetPlugin()
@@ -151,7 +153,7 @@ bool LM::execute(void* inputData)
 }
 
 // Plugin factory function
-Plugin* plugins_cc createPlugin(rr::RoadRunner* aRR)
+LM* plugins_cc createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new LM(aRR);
@@ -179,11 +181,5 @@ void LM::loadConfig(const _xmlDoc* doc)
 {
 }
 
-extern "C" int _libmain(unsigned long reason)
-{
-    return 1;
 }
-
-
-
 

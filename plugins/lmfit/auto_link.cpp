@@ -7,8 +7,9 @@
         #pragma comment(lib, "rrp_api-static.lib")
     #else
         #pragma comment(lib, "roadrunner.lib")
+        #pragma comment(lib, "rrplugins_api.lib")
         #pragma comment(lib, "rrc_api.lib")
-        #pragma comment(lib, "rrp_api.lib")
+        #pragma comment(lib, "rrplugins_c_api.lib")
         #pragma comment(lib, "lmfit-static.lib)
     #endif
 

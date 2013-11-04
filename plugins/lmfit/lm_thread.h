@@ -7,7 +7,9 @@
 #include "lmUtils.h"
 //---------------------------------------------------------------------------
 
-typedef void (rrpCallConv *ThreadCB)(void*);
+namespace lm
+{
+typedef void (callback_cc *ThreadCB)(void*);
 
 class LM;
 
@@ -42,4 +44,5 @@ class LMFitThread : public Poco::Runnable
         bool                        isRunning();
 };
 
+}
 #endif

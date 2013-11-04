@@ -3,6 +3,8 @@
 #include "../../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 
+namespace lm
+{
 /* data structure to transmit model data to function evalution */
 typedef struct
 {
@@ -41,4 +43,6 @@ void evaluate(      const double   *par,        //Parameter vector
                     int            *infoIndex   //Index into info message array
                  );
 
+
+}
 #endif

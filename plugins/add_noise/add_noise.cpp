@@ -1,4 +1,3 @@
-
 #pragma hdrstop
 #include "rrLogger.h"
 #include "add_noise.h"
@@ -6,10 +5,8 @@
 #include "rrNoise.h"
 
 //---------------------------------------------------------------------------
-extern "C" const char* rrCallConv getImplementationLanguage();
 namespace addNoise
 {
-
 using namespace rr;
 
 AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
@@ -31,7 +28,7 @@ AddNoise::~AddNoise()
 
 string AddNoise::getImplementationLanguage()
 {
-    return "";//::getImplementationLanguage();
+    return addNoise::getImplementationLanguage();
 }
 
 bool AddNoise::isWorking()

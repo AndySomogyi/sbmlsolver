@@ -4,6 +4,8 @@
 #include "lmfit/lmmin.h"
 //---------------------------------------------------------------------------
 
+namespace lm
+{
 using namespace rr;
 void my_printout(     int n_par,
                     const double *par,
@@ -64,4 +66,5 @@ void my_printout(     int n_par,
     }
 }
 
+}
 
