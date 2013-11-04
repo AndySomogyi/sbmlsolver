@@ -644,25 +644,12 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
 {
     const ListOfSpecies *species = model->getListOfSpecies();
 
-    // fully independent, no rules of any sort
+    // independent at run time, no rules of any sort
     list<string> indFltSpecies;
-
-    // species defined by rate rules
-    list<string> rateRuleSpecies;
-
-    // conserved species (have assignment rules)
-    list<string> conservedSpecies;
-
-    // species defined by assignment rules, not including
-    // conserved species
-    list<string> assignSpecies;
-
-    const ListOfInitialAssignments *initAssign = model->getListOfInitialAssignments();
-
-    //initAssign->get
-
-
     list<string> depFltSpecies;
+
+    list<string> indInitFltSpecies;
+    list<string> depInitFltSpecies;
 
     // figure out 'fully' indendent flt species -- those without rules.
     for (uint i = 0; i < species->size(); ++i)
@@ -684,6 +671,15 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         {
             depFltSpecies.push_back(sid);
         }
+
+        if (isIndependentInitElement(sid))
+        {
+            indInitFltSpecies.push_back(createInitSymbol(sid));
+        }
+        else
+        {
+            depInitFltSpecies.push_back(createInitSymbol(sid));
+        }
     }
 
     // stuff the species in the map
@@ -701,8 +697,24 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         floatingSpeciesMap[*i] = si;
     }
 
+    // stuff the species in the map
+    for (list<string>::const_iterator i = indInitFltSpecies.begin();
+            i != indInitFltSpecies.end(); ++i)
+    {
+        uint si = initFloatingSpeciesMap.size();
+        initFloatingSpeciesMap[*i] = si;
+    }
+
+    for (list<string>::const_iterator i = depInitFltSpecies.begin();
+            i != depInitFltSpecies.end(); ++i)
+    {
+        uint si = initFloatingSpeciesMap.size();
+        initFloatingSpeciesMap[*i] = si;
+    }
+
     // finally set how many ind species we've found
     independentFloatingSpeciesSize = indFltSpecies.size();
+    independentInitFloatingSpeciesSize = indInitFltSpecies.size();
 
     if (Logger::LOG_INFORMATION <= getLogger().getLevel())
     {
@@ -1060,8 +1072,8 @@ std::string LLVMModelDataSymbols::getInitSymbolId(
 {
     if (symbol.find("init(") == 0 && symbol.find(")") != string::npos)
     {
-        uint end = symbol.length() - 1;
-        return symbol.substr(5, end);
+        uint len = symbol.length() - 6;
+        return symbol.substr(5, len);
     }
     else
     {
@@ -1081,6 +1093,17 @@ bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
 bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(
         const std::string& symbol) const
 {
+    StringUIntMap::const_iterator i = initFloatingSpeciesMap.find(symbol);
+    return i != initFloatingSpeciesMap.end() &&
+            i->second < independentInitFloatingSpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitCompartment(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
+    return i != initCompartmentsMap.end() &&
+            i->second < independentInitCompartmentSize;
 }
 
 bool LLVMModelDataSymbols::isIndependentInitElement(

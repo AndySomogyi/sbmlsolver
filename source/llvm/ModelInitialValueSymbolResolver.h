@@ -22,14 +22,17 @@ namespace rrllvm
 {
 
 /**
- * pulls values from the original sbml document.
+ * pulls values from the initial conditions data blocks
  */
 class ModelInitialValueSymbolResolver: public LoadSymbolResolver
 {
 public:
-    ModelInitialValueSymbolResolver(const libsbml::Model *model,
+
+    ModelInitialValueSymbolResolver(llvm::Value *modelData,
+            const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
             const LLVMModelDataSymbols &modelDataSymbols,
-            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder);
+            llvm::IRBuilder<> &builder);
+
 
     virtual ~ModelInitialValueSymbolResolver();
 
@@ -38,10 +41,36 @@ public:
                     llvm::ArrayRef<llvm::Value*>());
 
 protected:
+    llvm::Value *modelData;
     const libsbml::Model *model;
     const LLVMModelDataSymbols &modelDataSymbols;
     const LLVMModelSymbols &modelSymbols;
     llvm::IRBuilder<> &builder;
+};
+
+
+class ModelInitialValueStoreSymbolResolver : public StoreSymbolResolver
+{
+public:
+    ModelInitialValueStoreSymbolResolver(llvm::Value *modelData,
+            const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
+            const LLVMModelDataSymbols &modelDataSymbols,
+            llvm::IRBuilder<> &builder,
+            LoadSymbolResolver &resolver);
+
+    virtual ~ModelInitialValueStoreSymbolResolver() {};
+
+    virtual llvm::Value *storeSymbolValue(const std::string& symbol,
+            llvm::Value *value);
+private:
+
+    llvm::Value *modelData;
+    const libsbml::Model *model;
+    const LLVMModelSymbols &modelSymbols;
+    const LLVMModelDataSymbols &modelDataSymbols;
+    llvm::IRBuilder<> &builder;
+    LoadSymbolResolver &resolver;
+
 };
 
 } /* namespace rr */

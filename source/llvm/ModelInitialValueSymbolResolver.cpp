@@ -19,14 +19,32 @@ namespace rrllvm
 {
 
 ModelInitialValueSymbolResolver::ModelInitialValueSymbolResolver(
-        const libsbml::Model* model,
-        const LLVMModelDataSymbols& modelDataSymbols,
-        const LLVMModelSymbols& modelSymbols,
-        llvm::IRBuilder<>& builder) :
-        model(model),
-        modelDataSymbols(modelDataSymbols),
-        modelSymbols(modelSymbols),
-        builder(builder)
+        llvm::Value *modelData,
+        const libsbml::Model *model,
+        const LLVMModelSymbols &modelSymbols,
+        const LLVMModelDataSymbols &modelDataSymbols,
+        llvm::IRBuilder<> &builder) :
+            modelData(modelData),
+            model(model),
+            modelSymbols(modelSymbols),
+            modelDataSymbols(modelDataSymbols),
+            builder(builder)
+{
+}
+
+
+ModelInitialValueStoreSymbolResolver::ModelInitialValueStoreSymbolResolver(llvm::Value *modelData,
+        const libsbml::Model *model,
+        const LLVMModelSymbols &modelSymbols,
+        const LLVMModelDataSymbols &modelDataSymbols,
+        llvm::IRBuilder<> &builder,
+        LoadSymbolResolver &resolver) :
+            modelData(modelData),
+            model(model),
+            modelSymbols(modelSymbols),
+            modelDataSymbols(modelDataSymbols),
+            builder(builder),
+            resolver(resolver)
 {
 }
 
@@ -101,6 +119,64 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
 
     return 0;
 }
+
+
+llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
+        const std::string& symbol, llvm::Value *value)
+{
+    assert(value);
+
+    ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
+            builder);
+
+    /*************************************************************************/
+    /* AssignmentRule */
+    /*************************************************************************/
+    // can not store anything with an assigment rule, these are determined
+    // by other independent elements.
+    assert(!modelDataSymbols.hasAssignmentRule(symbol));
+
+
+    if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
+    {
+        string id = modelDataSymbols.getInitSymbolId(symbol);
+        const Species *species = model->getSpecies(id);
+        assert(species);
+
+        Value *amt = 0;
+        // only amounts are stored, convert to conc if required
+        if (species->getHasOnlySubstanceUnits())
+        {
+            amt = value;
+        }
+        else
+        {
+            // have a conc, need to convert to amt
+            Value *comp = resolver.loadSymbolValue(
+                    modelDataSymbols.getInitSymbol(species->getCompartment()));
+            amt =  builder.CreateFMul(value, comp, symbol + "_amt");
+        }
+
+        assert(amt);
+
+        return mdbuilder.createInitFloatSpeciesAmtStore(symbol, amt);
+    }
+
+    else if (modelDataSymbols.isIndependentInitCompartment(symbol))
+    {
+        return mdbuilder.createInitCompStore(symbol, value);
+    }
+
+    string msg = "The symbol \'";
+    msg += symbol;
+    msg += "\' is not physically stored in the ModelData structure, "
+            "it either does not exists or is defined by an assigment rule (hence it "
+            "is not a terminal symbol)";
+
+    throw_llvm_exception(msg);
+    return 0;
+}
+
 
 } /* namespace rr */
 

@@ -336,7 +336,9 @@ public:
      * Independent initial values do not have assignment or
      * initial assigment rules, but may have rate rules.
      */
-    bool isIndependentInitElement(const std::string& id) const;
+    bool isIndependentInitElement(const std::string& symbol) const;
+
+    bool isIndependentInitCompartment(const std::string& symbol) const;
 
     /**
      * get a list of the floating species init value symbols.

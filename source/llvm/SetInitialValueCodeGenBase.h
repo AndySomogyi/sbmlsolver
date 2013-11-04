@@ -12,7 +12,7 @@
 #include "SymbolForest.h"
 #include "ASTNodeFactory.h"
 #include "ModelDataIRBuilder.h"
-#include "ModelDataSymbolResolver.h"
+#include "ModelInitialValueSymbolResolver.h"
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include <sbml/Model.h>
@@ -74,10 +74,10 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
     // are we doing init symbols or regular symbols.
     bool isInit = static_cast<Derived*>(this)->isInitialValue();
 
-    ModelDataLoadSymbolResolver loadResolver(args[0], this->model, this->modelSymbols,
+    ModelInitialValueSymbolResolver loadResolver(args[0], this->model, this->modelSymbols,
             this->dataSymbols, this->builder);
 
-    ModelDataStoreSymbolResolver storeResolver(args[0], this->model, this->modelSymbols,
+    ModelInitialValueStoreSymbolResolver storeResolver(args[0], this->model, this->modelSymbols,
             this->dataSymbols, this->builder, loadResolver);
 
     // default, return false
