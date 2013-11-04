@@ -87,6 +87,16 @@ static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::Strin
     return result;
 }
 
+/**
+ * create an init symbol,
+ *
+ * TODO, this needs serious re-thinking and cleanup
+ */
+static string createInitSymbol(const std::string& id)
+{
+    return "init(" + id + ")";
+}
+
 namespace rrllvm
 {
 
@@ -735,11 +745,11 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
 
         if (isIndependentInitElement(id))
         {
-            indInitCompartments.push_back(id);
+            indInitCompartments.push_back(createInitSymbol(id));
         }
         else
         {
-            depInitCompartments.push_back(id);
+            depInitCompartments.push_back(createInitSymbol(id));
         }
     }
 
@@ -1012,23 +1022,56 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesInitIds() const
 uint LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
         const std::string& symbol) const
 {
+    StringUIntMap::const_iterator i = initFloatingSpeciesMap.find(symbol);
+    if(i != initFloatingSpeciesMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init floating species with id " + symbol);
+    }
+    // never get here, just silence eclipse warnings
+    return 0;
 }
 
 uint LLVMModelDataSymbols::getCompartmentInitIndex(
         const std::string& symbol) const
 {
+    StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
+    if(i != initCompartmentsMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init compartment with id " + symbol);
+    }
+    // never get here, just silence eclipse warnings
+    return 0;
 }
 
 bool LLVMModelDataSymbols::isInitSymbol(const std::string& symbol) const
 {
 }
 
-std::string LLVMModelDataSymbols::getInitSymbolId(const std::string& symbol) const
+std::string LLVMModelDataSymbols::getInitSymbolId(
+        const std::string& symbol) const
 {
+    if (symbol.find("init(") == 0 && symbol.find(")") != string::npos)
+    {
+        uint end = symbol.length() - 1;
+        return symbol.substr(5, end);
+    }
+    else
+    {
+        throw LLVMException(symbol + " is not an initial value sybmol");
+    }
 }
 
 std::string LLVMModelDataSymbols::getInitSymbol(const std::string& id) const
 {
+    return createInitSymbol(id);
 }
 
 bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
