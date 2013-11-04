@@ -8,12 +8,12 @@ add_definitions(
 
 OPTION(BUILD_POCO_NET "Build poco net library" ON)
 
-#if(${MSVC})
 if(WIN32)
     add_definitions(
         #-DUSRDLL
         -DWIN32
         -D_WIN32
+        -D__WIN32__
         )
 endif()
 
