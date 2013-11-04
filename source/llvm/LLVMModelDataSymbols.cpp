@@ -87,15 +87,6 @@ static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::Strin
     return result;
 }
 
-/**
- * create an init symbol,
- *
- * TODO, this needs serious re-thinking and cleanup
- */
-static string createInitSymbol(const std::string& id)
-{
-    return "init(" + id + ")";
-}
 
 namespace rrllvm
 {
@@ -674,11 +665,11 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
 
         if (isIndependentInitElement(sid))
         {
-            indInitFltSpecies.push_back(createInitSymbol(sid));
+            indInitFltSpecies.push_back(sid);
         }
         else
         {
-            depInitFltSpecies.push_back(createInitSymbol(sid));
+            depInitFltSpecies.push_back(sid);
         }
     }
 
@@ -757,11 +748,11 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
 
         if (isIndependentInitElement(id))
         {
-            indInitCompartments.push_back(createInitSymbol(id));
+            indInitCompartments.push_back(id);
         }
         else
         {
-            depInitCompartments.push_back(createInitSymbol(id));
+            depInitCompartments.push_back(id);
         }
     }
 
@@ -1063,31 +1054,10 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
     return 0;
 }
 
-bool LLVMModelDataSymbols::isInitSymbol(const std::string& symbol) const
-{
-}
-
-std::string LLVMModelDataSymbols::getInitSymbolId(
-        const std::string& symbol) const
-{
-    if (symbol.find("init(") == 0 && symbol.find(")") != string::npos)
-    {
-        uint len = symbol.length() - 6;
-        return symbol.substr(5, len);
-    }
-    else
-    {
-        throw LLVMException(symbol + " is not an initial value sybmol");
-    }
-}
-
-std::string LLVMModelDataSymbols::getInitSymbol(const std::string& id) const
-{
-    return createInitSymbol(id);
-}
 
 bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
 {
+    return false;
 }
 
 bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(

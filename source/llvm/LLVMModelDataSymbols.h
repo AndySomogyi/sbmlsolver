@@ -368,31 +368,6 @@ public:
     uint getInitBoundarySpeciesSize() const;
     uint getInitGlobalParameterSize() const;
 
-
-    /**
-     * checks if the string has the format of an initial value symbol,
-     * does not check if the base is valid.
-     */
-    bool isInitSymbol(const std::string& symbol) const;
-
-    /**
-     * initial value symbols have the form of init(id), this
-     * returns the sbml id.
-     *
-     * An exception is thrown if this is not an init symbol.
-     */
-    std::string getInitSymbolId(const std::string& symbol) const;
-
-
-    /**
-     * Create an initial value symbol from a standard symbol.
-     *
-     * Init symbols have the form of "init(id)" where id is
-     * an sbml id
-     */
-    std::string getInitSymbol(const std::string& id) const;
-
-
 private:
 
     std::set<std::string> initAssignmentRules;

@@ -139,8 +139,7 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
 
     if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
     {
-        string id = modelDataSymbols.getInitSymbolId(symbol);
-        const Species *species = model->getSpecies(id);
+        const Species *species = model->getSpecies(symbol);
         assert(species);
 
         Value *amt = 0;
@@ -152,8 +151,7 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
         else
         {
             // have a conc, need to convert to amt
-            Value *comp = resolver.loadSymbolValue(
-                    modelDataSymbols.getInitSymbol(species->getCompartment()));
+            Value *comp = resolver.loadSymbolValue(species->getCompartment());
             amt =  builder.CreateFMul(value, comp, symbol + "_amt");
         }
 

@@ -432,7 +432,7 @@ llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtGEP(
         const std::string& id, const llvm::Twine& name)
 {
     uint index = symbols.getFloatingSpeciesInitIndex(id);
-    assert(index < symbols.getIndependentFloatingSpeciesSize());
+    assert(index < symbols.getInitFloatingSpeciesSize());
     return createGEP(InitFloatingSpeciesAmounts, index,
             name.isTriviallyEmpty() ? id : name);
 }
@@ -455,7 +455,7 @@ llvm::Value* ModelDataIRBuilder::createInitCompGEP(const std::string& id,
         const llvm::Twine& name)
 {
     uint index = symbols.getCompartmentInitIndex(id);
-    assert(index < symbols.getIndependentCompartmentSize());
+    assert(index < symbols.getInitCompartmentSize());
     return createGEP(InitCompartmentVolumes, index,
             name.isTriviallyEmpty() ? id : name);
 }

@@ -102,7 +102,7 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
         // because we can modify the copy.
         llvm::Value *value = args[2];
 
-        std::string element = isInit ? this->dataSymbols.getInitSymbolId(ids[i].second) : ids[i].second;
+        std::string element = ids[i].second;
 
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
@@ -113,9 +113,6 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
         {
             // get the id of the compartment the species belongs to
             std::string compId = species->getCompartment();
-            if (isInit) {
-                compId = this->dataSymbols.getInitSymbol(compId);
-            }
 
             llvm::Value *comp = loadResolver.loadSymbolValue(compId);
 

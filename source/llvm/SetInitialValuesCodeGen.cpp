@@ -36,7 +36,7 @@ static std::vector<std::pair<uint, std::string> > independentElements(const LLVM
     {
         if (dataSymbols.isIndependentInitElement(*i) || dataSymbols.isConservedMoiety(*i))
         {
-            pair<uint, string> value(i - elements.begin(), dataSymbols.getInitSymbol(*i));
+            pair<uint, string> value(i - elements.begin(), *i);
             result.push_back(value);
         }
     }
