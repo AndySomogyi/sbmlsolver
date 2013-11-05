@@ -184,5 +184,6 @@ if(WIN32)
 
     file(GLOB libxml_headers "${THIRD_PARTY_FOLDER}/dependencies/libsbml/include/libxml2/*.h")
     install(FILES ${libxml_headers} DESTINATION include/libxml2/libxml COMPONENT rr_core)
+    install (FILES  ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib/libxml2.lib DESTINATION lib COMPONENT rr_core)
 
 endif()

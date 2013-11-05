@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 PROJECT(rrModels)
 
 set(models
+bistable.xml
 feedback.xml
 test_1.xml 				
 ss_threestep.xml 	
