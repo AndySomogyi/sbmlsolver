@@ -18,7 +18,7 @@
 
 //C function calling convention
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-    #define rrp_cc __stdcall
+    #define rrp_cc __cdecl
     #define callback_cc __cdecl      //For plugin callback functions
 #else
     #define rrp_cc

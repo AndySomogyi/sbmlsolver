@@ -2,22 +2,22 @@ LIBRARY     RRPLUGINS_C_API.DLL
 
 
 EXPORTS
-addDoubleParameter                              = _addDoubleParameter@16
-executePlugin                                   = _executePlugin@4
-getPluginManagerConfigurationXML                = _getPluginManagerConfigurationXML@4
-setPluginManagerConfigurationXML                = _setPluginManagerConfigurationXML@8
-getNumberOfPlugins                              = _getNumberOfPlugins@4
-getPluginCapabilities                           = _getPluginCapabilities@4
-getPluginInfo                                   = _getPluginInfo@4
-getPluginName                                   = _getPluginName@4
-getPluginNames                                  = _getPluginNames@4
-getPluginParameter                              = _getPluginParameter@12
-getPluginParameters                             = _getPluginParameters@8
-getPluginStatus                                 = _getPluginStatus@4
-getPluginResult                                 = _getPluginResult@4
-loadPlugins                                     = _loadPlugins@4
-setPluginParameter                              = _setPluginParameter@12
-unLoadPlugins                                   = _unLoadPlugins@4
-createPluginManager                           = _createPluginManager@4
-createPluginManagerEx                         = _createPluginManagerEx@12
-freePluginManager                             = _freePluginManager@4
+;addDoubleParameter                              = _addDoubleParameter@16
+;executePlugin                                   = _executePlugin@4
+;getPluginManagerConfigurationXML                = _getPluginManagerConfigurationXML@4
+;setPluginManagerConfigurationXML                = _setPluginManagerConfigurationXML@8
+;getNumberOfPlugins                              = _getNumberOfPlugins@4
+;getPluginCapabilities                           = _getPluginCapabilities@4
+;getPluginInfo                                   = _getPluginInfo@4
+;getPluginName                                   = _getPluginName@4
+;getPluginNames                                  = _getPluginNames@4
+;getPluginParameter                              = _getPluginParameter@12
+;getPluginParameters                             = _getPluginParameters@8
+;getPluginStatus                                 = _getPluginStatus@4
+;getPluginResult                                 = _getPluginResult@4
+;loadPlugins                                     = _loadPlugins@4
+;setPluginParameter                              = _setPluginParameter@12
+;unLoadPlugins                                   = _unLoadPlugins@4
+;createPluginManager                           = _createPluginManager@4
+;createPluginManagerEx                         = _createPluginManagerEx@12
+;freePluginManager                             = _freePluginManager@4
