@@ -2,14 +2,16 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 project(lmfit)
 
 set(target lmfit) 
-set(headers lib/lmcurve.h lib/lmmin.h)
+set(headers lmcurve.h lmmin.h)
 
 set(sources 
-lib/lmmin.c
-lib/lmcurve.c
+lmmin.c
+lmcurve.c
 )
 
-add_library(${target}-static STATIC ${sources})
+add_library(${target}-static STATIC 
+${sources}
+)
 
 if(WIN32)
 set_property(TARGET ${target}-static  
@@ -22,16 +24,15 @@ set_property(TARGET ${target}-static
              PROPERTY  COMPILE_DEFINITIONS 
                        STATIC_LMFIT
              ) 
-
 endif()
 
 
-#Install required files
-install(FILES ${headers} 
-        DESTINATION include/lmfit)
-
-install(TARGETS ${target}-static 
-        LIBRARY DESTINATION lib 
-        ARCHIVE DESTINATION lib
-)
-
+##Don't Install required files
+#install(FILES ${headers} 
+#        DESTINATION include/lmfit)
+#
+#install(TARGETS ${target}-static 
+#        LIBRARY DESTINATION lib 
+#        ARCHIVE DESTINATION lib
+#)
+#

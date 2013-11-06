@@ -6,6 +6,11 @@ include_directories(
 ../../source
 ../../wrappers/C
 ${THIRD_PARTY_INSTALL_FOLDER}/include
+${CMAKE_INSTALL_PREFIX}/include
+)
+
+link_directories(
+${CMAKE_INSTALL_PREFIX}/lib
 )
 
 set(sources
@@ -14,15 +19,14 @@ lm_thread
 lmUtils
 )
 
+#This is where the Levenberg C lib is built
+add_subdirectory(lib)
 
 add_definitions(
 -DPOCO_STATIC
 -DLIBSBML_STATIC
 -DSTATIC_RR
 -DSTATIC_PLUGINS_API
-#-DSTATIC_LIBSTRUCT
-#-DLIBLAX_STATIC
-#-DSTATIC_NLEQ
 -DEXPORT_RR_PLUGIN
 )
 
@@ -32,12 +36,20 @@ if(WIN32)
 target_link_libraries (${target}
 lmfit-static
 rrc_api
-rrplugins_c_api
+rrplugins_api-static
+roadrunner-static
+poco_foundation-static
+libxml2
+blas
+lapack
+rr-libstruct-static
+libf2c
+sundials_cvode
+sundials_nvecserial
+nleq-static
 )
-else() #UNIX
-    # OSX flags:
-    #"${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
-    # OSX seems to link fine without this flag
+
+else() 
     if(APPLE)
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
     else()
@@ -59,10 +71,6 @@ else() #UNIX
         rrplugins_api-static
         )
 endif()
-
-#if(${MSVC})
-#set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/${target}.def\"")
-#endif()
 
 install (TARGETS ${target}
 DESTINATION plugins

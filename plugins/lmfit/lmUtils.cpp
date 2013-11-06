@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "rrLogger.h"
 #include "lmUtils.h"
-#include "lmfit/lmmin.h"
+#include "lib/lmmin.h"
 //---------------------------------------------------------------------------
 
 namespace lm
