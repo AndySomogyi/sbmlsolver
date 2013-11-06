@@ -30,6 +30,16 @@ GetFloatingSpeciesInitConcentrationCodeGen::GetFloatingSpeciesInitConcentrationC
 {
 }
 
+
+const char* GetFloatingSpeciesInitAmountCodeGen::FunctionName = "getFloatingSpeciesInitAmount";
+const char* GetFloatingSpeciesInitAmountCodeGen::IndexArgName = "floatingSpeciesIndex";
+
+GetFloatingSpeciesInitAmountCodeGen::GetFloatingSpeciesInitAmountCodeGen(
+        const ModelGeneratorContext &mgc) :
+        GetInitialValueCodeGenBase<GetFloatingSpeciesInitAmountCodeGen, true>(mgc)
+{
+}
+
 const char* GetCompartmentInitVolumeCodeGen::FunctionName = "getCompartmentInitVolume";
 const char* GetCompartmentInitVolumeCodeGen::IndexArgName = "compartmentIndex";
 

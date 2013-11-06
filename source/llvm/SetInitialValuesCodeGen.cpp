@@ -61,7 +61,19 @@ std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitConcentrationCo
 }
 
 
+const char* SetFloatingSpeciesInitAmountCodeGen::FunctionName = "setFloatingSpeciesInitAmounts";
+const char* SetFloatingSpeciesInitAmountCodeGen::IndexArgName = "floatingSpeciesIndex";
 
+SetFloatingSpeciesInitAmountCodeGen::SetFloatingSpeciesInitAmountCodeGen(
+        const ModelGeneratorContext &mgc) :
+        SetInitialValueCodeGenBase<SetFloatingSpeciesInitAmountCodeGen, true>(mgc)
+{
+}
+
+std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitAmountCodeGen::getIds()
+{
+    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
+}
 
 const char* SetCompartmentInitVolumeCodeGen::FunctionName = "setCompartmentInitVolumes";
 const char* SetCompartmentInitVolumeCodeGen::IndexArgName = "compartmentIndex";

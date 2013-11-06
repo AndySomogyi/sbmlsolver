@@ -1,4 +1,5 @@
 /*
+
  * ModelResources.h
  *
  *  Created on: Aug 28, 2013
@@ -49,9 +50,13 @@ public:
 
     // init value accessors
     SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
-    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr getFloatingSpeciesInitConcentrationsPtr;
+
+    SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;
+    GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
+
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
+    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
 };
 
 } /* namespace rrllvm */

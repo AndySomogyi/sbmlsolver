@@ -239,21 +239,31 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
     {
-        rc->setFloatingSpeciesInitConcentrationsPtr =
-                SetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
-        rc->setCompartmentInitVolumesPtr =
-                SetCompartmentInitVolumeCodeGen(context).createFunction();
         rc->getFloatingSpeciesInitConcentrationsPtr =
                 GetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+        rc->setFloatingSpeciesInitConcentrationsPtr =
+                SetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+
+        rc->getFloatingSpeciesInitAmountsPtr =
+                GetFloatingSpeciesInitAmountCodeGen(context).createFunction();
+        rc->setFloatingSpeciesInitAmountsPtr =
+                SetFloatingSpeciesInitAmountCodeGen(context).createFunction();
+
         rc->getCompartmentInitVolumesPtr =
                 GetCompartmentInitVolumeCodeGen(context).createFunction();
+        rc->setCompartmentInitVolumesPtr =
+                SetCompartmentInitVolumeCodeGen(context).createFunction();
     }
     else
     {
-        rc->setFloatingSpeciesInitConcentrationsPtr = 0;
-        rc->setCompartmentInitVolumesPtr = 0;
         rc->getFloatingSpeciesInitConcentrationsPtr = 0;
+        rc->setFloatingSpeciesInitConcentrationsPtr = 0;
+
+        rc->getFloatingSpeciesInitAmountsPtr = 0;
+        rc->setFloatingSpeciesInitAmountsPtr = 0;
+
         rc->getCompartmentInitVolumesPtr = 0;
+        rc->setCompartmentInitVolumesPtr = 0;
     }
 
 

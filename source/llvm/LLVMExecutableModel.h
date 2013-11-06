@@ -495,8 +495,10 @@ private:
 
     // init value accessors
     SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
-    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr getFloatingSpeciesInitConcentrationsPtr;
+    SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;
+    GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
+    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
 
 

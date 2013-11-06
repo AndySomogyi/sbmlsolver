@@ -1279,6 +1279,35 @@ namespace std { class ostream{}; }
                 break;
             }
 
+        case SelectionRecord::INITIAL_VALUE:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getFloatingSpeciesInitAmounts(1, &index, &result);
+                break;
+            }
+            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+            {
+                p->getCompartmentInitVolumes(1, &index, &result);
+                break;
+            }
+            else
+            {
+                throw Exception("Invalid id '" + id + "' for floating amount rate");
+                break;
+            }
+        case SelectionRecord::INITIAL_CONCENTRATION:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getFloatingSpeciesInitConcentrations(1, &index, &result);
+                break;
+            }
+            else
+            {
+                throw Exception("Invalid id '" + id + "' for floating species");
+                break;
+            }
+
+
         default:
             Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
                                     << sel.to_repr();
@@ -1348,6 +1377,36 @@ namespace std { class ostream{}; }
                 throw Exception(msg);
                 break;
             }
+
+       case SelectionRecord::INITIAL_VALUE:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->setFloatingSpeciesInitAmounts(1, &index, &value);
+                break;
+            }
+            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+            {
+                p->setCompartmentInitVolumes(1, &index, &value);
+                break;
+            }
+            else
+            {
+                throw Exception("Invalid id '" + id + "' for floating amount rate");
+                break;
+            }
+        case SelectionRecord::INITIAL_CONCENTRATION:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->setFloatingSpeciesInitConcentrations(1, &index, &value);
+                break;
+            }
+            else
+            {
+                throw Exception("Invalid id '" + id + "' for floating species");
+                break;
+            }
+
+
 
         default:
             Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";

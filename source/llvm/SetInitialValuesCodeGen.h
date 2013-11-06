@@ -37,6 +37,25 @@ public:
 
 
 
+class SetFloatingSpeciesInitAmountCodeGen: public
+    SetInitialValueCodeGenBase<SetFloatingSpeciesInitAmountCodeGen, true>
+{
+public:
+    SetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
+    ~SetFloatingSpeciesInitAmountCodeGen() {};
+
+    std::vector<std::pair<uint, std::string> > getIds();
+
+    bool isInitialValue() {
+        return true;
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
+
+
 class SetCompartmentInitVolumeCodeGen: public
     SetInitialValueCodeGenBase<SetCompartmentInitVolumeCodeGen, false>
 {

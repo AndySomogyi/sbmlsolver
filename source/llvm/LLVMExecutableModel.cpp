@@ -140,10 +140,12 @@ LLVMExecutableModel::LLVMExecutableModel() :
     setFloatingSpeciesConcentrationPtr(0),
     setCompartmentVolumePtr(0),
     setGlobalParameterPtr(0),
-    setFloatingSpeciesInitConcentrationsPtr(0),
-    setCompartmentInitVolumesPtr(0),
     getFloatingSpeciesInitConcentrationsPtr(0),
-    getCompartmentInitVolumesPtr(0)
+    setFloatingSpeciesInitConcentrationsPtr(0),
+    getFloatingSpeciesInitAmountsPtr(0),
+    setFloatingSpeciesInitAmountsPtr(0),
+    getCompartmentInitVolumesPtr(0),
+    setCompartmentInitVolumesPtr(0)
 {
     std::srand(std::time(0));
 }
@@ -175,10 +177,12 @@ LLVMExecutableModel::LLVMExecutableModel(
     setFloatingSpeciesConcentrationPtr(rc->setFloatingSpeciesConcentrationPtr),
     setCompartmentVolumePtr(rc->setCompartmentVolumePtr),
     setGlobalParameterPtr(rc->setGlobalParameterPtr),
-    setFloatingSpeciesInitConcentrationsPtr(rc->setFloatingSpeciesInitConcentrationsPtr),
-    setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
     getFloatingSpeciesInitConcentrationsPtr(rc->getFloatingSpeciesInitConcentrationsPtr),
-    getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr)
+    setFloatingSpeciesInitConcentrationsPtr(rc->setFloatingSpeciesInitConcentrationsPtr),
+    getFloatingSpeciesInitAmountsPtr(rc->getFloatingSpeciesInitAmountsPtr),
+    setFloatingSpeciesInitAmountsPtr(rc->setFloatingSpeciesInitAmountsPtr),
+    getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
+    setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr)
 {
     modelData->time = -1.0; // time is initially before simulation starts
 
@@ -607,8 +611,13 @@ void LLVMExecutableModel::reset()
     //evalInitialConditions();
 
     double *buffer = new double[modelData->numIndFloatingSpecies];
-    getFloatingSpeciesInitConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
-    setFloatingSpeciesConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
+    getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+    setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+    delete[] buffer;
+
+    buffer = new double[modelData->numIndCompartments];
+    getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
+    setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
     delete[] buffer;
 
     evalReactionRates();
@@ -1154,13 +1163,24 @@ int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
 int LLVMExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
             double const *values)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported yet");
+    int result = -1;
+    if (setFloatingSpeciesInitAmountsPtr)
+    {
+        result = setValues(setFloatingSpeciesInitAmountsPtr,
+                &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx,
                 double *values)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported yet");
+    int result = -1;
+    if (getFloatingSpeciesInitAmountsPtr)
+    {
+        result = getValues(getFloatingSpeciesInitAmountsPtr, len, indx, values);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::setCompartmentInitVolumes(int len, const int *indx,

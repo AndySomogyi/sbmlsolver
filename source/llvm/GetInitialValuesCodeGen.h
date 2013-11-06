@@ -37,6 +37,22 @@ public:
     static const char* IndexArgName;
 };
 
+class GetFloatingSpeciesInitAmountCodeGen: public
+    GetInitialValueCodeGenBase<GetFloatingSpeciesInitAmountCodeGen, true>
+{
+public:
+    GetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
+    ~GetFloatingSpeciesInitAmountCodeGen() {};
+
+    std::vector<string> getIds()
+    {
+        return dataSymbols.getFloatingSpeciesIds();
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
 class GetCompartmentInitVolumeCodeGen: public
     GetInitialValueCodeGenBase<GetCompartmentInitVolumeCodeGen, false>
 {
