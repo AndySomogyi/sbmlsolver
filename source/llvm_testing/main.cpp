@@ -97,6 +97,8 @@ int main(int argc, char* argv[])
     //cout << "built on " << string( __DATE__ ) + ", " + string(__TIME__);
     //cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
+    /*
+
     const char* compiler = "llvm";
 
     //testStruct();
@@ -156,6 +158,9 @@ int main(int argc, char* argv[])
     std::vector<int> vec;
 
 
+    */
+
+
 
 
     Logger::enableConsoleLogging();
@@ -168,10 +173,6 @@ int main(int argc, char* argv[])
     if (argc >= 2)
     {
         testCase = atoi(argv[1]);
-        if (argc >= 3)
-        {
-            compiler = argv[2];
-        }
     }
 
     Log(Logger::LOG_NOTICE) << "running test case " << testCase;
@@ -250,7 +251,7 @@ int main(int argc, char* argv[])
     //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
     try
     {
-        TestCapabilities test(compiler, pairs[testCase].first, pairs[testCase].second);
+        TestEvalModel test("llvm", pairs[testCase].first, pairs[testCase].second);
         test.test();
         //TestRoadRunner test(compiler, pairs[testCase].first, pairs[testCase].second);
         //test.test(compiler);

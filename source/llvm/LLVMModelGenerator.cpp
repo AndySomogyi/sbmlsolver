@@ -240,14 +240,20 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
     {
         rc->setFloatingSpeciesInitConcentrationsPtr =
-                SetFloatingSpeciesInitConcentrationsCodeGen(context).createFunction();
+                SetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
         rc->setCompartmentInitVolumesPtr =
-                SetCompartmentInitVolumesCodeGen(context).createFunction();
+                SetCompartmentInitVolumeCodeGen(context).createFunction();
+        rc->getFloatingSpeciesInitConcentrationsPtr =
+                GetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+        rc->getCompartmentInitVolumesPtr =
+                GetCompartmentInitVolumeCodeGen(context).createFunction();
     }
     else
     {
         rc->setFloatingSpeciesInitConcentrationsPtr = 0;
         rc->setCompartmentInitVolumesPtr = 0;
+        rc->getFloatingSpeciesInitConcentrationsPtr = 0;
+        rc->getCompartmentInitVolumesPtr = 0;
     }
 
 
@@ -389,6 +395,12 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     modelData->numIndBoundarySpecies = numIndBoundarySpecies;
     modelData->numConservedSpecies = numConservedSpecies;
     modelData->numIndGlobalParameters = numIndGlobalParameters;
+
+    modelData->numInitCompartments = numInitCompartments;
+    modelData->numInitFloatingSpecies = numInitFloatingSpecies;
+    modelData->numInitBoundarySpecies = numInitBoundarySpecies;
+    modelData->numInitBoundarySpecies = numInitGlobalParameters;
+
     modelData->numRateRules = numRateRules;
     modelData->numReactions = numReactions;
     modelData->numEvents = symbols.getEventAttributes().size();

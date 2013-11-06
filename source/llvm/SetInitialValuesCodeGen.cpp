@@ -46,16 +46,16 @@ static std::vector<std::pair<uint, std::string> > independentElements(const LLVM
 
 
 
-const char* SetFloatingSpeciesInitConcentrationsCodeGen::FunctionName = "setFloatingSpeciesInitConcentrations";
-const char* SetFloatingSpeciesInitConcentrationsCodeGen::IndexArgName = "floatingSpeciesIndex";
+const char* SetFloatingSpeciesInitConcentrationCodeGen::FunctionName = "setFloatingSpeciesInitConcentrations";
+const char* SetFloatingSpeciesInitConcentrationCodeGen::IndexArgName = "floatingSpeciesIndex";
 
-SetFloatingSpeciesInitConcentrationsCodeGen::SetFloatingSpeciesInitConcentrationsCodeGen(
+SetFloatingSpeciesInitConcentrationCodeGen::SetFloatingSpeciesInitConcentrationCodeGen(
         const ModelGeneratorContext &mgc) :
-        SetInitialValueCodeGenBase<SetFloatingSpeciesInitConcentrationsCodeGen, false>(mgc)
+        SetInitialValueCodeGenBase<SetFloatingSpeciesInitConcentrationCodeGen, false>(mgc)
 {
 }
 
-std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitConcentrationsCodeGen::getIds()
+std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitConcentrationCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
 }
@@ -63,16 +63,16 @@ std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitConcentrationsC
 
 
 
-const char* SetCompartmentInitVolumesCodeGen::FunctionName = "setCompartmentInitVolumes";
-const char* SetCompartmentInitVolumesCodeGen::IndexArgName = "compartmentIndex";
+const char* SetCompartmentInitVolumeCodeGen::FunctionName = "setCompartmentInitVolumes";
+const char* SetCompartmentInitVolumeCodeGen::IndexArgName = "compartmentIndex";
 
-SetCompartmentInitVolumesCodeGen::SetCompartmentInitVolumesCodeGen(
+SetCompartmentInitVolumeCodeGen::SetCompartmentInitVolumeCodeGen(
         const ModelGeneratorContext &mgc) :
-        SetInitialValueCodeGenBase<SetCompartmentInitVolumesCodeGen, false>(mgc)
+        SetInitialValueCodeGenBase<SetCompartmentInitVolumeCodeGen, false>(mgc)
 {
 }
 
-std::vector<std::pair<uint, std::string> > SetCompartmentInitVolumesCodeGen::getIds()
+std::vector<std::pair<uint, std::string> > SetCompartmentInitVolumeCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
 }

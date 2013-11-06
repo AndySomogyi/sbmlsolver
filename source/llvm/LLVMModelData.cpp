@@ -48,37 +48,51 @@ namespace rrllvm
 
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 {
-    os << "LLVMModelData:"                 << endl;
-    os << "size: "                     << data.size << endl;                             // 0
-    os << "flags: "                    << data.flags << endl;                            // 1
-    os << "time: "                     << data.time << endl;                             // 2
-    os << "numIndFloatingSpecies: "    << data.numIndFloatingSpecies << endl;            // 3
+    os << "LLVMModelData:"                  << endl;
+    os << "size: "                          << data.size << endl;
+    os << "flags: "                         << data.flags << endl;
+    os << "time: "                          << data.time << endl;
+    os << "numIndFloatingSpecies: "         << data.numIndFloatingSpecies << endl;
 
-
-    os << "numIndGlobalParameters: "      << data.numIndGlobalParameters << endl;              // 6
-    os << "globalParameters: "         << endl;                                          // 7
+    os << "numIndGlobalParameters: "        << data.numIndGlobalParameters << endl;
+    os << "globalParameters: "              << endl;
     dump_array(os, data.numIndGlobalParameters, data.globalParametersAlias);
-    os << "numReactions: "             << data.numReactions << endl;                     // 8
-    os << "reactionRates: "            << endl;                                          // 9
+
+    os << "numReactions: "                  << data.numReactions << endl;
+    os << "reactionRates: "                 << endl;
     dump_array(os, data.numReactions, data.reactionRatesAlias);
-    os << "numRateRules: "             << data.numRateRules << endl;                     // 10
-    os << "rateRuleValues: "           << endl;                                          // 11
+
+    os << "numRateRules: "                  << data.numRateRules << endl;
+    os << "rateRuleValues: "                << endl;
     dump_array(os, data.numRateRules, data.rateRuleValuesAlias);
 
-
-    os << "floatingSpeciesAmounts: "    << endl;           // 19
+    os << "floatingSpeciesAmounts: "        << endl;
     dump_array(os, data.numIndFloatingSpecies, data.floatingSpeciesAmountsAlias);
 
-    os << "numIndBoundarySpecies: "       << data.numIndBoundarySpecies << endl;  // 21
+    os << "numIndBoundarySpecies: "         << data.numIndBoundarySpecies << endl;
 
-    os << "boundarySpeciesAmounts:"    << endl;                             // 23
+    os << "boundarySpeciesAmounts:"         << endl;
     dump_array(os, data.numIndBoundarySpecies, data.boundarySpeciesAmountsAlias);
-//    unsigned*                                boundarySpeciesCompartments;      // 24
-    os << "numIndCompartments: "          << data.numIndCompartments << endl;     // 25
-    os << "compartmentVolumes:"        << endl;                             // 26
+
+    os << "numIndCompartments: "            << data.numIndCompartments << endl;
+    os << "compartmentVolumes:"             << endl;
     dump_array(os, data.numIndCompartments, data.compartmentVolumesAlias);
-    os << "stoichiometry:"             << endl;                             // 27
+
+    os << "stoichiometry:"                  << endl;
     os << data.stoichiometry;
+
+
+    os << "numInitFloatingSpecies: "        << data.numInitFloatingSpecies << endl;
+    os << "initFloatingSpeciesAmounts: "    << endl;
+    dump_array(os, data.numInitFloatingSpecies, data.initFloatingSpeciesAmountsAlias);
+
+    os << "numInitCompartments: "           << data.numInitCompartments << endl;
+    os << "initCompartmentVolumes:"         << endl;
+    dump_array(os, data.numInitCompartments, data.initCompartmentVolumesAlias);
+
+    os << "numInitGlobalParameters: "       << data.numInitGlobalParameters << endl;
+    os << "initGlobalParameters: "          << endl;
+    dump_array(os, data.numInitGlobalParameters, data.initGlobalParametersAlias);
 
 
     return os;

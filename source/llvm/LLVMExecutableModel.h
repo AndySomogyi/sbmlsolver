@@ -19,6 +19,7 @@
 #include "EvalReactionRatesCodeGen.h"
 #include "EvalRateRuleRatesCodeGen.h"
 #include "GetValuesCodeGen.h"
+#include "GetInitialValuesCodeGen.h"
 #include "GetEventValuesCodeGen.h"
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
@@ -318,22 +319,22 @@ public:
     #if (1) /**********************************************************************/
     /******************************************************************************/
 
-    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+    virtual int setFloatingSpeciesInitConcentrations(int len, const int *indx,
             double const *values);
 
-    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+    virtual int getFloatingSpeciesInitConcentrations(int len, const int *indx,
             double *values);
 
-    virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,
+    virtual int setFloatingSpeciesInitAmounts(int len, const int *indx,
                 double const *values);
 
-    virtual int getFloatingSpeciesInitAmounts(int len, int const *indx,
+    virtual int getFloatingSpeciesInitAmounts(int len, const int *indx,
                     double *values);
 
-    virtual int setCompartmentInitVolumes(int len, int const *indx,
+    virtual int setCompartmentInitVolumes(int len, const int *indx,
                 double const *values);
 
-    virtual int getCompartmentInitVolumes(int len, int const *indx,
+    virtual int getCompartmentInitVolumes(int len, const int *indx,
                     double *values);
 
     /******************************* End Initial Conditions Section ***************/
@@ -493,10 +494,28 @@ private:
 
 
     // init value accessors
-    SetFloatingSpeciesInitConcentrationsCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
-    SetCompartmentInitVolumesCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
+    SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
+    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
+    GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr getFloatingSpeciesInitConcentrationsPtr;
+    GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
+
 
     double getFloatingSpeciesConcentration(int index);
+
+    typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);
+
+
+    /**
+     * get the values from the model struct and populate the given values array.
+     */
+    int getValues(double (*funcPtr)(LLVMModelData*, int), int len,
+            const int *indx, double *values);
+
+    /**
+     * set the model struct values from the given array.
+     */
+    int setValues(bool (*funcPtr)(LLVMModelData*, int, double), GetNameFuncPtr, int len,
+            const int *indx, const double *values);
 
     static LLVMExecutableModel* dummy();
 

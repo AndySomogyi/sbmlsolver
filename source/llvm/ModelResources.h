@@ -48,8 +48,10 @@ public:
     SetGlobalParameterCodeGen::FunctionPtr setGlobalParameterPtr;
 
     // init value accessors
-    SetFloatingSpeciesInitConcentrationsCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
-    SetCompartmentInitVolumesCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
+    SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
+    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
+    GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr getFloatingSpeciesInitConcentrationsPtr;
+    GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
 };
 
 } /* namespace rrllvm */

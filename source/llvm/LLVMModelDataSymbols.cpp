@@ -40,38 +40,44 @@ static const char* modelDataFieldsNames[] =  {
         "NumIndGlobalParameters",               // 7
         "NumRateRules",                         // 8
         "NumReactions",                         // 9
-        "Stoichiometry",                        // 10
-        "NumEvents",                            // 11
-        "StateVectorSize",                      // 12
-        "StateVector",                          // 13
-        "StateVectorRate",                      // 14
-        "RateRuleRates",                        // 15
-        "FloatingSpeciesAmountRates",           // 16
 
-        "CompartmentVolumesAlias",              // 17
-        "InitCompartmentVolumesAlias",          // 18
-        "InitFloatingSpeciesAmountsAlias",      // 19
-        "InitConservedSpeciesAmountsAlias",     // 20
-        "BoundarySpeciesAmountsAlias",          // 21
-        "InitBoundarySpeciesAmountsAlias",      // 22
-        "GlobalParametersAlias",                // 23
-        "InitGlobalParametersAlias",            // 24
-        "ReactionRatesAlias",                   // 25
+		"NumInitCompartments",                  // 10
+		"NumInitFloatingSpecies",               // 11
+		"NumInitBoundarySpecies"                // 12
+		"NumInitGlobalParameters",              // 13
 
-        "RateRuleValuesAlias",                  // 26
-        "FloatingSpeciesAmountsAlias"           // 27
+        "Stoichiometry",                        // 14
+        "NumEvents",                            // 15
+        "StateVectorSize",                      // 16
+        "StateVector",                          // 17
+        "StateVectorRate",                      // 18
+        "RateRuleRates",                        // 19
+        "FloatingSpeciesAmountRates",           // 20
 
-        "CompartmentVolumes",                   // 28
-        "InitCompartmentVolumes",               // 29
-        "InitFloatingSpeciesAmounts",           // 30
-        "InitConservedSpeciesAmounts",          // 31
-        "BoundarySpeciesAmounts",               // 32
-        "InitBoundarySpeciesAmounts",           // 33
-        "GlobalParameters",                     // 34
-        "InitGlobalParameters",                 // 35
-        "ReactionRates",                        // 36
-        "NotSafe_RateRuleValues",               // 37
-        "NotSafe_FloatingSpeciesAmounts"        // 38
+        "CompartmentVolumesAlias",              // 21
+        "InitCompartmentVolumesAlias",          // 22
+        "InitFloatingSpeciesAmountsAlias",      // 23
+        "InitConservedSpeciesAmountsAlias",     // 24
+        "BoundarySpeciesAmountsAlias",          // 25
+        "InitBoundarySpeciesAmountsAlias",      // 26
+        "GlobalParametersAlias",                // 27
+        "InitGlobalParametersAlias",            // 28
+        "ReactionRatesAlias",                   // 29
+
+        "RateRuleValuesAlias",                  // 30
+        "FloatingSpeciesAmountsAlias"           // 31
+
+        "CompartmentVolumes",                   // 32
+        "InitCompartmentVolumes",               // 33
+        "InitFloatingSpeciesAmounts",           // 34
+        "InitConservedSpeciesAmounts",          // 35
+        "BoundarySpeciesAmounts",               // 36
+        "InitBoundarySpeciesAmounts",           // 37
+        "GlobalParameters",                     // 38
+        "InitGlobalParameters",                 // 39
+        "ReactionRates",                        // 40
+        "NotSafe_RateRuleValues",               // 41
+        "NotSafe_FloatingSpeciesAmounts"        // 42
 };
 
 
@@ -707,9 +713,9 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     independentFloatingSpeciesSize = indFltSpecies.size();
     independentInitFloatingSpeciesSize = indInitFltSpecies.size();
 
-    if (Logger::LOG_INFORMATION <= getLogger().getLevel())
+    if (Logger::LOG_DEBUG <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::LOG_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
 
         log.stream() << "found " << indFltSpecies.size()
                             << " independent and " << depFltSpecies.size()
@@ -721,6 +727,11 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
             log.stream() << "floating species [" << i << "] = \'" << ids[i]
                                                                          << "\'" << endl;
         }
+
+
+        log.stream() << "found " << indInitFltSpecies.size()
+                            << " independent and " << depInitFltSpecies.size()
+                            << " dependent initial floating species." << endl;
     }
 }
 

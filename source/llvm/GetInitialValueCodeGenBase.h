@@ -4,15 +4,15 @@
  *      Author: andy
  */
 
-#ifndef RRLLVMGETVALUECODEGENBASE_H_
-#define RRLLVMGETVALUECODEGENBASE_H_
+#ifndef RRLLVM_GETINITIALVALUECODEGENBASE_H_
+#define RRLLVM_GETINITIALVALUECODEGENBASE_H_
 
 #include "CodeGenBase.h"
 #include "ModelGeneratorContext.h"
 #include "SymbolForest.h"
 #include "ASTNodeFactory.h"
 #include "ModelDataIRBuilder.h"
-#include "ModelDataSymbolResolver.h"
+#include "ModelInitialValueSymbolResolver.h"
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include <sbml/Model.h>
@@ -22,36 +22,36 @@
 namespace rrllvm
 {
 
-typedef double (*GetValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
+typedef double (*GetInitialValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
 
 template <typename Derived, bool substanceUnits>
-class GetValueCodeGenBase :
-        public CodeGenBase<GetValueCodeGenBase_FunctionPtr>
+class GetInitialValueCodeGenBase :
+        public CodeGenBase<GetInitialValueCodeGenBase_FunctionPtr>
 {
 public:
-    GetValueCodeGenBase(const ModelGeneratorContext &mgc);
-    virtual ~GetValueCodeGenBase();
+    GetInitialValueCodeGenBase(const ModelGeneratorContext &mgc);
+    virtual ~GetInitialValueCodeGenBase();
 
     llvm::Value *codeGen();
 
-    typedef GetValueCodeGenBase_FunctionPtr FunctionPtr;
+    typedef GetInitialValueCodeGenBase_FunctionPtr FunctionPtr;
 
 };
 
 template <typename Derived, bool substanceUnits>
-GetValueCodeGenBase<Derived, substanceUnits>::GetValueCodeGenBase(
+GetInitialValueCodeGenBase<Derived, substanceUnits>::GetInitialValueCodeGenBase(
         const ModelGeneratorContext &mgc) :
-        CodeGenBase<GetValueCodeGenBase_FunctionPtr>(mgc)
+        CodeGenBase<GetInitialValueCodeGenBase_FunctionPtr>(mgc)
 {
 }
 
 template <typename Derived, bool substanceUnits>
-GetValueCodeGenBase<Derived, substanceUnits>::~GetValueCodeGenBase()
+GetInitialValueCodeGenBase<Derived, substanceUnits>::~GetInitialValueCodeGenBase()
 {
 }
 
 template <typename Derived, bool substanceUnits>
-llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
+llvm::Value* GetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
 {
     // make the set init value function
     llvm::Type *argTypes[] = {
@@ -68,9 +68,9 @@ llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, llvm::Type::getDoubleTy(this->context),
             argTypes, argNames, args);
 
-    std::vector<string> ids = static_cast<Derived*>(this)->getIds();
+    std::vector<std::string> ids = static_cast<Derived*>(this)->getIds();
 
-    ModelDataLoadSymbolResolver resolver(args[0], this->model, this->modelSymbols,
+    ModelInitialValueSymbolResolver resolver(args[0], this->model, this->modelSymbols,
             this->dataSymbols, this->builder);
 
     // default, return NaN
@@ -141,4 +141,4 @@ llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
 
 
-#endif /* RRLLVMGETVALUECODEGENBASE_H_ */
+#endif /* RRLLVM_GETINITIALVALUECODEGENBASE_H_ */

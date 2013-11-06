@@ -55,6 +55,8 @@ ModelInitialValueSymbolResolver::~ModelInitialValueSymbolResolver()
 llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
+    ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
+
     /*************************************************************************/
     /* time */
     /*************************************************************************/
@@ -97,6 +99,34 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
         {
             return ASTNodeCodeGen(builder, *this).codeGen(i->second);
         }
+    }
+
+    if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
+    {
+        const Species *species = model->getSpecies(symbol);
+
+        assert(species);
+
+        Value *amt = mdbuilder.createInitFloatSpeciesAmtLoad(symbol, symbol + "_amt");
+
+        // now we have an amount, check to see if we need to convert to conc
+        if (species->getHasOnlySubstanceUnits())
+        {
+            return amt;
+        }
+        else
+        {
+            // expect a concentration, need to convert amt to conc,
+            // so we need to get the compartment its in, but these
+            // can vary also...
+            Value *comp = loadSymbolValue(species->getCompartment());
+            return builder.CreateFDiv(amt, comp, symbol + "_conc");
+        }
+    }
+
+    else if (modelDataSymbols.isIndependentCompartment(symbol))
+    {
+        return mdbuilder.createInitCompLoad(symbol);
     }
 
     /*************************************************************************/
@@ -164,6 +194,7 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
     {
         return mdbuilder.createInitCompStore(symbol, value);
     }
+
 
     string msg = "The symbol \'";
     msg += symbol;

@@ -609,7 +609,12 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::setConservedSumChanged(bool);
 %ignore rr::ExecutableModel::convertToAmounts() ;
 
-
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
 
 // ignore Plugin methods that will be deprecated
 %ignore rr::Plugin::assignCallbacks;
@@ -634,7 +639,6 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::Plugin::getCategory;
 %ignore rr::Plugin::getParameter;
 //%ignore rr::Plugin::resetPlugin;
-
 
 
 
@@ -950,6 +954,23 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
     }
 
+	PyObject *getFloatingSpeciesInitConcentrations() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitConcentrations,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+    }
+	
+
+
+	//%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values) = 0;
+
+
+	
+    PyObject *getCompartmentInitVolumes() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
+                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
+    }
+
+
     /***
      ** get ids section
      ***/
@@ -989,19 +1010,9 @@ namespace std { class ostream{}; }
         return $self->setFloatingSpeciesAmounts(len, 0, values);
     }
 
-
-    //int setFloatingSpeciesAmountRates(int len, double const *values) {
-    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
-    //}
-
-
     int setFloatingSpeciesConcentrations(int len, double const *values) {
         return $self->setFloatingSpeciesConcentrations(len, 0, values);
     }
-
-    //int setBoundarySpeciesAmounts(int len, double const *values) {
-    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
-    //}
 
     int setBoundarySpeciesConcentrations(int len, double const *values) {
         return $self->setBoundarySpeciesConcentrations(len, 0, values);
@@ -1019,9 +1030,18 @@ namespace std { class ostream{}; }
         return $self->setConservedSums(len, 0, values);
     }
 
-    //int setReactionRates(int len, double const *values) {
-    //    return $self->setReactionRates(len, 0, values);
-    //}
+    int setFloatingSpeciesInitConcentrations(int len, double const *values) {
+        return $self->setFloatingSpeciesInitConcentrations(len, 0, values);
+    }
+
+    int setFloatingSpeciesInitAmounts(int len, double const *values) {
+        return $self->setFloatingSpeciesInitAmounts(len, 0, values);
+    }
+
+    int setCompartmentInitVolumes(int len, double const *values) {
+        return $self->setCompartmentInitVolumes(len, 0, values);
+    }
+
 
     int setFloatingSpeciesAmounts(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
@@ -1034,11 +1054,6 @@ namespace std { class ostream{}; }
     }
 
 
-    //int setFloatingSpeciesAmountRates(int len, double const *values) {
-    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
-    //}
-
-
     int setFloatingSpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
@@ -1048,10 +1063,6 @@ namespace std { class ostream{}; }
         }
         return $self->setFloatingSpeciesConcentrations(leni, indx, values);
     }
-
-    //int setBoundarySpeciesAmounts(int len, double const *values) {
-    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
-    //}
 
     int setBoundarySpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
@@ -1092,6 +1103,78 @@ namespace std { class ostream{}; }
         }
         return $self->setConservedSums(leni, indx, values);
     }
+
+    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitConcentrations(leni, indx, values);
+    }
+
+
+    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitAmounts(leni, indx, values);
+    }
+
+
+    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setCompartmentInitVolumes(leni, indx, values);
+    }
+
+
+    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitConcentrations(leni, indx, values);
+    }
+
+    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitAmounts(leni, indx, values);
+    }
+
+
+    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setCompartmentInitVolumes(leni, indx, values);
+    }
+
+
+
+	//%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, double const *values) = 0;
+	//%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx, double const *values) = 0;
+	//%ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values) = 0;
+
+
 
     PyObject* getStoichiometryMatrix() {
         int rows = 0;

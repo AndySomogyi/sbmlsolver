@@ -61,27 +61,58 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
 namespace rrllvm
 {
 
-static int getValues(LLVMModelData* modelData, double (*funcPtr)(LLVMModelData*, int),
-        int len, int const *indx, double *values)
+int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, int),
+        int len, const int *indx, double *values)
 {
+    double value;
     for (int i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
-        values[i] = funcPtr(modelData, j);
+        value = funcPtr(modelData, j);
+
+        if (isnan(value))
+        {
+            std::stringstream s;
+            s << "error getting value for index " << j << ", probably out of range";
+            throw_llvm_exception(s.str());
+        }
+
+        values[i] = value;
     }
     return len;
 }
 
-static int setValues(LLVMModelData* modelData, bool (*funcPtr)(LLVMModelData*, int, double),
-        int len, int const *indx, const double *values)
+int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
+        GetNameFuncPtr getNameFuncPtr, int len, const int *indx, const double *values)
 {
-    int result = 0;
     for (int i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
-        result += funcPtr(modelData, j, values[i]);
+        bool result =  funcPtr(modelData, j, values[i]);
+
+        if (!result)
+        {
+            std::stringstream s;
+            string id = (this->*getNameFuncPtr)(j);
+            s << "could not set value for " << id;
+
+            if (symbols->hasAssignmentRule(id))
+            {
+                s << ", it is defined by an assignment rule, can not be set independently.";
+            }
+            else if (symbols->hasInitialAssignmentRule(id))
+            {
+                s << ", it is defined by an initial assignment rule and can not be set independently.";
+            }
+            else if (symbols->hasRateRule(id))
+            {
+                s << ", it is defined by a rate rule and can not be set independently.";
+            }
+
+            throw_llvm_exception(s.str());
+        }
     }
-    return result;
+    return len;
 }
 
 LLVMExecutableModel::LLVMExecutableModel() :
@@ -110,7 +141,9 @@ LLVMExecutableModel::LLVMExecutableModel() :
     setCompartmentVolumePtr(0),
     setGlobalParameterPtr(0),
     setFloatingSpeciesInitConcentrationsPtr(0),
-    setCompartmentInitVolumesPtr(0)
+    setCompartmentInitVolumesPtr(0),
+    getFloatingSpeciesInitConcentrationsPtr(0),
+    getCompartmentInitVolumesPtr(0)
 {
     std::srand(std::time(0));
 }
@@ -143,13 +176,17 @@ LLVMExecutableModel::LLVMExecutableModel(
     setCompartmentVolumePtr(rc->setCompartmentVolumePtr),
     setGlobalParameterPtr(rc->setGlobalParameterPtr),
     setFloatingSpeciesInitConcentrationsPtr(rc->setFloatingSpeciesInitConcentrationsPtr),
-    setCompartmentInitVolumesPtr(rc->setFloatingSpeciesInitConcentrationsPtr)
+    setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
+    getFloatingSpeciesInitConcentrationsPtr(rc->getFloatingSpeciesInitConcentrationsPtr),
+    getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr)
 {
     modelData->time = -1.0; // time is initially before simulation starts
 
     std::srand(std::time(0));
 
     eventAssignTimes.resize(modelData->numEvents);
+
+    evalInitialConditions();
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -247,7 +284,7 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
 {
-    return getValues(modelData, getFloatingSpeciesConcentrationPtr, len, indx, values);
+    return getValues(getFloatingSpeciesConcentrationPtr, len, indx, values);
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -370,8 +407,6 @@ string LLVMExecutableModel::getInfo()
 {
     stringstream stream;
 
-    print(stream);
-
     double *tmp;
 
     int nFloat = getNumFloatingSpecies();
@@ -388,14 +423,12 @@ string LLVMExecutableModel::getInfo()
     stream << "FloatingSpeciesAmounts:" << endl;
     dump_array(stream, nFloat, tmp);
 
-    /*
-    getFloatingSpeciesAmountRates(nFloat, 0, tmp);
-    stream << "FloatingSpeciesAmountRates:" << endl;
-    dump_array(stream, nFloat, tmp);
-    */
-
     getFloatingSpeciesConcentrations(nFloat, 0, tmp);
     stream << "FloatingSpeciesConcentrations:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    this->getFloatingSpeciesInitConcentrations(nFloat, 0, tmp);
+    stream << "FloatingSpeciesInitConcentrations:" << endl;
     dump_array(stream, nFloat, tmp);
     delete[] tmp;
 
@@ -403,7 +436,7 @@ string LLVMExecutableModel::getInfo()
     getReactionRates(nReactions, 0, tmp);
     stream << "Reaction Rates:" << endl;
     dump_array(stream, nReactions, tmp);
-    delete tmp;
+    delete[] tmp;
 
     tmp = new double[nBound];
     getBoundarySpeciesAmounts(nBound, 0, tmp);
@@ -413,25 +446,37 @@ string LLVMExecutableModel::getInfo()
     getBoundarySpeciesConcentrations(nBound, 0, tmp);
     stream << "BoundarySpeciesConcentrations:" << endl;
     dump_array(stream, nBound, tmp);
-    delete tmp;
+    delete[] tmp;
 
     tmp = new double[nComp];
     getCompartmentVolumes(nComp, 0, tmp);
     stream << "CompartmentVolumes:" << endl;
     dump_array(stream, nComp, tmp);
-    delete tmp;
+
+    this->getCompartmentInitVolumes(nComp, 0, tmp);
+    stream << "CompartmentInitVolumes:" << endl;
+    dump_array(stream, nComp, tmp);
+    delete[] tmp;
 
     tmp = new double[nGlobalParam];
     getGlobalParameterValues(nGlobalParam, 0, tmp);
     stream << "GlobalParameters:" << endl;
     dump_array(stream, nGlobalParam, tmp);
-    delete tmp;
+    delete[] tmp;
+
+    tmp = new double[nGlobalParam];
+    getGlobalParameterValues(nGlobalParam, 0, tmp);
+    stream << "GlobalParameters:" << endl;
+    dump_array(stream, nGlobalParam, tmp);
+    delete[] tmp;
 
     unsigned char *tmpEvents = new unsigned char[nEvents];
     getEventTriggers(nEvents, 0, tmpEvents);
     stream << "Events Trigger Status:" << endl;
     dump_array(stream, nEvents, (bool*)tmpEvents);
-    delete tmpEvents;
+    delete[] tmpEvents;
+
+    stream << *modelData;
 
     return stream.str();
 }
@@ -559,7 +604,13 @@ void LLVMExecutableModel::reset()
 {
     // eval the initial conditions and rates
     setTime(0.0);
-    evalInitialConditions();
+    //evalInitialConditions();
+
+    double *buffer = new double[modelData->numIndFloatingSpecies];
+    getFloatingSpeciesInitConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
+    setFloatingSpeciesConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
+    delete[] buffer;
+
     evalReactionRates();
 
     // this sets up the event system to pull the initial value
@@ -648,7 +699,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 void LLVMExecutableModel::print(std::ostream &stream)
 {
     stream << "LLVMExecutableModel" << endl;
-    stream << modelData;
+    stream << getInfo();
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()
@@ -669,7 +720,7 @@ int LLVMExecutableModel::getNumRules()
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return getValues(modelData, getFloatingSpeciesAmountPtr, len, indx, values);
+    return getValues(getFloatingSpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
@@ -678,7 +729,8 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
     int result = -1;
     if (setFloatingSpeciesConcentrationPtr)
     {
-        result = setValues(modelData, setFloatingSpeciesConcentrationPtr, len, indx, values);
+        result = setValues(setFloatingSpeciesConcentrationPtr,
+                &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
     return result;
 }
@@ -686,13 +738,13 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
 int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return getValues(modelData, getBoundarySpeciesAmountPtr, len, indx, values);
+    return getValues(getBoundarySpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
         const int* indx, double* values)
 {
-    return getValues(modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
+    return getValues(getBoundarySpeciesConcentrationPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
@@ -701,7 +753,8 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
     int result = -1;
     if (setBoundarySpeciesConcentrationPtr)
     {
-        result = setValues(modelData, setBoundarySpeciesConcentrationPtr, len, indx, values);
+        result = setValues(setBoundarySpeciesConcentrationPtr,
+                &LLVMExecutableModel::getBoundarySpeciesId, len, indx, values);
     }
     return result;
 }
@@ -709,7 +762,7 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
 int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
         double* values)
 {
-    return getValues(modelData, getGlobalParameterPtr, len, indx, values);
+    return getValues(getGlobalParameterPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
@@ -718,7 +771,8 @@ int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
     int result = -1;
     if (setGlobalParameterPtr)
     {
-        result = setValues(modelData, setGlobalParameterPtr, len, indx, values);
+        result = setValues(setGlobalParameterPtr,
+                &LLVMExecutableModel::getGlobalParameterId, len, indx, values);
     }
     return result;
 }
@@ -726,7 +780,7 @@ int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
 int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
         double* values)
 {
-    return getValues(modelData, getCompartmentVolumePtr, len, indx, values);
+    return getValues(getCompartmentVolumePtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
@@ -809,7 +863,8 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
     int result = -1;
     if (setFloatingSpeciesAmountPtr)
     {
-        result = setValues(modelData, setFloatingSpeciesAmountPtr, len, indx, values);
+        result = setValues(setFloatingSpeciesAmountPtr,
+                &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
     return result;
 }
@@ -821,7 +876,8 @@ int LLVMExecutableModel::setCompartmentVolumes(int len, const int* indx,
     int result = -1;
     if (setCompartmentVolumePtr)
     {
-        result = setValues(modelData, setCompartmentVolumePtr, len, indx, values);
+        result = setValues(setCompartmentVolumePtr,
+                &LLVMExecutableModel::getCompartmentId, len, indx, values);
     }
     return result;
 }
@@ -1078,7 +1134,8 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
     int result = -1;
     if (setFloatingSpeciesInitConcentrationsPtr)
     {
-        result = setValues(modelData, setFloatingSpeciesInitConcentrationsPtr, len, indx, values);
+        result = setValues(setFloatingSpeciesInitConcentrationsPtr,
+                &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
     return result;
 }
@@ -1086,36 +1143,47 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
 int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
         const int* indx, double* values)
 {
-    return 0;
+    int result = -1;
+    if (getFloatingSpeciesInitConcentrationsPtr)
+    {
+        result = getValues(getFloatingSpeciesInitConcentrationsPtr, len, indx, values);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
             double const *values)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+    throw rr::Exception(std::string(__FUNC__) + " not supported yet");
 }
 
 int LLVMExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx,
                 double *values)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+    throw rr::Exception(std::string(__FUNC__) + " not supported yet");
 }
 
-int LLVMExecutableModel::setCompartmentInitVolumes(int len, int const *indx,
+int LLVMExecutableModel::setCompartmentInitVolumes(int len, const int *indx,
             double const *values)
 {
     int result = -1;
     if (setCompartmentInitVolumesPtr)
     {
-        result = setValues(modelData, setCompartmentInitVolumesPtr, len, indx, values);
+        result = setValues(setCompartmentInitVolumesPtr,
+                &LLVMExecutableModel::getCompartmentId, len, indx, values);
     }
     return result;
 }
 
-int LLVMExecutableModel::getCompartmentInitVolumes(int len, int const *indx,
+int LLVMExecutableModel::getCompartmentInitVolumes(int len, const int *indx,
                 double *values)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+    int result = -1;
+    if (getCompartmentInitVolumesPtr)
+    {
+        result = getValues(getCompartmentInitVolumesPtr, len, indx, values);
+    }
+    return result;
 }
 
 /******************************* End Initial Conditions Section ***************/

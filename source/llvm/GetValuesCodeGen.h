@@ -5,8 +5,8 @@
  *      Author: andy
  */
 
-#ifndef RRLLVMGETBOUNDARYSPECIESAMOUNTSCODEGEN_H_
-#define RRLLVMGETBOUNDARYSPECIESAMOUNTSCODEGEN_H_
+#ifndef RRLLVM_GETVALUESCODEGEN_H_
+#define RRLLVM_GETVALUESCODEGEN_H_
 
 #include "CodeGenBase.h"
 #include "ModelGeneratorContext.h"
@@ -118,4 +118,4 @@ public:
 
 
 } /* namespace rr */
-#endif /* RRLLVMGETBOUNDARYSPECIESAMOUNTSCODEGEN_H_ */
+#endif /* RRLLVM_GETVALUESCODEGEN_H_ */
