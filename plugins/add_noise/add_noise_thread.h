@@ -14,16 +14,17 @@ class AddNoiseThread : public Poco::Runnable
 
         //Callbacks
         ThreadCB                threadEnterCB;
+        ThreadCB                threadProgressCB;
         ThreadCB                threadExitCB;
-        void*                   mUserData;
 
+        void*                   mUserData;
         void*                   mInputData;
         double                  mSigma;
 
     public:
                                 AddNoiseThread();
         void                    assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
-        void                    start(void* inputData, double sigma);
+        bool                    start(void* inputData, double sigma, bool runInThread = true);
         void                    run();
         bool                    isRunning();
 };

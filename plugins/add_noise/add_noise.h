@@ -2,7 +2,7 @@
 #define add_noiseH
 #include "rrCapability.h"
 #include "rrParameter.h"
-#include "rrPlugin.h"
+#include "rrCPPPlugin.h"
 #include "add_noise_thread.h"
 
 //---------------------------------------------------------------------------
@@ -14,29 +14,23 @@ using namespace rr;
 using namespace rrc;
 using namespace rrp;
 
-typedef void    (callback_cc *WorkStartedCB)(void*);
-typedef void    (callback_cc *WorkFinishedCB)(void*);
-
-
-class AddNoise : public Plugin
+class AddNoise : public CPPPlugin
 {
     public:
         enum NoiseType {ntGaussian = 0};
 
     private:
         Capability              mAddNoise;
-
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;
         AddNoiseThread          mAddNoiseThread;
 
     public:
-                                AddNoise(RoadRunner* aRR = NULL, WorkStartedCB fn1 = NULL, WorkFinishedCB fn2 = NULL);
+                                AddNoise(RoadRunner* aRR = NULL, PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL);
                                ~AddNoise();
 
                                 //user data is
-        bool                    execute(void* userData);
-        string                  getImplementationLanguage();
+        bool                    execute(void* userData, bool runInThread = true);
         bool                    isWorking(); //Returns true as long the thread is active..
 
         virtual _xmlNode*       createConfigNode();

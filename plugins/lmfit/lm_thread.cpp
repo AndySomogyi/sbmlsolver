@@ -41,18 +41,25 @@ void LMFitThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
     mUserData         = userData;
 }
 
-void LMFitThread::start()
+void LMFitThread::start(bool runInThread)
 {
-    if(mThread.isRunning())
+    if(runInThread)
     {
-        Log(lError)<<"Tried to start an already working thread!";
-        return;
-    }
+        if(mThread.isRunning())
+        {
+            Log(lError)<<"Tried to start an already working thread!";
+            return;
+        }
 
-    mThread.start(*this);    //Will spawn the run function below in a thread
+        mThread.start(*this);    //Will spawn the run function below in a thread
+    }
+    else
+    {
+        run();
+    }
 }
 
-double f(double t, const double* paras);
+//double f(double t, const double* paras);
 
 void LMFitThread::run()
 {
@@ -81,7 +88,7 @@ void LMFitThread::run()
     //Setup the input data structure
     setup();
 
-    lmmin(     mLMData.nrOfParameters,
+    lmmin(  mLMData.nrOfParameters,
             mLMData.parameters,
             mLMData.nrOfResiduePoints,
             (const void*) &mLMData,
@@ -102,8 +109,7 @@ void LMFitThread::run()
 
     Log(lInfo)<<"Obtained norm:  "<<status.fnorm;
 
-
-    //Populate minDataObject with data to 'report' back
+    //Populate minDataObject with data to report back
     for (int i = 0; i < mLMData.nrOfParameters; ++i)
     {
         mMinData.addFittedParameter(mLMData.parameterLabels[i], mLMData.parameters[i]);
@@ -279,7 +285,7 @@ void evaluate(const double *par,       //Parameter vector
             {
                 fvec[count] = 0;
             }
-               count++;
+            count++;
         }
     }
     freeRRData(rrData);

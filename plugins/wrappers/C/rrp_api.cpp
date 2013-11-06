@@ -355,12 +355,12 @@ bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData)
     catch_bool_macro
 }
 
-bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData)
+bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback startCB, pluginCallback progressCB, pluginCallback finishedCB, void* userData)
 {
     try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->assignCallbacks(cb1, cb2, userData) : false;
+        return (aPlugin) ? aPlugin->assignCallbacks(startCB, progressCB, finishedCB, userData) : false;
     }
     catch_bool_macro
 }

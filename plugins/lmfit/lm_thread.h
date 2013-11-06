@@ -39,7 +39,7 @@ class LMFitThread : public Poco::Runnable
     public:
                                     LMFitThread(LM& host);
         void                        assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
-        void                        start();
+        void                        start(bool runInThread = true);
         void                        run();
         bool                        isRunning();
 };

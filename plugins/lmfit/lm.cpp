@@ -140,7 +140,7 @@ bool LM::setInputData(void* inputData)
     return true;
 }
 
-bool LM::execute(void* inputData)
+bool LM::execute(void* inputData, bool runInThread)
 {
     Log(lInfo)<<"Executing the LM plugin";
 
@@ -148,7 +148,7 @@ bool LM::execute(void* inputData)
     //Assign callback functions to communicate the progress of the thread
     mLMFitThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
 
-    mLMFitThread.start();
+    mLMFitThread.start(runInThread);
     return true;
 }
 

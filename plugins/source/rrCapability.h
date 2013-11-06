@@ -37,7 +37,8 @@ class PLUGINS_API_DECLSPEC Capability
         Parameters*                         getParameters();
         BaseParameter*                      getParameter(const string& paraName);
 
-        PLUGINS_API_DECLSPEC friend ostream&         operator <<(ostream& os, const Capability& caps);
+        PLUGINS_API_DECLSPEC 
+		friend ostream&						operator <<(ostream& os, const Capability& caps);
 };
 
 }

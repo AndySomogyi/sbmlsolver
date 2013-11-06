@@ -15,15 +15,17 @@
 
 namespace rrp
 {
-static bool hasFileExtension(const string& fName);
+static bool  hasFileExtension(const string& fName);
 static char* getPluginExtension();
 
 using namespace std;
 using Poco::SharedLibrary;
 using Poco::Glob;
 
+//Convenient function pointers
 typedef Plugin*     (*createRRPluginFunc)(RoadRunner*);
-typedef const char* (*getLangFunc)();
+typedef char*       (*charStarFnc)();
+typedef bool        (*setupCPluginFnc)(RoadRunner*);
 typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool destroyRRPlugin(Plugin *plugin);
@@ -307,7 +309,7 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
     //Check that the plugin has a getImplementationLanguage function
     try
     {
-        getLangFunc func =     (getLangFunc) plugin->getSymbol("getImplementationLanguage");
+        charStarFnc func =     (charStarFnc) plugin->getSymbol("getImplementationLanguage");
         return func();
     }
     catch(const Poco::Exception& ex)
@@ -338,7 +340,7 @@ std::vector<std::string> PluginManager::getPluginNames()
     return names;
 }
 
-int    PluginManager::getNumberOfPlugins()
+int PluginManager::getNumberOfPlugins()
 {
     return mPlugins.size();
 }
@@ -348,12 +350,12 @@ int PluginManager::getNumberOfCategories()
     return -1;
 }
 
-Plugin*    PluginManager::getPlugin(const int& i)
+Plugin* PluginManager::getPlugin(const int& i)
 {
     return (*this)[i];
 }
 
-Plugin*    PluginManager::getPlugin(const string& name)
+Plugin* PluginManager::getPlugin(const string& name)
 {
     for(int i = 0; i < getNumberOfPlugins(); i++)
     {
@@ -374,22 +376,20 @@ Plugin*    PluginManager::getPlugin(const string& name)
     return NULL;
 }
 
-typedef char*         (rrCallConv *charStar)();
-typedef bool         (rrCallConv *setupCPluginFnc)(RoadRunner*);
-typedef bool         (rrCallConv *exec)(void*);
-
 Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
 {
     try
     {
         //Minimum bare bone plugin need these
-        charStar                 getName             = (charStar)         libHandle->getSymbol("getName");
-        charStar                 getCategory         = (charStar)         libHandle->getSymbol("getCategory");
-        setupCPluginFnc              setupCPlugin        = (setupCPluginFnc)    libHandle->getSymbol("setupCPlugin");
-        exec                      executeFunc            = (exec)             libHandle->getSymbol("execute");
-        char* name     = getName();
-        char* cat     = getCategory();
-        bool  res    = setupCPlugin(mRR);
+        charStarFnc         getName             = (charStarFnc)        libHandle->getSymbol("getName");
+        charStarFnc         getCategory         = (charStarFnc)        libHandle->getSymbol("getCategory");
+        setupCPluginFnc     setupCPlugin        = (setupCPluginFnc)    libHandle->getSymbol("setupCPlugin");
+        executeFnc          executeFunc         = (executeFnc)         libHandle->getSymbol("execute");
+
+        char* name  = getName();
+        char* cat   = getCategory();
+        bool  res   = setupCPlugin(mRR);
+
         CPlugin* aPlugin = new CPlugin(name, cat);
         aPlugin->assignExecuteFunction(executeFunc);
         return aPlugin;

@@ -16,14 +16,15 @@ class PLUGINS_API_DECLSPEC CPPPlugin : public Plugin
     protected:
 
     public:
-                            CPPPlugin(    const std::string& name,
+                            CPPPlugin(  const std::string& name,
                                         const std::string& cat = gNoneString,
                                         RoadRunner* aRR = NULL,
-                                        PluginWorkStartedCB fn1 = NULL,
-                                        PluginWorkFinishedCB fn2 = NULL);
+                                        PluginCallBackFnc fn1 = NULL,
+                                        PluginCallBackFnc fn2 = NULL,
+                                        PluginCallBackFnc fn3 = NULL);
 
         virtual            ~CPPPlugin();
-        string                 getImplementationLanguage();
+        string              getImplementationLanguage();
 };
 
 }

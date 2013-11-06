@@ -82,7 +82,16 @@ RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* plug
 RRP_DECLSPEC bool rrp_cc freePluginManager(RRPluginManagerHandle handle);
 
 /*!
- \brief load a plugin
+ \brief load plugins
+
+ \param[in] handle Handle to a PluginManager instance
+ \return Returns true if Plugins are loaded, false otherwise
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
+
+/*!
+ \brief load a particular plugin
 
  \param[in] handle Handle to a PluginManager instance
  \param[in] fileName name of the plugin to load. The plugin name is the plugins shared library name, without path and extension.
@@ -91,14 +100,6 @@ RRP_DECLSPEC bool rrp_cc freePluginManager(RRPluginManagerHandle handle);
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, char* pluginName);
 
-/*!
- \brief load plugins
-
- \param[in] handle Handle to a PluginManager instance
- \return Returns true if Plugins are loaded, false otherwise
- \ingroup pluginRoutines
-*/
-RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
 
 /*!
  \brief unload plugins
@@ -250,12 +251,12 @@ RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
 /*!
  \brief Assign callback functions, and user data to a plugin
  \param[in] handle Handle to a plugin
- \param[in] cb1, cb2  function pointers to callback routines
+ \param[in] cb1, cb2 and cb3  function pointers to callback routines
  \param[in] userData void* pointer to user data. Plugin dependent.
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData);
+RRP_DECLSPEC bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, pluginCallback cb3, void* userData);
 
 /*!
  \brief Hand external data to a plugin

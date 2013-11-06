@@ -21,18 +21,26 @@ void AddNoiseThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
     mUserData = userData;
 }
 
-void AddNoiseThread::start(void* inputData, double sigma)
+bool AddNoiseThread::start(void* inputData, double sigma, bool runInThread)
 {
     mInputData = inputData;
     mSigma = sigma;
 
-    if(mThread.isRunning())
+    if(runInThread)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to start a working thread!";
-        return;
-    }
+        if(mThread.isRunning())
+        {
+            Log(Logger::LOG_ERROR)<<"Tried to start a working thread!";
+            return false;
+        }
 
-    mThread.start(*this);
+        mThread.start(*this);
+    }
+    else
+    {
+        run(); //Not running worker in a thread!
+    }
+    return true;
 }
 
 bool AddNoiseThread::isRunning()

@@ -13,8 +13,9 @@ using namespace std;
 Plugin::Plugin( const string& name,
                 const string& category,
                 RoadRunner* aRR,
-                PluginWorkStartedCB fn1,
-                PluginWorkFinishedCB fn2,
+                PluginCallBackFnc fn1,
+                PluginCallBackFnc fn2,
+                PluginCallBackFnc fn3,
                 const string& language)
 :
 mName(name),
@@ -24,6 +25,7 @@ mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
 mWorkStartedCB(fn1),
+mWorkProgressCB(fn1),
 mWorkFinishedCB(fn2),
 mCapabilities(name, category),
 mImplementationLanguage(language)
@@ -44,11 +46,12 @@ bool Plugin::setInputData(void* data)
     return true;
 }
 
-bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2, void* userData)
+bool Plugin::assignCallbacks(PluginCallBackFnc start, PluginCallBackFnc progress, PluginCallBackFnc end, void* userData)
 {
     mUserData = userData;
-    mWorkStartedCB = fnc1;
-    mWorkFinishedCB = fnc2;
+    mWorkStartedCB = start;
+    mWorkProgressCB = progress;
+    mWorkFinishedCB = end;
     return true;
 }
 

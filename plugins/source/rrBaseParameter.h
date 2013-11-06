@@ -11,13 +11,6 @@ namespace rrp
 using std::string;
 using std::ostream;
 
-/**
- * \internal
- * \private
- * \deprecated
- *
- * Base class for parameters. This class follows the "decorator" pattern.
- */
 class PLUGINS_API_DECLSPEC BaseParameter
 {
     public:

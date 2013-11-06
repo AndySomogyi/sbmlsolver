@@ -19,8 +19,7 @@ using namespace rr;
 
 //Plugin callback functions
 #ifndef SWIG // these make SWIG really unhappy for some reason.
-typedef void    (callback_cc *PluginWorkStartedCB)(void*);
-typedef void    (callback_cc *PluginWorkFinishedCB)(void*);
+typedef void    (callback_cc *PluginCallBackFnc)(void*);
 #endif
 
 using std::string;
@@ -46,17 +45,18 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         RoadRunner                     *mRR;
 
         //Plugin callbacks..
-        PluginWorkStartedCB             mWorkStartedCB;
-        PluginWorkFinishedCB            mWorkFinishedCB;
+        PluginCallBackFnc               mWorkStartedCB;
+        PluginCallBackFnc               mWorkProgressCB;
+        PluginCallBackFnc               mWorkFinishedCB;
         void*                           mUserData;
 
         Capabilities                    mCapabilities;    //Container for parameter data that can be exchanged to/from the plugin
 
     public:
-                                        Plugin(const string& name = gEmptyString, const string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL, const string& language = gNoneString);
+                                        Plugin(const string& name = gEmptyString, const string& cat = gNoneString, RoadRunner* aRR = NULL, PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL, const string& language = gNoneString);
         virtual                        ~Plugin();    //Gotta be virtual!
 
-        bool                            assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2 = NULL, void* userData = NULL);
+        bool                            assignCallbacks(PluginCallBackFnc pluginStarted, PluginCallBackFnc pluginsProgress, PluginCallBackFnc pluginsFinished = NULL, void* userData = NULL);
         string                          getName();
         void                            setLibraryName(const string& libName);
         string                          getLibraryName();
@@ -88,7 +88,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 
         //Pure virtuals
         virtual string                  getImplementationLanguage() = 0;
-        virtual bool                    execute(void* userData = NULL) = 0;
+        virtual bool                    execute(void* userData = NULL, bool runInThread = false) = 0;
 };
 
 }

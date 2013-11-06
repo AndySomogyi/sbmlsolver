@@ -43,7 +43,6 @@
 #define rrp_parameter_apiH
 #include "rrp_exporter.h"
 #include "rrp_types.h"
-
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
