@@ -821,7 +821,7 @@ int LLVMExecutableModel::getNumConservedSums()
 
 int LLVMExecutableModel::getConservedSumIndex(const string& name)
 {
-    return 0;
+    return -1;
 }
 
 string LLVMExecutableModel::getConservedSumId(int index)

@@ -1866,7 +1866,7 @@ vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
     vector<string> result;// = new ArrayList();
     for(int item = 0; item < floatingSpeciesNames.size(); item++)// (object item in floatingSpeciesNames)
     {
-        result.push_back(format("init({0})", floatingSpeciesNames[item]));
+        result.push_back(format("init([{0}])", floatingSpeciesNames[item]));
     }
     return result;
 }
