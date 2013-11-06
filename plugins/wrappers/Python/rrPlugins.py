@@ -18,8 +18,8 @@ if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
     sharedLib = os.path.join(rrInstallFolder, 'rrplugins_c_api.dll')
-    libHandle=windll.kernel32.LoadLibraryA(sharedLib)
-    rrpLib = WinDLL (None, handle=libHandle)
+    rrpLib=CDLL(sharedLib)
+    rrpLibHandle = rrpLib._handle # (None, handle=libHandle)
 
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
@@ -74,8 +74,8 @@ rrpLib.freePluginManager.restype = c_bool
 
 #===== The API allocate an internal global handle to
 #===== ONE roadrunner instance and ONE instance of a plugin manager
-gRRHandle = rr.createRRInstance()
-gPluginManager = rrpLib.createPluginManager(gRRHandle)
+#gRRHandle = rr.createRRInstance()
+gPluginManager = rrpLib.createPluginManager(rrPython.gHandle)
 
 ##\brief Initialize the plugins library and returns a new PluginManager instance
 #\return Returns an instance of the library, returns false if it fails
