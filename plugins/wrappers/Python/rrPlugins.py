@@ -36,7 +36,7 @@ else:
 
 ##\mainpage notitle
 #\section Introduction
-#The plugin manager exposes a lightweight framework for adding functionlity to RoadRunner
+#The plugin manager exposes a lightweight framework for adding functionality to RoadRunner by external plugins
 #
 #@code
 #
@@ -84,21 +84,25 @@ def createPluginManager():
 
 ##\brief Free the plugin manager instance
 #\param rrpLib Free the plugin manager instance given in the argument
-def freeRRInstance(iHandle):
+def freePluginManager(iHandle):
     return rrpLib.freePluginManager(iHandle)
 
-#Unload roadrunner dll from python
+#Unload dll from python
 def unloadAPI():
-    del gRRHandle
+#    freePluginManager(gPluginManger)
+#    rr.freeRRInstance(gRRHandle)
+#    del gRRHandle
+#    del gPluginManager
     return windll.kernel32.FreeLibrary(libHandle)
 
-rrpLib.loadPlugins.restype = c_bool
 def loadPlugin(libraryName):
     return rrpLib.loadPlugin(gPluginManager, libraryName)
 
+rrpLib.loadPlugins.restype = c_bool
 def loadPlugins():
     return rrpLib.loadPlugins(gPluginManager)
 
+rrpLib.getPluginNames.restype = c_void_p
 def getPluginNames():
     return rrpLib.getPluginNames(gPluginManager)
 

@@ -22,20 +22,12 @@ add_definitions(
 -DSTATIC_PLUGIN
 -DSTATIC_PLUGINS_API
 -DPOCO_STATIC
-#-DLIBSBML_STATIC
-#-DSTATIC_LIBSTRUCT
-#-DLIBLAX_STATIC
-#-DSTATIC_NLEQ
 )
 
 if(WIN32)
-#add_definitions( -D_WIN32)
 target_link_libraries (${target}
-#roadrunner-static
+roadrunner-static
 rrplugins_api-static
-#rrplugins_c_api
-#libxml2
-#libsbml-static
 )
 else() #UNIX
     # OSX flags:

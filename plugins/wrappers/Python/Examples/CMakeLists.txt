@@ -2,13 +2,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_PYTHON_EXAMPLES)
 
 set(examples 	
-rrPluginDemo.py
+rrNoisePluginDemo.py
+rrLevenbergMarquardtDemo.py
+rrPluginTester.py
 )
 
 install(    
-            FILES 
-            ${examples} 
-            DESTINATION python 	
-            COMPONENT Python
-       )
+FILES ${examples} 
+DESTINATION python/PluginExamples 	
+COMPONENT Python
+)
 
