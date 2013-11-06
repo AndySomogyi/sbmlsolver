@@ -25,37 +25,33 @@ numPoints = 500
 results = rrPython.simulateEx(timeStart, timeEnd, numPoints)
 
 #Load the 'noise' plugin in order to add some noise to the data
-noisePlugin = rrp.loadPlugin("rrp_auto2000")
-if not noisePlugin:
+plugin = rrp.loadPlugin("rrp_auto2000")
+if not plugin:
     print rr.getLastError()
     exit()
 
-print rrp.getPluginInfo(noisePlugin)
+print rrp.getPluginInfo(plugin)
 
 #get parameter for noise 'size'
-sigmaHandle = rrp.getPluginParameter(noisePlugin, "Sigma")
+rrp.setPluginParameter(plugin, "ScanDirection", "Negative")
+rrp.setPluginParameter(plugin, "PrincipalContinuationParameter", "k3")
+rrp.setPluginParameter(plugin, "PCPLowerBound", "0.2")
+rrp.setPluginParameter(plugin, "PCPUpperBound", "1.2")
 
-aSigma = rrp.getParameterValueAsString(sigmaHandle)
-print 'Current sigma is ' + aSigma
-
-#set size of noise
-rrp.setParameter(sigmaHandle, '0.000001')
-aSigma = rrp.getParameterValueAsString(sigmaHandle)
-print 'Current sigma is ' + aSigma
-
-#get a hold of data handle
-rrDataHandle = rr.getRoadRunnerData()
+paraHandle = rrp.getPluginParameter(plugin,"PCPLowerBound")
+test = rrp.getParameterValueAsString(paraHandle)
+print 'Current value is ' + test
 
 #Execute the noise plugin which will add some noise to the (internal) data
-rrp.executePluginEx(noisePlugin, rrDataHandle)
+rrp.executePlugin(plugin)
 
 #The plugin does it work in a thread, so don't proceed until it is done
-while rrp.isPluginWorking(noisePlugin) == True:
+while rrp.isPluginWorking(plugin) == True:
     print "Plugin is not done yet";
 
 
 #Input Data
-results = rr.getSimulationResult()
+#results = rrp.getResult()
 
 #S1 = results[:,2]
 #S2 = results[:,3]

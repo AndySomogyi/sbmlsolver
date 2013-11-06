@@ -56,7 +56,7 @@ else() #UNIX
         roadrunner-static
         lmfit-static
         rrc_api
-        rrPluginsAPI
+        rrplugins_api-static
         )
 endif()
 
