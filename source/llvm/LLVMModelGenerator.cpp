@@ -88,7 +88,7 @@ bool LLVMModelGenerator::setTemporaryDirectory(const string& path)
 
 string LLVMModelGenerator::getTemporaryDirectory()
 {
-    return LLVMCompiler::gurgle();
+    return "not used";
 }
 
 class test
