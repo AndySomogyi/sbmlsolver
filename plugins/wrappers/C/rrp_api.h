@@ -98,7 +98,7 @@ RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
  \return Returns a handle to a plugin, NULL if unsuccesfull
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, char* pluginName);
+RRP_DECLSPEC RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, const char* pluginName);
 
 
 /*!
@@ -154,6 +154,7 @@ RRP_DECLSPEC RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id);
 
+//// PLUGIN HANDLE functions
 /*!
  \brief GetPluginCapabilities
  \param[in] handle Handle to a plugin
@@ -219,10 +220,11 @@ RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
  \brief executePlugin (PluginName)
  \param[in] handle Handle to a plugin
  \param[in] userData void* pointer to user data. Plugin dependent.
+ \param[in] inThread bool indicating if the plugin should be executed in a thread.
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData);
+RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThread);
 
 /*!
  \brief getPluginStatus (PluginName)

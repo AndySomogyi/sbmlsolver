@@ -28,7 +28,8 @@ class PLUGINS_API_DECLSPEC CPlugin : public Plugin
 
         virtual                ~CPlugin();
         string                  getImplementationLanguage();
-        virtual bool            execute(void* userData = NULL, bool runInThread = false);
+        virtual bool            execute(void* userData = NULL, bool useThread = false);
+
         void                    assignExecuteFunction(executeFnc func);
 
         virtual _xmlNode*       createConfigNode();

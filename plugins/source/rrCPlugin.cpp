@@ -25,11 +25,11 @@ void CPlugin::assignExecuteFunction(executeFnc func)
     executeFunction = func;
 }
 
-bool CPlugin::execute(void* userData, bool runInThread)
+bool CPlugin::execute(void* userData, bool useThread)
 {
     if(executeFunction)
     {
-        return executeFunction(userData, runInThread);
+        return executeFunction(userData, useThread);
     }
     return false;
 }

@@ -12,7 +12,6 @@
     #pragma comment(lib, "sundials_cvode.lib")
     #pragma comment(lib, "sundials_nvecserial.lib")
     #pragma comment(lib, "nleq-static.lib")
-    #pragma comment(lib, "pugi-static.lib")
     #pragma comment(lib, "rr-libstruct-static.lib")
     #pragma comment(lib, "libsbml-static.lib")
     #pragma comment(lib, "libxml2_xe.lib")

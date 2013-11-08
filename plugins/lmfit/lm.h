@@ -38,7 +38,7 @@ class LM : public Plugin
     public:
                                                 LM(RoadRunner* aRR = NULL);
                                                ~LM();
-        bool                                    execute(void* inputData, bool runInThread = true);
+        bool                                    execute(void* inputData, bool inThread = false);
         string                                  getResult();
         bool                                    resetPlugin();
         bool                                    setInputData(void* data);

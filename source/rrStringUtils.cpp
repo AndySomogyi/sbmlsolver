@@ -889,22 +889,21 @@ string toString(const string& str)
 	return str;
 }
 
-string toString(const vector<string>& vec)
+string toString(const vector<string>& vec, const string& sep)
 {
 	stringstream text;
     text<<"{";
     for(int i = 0; i < vec.size(); i++)
     {
-    	text<<vec[i];
+        text<<vec[i];
         if(i < vec.size() - 1)
         {
-        	text<<", ";
+            text<<sep;
         }
     }
     text<<"}";
     return text.str();
 }
-
 
 int compareNoCase(const string& str1, const string& str2)
 {

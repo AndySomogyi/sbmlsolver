@@ -11,7 +11,7 @@ using namespace rr;
 
 AddNoise::AddNoise(rr::RoadRunner* aRR, PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
 :
-CPPPlugin(                 "AddNoise",                 "Signal Processing",    aRR, fn1, fn2, fn3),
+CPPPlugin(                 "AddNoise",                 "Signal Processing",    aRR, NULL, fn1, fn2, fn3),
 mAddNoise(                 "Add noise",                 "...",                          "Add Noise"),
 mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of Noise."),
 mSigma(                    "Sigma",                     1,                              "Indicate the size of the noise"),
@@ -31,15 +31,16 @@ bool AddNoise::isWorking()
     return mAddNoiseThread.isRunning();
 }
 
-bool AddNoise::execute(void* inputData, bool runInThread)
+bool AddNoise::execute(void* inputData, bool inThread)
 {
     Log(lDebug)<<"Executing the AddNoise plugin by Totte Karlsson";
     mAddNoiseThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
 
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
-    return mAddNoiseThread.start(inputData, mSigma.getValue(), runInThread);
+    return mAddNoiseThread.start(inputData, mSigma.getValue(), inThread);
 }
+
 
 // Plugin factory function
 Plugin* plugins_cc createPlugin(rr::RoadRunner* aRR)

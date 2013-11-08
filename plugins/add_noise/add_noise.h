@@ -30,7 +30,7 @@ class AddNoise : public CPPPlugin
                                ~AddNoise();
 
                                 //user data is
-        bool                    execute(void* userData, bool runInThread = true);
+        bool                    execute(void* userData, bool inThread = false);
         bool                    isWorking(); //Returns true as long the thread is active..
 
         virtual _xmlNode*       createConfigNode();

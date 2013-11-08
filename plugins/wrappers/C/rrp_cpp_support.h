@@ -4,10 +4,10 @@
 #include "rrp_minimization_api.h"
 #include "rrp_api.h"
 
-namespace rrp {
+namespace rrp
+{
 class BaseParameter;
 class MinimizationData;
-
 
 /*!
  \brief Cast a handle to RoadRunner BaseParameter pointer, throws if it fails
@@ -15,7 +15,7 @@ class MinimizationData;
  \return Pointer to a baseparameter instance
  \ingroup cpp_support
 */
-BaseParameter*                        castToParameter(rrp::RRParameterHandle handle);
+BaseParameter*                      castToParameter(rrp::RRParameterHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails
@@ -23,9 +23,8 @@ BaseParameter*                        castToParameter(rrp::RRParameterHandle han
  \return Pointer to a minimization data instance
  \ingroup cpp_support
 */
-MinimizationData*                  castToMinimizationData(rrp::RRMinimizationDataHandle handle);
+MinimizationData*                   castToMinimizationData(rrp::RRMinimizationDataHandle handle);
 
 }
-
 
 #endif

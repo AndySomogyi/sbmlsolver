@@ -1,0 +1,8 @@
+LIBRARY     rrp_c_plugin_demo.dll
+
+EXPORTS
+createPlugin                = _createPlugin
+getName                     = _getName
+getCategory                 = _getCategory
+setupCPlugin                = _setupCPlugin
+execute                     = _execute

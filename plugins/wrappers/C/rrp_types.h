@@ -50,19 +50,19 @@ extern "C"
 {
 #endif
 
-/*!@brief Void pointer to a MinimizationData instance */
-typedef void* RRMinimizationDataHandle;
-
-/*!@brief Void pointer to a Parameter instance */
-typedef void* RRParameterHandle;
-
-/*!@brief Void pointer to a Plugin instance */
-typedef void* RRPluginHandle;
-
 /**
  * PluginManager type
  */
 typedef void* RRPluginManagerHandle;
+
+/*!@brief Void pointer to a Plugin instance */
+typedef void* RRPluginHandle;
+
+/*!@brief Void pointer to a Parameter instance */
+typedef void* RRParameterHandle;
+
+/*!@brief Void pointer to a MinimizationData instance */
+typedef void* RRMinimizationDataHandle;
 
 #if defined( __cplusplus)
 }

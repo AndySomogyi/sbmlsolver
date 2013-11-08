@@ -16,7 +16,8 @@ Plugin::Plugin( const string& name,
                 PluginCallBackFnc fn1,
                 PluginCallBackFnc fn2,
                 PluginCallBackFnc fn3,
-                const string& language)
+                const string& language,
+                const PluginManager* pm)
 :
 mName(name),
 mAuthor("Totte Karlsson"),
@@ -28,7 +29,8 @@ mWorkStartedCB(fn1),
 mWorkProgressCB(fn1),
 mWorkFinishedCB(fn2),
 mCapabilities(name, category),
-mImplementationLanguage(language)
+mImplementationLanguage(language),
+mPM(pm)
 {}
 
 Plugin::~Plugin()
@@ -82,7 +84,6 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
     for(int i = 0; i < capability.nrOfParameters(); i++)
     {
         BaseParameter* aPar = const_cast<BaseParameter*>( &(capability[i]) );
-
 
         if(aPar->mName == nameOf)
         {

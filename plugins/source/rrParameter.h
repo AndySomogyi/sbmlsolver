@@ -2,6 +2,7 @@
 #define rrParameterH
 #include <vector>
 #include <string>
+#include "rrStringList.h"
 #include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
@@ -36,13 +37,6 @@ class Parameter : public BaseParameter
         string                         getType() const;
 };
 
-//template<class T>
-//inline Parameter<T>::Parameter(const string& name, const T& value, const string& hint)
-//:
-//rr::BaseParameter(name, hint),
-//mValue(value)
-//{}
-
 template<class T>
 Parameter<T>::Parameter(const string& name, const T& value, const string& hint)
 :
@@ -50,7 +44,6 @@ BaseParameter(name, hint),
 mDummy(value),
 mValue(mDummy)
 {}
-
 
 //template<class T>
 //Parameter<T>::Parameter(const Parameter<T>& para)
@@ -191,6 +184,26 @@ inline string Parameter< std::vector<string> >::getType() const
 
 template<>
 inline void Parameter< std::vector<string> >::setValueFromString(const string& val)
+{
+    mValue = rr::splitString(val,", ");
+}
+
+//================= rr::StringList ===============================
+template<>
+inline string Parameter< rr::StringList >::getType() const
+{
+    return "StringList";
+}
+
+template<>
+inline string Parameter<rr::StringList>::getValueAsString() const
+{
+    return rr::toString(mValue, "\n");
+}
+
+
+template<>
+inline void Parameter< rr::StringList >::setValueFromString(const string& val)
 {
     mValue = rr::splitString(val,", ");
 }

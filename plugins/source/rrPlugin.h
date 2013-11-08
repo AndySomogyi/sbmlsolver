@@ -16,7 +16,7 @@ class RoadRunner;
 namespace rrp
 {
 using namespace rr;
-
+class PluginManager;
 //Plugin callback functions
 #ifndef SWIG // these make SWIG really unhappy for some reason.
 typedef void    (callback_cc *PluginCallBackFnc)(void*);
@@ -43,6 +43,8 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
          * uses.
          */
         RoadRunner                     *mRR;
+        const PluginManager*            mPM; //A plugin can't change a plugin manager..
+
 
         //Plugin callbacks..
         PluginCallBackFnc               mWorkStartedCB;
@@ -53,7 +55,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         Capabilities                    mCapabilities;    //Container for parameter data that can be exchanged to/from the plugin
 
     public:
-                                        Plugin(const string& name = gEmptyString, const string& cat = gNoneString, RoadRunner* aRR = NULL, PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL, const string& language = gNoneString);
+                                        Plugin(const string& name = gEmptyString, const string& cat = gNoneString, RoadRunner* aRR = NULL, PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL, const string& language = gNoneString, const PluginManager* pm = NULL);
         virtual                        ~Plugin();    //Gotta be virtual!
 
         bool                            assignCallbacks(PluginCallBackFnc pluginStarted, PluginCallBackFnc pluginsProgress, PluginCallBackFnc pluginsFinished = NULL, void* userData = NULL);
@@ -77,7 +79,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         bool                            setParameter(const string& nameOf, const char* value);
 
         BaseParameter*                  getParameter(const string& param, Capability& capability);
-        bool                            setParameter(const string& nameOf, const char* value,     Capability& capability);
+        bool                            setParameter(const string& nameOf, const char* value, Capability& capability);
 
         //Virtuals
         virtual string                  getResult();
@@ -88,7 +90,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 
         //Pure virtuals
         virtual string                  getImplementationLanguage() = 0;
-        virtual bool                    execute(void* userData = NULL, bool runInThread = false) = 0;
+        virtual bool                    execute(void* userData = NULL, bool inAThread = false) = 0;
 };
 
 }

@@ -23,7 +23,7 @@ using Poco::SharedLibrary;
 using Poco::Glob;
 
 //Convenient function pointers
-typedef Plugin*     (*createRRPluginFunc)(RoadRunner*);
+typedef Plugin*     (*createRRPluginFunc)(RoadRunner*, PluginManager*);
 typedef char*       (*charStarFnc)();
 typedef bool        (*setupCPluginFnc)(RoadRunner*);
 typedef bool        (*destroyRRPluginFunc)(Plugin* );
@@ -175,7 +175,7 @@ bool PluginManager::loadPlugin(const string& _libName)
             createRRPluginFunc create = (createRRPluginFunc) libHandle->getSymbol("createPlugin");
 
             //This plugin
-            Plugin* aPlugin = create(mRR);
+            Plugin* aPlugin = create(mRR, this);
             if(aPlugin)
             {
                 aPlugin->setLibraryName(getFileNameNoExtension(libName));
@@ -384,7 +384,7 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
         charStarFnc         getName             = (charStarFnc)        libHandle->getSymbol("getName");
         charStarFnc         getCategory         = (charStarFnc)        libHandle->getSymbol("getCategory");
         setupCPluginFnc     setupCPlugin        = (setupCPluginFnc)    libHandle->getSymbol("setupCPlugin");
-        executeFnc          executeFunc         = (executeFnc)         libHandle->getSymbol("execute");
+        executeFnc          executeFunc         = (executeFnc)         libHandle->getSymbol("executePlugin");
 
         char* name  = getName();
         char* cat   = getCategory();

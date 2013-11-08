@@ -72,7 +72,7 @@ RR_DECLSPEC string              toString(const char n);
 RR_DECLSPEC string              toString(const unsigned char n);
 RR_DECLSPEC string              toString(const string& s);
 RR_DECLSPEC string              toString(const char* str);
-RR_DECLSPEC string              toString(const vector<string>& vec);
+RR_DECLSPEC string              toString(const vector<string>& vec, const string& sep = ", ");
 
 RR_DECLSPEC string              format(const string& src, const int& arg);
 RR_DECLSPEC string              format(const string& str, const int& arg1);

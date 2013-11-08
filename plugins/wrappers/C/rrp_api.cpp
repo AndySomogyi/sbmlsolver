@@ -117,7 +117,7 @@ bool rrp_cc freePluginManager(RRPluginManagerHandle handle)
 }
 
 //PLUGIN Functions
-RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, char* pluginName)
+RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, const char* pluginName)
 {
     try
     {
@@ -263,13 +263,22 @@ RRStringArray* rrp_cc getPluginParameters(RRPluginHandle handle, const char* cap
         Plugin* aPlugin = castToPlugin(handle);
         if(aPlugin)
         {
-            StringList aList;
-            Parameters* paras = aPlugin->getParameters(capability);
+            string cap;
+            if(capability)
+            {
+                cap = capability;
+            }
+            else
+            {
+               cap = ("");
+            }
+            Parameters* paras = aPlugin->getParameters(cap);
             if(!paras)
             {
                 return NULL;
             }
 
+            StringList aList;
             for(int i = 0; i < paras->count(); i++)
             {
                 aList.add((*paras)[i]->getName());
@@ -342,15 +351,15 @@ char* rrp_cc getPluginStatus(RRPluginHandle handle)
 
 bool rrp_cc executePlugin(RRPluginHandle handle)
 {
-    return executePluginEx(handle, NULL);
+    return executePluginEx(handle, NULL, false);
 }
 
-bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData)
+bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThread)
 {
     try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->execute(userData) : false;
+        return (aPlugin) ? aPlugin->execute(userData, inAThread) : false;
     }
     catch_bool_macro
 }

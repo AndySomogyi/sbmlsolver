@@ -68,6 +68,13 @@ enum  CLogLevel
         CL_PRIO_TRACE        /// A tracing message. This is the lowest priority.
     };
 
+enum
+{
+    clError = CL_PRIO_ERROR,
+    clInfo  = CL_PRIO_INFORMATION,
+    clDebug = CL_PRIO_DEBUG,
+    clWarning = CL_PRIO_WARNING
+};
 /*!
  \brief Enable logging to console
  \return Returns true if succesful, false otherwise

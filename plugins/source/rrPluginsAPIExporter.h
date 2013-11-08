@@ -1,6 +1,5 @@
 #ifndef rrPluginsAPIExporterH
 #define rrPluginsAPIExporterH
-#include "rrOSSpecifics.h"
 
 #if defined(_WIN32) || defined(__WIN32__)
     #if defined(STATIC_PLUGINS_API)
