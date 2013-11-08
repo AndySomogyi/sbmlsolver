@@ -1,17 +1,11 @@
 import sys
 import numpy
 import matplotlib.pyplot as plot
+
 import rrPython
 import rrPlugins
-import ctypes
+
 rr = rrPython; rrp = rrPlugins
-
-sbmlModel ="../models/test_1.xml"
-if not rr.loadSBMLFromFile(sbmlModel):
-    print rr.getLastError()
-    exit()
-
-results = rrPython.simulate()
 
 #Load the 'noise' plugin in order to add some noise to roadrunner data
 noisePlugin = rrp.loadPlugin("add_noise")
@@ -35,6 +29,13 @@ rrp.setParameter(sigmaHandle, '0.000001')
 aSigma = rrp.getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
+sbmlModel ="../models/test_1.xml"
+if not rr.loadSBMLFromFile(sbmlModel):
+    print rr.getLastError()
+    exit()
+
+results = rrPython.simulate()
+
 #get a hold of data handle
 rrDataHandle = rr.getRoadRunnerData()
 
@@ -52,5 +53,4 @@ plot.ylabel('Concentration (moles/L)')
 plot.xlabel('time (s)')
 
 plot.show()
-
 print "done"

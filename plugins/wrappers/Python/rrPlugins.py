@@ -1,13 +1,10 @@
 ##@Module rrPlugins
-#This module allows access to the rrp_api.dll from python"""
-
+#This module allows access to the rrplugins_api.dll from python"""
 import sys
 import os
 import rrPython
-import numpy
 from ctypes import *
 rr = rrPython
-np = numpy
 
 if len(os.path.dirname(__file__)):
     os.chdir(os.path.dirname(__file__))
@@ -19,7 +16,7 @@ if sys.platform.startswith('win32'):
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
     sharedLib = os.path.join(rrInstallFolder, 'rrplugins_c_api.dll')
     rrpLib=CDLL(sharedLib)
-    rrpLibHandle = rrpLib._handle # (None, handle=libHandle)
+    rrpLibHandle = rrpLib._handle
 
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
@@ -32,7 +29,6 @@ else:
     else:
         raise Exception("could not locate RoadRunner shared library")
     rrpLib = cdll.LoadLibrary(sharedLib)
-
 
 ##\mainpage notitle
 #\section Introduction
@@ -74,7 +70,6 @@ rrpLib.freePluginManager.restype = c_bool
 
 #===== The API allocate an internal global handle to
 #===== ONE roadrunner instance and ONE instance of a plugin manager
-#gRRHandle = rr.createRRInstance()
 gPluginManager = rrpLib.createPluginManager(rrPython.gHandle)
 
 ##\brief Initialize the plugins library and returns a new PluginManager instance
@@ -113,6 +108,11 @@ def getNumberOfPlugins():
 rrpLib.getPluginInfo.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrpLib.getPluginInfo(pluginHandle)
+
+rrpLib.getPluginCapabilities.restype = c_char_p
+def getPluginCapabilities(pluginHandle):
+    return rrpLib.getPluginCapabilities(pluginHandle)
+
 
 rrpLib.getPluginStatus.restype = c_char_p
 def getPluginStatus(pluginHandle):
