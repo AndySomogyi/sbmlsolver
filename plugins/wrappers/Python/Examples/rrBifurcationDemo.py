@@ -43,12 +43,16 @@ test = rrp.getParameterValueAsString(paraHandle)
 print 'Current value is ' + test
 
 #Execute the noise plugin which will add some noise to the (internal) data
-rrp.executePlugin(plugin)
+rrp.executePluginEx(plugin, 0, False)
 
 #The plugin does it work in a thread, so don't proceed until it is done
 while rrp.isPluginWorking(plugin) == True:
     print "Plugin is not done yet";
 
+
+biFurcationDiagram = rrp.getPluginParameter(plugin, "BiFurcationDiagram")
+if biFurcationDiagram:
+    print `rrp.getParameterValueAsString(biFurcationDiagram)`
 
 #Input Data
 #results = rrp.getResult()
