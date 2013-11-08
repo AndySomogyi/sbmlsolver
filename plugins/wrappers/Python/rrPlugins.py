@@ -126,8 +126,8 @@ rrpLib.executePlugin.restype = c_bool
 def executePlugin(pluginHandle):
     return rrpLib.executePlugin(pluginHandle)
 
-def executePluginEx(pluginHandle, userData):
-    return rrpLib.executePluginEx(pluginHandle, c_void_p(userData))
+def executePluginEx(pluginHandle, userData, runInThread):
+    return rrpLib.executePluginEx(pluginHandle, c_void_p(userData), c_bool(runInThread))
 
 rrpLib.getPluginResult.restype = c_char_p
 def getPluginResult(pluginHandle):
