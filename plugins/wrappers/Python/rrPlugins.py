@@ -89,10 +89,6 @@ def freePluginManager(iHandle):
 
 #Unload dll from python
 def unloadAPI():
-#    freePluginManager(gPluginManger)
-#    rr.freeRRInstance(gRRHandle)
-#    del gRRHandle
-#    del gPluginManager
     return windll.kernel32.FreeLibrary(libHandle)
 
 def loadPlugin(libraryName):
@@ -126,7 +122,7 @@ rrpLib.executePlugin.restype = c_bool
 def executePlugin(pluginHandle):
     return rrpLib.executePlugin(pluginHandle)
 
-def executePluginEx(pluginHandle, userData, runInThread):
+def executePluginEx(pluginHandle, userData, runInThread=False):
     return rrpLib.executePluginEx(pluginHandle, c_void_p(userData), c_bool(runInThread))
 
 rrpLib.getPluginResult.restype = c_char_p
