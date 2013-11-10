@@ -197,7 +197,6 @@ def checkIndividualEigenvalues(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
-
     try:
         for i in range(0,m):
             line = readLine ()
@@ -212,7 +211,6 @@ def checkIndividualEigenvalues(rrInstance, testId):
         print passMsg (errorFlag)
     except Exception, e:
         print('Unexpected error in checkIndividualEigenvalues:' + str(e))
-        raise e
 
 
 def checkEigenvalueMatrix(rrInstance, testId):
