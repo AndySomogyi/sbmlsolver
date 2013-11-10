@@ -2,6 +2,7 @@
 #define rrExecutableModelH
 #include "rrOSSpecifics.h"
 
+#include <stdint.h>
 #include <string>
 #include <list>
 #include <ostream>

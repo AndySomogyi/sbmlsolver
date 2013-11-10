@@ -353,6 +353,7 @@ RoadRunnerData *RoadRunner::getSimulationResult()
     return &mRoadRunnerData;
 }
 
+
 double RoadRunner::getValue(const SelectionRecord& record)
 {
     if (!mModel)
@@ -2607,16 +2608,12 @@ bool RoadRunner::setValue(const string& sId, double dValue)
     return false;
 }
 
-// Help("Gets the Value of the given species or global parameter (not of local parameters)")
-double RoadRunner::getValue(const string& sel)
+
+double RoadRunner::getValue(const std::string& sel)
 {
     return getValue(createSelection(sel));
 }
 
-// Help(
-//            "Returns symbols of the currently loaded model,
-//              that can be used for the selectionlist format array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }."
-//            )
 
 string RoadRunner::getVersion()
 {

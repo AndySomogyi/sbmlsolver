@@ -792,6 +792,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
         const int* indx, double* values)
 {
     assert(0);
+    return 0;
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()
