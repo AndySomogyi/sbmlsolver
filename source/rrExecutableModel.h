@@ -3,6 +3,7 @@
 #include "rrOSSpecifics.h"
 
 #include <string>
+#include <list>
 #include <ostream>
 
 namespace rr
@@ -99,6 +100,10 @@ public:
 
     virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
             double *values) = 0;
+
+
+    virtual int getFloatingSpeciesConcentrationRates(int len, int const *indx,
+                double *values) = 0;
 
     /**
      * get the floating species concentrations
@@ -224,12 +229,20 @@ public:
     #if (1) /**********************************************************************/
     /******************************************************************************/
 
-
+    /**
+     * get the number of global parameters
+     */
     virtual int getNumGlobalParameters() = 0;
+
+    /**
+     * index of the global parameter id, -1 if it does not exist.
+     */
     virtual int getGlobalParameterIndex(const std::string& eid) = 0;
 
+    /**
+     * id of the indexed global parameter.
+     */
     virtual std::string getGlobalParameterId(int index) = 0;
-
 
     /**
      * get the global parameter values
@@ -295,6 +308,41 @@ public:
 
 
     /************************ End Compartments Species Section ********************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+    /************************ Selection Ids Species Section ***********************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * populates a given list with all the ids that this class can accept.
+     *
+     * @param ids: a list of strings that will be filled by this class.
+     * @param types: the types of ids that are requested. Can be set to
+     * 0xffffffff to request all the ids that this class supports.
+     */
+    virtual void getIds(uint32_t types, std::list<std::string> &ids) = 0;
+
+    /**
+     * returns a bit field of the ids that this class supports.
+     */
+    virtual uint32_t getSupportedIdTypes() = 0;
+
+    /**
+     * gets the value for the given id string. The string must be a SelectionRecord
+     * string that is accepted by this class.
+     */
+    virtual double getValue(const std::string& id) = 0;
+
+    /**
+     * sets the value coresponding to the given selection stringl
+     */
+    virtual void setValue(const std::string& id, double value) = 0;
+
+
+    /************************ End Selection Ids Species Section *******************/
     #endif /***********************************************************************/
     /******************************************************************************/
 

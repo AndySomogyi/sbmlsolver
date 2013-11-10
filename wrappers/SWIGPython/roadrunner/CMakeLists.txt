@@ -94,8 +94,12 @@ else(WIN32)
 
 endif(WIN32)
 
+set(RR_PACKAGE_DIR site-packages/roadrunner)
 
-install_targets(/lib/python _roadrunner)
+install(
+    TARGETS _roadrunner
+    DESTINATION ${RR_PACKAGE_DIR}
+)
 
 set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/roadrunner/)
 
@@ -108,5 +112,25 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/roadrunner/)
 #
 # ADD_CUSTOM_TARGET(_swigmodifier ALL DEPENDS CompuCell.py.mod)
 
-INSTALL(FILES ${python_files_path}/roadrunner.py
-    DESTINATION lib/python)
+#FILE(GLOB Mac_CPP "*_Mac.cpp")
+
+#INSTALL(FILES ${python_files_path}/roadrunner.py
+#    DESTINATION site-packages/roadrunner )
+
+install(    
+    FILES ${python_files_path}/roadrunner.py    
+    DESTINATION ${RR_PACKAGE_DIR}   
+)
+
+install(
+    FILES __init__.py 
+    DESTINATION ${RR_PACKAGE_DIR}   
+)
+
+install(
+    DIRECTORY testing
+    DESTINATION ${RR_PACKAGE_DIR}
+    FILES_MATCHING PATTERN "*.*"
+)
+    
+

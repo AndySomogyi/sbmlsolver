@@ -13,6 +13,7 @@
 #include "rrLogger.h"
 #include "rrException.h"
 #include "LLVMException.h"
+#include "rrSelectionRecord.h"
 #include <iomanip>
 #include <cstdlib>
 
@@ -54,6 +55,23 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
     else
     {
         os << "NULL" << endl;
+    }
+}
+
+typedef string (rr::ExecutableModel::*getNamePtr)(int);
+typedef int (rr::ExecutableModel::*getNumPtr)();
+
+// make this static here, hide our implementation...
+static void addIds(rr::ExecutableModel *model,
+        getNumPtr numFunc, getNamePtr nameFunc,
+        std::list<std::string>& ids)
+{
+    const int num = (model->*numFunc)();
+
+    for(int i = 0; i < num; i++)
+    {
+        const std::string& name  = (model->*nameFunc)(i);
+        ids.push_back(name);
     }
 }
 
@@ -709,6 +727,65 @@ void LLVMExecutableModel::print(std::ostream &stream)
 {
     stream << "LLVMExecutableModel" << endl;
     stream << getInfo();
+}
+
+void LLVMExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
+{
+    if (types & rr::SelectionRecord::FLOATING_AMOUNT) {
+        addIds(this, &rr::ExecutableModel::getNumFloatingSpecies,
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (types & rr::SelectionRecord::BOUNDARY_AMOUNT) {
+        addIds(this, &rr::ExecutableModel::getNumBoundarySpecies,
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+    if (types & rr::SelectionRecord::COMPARTMENT) {
+        addIds(this, &rr::ExecutableModel::getNumCompartments,
+                &rr::ExecutableModel::getCompartmentId, ids);
+    }
+
+    if (types & rr::SelectionRecord::GLOBAL_PARAMETER) {
+        addIds(this, &rr::ExecutableModel::getNumGlobalParameters,
+                &rr::ExecutableModel::getGlobalParameterId, ids);
+    }
+
+    if (types & rr::SelectionRecord::REACTION_RATE) {
+        addIds(this, &rr::ExecutableModel::getNumReactions,
+                &rr::ExecutableModel::getReactionId, ids);
+    }
+
+    if (types & rr::SelectionRecord::INITIAL_FLOATING_AMOUNT) {
+        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+            ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
+        }
+    }
+
+
+}
+
+uint32_t LLVMExecutableModel::getSupportedIdTypes()
+{
+    assert(0);
+    return 0;
+}
+
+double LLVMExecutableModel::getValue(const std::string& id)
+{
+    assert(0);
+    return 0;
+}
+
+void LLVMExecutableModel::setValue(const std::string& id, double value)
+{
+    assert(0);
+}
+
+int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
+        const int* indx, double* values)
+{
+    assert(0);
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

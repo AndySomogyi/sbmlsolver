@@ -1438,4 +1438,32 @@ int CompiledExecutableModel::getCompartmentInitVolumes(int len, int const *indx,
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
+void CompiledExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+uint32_t CompiledExecutableModel::getSupportedIdTypes()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+double CompiledExecutableModel::getValue(const std::string& id)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+void CompiledExecutableModel::setValue(const std::string& id, double value)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int CompiledExecutableModel::getFloatingSpeciesConcentrationRates(int len, int const *indx,
+        double *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
 } //Namespace rr
+
+

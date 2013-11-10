@@ -213,6 +213,9 @@ public:
     virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
             double *values);
 
+    virtual int getFloatingSpeciesConcentrationRates(int len, int const *indx,
+            double *values);
+
     /**
      * get the floating species concentrations
      *
@@ -338,6 +341,36 @@ public:
                     double *values);
 
     /******************************* End Initial Conditions Section ***************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+    /************************ Selection Ids Species Section ***********************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * populates a given list with all the ids that this class can accept.
+     */
+    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+
+    /**
+     * returns a bit field of the ids that this class supports.
+     */
+    virtual uint32_t getSupportedIdTypes();
+
+    /**
+     * gets the value for the given id string. The string must be a SelectionRecord
+     * string that is accepted by this class.
+     */
+    virtual double getValue(const std::string& id);
+
+    /**
+     * sets the value coresponding to the given selection stringl
+     */
+    virtual void setValue(const std::string& id, double value);
+
+    /************************ End Selection Ids Species Section *******************/
     #endif /***********************************************************************/
     /******************************************************************************/
 

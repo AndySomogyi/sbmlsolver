@@ -46,6 +46,8 @@
 // C++ std::map handling
 %include "std_vector.i"
 
+%include "std_list.i"
+
 //enables better handling of STL exceptions
 %include "exception.i"
 
@@ -58,13 +60,14 @@
 
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
-
+%template(StringList) std::list<std::string>;
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
 %template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
 %apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
 
+%apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
 %exception {
   try {
@@ -246,30 +249,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
     s << "]";
 
     return s.str();
-}
-
-
-
-// we can write a single function to pick the string lists out
-// of the model instead of duplicating it 6 times with
-// fun ptrs.
-
-// make this static here, hide our implementation...
-static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
-        getNumPtr numFunc, getNamePtr nameFunc)
-{
-    const int num = (model->*numFunc)();
-
-    PyObject* pyList = PyList_New(num);
-
-    for(int i = 0; i < num; i++)
-    {
-        const std::string& name  = (model->*nameFunc)(i);
-        PyObject* pyStr = PyString_FromString(name.c_str());
-        PyList_SET_ITEM(pyList, i, pyStr);
-    }
-
-    return pyList;
 }
 
 /**
@@ -498,9 +477,9 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::RoadRunner::simulate;
 //%ignore rr::RoadRunner::getExtendedVersionInfo;
 %ignore rr::RoadRunner::getNumberOfReactions;
-%ignore rr::RoadRunner::getValue;
+//%ignore rr::RoadRunner::getValue;
 //%ignore rr::RoadRunner::steadyState;
-%ignore rr::RoadRunner::getSelectionValue(const SelectionRecord&);
+%ignore rr::RoadRunner::getValue(const SelectionRecord&);
 //%ignore rr::RoadRunner::this;
 %ignore rr::RoadRunner::getFloatingSpeciesByIndex;
 %ignore rr::RoadRunner::getParameterValue;
@@ -615,6 +594,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values);
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::getIds(uint32_t types, std::list<std::string> &ids);
+
 
 // ignore Plugin methods that will be deprecated
 %ignore rr::Plugin::assignCallbacks;
@@ -729,8 +710,8 @@ namespace std { class ostream{}; }
         return s.str();
     }
 
-    double getSelectionValue(const rr::SelectionRecord* pRecord) {
-        return $self->getSelectionValue(*pRecord);
+    double getValue(const rr::SelectionRecord* pRecord) {
+        return $self->getValue(*pRecord);
     }
 
 
@@ -861,6 +842,31 @@ namespace std { class ostream{}; }
 %extend rr::ExecutableModel
 {
 
+    /**
+     * creates a function signature of
+     * SWIGINTERN PyObject *rr_ExecutableModel_getIds(rr::ExecutableModel *self,uint32_t types);
+     */
+    PyObject *getIds(uint32_t types) {
+        std::list<std::string> ids;
+
+        ($self)->getIds(types, ids);
+
+        unsigned size = ids.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+        {
+            const std::string& id  = *i;
+            PyObject* pyStr = PyString_FromString(id.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+
     /***
      ** get values section
      ***/
@@ -977,28 +983,31 @@ namespace std { class ostream{}; }
 
 
     PyObject *getFloatingSpeciesIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumFloatingSpecies,
-                                       &rr::ExecutableModel::getFloatingSpeciesId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT);
     }
 
     PyObject *getBoundarySpeciesIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumBoundarySpecies,
-                                       &rr::ExecutableModel::getBoundarySpeciesId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::BOUNDARY_AMOUNT);
     }
 
     PyObject *getGlobalParameterIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumGlobalParameters,
-                                       &rr::ExecutableModel::getGlobalParameterId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::GLOBAL_PARAMETER);
     }
 
     PyObject *getCompartmentIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumCompartments,
-                                       &rr::ExecutableModel::getCompartmentId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::COMPARTMENT);
     }
 
     PyObject *getReactionIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumReactions,
-                                       &rr::ExecutableModel::getReactionId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::REACTION_RATE);
+    }
+
+    PyObject *getFloatingSpeciesInitAmountIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::INITIAL_FLOATING_AMOUNT);
+    }
+
+    PyObject *getFloatingSpeciesAmountRateIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT_RATE);
     }
 
 
@@ -1279,7 +1288,7 @@ namespace std { class ostream{}; }
                 break;
             }
 
-        case SelectionRecord::INITIAL_VALUE:
+        case SelectionRecord::INITIAL_FLOATING_AMOUNT:
             if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
             {
                 p->getFloatingSpeciesInitAmounts(1, &index, &result);
@@ -1295,7 +1304,7 @@ namespace std { class ostream{}; }
                 throw Exception("Invalid id '" + id + "' for floating amount rate");
                 break;
             }
-        case SelectionRecord::INITIAL_CONCENTRATION:
+        case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
             if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
             {
                 p->getFloatingSpeciesInitConcentrations(1, &index, &result);
@@ -1378,7 +1387,7 @@ namespace std { class ostream{}; }
                 break;
             }
 
-       case SelectionRecord::INITIAL_VALUE:
+       case SelectionRecord::INITIAL_FLOATING_AMOUNT:
             if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
             {
                 p->setFloatingSpeciesInitAmounts(1, &index, &value);
@@ -1394,7 +1403,7 @@ namespace std { class ostream{}; }
                 throw Exception("Invalid id '" + id + "' for floating amount rate");
                 break;
             }
-        case SelectionRecord::INITIAL_CONCENTRATION:
+        case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
             if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
             {
                 p->setFloatingSpeciesInitConcentrations(1, &index, &value);

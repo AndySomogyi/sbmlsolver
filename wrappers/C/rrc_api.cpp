@@ -83,17 +83,17 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
-static NewArrayList		sel_getFluxControlCoefficientIds(RoadRunner* rr);
-static NewArrayList		sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
-static NewArrayList		sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
-static vector<string>	sel_getBoundarySpeciesAmountIds(RoadRunner* rr);
-static vector<string>	sel_getBoundarySpeciesConcIds(RoadRunner* rr);
-static NewArrayList		sel_getConcentrationControlCoefficientIds(RoadRunner* rr);
-static NewArrayList		sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr);
-static NewArrayList		sel_getElasticityCoefficientIds(RoadRunner* rr);
-static NewArrayList		sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
-static vector<string>	sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
-static vector<string>	sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
+static NewArrayList        sel_getFluxControlCoefficientIds(RoadRunner* rr);
+static NewArrayList        sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
+static NewArrayList        sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
+static vector<string>    sel_getBoundarySpeciesAmountIds(RoadRunner* rr);
+static vector<string>    sel_getBoundarySpeciesConcIds(RoadRunner* rr);
+static NewArrayList        sel_getConcentrationControlCoefficientIds(RoadRunner* rr);
+static NewArrayList        sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr);
+static NewArrayList        sel_getElasticityCoefficientIds(RoadRunner* rr);
+static NewArrayList        sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
+static vector<string>    sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
+static vector<string>    sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
 
 RRHandle rrcCallConv createRRInstance()
 {
@@ -800,7 +800,7 @@ bool rrcCallConv getValue(RRHandle handle, const char* symbolId, double *value)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *value = rri->getSelectionValue(symbolId);
+        *value = rri->getValue(symbolId);
         return true;
     }
     catch_bool_macro
@@ -1043,7 +1043,12 @@ bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, 
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *value  =  rri->getFloatingSpeciesInitialConcentrationByIndex(index);
+        ExecutableModel *model = rri->getModel();
+
+        if (model && model->getNumFloatingSpecies() > index)
+        {
+            return model->getFloatingSpeciesInitConcentrations(1, &index, value) >= 0;
+        }
         return true;
     }
     catch_bool_macro

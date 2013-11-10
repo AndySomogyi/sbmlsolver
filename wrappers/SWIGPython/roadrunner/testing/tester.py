@@ -2,12 +2,13 @@
 #
 # Usage:
 # import rrTester
-# runTest ('mymodel')
+# runTester (pathtoModelFile, modelFileName)
 
 
 #-------------------------------------------------------------
 # Tests for steady state and stoichiometric calculations in
 # roadRunner. Herbert M Sauro November 2012
+# Nov 2013: Modified to test Andy's SWIG API
 #-------------------------------------------------------------
 
 #------------------------------------------
@@ -18,8 +19,10 @@
 import sys
 import random
 import string
-import rrPython
+import roadrunner
 from numpy import *
+import os
+
 
 # Module wide file handle
 fHandle = ''
@@ -27,9 +30,29 @@ rpadding = 45
 sbmlStr = ''
 JarnacStr = ''
 
+def defaultTestFilePath():
+    """
+    get the full path of the default data file
+    """
+    me = os.path.realpath(__file__)
+    base = os.path.split(me)[0]
+    testfile = os.path.join(base, 'results_roadRunnerTest_1.txt')
+
+    if os.path.isfile(testfile):
+        return testfile
+    else:
+        raise Exception('instalation error, test file, ' + testfile + ' does not exist')
+
+
+
+
+# --------------------------------------------------------------------------
+# SUPPORT ROUTINES
+# --------------------------------------------------------------------------
+
 def expectApproximately (a, b, tol):
-     diff = a - b
-     return abs(diff) < tol
+    diff = a - b
+    return abs(diff) < tol
 
 def passMsg (errorFlag):
     if errorFlag:
@@ -90,144 +113,151 @@ def loadJarnacModelFromTestFile ():
        return getJarnacStr ()
 
 # ------------------------------------------------------------------------
-def setConservationLaw(testId):
+# TESTS START HERE
+# ------------------------------------------------------------------------
+def setConservationLaw(rrInstance, testId):
     line = readLine ()
     if line == 'True':
-        rrPython.setComputeAndAssignConservationLaws(1)
+        rrInstance.setConservationAnalysis(1)
     else:
-        rrPython.setComputeAndAssignConservationLaws(0)
+        rrInstance.setConservationAnalysis(0)
 
-def mySetSteadyStateSelectionList(testId):
+def mySetSteadyStateSelectionList(rrInstance, testId):
     line = readLine ()
-    rrPython.setSteadyStateSelectionList (line)
+    words = line.split()
+    rrInstance.steadyStateSelections = words
 
-def myComputeSteadyState(testId):
+def myComputeSteadyState(rrInstance, testId):
     line = readLine ()
     if line == "True":
-       print "Compute Steady State, distance to SteadyState:", rrPython.steadyState()
+       print "Compute Steady State, distance to SteadyState:", rrInstance.steadyState()
 
 
-def checkSpeciesConcentrations(testId):
-   words = []
-   species = []
-   m = rrPython.getNumberOfFloatingSpecies()
-   for i in range (0,m):
-       line = readLine ()
-       words = line.split()
-       words.append (rrPython.getValue(words[0]))
-       species.append (words)
-
-   # Steady State Concentrations
-   print string.ljust ("Check " + testId, rpadding),
-   errorFlag = False
-   for i in range (0,m):
-       expectedValue =  float (species[i][1])
-       if expectApproximately (expectedValue, species[i][2], 1E-6) == False:
-          errorFlag = True
-          break
-   print passMsg (errorFlag)
-
-def checkFluxes(testId):
-   words = []
-   fluxes = []
-   # Steady State Fluxes
-   print string.ljust ("Check " + testId, rpadding),
-   errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   n = rrPython.getNumberOfReactions();
-   for i in range (0,n):
-       line = readLine ()
-       words = line.split()
-       words.append (rrPython.getValue(words[0]))
-       fluxes.append (words)
-
-   for i in range (0,n):
-       expectedValue = float (fluxes[i][1])
-       if expectApproximately (expectedValue, fluxes[i][2], 1E-6) == False:
-          errorFlag = True
-          break
-   print passMsg (errorFlag)
-
-def checkFullJacobian(testId):
-   # Jacobian
-   print string.ljust ("Check " + testId, rpadding),
-   errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   Jacobian = rrPython.getFullJacobian()
-   for i in range(0,m):
-       line = readLine ()
-       words = line.split()
-       for j in range(0,m):
-           expectedValue = float(words[j])
-           if expectApproximately (expectedValue, Jacobian[i,j], 1E-6) == False:
-              errorFlag = True
-              break
-   print passMsg (errorFlag)
-
-
-def checkIndividualEigenvalues(testId):
-   # Eigenvalues
-   print string.ljust ("Check " + testId, rpadding),
-   errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   try:
-     for i in range(0,m):
+def checkSpeciesConcentrations(rrInstance, testId):
+    words = []
+    species = []
+    m = rrInstance.model.getNumFloatingSpecies()
+    for i in range (0,m):
         line = readLine ()
         words = line.split()
-        eigenvalueName = words[0]
-        realPart = rrPython.getValue ('eigen(' + eigenvalueName + ')')
-        realPart = float (realPart)
-        if expectApproximately (realPart, float(words[1]), 1E-6) == False:
+        words.append (rrInstance.model[words[0]])
+        species.append (words)
+
+    # Steady State Concentrations
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    for i in range (0,m):
+        expectedValue =  float (species[i][1])
+        if expectApproximately (expectedValue, species[i][2], 1E-6) == False:
             errorFlag = True
             break
-     print passMsg (errorFlag)
-   except:
-      print 'Unexpected error in checkIndividualEigenvalues:', sys.exc_info()[0]
+    print passMsg (errorFlag)
 
 
-def checkEigenvalueMatrix(testId):
-   # Eigenvalues
-   print string.ljust ("Check " + testId, rpadding),
-   errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   eigenvalues = rrPython.getEigenvalues()
-   for i in range(0,m):
-      line = readLine ()
-      words = line.split()
-      realPart = float (words[0])
-      # Check if there is an imaginary part
-      if len (words) == 1:
-         imagPart = 0
-      else:
-         imagPart= float (words[1])
-      if (expectApproximately (realPart, eigenvalues[i,0], 1E-6) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
-          errorFlag = True
-          break
-   print passMsg (errorFlag)
+def checkFluxes(rrInstance, testId):
+    words = []
+    fluxes = []
+    # Steady State Fluxes
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    n = rrInstance.model.getNumReactions();
+    for i in range (0,n):
+        line = readLine ()
+        words = line.split()
+        words.append (rrInstance.model[words[0]])
+        fluxes.append (words)
+
+    for i in range (0,n):
+        expectedValue = float (fluxes[i][1])
+        if expectApproximately (expectedValue, fluxes[i][2], 1E-6) == False:
+            errorFlag = True
+            break
+    print passMsg (errorFlag)
+
+def checkFullJacobian(rrInstance, testId):
+    # Jacobian
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    Jacobian = rrInstance.getFullJacobian()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        for j in range(0,m):
+            expectedValue = float(words[j])
+            if expectApproximately (expectedValue, Jacobian[i,j], 1E-6) == False:
+                errorFlag = True
+                break
+    print passMsg (errorFlag)
 
 
-def checkStoichiometryMatrix(testId):
-   # Stoichiometry matrix
-   print string.ljust ("Check " + testId, rpadding),
-   errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   n = rrPython.getNumberOfReactions();
-   st = rrPython.getStoichiometryMatrix()
-   for i in range(0,m):
-       line = readLine ()
-       words = line.split()
-       for j in range(0,n):
-           if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
-              errorFlag = True
-              break
-   print passMsg (errorFlag)
+def checkIndividualEigenvalues(rrInstance, testId):
+    # Eigenvalues
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
 
-def checkLinkMatrix(testId):
+    try:
+        for i in range(0,m):
+            line = readLine ()
+            words = line.split()
+            eigenvalueName = words[0]
+            realPart = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
+            realPart = float (realPart)
+
+            if expectApproximately (realPart, float(words[1]), 1E-6) == False:
+                errorFlag = True
+                break
+        print passMsg (errorFlag)
+    except Exception, e:
+        print('Unexpected error in checkIndividualEigenvalues:' + str(e))
+        raise e
+
+
+def checkEigenvalueMatrix(rrInstance, testId):
+    # Eigenvalues
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    eigenvalues = rrInstance.getEigenvalues()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        realPart = float (words[0])
+        # Check if there is an imaginary part
+        if len (words) == 1:
+            imagPart = 0
+        else:
+            imagPart= float (words[1])
+        if (expectApproximately (realPart, eigenvalues[i,0], 1E-6) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
+            errorFlag = True
+            break
+    print passMsg (errorFlag)
+
+
+def checkStoichiometryMatrix(rrInstance, testId):
+    # Stoichiometry matrix
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    n = rrInstance.model.getNumReactions();
+    st = rrInstance.model.getStoichiometryMatrix()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        for j in range(0,n):
+            if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
+                errorFlag = True
+                break
+    print passMsg (errorFlag)
+
+def checkLinkMatrix(rrInstance, testId):
    # Link matrix
    print string.ljust ("Check " + testId, rpadding),
    errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   st = rrPython.getLinkMatrix()
+   m = rrInstance.model.getNumFloatingSpecies()
+   st = rrInstance.getLinkMatrix()
    for i in range(0,m):
        words = readLine ().split()
        for j in range(0,m):
@@ -236,14 +266,14 @@ def checkLinkMatrix(testId):
               break
    print passMsg (errorFlag)
 
-def checkUnscaledConcentrationControlMatrix(testId):
+def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
    # Unscaled Concentration Control matrix
    print string.ljust ("Check " + testId, rpadding),
    words = []
    errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   n = rrPython.getNumberOfReactions();
-   st = rrPython.getUnscaledConcentrationControlCoefficientMatrix();
+   m = rrInstance.model.getNumFloatingSpecies()
+   n = rrInstance.model.getNumReactions();
+   st = rrInstance.getUnscaledConcentrationControlCoefficientMatrix();
    for i in range(0,m):
         words = readLine ().split()
         for j in range(0,n):
@@ -253,14 +283,14 @@ def checkUnscaledConcentrationControlMatrix(testId):
    print passMsg (errorFlag)
 
 
-def checkScaledConcentrationControlMatrix(testId):
+def checkScaledConcentrationControlMatrix(rrInstance, testId):
    # Unscaled Concentration Control matrix
    print string.ljust ("Check " + testId, rpadding),
    words = []
    errorFlag = False
-   m = rrPython.getNumberOfFloatingSpecies()
-   n = rrPython.getNumberOfReactions();
-   st = rrPython.getScaledConcentrationControlCoefficientMatrix();
+   m = rrInstance.model.getNumFloatingSpecies()
+   n = rrInstance.model.getNumReactions();
+   st = rrInstance.getScaledConcentrationControlCoefficientMatrix();
    for i in range(0,m):
         words = readLine ().split()
         for j in range(0,n):
@@ -270,13 +300,13 @@ def checkScaledConcentrationControlMatrix(testId):
    print passMsg (errorFlag)
 
 
-def checkUnscaledFluxControlCoefficientMatrix(testId):
+def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
    # Unscaled Flux Control matrix
    print string.ljust ("Check " + testId, rpadding),
    words = []
    errorFlag = False
-   n = rrPython.getNumberOfReactions();
-   st = rrPython.getUnscaledFluxControlCoefficientMatrix();
+   n = rrInstance.model.getNumReactions();
+   st = rrInstance.getUnscaledFluxControlCoefficientMatrix();
    for i in range(0,n):
         words = readLine ().split()
         for j in range(0,n):
@@ -286,13 +316,13 @@ def checkUnscaledFluxControlCoefficientMatrix(testId):
    print passMsg (errorFlag)
 
 
-def checkScaledFluxControlCoefficientMatrix(testId):
+def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
    # Unscaled Flux Control matrix
    print string.ljust ("Check " + testId, rpadding),
    words = []
    errorFlag = False
-   n = rrPython.getNumberOfReactions();
-   st = rrPython.getScaledFluxControlCoefficientMatrix()
+   n = rrInstance.model.getNumReactions();
+   st = rrInstance.getScaledFluxControlCoefficientMatrix()
    for i in range(0,n):
         words = readLine ().split()
         for j in range(0,n):
@@ -302,12 +332,12 @@ def checkScaledFluxControlCoefficientMatrix(testId):
    print passMsg (errorFlag)
 
 
-def checkUnscaledElasticityMatrix(testId):
+def checkUnscaledElasticityMatrix(rrInstance, testId):
   # Jacobian
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  m = rrPython.getNumberOfFloatingSpecies()
-  uee = rrPython.getUnscaledElasticityMatrix()
+  m = rrInstance.model.getNumFloatingSpecies()
+  uee = rrInstance.getUnscaledElasticityMatrix()
   for i in range(0,m):
       line = readLine ()
       words = line.split()
@@ -318,12 +348,12 @@ def checkUnscaledElasticityMatrix(testId):
              break
   print passMsg (errorFlag)
 
-def checkScaledElasticityMatrix(testId):
+def checkScaledElasticityMatrix(rrInstance, testId):
   # Jacobian
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  m = rrPython.getNumberOfFloatingSpecies()
-  ee = rrPython.getScaledElasticityMatrix()
+  m = rrInstance.model.getNumFloatingSpecies()
+  ee = rrInstance.getScaledElasticityMatrix()
   for i in range(0,m):
       line = readLine ()
       words = line.split()
@@ -335,40 +365,26 @@ def checkScaledElasticityMatrix(testId):
   print passMsg (errorFlag)
 
 
-def checkGetFloatingSpeciesIds(testId):
+def checkGetFloatingSpeciesIds(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  expected = rrPython.getFloatingSpeciesIds()
-  m = rrPython.getNumberOfFloatingSpecies()
+  expected = rrInstance.model.getFloatingSpeciesIds()
+  m = rrInstance.model.getNumFloatingSpecies()
   for i in range(0,m):
       if words[i] != expected[i]:
              errorFlag = True
              break
   print passMsg (errorFlag)
 
-def checkGetBoundarySpeciesIds(testId):
+def checkGetBoundarySpeciesIds(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  expected = rrPython.getBoundarySpeciesIds()
-  m = rrPython.getNumberOfBoundarySpecies()
-  for i in range(0,m):
-      if words[i] != expected[i]:
-             errorFlag = True
-             break
-  print passMsg (errorFlag)
-
-
-def checkGetGlobalParameterIds (testId):
-  print string.ljust ("Check " + testId, rpadding),
-  errorFlag = False
-  line = readLine ()
-  words = line.split()
-  expected = rrPython.getGlobalParameterIds()
-  m = rrPython.getNumberOfGlobalParameters()
+  expected = rrInstance.model.getBoundarySpeciesIds()
+  m = rrInstance.model.getNumBoundarySpecies()
   for i in range(0,m):
       if words[i] != expected[i]:
              errorFlag = True
@@ -376,13 +392,13 @@ def checkGetGlobalParameterIds (testId):
   print passMsg (errorFlag)
 
 
-def checkGetCompartmentIds (testId):
+def checkGetGlobalParameterIds (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  expected = rrPython.getCompartmentIds()
-  m = rrPython.getNumberOfCompartments()
+  expected = rrInstance.model.getGlobalParameterIds()
+  m = rrInstance.model.getNumGlobalParameters()
   for i in range(0,m):
       if words[i] != expected[i]:
              errorFlag = True
@@ -390,13 +406,13 @@ def checkGetCompartmentIds (testId):
   print passMsg (errorFlag)
 
 
-def checkReactionIds (testId):
+def checkGetCompartmentIds (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  expected = rrPython.getReactionIds()
-  m = rrPython.getNumberOfReactions();
+  expected = rrInstance.model.getCompartmentIds()
+  m = rrInstance.model.getNumCompartments()
   for i in range(0,m):
       if words[i] != expected[i]:
              errorFlag = True
@@ -404,13 +420,13 @@ def checkReactionIds (testId):
   print passMsg (errorFlag)
 
 
-def checkFloatingSpeciesInitialConditionIds (testId):
+def checkReactionIds (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  expected = rrPython.getFloatingSpeciesInitialConditionIds()
-  m = rrPython.getNumberOfFloatingSpecies()
+  expected = rrInstance.model.getReactionIds()
+  m = rrInstance.model.getNumReactions();
   for i in range(0,m):
       if words[i] != expected[i]:
              errorFlag = True
@@ -418,13 +434,24 @@ def checkFloatingSpeciesInitialConditionIds (testId):
   print passMsg (errorFlag)
 
 
-def checkEigenValueIds (testId):
+def checkFloatingSpeciesInitialConditionIds (rrInstance, testId):
+    print string.ljust ("Check " + testId, rpadding),
+
+    line = readLine ()
+    words = line.split()
+    expected = rrInstance.model.getFloatingSpeciesInitAmountIds()
+    m = rrInstance.model.getNumFloatingSpecies()
+
+    print passMsg (words == expected)
+
+
+def checkEigenValueIds (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  expected = rrPython.getEigenvalueIds()
-  m = rrPython.getNumberOfFloatingSpecies()
+  expected = rrInstance.getEigenvalueIds()
+  m = rrInstance.model.getNumFloatingSpecies()
   for i in range(0,m):
       if words[i] != expected[i]:
              errorFlag = True
@@ -432,36 +459,34 @@ def checkEigenValueIds (testId):
   print passMsg (errorFlag)
 
 
-def checkGetRatesOfChangeIds (testId):
+def checkGetRatesOfChangeIds (rrInstance, testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    line = readLine ()
+    words = line.split()
+    expected = rrInstance.model.getFloatingSpeciesAmountRateIds()
+
+    print passMsg (expected == words)
+
+
+def checkSetSteadyStateSelectionList(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
+  m = rrInstance.model.getNumFloatingSpecies()
   words = line.split()
-  expected = rrPython.getRatesOfChangeIds()
-  n = rrPython.getNumberOfFloatingSpecies()
-  for i in range(0,n):
-      if words[i] != expected[i]:
-             errorFlag = True
-             break
-  print passMsg (errorFlag)
-
-
-def checkSetSteadyStateSelectionList(testId):
-  print string.ljust ("Check " + testId, rpadding),
-  errorFlag = False
-  line = readLine ()
-  result = rrPython.setSteadyStateSelectionList (line)
+  result = rrInstance.steadyStateSelections = words
   if result == False:
      errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkGetSteadyStateSelectionList(testId):
+def checkGetSteadyStateSelectionList(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  result = rrPython.getSteadyStateSelectionList ()
+  result = rrInstance.steadyStateSelections
   for i in range (len (words)):
       if words[i] != result[i]:
          errorFlag = True
@@ -469,22 +494,23 @@ def checkGetSteadyStateSelectionList(testId):
   print passMsg (errorFlag)
 
 
-def checkSetTimeCourseSelectionList(testId):
+def checkSetTimeCourseSelectionList(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
-  result = rrPython.setTimeCourseSelectionList (line)
+  words = line.split()
+  result = rrInstance.selections = words
   if result == False:
      errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkGetTimeCourseSelectionList(testId):
+def checkGetTimeCourseSelectionList(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   line = readLine ()
   words = line.split()
-  result = rrPython.getTimeCourseSelectionList()
+  result = rrInstance.selections
   for i in range (len (words)):
       if words[i] != result[i]:
          errorFlag = True
@@ -492,11 +518,11 @@ def checkGetTimeCourseSelectionList(testId):
   print passMsg (errorFlag)
 
 
-def checkComputeSteadyStateValues(testId):
+def checkComputeSteadyStateValues(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  list = rrPython.getSteadyStateSelectionList()
-  ss = rrPython.computeSteadyStateValues()
+  list = rrInstance.steadyStateSelections
+  ss = rrInstance.computeSteadyStateValues()
   words = readLine().split()
   for i in range (len (list)):
       if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
@@ -505,10 +531,10 @@ def checkComputeSteadyStateValues(testId):
   print passMsg (errorFlag)
 
 
-def checkFloatingSpeciesConcentrations(testId):
+def checkFloatingSpeciesConcentrations(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  ss = rrPython.getFloatingSpeciesConcentrations()
+  ss = rrInstance.model.getFloatingSpeciesConcentrations()
   words = readLine().split()
   for i in range (len (ss)):
       if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
@@ -517,10 +543,10 @@ def checkFloatingSpeciesConcentrations(testId):
   print passMsg (errorFlag)
 
 
-def checkBoundarySpeciesConcentrations(testId):
+def checkBoundarySpeciesConcentrations(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  ss = rrPython.getBoundarySpeciesConcentrations()
+  ss = rrInstance.model.getBoundarySpeciesConcentrations()
   words = readLine().split()
   for i in range (len (ss)):
        if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
@@ -529,10 +555,10 @@ def checkBoundarySpeciesConcentrations(testId):
   print passMsg (errorFlag)
 
 
-def checkGlobalParameterValues(testId):
+def checkGlobalParameterValues(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  ss = rrPython.getGlobalParameterValues()
+  ss = rrInstance.model.getGlobalParameterValues()
   words = readLine().split()
   for i in range (len (ss)):
       if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
@@ -541,10 +567,10 @@ def checkGlobalParameterValues(testId):
   print passMsg (errorFlag)
 
 
-def checkInitalFloatingSpeciesConcentations(testId):
+def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  ss = rrPython.getFloatingSpeciesInitialConcentrations()
+  ss = rrInstance.model.getFloatingSpeciesInitConcentrations()
   words = readLine().split()
   for i in range (len (ss)):
       if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
@@ -553,10 +579,10 @@ def checkInitalFloatingSpeciesConcentations(testId):
   print passMsg (errorFlag)
 
 
-def checkReactionRates(testId):
+def checkReactionRates(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  ss = rrPython.getReactionRates()
+  ss = rrInstance.model.getReactionRates()
   words = readLine().split()
   for i in range (len (ss)):
       if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
@@ -565,100 +591,100 @@ def checkReactionRates(testId):
   print passMsg (errorFlag)
 
 
-def checkGetReactionRatesByIndex(testId):
+def checkGetReactionRatesByIndex(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   words = readLine().split()
-  n = rrPython.getNumberOfReactions()
+  n = rrInstance.model.getNumReactions()
   for i in range (n):
-      value = rrPython.getReactionRate (i)
+      value = rrInstance.model.getReactionRate (i)
       if expectApproximately(float (words[i]), value, 1E-6) == False:
           errorFlag = True
           break;
   print passMsg (errorFlag)
 
 
-def checkNumberOfDependentSpecies(testId):
+def checkNumberOfDependentSpecies(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   value = int (readLine())
-  n = rrPython.getNumberOfDependentSpecies()
+  n = rrInstance.model.getNumDepFloatingSpecies()
   if n != value:
     errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkNumberOfIndependentSpecies(testId):
+def checkNumberOfIndependentSpecies(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   value = int (readLine())
-  n = rrPython.getNumberOfIndependentSpecies()
+  n = rrInstance.model.getNumIndFloatingSpecies()
   if n != value:
     errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkInitialConditions(testId):
+def checkInitialConditions(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   words = readLine().split()
-  values = rrPython.getFloatingSpeciesInitialConcentrations()
+  values = rrInstance.model.getFloatingSpeciesInitConcentrations()
   for i in range(len(words)):
       if expectApproximately (float (words[i]), values[i], 1E-6) == False:
         errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkNumberOfRules(testId):
+def checkNumberOfRules(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   value = int (readLine())
-  if rrPython.getNumberOfRules() != value:
+  if rrInstance.getNumRules() != value:
     errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkGetRatesOfChange(testId):
+def checkGetRatesOfChange(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   words = readLine().split()
-  values = rrPython.getRatesOfChange()
+  values = rrInstance.model.getRatesOfChange()
   for i in range (len(words)):
       if expectApproximately (float (words[i]), values[i], 1E-6) == False:
         errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkGetReactionRatesEx (testId):
+def checkGetReactionRatesEx (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   inputConcs = asarray (readLine().split(), dtype=float64)
-  values = rrPython.getReactionRatesEx (inputConcs)
+  values = rrInstance.getReactionRatesEx (inputConcs)
   outputRates = asarray (readLine().split(), dtype=float64)
   if not allclose (values, outputRates):
     errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkGetRatesOfChangeEx (testId):
+def checkGetRatesOfChangeEx (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   inputConcs = asarray (readLine().split(), dtype=float64)
-  values = rrPython.getRatesOfChangeEx (inputConcs)
+  values = rrInstance.model.getRatesOfChangeEx (inputConcs)
   outputRates = asarray (readLine().split(), dtype=float64)
   if not allclose (values, outputRates):
     errorFlag = True
   print passMsg (errorFlag)
 
 
-def checkRateRateOfChangeByIndex(testId):
+def checkRateRateOfChangeByIndex(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
   inputConcs = asarray (readLine().split(), dtype=float64)
   outputRates = asarray (readLine().split(), dtype=float64)
-  rrPython.setFloatingSpeciesConcentrations (inputConcs)
+  rrInstance.setFloatingSpeciesConcentrations (inputConcs)
   for i in range (len (inputConcs)):
-      value = rrPython.getRateOfChange (i)
+      value = rrInstance.getRateOfChange (i)
       if expectApproximately (value, outputRates[i], 1E-6) == False:
         errorFlag = True
         break
@@ -666,179 +692,179 @@ def checkRateRateOfChangeByIndex(testId):
 
 # ---------------------------------------------------------------------------
 
-def setGetValues(IdList, testId):
+def setGetValues(rrInstance, IdList, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     for i in range (len(IdList)):
         value = random.random()*10
-        rrPython.setValue (IdList[i], value)
-        if expectApproximately (rrPython.getValue (IdList[i]), value, 1E-6) == False:
+        rrInstance.model[dList[i]] = value
+        if expectApproximately (rrInstance.model[IdList[i]], value, 1E-6) == False:
             errorFlag = True
             break
     print passMsg (errorFlag)
 
 
-def setGetTimeStart(testId):
+def setGetTimeStart(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     value = random.random ()*10
-    rrPython.setTimeStart (value)
-    if expectApproximately (rrPython.getTimeStart (), value, 1E-6) == False:
+    rrInstance.setTimeStart (value)
+    if expectApproximately (rrInstance.getTimeStart (), value, 1E-6) == False:
             errorFlag = True
     print passMsg (errorFlag)
 
 
-def setGetTimeEnd(testId):
+def setGetTimeEnd(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     value = random.random ()*10
-    rrPython.setTimeEnd (value)
-    if expectApproximately (rrPython.getTimeEnd (), value, 1E-6) == False:
+    rrInstance.setTimeEnd (value)
+    if expectApproximately (rrInstance.getTimeEnd (), value, 1E-6) == False:
             errorFlag = True
     print passMsg (errorFlag)
 
 
-def setGetNumberOfPoints(testId):
+def setGetNumberOfPoints(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     value = random.randint (1, 100)
-    rrPython.setNumPoints (value)
-    if rrPython.getNumPoints () != value:
+    rrInstance.setNumPoints (value)
+    if rrInstance.getNumPoints () != value:
             errorFlag = True
     print passMsg (errorFlag)
 
 
-def setGetTimeCourseSelectionList(testId):
+def setGetTimeCourseSelectionList(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
-    myList = rrPython.getFloatingSpeciesIds()
+    myList = rrInstance.getFloatingSpeciesIds()
     newList = list (myList)
     random.shuffle (newList)
-    rrPython.setTimeCourseSelectionList (newList)
-    if rrPython.getTimeCourseSelectionList() != newList:
+    rrInstance.setTimeCourseSelectionList (newList)
+    if rrInstance.getTimeCourseSelectionList() != newList:
         errorFlag = True
     print passMsg (errorFlag)
 
 
-def setGetSteadyStateSelectionList(testId):
+def setGetSteadyStateSelectionList(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
-    myList = rrPython.getFloatingSpeciesIds()
+    myList = rrInstance.getFloatingSpeciesIds()
     newList = list (myList)
     while newList == myList:
          random.shuffle (newList)
-    rrPython.setSteadyStateSelectionList (newList)
-    getList = rrPython.getSteadyStateSelectionList()
+    rrInstance.setSteadyStateSelectionList (newList)
+    getList = rrInstance.getSteadyStateSelectionList()
     if getList != newList:
         errorFlag = True
     print passMsg (errorFlag)
 
 
-def setGetFloatingSpeciesByIndex(testId):
+def setGetFloatingSpeciesByIndex(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  n = rrPython.getNumberOfFloatingSpecies()
+  n = rrInstance.getNumFloatingSpecies()
   for i in range (n):
       value = random.random()*10
-      rrPython.setFloatingSpeciesByIndex (i, value)
-      if expectApproximately(rrPython.getFloatingSpeciesByIndex (i), value, 1E-6) == False:
+      rrInstance.setFloatingSpeciesByIndex (i, value)
+      if expectApproximately(rrInstance.getFloatingSpeciesByIndex (i), value, 1E-6) == False:
           errorFlag = True
           break;
   print passMsg (errorFlag)
 
 
-def setGetBoundarySpeciesByIndex(testId):
+def setGetBoundarySpeciesByIndex(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  n = rrPython.getNumberOfBoundarySpecies()
+  n = rrInstance.getNumBoundarySpecies()
   for i in range (n):
       value = random.random()*10
-      rrPython.setBoundarySpeciesByIndex (i, value)
-      if expectApproximately(rrPython.getBoundarySpeciesByIndex (i), value, 1E-6) == False:
+      rrInstance.setBoundarySpeciesByIndex (i, value)
+      if expectApproximately(rrInstance.getBoundarySpeciesByIndex (i), value, 1E-6) == False:
           errorFlag = True
           break;
   print passMsg (errorFlag)
 
 
-def setGetCompartmentByIndex(testId):
+def setGetCompartmentByIndex(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  n = rrPython.getNumberOfCompartments()
+  n = rrInstance.getNumCompartments()
   for i in range (n):
       value = random.random()*10
-      rrPython.setCompartmentByIndex (i, value)
-      if expectApproximately(rrPython.getCompartmentByIndex (i), value, 1E-6) == False:
+      rrInstance.setCompartmentByIndex (i, value)
+      if expectApproximately(rrInstance.getCompartmentByIndex (i), value, 1E-6) == False:
           errorFlag = True
           break;
   print passMsg (errorFlag)
 
 
-def setGetGlobalParameterByIndex (testId):
+def setGetGlobalParameterByIndex (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  n = rrPython.getNumberOfGlobalParameters()
+  n = rrInstance.getNumberOfGlobalParameters()
   for i in range (n):
       value = random.random()*10
-      rrPython.setGlobalParameterByIndex (i, value)
-      if expectApproximately(rrPython.getGlobalParameterByIndex (i), value, 1E-6) == False:
+      rrInstance.setGlobalParameterByIndex (i, value)
+      if expectApproximately(rrInstance.getGlobalParameterByIndex (i), value, 1E-6) == False:
           errorFlag = True
           break;
   print passMsg (errorFlag)
 
 
-def setGetFloatingSpeciesConcentrations (testId):
+def setGetFloatingSpeciesConcentrations (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  getArray = rrPython.getFloatingSpeciesConcentrations()
+  getArray = rrInstance.getFloatingSpeciesConcentrations()
   setArray = zeros(len(getArray))
   for i in range(len(getArray)):
       value = random.random()*10
       setArray[i] = value
-  rrPython.setFloatingSpeciesConcentrations (setArray)
-  if (setArray != rrPython.getFloatingSpeciesConcentrations()).all():
+  rrInstance.setFloatingSpeciesConcentrations (setArray)
+  if (setArray != rrInstance.getFloatingSpeciesConcentrations()).all():
       errorFlag = True
   print passMsg (errorFlag)
 
 
-def setGetBoundarySpeciesConcentrations (testId):
+def setGetBoundarySpeciesConcentrations (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  getArray = rrPython.getBoundarySpeciesConcentrations()
+  getArray = rrInstance.getBoundarySpeciesConcentrations()
   setArray = zeros(len(getArray))
   for i in range(len(getArray)):
       value = random.random()*10
       setArray[i] = value
-  rrPython.setBoundarySpeciesConcentrations (rrPython.PythonArrayTorrVector (setArray))
-  if (setArray != rrPython.getBoundarySpeciesConcentrations()).all():
+  rrInstance.setBoundarySpeciesConcentrations (rrInstance.PythonArrayTorrVector (setArray))
+  if (setArray != rrInstance.getBoundarySpeciesConcentrations()).all():
       errorFlag = True
   print passMsg (errorFlag)
 
 
-def setGetInitialFloatingSpeciesConcentrations (testId):
+def setGetInitialFloatingSpeciesConcentrations (rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  getArray = rrPython.getFloatingSpeciesInitialConcentrations ()
+  getArray = rrInstance.getFloatingSpeciesInitialConcentrations ()
   setArray = zeros(len(getArray))
   for i in range(len(getArray)):
       value = random.random()*10
       setArray[i] = value
-  rrPython.setFloatingSpeciesInitialConcentrations (setArray)
-  if (setArray != rrPython.getFloatingSpeciesInitialConcentrations()).all():
+  rrInstance.setFloatingSpeciesInitialConcentrations (setArray)
+  if (setArray != rrInstance.getFloatingSpeciesInitialConcentrations()).all():
       errorFlag = True
   print passMsg (errorFlag)
 
 
-def setGetReset(testId):
+def setGetReset(rrInstance, testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
-  values = zeros (rrPython.getNumberOfFloatingSpecies())
+  values = zeros (rrInstance.getNumberOfFloatingSpecies())
   for i in range (len (values)):
     values[i] = random.random()*10
-  initial = rrPython.getFloatingSpeciesInitialConcentrations()
-  rrPython.setFloatingSpeciesConcentrations (values)
+  initial = rrInstance.getFloatingSpeciesInitialConcentrations()
+  rrInstance.setFloatingSpeciesConcentrations (values)
   # Should reset the floats by to the current initial condition
-  rrPython.reset()
-  values = rrPython.getFloatingSpeciesConcentrations()
+  rrInstance.reset()
+  values = rrInstance.getFloatingSpeciesConcentrations()
   if(values != initial).all():
     errorFlag = True
   print passMsg (errorFlag)
@@ -848,10 +874,10 @@ def scriptTests():
     print
     print "Testing Set and Get Functions"
     print "-----------------------------"
-    setGetValues(rrPython.getFloatingSpeciesIds(), 'Set/Get Value (Floats)')
-    setGetValues(rrPython.getBoundarySpeciesIds(), 'Set/Get Value (Boundary)')
-    setGetValues(rrPython.getGlobalParameterIds(), 'Set/Get Value (Global Parameters)')
-    setGetValues(rrPython.getCompartmentIds(), 'Set/Get Value (Compartments)')
+    setGetValues(rrInstance.getFloatingSpeciesIds(), 'Set/Get Value (Floats)')
+    setGetValues(rrInstance.getBoundarySpeciesIds(), 'Set/Get Value (Boundary)')
+    setGetValues(rrInstance.getGlobalParameterIds(), 'Set/Get Value (Global Parameters)')
+    setGetValues(rrInstance.getCompartmentIds(), 'Set/Get Value (Compartments)')
     setGetTimeStart('Set/Get TimeStart')
     setGetTimeEnd ('Set/Get TimeEnd')
     setGetNumberOfPoints ('Set/Get Number Of Points')
@@ -870,7 +896,7 @@ def scriptTests():
 # ------------------------------------------------------------------------
 # List of tests
 functions = {'[Compute Steady State]': myComputeSteadyState,
-             '[Set Steady State Selection List]': mySetSteadyStateSelectionList,
+             #[Set Steady State Selection List]': mySetSteadyStateSelectionList,
              '[Conservation Laws]': setConservationLaw,
              '[Species Concentrations]': checkSpeciesConcentrations,
              '[Fluxes]': checkFluxes,
@@ -897,46 +923,54 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
              '[Get Steady State Selection List]': checkGetSteadyStateSelectionList,
              '[Set Time Course Selection List]': checkSetTimeCourseSelectionList,
              '[Get Time Course Selection List]': checkGetTimeCourseSelectionList,
-             '[Compute Steady State Values]': checkComputeSteadyStateValues,
+#             '[Compute Steady State Values]': checkComputeSteadyStateValues,
              '[Floating Species Concentrations]': checkFloatingSpeciesConcentrations,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
              '[Get Initial Floating Species Concs]': checkInitalFloatingSpeciesConcentations,
              '[Get Reaction Rates]': checkReactionRates,
-             '[Get Reaction Rate By Index]': checkGetReactionRatesByIndex,
+#             '[Get Reaction Rate By Index]': checkGetReactionRatesByIndex,
              '[Number of Dependent Species]': checkNumberOfDependentSpecies,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
              '[Get Initial Floating Species Concs]': checkInitialConditions,
-             '[Number Of Rules]': checkNumberOfRules,
-             '[Get Rates Of Change]': checkGetRatesOfChange,
-             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
-             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
-             '[Get Rate of Change by Index]': checkRateRateOfChangeByIndex,
+#             '[Get Rates Of Change]': checkGetRatesOfChange,
+#             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
+#             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
+#             '[Get Rate of Change by Index]': checkRateRateOfChangeByIndex,
               }
 
-def runTester (pathToModels, testModel):
+# -----------------------------------------------------------------------
+# MAIN START ROUTINE
+# -----------------------------------------------------------------------
+def runTester (*args):
     global fHandle
     global sbmlStr
     global JarnacStr
 
+    if len(args) >= 1:
+        testModel = args[0]
+    else:
+        testModel = defaultTestFilePath()
+
+
     print "Starting Tester on ", testModel
 
-    sys.path.append (pathToModels)
-    #print 'Version: ', rrPython.getVersion()
-    #print 'Build Date: ', rrPython.getBuildDate()
-    #print 'Copyright Message: ', rrPython.getCopyright()
 
-    fHandle = open (pathToModels + testModel, 'r')
+
+    fHandle = open (testModel, 'r')
 
     sbmlStr = loadSBMLModelFromTestFile ()
     JarnacStr = loadJarnacModelFromTestFile ()
 
     print "\n", "Info:"+ "\n"
 
-    rrPython.enableLogging()
-    info = rrPython.getInfo()
-    for item in info:
-        print item
+    # Create a roadRunner instance
+    print "Create roadRunner Instance....."
+    rrInstance = roadrunner.RoadRunner()
+
+    #rrInstance.enableLogging()
+    info = rrInstance.getInfo()
+    print info
     print
 
     # Load any initialization actions
@@ -945,39 +979,32 @@ def runTester (pathToModels, testModel):
         testId = jumpToNextTest ()
         while testId != '[END_INITIALIZATION]':
             if functions.has_key(testId):
-               func = functions[testId]
-               func(testId)
+                func = functions[testId]
+                func (rrInstance, testId)
             else:
-               print 'No initialization function found for ' + testId
+                print 'No initialization function found for ' + testId
             testId = jumpToNextTest()
 
     # Load the model into RoadRunner
-    if rrPython.loadSBML(sbmlStr) == False:
+    if rrInstance.load(sbmlStr) == False:
         print 'Failed to load model'
-        print rrPython.getLastError()
-        sys.exit(-1)
-
-    print rrPython.getuCC ('J1', 'k1')
-    print rrPython.getuCC ('J1', 'k_1')
-    print rrPython.getuCC ('J1', 'k2')
-    print rrPython.getuCC ('J1', 'k_2')
-    print rrPython.getuCC ('J1', 'k3')
-    print rrPython.getuCC ('J1', 'k_3')
-    print rrPython.getuCC ('J1', 'k4')
-    print rrPython.getuCC ('J1', 'k_4')
+        #print rrInstance.getLastError()
+        raise
 
     # Now start the tests proper
     testId = jumpToNextTest()
     if testId == '[START_TESTS]':
         testId = jumpToNextTest()
         while testId != '[END_TESTS]':
-           if functions.has_key(testId):
-              func = functions[testId]
-              func(testId)
-           else:
-              print string.ljust (testId, rpadding), 'NO TEST'
-           testId = jumpToNextTest()
+            if functions.has_key(testId):
+                func = functions[testId]
+                func(rrInstance, testId)
+            else:
+                #getFloatingSpeciesAmountRates
+                print string.ljust (testId, rpadding), 'NO TEST'
+            testId = jumpToNextTest()
     else:
-      print 'No Tests found'
+        print 'No Tests found'
+#
+#    scriptTests()
 
-    scriptTests()

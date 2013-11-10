@@ -163,6 +163,14 @@ ExecutableModel* RoadRunner::getModel()
     return mModel;
 }
 
+void RoadRunner::getIds(uint32_t types, std::list<std::string>& ids)
+{
+}
+
+uint32_t RoadRunner::getSupportedIdTypes()
+{
+    return 0;
+}
 
 vector<SelectionRecord> RoadRunner::getSelectionList()
 {
@@ -345,7 +353,7 @@ RoadRunnerData *RoadRunner::getSimulationResult()
     return &mRoadRunnerData;
 }
 
-double RoadRunner::getSelectionValue(const SelectionRecord& record)
+double RoadRunner::getValue(const SelectionRecord& record)
 {
     if (!mModel)
     {
@@ -448,7 +456,7 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
         return std::numeric_limits<double>::quiet_NaN();
     }
     break;
-    case SelectionRecord::INITIAL_CONCENTRATION:
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
         break;
     case SelectionRecord::STOICHIOMETRY:
@@ -476,7 +484,7 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
     }
     else
     {
-        return getSelectionValue(record);
+        return getValue(record);
     }
 }
 
@@ -1374,7 +1382,7 @@ double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
     {
         return computeSteadyStateValue(record.p1);
     }
-    return getSelectionValue(record);
+    return getValue(record);
 }
 
 
@@ -1442,7 +1450,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
         }
         try
         {
-            return getSelectionValue(sId);
+            return getValue(sId);
         }
         catch (Exception& )
         {
@@ -1689,24 +1697,6 @@ int RoadRunner::getNumberOfFloatingSpecies()
     return mModel->getNumFloatingSpecies();
 }
 
-double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
-    {
-        double result = 0;
-        mModel->getFloatingSpeciesInitConcentrations(1, &index, &result);
-        return result;
-    }
-    else
-    {
-        throw CoreException(format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
-    }
-}
 
 // Help("Sets the value of a floating species by its index")
 void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value)
@@ -2618,9 +2608,9 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 }
 
 // Help("Gets the Value of the given species or global parameter (not of local parameters)")
-double RoadRunner::getSelectionValue(const string& sel)
+double RoadRunner::getValue(const string& sel)
 {
-    return getSelectionValue(createSelection(sel));
+    return getValue(createSelection(sel));
 }
 
 // Help(
@@ -2961,7 +2951,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
         }
         break;
-    case SelectionRecord::INITIAL_CONCENTRATION:
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
