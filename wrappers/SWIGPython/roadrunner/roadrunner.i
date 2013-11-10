@@ -960,17 +960,11 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
     }
 
-	PyObject *getFloatingSpeciesInitConcentrations() {
+    PyObject *getFloatingSpeciesInitConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitConcentrations,
                                           &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
-	
 
-
-	//%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values) = 0;
-
-
-	
     PyObject *getCompartmentInitVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
                                           &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
@@ -1178,13 +1172,6 @@ namespace std { class ostream{}; }
     }
 
 
-
-	//%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, double const *values) = 0;
-	//%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx, double const *values) = 0;
-	//%ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values) = 0;
-
-
-
     PyObject* getStoichiometryMatrix() {
         int rows = 0;
         int cols = 0;
@@ -1207,221 +1194,11 @@ namespace std { class ostream{}; }
      */
 
     double __getitem__(const std::string& id) {
-        ExecutableModel* p = $self;
-
-        SelectionRecord sel(id);
-
-        int index = -1;
-        double result = 0;
-
-        if (sel.selectionType == SelectionRecord::UNKNOWN)
-        {
-            throw Exception("invalid selection string " + id);
-        }
-
-        // check to see that we have valid selection ids
-        switch(sel.selectionType)
-        {
-        case SelectionRecord::TIME:
-            result = p->getTime();
-            break;
-        case SelectionRecord::UNKNOWN_ELEMENT:
-            // check for sbml element types
-
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getFloatingSpeciesAmounts(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getBoundarySpeciesAmounts(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
-            {
-                p->getCompartmentVolumes(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
-            {
-                p->getGlobalParameterValues(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getReactionIndex(sel.p1)) >= 0)
-            {
-                p->getReactionRates(1, &index, &result);
-                break;
-            }
-            else
-            {
-                throw Exception("No sbml element exists for symbol '" + id + "'");
-                break;
-            }
-        case SelectionRecord::UNKNOWN_CONCENTRATION:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getFloatingSpeciesConcentrations(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getBoundarySpeciesConcentrations(1, &index, &result);
-                break;
-            }
-            else
-            {
-                string msg = "No sbml element exists for concentration selection '" + id + "'";
-                Log(Logger::LOG_ERROR) << msg;
-                throw Exception(msg);
-                break;
-            }
-        case SelectionRecord::FLOATING_AMOUNT_RATE:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getReactionRates(1, &index, &result);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + id + "' for floating amount rate");
-                break;
-            }
-
-        case SelectionRecord::INITIAL_FLOATING_AMOUNT:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getFloatingSpeciesInitAmounts(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
-            {
-                p->getCompartmentInitVolumes(1, &index, &result);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + id + "' for floating amount rate");
-                break;
-            }
-        case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getFloatingSpeciesInitConcentrations(1, &index, &result);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + id + "' for floating species");
-                break;
-            }
-
-
-        default:
-            Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
-                                    << sel.to_repr();
-            throw Exception("Invalid selection '" + id + "' for setting value");
-            break;
-        }
-
-        return result;
+        return ($self)->getValue(id);
     }
 
     void __setitem__(const std::string& id, double value) {
-        ExecutableModel* p = $self;
-
-        SelectionRecord sel(id);
-
-        int index = -1;
-
-        if (sel.selectionType == SelectionRecord::UNKNOWN)
-        {
-            throw Exception("invalid selection string " + id);
-        }
-
-        // check to see that we have valid selection ids
-        switch(sel.selectionType)
-        {
-        case SelectionRecord::TIME:
-            p->setTime(value);
-            break;
-        case SelectionRecord::UNKNOWN_ELEMENT:
-            // check for sbml element types
-
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setFloatingSpeciesAmounts(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
-            {
-                p->setCompartmentVolumes(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
-            {
-                p->setGlobalParameterValues(1, &index, &value);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid or non-existant sbml id  '" + id + "' for set value");
-                break;
-            }
-        case SelectionRecord::UNKNOWN_CONCENTRATION:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setFloatingSpeciesConcentrations(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setBoundarySpeciesConcentrations(1, &index, &value);
-                break;
-            }
-            else
-            {
-                string msg = "No sbml element exists for concentration selection '" + id + "'";
-                Log(Logger::LOG_ERROR) << msg;
-                throw Exception(msg);
-                break;
-            }
-
-       case SelectionRecord::INITIAL_FLOATING_AMOUNT:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setFloatingSpeciesInitAmounts(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
-            {
-                p->setCompartmentInitVolumes(1, &index, &value);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + id + "' for floating amount rate");
-                break;
-            }
-        case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setFloatingSpeciesInitConcentrations(1, &index, &value);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + id + "' for floating species");
-                break;
-            }
-
-
-
-        default:
-            Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
-            throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
-            break;
-        }
+        ($self)->setValue(id, value);
     }
 
 
@@ -1461,6 +1238,41 @@ namespace std { class ostream{}; }
                 self.__class__.__swig_getmethods__[s] = fget
                 self.__class__.__swig_setmethods__[s] = fset
                 setattr(self.__class__, s, property(fget, fset))
+
+        def keys(self):
+            return self.getIds(0xffffffff)
+
+        def values(self):
+            return [self.getValue(k) for k in self.keys()]
+
+        def items(self):
+            keys = self.keys()
+            values = [self.getValue(k) for k in keys]
+            return zip(keys, values)
+
+        def __len__(self):
+            return len(self.keys())
+
+        def iteritems(self):
+            """
+            return an iterator over (key, value) pairs
+            """
+            return self.items().__iter__()
+
+        def iterkeys(self):
+            """
+            return an iterator over the mapping's keys
+            """
+            return self.keys().__iter__()
+
+        def itervalues(self):
+            """
+            return an iterator over the mapping's values
+            """
+            return self.values().__iter__()
+
+
+
     %}
 }
 

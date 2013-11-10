@@ -20,6 +20,7 @@
 using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
+using rr::SelectionRecord;
 
 #ifdef _WIN32
 #define isnan _isnan
@@ -767,25 +768,242 @@ void LLVMExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
-
-
 }
 
 uint32_t LLVMExecutableModel::getSupportedIdTypes()
 {
-    assert(0);
-    return 0;
+    return SelectionRecord::BOUNDARY_CONCENTRATION |
+        SelectionRecord::FLOATING_CONCENTRATION |
+        SelectionRecord::REACTION_RATE |
+        SelectionRecord::FLOATING_AMOUNT_RATE |
+        SelectionRecord::FLOATING_CONCENTRATION_RATE |
+        SelectionRecord::COMPARTMENT |
+        SelectionRecord::GLOBAL_PARAMETER |
+        SelectionRecord::FLOATING_AMOUNT |
+        SelectionRecord::BOUNDARY_AMOUNT |
+        SelectionRecord::INITIAL_FLOATING_AMOUNT |
+        SelectionRecord::INITIAL_FLOATING_CONCENTRATION |
+        SelectionRecord::STOICHIOMETRY;
 }
 
 double LLVMExecutableModel::getValue(const std::string& id)
 {
-    assert(0);
-    return 0;
+    ExecutableModel* p = this;
+
+    SelectionRecord sel(id);
+
+    int index = -1;
+    double result = 0;
+
+    if (sel.selectionType == SelectionRecord::UNKNOWN)
+    {
+        throw LLVMException("invalid selection string " + id);
+    }
+
+    // check to see that we have valid selection ids
+    switch(sel.selectionType)
+    {
+    case SelectionRecord::TIME:
+        result = p->getTime();
+        break;
+    case SelectionRecord::UNKNOWN_ELEMENT:
+        // check for sbml element types
+
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getFloatingSpeciesAmounts(1, &index, &result);
+            break;
+        }
+        else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getBoundarySpeciesAmounts(1, &index, &result);
+            break;
+        }
+        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        {
+            p->getCompartmentVolumes(1, &index, &result);
+            break;
+        }
+        else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
+        {
+            p->getGlobalParameterValues(1, &index, &result);
+            break;
+        }
+        else if ((index = p->getReactionIndex(sel.p1)) >= 0)
+        {
+            p->getReactionRates(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw LLVMException("No sbml element exists for symbol '" + id + "'");
+            break;
+        }
+    case SelectionRecord::UNKNOWN_CONCENTRATION:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getFloatingSpeciesConcentrations(1, &index, &result);
+            break;
+        }
+        else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getBoundarySpeciesConcentrations(1, &index, &result);
+            break;
+        }
+        else
+        {
+            string msg = "No sbml element exists for concentration selection '" + id + "'";
+            Log(Logger::LOG_ERROR) << msg;
+            throw LLVMException(msg);
+            break;
+        }
+    case SelectionRecord::FLOATING_AMOUNT_RATE:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getReactionRates(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw LLVMException("Invalid id '" + id + "' for floating amount rate");
+            break;
+        }
+
+    case SelectionRecord::INITIAL_FLOATING_AMOUNT:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getFloatingSpeciesInitAmounts(1, &index, &result);
+            break;
+        }
+        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        {
+            p->getCompartmentInitVolumes(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw LLVMException("Invalid id '" + id + "' for floating amount rate");
+            break;
+        }
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->getFloatingSpeciesInitConcentrations(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw LLVMException("Invalid id '" + id + "' for floating species");
+            break;
+        }
+
+
+    default:
+        Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
+        << sel.to_repr();
+        throw LLVMException("Invalid selection '" + id + "' for setting value");
+        break;
+    }
+
+    return result;
 }
 
 void LLVMExecutableModel::setValue(const std::string& id, double value)
 {
-    assert(0);
+    ExecutableModel* p = this;
+
+    SelectionRecord sel(id);
+
+    int index = -1;
+
+    if (sel.selectionType == SelectionRecord::UNKNOWN)
+    {
+        throw LLVMException("invalid selection string " + id);
+    }
+
+    // check to see that we have valid selection ids
+    switch(sel.selectionType)
+    {
+    case SelectionRecord::TIME:
+        p->setTime(value);
+        break;
+    case SelectionRecord::UNKNOWN_ELEMENT:
+        // check for sbml element types
+
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->setFloatingSpeciesAmounts(1, &index, &value);
+            break;
+        }
+        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        {
+            p->setCompartmentVolumes(1, &index, &value);
+            break;
+        }
+        else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
+        {
+            p->setGlobalParameterValues(1, &index, &value);
+            break;
+        }
+        else
+        {
+            throw LLVMException("Invalid or non-existant sbml id  '" + id + "' for set value");
+            break;
+        }
+    case SelectionRecord::UNKNOWN_CONCENTRATION:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->setFloatingSpeciesConcentrations(1, &index, &value);
+            break;
+        }
+        else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            p->setBoundarySpeciesConcentrations(1, &index, &value);
+            break;
+        }
+        else
+        {
+            string msg = "No sbml element exists for concentration selection '" + id + "'";
+            Log(Logger::LOG_ERROR) << msg;
+            throw LLVMException(msg);
+            break;
+        }
+
+    case SelectionRecord::INITIAL_FLOATING_AMOUNT:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->setFloatingSpeciesInitAmounts(1, &index, &value);
+            break;
+        }
+        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        {
+            p->setCompartmentInitVolumes(1, &index, &value);
+            break;
+        }
+        else
+        {
+            throw LLVMException("Invalid id '" + id + "' for floating amount rate");
+            break;
+        }
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            p->setFloatingSpeciesInitConcentrations(1, &index, &value);
+            break;
+        }
+        else
+        {
+            throw LLVMException("Invalid id '" + id + "' for floating species");
+            break;
+        }
+
+
+
+    default:
+        Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
+        throw LLVMException("Invalid selection '" + sel.to_string() + "' for setting value");
+        break;
+    }
 }
 
 int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
