@@ -438,9 +438,9 @@ def checkFloatingSpeciesInitialConditionIds (rrInstance, testId):
     line = readLine ()
     words = line.split()
     expected = rrInstance.model.getFloatingSpeciesInitAmountIds()
-    m = rrInstance.model.getNumFloatingSpecies()
 
-    print passMsg (words == expected)
+
+    print passMsg (words != expected)
 
 
 def checkEigenValueIds (rrInstance, testId):
@@ -464,19 +464,19 @@ def checkGetRatesOfChangeIds (rrInstance, testId):
     words = line.split()
     expected = rrInstance.model.getFloatingSpeciesAmountRateIds()
 
-    print passMsg (expected == words)
+    print passMsg (expected != words)
 
 
 def checkSetSteadyStateSelectionList(rrInstance, testId):
-  print string.ljust ("Check " + testId, rpadding),
-  errorFlag = False
-  line = readLine ()
-  m = rrInstance.model.getNumFloatingSpecies()
-  words = line.split()
-  result = rrInstance.steadyStateSelections = words
-  if result == False:
-     errorFlag = True
-  print passMsg (errorFlag)
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    line = readLine ()
+    m = rrInstance.model.getNumFloatingSpecies()
+    words = line.split()
+    result = rrInstance.steadyStateSelections = words
+    if result == False:
+        errorFlag = True
+    print passMsg (errorFlag)
 
 
 def checkGetSteadyStateSelectionList(rrInstance, testId):
@@ -484,12 +484,9 @@ def checkGetSteadyStateSelectionList(rrInstance, testId):
   errorFlag = False
   line = readLine ()
   words = line.split()
-  result = rrInstance.steadyStateSelections
-  for i in range (len (words)):
-      if words[i] != result[i]:
-         errorFlag = True
-         break
-  print passMsg (errorFlag)
+  result = str(rrInstance.steadyStateSelections)
+
+  print passMsg (result == words)
 
 
 def checkSetTimeCourseSelectionList(rrInstance, testId):
@@ -508,12 +505,9 @@ def checkGetTimeCourseSelectionList(rrInstance, testId):
   errorFlag = False
   line = readLine ()
   words = line.split()
-  result = rrInstance.selections
-  for i in range (len (words)):
-      if words[i] != result[i]:
-         errorFlag = True
-         break
-  print passMsg (errorFlag)
+  result = str(rrInstance.selections)
+
+  print passMsg (result == words)
 
 
 def checkComputeSteadyStateValues(rrInstance, testId):
@@ -566,15 +560,16 @@ def checkGlobalParameterValues(rrInstance, testId):
 
 
 def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
-  print string.ljust ("Check " + testId, rpadding),
-  errorFlag = False
-  ss = rrInstance.model.getFloatingSpeciesInitConcentrations()
-  words = readLine().split()
-  for i in range (len (ss)):
-      if expectApproximately(float (words[i]), ss[i], 1E-6) == False:
-          errorFlag = True
-          break;
-  print passMsg (errorFlag)
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    ss = rrInstance.model.getFloatingSpeciesInitConcentrations()
+
+    words = readLine().split()
+
+    same = len(words) == len(ss) and \
+        len(words) == sum([1 for i,j in zip(words,ss) if expectApproximately(float (i), j, 1E-6)])
+
+    print passMsg (not same)
 
 
 def checkReactionRates(rrInstance, testId):
@@ -627,6 +622,7 @@ def checkInitialConditions(rrInstance, testId):
   errorFlag = False
   words = readLine().split()
   values = rrInstance.model.getFloatingSpeciesInitConcentrations()
+
   for i in range(len(words)):
       if expectApproximately (float (words[i]), values[i], 1E-6) == False:
         errorFlag = True
