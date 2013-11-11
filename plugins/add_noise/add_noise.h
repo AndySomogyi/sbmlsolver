@@ -3,7 +3,7 @@
 #include "rrCapability.h"
 #include "rrParameter.h"
 #include "rrCPPPlugin.h"
-#include "add_noise_thread.h"
+#include "add_noise_worker.h"
 
 //---------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ class AddNoise : public CPPPlugin
         Capability              mAddNoise;
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;
-        AddNoiseThread          mAddNoiseThread;
+        AddNoiseWorker          mAddNoiseWorker;
 
     public:
                                 AddNoise(RoadRunner* aRR = NULL, PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL);

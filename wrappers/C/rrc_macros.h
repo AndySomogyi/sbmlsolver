@@ -48,7 +48,7 @@
  \ingroup macros
 */
 
-#define try_macro                                           \
+#define start_try_macro                                     \
         try                                                 \
         {
 

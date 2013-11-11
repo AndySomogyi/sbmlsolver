@@ -42,13 +42,35 @@ bool Plugin::resetPlugin()
     return true;
 }
 
-bool Plugin::setInputData(void* data)
+bool Plugin::setInputData(void* userData)
 {
     //Do whats needed in descendants
+    mUserData = userData;
     return true;
 }
 
-bool Plugin::assignCallbacks(PluginCallBackFnc start, PluginCallBackFnc progress, PluginCallBackFnc end, void* userData)
+bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* userData)
+{
+    mUserData = userData;
+    mWorkStartedCB = startedFnc;
+    return true;
+}
+
+bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* userData)
+{
+    mUserData = userData;
+    mWorkProgressCB = progress;
+    return true;
+}
+
+bool Plugin::assignPluginFinishedCallBack(PluginCallBackFnc endFnc, void* userData)
+{
+    mUserData = userData;
+    mWorkFinishedCB = endFnc;
+    return true;
+}
+
+bool Plugin::assignCallBacks(PluginCallBackFnc start, PluginCallBackFnc progress, PluginCallBackFnc end, void* userData)
 {
     mUserData = userData;
     mWorkStartedCB = start;

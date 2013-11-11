@@ -62,8 +62,10 @@ else:
 
 
 #=======================rrp_api=======================#
-charptr = POINTER(c_char)
+#Type of plugin callback
+pluginCallBackType = CFUNCTYPE(None)
 
+charptr = POINTER(c_char)
 rrpLib.createPluginManager.restype = c_void_p
 rrpLib.createPluginManagerEx.restype = c_void_p
 rrpLib.freePluginManager.restype = c_bool
@@ -105,6 +107,7 @@ rrpLib.getNumberOfPlugins.restype = c_int
 def getNumberOfPlugins():
     return rrpLib.getNumberOfPlugins(gPluginManager)
 
+#---------- PLUGIN HANDLE FUNCTIONS ============================================
 rrpLib.getPluginInfo.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrpLib.getPluginInfo(pluginHandle)
@@ -113,6 +116,17 @@ rrpLib.getPluginCapabilities.restype = c_char_p
 def getPluginCapabilities(pluginHandle):
     return rrpLib.getPluginCapabilities(pluginHandle)
 
+rrpLib.assignPluginStartedCallBack.restype = None
+def assignPluginStartedCallBack(pluginHandle, pluginCallBack):
+    return rrpLib.assignPluginStartedCallBack(pluginHandle, pluginCallBack, None)
+
+rrpLib.assignPluginProgressCallBack.restype = None
+def assignPluginProgressCallBack(pluginHandle, pluginCallBack):
+    return rrpLib.assignPluginProgressCallBack(pluginHandle, pluginCallBack, None)
+
+rrpLib.assignPluginFinishedCallBack.restype = None
+def assignPluginFinishedCallBack(pluginHandle, pluginCallBack):
+    return rrpLib.assignPluginFinishedCallBack(pluginHandle, pluginCallBack, None)
 
 rrpLib.getPluginStatus.restype = c_char_p
 def getPluginStatus(pluginHandle):

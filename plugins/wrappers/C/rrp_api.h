@@ -57,7 +57,7 @@ extern "C"
  \brief Typedef for plugin callback function
  \ingroup pluginRoutines
 */
-typedef void (callback_cc *pluginCallback)(void*);
+typedef void (callback_cc *pluginCallBack)(void*);
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
@@ -251,14 +251,44 @@ RRP_DECLSPEC char* rrp_cc getPluginResult(RRPluginHandle handle);
 RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
 
 /*!
- \brief Assign callback functions, and user data to a plugin
+ \brief Assign callback function fired when a plugin starts its work
  \param[in] handle Handle to a plugin
- \param[in] cb1, cb2 and cb3  function pointers to callback routines
- \param[in] userData void* pointer to user data. Plugin dependent.
+ \param[in] cb function pointers to callback routine
+ \param[in] userData void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, pluginCallback cb3, void* userData);
+RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack cb);
+
+/*!
+ \brief Assign callback function fired as a plugin progresses
+ \param[in] handle Handle to a plugin
+ \param[in] cb function pointers to callback routine
+ \param[in] userData void* pointer to user data.
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData);
+
+/*!
+ \brief Assign callback function fired when a plugin finishes its work
+ \param[in] handle Handle to a plugin
+ \param[in] cb function pointers to callback routine
+ \param[in] userData void* pointer to user data.
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData);
+
+/*!
+ \brief Assign callback functions, and user data to a plugin
+ \param[in] handle Handle to a plugin
+ \param[in] cb1, cb2 and cb3  function pointers to callback routines
+ \param[in] userData void* pointer to user data.
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* userData);
 
 /*!
  \brief Hand external data to a plugin

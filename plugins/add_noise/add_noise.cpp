@@ -15,7 +15,7 @@ CPPPlugin(                 "AddNoise",                 "Signal Processing",    a
 mAddNoise(                 "Add noise",                 "...",                          "Add Noise"),
 mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of Noise."),
 mSigma(                    "Sigma",                     1,                              "Indicate the size of the noise"),
-mAddNoiseThread()
+mAddNoiseWorker()
 {
     //Setup the plugins capabilities
     mCapabilities.add(mAddNoise);
@@ -28,17 +28,17 @@ AddNoise::~AddNoise()
 
 bool AddNoise::isWorking()
 {
-    return mAddNoiseThread.isRunning();
+    return mAddNoiseWorker.isRunning();
 }
 
 bool AddNoise::execute(void* inputData, bool inThread)
 {
     Log(lDebug)<<"Executing the AddNoise plugin by Totte Karlsson";
-    mAddNoiseThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
+	mAddNoiseWorker.assignCallBacks(mWorkStartedCB, mWorkProgressCB, mWorkFinishedCB, mUserData);
 
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
-    return mAddNoiseThread.start(inputData, mSigma.getValue(), inThread);
+    return mAddNoiseWorker.start(inputData, mSigma.getValue(), inThread);
 }
 
 

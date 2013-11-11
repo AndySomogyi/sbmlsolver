@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-set(target add_noise)
+set(target rrp_add_noise)
 
 include_directories(
 ../source
@@ -19,7 +19,7 @@ add_library(${target} SHARED ${sources})
 add_definitions(
 -DEXPORT_RR_PLUGIN
 -DSTATIC_RR
--DSTATIC_PLUGIN
+-DSTATIC_RR_PLUGIN
 -DSTATIC_PLUGINS_API
 -DPOCO_STATIC
 )

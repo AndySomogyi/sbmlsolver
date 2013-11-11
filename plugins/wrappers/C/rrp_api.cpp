@@ -364,12 +364,39 @@ bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThrea
     catch_bool_macro
 }
 
-bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback startCB, pluginCallback progressCB, pluginCallback finishedCB, void* userData)
+bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack theCB)
+{
+    start_try_macro
+		Plugin* aPlugin = castToPlugin(handle);
+		return (aPlugin) ? aPlugin->assignPluginStartedCallBack(theCB) : false;
+    }
+    catch_bool_macro
+}
+
+bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData)
+{
+    start_try_macro
+		Plugin* aPlugin = castToPlugin(handle);
+		return (aPlugin) ? aPlugin->assignPluginProgressCallBack(theCB, userData) : false;
+    }
+    catch_bool_macro
+}
+
+bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData)
+{
+    start_try_macro
+		Plugin* aPlugin = castToPlugin(handle);
+		return (aPlugin) ? aPlugin->assignPluginFinishedCallBack(theCB, userData) : false;
+    }
+    catch_bool_macro
+}
+
+bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack startCB, pluginCallBack progressCB, pluginCallBack finishedCB, void* userData)
 {
     try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->assignCallbacks(startCB, progressCB, finishedCB, userData) : false;
+        return (aPlugin) ? aPlugin->assignCallBacks(startCB, progressCB, finishedCB, userData) : false;
     }
     catch_bool_macro
 }
