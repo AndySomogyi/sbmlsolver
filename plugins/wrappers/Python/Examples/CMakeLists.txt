@@ -5,6 +5,7 @@ set(examples
 rrNoisePluginDemo.py
 rrLevenbergMarquardtDemo.py
 rrPluginTester.py
+rrBifurcationDemo.py
 )
 
 install(    
