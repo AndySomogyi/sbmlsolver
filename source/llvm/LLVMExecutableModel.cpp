@@ -789,8 +789,6 @@ uint32_t LLVMExecutableModel::getSupportedIdTypes()
 
 double LLVMExecutableModel::getValue(const std::string& id)
 {
-    ExecutableModel* p = this;
-
     SelectionRecord sel(id);
 
     int index = -1;
@@ -805,34 +803,34 @@ double LLVMExecutableModel::getValue(const std::string& id)
     switch(sel.selectionType)
     {
     case SelectionRecord::TIME:
-        result = p->getTime();
+        result = getTime();
         break;
     case SelectionRecord::UNKNOWN_ELEMENT:
         // check for sbml element types
 
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->getFloatingSpeciesAmounts(1, &index, &result);
+            getFloatingSpeciesAmounts(1, &index, &result);
             break;
         }
-        else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
         {
-            p->getBoundarySpeciesAmounts(1, &index, &result);
+            getBoundarySpeciesAmounts(1, &index, &result);
             break;
         }
-        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
         {
-            p->getCompartmentVolumes(1, &index, &result);
+            getCompartmentVolumes(1, &index, &result);
             break;
         }
-        else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
+        else if ((index = getGlobalParameterIndex(sel.p1)) >= 0)
         {
-            p->getGlobalParameterValues(1, &index, &result);
+            getGlobalParameterValues(1, &index, &result);
             break;
         }
-        else if ((index = p->getReactionIndex(sel.p1)) >= 0)
+        else if ((index = getReactionIndex(sel.p1)) >= 0)
         {
-            p->getReactionRates(1, &index, &result);
+            getReactionRates(1, &index, &result);
             break;
         }
         else
@@ -841,14 +839,14 @@ double LLVMExecutableModel::getValue(const std::string& id)
             break;
         }
     case SelectionRecord::UNKNOWN_CONCENTRATION:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->getFloatingSpeciesConcentrations(1, &index, &result);
+            getFloatingSpeciesConcentrations(1, &index, &result);
             break;
         }
-        else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
         {
-            p->getBoundarySpeciesConcentrations(1, &index, &result);
+            getBoundarySpeciesConcentrations(1, &index, &result);
             break;
         }
         else
@@ -859,9 +857,9 @@ double LLVMExecutableModel::getValue(const std::string& id)
             break;
         }
     case SelectionRecord::FLOATING_AMOUNT_RATE:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->getReactionRates(1, &index, &result);
+            getFloatingSpeciesAmountRates(1, &index, &result);
             break;
         }
         else
@@ -871,14 +869,14 @@ double LLVMExecutableModel::getValue(const std::string& id)
         }
 
     case SelectionRecord::INITIAL_FLOATING_AMOUNT:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->getFloatingSpeciesInitAmounts(1, &index, &result);
+            getFloatingSpeciesInitAmounts(1, &index, &result);
             break;
         }
-        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
         {
-            p->getCompartmentInitVolumes(1, &index, &result);
+            getCompartmentInitVolumes(1, &index, &result);
             break;
         }
         else
@@ -887,9 +885,9 @@ double LLVMExecutableModel::getValue(const std::string& id)
             break;
         }
     case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->getFloatingSpeciesInitConcentrations(1, &index, &result);
+            getFloatingSpeciesInitConcentrations(1, &index, &result);
             break;
         }
         else
@@ -911,8 +909,6 @@ double LLVMExecutableModel::getValue(const std::string& id)
 
 void LLVMExecutableModel::setValue(const std::string& id, double value)
 {
-    ExecutableModel* p = this;
-
     SelectionRecord sel(id);
 
     int index = -1;
@@ -926,24 +922,24 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
     switch(sel.selectionType)
     {
     case SelectionRecord::TIME:
-        p->setTime(value);
+        setTime(value);
         break;
     case SelectionRecord::UNKNOWN_ELEMENT:
         // check for sbml element types
 
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->setFloatingSpeciesAmounts(1, &index, &value);
+            setFloatingSpeciesAmounts(1, &index, &value);
             break;
         }
-        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
         {
-            p->setCompartmentVolumes(1, &index, &value);
+            setCompartmentVolumes(1, &index, &value);
             break;
         }
-        else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
+        else if ((index = getGlobalParameterIndex(sel.p1)) >= 0)
         {
-            p->setGlobalParameterValues(1, &index, &value);
+            setGlobalParameterValues(1, &index, &value);
             break;
         }
         else
@@ -952,14 +948,14 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             break;
         }
     case SelectionRecord::UNKNOWN_CONCENTRATION:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->setFloatingSpeciesConcentrations(1, &index, &value);
+            setFloatingSpeciesConcentrations(1, &index, &value);
             break;
         }
-        else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
         {
-            p->setBoundarySpeciesConcentrations(1, &index, &value);
+            setBoundarySpeciesConcentrations(1, &index, &value);
             break;
         }
         else
@@ -971,14 +967,14 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
         }
 
     case SelectionRecord::INITIAL_FLOATING_AMOUNT:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->setFloatingSpeciesInitAmounts(1, &index, &value);
+            setFloatingSpeciesInitAmounts(1, &index, &value);
             break;
         }
-        else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
         {
-            p->setCompartmentInitVolumes(1, &index, &value);
+            setCompartmentInitVolumes(1, &index, &value);
             break;
         }
         else
@@ -987,9 +983,9 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             break;
         }
     case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
-        if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            p->setFloatingSpeciesInitConcentrations(1, &index, &value);
+            setFloatingSpeciesInitConcentrations(1, &index, &value);
             break;
         }
         else

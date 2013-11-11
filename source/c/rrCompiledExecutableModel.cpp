@@ -1584,7 +1584,7 @@ double CompiledExecutableModel::getValue(const std::string& id)
     case SelectionRecord::FLOATING_AMOUNT_RATE:
         if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
-            getReactionRates(1, &index, &result);
+            getFloatingSpeciesAmountRates(1, &index, &result);
             break;
         }
         else
