@@ -772,7 +772,8 @@ void LLVMExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
 
 uint32_t LLVMExecutableModel::getSupportedIdTypes()
 {
-    return SelectionRecord::BOUNDARY_CONCENTRATION |
+    return SelectionRecord::TIME |
+        SelectionRecord::BOUNDARY_CONCENTRATION |
         SelectionRecord::FLOATING_CONCENTRATION |
         SelectionRecord::REACTION_RATE |
         SelectionRecord::FLOATING_AMOUNT_RATE |

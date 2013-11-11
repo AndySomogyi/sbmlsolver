@@ -37,9 +37,10 @@ public:
         INITIAL_FLOATING_AMOUNT =           (0x1 << 15), // =>
         INITIAL_FLOATING_CONCENTRATION =    (0x1 << 16), // =>
         STOICHIOMETRY =                     (0x1 << 17), // =>
-        UNKNOWN_ELEMENT =                   (0x1 << 18), // =>
-        UNKNOWN_CONCENTRATION =             (0x1 << 19), // =>
-        UNKNOWN =                           (0x1 << 20)  // =>
+        CONSREVED_MOIETY =                  (0x1 << 17), // =>
+        UNKNOWN_ELEMENT =                   (0x1 << 19), // =>
+        UNKNOWN_CONCENTRATION =             (0x1 << 20), // =>
+        UNKNOWN =                           (0x1 << 21)  // =>
     };
 
     /**

@@ -4,11 +4,29 @@
 #include "rrUtils.h"
 #include "rrCompiledModelState.h"
 #include "rrCModelDataUtil.h"
+#include "rrSelectionRecord.h"
 #include "rrException.h"
 #include "rrLogger.h"
 
 #include <limits>
 #include <iostream>
+
+typedef string (rr::ExecutableModel::*getNamePtr)(int);
+typedef int (rr::ExecutableModel::*getNumPtr)();
+
+// make this static here, hide our implementation...
+static void addIds(rr::ExecutableModel *model,
+        getNumPtr numFunc, getNamePtr nameFunc,
+        std::list<std::string>& ids)
+{
+    const int num = (model->*numFunc)();
+
+    for(int i = 0; i < num; i++)
+    {
+        const std::string& name  = (model->*nameFunc)(i);
+        ids.push_back(name);
+    }
+}
 
 using namespace std;
 namespace rr
@@ -1440,24 +1458,277 @@ int CompiledExecutableModel::getCompartmentInitVolumes(int len, int const *indx,
 
 void CompiledExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+    if (types & rr::SelectionRecord::FLOATING_AMOUNT) {
+        addIds(this, &rr::ExecutableModel::getNumFloatingSpecies,
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (types & rr::SelectionRecord::BOUNDARY_AMOUNT) {
+        addIds(this, &rr::ExecutableModel::getNumBoundarySpecies,
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+    if (types & rr::SelectionRecord::COMPARTMENT) {
+        addIds(this, &rr::ExecutableModel::getNumCompartments,
+                &rr::ExecutableModel::getCompartmentId, ids);
+    }
+
+    if (types & rr::SelectionRecord::GLOBAL_PARAMETER) {
+        addIds(this, &rr::ExecutableModel::getNumGlobalParameters,
+                &rr::ExecutableModel::getGlobalParameterId, ids);
+    }
+
+    if (types & rr::SelectionRecord::REACTION_RATE) {
+        addIds(this, &rr::ExecutableModel::getNumReactions,
+                &rr::ExecutableModel::getReactionId, ids);
+    }
+
+    if (types & rr::SelectionRecord::INITIAL_FLOATING_CONCENTRATION) {
+        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+            ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
+        }
+    }
+
+    if (types & rr::SelectionRecord::FLOATING_AMOUNT_RATE) {
+        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+            ids.push_back(this->getFloatingSpeciesId(i) + "'");
+        }
+    }
 }
 
 uint32_t CompiledExecutableModel::getSupportedIdTypes()
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+    return SelectionRecord::TIME |
+        SelectionRecord::BOUNDARY_CONCENTRATION |
+        SelectionRecord::FLOATING_CONCENTRATION |
+        SelectionRecord::REACTION_RATE |
+        SelectionRecord::FLOATING_AMOUNT_RATE |
+        SelectionRecord::COMPARTMENT |
+        SelectionRecord::GLOBAL_PARAMETER |
+        SelectionRecord::FLOATING_AMOUNT |
+        SelectionRecord::BOUNDARY_AMOUNT |
+        SelectionRecord::INITIAL_FLOATING_CONCENTRATION |
+        SelectionRecord::CONSREVED_MOIETY;
 }
+
 
 double CompiledExecutableModel::getValue(const std::string& id)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+    SelectionRecord sel(id);
+
+    int index = -1;
+    double result = 0;
+
+    if (sel.selectionType == SelectionRecord::UNKNOWN)
+    {
+        throw Exception("invalid selection string " + id);
+    }
+
+    // check to see that we have valid selection ids
+    switch(sel.selectionType)
+    {
+    case SelectionRecord::TIME:
+        result = getTime();
+        break;
+    case SelectionRecord::UNKNOWN_ELEMENT:
+        // check for sbml element types
+
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            getFloatingSpeciesAmounts(1, &index, &result);
+            break;
+        }
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            getBoundarySpeciesAmounts(1, &index, &result);
+            break;
+        }
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
+        {
+            getCompartmentVolumes(1, &index, &result);
+            break;
+        }
+        else if ((index = getGlobalParameterIndex(sel.p1)) >= 0)
+        {
+            getGlobalParameterValues(1, &index, &result);
+            break;
+        }
+        else if ((index = getReactionIndex(sel.p1)) >= 0)
+        {
+            getReactionRates(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw Exception("No sbml element exists for symbol '" + id + "'");
+            break;
+        }
+    case SelectionRecord::UNKNOWN_CONCENTRATION:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            getFloatingSpeciesConcentrations(1, &index, &result);
+            break;
+        }
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            getBoundarySpeciesConcentrations(1, &index, &result);
+            break;
+        }
+        else
+        {
+            string msg = "No sbml element exists for concentration selection '" + id + "'";
+            Log(Logger::LOG_ERROR) << msg;
+            throw Exception(msg);
+            break;
+        }
+    case SelectionRecord::FLOATING_AMOUNT_RATE:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            getReactionRates(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + id + "' for floating amount rate");
+            break;
+        }
+
+    case SelectionRecord::INITIAL_FLOATING_AMOUNT:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            getFloatingSpeciesInitAmounts(1, &index, &result);
+            break;
+        }
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
+        {
+            getCompartmentInitVolumes(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + id + "' for floating amount rate");
+            break;
+        }
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            getFloatingSpeciesInitConcentrations(1, &index, &result);
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + id + "' for floating species");
+            break;
+        }
+
+
+    default:
+        Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
+        << sel.to_repr();
+        throw Exception("Invalid selection '" + id + "' for setting value");
+        break;
+    }
+
+    return result;
 }
 
 void CompiledExecutableModel::setValue(const std::string& id, double value)
 {
-    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
-}
+    ExecutableModel* p = this;
 
+    SelectionRecord sel(id);
+
+    int index = -1;
+
+    if (sel.selectionType == SelectionRecord::UNKNOWN)
+    {
+        throw Exception("invalid selection string " + id);
+    }
+
+    // check to see that we have valid selection ids
+    switch(sel.selectionType)
+    {
+    case SelectionRecord::TIME:
+        setTime(value);
+        break;
+    case SelectionRecord::UNKNOWN_ELEMENT:
+        // check for sbml element types
+
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            setFloatingSpeciesAmounts(1, &index, &value);
+            break;
+        }
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
+        {
+            setCompartmentVolumes(1, &index, &value);
+            break;
+        }
+        else if ((index = getGlobalParameterIndex(sel.p1)) >= 0)
+        {
+            setGlobalParameterValues(1, &index, &value);
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid or non-existant sbml id  '" + id + "' for set value");
+            break;
+        }
+    case SelectionRecord::UNKNOWN_CONCENTRATION:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            setFloatingSpeciesConcentrations(1, &index, &value);
+            break;
+        }
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            setBoundarySpeciesConcentrations(1, &index, &value);
+            break;
+        }
+        else
+        {
+            string msg = "No sbml element exists for concentration selection '" + id + "'";
+            Log(Logger::LOG_ERROR) << msg;
+            throw Exception(msg);
+            break;
+        }
+
+    case SelectionRecord::INITIAL_FLOATING_AMOUNT:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            setFloatingSpeciesInitAmounts(1, &index, &value);
+            break;
+        }
+        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
+        {
+            setCompartmentInitVolumes(1, &index, &value);
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + id + "' for floating amount rate");
+            break;
+        }
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            setFloatingSpeciesInitConcentrations(1, &index, &value);
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + id + "' for floating species");
+            break;
+        }
+
+
+
+    default:
+        Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
+        throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
+        break;
+    }
+}
 int CompiledExecutableModel::getFloatingSpeciesConcentrationRates(int len, int const *indx,
         double *values)
 {

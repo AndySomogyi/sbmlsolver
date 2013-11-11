@@ -491,7 +491,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::RoadRunner::writeSBML;
 %ignore rr::RoadRunner::getSimulateOptions;
 %ignore rr::RoadRunner::setSimulateOptions;
-%ignore rr::RoadRunner::_getDuplicateSimulateOptions;
+%ignore rr::RoadRunner::getIds(uint32_t types, std::list<std::string> &ids);
+
 
 
 // rename these, the injected python code will take care of
@@ -714,28 +715,83 @@ namespace std { class ostream{}; }
         return $self->getValue(*pRecord);
     }
 
+    double __getitem__(const std::string& id) {
+        return ($self)->getValue(id);
+    }
 
-    %pythoncode %{
-       def getModel(self):
-           m = self._getModel();
-           m._makeProperties()
-           return m
+    void __setitem__(const std::string& id, double value) {
+        ($self)->setValue(id, value);
+    }
 
-       __swig_getmethods__["selections"] = _getSelections
-       __swig_setmethods__["selections"] = _setSelections
-       __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
-       __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
-       __swig_getmethods__["model"] = _getModel
+    PyObject *getIds(uint32_t types) {
+        std::list<std::string> ids;
 
-       if _newclass:
-           selections = property(_getSelections, _setSelections)
-           steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
-           model = property(getModel)
+        ($self)->getIds(types, ids);
 
-       def foo(self):
-           return "foo"
+        unsigned size = ids.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+        {
+            const std::string& id  = *i;
+            PyObject* pyStr = PyString_FromString(id.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+ 
+
+   %pythoncode %{
+        def getModel(self):
+            m = self._getModel();
+            m._makeProperties()
+            return m
+
+        __swig_getmethods__["selections"] = _getSelections
+        __swig_setmethods__["selections"] = _setSelections
+        __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
+        __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
+        __swig_getmethods__["model"] = _getModel
+
+        if _newclass:
+            selections = property(_getSelections, _setSelections)
+            steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+            model = property(getModel)
 
 
+        def keys(self):
+            return self.getIds(0xffffffff)
+
+        def values(self):
+            return [self.getValue(k) for k in self.keys()]
+
+        def items(self):
+            return [(k, self.getValue(k)) for k in self.keys()]
+
+        def __len__(self):
+            return len(self.keys())
+
+        def iteritems(self):
+            """
+            return an iterator over (key, value) pairs
+            """
+            return self.items().__iter__()
+
+        def iterkeys(self):
+            """
+            return an iterator over the mapping's keys
+            """
+            return self.keys().__iter__()
+
+        def itervalues(self):
+            """
+            return an iterator over the mapping's values
+            """
+            return self.values().__iter__()
     %}
 }
 
@@ -1246,9 +1302,7 @@ namespace std { class ostream{}; }
             return [self.getValue(k) for k in self.keys()]
 
         def items(self):
-            keys = self.keys()
-            values = [self.getValue(k) for k in keys]
-            return zip(keys, values)
+            return [(k, self.getValue(k)) for k in self.keys()]
 
         def __len__(self):
             return len(self.keys())
@@ -1270,8 +1324,6 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values().__iter__()
-
-
 
     %}
 }
