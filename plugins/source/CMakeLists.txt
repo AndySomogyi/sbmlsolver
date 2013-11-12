@@ -106,13 +106,13 @@ target_link_libraries (${target}-static
     nleq-static
     rr-libstruct-static
     poco_foundation-static
-    iphlpapi
     )
 
 if(WIN32)
     target_link_libraries (${target}-static
         libsbml-static
         libf2c
+        iphlpapi
         )
 endif(WIN32)
 

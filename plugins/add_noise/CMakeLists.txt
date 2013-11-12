@@ -56,7 +56,7 @@ else() #UNIX
         f2c
         pthread
         rrc_api
-        rrplugins_c_api
+        rrplugins_api-static
         )
 endif()
 
