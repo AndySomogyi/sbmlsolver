@@ -20,27 +20,42 @@ public:
     enum SelectionType
     {
         TIME =                              (0x1 << 0),  // => 0x00000001,
-        BOUNDARY_CONCENTRATION =            (0x1 << 1),  // => 0x00000001,
-        FLOATING_CONCENTRATION =            (0x1 << 2),  // =>
-        REACTION_RATE =                     (0x1 << 3),  // =>
-        FLOATING_AMOUNT_RATE =              (0x1 << 4),  // =>
-        FLOATING_CONCENTRATION_RATE =       (0x1 << 5),  // =>
-        COMPARTMENT =                       (0x1 << 6),  // =>
-        GLOBAL_PARAMETER =                  (0x1 << 7),  // =>
-        FLOATING_AMOUNT =                   (0x1 << 8),  // =>
-        BOUNDARY_AMOUNT =                   (0x1 << 9),  // =>
-        ELASTICITY =                        (0x1 << 10), // =>
-        UNSCALED_ELASTICITY =               (0x1 << 11), // =>
-        CONTROL =                           (0x1 << 12), // =>
-        UNSCALED_CONTROL =                  (0x1 << 13), // =>
-        EIGENVALUE =                        (0x1 << 14), // =>
-        INITIAL_FLOATING_AMOUNT =           (0x1 << 15), // =>
-        INITIAL_FLOATING_CONCENTRATION =    (0x1 << 16), // =>
-        STOICHIOMETRY =                     (0x1 << 17), // =>
-        CONSREVED_MOIETY =                  (0x1 << 17), // =>
-        UNKNOWN_ELEMENT =                   (0x1 << 19), // =>
-        UNKNOWN_CONCENTRATION =             (0x1 << 20), // =>
-        UNKNOWN =                           (0x1 << 21)  // =>
+        CONCENTRATION =                     (0x1 << 1),
+        AMOUNT =                            (0x1 << 2),
+        RATE =                              (0x1 << 3),
+        BOUNDARY =                          (0x1 << 4),
+        FLOATING =                          (0x1 << 5),
+        COMPARTMENT =                       (0x1 << 6),
+        GLOBAL_PARAMETER =                  (0x1 << 7),
+        REACTION =                          (0x1 << 8),
+        INITIAL =                           (0x1 << 9),
+        UNSCALED =                          (0x1 << 10),
+        ELASTICITY =                        (0x1 << 11),
+        CONTROL =                           (0x1 << 12),
+        EIGENVALUE =                        (0x1 << 13),
+        ELEMENT =                           (0x1 << 14),
+        STOICHIOMETRY =                     (0x1 << 15),
+        UNKNOWN =                           (0x1 << 16),
+        DEPENDENT =                         (0x1 << 17),
+        INDEPENDENT =                       (0x1 << 18),
+        CONSREVED_MOIETY =                  (0x1 << 19) | DEPENDENT, // are by definition dependent.
+
+        UNKNOWN_CONCENTRATION =             UNKNOWN | CONCENTRATION,
+
+
+        FLOATING_AMOUNT =                   FLOATING | AMOUNT,
+        BOUNDARY_AMOUNT =                   BOUNDARY | AMOUNT,
+
+        BOUNDARY_CONCENTRATION =            BOUNDARY | CONCENTRATION,
+        FLOATING_CONCENTRATION =            FLOATING | CONCENTRATION,
+        FLOATING_AMOUNT_RATE =              FLOATING | RATE,
+        FLOATING_CONCENTRATION_RATE =       FLOATING | CONCENTRATION | RATE,
+        REACTION_RATE =                     REACTION | RATE,
+        INITIAL_FLOATING_AMOUNT =           INITIAL | FLOATING,
+        INITIAL_FLOATING_CONCENTRATION =    INITIAL | FLOATING | CONCENTRATION,
+        UNSCALED_ELASTICITY =               UNSCALED | ELASTICITY,
+        UNSCALED_CONTROL =                  UNSCALED | CONTROL,
+        UNKNOWN_ELEMENT =                   UNKNOWN | ELEMENT
     };
 
     /**
