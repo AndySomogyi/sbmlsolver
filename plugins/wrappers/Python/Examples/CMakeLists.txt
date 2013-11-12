@@ -6,6 +6,7 @@ rrNoisePluginDemo.py
 rrLevenbergMarquardtDemo.py
 rrPluginTester.py
 rrBifurcationDemo.py
+rrCallBackFunctionDemo.py
 )
 
 install(    
