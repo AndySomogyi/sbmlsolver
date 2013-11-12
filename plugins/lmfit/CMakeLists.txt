@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-set(target lm)
+set(target rrp_lm)
 
 include_directories(
 ../source
