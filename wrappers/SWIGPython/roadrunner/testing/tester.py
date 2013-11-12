@@ -437,6 +437,8 @@ def checkFloatingSpeciesInitialConditionIds (rrInstance, testId):
 
     line = readLine ()
     words = line.split()
+
+
     expected = rrInstance.model.getFloatingSpeciesInitAmountIds()
 
 

@@ -62,16 +62,32 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
 typedef string (rr::ExecutableModel::*getNamePtr)(int);
 typedef int (rr::ExecutableModel::*getNumPtr)();
 
-// make this static here, hide our implementation...
-static void addIds(rr::ExecutableModel *model,
-        getNumPtr numFunc, getNamePtr nameFunc,
-        std::list<std::string>& ids)
-{
-    const int num = (model->*numFunc)();
+/**
+ * checks if the bitfield value has all the required flags
+ * from type
+ */
+inline bool checkExact(uint32_t type, uint32_t value) {
+    return (value & type) == type;
+}
 
-    for(int i = 0; i < num; i++)
+// make this static here, hide our implementation...
+static void addIds(rr::ExecutableModel *model, int start, int end,
+        getNamePtr nameFunc, std::list<std::string>& ids)
+{
+    for(int i = start; i < end; i++)
     {
         const std::string& name  = (model->*nameFunc)(i);
+        ids.push_back(name);
+    }
+}
+
+// make this static here, hide our implementation...
+static void addConcIds(rr::ExecutableModel *model, int start, int end,
+        getNamePtr nameFunc, std::list<std::string>& ids)
+{
+    for(int i = start; i < end; i++)
+    {
+        const std::string& name  = "[" + (model->*nameFunc)(i) + "]";
         ids.push_back(name);
     }
 }
@@ -730,47 +746,142 @@ void LLVMExecutableModel::print(std::ostream &stream)
     stream << getInfo();
 }
 
-void LLVMExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
+void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
 {
-    if (types & rr::SelectionRecord::FLOATING_AMOUNT) {
-        addIds(this, &rr::ExecutableModel::getNumFloatingSpecies,
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentFloatingSpeciesSize(),
                 &rr::ExecutableModel::getFloatingSpeciesId, ids);
     }
 
-    if (types & rr::SelectionRecord::BOUNDARY_AMOUNT) {
-        addIds(this, &rr::ExecutableModel::getNumBoundarySpecies,
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentFloatingSpeciesSize(),
+                symbols->getFloatingSpeciesSize(),
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentBoundarySpeciesSize(),
                 &rr::ExecutableModel::getBoundarySpeciesId, ids);
     }
 
-    if (types & rr::SelectionRecord::COMPARTMENT) {
-        addIds(this, &rr::ExecutableModel::getNumCompartments,
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentBoundarySpeciesSize(),
+                symbols->getBoundarySpeciesSize(),
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addConcIds(this, 0, symbols->getIndependentFloatingSpeciesSize(),
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addConcIds(this, symbols->getIndependentFloatingSpeciesSize(),
+                symbols->getFloatingSpeciesSize(),
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addConcIds(this, 0, symbols->getIndependentBoundarySpeciesSize(),
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addConcIds(this, symbols->getIndependentBoundarySpeciesSize(),
+                symbols->getBoundarySpeciesSize(),
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+
+    if (checkExact(SelectionRecord::_COMPARTMENT | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentCompartmentSize(),
                 &rr::ExecutableModel::getCompartmentId, ids);
     }
 
-    if (types & rr::SelectionRecord::GLOBAL_PARAMETER) {
-        addIds(this, &rr::ExecutableModel::getNumGlobalParameters,
+    if (checkExact(SelectionRecord::_COMPARTMENT | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentCompartmentSize(),
+                symbols->getCompartmentsSize(),
+                &rr::ExecutableModel::getCompartmentId, ids);
+    }
+
+    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentGlobalParameterSize(),
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
-    if (types & rr::SelectionRecord::REACTION_RATE) {
-        addIds(this, &rr::ExecutableModel::getNumReactions,
+    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentGlobalParameterSize(),
+                symbols->getGlobalParametersSize(),
+                &rr::ExecutableModel::getGlobalParameterId, ids);
+    }
+
+    if (checkExact(SelectionRecord::REACTION_RATE, types)) {
+        addIds(this, 0, symbols->getReactionSize(),
                 &rr::ExecutableModel::getReactionId, ids);
     }
 
-    if (types & rr::SelectionRecord::INITIAL_FLOATING_AMOUNT) {
-        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::CONCENTRATION, types) &&
+            (SelectionRecord::INDEPENDENT & types)) {
+        for (int i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::CONCENTRATION, types) &&
+            (SelectionRecord::DEPENDENT & types)) {
+        for (int i = symbols->getInitFloatingSpeciesSize();
+                i < symbols->getFloatingSpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::AMOUNT, types) &&
+            (SelectionRecord::INDEPENDENT & types)) {
+        for (int i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
         }
     }
 
-    if (types & rr::SelectionRecord::FLOATING_AMOUNT_RATE) {
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::AMOUNT, types) &&
+            (SelectionRecord::DEPENDENT & types)) {
+        for (int i = symbols->getInitFloatingSpeciesSize();
+                i < symbols->getFloatingSpeciesSize(); ++i) {
+            ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
         for (int i = 0; i < getNumFloatingSpecies(); ++i) {
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
 }
 
-uint32_t LLVMExecutableModel::getSupportedIdTypes()
+int LLVMExecutableModel::getSupportedIdTypes()
 {
     return SelectionRecord::TIME |
         SelectionRecord::BOUNDARY_CONCENTRATION |

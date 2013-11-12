@@ -3192,7 +3192,7 @@ double getAdjustment(Complex& z)
 #if (1) /**********************************************************************/
 /******************************************************************************/
 
-void RoadRunner::getIds(uint32_t types, std::list<std::string>& ids)
+void RoadRunner::getIds(int types, std::list<std::string>& ids)
 {
     if (mModel)
     {
@@ -3212,9 +3212,9 @@ void RoadRunner::getIds(uint32_t types, std::list<std::string>& ids)
     }
 }
 
-uint32_t RoadRunner::getSupportedIdTypes()
+int RoadRunner::getSupportedIdTypes()
 {
-    uint32_t types = mModel ? mModel->getSupportedIdTypes() : 0;
+    int types = mModel ? mModel->getSupportedIdTypes() : 0;
 
     return types | SelectionRecord::ELASTICITY |
             SelectionRecord::UNSCALED_ELASTICITY |

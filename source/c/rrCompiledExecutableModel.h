@@ -312,9 +312,9 @@ public:
 
     virtual void print(std::ostream &stream);
 
-    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+    virtual void getIds(int types, std::list<std::string> &ids);
 
-    virtual uint32_t getSupportedIdTypes();
+    virtual int getSupportedIdTypes();
 
     virtual double getValue(const std::string& id);
 

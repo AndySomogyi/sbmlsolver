@@ -20,42 +20,108 @@ public:
     enum SelectionType
     {
         TIME =                              (0x1 << 0),  // => 0x00000001,
+
+        /**
+         * species must have either a CONCENTRATION or AMOUNT
+         * modifer to distinguish it.
+         */
         CONCENTRATION =                     (0x1 << 1),
         AMOUNT =                            (0x1 << 2),
+
         RATE =                              (0x1 << 3),
+
+        /**
+         * species must have either a BOUNDARY or FLOATING
+         * modifiers.
+         */
         BOUNDARY =                          (0x1 << 4),
         FLOATING =                          (0x1 << 5),
-        COMPARTMENT =                       (0x1 << 6),
-        GLOBAL_PARAMETER =                  (0x1 << 7),
+
+        /**
+         * Compartments and parameters can be either current
+         * or initial values. These values with and underscore, '_'
+         * are intended to be used with either an CURRENT or
+         * INITIAL value modifier.
+         */
+        _COMPARTMENT =                      (0x1 << 6),
+        _GLOBAL_PARAMETER =                 (0x1 << 7),
+
+
         REACTION =                          (0x1 << 8),
+
+        /**
+         * sbml elements can be accessed as either a initial value, or
+         * a current value, they must have one or the other.
+         */
         INITIAL =                           (0x1 << 9),
-        UNSCALED =                          (0x1 << 10),
-        ELASTICITY =                        (0x1 << 11),
-        CONTROL =                           (0x1 << 12),
-        EIGENVALUE =                        (0x1 << 13),
-        ELEMENT =                           (0x1 << 14),
-        STOICHIOMETRY =                     (0x1 << 15),
-        UNKNOWN =                           (0x1 << 16),
-        DEPENDENT =                         (0x1 << 17),
-        INDEPENDENT =                       (0x1 << 18),
-        CONSREVED_MOIETY =                  (0x1 << 19) | DEPENDENT, // are by definition dependent.
+        CURRENT =                           (0x1 << 10),
+        UNSCALED =                          (0x1 << 11),
+        ELASTICITY =                        (0x1 << 12),
+        CONTROL =                           (0x1 << 13),
+        EIGENVALUE =                        (0x1 << 14),
+        ELEMENT =                           (0x1 << 15),
+        STOICHIOMETRY =                     (0x1 << 16),
+        UNKNOWN =                           (0x1 << 17),
+        DEPENDENT =                         (0x1 << 18),
+        INDEPENDENT =                       (0x1 << 19),
+        CONSREVED_MOIETY =                  (0x1 << 20) | DEPENDENT, // are by definition dependent.
 
         UNKNOWN_CONCENTRATION =             UNKNOWN | CONCENTRATION,
 
+        /**
+         * the current compartment value
+         */
+        COMPARTMENT =                       _COMPARTMENT | INDEPENDENT | DEPENDENT | CURRENT,
 
-        FLOATING_AMOUNT =                   FLOATING | AMOUNT,
-        BOUNDARY_AMOUNT =                   BOUNDARY | AMOUNT,
+        /**
+         * the current global parameter value
+         */
+        GLOBAL_PARAMETER =                  _GLOBAL_PARAMETER | INDEPENDENT | DEPENDENT | CURRENT,
 
-        BOUNDARY_CONCENTRATION =            BOUNDARY | CONCENTRATION,
-        FLOATING_CONCENTRATION =            FLOATING | CONCENTRATION,
-        FLOATING_AMOUNT_RATE =              FLOATING | RATE,
-        FLOATING_CONCENTRATION_RATE =       FLOATING | CONCENTRATION | RATE,
-        REACTION_RATE =                     REACTION | RATE,
-        INITIAL_FLOATING_AMOUNT =           INITIAL | FLOATING,
-        INITIAL_FLOATING_CONCENTRATION =    INITIAL | FLOATING | CONCENTRATION,
+        /**
+         * current amounts
+         */
+        FLOATING_AMOUNT =                   FLOATING | AMOUNT | INDEPENDENT | DEPENDENT | CURRENT,
+        BOUNDARY_AMOUNT =                   BOUNDARY | AMOUNT | INDEPENDENT | DEPENDENT | CURRENT,
+
+        /**
+         * current concentrations
+         */
+        BOUNDARY_CONCENTRATION =            BOUNDARY | CONCENTRATION | INDEPENDENT | DEPENDENT | CURRENT,
+        FLOATING_CONCENTRATION =            FLOATING | CONCENTRATION | INDEPENDENT | DEPENDENT | CURRENT,
+
+        /**
+         * floating species value rates (value, not reaction rates),
+         * these are always current
+         */
+        FLOATING_AMOUNT_RATE =              FLOATING | RATE | DEPENDENT,
+        FLOATING_CONCENTRATION_RATE =       FLOATING | CONCENTRATION | RATE | DEPENDENT,
+
+        /**
+         * reaction rate, always current
+         */
+        REACTION_RATE =                     REACTION | RATE | DEPENDENT,
+
+        /**
+         * initial floating species values
+         */
+        INITIAL_FLOATING_AMOUNT =           INITIAL | FLOATING | AMOUNT | INDEPENDENT | DEPENDENT,
+        INITIAL_FLOATING_CONCENTRATION =    INITIAL | FLOATING | CONCENTRATION | INDEPENDENT | DEPENDENT,
+
+
         UNSCALED_ELASTICITY =               UNSCALED | ELASTICITY,
         UNSCALED_CONTROL =                  UNSCALED | CONTROL,
-        UNKNOWN_ELEMENT =                   UNKNOWN | ELEMENT
+        UNKNOWN_ELEMENT =                   UNKNOWN | ELEMENT,
+        ALL =                               (0xffffffff),
+
+        ALL_INDEPENDENT =                   ~DEPENDENT,
+        ALL_DEPENDENT =                     ~INDEPENDENT,
+
+        ALL_INDEPENDENT_AMOUNT =            ~DEPENDENT & ~CONCENTRATION,
+        ALL_DEPENDENT_AMOUNT =              ~INDEPENDENT & ~CONCENTRATION,
+
+        ALL_INDEPENDENT_CONCENTRATION =     ~DEPENDENT & ~AMOUNT,
+        ALL_DEPENDENT_CONCENTRATION =       ~INDEPENDENT & ~AMOUNT
     };
 
     /**

@@ -352,12 +352,12 @@ public:
     /**
      * populates a given list with all the ids that this class can accept.
      */
-    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+    virtual void getIds(int types, std::list<std::string> &ids);
 
     /**
      * returns a bit field of the ids that this class supports.
      */
-    virtual uint32_t getSupportedIdTypes();
+    virtual int getSupportedIdTypes();
 
     /**
      * gets the value for the given id string. The string must be a SelectionRecord

@@ -32,6 +32,10 @@
     #include <rrVersionInfo.h>
     #include <rrException.h>
     #include <assert.h>
+	
+#ifndef _WIN32
+#include <signal.h>
+#endif
     using namespace rr;
 %}
 
@@ -201,9 +205,38 @@ import_array();
         return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
             + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
     }
+	
+#ifndef _WIN32
+	
+	static void rr_sighandler(int sig) {
+		std::cout << "handling signal " << sig << std::endl;
+		Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+	}
+	
+	static unsigned long sigtrap() {
+		signal(SIGTRAP, rr_sighandler);
+		return raise(SIGTRAP);
+	}
+	
+#else
+	
+	static unsigned long sigtrap() {
+		Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+		return 0;
+	}
+	
+#endif
+	
+
+	
+
 %}
 
 std::string version_info();
+
+size_t sigtrap();
+
+
 
 %{
 
@@ -491,7 +524,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::RoadRunner::writeSBML;
 %ignore rr::RoadRunner::getSimulateOptions;
 %ignore rr::RoadRunner::setSimulateOptions;
-%ignore rr::RoadRunner::getIds(uint32_t types, std::list<std::string> &ids);
+%ignore rr::RoadRunner::getIds(int types, std::list<std::string> &);
 
 
 
@@ -595,7 +628,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values);
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
-%ignore rr::ExecutableModel::getIds(uint32_t types, std::list<std::string> &ids);
+%ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
 
 // ignore Plugin methods that will be deprecated
@@ -690,6 +723,7 @@ namespace std { class ostream{}; }
     }
 }
 
+
 %extend rr::RoadRunner
 {
     // attributes
@@ -723,7 +757,7 @@ namespace std { class ostream{}; }
         ($self)->setValue(id, value);
     }
 
-    PyObject *getIds(uint32_t types) {
+    PyObject *getIds(int types) {
         std::list<std::string> ids;
 
         ($self)->getIds(types, ids);
@@ -762,36 +796,36 @@ namespace std { class ostream{}; }
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             model = property(getModel)
 
+    
+        def keys(self, types=_roadrunner.SelectionRecord_ALL):
+            return self.getIds(types)
 
-        def keys(self):
-            return self.getIds(0xffffffff)
+        def values(self, types=_roadrunner.SelectionRecord_ALL):
+            return [self.getValue(k) for k in self.keys(types)]
 
-        def values(self):
-            return [self.getValue(k) for k in self.keys()]
-
-        def items(self):
-            return [(k, self.getValue(k)) for k in self.keys()]
+        def items(self, types=_roadrunner.SelectionRecord_ALL):
+            return [(k, self.getValue(k)) for k in self.keys(types)]
 
         def __len__(self):
             return len(self.keys())
 
-        def iteritems(self):
+        def iteritems(self, types=_roadrunner.SelectionRecord_ALL):
             """
             return an iterator over (key, value) pairs
             """
-            return self.items().__iter__()
+            return self.items(types).__iter__()
 
-        def iterkeys(self):
+        def iterkeys(self, types=_roadrunner.SelectionRecord_ALL):
             """
             return an iterator over the mapping's keys
             """
-            return self.keys().__iter__()
+            return self.keys(types).__iter__()
 
-        def itervalues(self):
+        def itervalues(self, types=_roadrunner.SelectionRecord_ALL):
             """
             return an iterator over the mapping's values
             """
-            return self.values().__iter__()
+            return self.values(types).__iter__()
     %}
 }
 
@@ -900,9 +934,9 @@ namespace std { class ostream{}; }
 
     /**
      * creates a function signature of
-     * SWIGINTERN PyObject *rr_ExecutableModel_getIds(rr::ExecutableModel *self,uint32_t types);
+     * SWIGINTERN PyObject *rr_ExecutableModel_getIds(rr::ExecutableModel *self,int types);
      */
-    PyObject *getIds(uint32_t types) {
+    PyObject *getIds(int types) {
         std::list<std::string> ids;
 
         ($self)->getIds(types, ids);
@@ -1054,6 +1088,10 @@ namespace std { class ostream{}; }
 
     PyObject *getFloatingSpeciesInitAmountIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::INITIAL_FLOATING_AMOUNT);
+    }
+
+    PyObject *getFloatingSpeciesInitConcentrationIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::INITIAL_FLOATING_CONCENTRATION);
     }
 
     PyObject *getFloatingSpeciesAmountRateIds() {
@@ -1295,35 +1333,35 @@ namespace std { class ostream{}; }
                 self.__class__.__swig_setmethods__[s] = fset
                 setattr(self.__class__, s, property(fget, fset))
 
-        def keys(self):
-            return self.getIds(0xffffffff)
+        def keys(self, types=_roadrunner.SelectionRecord_ALL):
+            return self.getIds(types)
 
-        def values(self):
-            return [self.getValue(k) for k in self.keys()]
+        def values(self, types=_roadrunner.SelectionRecord_ALL):
+            return [self.getValue(k) for k in self.keys(types)]
 
-        def items(self):
-            return [(k, self.getValue(k)) for k in self.keys()]
+        def items(self, types=_roadrunner.SelectionRecord_ALL):
+            return [(k, self.getValue(k)) for k in self.keys(types)]
 
         def __len__(self):
             return len(self.keys())
 
-        def iteritems(self):
+        def iteritems(self, types=_roadrunner.SelectionRecord_ALL):
             """
             return an iterator over (key, value) pairs
             """
-            return self.items().__iter__()
+            return self.items(types).__iter__()
 
-        def iterkeys(self):
+        def iterkeys(self, types=_roadrunner.SelectionRecord_ALL):
             """
             return an iterator over the mapping's keys
             """
-            return self.keys().__iter__()
+            return self.keys(types).__iter__()
 
-        def itervalues(self):
+        def itervalues(self, types=_roadrunner.SelectionRecord_ALL):
             """
             return an iterator over the mapping's values
             """
-            return self.values().__iter__()
+            return self.values(types).__iter__()
 
     %}
 }

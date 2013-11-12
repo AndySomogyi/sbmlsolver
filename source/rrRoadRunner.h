@@ -278,12 +278,12 @@ public:
     /**
      * populates a given list with all the ids that this class can accept.
      */
-    void getIds(uint32_t types, std::list<std::string> &ids);
+    void getIds(int types, std::list<std::string> &ids);
 
     /**
      * returns a bit field of the ids that this class supports.
      */
-    uint32_t getSupportedIdTypes();
+    int getSupportedIdTypes();
 
 
     /**
