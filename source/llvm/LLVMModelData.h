@@ -15,7 +15,10 @@
 namespace rrllvm
 {
 
-struct LLVMModelData;
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4200 )
+#endif
 
 
 /**
@@ -56,57 +59,7 @@ struct LLVMModelData
      */
     double                              time;                             // 2
 
-    /**
-     * number of linearly independent rows in the stochiometry matrix.
-     */
-    unsigned                            numIndependentSpecies;            // 3
-
-    /**
-     * number of linerly dependent rows in the stoichiometry matrix.
-     *
-     * numIndependentVariables + numDependentVariables had better
-     * be equal to numFloatingSpecies
-     */
-    unsigned                            numDependentSpecies;              // 4
-    double*                             dependentSpeciesConservedSums;    // 5
-
-    /**
-     * number of global parameters
-     */
-    unsigned                            numGlobalParameters;              // 6
-    double*                             globalParameters;                 // 7
-
-    /**
-     * number of reactions, same as ratesSize.
-     * These are the calcuated reaction rates, not the
-     * species rates.
-     */
-    unsigned                            numReactions;                     // 8
-    double*                             reactionRates;                    // 9
-
-    unsigned                            numRateRules;                     // 10
-
-    /**
-     * All of the elelments which have a rate rule are stored here.
-     *
-     * As the integrator runs, this pointer can simply point to an offset
-     * in the integrator's state vector.
-     *
-     * Only used in the LLVM version.
-     */
-    double*                             rateRuleValues;                   // 11
-
-    /**
-     * the rate of change of all elements who's dynamics are determined
-     * by rate rules.
-     *
-     * In the LLVM version, this is just a pointer to a data block
-     * owned by the integrator. In the C version, lots of strange
-     * stuff goes on here, but the C version does allocate this block,
-     * and do all sorts of copying back and forth between the integrator's
-     * rate rule block.
-     */
-    double*                             rateRuleRates;                    // 12
+    unsigned                            numIndCompartments;               // 3
 
     /**
      * The total ammounts of the floating species, i.e.
@@ -115,23 +68,18 @@ struct LLVMModelData
      *
      * Note, the floating species consist of BOTH independent AND dependent
      * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
-     * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
+     * species, and the [numIndFloatingSpecies,numIndendentSpecies+numDependentSpecies)
      * contain the dependent species.
      */
-    unsigned                            numFloatingSpecies;               // 13
+    unsigned                            numIndFloatingSpecies;            // 4
 
     /**
-     * amount rates of change for floating species.
+     * \conservation
      *
-     * This pointer is ONLY valid during an evalModel call, otherwise it is
-     * zero. TODO, this needs be be moved to a parameter.
+     * conserved floating species require initial conditions to be set.
      */
-    double*                             floatingSpeciesAmountRates;       // 14
+    unsigned                            numConservedSpecies;              // 5
 
-    /**
-     * The total amount of a species in a compartment.
-     */
-    double*                             floatingSpeciesAmounts;           // 15
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -140,47 +88,159 @@ struct LLVMModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numBoundarySpecies;               // 16
-    double*                             boundarySpeciesAmounts;           // 17
+    unsigned                            numIndBoundarySpecies;            // 6
 
     /**
-     * number of compartments, and compartment volumes.
-     * units: volume
+     * number of global parameters
      */
-    unsigned                            numCompartments;                  // 18
-    double*                             compartmentVolumes;               // 19
+    unsigned                            numIndGlobalParameters;           // 7
+
+
+    /**
+     * all rate rules are by definition dependent
+     */
+    unsigned                            numRateRules;                     // 8
+
+    /**
+     * number of reactions, same as ratesSize.
+     * These are the calcuated reaction rates, not the
+     * species rates.
+     */
+    unsigned                            numReactions;                     // 9
+
+    unsigned                            numInitCompartments;              // 10
+    unsigned                            numInitFloatingSpecies;           // 11
+    unsigned                            numInitBoundarySpecies;           // 12
+    unsigned                            numInitGlobalParameters;          // 13
 
     /**
      * stoichiometry matrix
      */
-    rr::csr_matrix*                         stoichiometry;                    // 20
+    rr::csr_matrix*                     stoichiometry;                    // 14
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 21
+    unsigned                            numEvents;                        // 15
 
     /**
      * number of items in the state vector.
+     * should be numIndFloatingSpecies + numRateRules
      */
-    unsigned                            stateVectorSize;                  // 22
+    unsigned                            stateVectorSize;                  // 16
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 23
+    double*                             stateVector;                      // 17
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 24
+    double*                             stateVectorRate;                  // 18
+
+    /**
+     * the rate of change of all elements who's dynamics are determined
+     * by rate rules.
+     *
+     * This is just a pointer to a data block
+     * owned by the integrator.
+     *
+     * Normally NULL, only valid durring an evalModel call.
+     */
+    double*                             rateRuleRates;                    // 19
 
 
-    static void init(LLVMModelData&);
 
-    static void freeBuffers(LLVMModelData&);
+    /**
+     * amount rates of change for floating species.
+     *
+     * This pointer is ONLY valid during an evalModel call, otherwise it is
+     * zero. TODO, this needs be be moved to a parameter.
+     */
+    double*                             floatingSpeciesAmountRates;       // 20
+
+    // permanent data section
+
+
+    /**
+     * number of compartments, and compartment volumes.
+     * units: volume
+     */
+
+    double*                             compartmentVolumesAlias;          // 21
+    double*                             initCompartmentVolumesAlias;      // 22
+
+
+    /**
+     * \conservation
+     *
+     * length numIndFloatingSpecies
+     */
+    double*                             initFloatingSpeciesAmountsAlias;  // 23
+
+    double*                             initConservedSpeciesAmountsAlias; // 24
+
+    double*                             boundarySpeciesAmountsAlias;      // 25
+    double*                             initBoundarySpeciesAmountsAlias;  // 26
+
+    double*                             globalParametersAlias;            // 27
+    double*                             initGlobalParametersAlias;        // 28
+
+    double*                             reactionRatesAlias;               // 29
+
+    /**
+     * All of the elelments which have a rate rule are stored here.
+     *
+     * As the integrator runs, this pointer can simply point to an offset
+     * in the integrator's state vector.
+     *
+     * This pointer is part of the state vector. When any function is called by
+     * CVODE, this is actually a pointer to a CVODE owned memory block.
+     * Otherwise, this points to the alocated rateRuleValues block at the end
+     * of this struct.
+     *
+     */
+    double*                             rateRuleValuesAlias;              // 30
+
+
+
+
+    /**
+     * has length numIndFloatingSpecies
+     *
+     * This pointer is part of the state vector. When any function is called by
+     * CVODE, this is actually a pointer to a CVODE owned memory block.
+     */
+    double*                             floatingSpeciesAmountsAlias;      // 31
+
+    /**
+     * binary data layout:
+     *
+     * compartmentVolumes                [numIndCompartmentVolumes]       // 32
+     * initCompartmentVolumes            [numInitCompartmentVolumes]      // 33
+     * initFloatingSpeciesAmounts        [numInitFloatingSpecies]         // 34
+     * initConservedSpeciesAmounts       [numConservedSpecies]            // 35
+     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 36
+     * initBoundarySpeciesAmounts        [numInitBoundarySpecies]         // 37
+     * globalParameters                  [numIndGlobalParameters]         // 38
+     * initGlobalParameters              [numInitGlobalParameters]        // 39
+     * reactionRates                     [numReactions]                   // 40
+     *
+     * rateRuleValues                    [numRateRules]                   // 41
+     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 42
+     */
+    double                              data[0];                          // not listed
 };
+
+void LLVMModelData_free(LLVMModelData*);
+
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
+
+
 
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data);
 

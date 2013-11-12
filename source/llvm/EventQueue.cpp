@@ -86,7 +86,7 @@ Event& Event::operator=(const Event& rhs )
 
 Event::~Event()
 {
-    delete data;
+    delete[] data;
 }
 
 bool Event::isExpired() const

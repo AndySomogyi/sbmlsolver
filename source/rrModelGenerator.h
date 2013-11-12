@@ -21,12 +21,14 @@ public:
     enum ModelGeneratorOptions
     {
         /** currently only implemented with the C version */
-        ComputeAndAssignConsevationLaws = (0x1 << 0), // => 0x00000001
+        ComputeAndAssignConsevationLaws = (0x1 << 0),  // => 0x00000001
 
         /** C version specific, forces the model to be re-compiled */
-        ForceReCompile                  = (0x1 << 1), // => 0x00000010
+        ForceReCompile                  = (0x1 << 1),  // => 0x00000010
 
-        ReadOnlyModel                   = (0x1 << 2)  // => 0x00000100
+        ReadOnlyModel                   = (0x1 << 2),  // => 0x00000100
+
+        MUTABLE_INITIAL_CONDITIONS      = (0x1 << 3)   // => 0x00001000
     };
 
     /**

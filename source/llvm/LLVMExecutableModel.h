@@ -19,12 +19,14 @@
 #include "EvalReactionRatesCodeGen.h"
 #include "EvalRateRuleRatesCodeGen.h"
 #include "GetValuesCodeGen.h"
+#include "GetInitialValuesCodeGen.h"
 #include "GetEventValuesCodeGen.h"
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
 #include "EvalVolatileStoichCodeGen.h"
 #include "EvalConversionFactorCodeGen.h"
 #include "SetValuesCodeGen.h"
+#include "SetInitialValuesCodeGen.h"
 #include "EventQueue.h"
 
 #ifdef _MSC_VER
@@ -50,7 +52,11 @@ public:
      */
     LLVMExecutableModel();
 
-    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources);
+    /**
+     * takes ownership of the LLVMModelData pointer.
+     */
+    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources,
+            LLVMModelData* modelData);
 
 
     virtual ~LLVMExecutableModel();
@@ -80,8 +86,10 @@ public:
     virtual void reset();
 
 
+
     virtual int getNumIndFloatingSpecies();
     virtual int getNumDepFloatingSpecies();
+
     virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();
@@ -205,6 +213,9 @@ public:
     virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
             double *values);
 
+    virtual int getFloatingSpeciesConcentrationRates(int len, int const *indx,
+            double *values);
+
     /**
      * get the floating species concentrations
      *
@@ -290,10 +301,7 @@ public:
 
     virtual int setCompartmentVolumes(int len, int const *indx,
             const double *values);
-    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
-            double const *values);
-    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
-            double *values);
+
 
     virtual double getStoichiometry(int speciesIndex, int reactionIndex);
 
@@ -308,6 +316,63 @@ public:
      * @param[out] data a pointer which will hold a newly allocated memory block.
      */
     virtual int getStoichiometryMatrix(int* rows, int* cols, double** data);
+
+
+    /******************************* Initial Conditions Section *******************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    virtual int setFloatingSpeciesInitConcentrations(int len, const int *indx,
+            double const *values);
+
+    virtual int getFloatingSpeciesInitConcentrations(int len, const int *indx,
+            double *values);
+
+    virtual int setFloatingSpeciesInitAmounts(int len, const int *indx,
+                double const *values);
+
+    virtual int getFloatingSpeciesInitAmounts(int len, const int *indx,
+                    double *values);
+
+    virtual int setCompartmentInitVolumes(int len, const int *indx,
+                double const *values);
+
+    virtual int getCompartmentInitVolumes(int len, const int *indx,
+                    double *values);
+
+    /******************************* End Initial Conditions Section ***************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+    /************************ Selection Ids Species Section ***********************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * populates a given list with all the ids that this class can accept.
+     */
+    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+
+    /**
+     * returns a bit field of the ids that this class supports.
+     */
+    virtual uint32_t getSupportedIdTypes();
+
+    /**
+     * gets the value for the given id string. The string must be a SelectionRecord
+     * string that is accepted by this class.
+     */
+    virtual double getValue(const std::string& id);
+
+    /**
+     * sets the value coresponding to the given selection stringl
+     */
+    virtual void setValue(const std::string& id, double value);
+
+    /************************ End Selection Ids Species Section *******************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
 
 
     /******************************* Events Section *******************************/
@@ -334,21 +399,21 @@ public:
 
     inline double getEventDelay(uint event)
     {
-        return getEventDelayPtr(&modelData, event);
+        return getEventDelayPtr(modelData, event);
     }
 
     inline double getEventPriority(uint event)
     {
-        return getEventPriorityPtr(&modelData, event);
+        return getEventPriorityPtr(modelData, event);
     }
 
     inline bool getEventTrigger(uint event)
     {
         assert(event < symbols->getEventAttributes().size()
                         && "event out of bounds");
-        if (modelData.time >= 0.0)
+        if (modelData->time >= 0.0)
         {
-            return getEventTriggerPtr(&modelData, event);
+            return getEventTriggerPtr(modelData, event);
         }
         else
         {
@@ -386,7 +451,7 @@ public:
 
     inline void getEventData(uint eventId, double* data)
     {
-        eventTriggerPtr(&modelData, eventId, data);
+        eventTriggerPtr(modelData, eventId, data);
     }
 
     /**
@@ -394,7 +459,7 @@ public:
      */
     inline void assignEvent(uint eventId, double* data)
     {
-        eventAssignPtr(&modelData, eventId, data);
+        eventAssignPtr(modelData, eventId, data);
     }
 
     bool getEventTieBreak(uint eventA, uint eventB);
@@ -432,7 +497,7 @@ private:
      */
     std::tr1::shared_ptr<const ModelResources> resources;
 
-    LLVMModelData modelData;
+    LLVMModelData *modelData;
     const LLVMModelDataSymbols *symbols;
 
     EvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
@@ -460,7 +525,32 @@ private:
     SetCompartmentVolumeCodeGen::FunctionPtr setCompartmentVolumePtr;
     SetGlobalParameterCodeGen::FunctionPtr setGlobalParameterPtr;
 
+
+    // init value accessors
+    SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
+    GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr getFloatingSpeciesInitConcentrationsPtr;
+    SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;
+    GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
+    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
+    GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
+
+
     double getFloatingSpeciesConcentration(int index);
+
+    typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);
+
+
+    /**
+     * get the values from the model struct and populate the given values array.
+     */
+    int getValues(double (*funcPtr)(LLVMModelData*, int), int len,
+            const int *indx, double *values);
+
+    /**
+     * set the model struct values from the given array.
+     */
+    int setValues(bool (*funcPtr)(LLVMModelData*, int, double), GetNameFuncPtr, int len,
+            const int *indx, const double *values);
 
     static LLVMExecutableModel* dummy();
 

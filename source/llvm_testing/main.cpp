@@ -51,6 +51,39 @@ struct TestCase
 void getPairs(TestCase *&, int& npairs);
 
 
+struct A
+{
+    unsigned a;
+    unsigned b;
+};
+
+
+struct B
+{
+    unsigned a;
+    unsigned b;
+    double data[0];
+};
+
+
+
+struct C
+{
+    unsigned a;
+    unsigned b;
+    double data[1];
+};
+
+static void testStruct()
+{
+    std::cout << "size A: " << sizeof(A) << std::endl;
+    std::cout << "size B: " << sizeof(B) << std::endl;
+    std::cout << "size C: " << sizeof(C) << std::endl;
+
+
+}
+
+
 
 using namespace std;
 using namespace rr;
@@ -59,12 +92,18 @@ bool RunTest(const string& version, int caseNumber);
 
 int main(int argc, char* argv[])
 {
-    cout << "RoadRunner LLVM SBML Test Suite" << endl;
-    cout << "built on " << string( __DATE__ ) + ", " + string(__TIME__);
-    cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
+
+    //cout << "RoadRunner LLVM SBML Test Suite" << endl;
+    //cout << "built on " << string( __DATE__ ) + ", " + string(__TIME__);
+    //cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
+
+    /*
 
     const char* compiler = "llvm";
 
+    //testStruct();
+
+    return 0;
 
 
     if (argc > 2)
@@ -119,6 +158,9 @@ int main(int argc, char* argv[])
     std::vector<int> vec;
 
 
+    */
+
+
 
 
     Logger::enableConsoleLogging();
@@ -131,10 +173,6 @@ int main(int argc, char* argv[])
     if (argc >= 2)
     {
         testCase = atoi(argv[1]);
-        if (argc >= 3)
-        {
-            compiler = argv[2];
-        }
     }
 
     Log(Logger::LOG_NOTICE) << "running test case " << testCase;
@@ -213,7 +251,7 @@ int main(int argc, char* argv[])
     //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
     try
     {
-        TestCapabilities test(compiler, pairs[testCase].first, pairs[testCase].second);
+        TestEvalModel test("llvm", pairs[testCase].first, pairs[testCase].second);
         test.test();
         //TestRoadRunner test(compiler, pairs[testCase].first, pairs[testCase].second);
         //test.test(compiler);

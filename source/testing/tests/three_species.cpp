@@ -84,7 +84,7 @@ SUITE(ssThreeSpecies)
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
-            double val = aRR->getSelectionValue(aKey->mKey);
+            double val = aRR->getValue(aKey->mKey);
 
             //Check concentrations
             CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);

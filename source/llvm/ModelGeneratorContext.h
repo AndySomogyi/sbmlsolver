@@ -163,5 +163,9 @@ private:
     llvm::IRBuilder<> *builder;
 };
 
+
+LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols);
+
+
 } /* namespace rr */
 #endif /* ModelGeneratorContext_H_ */

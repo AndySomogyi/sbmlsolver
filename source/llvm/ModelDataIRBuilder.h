@@ -81,13 +81,49 @@ public:
             llvm::Value *value);
 
     /**
+     * the GEP for a floating species initial amount
+     */
+    llvm::Value *createInitFloatSpeciesAmtGEP(const std::string& id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the floating species initial amount value
+     */
+    llvm::Value *createInitFloatSpeciesAmtLoad(const std::string& id,
+            const llvm::Twine& name ="");
+
+    /**
+     * store the floating species initial value
+     */
+    llvm::Value *createInitFloatSpeciesAmtStore(const std::string &id,
+            llvm::Value *value);
+
+    /**
+     * the GEP for a compartment
+     */
+    llvm::Value* createInitCompGEP(const std::string& id,
+            const llvm::Twine &name = "");
+
+    /**
      * load the compartment value
+     */
+    llvm::Value *createInitCompLoad(const std::string& id,
+            const llvm::Twine& name ="");
+
+    /**
+     * store the compartment value
+     */
+    llvm::Value *createInitCompStore(const std::string &id,
+            llvm::Value *value);
+
+    /**
+     * load the global param value
      */
     llvm::Value *createGlobalParamLoad(const std::string& id,
             const llvm::Twine& name = "");
 
     /**
-     * store the compartment value
+     * store the global param value
      */
     llvm::Value *createGlobalParamStore(const std::string &id,
             llvm::Value *value);
@@ -229,12 +265,24 @@ public:
             llvm::ExecutionEngine *engine = 0);
 
     /**
+     * Creates a ModelData struct for the given sbml symbols in the
+     * llvm Module.
+     *
+     * This must be called before any model accessing code is generated.
+     */
+    static llvm::StructType *createModelDataStructType(llvm::Module *module,
+            llvm::ExecutionEngine *engine, LLVMModelDataSymbols const& symbols);
+
+    /**
      * get the ModelData struct type.
      *
-     * create if not found.
+     * createModelDataStructType must have been called for this to work.
+     *
+     * Throws an exception if the ModelData struct could not be obtained.
      */
-    static llvm::StructType *getStructType(llvm::Module *module,
-            llvm::ExecutionEngine *engine = 0);
+    static llvm::StructType *getStructType(llvm::Module *module);
+
+    static unsigned getModelDataSize(llvm::Module *module, llvm::ExecutionEngine *engine);
 
     static const char* LLVMModelDataName;
     static const char* csr_matrixName;
@@ -290,10 +338,6 @@ public:
     void test(llvm::Module *module, llvm::IRBuilder<> *build,
             llvm::ExecutionEngine * engine);
 
-    llvm::Value *createFloatSpeciesConcGEP(const std::string &id);
-
-    llvm::Value *createFloatSpeciesConcStore(const std::string &id,
-            llvm::Value *value);
 
     static llvm::Function *getDispIntDecl(llvm::Module *module);
     llvm::CallInst *createDispInt(llvm::Value *intVal);

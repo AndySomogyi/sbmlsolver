@@ -1,12 +1,12 @@
 /*
- * InitialValueSymbolResolver.h
+ * SBMLInitialValueSymbolResolver.h
  *
  *  Created on: Jul 25, 2013
  *      Author: andy
  */
 
-#ifndef InitialValueSymbolResolver_H_
-#define InitialValueSymbolResolver_H_
+#ifndef SBMLInitialValueSymbolResolver_H_
+#define SBMLInitialValueSymbolResolver_H_
 
 #include "CodeGen.h"
 #include "LLVMIncludes.h"
@@ -21,14 +21,17 @@ class Model;
 namespace rrllvm
 {
 
-class InitialValueSymbolResolver: public LoadSymbolResolver
+/**
+ * pulls values from the original sbml document.
+ */
+class SBMLInitialValueSymbolResolver: public LoadSymbolResolver
 {
 public:
-    InitialValueSymbolResolver(const libsbml::Model *model,
+    SBMLInitialValueSymbolResolver(const libsbml::Model *model,
             const LLVMModelDataSymbols &modelDataSymbols,
             const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder);
 
-    virtual ~InitialValueSymbolResolver();
+    virtual ~SBMLInitialValueSymbolResolver();
 
     virtual llvm::Value *loadSymbolValue(const std::string& symbol,
             const llvm::ArrayRef<llvm::Value*>& args =
@@ -42,4 +45,4 @@ protected:
 };
 
 } /* namespace rr */
-#endif /* InitialValueSymbolResolver_H_ */
+#endif /* SBMLInitialValueSymbolResolver_H_ */

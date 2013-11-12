@@ -145,6 +145,9 @@ public:
     virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
             double *values);
 
+    virtual int getFloatingSpeciesConcentrationRates(int len, int const *indx,
+            double *values);
+
 
     /**
      * get the boundary species amounts
@@ -309,14 +312,14 @@ public:
 
     virtual void print(std::ostream &stream);
 
-    /**
-     * get the event time delays
-     *
-     * @param[in] len the length of the indx and values arrays.
-     * @param[in] indx an array of length len of event indices
-     * @param[out] values an array of at least length len which will store the
-     *                event delays.
-     */
+    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+
+    virtual uint32_t getSupportedIdTypes();
+
+    virtual double getValue(const std::string& id);
+
+    virtual void setValue(const std::string& id, double value);
+
     virtual int getEventDelays(int len, int const *indx, double *values);
 
     virtual int getEventPriorities(int len, int const *indx, double *values);
@@ -458,6 +461,19 @@ public:
     void sortEventsByPriority(vector<Event>& firedEvents);
 
     void sortEventsByPriority(vector<int>& firedEvents);
+
+
+    virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,
+                double const *values);
+
+    virtual int getFloatingSpeciesInitAmounts(int len, int const *indx,
+                    double *values);
+
+    virtual int setCompartmentInitVolumes(int len, int const *indx,
+                double const *values);
+
+    virtual int getCompartmentInitVolumes(int len, int const *indx,
+                    double *values);
 
     friend class CompiledModelState;
 };

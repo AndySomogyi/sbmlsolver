@@ -32,28 +32,52 @@ enum ModelDataFields {
     Size = 0,                                 // 0
     Flags,                                    // 1
     Time,                                     // 2
-    NumIndependentSpecies,                    // 3
-    NumDependentSpecies,                      // 4
-    DependentSpeciesConservedSums,            // 5
-    NumGlobalParameters,                      // 6
-    GlobalParameters,                         // 7
-    NumReactions,                             // 8
-    ReactionRates,                            // 9
-    NumRateRules,                             // 10
-    RateRuleValues,                           // 11
-    RateRuleRates,                            // 12
-    NumFloatingSpecies,                       // 13
-    FloatingSpeciesAmountRates,               // 14
-    FloatingSpeciesAmounts,                   // 15
-    NumBoundarySpecies,                       // 16
-    BoundarySpeciesAmounts,                   // 17
-    NumCompartments,                          // 18
-    CompartmentVolumes,                       // 19
-    Stoichiometry,                            // 20
-    NumEvents,                                // 21
-    StateVectorSize,                          // 22
-    StateVector,                              // 23
-    StateVectorRate,                          // 24
+    NumIndCompartments,                       // 3
+    NumIndFloatingSpecies,                    // 4
+    NumConservedSpecies,                      // 5
+    NumIndBoundarySpecies,                    // 6
+    NumIndGlobalParameters,                   // 7
+    NumRateRules,                             // 8
+    NumReactions,                             // 9
+
+    NumInitCompartments,                      // 10
+    NumInitFloatingSpecies,                   // 11
+    NumInitBoundarySpecies,                   // 12
+    NumInitGlobalParameters,                  // 13
+
+    Stoichiometry,                            // 14
+
+    NumEvents,                                // 15
+    StateVectorSize,                          // 16
+    StateVector,                              // 17
+    StateVectorRate,                          // 18
+    RateRuleRates,                            // 19
+    FloatingSpeciesAmountRates,               // 20
+
+    CompartmentVolumesAlias,                  // 21
+    InitCompartmentVolumesAlias,              // 22
+    InitFloatingSpeciesAmountsAlias,          // 23
+    InitConservedSpeciesAmountsAlias,         // 24
+    BoundarySpeciesAmountsAlias,              // 25
+    InitBoundarySpeciesAmountsAlias,          // 26
+    GlobalParametersAlias,                    // 27
+    InitGlobalParametersAlias,                // 28
+    ReactionRatesAlias,                       // 29
+
+    RateRuleValuesAlias,                      // 30
+    FloatingSpeciesAmountsAlias,              // 31
+
+    CompartmentVolumes,                       // 32
+    InitCompartmentVolumes,                   // 33
+    InitFloatingSpeciesAmounts,               // 34
+    InitConservedSpeciesAmounts,              // 35
+    BoundarySpeciesAmounts,                   // 36
+    InitBoundarySpeciesAmounts,               // 37
+    GlobalParameters,                         // 38
+    InitGlobalParameters,                     // 39
+    ReactionRates,                            // 40
+    NotSafe_RateRuleValues,                   // 41
+    NotSafe_FloatingSpeciesAmounts,           // 42
 };
 
 enum EventAtributes
@@ -92,6 +116,9 @@ enum EventAtributes
  * prone and its easier to check if they are valid i.e. only check that
  * they are less than the the array size and we do not have to check that
  * it is positive.
+ *
+ * * All symbols from the sbml are reordered such that the independent
+ * ones are first, followed by the dependent values.
  */
 class LLVMModelDataSymbols
 {
@@ -134,6 +161,9 @@ public:
 
     uint getBoundarySpeciesIndex(std::string const&) const;
 
+    /**
+     * number of boundary species not defined by rules.
+     */
     uint getIndependentBoundarySpeciesSize() const;
 
     /**
@@ -145,6 +175,9 @@ public:
      * This is size of the allocated array in the ModelData struct.
      */
     uint getIndependentFloatingSpeciesSize() const;
+
+
+    uint getConservedSpeciesSize() const;
 
     uint getGlobalParameterIndex(std::string const&) const;
 
@@ -161,7 +194,19 @@ public:
     uint getReactionSize() const;
 
     std::vector<std::string> getGlobalParameterIds() const;
+
+    /**
+     * the list that is returned by ExecutableModel, so order must
+     * remain constant.
+     *
+     * All floating species ids, independent first.
+     */
     std::vector<std::string> getFloatingSpeciesIds() const;
+
+
+    /**
+     * total size of all floating species.
+     */
     uint getFloatingSpeciesSize() const;
 
     uint getBoundarySpeciesSize() const;
@@ -177,6 +222,11 @@ public:
      */
     uint getIndependentCompartmentSize() const;
 
+
+
+    /**
+     * all the boundary species ids, independent first.
+     */
     std::vector<std::string> getBoundarySpeciesIds() const;
 
     /**
@@ -192,19 +242,25 @@ public:
      * initialize and allocate the buffers (including the stoich matrix)
      * for an existing ModelData struct.
      */
-    void initAllocModelDataBuffers(LLVMModelData& m) const;
+    //void initAllocModelDataBuffers(LLVMModelData& m) const;
 
     void print() const;
 
     /**
      * if there are no rules for an element, then they are considered
      * independent.
+     *
+     * These are only for elements, not init values, will return false
+     * for all init symbols.
      */
     bool isIndependentElement(const std::string& id) const;
+
 
     bool hasRateRule(const std::string& id) const;
 
     bool hasAssignmentRule(const std::string& id) const;
+
+    bool hasInitialAssignmentRule(const std::string& id) const;
 
     bool isIndependentFloatingSpecies(const std::string& id) const;
 
@@ -219,6 +275,27 @@ public:
     const SpeciesReferenceInfo& getNamedSpeciesReferenceInfo(
             const std::string& id) const;
 
+
+
+    /**
+     * checks if the given symbol is a init value for a conserved species.
+     *
+     * Global parameters or floating species can be conservied moieties,
+     * a global parameter is a CM if it is defined by a rule as a linear
+     * combination of floating species.
+     *
+     * A floating species may be a CM if it is defined by a rule
+     * as a linear combination of independent species.
+     *
+     * If a floating species is a CM, then it must by definition
+     * be a dependent floating species.
+     *
+     * It can however have independent initial conditions defined
+     * either by intial values or initial assignment rules.
+     */
+    bool isConservedMoiety(const std::string& symbol) const;
+
+
     const std::vector<unsigned char>& getEventAttributes() const;
 
     /**
@@ -232,6 +309,113 @@ public:
      */
     uint getEventBufferSize(uint eventId) const;
 
+    /**
+     * the the row indices of non-zero stoichiometry values
+     */
+    const std::vector<uint>& getStoichRowIndx() const;
+
+    /**
+     * the the column indices of non-zero stoichiometry values
+     */
+    const std::vector<uint>& getStoichColIndx() const;
+
+
+    /************************ Initial Conditions Section **************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * checks if the given symbol is an init value for an independent
+     * floating species.
+     */
+    bool isIndependentInitFloatingSpecies(const std::string& symbol) const;
+
+    /**
+     * Is this sbml element an independent initial value.
+     *
+     * Independent initial values do not have assignment or
+     * initial assigment rules, but may have rate rules.
+     */
+    bool isIndependentInitElement(const std::string& symbol) const;
+
+    bool isIndependentInitCompartment(const std::string& symbol) const;
+
+    /**
+     * get the index of a floating species initial value.
+     *
+     * has the same index as the run time floating species.
+     */
+    uint getFloatingSpeciesInitIndex(const std::string& symbol) const;
+
+    /**
+     * get the index of a compartment initial value
+     *
+     * has the same index as the run time compartment.
+     */
+    uint getCompartmentInitIndex(const std::string& symbol) const;
+
+
+    uint getInitCompartmentSize() const;
+    uint getInitFloatingSpeciesSize() const;
+    uint getInitBoundarySpeciesSize() const;
+    uint getInitGlobalParameterSize() const;
+
+private:
+
+    std::set<std::string> initAssignmentRules;
+
+    /**
+     * map of floating species init value symbols to thier
+     * index in the array.
+     *
+     * All floating species are stored in this map, however
+     * they are reordered and only the ones with index <
+     * independentInitFloatingSpeciesSize are allocated storage.
+     */
+    StringUIntMap initFloatingSpeciesMap;
+    StringUIntMap initBoundarySpeciesMap;
+    StringUIntMap initCompartmentsMap;
+    StringUIntMap initGlobalParametersMap;
+
+    /**
+     * Elements that do NOT have assignment rules are considered
+     * independent initial conditions.
+     *
+     * Ind init conditions CAN however defined by rules.
+     *
+     * ind init conditions are all elements that do not have
+     * assignment or initial assignment rules.
+     */
+
+    /**
+     * float species init array has floating species NOT
+     * defined by init assignment rules, assignment rules,
+     * but rate rules are OK. This does not contain the init values
+     * for conserved species.
+     */
+    uint independentInitFloatingSpeciesSize;
+
+    /**
+     * boundary species not defined by any rule
+     * including init assignment rules.
+     */
+    uint independentInitBoundarySpeciesSize;
+
+    /**
+     * global params not defined by any rule
+     */
+    uint independentInitGlobalParameterSize;
+
+    /**
+     * compartments not defined by any rules.
+     */
+    uint independentInitCompartmentSize;
+
+
+    /************************ End Initial Conditions Section **********************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
 
 private:
 
@@ -240,6 +424,8 @@ private:
     StringUIntMap boundarySpeciesMap;
     StringUIntMap compartmentsMap;
     StringUIntMap globalParametersMap;
+
+
 
     /**
      * map of all identified species reference (species references with ids)
@@ -280,16 +466,20 @@ private:
      */
     std::set<std::string> assigmentRules;
 
+
+
+
     /**
      * rate rules, index by variable name.
      */
     StringUIntMap rateRules;
 
-    uint linearlyIndependentFloatingSpeciesSize;
     uint independentFloatingSpeciesSize;
     uint independentBoundarySpeciesSize;
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
+
+
 
     /**
      * the number of assignments each event has
@@ -303,6 +493,10 @@ private:
     void initFloatingSpecies(const libsbml::Model *,
             bool computeAndAssignConsevationLaws);
 
+
+    /**
+     *
+     */
     void initCompartments(const libsbml::Model *);
 
     /**

@@ -13,7 +13,7 @@
 #include "SymbolForest.h"
 #include "ASTNodeFactory.h"
 #include "ModelDataIRBuilder.h"
-#include "InitialValueSymbolResolver.h"
+#include "SBMLInitialValueSymbolResolver.h"
 #include "ModelDataSymbolResolver.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLVisitor.h>
@@ -46,16 +46,21 @@ public:
 
 private:
 
-    void codeGenSpecies(ModelDataStoreSymbolResolver& modelDataResolver);
+    void codeGenSpecies(StoreSymbolResolver& modelDataResolver);
 
     void codeGenStoichiometry(llvm::Value *modelData,
             ModelDataStoreSymbolResolver& modelDataResolver);
 
-    void codeGenCompartments(ModelDataStoreSymbolResolver& modelDataResolver);
+    void codeGenCompartments(StoreSymbolResolver& modelDataResolver);
 
-    void codeGenParameters(ModelDataStoreSymbolResolver& modelDataResolver);
+    void codeGenParameters(StoreSymbolResolver& modelDataResolver);
 
-    InitialValueSymbolResolver initialValueResolver;
+
+    void codeGenInitSpecies(StoreSymbolResolver& modelDataResolver);
+
+    void codeGenInitCompartments(StoreSymbolResolver& modelDataResolver);
+
+    SBMLInitialValueSymbolResolver initialValueResolver;
 };
 
 } /* namespace rr */

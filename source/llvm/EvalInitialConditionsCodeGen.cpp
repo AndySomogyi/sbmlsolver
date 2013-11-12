@@ -8,7 +8,8 @@
 #include "EvalInitialConditionsCodeGen.h"
 #include "LLVMException.h"
 #include "ASTNodeCodeGen.h"
-#include "InitialValueSymbolResolver.h"
+#include "SBMLInitialValueSymbolResolver.h"
+#include "ModelInitialValueSymbolResolver.h"
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
@@ -65,13 +66,21 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     codeGenParameters(modelDataResolver);
 
+
+    ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,
+                modelSymbols, dataSymbols, builder, initialValueResolver);
+
+    codeGenInitSpecies(initValueStoreResolver);
+
+    codeGenInitCompartments(initValueStoreResolver);
+
     builder.CreateRetVoid();
 
     return verifyFunction();
 }
 
 void EvalInitialConditionsCodeGen::codeGenSpecies(
-        ModelDataStoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver)
 {
     {
         vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
@@ -162,7 +171,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
 }
 
 void EvalInitialConditionsCodeGen::codeGenCompartments(
-        ModelDataStoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver)
 {
     vector<string> compartments = dataSymbols.getCompartmentIds();
 
@@ -179,8 +188,47 @@ void EvalInitialConditionsCodeGen::codeGenCompartments(
     }
 }
 
+void EvalInitialConditionsCodeGen::codeGenInitCompartments(
+        StoreSymbolResolver& modelDataResolver)
+{
+    vector<string> compartments = dataSymbols.getCompartmentIds();
+
+    for (vector<string>::const_iterator i = compartments.begin();
+            i != compartments.end(); i++)
+    {
+        const string& id = *i;
+
+        if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+        {
+            modelDataResolver.storeSymbolValue(id,
+                    initialValueResolver.loadSymbolValue(id));
+        }
+    }
+}
+
+void EvalInitialConditionsCodeGen::codeGenInitSpecies(
+        StoreSymbolResolver& modelDataResolver)
+{
+    {
+        vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
+
+        for (vector<string>::const_iterator i = floatingSpecies.begin();
+                i != floatingSpecies.end(); i++)
+        {
+            const string& id = *i;
+
+            if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+            {
+                modelDataResolver.storeSymbolValue(id,
+                        initialValueResolver.loadSymbolValue(id));
+            }
+        }
+    }
+}
+
+
 void EvalInitialConditionsCodeGen::codeGenParameters(
-        ModelDataStoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver)
 {
     vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
 
@@ -196,5 +244,6 @@ void EvalInitialConditionsCodeGen::codeGenParameters(
         }
     }
 }
+
 
 } /* namespace rr */

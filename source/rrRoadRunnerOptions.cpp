@@ -26,7 +26,7 @@ LoadSBMLOptions::LoadSBMLOptions()
 {
     version = 0;
     size = sizeof(LoadSBMLOptions);
-    modelGeneratorOpt = 0;
+    modelGeneratorOpt = MUTABLE_INITIAL_CONDITIONS;
     loadFlags = 0;
 }
 

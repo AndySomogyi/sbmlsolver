@@ -8,6 +8,7 @@
 #include "TestBase.h"
 #include "tests.h"
 #include "rrModelGeneratorFactory.h"
+#include "rrRoadRunnerOptions.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
 
@@ -60,7 +61,9 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     string support = home + "/local/rr_support/";
     ModelGenerator *generator = ModelGeneratorFactory::createModelGenerator(compiler, tmp, support);
 
-    model = generator->createModel(sbml, 0);
+    LoadSBMLOptions opt;
+
+    model = generator->createModel(sbml, opt.modelGeneratorOpt);
 
     delete generator;
 }

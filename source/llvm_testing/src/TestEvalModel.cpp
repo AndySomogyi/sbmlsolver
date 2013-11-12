@@ -44,6 +44,33 @@ bool TestEvalModel::test()
 
     Log(Logger::LOG_INFORMATION) << model << endl;
 
+    double vol = 23;
+
+    model->setCompartmentInitVolumes(1, 0, &vol);
+
+    Log(Logger::LOG_INFORMATION) << "After set init vol:" << endl;
+    Log(Logger::LOG_INFORMATION) << model << endl;
+
+    double newvol = 0;
+
+    model->getCompartmentInitVolumes(1, 0, &newvol);
+
+    Log(Logger::LOG_INFORMATION) << "new vol:" << newvol << endl;
+
+
+    vol = -1;
+
+    model->setCompartmentInitVolumes(1, 0, &vol);
+
+    Log(Logger::LOG_INFORMATION) << "After set init vol:" << endl;
+    Log(Logger::LOG_INFORMATION) << model << endl;
+
+    newvol = 0;
+
+    model->getCompartmentInitVolumes(1, 0, &newvol);
+
+    Log(Logger::LOG_INFORMATION) << "new vol:" << newvol << endl;
+
     return true;
 }
 

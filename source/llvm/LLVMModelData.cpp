@@ -46,64 +46,65 @@ namespace rrllvm
 {
 
 
-
-void LLVMModelData::init(LLVMModelData &data)
-{
-    //Zero data structure..
-    memset(&data, 0, sizeof(LLVMModelData));
-}
-
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 {
-    os << "LLVMModelData:"                 << endl;
-    os << "size: "                     << data.size << endl;                             // 0
-    os << "flags: "                    << data.flags << endl;                            // 1
-    os << "time: "                     << data.time << endl;                             // 2
-    os << "numIndependentSpecies: "    << data.numIndependentSpecies << endl;            // 3
-    os << "numDependentSpecies: "      << data.numDependentSpecies << endl;              // 4
-    os << "dependentSpeciesConservedSums:" << endl;                                      // 5
-    dump_array(os, data.numDependentSpecies, data.dependentSpeciesConservedSums);
-    os << "numGlobalParameters: "      << data.numGlobalParameters << endl;              // 6
-    os << "globalParameters: "         << endl;                                          // 7
-    dump_array(os, data.numGlobalParameters, data.globalParameters);
-    os << "numReactions: "             << data.numReactions << endl;                     // 8
-    os << "reactionRates: "            << endl;                                          // 9
-    dump_array(os, data.numReactions, data.reactionRates);
-    os << "numRateRules: "             << data.numRateRules << endl;                     // 10
-    os << "rateRuleValues: "           << endl;                                          // 11
-    dump_array(os, data.numRateRules, data.rateRuleValues);
+    os << "LLVMModelData:"                  << endl;
+    os << "size: "                          << data.size << endl;
+    os << "flags: "                         << data.flags << endl;
+    os << "time: "                          << data.time << endl;
+    os << "numIndFloatingSpecies: "         << data.numIndFloatingSpecies << endl;
 
-    os << "numFloatingSpecies: "       << data.numFloatingSpecies << endl;       // 15
+    os << "numIndGlobalParameters: "        << data.numIndGlobalParameters << endl;
+    os << "globalParameters: "              << endl;
+    dump_array(os, data.numIndGlobalParameters, data.globalParametersAlias);
 
-    os << "floatingSpeciesAmounts: "    << endl;           // 19
-    dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmounts);
+    os << "numReactions: "                  << data.numReactions << endl;
+    os << "reactionRates: "                 << endl;
+    dump_array(os, data.numReactions, data.reactionRatesAlias);
 
-    os << "numBoundarySpecies: "       << data.numBoundarySpecies << endl;  // 21
+    os << "numRateRules: "                  << data.numRateRules << endl;
+    os << "rateRuleValues: "                << endl;
+    dump_array(os, data.numRateRules, data.rateRuleValuesAlias);
 
-    os << "boundarySpeciesAmounts:"    << endl;                             // 23
-    dump_array(os, data.numBoundarySpecies, data.boundarySpeciesAmounts);
-//    unsigned*                                boundarySpeciesCompartments;      // 24
-    os << "numCompartments: "          << data.numCompartments << endl;     // 25
-    os << "compartmentVolumes:"        << endl;                             // 26
-    dump_array(os, data.numCompartments, data.compartmentVolumes);
-    os << "stoichiometry:"             << endl;                             // 27
+    os << "floatingSpeciesAmounts: "        << endl;
+    dump_array(os, data.numIndFloatingSpecies, data.floatingSpeciesAmountsAlias);
+
+    os << "numIndBoundarySpecies: "         << data.numIndBoundarySpecies << endl;
+
+    os << "boundarySpeciesAmounts:"         << endl;
+    dump_array(os, data.numIndBoundarySpecies, data.boundarySpeciesAmountsAlias);
+
+    os << "numIndCompartments: "            << data.numIndCompartments << endl;
+    os << "compartmentVolumes:"             << endl;
+    dump_array(os, data.numIndCompartments, data.compartmentVolumesAlias);
+
+    os << "stoichiometry:"                  << endl;
     os << data.stoichiometry;
+
+
+    os << "numInitFloatingSpecies: "        << data.numInitFloatingSpecies << endl;
+    os << "initFloatingSpeciesAmounts: "    << endl;
+    dump_array(os, data.numInitFloatingSpecies, data.initFloatingSpeciesAmountsAlias);
+
+    os << "numInitCompartments: "           << data.numInitCompartments << endl;
+    os << "initCompartmentVolumes:"         << endl;
+    dump_array(os, data.numInitCompartments, data.initCompartmentVolumesAlias);
+
+    os << "numInitGlobalParameters: "       << data.numInitGlobalParameters << endl;
+    os << "initGlobalParameters: "          << endl;
+    dump_array(os, data.numInitGlobalParameters, data.initGlobalParametersAlias);
 
 
     return os;
 }
 
-void  LLVMModelData::freeBuffers(LLVMModelData &data)
+void  LLVMModelData_free(LLVMModelData *data)
 {
-    free(data.floatingSpeciesAmounts);
-    free(data.rateRuleValues);
-    free(data.reactionRates);
-    free(data.dependentSpeciesConservedSums);
-    free(data.globalParameters);
-    free(data.compartmentVolumes);
-    free(data.boundarySpeciesAmounts);
-
-    csr_matrix_delete(data.stoichiometry);
+    if (data)
+    {
+        csr_matrix_delete(data->stoichiometry);
+        ::free(data);
+    }
 }
 
 } // namespace rr

@@ -33,6 +33,8 @@ typedef std::tr1::unordered_map<std::string, WeakModelPtr> ModelPtrMap;
 static Poco::Mutex cachedModelsMutex;
 static ModelPtrMap cachedModels;
 
+
+
 /**
  * copy the cached model fields between a cached model, and a
  * executable model.
@@ -86,7 +88,7 @@ bool LLVMModelGenerator::setTemporaryDirectory(const string& path)
 
 string LLVMModelGenerator::getTemporaryDirectory()
 {
-    return LLVMCompiler::gurgle();
+    return "not used";
 }
 
 class test
@@ -144,7 +146,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         if (sp)
         {
             Log(Logger::LOG_DEBUG) << "found a cached model for " << md5;
-            return new LLVMExecutableModel(sp);
+            return new LLVMExecutableModel(sp, createModelData(*sp->symbols));
         }
         else
         {
@@ -235,12 +237,60 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
                 SetGlobalParameterCodeGen(context).createFunction();
     }
 
+    if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
+    {
+        rc->getFloatingSpeciesInitConcentrationsPtr =
+                GetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+        rc->setFloatingSpeciesInitConcentrationsPtr =
+                SetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+
+        rc->getFloatingSpeciesInitAmountsPtr =
+                GetFloatingSpeciesInitAmountCodeGen(context).createFunction();
+        rc->setFloatingSpeciesInitAmountsPtr =
+                SetFloatingSpeciesInitAmountCodeGen(context).createFunction();
+
+        rc->getCompartmentInitVolumesPtr =
+                GetCompartmentInitVolumeCodeGen(context).createFunction();
+        rc->setCompartmentInitVolumesPtr =
+                SetCompartmentInitVolumeCodeGen(context).createFunction();
+    }
+    else
+    {
+        rc->getFloatingSpeciesInitConcentrationsPtr = 0;
+        rc->setFloatingSpeciesInitConcentrationsPtr = 0;
+
+        rc->getFloatingSpeciesInitAmountsPtr = 0;
+        rc->setFloatingSpeciesInitAmountsPtr = 0;
+
+        rc->getCompartmentInitVolumesPtr = 0;
+        rc->setCompartmentInitVolumesPtr = 0;
+    }
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
     // something else.
     // Now that everything that could have thrown would have thrown, we
     // can now create the model and set its fields.
+
+    LLVMModelData *modelData = createModelData(context.getModelDataSymbols());
+
+    uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getModule(),
+            &context.getExecutionEngine());
+
+    if (llvmsize != modelData->size)
+    {
+        std::stringstream s;
+
+        s << "LLVM Model Data size " << llvmsize << " is different from " <<
+                "C++ size of LLVM ModelData, " << modelData->size;
+
+        LLVMModelData_free(modelData);
+
+        Log(Logger::LOG_FATAL) << s.str();
+
+        throw_llvm_exception(s.str());
+    }
 
     // * MOVE * the bits over from the context to the exe model.
     context.stealThePeach(&rc->symbols, &rc->context,
@@ -286,7 +336,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         cachedModelsMutex.unlock();
     }
 
-    return new LLVMExecutableModel(rc);
+    return new LLVMExecutableModel(rc, modelData);
 }
 
 Compiler* LLVMModelGenerator::getCompiler()
@@ -312,6 +362,109 @@ std::string to_string(const llvm::Value *value)
     return str;
 }
 
-} /* namespace rr */
+LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
+{
+    uint modelDataBaseSize = sizeof(LLVMModelData);
+
+    uint numIndCompartments = symbols.getIndependentCompartmentSize();
+    uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
+    uint numConservedSpecies = symbols.getConservedSpeciesSize();
+    uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
+    uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
+
+    uint numInitCompartments = symbols.getInitCompartmentSize();
+    uint numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
+    uint numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
+    uint numInitGlobalParameters = symbols.getInitGlobalParameterSize();
+
+    // no initial conditions for these
+    uint numRateRules = symbols.getRateRuleSize();
+    uint numReactions = symbols.getReactionSize();
+
+    uint modelDataSize = modelDataBaseSize +
+        sizeof(double) * (
+            numIndCompartments +
+            numInitCompartments +
+            numInitFloatingSpecies +
+            numConservedSpecies +
+            numIndBoundarySpecies +
+            numInitBoundarySpecies +
+            numIndGlobalParameters +
+            numInitGlobalParameters +
+            numReactions +
+            numRateRules +
+            numIndFloatingSpecies
+            );
+
+    LLVMModelData *modelData = (LLVMModelData*)calloc(
+            modelDataSize, sizeof(unsigned char));
+
+    modelData->size = modelDataSize;
+    modelData->numIndCompartments = numIndCompartments;
+    modelData->numIndFloatingSpecies = numIndFloatingSpecies;
+    modelData->numIndBoundarySpecies = numIndBoundarySpecies;
+    modelData->numConservedSpecies = numConservedSpecies;
+    modelData->numIndGlobalParameters = numIndGlobalParameters;
+
+    modelData->numInitCompartments = numInitCompartments;
+    modelData->numInitFloatingSpecies = numInitFloatingSpecies;
+    modelData->numInitBoundarySpecies = numInitBoundarySpecies;
+    modelData->numInitBoundarySpecies = numInitGlobalParameters;
+
+    modelData->numRateRules = numRateRules;
+    modelData->numReactions = numReactions;
+    modelData->numEvents = symbols.getEventAttributes().size();
+
+    // set the aliases to the offsets
+    uint offset = 0;
+
+    modelData->compartmentVolumesAlias = &modelData->data[offset];
+    offset += numIndCompartments;
+
+    modelData->initCompartmentVolumesAlias = &modelData->data[offset];
+    offset += numInitCompartments;
+
+    modelData->initFloatingSpeciesAmountsAlias = &modelData->data[offset];
+    offset += numInitFloatingSpecies;
+
+    modelData->initConservedSpeciesAmountsAlias = &modelData->data[offset];
+    offset += numConservedSpecies;
+
+    modelData->boundarySpeciesAmountsAlias = &modelData->data[offset];
+    offset += numIndBoundarySpecies;
+
+    modelData->initBoundarySpeciesAmountsAlias = &modelData->data[offset];
+    offset += numInitBoundarySpecies;
+
+    modelData->globalParametersAlias = &modelData->data[offset];
+    offset += numIndGlobalParameters;
+
+    modelData->initGlobalParametersAlias = &modelData->data[offset];
+    offset += numInitGlobalParameters;
+
+    modelData->reactionRatesAlias = &modelData->data[offset];
+    offset += numReactions;
+
+    modelData->rateRuleValuesAlias = &modelData->data[offset];
+    offset += numRateRules;
+
+    modelData->floatingSpeciesAmountsAlias = &modelData->data[offset];
+    offset += numIndFloatingSpecies;
+
+    assert (modelDataBaseSize + offset * sizeof(double) == modelDataSize  &&
+            "LLVMModelData size not equal to base size + data");
+
+    // allocate the stoichiometry matrix
+    const std::vector<uint> &stoichRowIndx = symbols.getStoichRowIndx();
+    const std::vector<uint> &stoichColIndx = symbols.getStoichColIndx();
+    std::vector<double> stoichValues(stoichRowIndx.size(), 0);
+
+    modelData->stoichiometry = rr::csr_matrix_new(numIndFloatingSpecies, numReactions,
+            stoichRowIndx, stoichColIndx, stoichValues);
+
+    return modelData;
+}
+
+} /* namespace rrllvm */
 
 

@@ -46,6 +46,8 @@
 // C++ std::map handling
 %include "std_vector.i"
 
+%include "std_list.i"
+
 //enables better handling of STL exceptions
 %include "exception.i"
 
@@ -58,13 +60,14 @@
 
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
-
+%template(StringList) std::list<std::string>;
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
 %template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
 %apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
 
+%apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
 %exception {
   try {
@@ -246,30 +249,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
     s << "]";
 
     return s.str();
-}
-
-
-
-// we can write a single function to pick the string lists out
-// of the model instead of duplicating it 6 times with
-// fun ptrs.
-
-// make this static here, hide our implementation...
-static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
-        getNumPtr numFunc, getNamePtr nameFunc)
-{
-    const int num = (model->*numFunc)();
-
-    PyObject* pyList = PyList_New(num);
-
-    for(int i = 0; i < num; i++)
-    {
-        const std::string& name  = (model->*nameFunc)(i);
-        PyObject* pyStr = PyString_FromString(name.c_str());
-        PyList_SET_ITEM(pyList, i, pyStr);
-    }
-
-    return pyList;
 }
 
 /**
@@ -498,9 +477,9 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::RoadRunner::simulate;
 //%ignore rr::RoadRunner::getExtendedVersionInfo;
 %ignore rr::RoadRunner::getNumberOfReactions;
-%ignore rr::RoadRunner::getValue;
+//%ignore rr::RoadRunner::getValue;
 //%ignore rr::RoadRunner::steadyState;
-%ignore rr::RoadRunner::getSelectionValue(const SelectionRecord&);
+%ignore rr::RoadRunner::getValue(const SelectionRecord&);
 //%ignore rr::RoadRunner::this;
 %ignore rr::RoadRunner::getFloatingSpeciesByIndex;
 %ignore rr::RoadRunner::getParameterValue;
@@ -512,7 +491,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::RoadRunner::writeSBML;
 %ignore rr::RoadRunner::getSimulateOptions;
 %ignore rr::RoadRunner::setSimulateOptions;
-%ignore rr::RoadRunner::_getDuplicateSimulateOptions;
+%ignore rr::RoadRunner::getIds(uint32_t types, std::list<std::string> &ids);
+
 
 
 // rename these, the injected python code will take care of
@@ -609,6 +589,13 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::setConservedSumChanged(bool);
 %ignore rr::ExecutableModel::convertToAmounts() ;
 
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::getIds(uint32_t types, std::list<std::string> &ids);
 
 
 // ignore Plugin methods that will be deprecated
@@ -634,7 +621,6 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::Plugin::getCategory;
 %ignore rr::Plugin::getParameter;
 //%ignore rr::Plugin::resetPlugin;
-
 
 
 
@@ -725,32 +711,87 @@ namespace std { class ostream{}; }
         return s.str();
     }
 
-    double getSelectionValue(const rr::SelectionRecord* pRecord) {
-        return $self->getSelectionValue(*pRecord);
+    double getValue(const rr::SelectionRecord* pRecord) {
+        return $self->getValue(*pRecord);
     }
 
+    double __getitem__(const std::string& id) {
+        return ($self)->getValue(id);
+    }
 
-    %pythoncode %{
-       def getModel(self):
-           m = self._getModel();
-           m._makeProperties()
-           return m
+    void __setitem__(const std::string& id, double value) {
+        ($self)->setValue(id, value);
+    }
 
-       __swig_getmethods__["selections"] = _getSelections
-       __swig_setmethods__["selections"] = _setSelections
-       __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
-       __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
-       __swig_getmethods__["model"] = _getModel
+    PyObject *getIds(uint32_t types) {
+        std::list<std::string> ids;
 
-       if _newclass:
-           selections = property(_getSelections, _setSelections)
-           steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
-           model = property(getModel)
+        ($self)->getIds(types, ids);
 
-       def foo(self):
-           return "foo"
+        unsigned size = ids.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+        {
+            const std::string& id  = *i;
+            PyObject* pyStr = PyString_FromString(id.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+ 
+
+   %pythoncode %{
+        def getModel(self):
+            m = self._getModel();
+            m._makeProperties()
+            return m
+
+        __swig_getmethods__["selections"] = _getSelections
+        __swig_setmethods__["selections"] = _setSelections
+        __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
+        __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
+        __swig_getmethods__["model"] = _getModel
+
+        if _newclass:
+            selections = property(_getSelections, _setSelections)
+            steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+            model = property(getModel)
 
 
+        def keys(self):
+            return self.getIds(0xffffffff)
+
+        def values(self):
+            return [self.getValue(k) for k in self.keys()]
+
+        def items(self):
+            return [(k, self.getValue(k)) for k in self.keys()]
+
+        def __len__(self):
+            return len(self.keys())
+
+        def iteritems(self):
+            """
+            return an iterator over (key, value) pairs
+            """
+            return self.items().__iter__()
+
+        def iterkeys(self):
+            """
+            return an iterator over the mapping's keys
+            """
+            return self.keys().__iter__()
+
+        def itervalues(self):
+            """
+            return an iterator over the mapping's values
+            """
+            return self.values().__iter__()
     %}
 }
 
@@ -857,6 +898,31 @@ namespace std { class ostream{}; }
 %extend rr::ExecutableModel
 {
 
+    /**
+     * creates a function signature of
+     * SWIGINTERN PyObject *rr_ExecutableModel_getIds(rr::ExecutableModel *self,uint32_t types);
+     */
+    PyObject *getIds(uint32_t types) {
+        std::list<std::string> ids;
+
+        ($self)->getIds(types, ids);
+
+        unsigned size = ids.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+        {
+            const std::string& id  = *i;
+            PyObject* pyStr = PyString_FromString(id.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+
     /***
      ** get values section
      ***/
@@ -950,34 +1016,48 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
     }
 
+    PyObject *getFloatingSpeciesInitConcentrations() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitConcentrations,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+    }
+
+    PyObject *getCompartmentInitVolumes() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
+                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
+    }
+
+
     /***
      ** get ids section
      ***/
 
 
     PyObject *getFloatingSpeciesIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumFloatingSpecies,
-                                       &rr::ExecutableModel::getFloatingSpeciesId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT);
     }
 
     PyObject *getBoundarySpeciesIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumBoundarySpecies,
-                                       &rr::ExecutableModel::getBoundarySpeciesId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::BOUNDARY_AMOUNT);
     }
 
     PyObject *getGlobalParameterIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumGlobalParameters,
-                                       &rr::ExecutableModel::getGlobalParameterId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::GLOBAL_PARAMETER);
     }
 
     PyObject *getCompartmentIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumCompartments,
-                                       &rr::ExecutableModel::getCompartmentId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::COMPARTMENT);
     }
 
     PyObject *getReactionIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumReactions,
-                                       &rr::ExecutableModel::getReactionId);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::REACTION_RATE);
+    }
+
+    PyObject *getFloatingSpeciesInitAmountIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::INITIAL_FLOATING_AMOUNT);
+    }
+
+    PyObject *getFloatingSpeciesAmountRateIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT_RATE);
     }
 
 
@@ -989,19 +1069,9 @@ namespace std { class ostream{}; }
         return $self->setFloatingSpeciesAmounts(len, 0, values);
     }
 
-
-    //int setFloatingSpeciesAmountRates(int len, double const *values) {
-    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
-    //}
-
-
     int setFloatingSpeciesConcentrations(int len, double const *values) {
         return $self->setFloatingSpeciesConcentrations(len, 0, values);
     }
-
-    //int setBoundarySpeciesAmounts(int len, double const *values) {
-    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
-    //}
 
     int setBoundarySpeciesConcentrations(int len, double const *values) {
         return $self->setBoundarySpeciesConcentrations(len, 0, values);
@@ -1019,9 +1089,18 @@ namespace std { class ostream{}; }
         return $self->setConservedSums(len, 0, values);
     }
 
-    //int setReactionRates(int len, double const *values) {
-    //    return $self->setReactionRates(len, 0, values);
-    //}
+    int setFloatingSpeciesInitConcentrations(int len, double const *values) {
+        return $self->setFloatingSpeciesInitConcentrations(len, 0, values);
+    }
+
+    int setFloatingSpeciesInitAmounts(int len, double const *values) {
+        return $self->setFloatingSpeciesInitAmounts(len, 0, values);
+    }
+
+    int setCompartmentInitVolumes(int len, double const *values) {
+        return $self->setCompartmentInitVolumes(len, 0, values);
+    }
+
 
     int setFloatingSpeciesAmounts(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
@@ -1034,11 +1113,6 @@ namespace std { class ostream{}; }
     }
 
 
-    //int setFloatingSpeciesAmountRates(int len, double const *values) {
-    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
-    //}
-
-
     int setFloatingSpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
@@ -1048,10 +1122,6 @@ namespace std { class ostream{}; }
         }
         return $self->setFloatingSpeciesConcentrations(leni, indx, values);
     }
-
-    //int setBoundarySpeciesAmounts(int len, double const *values) {
-    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
-    //}
 
     int setBoundarySpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
@@ -1093,6 +1163,71 @@ namespace std { class ostream{}; }
         return $self->setConservedSums(leni, indx, values);
     }
 
+    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitConcentrations(leni, indx, values);
+    }
+
+
+    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitAmounts(leni, indx, values);
+    }
+
+
+    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setCompartmentInitVolumes(leni, indx, values);
+    }
+
+
+    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitConcentrations(leni, indx, values);
+    }
+
+    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesInitAmounts(leni, indx, values);
+    }
+
+
+    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setCompartmentInitVolumes(leni, indx, values);
+    }
+
+
     PyObject* getStoichiometryMatrix() {
         int rows = 0;
         int cols = 0;
@@ -1115,162 +1250,11 @@ namespace std { class ostream{}; }
      */
 
     double __getitem__(const std::string& id) {
-        ExecutableModel* p = $self;
-
-        SelectionRecord sel(id);
-
-        int index = -1;
-        double result = 0;
-
-        if (sel.selectionType == SelectionRecord::UNKNOWN)
-        {
-            throw Exception("invalid selection string " + id);
-        }
-
-        // check to see that we have valid selection ids
-        switch(sel.selectionType)
-        {
-        case SelectionRecord::TIME:
-            result = p->getTime();
-            break;
-        case SelectionRecord::UNKNOWN_ELEMENT:
-            // check for sbml element types
-
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getFloatingSpeciesAmounts(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getBoundarySpeciesAmounts(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
-            {
-                p->getCompartmentVolumes(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
-            {
-                p->getGlobalParameterValues(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getReactionIndex(sel.p1)) >= 0)
-            {
-                p->getReactionRates(1, &index, &result);
-                break;
-            }
-            else
-            {
-                throw Exception("No sbml element exists for symbol '" + id + "'");
-                break;
-            }
-        case SelectionRecord::UNKNOWN_CONCENTRATION:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getFloatingSpeciesConcentrations(1, &index, &result);
-                break;
-            }
-            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getBoundarySpeciesConcentrations(1, &index, &result);
-                break;
-            }
-            else
-            {
-                string msg = "No sbml element exists for concentration selection '" + id + "'";
-                Log(Logger::LOG_ERROR) << msg;
-                throw Exception(msg);
-                break;
-            }
-        case SelectionRecord::FLOATING_AMOUNT_RATE:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->getReactionRates(1, &index, &result);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + id + "' for floating amount rate");
-                break;
-            }
-
-        default:
-            Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
-                                    << sel.to_repr();
-            throw Exception("Invalid selection '" + id + "' for setting value");
-            break;
-        }
-
-        return result;
+        return ($self)->getValue(id);
     }
 
     void __setitem__(const std::string& id, double value) {
-        ExecutableModel* p = $self;
-
-        SelectionRecord sel(id);
-
-        int index = -1;
-
-        if (sel.selectionType == SelectionRecord::UNKNOWN)
-        {
-            throw Exception("invalid selection string " + id);
-        }
-
-        // check to see that we have valid selection ids
-        switch(sel.selectionType)
-        {
-        case SelectionRecord::TIME:
-            p->setTime(value);
-            break;
-        case SelectionRecord::UNKNOWN_ELEMENT:
-            // check for sbml element types
-
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setFloatingSpeciesAmounts(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
-            {
-                p->setCompartmentVolumes(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
-            {
-                p->setGlobalParameterValues(1, &index, &value);
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid or non-existant sbml id  '" + id + "' for set value");
-                break;
-            }
-        case SelectionRecord::UNKNOWN_CONCENTRATION:
-            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setFloatingSpeciesConcentrations(1, &index, &value);
-                break;
-            }
-            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
-            {
-                p->setBoundarySpeciesConcentrations(1, &index, &value);
-                break;
-            }
-            else
-            {
-                string msg = "No sbml element exists for concentration selection '" + id + "'";
-                Log(Logger::LOG_ERROR) << msg;
-                throw Exception(msg);
-                break;
-            }
-
-        default:
-            Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
-            throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
-            break;
-        }
+        ($self)->setValue(id, value);
     }
 
 
@@ -1310,6 +1294,37 @@ namespace std { class ostream{}; }
                 self.__class__.__swig_getmethods__[s] = fget
                 self.__class__.__swig_setmethods__[s] = fset
                 setattr(self.__class__, s, property(fget, fset))
+
+        def keys(self):
+            return self.getIds(0xffffffff)
+
+        def values(self):
+            return [self.getValue(k) for k in self.keys()]
+
+        def items(self):
+            return [(k, self.getValue(k)) for k in self.keys()]
+
+        def __len__(self):
+            return len(self.keys())
+
+        def iteritems(self):
+            """
+            return an iterator over (key, value) pairs
+            """
+            return self.items().__iter__()
+
+        def iterkeys(self):
+            """
+            return an iterator over the mapping's keys
+            """
+            return self.keys().__iter__()
+
+        def itervalues(self):
+            """
+            return an iterator over the mapping's values
+            """
+            return self.values().__iter__()
+
     %}
 }
 

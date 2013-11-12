@@ -163,7 +163,6 @@ ExecutableModel* RoadRunner::getModel()
     return mModel;
 }
 
-
 vector<SelectionRecord> RoadRunner::getSelectionList()
 {
     return mSelectionList;
@@ -345,7 +344,8 @@ RoadRunnerData *RoadRunner::getSimulationResult()
     return &mRoadRunnerData;
 }
 
-double RoadRunner::getSelectionValue(const SelectionRecord& record)
+
+double RoadRunner::getValue(const SelectionRecord& record)
 {
     if (!mModel)
     {
@@ -448,7 +448,7 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
         return std::numeric_limits<double>::quiet_NaN();
     }
     break;
-    case SelectionRecord::INITIAL_CONCENTRATION:
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
         break;
     case SelectionRecord::STOICHIOMETRY:
@@ -476,7 +476,7 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
     }
     else
     {
-        return getSelectionValue(record);
+        return getValue(record);
     }
 }
 
@@ -780,34 +780,6 @@ void RoadRunner::setConservationAnalysis(bool bValue)
     }
 }
 
-// Help("Returns the names given to the rate of change of the floating species")
-vector<string> RoadRunner::getRateOfChangeIds()
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    vector<string> sp = getFloatingSpeciesIds(); // Reordered list
-    for (int i = 0; i < sp.size(); i++)
-    {
-        sp[i] = sp[i] + "'";
-    }
-    return sp;
-}
-
-// Help("Gets the list of compartment names")
-vector<string> RoadRunner::getCompartmentIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumCompartments,
-            &ExecutableModel::getCompartmentId);
-}
-
-vector<string> RoadRunner::getGlobalParameterIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
-            &ExecutableModel::getGlobalParameterId);
-}
 
 // [Help("Get scaled elasticity coefficient with respect to a global parameter or species")]
 double RoadRunner::getEE(const string& reactionName, const string& parameterName)
@@ -1374,7 +1346,7 @@ double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
     {
         return computeSteadyStateValue(record.p1);
     }
-    return getSelectionValue(record);
+    return getValue(record);
 }
 
 
@@ -1442,7 +1414,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
         }
         try
         {
-            return getSelectionValue(sId);
+            return getValue(sId);
         }
         catch (Exception& )
         {
@@ -1663,19 +1635,6 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
 
 
 
-// Help("Gets the list of boundary species names")
-vector<string> RoadRunner::getBoundarySpeciesIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumBoundarySpecies,
-            &ExecutableModel::getBoundarySpeciesId);
-}
-
-vector<string> RoadRunner::getConservedSumIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumConservedSums,
-            &ExecutableModel::getConservedSumId);
-}
-
 
 
 
@@ -1689,24 +1648,6 @@ int RoadRunner::getNumberOfFloatingSpecies()
     return mModel->getNumFloatingSpecies();
 }
 
-double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
-    {
-        double result = 0;
-        mModel->getFloatingSpeciesInitConcentrations(1, &index, &result);
-        return result;
-    }
-    else
-    {
-        throw CoreException(format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
-    }
-}
 
 // Help("Sets the value of a floating species by its index")
 void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value)
@@ -1846,30 +1787,6 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
     mModel->convertToAmounts();
 }
 
-// This is a Level 1 method !
-// Help("Returns a list of floating species names")
-vector<string> RoadRunner::getFloatingSpeciesIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumFloatingSpecies,
-            &ExecutableModel::getFloatingSpeciesId);
-}
-
-// Help("Returns a list of floating species initial condition names")
-vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    vector<string> floatingSpeciesNames = getFloatingSpeciesIds();
-    vector<string> result;// = new ArrayList();
-    for(int item = 0; item < floatingSpeciesNames.size(); item++)// (object item in floatingSpeciesNames)
-    {
-        result.push_back(format("init({0})", floatingSpeciesNames[item]));
-    }
-    return result;
-}
 
 
 
@@ -2531,12 +2448,7 @@ vector<double> RoadRunner::getRatesOfChange()
     return result;
 }
 
-// Help("Returns a list of reaction names")
-vector<string> RoadRunner::getReactionIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumReactions,
-            &ExecutableModel::getReactionId);
-}
+
 
 
 Integrator* RoadRunner::getIntegrator()
@@ -2562,35 +2474,17 @@ bool RoadRunner::setValue(const string& sId, double dValue)
         return false;
     }
 
-    int nIndex = -1;
-    if ((nIndex = mModel->getGlobalParameterIndex(sId)) >= 0)
+    try
     {
-        mModel->setGlobalParameterValues(1, &nIndex, &dValue);
-        return true;
+        mModel->setValue(sId, dValue);
+    }
+    catch (std::exception& ex)
+    {
+        Log(Logger::LOG_ERROR) << "setValue(" << sId << ", " << dValue << ") failed, "
+                << ex.what();
     }
 
-    if ((nIndex = mModel->getBoundarySpeciesIndex(sId)) >= 0)
-    {
-        mModel->setBoundarySpeciesConcentrations(1, &nIndex, &dValue);
-        return true;
-    }
-
-    if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
-    {
-        mModel->setCompartmentVolumes(1, &nIndex, &dValue);
-        return true;
-    }
-
-    if ((nIndex = mModel->getFloatingSpeciesIndex(sId)) >= 0)
-    {
-        mModel->setFloatingSpeciesConcentrations(1, &nIndex, &dValue);
-        mModel->convertToAmounts();
-        if (!mModel->getConservedSumChanged())
-        {
-            mModel->computeConservedTotals();
-        }
-        return true;
-    }
+    int nIndex = 0;
 
     if ((nIndex = mModel->getConservedSumIndex(sId)) >= 0)
     {
@@ -2600,33 +2494,23 @@ bool RoadRunner::setValue(const string& sId, double dValue)
         return true;
     }
 
+    SelectionRecord sel(sId);
 
-    vector<string> initCond = getFloatingSpeciesInitialConditionIds();
-
-    const vector<string>::const_iterator pos = std::find(initCond.begin(), initCond.end(), sId);
-
-    if (pos != initCond.end())
+    if (sel.selectionType == SelectionRecord::INITIAL_FLOATING_AMOUNT ||
+            sel.selectionType == SelectionRecord::INITIAL_FLOATING_CONCENTRATION)
     {
-        int index = pos - initCond.begin();
-        mModel->setFloatingSpeciesInitConcentrations(1, &index, &dValue);
         reset();
-        return true;
     }
 
-    Log(Logger::LOG_ERROR)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
-    return false;
+    return true;
 }
 
-// Help("Gets the Value of the given species or global parameter (not of local parameters)")
-double RoadRunner::getSelectionValue(const string& sel)
+
+double RoadRunner::getValue(const std::string& sel)
 {
-    return getSelectionValue(createSelection(sel));
+    return getValue(createSelection(sel));
 }
 
-// Help(
-//            "Returns symbols of the currently loaded model,
-//              that can be used for the selectionlist format array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }."
-//            )
 
 string RoadRunner::getVersion()
 {
@@ -2961,7 +2845,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
         }
         break;
-    case SelectionRecord::INITIAL_CONCENTRATION:
+    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
@@ -3010,18 +2894,6 @@ void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>
     mSteadyStateSelection = ss;
 }
 
-vector<string> RoadRunner::getEigenvalueIds()
-{
-    vector<string> result;
-    vector<string> floating = getFloatingSpeciesIds();
-
-    for(int i = 0; i < floating.size(); i++)
-    {
-        result.push_back("eigen(" + floating[i] + ")");
-    }
-
-    return result;
-}
 
 
 //Compute the frequency response, startW, Number Of Decades, Number of Points, parameterName, variableName
@@ -3314,6 +3186,139 @@ double getAdjustment(Complex& z)
     }
     return adjustment;
 }
+
+
+/************************ Selection Ids Species Section ***********************/
+#if (1) /**********************************************************************/
+/******************************************************************************/
+
+void RoadRunner::getIds(uint32_t types, std::list<std::string>& ids)
+{
+    if (mModel)
+    {
+        mModel->getIds(types, ids);
+
+        if (types & SelectionRecord::EIGENVALUE)
+        {
+            std::list<std::string> eigen;
+            mModel->getIds(SelectionRecord::FLOATING_AMOUNT, eigen);
+
+            for (std::list<std::string>::const_iterator i =
+                    eigen.begin(); i != eigen.end(); ++i)
+            {
+                ids.push_back("eigen(" + *i + ")");
+            }
+        }
+    }
+}
+
+uint32_t RoadRunner::getSupportedIdTypes()
+{
+    uint32_t types = mModel ? mModel->getSupportedIdTypes() : 0;
+
+    return types | SelectionRecord::ELASTICITY |
+            SelectionRecord::UNSCALED_ELASTICITY |
+            SelectionRecord::CONTROL |
+            SelectionRecord::UNSCALED_CONTROL |
+            SelectionRecord::EIGENVALUE;
+}
+
+vector<string> RoadRunner::getRateOfChangeIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getCompartmentIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::COMPARTMENT, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getGlobalParameterIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::GLOBAL_PARAMETER, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getBoundarySpeciesIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::BOUNDARY_AMOUNT, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getConservedSumIds()
+{
+    return createModelStringList(mModel, &ExecutableModel::getNumConservedSums,
+            &ExecutableModel::getConservedSumId);
+}
+
+vector<string> RoadRunner::getFloatingSpeciesIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::FLOATING_AMOUNT, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::INITIAL_FLOATING_CONCENTRATION, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getReactionIds()
+{
+    std::list<std::string> list;
+
+    if (mModel) {
+        mModel->getIds(SelectionRecord::REACTION_RATE, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+vector<string> RoadRunner::getEigenvalueIds()
+{
+    std::list<std::string> list;
+
+    getIds(SelectionRecord::EIGENVALUE, list);
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
+
+/************************ End Selection Ids Species Section *******************/
+#endif /***********************************************************************/
+/******************************************************************************/
 
 
 

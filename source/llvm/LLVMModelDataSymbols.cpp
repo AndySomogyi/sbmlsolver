@@ -30,31 +30,54 @@ using Poco::LogStream;
 using Poco::Message;
 
 static const char* modelDataFieldsNames[] =  {
-    "Size",                                     // 0
-    "Flags",                                    // 1
-    "Time",                                     // 2
-    "NumIndependentSpecies",                    // 3
-    "NumDependentSpecies",                      // 4
-    "DependentSpeciesConservedSums",            // 5
-    "NumGlobalParameters",                      // 6
-    "GlobalParameters",                         // 7
-    "NumReactions",                             // 8
-    "ReactionRates",                            // 9
-    "NumRateRules",                             // 10
-    "RateRuleValues",                           // 11
-    "RateRuleRates",                            // 12
-    "NumFloatingSpecies",                       // 13
-    "FloatingSpeciesAmountRates",               // 14
-    "FloatingSpeciesAmounts",                   // 15
-    "NumBoundarySpecies",                       // 16
-    "BoundarySpeciesAmounts",                   // 17
-    "NumCompartments",                          // 18
-    "CompartmentVolumes",                       // 19
-    "Stoichiometry",                            // 20
-    "NumEvents",                                // 21
-    "StateVectorSize",                          // 22
-    "StateVector",                              // 23
-    "StateVectorRate",                          // 24
+        "Size",                                 // 0
+        "Flags",                                // 1
+        "Time",                                 // 2
+        "NumIndCompartments",                   // 3
+        "NumIndFloatingSpecies",                // 4
+        "NumConservedSpecies",                  // 5
+        "NumIndBoundarySpecies",                // 6
+        "NumIndGlobalParameters",               // 7
+        "NumRateRules",                         // 8
+        "NumReactions",                         // 9
+
+		"NumInitCompartments",                  // 10
+		"NumInitFloatingSpecies",               // 11
+		"NumInitBoundarySpecies"                // 12
+		"NumInitGlobalParameters",              // 13
+
+        "Stoichiometry",                        // 14
+        "NumEvents",                            // 15
+        "StateVectorSize",                      // 16
+        "StateVector",                          // 17
+        "StateVectorRate",                      // 18
+        "RateRuleRates",                        // 19
+        "FloatingSpeciesAmountRates",           // 20
+
+        "CompartmentVolumesAlias",              // 21
+        "InitCompartmentVolumesAlias",          // 22
+        "InitFloatingSpeciesAmountsAlias",      // 23
+        "InitConservedSpeciesAmountsAlias",     // 24
+        "BoundarySpeciesAmountsAlias",          // 25
+        "InitBoundarySpeciesAmountsAlias",      // 26
+        "GlobalParametersAlias",                // 27
+        "InitGlobalParametersAlias",            // 28
+        "ReactionRatesAlias",                   // 29
+
+        "RateRuleValuesAlias",                  // 30
+        "FloatingSpeciesAmountsAlias"           // 31
+
+        "CompartmentVolumes",                   // 32
+        "InitCompartmentVolumes",               // 33
+        "InitFloatingSpeciesAmounts",           // 34
+        "InitConservedSpeciesAmounts",          // 35
+        "BoundarySpeciesAmounts",               // 36
+        "InitBoundarySpeciesAmounts",           // 37
+        "GlobalParameters",                     // 38
+        "InitGlobalParameters",                 // 39
+        "ReactionRates",                        // 40
+        "NotSafe_RateRuleValues",               // 41
+        "NotSafe_FloatingSpeciesAmounts"        // 42
 };
 
 
@@ -70,25 +93,32 @@ static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::Strin
     return result;
 }
 
+
 namespace rrllvm
 {
 
 LLVMModelDataSymbols::LLVMModelDataSymbols() :
-        linearlyIndependentFloatingSpeciesSize(0),
-        independentFloatingSpeciesSize(0),
-        independentBoundarySpeciesSize(0),
-        independentGlobalParameterSize(0),
-        independentCompartmentSize(0)
+    independentFloatingSpeciesSize(0),
+    independentBoundarySpeciesSize(0),
+    independentGlobalParameterSize(0),
+    independentCompartmentSize(0),
+    independentInitFloatingSpeciesSize(0),
+    independentInitBoundarySpeciesSize(0),
+    independentInitGlobalParameterSize(0),
+    independentInitCompartmentSize(0)
 {
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         bool computeAndAssignConsevationLaws) :
-        linearlyIndependentFloatingSpeciesSize(0),
-        independentFloatingSpeciesSize(0),
-        independentBoundarySpeciesSize(0),
-        independentGlobalParameterSize(0),
-        independentCompartmentSize(0)
+    independentFloatingSpeciesSize(0),
+    independentBoundarySpeciesSize(0),
+    independentGlobalParameterSize(0),
+    independentCompartmentSize(0),
+    independentInitFloatingSpeciesSize(0),
+    independentInitBoundarySpeciesSize(0),
+    independentInitGlobalParameterSize(0),
+    independentInitCompartmentSize(0)
 {
     modelName = model->getName();
 
@@ -113,6 +143,18 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
                 poco_warning(getLogger(), string("encountered algegraic rule: ")
                         + rule->getId() + string(", currently not handled"));
             }
+        }
+    }
+
+    {
+        const ListOfInitialAssignments *initAssignmentList =
+                model->getListOfInitialAssignments();
+
+        for (unsigned i = 0; i < initAssignmentList->size(); ++i)
+        {
+            const libsbml::InitialAssignment *ia = initAssignmentList->get(i);
+
+            initAssignmentRules.insert(ia->getSymbol());
         }
     }
 
@@ -202,6 +244,10 @@ uint LLVMModelDataSymbols::getBoundarySpeciesSize() const
     return boundarySpeciesMap.size();
 }
 
+uint LLVMModelDataSymbols::getConservedSpeciesSize() const
+{
+    return 0;
+}
 
 uint LLVMModelDataSymbols::getGlobalParameterIndex(
         const std::string& id) const
@@ -217,43 +263,55 @@ uint LLVMModelDataSymbols::getGlobalParameterIndex(
     }
 }
 
+/*
 void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
 {
     // zero out the structure
     LLVMModelData::init(m);
 
     // set the buffer sizes
-    m.numIndependentSpecies         = independentFloatingSpeciesSize;
+    m.numIndFloatingSpecies         = independentFloatingSpeciesSize;
 
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
-    m.numGlobalParameters           = independentGlobalParameterSize;
+    m.numIndGlobalParameters        = independentGlobalParameterSize;
     m.numReactions                  = reactionsMap.size();
     m.numEvents                     = eventAttributes.size();
-    m.numFloatingSpecies            = independentFloatingSpeciesSize;
     m.numRateRules                  = rateRules.size();
-    m.numCompartments               = independentCompartmentSize;
-    m.numBoundarySpecies            = independentBoundarySpeciesSize;
+    m.numIndCompartments               = independentCompartmentSize;
+    m.numIndBoundarySpecies            = independentBoundarySpeciesSize;
 
     // in certain cases, the data returned by c++ new may be alligned differently than
     // malloc, so just use calloc here just to be safe, plus calloc returns zero
     // initialized memory.
 
-    m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
+    m.floatingSpeciesAmountsAlias = (double*)calloc(m.numIndFloatingSpecies, sizeof(double));
     m.floatingSpeciesAmountRates = 0;
-    m.rateRuleValues = (double*)calloc(m.numRateRules, sizeof(double));
+    m.rateRuleValuesAlias = (double*)calloc(m.numRateRules, sizeof(double));
     m.rateRuleRates = 0;
 
-    m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
+    m.reactionRatesAlias = (double*)calloc(m.numReactions, sizeof(double));
 
-    m.globalParameters = (double*)calloc(m.numGlobalParameters, sizeof(double));
-    m.compartmentVolumes = (double*)calloc(m.numCompartments, sizeof(double));
+    m.globalParametersAlias = (double*)calloc(m.numIndGlobalParameters, sizeof(double));
+    m.compartmentVolumesAlias = (double*)calloc(m.numIndCompartments, sizeof(double));
 
-    m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
+    m.boundarySpeciesAmountsAlias = (double*)calloc(m.numIndBoundarySpecies, sizeof(double));
 
 
     // allocate the stoichiometry matrix
-    m.stoichiometry = rr::csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
+    m.stoichiometry = rr::csr_matrix_new(m.numIndFloatingSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
+}
+*/
+
+
+const std::vector<uint>& LLVMModelDataSymbols::getStoichRowIndx() const
+{
+    return stoichRowIndx;
+}
+
+const std::vector<uint>& LLVMModelDataSymbols::getStoichColIndx() const
+{
+    return stoichColIndx;
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
@@ -398,7 +456,7 @@ bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
 
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
-    if (field >= Size && field <= StateVectorRate)
+    if (field >= Size && field <= ReactionRates)
     {
         return modelDataFieldsNames[field];
     }
@@ -582,10 +640,13 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         bool computeAndAssignConsevationLaws)
 {
     const ListOfSpecies *species = model->getListOfSpecies();
+
+    // independent at run time, no rules of any sort
     list<string> indFltSpecies;
     list<string> depFltSpecies;
 
-    linearlyIndependentFloatingSpeciesSize = species->size();
+    list<string> indInitFltSpecies;
+    list<string> depInitFltSpecies;
 
     // figure out 'fully' indendent flt species -- those without rules.
     for (uint i = 0; i < species->size(); ++i)
@@ -607,6 +668,15 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         {
             depFltSpecies.push_back(sid);
         }
+
+        if (isIndependentInitElement(sid))
+        {
+            indInitFltSpecies.push_back(sid);
+        }
+        else
+        {
+            depInitFltSpecies.push_back(sid);
+        }
     }
 
     // stuff the species in the map
@@ -624,19 +694,32 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         floatingSpeciesMap[*i] = si;
     }
 
+    // stuff the species in the map
+    for (list<string>::const_iterator i = indInitFltSpecies.begin();
+            i != indInitFltSpecies.end(); ++i)
+    {
+        uint si = initFloatingSpeciesMap.size();
+        initFloatingSpeciesMap[*i] = si;
+    }
+
+    for (list<string>::const_iterator i = depInitFltSpecies.begin();
+            i != depInitFltSpecies.end(); ++i)
+    {
+        uint si = initFloatingSpeciesMap.size();
+        initFloatingSpeciesMap[*i] = si;
+    }
+
     // finally set how many ind species we've found
     independentFloatingSpeciesSize = indFltSpecies.size();
+    independentInitFloatingSpeciesSize = indInitFltSpecies.size();
 
-    if (Logger::LOG_INFORMATION <= getLogger().getLevel())
+    if (Logger::LOG_DEBUG <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::LOG_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
 
         log.stream() << "found " << indFltSpecies.size()
                             << " independent and " << depFltSpecies.size()
                             << " dependent floating species." << endl;
-
-        log.stream() << "linearly independent species: " <<
-                linearlyIndependentFloatingSpeciesSize << endl;
 
         vector<string> ids = getFloatingSpeciesIds();
         for (uint i = 0; i < ids.size(); ++i)
@@ -644,6 +727,11 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
             log.stream() << "floating species [" << i << "] = \'" << ids[i]
                                                                          << "\'" << endl;
         }
+
+
+        log.stream() << "found " << indInitFltSpecies.size()
+                            << " independent and " << depInitFltSpecies.size()
+                            << " dependent initial floating species." << endl;
     }
 }
 
@@ -651,6 +739,10 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
 {
     list<string> indCompartments;
     list<string> depCompartments;
+
+    list<string> indInitCompartments;
+    list<string> depInitCompartments;
+
     const ListOfCompartments *compartments = model->getListOfCompartments();
     for (uint i = 0; i < compartments->size(); i++)
     {
@@ -664,7 +756,17 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
         {
             depCompartments.push_back(id);
         }
+
+        if (isIndependentInitElement(id))
+        {
+            indInitCompartments.push_back(id);
+        }
+        else
+        {
+            depInitCompartments.push_back(id);
+        }
     }
+
     for (list<string>::const_iterator i = indCompartments.begin();
             i != indCompartments.end(); ++i)
     {
@@ -679,8 +781,25 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
         compartmentsMap[*i] = ci;
     }
 
+
+    for (list<string>::const_iterator i = indInitCompartments.begin();
+            i != indInitCompartments.end(); ++i)
+    {
+        uint ci = initCompartmentsMap.size();
+        initCompartmentsMap[*i] = ci;
+    }
+
+    for (list<string>::const_iterator i = depInitCompartments.begin();
+            i != depInitCompartments.end(); ++i)
+    {
+        uint ci = initCompartmentsMap.size();
+        initCompartmentsMap[*i] = ci;
+    }
+
+
     // finally set how many ind compartments we have
     independentCompartmentSize = indCompartments.size();
+    independentInitCompartmentSize = indInitCompartments.size();
 }
 
 
@@ -911,6 +1030,92 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
 }
 
 
-} /* namespace rr */
+uint LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initFloatingSpeciesMap.find(symbol);
+    if(i != initFloatingSpeciesMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init floating species with id " + symbol);
+    }
+    // never get here, just silence eclipse warnings
+    return 0;
+}
 
+uint LLVMModelDataSymbols::getCompartmentInitIndex(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
+    if(i != initCompartmentsMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init compartment with id " + symbol);
+    }
+    // never get here, just silence eclipse warnings
+    return 0;
+}
+
+
+bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
+{
+    return false;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initFloatingSpeciesMap.find(symbol);
+    return i != initFloatingSpeciesMap.end() &&
+            i->second < independentInitFloatingSpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitCompartment(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
+    return i != initCompartmentsMap.end() &&
+            i->second < independentInitCompartmentSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitElement(
+        const std::string& id) const
+{
+    return initAssignmentRules.find(id) == initAssignmentRules.end() &&
+            assigmentRules.find(id) == assigmentRules.end();
+}
+
+bool LLVMModelDataSymbols::hasInitialAssignmentRule(const std::string& id) const
+{
+    return initAssignmentRules.find(id) != initAssignmentRules.end();
+}
+
+uint LLVMModelDataSymbols::getInitCompartmentSize() const
+{
+    return independentInitCompartmentSize;
+}
+
+uint LLVMModelDataSymbols::getInitFloatingSpeciesSize() const
+{
+    return independentInitFloatingSpeciesSize;
+}
+
+uint LLVMModelDataSymbols::getInitBoundarySpeciesSize() const
+{
+    return independentInitBoundarySpeciesSize;
+}
+
+uint LLVMModelDataSymbols::getInitGlobalParameterSize() const
+{
+    return independentInitGlobalParameterSize;
+}
+
+
+} /* namespace rr */
 

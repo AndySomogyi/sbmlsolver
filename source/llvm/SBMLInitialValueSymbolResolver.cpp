@@ -1,11 +1,11 @@
 /*
- * InitialValueSymbolResolver.cpp
+ * SBMLInitialValueSymbolResolver.cpp
  *
  *  Created on: Jul 25, 2013
  *      Author: andy
  */
 #pragma hdrstop
-#include "InitialValueSymbolResolver.h"
+#include "SBMLInitialValueSymbolResolver.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
 #include "FunctionResolver.h"
@@ -18,7 +18,7 @@ using namespace llvm;
 namespace rrllvm
 {
 
-InitialValueSymbolResolver::InitialValueSymbolResolver(
+SBMLInitialValueSymbolResolver::SBMLInitialValueSymbolResolver(
         const libsbml::Model* model,
         const LLVMModelDataSymbols& modelDataSymbols,
         const LLVMModelSymbols& modelSymbols,
@@ -30,11 +30,11 @@ InitialValueSymbolResolver::InitialValueSymbolResolver(
 {
 }
 
-InitialValueSymbolResolver::~InitialValueSymbolResolver()
+SBMLInitialValueSymbolResolver::~SBMLInitialValueSymbolResolver()
 {
 }
 
-llvm::Value* InitialValueSymbolResolver::loadSymbolValue(const std::string& symbol,
+llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
     /*************************************************************************/

@@ -19,25 +19,28 @@ class RR_DECLSPEC SelectionRecord
 public:
     enum SelectionType
     {
-        TIME = 0,
-        BOUNDARY_CONCENTRATION,
-        FLOATING_CONCENTRATION,
-        REACTION_RATE,
-        FLOATING_AMOUNT_RATE,
-        COMPARTMENT,
-        GLOBAL_PARAMETER,
-        FLOATING_AMOUNT,
-        BOUNDARY_AMOUNT,
-        ELASTICITY,
-        UNSCALED_ELASTICITY,
-        CONTROL,
-        UNSCALED_CONTROL,
-        EIGENVALUE,
-        INITIAL_CONCENTRATION,
-        STOICHIOMETRY,
-        UNKNOWN_ELEMENT,
-        UNKNOWN_CONCENTRATION,
-        UNKNOWN
+        TIME =                              (0x1 << 0),  // => 0x00000001,
+        BOUNDARY_CONCENTRATION =            (0x1 << 1),  // => 0x00000001,
+        FLOATING_CONCENTRATION =            (0x1 << 2),  // =>
+        REACTION_RATE =                     (0x1 << 3),  // =>
+        FLOATING_AMOUNT_RATE =              (0x1 << 4),  // =>
+        FLOATING_CONCENTRATION_RATE =       (0x1 << 5),  // =>
+        COMPARTMENT =                       (0x1 << 6),  // =>
+        GLOBAL_PARAMETER =                  (0x1 << 7),  // =>
+        FLOATING_AMOUNT =                   (0x1 << 8),  // =>
+        BOUNDARY_AMOUNT =                   (0x1 << 9),  // =>
+        ELASTICITY =                        (0x1 << 10), // =>
+        UNSCALED_ELASTICITY =               (0x1 << 11), // =>
+        CONTROL =                           (0x1 << 12), // =>
+        UNSCALED_CONTROL =                  (0x1 << 13), // =>
+        EIGENVALUE =                        (0x1 << 14), // =>
+        INITIAL_FLOATING_AMOUNT =           (0x1 << 15), // =>
+        INITIAL_FLOATING_CONCENTRATION =    (0x1 << 16), // =>
+        STOICHIOMETRY =                     (0x1 << 17), // =>
+        CONSREVED_MOIETY =                  (0x1 << 17), // =>
+        UNKNOWN_ELEMENT =                   (0x1 << 19), // =>
+        UNKNOWN_CONCENTRATION =             (0x1 << 20), // =>
+        UNKNOWN =                           (0x1 << 21)  // =>
     };
 
     /**

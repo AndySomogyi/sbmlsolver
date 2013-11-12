@@ -2,7 +2,9 @@
 #define rrExecutableModelH
 #include "rrOSSpecifics.h"
 
+#include <stdint.h>
 #include <string>
+#include <list>
 #include <ostream>
 
 namespace rr
@@ -57,11 +59,11 @@ public:
      */
     virtual void reset() = 0;
 
-    /**
-     * independent species do are not defined by rules, they typically participate
-     * in reactions and can have thier values set at any time.
-     */
-    virtual int getNumIndFloatingSpecies() = 0;
+
+
+    /************************ Floating Species Section ****************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
 
     /**
      * dependent species are defined by rules and the only way to change them
@@ -78,11 +80,10 @@ public:
     virtual std::string getFloatingSpeciesId(int index) = 0;
 
     /**
-     * get the number of boundary species.
+     * independent species do are not defined by rules, they typically participate
+     * in reactions and can have thier values set at any time.
      */
-    virtual int getNumBoundarySpecies() = 0;
-    virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
-    virtual std::string getBoundarySpeciesId(int index) = 0;
+    virtual int getNumIndFloatingSpecies() = 0;
 
     /**
      * get the floating species amounts
@@ -100,6 +101,10 @@ public:
 
     virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
             double *values) = 0;
+
+
+    virtual int getFloatingSpeciesConcentrationRates(int len, int const *indx,
+                double *values) = 0;
 
     /**
      * get the floating species concentrations
@@ -124,16 +129,62 @@ public:
             double const *values) = 0;
 
     /**
-     * a pointless method that will go away
+     * Set the initial concentrations of the floating species.
+     *
+     * Takes the same indices as the other floating species methods.
+     *
+     * Note, if a floating species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
      */
     virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
                 double const *values) = 0;
 
     /**
-     * pointless
+     * Get the initial concentrations of the floating species,
+     * uses the same indexing as the other floating species methods.
      */
     virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
                     double *values) = 0;
+
+    /**
+     * Set the initial amounts of the floating species.
+     *
+     * Takes the same indices as the other floating species methods.
+     *
+     * Note, if a floating species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,
+                double const *values) = 0;
+
+    /**
+     * Get the initial amounts of the floating species,
+     * uses the same indexing as the other floating species methods.
+     */
+    virtual int getFloatingSpeciesInitAmounts(int len, int const *indx,
+                    double *values) = 0;
+
+    /************************ End Floating Species Section ************************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+
+    /************************ Boundary Species Section ****************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+
+    /**
+     * get the number of boundary species.
+     */
+    virtual int getNumBoundarySpecies() = 0;
+    virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
+    virtual std::string getBoundarySpeciesId(int index) = 0;
 
     /**
      * get the boundary species amounts
@@ -170,11 +221,29 @@ public:
             double const *values) = 0;
 
 
+    /************************ End Boundary Species Section ************************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+    /************************ Global Parameters Section ***************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * get the number of global parameters
+     */
     virtual int getNumGlobalParameters() = 0;
+
+    /**
+     * index of the global parameter id, -1 if it does not exist.
+     */
     virtual int getGlobalParameterIndex(const std::string& eid) = 0;
 
+    /**
+     * id of the indexed global parameter.
+     */
     virtual std::string getGlobalParameterId(int index) = 0;
-
 
     /**
      * get the global parameter values
@@ -189,6 +258,16 @@ public:
 
     virtual int setGlobalParameterValues(int len, int const *indx,
             const double *values) = 0;
+
+
+    /************************ Global Parameters Species Section *******************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+    /************************ Compartments Section ********************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
 
     virtual int getNumCompartments() = 0;
     virtual int getCompartmentIndex(const std::string& eid) = 0;
@@ -207,6 +286,66 @@ public:
 
     virtual int setCompartmentVolumes(int len, int const *indx,
                 const double *values) = 0;
+
+    /**
+     * Set the initial volumes of the compartments.
+     *
+     * Takes the same indices as the other compartment methods.
+     *
+     * Note, if a compartment has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setCompartmentInitVolumes(int len, int const *indx,
+                double const *values) = 0;
+
+    /**
+     * Get the initial volume of the compartments,
+     * uses the same indexing as the other compartment methods.
+     */
+    virtual int getCompartmentInitVolumes(int len, int const *indx,
+                    double *values) = 0;
+
+
+    /************************ End Compartments Species Section ********************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+    /************************ Selection Ids Species Section ***********************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * populates a given list with all the ids that this class can accept.
+     *
+     * @param ids: a list of strings that will be filled by this class.
+     * @param types: the types of ids that are requested. Can be set to
+     * 0xffffffff to request all the ids that this class supports.
+     */
+    virtual void getIds(uint32_t types, std::list<std::string> &ids) = 0;
+
+    /**
+     * returns a bit field of the ids that this class supports.
+     */
+    virtual uint32_t getSupportedIdTypes() = 0;
+
+    /**
+     * gets the value for the given id string. The string must be a SelectionRecord
+     * string that is accepted by this class.
+     */
+    virtual double getValue(const std::string& id) = 0;
+
+    /**
+     * sets the value coresponding to the given selection stringl
+     */
+    virtual void setValue(const std::string& id, double value) = 0;
+
+
+    /************************ End Selection Ids Species Section *******************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
 
     /**
      * allocate a block of memory and copy the stochiometric values into it,

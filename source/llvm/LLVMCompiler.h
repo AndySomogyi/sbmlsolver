@@ -30,14 +30,6 @@ public:
 
     virtual std::string getSupportCodeFolder() const;
     virtual bool setSupportCodeFolder(const std::string& path);
-
-    /**
-     * return a random string from the gurgle file.
-     *
-     * All these file paths are useless to LLVM, so make some use out
-     * of knowing them...
-     */
-    static std::string gurgle();
 };
 
 } /* namespace rr */

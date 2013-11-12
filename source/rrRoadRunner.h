@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 namespace ls
 {
@@ -105,8 +106,6 @@ public:
     static std::string getlibSBMLVersion();
     bool unLoadModel();
 
-
-
     /**
      * set the location where the ModelGenerator creates temporary files, such
      * as shared libraries.
@@ -137,8 +136,6 @@ public:
      * object if successfull, 0 on failure.
      */
     const RoadRunnerData *simulate(const SimulateOptions* options = 0);
-
-
 
     /**
      * obtain a pointer to the simulation result.
@@ -247,19 +244,9 @@ public:
 
     void correctMaxStep();
 
-    /*************************************************************************/
-    /** Selection Section **/
-    /*************************************************************************/
-
-    /**
-     * sets the value of an sbml varaible to the given value.
-     *
-     * @param sId: an sbml id
-     * @param value: the value to set it to.
-     */
-    bool setValue(const std::string& sId, double value);
-
-
+/************************ Selection Ids Species Section ***********************/
+#if (1) /**********************************************************************/
+/******************************************************************************/
 
     rr::SelectionRecord createSelection(const std::string& str);
 
@@ -273,9 +260,9 @@ public:
      * Creates a new selection based on the selection string,
      * and returns the value it queries.
      */
-    double getSelectionValue(const std::string& sel);
+    double getValue(const std::string& sel);
 
-    double getSelectionValue(const SelectionRecord& record);
+    double getValue(const SelectionRecord& record);
 
 
     void setSelections(const std::vector<std::string>& selections);
@@ -288,20 +275,25 @@ public:
      */
     std::vector<double> getSelectedValues();
 
-    std::vector<rr::SelectionRecord>& getSteadyStateSelections();
-
-    void setSteadyStateSelections(const std::vector<std::string>& steadyStateSelections);
-
-    void setSteadyStateSelections(const std::vector<rr::SelectionRecord>& steadyStateSelections);
-
-    /*************************************************************************/
-    /** End Selection Section **/
-    /*************************************************************************/
+    /**
+     * populates a given list with all the ids that this class can accept.
+     */
+    void getIds(uint32_t types, std::list<std::string> &ids);
 
     /**
-     * Compute the steady state of the model, returns the sum of squares of the solution
+     * returns a bit field of the ids that this class supports.
      */
-    double steadyState();
+    uint32_t getSupportedIdTypes();
+
+
+    /**
+     * sets the value coresponding to the given selection string
+     */
+    bool setValue(const std::string& id, double value);
+
+/************************ End Selection Ids Species Section *******************/
+#endif /***********************************************************************/
+/******************************************************************************/
 
     /**
      * compute the full Jacobian at the current operating point
@@ -342,35 +334,18 @@ public:
      */
     std::vector<std::string> getEigenvalueIds();
 
-    double                 getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
+    double getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
 
 
 
 
-    double computeSteadyStateValue(const SelectionRecord& record);
-
-    /**
-     * returns the value of the given steady state identifier.
-     */
-    std::vector<double> computeSteadyStateValues();
 
     Matrix<double> getFrequencyResponse(double startFrequency,
             int numberOfDecades, int numberOfPoints,
             const string& parameterName, const string& variableName, bool useDB,
             bool useHz);
 
-    /**
-     * optionally compute the steady state and return a vector
-     * of the steady state values.
-     *
-     * @param selection: the list of selections to get values for.
-     * @param computeSteadyState: compute the steady state.
-     */
-    std::vector<double> computeSteadyStateValues(
-            const std::vector<SelectionRecord>& selection,
-            bool computeSteadyState);
 
-    double computeSteadyStateValue(const std::string& sId);
 
     /**
      * This method turns on / off the computation and adherence to conservation laws.
@@ -457,7 +432,7 @@ public:
      */
     int getNumberOfFloatingSpecies();
 
-    double getFloatingSpeciesInitialConcentrationByIndex(const int& index);
+
 
     /**
      * get / set conc.
@@ -594,6 +569,48 @@ public:
     double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
 
+    /******************************* Steady State Section *************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * Compute the steady state of the model, returns the sum of squares of the solution
+     */
+    double steadyState();
+
+    std::vector<rr::SelectionRecord>& getSteadyStateSelections();
+
+    void setSteadyStateSelections(const std::vector<std::string>& steadyStateSelections);
+
+    void setSteadyStateSelections(const std::vector<rr::SelectionRecord>& steadyStateSelections);
+
+
+    double computeSteadyStateValue(const SelectionRecord& record);
+
+    /**
+     * returns the value of the given steady state identifier.
+     */
+    std::vector<double> computeSteadyStateValues();
+
+    /**
+     * optionally compute the steady state and return a vector
+     * of the steady state values.
+     *
+     * @param selection: the list of selections to get values for.
+     * @param computeSteadyState: compute the steady state.
+     */
+    std::vector<double> computeSteadyStateValues(
+            const std::vector<SelectionRecord>& selection,
+            bool computeSteadyState);
+
+    double computeSteadyStateValue(const std::string& sId);
+
+
+    /******************************* End Steady State Section *********************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
+
+
 private:
     static int mInstanceCount;
     int mInstanceID;
@@ -687,13 +704,10 @@ private:
             int reactionIndex, int parameterIndex, double originalValue,
             double increment);
 
-    std::vector<SelectionRecord> getSteadyStateSelection(const std::vector<std::string>& newSelectionList);
+
     std::vector<SelectionRecord> getSelectionList();
 
-    /**
-     * @deprecated, use ExecutableModel::getBoundarySpeciesId
-     */
-    std::vector<std::string> getBoundarySpeciesAmountIds();
+
 
     friend class aFinalizer;
 };

@@ -189,11 +189,28 @@ static bool is_eigen(const std::string& str, std::string& p1)
 }
 
 
-static const Poco::RegularExpression is_init_conc_re("^\\s*init\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
+static const Poco::RegularExpression is_init_value_re("^\\s*init\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
+static bool is_init_value(const std::string& str, std::string& p1)
+{
+    std::vector<std::string> matches;
+
+    int nmatch = is_init_value_re.split(str, matches);
+
+    if (nmatch == 2)
+    {
+        p1 = matches[1];
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+static const Poco::RegularExpression is_init_conc_re("^\\s*init\\s*\\(\\s*\\[\\s*(\\w*)\\s*\\]\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_init_conc(const std::string& str, std::string& p1)
 {
-
-
     std::vector<std::string> matches;
 
     int nmatch = is_init_conc_re.split(str, matches);
@@ -253,6 +270,8 @@ std::string SelectionRecord::to_repr() const
     case SelectionRecord::CONTROL: selType = "CONTROL"; break;
     case SelectionRecord::UNSCALED_CONTROL: selType = "UNSCALED_CONTROL"; break;
     case SelectionRecord::EIGENVALUE: selType = "EIGENVALUE"; break;
+	case SelectionRecord::INITIAL_FLOATING_AMOUNT: selType = "INITIAL_VALUE"; break;
+	case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: selType = "INITIAL_CONCENTRATION"; break;
     case SelectionRecord::STOICHIOMETRY: selType = "STOICHIOMETRY"; break;
     case SelectionRecord::UNKNOWN_ELEMENT: selType = "UNKNOWN_ELEMENT"; break;
     case SelectionRecord::UNKNOWN_CONCENTRATION: selType = "UNKNOWN_CONCENTRATION"; break;
@@ -302,9 +321,13 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     {
         selectionType = EIGENVALUE;
     }
+    else if(is_init_value(str, p1))
+    {
+        selectionType = INITIAL_FLOATING_AMOUNT;
+    }
     else if(is_init_conc(str, p1))
     {
-        selectionType = INITIAL_CONCENTRATION;
+        selectionType = INITIAL_FLOATING_CONCENTRATION;
     }
     else if(is_stoich(str, p1, p2))
     {
@@ -355,8 +378,11 @@ std::string rr::SelectionRecord::to_string() const
     case EIGENVALUE:
         result = "eigen(" + p1 + ")";
         break;
-    case INITIAL_CONCENTRATION:
+    case INITIAL_FLOATING_AMOUNT:
         result = "init(" + p1 + ")";
+        break;
+    case INITIAL_FLOATING_CONCENTRATION:
+        result = "init([" + p1 + "])";
         break;
     case STOICHIOMETRY:
         result = "stoich(" + p1 + ", " + p2 + ")";
