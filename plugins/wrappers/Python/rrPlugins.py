@@ -16,8 +16,6 @@ if sys.platform.startswith('win32'):
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
     sharedLib = os.path.join(rrInstallFolder, 'rrplugins_c_api.dll')
     rrpLib=CDLL(sharedLib)
-    rrpLibHandle = rrpLib._handle
-
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
     print(os.path.join(rrInstallFolder, 'librrp_api.dylib'))
@@ -63,30 +61,29 @@ else:
 
 #=======================rrp_api=======================#
 #Type of plugin callback
-pluginCallBackType = CFUNCTYPE(None)
+pluginCallBackType  = CFUNCTYPE(None)
+pluginCallBackType2 = CFUNCTYPE(None, POINTER(c_int))
 
-charptr = POINTER(c_char)
-rrpLib.createPluginManager.restype = c_void_p
-rrpLib.createPluginManagerEx.restype = c_void_p
-rrpLib.freePluginManager.restype = c_bool
-
-#===== The API allocate an internal global handle to
-#===== ONE roadrunner instance and ONE instance of a plugin manager
-gPluginManager = rrpLib.createPluginManager(rrPython.gHandle)
 
 ##\brief Initialize the plugins library and returns a new PluginManager instance
-#\return Returns an instance of the library, returns false if it fails
+#\return Returns an instance of the library, returns None if it fails
+rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager():
     return rrpLib.createPluginManager()
 
+#===== The API allocate an internal global handle to =============
+#===== ONE instance of a plugin manager using the global rrHandle from rrPython
+gPluginManager = rrpLib.createPluginManager(rrPython.gHandle)
+
 ##\brief Free the plugin manager instance
 #\param rrpLib Free the plugin manager instance given in the argument
+rrpLib.freePluginManager.restype = c_bool
 def freePluginManager(iHandle):
     return rrpLib.freePluginManager(iHandle)
 
-#Unload dll from python
+#Unload the API
 def unloadAPI():
-    return windll.kernel32.FreeLibrary(libHandle)
+    windll.kernel32.FreeLibrary(rrpLib._handle)
 
 def loadPlugin(libraryName):
     return rrpLib.loadPlugin(gPluginManager, libraryName)
@@ -107,7 +104,7 @@ rrpLib.getNumberOfPlugins.restype = c_int
 def getNumberOfPlugins():
     return rrpLib.getNumberOfPlugins(gPluginManager)
 
-#---------- PLUGIN HANDLE FUNCTIONS ============================================
+#---------- PLUGIN HANDLING FUNCTIONS ============================================
 rrpLib.getPluginInfo.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrpLib.getPluginInfo(pluginHandle)
@@ -136,6 +133,7 @@ rrpLib.executePlugin.restype = c_bool
 def executePlugin(pluginHandle):
     return rrpLib.executePlugin(pluginHandle)
 
+rrpLib.executePlugin.restype = c_bool
 def executePluginEx(pluginHandle, userData, runInThread=False):
     return rrpLib.executePluginEx(pluginHandle, c_void_p(userData), c_bool(runInThread))
 
@@ -155,7 +153,7 @@ def setPluginInputData(pluginHandle, userData):
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
-#Parameter functionality
+#Plugin Parameter functionality
 def getParameterValueAsString(parameter):
     value = rrpLib.getParameterValueAsString(parameter)
     return c_char_p(value).value

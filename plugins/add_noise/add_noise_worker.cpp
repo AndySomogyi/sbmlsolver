@@ -2,6 +2,7 @@
 #include "rrRoadRunnerData.h"
 #include "rrLogger.h"
 #include "add_noise_worker.h"
+#include "rrUtils.h"
 #include "rrNoise.h"
 //---------------------------------------------------------------------------
 
@@ -58,21 +59,26 @@ void AddNoiseWorker::run()
 
     if(mInputData)
     {
-		if(threadProgressCB)
-		{
-			threadProgressCB(NULL);
-		}
+		
         RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
         Noise noise(0, mSigma);
         noise.randomize();
+        
         for(int row = 0; row < data.rSize(); row++)
-        {
+        {            
             double xVal = data(row, 0);    //Time
             for(int col = 0; col < data.cSize() - 1; col++)
             {
                 double yData = data(row, col + 1) + noise.getNoise();
                 data(row, col + 1) = yData;
             }
+            sleep(10);
+
+            if(threadProgressCB)
+		    {
+                int progress =(double) (row /(data.rSize() -1.0)) *100.0;                    
+			    threadProgressCB((void*) &progress);
+		    }
         }
     }
 

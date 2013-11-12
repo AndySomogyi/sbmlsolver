@@ -6,11 +6,12 @@ rr = rrPython; rrp = rrPlugins
 def pluginStarted():
     print 'The plugin was started'
 
-def pluginIsProgressing():
-    print 'The plugin is progressing'
+def pluginIsProgressing(progress):
+    nr = progress[0]
+    print '\nPlugin progress:' + `nr` +' %'
 
 def pluginIsFinished():
-    print 'The plugin is finished'
+    print 'The plugin did finish'
 
 sbmlModel ="../models/test_1.xml"
 
@@ -41,17 +42,20 @@ rrPython.simulate()
 #get a hold of data handle
 rrDataHandle = rr.getRoadRunnerData()
 
-cb_func =  rrp.pluginCallBackType(pluginStarted)
-rrp.assignPluginStartedCallBack(noisePlugin,  cb_func)
+cb_func1 =  rrp.pluginCallBackType(pluginStarted)
+rrp.assignPluginStartedCallBack(noisePlugin,  cb_func1)
 
-cb_func =  rrp.pluginCallBackType(pluginIsProgressing)
-rrp.assignPluginProgressCallBack(noisePlugin, cb_func)
+cb_func2 =  rrp.pluginCallBackType2(pluginIsProgressing)
+rrp.assignPluginProgressCallBack(noisePlugin, cb_func2)
 
-cb_func =  rrp.pluginCallBackType(pluginIsFinished)
-rrp.assignPluginFinishedCallBack(noisePlugin, cb_func)
+cb_func3 =  rrp.pluginCallBackType(pluginIsFinished)
+rrp.assignPluginFinishedCallBack(noisePlugin, cb_func3)
 
 #Execute the noise plugin which will add some noise to the (internal) data
-rrp.executePluginEx(noisePlugin, rrDataHandle)
+rrp.executePluginEx(noisePlugin, rrDataHandle, True)
+
+while rrp.isPluginWorking(noisePlugin) == True:
+    print ('.'),
 
 #Input Data
 results = rr.getSimulationResult()
@@ -66,7 +70,8 @@ plot.xlabel('time (s)')
 
 plot.show()
 
-rr.unloadAPI()
-rrp.unloadAPI()
+print `rr.unloadAPI()`
+print `rrp.unLoadPlugins()`
+print `rrp.unloadAPI()`
 
 print "done"
