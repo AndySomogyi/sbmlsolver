@@ -78,6 +78,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 
         Capabilities*                   getCapabilities();
         Capability*                     getCapability(const string& name);
+        string                          getCapabilitiesAsXML();
 
         Parameters*                     getParameters(Capability& capability); //Each capability has a set of parameters
         Parameters*                     getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters

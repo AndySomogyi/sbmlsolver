@@ -4,7 +4,6 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-//#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 
 namespace rrp
@@ -37,6 +36,11 @@ bool Plugin::resetPlugin()
 {
     //Do whats needed in descendants
     return true;
+}
+
+string Plugin::getCapabilitiesAsXML()
+{
+    return mCapabilities.asXML();
 }
 
 bool Plugin::setInputData(void* userData)
