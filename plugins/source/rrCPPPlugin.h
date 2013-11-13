@@ -19,10 +19,7 @@ class PLUGINS_API_DECLSPEC CPPPlugin : public Plugin
                                     CPPPlugin(  const std::string& name,
                                         const std::string& cat = gNoneString,
                                         RoadRunner* aRR = NULL,
-                                        const PluginManager* pm = NULL,
-                                        PluginCallBackFnc fn1 = NULL,
-                                        PluginCallBackFnc fn2 = NULL,
-                                        PluginCallBackFnc fn3 = NULL);
+                                        const PluginManager* pm = NULL);
 
         virtual                    ~CPPPlugin();
         string                      getImplementationLanguage();

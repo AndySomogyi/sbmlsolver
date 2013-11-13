@@ -34,19 +34,18 @@ add_library(${target} SHARED ${sources})
 
 if(WIN32)
 target_link_libraries (${target}
-lmfit-static
-rrc_api
 rrplugins_api-static
 roadrunner-static
-poco_foundation-static
-libxml2
-blas
-lapack
-rr-libstruct-static
-libf2c
-sundials_cvode
-sundials_nvecserial
-nleq-static
+rrc_api
+lmfit-static
+#poco_foundation-static
+#blas
+#lapack
+#rr-libstruct-static
+#libf2c
+#sundials_cvode
+#sundials_nvecserial
+#nleq-static
 )
 
 else() 

@@ -288,7 +288,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, plu
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* userData);
+RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* data1, void* data2, void* data3);
 
 /*!
  \brief Hand external data to a plugin

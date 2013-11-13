@@ -4,24 +4,24 @@
 #include "add_noise_worker.h"
 #include "rrUtils.h"
 #include "rrNoise.h"
+#include "add_noise.h"
 //---------------------------------------------------------------------------
 
+namespace addNoise
+{
+
 using namespace rr;
-AddNoiseWorker::AddNoiseWorker()
+AddNoiseWorker::AddNoiseWorker(AddNoise& host)
 :
-threadEnterCB(NULL),
-threadExitCB(NULL),
-mUserData(NULL),
+//workerEnterCB(NULL),
+//workerProgressCB(NULL),
+//workerExitCB(NULL),
+//mUserDataEnterCB(NULL),
+//mUserDataProgressCB(NULL),
+//mUserDataExitCB(NULL),
+mTheHost(host),
 mInputData(NULL)
 {}
-
-void AddNoiseWorker::assignCallBacks(ThreadCB fn1, ThreadCB fn2, ThreadCB fn3, void* userData)
-{
-    threadEnterCB = fn1;
-    threadProgressCB = fn2;
-    threadExitCB = fn3;
-    mUserData = userData;
-}
 
 bool AddNoiseWorker::start(void* inputData, double sigma, bool runInThread)
 {
@@ -52,20 +52,20 @@ bool AddNoiseWorker::isRunning()
 
 void AddNoiseWorker::run()
 {
-    if(threadEnterCB)
+    if(mTheHost.mWorkStartedCB)
     {
-        threadEnterCB(NULL);
+        mTheHost.mWorkStartedCB(mTheHost.mWorkStartedData);
     }
 
     if(mInputData)
     {
-		
+
         RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
         Noise noise(0, mSigma);
         noise.randomize();
-        
+
         for(int row = 0; row < data.rSize(); row++)
-        {            
+        {
             double xVal = data(row, 0);    //Time
             for(int col = 0; col < data.cSize() - 1; col++)
             {
@@ -74,16 +74,17 @@ void AddNoiseWorker::run()
             }
             sleep(10);
 
-            if(threadProgressCB)
-		    {
-                int progress =(double) (row /(data.rSize() -1.0)) *100.0;                    
-			    threadProgressCB((void*) &progress);
-		    }
+            if(mTheHost.mWorkProgressCB)
+            {
+                mTheHost.mPluginProgress.setValue((double) (row /(data.rSize() -1.0)) *100.0);
+                mTheHost.mWorkProgressCB((void*) mTheHost.mWorkProgressData);
+            }
         }
     }
 
-    if(threadExitCB)
+    if(mTheHost.mWorkFinishedCB)
     {
-        threadExitCB(NULL);
+        mTheHost.mWorkFinishedCB(mTheHost.mWorkFinishedData);
     }
+}
 }

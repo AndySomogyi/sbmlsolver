@@ -50,19 +50,21 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         PluginCallBackFnc               mWorkStartedCB;
         PluginCallBackFnc               mWorkProgressCB;
         PluginCallBackFnc               mWorkFinishedCB;
-        void*                           mUserData;
+        void*                           mWorkStartedData;
+        void*                           mWorkProgressData;
+        void*                           mWorkFinishedData;
 
+        void*                           mUserData;
         Capabilities                    mCapabilities;    //Container for parameter data that can be exchanged to/from the plugin
 
     public:
-                                        Plugin(	const string& name = gEmptyString, 
-												const string& cat = gNoneString, 
-												RoadRunner* aRR = NULL, 
-												PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL, 
-												const string& language = gNoneString, 
-												const PluginManager* pm = NULL);
+                                        Plugin( const string& name = gEmptyString,
+                                                const string& cat = gNoneString,
+                                                RoadRunner* aRR = NULL,
+                                                const string& language = gNoneString,
+                                                const PluginManager* pm = NULL);
 
-		virtual                        ~Plugin();    //Gotta be virtual!
+        virtual                        ~Plugin();    //Gotta be virtual!
 
         string                          getName();
         void                            setLibraryName(const string& libName);
@@ -90,7 +92,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData = NULL);
         virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData = NULL);
         virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData = NULL);
-        virtual bool                    assignCallBacks(PluginCallBackFnc pluginStarted, PluginCallBackFnc pluginsProgress, PluginCallBackFnc pluginsFinished = NULL, void* userData = NULL);
+        virtual bool                    assignCallBacks(PluginCallBackFnc pluginStarted, PluginCallBackFnc pluginsProgress, PluginCallBackFnc pluginsFinished = NULL, void* data1 = NULL, void* data2 = NULL, void* data3 = NULL);
         virtual string                  getResult();
         virtual bool                    isWorking();
         virtual bool                    resetPlugin();

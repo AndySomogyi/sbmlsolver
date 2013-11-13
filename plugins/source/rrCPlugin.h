@@ -21,10 +21,7 @@ class PLUGINS_API_DECLSPEC CPlugin : public Plugin
     public:
                                 CPlugin(const std::string& name,
                                     const std::string& cat = gNoneString,
-                                    RoadRunner* aRR = NULL,
-                                    PluginCallBackFnc fn1 = NULL,
-                                    PluginCallBackFnc fn2 = NULL,
-                                    PluginCallBackFnc fn3 = NULL);
+                                    RoadRunner* aRR = NULL);
 
         virtual                ~CPlugin();
         string                  getImplementationLanguage();

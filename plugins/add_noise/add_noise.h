@@ -18,11 +18,13 @@ class AddNoise : public CPPPlugin
 {
     public:
         enum NoiseType {ntGaussian = 0};
+    friend class AddNoiseWorker;
 
     private:
         Capability              mAddNoise;
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;
+        Parameter<int>          mPluginProgress;
         AddNoiseWorker          mAddNoiseWorker;
 
     public:

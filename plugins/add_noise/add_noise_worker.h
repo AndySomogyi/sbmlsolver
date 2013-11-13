@@ -7,26 +7,34 @@
 
 typedef void (callback_cc *ThreadCB)(void*);
 
+namespace addNoise
+{
+
+class AddNoise;
+
 class AddNoiseWorker : public Poco::Runnable
 {
     protected:
         Poco::Thread            mThread;
 
-        //Callbacks
-        ThreadCB                threadEnterCB;
-        ThreadCB                threadProgressCB;
-        ThreadCB                threadExitCB;
+//        //Callbacks
+//        ThreadCB                workerEnterCB;
+//        ThreadCB                workerProgressCB;
+//        ThreadCB                workerExitCB;
+//
+//        void*                   mUserDataEnterCB;
+//        void*                   mUserDataProgressCB;
+//        void*                   mUserDataExitCB;
 
-        void*                   mUserData;
         void*                   mInputData;
         double                  mSigma;
-
+        AddNoise&               mTheHost;
     public:
-                                AddNoiseWorker();
-        void                    assignCallBacks(ThreadCB fn1, ThreadCB fn2, ThreadCB fn3, void* userData = NULL);
+                                AddNoiseWorker(AddNoise& mTheHost);
         bool                    start(void* inputData, double sigma, bool runInThread = true);
         void                    run();
         bool                    isRunning();
 };
 
+}
 #endif

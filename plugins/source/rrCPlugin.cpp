@@ -5,10 +5,9 @@
 namespace rrp
 {
 
-CPlugin::CPlugin(   const string& name, const string& cat, RoadRunner* aRR,
-                    PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
+CPlugin::CPlugin(   const string& name, const string& cat, RoadRunner* aRR)
 :
-Plugin(name, cat, aRR, fn1, fn2, fn3, "C"),
+Plugin(name, cat, aRR, "C"),
 executeFunction(NULL)
 {}
 
