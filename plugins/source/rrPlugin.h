@@ -17,10 +17,9 @@ namespace rrp
 {
 using namespace rr;
 class PluginManager;
+
 //Plugin callback functions
-#ifndef SWIG // these make SWIG really unhappy for some reason.
 typedef void    (callback_cc *PluginCallBackFnc)(void*);
-#endif
 
 using std::string;
 
@@ -43,19 +42,18 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
          * uses.
          */
         RoadRunner                     *mRR;
-        const PluginManager*            mPM; //A plugin can't change a plugin manager..
+        const PluginManager            *mPM; //A plugin can't change a plugin manager..
 
-
-        //Plugin callbacks..
+        //Plugin callback functionality
         PluginCallBackFnc               mWorkStartedCB;
         PluginCallBackFnc               mWorkProgressCB;
         PluginCallBackFnc               mWorkFinishedCB;
-        void*                           mWorkStartedData;
-        void*                           mWorkProgressData;
-        void*                           mWorkFinishedData;
+        void                           *mWorkStartedData;
+        void                           *mWorkProgressData;
+        void                           *mWorkFinishedData;
 
-        void*                           mUserData;
-        Capabilities                    mCapabilities;    //Container for parameter data that can be exchanged to/from the plugin
+        Capabilities                    mCapabilities;          //Container for parameter data that can be exchanged to/from the plugin by using parameters
+        void                           *mClientData;            //Data passed trough the execute function,
 
     public:
                                         Plugin( const string& name = gEmptyString,
@@ -64,7 +62,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
                                                 const string& language = gNoneString,
                                                 const PluginManager* pm = NULL);
 
-        virtual                        ~Plugin();    //Gotta be virtual!
+        virtual                        ~Plugin();
 
         string                          getName();
         void                            setLibraryName(const string& libName);
@@ -73,6 +71,8 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         string                          getCategory();
         string                          getVersion();
         string                          getCopyright();
+
+        //Plugin documentation
         string                          getInfo();
         string                          getExtendedInfo();
 
@@ -101,7 +101,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 
         //Pure virtuals
         virtual string                  getImplementationLanguage() = 0;
-        virtual bool                    execute(void* userData = NULL, bool inAThread = false) = 0;
+        virtual bool                    execute(void* clientData = NULL, bool inAThread = false) = 0;
 };
 
 }

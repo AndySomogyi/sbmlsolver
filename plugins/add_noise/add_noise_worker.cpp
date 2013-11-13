@@ -13,21 +13,11 @@ namespace addNoise
 using namespace rr;
 AddNoiseWorker::AddNoiseWorker(AddNoise& host)
 :
-//workerEnterCB(NULL),
-//workerProgressCB(NULL),
-//workerExitCB(NULL),
-//mUserDataEnterCB(NULL),
-//mUserDataProgressCB(NULL),
-//mUserDataExitCB(NULL),
-mTheHost(host),
-mInputData(NULL)
+mTheHost(host)
 {}
 
-bool AddNoiseWorker::start(void* inputData, double sigma, bool runInThread)
+bool AddNoiseWorker::start(bool runInThread)
 {
-    mInputData = inputData;
-    mSigma = sigma;
-
     if(runInThread)
     {
         if(mThread.isRunning())
@@ -57,26 +47,25 @@ void AddNoiseWorker::run()
         mTheHost.mWorkStartedCB(mTheHost.mWorkStartedData);
     }
 
-    if(mInputData)
+    if(mTheHost.mClientData)
     {
-
-        RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
-        Noise noise(0, mSigma);
+        RoadRunnerData& data = *(RoadRunnerData*) (mTheHost.mClientData);
+        Noise noise(0, mTheHost.mSigma.getValue());
         noise.randomize();
 
         for(int row = 0; row < data.rSize(); row++)
         {
-            double xVal = data(row, 0);    //Time
             for(int col = 0; col < data.cSize() - 1; col++)
             {
                 double yData = data(row, col + 1) + noise.getNoise();
                 data(row, col + 1) = yData;
             }
-            sleep(10);
+
+            sleep(30);
 
             if(mTheHost.mWorkProgressCB)
             {
-                mTheHost.mPluginProgress.setValue((double) (row /(data.rSize() -1.0)) *100.0);
+                mTheHost.mPluginProgress.setValue( (int) 0.5 + (row /(data.rSize() -1.0)) *100.0);
                 mTheHost.mWorkProgressCB((void*) mTheHost.mWorkProgressData);
             }
         }

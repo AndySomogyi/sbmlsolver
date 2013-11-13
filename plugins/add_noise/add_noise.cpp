@@ -36,8 +36,12 @@ bool AddNoise::isWorking()
 bool AddNoise::execute(void* inputData, bool inThread)
 {
     Log(lDebug)<<"Executing the AddNoise plugin by Totte Karlsson";
+
+    //Capture data handle
+    mClientData = inputData;
+
     //go away and carry out the work in a thread
-    return mAddNoiseWorker.start(inputData, mSigma.getValue(), inThread);
+    return mAddNoiseWorker.start(inThread);
 }
 
 // Plugin factory function
@@ -52,24 +56,18 @@ const char* plugins_cc getImplementationLanguage()
     return "CPP";
 }
 
-_xmlNode* AddNoise::createConfigNode()
-{
-    _xmlNode *cap = Configurable::createCapabilityNode("Add Noise", "", "Add Noise Plugin");
-    Configurable::addChild(cap, Configurable::createParameterNode("Noise Type", "Noise Type", ntGaussian));
-    Configurable::addChild(cap, Configurable::createParameterNode("Sigma", "Sigma", 1));
-    return cap;
+//_xmlNode* AddNoise::createConfigNode()
+//{
+//    _xmlNode *cap = Configurable::createCapabilityNode("Add Noise", "", "Add Noise Plugin");
+//    Configurable::addChild(cap, Configurable::createParameterNode("Noise Type", "Noise Type", ntGaussian));
+//    Configurable::addChild(cap, Configurable::createParameterNode("Sigma", "Sigma", 1));
+//    return cap;
+//}
+
+//void AddNoise::loadConfig(const _xmlDoc* doc)
+//{}
+
 }
-
-void AddNoise::loadConfig(const _xmlDoc* doc)
-{}
-
-}
-
-extern "C" int _libmain(unsigned long reason)
-{
-    return 1;
-}
-
 
 
 

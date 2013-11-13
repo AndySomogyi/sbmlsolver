@@ -34,10 +34,10 @@ add_library(${target} SHARED ${sources})
 
 if(WIN32)
 target_link_libraries (${target}
-rrplugins_api-static
-roadrunner-static
-rrc_api
 lmfit-static
+rrplugins_api-static
+rrc_api                 
+#roadrunner-static
 #poco_foundation-static
 #blas
 #lapack

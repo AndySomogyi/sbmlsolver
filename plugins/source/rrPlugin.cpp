@@ -42,7 +42,7 @@ bool Plugin::resetPlugin()
 bool Plugin::setInputData(void* userData)
 {
     //Do whats needed in descendants
-    mUserData = userData;
+    mClientData = userData;
     return true;
 }
 
