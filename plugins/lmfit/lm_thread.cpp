@@ -9,7 +9,6 @@
 #include "rrUtils.h"
 #include "../../wrappers/C/rrc_api.h"
 #include "../../wrappers/C/rrc_utilities.h"
-
 //---------------------------------------------------------------------------
 namespace lm
 {
@@ -19,9 +18,6 @@ using namespace std;
 
 LMFitThread::LMFitThread(LM& host)
 :
-threadEnterCB(NULL),
-threadExitCB(NULL),
-mUserData(NULL),
 mTheHost(host),
 mMinData(mTheHost.getMinimizationData()),
 mRRI(NULL)
@@ -32,13 +28,6 @@ mRRI(NULL)
 bool LMFitThread::isRunning()
 {
     return mThread.isRunning();
-}
-
-void LMFitThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
-{
-    threadEnterCB     = fn1;
-    threadExitCB      = fn2;
-    mUserData         = userData;
 }
 
 void LMFitThread::start(bool runInThread)
@@ -63,9 +52,9 @@ void LMFitThread::start(bool runInThread)
 
 void LMFitThread::run()
 {
-    if(threadEnterCB)
+    if(mTheHost.mWorkStartedCB)
     {
-        threadEnterCB(mUserData);    //Tell anyone who wants to know
+        mTheHost.mWorkStartedCB(mTheHost.mWorkStartedData);
     }
 
     setupRoadRunner();
@@ -122,9 +111,9 @@ void LMFitThread::run()
     data = createResidualsData();
     mMinData.setResidualsData(data);
 
-    if(threadExitCB)
+    if(mTheHost.mWorkFinishedCB)
     {
-        threadExitCB(mUserData);
+        mTheHost.mWorkFinishedCB(mTheHost.mWorkFinishedData);
     }
 }
 

@@ -1,11 +1,13 @@
 #pragma hdrstop
+#include "libxml/tree.h"
+#include "libxml/xpath.h"
+
 #include "rrException.h"
 #include "rrBaseParameter.h"
 #include "rrParameter.h"
 #include "rrLogger.h"
 #include "rrCapabilities.h"
 #include "rrCapability.h"
-
 
 using namespace std;
 
@@ -107,6 +109,52 @@ bool Capabilities::setParameter(const string& name, const string& value)
     }
 
     return false;
+}
+
+string Capabilities::asXML()
+{
+    xmlDocPtr doc = NULL;           /* document pointer */
+    xmlNodePtr root_node = NULL;
+    LIBXML_TEST_VERSION;
+
+    doc = xmlNewDoc(BAD_CAST "1.0");
+    xmlKeepBlanksDefault(0);
+    root_node = xmlNewNode(NULL, BAD_CAST "capabilities");
+    xmlDocSetRootElement(doc, root_node);
+
+    //Add capabilitys
+    for(int i = 0; i < count(); i++)
+    {
+        Capability& aCapability = *(mCapabilities[i]);
+        xmlNodePtr capNode = xmlNewChild(root_node, NULL, BAD_CAST "capability",NULL);
+        xmlNewProp(capNode, BAD_CAST "name", BAD_CAST mName.c_str());
+        xmlNewProp(capNode, BAD_CAST "description", BAD_CAST mDescription.c_str());
+
+        xmlNodePtr parameters = xmlNewChild(capNode, NULL, BAD_CAST "parameters",NULL);
+
+        //Add parameters within each capability
+        for(int j = 0; j < aCapability.nrOfParameters(); j++)
+        {
+            xmlNodePtr paraNode = xmlNewChild(parameters, NULL, "para", NULL);
+
+            BaseParameter* parameter = const_cast<BaseParameter*>(&(aCapability[j]));
+            xmlNewProp(paraNode, BAD_CAST "name", BAD_CAST parameter->getName().c_str());
+            xmlNewProp(paraNode, BAD_CAST "value", BAD_CAST parameter->getValueAsString().c_str());
+            xmlNewProp(paraNode, BAD_CAST "hint", BAD_CAST parameter->getHint().c_str());
+            xmlNewProp(paraNode, BAD_CAST "type", BAD_CAST parameter->getType().c_str());
+        }
+    }
+
+    xmlChar *xmlbuff;
+    int buffersize;
+    xmlDocDumpFormatMemory(doc, &xmlbuff, &buffersize, 1);
+
+    Log(rr::Logger::LOG_INFORMATION)<<(char*) xmlbuff;
+
+    string xml = xmlbuff != NULL ? string((char*) xmlbuff) : string("");
+    xmlFreeDoc(doc);
+    xmlCleanupParser();
+    return xml;
 }
 
 ostream& operator<<(ostream& stream, const Capabilities& caps)

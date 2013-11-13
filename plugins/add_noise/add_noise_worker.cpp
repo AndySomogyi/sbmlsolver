@@ -4,30 +4,20 @@
 #include "add_noise_worker.h"
 #include "rrUtils.h"
 #include "rrNoise.h"
+#include "add_noise.h"
 //---------------------------------------------------------------------------
 
+namespace addNoise
+{
+
 using namespace rr;
-AddNoiseWorker::AddNoiseWorker()
+AddNoiseWorker::AddNoiseWorker(AddNoise& host)
 :
-threadEnterCB(NULL),
-threadExitCB(NULL),
-mUserData(NULL),
-mInputData(NULL)
+mTheHost(host)
 {}
 
-void AddNoiseWorker::assignCallBacks(ThreadCB fn1, ThreadCB fn2, ThreadCB fn3, void* userData)
+bool AddNoiseWorker::start(bool runInThread)
 {
-    threadEnterCB = fn1;
-    threadProgressCB = fn2;
-    threadExitCB = fn3;
-    mUserData = userData;
-}
-
-bool AddNoiseWorker::start(void* inputData, double sigma, bool runInThread)
-{
-    mInputData = inputData;
-    mSigma = sigma;
-
     if(runInThread)
     {
         if(mThread.isRunning())
@@ -52,38 +42,38 @@ bool AddNoiseWorker::isRunning()
 
 void AddNoiseWorker::run()
 {
-    if(threadEnterCB)
+    if(mTheHost.mWorkStartedCB)
     {
-        threadEnterCB(NULL);
+        mTheHost.mWorkStartedCB(mTheHost.mWorkStartedData);
     }
 
-    if(mInputData)
+    if(mTheHost.mClientData)
     {
-		
-        RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
-        Noise noise(0, mSigma);
+        RoadRunnerData& data = *(RoadRunnerData*) (mTheHost.mClientData);
+        Noise noise(0, mTheHost.mSigma.getValue());
         noise.randomize();
-        
+
         for(int row = 0; row < data.rSize(); row++)
-        {            
-            double xVal = data(row, 0);    //Time
+        {
             for(int col = 0; col < data.cSize() - 1; col++)
             {
                 double yData = data(row, col + 1) + noise.getNoise();
                 data(row, col + 1) = yData;
             }
-            sleep(10);
 
-            if(threadProgressCB)
-		    {
-                int progress =(double) (row /(data.rSize() -1.0)) *100.0;                    
-			    threadProgressCB((void*) &progress);
-		    }
+            sleep(30);
+
+            if(mTheHost.mWorkProgressCB)
+            {
+                mTheHost.mPluginProgress.setValue( (int) 0.5 + (row /(data.rSize() -1.0)) *100.0);
+                mTheHost.mWorkProgressCB((void*) mTheHost.mWorkProgressData);
+            }
         }
     }
 
-    if(threadExitCB)
+    if(mTheHost.mWorkFinishedCB)
     {
-        threadExitCB(NULL);
+        mTheHost.mWorkFinishedCB(mTheHost.mWorkFinishedData);
     }
+}
 }

@@ -5,28 +5,23 @@
 #include "rrPluginsAPIExporter.h"
 //---------------------------------------------------------------------------
 
-typedef void (callback_cc *ThreadCB)(void*);
+namespace addNoise
+{
+
+class AddNoise;
 
 class AddNoiseWorker : public Poco::Runnable
 {
     protected:
         Poco::Thread            mThread;
-
-        //Callbacks
-        ThreadCB                threadEnterCB;
-        ThreadCB                threadProgressCB;
-        ThreadCB                threadExitCB;
-
-        void*                   mUserData;
-        void*                   mInputData;
-        double                  mSigma;
+        AddNoise&               mTheHost;
 
     public:
-                                AddNoiseWorker();
-        void                    assignCallBacks(ThreadCB fn1, ThreadCB fn2, ThreadCB fn3, void* userData = NULL);
-        bool                    start(void* inputData, double sigma, bool runInThread = true);
+                                AddNoiseWorker(AddNoise& mTheHost);
+        bool                    start(bool runInThread = true);
         void                    run();
         bool                    isRunning();
 };
 
+}
 #endif

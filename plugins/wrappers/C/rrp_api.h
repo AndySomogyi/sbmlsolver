@@ -164,6 +164,14 @@ RRP_DECLSPEC RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, i
 RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
 /*!
+ \brief GetPluginCapabilities as a xml document
+ \param[in] handle Handle to a plugin
+ \return Returns available capabilities for a particular plugin as xml, NULL otherwise
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
+
+/*!
  \brief Get PluginParameters for a specific capability
  \param[in] handle Handle to a plugin
  \param[in] capability Pointer to a string, holding the name of a capability.
@@ -288,7 +296,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, plu
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* userData);
+RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* data1, void* data2, void* data3);
 
 /*!
  \brief Hand external data to a plugin

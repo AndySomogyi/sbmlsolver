@@ -9,24 +9,17 @@
 
 namespace lm
 {
-typedef void (callback_cc *ThreadCB)(void*);
 
 class LM;
 
 using rr::RoadRunnerData;
 using rrp::MinimizationData;
 
-
 class LMFitThread : public Poco::Runnable
 {
     protected:
         lmDataStructure             mLMData;        //LevenbergMarq.. data
         Poco::Thread                mThread;
-
-        //Callbacks
-        ThreadCB                    threadEnterCB;
-        ThreadCB                    threadExitCB;
-        void*                       mUserData;       //Used for plugin callbacks..
 
         LM&                         mTheHost;
         MinimizationData&           mMinData;
@@ -38,7 +31,6 @@ class LMFitThread : public Poco::Runnable
 
     public:
                                     LMFitThread(LM& host);
-        void                        assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
         void                        start(bool runInThread = true);
         void                        run();
         bool                        isRunning();

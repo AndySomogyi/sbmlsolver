@@ -1,7 +1,8 @@
 #ifndef c_plugin_demoH
 #define c_plugin_demoH
-//#include "rrPluginExporter.h"
 #include "../source/rrCPlugin.h"
+#include "../wrappers/C/rrp_types.h"
+#include "../../wrappers/C/rrc_types.h"
 //-----------------------------------------------------------
 
 RRHandle gRR;

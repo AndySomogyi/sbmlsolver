@@ -18,16 +18,17 @@ class PLUGINS_API_DECLSPEC BaseParameter
         string                              mHint;
                                             BaseParameter(const string& name, const string& hint);
         virtual                            ~BaseParameter();
-        PLUGINS_API_DECLSPEC
-        friend ostream&                     operator<<(ostream& stream, const BaseParameter& outMe);
-
         string                              asString() const;
         string                              getName() const;
         string                              getHint() const;
         virtual string                      getValueAsString() const;
+
         virtual void*                       getValueAsPointer() = 0;
         virtual void                        setValueFromString(const string& value) = 0;
         virtual string                      getType() const = 0;
+
+        PLUGINS_API_DECLSPEC
+        friend ostream&                     operator<<(ostream& stream, const BaseParameter& outMe);
 };
 
 }

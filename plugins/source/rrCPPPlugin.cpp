@@ -5,17 +5,13 @@
 namespace rrp
 {
 
-CPPPlugin::CPPPlugin(const string& name, const string& cat, RoadRunner* aRR, const PluginManager* pm,
-                        PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
+CPPPlugin::CPPPlugin(const string& name, const string& cat, RoadRunner* aRR, const PluginManager* pm)
 :
-Plugin(name, cat, aRR, fn1, fn2, fn3, "CPP", pm)
+Plugin(name, cat, aRR, "CPP", pm)
 {}
 
 CPPPlugin::~CPPPlugin()
 {}
-
-_xmlNode* CPPPlugin::createConfigNode(){return NULL;}
-void CPPPlugin::loadConfig(const _xmlDoc* doc){}
 
 string CPPPlugin::getImplementationLanguage()
 {

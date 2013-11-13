@@ -120,6 +120,12 @@ inline string Parameter<int>::getType() const
 }
 
 template<>
+inline void Parameter<int>::setValue(const int& val)
+{
+    mValue = val;
+}
+
+template<>
 inline void Parameter<int>::setValueFromString(const string& val)
 {
     mValue = rr::toInt(val);

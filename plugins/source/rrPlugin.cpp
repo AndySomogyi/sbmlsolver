@@ -4,7 +4,6 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-//#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 
 namespace rrp
@@ -13,9 +12,6 @@ using namespace std;
 Plugin::Plugin( const string& name,
                 const string& category,
                 RoadRunner* aRR,
-                PluginCallBackFnc fn1,
-                PluginCallBackFnc fn2,
-                PluginCallBackFnc fn3,
                 const string& language,
                 const PluginManager* pm)
 :
@@ -25,9 +21,9 @@ mCategory(category),
 mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
-mWorkStartedCB(fn1),
-mWorkProgressCB(fn1),
-mWorkFinishedCB(fn2),
+mWorkStartedCB(NULL),
+mWorkProgressCB(NULL),
+mWorkFinishedCB(NULL),
 mCapabilities(name, category),
 mImplementationLanguage(language),
 mPM(pm)
@@ -42,37 +38,45 @@ bool Plugin::resetPlugin()
     return true;
 }
 
+string Plugin::getCapabilitiesAsXML()
+{
+    return mCapabilities.asXML();
+}
+
 bool Plugin::setInputData(void* userData)
 {
     //Do whats needed in descendants
-    mUserData = userData;
+    mClientData = userData;
     return true;
 }
 
 bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* userData)
 {
-    mUserData = userData;
+    mWorkStartedData = userData;
     mWorkStartedCB = startedFnc;
     return true;
 }
 
 bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* userData)
 {
-    mUserData = userData;
+    mWorkProgressData = userData;
     mWorkProgressCB = progress;
     return true;
 }
 
 bool Plugin::assignPluginFinishedCallBack(PluginCallBackFnc endFnc, void* userData)
 {
-    mUserData = userData;
+    mWorkFinishedData = userData;
     mWorkFinishedCB = endFnc;
     return true;
 }
 
-bool Plugin::assignCallBacks(PluginCallBackFnc start, PluginCallBackFnc progress, PluginCallBackFnc end, void* userData)
+bool Plugin::assignCallBacks(PluginCallBackFnc start, PluginCallBackFnc progress, PluginCallBackFnc end, void* data1, void* data2, void* data3)
 {
-    mUserData = userData;
+    mWorkStartedData = data1;
+    mWorkProgressData = data2;
+    mWorkFinishedData = data3;
+
     mWorkStartedCB = start;
     mWorkProgressCB = progress;
     mWorkFinishedCB = end;

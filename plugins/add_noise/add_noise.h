@@ -17,12 +17,14 @@ using namespace rrp;
 class AddNoise : public CPPPlugin
 {
     public:
+        friend class AddNoiseWorker;
         enum NoiseType {ntGaussian = 0};
 
     private:
         Capability              mAddNoise;
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;
+        Parameter<int>          mPluginProgress;
         AddNoiseWorker          mAddNoiseWorker;
 
     public:
@@ -33,8 +35,8 @@ class AddNoise : public CPPPlugin
         bool                    execute(void* userData, bool inThread = false);
         bool                    isWorking(); //Returns true as long the thread is active..
 
-        virtual _xmlNode*       createConfigNode();
-        virtual void            loadConfig(const _xmlDoc* doc);
+        virtual _xmlNode*       createConfigNode(){return NULL;};
+        virtual void            loadConfig(const _xmlDoc* doc){};
 };
 
 extern "C"
@@ -48,19 +50,19 @@ RR_PLUGIN_DECLSPEC const char*  plugins_cc getImplementationLanguage();
 namespace rrp
 {
 template<>
-string Parameter<addNoise::AddNoise::NoiseType>::getType() const
+inline string Parameter<addNoise::AddNoise::NoiseType>::getType() const
 {
     return "NoiseType";
 }
 
 template<>
-string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
+inline string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 {
     return "Gaussian";
 }
 
 template<>
-void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
+inline void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
 {
     mValue = addNoise::AddNoise::ntGaussian;
 }

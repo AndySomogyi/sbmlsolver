@@ -1,6 +1,5 @@
 #pragma hdrstop
 #include "rrParameters.h"
-//#include <libxml/tree.h>
 
 namespace rrp
 {
