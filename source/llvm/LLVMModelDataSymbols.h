@@ -142,8 +142,7 @@ public:
 
     LLVMModelDataSymbols();
 
-    LLVMModelDataSymbols(libsbml::Model const* model,
-            bool computeAndAssignConsevationLaws);
+    LLVMModelDataSymbols(libsbml::Model const* model, unsigned options);
 
     virtual ~LLVMModelDataSymbols();
 

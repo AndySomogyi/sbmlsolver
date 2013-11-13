@@ -11,6 +11,7 @@
 #include "ModelDataIRBuilder.h"
 #include "LLVMException.h"
 #include "SBMLSupportFunctions.h"
+#include "rrModelGenerator.h"
 
 #include <sbml/SBMLReader.h>
 #include <string>
@@ -60,13 +61,13 @@ double atanh(double value)
 #endif
 
 ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
-    bool computeAndAssignConsevationLaws) :
+    unsigned options) :
         ownedDoc(checkedReadSBMLFromString((sbml.c_str()))),
         doc(ownedDoc),
-        symbols(new LLVMModelDataSymbols(doc->getModel(),
-                                         computeAndAssignConsevationLaws)),
+        symbols(new LLVMModelDataSymbols(doc->getModel(), options)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string())
+        errString(new string()),
+        options(options)
 {
     // initialize LLVM
     // TODO check result
@@ -92,13 +93,13 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
 }
 
 ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
-    bool computeAndAssignConsevationLaws) :
+    unsigned options) :
         ownedDoc(0),
         doc(doc),
-        symbols(new LLVMModelDataSymbols(doc->getModel(),
-            computeAndAssignConsevationLaws)),
+        symbols(new LLVMModelDataSymbols(doc->getModel(), options)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string())
+        errString(new string()),
+        options(options)
 {
     // initialize LLVM
     // TODO check result
@@ -134,9 +135,10 @@ static SBMLDocument *createEmptyDocument()
 ModelGeneratorContext::ModelGeneratorContext() :
         ownedDoc(createEmptyDocument()),
         doc(ownedDoc),
-        symbols(new LLVMModelDataSymbols(doc->getModel(), false)),
+        symbols(new LLVMModelDataSymbols(doc->getModel(), 0)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string())
+        errString(new string()),
+        options(0)
 {
     // initialize LLVM
     // TODO check result
@@ -223,6 +225,11 @@ void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
 const LLVMModelSymbols& ModelGeneratorContext::getModelSymbols() const
 {
     return *modelSymbols;
+}
+
+bool ModelGeneratorContext::getConservedMoietyAnalysis() const
+{
+    return options & rr::ModelGenerator::CONSERVED_MOIETIES;
 }
 
 

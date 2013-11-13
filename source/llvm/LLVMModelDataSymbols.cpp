@@ -10,6 +10,7 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
+#include "rrModelGenerator.h"
 
 #include <Poco/LogStream.h>
 #include <sbml/Model.h>
@@ -41,10 +42,10 @@ static const char* modelDataFieldsNames[] =  {
         "NumRateRules",                         // 8
         "NumReactions",                         // 9
 
-		"NumInitCompartments",                  // 10
-		"NumInitFloatingSpecies",               // 11
-		"NumInitBoundarySpecies"                // 12
-		"NumInitGlobalParameters",              // 13
+        "NumInitCompartments",                  // 10
+        "NumInitFloatingSpecies",               // 11
+        "NumInitBoundarySpecies"                // 12
+        "NumInitGlobalParameters",              // 13
 
         "Stoichiometry",                        // 14
         "NumEvents",                            // 15
@@ -110,7 +111,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
-        bool computeAndAssignConsevationLaws) :
+        unsigned options) :
     independentFloatingSpeciesSize(0),
     independentBoundarySpeciesSize(0),
     independentGlobalParameterSize(0),
@@ -164,7 +165,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 
     // process the floating species
-    initFloatingSpecies(model, computeAndAssignConsevationLaws);
+    initFloatingSpecies(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
 
     // display compartment info. We need to get the compartments before the
     // so we can get the species compartments. But the struct anal dumps

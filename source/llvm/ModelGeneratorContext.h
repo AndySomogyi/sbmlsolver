@@ -66,15 +66,14 @@ public:
     /**
      * load the sbml document from a string.
      */
-    ModelGeneratorContext(std::string const &sbml,
-            bool computeAndAssignConsevationLaws);
+    ModelGeneratorContext(std::string const &sbml, unsigned loadSBMLOptions);
 
     /**
      * attach to an existing sbml document, we borrow a reference to this
      * doc and DO NOT take ownership of it.
      */
     ModelGeneratorContext(libsbml::SBMLDocument const *doc,
-            bool computeAndAssignConsevationLaws);
+            unsigned loadSBMLOptions);
 
     /**
      * does not attach to any sbml doc,
@@ -127,6 +126,9 @@ public:
             const llvm::LLVMContext **ctx, const llvm::ExecutionEngine **eng,
             const std::string **errStr);
 
+
+    bool getConservedMoietyAnalysis() const;
+
 private:
 
     /**
@@ -161,6 +163,8 @@ private:
     llvm::Module *module;
 
     llvm::IRBuilder<> *builder;
+
+    unsigned options;
 };
 
 
