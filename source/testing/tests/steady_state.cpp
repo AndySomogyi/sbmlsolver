@@ -56,7 +56,7 @@ string TestModelFileName;
         CHECK(aRR!=NULL);
 
         //Load the model
-        aRR->setConservationAnalysis(true);
+        aRR->setConservedMoietyAnalysis(true);
         CHECK(aRR->load(TestModelFileName));
     }
 

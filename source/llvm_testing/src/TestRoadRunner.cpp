@@ -104,7 +104,7 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
         throw Exception("Failed loading SBML model settings");
     }
 
-    rr->setConservationAnalysis(false);
+    rr->setConservedMoietyAnalysis(false);
 }
 
 void TestRoadRunner::simulate()

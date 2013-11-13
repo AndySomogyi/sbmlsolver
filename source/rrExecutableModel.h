@@ -368,11 +368,11 @@ public:
     virtual double getStoichiometry(int speciesIndex, int reactionIndex) = 0;
 
 
-    virtual int getNumConservedSums() = 0;
-    virtual int getConservedSumIndex(const std::string& eid) = 0;
-    virtual std::string getConservedSumId(int index) = 0;
-    virtual int getConservedSums(int len, int const *indx, double *values) = 0;
-    virtual int setConservedSums(int len, int const *indx,
+    virtual int getNumConservedMoieties() = 0;
+    virtual int getConservedMoietyIndex(const std::string& eid) = 0;
+    virtual std::string getConservedMoietyId(int index) = 0;
+    virtual int getConservedMoietyValues(int len, int const *indx, double *values) = 0;
+    virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values) = 0;
 
     virtual int getNumRules() = 0;

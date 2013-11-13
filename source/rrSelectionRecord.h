@@ -1,11 +1,9 @@
 #ifndef rrSelectionRecordH
 #define rrSelectionRecordH
-#include <string>
-#include <iomanip>
-#include <ostream>
 #include "rrExporter.h"
+#include <ostream>
 #include <string>
-//---------------------------------------------------------------------------
+
 namespace rr
 {
 using std::string;

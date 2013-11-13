@@ -1067,7 +1067,7 @@ bool RunTest(const string& version, int caseNumber)
             throw("Failed loading SBML model settings");
         }
 
-        rr.setConservationAnalysis(false);
+        rr.setConservedMoietyAnalysis(false);
 
         //Then Simulate model
          if(!simulation.Simulate())

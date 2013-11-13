@@ -250,8 +250,8 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
 
     LoadSBMLOptions opt;
     opt.modelGeneratorOpt = mCompileIfDllExists ?
-            opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile :
-            opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
+            opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
+            opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
     bool val = mEngine->load(GetModelsFullFilePath(), &opt);
     return val;

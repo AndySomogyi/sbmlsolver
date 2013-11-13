@@ -137,7 +137,7 @@ int main(int argc, char * argv[])
                 simulation.SetSelectionList(args.SelectionList);
             }
 
-            rr->setConservationAnalysis(false);
+            rr->setConservedMoietyAnalysis(false);
         }
 
         //Then Simulate model

@@ -285,11 +285,11 @@ public:
 
     virtual void print(std::ostream &stream);
 
-    virtual int getNumConservedSums();
-    virtual int getConservedSumIndex(const string& name);
-    virtual string getConservedSumId(int index);
-    virtual int getConservedSums(int len, int const *indx, double *values);
-    virtual int setConservedSums(int len, int const *indx,
+    virtual int getNumConservedMoieties();
+    virtual int getConservedMoietyIndex(const string& name);
+    virtual string getConservedMoietyId(int index);
+    virtual int getConservedMoietyValues(int len, int const *indx, double *values);
+    virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values);
 
 

@@ -1295,23 +1295,23 @@ int CompiledExecutableModel::getReactionRates(int len, const int* indx,
     return len;
 }
 
-int CompiledExecutableModel::getNumConservedSums()
+int CompiledExecutableModel::getNumConservedMoieties()
 {
     return ms.mConservationList.size();
 }
 
-int CompiledExecutableModel::getConservedSumIndex(const string& name)
+int CompiledExecutableModel::getConservedMoietyIndex(const string& name)
 {
     int result = -1;
     return ms.mConservationList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getConservedSumId(int index)
+string CompiledExecutableModel::getConservedMoietyId(int index)
 {
     return ms.mConservationList[index].name;
 }
 
-int CompiledExecutableModel::getConservedSums(int len, const int* indx,
+int CompiledExecutableModel::getConservedMoietyValues(int len, const int* indx,
         double* values)
 {
     for (int i = 0; i < len; ++i)
@@ -1329,7 +1329,7 @@ int CompiledExecutableModel::getConservedSums(int len, const int* indx,
     return len;
 }
 
-int CompiledExecutableModel::setConservedSums(int len, const int* indx,
+int CompiledExecutableModel::setConservedMoietyValues(int len, const int* indx,
         const double* values)
 {
     for (int i = 0; i < len; ++i)

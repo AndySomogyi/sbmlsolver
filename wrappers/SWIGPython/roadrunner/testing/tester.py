@@ -118,9 +118,9 @@ def loadJarnacModelFromTestFile ():
 def setConservationLaw(rrInstance, testId):
     line = readLine ()
     if line == 'True':
-        rrInstance.setConservationAnalysis(1)
+        rrInstance.conservedMoietyAnalysis = True
     else:
-        rrInstance.setConservationAnalysis(0)
+        rrInstance.conservedMoietyAnalysis = False
 
 def mySetSteadyStateSelectionList(rrInstance, testId):
     line = readLine ()

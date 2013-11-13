@@ -246,7 +246,7 @@ SimulateOptions& RoadRunner::getSimulateOptions()
     return mSettings;
 }
 
-bool RoadRunner::getConservationAnalysis()
+bool RoadRunner::getConservedMoietyAnalysis()
 {
     return mComputeAndAssignConservationLaws;
 }
@@ -386,7 +386,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
         if (record.index > ((mModel->getNumGlobalParameters()) - 1))
         {
             int index = record.index - mModel->getNumGlobalParameters();
-            mModel->getConservedSums(1, &index, &dResult);
+            mModel->getConservedMoietyValues(1, &index, &dResult);
         }
         else
         {
@@ -490,7 +490,7 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
 }
 
 
-vector<double> RoadRunner::getConservedSums()
+vector<double> RoadRunner::getConservedMoietyValues()
 {
     return getLibStruct()->getConservedSums();
 }
@@ -529,15 +529,15 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     if (options)
     {
         mComputeAndAssignConservationLaws = options->modelGeneratorOpt
-                & LoadSBMLOptions::ConservationAnalysis;
+                & LoadSBMLOptions::CONSERVED_MOIETIES;
         mModel = mModelGenerator->createModel(mCurrentSBML, options->modelGeneratorOpt);
     }
     else
     {
         LoadSBMLOptions opt;
-        opt.modelGeneratorOpt = getConservationAnalysis() ?
-                opt.modelGeneratorOpt | LoadSBMLOptions::ConservationAnalysis :
-                opt.modelGeneratorOpt & ~LoadSBMLOptions::ConservationAnalysis;
+        opt.modelGeneratorOpt = getConservedMoietyAnalysis() ?
+                opt.modelGeneratorOpt | LoadSBMLOptions::CONSERVED_MOIETIES :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::CONSERVED_MOIETIES;
         mModel = mModelGenerator->createModel(mCurrentSBML, opt.modelGeneratorOpt);
     }
 
@@ -695,7 +695,7 @@ void RoadRunner::setParameterValue(const ParameterType::ParameterType parameterT
         break;
 
         case ParameterType::ptConservationParameter:
-            mModel->setConservedSums(1, &parameterIndex, &value);
+            mModel->setConservedMoietyValues(1, &parameterIndex, &value);
         break;
 
         case ParameterType::ptLocalParameter:
@@ -735,7 +735,7 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
     case ParameterType::ptConservationParameter:
     {
         double result = 0;
-        mModel->getConservedSums(1, &parameterIndex, &result);
+        mModel->getConservedMoietyValues(1, &parameterIndex, &result);
         return result;
     }
     break;
@@ -752,7 +752,7 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
 }
 
 
-void RoadRunner::setConservationAnalysis(bool bValue)
+void RoadRunner::setConservedMoietyAnalysis(bool bValue)
 {
     if(bValue == mComputeAndAssignConservationLaws)
     {
@@ -767,11 +767,11 @@ void RoadRunner::setConservationAnalysis(bool bValue)
 
         // set the comput and assign cons flag
         opt.modelGeneratorOpt = bValue ?
-                opt.modelGeneratorOpt | LoadSBMLOptions::ConservationAnalysis :
-                opt.modelGeneratorOpt & ~LoadSBMLOptions::ConservationAnalysis;
+                opt.modelGeneratorOpt | LoadSBMLOptions::CONSERVED_MOIETIES :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::CONSERVED_MOIETIES;
 
         // have to reload
-        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile;
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
 
         if(!load(mCurrentSBML, &opt))
         {
@@ -817,7 +817,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     {
         parameterType = ParameterType::ptGlobalParameter;
     }
-    else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
+    else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
     {
         parameterType = ParameterType::ptConservationParameter;
     }
@@ -919,11 +919,11 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             originalParameterValue = 0;
             mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
+        else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
         {
             parameterType = ParameterType::ptConservationParameter;
             originalParameterValue = 0;
-            mModel->getConservedSums(1, &parameterIndex, &originalParameterValue);
+            mModel->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
         }
         else
         {
@@ -1832,7 +1832,7 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
 
         mModel->getGlobalParameterValues(mModel->getNumGlobalParameters(), 0, data);
 
-        mModel->getConservedSums(mModel->getNumDepFloatingSpecies(), 0, data + mModel->getNumGlobalParameters());
+        mModel->getConservedMoietyValues(mModel->getNumDepFloatingSpecies(), 0, data + mModel->getNumGlobalParameters());
 
         double result = data[index];
         delete[] data;
@@ -1858,7 +1858,7 @@ vector<double> RoadRunner::getGlobalParameterValues()
         mModel->getGlobalParameterValues(
                 mModel->getNumGlobalParameters(), 0, &result[0]);
 
-        mModel->getConservedSums(
+        mModel->getConservedMoietyValues(
                 mModel->getNumDepFloatingSpecies(), 0,
                 &result[mModel->getNumGlobalParameters()]);
 
@@ -1920,11 +1920,11 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             originalParameterValue = 0;
             mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
+        else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
         {
             parameterType = ParameterType::ptConservationParameter;
             originalParameterValue = 0;
-            mModel->getConservedSums(1, &parameterIndex, &originalParameterValue);
+            mModel->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
         }
         else
         {
@@ -2025,7 +2025,7 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     {
         parameterType = ParameterType::ptBoundaryParameter;
     }
-    else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
+    else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
     {
         parameterType = ParameterType::ptConservationParameter;
     }
@@ -2486,9 +2486,9 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 
     int nIndex = 0;
 
-    if ((nIndex = mModel->getConservedSumIndex(sId)) >= 0)
+    if ((nIndex = mModel->getConservedMoietyIndex(sId)) >= 0)
     {
-        mModel->setConservedSums(1, &nIndex, &dValue);
+        mModel->setConservedMoietyValues(1, &nIndex, &dValue);
         mModel->updateDependentSpeciesValues();
         mModel->setConservedSumChanged(true);
         return true;
@@ -2798,7 +2798,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         {
             if (mModel->getGlobalParameterIndex(sel.p2) >= 0 ||
                     mModel->getBoundarySpeciesIndex(sel.p2) >= 0 ||
-                    mModel->getConservedSumIndex(sel.p2) >= 0)
+                    mModel->getConservedMoietyIndex(sel.p2) >= 0)
             {
                 Log(Logger::LOG_INFORMATION) <<
                         "Valid metabolic control selection: " << sel.to_repr();
@@ -3061,9 +3061,9 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
             parameterIndex = mModel->getBoundarySpeciesIndex(parameterName);
             parameterType  = ParameterType::ptBoundaryParameter;
         }
-        else if(mModel->getConservedSumIndex(parameterName) != -1)
+        else if(mModel->getConservedMoietyIndex(parameterName) != -1)
         {
-            parameterIndex = mModel->getConservedSumIndex(parameterName);
+            parameterIndex = mModel->getConservedMoietyIndex(parameterName);
             parameterType = ParameterType::ptConservationParameter;
         }
         else
@@ -3083,7 +3083,7 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
             break;
             case ParameterType::ptConservationParameter:
                 //originalParameterValue = mModel->getC ;//model.ct[parameterIndex];
-                mModel->getConservedSums(1, &parameterIndex, &result);
+                mModel->getConservedMoietyValues(1, &parameterIndex, &result);
                 originalParameterValue = result;
             break;
             default:
@@ -3269,8 +3269,8 @@ vector<string> RoadRunner::getBoundarySpeciesIds()
 
 vector<string> RoadRunner::getConservedSumIds()
 {
-    return createModelStringList(mModel, &ExecutableModel::getNumConservedSums,
-            &ExecutableModel::getConservedSumId);
+    return createModelStringList(mModel, &ExecutableModel::getNumConservedMoieties,
+            &ExecutableModel::getConservedMoietyId);
 }
 
 vector<string> RoadRunner::getFloatingSpeciesIds()

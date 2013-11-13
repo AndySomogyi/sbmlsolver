@@ -303,7 +303,7 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
     try
     {
         RoadRunner* rri = castFrom(handle);
-        rri->setConservationAnalysis(OnOrOff);
+        rri->setConservedMoietyAnalysis(OnOrOff);
         return true;
     }
     catch_bool_macro
@@ -461,8 +461,8 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
 
         LoadSBMLOptions opt;
         opt.modelGeneratorOpt = forceRecompile ?
-                opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile :
-                opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
+                opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
         if(!rri->load(fileName, &opt))
         {
@@ -492,8 +492,8 @@ bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompi
 
         LoadSBMLOptions opt;
                 opt.modelGeneratorOpt = forceRecompile ?
-                        opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile :
-                        opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
+                        opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
+                        opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
         if(!rri->load(sbml, &opt))
         {

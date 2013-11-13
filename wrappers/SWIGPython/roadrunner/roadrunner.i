@@ -32,7 +32,7 @@
     #include <rrVersionInfo.h>
     #include <rrException.h>
     #include <assert.h>
-	
+
 #ifndef _WIN32
 #include <signal.h>
 #endif
@@ -205,30 +205,30 @@ import_array();
         return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
             + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
     }
-	
-#ifndef _WIN32
-	
-	static void rr_sighandler(int sig) {
-		std::cout << "handling signal " << sig << std::endl;
-		Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
-	}
-	
-	static unsigned long sigtrap() {
-		signal(SIGTRAP, rr_sighandler);
-		return raise(SIGTRAP);
-	}
-	
-#else
-	
-	static unsigned long sigtrap() {
-		Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
-		return 0;
-	}
-	
-#endif
-	
 
-	
+#ifndef _WIN32
+
+    static void rr_sighandler(int sig) {
+        std::cout << "handling signal " << sig << std::endl;
+        Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+    }
+
+    static unsigned long sigtrap() {
+        signal(SIGTRAP, rr_sighandler);
+        return raise(SIGTRAP);
+    }
+
+#else
+
+    static unsigned long sigtrap() {
+        Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        return 0;
+    }
+
+#endif
+
+
+
 
 %}
 
@@ -476,11 +476,11 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::RoadRunner::getModelName;
 %ignore rr::RoadRunner::getTempFolder;
 %ignore rr::RoadRunner::setParameterValue;
-%ignore rr::RoadRunner::getConservedSumIds;
+%ignore rr::RoadRunner::getConservedMoietyIds;
 //%ignore rr::RoadRunner::getNrMatrix;
 //%ignore rr::RoadRunner::getTimeCourseSelectionList;
 %ignore rr::RoadRunner::setSimulationSettings;
-%ignore rr::RoadRunner::getConservedSums;
+%ignore rr::RoadRunner::getConservedMoietyValues;
 %ignore rr::RoadRunner::getNumPoints;
 %ignore rr::RoadRunner::getTimeEnd;
 //%ignore rr::RoadRunner::setSteadyStateSelectionList;
@@ -538,7 +538,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %rename (_getSteadyStateSelections) rr::RoadRunner::getSteadyStateSelections();
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
-
+%rename (_getConservedMoietyAnalysis) getConservedMoietyAnalysis();
+%rename (_setConservedMoietyAnalysis) setConservedMoietyAnalysis(bool);
 
 %ignore rr::LoggingBuffer;
 %ignore rr::LogLevel;
@@ -576,8 +577,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::setGlobalParameterValues(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getCompartmentVolumes(int, int const*, double *);
 %ignore rr::ExecutableModel::setCompartmentVolumes(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getConservedSums(int, int const*, double *);
-%ignore rr::ExecutableModel::setConservedSums(int len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getConservedMoietyValues(int, int const*, double *);
+%ignore rr::ExecutableModel::setConservedMoietyValues(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getReactionRates(int, int const*, double *);
 %ignore rr::ExecutableModel::evalReactionRates;
 %ignore rr::ExecutableModel::convertToAmounts;
@@ -605,14 +606,14 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getBoundarySpeciesId(int index);
 %ignore rr::ExecutableModel::getGlobalParameterId(int index);
 %ignore rr::ExecutableModel::getCompartmentId(int index);
-%ignore rr::ExecutableModel::getConservedSumId(int index);
+%ignore rr::ExecutableModel::getConservedMoietyId(int index);
 %ignore rr::ExecutableModel::getReactionId(int index);
 
 %ignore rr::ExecutableModel::getFloatingSpeciesIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getBoundarySpeciesIndex(const std::string &eid);
 %ignore rr::ExecutableModel::getGlobalParameterIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getCompartmentIndex(const std::string& eid);
-%ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getConservedMoietyIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
 %ignore rr::ExecutableModel::getStoichiometryMatrix(int*, int*, double**);
@@ -777,7 +778,7 @@ namespace std { class ostream{}; }
 
         return pyList;
     }
- 
+
 
    %pythoncode %{
         def getModel(self):
@@ -789,14 +790,17 @@ namespace std { class ostream{}; }
         __swig_setmethods__["selections"] = _setSelections
         __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
         __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
+        __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
+        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
         __swig_getmethods__["model"] = _getModel
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+            conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
             model = property(getModel)
 
-    
+
         def keys(self, types=_roadrunner.SelectionRecord_ALL):
             return self.getIds(types)
 
@@ -1030,14 +1034,14 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
     }
 
-    PyObject *getConservedSums(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums,
-                                         &rr::ExecutableModel::getNumConservedSums,  len, indx);
+    PyObject *getConservedMoietyValues(int len, int const *indx) {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedMoietyValues,
+                                         &rr::ExecutableModel::getNumConservedMoieties,  len, indx);
     }
 
-    PyObject *getConservedSums() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums,
-                                          &rr::ExecutableModel::getNumConservedSums, (int)0, (int const*)0);
+    PyObject *getConservedMoietyValues() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedMoietyValues,
+                                          &rr::ExecutableModel::getNumConservedMoieties, (int)0, (int const*)0);
     }
 
     PyObject *getReactionRates(int len, int const *indx) {
@@ -1123,8 +1127,8 @@ namespace std { class ostream{}; }
         return $self->setCompartmentVolumes(len, 0, values);
     }
 
-    int setConservedSums(int len, double const *values) {
-        return $self->setConservedSums(len, 0, values);
+    int setConservedMoietyValues(int len, double const *values) {
+        return $self->setConservedMoietyValues(len, 0, values);
     }
 
     int setFloatingSpeciesInitConcentrations(int len, double const *values) {
@@ -1191,14 +1195,14 @@ namespace std { class ostream{}; }
         return $self->setCompartmentVolumes(leni, indx, values);
     }
 
-    int setConservedSums(int leni, int const* indx, int lenv, double const *values) {
+    int setConservedMoietyValues(int leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
                          leni, lenv);
             return -1;
         }
-        return $self->setConservedSums(leni, indx, values);
+        return $self->setConservedMoietyValues(leni, indx, values);
     }
 
     int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {

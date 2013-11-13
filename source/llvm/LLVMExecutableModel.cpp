@@ -22,7 +22,7 @@ using rr::getLogger;
 using rr::LoggingBuffer;
 using rr::SelectionRecord;
 
-#if defined(_WIN32) || defined(__WIN32__)
+#if defined (_WIN32)
 #define isnan _isnan
 #else
 #define isnan std::isnan
@@ -1224,28 +1224,28 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
     return len;
 }
 
-int LLVMExecutableModel::getNumConservedSums()
+int LLVMExecutableModel::getNumConservedMoieties()
 {
     return 0;
 }
 
-int LLVMExecutableModel::getConservedSumIndex(const string& name)
+int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
 {
     return -1;
 }
 
-string LLVMExecutableModel::getConservedSumId(int index)
+string LLVMExecutableModel::getConservedMoietyId(int index)
 {
     return "";
 }
 
-int LLVMExecutableModel::getConservedSums(int len, const int* indx,
+int LLVMExecutableModel::getConservedMoietyValues(int len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int LLVMExecutableModel::setConservedSums(int len, const int* indx,
+int LLVMExecutableModel::setConservedMoietyValues(int len, const int* indx,
         const double* values)
 {
     return 0;

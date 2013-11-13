@@ -350,12 +350,12 @@ public:
     /**
      * This method turns on / off the computation and adherence to conservation laws.
      */
-    void setConservationAnalysis(bool value);
+    void setConservedMoietyAnalysis(bool value);
 
     /**
      * is conservation analysis enabled. This is set
      */
-    bool getConservationAnalysis();
+    bool getConservedMoietyAnalysis();
 
     /**
      * Returns the SBML with the current parameterset.
@@ -376,7 +376,7 @@ public:
 
     std::vector<std::string> getConservedSumIds();
 
-    std::vector<double> getConservedSums();
+    std::vector<double> getConservedMoietyValues();
 
     int getNumberOfCompartments();
 
