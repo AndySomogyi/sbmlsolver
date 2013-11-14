@@ -259,7 +259,7 @@ rrLib.getSteadyStateSelectionList.restype = c_void_p
 rrLib.getTimeCourseSelectionListrestype = c_void_p
 rrLib.simulate.restype = c_void_p
 #rrLib.simulateJob.restype = c_void_p
-rrLib.simulateEx.restype = c_void_p
+
 rrLib.getFloatingSpeciesConcentrations.restype = c_void_p
 rrLib.getBoundarySpeciesConcentrations.restype = c_void_p
 rrLib.getGlobalParameterValues.restype = c_void_p
@@ -721,29 +721,13 @@ def getRoadRunnerData(aHandle = None):
 #
 #Example: m = rrPython.simulateEx(0, 25, 200)
 #
-#\return Returns a string containing the results of the simulation organized in rows and columns
+#\return Returns a handle to roadrunners internal data object
+rrLib.simulateEx.restype = c_void_p
 def simulateEx(timeStart, timeEnd, numberOfPoints):
     startValue = c_double(timeStart)
     endValue = c_double(timeEnd)
     nrPoints = c_int(numberOfPoints)
-    result = rrLib.simulateEx(gHandle, startValue, endValue, nrPoints)
-    #TODO: Check result
-    rowCount = rrLib.getRRDataNumRows(result)
-    colCount = rrLib.getRRDataNumCols(result)
-    if rowCount > -1 and colCount > -1 :
-        resultArray = np.zeros((rowCount, colCount))
-    else:
-        return None
-
-    for m in range(rowCount):
-        for n in range(colCount):
-                value = c_double()
-                rvalue = m
-                cvalue = n
-                if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
-                    resultArray[m, n] = value.value
-    rrLib.freeRRData(result)
-    return resultArray;
+    return rrLib.simulateEx(gHandle, startValue, endValue, nrPoints)
 
 ##\brief Carry out a one step integration of the model
 #

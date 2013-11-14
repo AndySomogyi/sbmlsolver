@@ -24,7 +24,7 @@ class AddNoise : public CPPPlugin
         Capability              mAddNoise;
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;
-        Parameter<int>          mPluginProgress;
+//        Parameter<int>          mPluginProgress;
         AddNoiseWorker          mAddNoiseWorker;
 
     public:
@@ -64,6 +64,7 @@ inline string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 template<>
 inline void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
 {
+    //Only gaussian noise is available at this time
     mValue = addNoise::AddNoise::ntGaussian;
 }
 

@@ -12,17 +12,17 @@ using namespace rr;
 AddNoise::AddNoise(rr::RoadRunner* aRR, PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
 :
 CPPPlugin(                 "AddNoise",                 "Signal Processing",    aRR, NULL),
-mAddNoise(                 "Add noise",                 "...",                          "Add Noise"),
-mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of Noise."),
-mSigma(                    "Sigma",                     1,                              "Indicate the size of the noise"),
-mPluginProgress(           "Progress",                  0,                              "Indicate progress of plugin work in %"),
+mAddNoise(                 "Add noise",                 "",                             "Add Noise"),
+mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of noise (Gaussian..)."),
+mSigma(                    "Sigma",                     1,                              "Size of applied noise"),
+//mPluginProgress(           "Progress",                  0,                              "Indicate progress of plugin work in %"),
 mAddNoiseWorker(*this)
 {
     //Setup the plugins capabilities
     mCapabilities.add(mAddNoise);
     mAddNoise.addParameter(&mNoiseType);
     mAddNoise.addParameter(&mSigma);
-    mAddNoise.addParameter(&mPluginProgress);
+//    mAddNoise.addParameter(&mPluginProgress);
 }
 
 AddNoise::~AddNoise()
@@ -55,17 +55,6 @@ const char* plugins_cc getImplementationLanguage()
 {
     return "CPP";
 }
-
-//_xmlNode* AddNoise::createConfigNode()
-//{
-//    _xmlNode *cap = Configurable::createCapabilityNode("Add Noise", "", "Add Noise Plugin");
-//    Configurable::addChild(cap, Configurable::createParameterNode("Noise Type", "Noise Type", ntGaussian));
-//    Configurable::addChild(cap, Configurable::createParameterNode("Sigma", "Sigma", 1));
-//    return cap;
-//}
-
-//void AddNoise::loadConfig(const _xmlDoc* doc)
-//{}
 
 }
 

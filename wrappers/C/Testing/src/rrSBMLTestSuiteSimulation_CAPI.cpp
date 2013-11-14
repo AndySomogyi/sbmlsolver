@@ -102,7 +102,10 @@ bool SBMLTestSuiteSimulation_CAPI::Simulate()
     {
         return false;
     }
-    mResultHandle = simulate(mRRHandle);
+
+    //Todo: Bisare
+    simulate(mRRHandle);
+    mResultHandle = getSimulationResult(mRRHandle);
 
     if(mResultHandle)
     {

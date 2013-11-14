@@ -9,6 +9,7 @@
 #include "rrUtils.h"
 #include "../../wrappers/C/rrc_api.h"
 #include "../../wrappers/C/rrc_utilities.h"
+#include "../../wrappers/C/rrc_cpp_support.h"
 //---------------------------------------------------------------------------
 namespace lm
 {
@@ -234,7 +235,9 @@ void evaluate(const double *par,       //Parameter vector
         Log(lDebug)<<"k"<<i<<" = "<<par[i]<<endl;
     }
 
-    RRCData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+        
+    //RRCData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+    RRDataHandle rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
 
     if(!rrData)
     {
@@ -243,6 +246,8 @@ void evaluate(const double *par,       //Parameter vector
         rr::freeText(lastError);
         return;
     }
+
+    RRCDataPtr rrcData = createRRCData( *((RoadRunnerData*) rrData));
     //calculate fvec for each specie
     int count = 0;
     for(int i = 0; i < myData->nrOfSpecies; i++)
@@ -251,7 +256,7 @@ void evaluate(const double *par,       //Parameter vector
         for(int j = 0; j < myData->nrOfTimePoints; j++ )
         {
             double modelValue;
-            if(!getRRDataElement(rrData, j, i, &modelValue))
+            if(!getRRDataElement(rrcData, j, i, &modelValue))
             {
                 throw("Bad stuff...") ;
             }
@@ -277,7 +282,7 @@ void evaluate(const double *par,       //Parameter vector
             count++;
         }
     }
-    freeRRData(rrData);
+    freeRRData(rrcData);
 }
 
 RoadRunnerData LMFitThread::createModelData()

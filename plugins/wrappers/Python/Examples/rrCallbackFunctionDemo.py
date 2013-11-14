@@ -37,10 +37,7 @@ print 'Current sigma is ' + aSigma
 result = rr.loadSBMLFromFile(sbmlModel)
 print 'Result of loading sbml: %r' % (result);
 
-rrPython.simulate()
-
-#get a hold of data handle
-rrDataHandle = rr.getRoadRunnerData()
+rrDataHandle = rrPython.simulateEx(0, 5, 100)
 
 cb_func1 =  rrp.pluginCallBackType(pluginStarted)
 rrp.assignPluginStartedCallBack(noisePlugin,  cb_func1)

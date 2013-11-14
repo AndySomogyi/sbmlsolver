@@ -135,7 +135,7 @@ string Capabilities::asXML()
         //Add parameters within each capability
         for(int j = 0; j < aCapability.nrOfParameters(); j++)
         {
-            xmlNodePtr paraNode = xmlNewChild(parameters, NULL, "para", NULL);
+            xmlNodePtr paraNode = xmlNewChild(parameters, NULL, BAD_CAST "para", NULL);
 
             BaseParameter* parameter = const_cast<BaseParameter*>(&(aCapability[j]));
             xmlNewProp(paraNode, BAD_CAST "name", BAD_CAST parameter->getName().c_str());

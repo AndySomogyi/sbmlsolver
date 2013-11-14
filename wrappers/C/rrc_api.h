@@ -538,15 +538,15 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle han
 setNumPoints etc to set the simulation characteristics.
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns an array (RRDataPtr) of columns containing the results of the
- simulation including string labels for the individual columms.
+ \return Returns a handle to roadrunners internal data object.
  \ingroup simulation
 */
-C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
+C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
 
 /*!
  \brief Retrieve the result of the last simulation.
  \param[in] handle Handle to a RoadRunner instance
+ \return Returns an handle to roadrunners internal data object
  \return Returns an array (RRCDataPtr) of columns containing the results of the
  simulation including string labels for the individual columms.
  \ingroup simulation
@@ -580,11 +580,10 @@ C_DECL_SPEC RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle);
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Number of points to generate
 
- \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columms.
+ \return Returns a handle to roadrunners internal data object.
  \ingroup simulation
 */
-C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+C_DECL_SPEC RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 /*!
  \brief Carry out a one step integration of the model

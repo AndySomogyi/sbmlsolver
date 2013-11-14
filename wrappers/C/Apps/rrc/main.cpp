@@ -174,7 +174,8 @@ int main(int argc, char* argv[])
             cout<<"SelectionList list is empty. Default list will be selected during simulation\n";
         }
 
-        result = simulate(rrHandle);
+        simulate(rrHandle);
+        result = getSimulationResult(rrHandle);
     }
 
     if(doMore && result)

@@ -30,7 +30,7 @@ bool AddNoiseWorker::start(bool runInThread)
     }
     else
     {
-        run(); //Not running worker in a thread!
+        run(); //Not running worker in a thread
     }
     return true;
 }
@@ -61,12 +61,12 @@ void AddNoiseWorker::run()
                 data(row, col + 1) = yData;
             }
 
-            sleep(30);
-
             if(mTheHost.mWorkProgressCB)
             {
-                mTheHost.mPluginProgress.setValue( (int) 0.5 + (row /(data.rSize() -1.0)) *100.0);
-                mTheHost.mWorkProgressCB((void*) mTheHost.mWorkProgressData);
+                //mTheHost.mPluginProgress.setValue( (int) 0.5 + (row /(data.rSize() -1.0)) *100.0);
+                int progress = (int) (row * 100.0) /(data.rSize() -1.0) ;
+                mTheHost.mWorkProgressCB((void*) &progress);
+
             }
         }
     }
@@ -76,4 +76,5 @@ void AddNoiseWorker::run()
         mTheHost.mWorkFinishedCB(mTheHost.mWorkFinishedData);
     }
 }
+
 }
