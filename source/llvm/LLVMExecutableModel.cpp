@@ -1053,6 +1053,11 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             setGlobalParameterValues(1, &index, &value);
             break;
         }
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            setBoundarySpeciesAmounts(1, &index, &value);
+            break;
+        }
         else
         {
             throw LLVMException("Invalid or non-existant sbml id  '" + id + "' for set value");
@@ -1119,6 +1124,18 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
 {
     assert(0);
     return 0;
+}
+
+int LLVMExecutableModel::setBoundarySpeciesAmounts(int len, const int* indx,
+        const double* values)
+{
+    int result = -1;
+    if (setBoundarySpeciesAmountPtr)
+    {
+        result = setValues(setBoundarySpeciesAmountPtr,
+                &LLVMExecutableModel::getBoundarySpeciesId, len, indx, values);
+    }
+    return result;
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

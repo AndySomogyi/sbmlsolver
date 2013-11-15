@@ -344,12 +344,17 @@ static void createReorderedSpecies(Model* newModel, Model* oldModel,
     }
 }
 
+
+/**
+ * create the conservied moiteies by
+ * T = S_d (0) - L_0 S_i (0)
+ */
 static std::vector<std::string> createConservedMoietyParameters(
         Model* newModel,
         const ls::DoubleMatrix& L0, const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies)
 {
-    StringVector conservedMoieties(indSpecies.size());
+    StringVector conservedMoieties(depSpecies.size());
 
     Poco::UUIDGenerator uuidGen;
 
@@ -374,6 +379,20 @@ static std::vector<std::string> createConservedMoietyParameters(
 
         ASTNode sum(AST_PLUS);
 
+        ASTNode *Sd0 = new ASTNode(AST_NAME);
+        Sd0->setName(depSpecies[i].c_str());
+        sum.addChild(Sd0);
+
+        ASTNode *mult = new ASTNode(AST_TIMES);
+        sum.addChild(mult);
+
+        ASTNode *neg = new ASTNode(AST_REAL);
+        neg->setValue(-1.0);
+        mult->addChild(neg);
+
+        ASTNode *sum2 = new ASTNode(AST_PLUS);
+        mult->addChild(sum2);
+
         for (int j = 0; j < indSpecies.size(); ++j)
         {
             double stoich = L0(i, j);
@@ -390,7 +409,7 @@ static std::vector<std::string> createConservedMoietyParameters(
                 times->addChild(value);
                 times->addChild(name);
 
-                sum.addChild(times);
+                sum2->addChild(times);
             }
         }
 

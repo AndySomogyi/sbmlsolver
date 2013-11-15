@@ -97,13 +97,11 @@ int main(int argc, char* argv[])
     //cout << "built on " << string( __DATE__ ) + ", " + string(__TIME__);
     //cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
-    /*
+
 
     const char* compiler = "llvm";
 
-    //testStruct();
 
-    return 0;
 
 
     if (argc > 2)
@@ -158,7 +156,7 @@ int main(int argc, char* argv[])
     std::vector<int> vec;
 
 
-    */
+
 
 
 

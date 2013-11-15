@@ -276,6 +276,18 @@ public:
             double const *values);
 
 
+    /**
+      * get the boundary species amounts
+      *
+      * @param[in] len the length of the indx and values arrays.
+      * @param[in] indx an array of length len of boundary species to return.
+      * @param[in] values an array of at least length len which will store the
+      *                returned boundary species amounts.
+      */
+     virtual int setBoundarySpeciesAmounts(int len, int const *indx,
+             double const *values);
+
+
     virtual int getGlobalParameterIndex(const string&);
     virtual string getGlobalParameterId(int);
     virtual int getCompartmentIndex(const string&);
