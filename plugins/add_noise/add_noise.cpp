@@ -12,17 +12,15 @@ using namespace rr;
 AddNoise::AddNoise(rr::RoadRunner* aRR, PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
 :
 CPPPlugin(                 "AddNoise",                 "Signal Processing",    aRR, NULL),
-mAddNoise(                 "Add noise",                 "",                             "Add Noise"),
-mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of noise (Gaussian..)."),
+mAddNoise(                 "Add Noise",                 "",                             "Add Noise"),
+mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of noise (Gaussian = 0, Psychological = 1)."),
 mSigma(                    "Sigma",                     1,                              "Size of applied noise"),
-//mPluginProgress(           "Progress",                  0,                              "Indicate progress of plugin work in %"),
 mAddNoiseWorker(*this)
 {
     //Setup the plugins capabilities
     mCapabilities.add(mAddNoise);
     mAddNoise.addParameter(&mNoiseType);
     mAddNoise.addParameter(&mSigma);
-//    mAddNoise.addParameter(&mPluginProgress);
 }
 
 AddNoise::~AddNoise()

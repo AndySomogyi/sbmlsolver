@@ -18,13 +18,12 @@ class AddNoise : public CPPPlugin
 {
     public:
         friend class AddNoiseWorker;
-        enum NoiseType {ntGaussian = 0};
+        enum NoiseType {ntGaussian = 0, ntPsychological, ntUndefined};
 
     private:
         Capability              mAddNoise;
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;
-//        Parameter<int>          mPluginProgress;
         AddNoiseWorker          mAddNoiseWorker;
 
     public:
@@ -58,14 +57,32 @@ inline string Parameter<addNoise::AddNoise::NoiseType>::getType() const
 template<>
 inline string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 {
-    return "Gaussian";
+    switch(mValue)
+    {
+        case addNoise::AddNoise::ntGaussian:
+            return "Gaussian";
+        case addNoise::AddNoise::ntPsychological:
+            return "SomethingElse";
+    }
+    return "";
 }
 
 template<>
 inline void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
 {
     //Only gaussian noise is available at this time
-    mValue = addNoise::AddNoise::ntGaussian;
+    if(val == "0")
+    {
+        mValue = addNoise::AddNoise::ntGaussian;
+    }
+    else if(val == "1")
+    {
+        mValue = addNoise::AddNoise::ntPsychological;
+    }
+    else
+    {
+        mValue = addNoise::AddNoise::ntUndefined;
+    }
 }
 
 }
