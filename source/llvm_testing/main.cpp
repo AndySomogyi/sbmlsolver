@@ -117,7 +117,9 @@ int main(int argc, char* argv[])
             }
             else
             {
+                //sleep(10);
                 TestRoadRunner::testCons2(argv[1]);
+                //sleep(10);
             }
         }
         else

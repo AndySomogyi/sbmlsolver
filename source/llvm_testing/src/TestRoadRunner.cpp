@@ -432,6 +432,8 @@ void TestRoadRunner::testCons2(const std::string& fname)
 
     writer.writeSBML(newDoc, base + ".moiety.xml");
 
+    delete doc;
+
     cout << "its all good" << endl;
 }
 

@@ -45,6 +45,8 @@ public:
      */
     ConservedMoietyConverter(const ConservedMoietyConverter& obj);
 
+    virtual ~ConservedMoietyConverter();
+
     /**
      * Creates and returns a deep copy of this SBMLLevelVersionConverter
      * object.

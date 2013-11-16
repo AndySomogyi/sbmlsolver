@@ -49,9 +49,12 @@ public:
      */
     virtual ConservedMoietyPlugin* clone() const;
 
-    bool getConservedMoiety();
+    bool getConservedMoiety() const;
 
     void setConservedMoiety(bool value);
+
+private:
+    bool conservedMoiety;
 
 };
 

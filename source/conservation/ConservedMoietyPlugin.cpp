@@ -14,13 +14,15 @@ namespace rr { namespace conservation {
 rr::conservation::ConservedMoietyPlugin::ConservedMoietyPlugin(
         const std::string& uri, const std::string& prefix,
         ConservationPkgNamespaces* consns)
-: libsbml::SBasePlugin(uri, prefix, consns)
+: libsbml::SBasePlugin(uri, prefix, consns),
+  conservedMoiety(false)
 {
 }
 
 rr::conservation::ConservedMoietyPlugin::ConservedMoietyPlugin(
         const ConservedMoietyPlugin& orig)
-: libsbml::SBasePlugin(orig)
+: libsbml::SBasePlugin(orig),
+  conservedMoiety(false)
 {
 }
 
@@ -36,16 +38,17 @@ ConservedMoietyPlugin& rr::conservation::ConservedMoietyPlugin::operator =(
 
 ConservedMoietyPlugin* rr::conservation::ConservedMoietyPlugin::clone() const
 {
-    return 0;
+    return new ConservedMoietyPlugin(*this);
 }
 
-bool ConservedMoietyPlugin::getConservedMoiety()
+bool ConservedMoietyPlugin::getConservedMoiety() const
 {
-    return false;
+    return conservedMoiety;
 }
 
 void ConservedMoietyPlugin::setConservedMoiety(bool value)
 {
+    conservedMoiety = value;
 }
 
 }

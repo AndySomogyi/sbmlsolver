@@ -268,6 +268,23 @@ const char* ConservationExtension::getStringFromTypeCode(int typeCode) const
     return SBML_GROUPS_TYPECODE_STRINGS[typeCode - min];
 }
 
+bool ConservationExtension::getConservedMoiety(const libsbml::Species& s)
+{
+    const ConservedMoietyPlugin* plugin =
+            dynamic_cast<const ConservedMoietyPlugin*>(
+                    s.getPlugin("conservation"));
+    return plugin ? plugin->getConservedMoiety() : false;
+}
+
+bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
+{
+    const ConservedMoietyPlugin* plugin =
+            dynamic_cast<const ConservedMoietyPlugin*>(
+                    s.getPlugin("conservation"));
+    return plugin ? plugin->getConservedMoiety() : false;
+}
+
+
 /*
  *
  * Initialization function of groups extension module which is automatically invoked

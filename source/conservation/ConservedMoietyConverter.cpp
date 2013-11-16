@@ -125,6 +125,12 @@ ConservedMoietyConverter::ConservedMoietyConverter(
 {
 }
 
+ConservedMoietyConverter::~ConservedMoietyConverter()
+{
+    delete structural;
+    delete resultDoc;
+}
+
 SBMLConverter* ConservedMoietyConverter::clone() const
 {
     return new ConservedMoietyConverter(*this);
@@ -176,7 +182,8 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
     }
 
-    resultDoc = new SBMLDocument(new ConservationPkgNamespaces(3,1,1));
+    ConservationPkgNamespaces ns(3,1,1);
+    resultDoc = new SBMLDocument(&ns);
 
     // makes a clone of the model
     resultDoc->setModel(mModel);
@@ -210,6 +217,8 @@ int ConservedMoietyConverter::convert()
             indSpecies, depSpecies);
 
     updateReactions(resultModel, indSpecies, depSpecies);
+
+    delete L0;
 
     return LIBSBML_OPERATION_SUCCESS;
 }
