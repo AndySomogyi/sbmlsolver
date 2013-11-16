@@ -196,6 +196,18 @@ RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* plugin
     catch_ptr_macro
 }
 
+//long rrp_cc getPluginSharedLibHandle(RRPluginManagerHandle handle, RRPluginHandle pluginName)
+//{
+//    try
+//    {
+//        PluginManager *pm = castToPluginManager(handle);
+//        Plugin* aPlugin = pm->getPlugin(pluginName);
+//
+//        return aPlugin;
+//    }
+//    catch_ptr_macro
+//}
+
 RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id)
 {
     try
@@ -206,6 +218,16 @@ RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id)
     }
     catch_ptr_macro
 }
+
+RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->getRoadRunnerInstance();
+    }
+    catch_ptr_macro
+}
+
 
 RRStringArray* rrp_cc getPluginNames(RRPluginManagerHandle handle)
 {
@@ -228,7 +250,7 @@ char* rrp_cc getPluginName(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-RRStringArray* rrp_cc getPluginCapabilities(RRPluginHandle handle)
+char* rrp_cc getPluginCapabilities(RRPluginHandle handle)
 {
     try
     {
@@ -246,7 +268,7 @@ RRStringArray* rrp_cc getPluginCapabilities(RRPluginHandle handle)
             {
                 aList.add((*caps)[i]->getName());
             }
-            return createList(aList);
+            return createText(aList.AsString().c_str());
         }
         else
         {
@@ -279,7 +301,7 @@ char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-RRStringArray* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability)
+char* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability)
 {
     try
     {
@@ -306,7 +328,7 @@ RRStringArray* rrp_cc getPluginParameters(RRPluginHandle handle, const char* cap
             {
                 aList.add((*paras)[i]->getName());
             }
-            return createList(aList);
+            return createText(aList.AsString().c_str());
         }
         else
         {
@@ -347,7 +369,7 @@ bool rrp_cc setPluginParameter(RRPluginHandle handle, const char* parameterName,
     {
         Plugin* aPlugin = castToPlugin(handle);
         BaseParameter* aParameter = (BaseParameter*) getPluginParameter(aPlugin, parameterName, NULL);
-        return setParameter(aParameter, value);
+        return setParameterByString(aParameter, value);
     }
     catch_bool_macro
 }
@@ -357,7 +379,25 @@ char* rrp_cc getPluginInfo(RRPluginHandle handle)
     try
     {
         Plugin* aPlugin = castToPlugin(handle);
-           return rr::createText(aPlugin->getInfo());
+        return rr::createText(aPlugin->getInfo());
+    }
+    catch_ptr_macro
+}
+
+unsigned int rrp_cc getPluginManualNrOfBytes(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->getPDFManualByteSize();
+    }
+    catch_ptr_macro
+}
+
+unsigned char* rrp_cc getPluginManualAsPDF(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->getManualAsPDF();
     }
     catch_ptr_macro
 }
@@ -389,7 +429,7 @@ bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThrea
 
 bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack theCB)
 {
-    start_try_macro
+    start_try
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->assignPluginStartedCallBack(theCB) : false;
     }
@@ -398,7 +438,7 @@ bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack th
 
 bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData)
 {
-    start_try_macro
+    start_try
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->assignPluginProgressCallBack(theCB, userData) : false;
     }
@@ -407,7 +447,7 @@ bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack t
 
 bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData)
 {
-    start_try_macro
+    start_try
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->assignPluginFinishedCallBack(theCB, userData) : false;
     }

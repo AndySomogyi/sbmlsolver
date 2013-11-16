@@ -6,6 +6,9 @@
 
 namespace rrp
 {
+template <class T>
+class Parameter;
+
 class BaseParameter;
 class MinimizationData;
 
@@ -16,6 +19,30 @@ class MinimizationData;
  \ingroup cpp_support
 */
 BaseParameter*                      castToParameter(rrp::RRParameterHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Parameter<int> pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a Parameter<int>* instance
+ \ingroup cpp_support
+*/
+Parameter< int >*                     castToIntParameter(rrp::RRParameterHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Parameter<double> pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a Parameter<double>* instance
+ \ingroup cpp_support
+*/
+Parameter<double>*                  castToDoubleParameter(rrp::RRParameterHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Parameter<char*> pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a Parameter<double>* instance
+ \ingroup cpp_support
+*/
+Parameter<char*>*                   castToStringParameter(rrp::RRParameterHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails

@@ -42,7 +42,7 @@
 #ifndef rrp_apiH
 #define rrp_apiH
 #include "rrp_exporter.h"
-#include "rrp_types.h"
+ #include "rrp_types.h"
 #include "rrp_parameter_api.h"
 //---------------------------------------------------------------------------
 
@@ -145,6 +145,15 @@ RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* pluginName);
 
+///*!
+// \brief Get Handle to shared library
+// \param[in] handle Handle to a PluginManager instance
+// \param[in] pluginHandle
+// \return Returns a handle to a plugin, with name as supplied in the paramter pluginName. Returns NULL if plugin is not found
+// \ingroup pluginRoutines
+//*/
+//RRP_DECLSPEC long rrp_cc getPluginSharedLibHandle(RRPluginManagerHandle handle, RRPluginHandle pluginName);
+
 /*!
  \brief GetPluginHandle
  \param[in] handle Handle to a PluginManager instance
@@ -156,12 +165,20 @@ RRP_DECLSPEC RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, i
 
 //// PLUGIN HANDLE functions
 /*!
+ \brief Get roadrunner instance handle from plugin
+ \param[in] handle Handle to a Plugin instance
+ \return Returns a handle to a rrInstance if available, returns NULL otherwise
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
+
+/*!
  \brief GetPluginCapabilities
  \param[in] handle Handle to a plugin
  \return Returns available capabilities for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginCapabilities(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
 /*!
  \brief GetPluginCapabilities as a xml document
@@ -178,7 +195,7 @@ RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
  \return Returns available parameters for a particular capability in a plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability);
+RRP_DECLSPEC char* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability);
 
 /*!
  \brief Get a parameter handle in a secific capability
@@ -215,6 +232,22 @@ RRP_DECLSPEC char* rrp_cc getPluginName(RRPluginHandle handle);
  \ingroup pluginRoutines
 */
 RRP_DECLSPEC char* rrp_cc getPluginInfo(RRPluginHandle handle);
+
+/*!
+ \brief Get manual as PDF
+ \param[in] handle Handle to a plugin
+ \return Returns the plugins manuals pdf file as a unsigned char*. If not available, returns NULL.
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC unsigned char* rrp_cc getPluginManualAsPDF(RRPluginHandle handle);
+
+/*!
+ \brief Get manual byte size
+ \param[in] handle Handle to a plugin
+ \return Returns the nr of bytes in the plugins manuals pdf file.
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC unsigned int rrp_cc getPluginManualNrOfBytes(RRPluginHandle handle);
 
 /*!
  \brief executePlugin (PluginName)

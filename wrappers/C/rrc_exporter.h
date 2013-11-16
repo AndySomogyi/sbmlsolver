@@ -59,7 +59,7 @@
 
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-    #define rrcCallConv __stdcall
+    #define rrcCallConv __cdecl
 #else
     #define rrcCallConv
 #endif

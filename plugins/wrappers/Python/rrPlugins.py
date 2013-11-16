@@ -61,9 +61,8 @@ else:
 
 #=======================rrp_api=======================#
 #Type of plugin callback
-pluginCallBackType  = CFUNCTYPE(None)
-pluginCallBackType2 = CFUNCTYPE(None, POINTER(c_int))
-
+pluginCallBackType1  = CFUNCTYPE(None)
+pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int))
 
 ##\brief Initialize the plugins library and returns a new PluginManager instance
 #\return Returns an instance of the library, returns None if it fails
@@ -83,6 +82,7 @@ def freePluginManager(iHandle):
 
 #Unload the API
 def unloadAPI():
+    unLoadPlugins()
     windll.kernel32.FreeLibrary(rrpLib._handle)
 
 def loadPlugin(libraryName):
@@ -113,6 +113,11 @@ rrpLib.getPluginCapabilities.restype = c_char_p
 def getPluginCapabilities(pluginHandle):
     return rrpLib.getPluginCapabilities(pluginHandle)
 
+rrpLib.getPluginCapabilitiesAsXML.restype = c_char_p
+def getPluginCapabilitiesAsXML(pluginHandle):
+    return rrpLib.getPluginCapabilitiesAsXML(pluginHandle)
+
+rrpLib.assignPluginStartedCallBack.args =[c_void_p, pluginCallBackType1]
 rrpLib.assignPluginStartedCallBack.restype = None
 def assignPluginStartedCallBack(pluginHandle, pluginCallBack):
     return rrpLib.assignPluginStartedCallBack(pluginHandle, pluginCallBack, None)
@@ -141,28 +146,76 @@ rrpLib.getPluginResult.restype = c_char_p
 def getPluginResult(pluginHandle):
     return rrpLib.getPluginResult(pluginHandle)
 
-def getPluginParameter(pluginHandle, parameterName):
-    return rrpLib.getPluginParameter(pluginHandle, parameterName, 0)
-
 def isPluginWorking(pluginHandle):
     return rrpLib.isPluginWorking(pluginHandle)
 
 def setPluginInputData(pluginHandle, userData):
     return rrpLib.setPluginInputData(pluginHandle, c_void_p(userData))
 
+#Plugin Parameter functionality
+rrpLib.getPluginParameters.restype = c_char_p
+def getPluginParameters(pluginHandle, capabilityName):
+    return rrpLib.getPluginParameters(pluginHandle, capabilityName)
+
+def getPluginParameter(pluginHandle, parameterName):
+    return rrpLib.getPluginParameter(pluginHandle, parameterName, 0)
+
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
-#Plugin Parameter functionality
+rrpLib.getParameterInfo.restype = c_char_p
+def getParameterInfo(paraHandle):
+    return rrpLib.getParameterInfo(paraHandle)
+
+rrpLib.getParameterType.restype = c_char_p
+def getParameterType(paraHandle):
+    return rrpLib.getParameterType(paraHandle)
+
+rrpLib.getParameterValueAsString.restype = c_char_p
 def getParameterValueAsString(parameter):
-    value = rrpLib.getParameterValueAsString(parameter)
-    return c_char_p(value).value
+    return rrpLib.getParameterValueAsString(parameter)
 
+rrpLib.getParameterValueAsPointer.restype = c_void_p
 def getParameterValueAsPointer(parHandle):
-    return c_void_p(rrpLib.getParameterValueAsPointer(parHandle))
+    return rrpLib.getParameterValueAsPointer(parHandle)
 
-def setParameter(parameter, value):
-    return rrpLib.setParameter(parameter, value)
+def setIntParameter(parameter, value):
+    return rrpLib.setIntParameter(parameter, c_int(value))
+
+#rrpLib.setDoubleParameter.args = [c_void_p, c_double]
+def setDoubleParameter(parameter, value):
+    return rrpLib.setDoubleParameter(parameter, c_double(value))
+
+def setStringParameter(parameter, value):
+    return rrpLib.setStringParameter(parameter, c_char_p(value))
+
+def setEnumParameter(parameter, value):
+    return rrpLib.setIntParameter(parameter, value)
+
+def setParameterByString(parameter, value):
+    return rrpLib.setParameterByString(parameter, value)
+
+def getParameterValue(paraHandle):
+    paraType = getParameterType(paraHandle)
+    if paraType == 'double':
+        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_double))
+        return ptr[0]
+    if paraType == 'int':
+        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_int))
+        return ptr[0]
+    if paraType == 'string':
+        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_char_p))
+        return ptr[0]
+    if paraType == 'NoiseType':
+        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_int))
+        return ptr[0]
+    else:
+        return None
+
 
 #Minimization data funcionality
 def getMinimizationDataReport(minDataHandle):

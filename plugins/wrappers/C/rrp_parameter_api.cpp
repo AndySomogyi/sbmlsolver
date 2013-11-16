@@ -19,7 +19,18 @@ using namespace std;
 using namespace rr;
 
 
-bool rrp_cc setParameter(RRParameterHandle handle, const char* value)
+char* rrp_cc getParameterInfo(RRParameterHandle handle)
+{
+    start_try
+        BaseParameter* para = castToParameter(handle);
+        stringstream s;
+        s<<"Name="<<para->getName()<<"\tType="<<para->getType()<<"\tHint="<<para->getHint();
+        return createText(s.str());
+    }
+    catch_ptr_macro
+}
+
+bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
 {
     try
     {
@@ -29,6 +40,40 @@ bool rrp_cc setParameter(RRParameterHandle handle, const char* value)
     }
     catch_bool_macro
 }
+
+bool rrp_cc setIntParameter(RRParameterHandle handle, int value)
+{
+    try
+    {
+        Parameter<int>* para = castToIntParameter(handle);
+        para->setValue(value);
+        return true;
+    }
+    catch_bool_macro
+}
+
+bool rrp_cc setDoubleParameter(RRParameterHandle handle, double value)
+{
+    try
+    {
+        Parameter<double>* para = castToDoubleParameter(handle);
+        para->setValue(value);
+        return true;
+    }
+    catch_bool_macro
+}
+
+bool rrp_cc setStringParameter(RRParameterHandle handle, char* value)
+{
+    try
+    {
+        Parameter<char*>* para = castToStringParameter(handle);
+        para->setValue(value);
+        return true;
+    }
+    catch_bool_macro
+}
+
 
 char* rrp_cc getParameterValueAsString(RRParameterHandle handle)
 {
@@ -67,6 +112,16 @@ char* rrp_cc getParameterHint(RRParameterHandle handle)
     {
         BaseParameter* para = castToParameter(handle);
         return rr::createText(para->getHint());
+    }
+    catch_ptr_macro
+}
+
+char* rrp_cc getParameterType(RRParameterHandle handle)
+{
+    try
+    {
+        BaseParameter* para = castToParameter(handle);
+        return rr::createText(para->getType());
     }
     catch_ptr_macro
 }

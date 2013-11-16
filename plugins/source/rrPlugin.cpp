@@ -27,10 +27,16 @@ mWorkFinishedCB(NULL),
 mCapabilities(name, category),
 mImplementationLanguage(language),
 mPM(pm)
-{}
+{
+}
 
 Plugin::~Plugin()
 {}
+
+RoadRunner* Plugin::getRoadRunnerInstance()
+{
+    return mRR;
+}
 
 bool Plugin::resetPlugin()
 {
@@ -125,6 +131,7 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
     return false;
 }
 
+
 string Plugin::getName()
 {
     return mName;
@@ -190,6 +197,16 @@ string Plugin::getExtendedInfo()
     msg<<"\nCapabilities Info\n";
     msg<<(*getCapabilities());
     return msg.str();
+}
+
+unsigned int Plugin::getPDFManualByteSize()
+{
+    return 0;
+}
+
+unsigned char* Plugin::getManualAsPDF() const
+{
+    return NULL;
 }
 
 Capabilities* Plugin::getCapabilities()

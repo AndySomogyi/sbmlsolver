@@ -23,12 +23,22 @@ mAddNoiseWorker(*this)
     mAddNoise.addParameter(&mNoiseType);
     mAddNoise.addParameter(&mSigma);
 
-    //Assign pdf document
-    mPDF = pdf_docs;
+
 }
 
 AddNoise::~AddNoise()
 {}
+
+unsigned char* AddNoise::getManualAsPDF() const
+{
+    return pdf_docs;
+}
+
+unsigned int AddNoise::getPDFManualByteSize()
+{
+    return sizeofPDF;
+}
+
 
 bool AddNoise::isWorking()
 {

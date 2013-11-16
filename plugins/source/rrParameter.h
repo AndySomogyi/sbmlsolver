@@ -137,6 +137,40 @@ inline string Parameter<int>::getValueAsString() const
     return rr::toString(mValue);
 }
 
+//================= char* ===============================
+template<>
+inline string Parameter<char*>::getType() const
+{
+    return "char*";
+}
+
+
+//Todo:: these are probably not doing what is expected?
+template<>
+inline void Parameter<char*>::setValue(char **val)
+{
+    mValue = val[0];
+}
+
+template<>
+inline void Parameter<char*>::setValue(char * const& val)
+{
+    mValue = val;
+}
+
+template<>
+inline void Parameter<char*>::setValueFromString(const string& val)
+{
+    strcpy(mValue, val.c_str());
+}
+
+template<>
+inline string Parameter<char*>::getValueAsString() const
+{
+    return rr::toString(mValue);
+}
+
+
 //================= Double ===============================
 template<>
 inline string Parameter<double>::getType() const

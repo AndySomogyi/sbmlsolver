@@ -72,9 +72,14 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         string                          getVersion();
         string                          getCopyright();
 
+        //Misc.
+        RoadRunner*                     getRoadRunnerInstance();
+
         //Plugin documentation
         string                          getInfo();
         string                          getExtendedInfo();
+        virtual unsigned char*          getManualAsPDF() const;
+        virtual unsigned int            getPDFManualByteSize();
 
         Capabilities*                   getCapabilities();
         Capability*                     getCapability(const string& name);
