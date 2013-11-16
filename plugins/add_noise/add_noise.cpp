@@ -3,6 +3,7 @@
 #include "add_noise.h"
 #include "rrRoadRunner.h"
 #include "rrNoise.h"
+#include "add_noise_docs.h"
 
 //---------------------------------------------------------------------------
 namespace addNoise
@@ -21,6 +22,9 @@ mAddNoiseWorker(*this)
     mCapabilities.add(mAddNoise);
     mAddNoise.addParameter(&mNoiseType);
     mAddNoise.addParameter(&mSigma);
+
+    //Assign pdf document
+    mPDF = pdf_docs;
 }
 
 AddNoise::~AddNoise()
