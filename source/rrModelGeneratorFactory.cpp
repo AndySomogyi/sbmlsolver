@@ -28,7 +28,7 @@ ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compil
 
     if (ucomp == "LLVM")
     {
-        Log(Logger::LOG_NOTICE) << "Creating LLVM based model generator.";
+        Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
         return new rrllvm::LLVMModelGenerator();
     }
 #endif
