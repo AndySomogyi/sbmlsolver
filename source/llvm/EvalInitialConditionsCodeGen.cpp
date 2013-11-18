@@ -60,6 +60,10 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     codeGenSpecies(modelDataResolver);
 
+    // need these for now as test suite does is read only model.
+
+    // TODO only generate these when ModelGenerator::READ_ONLY
+    // is enabled
     codeGenCompartments(modelDataResolver);
 
     codeGenStoichiometry(modelData, modelDataResolver);
@@ -70,6 +74,8 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,
                 modelSymbols, dataSymbols, builder, initialValueResolver);
 
+
+    // TODO only generate these when using mutable initial conditions.
     codeGenInitSpecies(initValueStoreResolver);
 
     codeGenInitCompartments(initValueStoreResolver);
@@ -97,6 +103,7 @@ void EvalInitialConditionsCodeGen::codeGenSpecies(
             }
         }
     }
+
 
     {
         vector<string> boundarySpecies = dataSymbols.getBoundarySpeciesIds();
