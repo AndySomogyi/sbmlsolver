@@ -875,7 +875,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     }
 
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
-        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+        for (int i = 0; i < getNumIndFloatingSpecies(); ++i) {
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
