@@ -3,6 +3,17 @@ import matplotlib.pyplot as plot
 from rrPython import *
 from rrPlugins import *
 
+def pluginStarted():
+    print 'The plugin was started'
+
+def pluginIsProgressing(progress):
+    nr = progress[0]
+    print '\nPlugin progress:' + `nr` +' %'
+
+
+def pluginIsFinished():
+    print 'The plugin did finish'
+
 sbmlModel ="../models/bistable.xml"
 if not loadSBMLFromFile(sbmlModel):
     print getLastError()
@@ -32,8 +43,20 @@ setDoubleParameter(sigmaHandle, 0.0003)
 aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
+cb_func1 =  pluginCallBackType1(pluginStarted)
+assignPluginStartedCallBack(noisePlugin,  cb_func1)
+
+cb_func2 =  pluginCallBackType2(pluginIsProgressing)
+assignPluginProgressCallBack(noisePlugin, cb_func2)
+
+cb_func3 =  pluginCallBackType1(pluginIsFinished)
+assignPluginFinishedCallBack(noisePlugin, cb_func3)
+
 #Execute the noise plugin which will add some noise to the (internal) data
-executePluginEx(noisePlugin, rrDataHandle, False)
+executePluginEx(noisePlugin, rrDataHandle, True)
+
+while isPluginWorking(noisePlugin) == True:
+    print ('.'),
 
 #Input Data
 results = getSimulationResult()

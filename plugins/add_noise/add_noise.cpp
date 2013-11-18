@@ -31,7 +31,7 @@ AddNoise::~AddNoise()
 
 unsigned char* AddNoise::getManualAsPDF() const
 {
-    return pdf_docs;
+    return pdf_doc;
 }
 
 unsigned int AddNoise::getPDFManualByteSize()
