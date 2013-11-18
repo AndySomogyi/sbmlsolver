@@ -92,6 +92,7 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
     /*************************************************************************/
     /* AssignmentRule */
     /*************************************************************************/
+    if (!modelDataSymbols.isConservedMoietySpecies(symbol))
     {
         SymbolForest::ConstIterator i =
                 modelSymbols.getAssigmentRules().find(symbol);
