@@ -27,6 +27,7 @@
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
+    #include <conservation/ConservationExtension.h>
     #include <cstddef>
     #include <map>
     #include <rrVersionInfo.h>
@@ -202,8 +203,10 @@ import_array();
 
 %{
     static std::string version_info() {
+        std::string init = rr::conservation::conservation_getInit() ? "true" : "false";
         return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
-            + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
+            + " on date " + string( __DATE__ ) + ", " + string(__TIME__) +
+            ", init: " + init;
     }
 
 #ifndef _WIN32
@@ -977,12 +980,12 @@ namespace std { class ostream{}; }
 
     PyObject *getFloatingSpeciesAmountRates(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
-                                         &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
+                                         &rr::ExecutableModel::getNumIndFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesAmountRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (int)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesConcentrations(int len, int const *indx) {
