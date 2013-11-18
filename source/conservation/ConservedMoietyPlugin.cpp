@@ -7,6 +7,8 @@
 
 #include "conservation/ConservedMoietyPlugin.h"
 
+#include <stdexcept>
+
 
 namespace rr { namespace conservation {
 
@@ -54,4 +56,32 @@ void ConservedMoietyPlugin::setConservedMoiety(bool value)
 }
 } // namespace rr } namespace conservation }
 
+void rr::conservation::ConservedMoietyPlugin::readAttributes(
+        const libsbml::XMLAttributes& attributes,
+        const libsbml::ExpectedAttributes& expectedAttributes)
+{
+    for (int i = 0; i < attributes.getLength(); ++i)
+    {
+        std::cout << "name: " << attributes.getName(i) << ", value: " << attributes.getValue(i) << ", uri: " << attributes.getURI(i) << std::endl;
+        
+    }
+    if(attributes.hasAttribute("conservedMoiety", ""))
+    {
+        if (!attributes.readInto("conservedMoiety", conservedMoiety))
+        {
+            std::string value = attributes.getValue("conservedMoiety");
+            throw std::invalid_argument("conservedMoiety attribute with value " + value 
+                                        + " can not be converted to a boolean");
+        }
+    }
+    else
+    {
+        conservedMoiety = false;
+    }
+}
 
+void rr::conservation::ConservedMoietyPlugin::writeAttributes(
+        libsbml::XMLOutputStream& stream) const
+{
+    stream.writeAttribute("conservedMoiety", conservedMoiety);
+}
