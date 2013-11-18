@@ -28,12 +28,16 @@
 #include <string>
 #include <vector>
 
+
+
 namespace rr { namespace conservation {
 
 #ifndef CONSERVATION_CREATE_NS
 #define CONSERVATION_CREATE_NS(variable,sbmlns)\
   EXTENSION_CREATE_NS(ConservationPkgNamespaces,variable,sbmlns);
 #endif
+
+bool conservation_getInit();
 
 
 class RR_DECLSPEC ConservationExtension : public libsbml::SBMLExtension
@@ -213,6 +217,8 @@ public:
   /** @endcond doxygen-libsbml-internal */
 
 };
+
+
 
 
 // --------------------------------------------------------------------

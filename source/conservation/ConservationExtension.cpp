@@ -17,7 +17,7 @@
 #include "ConservationDocumentPlugin.h"
 #include "ConservedMoietyPlugin.h"
 
-#include "rrLogger.h"
+
 
 #include <sbml/extension/SBMLExtensionRegister.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
@@ -26,6 +26,10 @@
 
 #include <iostream>
 #include <exception>
+#include <sstream>
+
+#include "rrLogger.h"
+#include "rrExporter.h"
 
 
 // --------------------------------------------------------
@@ -35,15 +39,23 @@
 //
 // --------------------------------------------------------
 
-namespace libsbml {
-    template class LIBSBML_EXTERN libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
-}
+
+static bool initilized = false;
+
+
 
 
 namespace rr
 {
 namespace conservation
 {
+
+bool conservation_getInit()
+{
+    return initilized;
+}
+
+template class RR_DECLSPEC libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
 
 using namespace libsbml;
 
@@ -293,6 +305,9 @@ bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
  */
 void ConservationExtension::init()
 {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+
+    initilized = true;
     //-------------------------------------------------------------------------
     //
     // 1. Checks if the groups pacakge has already been registered.
@@ -377,13 +392,13 @@ void ConservationExtension::init()
 
     if (result != LIBSBML_OPERATION_SUCCESS)
     {
-        const char* msg = "ConservationExtension::init() failed.";
-        Log(rr::Logger::LOG_CRITICAL) << msg;
-        throw std::runtime_error(msg);
+        std::stringstream ss;
+        ss << "ConservationExtension::init() failed, result: " << result;
+        throw std::runtime_error(ss.str().c_str());
     }
     else
     {
-        Log(rr::Logger::LOG_NOTICE) << "successfully registered conservation extension";
+        std::cout << "successfully registered conservation extension" << std::endl;
     }
 }
 
