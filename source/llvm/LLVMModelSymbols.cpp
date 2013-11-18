@@ -11,6 +11,8 @@
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 
+#include "conservation/ConservationExtension.h"
+
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <sbml/SBMLDocument.h>
@@ -49,6 +51,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
     for (uint i = 0; i < params->size(); ++i)
     {
         const Parameter* param = params->get(i);
+
         Log(Logger::LOG_TRACE) << "global parameter " << param->getId() <<
                 " initial value: " << param->getValue();
 
@@ -229,11 +232,8 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
         }
         catch (LLVMException&)
         {
-            // it is bad setting a boundary as a product, they can not be
-            // produced by stoichiometry.
-            string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
-            msg += product->getSpecies();
-            Log(Logger::LOG_WARNING) << msg;
+            // get here if product is not a floating species, its OK if its a
+            // boundary or conserved moiety
         }
     }
 
