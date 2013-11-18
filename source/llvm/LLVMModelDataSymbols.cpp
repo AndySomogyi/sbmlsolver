@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "rrSparse.h"
 #include "rrModelGenerator.h"
+#include "conservation/ConservationExtension.h"
 
 #include <Poco/LogStream.h>
 #include <sbml/Model.h>
@@ -26,6 +27,8 @@ using namespace std;
 using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
+
+using rr::conservation::ConservationExtension;
 
 using Poco::LogStream;
 using Poco::Message;
@@ -670,13 +673,24 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
             depFltSpecies.push_back(sid);
         }
 
-        if (isIndependentInitElement(sid))
+        bool conservedMoiety = ConservationExtension::getConservedMoiety(*s);
+
+        bool indInit = (!hasInitialAssignmentRule(sid) &&
+                (!hasAssignmentRule(sid) || conservedMoiety));
+
+        // conserved moiety species assignment rules do not apply at
+        // time t < 0
+        if (indInit)
         {
             indInitFltSpecies.push_back(sid);
         }
         else
         {
             depInitFltSpecies.push_back(sid);
+        }
+
+        if (conservedMoiety) {
+            conservedMoietySpeciesSet.insert(sid);
         }
     }
 
@@ -1064,9 +1078,9 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
 }
 
 
-bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
+bool LLVMModelDataSymbols::isConservedMoietySpecies(const std::string& symbol) const
 {
-    return false;
+    return conservedMoietySpeciesSet.find(symbol) != conservedMoietySpeciesSet.end();
 }
 
 bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(
@@ -1088,8 +1102,9 @@ bool LLVMModelDataSymbols::isIndependentInitCompartment(
 bool LLVMModelDataSymbols::isIndependentInitElement(
         const std::string& id) const
 {
-    return initAssignmentRules.find(id) == initAssignmentRules.end() &&
-            assigmentRules.find(id) == assigmentRules.end();
+    return (initAssignmentRules.find(id) == initAssignmentRules.end() &&
+            assigmentRules.find(id) == assigmentRules.end()) ||
+            (isConservedMoietySpecies(id) && hasInitialAssignmentRule(id));
 }
 
 bool LLVMModelDataSymbols::hasInitialAssignmentRule(const std::string& id) const
