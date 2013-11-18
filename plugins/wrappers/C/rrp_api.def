@@ -36,6 +36,7 @@ getPluginCapabilities                           = _getPluginCapabilities
 getPluginCapabilitiesAsXML                      = _getPluginCapabilitiesAsXML
 getPluginInfo                                   = _getPluginInfo
 getPluginManualAsPDF                            = _getPluginManualAsPDF
+getPluginManualNrOfBytes                        = _getPluginManualNrOfBytes
 getPluginName                                   = _getPluginName
 executePlugin                                   = _executePlugin
 executePluginEx                                 = _executePluginEx

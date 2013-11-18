@@ -376,8 +376,7 @@ bool rrp_cc setPluginParameter(RRPluginHandle handle, const char* parameterName,
 
 char* rrp_cc getPluginInfo(RRPluginHandle handle)
 {
-    try
-    {
+    start_try
         Plugin* aPlugin = castToPlugin(handle);
         return rr::createText(aPlugin->getInfo());
     }
