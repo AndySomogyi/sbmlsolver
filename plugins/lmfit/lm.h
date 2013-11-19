@@ -25,9 +25,9 @@ class LM : public Plugin
         Parameter<string>                       mTempFolder;
         Parameter<string>                       mSBML;                    //This is the model
 
-//        Parameter<RoadRunnerData>               mObservedData;
-//        Parameter<RoadRunnerData>               mModelData;
-//        Parameter<RoadRunnerData>               mResidualsData;
+        Parameter<RoadRunnerData>               mObservedData;
+        Parameter<RoadRunnerData>               mModelData;
+        Parameter<RoadRunnerData>               mResidualsData;
 
         Parameter<MinimizationData>             mMinimizationData;        //Generate its own
 
@@ -55,8 +55,8 @@ class LM : public Plugin
         unsigned char*                          getManualAsPDF() const;
         unsigned int                            getPDFManualByteSize();
 
-        virtual _xmlNode*                       createConfigNode();
-        virtual void                            loadConfig(const _xmlDoc* doc);
+        virtual _xmlNode*                       createConfigNode(){return NULL;}
+        virtual void                            loadConfig(const _xmlDoc* doc){}
 };
 
 extern "C"

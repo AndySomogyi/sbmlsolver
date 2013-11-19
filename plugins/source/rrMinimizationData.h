@@ -19,7 +19,7 @@ using rr::RoadRunnerData;
 class PLUGINS_API_DECLSPEC MinimizationData
 {
     protected:
-        RoadRunnerData                  mObservedData;                  //Observed data
+//        RoadRunnerData                  mObservedData;                  //Observed data
         RoadRunnerData                  mModelData;                     //Model data
         RoadRunnerData                  mResidualsData;                 //Residuals data
         Parameters                      mParameters;                    //Parameters to fit
@@ -46,15 +46,15 @@ class PLUGINS_API_DECLSPEC MinimizationData
         void                            setModelDataSelectionList(const string& selList);
         StringList                      getModelDataSelectionList();
 
-        void                            setInputData(const RoadRunnerData& data);
+//        void                            setInputData(const RoadRunnerData& data);
         void                            setModelData(const RoadRunnerData& data);
         void                            setResidualsData(const RoadRunnerData& data);
 
-        RoadRunnerData                  getObservedData();
+//        RoadRunnerData                  getObservedData();
         RoadRunnerData                  getModelData();
         RoadRunnerData                  getResidualsData();
 
-        RoadRunnerData&                 getObservedDataReference();
+//        RoadRunnerData&                 getObservedDataReference();
         RoadRunnerData&                 getModelDataReference();
         RoadRunnerData&                 getResidualsDataReference();
 

@@ -2,20 +2,18 @@
 #define rrParameterH
 #include <vector>
 #include <string>
+#include <sstream>
 #include "rrStringList.h"
 #include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
+#include "rrRoadRunnerData.h"
 #include "../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 namespace rrp
 {
 using std::string;
 
-/**
- * @internal
- * @deprecated
- */
 template<class T>
 class Parameter : public BaseParameter
 {
@@ -53,11 +51,11 @@ mValue(mDummy)
 //mValue(mDummy)
 //{ }
 
-//template<class T>
-//void Parameter<T>::setValue(const T& val)
-//{
-//    mValue = val;
-//}
+template<class T>
+void Parameter<T>::setValue(const T& val)
+{
+    mValue = val;
+}
 
 template<class T>
 string Parameter<T>::getValueAsString() const
@@ -252,7 +250,7 @@ inline void Parameter< rr::StringList >::setValueFromString(const string& val)
 template<>
 inline void Parameter< rrc::RRCDataPtr >::setValueFromString(const string& val)
 {
-    //mValue = splitString(val,", ");
+    //Todo: implement this ugly conversion?
 }
 
 template<>
@@ -261,5 +259,31 @@ inline string Parameter<rrc::RRCDataPtr>::getValueAsString() const
     return "";
 }
 
+//============= RoadRunner data ===========================
+template<>
+inline string Parameter<rr::RoadRunnerData>::getValueAsString() const
+{
+    std::stringstream rrData;
+    rrData << (*this);
+    return rrData.str();
+}
+
+//template<>
+//inline void Parameter<rr::RoadRunnerData>::setValue(const string& val)
+//{
+//    //Todo: Implement this ugliness? This need work..
+//}
+
+template<>
+inline void Parameter<rr::RoadRunnerData>::setValueFromString(const string& val)
+{
+    //Todo: Implement this ugliness? This need work..
+}
+
+template<>
+inline string Parameter<rr::RoadRunnerData>::getType() const
+{
+    return "RoadRunnerData";
+}
 }
 #endif

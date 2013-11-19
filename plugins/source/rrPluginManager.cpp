@@ -134,6 +134,12 @@ bool PluginManager::loadPlugin(const string& _libName)
     stringstream msg;
     try
     {
+        //Make sure the plugin is prefixxed with rrp, if not ignore
+        string prefix("rrp_");
+        if(_libName.substr(0, prefix.size()) != prefix)
+        {
+            return false;
+        }
         string libName(_libName);
         if(!hasFileExtension(libName))
         {
