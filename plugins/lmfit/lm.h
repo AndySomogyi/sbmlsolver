@@ -7,10 +7,10 @@
 #include "rrRoadRunner.h"
 #include "rrMinimizationData.h"
 #include "rrc_types.h"
-#include "lm_thread.h"
+#include "LMWorker.h"
 //---------------------------------------------------------------------------
 
-namespace lm
+namespace lmfit
 {
 using namespace rrp;
 using rr::RoadRunner;
@@ -18,12 +18,17 @@ using std::string;
 
 class LM : public Plugin
 {
-    friend class LMFitThread;
+    friend class LMWorker;
 
     protected:
         Capability                              mLMFit;
         Parameter<string>                       mTempFolder;
         Parameter<string>                       mSBML;                    //This is the model
+
+//        Parameter<RoadRunnerData>               mObservedData;
+//        Parameter<RoadRunnerData>               mModelData;
+//        Parameter<RoadRunnerData>               mResidualsData;
+
         Parameter<MinimizationData>             mMinimizationData;        //Generate its own
 
         //Utility functions for the thread
@@ -32,8 +37,8 @@ class LM : public Plugin
 
         MinimizationData&                       getMinimizationData();
 
-        //The thread is doing the work
-        LMFitThread                             mLMFitThread;
+        //The worker is doing the work
+        LMWorker                                mLMWorker;
 
     public:
                                                 LM(RoadRunner* aRR = NULL);

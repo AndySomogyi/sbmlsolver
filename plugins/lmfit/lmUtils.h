@@ -3,7 +3,7 @@
 #include "../../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 
-namespace lm
+namespace lmfit
 {
 /* data structure to transmit model data to function evalution */
 typedef struct

@@ -1,19 +1,39 @@
-\chapter{Levenberg-Marquardt Parameter Minimization}
+\chapter{Parameter Minimization using the Levenberg-Marquardt algorithm}
 \emph{Do some fitting}
 \section{Introduction}
-The purpose of the \emph{AddNoise} plugin is to introduce random noise to \emph{RoadRunner data}. RoadRunner data is generated internally, and a handle to the underlying data is returned, whenever a user executes RoadRunners \verb|simulate()|, or \verb|simulateEx()| function. 
+The Levenberg-Marquardt plugin is used to fit a proposed SBML models parameters to experimental data. 
 
-Generation of actual noise is using the fact that a Rayleigh-distributed random variable $R$, with
-the probability distribution $F(R) = 0$ if $R < 0$ and $F(R) = 1 - exp(-R^2/2*\sigma^2)$ if $R >= 0, $
-is related to a pair of Gaussian variables $C$ and $D$ through the transformation $C = R * cos(\theta)$ and
-$D = R * sin(\theta)$, where $\theta$ is a uniformly distributed variable
-in the interval $(0, 2*\pi())$. From Contemporary Communication Systems
-USING MATLAB(R), by John G. Proakis and Masoud Salehi, published by
-PWS Publishing Company, 1998, pp 49-50. 
+The current implementation is based on the lmfit C library by Joachim Wuttke. See footnote\footnote{The package lmfit is distributed under the FreeBSD License:
 
- 
+--
+  Copyright (c) 2013 Joachim Wuttke All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  - Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+  This software is provided by the copyright holders and contributors "as is"
+  and any express or implied warranties, including, but not limited to, the
+  implied warranties of merchantability and fitness for a particular purpose
+  are disclaimed. In no event shall the copyright holder or contributors
+  be liable for any direct, indirect, incidental, special, exemplary, or
+  consequential damages (including, but not limited to, procurement of
+  substitute goods or services; loss of use, data, or profits; or business
+  interruption) however caused and on any theory of liability, whether in
+  contract, strict liability, or tort (including negligence or otherwise)
+  arising in any way out of the use of this software, even if advised of the
+  possibility of such damage.
+--} for full license disclosure.
+
+The current plugin has one capability, named \verb|LMFit|. The plugin has numerous parameters, as documented below.
+
 \section{Plugin Parameters}
-In the following, plugin parameters available in the AddNoise plugin are discussed.
+In the following, plugin parameters available in the Levenberg-Marquardt plugin are discussed.
 
 \begin{table}[ht]
 \centering % used for centering table
@@ -22,13 +42,20 @@ In the following, plugin parameters available in the AddNoise plugin are discuss
 Parameter Name & Data Type & Purpose \\ [0.5ex] % inserts table 
 %heading
 \hline % inserts single horizontal line
-Sigma         	& 	double & Size of applied noise. \\
-NoiseType      	& 	int    & Type of noise generated. Only Gaussian noise is currently supported. \\
+ObservedData   	& 	RoadRunnerData 		& Input data.  \\
+ModelData      	& 	RoadRunnerData    	& Output data. \\
+ResidualsData  	& 	RoadRunnerData    	& Residuals data (difference between input and output data.) \\
+InputParameters &   char**				& Parameters to fit \\
+OutputParameters &   char**				& Parameters that was fitted \\
+Norm			&	 double				& Norm of fitting. An estimate of goodness of fit. \\
+ObservedDataSelectionList & char**	&	Species Selection list for observed data \\
+ModelDataSelectionList & char**	&	Selection list for model data \\
+
 
 \hline %inserts single line
 \end{tabular}
-\caption{Add noise Plugin Parameters} 
-\label{table:AddNoisePluginParameters} 
+\caption{LM fit plugin parameters} 
+\label{table:lmfitPluginParameters} 
 \end{table}
 
 \section{Plugin Callbacks}
@@ -39,18 +66,18 @@ NoiseType      	& 	int    & Type of noise generated. Only Gaussian noise is curr
 Callback & Arguments & Purpose \\ [0.5ex] % inserts table 
 %heading
 \hline % inserts single horizontal line
-PluginStarted  	& 	void*, & Signal to application that the plugin have started applying noise on data. \\
-PluginProgress	& 	int*  & Signal progress of noise generation, in \% (0-100\%). \\
-PluginFinished	& 	void* & Signal to application the plugin have finished applying noise on data. \\
+PluginStarted  	& 	void*, & Signal to application that the plugin has started. \\
+PluginProgress	& 	int*  & Signal progress of fitting, in \% (0-100\%). \\
+PluginFinished	& 	void* & Signal to application the plugin has finished. \\
 
 \hline %inserts single line
 \end{tabular}
-\caption{AddNoise Plugin callbacks} 
-\label{table:AddNoisePluginCallBacks} 
+\caption{LMFit Plugin callbacks} 
+\label{table:lmfitPluginCallBacks} 
 \end{table}
 
 \section{The \texttt{execute()} function}
-The AddNoise plugins \verb|execute()| function supports two arguments;
+The lmfit plugins \verb|execute()| function supports two arguments;
 
 \verb|execute(void* rrData, bool workInThread)|
 
@@ -59,14 +86,14 @@ where \verb|rrData| is a handle to RoadRunner data and \verb|workInThread| is a 
 \section{Python example}
 
 \begin{singlespace}
-\lstinputlisting[label=plugin_addNoise_header,caption={Add noise example.},language=Python]{Examples/AddNoisePlugin/rrNoisePluginDemo.py}
+\lstinputlisting[label=plugin_lmfit_header,caption={Minimization example.},language=Python]{Examples/lmfitPlugin/rrLevenbergMarquardtDemo.py}
 \end{singlespace}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=120mm]{AddNoise.jpg}
-\caption{Output fot the AddNoise python example script discussed above}
-\label{fig:addNoiseFig}
+\includegraphics[width=120mm]{Minimization.jpg}
+\caption{Output fot the LMFit python example script discussed above}
+\label{fig:lmfitFig}
 \end{figure}
 
 

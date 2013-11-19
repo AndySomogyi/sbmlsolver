@@ -9,7 +9,7 @@
 #include "docs/lmfit_doc.h"
 //---------------------------------------------------------------------------
 
-namespace lm
+namespace lmfit
 {
 using namespace rr;
 using namespace rrc;
@@ -21,7 +21,8 @@ mLMFit(                 "LMFit",                                "",             
 mTempFolder(            "TempFolder",                           "",                   "Tempfolder used in the fitting"),
 mSBML(                  "SBML",                                 "<none>",             "SBML, i.e. the model to be used in the fitting"),
 mMinimizationData(      "MinData",                              MinimizationData(),   "Data structure holding minimization data"),
-mLMFitThread(*this)
+
+mLMWorker(*this)
 {
     //Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);
@@ -35,7 +36,7 @@ LM::~LM()
 
 bool LM::isWorking()
 {
-    return mLMFitThread.isRunning();
+    return mLMWorker.isRunning();
 }
 
 unsigned char* LM::getManualAsPDF() const
@@ -61,12 +62,12 @@ string LM::getStatus()
 
 string LM::getImplementationLanguage()
 {
-    return lm::getImplementationLanguage();
+    return lmfit::getImplementationLanguage();
 }
 
 bool LM::resetPlugin()
 {
-    if(mLMFitThread.isRunning())
+    if(mLMWorker.isRunning())
     {
         return false;
     }
@@ -156,9 +157,9 @@ bool LM::execute(void* inputData, bool inThread)
     Log(lInfo)<<"Executing the LM plugin";
 
     //Assign callback functions to communicate the progress
-    //    mLMFitThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
+    //    mLMWorker.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
 
-    mLMFitThread.start(inThread);
+    mLMWorker.start(inThread);
     return true;
 }
 

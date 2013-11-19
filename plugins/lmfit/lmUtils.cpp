@@ -4,7 +4,7 @@
 #include "lib/lmmin.h"
 //---------------------------------------------------------------------------
 
-namespace lm
+namespace lmfit
 {
 using namespace rr;
 void my_printout(     int n_par,
