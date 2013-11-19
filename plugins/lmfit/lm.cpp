@@ -6,6 +6,7 @@
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerData.h"
 #include "rrUtils.h"
+#include "docs/lmfit_doc.h"
 //---------------------------------------------------------------------------
 
 namespace lm
@@ -35,6 +36,16 @@ LM::~LM()
 bool LM::isWorking()
 {
     return mLMFitThread.isRunning();
+}
+
+unsigned char* LM::getManualAsPDF() const
+{
+    return pdf_doc;
+}
+
+unsigned int LM::getPDFManualByteSize()
+{
+    return sizeofPDF;
 }
 
 string LM::getStatus()

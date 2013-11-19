@@ -46,6 +46,9 @@ class LM : public Plugin
         string                                  getStatus();
         bool                                    isWorking();
 
+        unsigned char*                          getManualAsPDF() const;
+        unsigned int                            getPDFManualByteSize();
+
         virtual _xmlNode*                       createConfigNode();
         virtual void                            loadConfig(const _xmlDoc* doc);
 };

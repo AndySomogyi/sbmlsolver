@@ -5,8 +5,8 @@
 #include "rrp_parameter_api.h"
 #include "rrLogger.h"
 #include "rrc_api.h"
-#include "rrc_utilities.h"           //Support functions, not exposed as api functions and or data
-#include "rrc_cpp_support.h"           //Support functions, not exposed as api functions and or data
+#include "rrc_utilities.h"              //Support functions, not exposed as api functions and or data
+#include "rrc_cpp_support.h"            //Support functions, not exposed as api functions and or data
 #include "rrp_api.h"
 #include "rrp_cpp_support.h"
 #include "rrParameter.h"
@@ -17,7 +17,6 @@ namespace rrp
 {
 using namespace std;
 using namespace rr;
-
 
 char* rrp_cc getParameterInfo(RRParameterHandle handle)
 {
@@ -126,5 +125,4 @@ char* rrp_cc getParameterType(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-//////////////////////////////////////////////
 }//namespace

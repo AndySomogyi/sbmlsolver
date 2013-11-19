@@ -22,8 +22,6 @@ mAddNoiseWorker(*this)
     mCapabilities.add(mAddNoise);
     mAddNoise.addParameter(&mNoiseType);
     mAddNoise.addParameter(&mSigma);
-
-
 }
 
 AddNoise::~AddNoise()
