@@ -30,6 +30,7 @@
 
 #include "rrLogger.h"
 #include "rrExporter.h"
+#include "rrOSSpecifics.h"
 
 
 // --------------------------------------------------------
@@ -305,7 +306,7 @@ bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
  */
 void ConservationExtension::init()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << __FUNC__ << std::endl;
 
     initilized = true;
     //-------------------------------------------------------------------------

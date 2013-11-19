@@ -37,7 +37,7 @@ namespace rr { namespace conservation {
   EXTENSION_CREATE_NS(ConservationPkgNamespaces,variable,sbmlns);
 #endif
 
-bool conservation_getInit();
+bool RR_DECLSPEC conservation_getInit();
 
 
 class RR_DECLSPEC ConservationExtension : public libsbml::SBMLExtension
