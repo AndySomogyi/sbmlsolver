@@ -44,7 +44,7 @@
 static bool initilized = false;
 
 
-
+template class RR_DECLSPEC libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
 
 namespace rr
 {
@@ -56,7 +56,7 @@ bool conservation_getInit()
     return initilized;
 }
 
-template class RR_DECLSPEC libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
+
 
 using namespace libsbml;
 
