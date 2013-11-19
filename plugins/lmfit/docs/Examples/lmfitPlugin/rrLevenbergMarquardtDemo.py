@@ -1,105 +1,97 @@
 import sys
-import rrPython
-import rrPlugins
-rr = rrPython
-rrp = rrPlugins
+from rrPython import *
+from rrPlugins import *
 
 sbmlModel ="../models/test_1.xml"
-rr.setTempFolder('r:/temp/python')
-
-print 'RoadRunner C API Version: '  + rr.getAPIVersion()
-print 'RoadRunner Build DateTime: ' + rr.getBuildDateTime()
-print 'Copyright: '                 + rr.getCopyright()
+setTempFolder('r:/temp/python')
 
 #Check temporary folder setting
 tempFolder=rr.getTempFolder()
 print 'TempFolder is: ' + tempFolder
 
-rr.enableLogging()
-rr.setComputeAndAssignConservationLaws(True)
-result = rr.loadSBMLFromFile(sbmlModel)
+enableLogging()
+setComputeAndAssignConservationLaws(True)
+result = loadSBMLFromFile(sbmlModel)
 
 print 'Result of loading sbml: %r' % (result);
 
-
-rr.simulate()
-rrDataHandle = rr.getRoadRunnerData()
+rrDataHandle = simulate()
 
 #Load the 'noise' plugin in order to add some noise to the data
-noisePlugin = rrp.loadPlugin("add_noise")
+noisePlugin = loadPlugin("rrp_add_noise")
 if not noisePlugin:
-    print rr.getLastError()
+    print getLastError()
     exit()
 
-print rrp.getPluginInfo(noisePlugin)
+print getPluginInfo(noisePlugin)
 
 #get parameter for noise 'size'
-sigmaHandle = rrp.getPluginParameter(noisePlugin, "Sigma")
+sigmaHandle = getPluginParameter(noisePlugin, "Sigma")
 
-aSigma = rrp.getParameterValueAsString(sigmaHandle)
+aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-rrp.setParameter(sigmaHandle, '0.00001')
-aSigma = rrp.getParameterValueAsString(sigmaHandle)
+setDoubleParameter(sigmaHandle, 0.000001)
+aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #Execute the noise plugin which will add some noise to the data
-rrp.executePluginEx(noisePlugin, rrDataHandle)
+executePluginEx(noisePlugin, rrDataHandle)
 
 #The plugin does it work in a thread, so don't proceed until it is done
-while rrp.isPluginWorking(noisePlugin) == True:
+while isPluginWorking(noisePlugin) == True:
     print "Plugin is not done yet";
 
 #Load the Levenberg-Marquardt minimization plugin
-lmPlugin = rrp.loadPlugin("lm")
-if not noisePlugin:
-    print rr.getLastError()
+lmPlugin = loadPlugin("rrp_lm")
+if not lmPlugin:
+    print getLastError()
     exit()
 
-print rrp.getPluginInfo(lmPlugin)
+print getPluginInfo(lmPlugin)
 
 #Setup the plugin
 #The plugin has a parameter, called MinData
-minDataParaHandle   = rrp.getPluginParameter(lmPlugin, "MinData");
+minDataParaHandle   = getPluginParameter(lmPlugin, "MinData");
 
 #The actual parameter value, as a pointer
-minDataHandle = rrp.getParameterValueAsPointer(minDataParaHandle)
+minDataHandle = getParameterValueAsPointer(minDataParaHandle)
 
 #Input Data
-rrCData = rr.getSimulationResult2()
-rrp.setPluginInputData(lmPlugin, rrCData)
+rrCData = getSimulationResult2()
+setPluginInputData(lmPlugin, rrCData)
 
 #Minimization Parameters, check the actual SBML
-rrp.addDoubleParameter(minDataHandle, "k1", 3.23)
+addDoubleParameter(minDataHandle, "k1", 3.23)
 
 #set species to fit
-rrp.setMinimizationObservedDataSelectionList(minDataHandle, "S1 S2")
+setMinimizationObservedDataSelectionList(minDataHandle, "S1 S2")
 
 #set species to fit, check the actual SBML
-rrp.setMinimizationModelDataSelectionList(minDataHandle, "S1 S2")
+setMinimizationModelDataSelectionList(minDataHandle, "S1 S2")
 
 #set the plugins tempFolder
-rrp.setPluginParameter(lmPlugin, "TempFolder", "r:/temp/")
+setPluginParameter(lmPlugin, "TempFolder", "r:/temp/")
 
 #set input sbml model
-rrp.setPluginParameter(lmPlugin, "SBML", rr.getSBML())
+setPluginParameter(lmPlugin, "SBML", rr.getSBML())
 
 #Check plugin status, input
 print '=========================== Levenberg-Marquardt report before minimization '
-report = rrp.getPluginStatus(lmPlugin)
+report = getPluginStatus(lmPlugin)
 print report
 
 #Execute the noise plugin, add some noise to the data
-rrp.executePlugin(lmPlugin)
+executePlugin(lmPlugin)
 
 #The plugin does it work in a thread, so don't proceed until it is done
-while rrp.isPluginWorking(lmPlugin) == True:
+while isPluginWorking(lmPlugin) == True:
     print "Plugin is not done yet";
 
 print '=========================== Levenberg-Marquardt report after minimization '
-report = rrp.getPluginStatus(lmPlugin)
+report = getPluginStatus(lmPlugin)
 print report
 
-print rrp.getPluginResult(lmPlugin)
+print getPluginResult(lmPlugin)
 print "done"

@@ -15,15 +15,16 @@ loadPlugins                                     = _loadPlugins
 unLoadPlugins                                   = _unLoadPlugins
 getPluginNames                                  = _getPluginNames
 
-;Funcitons taking a parameter handle
+;Functions taking a parameter handle
 getParameterValueAsString                       = _getParameterValueAsString
 getParameterValueAsPointer                      = _getParameterValueAsPointer
+setPluginInputData                              = _setPluginInputData
 addDoubleParameter                              = _addDoubleParameter
-getParameterInfo                              = _getParameterInfo
-setParameterByString                             = _setParameterByString
-setIntParameter                             = _setIntParameter
-setDoubleParameter                             = _setDoubleParameter
-setStringParameter                             = _setStringParameter
+getParameterInfo                                = _getParameterInfo
+setParameterByString                            = _setParameterByString
+setIntParameter                                 = _setIntParameter
+setDoubleParameter                              = _setDoubleParameter
+setStringParameter                              = _setStringParameter
 getParameterType                                = _getParameterType
 
 ;Functions taking a plugin handle
@@ -45,6 +46,11 @@ assignPluginProgressCallBack                    = _assignPluginProgressCallBack
 assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
 assignCallBacks                                 = _assignCallBacks
 isPluginWorking                                 = _isPluginWorking
+
+;Minimization API
+setMinimizationObservedDataSelectionList        = _setMinimizationObservedDataSelectionList
+setMinimizationModelDataSelectionList           = _setMinimizationModelDataSelectionList
+getMinimizationDataReport                       = _getMinimizationDataReport
 
 
 

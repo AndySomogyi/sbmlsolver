@@ -107,62 +107,57 @@ string LM::getResult()
 
 bool LM::setInputData(void* inputData)
 {
-    //Cast data to RRData structire
-    RRCDataPtr data = (RRCData*) inputData;
+    //Cast data to RRData
+    RoadRunnerData* data = (RoadRunnerData*) inputData;
 
     if(!data)
     {
         return false;
     }
 
-    RoadRunnerData rrData(data->RSize, data->CSize);
+    RoadRunnerData rrData((*data));//data->RSize, data->CSize);
 
     //Column Names
-    StringList colNames;
-    for(int c = 0; c < data->CSize; c++)
-    {
-        colNames.add(data->ColumnHeaders[c]);
-    }
-    rrData.setColumnNames(colNames);
-
-    //The data
-    for(int r = 0; r < data->RSize; r++)
-    {
-        for(int c = 0; c < data->CSize; c++)
-        {
-            rrData(r,c) = data->Data[r*data->CSize + c];
-        }
-    }
-
-    //Weights ?
-    if(data->Weights != NULL)
-    {
-        rrData.allocateWeights();
-        for(int r = 0; r < data->RSize; r++)
-        {
-            for(int c = 0; c < data->CSize; c++)
-            {
-                rrData.setWeight(r,c) = data->Weights[r*data->CSize + c];
-            }
-        }
-    }
+//    StringList colNames;
+//    for(int c = 0; c < data->CSize; c++)
+//    {
+//        colNames.add(data->ColumnHeaders[c]);
+//    }
+//    rrData.setColumnNames(colNames);
+//
+//    //The data
+//    for(int r = 0; r < data->RSize; r++)
+//    {
+//        for(int c = 0; c < data->CSize; c++)
+//        {
+//            rrData(r,c) = data->Data[r*data->CSize + c];
+//        }
+//    }
+//
+//    //Weights ?
+//    if(data->Weights != NULL)
+//    {
+//        rrData.allocateWeights();
+//        for(int r = 0; r < data->RSize; r++)
+//        {
+//            for(int c = 0; c < data->CSize; c++)
+//            {
+//                rrData.setWeight(r,c) = data->Weights[r*data->CSize + c];
+//            }
+//        }
+//    }
 
     MinimizationData& minData = getMinimizationData();
     minData.setInputData(rrData);
     return true;
 }
 
-bool LM::execute(void* inputData, bool inThread)
+bool LM::execute(void* data, bool inThread)
 {
     Log(lInfo)<<"Executing the LM plugin";
-
-    //Assign callback functions to communicate the progress
-    //    mLMWorker.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
-
     mLMWorker.start(inThread);
     return true;
 }
-
 
 // Plugin factory function
 LM* plugins_cc createPlugin(rr::RoadRunner* aRR)
