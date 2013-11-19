@@ -24,6 +24,10 @@ class SBMLDocument;
 class Model;
 }
 
+namespace rr { namespace conservation {
+class ConservedMoietyConverter;
+}}
+
 namespace rrllvm
 {
 
@@ -165,6 +169,12 @@ private:
     llvm::IRBuilder<> *builder;
 
     unsigned options;
+
+    /**
+     * the moiety converter, for the time being owns the
+     * converted document.
+     */
+    rr::conservation::ConservedMoietyConverter *moietyConverter;
 };
 
 
