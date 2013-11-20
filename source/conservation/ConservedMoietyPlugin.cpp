@@ -63,14 +63,14 @@ void rr::conservation::ConservedMoietyPlugin::readAttributes(
     for (int i = 0; i < attributes.getLength(); ++i)
     {
         std::cout << "name: " << attributes.getName(i) << ", value: " << attributes.getValue(i) << ", uri: " << attributes.getURI(i) << std::endl;
-        
+
     }
-    if(attributes.hasAttribute("conservedMoiety", ""))
+    if(attributes.hasAttribute("conservedMoiety", mURI))
     {
         if (!attributes.readInto("conservedMoiety", conservedMoiety))
         {
             std::string value = attributes.getValue("conservedMoiety");
-            throw std::invalid_argument("conservedMoiety attribute with value " + value 
+            throw std::invalid_argument("conservedMoiety attribute with value " + value
                                         + " can not be converted to a boolean");
         }
     }
@@ -83,5 +83,8 @@ void rr::conservation::ConservedMoietyPlugin::readAttributes(
 void rr::conservation::ConservedMoietyPlugin::writeAttributes(
         libsbml::XMLOutputStream& stream) const
 {
-    stream.writeAttribute("conservedMoiety", conservedMoiety);
+
+    libsbml::XMLTriple triple("conservedMoiety", mURI, mPrefix);
+
+    stream.writeAttribute(triple, conservedMoiety);
 }

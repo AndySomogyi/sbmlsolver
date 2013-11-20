@@ -35,7 +35,7 @@ ConservationDocumentPlugin& rr::conservation::ConservationDocumentPlugin::operat
 
 ConservationDocumentPlugin* rr::conservation::ConservationDocumentPlugin::clone() const
 {
-    return 0;
+    return new ConservationDocumentPlugin(*this);
 }
 
 

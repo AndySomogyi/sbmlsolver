@@ -7,6 +7,7 @@
 
 #include "ConservedMoietyConverter.h"
 #include "ConservedMoietyPlugin.h"
+#include "ConservationDocumentPlugin.h"
 #include "rr-libstruct/lsLibStructural.h"
 
 #include <sbml/conversion/SBMLConverterRegistry.h>
@@ -184,6 +185,13 @@ int ConservedMoietyConverter::convert()
 
     ConservationPkgNamespaces ns(3,1,1);
     resultDoc = new SBMLDocument(&ns);
+
+    ConservationDocumentPlugin *docPlugin = dynamic_cast<ConservationDocumentPlugin*>
+        (resultDoc->getPlugin("conservation"));
+
+    assert(docPlugin && "ConservationDocumentPlugin is NULL");
+
+    docPlugin->setRequired(true);
 
     // makes a clone of the model
     resultDoc->setModel(mModel);
