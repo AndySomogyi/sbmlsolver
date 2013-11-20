@@ -550,14 +550,6 @@ The value of this result depends on what child objects are presently loaded.
 
 
 
-%feature("docstring") rr::RoadRunner::getConservationAnalysis "
-RoadRunner.getConservationAnalysis()
-
-is conservation analysis enabled. This is set NEEDS MORE
-";
-
-
-
 %feature("docstring") rr::RoadRunner::getConservationMatrix "
 RoadRunner.getConservationMatrix()
 
@@ -1029,10 +1021,14 @@ configuration to the values specified in the document.
 
 
 
-%feature("docstring") rr::RoadRunner::setConservationAnalysis "
-RoadRunner.setConservationAnalysis(*args)
+%feature("docstring") rr::RoadRunner::conservedMoietyAnalysis "
 
-TODO docs
+Enables / Disables conserved moiety analysis (boolean).
+
+If this is enabled, the sbml document (either current, or one about to be loaded)
+is converted using the ConservedMoietyConverter. All of the linearly dependent
+species are replaced with assignment rules and a new set of conserved moeity
+parameters are introduced.
 ";
 
 
@@ -1128,45 +1124,6 @@ TODO docs
 
 
 
-%feature("docstring") rr::RoadRunner::getRatesOfChange "
-RoadRunner.getRatesOfChange()
-
-Returns a vector of rates of change as determined by the current state of the model.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getRateOfChange "
-RoadRunner.getRateOfChange(index)
-
-Returns the rate of change for the ith floating species. The order of species is determined by
-getFloatingSpeciesIds().
-
-:param parameter: The id of the floating species.
-
-:returns: The value of rate of change.
-
-:rtype: double
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getRatesOfChangeEx "
-RoadRunner.getRatesOfChangeEx(speciesVector)
-
-Returns a vector of rates of change as determined by the values in the species vector argument.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getRatesOfChangeIds "
-RoadRunner.getRatesOfChangeIds()
-
-Returns a vector of Ids for the rates of changes.
-";
-
-
-
 %feature("docstring") rr::RoadRunner::evalModel "
 RoadRunner.evalModel()
 
@@ -1174,14 +1131,6 @@ Evaluates the current model, that is it updates the rates of change and any assi
 It does *not* carry out an integration step.
 
 :returns: Returns true if successful
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getNumberOfGlobalParameters "
-RoadRunner.getNumberOfGlobalParameters()
-
-Returns the number of global parameters in the model.
 ";
 
 
