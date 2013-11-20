@@ -56,7 +56,7 @@ vs
 </pre>
 
 
-###Create dirs
+###Create directories
 The commands below can be copied and pasted into the console.
 
     #Root dir
@@ -101,7 +101,7 @@ The commands below can be copied and pasted into the console.
    
 #Install swig
 
-Get **swigwin-2.0.11** binaries
+Get **swigwin-2.0.11** binaries for windows
     
     cd install
     wget http://prdownloads.sourceforge.net/swig/swigwin-2.0.11.zip
@@ -122,16 +122,18 @@ Get the **LLVM 3.3** source code
 
 
 
-#CMake Configure
+#Configure with CMake
 Using *CMake GUI* Configure and Generate Solution files (outputs to build/)
 
 ## CMake LLVM
+Set:
+
     Source: C:/vs/src/llvm-3.3.src
     Build: C:/vs/build/llvm
 
 Configure >Visual Studio 10 > Use default Native compilers > Finish
 
-Set the following
+Set the following:
 
     CMAKE_INSTALL_PREFIX:PATH=C:/vs/install/llvm
 
@@ -181,7 +183,7 @@ Set
     Solution Platforms: Win32
 
 ###Build and Install
-In Solution Explorer Right-Click > INSTALL > Build
+In Visual Studio's [Solution Explorer](assets/images/VSInstallB.jpg) Right-Click > INSTALL > Build
 
 ## Build Roadrunner ThirdParty
 Open Solution file
