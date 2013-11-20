@@ -42,7 +42,7 @@
 #ifndef rrp_apiH
 #define rrp_apiH
 #include "rrp_exporter.h"
- #include "rrp_types.h"
+#include "rrp_types.h"
 #include "rrp_parameter_api.h"
 //---------------------------------------------------------------------------
 

@@ -14,18 +14,29 @@ namespace lmfit
 using namespace rr;
 using namespace rrc;
 
+RRStringArray MakeStringArray()
+{
+    RRStringArray arr;
+    return arr;
+}
+
 LM::LM(rr::RoadRunner* aRR)
 :
-Plugin(                 "Levenberg-Marquardt", "Fitting",       aRR),
-mLMFit(                 "LMFit",                                "",                     "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
-mTempFolder(            "TempFolder",                           "",                     "Tempfolder used in the fitting"),
-mSBML(                  "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
-mMinimizationData(      "MinData",                              MinimizationData(),     "Data structure holding minimization data"),
-mObservedData(          "ObservedData",                         RoadRunnerData(),       "Data object holding observed (experimental) data"),
-mModelData(             "ModelData",                            RoadRunnerData(),       "Data object holding model data"),
-mResidualsData(         "ResidualsData",                        RoadRunnerData(),       "Data object holding residuals"),
+Plugin(                     "Levenberg-Marquardt", "Fitting",       aRR),
+mLMFit(                     "LMFit",                                "",                     "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
+mTempFolder(                "TempFolder",                           "",                     "Tempfolder used in the fitting"),
+mSBML(                      "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
+mMinimizationData(          "MinData",                              MinimizationData(),     "Data structure holding minimization data"),
+mObservedData(              "ObservedData",                         RoadRunnerData(),       "Data object holding observed (experimental) data"),
+mModelData(                 "ModelData",                            RoadRunnerData(),       "Data object holding model data"),
+mResidualsData(             "ResidualsData",                        RoadRunnerData(),       "Data object holding residuals"),
+mInputParameterList(        "InputParameterList",                   Parameters(),           "List of parameters to fit"),
+mOutputParameterList(       "OutputParameterList",                  Parameters(),           "List of parameters that was fittedt"),
+mObservedDataSelectionList( "ObservedDataSelectionList",            StringList(),           "Observed data selection list"),
+mModelDataSelectionList(    "ModelDataSelectionList",               StringList(),           "Modeled data selection list"),
 mLMWorker(*this)
 {
+
     //Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);
     mLMFit.addParameter(&mSBML);
@@ -33,6 +44,10 @@ mLMWorker(*this)
     mLMFit.addParameter(&mObservedData);
     mLMFit.addParameter(&mModelData);
     mLMFit.addParameter(&mResidualsData);
+    mLMFit.addParameter(&mInputParameterList);
+    mLMFit.addParameter(&mOutputParameterList);
+    mLMFit.addParameter(&mObservedDataSelectionList);
+    mLMFit.addParameter(&mModelDataSelectionList);
     mCapabilities.add(mLMFit);
 }
 
@@ -52,6 +67,11 @@ unsigned char* LM::getManualAsPDF() const
 unsigned int LM::getPDFManualByteSize()
 {
     return sizeofPDF;
+}
+
+StringList LM::getObservedDataSelectionList()
+{
+    return mObservedDataSelectionList.getValue();
 }
 
 string LM::getStatus()
@@ -76,7 +96,10 @@ bool LM::resetPlugin()
     {
         return false;
     }
-
+    mInputParameterList.getValueReference().clear();
+    mOutputParameterList.getValueReference().clear();
+    mObservedDataSelectionList.getValueReference().clear();
+    mModelDataSelectionList.getValueReference().clear();
     MinimizationData& data = getMinimizationData();
     data.reset();
     return true;
@@ -101,7 +124,8 @@ string LM::getResult()
 {
     stringstream msg;
     MinimizationData& data = getMinimizationData();
-    Parameters pars = data.getParametersOut();
+    Parameters& pars = mOutputParameterList.getValueReference();
+
     for(int i = 0; i < pars.count(); i++)
     {
         msg<<pars[i]->asString();

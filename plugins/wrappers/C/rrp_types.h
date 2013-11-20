@@ -61,6 +61,9 @@ typedef void* RRPluginHandle;
 /*!@brief Void pointer to a Parameter instance */
 typedef void* RRParameterHandle;
 
+/*!@brief Void pointer to a RRParameters instance */
+typedef void* RRParametersHandle;
+
 /*!@brief Void pointer to a MinimizationData instance */
 typedef void* RRMinimizationDataHandle;
 

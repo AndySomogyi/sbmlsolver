@@ -15,9 +15,7 @@
 #include "rrUtils.h"
 #include "rrException.h"
 
-
 //---------------------------------------------------------------------------
-
 // max path stuff
 #if defined(_WIN32)
 #include <windef.h>
@@ -27,30 +25,22 @@
 #define RR_MAX_PATH PATH_MAX
 #endif
 
-
-
-
 namespace rrc
 {
 using namespace std;
 using namespace rr;
 using namespace rrc;
 
-
-
-
 const char* ALLOCATE_API_ERROR_MSG         = "Allocate a handle to the roadrunner API before calling any API function";
 const char* INVALID_HANDLE_ERROR_MSG     = "The HANDLE passed to this function was invalid";
 char*       gLastError                  = NULL;
-char gInstallFolderBuffer[RR_MAX_PATH] = {0};
-char* gInstallFolder = gInstallFolderBuffer;
-
+char        gInstallFolderBuffer[RR_MAX_PATH] = {0};
+char*       gInstallFolder = gInstallFolderBuffer;
 
 char* rrcCallConv createText(const char* text)
 {
     return rr::createText(text);
 }
-
 
 char* rrcCallConv getFileContent(const char* fName)
 {
@@ -62,24 +52,19 @@ char* rrcCallConv getFileContent(const char* fName)
     catch_ptr_macro
 }
 
-
 bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName)
 {
     return true;
 }
-
 
 char* rrcCallConv createTextMemory(const int count)
 {
     return rr::createText(count);
 }
 
-
 // -------------------------------------------------------------------
 // List Routines
 // -------------------------------------------------------------------
-
-
 RRListPtr rrcCallConv createRRList()
 {
     RRListPtr list = new RRList;
@@ -87,7 +72,6 @@ RRListPtr rrcCallConv createRRList()
     list->Items = NULL;
     return list;
 }
-
 
 int rrcCallConv getInstanceCount(RRInstanceListPtr iList)
 {
@@ -322,7 +306,6 @@ char* rrcCallConv listToString (RRListPtr list)
     }
 }
 
-
 // Free Functions =====================================================
 bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
 {
@@ -509,7 +492,6 @@ bool rrcCallConv setVectorElement (RRVectorPtr vector, int index, double value)
 
 // Matrix Routines
 // ------------------------------------------------------------------------------------
-
 RRDoubleMatrixPtr rrcCallConv createRRMatrix (int r, int c)
 {
        RRDoubleMatrixPtr matrix = new RRDoubleMatrix;

@@ -18,6 +18,17 @@ namespace rrp
 using namespace std;
 using namespace rr;
 
+bool rrp_cc addParameter(RRParametersHandle handle, RRParameterHandle para)
+{
+    start_try
+        Parameters* paras   = castToParameters(handle);
+        BaseParameter* bPara = castToParameter(para);
+        paras->add(bPara, false);
+        return true;
+    }
+    catch_bool_macro
+}
+
 char* rrp_cc getParameterInfo(RRParameterHandle handle)
 {
     start_try
@@ -29,12 +40,13 @@ char* rrp_cc getParameterInfo(RRParameterHandle handle)
     catch_ptr_macro
 }
 
+
 bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
 {
     try
     {
         BaseParameter* para = castToParameter(handle);
-        para->setValueFromString(value);
+        para->setValueFromString(string(value));
         return true;
     }
     catch_bool_macro

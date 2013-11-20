@@ -62,6 +62,15 @@ extern "C"
 RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
 
 /*!
+ \brief Add a parameter to a parameters container, from a parameter pointer.
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] para Handle to a roadrunner parameter
+ \return Returns a booelan indicating success
+ \ingroup parameters
+*/
+RRP_DECLSPEC bool rrp_cc addParameter(RRParametersHandle handle, RRParameterHandle para);
+
+/*!
  \brief Set a parameter by a string
  \param[in] handle to a Parameter instance
  \param[in] value Pointer to string holding the value to assign to the parameter, e.g. "0.01" to set a double to 0.01

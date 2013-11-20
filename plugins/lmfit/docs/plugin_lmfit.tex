@@ -42,15 +42,14 @@ In the following, plugin parameters available in the Levenberg-Marquardt plugin 
 Parameter Name & Data Type & Purpose \\ [0.5ex] % inserts table 
 %heading
 \hline % inserts single horizontal line
-ObservedData   	& 	RoadRunnerData 		& Input data.  \\
-ModelData      	& 	RoadRunnerData    	& Output data. \\
-ResidualsData  	& 	RoadRunnerData    	& Residuals data (difference between input and output data.) \\
-InputParameters &   char**				& Parameters to fit \\
-OutputParameters &   char**				& Parameters that was fitted \\
-Norm			&	 double				& Norm of fitting. An estimate of goodness of fit. \\
-ObservedDataSelectionList & char**	&	Species Selection list for observed data \\
-ModelDataSelectionList & char**	&	Selection list for model data \\
-
+ObservedData   				& 	RoadRunnerData 		& 	Input data.  \\
+ModelData      				& 	RoadRunnerData    	& 	Output data. \\
+ResidualsData  				& 	RoadRunnerData    	& 	Residuals data (difference between input and output data.) \\
+InputParameterList 			&	RRStringArray		& 	Parameters to fit \\
+OutputParameterList 		&   RRStringArray   	& 	Parameters that was fitted \\
+ObservedDataSelectionList 	& 	RRStringArray		&	Species Selection list for observed data \\
+ModelDataSelectionList 		& 	RRStringArray		&	Selection list for model data \\
+Norm						&	double				& 	Norm of fitting. An estimate of goodness of fit. \\
 
 \hline %inserts single line
 \end{tabular}

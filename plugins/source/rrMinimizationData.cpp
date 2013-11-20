@@ -14,123 +14,123 @@ MinimizationData::~MinimizationData()
 MinimizationData::MinimizationData(const MinimizationData& data)
 {
 //    mObservedData = data.mObservedData;
-    mModelData = data.mModelData;
-    mParameters = data.mParameters;
+//    mModelData = data.mModelData;
+//    mParameters = data.mParameters;
 }
 
 MinimizationData& MinimizationData::operator=(MinimizationData& rhs)
 {
 //    mObservedData     = rhs.mObservedData;
-    mModelData         = rhs.mModelData;
-    mResidualsData     = rhs.mResidualsData;
-    mParameters     = rhs.mParameters;
+//    mModelData         = rhs.mModelData;
+//    mResidualsData     = rhs.mResidualsData;
+//    mParameters     = rhs.mParameters;
     return *this;
 }
 
 void MinimizationData::init()
 {
     //Empty report
-    mParameters.clear();
-    mParametersOut.clear();
+//    mParameters.clear();
+//    mParametersOut.clear();
     mNorm = -1;
 }
 
 bool MinimizationData::reset()
 {
-    mParameters.clear();
-    mParametersOut.clear();
+//    mParameters.clear();
+//    mParametersOut.clear();
     return true;
 }
 
-void MinimizationData::setObservedDataSelectionList(const string& selList)
-{
-     mObservedDataSelectionList = StringList(selList);
-}
+//void MinimizationData::setObservedDataSelectionList(const string& selList)
+//{
+//     mObservedDataSelectionList = StringList(selList);
+//}
 
-StringList MinimizationData::getObservedDataSelectionList()
-{
-    return mObservedDataSelectionList;
-}
+//StringList MinimizationData::getObservedDataSelectionList()
+//{
+//    return mObservedDataSelectionList;
+//}
 
-void MinimizationData::setModelDataSelectionList(const string& selList)
-{
-     mModelDataSelectionList = StringList(selList);
-}
-
-StringList MinimizationData::getModelDataSelectionList()
-{
-    return mModelDataSelectionList;
-}
+//void MinimizationData::setModelDataSelectionList(const string& selList)
+//{
+//     mModelDataSelectionList = StringList(selList);
+//}
+//
+//StringList MinimizationData::getModelDataSelectionList()
+//{
+//    return mModelDataSelectionList;
+//}
 
 //RoadRunnerData MinimizationData::getObservedData()
 //{
 //    return mObservedData;
 //}
 
-RoadRunnerData MinimizationData::getModelData()
-{
-    return mModelData;
-}
-
-RoadRunnerData MinimizationData::getResidualsData()
-{
-    return mResidualsData;
-}
+//RoadRunnerData MinimizationData::getModelData()
+//{
+//    return mModelData;
+//}
+//
+//RoadRunnerData MinimizationData::getResidualsData()
+//{
+//    return mResidualsData;
+//}
 
 //RoadRunnerData& MinimizationData::getObservedDataReference()
 //{
 //    return mObservedData;
 //}
 
-RoadRunnerData& MinimizationData::getModelDataReference()
-{
-    return mModelData;
-}
+//RoadRunnerData& MinimizationData::getModelDataReference()
+//{
+//    return mModelData;
+//}
+//
+//RoadRunnerData& MinimizationData::getResidualsDataReference()
+//{
+//    return mResidualsData;
+//}
 
-RoadRunnerData& MinimizationData::getResidualsDataReference()
-{
-    return mResidualsData;
-}
+//void MinimizationData::addParameter(const string& name, const double& val)
+//{
+////    mParameters.add(new Parameter<double>(name, val, ""));
+//}
 
-void MinimizationData::addParameter(const string& name, const double& val)
-{
-    mParameters.add(new Parameter<double>(name, val, ""));
-}
+//void MinimizationData::addFittedParameter(const string& name, const double& val)
+//{
+//    mParametersOut.add(new Parameter<double>(name, val, ""));
+//}
 
-void MinimizationData::addFittedParameter(const string& name, const double& val)
-{
-    mParametersOut.add(new Parameter<double>(name, val, ""));
-}
-
-void MinimizationData::addParameter(const string& name, const int& val)
-{
-    mParameters.add(new Parameter<int>(name, val, ""));
-}
+//void MinimizationData::addParameter(const string& name, const int& val)
+//{
+//    mParameters.add(new Parameter<int>(name, val, ""));
+//}
 
 //void MinimizationData::setInputData(const RoadRunnerData& data)
 //{
 //    mObservedData = data;
 //}
 
-void MinimizationData::setModelData(const RoadRunnerData& data)
-{
-    mModelData = data;
-}
+//void MinimizationData::setModelData(const RoadRunnerData& data)
+//{
+//    mModelData = data;
+//}
+//
+//void MinimizationData::setResidualsData(const RoadRunnerData& data)
+//{
+//    mResidualsData = data;
+//}
 
-void MinimizationData::setResidualsData(const RoadRunnerData& data)
-{
-    mResidualsData = data;
-}
+//Parameters MinimizationData::getParameters()
+//{
+//    return mParameters;
+//}
 
-Parameters MinimizationData::getParameters()
-{
-    return mParameters;
-}
-
-Parameters MinimizationData::getParametersOut()
-{
-    return mParametersOut;
-}
+//Parameters MinimizationData::getParametersOut()
+//{
+//    return mParametersOut;
+//}
 
 void MinimizationData::setNorm(const double& norm)
 {
@@ -146,17 +146,17 @@ string MinimizationData::getReport() const
 {
     stringstream  msg;
     msg<<"Parameters: \n";
-    msg<<mParameters.asStringList();
+//    msg<<mParameters.asStringList();
     msg<<"\n";
 
     msg<<"Observed Data ===============\n";
 //    msg<<mObservedData<<"\n\n";
 
     msg<<"ModelData Data ===============\n";
-    msg<<mModelData<<"\n\n";
+//    msg<<mModelData<<"\n\n";
 
     msg<<"Residuals ===============\n";
-    msg<<mResidualsData<<"\n\n";
+//    msg<<mResidualsData<<"\n\n";
 
     msg<<"End of minimization data report";
     return msg.str();

@@ -12,6 +12,7 @@
 
 namespace lmfit
 {
+using namespace rrc;
 using namespace rrp;
 using rr::RoadRunner;
 using std::string;
@@ -23,13 +24,16 @@ class LM : public Plugin
     protected:
         Capability                              mLMFit;
         Parameter<string>                       mTempFolder;
-        Parameter<string>                       mSBML;                    //This is the model
+        Parameter<string>                       mSBML;                          //This is the model
 
         Parameter<RoadRunnerData>               mObservedData;
         Parameter<RoadRunnerData>               mModelData;
         Parameter<RoadRunnerData>               mResidualsData;
-
-        Parameter<MinimizationData>             mMinimizationData;        //Generate its own
+        Parameter<MinimizationData>             mMinimizationData;              //Generate its own
+        Parameter<Parameters>                   mInputParameterList;            //Parameters to fit
+        Parameter<Parameters>                   mOutputParameterList;           //Parameters that was fitted
+        Parameter<StringList>                   mObservedDataSelectionList;     //Species selection list for observed data
+        Parameter<StringList>                   mModelDataSelectionList;        //Species selection list for observed data
 
         //Utility functions for the thread
         string                                  getTempFolder();
@@ -54,7 +58,7 @@ class LM : public Plugin
 
         unsigned char*                          getManualAsPDF() const;
         unsigned int                            getPDFManualByteSize();
-
+        StringList                              getObservedDataSelectionList();
         virtual _xmlNode*                       createConfigNode(){return NULL;}
         virtual void                            loadConfig(const _xmlDoc* doc){}
 };

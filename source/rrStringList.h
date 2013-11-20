@@ -18,7 +18,6 @@ using std::ostream;
 class RR_DECLSPEC StringList
 {
     protected:
-
         vector<string>              mStrings;
         vector<string>::iterator    mLI;
 
@@ -34,6 +33,7 @@ class RR_DECLSPEC StringList
         void                        InsertAt(const int& index, const string& item);
         void                        Append(const StringList& list);
         string                      AsString(const string& delimiter = gComma) const;
+        const char*                 AsCString(const string& delimiter = gComma) const;
 
         /**
          * get the size to be compatible with vector<string>
