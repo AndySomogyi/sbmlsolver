@@ -1197,29 +1197,6 @@ given by the order of Ids returned by getCompartmentIds()</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="roadrunner.ExecutableModel.getConservedSumChanged">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getConservedSumChanged</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedSumChanged" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.ExecutableModel.getConservedSums">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getConservedSums</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedSums" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vector of conserved sums.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of conserved sums.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="roadrunner.ExecutableModel.getGlobalParameterValues">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getGlobalParameterValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a vector of global parameter values. The order of species is
@@ -1267,12 +1244,6 @@ given by the order of Ids returned by getGlobalParameterIds()</p>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.ExecutableModel.getNumConservedSums">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getNumConservedSums</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumConservedSums" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO DOCS</p>
 </dd></dl>
 
 <dl class="method">
@@ -1397,30 +1368,6 @@ array of all the  values to set.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="roadrunner.ExecutableModel.setConservedSumChanged">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedSumChanged</tt><big>(</big><em>change</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSumChanged" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.ExecutableModel.setConservedSums">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedSums</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSums" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to set,
-or if no index array is given, the first param should be
-an array of all the values to set.</li>
-<li><strong>values</strong> (<em>numpy.ndarray</em>) &#8211; the values to set.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="roadrunner.ExecutableModel.setFloatingSpeciesAmounts">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this to set the entire set of floating species amounts in one call.
@@ -1536,6 +1483,80 @@ currect value.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an n by m numpy ndarray of the stoichiometrix coeffecients.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumConservedMoieties">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getNumConservedMoieties</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumConservedMoieties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of conserved moieties in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getConservedMoietyIds">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getConservedMoietyIds</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedMoietyIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of conserved moiety identifier symbols.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which comparment ids to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of compartment ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getConservedMoietyValues">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getConservedMoietyValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedMoietyValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of conserved moiety volumes. The order of values is
+given by the order of Ids returned by getConservedMoietyIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of conserved moiety values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setConservedMoietyValues">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedMoietyValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedMoietyValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a vector of conserved moiety values.</p>
+<p><em>Note</em> This method currently only updates the conserved moeity values, it does
+not update the initial species condition from which the values were calculated.</p>
+<p>If the index vector is not given, then the values vector treated as a vector of all
+values to set. If index is given, then  values should have the same
+length as index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to set,
+or if no index array is given, the first param should be an
+array of all the  values to set.</li>
+<li><strong>values</strong> (<em>numpy.ndarray</em>) &#8211; the values to set.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
