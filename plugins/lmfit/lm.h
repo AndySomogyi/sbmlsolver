@@ -5,7 +5,6 @@
 #include "rrParameter.h"
 #include "rrPlugin.h"
 #include "rrRoadRunner.h"
-#include "rrMinimizationData.h"
 #include "rrc_types.h"
 #include "LMWorker.h"
 //---------------------------------------------------------------------------
@@ -25,21 +24,18 @@ class LM : public Plugin
         Capability                              mLMFit;
         Parameter<string>                       mTempFolder;
         Parameter<string>                       mSBML;                          //This is the model
-
         Parameter<RoadRunnerData>               mObservedData;
         Parameter<RoadRunnerData>               mModelData;
         Parameter<RoadRunnerData>               mResidualsData;
-        Parameter<MinimizationData>             mMinimizationData;              //Generate its own
         Parameter<Parameters>                   mInputParameterList;            //Parameters to fit
         Parameter<Parameters>                   mOutputParameterList;           //Parameters that was fitted
         Parameter<StringList>                   mObservedDataSelectionList;     //Species selection list for observed data
         Parameter<StringList>                   mModelDataSelectionList;        //Species selection list for observed data
+        Parameter<double>                       mNorm;                          //Part of minimization result
 
         //Utility functions for the thread
         string                                  getTempFolder();
         string                                  getSBML();
-
-        MinimizationData&                       getMinimizationData();
 
         //The worker is doing the work
         LMWorker                                mLMWorker;

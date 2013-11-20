@@ -26,7 +26,7 @@ Plugin(                     "Levenberg-Marquardt", "Fitting",       aRR),
 mLMFit(                     "LMFit",                                "",                     "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
 mTempFolder(                "TempFolder",                           "",                     "Tempfolder used in the fitting"),
 mSBML(                      "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
-mMinimizationData(          "MinData",                              MinimizationData(),     "Data structure holding minimization data"),
+//mMinimizationData(          "MinData",                              MinimizationData(),     "Data structure holding minimization data"),
 mObservedData(              "ObservedData",                         RoadRunnerData(),       "Data object holding observed (experimental) data"),
 mModelData(                 "ModelData",                            RoadRunnerData(),       "Data object holding model data"),
 mResidualsData(             "ResidualsData",                        RoadRunnerData(),       "Data object holding residuals"),
@@ -34,13 +34,14 @@ mInputParameterList(        "InputParameterList",                   Parameters()
 mOutputParameterList(       "OutputParameterList",                  Parameters(),           "List of parameters that was fittedt"),
 mObservedDataSelectionList( "ObservedDataSelectionList",            StringList(),           "Observed data selection list"),
 mModelDataSelectionList(    "ModelDataSelectionList",               StringList(),           "Modeled data selection list"),
+mNorm(                      "Norm",                                 -1.0,                   "Norm of fitting. An estimate of goodness of fit"),
 mLMWorker(*this)
 {
 
     //Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);
     mLMFit.addParameter(&mSBML);
-    mLMFit.addParameter(&mMinimizationData);
+//    mLMFit.addParameter(&mMinimizationData);
     mLMFit.addParameter(&mObservedData);
     mLMFit.addParameter(&mModelData);
     mLMFit.addParameter(&mResidualsData);
@@ -48,6 +49,7 @@ mLMWorker(*this)
     mLMFit.addParameter(&mOutputParameterList);
     mLMFit.addParameter(&mObservedDataSelectionList);
     mLMFit.addParameter(&mModelDataSelectionList);
+    mLMFit.addParameter(&mNorm);
     mCapabilities.add(mLMFit);
 }
 
@@ -80,8 +82,8 @@ string LM::getStatus()
     msg<<Plugin::getStatus();
     msg<<"TempFolder: "<<mTempFolder<<"\n";
     msg<<"SBML: "<<mSBML<<"\n";
-    MinimizationData* minData = (MinimizationData*) (mMinimizationData.getValueAsPointer());
-    msg<<"MinData"<<(*minData)<<"\n";
+//    MinimizationData* minData = (MinimizationData*) (mMinimizationData.getValueAsPointer());
+//    msg<<"MinData"<<(*minData)<<"\n";
     return msg.str();
 }
 
@@ -96,18 +98,16 @@ bool LM::resetPlugin()
     {
         return false;
     }
+
+    mSBML.getValueReference().clear();
+    mObservedData.getValueReference().clear();
+    mModelData.getValueReference().clear();
+    mResidualsData.getValueReference().clear();
     mInputParameterList.getValueReference().clear();
     mOutputParameterList.getValueReference().clear();
     mObservedDataSelectionList.getValueReference().clear();
     mModelDataSelectionList.getValueReference().clear();
-    MinimizationData& data = getMinimizationData();
-    data.reset();
     return true;
-}
-
-MinimizationData& LM::getMinimizationData()
-{
-    return *(mMinimizationData.getValuePointer());
 }
 
 string LM::getTempFolder()
@@ -123,14 +123,14 @@ string LM::getSBML()
 string LM::getResult()
 {
     stringstream msg;
-    MinimizationData& data = getMinimizationData();
+//    MinimizationData& data = getMinimizationData();
     Parameters& pars = mOutputParameterList.getValueReference();
 
     for(int i = 0; i < pars.count(); i++)
     {
         msg<<pars[i]->asString();
     }
-    msg<<"Norm: "<<data.getNorm();
+    msg<<"Norm: "<<mNorm.getValue();
     return msg.str();
 }
 
@@ -145,8 +145,6 @@ bool LM::setInputData(void* inputData)
     }
 
     RoadRunnerData rrData((*data));
-    MinimizationData& minData = getMinimizationData();
-//    minData.setInputData(rrData);
     mObservedData.setValue((*data));    //This copies the data
     return true;
 }

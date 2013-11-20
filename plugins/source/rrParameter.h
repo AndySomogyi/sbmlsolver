@@ -266,7 +266,7 @@ template<>
 inline string Parameter<rr::RoadRunnerData>::getValueAsString() const
 {
     std::stringstream rrData;
-    rrData << (*this);
+    rrData << (mValue);
     return rrData.str();
 }
 

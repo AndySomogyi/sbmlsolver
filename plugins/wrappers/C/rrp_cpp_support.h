@@ -1,7 +1,5 @@
 #ifndef rrp_cpp_supportH
 #define rrp_cpp_supportH
-
-#include "rrp_minimization_api.h"
 #include "rrp_api.h"
 
 namespace rrp

@@ -13,8 +13,6 @@
 #include "rrc_cpp_support.h"
 #include "rrp_parameter_api.h"
 #include "rrp_api.h"
-#include "rrMinimizationData.h"
-
 #include <set>
 
 namespace rrp

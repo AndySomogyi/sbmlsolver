@@ -47,10 +47,5 @@ assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
 assignCallBacks                                 = _assignCallBacks
 isPluginWorking                                 = _isPluginWorking
 
-;Minimization API
-;setMinimizationObservedDataSelectionList        = _setMinimizationObservedDataSelectionList
-;setMinimizationModelDataSelectionList           = _setMinimizationModelDataSelectionList
-;getMinimizationDataReport                       = _getMinimizationDataReport
-
 
 

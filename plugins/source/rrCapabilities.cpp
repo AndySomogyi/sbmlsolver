@@ -138,10 +138,10 @@ string Capabilities::asXML()
             xmlNodePtr paraNode = xmlNewChild(parameters, NULL, BAD_CAST "para", NULL);
 
             BaseParameter* parameter = const_cast<BaseParameter*>(&(aCapability[j]));
-            xmlNewProp(paraNode, BAD_CAST "name", BAD_CAST parameter->getName().c_str());
-            xmlNewProp(paraNode, BAD_CAST "value", BAD_CAST parameter->getValueAsString().c_str());
-            xmlNewProp(paraNode, BAD_CAST "hint", BAD_CAST parameter->getHint().c_str());
-            xmlNewProp(paraNode, BAD_CAST "type", BAD_CAST parameter->getType().c_str());
+            xmlNewProp(paraNode, BAD_CAST "name",   BAD_CAST parameter->getName().c_str());
+            xmlNewProp(paraNode, BAD_CAST "value",  BAD_CAST parameter->getValueAsString().c_str());
+            xmlNewProp(paraNode, BAD_CAST "hint",   BAD_CAST parameter->getHint().c_str());
+            xmlNewProp(paraNode, BAD_CAST "type",   BAD_CAST parameter->getType().c_str());
         }
     }
 
