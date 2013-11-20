@@ -118,18 +118,7 @@
    :rtype: numpy.ndarray.
 
 
-.. method:: ExecutableModel.getConservedSumChanged()
-   :module: roadrunner
 
-
-
-.. method:: ExecutableModel.getConservedSums([index])
-
-   Returns a vector of conserved sums.
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :returns: an array of conserved sums.
-   :rtype: numpy.ndarray.
 
 
 
@@ -170,11 +159,6 @@
    Returns the number of compartments in the model.
 
    :rtype: int
-
-.. method:: ExecutableModel.getNumConservedSums()
-   :module: roadrunner
-
-   TODO DOCS
 
 
 .. method:: ExecutableModel.getNumDependentSpecies()
@@ -271,18 +255,6 @@
    :param numpy.ndarray values: the values to set.
 
 
-.. method:: ExecutableModel.setConservedSumChanged(change)
-   :module: roadrunner
-
-
-
-.. method:: ExecutableModel.setConservedSums([index], values)
-   :module: roadrunner
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to set,
-                               or if no index array is given, the first param should be
-                               an array of all the values to set.
-   :param numpy.ndarray values: the values to set.
 
 
 
@@ -362,4 +334,48 @@
 
    :returns: an n by m numpy ndarray of the stoichiometrix coeffecients. 
    :rtype: numpy.ndarray
+
+
+
+.. method:: ExecutableModel.getNumConservedMoieties()
+
+   Returns the number of conserved moieties in the model.
+
+   :rtype: int
+
+
+.. method:: ExecutableModel.getConservedMoietyIds([index])
+
+   Returns a vector of conserved moiety identifier symbols.
+
+   :param index: A array of compartment indices indicating which comparment ids to return.
+   :type index: None or numpy.ndarray
+   :returns: a list of compartment ids.
+
+.. method:: ExecutableModel.getConservedMoietyValues([index])
+
+   Returns a vector of conserved moiety volumes. The order of values is
+   given by the order of Ids returned by getConservedMoietyIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of conserved moiety values.
+   :rtype: numpy.ndarray.
+
+.. method:: ExecutableModel.setConservedMoietyValues([index], values)
+
+   Sets a vector of conserved moiety values.
+
+   *Note* This method currently only updates the conserved moeity values, it does 
+   not update the initial species condition from which the values were calculated. 
+   
+   If the index vector is not given, then the values vector treated as a vector of all
+   values to set. If index is given, then  values should have the same
+   length as index.
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to set,
+                               or if no index array is given, the first param should be an
+                               array of all the  values to set.
+
+   :param numpy.ndarray values: the values to set.
+
 

@@ -56,7 +56,10 @@ The following methods are related to the analysis of the stoichiometric matrix.
    RoadRunner.getNrMatrix
    RoadRunner.getConservationMatrix
    RoadRunner.getL0Matrix
-   ExecutableModel.getConservedSums
-   ExecutableModel.getNumConservedSums
+   ExecutableModel.getNumConservedMoieties
+   ExecutableModel.getConservedMoietyIds
+   ExecutableModel.getConservedMoietyValues
+   ExecutableModel.setConservedMoietyValues
+
 
 

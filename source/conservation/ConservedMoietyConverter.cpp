@@ -13,8 +13,8 @@
 #include <sbml/conversion/SBMLConverterRegistry.h>
 #include <sbml/conversion/SBMLLevelVersionConverter.h>
 #include "ConservationExtension.h"
+#include "rrSBMLReader.h"
 #include "rrLogger.h"
-
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/AlgebraicRule.h>
@@ -32,9 +32,7 @@
 
 #include "rrStringUtils.h"
 
-
 #include <Poco/UUIDGenerator.h>
-
 
 using namespace std;
 using namespace libsbml;
@@ -361,7 +359,6 @@ static void createReorderedSpecies(Model* newModel, Model* oldModel,
     }
 }
 
-
 /**
  * create the conservied moiteies by
  * T = S_d (0) - L_0 S_i (0)
@@ -539,8 +536,61 @@ static void insertAsModifier(Reaction* reaction, SimpleSpeciesReference *s)
     m->setName(s->getName());
 }
 
+} // namespace conservation }
 
 
+
+PyConservedMoietyConverter::PyConservedMoietyConverter()
+    : doc(0)
+{
 }
-} // namespace rr } namespace conservation }
+
+PyConservedMoietyConverter::~PyConservedMoietyConverter()
+{
+    delete doc;
+}
+
+int PyConservedMoietyConverter::setDocument(const std::string& fileOrPath)
+{
+    delete doc;
+    doc = 0;
+
+    std::string sbml = rr::SBMLReader::read(fileOrPath);
+
+    libsbml::SBMLReader reader;
+
+    doc = reader.readSBMLFromString(sbml);
+
+    return conv.setDocument(doc);
+}
+
+int PyConservedMoietyConverter::convert()
+{
+    return conv.convert();
+}
+
+std::string PyConservedMoietyConverter::getDocument()
+{
+    libsbml::SBMLWriter writer;
+
+    libsbml::SBMLDocument *resultDoc = conv.getDocument();
+
+    if (!resultDoc)
+    {
+        return "";
+    }
+
+    char* buffer = writer.writeToString(resultDoc);
+
+    std::string result = buffer;
+
+    delete[] buffer;
+
+    return result;
+}
+
+
+
+} // namespace rr }
+
 

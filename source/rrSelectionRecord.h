@@ -62,7 +62,7 @@ public:
         UNKNOWN =                           (0x1 << 17),
         DEPENDENT =                         (0x1 << 18),
         INDEPENDENT =                       (0x1 << 19),
-        CONSREVED_MOIETY =                  (0x1 << 20) | DEPENDENT, // are by definition dependent.
+        CONSREVED_MOIETY =                  (0x1 << 20),
 
         UNKNOWN_CONCENTRATION =             UNKNOWN | CONCENTRATION,
 
