@@ -23,6 +23,9 @@ namespace rr
 namespace conservation
 {
 
+
+#ifndef SWIG
+
 class RR_DECLSPEC ConservedMoietyConverter: public libsbml::SBMLConverter
 {
 public:
@@ -143,6 +146,15 @@ public:
      */
     virtual int setDocument(const libsbml::SBMLDocument* doc);
 
+
+
+    /**
+     * used in the python wrapper, can set a sbml string or file path.
+     */
+    int setDocument(const std::string& fileOrPath);
+
+
+
 private:
 
     /**
@@ -166,6 +178,29 @@ private:
     libsbml::Model *resultModel;
 };
 
-} } // namespace rr } namespace conservation }
+#else //!SWIG
+
+%rename (ConservedMoietyConverter) PyConservedMoietyConverter;
+
+#endif
+
+
+
+class RR_DECLSPEC PyConservedMoietyConverter
+{
+public:
+    std::string foo() {
+        return "foo";
+    }
+};
+
+
+} // namespace conservation
+
+
+
+} // namespace rr } namespace conservation }
+
+
 #endif  /* ConservedMoietyConverter_h */
 

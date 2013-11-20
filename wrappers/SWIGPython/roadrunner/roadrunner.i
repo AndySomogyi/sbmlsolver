@@ -28,6 +28,7 @@
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
     #include <conservation/ConservationExtension.h>
+    #include "conservation/ConservedMoietyConverter.h"
     #include <cstddef>
     #include <map>
     #include <rrVersionInfo.h>
@@ -702,6 +703,7 @@ namespace std { class ostream{}; }
 %include <rrModelGenerator.h>
 %include <rrRoadRunner.h>
 %include <rrSelectionRecord.h>
+%include "conservation/ConservedMoietyConverter.h"
 
 %extend std::vector<rr::SelectionRecord>
 {
