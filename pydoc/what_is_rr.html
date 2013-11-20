@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
     <link rel="up" title="Introduction" href="introduction.html" />
-    <link rel="next" title="Installing RoadRunner" href="installing_rr.html" />
+    <link rel="next" title="RoadRunner Basics" href="rr_basics.html" />
     <link rel="prev" title="What Is SBML?" href="what_is_sbml.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="installing_rr.html" title="Installing RoadRunner"
+          <a href="rr_basics.html" title="RoadRunner Basics"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="what_is_sbml.html" title="What Is SBML?"
@@ -58,42 +58,50 @@
 <h1>What is RoadRunner<a class="headerlink" href="#what-is-roadrunner" title="Permalink to this headline">¶</a></h1>
 <p>RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models.</p>
-<p>The roadrunner package contains two fundametal objects, <cite>RoadRunner</cite>
-and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level object,
-it is responsible for orchestrating all of the internal components
-such as model loading, JIT compilation, integration and output.</p>
-<p>** roadrunner overview</p>
-<dl class="docutils">
-<dt>** ExecutableModel</dt>
-<dd><ul class="first last simple">
-<li>represents a compiled sbml model</li>
-<li>properties to get and set any state variables.</li>
-</ul>
+<p>RoadRunner 1.0 supports the following features:</p>
+<ol class="arabic">
+<li><p class="first">Time Dependent Simulation (with optional conservation law reduction) using CVODE.</p>
+</li>
+<li><p class="first">Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.</p>
+</li>
+<li><p class="first">Defaults to LLVM code generation on the backend, resulting is very fast simulation times.</p>
+</li>
+<li><p class="first">Optional generation of model C code and linking at run-time.</p>
+</li>
+<li><p class="first">Compute steady state.</p>
+</li>
+<li><p class="first">Metabolic Control Analysis.</p>
+</li>
+<li><p class="first">Frequency Domain Analysis.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Access to:</dt>
+<dd><ol class="first last arabic simple">
+<li>Eigenvalues and Eigenvectors.</li>
+<li>Jacobian, full and reduced.</li>
+<li>Structural Matrices of the stoichiometry matrix.</li>
+</ol>
 </dd>
 </dl>
-<p>I&#8217;ve got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
-array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it.</p>
-<p>So, here is a simple example:</p>
-<p>The new API is really cool, this is all you have to do:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">RoadRunner</span> <span class="kn">as</span> <span class="nn">rr</span>
-<span class="kn">import</span> <span class="nn">pylab</span> <span class="kn">as</span> <span class="nn">p</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
-</pre></div>
+</li>
+<li><p class="first">Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin.</p>
+</li>
+</ol>
+<div class="section" id="licence">
+<h2>Licence<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
+<p>Licence</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<p><a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+<p>In plain english this means:</p>
+<p>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</p>
+<p>You CAN use the software in packages or distributions that you create.</p>
+<p>You SHOULD include a copy of the license in any redistribution you may make;</p>
+<p>You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.</p>
+<p>YOU CANNOT: redistribute any piece of this software without proper attribution;</p>
 </div>
-<p>this takes an optional LoadSBMLOptions class as a second parameter:</p>
-<div class="highlight-python"><pre>In Windows
-
-r loadSBMLFromFile("C:\MyModels\mymodel.xml")
-
-or on the Mac or Linux
-
-r.loadSBMLFromFile("/home/foo/myfile.xml")</pre>
-</div>
-<p>this takes an optional SimulateOptions class as a second parameter.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Hi,</p>
+<div class="section" id="technical-details">
+<h2>Technical Details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
 <p>Here is a transcript of an interactive ipython session:</p>
 <div class="highlight-python"><pre>import RoadRunner as rr
 rr?
@@ -119,7 +127,7 @@ case, the default values are used.</p>
 <span class="kn">import</span> <span class="nn">numpy.linalg</span> <span class="kn">as</span> <span class="nn">lin</span>
 </pre></div>
 </div>
-<p>make a RoadRunner and load a doc:</p>
+<p>make a RoadRunner and load an SBML model:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
 <span class="n">r</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;/Users/andy/src/sbml_test/cases/semantic/00110/00110-sbml-l3v1.xml&quot;</span><span class="p">)</span>
 <span class="bp">True</span>
@@ -129,7 +137,7 @@ case, the default values are used.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>use the build in RR function to get the Jacobian, notice this is returned as a native
+<p>Use the build in RR function to get the Jacobian, notice this is returned as a native
 numpy matrix:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">jac</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
 </pre></div>
@@ -207,6 +215,25 @@ code.  In NumPy</p>
 <p>does what the earlier examples do, at near-C speeds, but with the code
 simplicity we expect from something based on Python (indeed, the NumPy</p>
 </div>
+<div class="section" id="technical-aspects">
+<h2>Technical Aspects<a class="headerlink" href="#technical-aspects" title="Permalink to this headline">¶</a></h2>
+<p>The roadrunner package contains two fundametal objects, <cite>RoadRunner</cite>
+and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level object,
+it is responsible for orchestrating all of the internal components
+such as model loading, JIT compilation, integration and output.</p>
+<p>** roadrunner overview</p>
+<dl class="docutils">
+<dt>** ExecutableModel</dt>
+<dd><ul class="first last simple">
+<li>represents a compiled sbml model</li>
+<li>properties to get and set any state variables.</li>
+</ul>
+</dd>
+</dl>
+<p>I&#8217;ve got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
+array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it.</p>
+</div>
+</div>
 
 
           </div>
@@ -214,12 +241,22 @@ simplicity we expect from something based on Python (indeed, the NumPy</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">What is RoadRunner</a><ul>
+<li><a class="reference internal" href="#licence">Licence</a></li>
+<li><a class="reference internal" href="#technical-details">Technical Details</a></li>
+<li><a class="reference internal" href="#technical-aspects">Technical Aspects</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="what_is_sbml.html"
                         title="previous chapter">What Is SBML?</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="installing_rr.html"
-                        title="next chapter">Installing RoadRunner</a></p>
+  <p class="topless"><a href="rr_basics.html"
+                        title="next chapter">RoadRunner Basics</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/what_is_rr.txt"
@@ -252,7 +289,7 @@ simplicity we expect from something based on Python (indeed, the NumPy</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="installing_rr.html" title="Installing RoadRunner"
+          <a href="rr_basics.html" title="RoadRunner Basics"
              >next</a> |</li>
         <li class="right" >
           <a href="what_is_sbml.html" title="What Is SBML?"

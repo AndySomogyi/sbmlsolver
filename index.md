@@ -1,33 +1,37 @@
 ---
 layout: page
 title: Documentation
-tagline: speedy simulation engine
+tagline: High Performance Simulation Engine
 ---
 
-a high performance and portable simulation engine for systems and synthetic biology.
+Roadrunner is high performance and portable simulation engine for systems and synthetic biology.
 
 RoadRunner 1.0 supports the following features:
 
- - Time Dependent Simulation (with optional conservation law reduction)
+ - Time Dependent Simulation (with optional conservation law reduction) using CVODE
  - Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.
- - Generation of model C code and linking at run-time. Future version will provide an optional interpreter for systems where run-time compilation is forbidden, eg iOS mobile platform.
- - Steady State
+ - Uses latest libSBML distribution
+ - Defaults to LLVM code generation on the backend, resulting is very fast simulation times.
+ - Optional generation of model C code and linking at run-time. 
+ - Compute steady state
  - Metabolic Control Analysis
  - Frequency Domain Analysis
- - Access to 1) Eigenvalues and Eigenvectors  2) Jacobian  3) Structural Matrices relation to the Stoichiometry matrix
+ - Access to:
+ -    1) Eigenvalues and Eigenvectors
+ -    2) Jacobian, full and reduced 
+ -    3) Structural Matrices of the stoichiometry matrix
+ - Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin
 
 RoadRunner is provided in the form of:
 
  - Standalone command line driven application
- - As a library, static or dynamic to be linked in to an existing application
- - Simulations can be run either in batch or interactive modes
+ - As a library, static or dynamic to be linked into an existing application
  - Supplied with an extensive C++ as well as a C API
- - Supplied with a Python interface
+ - Supplied with a advanced Python interface
+ - Extensive documenation on the C, C++ and Python APIs
 
 Future expansion:
 
- - Builtin Interpreter
- - Data fitting
  - Bifurcation Analysis
  - Loading and saving of SED-ML
 

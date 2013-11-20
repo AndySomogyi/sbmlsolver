@@ -5,48 +5,48 @@ What is RoadRunner
 RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
-The roadrunner package contains two fundametal objects, `RoadRunner`
-and `ExecutableModel`. `RoadRunner` is the typically the top level object,
-it is responsible for orchestrating all of the internal components 
-such as model loading, JIT compilation, integration and output. 
 
-** roadrunner overview
+RoadRunner 1.0 supports the following features:
 
-** ExecutableModel
- - represents a compiled sbml model
- - properties to get and set any state variables.
-
-
-I've got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
-array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it. 
-
-So, here is a simple example:
-
+1. Time Dependent Simulation (with optional conservation law reduction) using CVODE.
+2. Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.
+3. Defaults to LLVM code generation on the backend, resulting is very fast simulation times.
+4. Optional generation of model C code and linking at run-time.
+5. Compute steady state.
+6. Metabolic Control Analysis.
+7. Frequency Domain Analysis.
+8. Access to:   
+     1. Eigenvalues and Eigenvectors.
+     2. Jacobian, full and reduced.
+     3. Structural Matrices of the stoichiometry matrix.
+9. Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin.
 
 
-The new API is really cool, this is all you have to do::
+Licence
+-------
 
-  import RoadRunner as rr
-  import pylab as p
-  r = rr.RoadRunner()
+Licence
 
-this takes an optional LoadSBMLOptions class as a second parameter::
+Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-  In Windows
-  
-  r loadSBMLFromFile("C:\MyModels\mymodel.xml")
+http://www.apache.org/licenses/LICENSE-2.0
 
-  or on the Mac or Linux
-  
-  r.loadSBMLFromFile("/home/foo/myfile.xml")
-  
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-this takes an optional SimulateOptions class as a second parameter.::
+In plain english this means:
 
-  s = r.simulate()
+You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
 
+You CAN use the software in packages or distributions that you create.
 
-Hi,
+You SHOULD include a copy of the license in any redistribution you may make;
+
+You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+YOU CANNOT: redistribute any piece of this software without proper attribution;
+
+Technical Details
+-----------------
 
 Here is a transcript of an interactive ipython session::
 
@@ -75,7 +75,7 @@ usual import stuff::
   import numpy as n
   import numpy.linalg as lin
 
-make a RoadRunner and load a doc::
+make a RoadRunner and load an SBML model::
 
   r = rr.RoadRunner()
   r.loadSBMLFromFile("/Users/andy/src/sbml_test/cases/semantic/00110/00110-sbml-l3v1.xml")
@@ -85,7 +85,7 @@ get the model, the model obj has all the accessors sbml elements names / values:
 
   m = r.getModel()
 
-use the build in RR function to get the Jacobian, notice this is returned as a native
+Use the build in RR function to get the Jacobian, notice this is returned as a native
 numpy matrix::
 
   jac = r.getFullJacobian()
@@ -173,3 +173,22 @@ code.  In NumPy
 
 does what the earlier examples do, at near-C speeds, but with the code
 simplicity we expect from something based on Python (indeed, the NumPy
+
+
+Technical Aspects
+-----------------
+
+The roadrunner package contains two fundametal objects, `RoadRunner`
+and `ExecutableModel`. `RoadRunner` is the typically the top level object,
+it is responsible for orchestrating all of the internal components 
+such as model loading, JIT compilation, integration and output. 
+
+** roadrunner overview
+
+** ExecutableModel
+ - represents a compiled sbml model
+ - properties to get and set any state variables.
+
+
+I've got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
+array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it. 

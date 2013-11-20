@@ -45,6 +45,9 @@ to a perturbation in some external effector. These are defined by:
 
 where :math:`X` is the external effector. 
 
+Methods
+-------
+
 The following methods allow users to obtain various metabolic control coefficients.
 
 .. autosummary::

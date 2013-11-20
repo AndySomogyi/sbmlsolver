@@ -5,7 +5,8 @@ description: "howto build the library"
 ---
 
 ## Introduction
-The RoadRunner library is written in C/C++. It has currently been compiled successfully on Windows using Visual Studio and Borland compilers, and on Linux, using the gcc compiler.
+The RoadRunner library is written in C/C++. It has currently been compiled successfully on Windows using Visual Studio and Borland compilers, and on Linux and MacOS, using the gcc compiler.
+Bindary distributions are available for Windows and Mac.
 
 Please follow the following steps in order to successfully compile and link the RoadRunner library on your platform.
 

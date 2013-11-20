@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Steady State Analysis &mdash; RoadRunner 0.99 documentation</title>
+    <title>Utility Functions &mdash; RoadRunner 0.99 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
-    <link rel="next" title="Stoichiometric Analysis" href="stoichiometric.html" />
-    <link rel="prev" title="Time Course Simulation" href="timecourse_simulation.html" /> 
+    <link rel="next" title="RoadRunner API Reference" href="api_reference.html" />
+    <link rel="prev" title="Accessing the SBML Model Variables" href="accessing_model.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="stoichiometric.html" title="Stoichiometric Analysis"
+          <a href="api_reference.html" title="RoadRunner API Reference"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="timecourse_simulation.html" title="Time Course Simulation"
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
@@ -52,35 +52,38 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="steady-state-analysis">
-<h1>Steady State Analysis<a class="headerlink" href="#steady-state-analysis" title="Permalink to this headline">¶</a></h1>
-<p>The dynamics of a biochemical network is described by the system equation</p>
-<div class="math">
-<p><img src="_images/math/6026d7c1a3382e81d6e295f7cb80bd00cfadcf14.png" alt="\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),"/></p>
-</div><p>where <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> is the vector of species concentrations, <img class="math" src="_images/math/0a1c35be9c8d28ff85f7effb2c07f511e6720169.png" alt="\mathbf{p}"/>
-is a vector of time independent parameters, and <img class="math" src="_images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is time. The steady state is the solution to
-the network equation when all the rates of change zero. That is the concentrations of the floating
-species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> that satisfy:</p>
-<div class="math">
-<p><img src="_images/math/d073099dd6b77c6c1933f9e9b4eee7ba5310dff7.png" alt="\mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t) = 0"/></p>
-</div><p>The following methods deal wth steady state analysis:</p>
+  <div class="section" id="utility-functions">
+<h1>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this headline">¶</a></h1>
+<p>The following methodsprovide basic information about the current roadRunner installation.</p>
+<div class="section" id="information-group">
+<h2>Information Group<a class="headerlink" href="#information-group" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.steadyStateSelections" title="roadrunner.RoadRunner.steadyStateSelections"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.steadyStateSelections</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getVersion" title="roadrunner.RoadRunner.getVersion"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getVersion</span></tt></a>()</td>
+<td>Returns the current version of the roadRunner library.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getCopyright" title="roadrunner.RoadRunner.getCopyright"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getCopyright</span></tt></a>()</td>
+<td>Returns the copyright string</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getInfo" title="roadrunner.RoadRunner.getInfo"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getInfo</span></tt></a>()</td>
+<td>return info about the current state of the object</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getExtendedAPIInfo</span></tt></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.computeSteadyStateValue" title="roadrunner.RoadRunner.computeSteadyStateValue"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.computeSteadyStateValue</span></tt></a>(*args)</td>
-<td>Returns a vector of steady state values for the floating species.</td>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getlibSBMLVersion" title="roadrunner.RoadRunner.getlibSBMLVersion"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getlibSBMLVersion</span></tt></a>()</td>
+<td>Returns theversion of the libSBML library that is currently being used.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.steadyState" title="roadrunner.RoadRunner.steadyState"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.steadyState</span></tt></a>()</td>
-<td>Attempt to evaluate the steady state for the model.</td>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getCompiler" title="roadrunner.RoadRunner.getCompiler"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getCompiler</span></tt></a>()</td>
+<td>Return the compiler used to build the ExecutableModel.</td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 
 
@@ -89,15 +92,23 @@ species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Utility Functions</a><ul>
+<li><a class="reference internal" href="#information-group">Information Group</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="timecourse_simulation.html"
-                        title="previous chapter">Time Course Simulation</a></p>
+  <p class="topless"><a href="accessing_model.html"
+                        title="previous chapter">Accessing the SBML Model Variables</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="stoichiometric.html"
-                        title="next chapter">Stoichiometric Analysis</a></p>
+  <p class="topless"><a href="api_reference.html"
+                        title="next chapter">RoadRunner API Reference</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/steady_state.txt"
+    <li><a href="_sources/utility_functions.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -127,10 +138,10 @@ species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="stoichiometric.html" title="Stoichiometric Analysis"
+          <a href="api_reference.html" title="RoadRunner API Reference"
              >next</a> |</li>
         <li class="right" >
-          <a href="timecourse_simulation.html" title="Time Course Simulation"
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
              >previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
