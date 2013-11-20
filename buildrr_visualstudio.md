@@ -125,7 +125,7 @@ Get the **LLVM 3.3** source code
 #CMake Configure
 Using *CMake GUI* Configure and Generate Solution files (outputs to build/)
 
-##LLVM
+## CMake LLVM
     Source: C:/vs/src/llvm-3.3.src
     Build: C:/vs/build/llvm
 
@@ -139,7 +139,7 @@ Press configure again and wait until each option has changed color from [Red](as
 
 Configure>Generate
 
-##Roadrunner Thirdparty
+## CMake Roadrunner Thirdparty
     Source: C:/vs/src/roadrunner/third_party
     Build: C:/vs/build/roadrunner_thirdparty/release
 
@@ -152,7 +152,7 @@ Set the following
 
 *Note Special Instructions: When building for use in C (below)*
 
-##Roadrunner (with SWIG Python API)
+## CMake Roadrunner (with SWIG Python API)
     Source: C:/vs/src/roadrunner
     Build: C:/vs/build/roadrunner/release
 
@@ -170,7 +170,7 @@ Set the following
 
 #Using Visual Studio
 
-##LLVM
+## Build LLVM
 Open Solution file
 
 File > Open > Project/Solution > C:\vs\build\llvm\LLVM.sln
@@ -183,7 +183,7 @@ Set
 ###Build and Install
 In Solution Explorer Right-Click > INSTALL > Build
 
-##Roadrunner ThirdParty
+## Build Roadrunner ThirdParty
 Open Solution file
 
 File > Open > Project/Solution > C:\vs\build\roadrunner_thirdparty\release\RRThirdPartyBuild.sln
@@ -196,7 +196,7 @@ Set
 ###Build and Install
 In Solution Explorer Right-Click > INSTALL > Build
 
-##Roadrunner ThirdParty
+## Build Roadrunner ThirdParty
 Open Solution file
 
 File > Open > Project/Solution > C:\vs\build\roadrunner\release\rr.sln
