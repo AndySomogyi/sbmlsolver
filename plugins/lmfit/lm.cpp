@@ -26,7 +26,6 @@ Plugin(                     "Levenberg-Marquardt", "Fitting",       aRR),
 mLMFit(                     "LMFit",                                "",                     "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
 mTempFolder(                "TempFolder",                           "",                     "Tempfolder used in the fitting"),
 mSBML(                      "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
-//mMinimizationData(          "MinData",                              MinimizationData(),     "Data structure holding minimization data"),
 mObservedData(              "ObservedData",                         RoadRunnerData(),       "Data object holding observed (experimental) data"),
 mModelData(                 "ModelData",                            RoadRunnerData(),       "Data object holding model data"),
 mResidualsData(             "ResidualsData",                        RoadRunnerData(),       "Data object holding residuals"),
@@ -41,7 +40,6 @@ mLMWorker(*this)
     //Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);
     mLMFit.addParameter(&mSBML);
-//    mLMFit.addParameter(&mMinimizationData);
     mLMFit.addParameter(&mObservedData);
     mLMFit.addParameter(&mModelData);
     mLMFit.addParameter(&mResidualsData);
@@ -81,9 +79,7 @@ string LM::getStatus()
     stringstream msg;
     msg<<Plugin::getStatus();
     msg<<"TempFolder: "<<mTempFolder<<"\n";
-    msg<<"SBML: "<<mSBML<<"\n";
-//    MinimizationData* minData = (MinimizationData*) (mMinimizationData.getValueAsPointer());
-//    msg<<"MinData"<<(*minData)<<"\n";
+
     return msg.str();
 }
 

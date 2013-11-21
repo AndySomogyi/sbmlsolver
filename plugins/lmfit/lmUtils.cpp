@@ -1,6 +1,7 @@
 #pragma hdrstop
 #include <sstream>
 #include <string>
+#include "rrUtils.h"
 #include "rrLogger.h"
 #include "lmUtils.h"
 #include "lib/lmmin.h"
@@ -137,9 +138,10 @@ void ui_printout(   int n_par,
     string msg = ss.str();
     if(myData->mProgressCallBack)
     {
-        myData->mProgressCallBack((void*)"Hello", myData->mProgressCallBackContextData);
+        char* passMsg = createText(msg);
+        myData->mProgressCallBack((void*) passMsg, myData->mProgressCallBackContextData);
+        delete [] passMsg;
     }
-
 
 }
 
