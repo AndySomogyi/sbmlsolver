@@ -38,6 +38,12 @@ RoadRunnerData::RoadRunnerData(const std::vector<std::string>& colNames,
 RoadRunnerData::~RoadRunnerData()
 {}
 
+void RoadRunnerData::clear()
+{
+    mColumnNames.clear();
+    mTheData.resize(0,0);
+    mWeights.resize(0,0);
+}
 
 int RoadRunnerData::cSize() const
 {
@@ -378,8 +384,6 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
                 }
             }
         }
-
-
     }
     return ss;
 }

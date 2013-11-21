@@ -1,10 +1,13 @@
 #ifndef lmUtilsH
 #define lmUtilsH
 #include "../../wrappers/C/rrc_types.h"
+#include "../../wrappers/C/rrp_types.h"
+#include "rrPluginsAPISettings.h"
 //---------------------------------------------------------------------------
 
 namespace lmfit
 {
+typedef void    (callback_cc *PluginCallBackFnc)(void*, void*);
 /* data structure to transmit model data to function evalution */
 typedef struct
 {
@@ -21,6 +24,9 @@ typedef struct
     double                  timeEnd;
     rrc::RRHandle           rrHandle;
     double*                 time;
+    PluginCallBackFnc       mProgressCallBack;
+    void*                   mProgressCallBackContextData;
+    char*                   mProgressCallBackMessage;       //Make sure to delete this somehow..
 //    double (*f)( double time, char* specie, const double *p);
 } lmDataStructure;
 
@@ -34,6 +40,15 @@ void my_printout(   int n_par,
                     int iter,           //iter  : outer loop counter
                     int nfev);          //nfev  : number of calls to *evaluate
 
+void ui_printout(   int n_par,
+                    const double *par,
+                    int m_dat,
+                    const void *data,   //data  : for soft control of printout behaviour, add control variables to the data struct
+                    const double *fvec,
+                    int printflags,
+                    int iflag,          //iflag : 0 (init) 1 (outer loop) 2(inner loop) -1(terminated)
+                    int iter,           //iter  : outer loop counter
+                    int nfev);          //nfev  : number of calls to *evaluate
 
 //Evaluate is the callback function that lmfit call to evaulate residuals
 void evaluate(      const double   *par,        //Parameter vector

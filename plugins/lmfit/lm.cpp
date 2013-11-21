@@ -123,7 +123,6 @@ string LM::getSBML()
 string LM::getResult()
 {
     stringstream msg;
-//    MinimizationData& data = getMinimizationData();
     Parameters& pars = mOutputParameterList.getValueReference();
 
     for(int i = 0; i < pars.count(); i++)

@@ -4,7 +4,7 @@
 #include <string>
 #include "rrPluginsAPIExporter.h"
 #include "rrOSSpecifics.h"
-#include "rrPluginsAPIExporter.h"
+#include "rrPluginsAPISettings.h"
 #include "rrCapabilities.h"
 #include "Configurable.h"
 
@@ -19,7 +19,7 @@ using namespace rr;
 class PluginManager;
 
 //Plugin callback functions
-typedef void    (callback_cc *PluginCallBackFnc)(void*);
+typedef void    (callback_cc *PluginCallBackFnc)(void* data1 = NULL, void* data2 = NULL);
 
 using std::string;
 
@@ -48,9 +48,12 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         PluginCallBackFnc               mWorkStartedCB;
         PluginCallBackFnc               mWorkProgressCB;
         PluginCallBackFnc               mWorkFinishedCB;
-        void                           *mWorkStartedData;
-        void                           *mWorkProgressData;
-        void                           *mWorkFinishedData;
+        void                           *mWorkStartedData1;
+        void                           *mWorkStartedData2;
+        void                           *mWorkProgressData1;
+        void                           *mWorkProgressData2;
+        void                           *mWorkFinishedData1;
+        void                           *mWorkFinishedData2;
 
         Capabilities                    mCapabilities;          //Container for parameter data that can be exchanged to/from the plugin by using parameters
         void                           *mClientData;            //Data passed trough the execute function,
@@ -95,10 +98,10 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         bool                            setParameter(const string& nameOf, const char* value, Capability& capability);
 
         //Virtuals
-        virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData = NULL);
-        virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData = NULL);
-        virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData = NULL);
-        virtual bool                    assignCallBacks(PluginCallBackFnc pluginStarted, PluginCallBackFnc pluginsProgress, PluginCallBackFnc pluginsFinished = NULL, void* data1 = NULL, void* data2 = NULL, void* data3 = NULL);
+        virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
+
         virtual string                  getResult();
         virtual bool                    isWorking();
         virtual bool                    resetPlugin();
