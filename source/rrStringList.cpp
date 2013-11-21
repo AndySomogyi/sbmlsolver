@@ -116,13 +116,6 @@ string StringList::AsString(const string& delimiter) const
     return names.str();
 }
 
-const char* StringList::AsCString(const string& delimiter) const
-{
-    static string mTemp = "";
-    mTemp = AsString(delimiter);
-    return mTemp.c_str();
-}
-
 void StringList::PreFix(const string& fix)
 {
      for(mLI = mStrings.begin(); mLI != mStrings.end(); mLI++)
