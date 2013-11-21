@@ -9,9 +9,10 @@ description: "howto build the library"
 To build roadrunner from source we use:
 
 Download and install the following prior to starting. These are the download links.
-* [CMake](http://www.cmake.org/files/v2.8/cmake-2.8.12.1-win32-x86.exe)
-* [Microsoft Visual Studio](http://www.visualstudio.com/)
-* [Python 2.7](http://python.org/ftp/python/2.7.6/python-2.7.6.msi)
+* [CMake 2.8.12.1](http://www.cmake.org/files/v2.8/cmake-2.8.12.1-win32-x86.exe)
+* [Microsoft Visual Studio 2010 Express](https://www.dreamspark.com/Product/Product.aspx?productid=32)
+* [Python 2.7.6](http://python.org/ftp/python/2.7.6/python-2.7.6.msi)
+* [Git 1.8.4](http://git-scm.com/download/win) Choose "Use GitBash Only" and default install options.
 
 The instructions below will guide you to:
  * Install **SWIG**
