@@ -108,7 +108,7 @@ img {
 }
 
 header.main {
-  width:270px;
+  width:200px;
   float:left;
   position:fixed;
 }
@@ -130,7 +130,7 @@ header.main ul.buttons {
   border-radius:5px;
   border:1px solid #d2d2d2;
   box-shadow:inset #fff 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
-  width:270px;
+  width:180px;
 }
 
 header.main ul.buttons li {
@@ -205,7 +205,7 @@ header.main h1 a:link {
 }
 
 section.main {
-  width:500px;
+  width:600px;
   float:right;
   padding-bottom:50px;
 }
@@ -222,7 +222,7 @@ hr {
 }
 
 footer.main {
-  width:270px;
+  width:200px;
   float:left;
   position:fixed;
   bottom:50px;
@@ -230,10 +230,10 @@ footer.main {
 
 
 aside {
-  width:270px;
+  width:200px;
   float:left;
   position:fixed;
-  top:265px;
+  top:385px;
 }
 
 aside ul {
@@ -315,7 +315,13 @@ article footer p.gotop {
     width:auto;
     margin:0;
   }
-  
+
+   header.main ul.buttons {
+    position:static;
+    right:50px;
+    top:52px;
+  }
+ 
   header.main, section.main, footer.main, aside {
     float:none;
     position:static;
@@ -337,11 +343,6 @@ article footer p.gotop {
     display:inline;
   }
   
-  header.main ul.buttons {
-    position:absolute;
-    right:50px;
-    top:52px;
-  }
 }
 
 @media print, screen and (max-width: 720px) {
@@ -368,7 +369,7 @@ article footer p.gotop {
   }
   
   header.main ul.buttons {
-    display:none;
+    display:static;
   }
 }
 

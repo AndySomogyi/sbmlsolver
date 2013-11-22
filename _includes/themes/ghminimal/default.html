@@ -27,14 +27,20 @@
           {% endif %}
         </hgroup>
         <ul class="buttons">
+          <li><a href="{{ BASE_PATH }}/index.html" rel="me">roadrunner<strong>Home</strong></a></li>
           <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+        </ul>
+        <ul class="buttons">
           <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
-          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+          <li><a href="{{ BASE_PATH }}/html" rel="me">Docs<strong>C++ API</strong></a></li>
         </ul>
         <ul class="buttons">
           <li><a href="{{ BASE_PATH }}/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
           <li><a href="{{ BASE_PATH }}/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
-          <li><a href="{{ BASE_PATH }}/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+          <li><a href="http://libroadrunner.uservoice.com/" rel="me">UserVoice<strong>Requests</strong></a></li>
         </ul>
       </header>
       <section class="main">
@@ -43,7 +49,6 @@
       <aside>
         <nav>
           <ul>
-            <li><a href="{{ BASE_PATH }}/index.html">Documentation Home</a></li>
             <li><a href="{{ BASE_PATH }}/rr_cli.html">Roadrunner Command Line</a></li>
             <li><a href="{{ BASE_PATH }}/buildrr.html">Building Roadrunner</a></li>
             <li><a href="{{ BASE_PATH }}/knownissues.html">Known Issues</a></li>
