@@ -1,5 +1,0 @@
-LIBRARY     rrp_lm.dll
-
-EXPORTS
-createPlugin                = _createPlugin
-getImplementationLanguage   = _getImplementationLanguage

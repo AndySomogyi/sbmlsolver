@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2013-05-23 11:48:12" tests="1" failedtests="1" failures="1" time="0.217">
-<test suite="SBML_l2v4" name="953" time="0.214"><failure message="Suite_SBML_Tests.cpp(979) : Unhandled exception in CHECK(RunTest(&quot;l2v4&quot;, 953))"/></test>
-</unittest-results>

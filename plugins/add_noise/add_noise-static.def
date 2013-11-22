@@ -1,8 +1,0 @@
-LIBRARY     add_noise.dll
-
-;When using __cdecl calling convention, and borland, exported functions are decorated with a '_'
-;Visual Studio, oth, don't decorate functions when calling convention is __cdecl
-
-EXPORTS
-createPlugin                = _createPlugin
-getImplementationLanguage   = _getImplementationLanguage
