@@ -11,6 +11,15 @@ Select your distribution:
 * [Ubuntu CMake GUI](buildrr_ubuntu_cmakegui.html) or [Ubuntu CMake CLI](buildrr_ubuntu_cmakecli.html) (last tested with 12.10)
 * [Fedora](buildrr_fedora.html) (last tested with fc17)
 
+###GCC
+CMake generates regular make files for gcc. Installing and building the libraries are then just a matter of executing th
+e command:
+
+`make install`
+
+in a terminal window. See the page [Linux Build](buildrr_linux.html) to get more information on how to build RoadRunner
+on Linux using the GCC compiler.
+
 ##IMPORTANT NOTES FOR ALL LINUX BUILDS
 * After Installing RoadRunner, it may complain about not being able to find a `gcc`. To fix this a soft linkage to your system's `gcc` can be created with the following steps:
     1. In the terminal, enter the command which gcc, and note the path that returns. It is typically something like /usr/bin/gcc.
