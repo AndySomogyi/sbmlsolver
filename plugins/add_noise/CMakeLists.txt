@@ -11,6 +11,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 set(sources
 add_noise
 add_noise_worker
+add_noise_docs
 )
 
 add_library(${target} SHARED ${sources})

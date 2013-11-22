@@ -1,7 +1,7 @@
 from rrPython import *
 from numpy import *
 from matplotlib.pyplot import *
-model = open('../models/feedback.xml', 'r').read()
+model = open('../models/squareWaveMode.xml', 'r').read()
 
 setTempFolder('r:/temp')
 loadSBML(model)

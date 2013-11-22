@@ -39,15 +39,15 @@ aSigma = rrp.getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-rrp.setParameter(sigmaHandle, '0.01')
+rrp.setParameterByString(sigmaHandle, '0.01')
 
-cb_func1 =  rrp.pluginCallBackType(pluginStarted)
+cb_func1 =  rrp.pluginCallBackType1(pluginStarted)
 rrp.assignPluginStartedCallBack(plugin,  cb_func1)
 
 cb_func2 =  rrp.pluginCallBackType2(pluginIsProgressing)
 rrp.assignPluginProgressCallBack(plugin, cb_func2)
 
-cb_func3 =  rrp.pluginCallBackType(pluginIsFinished)
+cb_func3 =  rrp.pluginCallBackType1(pluginIsFinished)
 rrp.assignPluginFinishedCallBack(plugin, cb_func3)
 
 #Execute the noise plugin which will add some noise to the (internal) data

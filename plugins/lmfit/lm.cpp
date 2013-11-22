@@ -6,7 +6,7 @@
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerData.h"
 #include "rrUtils.h"
-#include "docs/lmfit_doc.h"
+#include "lmfit_doc.h"
 //---------------------------------------------------------------------------
 
 namespace lmfit

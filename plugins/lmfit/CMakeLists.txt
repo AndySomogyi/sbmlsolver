@@ -15,9 +15,9 @@ ${CMAKE_INSTALL_PREFIX}/lib
 
 set(sources
 lm
-lm_thread
+LMWorker
 lmUtils
-
+lmfit_doc
 )
 
 #This is where the Levenberg C lib is built
