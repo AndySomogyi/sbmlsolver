@@ -51,7 +51,19 @@ RoadRunner* castFrom(RRHandle handle)
     }
 }
 
-
+RoadRunnerData* castToRRData(rrc::RRDataHandle handle)
+{
+    RoadRunnerData* rrd = (RoadRunnerData*) handle;
+    if(rrd) //Will only fail if handle is NULL...
+    {
+        return rrd;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid RoadRunner Data object");
+        throw(ex);
+    }
+}
 
 
 RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)

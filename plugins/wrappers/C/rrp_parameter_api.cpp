@@ -18,7 +18,27 @@ namespace rrp
 using namespace std;
 using namespace rr;
 
-bool rrp_cc addParameter(RRParametersHandle handle, RRParameterHandle para)
+RRParameterHandle rrp_cc createParameter(const char* label, const char* type, void* value)
+{
+    start_try
+        if(string(type) == string("double"))
+        {
+            double iniVal  = 0;
+            if(value != NULL)
+            {
+                double* dVal = (double*) value;
+                iniVal = (*dVal);
+            }
+            Parameter<double> *para = new Parameter<double>(label, iniVal);
+            return para;
+        }
+
+        return NULL;
+    }
+    catch_ptr_macro
+}
+
+bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para)
 {
     start_try
         Parameters* paras   = castToParameters(handle);

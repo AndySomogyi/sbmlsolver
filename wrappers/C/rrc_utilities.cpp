@@ -62,6 +62,16 @@ char* rrcCallConv createTextMemory(const int count)
     return rr::createText(count);
 }
 
+RRCDataPtr rrcCallConv createRRCData(RRDataHandle rrDataHandle)
+{
+    try
+    {
+        RoadRunnerData* data = castToRRData(rrDataHandle);
+        return rrc::createRRCData((*data));
+    }
+    catch_ptr_macro
+}
+
 // -------------------------------------------------------------------
 // List Routines
 // -------------------------------------------------------------------
@@ -692,16 +702,13 @@ char* rrcCallConv getCCodeSource(RRCCodePtr code)
 }
 
 //====================== DATA WRITING ROUTINES ======================
-bool rrcCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
+bool rrcCallConv writeRRData(RRDataHandle dataHandle, const char* fileNameAndPath)
 {
     try
     {
-        RoadRunner *rr = castFrom(rrHandle);
-        RoadRunnerData data;
-        data = *rr->getSimulationResult();
+        RoadRunnerData *data = castToRRData(dataHandle);
 
-        data.writeTo(fileNameAndPath);
-        return true;
+        return data->writeTo(fileNameAndPath);
     }
     catch(Exception& ex)
     {
@@ -807,7 +814,20 @@ char* rrcCallConv stringArrayToString (const RRStringArrayPtr list)
     }
 }
 
-char* rrcCallConv rrDataToString(const RRCDataPtr result)
+char* rrcCallConv rrDataToString(RRDataHandle rrData)
+{
+    try
+    {
+        RoadRunnerData* data = castToRRData(rrData);
+
+        stringstream str;
+        str <<(*data);
+        return rr::createText(str.str());
+    }
+    catch_ptr_macro
+}
+
+char* rrcCallConv rrCDataToString(const RRCDataPtr result)
 {
     try
     {

@@ -230,7 +230,7 @@ rrLib.getScaledFloatingSpeciesElasticity.restype = c_bool
 # Free memory functions
 
 # Print/format functions
-rrLib.rrDataToString.restype = c_char_p
+rrLib.rrCDataToString.restype = c_char_p
 rrLib.matrixToString.restype = c_char_p
 rrLib.vectorToString.restype = c_char_p
 rrLib.stringArrayToString.restype = c_char_p
@@ -681,6 +681,23 @@ def getSimulationResult(aHandle = None):
                 if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
                     resultArray[m, n] = value.value
     rrLib.freeRRData(result)
+    return resultArray
+
+rrLib.createRRCData.restype = c_void_p
+def createRRCData(rrDataHandle):
+    return rrLib.createRRCData(rrDataHandle)
+
+def getNPData(rrcDataHandle):
+    rowCount = rrLib.getRRDataNumRows(rrcDataHandle)
+    colCount = rrLib.getRRDataNumCols(rrcDataHandle)
+    resultArray = np.zeros((rowCount, colCount))
+    for m in range(rowCount):
+        for n in range(colCount):
+                rvalue = m
+                cvalue = n
+                value = c_double()
+                if rrLib.getRRDataElement(rrcDataHandle, rvalue, cvalue, pointer(value)) == True:
+                    resultArray[m, n] = value.value
     return resultArray
 
 def getSimulationResult2(aHandle = None):
@@ -1682,10 +1699,16 @@ def getNumberOfRules():
 ##\ingroup toString
 #@{
 
+##\brief Returns roadRunner data in string form.
+#\return Returns a result struct as a string
+rrLib.rrDataToString.restype = c_char_p
+def rrDataToString(rrDataHandle):
+    return rrLib.rrDataToString(rrDataHandle)
+
 ##\brief Returns a result struct in string form.
 #\return Returns a result struct as a string
-def rrDataString(result):
-    return rrLib.rrDataToString(result)
+def rrCDataToString(result):
+    return rrLib.rrCDataToString(result)
 
 ##\brief Returns a matrix in string form.
 #\return Returns a matrix as a string

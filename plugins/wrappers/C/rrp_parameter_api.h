@@ -62,13 +62,23 @@ extern "C"
 RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
 
 /*!
+ \brief Create a double parameter t
+ \param[in] label The parameters label as a string
+ \param[in] type  The parameters type as string. Possible values can be 'double', 'int', 'char*'
+ \param[in] value The parameters initial value casted to a (void*) pointer
+ \return Returns a handle to a new parameter, if succesful, NULL otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC RRParameterHandle rrp_cc createParameter(const char* label, const char* type, void* value);
+
+/*!
  \brief Add a parameter to a parameters container, from a parameter pointer.
  \param[in] handle Handle to a RoadRunner instance
  \param[in] para Handle to a roadrunner parameter
  \return Returns a booelan indicating success
  \ingroup parameters
 */
-RRP_DECLSPEC bool rrp_cc addParameter(RRParametersHandle handle, RRParameterHandle para);
+RRP_DECLSPEC bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para);
 
 /*!
  \brief Set a parameter by a string

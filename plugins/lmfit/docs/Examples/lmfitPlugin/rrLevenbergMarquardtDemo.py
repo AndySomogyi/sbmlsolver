@@ -1,11 +1,10 @@
-import sys
-import numpy
-import matplotlib.pyplot as plot
+from numpy import *
+from matplotlib import *
+from matplotlib.pyplot import *
 from rrPython import *
 from rrPlugins import *
 
-#sbmlModel ="../models/squareWaveModel.xml"
-sbmlModel ="../models/bistable.xml"
+sbmlModel ="../models/squareWaveModel.xml"
 setTempFolder('r:/temp')
 
 #Check temporary folder setting
@@ -13,12 +12,15 @@ tempFolder=rr.getTempFolder()
 print 'TempFolder is: ' + tempFolder
 
 enableLogging()
-setComputeAndAssignConservationLaws(True)
 result = loadSBMLFromFile(sbmlModel)
 
 print 'Result of loading sbml: %r' % (result);
 #setTimeCourseSelectionList("time,S1")
-rrDataHandle = simulate()
+rrDataHandle = simulateEx(0, 100, 1000)
+
+rrcData = createRRCData(rrDataHandle)
+npData = getNPData(rrcData)
+print npData
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin("rrp_add_noise")
@@ -35,9 +37,7 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-setDoubleParameter(sigmaHandle, 1.e-3)
-aSigma = getParameterValueAsString(sigmaHandle)
-print 'Current sigma is ' + aSigma
+setDoubleParameter(sigmaHandle, 1.e-1)
 
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
@@ -60,28 +60,30 @@ if not lmPlugin:
 
 print getPluginInfo(lmPlugin)
 
-#Setup the plugin
-#The plugin has a parameter, called MinData
-minDataParaHandle   = getPluginParameter(lmPlugin, "MinData");
+#Setup the plugin for minimization
+#See documentation for available parameters
+paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 
 #The actual parameter value, as a pointer
-minDataHandle = getParameterValueAsPointer(minDataParaHandle)
+paraList = getParameterValueAsPointer(paraHandle);
+
+#Add parameters to fit
+para1 = createParameter("k1", "double")
+setDoubleParameter(para1, 0.2)
+addParameterToList(paraList, para1)
 
 #Input Data
 #rrData = getRoadRunnerData()
 setPluginInputData(lmPlugin, rrDataHandle)
 
-#Minimization Parameters, check the actual SBML
-addDoubleParameter(minDataHandle, "k1", 1.10)
-addDoubleParameter(minDataHandle, "k2", 1.0)
-addDoubleParameter(minDataHandle, "k3", 1.0)
-
 #set species to fit
-species = "x"
-setMinimizationObservedDataSelectionList(minDataHandle, species)
+species = "[S1]"
+paraHandle = getPluginParameter(lmPlugin, "ModelDataSelectionList");
+setParameterByString(paraHandle, species)
 
-#set species to fit, check the actual SBML
-setMinimizationModelDataSelectionList(minDataHandle, species)
+#Get species list in observed data
+paraHandle = getPluginParameter(lmPlugin, "ObservedDataSelectionList");
+setParameterByString(paraHandle, species)
 
 #set the plugins tempFolder
 setPluginParameter(lmPlugin, "TempFolder", "r:/temp/")
@@ -91,30 +93,29 @@ setPluginParameter(lmPlugin, "SBML", rr.getSBML())
 
 #Check plugin status, input
 print '=========================== Levenberg-Marquardt report before minimization '
-report = getPluginStatus(lmPlugin)
-print report
+print getPluginStatus(lmPlugin)
 
 #Execute lmfit plugin
-executePlugin(lmPlugin)
-
-#The plugin does it work in a thread, so don't proceed until it is done
-while isPluginWorking(lmPlugin) == True:
-    print "Plugin is not done yet";
+executePluginEx(lmPlugin, None, False)
 
 print '=========================== Levenberg-Marquardt report after minimization '
-report = getPluginStatus(lmPlugin)
-print report
+print getPluginStatus(lmPlugin)
 
-print getPluginResult(lmPlugin)
+# Lok at the data
+#dataFile = tempFolder +
+dataPHandle = getPluginParameter(lmPlugin, "ModelData");
+dataHandle = getParameterValueAsPointer(dataPHandle)
+writeRRData(dataHandle, tempFolder + "/ModelData.dat")
 
-results = getSimulationResult()
-S1_output = results[:,1]
+dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
+dataHandle = getParameterValueAsPointer(dataPHandle)
+writeRRData(dataHandle, tempFolder + "/Observed.dat")
 
-plot.plot(x, S1_input, label="S1_in")
-plot.plot(x, S1_output, label="S1_out")
-plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
-plot.ylabel('Concentration (moles/L)')
-plot.xlabel('time (s)')
-plot.show()
+unloadAPI()
+rr.unloadAPI()
+t = arange(0.0, 2.0, 0.01)
+s = sin(2*pi*t)
+plot(t, s)
 
+show()
 print "done"

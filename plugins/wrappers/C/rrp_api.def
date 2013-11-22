@@ -16,10 +16,11 @@ unLoadPlugins                                   = _unLoadPlugins
 getPluginNames                                  = _getPluginNames
 
 ;Functions taking a parameter handle
+createParameter                                 = _createParameter
 getParameterValueAsString                       = _getParameterValueAsString
 getParameterValueAsPointer                      = _getParameterValueAsPointer
 setPluginInputData                              = _setPluginInputData
-addDoubleParameter                              = _addDoubleParameter
+addParameterToList                              = _addParameterToList
 getParameterInfo                                = _getParameterInfo
 setParameterByString                            = _setParameterByString
 setIntParameter                                 = _setIntParameter

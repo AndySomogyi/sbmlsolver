@@ -79,7 +79,7 @@ string LM::getStatus()
     stringstream msg;
     msg<<Plugin::getStatus();
     msg<<"TempFolder: "<<mTempFolder<<"\n";
-
+    msg <<getResult();
     return msg.str();
 }
 
