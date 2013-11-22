@@ -1,0 +1,200 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Roadrunner CLI</title>
+
+    <meta name="description" content="using the roadrunner standalone executable">
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Roadrunner CLI</h1>
+
+<p>How to use the roadrunner standalone executable</p>
+
+<p>The roadrunner command line client, rr, is built and deployed when you select &#8216;Applications&#8217; in the CMake UI. rr can be used to test the integrity of the current build, but also as a fully fledged SBML simulator.</p>
+
+<h2 id='models'>Models</h2>
+
+<p>When you build and install RoadRunner, a folder with some test models are deployed. On a Linux build, this folder is typically placed in /usr/local/models.</p>
+
+<p>The first test after building roadrunner library would be to run the rr application, using one of the models as input.</p>
+
+<h2 id='run_rr'>Run rr</h2>
+
+<p>To run rr using one of the models as input, type the following in a terminal; rr -m/usr/models/test_1.xml</p>
+
+<p>If the library is properly built, you should get simulated data back. You will also see some new files in the same directory as where you executed rr. These files, .h, .c and .so are on the fly generated sources and libs, representing the sbml model in your xml model file.</p>
+
+<p>Typing rr in a terminal window will give you some more options for the application. For example <code>rr -t&lt;aFolder&gt;</code>, will write temporary files to specified folder.</p>
+
+<p>To trace problems, <code>-v&lt;DebugLevel&gt;</code>, where DebugLevel is Debug, Debug1, Debug2 etc as a &#8216;string&#8217;, can be used to get more verbose feedback.</p>
+
+<p>Feel free to report any problems, suggestions by email.</p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_linux.html">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakecli.html">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakegui.html">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_visualstudio.html">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/index.html">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/knownissues.html">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/rr_cli.html" class="active">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+

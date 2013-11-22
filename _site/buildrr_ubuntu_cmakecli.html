@@ -1,0 +1,274 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Build Roadrunner on Ubuntu CMake CLI</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Build Roadrunner on Ubuntu CMake CLI</h1>
+
+<p>The following steps need to be taken in order to build and install RoadRunner on an Ubuntu platform.</p>
+
+<p>This procedure has been tested on</p>
+
+<ul>
+<li>An Ubuntu distribution, running in a virtual machine using !Oracle VirtualBox environment</li>
+
+<li>A native Ubuntu 12.04 installation on x86_64</li>
+
+<li>An Amazon EC2 instance running 64-bit 12.10 (ami-9465dbfd)</li>
+</ul>
+
+<h2 id='prepare_for_installation'>Prepare for installation</h2>
+
+<p>In a terminal create a folder that will contain roadrunner related files. In the following this folder is located in a users home directory and named rr.</p>
+
+<p>The following applications and libraries need to be available on the system:</p>
+
+<ul>
+<li>gcc/g++</li>
+
+<li>libxml2</li>
+
+<li>libxml2-dev</li>
+
+<li>subversion</li>
+
+<li>make</li>
+
+<li>cmake-gui</li>
+
+<li>zliblg-dev</li>
+
+<li>liblzma-dev</li>
+</ul>
+
+<h2 id='checkout_roadrunner_code'>Checkout RoadRunner code</h2>
+
+<p>Checkout RoadRunner source files from google code using subversion:</p>
+
+<pre><code>svn checkout http://roadrunnerlib.googlecode.com/svn/trunk roadrunnerlib</code></pre>
+
+<p>This will create a directory roadrunnerlib and put all the project code in it.</p>
+
+<h2 id='create_build_folder'>Create build folder</h2>
+
+<p>Currently, RoadRunner is built in two passes:</p>
+
+<p>1) Thirdparty code is first built and installed 2) RoadRunner library and applications are built and installed.</p>
+
+<h2 id='build_and_install_roadrunner_thirdparties_using_the_command_line'>Build and Install RoadRunner ThirdParties Using the Command Line</h2>
+
+<p>In-source builds are not supported. Create two directories alongside roadrunnerlib named build and install. In the build directory, create ThirdParty and all directories.</p>
+
+<h3 id='step_1_build_third_party_libraries'>Step 1: Build Third Party Libraries</h3>
+
+<p>cd to build/Thirdparty and run</p>
+
+<pre><code>cmake ../../roadrunnerlib/ThirdParty/ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=your_rr_directory/install/unified -DCMAKE_CXX_FLAGS=&quot;-fPIC&quot; -DCMAKE_C_FLAGS=&quot;-fPIC&quot; -DBUILD_SHARED_LIBS=ON</code></pre>
+
+<p>where &#8220;your_rr_directory&#8221; is the directory containing roadrunnerlib.</p>
+
+<p>Experimental: relative paths might work (if they get completed by CMake):</p>
+
+<pre><code>cmake ../../roadrunnerlib/ThirdParty/ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../../install/unified -DCMAKE_CXX_FLAGS=&quot;-fPIC&quot; -DCMAKE_C_FLAGS=&quot;-fPIC&quot; -DBUILD_SHARED_LIBS=ON</code></pre>
+
+<p>After CMake finishes, run make &amp;&amp; make install.</p>
+
+<h3 id='step_2_build_and_install_roadrunner'>Step 2: Build and Install Roadrunner</h3>
+
+<p>cd to build/all and run</p>
+
+<pre><code>cmake ../../roadrunnerlib/ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=your_rr_directory/install/unified -DCMAKE_CXX_FLAGS=&quot;-fPIC&quot; -DCMAKE_C_FLAGS=&quot;-fPIC&quot; -DBUILD_SHARED_LIBS=ON -DTHIRD_PARTY_INSTALL_FOLDER=your_rr_directory/install/unified</code></pre>
+
+<p>Or, the experimental relative path version:</p>
+
+<pre><code>cmake ../../roadrunnerlib/ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../../install/unified -DCMAKE_CXX_FLAGS=&quot;-fPIC&quot; -DCMAKE_C_FLAGS=&quot;-fPIC&quot; -DBUILD_SHARED_LIBS=ON -DTHIRD_PARTY_INSTALL_FOLDER=your_rr_directory/install/unified</code></pre>
+
+<p>Again run make &amp;&amp; make install after CMake finishes.</p>
+
+<h3 id='linking_gcc'>Linking GCC</h3>
+
+<ul>
+<li>After Installing RoadRunner, it may complain about not being able to find a gcc. To fix this a soft linkage to your system&#8217;s gcc can be created with the following steps:</li>
+</ul>
+
+<ol>
+<li>In the terminal, enter the command which gcc, and note the path that returns. It is typically something like /usr/bin/gcc.</li>
+
+<li>create the soft link with the following command <code>ln -s /path/to/your/gcc /path/to/rr/install</code>, using the path to your system&#8217;s gcc and the path to your RoadRunner install directory.</li>
+</ol>
+
+<h3 id='comment_by_project_member_stanlegmailcom_dec_17_2012'>Comment by project member stanle&#8230;@gmail.com, Dec 17, 2012</h3>
+
+<p>I think the linuxSBMLTest branch has been merged so the svn checkout command should be updated to svn checkout http://roadrunnerlib.googlecode.com/svn/trunk roadrunnerlib</p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_linux.html">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/buildrr_ubuntu_cmakecli.html" class="active">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakegui.html">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_visualstudio.html">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/index.html">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/knownissues.html">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/rr_cli.html">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+

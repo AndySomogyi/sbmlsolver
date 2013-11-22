@@ -1,0 +1,254 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Documentation</title>
+
+    
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Documentation</h1>
+
+<p>Roadrunner is high performance and portable simulation engine for systems and synthetic biology.</p>
+
+<p>RoadRunner 1.0 supports the following features:</p>
+
+<ul>
+<li>Time Dependent Simulation (with optional conservation law reduction) using CVODE</li>
+
+<li>Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.</li>
+
+<li>Uses latest libSBML distribution</li>
+
+<li>Defaults to LLVM code generation on the backend, resulting is very fast simulation times.</li>
+
+<li>Optional generation of model C code and linking at run-time.</li>
+
+<li>Compute steady state</li>
+
+<li>Metabolic Control Analysis</li>
+
+<li>Frequency Domain Analysis</li>
+
+<li>Access to:</li>
+
+<li>1) Eigenvalues and Eigenvectors</li>
+
+<li>2) Jacobian, full and reduced</li>
+
+<li>3) Structural Matrices of the stoichiometry matrix</li>
+
+<li>Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin</li>
+</ul>
+
+<p>RoadRunner is provided in the form of:</p>
+
+<ul>
+<li>Standalone command line driven application</li>
+
+<li>As a library, static or dynamic to be linked into an existing application</li>
+
+<li>Supplied with an extensive C++ as well as a C API</li>
+
+<li>Supplied with a advanced Python interface</li>
+
+<li>Extensive documenation on the C, C++ and Python APIs</li>
+</ul>
+
+<p>Future expansion:</p>
+
+<ul>
+<li>Bifurcation Analysis</li>
+
+<li>Loading and saving of SED-ML</li>
+</ul>
+
+<p>This work is funded by NIGMS grant: GM081070</p>
+
+<h2 id='licence'>Licence</h2>
+
+<p>Licensed under the Apache License, Version 2.0 (the &#8220;License&#8221;); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+
+<p><a href='http://www.apache.org/licenses/LICENSE-2.0'>http://www.apache.org/licenses/LICENSE-2.0</a></p>
+
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &#8220;AS IS&#8221; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+
+<p>In plain english this means:</p>
+
+<p>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</p>
+
+<p>You CAN use the software in packages or distributions that you create.</p>
+
+<p>You SHOULD include a copy of the license in any redistribution you may make;</p>
+
+<p>You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.</p>
+
+<p>YOU CANNOT: redistribute any piece of this software without proper attribution;</p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_linux.html">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakecli.html">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakegui.html">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_visualstudio.html">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/index.html" class="active">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/knownissues.html">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/rr_cli.html">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+

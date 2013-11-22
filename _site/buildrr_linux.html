@@ -1,0 +1,206 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Linux Build</title>
+
+    <meta name="description" content="How to Build Roadrunner on linux">
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Linux Build</h1>
+
+<h1 id='distribution'>Distribution</h1>
+
+<p>Select your distribution:</p>
+
+<ul>
+<li><a href='buildrr_ubuntu_cmakegui.html'>Ubuntu CMake GUI</a> or <a href='buildrr_ubuntu_cmakecli.html'>Ubuntu CMake CLI</a> (last tested with 12.10)</li>
+
+<li><a href='buildrr_fedora.html'>Fedora</a> (last tested with fc17)</li>
+</ul>
+
+<h2 id='important_notes_for_all_linux_builds'>IMPORTANT NOTES FOR ALL LINUX BUILDS</h2>
+
+<ul>
+<li>After Installing RoadRunner, it may complain about not being able to find a <code>gcc</code>. To fix this a soft linkage to your system&#8217;s <code>gcc</code> can be created with the following steps: 1. In the terminal, enter the command which gcc, and note the path that returns. It is typically something like /usr/bin/gcc. 2. create the soft link with the following command <code>ln -s &lt;/path/to/your/gcc&gt; &lt;/path/to/rr/install&gt;</code>, using the path to your system&#8217;s gcc and the path to your RoadRunner install directory.</li>
+
+<li>If you choose to <strong>NOT</strong> install RoadRunner to the default folder, <code>/usr/local</code>, the following apply:</li>
+</ul>
+
+<ol>
+<li>The command line client rr_c (C-api client of RoadRunner) need to receive the install path to where RoadRunner was installed, using the flag &#8220;-i&#8221;, e.g. -i/some/non/standard_path</li>
+
+<li>To use Python with a non-standard RoadRunner install path, the python module script rrPython.py needs to be modified. On the line starting with #handle.setInstallFolder(..): Uncomment the line and supply proper path to where RoadRunner was installed.</li>
+</ol>
+
+<p>If you don&#8217;t make the above changes you will get errors like this: <code>gcc: error: /usr/local/rr_support/rrSupport.c: No such file or directory</code></p>
+
+<p>NOTE: Roadrunner do not work fully on Linux 32 bit systems in release mode. To have a working distribution in 32 bit release mode you need to change the CMAKE C flags: cmake_c_flags_release to -O0 -NDEBUG.</p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/buildrr_linux.html" class="active">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakecli.html">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakegui.html">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_visualstudio.html">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/index.html">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/knownissues.html">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/rr_cli.html">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,266 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Build RR on Ubuntu CMake GUI</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Build RR on Ubuntu CMake GUI</h1>
+
+<p>The following steps need to be taken in order to build and install RoadRunner on a Ubuntu platform.</p>
+
+<p>This procedure has been tested on</p>
+
+<ul>
+<li>An Ubuntu distribution, running in a virtual machine using !Oracle VirtualBox environment</li>
+
+<li>A native Ubuntu 12.04 installation on x86_64</li>
+</ul>
+
+<h2 id='prepare_for_installation'>Prepare for installation</h2>
+
+<p>In a terminal create a folder that will contain roadrunner related files. In the following this folder is located in a users home directory and named rr.</p>
+
+<p>The following applications and libraries need to be available on the system:</p>
+
+<ul>
+<li>gcc/g++</li>
+
+<li>libxml2</li>
+
+<li>libxml2-dev</li>
+
+<li>tcc</li>
+
+<li>svn</li>
+
+<li>cmake-gui</li>
+
+<li>zliblg-dev</li>
+
+<li>liblzma-dev</li>
+</ul>
+
+<h2 id='checkout_roadrunner_code'>Checkout RoadRunner code</h2>
+
+<p>Clone RoadRunner source files from GitHub, to folder ~/rr/roadrunnerlib using git:</p>
+
+<pre><code>git clone https://github.com/AndySomogyi/roadrunner.git rr/roadrunnerlib</code></pre>
+
+<h2 id='create_build_folder'>Create build folder</h2>
+
+<p>To build and install RoadRunner, build files need to be generated using CMake. Currently RoadRunner is build in two passes,</p>
+
+<p>1) Thirdparty code is first built and installed 2) RoadRunner library and applications are built and installed.</p>
+
+<h2 id='build_and_install_roadrunner_thirdparties_using_the_cmake_gui'>Build and Install RoadRunner ThirdParties Using the CMake GUI</h2>
+
+<p>Open a CMake UI and select source and build folders. The source folder will be /home/yourName/rr/roadrunnerlib/ThirdParties and the build folder should be something like /home/yourName/rr/builds/ThirdParty Make an effort to keep the build folder out of the source directory.</p>
+
+<p>Then Press &#8220;Configure&#8221;</p>
+
+<p>Specify UNIX makefiles as the generator, and for the follow up question select &#8216;Use default native compilers&#8217;.</p>
+
+<ul>
+<li>Set CMAKE_BUILD_TYPE to Release</li>
+
+<li>Set CMAKE_INSTALL_PREFIX to /usr/local When there are no red records shown in the CMake UI, press the Generate button. This step will create Makefiles in the build folder that you selected earlier.</li>
+</ul>
+
+<p>Open a terminal, and cd into ~/rr/builds/ThirdParty and type</p>
+
+<pre><code>sudo make install</code></pre>
+
+<p>This should make and install necessary ThirdParty libraries into the /usr/local folder.</p>
+
+<h2 id='step_2_build_roadrunner'>Step 2: Build RoadRunner</h2>
+
+<h2 id='build_and_install_roadrunner'>Build and Install Roadrunner</h2>
+
+<p>Open a CMake UI and select source code and build folders as in the screenshot below.</p>
+
+<p>As for the ThirdParty build, select UNIX make files.</p>
+
+<p>Among the UI options, the only needed change is to set the THIRD_PARTY_INSTALL_FOLDER to /usr/local</p>
+
+<p>When there are no red records shown in the CMake UI, press the Generate button. This step will create Makefiles in the build folder that you selected earlier.</p>
+
+<p>Open a terminal, and cd into ~/rr/builds/!rr and type</p>
+
+<pre><code>sudo make install</code></pre>
+
+<h2 id='step_3_confirm_install_targets'>Step 3: Confirm install targets</h2>
+
+<p>Binary targets are installed in the bin folder in where you installed RoadRunner. The command line application rr should be available in this folder.</p>
+
+<p>As this is a beta page, feel free to email comments and suggestions!</p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_linux.html">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakecli.html">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/buildrr_ubuntu_cmakegui.html" class="active">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_visualstudio.html">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/index.html">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/knownissues.html">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/rr_cli.html">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+

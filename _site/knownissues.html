@@ -1,0 +1,216 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Known Issues</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Known Issues</h1>
+
+<h1 id='roadrunner_version_10'>RoadRunner++ Version 1.0</h1>
+
+<h2 id='visual_studio_build_issues'>Visual Studio Build Issues</h2>
+
+<p>When building the ThirdParty libraries, the release build flags Ob2 and O2 need to be changed to Ob0 and Od respectively. This is a problem with Sundials CVODE solver. If you do not change these flags, you will get a &#8220;Error in CVODE: -4&#8221; error when trying to simulate.</p>
+
+<h2 id='libsbml_test_suite_failing_tests'>libSBML Test Suite Failing Tests</h2>
+
+<p>The table below shows tests that should be passing, but for various reasons fails. Tests beyond case 980 was not checked</p>
+<table><thead><tr><th>Count</th><th>Case Number</th><th>Problem Description</th></tr></thead><tbody><tr><td style='text-align: left;'>1</td><td style='text-align: left;'>950</td><td style='text-align: left;'>Handling of infinity constants, +/-INF and NAN</td>
+</tr><tr><td style='text-align: left;'>2</td><td style='text-align: left;'>951</td><td style='text-align: left;'>Handling of infinity constants, +/-INF and NAN</td>
+</tr><tr><td style='text-align: left;'>3</td><td style='text-align: left;'>955</td><td style='text-align: left;'>Various mathematical constructs</td>
+</tr><tr><td style='text-align: left;'>4</td><td style='text-align: left;'>957</td><td style='text-align: left;'>Various mathematical constructs</td>
+</tr><tr><td style='text-align: left;'>5</td><td style='text-align: left;'>958</td><td style='text-align: left;'>Various mathematical constructs</td>
+</tr><tr><td style='text-align: left;'>6</td><td style='text-align: left;'>959</td><td style='text-align: left;'>Various mathematical constructs</td>
+</tr><tr><td style='text-align: left;'>7</td><td style='text-align: left;'>961</td><td style='text-align: left;'>Avogadros constant test</td>
+</tr><tr><td style='text-align: left;'>8</td><td style='text-align: left;'>962</td><td style='text-align: left;'>Random testing of events</td>
+</tr><tr><td style='text-align: left;'>9</td><td style='text-align: left;'>978</td><td style='text-align: left;'>Some event triggering (12 events)</td>
+</tr></tbody></table>
+<h2 id='recently_fixed_tests'>Recently Fixed Tests</h2>
+
+<p>The following cases were recently &#8216;fixed&#8217;</p>
+<table><thead><tr><th>Case Number</th><th>Problem Description</th></tr></thead><tbody><tr><td style='text-align: left;'>935</td><td style='text-align: left;'>Proper event not executed</td>
+</tr><tr><td style='text-align: left;'>952</td><td style='text-align: left;'>Event stuff including &#8216;persistent&#8217;</td>
+</tr><tr><td style='text-align: left;'>963</td><td style='text-align: left;'>Event triggering</td>
+</tr><tr><td style='text-align: left;'>964</td><td style='text-align: left;'>Random triggering</td>
+</tr><tr><td style='text-align: left;'>965</td><td style='text-align: left;'>Similar too 952</td>
+</tr><tr><td style='text-align: left;'>966</td><td style='text-align: left;'>Similar too 952</td>
+</tr><tr><td style='text-align: left;'>967</td><td style='text-align: left;'>Random triggering</td>
+</tr></tbody></table>
+<h2 id='not_supported_cases'>Not supported cases</h2>
+
+<p>In addition to the above failing cases, the following (83) cases are failing as well, but doing so because of not being currently supported:</p>
+
+<p>39, 40,182,184,531,533,534,535,536,537,538,543,546,548,549,</p>
+
+<p>550,551,552,553,554,555,556,557,558,559,560,561,562,563,564, 565,566,567,569,570,571,573,575,576,613,614,615,628,629,630, 658,659,660,661,662,663,664,665,666,673,674,675,687,695,696, 705,760,761,762,777,778,779,780,844,870,871,872,873,874,875, 876,937,938,939,940,941,942,943</p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_linux.html">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakecli.html">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakegui.html">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_visualstudio.html">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/index.html">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/knownissues.html" class="active">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/rr_cli.html">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+

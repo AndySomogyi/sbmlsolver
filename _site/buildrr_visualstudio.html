@@ -1,0 +1,487 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>Build RoadRunner from Source on Windows</title>
+
+    <meta name="description" content="howto build the library">
+    <meta name="author" content="libroadrunner team">
+    
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/styles.css">
+    <link rel="stylesheet" href="/assets/themes/ghminimal/css/pygment_trac.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="main">
+        <hgroup>
+          <h1><a href="/">Roadrunner</a></h1>
+          
+          <h2>speedy simulation engine</h2>
+          
+        </hgroup>
+        <ul class="buttons">
+          <li><a href="http://sourceforge.net/projects/libroadrunner/files" rel="me">SourceForge <strong>Download</strong></a></li>
+          <li><a href="https://github.com/AndySomogyi/roadrunner" rel="me">GitHub <strong>Code</strong></a></li>
+          <li><a href="http://analogmachine.org/roadRunnerTracker/" rel="me">FlySpray <strong>Issues</strong></a></li>
+        </ul>
+        <ul class="buttons">
+          <li><a href="/pydoc/index.html" rel="me">Docs <strong>Python API</strong></a></li>
+          <li><a href="/c_api_docs/" rel="me">Docs<strong>C API</strong></a></li>
+          <li><a href="/html" rel="me">Docs<strong>C++ API</strong></a></li>
+        </ul>
+      </header>
+      <section class="main">
+        
+<h1>Build RoadRunner from Source on Windows</h1>
+
+<h2 id='overview'>Overview</h2>
+
+<p>The step-by-step instructions will guide you to:</p>
+
+<ol>
+<li>Create the directory structure for the build and install</li>
+
+<li>Install <strong>SWIG</strong></li>
+
+<li>Get Source Code (placed in <code>src/</code>)</li>
+
+<li>CMake <strong>LLVM</strong>, <strong>roadrunner_thirdparty</strong>, <strong>roadrunner</strong> (outputs to <code>build/</code>)</li>
+
+<li>Build and install in Visual Studio: LLVM, roadrunner_thirdparty, roadrunner (outputs to <code>install/</code>)</li>
+</ol>
+
+<p>To prepare download and install the following. These are the tools we use to build roadrunner from source:</p>
+
+<ul>
+<li><a href='http://www.cmake.org/files/v2.8/cmake-2.8.12.1-win32-x86.exe'>CMake 2.8.12.1</a></li>
+
+<li><a href='https://www.dreamspark.com/Product/Product.aspx?productid=32'>Microsoft Visual Studio 2010 Express</a></li>
+
+<li><a href='http://python.org/ftp/python/2.7.6/python-2.7.6.msi'>Python 2.7.6</a></li>
+
+<li><a href='http://git-scm.com/download/win'>Git 1.8.4</a></li>
+</ul>
+
+<h1 id='1_create_directory_structure'>1. Create directory structure</h1>
+
+<p>These will be the directories for build, install, and source</p>
+
+<ul>
+<li />
+
+<li><a href='http://python.org/ftp/python/2.7.6/python-2.7.6.msi'>Python 2.7</a></li>
+</ul>
+
+<p>The commands in these instructions are used in the Git Bash console. To use <code>wget</code> in Git Bash follow the instructions here to install <code>wget</code>: <a href='http://www.kadamwhite.com/archives/2012/wget-in-git-bash'>http://www.kadamwhite.com/archives/2012/wget-in-git-bash</a> The commands should work in a regular windows command prompt <code>cmd</code> as well, except for <code>wget</code>. Your directory tree will look like this:</p>
+
+<ul>
+<li>Build and install <strong>roadrunner_thirdparty</strong> libraries (roadrunner depends on these libraries)</li>
+
+<li>Build and install <strong>roadrunner</strong> (these instructions include building the Python bindings)</li>
+</ul>
+<pre>
+vs
++---build
+|   +---llvm
+|   +---roadrunner
+|   |   \---release
+|   \---roadrunner_thirdparty
+|       \---release
++---install
+|   +---llvm
+|   +---roadrunner
+|   |   \---release
+|   +---roadrunner_thirdparty
+|   |   \---release
+|   \---swigwin-2.0.11
+\---src
+    +---llvm-3.3.src
+        \---roadrunner
+	        \---third_party
+
+</pre>
+<h3 id='to_create_directories_run_these_commands'>To create directories run these commands</h3>
+
+<p>The commands below should be copied and pasted into the Git Bash console to run. Start the console by going to your windows <code>Start menu</code>, typing to search <code>git bash</code>, then clicking on it when it comes up.</p>
+
+<pre><code>#Root dir
+cd C:\\
+mkdir vs
+cd vs
+
+#Build dirs
+mkdir build
+cd build
+mkdir llvm
+mkdir roadrunner_thirdparty
+cd roadrunner_thirdparty
+mkdir release
+#mkdir debug
+cd ..
+mkdir roadrunner
+cd roadrunner
+mkdir release
+#mkdir debug
+cd ../..</code></pre>
+
+<p>| &#8212;swigwin-2.0.11 &#8212;src +&#8212;llvm-3.3.src &#8212;roadrunner &#8212;third_party</p>
+
+<pre><code>#Install dirs
+mkdir install
+cd install
+mkdir llvm
+mkdir roadrunner_thirdparty
+cd roadrunner_thirdparty
+mkdir release
+cd ..
+mkdir roadrunner
+cd roadrunner
+mkdir release
+#mkdir debug
+cd ../..
+
+#Source dirs
+mkdir src
+cd src
+cd ..</code></pre>
+
+<p>The commands below can be copied and pasted into the console.</p>
+
+<h1 id='2_install_swig'>2. Install SWIG</h1>
+
+<pre><code>cd C:\\
+mkdir vs
+cd vs</code></pre>
+
+<p>Get <a href='http://prdownloads.sourceforge.net/swig/swigwin-2.0.11.zip'>swigwin-2.0.11</a> binaries for windows using the <code>wget</code> commad below. Otherwise download it in your browser by clicking on the link, then move the file to the <code>C:\vs\install</code> directory and continue with the next command. mkdir build cd build mkdir llvm mkdir roadrunner_thirdparty cd roadrunner_thirdparty mkdir release #mkdir debug cd .. mkdir roadrunner cd roadrunner mkdir release #mkdir debug cd ../..</p>
+
+<pre><code>cd install
+wget http://prdownloads.sourceforge.net/swig/swigwin-2.0.11.zip
+unzip swigwin-2.0.11.zip
+cd ..
+mkdir roadrunner_thirdparty
+cd roadrunner_thirdparty
+mkdir release
+cd ..
+mkdir roadrunner
+cd roadrunner
+mkdir release
+#mkdir debug
+cd ../..</code></pre>
+
+<h1 id='3_get_source_code'>3. Get source code</h1>
+
+<pre><code>mkdir src
+cd src
+cd ..</code></pre>
+
+<p>Clone the <strong>roadrunner</strong> source code repository</p>
+
+<pre><code>cd src
+git clone https://github.com/AndySomogyi/roadrunner.git</code></pre>
+
+<p>Get the <a href='http://llvm.org/releases/3.3/llvm-3.3.src.tar.gz'>LLVM 3.3</a> source code using the <code>wget</code> command below. Otherwise download it from the link and move the file to the <code>C:\vs\src</code> directory and continue with the next command.</p>
+
+<pre><code>wget http://llvm.org/releases/3.3/llvm-3.3.src.tar.gz
+tar -xzvf llvm-3.3.src.tar.gz
+unzip swigwin-2.0.11.zip
+cd ..</code></pre>
+
+<h1 id='4_using_cmake'>4. Using CMake</h1>
+
+<p>Using <em>CMake GUI</em> we will Configure and Generate Solution files (outputs to <code>build/</code>)</p>
+
+<h2 id='4a_cmake_llvm'>4.a. CMake LLVM</h2>
+
+<p>The <a href='assets/images/CMakeGUI-LLVM_screenshot.png'>screenshot panels</a> show you where things are on the CMake GUI.</p>
+
+<p>Set the Source Path and Build Path to directories for <code>llvm</code></p>
+
+<pre><code>Source Path = C:/vs/src/llvm-3.3.src
+Build Path = C:/vs/build/llvm</code></pre>
+
+<p>Then click Configure and the default options, listed here:</p>
+
+<pre><code>Configure &gt; Visual Studio 10 &gt; Use default Native compilers &gt; Finish</code></pre>
+
+<p>Using <em>CMake GUI</em> Configure and Generate Solution files (outputs to build/)</p>
+
+<p>Set the Install Path by pasting it in the <code>CMAKE_INSTALL_PREFIX</code> option. See the <a href='assets/images/CMakeGUI-LLVM_screenshot.png'>2nd screenshot panel</a> to see how it is supposed to look.</p>
+
+<pre><code>CMAKE_INSTALL_PREFIX = C:/vs/install/llvm</code></pre>
+
+<p>Press Configure again and wait until each option has changed color from <a href='assets/images/CMakeGUI-LLVM_screenshot.png'>Red in panel 2</a> to <a href='assets/images/CMakeGUI-LLVM_screenshot.png'>White in panel 3</a>. Finally, press Generate.</p>
+
+<pre><code>Configure &gt; Generate</code></pre>
+
+<p>When done the bottom output window will say</p>
+
+<pre><code>Configuring done
+Generating done</code></pre>
+
+<h2 id='4b_cmake_roadrunner_thirdparty'>4.b. CMake Roadrunner Thirdparty</h2>
+
+<p>Set the Source Path and Build Path to directories for <code>roadrunner_thirdparty</code></p>
+
+<pre><code>Source = C:/vs/src/roadrunner/third_party
+Build = C:/vs/build/roadrunner_thirdparty/release</code></pre>
+
+<p>Then click Configure and the default options, listed here:</p>
+
+<pre><code>Configure &gt;Visual Studio 10 &gt; Use default Native compilers &gt; Finish</code></pre>
+
+<p>Set the following options</p>
+
+<pre><code>CMAKE_INSTALL_PREFIX = C:/vs/install/roadrunner_thirdparty/release
+CMAKE_BUILD_TYPE     = Release  </code></pre>
+
+<p>Press Configure and then Generate</p>
+
+<pre><code>Configure &gt; Generate</code></pre>
+
+<p>When done the bottom output window will say</p>
+
+<pre><code>Configuring done
+Generating done</code></pre>
+
+<p>Note: The <code>CMAKE_BUILD_TYPE</code> flag does not actually control the type of build, its ignored, but set it anyway, otherwise the output says Debug when it is actually Release)</p>
+
+<p><em>Note Special Instructions: To also build the C API (below)</em></p>
+
+<h2 id='4c_cmake_roadrunner'>4.c. CMake Roadrunner</h2>
+
+<p>Set the Source Path and Build Path to directories for <code>roadrunner</code> These instructions build <strong>with SWIG Python API</strong></p>
+
+<pre><code>Source = C:/vs/src/roadrunner
+Build = C:/vs/build/roadrunner/release</code></pre>
+
+<p>Then click Configure and the default options, listed here:</p>
+
+<pre><code>Configure &gt; Visual Studio 10 &gt; Use default Native compilers &gt; Finish</code></pre>
+
+<p>Set the following options</p>
+
+<pre><code>CMAKE_INSTALL_PREFIX       = C:/vs/install/roadrunner/release
+LLVM_INSTALL_PREFIX        = C:/vs/install/llvm
+CMAKE_BUILD_TYPE           = Release
+THIRD_PARTY_INSTALL_FOLDER = C:/vs/install/roadrunner_thirdparty/release
+BUILD_LLVM                 = Mark checkbox (yes)
+BUILD_SWIG_PYTHON          = Mark the checkbox (yes)
+SWIG_DIR                   = C:/vs/install/swigwin-2.0.11</code></pre>
+
+<p>Press Configure and then Generate</p>
+
+<pre><code>Configure &gt; Generate</code></pre>
+
+<p>When done the bottom output window will say</p>
+
+<pre><code>Configuring done
+Generating done</code></pre>
+
+<h1 id='5_using_visual_studio'>5. Using Visual Studio</h1>
+
+<p>Build and install in Visual Studio: LLVM, roadrunner_thirdparty, roadrunner (outputs to <code>install/</code>)</p>
+
+<h2 id='5a_build_llvm'>5.a. Build LLVM</h2>
+
+<p>Open Solution file in Visual Studio</p>
+
+<pre><code>File &gt; Open &gt; Project/Solution &gt; C:\vs\build\llvm\LLVM.sln</code></pre>
+
+<p>Set the Configuration and Platform to <code>Release</code> and <code>Win32</code>, the <a href='assets/images/VisualStudio-LLVM_Release_INSTALL_Build.png'>screenshot</a> shows where these are in Visual Studio.</p>
+
+<pre><code>Solution Configurations: Release
+Solution Platforms: Win32</code></pre>
+
+<p>Build and Install. In Visual Studio&#8217;s <a href='assets/images/VisualStudio-LLVM_Release_INSTALL_Build.png'>Solution Explorer</a></p>
+
+<pre><code>Right-Click &gt; INSTALL &gt; Build</code></pre>
+
+<h2 id='5b_build_roadrunner_thirdparty'>5.b. Build Roadrunner ThirdParty</h2>
+
+<p>Open Solution file</p>
+
+<pre><code>File &gt; Open &gt; Project/Solution &gt; C:\vs\build\roadrunner_thirdparty\release\RRThirdPartyBuild.sln</code></pre>
+
+<p>Set the Configuration and Platform to <code>Release</code> and <code>Win32</code></p>
+
+<pre><code>Solution Configurations: Release
+Solution Platforms: Win32</code></pre>
+
+<p>Build and Install. In Visual Studio&#8217;s Solution Explorer</p>
+
+<pre><code>Right-Click &gt; INSTALL &gt; Build</code></pre>
+
+<h2 id='5c_build_roadrunner'>5.c. Build Roadrunner</h2>
+
+<p>Open Solution file</p>
+
+<pre><code>File &gt; Open &gt; Project/Solution &gt; C:\vs\build\roadrunner\release\rr.sln</code></pre>
+
+<p>Set the Configuration and Platform to <code>Release</code> and <code>Win32</code></p>
+
+<pre><code>Solution Configurations: Release
+Solution Platforms: Win32</code></pre>
+
+<p>Build and Install. In Visual Studio&#8217;s Solution Explorer</p>
+
+<pre><code>Right-Click &gt; INSTALL &gt; Build</code></pre>
+
+<h1 id='note_special_instructions_to_also_build_the_c_api'>Note Special Instructions: To also build the C API</h1>
+
+<p>If building a <code>Release</code> version of RoadRunner for C The <code>CMAKE_C_FLAGS_RELEASE</code> flag and the <code>CMAKE_CXX_FLAGS_RELEASE</code> need to be modified from its default. The default switches</p>
+
+<pre><code>/O2 /Ob2</code></pre>
+
+<p>needs to be changed to</p>
+
+<pre><code>/Od /Ob0</code></pre>
+
+<p>This need to be observed for both the ThirdParty build, as well as for RoadRunner itself.</p>
+
+<p>Comment on this Issue: The problem seem to be in the CVODE integration library, not being able to converge properly when full optimization is turned on.</p>
+
+<p><a href='old_buildrr_visualstudio.html'>old_buildrr_visualstudio instructions file</a></p>
+
+      </section>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Documentation Home</a></li>
+            <li><a href="/rr_cli.html">Roadrunner Command Line</a></li>
+            <li><a href="/buildrr.html">Building Roadrunner</a></li>
+            <li><a href="/knownissues.html">Known Issues</a></li>
+            <li><a href="/api_testing.html">API Tests</a></li>
+            <!--<li><a href="http://analogmachine.org/roadRunnerTracker/">New Bugs, Features</a></li>-->
+            <!-- 
+            
+            
+
+
+  
+
+
+
+            -->
+            <!-- 
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/api_testing.html">Tests by Compiler</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr.html">Build Roarunner from Source</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_fedora.html">Fedora Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_linux.html">Linux Build</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakecli.html">Build Roadrunner on Ubuntu CMake CLI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/buildrr_ubuntu_cmakegui.html">Build RR on Ubuntu CMake GUI</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="/buildrr_visualstudio.html" class="active">Build RoadRunner from Source on Windows</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/index.html">Documentation</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/knownissues.html">Known Issues</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/old_buildrr_visualstudio.html">RoadRunner Visual Studio 2010</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/rr_cli.html">Roadrunner CLI</a></li>
+      	
+      
+    
+  
+
+
+
+            -->
+          </ul>
+        </nav>
+      </aside>
+      <footer class="main">
+        <p>
+       <small>Contact: <a href="mailto:roadrunner@u.washington.edu">roadrunner@u.washington.edu</a></small></br>
+          <small>Documentation themed with <a href="http://sdb.github.com/jb-theme-ghminimal/">ghminimal</a>. Powered by <a href="http://github.com/mojombo/jekyll">Jekyll</a> and <a href="http://pages.github.com/">GitHub Pages</a>.</small>
+        </p>
+      </footer>
+    </div>
+    <script src="/assets/themes/ghminimal/js/scale.fix.js"></script>
+
+    
+  </body>
+</html>
+
