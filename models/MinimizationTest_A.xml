@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by JarnacLite version 1.0.4424.32089 on 2013-05-03 15:46 with libSBML version 5.3.0. -->
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model id="cell" name="cell">
+    <listOfCompartments>
+      <compartment id="compartment" size="1" />
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="x0" compartment="compartment" initialConcentration="1" boundaryCondition="true" />
+      <species id="x1" compartment="compartment" initialConcentration="0" boundaryCondition="true" />
+      <species id="s1" compartment="compartment" initialConcentration="0" boundaryCondition="false" />
+      <species id="s2" compartment="compartment" initialConcentration="0" boundaryCondition="false" />
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="k1" value="1.2" constant="true" />
+      <parameter id="k2" value="4.5" constant="true" />
+      <parameter id="k3" value="3.4" constant="true" />
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="_J0" reversible="false">
+        <listOfReactants>
+          <speciesReference species="x0" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s1" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci> k1 </ci>
+              <ci> x0 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="s1" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s2" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci> k2 </ci>
+              <ci> s1 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="s2" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="x1" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci> k3 </ci>
+              <ci> s2 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
