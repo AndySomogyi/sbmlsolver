@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>cRoadRunner: cRoadRunner Library</title>
+<title>cRoadRunner: rrc_exporter.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,10 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -59,7 +59,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>Globals</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -74,58 +79,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">cRoadRunner Library </div>  </div>
+<div class="title">rrc_exporter.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
-Introduction</h1>
-<pre class="fragment"> RoadRunner is a SBML compliant high performance and portable simulation engine
- for systems and synthetic biology. To run a simple SBML model
- and generate time series data we would call:
-</pre><div class="fragment"><div class="line"><span class="comment">// RRCDataPtr result;</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">// if (!loadSBMLFromFile (rrHandle, &quot;mymodel.xml&quot;))</span></div>
-<div class="line"><span class="comment">//    exit;</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">// result = simulate (0, 10, 100);</span></div>
-<div class="line"><span class="comment">// printf (resultToString (output)</span></div>
-<div class="line"><span class="comment">// </span></div>
-</div><!-- fragment --><p>More complex example:</p>
-<div class="fragment"><div class="line"><span class="comment">// #include &lt;stdlib.h&gt;</span></div>
-<div class="line"><span class="comment">// #include &lt;stdio.h&gt;</span></div>
-<div class="line"><span class="comment">// #include &quot;rrc_core_api.h&quot;</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">// int main(int nargs, char** argv)</span></div>
-<div class="line"><span class="comment">// {</span></div>
-<div class="line"><span class="comment">//        RRHandle rrInstance = getRRInstance(RRHandle handle);</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">//        printf(&quot;loading model file %s\n&quot;, argv[1]);</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">//        if (!loadSBMLFromFile(argv[1])) {</span></div>
-<div class="line"><span class="comment">//           printf (&quot;Error while loading SBML file\n&quot;);</span></div>
-<div class="line"><span class="comment">//           printf (&quot;Error message: %s\n&quot;, getLastError(RRHandle handle));</span></div>
-<div class="line"><span class="comment">//           exit();</span></div>
-<div class="line"><span class="comment">//        }</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">//        RRCDataPtr output = simulate (0, 100, 1000);  // start time, end time, and number of points</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">//        printf(&quot;Output table has %i rows and %i columns\n&quot;, output-&gt;RSize, output-&gt;RCols);</span></div>
-<div class="line"><span class="comment">//        printResult (output);</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">//        freeResult (output);</span></div>
-<div class="line"><span class="comment">//        freeRRInstance (rrInstance)</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">//        return 0;</span></div>
-<div class="line"><span class="comment">// }</span></div>
-<div class="line"><span class="comment">// </span></div>
-</div><!-- fragment --> <h1><a class="anchor" id="install_sec"></a>
-Installation</h1>
-<pre class="fragment"> Installation documentation is provided in the main google code page.
-</pre><h1><a class="anchor" id="license_sec"></a>
-License</h1>
-<p>Copyright (C) 2012 University of Washington, Seattle, WA, USA</p>
+
+<p>roadRunner C API 2012  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;stdbool.h&quot;</code><br/>
+</div>
+<p><a href="rrc__exporter_8h_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>roadRunner C API 2012 </p>
+<dl class="section author"><dt>Author</dt><dd>Totte Karlsson &amp; Herbert M Sauro</dd></dl>
+<p>&lt;-----------------------------------------------------------&mdash; This file is part of cRoadRunner. See <a href="http://code.google.com/p/roadrunnerlib">http://code.google.com/p/roadrunnerlib</a> for more details.</p>
+<p>Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at </p>
 <pre class="fragment">http://www.apache.org/licenses/LICENSE-2.0
 </pre><p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
