@@ -10,7 +10,7 @@ To build roadrunner from source we use:
 
 Download and install the following prior to starting. These are the download links.
 * [CMake](http://www.cmake.org/files/v2.8/cmake-2.8.12.1-win32-x86.exe)
-* [Microsoft Visual Studio](http://www.visualstudio.com/)
+* <a href="http://msdn.microsoft.com/en-us/library/dd831853(v=vs.100).aspx">Microsoft Visual Studio</a>
 * [Python 2.7](http://python.org/ftp/python/2.7.6/python-2.7.6.msi)
 
 The instructions below will guide you to:
