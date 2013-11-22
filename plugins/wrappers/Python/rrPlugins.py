@@ -153,6 +153,14 @@ def setPluginInputData(pluginHandle, userData):
     return rrpLib.setPluginInputData(pluginHandle, c_void_p(userData))
 
 #Plugin Parameter functionality
+rrpLib.createParameter.restype = c_void_p
+def createParameter(name, the_type):
+    return rrpLib.createParameter(name, the_type, None)
+
+rrpLib.addParameterToList.restype = c_bool
+def addParameterToList(listHandle, paraHandle):
+    return rrpLib.addParameterToList(listHandle, paraHandle)
+
 rrpLib.getPluginParameters.restype = c_char_p
 def getPluginParameters(pluginHandle, capabilityName):
     return rrpLib.getPluginParameters(pluginHandle, capabilityName)
@@ -215,6 +223,14 @@ def getParameterValue(paraHandle):
         return ptr[0]
     else:
         return None
+
+#DOCS
+rrpLib.getPluginManualAsPDF.restype =  POINTER(c_ubyte)
+def getPluginManualAsPDF(pluginHandle):
+    return rrpLib.getPluginManualAsPDF(pluginHandle)
+
+def getPluginManualNrOfBytes(pluginHandle):
+    return rrpLib.getPluginManualNrOfBytes(pluginHandle)
 
 
 #Minimization data funcionality
