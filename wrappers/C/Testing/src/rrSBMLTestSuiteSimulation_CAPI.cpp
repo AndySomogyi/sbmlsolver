@@ -66,8 +66,14 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
 
         LoadSBMLOptions opt;
 
-        // simulation only, no need for accessor functions.
-        opt.modelGeneratorOpt |= (LoadSBMLOptions::READ_ONLY | LoadSBMLOptions::RECOMPILE);
+        // don't generate cache for models
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
+
+        // no mutable initial conditions
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+
+        // read only model
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::READ_ONLY;
 
         if(!rri->load(fileName, &opt))
         {

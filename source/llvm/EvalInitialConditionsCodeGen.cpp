@@ -11,6 +11,7 @@
 #include "SBMLInitialValueSymbolResolver.h"
 #include "ModelInitialValueSymbolResolver.h"
 #include "rrLogger.h"
+#include "rrModelGenerator.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <Poco/Logger.h>
@@ -22,6 +23,7 @@ using namespace std;
 
 using rr::Logger;
 using rr::getLogger;
+using rr::ModelGenerator;
 
 
 namespace rrllvm
@@ -58,27 +60,33 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     ModelDataStoreSymbolResolver modelDataResolver(modelData, model,
             modelSymbols, dataSymbols, builder, initialValueResolver);
 
+
+    // generate model code for both floating and boundary species
     codeGenSpecies(modelDataResolver);
-
-    // need these for now as test suite does is read only model.
-
-    // TODO only generate these when ModelGenerator::READ_ONLY
-    // is enabled
-    codeGenCompartments(modelDataResolver);
-
-    codeGenStoichiometry(modelData, modelDataResolver);
 
     codeGenParameters(modelDataResolver);
 
 
-    ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,
-                modelSymbols, dataSymbols, builder, initialValueResolver);
+    // initializes the values stored in the model
+    // to the values specified in the sbml.
+    if (this->options & ModelGenerator::READ_ONLY)
+    {
+        codeGenCompartments(modelDataResolver);
+    }
 
+    // generates code to set the *initial* values in the model to
+    // the values specified in the sbml.
+    if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
+    {
+        ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,
+                        modelSymbols, dataSymbols, builder, initialValueResolver);
 
-    // TODO only generate these when using mutable initial conditions.
-    codeGenInitSpecies(initValueStoreResolver);
+        codeGenInitSpecies(initValueStoreResolver);
 
-    codeGenInitCompartments(initValueStoreResolver);
+        codeGenInitCompartments(initValueStoreResolver);
+    }
+
+    codeGenStoichiometry(modelData, modelDataResolver);
 
     builder.CreateRetVoid();
 

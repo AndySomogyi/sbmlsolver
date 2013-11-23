@@ -643,17 +643,27 @@ void LLVMExecutableModel::reset()
 {
     // eval the initial conditions and rates
     setTime(0.0);
-    //evalInitialConditions();
 
-    double *buffer = new double[modelData->numIndFloatingSpecies];
-    getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-    setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-    delete[] buffer;
+    if (getCompartmentInitVolumesPtr && getFloatingSpeciesInitAmountsPtr)
+    {
+        // have to set compartments first, these are used to
+        // convert between concentrations and amounts.
+        unsigned size = std::max(modelData->numIndCompartments,
+                modelData->numIndFloatingSpecies);
 
-    buffer = new double[modelData->numIndCompartments];
-    getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
-    setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
-    delete[] buffer;
+        double *buffer = new double[size];
+        getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
+        setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
+
+        getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+        setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+
+        delete[] buffer;
+    }
+    else
+    {
+        evalInitialConditions();
+    }
 
     evalReactionRates();
 
@@ -661,7 +671,7 @@ void LLVMExecutableModel::reset()
     // before the simulation starts.
     setTime(-1.0);
 
-    Log(Logger::LOG_TRACE) << __FUNC__ << this;
+    Log(Logger::LOG_DEBUG) << __FUNC__ << *modelData;
 }
 
 bool LLVMExecutableModel::getConservedSumChanged()
