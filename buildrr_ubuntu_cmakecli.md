@@ -27,6 +27,31 @@ The following applications and libraries need to be available on the system:
 * zliblg-dev
 * liblzma-dev
 
+##The following is a script/ set of commands that work (Stan)
+
+    sudo apt-get install -y python-numpy swig llvm-3.2
+    mkdir -p ~/rr/build/thirdparty
+    mkdir -p ~/rr/build/all
+    cd ~/rr
+    git clone https://github.com/stanley-gu/roadrunner
+    
+    cd ~/rr/build/thirdparty
+    cmake ../../roadrunner/third_party/
+    make -j4
+    sudo make install
+    
+    cd ~/rr/build/all
+    cmake -DBUILD_SWIG_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_PLUGINS=OFF -DBUILD_PLUGINS_C_API=OFF -DBUILD_ADD_NOISE_PLUGIN=OFF -DBUILD_LEVENBERG_MARQUARDT_PLUG=OFF  ../../roadrunner
+    make -j4
+    sudo make install
+    # Adding to python search path
+    echo "/usr/local/site-packages/roadrunner" | sudo tee /usr/local/lib/python2.7/dist-packages/rr.pth
+
+
+
+
+#OLD# below
+
 ## Checkout RoadRunner code
 Checkout RoadRunner source files from google code using subversion:
 
