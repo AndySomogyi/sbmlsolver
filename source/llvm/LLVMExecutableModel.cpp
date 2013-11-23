@@ -648,7 +648,7 @@ void LLVMExecutableModel::reset()
     {
         // have to set compartments first, these are used to
         // convert between concentrations and amounts.
-        unsigned size = std::max(modelData->numIndCompartments,
+        unsigned size = max(modelData->numIndCompartments,
                 modelData->numIndFloatingSpecies);
 
         double *buffer = new double[size];
