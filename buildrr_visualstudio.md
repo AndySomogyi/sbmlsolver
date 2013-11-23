@@ -18,11 +18,13 @@ To prepare download and install the following. These are the tools we use to bui
 * [Python 2.7](http://python.org/ftp/python/2.7.6/python-2.7.6.msi)
 * [Git 1.8.4](http://git-scm.com/download/win)
 
-# 1. Create directory structure 
-These will be the directories for build, install, and source
+The commands in these instructions are used in the Git Bash console, which installs with Git on Windows. To use `wget` in Git Bash, to download needed files in the console, instead of downloading files using the browser, follow the instructions to install `wget`: [http://www.kadamwhite.com/archives/2012/wget-in-git-bash](http://www.kadamwhite.com/archives/2012/wget-in-git-bash). The commands will mostly work in a regular windows command prompt `cmd` as well, except for `wget`.
 
-The commands in these instructions are used in the Git Bash console. To use `wget` in Git Bash follow the instructions here to install `wget`: [http://www.kadamwhite.com/archives/2012/wget-in-git-bash](http://www.kadamwhite.com/archives/2012/wget-in-git-bash)
-The commands should work in a regular windows command prompt `cmd` as well, except for `wget`.
+Start the console by going to your windows `Start menu`, typing to search `git bash`, then clicking on it when it comes up. 
+
+# 1. Create directory structure 
+These will be the directories for build, install, and source. An organized setup is recommended. In the rest of the instructions this structure will be used.
+
 Your directory tree will look like this:
 
 <pre>
@@ -47,9 +49,12 @@ vs
 
 </pre>
 
+It is important to note that build files are kept separate from source files, and install files separate from build and source files as well.
+
+
 
 ### To create directories run these commands
-The commands below should be copied and pasted into the Git Bash console to run. Start the console by going to your windows `Start menu`, typing to search `git bash`, then clicking on it when it comes up. 
+Copy and paste the commands below into the Git Bash console to run.
 
     #Root dir
     cd C:\\
