@@ -67,10 +67,10 @@ static PatternFormatter *getPatternFormatter();
 
 Poco::Logger& getLogger()
 {
+    Mutex::ScopedLock lock(loggerMutex);
+
     if (pocoLogger == 0)
     {
-        Mutex::ScopedLock lock(loggerMutex);
-
         pocoLogger = &Poco::Logger::get("RoadRunner");
 
         // first time this is called, channels better be null

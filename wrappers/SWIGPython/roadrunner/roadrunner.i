@@ -4,6 +4,12 @@
 (c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "
         ""threads"=1) roadrunner
 
+// most methods should leave the GIL locked, no point to extra overhead
+// for fast methods. Only Roadrunner with long methods like simulate
+// and load release the GIL.
+%nothread;
+
+
 // ************************************************************
 // Module Includes
 // ************************************************************
@@ -701,7 +707,11 @@ namespace std { class ostream{}; }
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <rrModelGenerator.h>
+
+%thread;
 %include <rrRoadRunner.h>
+%nothread;
+
 %include <rrSelectionRecord.h>
 %include "conservation/ConservedMoietyConverter.h"
 
@@ -728,6 +738,7 @@ namespace std { class ostream{}; }
         return s.str();
     }
 }
+
 
 
 %extend rr::RoadRunner
