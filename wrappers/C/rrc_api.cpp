@@ -1358,7 +1358,7 @@ RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        vector<double> vec =  rri->computeSteadyStateValues();
+        vector<double> vec =  rri->getSteadyStateValues();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
@@ -1514,8 +1514,10 @@ RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr ve
     try
     {
         RoadRunner* rri = castFrom(handle);
-        vector<double> tempList = rrc::createVector(vec);
-        tempList = rri->getRatesOfChangeEx(tempList);
+        vector<double> values = rrc::createVector(vec);
+
+        rri->setFloatingSpeciesConcentrations(values);
+        vector<double> tempList = rri->getRatesOfChange();
         return rrc::createVector (tempList);
     }
     catch_ptr_macro
@@ -1659,7 +1661,7 @@ static NewArrayList RoadRunner_getUnscaledFluxControlCoefficientIds(RoadRunner *
     vector<string> oReactions = rr->getReactionIds();
     vector<string> oParameters = rr->getGlobalParameterIds();
     vector<string> oBoundary = rr->getBoundarySpeciesIds();
-    vector<string> oConservation = rr->getConservedSumIds();
+    vector<string> oConservation = rr->getConservedMoietyIds();
 
     for(int i = 0; i < oReactions.size(); i++)
     {
@@ -1812,7 +1814,7 @@ NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr)
     vector<string> oReactions       = rr->getReactionIds();
     vector<string> oParameters      = rr->getGlobalParameterIds();
     vector<string> oBoundary        = rr->getBoundarySpeciesIds();
-    vector<string> oConservation    = rr->getConservedSumIds();
+    vector<string> oConservation    = rr->getConservedMoietyIds();
 
     for(int i = 0; i < oReactions.size(); i++)
     {
@@ -1928,7 +1930,7 @@ NewArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr)
     vector<string> oFloating        = rr->getFloatingSpeciesIds();
     vector<string> oParameters      = rr->getGlobalParameterIds();
     vector<string> oBoundary        = rr->getBoundarySpeciesIds();
-    vector<string> oConservation    = rr->getConservedSumIds();
+    vector<string> oConservation    = rr->getConservedMoietyIds();
 
     for(int i = 0; i < oFloating.size(); i++)
     {
@@ -1968,7 +1970,7 @@ NewArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr)
     vector<string> oFloating        = rr->getFloatingSpeciesIds();
     vector<string> oParameters      = rr->getGlobalParameterIds();
     vector<string> oBoundary        = rr->getBoundarySpeciesIds();
-    vector<string> oConservation    = rr->getConservedSumIds();
+    vector<string> oConservation    = rr->getConservedMoietyIds();
 
     for(int i = 0; i < oFloating.size(); i++)
     {
@@ -2008,7 +2010,7 @@ NewArrayList sel_getElasticityCoefficientIds(RoadRunner* rr)
     vector<string> reactionNames        = rr->getReactionIds();
     vector<string> floatingSpeciesNames = rr->getFloatingSpeciesIds();
     vector<string> boundarySpeciesNames = rr->getBoundarySpeciesIds();
-    vector<string> conservationNames    = rr->getConservedSumIds();
+    vector<string> conservationNames    = rr->getConservedMoietyIds();
     vector<string> globalParameterNames = rr->getGlobalParameterIds();
 
     for(int i = 0; i < reactionNames.size(); i++)
@@ -2054,7 +2056,7 @@ NewArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
     vector<string> oFloating = rr->getFloatingSpeciesIds();
     vector<string> oBoundary = rr->getBoundarySpeciesIds();
     vector<string> oGlobalParameters = rr->getGlobalParameterIds();
-    vector<string> oConservation = rr->getConservedSumIds();
+    vector<string> oConservation = rr->getConservedMoietyIds();
 
     for(int i = 0; i < oReactions.size(); i++)
     {

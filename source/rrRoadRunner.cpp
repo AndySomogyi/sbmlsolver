@@ -1272,16 +1272,12 @@ double RoadRunner::getVariableValue(const VariableType::VariableType variableTyp
     }
     break;
 
-
     default:
         throw CoreException("Unrecognised variable in getVariableValue");
         break;
     }
     return 0;
 }
-
-
-
 
 int RoadRunner::createDefaultSteadyStateSelectionList()
 {
@@ -1300,14 +1296,12 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
     return mSteadyStateSelection.size();
 }
 
-// Help("Returns the selection list as returned by computeSteadyStateValues().")
 vector<SelectionRecord>& RoadRunner::getSteadyStateSelections()
 {
     return mSteadyStateSelection;
 }
 
-// Help("performs steady state analysis, returning values as given by setSteadyStateSelectionList().")
-vector<double> RoadRunner::computeSteadyStateValues()
+vector<double> RoadRunner::getSteadyStateValues()
 {
     if (!mModel)
     {
@@ -1317,110 +1311,15 @@ vector<double> RoadRunner::computeSteadyStateValues()
     {
         createDefaultSteadyStateSelectionList();
     }
-    return computeSteadyStateValues(mSteadyStateSelection, true);
-}
 
-vector<double> RoadRunner::computeSteadyStateValues(const vector<SelectionRecord>& selection, bool computeSteadyState)
-{
-    if (computeSteadyState)
-    {
-        steadyState();
-    }
+    steadyState();
 
     vector<double> result; //= new double[oSelection.Length];
-    for (int i = 0; i < selection.size(); i++)
+    for (int i = 0; i < mSteadyStateSelection.size(); i++)
     {
-        result.push_back(computeSteadyStateValue(selection[i]));
+        result.push_back(getValue(mSteadyStateSelection[i]));
     }
     return result;
-}
-
-double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if (record.selectionType == SelectionRecord::UNKNOWN)
-    {
-        return computeSteadyStateValue(record.p1);
-    }
-    return getValue(record);
-}
-
-
-double RoadRunner::computeSteadyStateValue(const string& sId)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    string tmp("CC:");
-    if(sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string sList = sId.substr(tmp.size());
-        string sVariable = sList.substr(0, sList.find_first_of(","));
-        string sParameter = sList.substr(sVariable.size() + 1);
-        return getCC(sVariable, sParameter);
-    }
-
-    tmp = "uCC:";
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string sList = sId.substr(tmp.size());
-        string sVariable = sList.substr(0, sList.find_first_of(","));
-        string sParameter = sList.substr(sVariable.size() + 1);
-        return getuCC(sVariable, sParameter);
-    }
-
-    tmp = "EE:";
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string sList = sId.substr(tmp.size());
-        string sReaction = sList.substr(0, sList.find_first_of(","));
-        string sVariable = sList.substr(sReaction.size() + 1);
-        return getEE(sReaction, sVariable);
-    }
-
-    tmp = "uEE:";
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string sList = sId.substr(tmp.size());
-        string sReaction = sList.substr(0, sList.find_first_of(","));
-        string sVariable = sList.substr(sReaction.size() + 1);
-        return getuEE(sReaction, sVariable);
-    }
-    else
-    {
-        tmp = "eigen_";
-        if (sId.compare(0, tmp.size(), tmp) == 0)
-        {
-            string sSpecies = sId.substr(tmp.size());
-            int nIndex;
-            if ((nIndex = mModel->getFloatingSpeciesIndex(sSpecies)) >= 0)
-            {
-                DoubleMatrix mat = getReducedJacobian();
-                vector<Complex> oComplex = ls::getEigenValues(mat);
-
-                if (oComplex.size() > nIndex)
-                {
-                    return std::real(oComplex[nIndex]);
-                }
-                return gDoubleNaN;
-            }
-            throw CoreException(format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
-        }
-        try
-        {
-            return getValue(sId);
-        }
-        catch (Exception& )
-        {
-            throw CoreException(format("Found unknown symbol '{0}' in computeSteadyStateValue()", sId));
-        }
-    }
 }
 
 string RoadRunner::getModelName()
@@ -1521,13 +1420,6 @@ double RoadRunner::getRateOfChange(const int& index)
     }
 
     throw CoreException(format("Index in getRateOfChange out of range: [{0}]", index));
-}
-
-// Help("Returns the rates of changes given an array of new floating species concentrations")
-vector<double> RoadRunner::getRatesOfChangeEx(const vector<double>& values)
-{
-    setFloatingSpeciesConcentrations(values);
-    return getRatesOfChange();
 }
 
 
@@ -3022,8 +2914,8 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
     }
 }
 
-//From Franks RoadRunner csharp.. Used in Freq analysis code
-//Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)
+
+
 double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, const string& parameterName)
 {
     int parameterIndex;
@@ -3267,7 +3159,7 @@ vector<string> RoadRunner::getBoundarySpeciesIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
-vector<string> RoadRunner::getConservedSumIds()
+vector<string> RoadRunner::getConservedMoietyIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumConservedMoieties,
             &ExecutableModel::getConservedMoietyId);
