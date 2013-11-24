@@ -77,7 +77,7 @@ void LMWorker::run()
 
     if(mTheHost.mWorkProgressCB)
     {
-        mTheHost.mWorkProgressCB(mTheHost.mWorkProgressData1);
+        mTheHost.mWorkProgressCB(mTheHost.mWorkProgressData1, NULL);
     }
 
     lmmin(  mLMData.nrOfParameters,

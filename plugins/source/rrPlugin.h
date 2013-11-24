@@ -19,7 +19,7 @@ using namespace rr;
 class PluginManager;
 
 //Plugin callback functions
-typedef void    (callback_cc *PluginCallBackFnc)(void* data1 = NULL, void* data2 = NULL);
+typedef void    (callback_cc *PluginCallBackFnc)(void* data1, void* data2);
 
 using std::string;
 

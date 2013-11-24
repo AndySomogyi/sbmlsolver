@@ -13086,4 +13086,4 @@ unsigned char pdf_doc[]={
   0x0a, 0x25, 0x25, 0x45, 0x4f, 0x46, 0x0a
 };
 
-int sizeofPDF = sizeof(pdf_doc);
+size_t sizeofPDF = sizeof(pdf_doc);
