@@ -656,11 +656,8 @@ def simulate(aHandle = None):
 #def simulateJobs(rrsHandle, nrOfThreads):
 #    return rrLib.simulateJobs(rrsHandle, nrOfThreads)
 
-def writeRRData(outFile, rrInstanceList=None):
-    if rrInstanceList is not None:
-        rrLib.writeMultipleRRData(rrInstanceList, outFile)
-    else:
-        rrLib.writeRRData(gHandle, outFile)
+def writeRRData(rrData, outFile):
+        rrLib.writeRRData(rrData, outFile)
 
 
 def getSimulationResult(aHandle = None):
