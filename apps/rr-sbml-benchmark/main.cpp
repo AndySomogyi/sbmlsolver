@@ -96,7 +96,14 @@ int main(int argc, char** argv)
     LoadSBMLOptions opt;
 
     // don't generate cache for models
-    opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
+    opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
+
+    // no mutable initial conditions
+    opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+
+    // read only model
+    opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::READ_ONLY;
+
 
     roadRunner.load(sbmlFile, &opt);
 

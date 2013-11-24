@@ -133,6 +133,11 @@ public:
 
     bool getConservedMoietyAnalysis() const;
 
+    unsigned getOptions() const
+    {
+        return options;
+    }
+
 private:
 
     /**

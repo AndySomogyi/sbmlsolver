@@ -47,6 +47,7 @@ protected:
             module(mgc.getModule()),
             builder(mgc.getBuilder()),
             engine(mgc.getExecutionEngine()),
+            options(mgc.getOptions()),
             function(0)
     {
     };
@@ -64,6 +65,11 @@ protected:
     llvm::IRBuilder<> &builder;
     llvm::ExecutionEngine &engine;
     llvm::Function *function;
+
+    /**
+     * the options bit field that was passed into the top level load method.
+     */
+    const unsigned options;
 
     virtual llvm::Value *codeGen() = 0;
 
