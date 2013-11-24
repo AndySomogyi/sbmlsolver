@@ -328,7 +328,7 @@ llvm::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const
 
 void ModelGeneratorContext::initFunctionPassManager()
 {
-    if (options | ModelGenerator::OPTIMIZE)
+    if (options & ModelGenerator::OPTIMIZE)
     {
         functionPassManager = new FunctionPassManager(module);
 
@@ -339,11 +339,44 @@ void ModelGeneratorContext::initFunctionPassManager()
          // Provide basic AliasAnalysis support for GVN.
         functionPassManager->add(createBasicAliasAnalysisPass());
 
-        if(options | ModelGenerator::OPTIMIZE_GVN)
+
+        if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
+            functionPassManager->add(createInstructionSimplifierPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_COMBINING)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_INSTRUCTION_COMBINING";
+            functionPassManager->add(createInstructionCombiningPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_CFG_SIMPLIFICATION)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_CFG_SIMPLIFICATION";
+            functionPassManager->add(createCFGSimplificationPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_DEAD_INST_ELIMINATION)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
+            functionPassManager->add(createDeadInstEliminationPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_DEAD_CODE_ELIMINATION)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
+            functionPassManager->add(createDeadCodeEliminationPass());
+        }
+
+        if(options & ModelGenerator::OPTIMIZE_GVN)
         {
             Log(Logger::LOG_NOTICE) << "using GVN optimization";
             functionPassManager->add(createGVNPass());
         }
+
+        functionPassManager->doInitialization();
     }
 }
 

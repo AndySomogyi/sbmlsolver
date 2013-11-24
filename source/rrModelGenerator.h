@@ -96,12 +96,18 @@ public:
         OPTIMIZE_DEAD_CODE_ELIMINATION   = (0x1 << 8),
 
         /**
+         * InstructionSimplifier - Remove redundant instructions.
+         */
+        OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9),
+
+        /**
          * all optimizations, use to check if bit mask has
          * any optimizations.
          */
         OPTIMIZE = OPTIMIZE_GVN | OPTIMIZE_CFG_SIMPLIFICATION |
             OPTIMIZE_INSTRUCTION_COMBINING |
-            OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION
+            OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION |
+            OPTIMIZE_INSTRUCTION_SIMPLIFIER
     };
 
     /**

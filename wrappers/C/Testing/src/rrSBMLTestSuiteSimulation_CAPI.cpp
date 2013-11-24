@@ -75,6 +75,12 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         // read only model
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::READ_ONLY;
 
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING;
+
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
+
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION;
+
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
 
         if(!rri->load(fileName, &opt))

@@ -105,6 +105,11 @@ struct RR_DECLSPEC LoadSBMLOptions
          * computations.
          */
         OPTIMIZE_DEAD_CODE_ELIMINATION   = (0x1 << 8),
+
+        /**
+         * InstructionSimplifier - Remove redundant instructions.
+         */
+        OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9)
     };
 
     enum LoadOpt
