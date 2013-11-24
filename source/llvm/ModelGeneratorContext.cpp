@@ -352,6 +352,12 @@ void ModelGeneratorContext::initFunctionPassManager()
             functionPassManager->add(createInstructionCombiningPass());
         }
 
+        if(options & ModelGenerator::OPTIMIZE_GVN)
+        {
+            Log(Logger::LOG_NOTICE) << "using GVN optimization";
+            functionPassManager->add(createGVNPass());
+        }
+
         if (options & ModelGenerator::OPTIMIZE_CFG_SIMPLIFICATION)
         {
             Log(Logger::LOG_NOTICE) << "using OPTIMIZE_CFG_SIMPLIFICATION";
@@ -370,11 +376,6 @@ void ModelGeneratorContext::initFunctionPassManager()
             functionPassManager->add(createDeadCodeEliminationPass());
         }
 
-        if(options & ModelGenerator::OPTIMIZE_GVN)
-        {
-            Log(Logger::LOG_NOTICE) << "using GVN optimization";
-            functionPassManager->add(createGVNPass());
-        }
 
         functionPassManager->doInitialization();
     }
