@@ -75,6 +75,8 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         // read only model
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::READ_ONLY;
 
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
+
         if(!rri->load(fileName, &opt))
         {
             Log(Logger::LOG_ERROR) << "Failed to load SBML";
