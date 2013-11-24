@@ -323,13 +323,14 @@ public:
      * @param ids: a list of strings that will be filled by this class.
      * @param types: the types of ids that are requested. Can be set to
      * 0xffffffff to request all the ids that this class supports.
+     * This should by a bitwise OR of the filelds in SelectionRecord::SelectionType
      */
-    virtual void getIds(uint32_t types, std::list<std::string> &ids) = 0;
+    virtual void getIds(int types, std::list<std::string> &ids) = 0;
 
     /**
      * returns a bit field of the ids that this class supports.
      */
-    virtual uint32_t getSupportedIdTypes() = 0;
+    virtual int getSupportedIdTypes() = 0;
 
     /**
      * gets the value for the given id string. The string must be a SelectionRecord
@@ -367,11 +368,11 @@ public:
     virtual double getStoichiometry(int speciesIndex, int reactionIndex) = 0;
 
 
-    virtual int getNumConservedSums() = 0;
-    virtual int getConservedSumIndex(const std::string& eid) = 0;
-    virtual std::string getConservedSumId(int index) = 0;
-    virtual int getConservedSums(int len, int const *indx, double *values) = 0;
-    virtual int setConservedSums(int len, int const *indx,
+    virtual int getNumConservedMoieties() = 0;
+    virtual int getConservedMoietyIndex(const std::string& eid) = 0;
+    virtual std::string getConservedMoietyId(int index) = 0;
+    virtual int getConservedMoietyValues(int len, int const *indx, double *values) = 0;
+    virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values) = 0;
 
     virtual int getNumRules() = 0;

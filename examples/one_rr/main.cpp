@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
         RoadRunner rr1("", tmpFolder);
         LoadSBMLOptions opt;
-        opt.modelGeneratorOpt |= LoadSBMLOptions::ForceReCompile;
+        opt.modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
         if(!rr1.load(modelFile, &opt))
         {
             Log(Logger::LOG_ERROR)<<"There was a problem loading model in file: "<<modelFile;

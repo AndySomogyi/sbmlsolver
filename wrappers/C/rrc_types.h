@@ -82,8 +82,8 @@ typedef struct
 /*!@brief Structure for a simple vector of strings */
 typedef struct
 {
-    int             Count;				/*!< The number of elements in the string array */
-    char**          String;				/*!< Points to an array of string items */
+    int             Count;		/*!< The number of elements in the string array */
+    char**          String;		/*!< Points to an array of string items */
 } *RRStringArrayPtr, RRStringArray;     /*!< Pointer to RRStringListHandle struct */
 
 /*!@struct*/
@@ -109,9 +109,9 @@ typedef struct RRComplex
 typedef struct RRComplexVector
 {
     int                 Count;   /*!< The number of elements in the vector */
-    RRComplexPtr        Data;   /*!< Access an element using Data[i],
-                                      where i represent the index of the element. Indexing is from zero */
-} *RRComplexVectorPtr;       /*!< Pointer to RRVectorHandle struct */
+    RRComplexPtr        Data;    /*!< Access an element using Data[i], where
+                                     i represents the index of the element. Indexing is from zero */
+} *RRComplexVectorPtr;           /*!< Pointer to RRVectorHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Matrix type */

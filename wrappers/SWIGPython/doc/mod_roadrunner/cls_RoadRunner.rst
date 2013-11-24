@@ -84,10 +84,6 @@
 
 
 
-.. method:: RoadRunner.getConservationAnalysis()
-   :module: roadrunner
-
-   is conservation analysis enabled. This is set NEEDS MORE
 
 
 
@@ -496,10 +492,15 @@
 
 
 
-.. method:: RoadRunner.setConservationAnalysis(*args)
+.. attribute:: RoadRunner.conservedMoietyAnalysis
    :module: roadrunner
 
-   TODO docs
+   Enables / Disables conserved moiety analysis (boolean). 
+
+   If this is enabled, the sbml document (either current, or one about to be loaded) 
+   is converted using the ConservedMoietyConverter. All of the linearly dependent 
+   species are replaced with assignment rules and a new set of conserved moeity 
+   parameters are introduced. 
 
 
 .. method:: RoadRunner.simulate(*args)
@@ -592,37 +593,6 @@
 
    TODO docs
 
-.. method:: RoadRunner.getRatesOfChange()
-   :module: roadrunner
-
-   Returns a vector of rates of change as determined by the current state of the model.
-
-
-.. method:: RoadRunner.getRateOfChange(index)
-   :module: roadrunner
-
-   Returns the rate of change for the ith floating species. The order of species is determined by
-   getFloatingSpeciesIds().
-
-   :param parameter: The id of the floating species.
-
-   :returns: The value of rate of change.
-
-   :rtype: double
-
-
-.. method:: RoadRunner.getRatesOfChangeEx(speciesVector)
-   :module: roadrunner
-
-   Returns a vector of rates of change as determined by the values in the species vector argument.
-
-
-.. method:: RoadRunner.getRatesOfChangeIds()
-   :module: roadrunner
-
-   Returns a vector of Ids for the rates of changes.
-
-
 
 .. method:: RoadRunner.evalModel()
    :module: roadrunner
@@ -632,8 +602,3 @@
 
    :returns: Returns true if successful
 
-
-.. method:: RoadRunner.getNumberOfGlobalParameters()
-   :module: roadrunner
-
-   Returns the number of global parameters in the model.

@@ -22,7 +22,7 @@ using rr::getLogger;
 using rr::LoggingBuffer;
 using rr::SelectionRecord;
 
-#if defined(_WIN32) || defined(__WIN32__)
+#if defined (_WIN32)
 #define isnan _isnan
 #else
 #define isnan std::isnan
@@ -62,16 +62,32 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
 typedef string (rr::ExecutableModel::*getNamePtr)(int);
 typedef int (rr::ExecutableModel::*getNumPtr)();
 
-// make this static here, hide our implementation...
-static void addIds(rr::ExecutableModel *model,
-        getNumPtr numFunc, getNamePtr nameFunc,
-        std::list<std::string>& ids)
-{
-    const int num = (model->*numFunc)();
+/**
+ * checks if the bitfield value has all the required flags
+ * from type
+ */
+inline bool checkExact(uint32_t type, uint32_t value) {
+    return (value & type) == type;
+}
 
-    for(int i = 0; i < num; i++)
+// make this static here, hide our implementation...
+static void addIds(rr::ExecutableModel *model, int start, int end,
+        getNamePtr nameFunc, std::list<std::string>& ids)
+{
+    for(int i = start; i < end; i++)
     {
         const std::string& name  = (model->*nameFunc)(i);
+        ids.push_back(name);
+    }
+}
+
+// make this static here, hide our implementation...
+static void addConcIds(rr::ExecutableModel *model, int start, int end,
+        getNamePtr nameFunc, std::list<std::string>& ids)
+{
+    for(int i = start; i < end; i++)
+    {
+        const std::string& name  = "[" + (model->*nameFunc)(i) + "]";
         ids.push_back(name);
     }
 }
@@ -627,17 +643,27 @@ void LLVMExecutableModel::reset()
 {
     // eval the initial conditions and rates
     setTime(0.0);
-    //evalInitialConditions();
 
-    double *buffer = new double[modelData->numIndFloatingSpecies];
-    getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-    setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-    delete[] buffer;
+    if (getCompartmentInitVolumesPtr && getFloatingSpeciesInitAmountsPtr)
+    {
+        // have to set compartments first, these are used to
+        // convert between concentrations and amounts.
+        unsigned size = max(modelData->numIndCompartments,
+                modelData->numIndFloatingSpecies);
 
-    buffer = new double[modelData->numIndCompartments];
-    getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
-    setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
-    delete[] buffer;
+        double *buffer = new double[size];
+        getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
+        setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
+
+        getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+        setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+
+        delete[] buffer;
+    }
+    else
+    {
+        evalInitialConditions();
+    }
 
     evalReactionRates();
 
@@ -645,7 +671,7 @@ void LLVMExecutableModel::reset()
     // before the simulation starts.
     setTime(-1.0);
 
-    Log(Logger::LOG_TRACE) << __FUNC__ << this;
+    Log(Logger::LOG_DEBUG) << __FUNC__ << *modelData;
 }
 
 bool LLVMExecutableModel::getConservedSumChanged()
@@ -730,47 +756,142 @@ void LLVMExecutableModel::print(std::ostream &stream)
     stream << getInfo();
 }
 
-void LLVMExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
+void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
 {
-    if (types & rr::SelectionRecord::FLOATING_AMOUNT) {
-        addIds(this, &rr::ExecutableModel::getNumFloatingSpecies,
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentFloatingSpeciesSize(),
                 &rr::ExecutableModel::getFloatingSpeciesId, ids);
     }
 
-    if (types & rr::SelectionRecord::BOUNDARY_AMOUNT) {
-        addIds(this, &rr::ExecutableModel::getNumBoundarySpecies,
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentFloatingSpeciesSize(),
+                symbols->getFloatingSpeciesSize(),
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentBoundarySpeciesSize(),
                 &rr::ExecutableModel::getBoundarySpeciesId, ids);
     }
 
-    if (types & rr::SelectionRecord::COMPARTMENT) {
-        addIds(this, &rr::ExecutableModel::getNumCompartments,
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::AMOUNT |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentBoundarySpeciesSize(),
+                symbols->getBoundarySpeciesSize(),
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addConcIds(this, 0, symbols->getIndependentFloatingSpeciesSize(),
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::FLOATING | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addConcIds(this, symbols->getIndependentFloatingSpeciesSize(),
+                symbols->getFloatingSpeciesSize(),
+                &rr::ExecutableModel::getFloatingSpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addConcIds(this, 0, symbols->getIndependentBoundarySpeciesSize(),
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY | SelectionRecord::CONCENTRATION |
+            SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addConcIds(this, symbols->getIndependentBoundarySpeciesSize(),
+                symbols->getBoundarySpeciesSize(),
+                &rr::ExecutableModel::getBoundarySpeciesId, ids);
+    }
+
+
+    if (checkExact(SelectionRecord::_COMPARTMENT | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentCompartmentSize(),
                 &rr::ExecutableModel::getCompartmentId, ids);
     }
 
-    if (types & rr::SelectionRecord::GLOBAL_PARAMETER) {
-        addIds(this, &rr::ExecutableModel::getNumGlobalParameters,
+    if (checkExact(SelectionRecord::_COMPARTMENT | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentCompartmentSize(),
+                symbols->getCompartmentsSize(),
+                &rr::ExecutableModel::getCompartmentId, ids);
+    }
+
+    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        addIds(this, 0, symbols->getIndependentGlobalParameterSize(),
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
-    if (types & rr::SelectionRecord::REACTION_RATE) {
-        addIds(this, &rr::ExecutableModel::getNumReactions,
+    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::CURRENT, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        addIds(this, symbols->getIndependentGlobalParameterSize(),
+                symbols->getGlobalParametersSize(),
+                &rr::ExecutableModel::getGlobalParameterId, ids);
+    }
+
+    if (checkExact(SelectionRecord::REACTION_RATE, types)) {
+        addIds(this, 0, symbols->getReactionSize(),
                 &rr::ExecutableModel::getReactionId, ids);
     }
 
-    if (types & rr::SelectionRecord::INITIAL_FLOATING_AMOUNT) {
-        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::CONCENTRATION, types) &&
+            (SelectionRecord::INDEPENDENT & types)) {
+        for (int i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::CONCENTRATION, types) &&
+            (SelectionRecord::DEPENDENT & types)) {
+        for (int i = symbols->getInitFloatingSpeciesSize();
+                i < symbols->getFloatingSpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::AMOUNT, types) &&
+            (SelectionRecord::INDEPENDENT & types)) {
+        for (int i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
         }
     }
 
-    if (types & rr::SelectionRecord::FLOATING_AMOUNT_RATE) {
-        for (int i = 0; i < getNumFloatingSpecies(); ++i) {
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
+            SelectionRecord::AMOUNT, types) &&
+            (SelectionRecord::DEPENDENT & types)) {
+        for (int i = symbols->getInitFloatingSpeciesSize();
+                i < symbols->getFloatingSpeciesSize(); ++i) {
+            ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
+        for (int i = 0; i < getNumIndFloatingSpecies(); ++i) {
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
 }
 
-uint32_t LLVMExecutableModel::getSupportedIdTypes()
+int LLVMExecutableModel::getSupportedIdTypes()
 {
     return SelectionRecord::TIME |
         SelectionRecord::BOUNDARY_CONCENTRATION |
@@ -942,6 +1063,11 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             setGlobalParameterValues(1, &index, &value);
             break;
         }
+        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            setBoundarySpeciesAmounts(1, &index, &value);
+            break;
+        }
         else
         {
             throw LLVMException("Invalid or non-existant sbml id  '" + id + "' for set value");
@@ -1008,6 +1134,18 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
 {
     assert(0);
     return 0;
+}
+
+int LLVMExecutableModel::setBoundarySpeciesAmounts(int len, const int* indx,
+        const double* values)
+{
+    int result = -1;
+    if (setBoundarySpeciesAmountPtr)
+    {
+        result = setValues(setBoundarySpeciesAmountPtr,
+                &LLVMExecutableModel::getBoundarySpeciesId, len, indx, values);
+    }
+    return result;
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()
@@ -1113,28 +1251,28 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
     return len;
 }
 
-int LLVMExecutableModel::getNumConservedSums()
+int LLVMExecutableModel::getNumConservedMoieties()
 {
     return 0;
 }
 
-int LLVMExecutableModel::getConservedSumIndex(const string& name)
+int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
 {
     return -1;
 }
 
-string LLVMExecutableModel::getConservedSumId(int index)
+string LLVMExecutableModel::getConservedMoietyId(int index)
 {
     return "";
 }
 
-int LLVMExecutableModel::getConservedSums(int len, const int* indx,
+int LLVMExecutableModel::getConservedMoietyValues(int len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int LLVMExecutableModel::setConservedSums(int len, const int* indx,
+int LLVMExecutableModel::setConservedMoietyValues(int len, const int* indx,
         const double* values)
 {
     return 0;

@@ -267,8 +267,12 @@ llvm::Value* ASTNodeCodeGen::applyArithmeticCodeGen(
     if (numChildren < 1)
     {
         stringstream err;
-        err << "MathML apply node from " << ast->getParentSBMLObject()->toSBML()
+
+        libsbml::SBase *parent = ast->getParentSBMLObject();
+        char *sbml = parent ? parent->toSBML() : 0;
+        err << "MathML apply node from " << (sbml ? sbml : "no parent sbml")
                 << " must have at least one child nodes";
+        delete sbml;
         throw_llvm_exception(err.str());
     }
     else if (numChildren == 1)

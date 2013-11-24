@@ -11,6 +11,14 @@
 #include <limits>
 #include <iostream>
 
+/**
+ * checks if the bitfield value has all the required flags
+ * from type
+ */
+inline bool checkExact(uint32_t type, uint32_t value) {
+    return (value & type) == type;
+}
+
 typedef string (rr::ExecutableModel::*getNamePtr)(int);
 typedef int (rr::ExecutableModel::*getNumPtr)();
 
@@ -1287,23 +1295,23 @@ int CompiledExecutableModel::getReactionRates(int len, const int* indx,
     return len;
 }
 
-int CompiledExecutableModel::getNumConservedSums()
+int CompiledExecutableModel::getNumConservedMoieties()
 {
     return ms.mConservationList.size();
 }
 
-int CompiledExecutableModel::getConservedSumIndex(const string& name)
+int CompiledExecutableModel::getConservedMoietyIndex(const string& name)
 {
     int result = -1;
     return ms.mConservationList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getConservedSumId(int index)
+string CompiledExecutableModel::getConservedMoietyId(int index)
 {
     return ms.mConservationList[index].name;
 }
 
-int CompiledExecutableModel::getConservedSums(int len, const int* indx,
+int CompiledExecutableModel::getConservedMoietyValues(int len, const int* indx,
         double* values)
 {
     for (int i = 0; i < len; ++i)
@@ -1321,7 +1329,7 @@ int CompiledExecutableModel::getConservedSums(int len, const int* indx,
     return len;
 }
 
-int CompiledExecutableModel::setConservedSums(int len, const int* indx,
+int CompiledExecutableModel::setConservedMoietyValues(int len, const int* indx,
         const double* values)
 {
     for (int i = 0; i < len; ++i)
@@ -1456,47 +1464,47 @@ int CompiledExecutableModel::getCompartmentInitVolumes(int len, int const *indx,
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
-void CompiledExecutableModel::getIds(uint32_t types, std::list<std::string> &ids)
+void CompiledExecutableModel::getIds(int types, std::list<std::string> &ids)
 {
-    if (types & rr::SelectionRecord::FLOATING_AMOUNT) {
+    if (checkExact(SelectionRecord::FLOATING_AMOUNT, types)) {
         addIds(this, &rr::ExecutableModel::getNumFloatingSpecies,
                 &rr::ExecutableModel::getFloatingSpeciesId, ids);
     }
 
-    if (types & rr::SelectionRecord::BOUNDARY_AMOUNT) {
+    if (checkExact(SelectionRecord::BOUNDARY_AMOUNT, types)) {
         addIds(this, &rr::ExecutableModel::getNumBoundarySpecies,
                 &rr::ExecutableModel::getBoundarySpeciesId, ids);
     }
 
-    if (types & rr::SelectionRecord::COMPARTMENT) {
+    if (checkExact(SelectionRecord::COMPARTMENT, types)) {
         addIds(this, &rr::ExecutableModel::getNumCompartments,
                 &rr::ExecutableModel::getCompartmentId, ids);
     }
 
-    if (types & rr::SelectionRecord::GLOBAL_PARAMETER) {
+    if (checkExact(SelectionRecord::GLOBAL_PARAMETER, types)) {
         addIds(this, &rr::ExecutableModel::getNumGlobalParameters,
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
-    if (types & rr::SelectionRecord::REACTION_RATE) {
+    if (checkExact(SelectionRecord::REACTION_RATE, types)) {
         addIds(this, &rr::ExecutableModel::getNumReactions,
                 &rr::ExecutableModel::getReactionId, ids);
     }
 
-    if (types & rr::SelectionRecord::INITIAL_FLOATING_CONCENTRATION) {
+    if (checkExact(SelectionRecord::INITIAL_FLOATING_CONCENTRATION, types)) {
         for (int i = 0; i < getNumFloatingSpecies(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
         }
     }
 
-    if (types & rr::SelectionRecord::FLOATING_AMOUNT_RATE) {
+    if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
         for (int i = 0; i < getNumFloatingSpecies(); ++i) {
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
 }
 
-uint32_t CompiledExecutableModel::getSupportedIdTypes()
+int CompiledExecutableModel::getSupportedIdTypes()
 {
     return SelectionRecord::TIME |
         SelectionRecord::BOUNDARY_CONCENTRATION |

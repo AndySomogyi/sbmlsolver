@@ -278,12 +278,12 @@ public:
     /**
      * populates a given list with all the ids that this class can accept.
      */
-    void getIds(uint32_t types, std::list<std::string> &ids);
+    void getIds(int types, std::list<std::string> &ids);
 
     /**
      * returns a bit field of the ids that this class supports.
      */
-    uint32_t getSupportedIdTypes();
+    int getSupportedIdTypes();
 
 
     /**
@@ -334,49 +334,56 @@ public:
      */
     std::vector<std::string> getEigenvalueIds();
 
-    double getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
-
-
-
+    /**
+     * Returns the unscaled elasticity for a named reaction with respect to a
+     * named parameter
+     */
+    double getUnscaledParameterElasticity(const string& reactionName,
+            const string& parameterName);
 
 
     Matrix<double> getFrequencyResponse(double startFrequency,
             int numberOfDecades, int numberOfPoints,
-            const string& parameterName, const string& variableName, bool useDB,
-            bool useHz);
-
-
+            const string& parameterName, const string& variableName,
+            bool useDB, bool useHz);
 
     /**
      * This method turns on / off the computation and adherence to conservation laws.
      */
-    void setConservationAnalysis(bool value);
+    void setConservedMoietyAnalysis(bool value);
 
     /**
      * is conservation analysis enabled. This is set
      */
-    bool getConservationAnalysis();
+    bool getConservedMoietyAnalysis();
 
     /**
      * Returns the SBML with the current parameterset.
      */
     std::string writeSBML();
 
+    /**
+     * @deprecated
+     */
     int getNumberOfReactions();
+
+    /**
+     * @deprecated
+     */
     double getReactionRate(const int& index);
 
     /**
      * Returns the rate of changes of a species by its index
      */
     double getRateOfChange(const int& index);
+
+
     std::vector<std::string> getRateOfChangeIds();
-    std::vector<double> getRatesOfChangeEx(const std::vector<double>& values);
 
 
+    std::vector<std::string> getConservedMoietyIds();
 
-    std::vector<std::string> getConservedSumIds();
-
-    std::vector<double> getConservedSums();
+    std::vector<double> getConservedMoietyValues();
 
     int getNumberOfCompartments();
 
@@ -431,8 +438,6 @@ public:
      * @deprecated, use ExecutableModel::getNumFloatingSpecies
      */
     int getNumberOfFloatingSpecies();
-
-
 
     /**
      * get / set conc.
@@ -574,42 +579,40 @@ public:
     /******************************************************************************/
 
     /**
-     * Compute the steady state of the model, returns the sum of squares of the solution
+     * Compute the steady state of the model, returns the sum of squares of the
+     * solution
      */
     double steadyState();
 
+    /**
+     * returns the current set of steady state selections.
+     */
     std::vector<rr::SelectionRecord>& getSteadyStateSelections();
 
-    void setSteadyStateSelections(const std::vector<std::string>& steadyStateSelections);
-
-    void setSteadyStateSelections(const std::vector<rr::SelectionRecord>& steadyStateSelections);
-
-
-    double computeSteadyStateValue(const SelectionRecord& record);
+    /**
+     * parses the given list of strings and generates selections records
+     * which will be used for the steady state selections.
+     */
+    void setSteadyStateSelections(const std::vector<std::string>&
+            steadyStateSelections);
 
     /**
-     * returns the value of the given steady state identifier.
+     * makes a copy of an existing list of selection records. These will be
+     * saved and used for selection values in getSteadyStateValues().
      */
-    std::vector<double> computeSteadyStateValues();
+    void setSteadyStateSelections(const std::vector<rr::SelectionRecord>&
+            steadyStateSelections);
 
     /**
-     * optionally compute the steady state and return a vector
-     * of the steady state values.
-     *
-     * @param selection: the list of selections to get values for.
-     * @param computeSteadyState: compute the steady state.
+     * Performs a steady state calculation (evolves the system to a steady
+     * state), then calculates and returns the set of values specifed by
+     * the steady state selections.
      */
-    std::vector<double> computeSteadyStateValues(
-            const std::vector<SelectionRecord>& selection,
-            bool computeSteadyState);
-
-    double computeSteadyStateValue(const std::string& sId);
-
+    std::vector<double> getSteadyStateValues();
 
     /******************************* End Steady State Section *********************/
     #endif /***********************************************************************/
     /******************************************************************************/
-
 
 private:
     static int mInstanceCount;

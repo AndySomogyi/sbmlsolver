@@ -28,12 +28,16 @@
 #include <string>
 #include <vector>
 
+
+
 namespace rr { namespace conservation {
 
 #ifndef CONSERVATION_CREATE_NS
 #define CONSERVATION_CREATE_NS(variable,sbmlns)\
   EXTENSION_CREATE_NS(ConservationPkgNamespaces,variable,sbmlns);
 #endif
+
+bool RR_DECLSPEC conservation_getInit();
 
 
 class RR_DECLSPEC ConservationExtension : public libsbml::SBMLExtension
@@ -71,11 +75,19 @@ public:
    */
   static const std::string&  getXmlnsL3V1V1();
 
-  //
-  // Other URI needed in this package (if any)
-  //
 
-  //---------------------------------------------------------------
+  /**
+   * check if the Species is a conserved moiety,
+   * a convenience function that just checks the ConservedMoietyPlugin
+   */
+  static bool getConservedMoiety(const libsbml::Species& s);
+
+  /**
+   * check if the Parameter is a conserved moiety,
+   * a convenience function that just checks the ConservedMoietyPlugin
+   */
+  static bool getConservedMoiety(const libsbml::Parameter& p);
+
 
 
   /**
@@ -205,6 +217,8 @@ public:
   /** @endcond doxygen-libsbml-internal */
 
 };
+
+
 
 
 // --------------------------------------------------------------------

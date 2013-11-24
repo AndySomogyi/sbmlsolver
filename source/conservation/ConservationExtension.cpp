@@ -17,7 +17,7 @@
 #include "ConservationDocumentPlugin.h"
 #include "ConservedMoietyPlugin.h"
 
-#include "rrLogger.h"
+
 
 #include <sbml/extension/SBMLExtensionRegister.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
@@ -26,6 +26,11 @@
 
 #include <iostream>
 #include <exception>
+#include <sstream>
+
+#include "rrLogger.h"
+#include "rrExporter.h"
+#include "rrOSSpecifics.h"
 
 
 // --------------------------------------------------------
@@ -35,15 +40,23 @@
 //
 // --------------------------------------------------------
 
-namespace libsbml {
-    template class LIBSBML_EXTERN libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
-}
 
+static bool initilized = false;
+
+
+template class RR_DECLSPEC libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
 
 namespace rr
 {
 namespace conservation
 {
+
+bool conservation_getInit()
+{
+    return initilized;
+}
+
+
 
 using namespace libsbml;
 
@@ -268,6 +281,23 @@ const char* ConservationExtension::getStringFromTypeCode(int typeCode) const
     return SBML_GROUPS_TYPECODE_STRINGS[typeCode - min];
 }
 
+bool ConservationExtension::getConservedMoiety(const libsbml::Species& s)
+{
+    const ConservedMoietyPlugin* plugin =
+            dynamic_cast<const ConservedMoietyPlugin*>(
+                    s.getPlugin("conservation"));
+    return plugin ? plugin->getConservedMoiety() : false;
+}
+
+bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
+{
+    const ConservedMoietyPlugin* plugin =
+            dynamic_cast<const ConservedMoietyPlugin*>(
+                    s.getPlugin("conservation"));
+    return plugin ? plugin->getConservedMoiety() : false;
+}
+
+
 /*
  *
  * Initialization function of groups extension module which is automatically invoked
@@ -276,6 +306,9 @@ const char* ConservationExtension::getStringFromTypeCode(int typeCode) const
  */
 void ConservationExtension::init()
 {
+    std::cout << __FUNC__ << std::endl;
+
+    initilized = true;
     //-------------------------------------------------------------------------
     //
     // 1. Checks if the groups pacakge has already been registered.
@@ -360,13 +393,13 @@ void ConservationExtension::init()
 
     if (result != LIBSBML_OPERATION_SUCCESS)
     {
-        const char* msg = "ConservationExtension::init() failed.";
-        Log(rr::Logger::LOG_CRITICAL) << msg;
-        throw std::runtime_error(msg);
+        std::stringstream ss;
+        ss << "ConservationExtension::init() failed, result: " << result;
+        throw std::runtime_error(ss.str().c_str());
     }
     else
     {
-        Log(rr::Logger::LOG_NOTICE) << "successfully registered conservation extension";
+        std::cout << "successfully registered conservation extension" << std::endl;
     }
 }
 

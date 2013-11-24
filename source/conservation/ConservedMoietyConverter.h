@@ -14,6 +14,57 @@
 #include <sbml/conversion/SBMLConverter.h>
 #include <sbml/conversion/SBMLConverterRegister.h>
 
+
+#ifdef SWIG
+
+%feature("docstring") rr::PyConservedMoietyConverter "
+ConservedMoietyConverter.__init__()
+
+
+Sets the source document. This may be either the contents of an sbml docment
+as a string, or the path the the file.
+
+:param str sbmlOrURI: contents or path of source document
+:returns: an integer indicating success or failure, 0 means success.
+:rtype: int
+";
+
+%feature("docstring") rr::PyConservedMoietyConverter::setDocument "
+ConservedMoietyConverter.setDocument(sbmlOrURI)
+
+
+Sets the source document. This may be either the contents of an sbml docment
+as a string, or the path the the file.
+
+:param str sbmlOrURI: contents or path of source document
+:returns: an integer indicating success or failure, 0 means success.
+:rtype: int
+";
+
+%feature("docstring") rr::PyConservedMoietyConverter::convert "
+ConservedMoietyConverter.convert()
+
+Perform the document conversion.
+
+:returns: an integer indicating success or failure, 0 means success.
+:rtype: int
+";
+
+%feature("docstring") rr::PyConservedMoietyConverter::getDocument "
+ConservedMoietyConverter.getDocument()
+
+Get the converted document contents.
+
+:returns: The contents of the converted document, or empty string
+          if there is no source document.
+";
+
+
+%rename (ConservedMoietyConverter) PyConservedMoietyConverter;
+
+#endif
+
+
 namespace ls {
     class LibStructural;
 }
@@ -22,6 +73,9 @@ namespace rr
 {
 namespace conservation
 {
+
+
+#ifndef SWIG
 
 class RR_DECLSPEC ConservedMoietyConverter: public libsbml::SBMLConverter
 {
@@ -44,6 +98,8 @@ public:
      * @param obj the SBMLLevelVersionConverter object to copy.
      */
     ConservedMoietyConverter(const ConservedMoietyConverter& obj);
+
+    virtual ~ConservedMoietyConverter();
 
     /**
      * Creates and returns a deep copy of this SBMLLevelVersionConverter
@@ -141,6 +197,8 @@ public:
      */
     virtual int setDocument(const libsbml::SBMLDocument* doc);
 
+
+
 private:
 
     /**
@@ -164,6 +222,50 @@ private:
     libsbml::Model *resultModel;
 };
 
-} } // namespace rr } namespace conservation }
+#endif // !SWIG
+
+
+} // namespace conservation
+
+
+
+/**
+ * a thin wrapper for python access. In the next release, we will
+ * use the native SWIG wrapped libsbml api.
+ *
+ * This is only for the python API and should not be used anywhere else.
+ *
+ * In the roadrunner namespace as the SWIG puts everhthing here and the
+ * generated docs are currently set up to use this namespace.
+ */
+class PyConservedMoietyConverter
+{
+public:
+    PyConservedMoietyConverter();
+
+    ~PyConservedMoietyConverter();
+
+    /**
+     * used in the python wrapper, can set a sbml string or file path.
+     */
+    int setDocument(const std::string& fileOrPath);
+
+    int convert();
+
+    std::string getDocument();
+
+private:
+    rr::conservation::ConservedMoietyConverter conv;
+
+    libsbml::SBMLDocument *doc;
+
+};
+
+
+
+
+} // namespace rr } namespace conservation }
+
+
 #endif  /* ConservedMoietyConverter_h */
 

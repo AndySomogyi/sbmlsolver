@@ -116,9 +116,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         uint options)
 {
     bool computeAndAssignConsevationLaws =
-            options & ModelGenerator::ComputeAndAssignConsevationLaws;
+            options & ModelGenerator::CONSERVED_MOIETIES;
 
-    bool forceReCompile = options & ModelGenerator::ForceReCompile;
+    bool forceReCompile = options & ModelGenerator::RECOMPILE;
 
     string md5;
 
@@ -157,7 +157,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     SharedModelPtr rc(new ModelResources());
 
-    ModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
+
+
+    ModelGeneratorContext context(sbml, options);
 
     rc->evalInitialConditionsPtr =
             EvalInitialConditionsCodeGen(context).createFunction();
@@ -207,7 +209,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     rc->evalConversionFactorPtr =
             EvalConversionFactorCodeGen(context).createFunction();
 
-    if (options & ModelGenerator::ReadOnlyModel)
+    if (options & ModelGenerator::READ_ONLY)
     {
         rc->setBoundarySpeciesAmountPtr = 0;
         rc->setBoundarySpeciesConcentrationPtr = 0;

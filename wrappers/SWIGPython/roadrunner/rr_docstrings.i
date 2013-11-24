@@ -142,24 +142,6 @@ given by the order of Ids returned by getCompartmentIds()
 
 
 
-%feature("docstring") rr::ExecutableModel::getConservedSumChanged "
-ExecutableModel.getConservedSumChanged()
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getConservedSums "
-ExecutableModel.getConservedSums([index])
-
-Returns a vector of conserved sums.
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of conserved sums.
-:rtype: numpy.ndarray.
-";
-
-
-
 %feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
 ExecutableModel.getGlobalParameterValues([index])
 
@@ -201,14 +183,6 @@ ExecutableModel.getNumCompartments()
 Returns the number of compartments in the model.
 
 :rtype: int
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumConservedSums "
-ExecutableModel.getNumConservedSums()
-
-TODO DOCS
 ";
 
 
@@ -327,23 +301,6 @@ length as index.
 
 
 
-%feature("docstring") rr::ExecutableModel::setConservedSumChanged "
-ExecutableModel.setConservedSumChanged(change)
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::setConservedSums "
-ExecutableModel.setConservedSums([index], values)
-
-:param numpy.ndarray index: (optional) an index array indicating which items to set,
-                            or if no index array is given, the first param should be
-                            an array of all the values to set.
-:param numpy.ndarray values: the values to set.
-";
-
-
-
 %feature("docstring") rr::ExecutableModel::setFloatingSpeciesAmounts "
 ExecutableModel.setFloatingSpeciesAmounts([index], values)
 
@@ -428,6 +385,62 @@ currect value.
 
 :returns: an n by m numpy ndarray of the stoichiometrix coeffecients.
 :rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getNumConservedMoieties "
+ExecutableModel.getNumConservedMoieties()
+
+Returns the number of conserved moieties in the model.
+
+:rtype: int
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getConservedMoietyIds "
+ExecutableModel.getConservedMoietyIds([index])
+
+Returns a vector of conserved moiety identifier symbols.
+
+:param index: A array of compartment indices indicating which comparment ids to return.
+:type index: None or numpy.ndarray
+:returns: a list of compartment ids.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getConservedMoietyValues "
+ExecutableModel.getConservedMoietyValues([index])
+
+Returns a vector of conserved moiety volumes. The order of values is
+given by the order of Ids returned by getConservedMoietyIds()
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of conserved moiety values.
+:rtype: numpy.ndarray.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::setConservedMoietyValues "
+ExecutableModel.setConservedMoietyValues([index], values)
+
+Sets a vector of conserved moiety values.
+
+*Note* This method currently only updates the conserved moeity values, it does
+not update the initial species condition from which the values were calculated.
+
+If the index vector is not given, then the values vector treated as a vector of all
+values to set. If index is given, then  values should have the same
+length as index.
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set,
+                            or if no index array is given, the first param should be an
+                            array of all the  values to set.
+
+:param numpy.ndarray values: the values to set.
 ";
 
 
@@ -533,14 +546,6 @@ class ownes and build an assemble all of thier configuration parameters
 into a single xml document which is returned as a string.
 
 The value of this result depends on what child objects are presently loaded.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getConservationAnalysis "
-RoadRunner.getConservationAnalysis()
-
-is conservation analysis enabled. This is set NEEDS MORE
 ";
 
 
@@ -1016,10 +1021,14 @@ configuration to the values specified in the document.
 
 
 
-%feature("docstring") rr::RoadRunner::setConservationAnalysis "
-RoadRunner.setConservationAnalysis(*args)
+%feature("docstring") rr::RoadRunner::conservedMoietyAnalysis "
 
-TODO docs
+Enables / Disables conserved moiety analysis (boolean).
+
+If this is enabled, the sbml document (either current, or one about to be loaded)
+is converted using the ConservedMoietyConverter. All of the linearly dependent
+species are replaced with assignment rules and a new set of conserved moeity
+parameters are introduced.
 ";
 
 
@@ -1115,45 +1124,6 @@ TODO docs
 
 
 
-%feature("docstring") rr::RoadRunner::getRatesOfChange "
-RoadRunner.getRatesOfChange()
-
-Returns a vector of rates of change as determined by the current state of the model.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getRateOfChange "
-RoadRunner.getRateOfChange(index)
-
-Returns the rate of change for the ith floating species. The order of species is determined by
-getFloatingSpeciesIds().
-
-:param parameter: The id of the floating species.
-
-:returns: The value of rate of change.
-
-:rtype: double
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getRatesOfChangeEx "
-RoadRunner.getRatesOfChangeEx(speciesVector)
-
-Returns a vector of rates of change as determined by the values in the species vector argument.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getRatesOfChangeIds "
-RoadRunner.getRatesOfChangeIds()
-
-Returns a vector of Ids for the rates of changes.
-";
-
-
-
 %feature("docstring") rr::RoadRunner::evalModel "
 RoadRunner.evalModel()
 
@@ -1161,14 +1131,6 @@ Evaluates the current model, that is it updates the rates of change and any assi
 It does *not* carry out an integration step.
 
 :returns: Returns true if successful
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getNumberOfGlobalParameters "
-RoadRunner.getNumberOfGlobalParameters()
-
-Returns the number of global parameters in the model.
 ";
 
 

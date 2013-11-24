@@ -312,9 +312,9 @@ public:
 
     virtual void print(std::ostream &stream);
 
-    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+    virtual void getIds(int types, std::list<std::string> &ids);
 
-    virtual uint32_t getSupportedIdTypes();
+    virtual int getSupportedIdTypes();
 
     virtual double getValue(const std::string& id);
 
@@ -332,11 +332,11 @@ public:
 
     virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
 
-    virtual int getNumConservedSums();
-    virtual int getConservedSumIndex(const string& name);
-    virtual string getConservedSumId(int index);
-    virtual int getConservedSums(int len, int const *indx, double *values);
-    virtual int setConservedSums(int len, int const *indx,
+    virtual int getNumConservedMoieties();
+    virtual int getConservedMoietyIndex(const string& name);
+    virtual string getConservedMoietyId(int index);
+    virtual int getConservedMoietyValues(int len, int const *indx, double *values);
+    virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values);
 
     virtual int setCompartmentVolumes(int len, int const *indx,

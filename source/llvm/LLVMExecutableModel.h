@@ -276,6 +276,18 @@ public:
             double const *values);
 
 
+    /**
+      * get the boundary species amounts
+      *
+      * @param[in] len the length of the indx and values arrays.
+      * @param[in] indx an array of length len of boundary species to return.
+      * @param[in] values an array of at least length len which will store the
+      *                returned boundary species amounts.
+      */
+     virtual int setBoundarySpeciesAmounts(int len, int const *indx,
+             double const *values);
+
+
     virtual int getGlobalParameterIndex(const string&);
     virtual string getGlobalParameterId(int);
     virtual int getCompartmentIndex(const string&);
@@ -285,11 +297,11 @@ public:
 
     virtual void print(std::ostream &stream);
 
-    virtual int getNumConservedSums();
-    virtual int getConservedSumIndex(const string& name);
-    virtual string getConservedSumId(int index);
-    virtual int getConservedSums(int len, int const *indx, double *values);
-    virtual int setConservedSums(int len, int const *indx,
+    virtual int getNumConservedMoieties();
+    virtual int getConservedMoietyIndex(const string& name);
+    virtual string getConservedMoietyId(int index);
+    virtual int getConservedMoietyValues(int len, int const *indx, double *values);
+    virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values);
 
 
@@ -352,12 +364,12 @@ public:
     /**
      * populates a given list with all the ids that this class can accept.
      */
-    virtual void getIds(uint32_t types, std::list<std::string> &ids);
+    virtual void getIds(int types, std::list<std::string> &ids);
 
     /**
      * returns a bit field of the ids that this class supports.
      */
-    virtual uint32_t getSupportedIdTypes();
+    virtual int getSupportedIdTypes();
 
     /**
      * gets the value for the given id string. The string must be a SelectionRecord

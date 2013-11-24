@@ -10,6 +10,8 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
+#include "rrModelGenerator.h"
+#include "conservation/ConservationExtension.h"
 
 #include <Poco/LogStream.h>
 #include <sbml/Model.h>
@@ -26,6 +28,8 @@ using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
 
+using rr::conservation::ConservationExtension;
+
 using Poco::LogStream;
 using Poco::Message;
 
@@ -41,10 +45,10 @@ static const char* modelDataFieldsNames[] =  {
         "NumRateRules",                         // 8
         "NumReactions",                         // 9
 
-		"NumInitCompartments",                  // 10
-		"NumInitFloatingSpecies",               // 11
-		"NumInitBoundarySpecies"                // 12
-		"NumInitGlobalParameters",              // 13
+        "NumInitCompartments",                  // 10
+        "NumInitFloatingSpecies",               // 11
+        "NumInitBoundarySpecies"                // 12
+        "NumInitGlobalParameters",              // 13
 
         "Stoichiometry",                        // 14
         "NumEvents",                            // 15
@@ -110,7 +114,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
-        bool computeAndAssignConsevationLaws) :
+        unsigned options) :
     independentFloatingSpeciesSize(0),
     independentBoundarySpeciesSize(0),
     independentGlobalParameterSize(0),
@@ -164,7 +168,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 
     // process the floating species
-    initFloatingSpecies(model, computeAndAssignConsevationLaws);
+    initFloatingSpecies(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
 
     // display compartment info. We need to get the compartments before the
     // so we can get the species compartments. But the struct anal dumps
@@ -669,13 +673,24 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
             depFltSpecies.push_back(sid);
         }
 
-        if (isIndependentInitElement(sid))
+        bool conservedMoiety = ConservationExtension::getConservedMoiety(*s);
+
+        bool indInit = (!hasInitialAssignmentRule(sid) &&
+                (!hasAssignmentRule(sid) || conservedMoiety));
+
+        // conserved moiety species assignment rules do not apply at
+        // time t < 0
+        if (indInit)
         {
             indInitFltSpecies.push_back(sid);
         }
         else
         {
             depInitFltSpecies.push_back(sid);
+        }
+
+        if (conservedMoiety) {
+            conservedMoietySpeciesSet.insert(sid);
         }
     }
 
@@ -1063,9 +1078,9 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
 }
 
 
-bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
+bool LLVMModelDataSymbols::isConservedMoietySpecies(const std::string& symbol) const
 {
-    return false;
+    return conservedMoietySpeciesSet.find(symbol) != conservedMoietySpeciesSet.end();
 }
 
 bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(
@@ -1087,8 +1102,9 @@ bool LLVMModelDataSymbols::isIndependentInitCompartment(
 bool LLVMModelDataSymbols::isIndependentInitElement(
         const std::string& id) const
 {
-    return initAssignmentRules.find(id) == initAssignmentRules.end() &&
-            assigmentRules.find(id) == assigmentRules.end();
+    return (initAssignmentRules.find(id) == initAssignmentRules.end() &&
+            assigmentRules.find(id) == assigmentRules.end()) ||
+            (isConservedMoietySpecies(id) && hasInitialAssignmentRule(id));
 }
 
 bool LLVMModelDataSymbols::hasInitialAssignmentRule(const std::string& id) const

@@ -16,85 +16,90 @@
    Create a new selection record. This constructor really should not be called,
    SelectionRecords should be created by the RoadRunner.createSelection
 
-
 .. attribute:: SelectionRecord.TIME
 
-   Model Time
-               
-.. attribute:: SelectionRecord.BOUNDARY_CONCENTRATION
+.. attribute:: SelectionRecord.CONCENTRATION
 
-   Boundary Concentration
+.. attribute:: SelectionRecord.AMOUNT
 
-.. attribute:: SelectionRecord.FLOATING_CONCENTRATION
+   species must have either a CONCENTRATION or AMOUNT
+   modifer to distinguish it.
+   
+.. attribute:: SelectionRecord.RATE
 
-   Floating Species Concentration
+.. attribute:: SelectionRecord.BOUNDARY
 
-.. attribute:: SelectionRecord.REACTION_RATE
+.. attribute:: SelectionRecord.FLOATING
 
-   Reaction Rate
+.. attribute:: SelectionRecord.REACTION
 
-.. attribute:: SelectionRecord.FLOATING_AMOUNT_RATE
+.. attribute:: SelectionRecord.INITIAL
 
-   Rate of change of floating species amount
+.. attribute:: SelectionRecord.CURRENT
 
-.. attribute:: SelectionRecord.COMPARTMENT
-
-   Compartment Volume
-
-.. attribute:: SelectionRecord.GLOBAL_PARAMETER
-
-   Global Parameter
-
-.. attribute:: SelectionRecord.FLOATING_AMOUNT
-
-   Floating Species Amount
-
-.. attribute:: SelectionRecord.BOUNDARY_AMOUNT
-
-   Boundary species amount
+.. attribute:: SelectionRecord.UNSCALED
 
 .. attribute:: SelectionRecord.ELASTICITY
 
-   Elasticity control coefficient
-
-.. attribute:: SelectionRecord.UNSCALED_ELASTICITY
-
-   Unscaled elasticity control coefficient
-
 .. attribute:: SelectionRecord.CONTROL
-
-   Control coefficient
-
-.. attribute:: SelectionRecord.UNSCALED_CONTROL
-
-   Unscaled control coefficient
 
 .. attribute:: SelectionRecord.EIGENVALUE
 
-   Eigenvalue 
-
-.. attribute:: SelectionRecord.INITIAL_CONCENTRATION
-
-   Floating species intial concentration
+.. attribute:: SelectionRecord.ELEMENT
 
 .. attribute:: SelectionRecord.STOICHIOMETRY
 
-   Stochiometry matrix entry
+.. attribute:: SelectionRecord.UNKNOWN
 
-.. attribute:: SelectionRecord.UNKNOWN_ELEMENT
+.. attribute:: SelectionRecord.DEPENDENT
 
-   A syntactically valid element but it has not been determined
-   what sbml element ths id refers to. 
+.. attribute:: SelectionRecord.INDEPENDENT
+
+.. attribute:: SelectionRecord.CONSREVED_MOIETY
 
 .. attribute:: SelectionRecord.UNKNOWN_CONCENTRATION
 
-   A syntactially valid but unknown concentration.
+.. attribute:: SelectionRecord.COMPARTMENT
 
-.. attribute:: SelectionRecord.UNKNOWN
-   
-   An error condition.
+.. attribute:: SelectionRecord.GLOBAL_PARAMETER
 
+.. attribute:: SelectionRecord.FLOATING_AMOUNT
 
+.. attribute:: SelectionRecord.BOUNDARY_AMOUNT
+
+.. attribute:: SelectionRecord.BOUNDARY_CONCENTRATION
+
+.. attribute:: SelectionRecord.FLOATING_CONCENTRATION
+
+.. attribute:: SelectionRecord.FLOATING_AMOUNT_RATE
+
+.. attribute:: SelectionRecord.FLOATING_CONCENTRATION_RATE
+
+.. attribute:: SelectionRecord.REACTION_RATE
+
+.. attribute:: SelectionRecord.INITIAL_FLOATING_AMOUNT
+
+.. attribute:: SelectionRecord.INITIAL_FLOATING_CONCENTRATION
+
+.. attribute:: SelectionRecord.UNSCALED_ELASTICITY
+
+.. attribute:: SelectionRecord.UNSCALED_CONTROL
+
+.. attribute:: SelectionRecord.UNKNOWN_ELEMENT
+
+.. attribute:: SelectionRecord.ALL
+
+.. attribute:: SelectionRecord.ALL_INDEPENDENT
+
+.. attribute:: SelectionRecord.ALL_DEPENDENT
+
+.. attribute:: SelectionRecord.ALL_INDEPENDENT_AMOUNT
+
+.. attribute:: SelectionRecord.ALL_DEPENDENT_AMOUNT
+
+.. attribute:: SelectionRecord.ALL_INDEPENDENT_CONCENTRATION
+
+.. attribute:: SelectionRecord.ALL_DEPENDENT_CONCENTRATION
 
 
 .. attribute:: SelectionRecord.index

@@ -456,7 +456,7 @@ RRVectorPtr getConservedSums(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle); //Will throw if it can't cast
-        vector<double> tempMat = rri->getConservedSums();
+        vector<double> tempMat = rri->getConservedMoietyValues();
         return rrc::createVector(tempMat);
     }
     catch_ptr_macro

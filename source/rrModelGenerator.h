@@ -20,15 +20,13 @@ class RR_DECLSPEC ModelGenerator
 public:
     enum ModelGeneratorOptions
     {
-        /** currently only implemented with the C version */
-        ComputeAndAssignConsevationLaws = (0x1 << 0),  // => 0x00000001
+        CONSERVED_MOIETIES            = (0x1 << 0),  // => 0x00000001
 
-        /** C version specific, forces the model to be re-compiled */
-        ForceReCompile                  = (0x1 << 1),  // => 0x00000010
+        RECOMPILE                     = (0x1 << 1),  // => 0x00000010
 
-        ReadOnlyModel                   = (0x1 << 2),  // => 0x00000100
+        READ_ONLY                     = (0x1 << 2),  // => 0x00000100
 
-        MUTABLE_INITIAL_CONDITIONS      = (0x1 << 3)   // => 0x00001000
+        MUTABLE_INITIAL_CONDITIONS    = (0x1 << 3)   // => 0x00001000
     };
 
     /**

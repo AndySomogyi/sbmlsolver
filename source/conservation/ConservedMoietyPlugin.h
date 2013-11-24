@@ -49,9 +49,26 @@ public:
      */
     virtual ConservedMoietyPlugin* clone() const;
 
-    bool getConservedMoiety();
+    bool getConservedMoiety() const;
 
     void setConservedMoiety(bool value);
+
+    /**
+     * Subclasses must override this method to read values from the given
+     * XMLAttributes if they have their specific attributes.
+     */
+    virtual void readAttributes (const libsbml::XMLAttributes& attributes,
+                                 const libsbml::ExpectedAttributes& expectedAttributes);
+
+
+    /**
+     * Subclasses must override this method to write their XML attributes
+     * to the XMLOutputStream if they have their specific attributes.
+     */
+    virtual void writeAttributes (libsbml::XMLOutputStream& stream) const;
+
+private:
+    bool conservedMoiety;
 
 };
 

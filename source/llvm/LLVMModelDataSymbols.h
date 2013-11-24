@@ -142,8 +142,7 @@ public:
 
     LLVMModelDataSymbols();
 
-    LLVMModelDataSymbols(libsbml::Model const* model,
-            bool computeAndAssignConsevationLaws);
+    LLVMModelDataSymbols(libsbml::Model const* model, unsigned options);
 
     virtual ~LLVMModelDataSymbols();
 
@@ -177,7 +176,7 @@ public:
     uint getIndependentFloatingSpeciesSize() const;
 
 
-    uint getConservedSpeciesSize() const;
+
 
     uint getGlobalParameterIndex(std::string const&) const;
 
@@ -252,6 +251,8 @@ public:
      *
      * These are only for elements, not init values, will return false
      * for all init symbols.
+     *
+     * Only valid after class has been constructed.
      */
     bool isIndependentElement(const std::string& id) const;
 
@@ -276,13 +277,20 @@ public:
             const std::string& id) const;
 
 
+/******* Conserved Moiety Section ********************************************/
+#if (1) /*********************************************************************/
+/*****************************************************************************/
+
+
+
 
     /**
      * checks if the given symbol is a init value for a conserved species.
      *
      * Global parameters or floating species can be conservied moieties,
-     * a global parameter is a CM if it is defined by a rule as a linear
-     * combination of floating species.
+     * a global parameter is a CM if it is defined by a inital assignment rules
+     * as a linear of one CM species and a set of indepdent
+     * floating species.
      *
      * A floating species may be a CM if it is defined by a rule
      * as a linear combination of independent species.
@@ -293,8 +301,28 @@ public:
      * It can however have independent initial conditions defined
      * either by intial values or initial assignment rules.
      */
-    bool isConservedMoiety(const std::string& symbol) const;
+    bool isConservedMoietySpecies(const std::string& symbol) const;
 
+    bool isConservedMoietyParameter(const std::string& symbol) const;
+
+    /**
+     * The number of conserved species. Thes are species which are defined
+     * by assignment rules.
+     */
+    uint getConservedSpeciesSize() const;
+
+private:
+
+    /**
+     * initialized in initFloatingSpecies.
+     */
+    std::set<std::string> conservedMoietySpeciesSet;
+
+
+/*****************************************************************************/
+#endif /* Conserved Moiety Section ******************************************/
+/*****************************************************************************/
+public:
 
     const std::vector<unsigned char>& getEventAttributes() const;
 
@@ -320,18 +348,25 @@ public:
     const std::vector<uint>& getStoichColIndx() const;
 
 
-    /************************ Initial Conditions Section **************************/
-    #if (1) /**********************************************************************/
-    /******************************************************************************/
+/************************ Initial Conditions Section *************************/
+#if (1) /*********************************************************************/
+/*****************************************************************************/
 
     /**
      * checks if the given symbol is an init value for an independent
      * floating species.
+     *
+     * Conserved Moiety species are considered to have independent
+     * initial condtions as in this case, the assignment rule only applies
+     * at time t > 0.
      */
     bool isIndependentInitFloatingSpecies(const std::string& symbol) const;
 
     /**
      * Is this sbml element an independent initial value.
+     *
+     * True if this value does NOT have an assignment or initial
+     * assignment rule.
      *
      * Independent initial values do not have assignment or
      * initial assigment rules, but may have rate rules.
@@ -411,10 +446,9 @@ private:
      */
     uint independentInitCompartmentSize;
 
-
-    /************************ End Initial Conditions Section **********************/
-    #endif /***********************************************************************/
-    /******************************************************************************/
+/************************ End Initial Conditions Section *********************/
+#endif /**********************************************************************/
+/*****************************************************************************/
 
 
 private:

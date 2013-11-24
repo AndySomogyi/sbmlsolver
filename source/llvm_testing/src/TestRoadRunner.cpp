@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "rrc_api.h"
 #include "rrSBMLReader.h"
+#include "rrExecutableModel.h"
 
 #include "conservation/ConservationExtension.h"
 #include "conservation/ConservationDocumentPlugin.h"
@@ -104,7 +105,7 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
         throw Exception("Failed loading SBML model settings");
     }
 
-    rr->setConservationAnalysis(false);
+    rr->setConservedMoietyAnalysis(false);
 }
 
 void TestRoadRunner::simulate()
@@ -432,14 +433,66 @@ void TestRoadRunner::testCons2(const std::string& fname)
 
     writer.writeSBML(newDoc, base + ".moiety.xml");
 
+    delete doc;
+
     cout << "its all good" << endl;
 }
 
-void TestRoadRunner::testRead(const std::string &srcFile)
+void TestRoadRunner::testRead(const std::string &fname)
 {
+    Logger::enableConsoleLogging(Logger::LOG_DEBUG);
+    //const char* fname = "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l2v4.xml";
+
+    libsbml::SBMLReader reader;
+
+    SBMLDocument *doc = reader.readSBML(fname);
+
+
+    Model *m = doc->getModel();
+
+    const ListOfParameters *params = m->getListOfParameters();
+
+    for(int i = 0; i < params->size(); ++i)
+    {
+        const Parameter *p = params->get(i);
+
+        cout << "param \'" << p->getId() << "\', conservedMoiety: "
+                << ConservationExtension::getConservedMoiety(*p) << endl;
+    }
+
+    const ListOfSpecies *species = m->getListOfSpecies();
+
+    for(int i = 0; i < species->size(); ++i)
+    {
+        const Species *s = species->get(i);
+
+        cout << "species \'" << s->getId() << "\', conservedMoiety: "
+                        << ConservationExtension::getConservedMoiety(*s) << endl;
+
+    }
+
+
+    delete doc;
+
+    Logger::setLevel(Logger::LOG_TRACE);
+
     RoadRunner r;
 
-    r.load(srcFile);
+    r.load(fname, 0);
+
+
+    rr::ExecutableModel *model = r.getModel();
+
+    int len = model->getNumIndFloatingSpecies();
+    double *buffer = new double[len];
+
+    model->getFloatingSpeciesAmountRates(len, 0, buffer);
+
+    delete[] buffer;
+
+
+
+    cout << "its all good" << endl;
 }
 
 void TestRoadRunner::testLogging(const std::string& logFileName)

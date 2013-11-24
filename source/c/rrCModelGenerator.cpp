@@ -2341,9 +2341,9 @@ bool CModelGenerator::setTemporaryDirectory(const string& path)
 ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
 {
     bool computeAndAssignConsevationLaws =
-                options & ModelGenerator::ComputeAndAssignConsevationLaws;
+                options & ModelGenerator::CONSERVED_MOIETIES;
 
-    bool forceReCompile = options & ModelGenerator::ForceReCompile;
+    bool forceReCompile = options & ModelGenerator::RECOMPILE;
 
     LibStructural libStruct(sbml);
 

@@ -7,6 +7,8 @@
 
 #include "conservation/ConservedMoietyPlugin.h"
 
+#include <stdexcept>
+
 
 namespace rr { namespace conservation {
 
@@ -14,13 +16,15 @@ namespace rr { namespace conservation {
 rr::conservation::ConservedMoietyPlugin::ConservedMoietyPlugin(
         const std::string& uri, const std::string& prefix,
         ConservationPkgNamespaces* consns)
-: libsbml::SBasePlugin(uri, prefix, consns)
+: libsbml::SBasePlugin(uri, prefix, consns),
+  conservedMoiety(false)
 {
 }
 
 rr::conservation::ConservedMoietyPlugin::ConservedMoietyPlugin(
         const ConservedMoietyPlugin& orig)
-: libsbml::SBasePlugin(orig)
+: libsbml::SBasePlugin(orig),
+  conservedMoiety(false)
 {
 }
 
@@ -36,19 +40,51 @@ ConservedMoietyPlugin& rr::conservation::ConservedMoietyPlugin::operator =(
 
 ConservedMoietyPlugin* rr::conservation::ConservedMoietyPlugin::clone() const
 {
-    return 0;
+    return new ConservedMoietyPlugin(*this);
 }
 
-bool ConservedMoietyPlugin::getConservedMoiety()
+bool ConservedMoietyPlugin::getConservedMoiety() const
 {
-    return false;
+    return conservedMoiety;
 }
 
 void ConservedMoietyPlugin::setConservedMoiety(bool value)
 {
+    conservedMoiety = value;
 }
 
 }
 } // namespace rr } namespace conservation }
 
+void rr::conservation::ConservedMoietyPlugin::readAttributes(
+        const libsbml::XMLAttributes& attributes,
+        const libsbml::ExpectedAttributes& expectedAttributes)
+{
+    for (int i = 0; i < attributes.getLength(); ++i)
+    {
+        std::cout << "name: " << attributes.getName(i) << ", value: " << attributes.getValue(i) << ", uri: " << attributes.getURI(i) << std::endl;
 
+    }
+    if(attributes.hasAttribute("conservedMoiety", mURI))
+    {
+        if (!attributes.readInto("conservedMoiety", conservedMoiety))
+        {
+            std::string value = attributes.getValue("conservedMoiety");
+            throw std::invalid_argument("conservedMoiety attribute with value " + value
+                                        + " can not be converted to a boolean");
+        }
+    }
+    else
+    {
+        conservedMoiety = false;
+    }
+}
+
+void rr::conservation::ConservedMoietyPlugin::writeAttributes(
+        libsbml::XMLOutputStream& stream) const
+{
+
+    libsbml::XMLTriple triple("conservedMoiety", mURI, mPrefix);
+
+    stream.writeAttribute(triple, conservedMoiety);
+}
