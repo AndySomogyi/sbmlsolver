@@ -27,6 +27,8 @@ public:
    virtual void loadConfig(const _xmlDoc* doc);
 
     bool test();
+
+    static void testRoadRunner(const std::string& sbml, const std::string configFname);
 };
 
 } /* namespace rrllvm */
