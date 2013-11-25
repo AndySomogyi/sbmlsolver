@@ -54,7 +54,6 @@ std::string Configurable::xmlFromConfigNode(xmlNode* config)
      * for demonstration purposes.
      */
     xmlDocDumpFormatMemory(doc, &xmlbuff, &buffersize, 1);
-    printf("%s", (char *) xmlbuff);
 
     std::string result = (const char*) xmlbuff;
 
