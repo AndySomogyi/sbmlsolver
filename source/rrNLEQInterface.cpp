@@ -395,20 +395,21 @@ double NLEQInterface::computeSumsOfSquares()
 
 _xmlNode* NLEQInterface::createConfigNode()
 {
-    // maxIterationsParam("MaxIterations", maxIterations, "Maximum number of newton iterations"),
-    // relativeToleranceParam("relativeTolerance", relativeTolerance, "Relative precision of solution components")
-    // mCapability("SteadyState", funcName, description)
-    //
 
-    _xmlNode *caps = Configurable::createCapabilityNode("SteadyState", "NLEQ2", "NLEQ2 Steady State Solver");
-    Configurable::addChild(caps, Configurable::createParameterNode("MaxIterations", "Maximum number of newton iterations", maxIterations));
-    Configurable::addChild(caps, Configurable::createParameterNode("relativeTolerance", "Relative precision of solution components", relativeTolerance));
+    _xmlNode *caps = Configurable::createCapabilityNode(
+            "SteadyState", "NLEQ2", "NLEQ2 Steady State Solver");
+    Configurable::addChild(caps, Configurable::createParameterNode(
+            "MaxIterations", "Maximum number of newton iterations", maxIterations));
+    Configurable::addChild(caps, Configurable::createParameterNode(
+            "relativeTolerance", "Relative precision of solution components", relativeTolerance));
 
     return caps;
 }
 
 void NLEQInterface::loadConfig(const _xmlDoc* doc)
 {
+    maxIterations = Configurable::getParameterIntValue(doc, "SteadyState", "MaxIterations");
+    relativeTolerance = Configurable::getParameterDoubleValue(doc, "SteadyState", "relativeTolerance");
 }
 
 }    //end of namespace

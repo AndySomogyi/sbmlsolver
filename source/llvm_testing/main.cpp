@@ -101,6 +101,10 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
+    ConfigurableTest::testRoadRunner("/Users/andy/local/testing/feedback.xml", "/Users/andy/config.xml");
+
+    return 0;
+
 
 
 

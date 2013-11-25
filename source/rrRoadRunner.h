@@ -710,6 +710,12 @@ private:
 
     std::vector<SelectionRecord> getSelectionList();
 
+    /**
+     * the xml string that is given in setConfigurationXML.
+     *
+     * Needed because the NLEQ is only created in the steadyState method.
+     */
+    std::string configurationXML;
 
 
     friend class aFinalizer;
