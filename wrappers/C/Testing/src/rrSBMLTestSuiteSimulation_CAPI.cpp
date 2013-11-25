@@ -11,8 +11,8 @@ using namespace std;
 
 extern string gTempFolder;
 extern string gTSModelsPath;
-extern bool gDebug;
 extern string gCompiler;
+
 
 using namespace rr;
 RoadRunnerData convertCAPIResultData(RRCDataPtr        resultsHandle);
@@ -104,7 +104,13 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)
     }
     SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
-    return loadSimulationSettings(mRRHandle, mModelSettingsFileName.c_str());
+    RoadRunner* rri = (RoadRunner*) mRRHandle;
+
+    SimulateOptions options(mModelSettingsFileName.c_str());
+
+    rri->setSimulateOptions(options);
+
+    return true;
 }
 
 bool SBMLTestSuiteSimulation_CAPI::Simulate()

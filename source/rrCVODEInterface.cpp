@@ -37,6 +37,36 @@ const int CvodeInterface::mDefaultMaxNumSteps = 10000;
 const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
 const int CvodeInterface::mDefaultMaxBDFOrder = 5;
 
+void* CvodeInterface::createCvode(const SimulateOptions* options)
+{
+    void* result = 0;
+
+    if (options && (options->integratorFlags & SimulateOptions::STIFF))
+    {
+        Log(Logger::LOG_INFORMATION) << "using stiff integrator";
+        result = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+    }
+    else
+    {
+        Log(Logger::LOG_INFORMATION) << "using non-stiff integrator";
+        result = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
+    }
+
+    assert(result && "could not create Cvode, CVodeCreate failed");
+
+    //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
+
+    //CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
+    //CVodeSetInitStep(mCVODE_Memory, mInitStep);
+    //CVodeSetMinStep(mCVODE_Memory, mMinStep);
+    //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
+    CVodeSetMaxNumSteps(result, mDefaultMaxNumSteps);
+
+    return result;
+}
+
+
+
 CvodeInterface::CvodeInterface(ExecutableModel *aModel, const SimulateOptions* options)
 :
 mDefaultReltol(options->relative),
@@ -55,7 +85,8 @@ mMinStep(0.0),
 mMaxStep(0.0),
 mMaxNumSteps(mDefaultMaxNumSteps),
 mRelTol(options->relative),
-mAbsTol(options->absolute)
+mAbsTol(options->absolute),
+options(options)
 {
     if(aModel)
     {
@@ -322,18 +353,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
 
             assignNewVector(oModel, true);
 
-            // non-stiff solver for now
-            mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-
-            //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
-            if(mCVODE_Memory)
-            {
-                //CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
-                //CVodeSetInitStep(mCVODE_Memory, mInitStep);
-                //CVodeSetMinStep(mCVODE_Memory, mMinStep);
-                //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
-                CVodeSetMaxNumSteps(mCVODE_Memory, mMaxNumSteps);
-            }
+            mCVODE_Memory = createCvode(options);
 
             int errCode = allocateCvodeMem();
 
@@ -367,10 +387,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
             SetVector(mStateVector, 0, 0);
             SetVector(mAbstolArray, 0, mDefaultAbsTol);
 
-            // non stiff solver for now
-            mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-
-            CVodeSetMaxNumSteps(mCVODE_Memory, mMaxNumSteps);
+            mCVODE_Memory = createCvode(options);
 
             int errCode = allocateCvodeMem();
             if (errCode < 0)

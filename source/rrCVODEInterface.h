@@ -124,6 +124,8 @@ private:
     friend void ModelFcn(int n, double time, double* y, double* ydot, void* userData);
     friend void EventFcn(double time, double* y, double* gdot, void* userData);
 
+    static void* createCvode(const SimulateOptions *options);
+
 };
 }
 

@@ -108,6 +108,7 @@ int main(int argc, char** argv)
 
     opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
 
+
     std::cout << "loading file: " << sbmlFile << std::endl;
     roadRunner.load(sbmlFile, &opt);
 
@@ -127,6 +128,17 @@ int main(int argc, char** argv)
     }
 
     std::cout << "running for " << settings.steps << ", duration " << settings.duration << std::endl;
+
+    settings.relative = 1.e-5;
+    settings.absolute = 1.e-10;
+
+    std::cout << "absolute: " << settings.absolute << std::endl;
+    std::cout << "relative: " << settings.relative << std::endl;
+
+
+    //settings.integratorFlags |= SimulateOptions::STIFF;
+
+
 
     roadRunner.setSimulateOptions(settings);
 

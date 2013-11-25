@@ -271,6 +271,24 @@ struct RR_DECLSPEC SimulateOptions
      * listed in variables.
      */
     std::vector<std::string> concentrations;
+
+    /**
+     * The minumum relative error that the CVODE integrator supports
+     * in order to to pass the sbml test suite using the default integtator.
+     *
+     * If a test suite config file is loaded, and the relative error is
+     * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
+     */
+    static const double MIN_RELATIVE;
+
+    /**
+     * The minumum absolute error that the CVODE integrator supports
+     * in order to to pass the sbml test suite using the default integtator.
+     *
+     * If a test suite config file is loaded, and the relative error is
+     * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
+     */
+    static const double MIN_ABSOLUTE;
 };
 
 
