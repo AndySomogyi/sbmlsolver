@@ -2,9 +2,8 @@
 #This module allows access to the rrplugins_api.dll from python"""
 import sys
 import os
-import rrPython
+import roadrunner
 from ctypes import *
-rr = rrPython
 
 if len(os.path.dirname(__file__)):
     os.chdir(os.path.dirname(__file__))
@@ -34,8 +33,7 @@ else:
 #
 #@code
 #
-#import rrPython
-#import rrPluginManager
+#import rrPlugins
 # fill out...
 #@endcode
 #
@@ -60,9 +58,9 @@ else:
 
 
 #=======================rrp_api=======================#
-#Type of plugin callback
+#Type of plugin callback, first argument is return type
 pluginCallBackType1  = CFUNCTYPE(None)
-pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int))
+pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 
 ##\brief Initialize the plugins library and returns a new PluginManager instance
 #\return Returns an instance of the library, returns None if it fails
@@ -72,7 +70,10 @@ def createPluginManager():
 
 #===== The API allocate an internal global handle to =============
 #===== ONE instance of a plugin manager using the global rrHandle from rrPython
-gPluginManager = rrpLib.createPluginManager(rrPython.gHandle)
+rrI = roadrunner.RoadRunner()
+rrHandle = c_void_p(id(rrI))
+
+gPluginManager = rrpLib.createPluginManager(rrHandle)
 
 ##\brief Free the plugin manager instance
 #\param rrpLib Free the plugin manager instance given in the argument
@@ -233,18 +234,5 @@ def getPluginManualNrOfBytes(pluginHandle):
     return rrpLib.getPluginManualNrOfBytes(pluginHandle)
 
 
-#Minimization data funcionality
-def getMinimizationDataReport(minDataHandle):
-    value = rrpLib.getMinimizationDataReport(minDataHandle)
-    return c_char_p(value).value
-
-def addDoubleParameter(minDataHandle, parLabel, parValue):
-    rrpLib.addDoubleParameter(minDataHandle, parLabel, c_double(parValue))
-
-def setMinimizationModelDataSelectionList(minDataHandle, selectionList):
-    rrpLib.setMinimizationModelDataSelectionList(minDataHandle, c_char_p(selectionList))
-
-def setMinimizationObservedDataSelectionList(minDataHandle, selectionList):
-    rrpLib.setMinimizationObservedDataSelectionList(minDataHandle, c_char_p(selectionList))
 
 

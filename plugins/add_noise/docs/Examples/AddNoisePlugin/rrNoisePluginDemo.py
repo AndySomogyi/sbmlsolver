@@ -1,25 +1,33 @@
 import sys; import numpy
 import matplotlib.pyplot as plot
-from rrPython import *
+from ctypes import *
+import roadrunner
+import rrPython
 from rrPlugins import *
 
+rrPC = rrPython
+
+rr = roadrunner.RoadRunner()
 def pluginStarted():
     print 'The plugin was started'
 
-def pluginIsProgressing(progress):
+def pluginIsProgressing(progress, dummy):
     nr = progress[0]
     print '\nPlugin progress:' + `nr` +' %'
-
 
 def pluginIsFinished():
     print 'The plugin did finish'
 
 sbmlModel ="../models/bistable.xml"
-if not loadSBMLFromFile(sbmlModel):
+if not rr.load(sbmlModel):
     print getLastError()
     exit()
 
-rrDataHandle = simulateEx(0, 10, 500)
+rr.simulate(0, 10, 500)
+print rr.getInfo()
+
+rrHandle = cast(int(rr.this), c_void_p)
+rrDataHandle = rrPC.getRoadRunnerData(rrHandle)
 
 #Load the 'noise' plugin in order to add some noise to roadrunner data
 noisePlugin = loadPlugin("rrp_add_noise")
@@ -36,8 +44,7 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #Set size of noise
-#setParameterByString(sigmaHandle, '0.001')
-setDoubleParameter(sigmaHandle, 0.0003)
+setDoubleParameter(sigmaHandle, 0.003)
 
 #Check parameter
 aSigma = getParameterValueAsString(sigmaHandle)
@@ -59,10 +66,11 @@ while isPluginWorking(noisePlugin) == True:
     print ('.'),
 
 #Input Data
-results = getSimulationResult()
-S1 = results[:,1]
-x = numpy.arange(0, len(S1), 1)
-plot.plot(x, S1, label="S1")
+result = rr.getSimulationResult()
+x = result['time']
+y = result['[x]']
+
+plot.plot(x, y, label="[x]")
 
 plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
 plot.ylabel('Concentration (moles/L)')
