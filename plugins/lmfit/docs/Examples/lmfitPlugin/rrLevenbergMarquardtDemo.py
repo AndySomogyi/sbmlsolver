@@ -1,7 +1,7 @@
 from numpy import *
 from matplotlib.pyplot import *
 from rrPlugins import *
-sbmlModel ="../models/bistable.xml"
+sbmlModel ="../models/feedback.xml"
 
 rr = roadrunner.RoadRunner()
 #Check temporary folder setting
@@ -9,10 +9,9 @@ rr = roadrunner.RoadRunner()
 #print 'TempFolder is: ' + tempFolder
 
 result = rr.load(sbmlModel)
-
 print 'Result of loading sbml: %r' % (result);
 
-steps = 500
+steps = 100
 rr.simulate(0, 15, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
@@ -41,7 +40,6 @@ npData = getNPData(rrcData)
 x = npData[:,0]
 yInput = npData[:,1]
 
-print len(x)
 #The plugin does it work in a thread, so don't proceed until it is done
 while isPluginWorking(noisePlugin) == True:
     print "Plugin is not done yet";
@@ -62,7 +60,7 @@ paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 paraList = getParameterValueAsPointer(paraHandle);
 
 #Add parameters to fit
-para1 = createParameter("k1", "double")
+para1 = createParameter("J0_VM1", "double")
 setDoubleParameter(para1, 0.2)
 addParameterToList(paraList, para1)
 
@@ -70,7 +68,7 @@ addParameterToList(paraList, para1)
 setPluginInputData(lmPlugin, rrDataHandle)
 
 #set species to fit
-species = "[x]"
+species = "[S1] [S2] [S3] [S4]"
 paraHandle = getPluginParameter(lmPlugin, "ModelDataSelectionList");
 setParameterByString(paraHandle, species)
 
@@ -100,8 +98,11 @@ dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueAsPointer(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNPData(rrcData)
-yOutput = npData[:,1]
-length = len(yOutput)
+S1 = npData[:,1]
+S2 = npData[:,2]
+S3 = npData[:,3]
+S4 = npData[:,4]
+
 
 #Observed data should be the same as the input data, see above
 ##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
@@ -118,7 +119,10 @@ npData = getNPData(rrcData)
 yOutput3 = npData[:,1]
 
 plot(x, yInput,'*g')
-plot(x, yOutput, '-r')
+plot(x, S1, '-r')
+plot(x, S2, '-r')
+plot(x, S3, '-r')
+plot(x, S4, '-r')
 #plot(x, yOutput2, '*')
 plot(x, yOutput3, 'o')
 
