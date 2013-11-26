@@ -712,7 +712,6 @@ RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle)
     catch_ptr_macro
 }
 
-
 RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle)
 {
     try

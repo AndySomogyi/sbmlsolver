@@ -233,6 +233,12 @@ def getPluginManualAsPDF(pluginHandle):
 def getPluginManualNrOfBytes(pluginHandle):
     return rrpLib.getPluginManualNrOfBytes(pluginHandle)
 
+#rrpLib.getRRHandle.restype = c_void_p
+def getRoadRunnerHandle(aRRFromswig):
+    return cast(int(aRRFromswig.this), c_void_p)
 
-
+rrpLib.getRoadRunnerDataHandle.restype = c_void_p
+def getRoadRunnerDataHandle(aRRFromswig):
+    handle = getRoadRunnerHandle(aRRFromswig)
+    return rrpLib.getRoadRunnerDataHandle(handle)
 

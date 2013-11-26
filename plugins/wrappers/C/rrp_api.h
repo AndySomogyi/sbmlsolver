@@ -259,7 +259,7 @@ RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
 /*!
  \brief executePlugin (PluginName)
  \param[in] handle Handle to a plugin
- \param[in] userData void* pointer to user data. Plugin dependent.
+ \param[in] userData void* pointer to user data. Plugin dependent. See specific plugin documentation for what to pass as argument.
  \param[in] inThread bool indicating if the plugin should be executed in a thread.
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
@@ -320,16 +320,6 @@ RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, plu
 */
 RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
-///*!
-// \brief Assign callback functions, and user data to a plugin
-// \param[in] handle Handle to a plugin
-// \param[in] cb1, cb2 and cb3  function pointers to callback routines
-// \param[in] userData void* pointer to user data.
-// \return Returns true or false indicating success/failure
-// \ingroup pluginRoutines
-//*/
-//RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* data1, void* data2, void* data3);
-
 /*!
  \brief Hand external data to a plugin
  \param[in] handle Handle to a plugin
@@ -367,6 +357,15 @@ RRP_DECLSPEC bool rrp_cc setPluginManagerConfigurationXML(RRPluginManagerHandle 
  \ingroup simulation
 */
 RRP_DECLSPEC char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle);
+
+/*!
+ \brief Retrieve a handle to RoadRunners internal data
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an handle to roadrunners internal data object
+ \ingroup simulation
+*/
+RRP_DECLSPEC RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle);
+
 
 #if defined(__cplusplus)
 }    //Extern "C"

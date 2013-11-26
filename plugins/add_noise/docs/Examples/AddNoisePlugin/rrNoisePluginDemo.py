@@ -1,11 +1,9 @@
-import sys; import numpy
+import sys;
+import numpy
 import matplotlib.pyplot as plot
-from ctypes import *
 import roadrunner
-import rrPython
+from ctypes import *
 from rrPlugins import *
-
-rrPC = rrPython
 
 rr = roadrunner.RoadRunner()
 def pluginStarted():
@@ -26,8 +24,8 @@ if not rr.load(sbmlModel):
 rr.simulate(0, 10, 500)
 print rr.getInfo()
 
-rrHandle = cast(int(rr.this), c_void_p)
-rrDataHandle = rrPC.getRoadRunnerData(rrHandle)
+#The plugin will need a handle to the underlying roadrunner data
+rrDataHandle = getRoadRunnerDataHandle(rr)
 
 #Load the 'noise' plugin in order to add some noise to roadrunner data
 noisePlugin = loadPlugin("rrp_add_noise")

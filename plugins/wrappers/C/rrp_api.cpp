@@ -526,5 +526,16 @@ char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
     catch_ptr_macro
 }
 
+RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle)
+{
+    try
+    {
+        RoadRunner* rri = castFrom(handle);
+        return rri->getSimulationResult();
+    }
+    catch_ptr_macro
+}
+
+
 }
 
