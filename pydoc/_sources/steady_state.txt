@@ -26,6 +26,6 @@ The following methods deal wth steady state analysis:
 
    RoadRunner.steadyStateSelections
 
-   RoadRunner.computeSteadyStateValue
-
    RoadRunner.steadyState
+
+   RoadRunner.getSteadyStateValues
