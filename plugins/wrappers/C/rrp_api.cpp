@@ -11,6 +11,7 @@
 #include "rrc_api.h"
 #include "rrc_macros.h"
 #include "rrc_cpp_support.h"
+#include "rrp_cpp_support.h"
 #include "rrp_parameter_api.h"
 #include "rrp_api.h"
 #include <set>
@@ -535,6 +536,57 @@ RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle)
     }
     catch_ptr_macro
 }
+
+RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle)
+{
+    try
+    {
+        RoadRunnerData* data = rrc::castToRRData(rrDataHandle);
+        return rrp::createRRCData((*data));
+    }
+    catch_ptr_macro
+}
+
+int rrp_cc  getRRDataNumRows (RRCDataPtr result)
+{
+    if (result == NULL)
+    {
+       setError ("result argument is null in getResultNumRows");
+       return -1;
+    }
+    return result->RSize;
+}
+
+int  rrp_cc  getRRDataNumCols (RRCDataPtr result)
+{
+    if (result == NULL)
+    {
+       setError ("result argument is null in getResultNumCols");
+       return -1;
+    }
+    return result->CSize;
+}
+
+bool  rrp_cc getRRDataElement(RRCDataPtr result, int r, int c, double *value)
+{
+    if (result == NULL)
+    {
+       setError ("result argument is null in getResultElement");
+       return false;
+    }
+
+    if ((r < 0) || (c < 0) || (r >= result->RSize) || (c >= result->CSize))
+    {
+        stringstream msg;
+        msg << "Index out range in getResultElement: " << r << ", " << c;
+        setError(msg.str());
+        return false;
+    }
+
+    *value = result->Data[r*result->CSize + c];
+    return true;
+}
+
 
 
 }

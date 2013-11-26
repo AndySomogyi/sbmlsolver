@@ -367,6 +367,54 @@ RRP_DECLSPEC char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle
 RRP_DECLSPEC RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle);
 
 
+/*!
+ \brief Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data
+ \param[in] rrData A pointer to a RoadRunner numerical data type variable
+ \return Returns NULL if fails, otherwise returns a RRCData handle
+ \ingroup helperRoutines
+*/
+RRP_DECLSPEC RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle);
+
+/*!
+ \brief Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))
+
+ Example: \code nRows = getRRDataNumRows (result); \endcode
+
+ \param[in] rrData A pointer to a RoadRunner numerical data type variable
+ \return Returns -1 if fails, otherwise returns the number of rows
+ \ingroup helperRoutines
+*/
+RRP_DECLSPEC int rrp_cc getRRDataNumRows (RRCDataPtr rrData);
+
+/*!
+ \brief Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))
+
+ Example: \code nRows = getResultNumCols (rrData); \endcode
+
+ \param[in] rrData A pointer to a rrData type variable
+ \return Returns -1 if fails, otherwise returns the number of columns
+ \ingroup helperRoutines
+*/
+RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
+
+/*!
+ \brief Retrieves an element at a given row and column from a RoadRunner data type variable
+
+ RoadRunner numerical data are indexed from zero
+
+ Example: \code status = getRRDataElement (rrData, 2, 4, *value); \endcode
+
+ \param[in] rrData A pointer to a rrData type variable
+ \param[in] r -The row index to the rrData data
+ \param[in] c - The column index to the rrData data
+ \param[out] value - The retrieved value from the rrData data
+ \return Returns true if succesful
+ \ingroup helperRoutines
+*/
+RRP_DECLSPEC bool rrp_cc getRRDataElement (RRCDataPtr rrData, int r, int c, double *value);
+
+
+
 #if defined(__cplusplus)
 }    //Extern "C"
 

@@ -2,6 +2,7 @@
 #This module allows access to the rrplugins_api.dll from python"""
 import sys
 import os
+import numpy as np
 import roadrunner
 from ctypes import *
 
@@ -241,4 +242,22 @@ rrpLib.getRoadRunnerDataHandle.restype = c_void_p
 def getRoadRunnerDataHandle(aRRFromswig):
     handle = getRoadRunnerHandle(aRRFromswig)
     return rrpLib.getRoadRunnerDataHandle(handle)
+
+rrpLib.createRRCData.restype = c_void_p
+def createRRCData(rrDataHandle):
+    return rrpLib.createRRCData(rrDataHandle)
+
+def getNPData(rrcDataHandle):
+    rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
+    colCount = rrpLib.getRRDataNumCols(rrcDataHandle)
+    resultArray = np.zeros((rowCount, colCount))
+    for m in range(rowCount):
+        for n in range(colCount):
+                rvalue = m
+                cvalue = n
+                value = c_double()
+                if rrpLib.getRRDataElement(rrcDataHandle, rvalue, cvalue, pointer(value)) == True:
+                    resultArray[m, n] = value.value
+    return resultArray
+
 

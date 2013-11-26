@@ -1,26 +1,20 @@
 from numpy import *
 from matplotlib import *
 from matplotlib.pyplot import *
-from rrPython import *
 from rrPlugins import *
+sbmlModel ="../models/bistable.xml"
 
-sbmlModel ="../models/squareWaveModel.xml"
-setTempFolder('r:/temp')
-
+rr = roadrunner.RoadRunner()
 #Check temporary folder setting
-tempFolder=rr.getTempFolder()
-print 'TempFolder is: ' + tempFolder
+#tempFolder=rr.getTempFolder()
+#print 'TempFolder is: ' + tempFolder
 
-enableLogging()
-result = loadSBMLFromFile(sbmlModel)
+result = rr.load(sbmlModel)
 
 print 'Result of loading sbml: %r' % (result);
-#setTimeCourseSelectionList("time,S1")
-rrDataHandle = simulateEx(0, 100, 1000)
 
-rrcData = createRRCData(rrDataHandle)
-npData = getNPData(rrcData)
-print npData
+rr.simulate(0,15,128)
+rrDataHandle = getRoadRunnerDataHandle(rr)
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin("rrp_add_noise")
@@ -37,17 +31,17 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-setDoubleParameter(sigmaHandle, 1.e-1)
+setDoubleParameter(sigmaHandle, 1.e-2)
 
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
 #Input Data
-results = getSimulationResult()
-S1_input = results[:,1]
-x = numpy.arange(0, len(S1_input), 1)
+result = rr.getSimulationResult()
+yInput = result['[x]']
+x = result['time']
 
-
+print len(x)
 #The plugin does it work in a thread, so don't proceed until it is done
 while isPluginWorking(noisePlugin) == True:
     print "Plugin is not done yet";
@@ -77,7 +71,7 @@ addParameterToList(paraList, para1)
 setPluginInputData(lmPlugin, rrDataHandle)
 
 #set species to fit
-species = "[S1]"
+species = "[x]"
 paraHandle = getPluginParameter(lmPlugin, "ModelDataSelectionList");
 setParameterByString(paraHandle, species)
 
@@ -105,17 +99,26 @@ print getPluginStatus(lmPlugin)
 #dataFile = tempFolder +
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueAsPointer(dataPHandle)
-writeRRData(dataHandle, tempFolder + "/ModelData.dat")
+rrcData = createRRCData(dataHandle)
+npData = getNPData(rrcData)
+yOutput = npData[:,1]
+length = len(yOutput)
+#print npData
+
 
 dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
 dataHandle = getParameterValueAsPointer(dataPHandle)
-writeRRData(dataHandle, tempFolder + "/Observed.dat")
+rrcData = createRRCData(dataHandle)
+npData = getNPData(rrcData)
+yOutput2 = npData[:,1]
+length = len(yOutput)
 
-unloadAPI()
-rr.unloadAPI()
-t = arange(0.0, 2.0, 0.01)
-s = sin(2*pi*t)
-plot(t, s)
+#writeRRData(dataHandle, tempFolder + "/Observed.dat")
+
+
+#plot(x, yInput,'*')
+plot(x, yOutput)
+plot(x, yOutput2, '*')
 
 show()
 print "done"
