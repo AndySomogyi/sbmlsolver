@@ -9,6 +9,7 @@
 #include "rrUtils.h"
 #include "rrStringUtils.h"
 #include "rrc_api.h"
+#include "rrc_utilities.h"
 #include "rrc_macros.h"
 #include "rrc_cpp_support.h"
 #include "rrp_cpp_support.h"
@@ -20,6 +21,7 @@ namespace rrp
 {
 using namespace std;
 using namespace rr;
+using namespace rrc;
 
 /**
  * set of all plugin managers we've created,
@@ -452,16 +454,6 @@ bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack t
     catch_bool_macro
 }
 
-//bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack startCB, pluginCallBack progressCB, pluginCallBack finishedCB, void* data1, void* data2, void* data3)
-//{
-//    try
-//    {
-//        Plugin* aPlugin = castToPlugin(handle);
-//        return (aPlugin) ? aPlugin->assignCallBacks(startCB, progressCB, finishedCB, data1, data2, data3) : false;
-//    }
-//    catch_bool_macro
-//}
-
 char* rrp_cc getPluginResult(RRPluginHandle handle)
 {
     try
@@ -567,27 +559,9 @@ int  rrp_cc  getRRDataNumCols (RRCDataPtr result)
     return result->CSize;
 }
 
-bool  rrp_cc getRRDataElement(RRCDataPtr result, int r, int c, double *value)
+bool rrp_cc getRRCDataElementF(RRCDataPtr result, int r, int c, double *value)
 {
-    if (result == NULL)
-    {
-       setError ("result argument is null in getResultElement");
-       return false;
-    }
-
-    if ((r < 0) || (c < 0) || (r >= result->RSize) || (c >= result->CSize))
-    {
-        stringstream msg;
-        msg << "Index out range in getResultElement: " << r << ", " << c;
-        setError(msg.str());
-        return false;
-    }
-
-    *value = result->Data[r*result->CSize + c];
-    return true;
+    return rrc::getRRCDataElement(result, r, c, value);
 }
 
-
-
 }
-

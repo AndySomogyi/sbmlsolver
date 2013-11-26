@@ -642,7 +642,7 @@ int  rrcCallConv  getRRDataNumCols (RRCDataPtr result)
     return result->CSize;
 }
 
-bool  rrcCallConv getRRDataElement(RRCDataPtr result, int r, int c, double *value)
+bool  rrcCallConv getRRCDataElement(RRCDataPtr result, int r, int c, double *value)
 {
     if (result == NULL)
     {

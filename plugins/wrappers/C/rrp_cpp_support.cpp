@@ -1,4 +1,5 @@
 #pragma hdrstop
+#include "rrc_cpp_support.h"
 #include "rrp_cpp_support.h"
 #include "rrRoadRunnerData.h"
 #include "rrException.h"
@@ -94,40 +95,7 @@ MinimizationData* castToMinimizationData(RRMinimizationDataHandle handle)
 
 RRCDataPtr createRRCData(const RoadRunnerData& result)
 {
-    RRCData* rrCData  = new RRCData;
-    memset(rrCData, 0, sizeof(RRCData));
-
-    rrCData->ColumnHeaders = new char*[result.cSize()];
-    for(int i = 0; i < result.cSize(); i++)
-    {
-        rrCData->ColumnHeaders[i] = rr::createText(result.getColumnNames()[i]);
-    }
-
-    rrCData->RSize = result.rSize();
-    rrCData->CSize = result.cSize();
-    int size = rrCData->RSize*rrCData->CSize;
-    rrCData->Data = new double[size];
-
-    if(result.hasWeights())
-    {
-        rrCData->Weights = new double[size];
-    }
-
-    int index = 0;
-    //The data layout is simple row after row, in one single long row...
-    for(int row = 0; row < rrCData->RSize; row++)
-    {
-        for(int col = 0; col < rrCData->CSize; col++)
-        {
-            rrCData->Data[index] = result(row, col);
-            if(result.hasWeights())
-            {
-                rrCData->Weights[index] = result.weight(row, col);
-            }
-            ++index;
-        }
-    }
-    return rrCData;
+    return rrc::createRRCData(result);     
 }
 
 

@@ -402,7 +402,7 @@ RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
 
  RoadRunner numerical data are indexed from zero
 
- Example: \code status = getRRDataElement (rrData, 2, 4, *value); \endcode
+ Example: \code status = getRRCDataElement (rrData, 2, 4, *value); \endcode
 
  \param[in] rrData A pointer to a rrData type variable
  \param[in] r -The row index to the rrData data
@@ -411,14 +411,14 @@ RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
  \return Returns true if succesful
  \ingroup helperRoutines
 */
-RRP_DECLSPEC bool rrp_cc getRRDataElement (RRCDataPtr rrData, int r, int c, double *value);
+RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrData, int r, int c, double *value);
 
 
 
 #if defined(__cplusplus)
 }    //Extern "C"
 
-}    //rrc namespace
+}    //rrp namespace
 #endif
 
 

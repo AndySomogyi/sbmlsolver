@@ -262,7 +262,7 @@ void evaluate(const double *par,       //Parameter vector
         for(int j = 0; j < myData->nrOfTimePoints; j++ )
         {
             double modelValue;
-            if(!getRRDataElement(rrcData, j, i, &modelValue))
+            if(!rrp::getRRCDataElement(rrcData, j, i, &modelValue))
             {
                 throw("Bad stuff...") ;
             }

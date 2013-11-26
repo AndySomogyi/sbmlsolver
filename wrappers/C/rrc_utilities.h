@@ -564,7 +564,7 @@ C_DECL_SPEC int rrcCallConv getRRDataNumCols (RRCDataPtr rrData);
 
  RoadRunner numerical data are indexed from zero
 
- Example: \code status = getRRDataElement (rrData, 2, 4, *value); \endcode
+ Example: \code status = getRRCDataElement (rrData, 2, 4, *value); \endcode
 
  \param[in] rrData A pointer to a rrData type variable
  \param[in] r -The row index to the rrData data
@@ -573,7 +573,7 @@ C_DECL_SPEC int rrcCallConv getRRDataNumCols (RRCDataPtr rrData);
  \return Returns true if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv getRRDataElement (RRCDataPtr rrData, int r, int c, double *value);
+C_DECL_SPEC bool rrcCallConv getRRCDataElement (RRCDataPtr rrData, int r, int c, double *value);
 
 /*!
  \brief Retrieves a label for a given column in a rrData type variable

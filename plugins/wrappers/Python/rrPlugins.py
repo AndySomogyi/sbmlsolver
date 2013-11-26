@@ -250,14 +250,15 @@ def createRRCData(rrDataHandle):
 def getNPData(rrcDataHandle):
     rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
     colCount = rrpLib.getRRDataNumCols(rrcDataHandle)
-    resultArray = np.zeros((rowCount, colCount))
-    for m in range(rowCount):
-        for n in range(colCount):
-                rvalue = m
-                cvalue = n
+    resultArray = np.zeros([rowCount, colCount])
+    for row in range(rowCount):
+        for col in range(colCount):
                 value = c_double()
-                if rrpLib.getRRDataElement(rrcDataHandle, rvalue, cvalue, pointer(value)) == True:
-                    resultArray[m, n] = value.value
+                if rrpLib.getRRDataElement(rrcDataHandle, row, col, pointer(value)) == True:
+                    resultArray[row, col] = value.value
+                else:
+                    resultArray[row, col] = -1
+
     return resultArray
 
 

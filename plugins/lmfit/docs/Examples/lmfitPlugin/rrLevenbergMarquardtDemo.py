@@ -1,5 +1,4 @@
 from numpy import *
-from matplotlib import *
 from matplotlib.pyplot import *
 from rrPlugins import *
 sbmlModel ="../models/bistable.xml"
@@ -13,8 +12,8 @@ result = rr.load(sbmlModel)
 
 print 'Result of loading sbml: %r' % (result);
 
-rr.simulate(0,15,128)
-rrDataHandle = getRoadRunnerDataHandle(rr)
+steps = 500
+rr.simulate(0, 15, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin("rrp_add_noise")
@@ -33,13 +32,14 @@ print 'Current sigma is ' + aSigma
 #set size of noise
 setDoubleParameter(sigmaHandle, 1.e-2)
 
+rrDataHandle = getRoadRunnerDataHandle(rr)
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
-#Input Data
-result = rr.getSimulationResult()
-yInput = result['[x]']
-x = result['time']
+rrcData = createRRCData(rrDataHandle)
+npData = getNPData(rrcData)
+x = npData[:,0]
+yInput = npData[:,1]
 
 print len(x)
 #The plugin does it work in a thread, so don't proceed until it is done
@@ -67,7 +67,6 @@ setDoubleParameter(para1, 0.2)
 addParameterToList(paraList, para1)
 
 #Input Data
-#rrData = getRoadRunnerData()
 setPluginInputData(lmPlugin, rrDataHandle)
 
 #set species to fit
@@ -103,22 +102,25 @@ rrcData = createRRCData(dataHandle)
 npData = getNPData(rrcData)
 yOutput = npData[:,1]
 length = len(yOutput)
-#print npData
 
+#Observed data should be the same as the input data, see above
+##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
+##dataHandle = getParameterValueAsPointer(dataPHandle)
+##rrcData = createRRCData(dataHandle)
+##npData = getNPData(rrcData)
+##yOutput2 = npData[:,1]
+##length = len(yOutput)
 
-dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
+dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
 dataHandle = getParameterValueAsPointer(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNPData(rrcData)
-yOutput2 = npData[:,1]
-length = len(yOutput)
+yOutput3 = npData[:,1]
 
-#writeRRData(dataHandle, tempFolder + "/Observed.dat")
-
-
-#plot(x, yInput,'*')
-plot(x, yOutput)
-plot(x, yOutput2, '*')
+plot(x, yInput,'*g')
+plot(x, yOutput, '-r')
+#plot(x, yOutput2, '*')
+plot(x, yOutput3, 'o')
 
 show()
 print "done"
