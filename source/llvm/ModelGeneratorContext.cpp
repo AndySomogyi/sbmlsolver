@@ -332,9 +332,15 @@ void ModelGeneratorContext::initFunctionPassManager()
     {
         functionPassManager = new FunctionPassManager(module);
 
-         // Set up the optimizer pipeline.  Start with registering info about how the
-         // target lays out data structures.
-        functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+	// Set up the optimizer pipeline.  Start with registering info about how the
+	// target lays out data structures.
+
+	// we only support LLVM >= 3.1        
+#if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
+	functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
+#else
+	functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+#endif
 
          // Provide basic AliasAnalysis support for GVN.
         functionPassManager->add(createBasicAliasAnalysisPass());
