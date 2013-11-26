@@ -155,6 +155,8 @@ void TestRoadRunner::compareReference()
 void TestRoadRunner::test2()
 {
 #ifndef _WIN32
+
+	/*
     rrc::RRHandle rr = rrc::createRRInstance();
 
     rrc::loadSBMLFromFile(rr, "/home/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l3v1.xml");
@@ -174,6 +176,7 @@ void TestRoadRunner::test2()
         }
         cout << "]" << std::endl;
     }
+	*/
 #endif
 }
 
@@ -181,6 +184,8 @@ void TestRoadRunner::test2()
 void TestRoadRunner::test3()
 {
 #ifndef _WIN32
+	/*
+
     rrc::RRHandle rr = rrc::createRRInstance();
 
     rrc::loadSBMLFromFile(rr, "/Users/andy/Desktop/Feedback.xml");
@@ -200,6 +205,7 @@ void TestRoadRunner::test3()
         }
         cout << "]" << std::endl;
     }
+	*/
 #endif
 }
 
