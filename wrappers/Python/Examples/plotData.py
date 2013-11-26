@@ -1,24 +1,30 @@
-import rrPython
-import numpy
-import matplotlib.pyplot as plot
+from rrPython import *
+from numpy import *
+from matplotlib.pyplot import *
+model = open('../models/squareWaveMode.xml', 'r').read()
 
-model = open('../models/feedback.xml', 'r').read()
-rrPython.loadSBML(model)
+setTempFolder('r:/temp')
+loadSBML(model)
 timeStart = 0.0
 timeEnd = 10.0
 numPoints = 50
-results = rrPython.simulateEx(timeStart, timeEnd, numPoints)
-print results
+#resultHandle = simulateEx(timeStart, timeEnd, numPoints)
 
-S1 = results[:,2]
-S2 = results[:,3]
-S3 = results[:,4]
-x = numpy.arange(timeStart, timeEnd, (timeEnd - timeStart)/numPoints)
-plot.plot(x, S1, label="S1")
-plot.plot(x, S2, label="S2")
-plot.plot(x, S3, label="S3")
-plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
-plot.ylabel('Concentration (moles/L)')
-plot.xlabel('time (s)')
+#rrcData = createRRCData(resultHandle)
+#results = getNPData(rrcData)
+#print results
 
-plot.show()
+##S1 = results[:,0]
+##
+##x = numpy.arange(timeStart, timeEnd, (timeEnd - timeStart)/numPoints)
+##plot.plot(x, S1, label="S1")
+##
+##plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
+##
+##plot.show()
+
+t = arange(0.0, 2.0, 0.01)
+s = sin(2*pi*t)
+plot(t, s)
+
+show()

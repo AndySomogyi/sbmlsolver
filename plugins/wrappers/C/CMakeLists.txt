@@ -12,13 +12,12 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 add_library(${target} SHARED
 rrp_api
 rrp_cpp_support
-rrp_minimization_api
 rrp_parameter_api
 )
 
-if(${MSVC})
-    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrp_api.def\"")
-endif()
+#if(${MSVC})
+#    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrp_api.def\"")
+#endif()
 
 #Link C_api dll statically to roadrunner and libsbml
 if(WIN32)

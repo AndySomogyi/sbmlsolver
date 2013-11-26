@@ -55,9 +55,9 @@ void lm_printout_std( int n_par, const double *par, int m_dat,
 double lm_enorm( int, const double * );
 
 /* The actual minimization. */
-void lmmin( int 		n_par,
-			double 	   *par,
-            int 		m_dat,
+void lmmin( int         n_par,
+            double        *par,
+            int         m_dat,
             const void *data,
             void (*evaluate) (const double *par, int m_dat, const void *data, double *fvec, int *info),
             const lm_control_struct *control, lm_status_struct *status,

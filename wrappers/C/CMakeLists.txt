@@ -23,9 +23,9 @@ add_library(${target} SHARED
     rrc_cpp_support
 )
 
-if(${MSVC})
-    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrc_api.def\"")
-endif()
+#if(${MSVC})
+#    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrc_api.def\"")
+#endif()
 
 #Link C_api dll statically to roadrunner and libsbml
 if(WIN32)

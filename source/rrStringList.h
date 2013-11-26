@@ -18,7 +18,6 @@ using std::ostream;
 class RR_DECLSPEC StringList
 {
     protected:
-
         vector<string>              mStrings;
         vector<string>::iterator    mLI;
 

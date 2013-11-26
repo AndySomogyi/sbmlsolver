@@ -11,10 +11,6 @@ namespace rrp
 using rr::StringList;
 using std::vector;
 
-/**
- * @internal
- * @deprecated
- */
 class PLUGINS_API_DECLSPEC Capabilities
 {
     protected:
@@ -34,6 +30,7 @@ class PLUGINS_API_DECLSPEC Capabilities
         Capability*                     operator[](int i);
         Capability*                     get(const string& capName);
         bool                            setParameter(const string& name, const string& value);
+        string                          asXML();
 
         PLUGINS_API_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const Capabilities& caps);

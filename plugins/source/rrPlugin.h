@@ -4,7 +4,7 @@
 #include <string>
 #include "rrPluginsAPIExporter.h"
 #include "rrOSSpecifics.h"
-#include "rrPluginsAPIExporter.h"
+#include "rrPluginsAPISettings.h"
 #include "rrCapabilities.h"
 #include "Configurable.h"
 
@@ -17,10 +17,9 @@ namespace rrp
 {
 using namespace rr;
 class PluginManager;
+
 //Plugin callback functions
-#ifndef SWIG // these make SWIG really unhappy for some reason.
-typedef void    (callback_cc *PluginCallBackFnc)(void*);
-#endif
+typedef void    (callback_cc *PluginCallBackFnc)(void* data1, void* data2);
 
 using std::string;
 
@@ -43,26 +42,30 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
          * uses.
          */
         RoadRunner                     *mRR;
-        const PluginManager*            mPM; //A plugin can't change a plugin manager..
+        const PluginManager            *mPM; //A plugin can't change a plugin manager..
 
-
-        //Plugin callbacks..
+        //Plugin callback functionality
         PluginCallBackFnc               mWorkStartedCB;
         PluginCallBackFnc               mWorkProgressCB;
         PluginCallBackFnc               mWorkFinishedCB;
-        void*                           mUserData;
+        void                           *mWorkStartedData1;
+        void                           *mWorkStartedData2;
+        void                           *mWorkProgressData1;
+        void                           *mWorkProgressData2;
+        void                           *mWorkFinishedData1;
+        void                           *mWorkFinishedData2;
 
-        Capabilities                    mCapabilities;    //Container for parameter data that can be exchanged to/from the plugin
+        Capabilities                    mCapabilities;          //Container for parameter data that can be exchanged to/from the plugin by using parameters
+        void                           *mClientData;            //Data passed trough the execute function,
 
     public:
-                                        Plugin(	const string& name = gEmptyString, 
-												const string& cat = gNoneString, 
-												RoadRunner* aRR = NULL, 
-												PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL, 
-												const string& language = gNoneString, 
-												const PluginManager* pm = NULL);
+                                        Plugin( const string& name = gEmptyString,
+                                                const string& cat = gNoneString,
+                                                RoadRunner* aRR = NULL,
+                                                const string& language = gNoneString,
+                                                const PluginManager* pm = NULL);
 
-		virtual                        ~Plugin();    //Gotta be virtual!
+        virtual                        ~Plugin();
 
         string                          getName();
         void                            setLibraryName(const string& libName);
@@ -71,11 +74,19 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         string                          getCategory();
         string                          getVersion();
         string                          getCopyright();
+
+        //Misc.
+        RoadRunner*                     getRoadRunnerInstance();
+
+        //Plugin documentation
         string                          getInfo();
         string                          getExtendedInfo();
+        virtual unsigned char*          getManualAsPDF() const;
+        virtual unsigned int            getPDFManualByteSize();
 
         Capabilities*                   getCapabilities();
         Capability*                     getCapability(const string& name);
+        string                          getCapabilitiesAsXML();
 
         Parameters*                     getParameters(Capability& capability); //Each capability has a set of parameters
         Parameters*                     getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
@@ -87,10 +98,10 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         bool                            setParameter(const string& nameOf, const char* value, Capability& capability);
 
         //Virtuals
-        virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData = NULL);
-        virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData = NULL);
-        virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData = NULL);
-        virtual bool                    assignCallBacks(PluginCallBackFnc pluginStarted, PluginCallBackFnc pluginsProgress, PluginCallBackFnc pluginsFinished = NULL, void* userData = NULL);
+        virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
+
         virtual string                  getResult();
         virtual bool                    isWorking();
         virtual bool                    resetPlugin();
@@ -99,7 +110,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 
         //Pure virtuals
         virtual string                  getImplementationLanguage() = 0;
-        virtual bool                    execute(void* userData = NULL, bool inAThread = false) = 0;
+        virtual bool                    execute(void* clientData = NULL, bool inAThread = false) = 0;
 };
 
 }

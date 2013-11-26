@@ -664,24 +664,27 @@ RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
     catch_ptr_macro
 }
 
-RRCDataPtr rrcCallConv simulate(RRHandle handle)
+RRDataHandle rrcCallConv simulate(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
 
         rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
+        return (RRDataHandle) rri->simulate();
+        
+    }
+    catch_ptr_macro
+}
 
-        if(!rri->simulate())
-        {
-            return NULL;
-        }
-
-        RoadRunnerData result = *rri->getSimulationResult();
-
-        //Extract the data and return struct..
-        RRCData* aResult  = createRRCData(result);
-        return aResult;
+RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+{
+    try
+    {
+        setTimeStart(handle, timeStart);
+        setTimeEnd (handle, timeEnd);
+        setNumPoints(handle, numberOfPoints);
+        return simulate(handle);
     }
     catch_ptr_macro
 }
@@ -705,18 +708,6 @@ RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
         return rri->getSimulationResult();
-    }
-    catch_ptr_macro
-}
-
-RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
-{
-    try
-    {
-        setTimeStart(handle, timeStart);
-        setTimeEnd (handle, timeEnd);
-        setNumPoints(handle, numberOfPoints);
-        return simulate(handle);
     }
     catch_ptr_macro
 }

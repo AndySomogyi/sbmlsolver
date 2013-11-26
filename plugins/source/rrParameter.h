@@ -2,20 +2,21 @@
 #define rrParameterH
 #include <vector>
 #include <string>
+#include <sstream>
+#include "rrLogger.h"
+#include "rrUtils.h"
 #include "rrStringList.h"
 #include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
+#include "rrRoadRunnerData.h"
+#include "rrParameters.h"
 #include "../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 namespace rrp
 {
 using std::string;
 
-/**
- * @internal
- * @deprecated
- */
 template<class T>
 class Parameter : public BaseParameter
 {
@@ -53,11 +54,11 @@ mValue(mDummy)
 //mValue(mDummy)
 //{ }
 
-//template<class T>
-//void Parameter<T>::setValue(const T& val)
-//{
-//    mValue = val;
-//}
+template<class T>
+void Parameter<T>::setValue(const T& val)
+{
+    mValue = val;
+}
 
 template<class T>
 string Parameter<T>::getValueAsString() const
@@ -111,12 +112,17 @@ inline void Parameter<bool>::setValueFromString(const string& val)
     mValue = rr::toBool(val);
 }
 
-
 //================= Int ===============================
 template<>
 inline string Parameter<int>::getType() const
 {
     return "int";
+}
+
+template<>
+inline void Parameter<int>::setValue(const int& val)
+{
+    mValue = val;
 }
 
 template<>
@@ -130,6 +136,40 @@ inline string Parameter<int>::getValueAsString() const
 {
     return rr::toString(mValue);
 }
+
+//================= char* ===============================
+template<>
+inline string Parameter<char*>::getType() const
+{
+    return "char*";
+}
+
+
+//Todo:: these are probably not doing what is expected?
+template<>
+inline void Parameter<char*>::setValue(char **val)
+{
+    mValue = val[0];
+}
+
+template<>
+inline void Parameter<char*>::setValue(char * const& val)
+{
+    mValue = val;
+}
+
+template<>
+inline void Parameter<char*>::setValueFromString(const string& val)
+{
+    strcpy(mValue, val.c_str());
+}
+
+template<>
+inline string Parameter<char*>::getValueAsString() const
+{
+    return rr::toString(mValue);
+}
+
 
 //================= Double ===============================
 template<>
@@ -198,7 +238,7 @@ inline string Parameter< rr::StringList >::getType() const
 template<>
 inline string Parameter<rr::StringList>::getValueAsString() const
 {
-    return rr::toString(mValue, "\n");
+    return mValue.AsString();
 }
 
 
@@ -212,13 +252,81 @@ inline void Parameter< rr::StringList >::setValueFromString(const string& val)
 template<>
 inline void Parameter< rrc::RRCDataPtr >::setValueFromString(const string& val)
 {
-    //mValue = splitString(val,", ");
+    //Todo: implement this ugly conversion?
 }
 
 template<>
 inline string Parameter<rrc::RRCDataPtr>::getValueAsString() const
 {
     return "";
+}
+
+//============= RoadRunner data ===========================
+template<>
+inline string Parameter<rr::RoadRunnerData>::getValueAsString() const
+{
+    std::stringstream rrData;
+    rrData << (mValue);
+    return rrData.str();
+}
+
+template<>
+inline void Parameter<rr::RoadRunnerData>::setValueFromString(const string& val)
+{
+    //Todo: Implement this ugliness? This need work..
+}
+
+template<>
+inline string Parameter<rr::RoadRunnerData>::getType() const
+{
+    return "RoadRunnerData";
+}
+
+//============ RRStringArray
+template<>
+inline string Parameter<rrc::RRStringArray>::getValueAsString() const
+{
+    //Todo:: fix this
+    return string("");
+}
+
+template<>
+inline void Parameter<rrc::RRStringArray>::setValueFromString(const string& val)
+{
+    //Todo.. clear current list first..
+    rr::StringList list = rr::splitString(val, ",");
+    mValue.Count = list.size();
+    for(int i = 0; i < mValue.Count; i++)
+    {
+        mValue.String[i] = rr::createText(list[i]);
+    }
+}
+
+template<>
+inline string Parameter<rrc::RRStringArray>::getType() const
+{
+    return "RRStringArray";
+}
+
+//========== Parameters
+template<>
+inline string Parameter<Parameters>::getValueAsString() const
+{
+    StringList list = mValue.asStringList();
+    return list.AsString();
+}
+
+template<>
+inline void Parameter<Parameters>::setValueFromString(const string& val)
+{
+    Log(rr::lError)<<"Trying to set Parameters container by a string..";
+    return;
+}
+
+template<>
+inline string Parameter<Parameters>::getType() const
+{
+    return "Parameters";
 }
 
 }

@@ -14,7 +14,7 @@ extern "C"
 /*!@brief C structure to hold C Plugin data */
 typedef struct
 {
-    RRHandle   	    mRR;			//This is a handle to the roadRunner instance, creating the plugin
+    RRHandle           mRR;            //This is a handle to the roadRunner instance, creating the plugin
 
 } *RRPluginDataPtr, RRPluginData;
 

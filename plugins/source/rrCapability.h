@@ -23,8 +23,8 @@ class PLUGINS_API_DECLSPEC Capability
 
     public:
                                             Capability(const string& name, const string& method, const string& descr);
-											~Capability();
-											Capability(const Capability& fromMe);
+                                            ~Capability();
+                                            Capability(const Capability& fromMe);
 
         void                                setup(const string& name, const string& method, const string& descr);
         void                                addParameter(BaseParameter* me);
@@ -37,8 +37,8 @@ class PLUGINS_API_DECLSPEC Capability
         Parameters*                         getParameters();
         BaseParameter*                      getParameter(const string& paraName);
 
-        PLUGINS_API_DECLSPEC 
-		friend ostream&						operator <<(ostream& os, const Capability& caps);
+        PLUGINS_API_DECLSPEC
+        friend ostream&                     operator <<(ostream& os, const Capability& caps);
 };
 
 }

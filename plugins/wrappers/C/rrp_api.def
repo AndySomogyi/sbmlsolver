@@ -2,22 +2,51 @@ LIBRARY     RRPLUGINS_C_API.DLL
 
 
 EXPORTS
-;addDoubleParameter                              = _addDoubleParameter@16
-;executePlugin                                   = _executePlugin@4
-;getPluginManagerConfigurationXML                = _getPluginManagerConfigurationXML@4
-;setPluginManagerConfigurationXML                = _setPluginManagerConfigurationXML@8
-;getNumberOfPlugins                              = _getNumberOfPlugins@4
-;getPluginCapabilities                           = _getPluginCapabilities@4
-;getPluginInfo                                   = _getPluginInfo@4
-;getPluginName                                   = _getPluginName@4
-;getPluginNames                                  = _getPluginNames@4
-;getPluginParameter                              = _getPluginParameter@12
-;getPluginParameters                             = _getPluginParameters@8
-;getPluginStatus                                 = _getPluginStatus@4
-;getPluginResult                                 = _getPluginResult@4
-;loadPlugins                                     = _loadPlugins@4
-;setPluginParameter                              = _setPluginParameter@12
-;unLoadPlugins                                   = _unLoadPlugins@4
-;createPluginManager                           = _createPluginManager@4
-;createPluginManagerEx                         = _createPluginManagerEx@12
-;freePluginManager                             = _freePluginManager@4
+;Functions taking a Plugin manager handle or related
+createPluginManager                             = _createPluginManager
+createPluginManagerEx                           = _createPluginManagerEx
+freePluginManager                               = _freePluginManager
+getPluginManagerConfigurationXML                = _getPluginManagerConfigurationXML
+setPluginManagerConfigurationXML                = _setPluginManagerConfigurationXML
+getNumberOfPlugins                              = _getNumberOfPlugins
+loadPlugin                                      = _loadPlugin
+unLoadPlugin                                    = _unLoadPlugin
+loadPlugins                                     = _loadPlugins
+unLoadPlugins                                   = _unLoadPlugins
+getPluginNames                                  = _getPluginNames
+
+;Functions taking a parameter handle
+createParameter                                 = _createParameter
+getParameterValueAsString                       = _getParameterValueAsString
+getParameterValueAsPointer                      = _getParameterValueAsPointer
+setPluginInputData                              = _setPluginInputData
+addParameterToList                              = _addParameterToList
+getParameterInfo                                = _getParameterInfo
+setParameterByString                            = _setParameterByString
+setIntParameter                                 = _setIntParameter
+setDoubleParameter                              = _setDoubleParameter
+setStringParameter                              = _setStringParameter
+getParameterType                                = _getParameterType
+
+;Functions taking a plugin handle
+getPluginParameters                             = _getPluginParameters
+getPluginStatus                                 = _getPluginStatus
+getPluginParameter                              = _getPluginParameter
+setPluginParameter                              = _setPluginParameter
+getPluginResult                                 = _getPluginResult
+getPluginCapabilities                           = _getPluginCapabilities
+getPluginCapabilitiesAsXML                      = _getPluginCapabilitiesAsXML
+getPluginInfo                                   = _getPluginInfo
+getPluginManualAsPDF                            = _getPluginManualAsPDF
+getPluginManualNrOfBytes                        = _getPluginManualNrOfBytes
+getPluginName                                   = _getPluginName
+executePlugin                                   = _executePlugin
+executePluginEx                                 = _executePluginEx
+assignPluginStartedCallBack                     = _assignPluginStartedCallBack
+assignPluginProgressCallBack                    = _assignPluginProgressCallBack
+assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
+assignCallBacks                                 = _assignCallBacks
+isPluginWorking                                 = _isPluginWorking
+
+
+

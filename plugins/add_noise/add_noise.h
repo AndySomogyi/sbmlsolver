@@ -6,7 +6,6 @@
 #include "add_noise_worker.h"
 
 //---------------------------------------------------------------------------
-
 namespace addNoise
 {
 
@@ -17,7 +16,8 @@ using namespace rrp;
 class AddNoise : public CPPPlugin
 {
     public:
-        enum NoiseType {ntGaussian = 0};
+        friend class AddNoiseWorker;
+        enum NoiseType {ntGaussian = 0, ntPsychological, ntUndefined};
 
     private:
         Capability              mAddNoise;
@@ -32,9 +32,13 @@ class AddNoise : public CPPPlugin
                                 //user data is
         bool                    execute(void* userData, bool inThread = false);
         bool                    isWorking(); //Returns true as long the thread is active..
+        unsigned char*          getManualAsPDF() const;
+        unsigned int            getPDFManualByteSize();
 
-        virtual _xmlNode*       createConfigNode();
-        virtual void            loadConfig(const _xmlDoc* doc);
+
+        virtual _xmlNode*       createConfigNode(){return NULL;};
+        virtual void            loadConfig(const _xmlDoc* doc){};
+
 };
 
 extern "C"
@@ -48,21 +52,40 @@ RR_PLUGIN_DECLSPEC const char*  plugins_cc getImplementationLanguage();
 namespace rrp
 {
 template<>
-string Parameter<addNoise::AddNoise::NoiseType>::getType() const
+inline string Parameter<addNoise::AddNoise::NoiseType>::getType() const
 {
     return "NoiseType";
 }
 
 template<>
-string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
+inline string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 {
-    return "Gaussian";
+    switch(mValue)
+    {
+        case addNoise::AddNoise::ntGaussian:
+            return "Gaussian";
+        case addNoise::AddNoise::ntPsychological:
+            return "SomethingElse";
+    }
+    return "";
 }
 
 template<>
-void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
+inline void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
 {
-    mValue = addNoise::AddNoise::ntGaussian;
+    //Only gaussian noise is available at this time
+    if(val == "0")
+    {
+        mValue = addNoise::AddNoise::ntGaussian;
+    }
+    else if(val == "1")
+    {
+        mValue = addNoise::AddNoise::ntPsychological;
+    }
+    else
+    {
+        mValue = addNoise::AddNoise::ntUndefined;
+    }
 }
 
 }

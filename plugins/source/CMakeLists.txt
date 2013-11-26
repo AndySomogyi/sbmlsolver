@@ -15,7 +15,6 @@ rrCapabilities
 rrCapability
 rrCPlugin
 rrCPPPlugin
-rrMinimizationData
 rrParameters
 rrPlugin
 rrPluginManager

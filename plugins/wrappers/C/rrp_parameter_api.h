@@ -62,13 +62,59 @@ extern "C"
 RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
 
 /*!
- \brief Set a parameter
+ \brief Create a double parameter t
+ \param[in] label The parameters label as a string
+ \param[in] type  The parameters type as string. Possible values can be 'double', 'int', 'char*'
+ \param[in] value The parameters initial value casted to a (void*) pointer
+ \return Returns a handle to a new parameter, if succesful, NULL otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC RRParameterHandle rrp_cc createParameter(const char* label, const char* type, void* value);
+
+/*!
+ \brief Add a parameter to a parameters container, from a parameter pointer.
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] para Handle to a roadrunner parameter
+ \return Returns a booelan indicating success
+ \ingroup parameters
+*/
+RRP_DECLSPEC bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para);
+
+/*!
+ \brief Set a parameter by a string
  \param[in] handle to a Parameter instance
- \param[in] value Pointer to string holding the value to assign to the parameter
+ \param[in] value Pointer to string holding the value to assign to the parameter, e.g. "0.01" to set a double to 0.01
  \return Returns true if sucessful, false otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC bool rrp_cc setParameter(RRParameterHandle handle, const char* value);
+RRP_DECLSPEC bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value);
+
+/*!
+ \brief Set an int parameter
+ \param[in] handle to a Parameter instance
+ \param[in] value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC bool rrp_cc setIntParameter(RRParameterHandle handle, int value);
+
+/*!
+ \brief Set a double parameter
+ \param[in] handle to a Parameter instance
+ \param[in] value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC bool rrp_cc setDoubleParameter(RRParameterHandle handle, double value);
+
+/*!
+ \brief Set a string (char*) parameter
+ \param[in] handle to a Parameter instance
+ \param[in] value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC bool rrp_cc setStringParameter(RRParameterHandle handle, char* value);
 
 /*!
  \brief Get a parameter handle
@@ -79,6 +125,14 @@ RRP_DECLSPEC bool rrp_cc setParameter(RRParameterHandle handle, const char* valu
  \ingroup parameters
 */
 RRP_DECLSPEC RRParameterHandle rrp_cc getParameter(RRHandle handle, const char* capability_name, const char* parameter_name);
+
+/*!
+ \brief Get a parameters info
+ \param[in] handle Handle to a parameter instance
+ \return Returns informational text about the parameter if sucessful, NULL otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC char* rrp_cc getParameterInfo(RRParameterHandle handle);
 
 /*!
  \brief Get a parameters value as char*
@@ -112,6 +166,13 @@ RRP_DECLSPEC char* rrp_cc getParameterName(RRParameterHandle handle);
 */
 RRP_DECLSPEC char* rrp_cc getParameterHint(RRParameterHandle handle);
 
+/*!
+ \brief Get a parameters type
+ \param[in] handle to a Parameter instance
+ \return Returns the parameters type if sucessful, NULL otherwise
+ \ingroup parameters
+*/
+RRP_DECLSPEC char* rrp_cc getParameterType(RRParameterHandle handle);
 
 #if defined(__cplusplus)
 }    //Extern "C"

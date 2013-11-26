@@ -58,13 +58,15 @@ bool TestSuiteSimulation::LoadSettings(const string& settingsFName)
     return loadSimulationSettings(mRRHandle, mModelSettingsFileName.c_str());
 }
 
+//Todo: bisarre to copy stuff back and forth..!
 bool TestSuiteSimulation::Simulate()
 {
     if(!mRRHandle)
     {
         return false;
     }
-    mResultHandle = simulate(mRRHandle);
+    simulate(mRRHandle);
+    mResultHandle = getSimulationResult(mRRHandle);
 
     if(mResultHandle)
     {

@@ -3,11 +3,9 @@
 
 import sys
 import os
-#import ctypes
-import numpy
-from ctypes import *
+import numpy as np
 
-np = numpy
+from ctypes import *
 
 if len(os.path.dirname(__file__)):
     os.chdir(os.path.dirname(__file__))
@@ -18,9 +16,7 @@ if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
     sharedLib = os.path.join(rrInstallFolder, 'rrc_api.dll')
-    libHandle=windll.kernel32.LoadLibraryA(sharedLib)
-    rrLib = WinDLL (None, handle=libHandle)
-
+    rrLib=CDLL(sharedLib)
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
 
@@ -121,8 +117,6 @@ else:
 
 
 #=======================rr_c_api=======================#
-charptr = POINTER(c_char)
-
 rrLib.createRRInstance.restype = c_void_p
 
 
@@ -131,7 +125,7 @@ gHandle = rrLib.createRRInstance()
 
 
 # Utility and informational methods
-rrLib.getInfo.restype = c_char_p
+rrLib.getInfo.restype       = c_char_p
 rrLib.getAPIVersion.restype = c_char_p
 rrLib.getBuildDate.restype = c_char_p
 rrLib.getBuildTime.restype = c_char_p
@@ -236,7 +230,7 @@ rrLib.getScaledFloatingSpeciesElasticity.restype = c_bool
 # Free memory functions
 
 # Print/format functions
-rrLib.rrDataToString.restype = c_char_p
+rrLib.rrCDataToString.restype = c_char_p
 rrLib.matrixToString.restype = c_char_p
 rrLib.vectorToString.restype = c_char_p
 rrLib.stringArrayToString.restype = c_char_p
@@ -253,13 +247,13 @@ rrLib.getReactionRate.restype = c_bool
 # NOM lib forwarded functions
 rrLib.getNumberOfRules.restype = c_int
 
-rrLib.getEigenvalueIds.restype = charptr
+rrLib.getEigenvalueIds.restype = c_char_p
 rrLib.computeSteadyStateValues.restype = c_void_p
 rrLib.getSteadyStateSelectionList.restype = c_void_p
 rrLib.getTimeCourseSelectionListrestype = c_void_p
 rrLib.simulate.restype = c_void_p
 #rrLib.simulateJob.restype = c_void_p
-rrLib.simulateEx.restype = c_void_p
+
 rrLib.getFloatingSpeciesConcentrations.restype = c_void_p
 rrLib.getBoundarySpeciesConcentrations.restype = c_void_p
 rrLib.getGlobalParameterValues.restype = c_void_p
@@ -633,24 +627,11 @@ def getTimeCourseSelectionList():
 
 ##\brief Carry out a time-course simulation, use setTimeStart etc to set
 #characteristics
-#\return Returns a string containing the results of the simulation organized in rows and columns
+#\return Returns a handle to internal roadRunner data
 def simulate(aHandle = None):
     if aHandle is None:
         aHandle = gHandle
-    result = rrLib.simulate(aHandle)
-    #TODO: Check result
-    rowCount = rrLib.getRRDataNumRows(result)
-    colCount = rrLib.getRRDataNumCols(result)
-    resultArray = np.zeros((rowCount, colCount))
-    for m in range(rowCount):
-        for n in range(colCount):
-                rvalue = m
-                cvalue = n
-                value = c_double()
-                if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
-                    resultArray[m, n] = value.value
-    rrLib.freeRRData(result)
-    return resultArray
+    return rrLib.simulate(aHandle)
 
 ##\brief Carry out a time-course simulation in a thread, use setTimeStart etc to set
 #characteristics
@@ -675,11 +656,8 @@ def simulate(aHandle = None):
 #def simulateJobs(rrsHandle, nrOfThreads):
 #    return rrLib.simulateJobs(rrsHandle, nrOfThreads)
 
-def writeRRData(outFile, rrInstanceList=None):
-    if rrInstanceList is not None:
-        rrLib.writeMultipleRRData(rrInstanceList, outFile)
-    else:
-        rrLib.writeRRData(gHandle, outFile)
+def writeRRData(rrData, outFile):
+        rrLib.writeRRData(rrData, outFile)
 
 
 def getSimulationResult(aHandle = None):
@@ -702,10 +680,26 @@ def getSimulationResult(aHandle = None):
     rrLib.freeRRData(result)
     return resultArray
 
+rrLib.createRRCData.restype = c_void_p
+def createRRCData(rrDataHandle):
+    return rrLib.createRRCData(rrDataHandle)
+
+def getNPData(rrcDataHandle):
+    rowCount = rrLib.getRRDataNumRows(rrcDataHandle)
+    colCount = rrLib.getRRDataNumCols(rrcDataHandle)
+    resultArray = np.zeros((rowCount, colCount))
+    for m in range(rowCount):
+        for n in range(colCount):
+                rvalue = m
+                cvalue = n
+                value = c_double()
+                if rrLib.getRRDataElement(rrcDataHandle, rvalue, cvalue, pointer(value)) == True:
+                    resultArray[m, n] = value.value
+    return resultArray
+
 def getSimulationResult2(aHandle = None):
     if aHandle is None:
         aHandle = gHandle
-
     return rrLib.getSimulationResult(aHandle)
 
 def getRoadRunnerData(aHandle = None):
@@ -721,29 +715,13 @@ def getRoadRunnerData(aHandle = None):
 #
 #Example: m = rrPython.simulateEx(0, 25, 200)
 #
-#\return Returns a string containing the results of the simulation organized in rows and columns
+#\return Returns a handle to roadrunners internal data object
+rrLib.simulateEx.restype = c_void_p
 def simulateEx(timeStart, timeEnd, numberOfPoints):
     startValue = c_double(timeStart)
     endValue = c_double(timeEnd)
     nrPoints = c_int(numberOfPoints)
-    result = rrLib.simulateEx(gHandle, startValue, endValue, nrPoints)
-    #TODO: Check result
-    rowCount = rrLib.getRRDataNumRows(result)
-    colCount = rrLib.getRRDataNumCols(result)
-    if rowCount > -1 and colCount > -1 :
-        resultArray = np.zeros((rowCount, colCount))
-    else:
-        return None
-
-    for m in range(rowCount):
-        for n in range(colCount):
-                value = c_double()
-                rvalue = m
-                cvalue = n
-                if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
-                    resultArray[m, n] = value.value
-    rrLib.freeRRData(result)
-    return resultArray;
+    return rrLib.simulateEx(gHandle, startValue, endValue, nrPoints)
 
 ##\brief Carry out a one step integration of the model
 #
@@ -1718,10 +1696,16 @@ def getNumberOfRules():
 ##\ingroup toString
 #@{
 
+##\brief Returns roadRunner data in string form.
+#\return Returns a result struct as a string
+rrLib.rrDataToString.restype = c_char_p
+def rrDataToString(rrDataHandle):
+    return rrLib.rrDataToString(rrDataHandle)
+
 ##\brief Returns a result struct in string form.
 #\return Returns a result struct as a string
-def rrDataString(result):
-    return rrLib.rrDataToString(result)
+def rrCDataToString(result):
+    return rrLib.rrCDataToString(result)
 
 ##\brief Returns a matrix in string form.
 #\return Returns a matrix as a string
@@ -2032,8 +2016,6 @@ def createRRMatrix (marray):
     return rrm
 
 # ---------------------------------------------------------------------------------
-
-
 
 #Miscellaneous
 def compileSource(sourceFileName, rrHandle = None):

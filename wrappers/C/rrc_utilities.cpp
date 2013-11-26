@@ -15,9 +15,7 @@
 #include "rrUtils.h"
 #include "rrException.h"
 
-
 //---------------------------------------------------------------------------
-
 // max path stuff
 #if defined(_WIN32)
 #include <windef.h>
@@ -27,30 +25,22 @@
 #define RR_MAX_PATH PATH_MAX
 #endif
 
-
-
-
 namespace rrc
 {
 using namespace std;
 using namespace rr;
 using namespace rrc;
 
-
-
-
 const char* ALLOCATE_API_ERROR_MSG         = "Allocate a handle to the roadrunner API before calling any API function";
 const char* INVALID_HANDLE_ERROR_MSG     = "The HANDLE passed to this function was invalid";
 char*       gLastError                  = NULL;
-char gInstallFolderBuffer[RR_MAX_PATH] = {0};
-char* gInstallFolder = gInstallFolderBuffer;
-
+char        gInstallFolderBuffer[RR_MAX_PATH] = {0};
+char*       gInstallFolder = gInstallFolderBuffer;
 
 char* rrcCallConv createText(const char* text)
 {
     return rr::createText(text);
 }
-
 
 char* rrcCallConv getFileContent(const char* fName)
 {
@@ -62,24 +52,29 @@ char* rrcCallConv getFileContent(const char* fName)
     catch_ptr_macro
 }
 
-
 bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName)
 {
     return true;
 }
-
 
 char* rrcCallConv createTextMemory(const int count)
 {
     return rr::createText(count);
 }
 
+RRCDataPtr rrcCallConv createRRCData(RRDataHandle rrDataHandle)
+{
+    try
+    {
+        RoadRunnerData* data = castToRRData(rrDataHandle);
+        return rrc::createRRCData((*data));
+    }
+    catch_ptr_macro
+}
 
 // -------------------------------------------------------------------
 // List Routines
 // -------------------------------------------------------------------
-
-
 RRListPtr rrcCallConv createRRList()
 {
     RRListPtr list = new RRList;
@@ -87,7 +82,6 @@ RRListPtr rrcCallConv createRRList()
     list->Items = NULL;
     return list;
 }
-
 
 int rrcCallConv getInstanceCount(RRInstanceListPtr iList)
 {
@@ -322,7 +316,6 @@ char* rrcCallConv listToString (RRListPtr list)
     }
 }
 
-
 // Free Functions =====================================================
 bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
 {
@@ -509,7 +502,6 @@ bool rrcCallConv setVectorElement (RRVectorPtr vector, int index, double value)
 
 // Matrix Routines
 // ------------------------------------------------------------------------------------
-
 RRDoubleMatrixPtr rrcCallConv createRRMatrix (int r, int c)
 {
        RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
@@ -710,16 +702,13 @@ char* rrcCallConv getCCodeSource(RRCCodePtr code)
 }
 
 //====================== DATA WRITING ROUTINES ======================
-bool rrcCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
+bool rrcCallConv writeRRData(RRDataHandle dataHandle, const char* fileNameAndPath)
 {
     try
     {
-        RoadRunner *rr = castFrom(rrHandle);
-        RoadRunnerData data;
-        data = *rr->getSimulationResult();
+        RoadRunnerData *data = castToRRData(dataHandle);
 
-        data.writeTo(fileNameAndPath);
-        return true;
+        return data->writeTo(fileNameAndPath);
     }
     catch(Exception& ex)
     {
@@ -825,7 +814,20 @@ char* rrcCallConv stringArrayToString (const RRStringArrayPtr list)
     }
 }
 
-char* rrcCallConv rrDataToString(const RRCDataPtr result)
+char* rrcCallConv rrDataToString(RRDataHandle rrData)
+{
+    try
+    {
+        RoadRunnerData* data = castToRRData(rrData);
+
+        stringstream str;
+        str <<(*data);
+        return rr::createText(str.str());
+    }
+    catch_ptr_macro
+}
+
+char* rrcCallConv rrCDataToString(const RRCDataPtr result)
 {
     try
     {

@@ -85,7 +85,7 @@ double gaussNoise(double mean, double sigma)
     double u, r;            /* uniform and Rayleigh random variables */
 
     /* generate a uniformly distributed random number u between 0 and 1 - 1E-6*/
-    u = ( double) rand() / RAND_MAX;
+    u = (double) rand() / RAND_MAX;
     if (u == 1.0)
     {
         u = 0.999999999;

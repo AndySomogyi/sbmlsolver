@@ -51,16 +51,18 @@ public:
      * get the names of the variables stored in this data structure.
      */
     const std::vector<std::string>& getColumnNames() const;
-
     std::string getColumnName(const int col) const;
     std::string getColumnNamesAsString() const;
     void setColumnNames(const std::vector<std::string>& colNames);
     int getColumnIndex(const std::string& colName) const;
-
     void setTimeDataPrecision(const int& prec);
     void setDataPrecision(const int& prec);
-
     void reSize(int rows, int cols);
+
+    /**
+     * Clear all data allocated
+     */
+    void clear();
 
     /**
      * number of rows.
@@ -108,9 +110,7 @@ public:
     bool append(const RoadRunnerData& data);
     double getTimeStart() const;
     double getTimeEnd() const;
-
     const DoubleMatrix& getData() const;
-
     const DoubleMatrix& getWeights() const;
 
 

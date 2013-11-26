@@ -1,9 +1,10 @@
 #pragma hdrstop
+#include "rrLogger.h"
 #include "rrParameters.h"
-//#include <libxml/tree.h>
 
 namespace rrp
 {
+using namespace rr;
 
 Parameters::Parameters()
 {}

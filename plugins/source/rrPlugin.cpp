@@ -4,7 +4,6 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-//#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 
 namespace rrp
@@ -13,9 +12,6 @@ using namespace std;
 Plugin::Plugin( const string& name,
                 const string& category,
                 RoadRunner* aRR,
-                PluginCallBackFnc fn1,
-                PluginCallBackFnc fn2,
-                PluginCallBackFnc fn3,
                 const string& language,
                 const PluginManager* pm)
 :
@@ -25,16 +21,22 @@ mCategory(category),
 mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
-mWorkStartedCB(fn1),
-mWorkProgressCB(fn1),
-mWorkFinishedCB(fn2),
+mWorkStartedCB(NULL),
+mWorkProgressCB(NULL),
+mWorkFinishedCB(NULL),
 mCapabilities(name, category),
 mImplementationLanguage(language),
 mPM(pm)
-{}
+{
+}
 
 Plugin::~Plugin()
 {}
+
+RoadRunner* Plugin::getRoadRunnerInstance()
+{
+    return mRR;
+}
 
 bool Plugin::resetPlugin()
 {
@@ -42,40 +44,39 @@ bool Plugin::resetPlugin()
     return true;
 }
 
+string Plugin::getCapabilitiesAsXML()
+{
+    return mCapabilities.asXML();
+}
+
 bool Plugin::setInputData(void* userData)
 {
     //Do whats needed in descendants
-    mUserData = userData;
+    mClientData = userData;
     return true;
 }
 
-bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* userData)
+bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* userData1, void* userData2)
 {
-    mUserData = userData;
     mWorkStartedCB = startedFnc;
+    mWorkStartedData1 = userData1;
+    mWorkStartedData2 = userData2;
     return true;
 }
 
-bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* userData)
+bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* userData1, void* userData2)
 {
-    mUserData = userData;
     mWorkProgressCB = progress;
+    mWorkProgressData1 = userData1;
+    mWorkProgressData2 = userData2;
     return true;
 }
 
-bool Plugin::assignPluginFinishedCallBack(PluginCallBackFnc endFnc, void* userData)
+bool Plugin::assignPluginFinishedCallBack(PluginCallBackFnc endFnc, void* userData1, void* userData2)
 {
-    mUserData = userData;
     mWorkFinishedCB = endFnc;
-    return true;
-}
-
-bool Plugin::assignCallBacks(PluginCallBackFnc start, PluginCallBackFnc progress, PluginCallBackFnc end, void* userData)
-{
-    mUserData = userData;
-    mWorkStartedCB = start;
-    mWorkProgressCB = progress;
-    mWorkFinishedCB = end;
+    mWorkFinishedData1 = userData1;
+    mWorkFinishedData2 = userData2;
     return true;
 }
 
@@ -120,6 +121,7 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
     }
     return false;
 }
+
 
 string Plugin::getName()
 {
@@ -186,6 +188,16 @@ string Plugin::getExtendedInfo()
     msg<<"\nCapabilities Info\n";
     msg<<(*getCapabilities());
     return msg.str();
+}
+
+unsigned int Plugin::getPDFManualByteSize()
+{
+    return 0;
+}
+
+unsigned char* Plugin::getManualAsPDF() const
+{
+    return NULL;
 }
 
 Capabilities* Plugin::getCapabilities()

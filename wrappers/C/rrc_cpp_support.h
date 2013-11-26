@@ -72,6 +72,14 @@ C_DECL_SPEC void                        setError(const std::string& err);
 */
 C_DECL_SPEC rr::RoadRunner*             castFrom(rrc::RRHandle rrHandle);
 
+/*!
+ \brief Cast a RoadRunner Data handle to RoadRunner Data instance pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner data instance
+ \return Pointer to a roadrunner data instance
+ \ingroup cpp_support
+*/
+C_DECL_SPEC rr::RoadRunnerData*         castToRRData(rrc::RRDataHandle rrDataHandle);
+
 
 /*!
  \brief Cast a handle to RoadRunner Instance list ro a RoadRunnerList pointer, throws if it fails
@@ -163,7 +171,7 @@ C_DECL_SPEC rrc::RRListPtr                      createArrayList(const NewArrayLi
  \return A handle to a RRData structure. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRCDataPtr         createRRCData(const rr::RoadRunnerData& data);
+C_DECL_SPEC rrc::RRCDataPtr    createRRCData(const rr::RoadRunnerData& data);
 
 }
 #endif

@@ -57,7 +57,7 @@ extern "C"
  \brief Typedef for plugin callback function
  \ingroup pluginRoutines
 */
-typedef void (callback_cc *pluginCallBack)(void*);
+typedef void (callback_cc *pluginCallBack)(void*, void*);
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
@@ -73,8 +73,7 @@ RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle)
  * A PluginManager manages a collection of "plugins", the PluginManager
  * must be attached to a RoadRunner instance.
  */
-RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir,
-        bool autoLoad, RRHandle rrHandle);
+RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir, bool autoLoad, RRHandle rrHandle);
 
 /**
  * free the plugin manager
@@ -145,6 +144,15 @@ RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* pluginName);
 
+///*!
+// \brief Get Handle to shared library
+// \param[in] handle Handle to a PluginManager instance
+// \param[in] pluginHandle
+// \return Returns a handle to a plugin, with name as supplied in the paramter pluginName. Returns NULL if plugin is not found
+// \ingroup pluginRoutines
+//*/
+//RRP_DECLSPEC long rrp_cc getPluginSharedLibHandle(RRPluginManagerHandle handle, RRPluginHandle pluginName);
+
 /*!
  \brief GetPluginHandle
  \param[in] handle Handle to a PluginManager instance
@@ -156,12 +164,28 @@ RRP_DECLSPEC RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, i
 
 //// PLUGIN HANDLE functions
 /*!
+ \brief Get roadrunner instance handle from plugin
+ \param[in] handle Handle to a Plugin instance
+ \return Returns a handle to a rrInstance if available, returns NULL otherwise
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
+
+/*!
  \brief GetPluginCapabilities
  \param[in] handle Handle to a plugin
  \return Returns available capabilities for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginCapabilities(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
+
+/*!
+ \brief GetPluginCapabilities as a xml document
+ \param[in] handle Handle to a plugin
+ \return Returns available capabilities for a particular plugin as xml, NULL otherwise
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
 
 /*!
  \brief Get PluginParameters for a specific capability
@@ -170,7 +194,7 @@ RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginCapabilities(RRPluginHandle handle
  \return Returns available parameters for a particular capability in a plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability);
+RRP_DECLSPEC char* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability);
 
 /*!
  \brief Get a parameter handle in a secific capability
@@ -209,6 +233,22 @@ RRP_DECLSPEC char* rrp_cc getPluginName(RRPluginHandle handle);
 RRP_DECLSPEC char* rrp_cc getPluginInfo(RRPluginHandle handle);
 
 /*!
+ \brief Get manual as PDF
+ \param[in] handle Handle to a plugin
+ \return Returns the plugins manuals pdf file as a unsigned char*. If not available, returns NULL.
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC unsigned char* rrp_cc getPluginManualAsPDF(RRPluginHandle handle);
+
+/*!
+ \brief Get manual byte size
+ \param[in] handle Handle to a plugin
+ \return Returns the nr of bytes in the plugins manuals pdf file.
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC unsigned int rrp_cc getPluginManualNrOfBytes(RRPluginHandle handle);
+
+/*!
  \brief executePlugin (PluginName)
  \param[in] handle Handle to a plugin
  \return Returns true or false indicating success/failure
@@ -219,7 +259,7 @@ RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
 /*!
  \brief executePlugin (PluginName)
  \param[in] handle Handle to a plugin
- \param[in] userData void* pointer to user data. Plugin dependent.
+ \param[in] userData void* pointer to user data. Plugin dependent. See specific plugin documentation for what to pass as argument.
  \param[in] inThread bool indicating if the plugin should be executed in a thread.
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
@@ -258,7 +298,7 @@ RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack cb);
+RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
 /*!
  \brief Assign callback function fired as a plugin progresses
@@ -268,7 +308,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, plug
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData);
+RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
 /*!
  \brief Assign callback function fired when a plugin finishes its work
@@ -278,17 +318,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, plu
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData);
-
-/*!
- \brief Assign callback functions, and user data to a plugin
- \param[in] handle Handle to a plugin
- \param[in] cb1, cb2 and cb3  function pointers to callback routines
- \param[in] userData void* pointer to user data.
- \return Returns true or false indicating success/failure
- \ingroup pluginRoutines
-*/
-RRP_DECLSPEC bool rrp_cc assignCallBacks(RRPluginHandle handle, pluginCallBack cb1, pluginCallBack cb2, pluginCallBack cb3, void* userData);
+RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
 /*!
  \brief Hand external data to a plugin
@@ -327,6 +357,15 @@ RRP_DECLSPEC bool rrp_cc setPluginManagerConfigurationXML(RRPluginManagerHandle 
  \ingroup simulation
 */
 RRP_DECLSPEC char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle);
+
+/*!
+ \brief Retrieve a handle to RoadRunners internal data
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an handle to roadrunners internal data object
+ \ingroup simulation
+*/
+RRP_DECLSPEC RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle);
+
 
 #if defined(__cplusplus)
 }    //Extern "C"

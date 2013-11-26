@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "rrRoadRunnerData.h"
 #include "rrLogger.h"
-#include "lm_thread.h"
+#include "LMWorker.h"
 #include "rrNoise.h"
 #include "lm.h"
 #include "lmfit/lmmin.h"
@@ -9,39 +9,28 @@
 #include "rrUtils.h"
 #include "../../wrappers/C/rrc_api.h"
 #include "../../wrappers/C/rrc_utilities.h"
-
+#include "../../wrappers/C/rrc_cpp_support.h"
 //---------------------------------------------------------------------------
-namespace lm
+namespace lmfit
 {
 using namespace rr;
 using namespace rrc;
 using namespace std;
 
-LMFitThread::LMFitThread(LM& host)
+LMWorker::LMWorker(LM& host)
 :
-threadEnterCB(NULL),
-threadExitCB(NULL),
-mUserData(NULL),
 mTheHost(host),
-mMinData(mTheHost.getMinimizationData()),
 mRRI(NULL)
 {
     memset(&mLMData, 0, sizeof(lmDataStructure));
 }
 
-bool LMFitThread::isRunning()
+bool LMWorker::isRunning()
 {
     return mThread.isRunning();
 }
 
-void LMFitThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
-{
-    threadEnterCB     = fn1;
-    threadExitCB      = fn2;
-    mUserData         = userData;
-}
-
-void LMFitThread::start(bool runInThread)
+void LMWorker::start(bool runInThread)
 {
     if(runInThread)
     {
@@ -59,21 +48,19 @@ void LMFitThread::start(bool runInThread)
     }
 }
 
-//double f(double t, const double* paras);
-
-void LMFitThread::run()
+void LMWorker::run()
 {
-    if(threadEnterCB)
+    if(mTheHost.mWorkStartedCB)
     {
-        threadEnterCB(mUserData);    //Tell anyone who wants to know
+        mTheHost.mWorkStartedCB(NULL, mTheHost.mWorkStartedData2);
     }
 
     setupRoadRunner();
 
-    StringList species = mMinData.getObservedDataSelectionList();
+    StringList& species = mTheHost.mObservedDataSelectionList.getValueReference();//mMinData.getObservedDataSelectionList();
     Log(lInfo)<<"The following species are selected: "<<species.AsString();
 
-    Parameters Paras =  mMinData.getParameters();
+    Parameters& Paras =  mTheHost.mInputParameterList.getValueReference(); //mMinData.getParameters();
     Log(lInfo)<<"The following parameters are to be minimized";
     for(int i = 0; i < Paras.count(); i++)
     {
@@ -85,8 +72,13 @@ void LMFitThread::run()
     lm_control_struct control = lm_control_double;
     control.printflags = 3;
 
-    //Setup the input data structure
+    //Setup data structures
     setup();
+
+    if(mTheHost.mWorkProgressCB)
+    {
+        mTheHost.mWorkProgressCB(mTheHost.mWorkProgressData1, NULL);
+    }
 
     lmmin(  mLMData.nrOfParameters,
             mLMData.parameters,
@@ -95,12 +87,12 @@ void LMFitThread::run()
             evaluate,
             &control,
             &status,
-            my_printout);
+            ui_printout);
 
     /* print results */
     Log(lInfo)<<"Results:";
     Log(lInfo)<<"Status after "<<status.nfev<<" function evaluations: "<<lm_infmsg[status.info] ;
-    Log(lInfo)<<"Obtained parameters:";
+    Log(lInfo)<<"Obtained parameters: ";
 
     for (int i = 0; i < mLMData.nrOfParameters; ++i)
     {
@@ -109,34 +101,32 @@ void LMFitThread::run()
 
     Log(lInfo)<<"Obtained norm:  "<<status.fnorm;
 
-    //Populate minDataObject with data to report back
+    //Populate with data to report back
+    Parameters& parsOut = mTheHost.mOutputParameterList.getValueReference();
+    parsOut.clear();
     for (int i = 0; i < mLMData.nrOfParameters; ++i)
     {
-        mMinData.addFittedParameter(mLMData.parameterLabels[i], mLMData.parameters[i]);
+        parsOut.add(new Parameter<double>(mLMData.parameterLabels[i], mLMData.parameters[i], ""), true);
     }
-    mMinData.setNorm(status.fnorm);
 
-    RoadRunnerData data = createModelData();
-    mMinData.setModelData(data);
+    mTheHost.mNorm.setValue(status.fnorm);
+    createModelData(mTheHost.mModelData.getValueReference());
+    createResidualsData(mTheHost.mResidualsData.getValueReference());
 
-    data = createResidualsData();
-    mMinData.setResidualsData(data);
-
-    if(threadExitCB)
+    if(mTheHost.mWorkFinishedCB)
     {
-        threadExitCB(mUserData);
+        mTheHost.mWorkFinishedCB(NULL, mTheHost.mWorkFinishedData2);
     }
 }
 
-bool LMFitThread::setup()
+bool LMWorker::setup()
 {
-    //Setup the minimization data structure
-    StringList species          = mMinData.getObservedDataSelectionList();   //Model data selection..
+    StringList& species         = mTheHost.mObservedDataSelectionList.getValueReference();   //Model data selection..
     mLMData.nrOfSpecies         = species.Count();
-    Parameters parameters       = mMinData.getParameters();
+    Parameters parameters       = mTheHost.mInputParameterList.getValue(); //mMinData.getParameters();
     mLMData.nrOfParameters      = parameters.count();
 
-    mLMData.parameters                 = new double[mLMData.nrOfParameters];
+    mLMData.parameters          = new double[mLMData.nrOfParameters];
     //Set initial parameter values
     for(int i = 0; i < mLMData.nrOfParameters; i++)
     {
@@ -151,7 +141,7 @@ bool LMFitThread::setup()
         }
     }
 
-    RoadRunnerData& obsData             = mMinData.getObservedDataReference();
+    RoadRunnerData& obsData             = mTheHost.mObservedData.getValueReference();
     mLMData.nrOfTimePoints              = obsData.rSize();
     mLMData.timeStart                   = obsData.getTimeStart();
     mLMData.timeEnd                     = obsData.getTimeEnd();
@@ -212,10 +202,13 @@ bool LMFitThread::setup()
 
     mLMData.rrHandle                = mRRI;
     mRRI->setSelections(species);
+
+    mLMData.mProgressCallBack               = mTheHost.mWorkProgressCB;
+    mLMData.mProgressCallBackContextData    = mTheHost.mWorkProgressData2;
     return true;
 }
 
-bool LMFitThread::setupRoadRunner()
+bool LMWorker::setupRoadRunner()
 {
     if(mRRI)
     {
@@ -224,7 +217,7 @@ bool LMFitThread::setupRoadRunner()
 
     mRRI = new RoadRunner;
     mRRI->load(mTheHost.mSBML.getValue());
-    mRRI->setSelections(mMinData.getObservedDataSelectionList());
+    mRRI->setSelections(mTheHost.getObservedDataSelectionList());
     return true;
 }
 
@@ -245,7 +238,12 @@ void evaluate(const double *par,       //Parameter vector
         Log(lDebug)<<"k"<<i<<" = "<<par[i]<<endl;
     }
 
-    RRCData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+        
+    //RRCData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+    RRDataHandle rrData = simulateEx(   myData->rrHandle,
+                                        myData->timeStart,
+                                        myData->timeEnd,
+                                        myData->nrOfTimePoints);
 
     if(!rrData)
     {
@@ -254,6 +252,8 @@ void evaluate(const double *par,       //Parameter vector
         rr::freeText(lastError);
         return;
     }
+
+    RRCDataPtr rrcData = createRRCData( *((RoadRunnerData*) rrData));
     //calculate fvec for each specie
     int count = 0;
     for(int i = 0; i < myData->nrOfSpecies; i++)
@@ -262,7 +262,7 @@ void evaluate(const double *par,       //Parameter vector
         for(int j = 0; j < myData->nrOfTimePoints; j++ )
         {
             double modelValue;
-            if(!getRRDataElement(rrData, j, i, &modelValue))
+            if(!getRRDataElement(rrcData, j, i, &modelValue))
             {
                 throw("Bad stuff...") ;
             }
@@ -270,7 +270,6 @@ void evaluate(const double *par,       //Parameter vector
             if(!isNaN(myData->experimentalData[i][j]))
             {
                 fvec[count] = myData->experimentalData[i][j] - modelValue;
-
 
                 if(myData->experimentalDataWeights != NULL)
                 {
@@ -288,17 +287,16 @@ void evaluate(const double *par,       //Parameter vector
             count++;
         }
     }
-    freeRRData(rrData);
+    freeRRData(rrcData);
 }
 
-RoadRunnerData LMFitThread::createModelData()
+void LMWorker::createModelData(RoadRunnerData& data)
 {
     //We now have the parameters
-    RoadRunnerData& modData = mMinData.getModelDataReference();
     StringList selList("time");
-    selList.Append(mMinData.getModelDataSelectionList());
+    selList.Append(mTheHost.mModelDataSelectionList.getValue());
 
-    modData.reSize(mLMData.nrOfTimePoints, selList.Count());
+    data.reSize(mLMData.nrOfTimePoints, selList.Count());
     mRRI->reset();
     mRRI->setSelections(selList);
 
@@ -310,26 +308,25 @@ RoadRunnerData LMFitThread::createModelData()
     SimulateOptions options;
     options.start = mLMData.timeStart;
     options.duration = mLMData.timeEnd - mLMData.timeStart;
-    options.steps = mLMData.nrOfTimePoints;
+    options.steps = mLMData.nrOfTimePoints - 1;
     options.flags = options.flags | SimulateOptions::RESET_MODEL;
 
     if(mRRI->simulate(&options))
     {
-         modData = *mRRI->getSimulationResult();
+         data = *mRRI->getSimulationResult();
     }
-    return modData;
 }
 
-RoadRunnerData LMFitThread::createResidualsData()
+void LMWorker::createResidualsData(RoadRunnerData& data)
 {
     //We now have the parameters
-    RoadRunnerData& modData = mMinData.getModelDataReference();
-    RoadRunnerData& resData = mMinData.getResidualsDataReference();
-    RoadRunnerData& obsData = mMinData.getObservedDataReference();
+    RoadRunnerData& obsData = mTheHost.mObservedData.getValueReference();
+    RoadRunnerData& modData = mTheHost.mModelData.getValueReference();
 
-    resData.reSize(modData.rSize(), modData.cSize());
+    data.reSize(modData.rSize(), modData.cSize());
+
     //setup coulumn names
-    resData.setColumnNames(modData.getColumnNames());
+    data.setColumnNames(modData.getColumnNames());
 
     for(int sel = 0; sel < mLMData.nrOfSpecies + 1; sel++)    //selection 1 becuase of time column..
     {
@@ -337,7 +334,7 @@ RoadRunnerData LMFitThread::createResidualsData()
         {
             if(sel == 0)
             {
-                resData(i, sel) = modData(i, sel);    //Time
+                data(i, sel) = modData(i, sel);    //Time
             }
             else
             {
@@ -347,7 +344,7 @@ RoadRunnerData LMFitThread::createResidualsData()
                 int colNr = modData.getColumnIndex(specie);
                 if(colNr != -1)
                 {
-                    resData(i,sel) = obsData(i, sel) - modData(i, colNr);
+                    data(i,sel) = obsData(i, sel) - modData(i, colNr);
                 }
                 else
                 {
@@ -356,8 +353,6 @@ RoadRunnerData LMFitThread::createResidualsData()
             }
         }
     }
-
-    return resData;
 }
 
 }

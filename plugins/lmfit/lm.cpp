@@ -6,26 +6,48 @@
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerData.h"
 #include "rrUtils.h"
+#include "lmfit_doc.h"
 //---------------------------------------------------------------------------
 
-namespace lm
+namespace lmfit
 {
 using namespace rr;
 using namespace rrc;
 
+RRStringArray MakeStringArray()
+{
+    RRStringArray arr;
+    return arr;
+}
+
 LM::LM(rr::RoadRunner* aRR)
 :
-Plugin(                 "Levenberg-Marquardt", "Fitting",       aRR),
-mLMFit(                 "LMFit",                                "",                   "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
-mTempFolder(            "TempFolder",                           "",                   "Tempfolder used in the fitting"),
-mSBML(                  "SBML",                                 "<none>",             "SBML, i.e. the model to be used in the fitting"),
-mMinimizationData(      "MinData",                              MinimizationData(),   "Data structure holding minimization data"),
-mLMFitThread(*this)
+Plugin(                     "Levenberg-Marquardt", "Fitting",       aRR),
+mLMFit(                     "LMFit",                                "",                     "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
+mTempFolder(                "TempFolder",                           "",                     "Tempfolder used in the fitting"),
+mSBML(                      "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
+mObservedData(              "ObservedData",                         RoadRunnerData(),       "Data object holding observed (experimental) data"),
+mModelData(                 "ModelData",                            RoadRunnerData(),       "Data object holding model data"),
+mResidualsData(             "ResidualsData",                        RoadRunnerData(),       "Data object holding residuals"),
+mInputParameterList(        "InputParameterList",                   Parameters(),           "List of parameters to fit"),
+mOutputParameterList(       "OutputParameterList",                  Parameters(),           "List of parameters that was fittedt"),
+mObservedDataSelectionList( "ObservedDataSelectionList",            StringList(),           "Observed data selection list"),
+mModelDataSelectionList(    "ModelDataSelectionList",               StringList(),           "Modeled data selection list"),
+mNorm(                      "Norm",                                 -1.0,                   "Norm of fitting. An estimate of goodness of fit"),
+mLMWorker(*this)
 {
+
     //Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);
     mLMFit.addParameter(&mSBML);
-    mLMFit.addParameter(&mMinimizationData);
+    mLMFit.addParameter(&mObservedData);
+    mLMFit.addParameter(&mModelData);
+    mLMFit.addParameter(&mResidualsData);
+    mLMFit.addParameter(&mInputParameterList);
+    mLMFit.addParameter(&mOutputParameterList);
+    mLMFit.addParameter(&mObservedDataSelectionList);
+    mLMFit.addParameter(&mModelDataSelectionList);
+    mLMFit.addParameter(&mNorm);
     mCapabilities.add(mLMFit);
 }
 
@@ -34,7 +56,22 @@ LM::~LM()
 
 bool LM::isWorking()
 {
-    return mLMFitThread.isRunning();
+    return mLMWorker.isRunning();
+}
+
+unsigned char* LM::getManualAsPDF() const
+{
+    return pdf_doc;
+}
+
+unsigned int LM::getPDFManualByteSize()
+{
+    return sizeofPDF;
+}
+
+StringList LM::getObservedDataSelectionList()
+{
+    return mObservedDataSelectionList.getValue();
 }
 
 string LM::getStatus()
@@ -42,32 +79,31 @@ string LM::getStatus()
     stringstream msg;
     msg<<Plugin::getStatus();
     msg<<"TempFolder: "<<mTempFolder<<"\n";
-    msg<<"SBML: "<<mSBML<<"\n";
-    MinimizationData* minData = (MinimizationData*) (mMinimizationData.getValueAsPointer());
-    msg<<"MinData"<<(*minData)<<"\n";
+    msg <<getResult();
     return msg.str();
 }
 
 string LM::getImplementationLanguage()
 {
-    return lm::getImplementationLanguage();
+    return lmfit::getImplementationLanguage();
 }
 
 bool LM::resetPlugin()
 {
-    if(mLMFitThread.isRunning())
+    if(mLMWorker.isRunning())
     {
         return false;
     }
 
-    MinimizationData& data = getMinimizationData();
-    data.reset();
+    mSBML.getValueReference().clear();
+    mObservedData.getValueReference().clear();
+    mModelData.getValueReference().clear();
+    mResidualsData.getValueReference().clear();
+    mInputParameterList.getValueReference().clear();
+    mOutputParameterList.getValueReference().clear();
+    mObservedDataSelectionList.getValueReference().clear();
+    mModelDataSelectionList.getValueReference().clear();
     return true;
-}
-
-MinimizationData& LM::getMinimizationData()
-{
-    return *(mMinimizationData.getValuePointer());
 }
 
 string LM::getTempFolder()
@@ -83,74 +119,37 @@ string LM::getSBML()
 string LM::getResult()
 {
     stringstream msg;
-    MinimizationData& data = getMinimizationData();
-    Parameters pars = data.getParametersOut();
+    Parameters& pars = mOutputParameterList.getValueReference();
+
     for(int i = 0; i < pars.count(); i++)
     {
         msg<<pars[i]->asString();
     }
-    msg<<"Norm: "<<data.getNorm();
+    msg<<"Norm: "<<mNorm.getValue();
     return msg.str();
 }
 
 bool LM::setInputData(void* inputData)
 {
-    //Cast data to RRData structire
-    RRCDataPtr data = (RRCData*) inputData;
+    //Cast data to RRData
+    RoadRunnerData* data = (RoadRunnerData*) inputData;
 
     if(!data)
     {
         return false;
     }
 
-    RoadRunnerData rrData(data->RSize, data->CSize);
-
-    //Column Names
-    StringList colNames;
-    for(int c = 0; c < data->CSize; c++)
-    {
-        colNames.add(data->ColumnHeaders[c]);
-    }
-    rrData.setColumnNames(colNames);
-
-    //The data
-    for(int r = 0; r < data->RSize; r++)
-    {
-        for(int c = 0; c < data->CSize; c++)
-        {
-            rrData(r,c) = data->Data[r*data->CSize + c];
-        }
-    }
-
-    //Weights ?
-    if(data->Weights != NULL)
-    {
-        rrData.allocateWeights();
-        for(int r = 0; r < data->RSize; r++)
-        {
-            for(int c = 0; c < data->CSize; c++)
-            {
-                rrData.setWeight(r,c) = data->Weights[r*data->CSize + c];
-            }
-        }
-    }
-
-    MinimizationData& minData = getMinimizationData();
-    minData.setInputData(rrData);
+    RoadRunnerData rrData((*data));
+    mObservedData.setValue((*data));    //This copies the data
     return true;
 }
 
-bool LM::execute(void* inputData, bool inThread)
+bool LM::execute(void* data, bool inThread)
 {
     Log(lInfo)<<"Executing the LM plugin";
-
-    //Assign callback functions to communicate the progress
-    mLMFitThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
-
-    mLMFitThread.start(inThread);
+    mLMWorker.start(inThread);
     return true;
 }
-
 
 // Plugin factory function
 LM* plugins_cc createPlugin(rr::RoadRunner* aRR)
@@ -162,23 +161,6 @@ LM* plugins_cc createPlugin(rr::RoadRunner* aRR)
 const char* plugins_cc getImplementationLanguage()
 {
     return "CPP";
-}
-
-_xmlNode* LM::createConfigNode()
-{
-    //mLMFit(                 "LMFit",                                "",                   "Run a one species fit"),    //The 'capability'
-    //mTempFolder(            "TempFolder",                           "",                   "Tempfolder used in the fitting"),
-    //mSBML(                  "SBML",                                 "<none>",             "SBML, i.e. the model to be used in the fitting"),
-    //mMinimizationData(      "MinData",                                 MinimizationData(),   "Data structure holding minimization data"),
-
-    _xmlNode *caps = Configurable::createCapabilityNode("LMFit", "", "Run a one species fit");
-    Configurable::addChild(caps, Configurable::createParameterNode("TempFolder",  "Tempfolder used in the fitting", "<none>"));
-    Configurable::addChild(caps, Configurable::createParameterNode("SBML", "SBML, i.e. the model to be used in the fitting", ""));
-    return caps;
-}
-
-void LM::loadConfig(const _xmlDoc* doc)
-{
 }
 
 }

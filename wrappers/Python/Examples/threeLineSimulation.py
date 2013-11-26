@@ -1,5 +1,5 @@
-import rrPython
+from rrPython import *
 rrPython.loadSBMLFromFile('../models/feedback.xml')
-results = rrPython.simulateEx(0.0,2.0,20)
+result = rrPython.simulateEx(0.0,2.0,20)
 
-print results
+print getNPData(result)

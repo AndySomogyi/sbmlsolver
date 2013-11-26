@@ -5,40 +5,46 @@
 #include "rrParameter.h"
 #include "rrPlugin.h"
 #include "rrRoadRunner.h"
-#include "rrMinimizationData.h"
 #include "rrc_types.h"
-#include "lm_thread.h"
+#include "LMWorker.h"
 //---------------------------------------------------------------------------
 
-namespace lm
+namespace lmfit
 {
+using namespace rrc;
 using namespace rrp;
 using rr::RoadRunner;
 using std::string;
 
 class LM : public Plugin
 {
-    friend class LMFitThread;
+    friend class LMWorker;
 
     protected:
         Capability                              mLMFit;
         Parameter<string>                       mTempFolder;
-        Parameter<string>                       mSBML;                    //This is the model
-        Parameter<MinimizationData>             mMinimizationData;        //Generate its own
+        Parameter<string>                       mSBML;                          //This is the model
+        Parameter<RoadRunnerData>               mObservedData;
+        Parameter<RoadRunnerData>               mModelData;
+        Parameter<RoadRunnerData>               mResidualsData;
+        Parameter<Parameters>                   mInputParameterList;            //Parameters to fit
+        Parameter<Parameters>                   mOutputParameterList;           //Parameters that was fitted
+        Parameter<StringList>                   mObservedDataSelectionList;     //Species selection list for observed data
+        Parameter<StringList>                   mModelDataSelectionList;        //Species selection list for observed data
+        Parameter<double>                       mNorm;                          //Part of minimization result
 
         //Utility functions for the thread
         string                                  getTempFolder();
         string                                  getSBML();
 
-        MinimizationData&                       getMinimizationData();
-
-        //The thread is doing the work
-        LMFitThread                             mLMFitThread;
+        //The worker is doing the work
+        LMWorker                                mLMWorker;
 
     public:
                                                 LM(RoadRunner* aRR = NULL);
                                                ~LM();
-        bool                                    execute(void* inputData, bool inThread = false);
+
+        bool                                    execute(void* data, bool inThread = false);
         string                                  getResult();
         bool                                    resetPlugin();
         bool                                    setInputData(void* data);
@@ -46,8 +52,11 @@ class LM : public Plugin
         string                                  getStatus();
         bool                                    isWorking();
 
-        virtual _xmlNode*                       createConfigNode();
-        virtual void                            loadConfig(const _xmlDoc* doc);
+        unsigned char*                          getManualAsPDF() const;
+        unsigned int                            getPDFManualByteSize();
+        StringList                              getObservedDataSelectionList();
+        virtual _xmlNode*                       createConfigNode(){return NULL;}
+        virtual void                            loadConfig(const _xmlDoc* doc){}
 };
 
 extern "C"

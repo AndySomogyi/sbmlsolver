@@ -90,10 +90,10 @@ typedef struct
 /*!@brief Structure for a simple double Matrix type */
 typedef struct
 {
-    int             RSize;		/*!< The number of rows in the matrix */
-    int             CSize;		/*!< The number of columns in the matrix */
-    double*         Data;		/*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
-					     where i,j represent the row and column numberof the element. Indexing is from zero */
+    int             RSize;              /*!< The number of rows in the matrix */
+    int             CSize;              /*!< The number of columns in the matrix */
+    double*         Data;               /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
+                                                where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRDoubleMatrixPtr, RRDoubleMatrix;   /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
@@ -101,8 +101,8 @@ typedef struct
 typedef struct RRComplex
 {
     double          re;                  /*!< Real part of complex number */
-    double          imag;                /*!< imag part of complex number */
-} *RRComplexPtr;                         /*!< Pointer to a RRComplex number */
+    double          imag;               /*!< imag part of complex number */
+} *RRComplexPtr;                          /*!< Pointer to a RRComplex number */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Vector type */
@@ -161,10 +161,10 @@ typedef struct RRListItem
     enum ListItemType ItemType;       /*!< The type of the item in this list element */
     union
     {
-       int               iValue;  /*!< Integer value */
-       double            dValue;  /*!< Double value */
-       char*             sValue;  /*!< String value */
-       struct RRList*    lValue;  /*!< List value */
+       int              iValue;  /*!< Integer value */
+       double           dValue;  /*!< Double value */
+       char*            sValue;  /*!< String value */
+       struct RRList*   lValue;  /*!< List value */
     } data;                      /*!< Union */
 } *RRListItemPtr;             /*!< Pointer to cRRArrayListItemHandle struct */
 
