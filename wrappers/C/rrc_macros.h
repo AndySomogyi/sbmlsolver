@@ -47,7 +47,6 @@
  \brief macro to open a try/catch statement
  \ingroup macros
 */
-
 #define start_try                                           \
         try                                                 \
         {
@@ -101,6 +100,6 @@
         stringstream msg;                                   \
         msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
         setError(msg.str());                                \
-    }                                                       \
+    }
 
 #endif

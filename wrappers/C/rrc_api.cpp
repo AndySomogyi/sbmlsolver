@@ -134,50 +134,6 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
     catch_ptr_macro
 }
 
-RRInstanceListPtr rrcCallConv createRRInstances(int count)
-{
-    try
-    {
-        string tempFolder = getUsersTempDataFolder();
-
-        RoadRunnerList* listHandle = new RoadRunnerList(count, tempFolder);
-
-        //Create the C list structure
-        RRInstanceListPtr rrList = new RRInstanceList;
-        rrList->RRList = (void*) listHandle;
-        rrList->Count = count;
-
-        //Create 'count' handles
-        rrList->Handle = new RRHandle[count];
-
-        //Populate handles
-        for(int i = 0; i < count; i++)
-        {
-            rrList->Handle[i] = (*listHandle)[i];
-        }
-        return rrList;
-    }
-    catch_ptr_macro
-}
-
-bool rrcCallConv freeRRInstances(RRInstanceListPtr rrList)
-{
-    try
-    {
-        //Delete the C++ list
-        RoadRunnerList* listHandle = (RoadRunnerList*) rrList->RRList;
-
-        delete listHandle;
-
-        //Free  C handles
-        delete [] rrList->Handle;
-
-        //Free the C list
-        delete rrList;
-        return true;
-    }
-    catch_bool_macro
-}
 
 char* rrcCallConv getInstallFolder()
 {
@@ -1420,55 +1376,6 @@ RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
     catch_ptr_macro
 }
 
-char* rrcCallConv getCSourceFileName(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        CModelGenerator* generator = dynamic_cast<CModelGenerator*>(rri->getModelGenerator());
-        if(!generator)
-        {
-            return NULL;
-        }
-
-        string fNameS = generator->getSourceCodeFileName();
-
-        fNameS = getFileNameNoExtension(fNameS);
-        return rr::createText(fNameS);
-    }
-    catch_ptr_macro
-}
-
-RRCCode* rrcCallConv getCCode(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        CModelGenerator* generator = dynamic_cast<CModelGenerator*>(rri->getModelGenerator());
-        if(!generator)
-        {
-            return NULL;
-        }
-
-        RRCCode* cCode = new RRCCode;
-        cCode->Header = NULL;
-        cCode->Source = NULL;
-        string header = generator->getHeaderCode();
-        string source = generator->getSourceCode();
-
-        if(header.size())
-        {
-            cCode->Header = rr::createText(header);
-        }
-
-        if(source.size())
-        {
-            cCode->Source = rr::createText(source);
-        }
-        return cCode;
-    }
-    catch_ptr_macro
-}
 
 // *******  Not yet implemented  ********
 // codeGenerationMode = 0 if mode is C code generation

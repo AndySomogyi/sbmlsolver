@@ -83,16 +83,6 @@ RRListPtr rrcCallConv createRRList()
     return list;
 }
 
-int rrcCallConv getInstanceCount(RRInstanceListPtr iList)
-{
-    return iList->Count;
-}
-
-RRHandle rrcCallConv getRRHandle(RRInstanceListPtr iList, int index)
-{
-    return iList->Handle[index];
-}
-
 void rrcCallConv freeRRList (RRListPtr theList)
 {
     if(!theList)
@@ -413,25 +403,6 @@ bool rrcCallConv freeVector(RRVectorPtr vector)
     }
 }
 
-bool rrcCallConv freeCCode(RRCCodePtr code)
-{
-    try
-    {
-        if(code)
-        {
-            delete code->Header;
-            delete code->Source;
-        }
-        return true;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
-}
 
 /////////////////////////////////////////////////////////////
 void rrcCallConv pause()
@@ -681,25 +652,6 @@ char*  rrcCallConv getRRDataColumnLabel (RRCDataPtr result, int column)
     return result->ColumnHeaders[column];
 }
 
-char* rrcCallConv getCCodeHeader(RRCCodePtr code)
-{
-    if (code == NULL)
-    {
-        setError ("code argument is null in getCCodeHeader");
-        return NULL;
-    }
-    return code->Header;
-}
-
-char* rrcCallConv getCCodeSource(RRCCodePtr code)
-{
-    if (code == NULL)
-    {
-        setError ("code argument is null in getCCodeSource");
-        return NULL;
-    }
-    return code->Source;
-}
 
 //====================== DATA WRITING ROUTINES ======================
 bool rrcCallConv writeRRData(RRDataHandle dataHandle, const char* fileNameAndPath)
@@ -719,35 +671,6 @@ bool rrcCallConv writeRRData(RRDataHandle dataHandle, const char* fileNameAndPat
     }
 }
 
-bool rrcCallConv writeMultipleRRData(RRInstanceListPtr rrHandles, const char* fileNameAndPath)
-{
-    try
-    {
-        RoadRunnerList *rrs = getRRList(rrHandles);
-
-        int rrCount = rrs->count();
-        RoadRunnerData allData;
-        for(int i = rrCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
-        {
-            RoadRunner* rr = (*rrs)[i];
-            if(rr)
-            {
-                RoadRunnerData data = *rr->getSimulationResult();
-                allData.append(data);
-            }
-        }
-
-        allData.writeTo(fileNameAndPath);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
-}
 
 // Utility functions ==========================================================
 int rrcCallConv getNumberOfStringElements (const RRStringArrayPtr list)

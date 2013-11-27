@@ -339,12 +339,6 @@ C_DECL_SPEC bool rrcCallConv freeVector(RRVectorPtr vector);
 C_DECL_SPEC bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix);
 
 /*!
- \brief Free RRCCodePtr structures
- \ingroup freeRoutines
-*/
-C_DECL_SPEC bool rrcCallConv freeCCode(RRCCodePtr code);
-
-/*!
  \brief pause
 If your program is running in a console, pause() will stop execution and wait for one keybord stroke in order to continue.
  \return void
@@ -589,39 +583,6 @@ C_DECL_SPEC bool rrcCallConv getRRCDataElement (RRCDataPtr rrData, int r, int c,
 */
 C_DECL_SPEC char* rrcCallConv getRRDataColumnLabel (RRCDataPtr rrData, int column);
 
-/*!
- \brief Retrieve the header file for the current model (if applicable)
-
- Example: \code header = getCCodeHeader (code); \endcode
-
- \param[in] code A pointer to a string that stores the header code
- \return Returns null if it fails, otherwise returns a char* pointer to the header code
- \ingroup helperRoutines
-*/
-C_DECL_SPEC char* rrcCallConv getCCodeHeader (RRCCodePtr code);
-
-/*!
- \brief Retrieve the main source file for the current model (if applicable)
-
- Example: \code source = getCCodeSource (code); \endcode
-
- \param[in] code A pointer to a string that stores the main source code
- \return Returns null if it fails, otherwise returns a char* pointer to the main source code
- \ingroup helperRoutines
-*/
-C_DECL_SPEC char* rrcCallConv getCCodeSource (RRCCodePtr code);
-
-/*!
- \brief Retrieve the name of model source file for the current model (if applicable)
-
- Example: \code fileName = getCSourceFileName(RRHandle handle); \endcode
-
- \return Returns null if fails, otherwise returns a pointer to a string containing the file name
- \ingroup helperRoutines
-*/
-C_DECL_SPEC char* rrcCallConv getCSourceFileName(RRHandle handle);
-
-
 // --------------------------------------------------------------------------------
 // Convert data to string functions
 // --------------------------------------------------------------------------------
@@ -697,25 +658,6 @@ C_DECL_SPEC char* rrcCallConv stringArrayToString(const RRStringArrayPtr list);
 C_DECL_SPEC char* rrcCallConv listToString(const RRListPtr list);
 
 
-//=== Utility functions on rrInstanceLists
-/*!
- \brief Returns number of instances in InstanceList.
- \param iList Handle to a Roadrunner InstanceList handle
- \return Returns an integer indicating the instance count
- \ingroup helperRoutines
-*/
-C_DECL_SPEC int         rrcCallConv     getInstanceCount(RRInstanceListPtr iList);
-
-/*!
- \brief Returns a RoadRunner handle from Roadrunnerlist
- \param iList Handle to a Roadrunner InstanceList handle
- \param index Index to a specific item in the list
- \return Returna a handle to RoadRunner instance. 
- \ingroup helperRoutines
-*/
-C_DECL_SPEC RRHandle    rrcCallConv     getRRHandle(RRInstanceListPtr iList, int index);
-
-
 //======================== DATA WRITING ROUTINES =============================
 /*!
  \brief Writes RoadRunner data to file
@@ -726,14 +668,6 @@ C_DECL_SPEC RRHandle    rrcCallConv     getRRHandle(RRInstanceListPtr iList, int
 */
 C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle handle, const char* fileNameAndPath);
 
-/*!
- \brief Writes multiple RoadRunner data to file
- \param handle Handle to a RRInstanceList
- \param fileNameAndPath Pointer to string holding the file(with path) to write data to 
- \return Returna a boolean indicating the result 
- \ingroup helperRoutines
-*/
-C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListPtr handle, const char* fileNameAndPath);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // TEST UTILITY functions (to be documented later. Only for internal testing)

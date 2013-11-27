@@ -13,19 +13,6 @@ namespace rrc
 {
 using namespace rr;
 
-RoadRunnerList* getRRList(RRInstanceListPtr listHandle)
-{
-    RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
-    if(handle)
-    {
-        return handle;
-    }
-    else
-    {
-        Exception ex("Failed to create a valid RoadRunnerList handle");
-        throw(ex);
-    }
-}
 
 void setError(const string& err)
 {

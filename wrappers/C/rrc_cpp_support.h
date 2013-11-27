@@ -81,13 +81,6 @@ C_DECL_SPEC rr::RoadRunner*             castFrom(rrc::RRHandle rrHandle);
 C_DECL_SPEC rr::RoadRunnerData*         castToRRData(rrc::RRDataHandle rrDataHandle);
 
 
-/*!
- \brief Cast a handle to RoadRunner Instance list ro a RoadRunnerList pointer, throws if it fails
- \param[in] handle  A handle to a RRInstanceList handle
- \return Pointer to a RoadRunnerList instance
- \ingroup cpp_support
-*/
-C_DECL_SPEC rr::RoadRunnerList*         getRRList(rrc::RRInstanceListPtr handle);
 
 /*!
  \brief Copy a C vector to a std::vector
