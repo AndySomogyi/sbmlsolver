@@ -16,9 +16,6 @@
 
 using namespace std;
 
-static const double MaxRelative = 1.e-9;
-static const double MaxAbsolute = 1.e-11;
-
 namespace rr
 {
 
@@ -30,13 +27,16 @@ LoadSBMLOptions::LoadSBMLOptions()
     loadFlags = 0;
 }
 
+const double SimulateOptions::MIN_RELATIVE = 1.e-5;
+const double SimulateOptions::MIN_ABSOLUTE = 1.e-10;
+
 SimulateOptions::SimulateOptions()
 :
 steps(50),
 start(0),
 duration(5),
-absolute(MaxAbsolute),
-relative(MaxRelative),
+absolute(MIN_ABSOLUTE),
+relative(MIN_RELATIVE),
 flags(STRUCTURED_RESULT),
 integrator(CVODE),
 integratorFlags(0)
@@ -48,8 +48,8 @@ SimulateOptions::SimulateOptions(const std::string &fname)
 steps(50),
 start(0),
 duration(5),
-absolute(MaxAbsolute),
-relative(MaxRelative),
+absolute(MIN_ABSOLUTE),
+relative(MIN_RELATIVE),
 flags(STRUCTURED_RESULT),
 integrator(CVODE),
 integratorFlags(0)
@@ -87,19 +87,30 @@ integratorFlags(0)
 
         //Assign values
         it = settings.find("start");
-        start = (it != settings.end())   ? toDouble((*it).second) : 0;
+        start = (it != settings.end())       ? std::abs(toDouble((*it).second)): 0;
 
         it = settings.find("duration");
-        duration = (it != settings.end())    ? toDouble((*it).second) : 0;
+        duration = (it != settings.end())    ? std::abs(toDouble((*it).second)) : 0;
 
         it = settings.find("steps");
-        steps = (it != settings.end())       ? toInt((*it).second) : 50;
+        steps = (it != settings.end())       ? std::abs(toInt((*it).second)) : 50;
 
         it = settings.find("absolute");
-        absolute = (it != settings.end())    ? toDouble((*it).second) : 1.e-7;
+        absolute = (it != settings.end())    ? std::abs(toDouble((*it).second)) : MIN_ABSOLUTE;
 
         it = settings.find("relative");
-        relative = (it != settings.end())    ? toDouble((*it).second) : 1.e-4;
+        relative = (it != settings.end())    ? std::abs(toDouble((*it).second)) : MIN_RELATIVE;
+
+        // adjust values to min that will pass test suite
+        if (relative > MIN_RELATIVE)
+        {
+            relative = MIN_RELATIVE;
+        }
+
+        if (absolute > MIN_ABSOLUTE)
+        {
+            absolute = MIN_ABSOLUTE;
+        }
 
         it = settings.find("variables");
         if(it != settings.end())
@@ -138,14 +149,6 @@ integratorFlags(0)
                 }
             }
         }
-    }
-
-    if (absolute > MaxAbsolute) {
-        absolute = MaxAbsolute;
-    }
-
-    if (relative > MaxRelative) {
-        relative = MaxRelative;
     }
 }
 

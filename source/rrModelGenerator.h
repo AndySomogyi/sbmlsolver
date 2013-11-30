@@ -20,13 +20,94 @@ class RR_DECLSPEC ModelGenerator
 public:
     enum ModelGeneratorOptions
     {
-        CONSERVED_MOIETIES            = (0x1 << 0),  // => 0x00000001
+        /**
+         * perform conservation analysis.
+         *
+         * This causes a re-ordering of the species, so results generated
+         * with this flag enabled can not be compared index wise to results
+         * generated otherwise.
+         *
+         * currently only implemented with the C code generating model
+         */
+        CONSERVED_MOIETIES               = (0x1 << 0),  // => 0x00000001
 
-        RECOMPILE                     = (0x1 << 1),  // => 0x00000010
+        /**
+         * Should the model be recompiled?
+         * The LLVM ModelGenerator maintins a hash table of currently running
+         * models. If this flag is NOT set, then the generator will look to see
+         * if there is already a running instance of the given model and
+         * use the generated code from that one.
+         *
+         * If only a single instance of a model is run, there is no
+         * need to cache the models, and this can safetly be enabled,
+         * realizing some performance gains.
+         */
+        RECOMPILE                        = (0x1 << 1),  // => 0x00000010
 
-        READ_ONLY                     = (0x1 << 2),  // => 0x00000100
+        /**
+         * If this is set, then a read-only model is generated. A read-only
+         * model can be simulated, but no code is generated to set model
+         * values, i.e. parameters, amounts, values, etc...
+         *
+         * It takes a finite amount of time to generate the model value setting
+         * functions, and if they are not needed, one may see some performance
+         * gains, especially in very large models.
+         */
+        READ_ONLY                        = (0x1 << 2),  // => 0x00000100
 
-        MUTABLE_INITIAL_CONDITIONS    = (0x1 << 3)   // => 0x00001000
+        /**
+         * Generate accessor functions to allow changing of initial
+         * conditions.
+         */
+        MUTABLE_INITIAL_CONDITIONS       = (0x1 << 3),   // => 0x00001000
+
+        /**
+         * GVN - This pass performs global value numbering and redundant load
+         * elimination cotemporaneously.
+         */
+        OPTIMIZE_GVN                     = (0x1 << 4),
+
+        /**
+         * CFGSimplification - Merge basic blocks, eliminate unreachable blocks,
+         * simplify terminator instructions, etc...
+         */
+        OPTIMIZE_CFG_SIMPLIFICATION      = (0x1 << 5),
+
+        /**
+         * InstructionCombining - Combine instructions to form fewer, simple
+         * instructions. This pass does not modify the CFG, and has a tendency to make
+         * instructions dead, so a subsequent DCE pass is useful.
+         */
+        OPTIMIZE_INSTRUCTION_COMBINING   = (0x1 << 6),
+
+        /**
+         * DeadInstElimination - This pass quickly removes trivially dead instructions
+         * without modifying the CFG of the function.  It is a BasicBlockPass, so it
+         * runs efficiently when queued next to other BasicBlockPass's.
+         */
+        OPTIMIZE_DEAD_INST_ELIMINATION   = (0x1 << 7),
+
+        /**
+         * DeadCodeElimination - This pass is more powerful than DeadInstElimination,
+         * because it is worklist driven that can potentially revisit instructions when
+         * their other instructions become dead, to eliminate chains of dead
+         * computations.
+         */
+        OPTIMIZE_DEAD_CODE_ELIMINATION   = (0x1 << 8),
+
+        /**
+         * InstructionSimplifier - Remove redundant instructions.
+         */
+        OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9),
+
+        /**
+         * all optimizations, use to check if bit mask has
+         * any optimizations.
+         */
+        OPTIMIZE = OPTIMIZE_GVN | OPTIMIZE_CFG_SIMPLIFICATION |
+            OPTIMIZE_INSTRUCTION_COMBINING |
+            OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION |
+            OPTIMIZE_INSTRUCTION_SIMPLIFIER
     };
 
     /**

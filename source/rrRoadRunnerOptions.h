@@ -40,7 +40,7 @@ struct RR_DECLSPEC LoadSBMLOptions
          *
          * currently only implemented with the C code generating model
          */
-        CONSERVED_MOIETIES            = (0x1 << 0),  // => 0x00000001
+        CONSERVED_MOIETIES               = (0x1 << 0),  // => 0x00000001
 
         /**
          * Should the model be recompiled?
@@ -53,7 +53,7 @@ struct RR_DECLSPEC LoadSBMLOptions
          * need to cache the models, and this can safetly be enabled,
          * realizing some performance gains.
          */
-        RECOMPILE                     = (0x1 << 1),  // => 0x00000010
+        RECOMPILE                        = (0x1 << 1),  // => 0x00000010
 
         /**
          * If this is set, then a read-only model is generated. A read-only
@@ -64,14 +64,52 @@ struct RR_DECLSPEC LoadSBMLOptions
          * functions, and if they are not needed, one may see some performance
          * gains, especially in very large models.
          */
-        READ_ONLY                     = (0x1 << 2),  // => 0x00000100
-
+        READ_ONLY                        = (0x1 << 2),  // => 0x00000100
 
         /**
          * Generate accessor functions to allow changing of initial
          * conditions.
          */
-        MUTABLE_INITIAL_CONDITIONS       = (0x1 << 3)   // => 0x00001000
+        MUTABLE_INITIAL_CONDITIONS       = (0x1 << 3),   // => 0x00001000
+
+        /**
+         * GVN - This pass performs global value numbering and redundant load
+         * elimination cotemporaneously.
+         */
+        OPTIMIZE_GVN                     = (0x1 << 4),
+
+        /**
+         * CFGSimplification - Merge basic blocks, eliminate unreachable blocks,
+         * simplify terminator instructions, etc...
+         */
+        OPTIMIZE_CFG_SIMPLIFICATION      = (0x1 << 5),
+
+        /**
+         * InstructionCombining - Combine instructions to form fewer, simple
+         * instructions. This pass does not modify the CFG, and has a tendency to make
+         * instructions dead, so a subsequent DCE pass is useful.
+         */
+        OPTIMIZE_INSTRUCTION_COMBINING   = (0x1 << 6),
+
+        /**
+         * DeadInstElimination - This pass quickly removes trivially dead instructions
+         * without modifying the CFG of the function.  It is a BasicBlockPass, so it
+         * runs efficiently when queued next to other BasicBlockPass's.
+         */
+        OPTIMIZE_DEAD_INST_ELIMINATION   = (0x1 << 7),
+
+        /**
+         * DeadCodeElimination - This pass is more powerful than DeadInstElimination,
+         * because it is worklist driven that can potentially revisit instructions when
+         * their other instructions become dead, to eliminate chains of dead
+         * computations.
+         */
+        OPTIMIZE_DEAD_CODE_ELIMINATION   = (0x1 << 8),
+
+        /**
+         * InstructionSimplifier - Remove redundant instructions.
+         */
+        OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9)
     };
 
     enum LoadOpt
@@ -233,6 +271,24 @@ struct RR_DECLSPEC SimulateOptions
      * listed in variables.
      */
     std::vector<std::string> concentrations;
+
+    /**
+     * The minumum relative error that the CVODE integrator supports
+     * in order to to pass the sbml test suite using the default integtator.
+     *
+     * If a test suite config file is loaded, and the relative error is
+     * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
+     */
+    static const double MIN_RELATIVE;
+
+    /**
+     * The minumum absolute error that the CVODE integrator supports
+     * in order to to pass the sbml test suite using the default integtator.
+     *
+     * If a test suite config file is loaded, and the relative error is
+     * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
+     */
+    static const double MIN_ABSOLUTE;
 };
 
 

@@ -482,8 +482,8 @@ Creates a new SelectionRecord for the given selection string.
 
 
 
-%feature("docstring") rr::RoadRunner::computeSteadyStateValue "
-RoadRunner.computeSteadyStateValue(*args)
+%feature("docstring") rr::RoadRunner::getSteadyStateValues "
+RoadRunner.getSteadyStateValues(*args)
 
 Returns a vector of steady state values for the floating species. The order of
 species in the vector is indicated by the order of species Ids in a call to
@@ -827,8 +827,8 @@ Returns the scaled elasticity matrix at the current operating point.
 
 
 
-%feature("docstring") rr::RoadRunner::getSelectionValue "
-RoadRunner.getSelectionValue(sel)
+%feature("docstring") rr::RoadRunner::getValue "
+RoadRunner.getValue(sel)
 
 Returns the value for a given selection.
 
@@ -860,17 +860,6 @@ get the simulation result in case one forgot to hold on to the simulate return v
 
 
 %feature("docstring") rr::RoadRunner::selections "
-";
-
-
-
-%feature("docstring") rr::RoadRunner::steadyStateSelections "
-
-A list of SelectionRecords which determine what values are used for
-a steady state calculation. This list may be set by assigning a list
-of valid selection symbols::
-
-  r.steadyStateSelections = ['S1', '[S2]', 'P1']
 ";
 
 
@@ -1075,18 +1064,7 @@ This simulation will use the previous values.
 :annotation: None
 
 Get the SimulateOptions object where simulation options may be set.
-";
 
-
-
-%feature("docstring") rr::RoadRunner::steadyState "
-RoadRunner.steadyState()
-
-Attempt to evaluate the steady state for the model. The method returns
-a value that indicates how close the solution is to the steady state.
-The smaller the value the better. Values less than 1E-6 usually indicate a
-steady state has been found. If necessary the method can be called a
-second time to improve the solution.
 
 
 
@@ -1131,6 +1109,50 @@ Evaluates the current model, that is it updates the rates of change and any assi
 It does *not* carry out an integration step.
 
 :returns: Returns true if successful
+
+
+.. Steady State Section
+";
+
+
+
+%feature("docstring") rr::RoadRunner::steadyStateSelections "
+
+A list of SelectionRecords which determine what values are used for
+a steady state calculation. This list may be set by assigning a list
+of valid selection symbols::
+
+  r.steadyStateSelections = ['S1', '[S2]', 'P1']
+";
+
+
+
+%feature("docstring") rr::RoadRunner::steadyState "
+RoadRunner.steadyState()
+
+Attempt to evaluate the steady state for the model. The method returns
+a value that indicates how close the solution is to the steady state.
+The smaller the value the better. Values less than 1E-6 usually indicate a
+steady state has been found. If necessary the method can be called a
+second time to improve the solution.
+
+:returns: the sum of squares of the steady state solution.
+
+:rtype: double
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getSteadyStateValues "
+RoadRunner.getSteadyStateValues()
+
+Performs a steady state calculation (evolves the system to a steady
+state), then calculates and returns the set of values specifed by
+the steady state selections.
+
+:returns: a numpy array corresponding to the values specified by steadyStateSelections
+
+:rtype: numpy.ndarray
 ";
 
 
@@ -1145,134 +1167,248 @@ SelectionRecords should be created by the RoadRunner.createSelection
 
 %feature("docstring") rr::SelectionRecord::TIME "
 
-Model Time
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::BOUNDARY_CONCENTRATION "
+%feature("docstring") rr::SelectionRecord::CONCENTRATION "
 
-Boundary Concentration
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::FLOATING_CONCENTRATION "
+%feature("docstring") rr::SelectionRecord::AMOUNT "
 
-Floating Species Concentration
+species must have either a CONCENTRATION or AMOUNT
+modifer to distinguish it.
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::REACTION_RATE "
+%feature("docstring") rr::SelectionRecord::RATE "
 
-Reaction Rate
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT_RATE "
+%feature("docstring") rr::SelectionRecord::BOUNDARY "
 
-Rate of change of floating species amount
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::COMPARTMENT "
+%feature("docstring") rr::SelectionRecord::FLOATING "
 
-Compartment Volume
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::GLOBAL_PARAMETER "
+%feature("docstring") rr::SelectionRecord::REACTION "
 
-Global Parameter
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT "
+%feature("docstring") rr::SelectionRecord::INITIAL "
 
-Floating Species Amount
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::BOUNDARY_AMOUNT "
+%feature("docstring") rr::SelectionRecord::CURRENT "
 
-Boundary species amount
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNSCALED "
+
 ";
 
 
 
 %feature("docstring") rr::SelectionRecord::ELASTICITY "
 
-Elasticity control coefficient
-";
-
-
-
-%feature("docstring") rr::SelectionRecord::UNSCALED_ELASTICITY "
-
-Unscaled elasticity control coefficient
 ";
 
 
 
 %feature("docstring") rr::SelectionRecord::CONTROL "
 
-Control coefficient
-";
-
-
-
-%feature("docstring") rr::SelectionRecord::UNSCALED_CONTROL "
-
-Unscaled control coefficient
 ";
 
 
 
 %feature("docstring") rr::SelectionRecord::EIGENVALUE "
 
-Eigenvalue
 ";
 
 
 
-%feature("docstring") rr::SelectionRecord::INITIAL_CONCENTRATION "
+%feature("docstring") rr::SelectionRecord::ELEMENT "
 
-Floating species intial concentration
 ";
 
 
 
 %feature("docstring") rr::SelectionRecord::STOICHIOMETRY "
 
-Stochiometry matrix entry
-";
-
-
-
-%feature("docstring") rr::SelectionRecord::UNKNOWN_ELEMENT "
-
-A syntactically valid element but it has not been determined
-what sbml element ths id refers to.
-";
-
-
-
-%feature("docstring") rr::SelectionRecord::UNKNOWN_CONCENTRATION "
-
-A syntactially valid but unknown concentration.
 ";
 
 
 
 %feature("docstring") rr::SelectionRecord::UNKNOWN "
 
-An error condition.
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::DEPENDENT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::INDEPENDENT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::CONSREVED_MOIETY "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNKNOWN_CONCENTRATION "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::COMPARTMENT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::GLOBAL_PARAMETER "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::BOUNDARY_AMOUNT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::BOUNDARY_CONCENTRATION "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_CONCENTRATION "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT_RATE "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_CONCENTRATION_RATE "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::REACTION_RATE "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::INITIAL_FLOATING_AMOUNT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::INITIAL_FLOATING_CONCENTRATION "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNSCALED_ELASTICITY "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNSCALED_CONTROL "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNKNOWN_ELEMENT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL_INDEPENDENT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL_DEPENDENT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL_INDEPENDENT_AMOUNT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL_DEPENDENT_AMOUNT "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL_INDEPENDENT_CONCENTRATION "
+
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ALL_DEPENDENT_CONCENTRATION "
+
 ";
 
 

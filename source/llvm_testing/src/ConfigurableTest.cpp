@@ -6,6 +6,7 @@
  */
 #pragma hdrstop
 #include "ConfigurableTest.h"
+#include "rrRoadRunner.h"
 #include <iostream>
 
 using namespace std;
@@ -84,8 +85,37 @@ bool ConfigurableTest::test()
 
 
     return true;
+}
 
 
+
+void ConfigurableTest::testRoadRunner(const std::string& sbml, const std::string configFname)
+{
+    ifstream inFile(configFname.c_str());
+
+
+    stringstream strStream;
+    strStream << inFile.rdbuf();//read the file
+    string str = strStream.str();//str holds the content of the file
+
+
+    RoadRunner r;
+
+    std::string xml = r.getConfigurationXML();
+
+    cout << "original xml: " << xml << endl;
+
+    r.load(sbml);
+
+    xml = r.getConfigurationXML();
+
+    cout << "loaded sbml xml: " << xml << endl;
+
+    r.setConfigurationXML(str);
+
+    xml = r.getConfigurationXML();
+
+    cout << "after set xml: " << xml << endl;
 
 }
 

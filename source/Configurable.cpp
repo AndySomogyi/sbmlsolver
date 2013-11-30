@@ -54,7 +54,6 @@ std::string Configurable::xmlFromConfigNode(xmlNode* config)
      * for demonstration purposes.
      */
     xmlDocDumpFormatMemory(doc, &xmlbuff, &buffersize, 1);
-    printf("%s", (char *) xmlbuff);
 
     std::string result = (const char*) xmlbuff;
 
@@ -175,7 +174,7 @@ xmlNode* Configurable::createParameterNode(const std::string& name,
     xmlSetProp(node, xmlchar("name"), xmlchar(name.c_str()));
     xmlSetProp(node, xmlchar("hint"), xmlchar(hint.c_str()));
     xmlSetProp(node, xmlchar("type"), xmlchar("double"));
-    xmlSetProp(node, xmlchar("value"), xmlchar(toString(value).c_str()));
+    xmlSetProp(node, xmlchar("value"), xmlchar(toString(value, "%e").c_str()));
     return node;
 }
 

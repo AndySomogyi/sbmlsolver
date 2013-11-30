@@ -663,6 +663,11 @@ double RoadRunner::steadyState()
 
     NLEQInterface steadyStateSolver(mModel);
 
+    if (configurationXML.length() > 0)
+    {
+        Configurable::loadXmlConfig(configurationXML, &steadyStateSolver);
+    }
+
     //Get a std vector for the solver
     vector<double> someAmounts(mModel->getNumIndFloatingSpecies(), 0);
     mModel->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
@@ -2576,16 +2581,36 @@ _xmlNode *RoadRunner::createConfigNode()
     Configurable::addChild(capies, caps);
 
     // capability for child objects
-    if (this->mCVode)
+    if (mCVode)
     {
         Configurable::addChild(capies, mCVode->createConfigNode());
     }
+    else
+    {
+        CvodeInterface tmp(0, &mSettings);
+        Configurable::addChild(capies, tmp.createConfigNode());
+    }
+
+    // nleq only exists during steadyState, so we need to create a tmp
+    // one and load it with the xml if we given.
+    NLEQInterface nleq(0);
+
+    if (configurationXML.length() > 0)
+    {
+        Configurable::loadXmlConfig(configurationXML, &nleq);
+    }
+
+    Configurable::addChild(capies, nleq.createConfigNode());
 
     return capies;
 }
 
 void RoadRunner::loadConfig(const _xmlDoc* doc)
 {
+    if (mCVode)
+    {
+        mCVode->loadConfig(doc);
+    }
 }
 
 std::string RoadRunner::getConfigurationXML()
@@ -2595,6 +2620,7 @@ std::string RoadRunner::getConfigurationXML()
 
 void RoadRunner::setConfigurationXML(const std::string& xml)
 {
+    this->configurationXML = xml;
     Configurable::loadXmlConfig(xml, this);
 }
 

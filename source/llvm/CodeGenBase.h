@@ -33,6 +33,12 @@ public:
     FunctionPtrType createFunction()
     {
         llvm::Function *func = (llvm::Function*)codeGen();
+
+        if(functionPassManager)
+        {
+            functionPassManager->run(*func);
+        }
+
         return (FunctionPtrType)engine.getPointerToFunction(func);
     }
 
@@ -48,7 +54,8 @@ protected:
             builder(mgc.getBuilder()),
             engine(mgc.getExecutionEngine()),
             options(mgc.getOptions()),
-            function(0)
+            function(0),
+            functionPassManager(mgc.getFunctionPassManager())
     {
     };
 
@@ -65,6 +72,11 @@ protected:
     llvm::IRBuilder<> &builder;
     llvm::ExecutionEngine &engine;
     llvm::Function *function;
+
+    /**
+     * function pass manager. Null if no optimization.
+     */
+    llvm::FunctionPassManager *functionPassManager;
 
     /**
      * the options bit field that was passed into the top level load method.

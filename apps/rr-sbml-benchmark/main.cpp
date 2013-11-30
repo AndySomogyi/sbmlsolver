@@ -104,7 +104,12 @@ int main(int argc, char** argv)
     // read only model
     opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::READ_ONLY;
 
+    opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
 
+    opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
+
+
+    std::cout << "loading file: " << sbmlFile << std::endl;
     roadRunner.load(sbmlFile, &opt);
 
     SimulateOptions settings(settingsFile);
@@ -121,6 +126,19 @@ int main(int argc, char** argv)
     {
         settings.duration = atof(argv[7]);
     }
+
+    std::cout << "running for " << settings.steps << ", duration " << settings.duration << std::endl;
+
+    settings.relative = 1.e-5;
+    settings.absolute = 1.e-10;
+
+    std::cout << "absolute: " << settings.absolute << std::endl;
+    std::cout << "relative: " << settings.relative << std::endl;
+
+
+    //settings.integratorFlags |= SimulateOptions::STIFF;
+
+
 
     roadRunner.setSimulateOptions(settings);
 

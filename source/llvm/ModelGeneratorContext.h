@@ -108,6 +108,13 @@ public:
      */
     llvm::Module *getModule() const;
 
+    /**
+     * if optimization is enabled, this gets the function pass
+     * manager loaded with all the requested optimizers.
+     * NULL if no optimization is specified.
+     */
+    llvm::FunctionPassManager *getFunctionPassManager() const;
+
     llvm::IRBuilder<> &getBuilder() const;
 
     /**
@@ -173,6 +180,8 @@ private:
 
     llvm::IRBuilder<> *builder;
 
+    llvm::FunctionPassManager *functionPassManager;
+
     unsigned options;
 
     /**
@@ -180,6 +189,8 @@ private:
      * converted document.
      */
     rr::conservation::ConservedMoietyConverter *moietyConverter;
+
+    void initFunctionPassManager();
 };
 
 

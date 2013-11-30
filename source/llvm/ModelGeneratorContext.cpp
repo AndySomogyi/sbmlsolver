@@ -25,6 +25,7 @@ using namespace std;
 using namespace libsbml;
 
 using rr::Logger;
+using rr::ModelGenerator;
 
 namespace rrllvm
 {
@@ -71,7 +72,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         modelSymbols(0),
         errString(new string()),
         options(options),
-        moietyConverter(0)
+        moietyConverter(0),
+        functionPassManager(0)
 {
     if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
     {
@@ -133,6 +135,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     createLibraryFunctions(module);
 
     ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+    initFunctionPassManager();
 }
 
 ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
@@ -143,7 +147,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new string()),
         options(options),
-        moietyConverter(0)
+        moietyConverter(0),
+        functionPassManager(0)
 {
     if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
     {
@@ -202,6 +207,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
     createLibraryFunctions(module);
 
     ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+    initFunctionPassManager();
 }
 
 static SBMLDocument *createEmptyDocument()
@@ -217,7 +224,8 @@ ModelGeneratorContext::ModelGeneratorContext() :
         symbols(new LLVMModelDataSymbols(doc->getModel(), 0)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new string()),
-        options(0)
+        options(0),
+        functionPassManager(0)
 {
     // initialize LLVM
     // TODO check result
@@ -242,6 +250,7 @@ ModelGeneratorContext::ModelGeneratorContext() :
 
 ModelGeneratorContext::~ModelGeneratorContext()
 {
+    delete functionPassManager;
     delete modelSymbols;
     delete symbols;
     delete builder;
@@ -312,6 +321,71 @@ bool ModelGeneratorContext::getConservedMoietyAnalysis() const
     return options & rr::ModelGenerator::CONSERVED_MOIETIES;
 }
 
+llvm::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const
+{
+    return functionPassManager;
+}
+
+void ModelGeneratorContext::initFunctionPassManager()
+{
+    if (options & ModelGenerator::OPTIMIZE)
+    {
+        functionPassManager = new FunctionPassManager(module);
+
+	// Set up the optimizer pipeline.  Start with registering info about how the
+	// target lays out data structures.
+
+	// we only support LLVM >= 3.1        
+#if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
+	functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
+#else
+	functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+#endif
+
+         // Provide basic AliasAnalysis support for GVN.
+        functionPassManager->add(createBasicAliasAnalysisPass());
+
+
+        if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
+            functionPassManager->add(createInstructionSimplifierPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_COMBINING)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_INSTRUCTION_COMBINING";
+            functionPassManager->add(createInstructionCombiningPass());
+        }
+
+        if(options & ModelGenerator::OPTIMIZE_GVN)
+        {
+            Log(Logger::LOG_NOTICE) << "using GVN optimization";
+            functionPassManager->add(createGVNPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_CFG_SIMPLIFICATION)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_CFG_SIMPLIFICATION";
+            functionPassManager->add(createCFGSimplificationPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_DEAD_INST_ELIMINATION)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
+            functionPassManager->add(createDeadInstEliminationPass());
+        }
+
+        if (options & ModelGenerator::OPTIMIZE_DEAD_CODE_ELIMINATION)
+        {
+            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
+            functionPassManager->add(createDeadCodeEliminationPass());
+        }
+
+
+        functionPassManager->doInitialization();
+    }
+}
 
 
 /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
@@ -588,4 +662,8 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
     return doc;
 }
 
+
+
 } /* namespace rr */
+
+
