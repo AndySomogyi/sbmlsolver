@@ -29,8 +29,8 @@ class PLUGINS_API_DECLSPEC CPlugin : public Plugin
 
         void                    assignExecuteFunction(executeFnc func);
 
-        virtual _xmlNode*       createConfigNode();
-        virtual void            loadConfig(const _xmlDoc* doc);
+//        virtual _xmlNode*       createConfigNode();
+//        virtual void            loadConfig(const _xmlDoc* doc);
 };
 
 }

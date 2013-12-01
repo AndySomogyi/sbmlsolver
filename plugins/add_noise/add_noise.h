@@ -34,11 +34,6 @@ class AddNoise : public CPPPlugin
         bool                    isWorking(); //Returns true as long the thread is active..
         unsigned char*          getManualAsPDF() const;
         unsigned int            getPDFManualByteSize();
-
-
-        virtual _xmlNode*       createConfigNode(){return NULL;};
-        virtual void            loadConfig(const _xmlDoc* doc){};
-
 };
 
 extern "C"

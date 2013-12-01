@@ -19,13 +19,11 @@ using namespace std;
 
 RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle)
 {
-    try
-    {
-        rr::RoadRunner* rri = castFrom(handle);
+    start_try
+        rr::RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix*     tempMat     = rri->getL0Matrix();
         return createMatrix(tempMat);
 
-    }
     catch_ptr_macro;
 }
 
@@ -453,12 +451,10 @@ RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle)
 
 RRVectorPtr getConservedSums(RRHandle handle)
 {
-    try
-    {
-        RoadRunner* rri = castFrom(handle); //Will throw if it can't cast
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle); //Will throw if it can't cast
         vector<double> tempMat = rri->getConservedMoietyValues();
         return rrc::createVector(tempMat);
-    }
     catch_ptr_macro
 }
 
@@ -787,8 +783,7 @@ RRVectorPtr getConservedSums(RRHandle handle)
 
 RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix(const RRDoubleMatrixPtr mat)
 {
-    try
-    {
+    start_try
         if (mat == NULL)
         {
             stringstream msg;
@@ -810,14 +805,12 @@ RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix(const RRDoubleMatrixPtr mat)
         }
         // Convert the DoubleMatrix result to a RRDoubleMatrixPtr type
         return createMatrix(&result);
-    }
     catch_ptr_macro
 }
 
 RRComplexVectorPtr rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat)
 {
-    try
-    {
+    start_try
         if (mat == NULL)
         {
             stringstream msg;
@@ -832,7 +825,6 @@ RRComplexVectorPtr rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat)
 
         // Convert the DoubleMatrix result to a RRDoubleMatrixPtr type
         return createVector(vals);
-    }
     catch_ptr_macro
 }
 
@@ -1164,8 +1156,7 @@ RRComplexVectorPtr rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat)
 
 RRComplexMatrixPtr rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
 {
-    try
-    {
+    start_try
         DoubleMatrix* mat =  createMatrix(inMatrix);
         if(mat)
         {
@@ -1176,7 +1167,6 @@ RRComplexMatrixPtr rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
         {
             return NULL;
         }
-    }
     catch_ptr_macro
 }
 
@@ -1208,8 +1198,7 @@ RRComplexMatrixPtr rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
 
 RRComplexMatrixPtr rrcCallConv getZEigenVectors(RRComplexMatrixPtr inMatrix)
 {
-    try
-    {
+    start_try
         ComplexMatrix mat(inMatrix->RSize, inMatrix->CSize);
         for (int i = 0; i < inMatrix->RSize; i++)
         {
@@ -1229,7 +1218,6 @@ RRComplexMatrixPtr rrcCallConv getZEigenVectors(RRComplexMatrixPtr inMatrix)
         RRComplexMatrixPtr out = createMatrix(oResult);
         delete oResult;
         return out;
-    }
     catch_ptr_macro
 }
 

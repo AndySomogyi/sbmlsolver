@@ -73,26 +73,12 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstance(void);
 
 C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* compiler);
 
-///*!
-// \brief Initialize new roadRunner instances and return a handle to them.
-// \return Returns count number of RoadRunner instances, returns null if it fails
-// \ingroup initialization
-//*/
-C_DECL_SPEC RRInstanceListPtr rrcCallConv createRRInstances(int count);
-
 /*!
  \brief Free the roadRunner instance
  \param[in] handle Handle to a RoadRunner instance
  \ingroup initialization
 */
 C_DECL_SPEC bool rrcCallConv freeRRInstance(RRHandle handle);
-
-/*!
- \brief Free roadRunner instances
- \param[in] handle Frees all roadRunner instances given in the argument
- \ingroup initialization
-*/
-C_DECL_SPEC bool  rrcCallConv  freeRRInstances(RRInstanceListPtr handle);
 
 /*!
  \brief Returns the folder in which the RoadRunner API is installed
@@ -270,20 +256,6 @@ C_DECL_SPEC bool rrcCallConv setSupportCodeFolder(RRHandle handle, const char* f
 */
 
 C_DECL_SPEC char* rrcCallConv getSupportCodeFolder(RRHandle handle);
-
-/*!
- \brief Retrieve a pointer to the C code structure, RRCCode
-
- When cRoadRunner is run in C generation mode its uses a temporary folder to store the
- generated C source code. This method can be used to obtain the header and main source
- code after a model has been loaded.
-
- \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, otherwise it returns a pointer to the RRCode structure
- \ingroup utility
-*/
-//C_DECL_SPEC RRCCode* rrcCallConv getCCode(void);
-C_DECL_SPEC RRCCodePtr rrcCallConv getCCode(RRHandle handle);
 
 /*!
  \brief Set the runtime generation option [Not yet implemented]
@@ -1591,8 +1563,8 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 // \defgroup NOM Network object model (NOM) functions
 // \brief Network object model functions
 //
-// \defgroup LibStruct functions
-// \brief Functions originating in the LibStruct library
+// defgroup LibStruct LibStruct forwarded functions
+// brief Functions originating in the LibStruct library, forwarded to RoadRunner
 //
 // \defgroup LinearAlgebra Linear algebra functions
 // \brief Linear algebra utility functions
@@ -1612,13 +1584,6 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 //
 // \defgroup freeRoutines Free memory routines
 // \brief Routines that should be used to free various data structures generated during the course of using the library
-//
-// \defgroup pluginRoutines Plugin functionality
-// \brief Routines dealing with plugins
-// Detailed description of RoadRunners plugin framework goes here..
-//
-// \defgroup multiThreading Multithreading (jobs) routines
-// \brief Routines dealing with jobs executed in threads
 
 //
 //*/

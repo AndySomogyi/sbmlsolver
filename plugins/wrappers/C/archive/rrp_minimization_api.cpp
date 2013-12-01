@@ -16,7 +16,7 @@ using namespace rr;
 
 //bool rrp_cc addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value)
 //{
-//    try
+//    start_try
 //    {
 //        MinimizationData* data = castToMinimizationData(handle);
 //        data->addParameter(name, value);
@@ -27,7 +27,7 @@ using namespace rr;
 //
 //bool rrp_cc setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
 //{
-//    try
+//    start_try
 //    {
 ////        MinimizationData* data = castToMinimizationData(handle);
 ////        data->setObservedDataSelectionList(selections);
@@ -38,7 +38,7 @@ using namespace rr;
 
 //bool rrp_cc setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
 //{
-//    try
+//    start_try
 //    {
 //        MinimizationData* data = castToMinimizationData(handle);
 //        data->setModelDataSelectionList(selections);
@@ -49,7 +49,7 @@ using namespace rr;
 
 char* rrp_cc getMinimizationDataReport(RRMinimizationDataHandle handle)
 {
-    try
+    start_try
     {
         MinimizationData* data = castToMinimizationData(handle);
         char* info = createText(data->getReport().c_str());

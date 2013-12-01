@@ -426,43 +426,6 @@ bool destroyRRPlugin(Plugin *plugin)
     }
 }
 
-_xmlNode* PluginManager::createConfigNode()
-{
-    _xmlNode *capies = Configurable::createCapabilitiesNode("PluginManager", "a minimal plugin manager");
-
-    if (mRR)
-    {
-        Configurable::addChild(capies, mRR->createConfigNode());
-    }
-
-    for (std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator i
-            = mPlugins.begin(); i != mPlugins.end(); ++i)
-    {
-        Log(Logger::LOG_NOTICE) << "getting config for " << i->second->getName() << " plugin";
-        Configurable::addChild(capies, i->second->createConfigNode());
-    }
-
-    return capies;
-}
-
-void PluginManager::loadConfig(const _xmlDoc* doc)
-{
-    for (std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator i
-            = mPlugins.begin(); i != mPlugins.end(); ++i)
-    {
-        i->second->loadConfig(doc);
-    }
-}
-
-std::string PluginManager::getConfigurationXML()
-{
-    return Configurable::xmlFromConfigNode(createConfigNode());
-}
-
-void PluginManager::setConfigurationXML(const std::string& xml)
-{
-    Configurable::loadXmlConfig(xml, this);
-}
 
 char* getPluginExtension()
 {

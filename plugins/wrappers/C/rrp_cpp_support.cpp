@@ -1,10 +1,41 @@
 #pragma hdrstop
+#include "rrc_cpp_support.h"
 #include "rrp_cpp_support.h"
+#include "rrRoadRunnerData.h"
 #include "rrException.h"
+#include "rrStringUtils.h"
 
 namespace rrp
 {
 using namespace rr;
+
+PluginManager* castToPluginManager(RRPluginManagerHandle handle)
+{
+    PluginManager *pm = static_cast<PluginManager*>(handle);
+    if(pm)
+    {
+        return pm;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid PluginManager handle");
+        throw(ex);
+    }
+}
+
+Plugin* castToPlugin(RRPluginHandle handle)
+{
+    Plugin* plugin = (Plugin*) handle;
+    if(plugin) //Will only fail if handle is NULL...
+    {
+        return plugin;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid Plugin handle");
+        throw(ex);
+    }
+}
 
 Parameters* castToParameters(RRParametersHandle handle)
 {
@@ -76,18 +107,10 @@ Parameter<char*>* castToStringParameter(RRParameterHandle handle)
     }
 }
 
-MinimizationData* castToMinimizationData(RRMinimizationDataHandle handle)
+RRCDataPtr createRRCData(const RoadRunnerData& result)
 {
-    MinimizationData* para = (MinimizationData*) handle;
-    if(para) //Will only fail if handle is NULL...
-    {
-        return para;
-    }
-    else
-    {
-        Exception ex("Failed to cast to a valid MinimizationData handle");
-        throw(ex);
-    }
+    return rrc::createRRCData(result);     
 }
+
 
 }

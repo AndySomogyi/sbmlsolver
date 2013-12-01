@@ -13,19 +13,6 @@ namespace rrc
 {
 using namespace rr;
 
-RoadRunnerList* getRRList(RRInstanceListPtr listHandle)
-{
-    RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
-    if(handle)
-    {
-        return handle;
-    }
-    else
-    {
-        Exception ex("Failed to create a valid RoadRunnerList handle");
-        throw(ex);
-    }
-}
 
 void setError(const string& err)
 {
@@ -37,7 +24,7 @@ void setError(const string& err)
     gLastError = rr::createText(err);
 }
 
-RoadRunner* castFrom(RRHandle handle)
+RoadRunner* castToRoadRunner(RRHandle handle)
 {
     RoadRunner* rr = (RoadRunner*) handle;
     if(rr) //Will only fail if handle is NULL...
