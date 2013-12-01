@@ -99,6 +99,9 @@ class PLUGINS_API_DECLSPEC Plugin
                                         //! User has the ability to terminate the work in a plugin by calling terminate()
         void                            terminate();
 
+                                        //! Check if we are in the process of being terminated
+        bool                            isBeingTerminated();
+
                                         //!check if the plugin was terminated
         bool                            wasTerminated();
         //Virtuals

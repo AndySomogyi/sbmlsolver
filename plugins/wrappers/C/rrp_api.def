@@ -44,6 +44,7 @@ assignPluginStartedCallBack                     = _assignPluginStartedCallBack
 assignPluginProgressCallBack                    = _assignPluginProgressCallBack
 assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
 isPluginWorking                                 = _isPluginWorking
+isBeingTerminated                               = _isBeingTerminated
 wasTerminated                                   = _wasTerminated
 
 

@@ -7,6 +7,7 @@
 #include "lmfit/lmmin.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
+#include "../wrappers/C/rrp_api.h"
 #include "../../wrappers/C/rrc_api.h"
 #include "../../wrappers/C/rrc_utilities.h"
 #include "../../wrappers/C/rrc_cpp_support.h"
@@ -144,10 +145,10 @@ bool LMWorker::setup()
 {
     StringList& species         = mTheHost.mObservedDataSelectionList.getValueReference();   //Model data selection..
     mLMData.nrOfSpecies         = species.Count();
-    Parameters parameters       = mTheHost.mInputParameterList.getValue(); //mMinData.getParameters();
+    Parameters parameters       = mTheHost.mInputParameterList.getValue();
     mLMData.nrOfParameters      = parameters.count();
-
     mLMData.parameters          = new double[mLMData.nrOfParameters];
+    mLMData.mLMPlugin           = static_cast<RRPluginHandle> (&mTheHost);
     //Set initial parameter values
     for(int i = 0; i < mLMData.nrOfParameters; i++)
     {
@@ -251,16 +252,22 @@ void evaluate(const double *par,       //Parameter vector
 )
 {
     const lmDataStructure *myData = (const lmDataStructure*)userData;
+
+    //Check if user have asked for termination..
+    if(isBeingTerminated(myData->mLMPlugin))
+    {
+        (*infoIndex)= -1; //This signals lmfit algorithm to break
+        return;
+    }
+
     reset(myData->rrHandle);
 
     for(int i = 0; i < myData->nrOfParameters; i++)
     {
         setValue(myData->rrHandle, myData->parameterLabels[i], par[i]);
-        Log(lDebug)<<"k"<<i<<" = "<<par[i]<<endl;
+        Log(lDebug)<<myData->parameterLabels[i]<<" = "<<par[i]<<endl;
     }
 
-        
-    //RRCData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
     RRDataHandle rrData = simulateEx(   myData->rrHandle,
                                         myData->timeStart,
                                         myData->timeEnd,

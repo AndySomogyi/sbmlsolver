@@ -50,12 +50,6 @@
 namespace rrp { extern "C" {
 #endif
 
-/*!
- \brief Typedef for plugin callback function
- \ingroup pluginRoutines
-*/
-typedef void (callback_cc *pluginCallBack)(void*, void*);
-
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
  *
@@ -95,7 +89,6 @@ RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
  \ingroup pluginRoutines
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, const char* pluginName);
-
 
 /*!
  \brief unload plugins
@@ -294,6 +287,14 @@ RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
  \ingroup pluginRoutines
 */
 RRP_DECLSPEC void rrp_cc terminateWork(RRPluginHandle handle);
+
+/*!
+ \brief Check if the work of a plugin is currently being terminated
+ \param[in] handle Handle to the plugin
+ \return Returns true or false indicating if the work within the plugin is in the process of being terminated
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC bool rrp_cc isBeingTerminated(RRPluginHandle handle);
 
 /*!
  \brief wasTerminated. query a  plugin if work was termianated before completion

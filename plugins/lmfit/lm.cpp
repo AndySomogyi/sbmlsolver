@@ -104,7 +104,6 @@ bool LM::resetPlugin()
     mOutputParameterList.getValueReference().clear();
     mObservedDataSelectionList.getValueReference().clear();
     mModelDataSelectionList.getValueReference().clear();
-
     return true;
 }
 

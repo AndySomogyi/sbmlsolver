@@ -432,6 +432,16 @@ bool rrp_cc resetPlugin(RRPluginHandle handle)
     catch_bool_macro
 }
 
+bool rrp_cc isBeingTerminated(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->isBeingTerminated();
+    }
+    catch_void_macro
+
+}
+
 void rrp_cc terminateWork(RRPluginHandle handle)
 {
     start_try

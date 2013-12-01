@@ -42,10 +42,16 @@
 #ifndef rrp_typesH
 #define rrp_typesH
 #include "rrc_types.h"
-
+#include "rrp_settings.h"
 #if defined(__cplusplus)
 namespace rrp { extern "C"  { using namespace rrc;
 #endif
+
+/*!
+ \brief Typedef for plugin callback function
+ \ingroup pluginRoutines
+*/
+typedef void (callback_cc *pluginCallBack)(void*, void*);
 
  /*!@brief Void pointer to a PluginManager instance */
  typedef void* RRPluginManagerHandle;

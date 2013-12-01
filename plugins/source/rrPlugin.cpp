@@ -45,6 +45,11 @@ void Plugin::terminate()
     mTerminate = true;
 }
 
+bool Plugin::isBeingTerminated()
+{
+    return mTerminate;
+}
+
 bool Plugin::wasTerminated()
 {
     if(mTerminate)
