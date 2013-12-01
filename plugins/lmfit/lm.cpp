@@ -14,11 +14,6 @@ namespace lmfit
 using namespace rr;
 using namespace rrc;
 
-RRStringArray MakeStringArray()
-{
-    RRStringArray arr;
-    return arr;
-}
 
 LM::LM(rr::RoadRunner* aRR)
 :

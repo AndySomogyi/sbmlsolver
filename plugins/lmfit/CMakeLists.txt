@@ -37,6 +37,7 @@ if(WIN32)
 target_link_libraries (${target}
 lmfit-static
 rrplugins_api-static
+rrplugins_c_api                 
 rrc_api                 
 )
 
