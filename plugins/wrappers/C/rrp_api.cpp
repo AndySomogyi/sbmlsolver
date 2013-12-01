@@ -29,8 +29,7 @@ RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle)
         RoadRunner *rr = castToRoadRunner(rrHandle);
         string pluginDir = joinPath(getParentFolder(gDefaultSupportCodeFolder), "plugins");
 
-        PluginManager* pm = new PluginManager(rr, pluginDir, false);
-        Log(lDebug) << __FUNC__ << " created plugin manager: " << pm;
+        PluginManager* pm = new PluginManager(rr, pluginDir, false);        
         return pm;
     catch_ptr_macro
 }
@@ -112,7 +111,6 @@ bool rrp_cc unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin)
 int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle)
 {
     start_try
-        Log(Logger::LOG_NOTICE) << __FUNC__;
         PluginManager *pm = castToPluginManager(handle);
         return pm->getNumberOfPlugins();
     catch_int_macro
@@ -382,7 +380,7 @@ bool rrp_cc isBeingTerminated(RRPluginHandle handle)
     start_try
         Plugin* aPlugin = castToPlugin(handle);
         return aPlugin->isBeingTerminated();
-    catch_void_macro
+    catch_bool_macro
 }
 
 void rrp_cc terminateWork(RRPluginHandle handle)
