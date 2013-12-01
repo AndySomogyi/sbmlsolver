@@ -34,7 +34,6 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, vo
         }
 
         return NULL;
-    }
     catch_ptr_macro
 }
 
@@ -45,7 +44,6 @@ bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para
         BaseParameter* bPara = castToParameter(para);
         paras->add(bPara, false);
         return true;
-    }
     catch_bool_macro
 }
 
@@ -56,104 +54,84 @@ char* rrp_cc getParameterInfo(RRParameterHandle handle)
         stringstream s;
         s<<"Name="<<para->getName()<<"\tType="<<para->getType()<<"\tHint="<<para->getHint();
         return createText(s.str());
-    }
     catch_ptr_macro
 }
 
 
 bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
 {
-    try
-    {
+    start_try
         BaseParameter* para = castToParameter(handle);
         para->setValueFromString(string(value));
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrp_cc setIntParameter(RRParameterHandle handle, int value)
 {
-    try
-    {
+    start_try
         Parameter<int>* para = castToIntParameter(handle);
         para->setValue(value);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrp_cc setDoubleParameter(RRParameterHandle handle, double value)
 {
-    try
-    {
+    start_try
         Parameter<double>* para = castToDoubleParameter(handle);
         para->setValue(value);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrp_cc setStringParameter(RRParameterHandle handle, char* value)
 {
-    try
-    {
+    start_try
         Parameter<char*>* para = castToStringParameter(handle);
         para->setValue(value);
         return true;
-    }
     catch_bool_macro
 }
 
-
 char* rrp_cc getParameterValueAsString(RRParameterHandle handle)
 {
-    try
-    {
+    start_try
         BaseParameter* para = castToParameter(handle);
         string val = para->getValueAsString();
         return rr::createText(val);
-    }
     catch_ptr_macro
 }
 
 void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle)
 {
-    try
-    {
+    start_try
         BaseParameter* para = castToParameter(handle);
         return para->getValueAsPointer();
-    }
     catch_ptr_macro
 }
 
 char* rrp_cc getParameterName(RRParameterHandle handle)
 {
-    try
-    {
+    start_try
         BaseParameter* para = castToParameter(handle);
         return rr::createText(para->getName());
-    }
     catch_ptr_macro
 }
 
 char* rrp_cc getParameterHint(RRParameterHandle handle)
 {
-    try
-    {
+    start_try
         BaseParameter* para = castToParameter(handle);
         return rr::createText(para->getHint());
-    }
     catch_ptr_macro
 }
 
 char* rrp_cc getParameterType(RRParameterHandle handle)
 {
-    try
-    {
+    start_try
         BaseParameter* para = castToParameter(handle);
         return rr::createText(para->getType());
-    }
     catch_ptr_macro
 }
 

@@ -16,18 +16,15 @@ using namespace std;
 
 char* rrcCallConv getModelName(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return createText(rri->getModelName());
-    }
     catch_ptr_macro
 }
 
 int rrcCallConv getNumberOfRules(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         if(!rri->getModel())
         {
@@ -36,7 +33,6 @@ int rrcCallConv getNumberOfRules(RRHandle handle)
         }
         int value = rri->getModel()->getNumRules();
         return value;
-    }
     catch_int_macro
 }
 

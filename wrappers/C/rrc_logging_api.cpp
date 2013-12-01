@@ -14,83 +14,68 @@ using namespace std;
 
 bool rrcCallConv enableLoggingToConsole()
 {
-    try
-    {
+    start_try
         Logger::enableConsoleLogging();
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv disableLoggingToConsole()
 {
-    try
-    {
+    start_try
         Logger::disableConsoleLogging();
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv enableLoggingToFile(RRHandle handle)
 {
-    try
-    {
+    start_try
         char* tempFolder = getTempFolder(handle);
         string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         rr::freeText(tempFolder);
 
         Logger::enableFileLogging(logFile);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv disableLoggingToFile()
 {
-    try
-    {
+    start_try
         Logger::disableFileLogging();
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setLogLevel(const char* _lvl)
 {
-    try
-    {
+    start_try
         Logger::Level lvl = Logger::stringToLevel(_lvl);
         Logger::setLevel(lvl);
         return true;
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getLogLevel()
 {
-    try
-    {
+    start_try
         string level = Logger::getCurrentLevelAsString();
         char* lvl = createText(level.c_str());
         return lvl;
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getLogFileName()
 {
-    try
-    {
+    start_try
         return createText(Logger::getFileName().c_str());
-    }
     catch_ptr_macro
 }
 
 void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
 {
-    try
-    {
+    start_try
         if(msg)
         {
             Log((LogLevel) lvl)<<msg;
@@ -99,7 +84,6 @@ void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
         {
             Log((LogLevel) lvl)<<"You passed a NULL message pointer to logMsg";
         }
-    }
     catch_void_macro
 }
 

@@ -97,18 +97,15 @@ static vector<string>       sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
 
 RRHandle rrcCallConv createRRInstance()
 {
-    try
-    {
+    start_try
         string rrInstallFolder(getParentFolder(getRRCAPILocation()));
         return new RoadRunner("", getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"));
-    }
     catch_ptr_macro
 }
 
 RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* compiler_cstr)
 {
-    try
-    {
+    start_try
         char* text1 = getRRCAPILocation();
         string text2 = getParentFolder(text1);
         string rrInstallFolder(text2);
@@ -130,7 +127,6 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         {
             return new RoadRunner(compiler, getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"));
         }
-    }
     catch_ptr_macro
 }
 
@@ -146,29 +142,23 @@ char* rrcCallConv getInstallFolder()
 
 bool rrcCallConv setInstallFolder(const char* folder)
 {
-    try
-    {
+    start_try
         return strncpy(gInstallFolder, folder, RR_MAX_PATH) != NULL ? true : false;
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getAPIVersion()
 {
-    try
-    {
+    start_try
         return rr::createText("0.99");
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getCPPAPIVersion(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getVersion());
-    }
     catch_ptr_macro
 }
 
@@ -194,8 +184,7 @@ char* rrcCallConv getRRCAPILocation()
 
 char* rrcCallConv getCopyright()
 {
-    try
-    {
+    start_try
         RRHandle handle = createRRInstance();
         if(!handle)
         {
@@ -206,89 +195,73 @@ char* rrcCallConv getCopyright()
         char* text = rr::createText(rri->getCopyright());
         freeRRInstance(handle);
         return text;
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getInfo(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getInfo());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getExtendedAPIInfo()
 {
-    try
-    {
+    start_try
         RRHandle handle = createRRInstance();
         RoadRunner* rri = castToRoadRunner(handle);
         char* text = rr::createText(rri->getExtendedVersionInfo());
         freeRRInstance(handle);
         return text;
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getlibSBMLVersion(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getlibSBMLVersion());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getCurrentSBML(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->writeSBML());
-    }
     catch_ptr_macro
 }
 
 //Flags and Options
 bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool OnOrOff)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setConservedMoietyAnalysis(OnOrOff);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->setTempFileFolder(folder);
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getTempFolder(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getTempFolder());
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         if(rri->getCompiler())
         {
@@ -298,25 +271,21 @@ bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
         {
             return false;
         }
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getCompiler(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         Compiler *compiler = rri->getCompiler();
         return strdup(compiler ? compiler->getCompiler().c_str() : "");
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         if(rri->getCompiler())
         {
@@ -326,24 +295,20 @@ bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
         {
             return false;
         }
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getCompilerLocation(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getCompiler()->getCompilerLocation());
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         if(rri->getCompiler())
         {
@@ -353,33 +318,27 @@ bool rrcCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
         {
             return false;
         }
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getSupportCodeFolder(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getCompiler()->getSupportCodeFolder());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv getWorkingDirectory()
 {
-    try
-    {
+    start_try
         return rr::createText(rr::getCWD());
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 {
-    try
-    {
+    start_try
         //Check first if file exists first
         if(!fileExists(fileName))
         {
@@ -396,14 +355,12 @@ bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
             return false;
         }
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool forceRecompile)
 {
-    try
-    {
+    start_try
         //Check first if file exists first
         if(!fileExists(fileName))
         {
@@ -426,24 +383,20 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
             return false;
         }
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->load(sbml);
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompile)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
 
         LoadSBMLOptions opt;
@@ -457,15 +410,13 @@ bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompi
             return false;
         }
         return true;
-    }
     catch_bool_macro
 }
 
 
 bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 {
-    try
-    {
+    start_try
         //Check first if file exists first
         if(!fileExists(fileName))
         {
@@ -478,125 +429,103 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setSimulateOptions(SimulateOptions(fileName));
         return true;
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getSBML(RRHandle handle)
 {
-    try
-    {
+    start_try
           RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getSBML());
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv isModelLoaded(RRHandle handle)
 {
-    try
-    {
+    start_try
           RoadRunner* rri = castToRoadRunner(handle);
         return rri->isModelLoaded();
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv unLoadModel(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->unLoadModel();
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setTimeStart(RRHandle handle, const double timeStart)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->getSimulateOptions().start = timeStart;
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         SimulateOptions &opt = rri->getSimulateOptions();
         opt.duration = timeEnd - opt.start;
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         SimulateOptions &opt = rri->getSimulateOptions();
         opt.steps = nrPoints - 1;
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *timeStart = rri->getSimulateOptions().start;
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getTimeEnd(RRHandle handle, double* timeEnd)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *timeEnd = rri->getSimulateOptions().duration + rri->getSimulateOptions().start;
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getNumPoints(RRHandle handle, int* numPoints)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *numPoints = rri->getSimulateOptions().steps + 1;
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList aList(list,", ");
         rri->setSelections(aList);
         return true;
-    }
     catch_bool_macro
 }
 
 
 RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
 
         vector<SelectionRecord> selections = rri->getSelections();
@@ -616,62 +545,52 @@ RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
         }
 
         return createList(sNames);
-    }
     catch_ptr_macro
 }
 
 RRDataHandle rrcCallConv simulate(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
 
         rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
         return (RRDataHandle) rri->simulate();
         
-    }
     catch_ptr_macro
 }
 
 RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
-    try
-    {
+    start_try
         setTimeStart(handle, timeStart);
         setTimeEnd (handle, timeEnd);
         setNumPoints(handle, numberOfPoints);
         return simulate(handle);
-    }
     catch_ptr_macro
 }
 
 RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         RoadRunnerData result = *rri->getSimulationResult();
 
         //Extract the data and return struct..
         return  createRRCData(result);
-    }
     catch_ptr_macro
 }
 
 RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getSimulationResult();
-    }
     catch_ptr_macro
 }
 
 RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList rNames = rri->getReactionIds();
 
@@ -680,14 +599,12 @@ RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle)
             return NULL;
         }
         return createList(rNames);
-    }
     catch_ptr_macro
 }
 
 RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> rates = rri->getRatesOfChange();
 
@@ -697,14 +614,12 @@ RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle)
         }
 
         return rrc::createVector(rates);
-    }
     catch_ptr_macro
 }
 
 RRStringArrayPtr rrcCallConv getRatesOfChangeIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList rNames = rri->getRateOfChangeIds();
 
@@ -714,59 +629,49 @@ RRStringArrayPtr rrcCallConv getRatesOfChangeIds(RRHandle handle)
         }
 
         return createList(rNames);
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getUnscaledElasticityMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getUnscaledElasticityMatrix();
         RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getScaledElasticityMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getScaledElasticityMatrix();
         RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv getValue(RRHandle handle, const char* symbolId, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getValue(symbolId);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->setValue(symbolId, value);
-    }
     catch_bool_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         ExecutableModel* model = rri->getModel();
 
@@ -793,14 +698,12 @@ RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
         {
             return 0;
         }
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
 
 
@@ -820,29 +723,24 @@ RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
             }
         }
         return matrix;
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix *tempMat = rri->getLinkMatrix();
         return createMatrix(tempMat);
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getNrMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix *tempMat = rri->getNrMatrix();
         return createMatrix(tempMat);
-    }
     catch_ptr_macro
 }
 
@@ -862,62 +760,51 @@ char* rrcCallConv getLastError()
 
 bool rrcCallConv reset(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->reset();
         return true;
-    }
     catch_bool_macro
 }
 
 int rrcCallConv getNumberOfReactions(RRHandle handle)
 {
-     try
-    {
+     start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfReactions();
-    }
     catch_int_macro
 }
 
 bool rrcCallConv getReactionRate(RRHandle handle, const int rateNr, double* value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getReactionRate(rateNr);
         return true;
-    }
     catch_bool_macro
 }
 
 RRVectorPtr rrcCallConv getReactionRates(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getReactionRates();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
-    }
     catch_ptr_macro
 }
 
 int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfBoundarySpecies();
-    }
     catch_int_macro
 }
 
 RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList bNames = rri->getBoundarySpeciesIds();
 
@@ -927,24 +814,20 @@ RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle)
         }
 
         return createList(bNames);
-    }
     catch_ptr_macro
 }
 
 int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfFloatingSpecies();
-    }
     catch_int_macro
 }
 
 RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList fNames = rri->getFloatingSpeciesIds();
 
@@ -954,24 +837,20 @@ RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle)
         }
 
         return createList(fNames);
-    }
     catch_ptr_macro
 }
 
 int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfGlobalParameters();
-    }
     catch_int_macro
 }
 
 RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList pNames = rri->getGlobalParameterIds();
 
@@ -981,14 +860,12 @@ RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
         }
 
         return createList(pNames);
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         ExecutableModel *model = rri->getModel();
 
@@ -997,107 +874,89 @@ bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, 
             return model->getFloatingSpeciesInitConcentrations(1, &index, value) >= 0;
         }
         return true;
-    }
     catch_bool_macro
 }
 
 RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getFloatingSpeciesConcentrations();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
-    }
     catch_ptr_macro
 }
 
 RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getBoundarySpeciesConcentrations();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
-    }
     catch_ptr_macro
 }
 
 RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getFloatingSpeciesInitialConcentrations();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, const double value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setFloatingSpeciesByIndex(index, value);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, const double value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setBoundarySpeciesByIndex(index, value);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setGlobalParameterByIndex(index, value);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int index, const double value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setFloatingSpeciesInitialConcentrationByIndex(index, value);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const RRVector* vec)
 {
-    try
-    {
+    start_try
         vector<double> tempVec;
         copyVector(vec, tempVec);
         RoadRunner* rri = castToRoadRunner(handle);
         rri->changeInitialConditions(tempVec);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
 
 
@@ -1106,228 +965,188 @@ bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVecto
         rri->setFloatingSpeciesConcentrations(tempVec);
 
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec)
 {
-    try
-    {
+    start_try
         vector<double> tempVec;
         copyVector(vec, tempVec);
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setBoundarySpeciesConcentrations(tempVec);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->oneStep(currentTime, stepSize);
         return true;
-    }
     catch_bool_macro
 }
 
 RRVectorPtr rrcCallConv getGlobalParameterValues(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getGlobalParameterValues();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
-    }
     catch_ptr_macro
 }
 
 RRListPtr rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         NewArrayList slSymbols = sel_getAvailableTimeCourseSymbols(rri);
         return createArrayList(slSymbols);
-    }
     catch_ptr_macro
 }
 
 RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         NewArrayList slSymbols = sel_getAvailableSteadyStateSymbols(rri);
         return createArrayList(slSymbols);
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv getBoundarySpeciesByIndex (RRHandle handle, const int index, double* value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getBoundarySpeciesByIndex(index);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getFloatingSpeciesByIndex (RRHandle handle, const int index, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getFloatingSpeciesByIndex(index);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getGlobalParameterByIndex (RRHandle handle, const int index, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getGlobalParameterByIndex(index);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getuCC (RRHandle handle, const char* variable, const char* parameter, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getuCC(variable, parameter);
         return true;
-    }
     catch_bool_macro
 }
 
 
 bool rrcCallConv getCC (RRHandle handle, const char* variable, const char* parameter, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getCC(variable, parameter);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getuEE(name, species);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv getEE(RRHandle handle, const char* name, const char* species, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getEE(name, species);
         return true;
-    }
     catch_bool_macro
 }
 
 int rrcCallConv getNumberOfDependentSpecies(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfDependentSpecies();
-    }
     catch_int_macro
 }
 
 int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfIndependentSpecies();
-    }
     catch_int_macro
 }
 
 bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->steadyState();
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv evalModel(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->evalModel();
         return true;
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         string param =  rri->getParamPromotedSBML(sArg);
         char* text = rr::createText(param.c_str());
         return text;
-    }
     catch_ptr_macro
 }
 
 RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getSteadyStateValues();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList aList(list, " ,");
         rri->setSteadyStateSelections(aList);
         return true;
-    }
     catch_bool_macro
 }
 
 RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<SelectionRecord>& ss = rri->getSteadyStateSelections();
 
@@ -1339,40 +1158,33 @@ RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
         }
 
         return createList(sNames);
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getFullJacobian(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getFullJacobian();
         return createMatrix(&tempMat);
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getReducedJacobian(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getReducedJacobian();
         return createMatrix(&tempMat);
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getEigenvalues();
         return createMatrix(&tempMat);
-    }
     catch_ptr_macro
 }
 
@@ -1387,44 +1199,37 @@ bool rrcCallConv setCodeGenerationMode (RRHandle handle, int mode)
 
 bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getScaledFloatingSpeciesElasticity(reactionId, speciesId);
         return true;
-    }
     catch_bool_macro
 }
 
 RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList aList = rri->getFloatingSpeciesInitialConditionIds();
         return createList(aList);
-    }
     catch_ptr_macro
 }
 
 RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr vec)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> values = rrc::createVector(vec);
 
         rri->setFloatingSpeciesConcentrations(values);
         vector<double> tempList = rri->getRatesOfChange();
         return rrc::createVector (tempList);
-    }
     catch_ptr_macro
 }
 
 RRVectorPtr rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorPtr vec)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<double> conc = rrc::createVector(vec);
 
@@ -1442,26 +1247,22 @@ RRVectorPtr rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorPtr ve
         model->getReactionRates(result.size(), 0, &result[0]);
 
         return rrc::createVector(result);
-    }
     catch_ptr_macro
 }
 
 RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         NewArrayList aList = sel_getElasticityCoefficientIds(rri);
         RRListPtr bList = createArrayList(aList);
         return bList;
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv setConfigurationXML(RRHandle handle, const char* caps)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         if(!caps)
         {
@@ -1469,17 +1270,14 @@ bool rrcCallConv setConfigurationXML(RRHandle handle, const char* caps)
         }
         rri->setConfigurationXML(caps);
         return true;
-    }
     catch_bool_macro
 }
 
 char* rrcCallConv getConfigurationXML(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rri->getConfigurationXML());
-    }
     catch_ptr_macro
 }
 
@@ -1488,67 +1286,55 @@ char* rrcCallConv getConfigurationXML(RRHandle handle)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         StringList aList = rri->getEigenvalueIds();
         return createList(aList);
-    }
     catch_ptr_macro
 }
 
 RRListPtr rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return createArrayList(sel_getFluxControlCoefficientIds(rri));
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getUnscaledConcentrationControlCoefficientMatrix();
         //return createMatrix(&(rri->getUnscaledConcentrationControlCoefficientMatrix()));
         return createMatrix(&(aMat));
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getScaledConcentrationControlCoefficientMatrix();
         return createMatrix(&(aMat));
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getUnscaledFluxControlCoefficientMatrix();
         return createMatrix(&(aMat));
-    }
     catch_ptr_macro
 }
 
 RRDoubleMatrixPtr rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getScaledFluxControlCoefficientMatrix();
         return createMatrix(&(aMat));
-    }
     catch_ptr_macro
 }
 
@@ -1593,86 +1379,70 @@ static NewArrayList RoadRunner_getUnscaledFluxControlCoefficientIds(RoadRunner *
 
 RRListPtr rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         NewArrayList arrList = RoadRunner_getUnscaledFluxControlCoefficientIds(rri);
         return createArrayList(arrList);
-    }
     catch_ptr_macro
 }
 
 RRList* rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         NewArrayList list = sel_getConcentrationControlCoefficientIds(rri);
         return createArrayList(list);
-    }
     catch_ptr_macro
 }
 
 RRListPtr rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return createArrayList(sel_getUnscaledConcentrationControlCoefficientIds(rri));
-    }
     catch_ptr_macro
 }
 
 int rrcCallConv getNumberOfCompartments(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return rri->getNumberOfCompartments();
-    }
     catch_int_macro
 }
 
 bool rrcCallConv getCompartmentByIndex(RRHandle handle, const int index, double *value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getCompartmentByIndex(index);
         return true;
-    }
     catch_bool_macro
 }
 
 bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int index, const double value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setCompartmentByIndex(index, value);
         return true;
-    }
     catch_bool_macro
 }
 
 RRStringArrayPtr rrcCallConv getCompartmentIds(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         return createList(rri->getCompartmentIds());
-    }
     catch_ptr_macro
 }
 
 bool rrcCallConv getRateOfChange(RRHandle handle, const int index, double* value)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         *value = rri->getRateOfChange(index);
         return true;
-    }
     catch_bool_macro
 }
 
@@ -1693,17 +1463,13 @@ char* rrcCallConv getBuildDateTime()
 
 bool rrcCallConv freeRRInstance(RRHandle handle)
 {
-    try
-    {
+    start_try
         RoadRunner* rri = castToRoadRunner(handle);
         delete rri;
         rri = NULL;
         return true;
-    }
     catch_bool_macro
 }
-
-
 
 //  Help("Returns the Symbols of all Flux Control Coefficients.")
 NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr)

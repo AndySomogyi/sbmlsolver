@@ -44,11 +44,9 @@ char* rrcCallConv createText(const char* text)
 
 char* rrcCallConv getFileContent(const char* fName)
 {
-    try
-    {
+    start_try
         string fContent = rr::getFileContent(fName);
         return rr::createText(fContent);
-    }
     catch_ptr_macro
 }
 
@@ -64,11 +62,9 @@ char* rrcCallConv createTextMemory(const int count)
 
 RRCDataPtr rrcCallConv createRRCData(RRDataHandle rrDataHandle)
 {
-    try
-    {
+    start_try
         RoadRunnerData* data = castToRRData(rrDataHandle);
         return rrc::createRRCData((*data));
-    }
     catch_ptr_macro
 }
 
@@ -235,8 +231,7 @@ int rrcCallConv getListLength (RRListPtr myList)
 
 char* rrcCallConv listToString (RRListPtr list)
 {
-    try
-    {
+    start_try
         if(!list)
         {
             return NULL;
@@ -295,42 +290,25 @@ char* rrcCallConv listToString (RRListPtr list)
         }
         resStr<<"}";
         return rr::createText(resStr.str());
-
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 // Free Functions =====================================================
 bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
 {
-    try
-    {
+    start_try
         if(matrix)
         {
             delete [] (matrix->Data);
             delete matrix;
         }
         return true;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
+    catch_bool_macro
 }
 
 bool rrcCallConv freeRRData(RRCDataPtr handle)
 {
-    try
-    {
+    start_try
         if (handle)
         {
             delete[] handle->Data;
@@ -342,67 +320,35 @@ bool rrcCallConv freeRRData(RRCDataPtr handle)
             delete handle;
         }
         return true;
-    }
-    catch (Exception& ex)
-    {
-        stringstream msg;
-        msg << "RoadRunner exception: " << ex.what() << endl;
-        setError(msg.str());
-        return false;
-    }
+    catch_bool_macro
 }
 
 bool rrcCallConv freeText(char* text)
 {
-    try
-    {
+    start_try
 
         return rr::freeText(text);
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
+    catch_bool_macro
 }
 
 bool rrcCallConv freeStringArray(RRStringArrayPtr sl)
 {
-    try
-    {
+    start_try
         delete sl;
         return true;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
+    catch_bool_macro
 }
 
 bool rrcCallConv freeVector(RRVectorPtr vector)
 {
-    try
-    {
+    start_try
         if(vector)
         {
            delete [] vector->Data;
         }
         return true;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
+    catch_bool_macro
 }
-
 
 /////////////////////////////////////////////////////////////
 void rrcCallConv pause()
@@ -475,26 +421,27 @@ bool rrcCallConv setVectorElement (RRVectorPtr vector, int index, double value)
 // ------------------------------------------------------------------------------------
 RRDoubleMatrixPtr rrcCallConv createRRMatrix (int r, int c)
 {
-       RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
-       matrix->RSize = r;
-       matrix->CSize = c;
-       int dim =  matrix->RSize * matrix->CSize;
-       if(dim)
-       {
+    RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
+    matrix->RSize = r;
+    matrix->CSize = c;
+    int dim =  matrix->RSize * matrix->CSize;
+    if(dim)
+    {
         matrix->Data =  new double[dim];
         return matrix;
-       }
-       else
+    }
+    else
     {
         delete matrix;
         setError ("Dimensions for new RRDoubleMatrix in createRRMatrix are zero");
         return NULL;
-   }
+    }
 }
 
 int rrcCallConv getMatrixNumRows (RRDoubleMatrixPtr m)
 {
-    if (m == NULL) {
+    if (m == NULL)
+    {
         setError ("Matrix argument is null in getMatrixNumRows");
         return -1;
     }
@@ -503,7 +450,8 @@ int rrcCallConv getMatrixNumRows (RRDoubleMatrixPtr m)
 
 int  rrcCallConv getMatrixNumCols (RRDoubleMatrixPtr m)
 {
-    if (m == NULL) {
+    if (m == NULL)
+    {
         setError ("Matrix argument is null in getMatrixNumCols");
         return -1;
     }
@@ -652,25 +600,15 @@ char*  rrcCallConv getRRDataColumnLabel (RRCDataPtr result, int column)
     return result->ColumnHeaders[column];
 }
 
-
 //====================== DATA WRITING ROUTINES ======================
 bool rrcCallConv writeRRData(RRDataHandle dataHandle, const char* fileNameAndPath)
 {
-    try
-    {
+    start_try
         RoadRunnerData *data = castToRRData(dataHandle);
 
         return data->writeTo(fileNameAndPath);
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
-    }
+    catch_bool_macro
 }
-
 
 // Utility functions ==========================================================
 int rrcCallConv getNumberOfStringElements (const RRStringArrayPtr list)
@@ -683,8 +621,7 @@ int rrcCallConv getNumberOfStringElements (const RRStringArrayPtr list)
 
 char* rrcCallConv getStringElement (RRStringArrayPtr list, int index)
 {
-    try
-    {
+    start_try
       if (list == NULL)
       {
          return NULL;
@@ -697,20 +634,12 @@ char* rrcCallConv getStringElement (RRStringArrayPtr list, int index)
       }
 
       return rr::createText(list->String[index]);
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 char* rrcCallConv stringArrayToString (const RRStringArrayPtr list)
 {
-    try
-    {
+    start_try
         if(!list)
         {
             return NULL;
@@ -727,33 +656,23 @@ char* rrcCallConv stringArrayToString (const RRStringArrayPtr list)
         }
 
         return rr::createText(resStr.str());
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 char* rrcCallConv rrDataToString(RRDataHandle rrData)
 {
-    try
-    {
+    start_try
         RoadRunnerData* data = castToRRData(rrData);
 
         stringstream str;
         str <<(*data);
         return rr::createText(str.str());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv rrCDataToString(const RRCDataPtr result)
 {
-    try
-    {
+    start_try
         if(!result)
         {
             return NULL;
@@ -786,14 +705,12 @@ char* rrcCallConv rrCDataToString(const RRCDataPtr result)
             resStr <<"\n";
         }
         return rr::createText(resStr.str());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv matrixToString(const RRDoubleMatrixPtr matrixHandle)
 {
-    try
-    {
+    start_try
         if(!matrixHandle)
         {
             return NULL;
@@ -816,20 +733,12 @@ char* rrcCallConv matrixToString(const RRDoubleMatrixPtr matrixHandle)
             ss<<endl;
         }
         return rr::createText(ss.str());
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 char* rrcCallConv complexMatrixToString(const RRComplexMatrixPtr matrixHandle)
 {
-    try
-    {
+    start_try
         if(!matrixHandle)
         {
             return NULL;
@@ -852,14 +761,12 @@ char* rrcCallConv complexMatrixToString(const RRComplexMatrixPtr matrixHandle)
             ss<<endl;
         }
         return rr::createText(ss.str());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv vectorToString(RRVectorPtr vecHandle)
 {
-    try
-    {
+    start_try
         if(!vecHandle)
         {
             setError("Null vector in vectorToString");
@@ -880,14 +787,12 @@ char* rrcCallConv vectorToString(RRVectorPtr vecHandle)
         }
         ss<<endl;
         return rr::createText(ss.str());
-    }
     catch_ptr_macro
 }
 
 char* rrcCallConv complexVectorToString(RRComplexVectorPtr vecHandle)
 {
-    try
-    {
+    start_try
         if(!vecHandle)
         {
             setError("Null vector in vectorToString");
@@ -907,7 +812,6 @@ char* rrcCallConv complexVectorToString(RRComplexVectorPtr vecHandle)
         }
         ss<<endl;
         return rr::createText(ss.str());
-    }
     catch_ptr_macro
 }
 
