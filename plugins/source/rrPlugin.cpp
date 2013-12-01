@@ -26,12 +26,41 @@ mWorkProgressCB(NULL),
 mWorkFinishedCB(NULL),
 mCapabilities(name, category),
 mImplementationLanguage(language),
-mPM(pm)
+mPM(pm),
+mTerminate(false),
+mIsWorking(false)
 {
 }
 
 Plugin::~Plugin()
 {}
+
+void Plugin::terminate()
+{
+    if(!mIsWorking)
+    {
+        Log(lWarning) << "Can't terminate a non working plugin..";
+        return;
+    }
+    mTerminate = true;
+}
+
+bool Plugin::wasTerminated()
+{
+    if(mTerminate)
+    {
+        if(mIsWorking == false)
+        {
+            return true;
+        }
+        else
+        {
+            //Still working...
+            return false;
+        }
+    }
+    return false;
+}
 
 RoadRunner* Plugin::getRoadRunnerInstance()
 {

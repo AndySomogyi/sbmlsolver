@@ -24,7 +24,7 @@ void setError(const string& err)
     gLastError = rr::createText(err);
 }
 
-RoadRunner* castFrom(RRHandle handle)
+RoadRunner* castToRoadRunner(RRHandle handle)
 {
     RoadRunner* rr = (RoadRunner*) handle;
     if(rr) //Will only fail if handle is NULL...

@@ -50,10 +50,7 @@ void LMWorker::start(bool runInThread)
 
 void LMWorker::run()
 {
-    if(mTheHost.mWorkStartedCB)
-    {
-        mTheHost.mWorkStartedCB(NULL, mTheHost.mWorkStartedData2);
-    }
+    workerStarted();
 
     setupRoadRunner();
 
@@ -80,6 +77,7 @@ void LMWorker::run()
         mTheHost.mWorkProgressCB(mTheHost.mWorkProgressData1, NULL);
     }
 
+    //This is the library function doing the minimization..
     lmmin(  mLMData.nrOfParameters,
             mLMData.parameters,
             mLMData.nrOfResiduePoints,
@@ -89,6 +87,15 @@ void LMWorker::run()
             &status,
             ui_printout);
 
+    //The user may have aborted the minization... check..
+    if(mTheHost.mTerminate)
+    {
+        //user did set the terminate flag to true.. discard any minimization data and get out of the
+        //plugin execute code..
+        Log(lInfo)<<"The minimization was terminated.. aborting";
+        workerFinished();
+        return;
+    }
     /* print results */
     Log(lInfo)<<"Results:";
     Log(lInfo)<<"Status after "<<status.nfev<<" function evaluations: "<<lm_infmsg[status.info] ;
@@ -112,7 +119,21 @@ void LMWorker::run()
     mTheHost.mNorm.setValue(status.fnorm);
     createModelData(mTheHost.mModelData.getValueReference());
     createResidualsData(mTheHost.mResidualsData.getValueReference());
+    workerFinished();
+}
 
+void LMWorker::workerStarted()
+{
+    mTheHost.mIsWorking = true;
+    if(mTheHost.mWorkStartedCB)
+    {
+        mTheHost.mWorkStartedCB(NULL, mTheHost.mWorkStartedData2);
+    }
+}
+
+void LMWorker::workerFinished()
+{
+    mTheHost.mIsWorking = false;//Set this flag before callback so client can query plugin about termination
     if(mTheHost.mWorkFinishedCB)
     {
         mTheHost.mWorkFinishedCB(NULL, mTheHost.mWorkFinishedData2);

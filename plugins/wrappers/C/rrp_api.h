@@ -47,10 +47,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
-namespace rrp
-{
-extern "C"
-{
+namespace rrp { extern "C" {
 #endif
 
 /*!
@@ -283,12 +280,28 @@ RRP_DECLSPEC char* rrp_cc getPluginStatus(RRPluginHandle handle);
 RRP_DECLSPEC char* rrp_cc getPluginResult(RRPluginHandle handle);
 
 /*!
- \brief resetPlugin (PluginName)
+ \brief Reset a Plugin. Plugin dependent. A reset function should bring the internal state of a plugin to a known state
  \param[in] handle Handle to a plugin
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
 RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
+
+/*!
+ \brief terminateWork (PluginHandle) tell the plugin to terminate any work in progress.
+ \param[in] handle Handle to a plugin
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC void rrp_cc terminateWork(RRPluginHandle handle);
+
+/*!
+ \brief wasTerminated. query a  plugin if work was termianated before completion
+ \param[in] handle Handle to the plugin
+ \return Returns true or false indicating if the work in the plugin was terminated or not
+ \ingroup pluginRoutines
+*/
+RRP_DECLSPEC bool rrp_cc wasTerminated(RRPluginHandle handle);
 
 /*!
  \brief Assign callback function fired when a plugin starts its work
@@ -329,7 +342,6 @@ RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, plu
 */
 RRP_DECLSPEC bool rrp_cc setPluginInputData(RRPluginHandle handle, void* userData);
 
-
 /*!
  \brief check if plugin is actively working
  \param[in] handle Handle to a plugin
@@ -338,26 +350,6 @@ RRP_DECLSPEC bool rrp_cc setPluginInputData(RRPluginHandle handle, void* userDat
 */
 RRP_DECLSPEC bool rrp_cc isPluginWorking(RRPluginHandle handle);
 
-
-/*!
- \brief Set the plugin manager's capabilities
- \param[in] handle Handle to a PluginManager instance
- \param[out] caps An XML string that specifies the simulators capabilities
- \return Returns true if sucessful
- \ingroup simulation
-*/
-RRP_DECLSPEC bool rrp_cc setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps);
-
-/*!
- \brief Get the plugin manager's capabilities
-
-
- \param[in] handle Handle to a plugin manager instance
- \return Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an XML string
- \ingroup simulation
-*/
-RRP_DECLSPEC char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle);
-
 /*!
  \brief Retrieve a handle to RoadRunners internal data
  \param[in] handle Handle to a RoadRunner instance
@@ -365,7 +357,6 @@ RRP_DECLSPEC char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle
  \ingroup simulation
 */
 RRP_DECLSPEC RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle);
-
 
 /*!
  \brief Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data
@@ -414,12 +405,8 @@ RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
 RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrData, int r, int c, double *value);
 
 
-
 #if defined(__cplusplus)
-}    //Extern "C"
-
-}    //rrp namespace
+} }    //rrp namespace and extern "C"
 #endif
-
 
 #endif

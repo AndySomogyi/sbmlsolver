@@ -6,8 +6,6 @@ EXPORTS
 createPluginManager                             = _createPluginManager
 createPluginManagerEx                           = _createPluginManagerEx
 freePluginManager                               = _freePluginManager
-getPluginManagerConfigurationXML                = _getPluginManagerConfigurationXML
-setPluginManagerConfigurationXML                = _setPluginManagerConfigurationXML
 getNumberOfPlugins                              = _getNumberOfPlugins
 loadPlugin                                      = _loadPlugin
 unLoadPlugin                                    = _unLoadPlugin
@@ -45,8 +43,8 @@ executePluginEx                                 = _executePluginEx
 assignPluginStartedCallBack                     = _assignPluginStartedCallBack
 assignPluginProgressCallBack                    = _assignPluginProgressCallBack
 assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
-assignCallBacks                                 = _assignCallBacks
 isPluginWorking                                 = _isPluginWorking
+wasTerminated                                   = _wasTerminated
 
 
 

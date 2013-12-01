@@ -1,10 +1,11 @@
 #pragma hdrstop
+#include "rrp_api.h"
 #include <sstream>
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-#include "rrLogger.h"           //Might be useful for debugging later on
+#include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
@@ -14,8 +15,6 @@
 #include "rrc_cpp_support.h"
 #include "rrp_cpp_support.h"
 #include "rrp_parameter_api.h"
-#include "rrp_api.h"
-#include <set>
 
 namespace rrp
 {
@@ -23,64 +22,15 @@ using namespace std;
 using namespace rr;
 using namespace rrc;
 
-/**
- * set of all plugin managers we've created,
- *
- * used to check if if a given void* is a plugin manager
- * that we've created.
- */
-static std::set<PluginManager*> pluginManagers;
-
-static PluginManager* castToPluginManager(RRPluginManagerHandle handle)
-{
-    if (handle)
-    {
-        PluginManager *pm = static_cast<PluginManager*>(handle);
-        if (pluginManagers.find(pm) != pluginManagers.end())
-        {
-            return pm;
-        }
-        else
-        {
-            Log(Logger::LOG_ERROR) << "the handle " << pm << ", " << handle << " is NOT a valid PluginManager";
-        }
-    }
-    else
-    {
-        Log(Logger::LOG_ERROR) << "the handle is NULL";
-    }
-
-    throw (Exception("Invalid PluginManager handle"));
-}
-
-Plugin* castToPlugin(RRPluginHandle handle)
-{
-    Plugin* plugin = (Plugin*) handle;
-    if(plugin) //Will only fail if handle is NULL...
-    {
-        return plugin;
-    }
-    else
-    {
-        Exception ex("Failed to cast to a valid Plugin handle");
-        throw(ex);
-    }
-}
 
 RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle)
 {
     try
     {
-        RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
-
-        Log(lDebug) << __FUNC__ << "RoadRunner: " << rr;
-
-        std::string pluginDir = joinPath(
-                getParentFolder(gDefaultSupportCodeFolder), "plugins");
+        RoadRunner *rr = castToRoadRunner(rrHandle);
+        string pluginDir = joinPath(getParentFolder(gDefaultSupportCodeFolder), "plugins");
 
         PluginManager* pm = new PluginManager(rr, pluginDir, false);
-        pluginManagers.insert(pm);
-
         Log(lDebug) << __FUNC__ << " created plugin manager: " << pm;
         return pm;
     }
@@ -94,9 +44,8 @@ RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir, bool a
 {
     try
     {
-        RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
+        RoadRunner *rr = castToRoadRunner(rrHandle);
         PluginManager* pm = new PluginManager(rr, pluginDir, autoLoad);
-        pluginManagers.insert(pm);
         return pm;
     }
     catch_ptr_macro
@@ -110,7 +59,6 @@ bool rrp_cc freePluginManager(RRPluginManagerHandle handle)
     try
     {
         PluginManager *pm = castToPluginManager(handle);
-        pluginManagers.erase(pm);
         delete pm;
         return true;
     }
@@ -484,6 +432,24 @@ bool rrp_cc resetPlugin(RRPluginHandle handle)
     catch_bool_macro
 }
 
+void rrp_cc terminateWork(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        aPlugin->terminate();
+    }
+    catch_void_macro
+}
+
+bool rrp_cc wasTerminated(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->wasTerminated();
+    }
+    catch_bool_macro
+}
+
 bool rrp_cc isPluginWorking(RRPluginHandle handle)
 {
     try
@@ -494,36 +460,11 @@ bool rrp_cc isPluginWorking(RRPluginHandle handle)
     catch_bool_macro
 }
 
-bool rrp_cc setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps)
-{
-    try
-    {
-        PluginManager *pm = castToPluginManager(handle);
-        if(!caps)
-        {
-            return false;
-        }
-        pm->setConfigurationXML(caps);
-        return true;
-    }
-    catch_bool_macro
-}
-
-char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
-{
-    try
-    {
-        PluginManager *pm = castToPluginManager(handle);
-        return rr::createText(pm->getConfigurationXML());
-    }
-    catch_ptr_macro
-}
-
 RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle)
 {
     try
     {
-        RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castToRoadRunner(handle);
         return rri->getSimulationResult();
     }
     catch_ptr_macro

@@ -95,6 +95,7 @@ bool LM::resetPlugin()
         return false;
     }
 
+    mTerminate = false;
     mSBML.getValueReference().clear();
     mObservedData.getValueReference().clear();
     mModelData.getValueReference().clear();
@@ -103,6 +104,7 @@ bool LM::resetPlugin()
     mOutputParameterList.getValueReference().clear();
     mObservedDataSelectionList.getValueReference().clear();
     mModelDataSelectionList.getValueReference().clear();
+
     return true;
 }
 

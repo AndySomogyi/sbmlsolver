@@ -18,7 +18,7 @@ char* rrcCallConv getModelName(RRHandle handle)
 {
     try
     {
-        RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castToRoadRunner(handle);
         return createText(rri->getModelName());
     }
     catch_ptr_macro
@@ -28,7 +28,7 @@ int rrcCallConv getNumberOfRules(RRHandle handle)
 {
     try
     {
-        RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castToRoadRunner(handle);
         if(!rri->getModel())
         {
             Log(Logger::LOG_WARNING)<<"Model is not allocated.";
