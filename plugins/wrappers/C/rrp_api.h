@@ -1,6 +1,6 @@
 /**
  * @file rrp_api.h
- * @brief libRoadRunner Plugins C API 2012
+ * @brief Plugins Core C-API Header
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -120,6 +120,7 @@ RRP_DECLSPEC bool rrp_cc unLoadPlugin(RRPluginManagerHandle handle, RRPluginHand
  \ingroup plugin_manager
 */
 RRP_DECLSPEC int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle);
+
 /*!
  \brief Function to retrieve the names of currently loaded plugins.
  \param handle Handle to a PluginManager instance
@@ -146,17 +147,7 @@ RRP_DECLSPEC RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const
  \note This function is not yet implemented..
  \ingroup plugin_manager
 */
-RRP_DECLSPEC long rrp_cc getPluginSharedLibHandle(RRPluginManagerHandle handle, RRPluginHandle pluginName);
-
-///*!
-// \brief GetPluginHandle
-// \param handle Handle to a PluginManager instance
-// \param id integer denoting the ID of a plugin
-// \return Returns a handle to a plugin, with id == id. Returns NULL if plugin is NULL
-// \ingroup plugin_manager
-//*/
-//RRP_DECLSPEC RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id);
-
+RRP_DECLSPEC long rrp_cc getPluginSharedLibHandle(RRPluginManagerHandle handle, RRPluginHandle pluginHandle);
 
 
 //==========================  PLUGIN HANDLE functions
@@ -208,7 +199,7 @@ RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
  \brief The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.
  \param handle Handle to a plugin
  \param userData void* pointer to user data. Plugin dependent. See specific plugin documentation for what to pass as argument.
- \param inThread bool indicating if the plugin should be executed in a thread.
+ \param inAThread bool indicating if the plugin should be executed in a thread.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
@@ -266,8 +257,9 @@ RRP_DECLSPEC bool rrp_cc wasTerminated(RRPluginHandle handle);
 /*!
  \brief Assign callback function fired when a plugin starts its work
  \param handle Handle to a plugin
- \param cb function pointers to callback routine
- \param userData void* pointer to user data.
+ \param cb Function pointer to callback routine
+ \param userData1 void* pointer to user data.
+ \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
@@ -276,8 +268,9 @@ RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, plug
 /*!
  \brief Assign callback function fired as a plugin progresses
  \param handle Handle to a plugin
- \param cb function pointers to callback routine
- \param userData void* pointer to user data.
+ \param cb Function pointer to callback routine
+ \param userData1 void* pointer to user data.
+ \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
@@ -286,8 +279,9 @@ RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, plu
 /*!
  \brief Assign callback function fired when a plugin finishes its work
  \param handle Handle to a plugin
- \param cb function pointers to callback routine
- \param userData void* pointer to user data.
+ \param cb Function pointer to callback routine
+ \param userData1 void* pointer to user data.
+ \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
@@ -374,9 +368,9 @@ RRP_DECLSPEC RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle);
 
 /*!
  \brief Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data
- \param rrData A pointer to a RoadRunner numerical data type variable
+ \param rrDataHandle A pointer to a RoadRunner numerical data type variable
  \return Returns NULL if fails, otherwise returns a RRCData handle
- \ingroup helperRoutines
+ \ingroup Utilities
 */
 RRP_DECLSPEC RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle);
 
@@ -521,6 +515,10 @@ int main()
 
  \defgroup plugin_parameters Plugin Parameters
  \brief Plugins Parameter Functions 
+
+\defgroup utilities Utility Functions
+ \brief Functions to help and assist int the Plugins framework 
+
 
 */
 

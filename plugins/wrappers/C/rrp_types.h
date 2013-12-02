@@ -1,6 +1,6 @@
 /**
  * @file rrp_types.h
- * @brief libRoadRunner Plugins C API 2012
+ * @brief Plugins API Types Header
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -47,7 +47,7 @@
 namespace rrp { extern "C"  { using namespace rrc;
 #endif
 
-/*!
+/*!rrp_pch.h
  \brief Typedef for plugin callback function
  \ingroup pluginRoutines
 */
@@ -62,7 +62,7 @@ typedef void* RRPluginHandle;
 /*!@brief Void pointer to a Parameter instance */
 typedef void* RRParameterHandle;
 
-/*!@brief Void pointer to a RRParameters instance */
+/*!@brief Void pointer to a RRParameters instance (Container for parameters) */
 typedef void* RRParametersHandle;
 
 #if defined( __cplusplus)

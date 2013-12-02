@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -90,44 +90,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">rrp_cpp_support.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef rrp_cpp_supportH</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define rrp_cpp_supportH</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="rrp__api_8h.html" title="libRoadRunner Plugins C API 2012">rrp_api.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;rrRoadRunnerData.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>rrp</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="code" href="class_parameter.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_parameter.html">Parameter</a>;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>Parameters;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">class </span>BaseParameter;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>Plugin;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>PluginManager;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;PluginManager*                       castToPluginManager(<a class="code" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d" title="Void pointer to a PluginManager instance.">RRPluginManagerHandle</a> handle);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;Plugin*                             castToPlugin(<a class="code" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7" title="Void pointer to a Plugin instance.">RRPluginHandle</a> handle);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;Parameters*                         castToParameters(<a class="code" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051" title="Void pointer to a RRParameters instance.">RRParametersHandle</a> handle);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;BaseParameter*                      castToParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<a class="code" href="class_parameter.html">Parameter&lt; int &gt;</a>*                   castToIntParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="class_parameter.html">Parameter&lt;double&gt;</a>*                  castToDoubleParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<a class="code" href="class_parameter.html">Parameter&lt;char*&gt;</a>*                   castToStringParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">//Result data</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"></span>RRCDataPtr                          createRRCData(<span class="keyword">const</span> rr::RoadRunnerData&amp; result);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<a href="rrp__cpp__support_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifndef rrp_cpp_supportH</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define rrp_cpp_supportH</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="rrp__api_8h.html" title="Plugins Core C-API Header.">rrp_api.h</a>&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;rrRoadRunnerData.h&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">namespace </span>rrp</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="class_parameter.html">   51</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_parameter.html">Parameter</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">class </span>Parameters;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">class </span>BaseParameter;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">class </span>Plugin;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">class </span>PluginManager;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;PluginManager*                       castToPluginManager(<a class="code" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d" title="Void pointer to a PluginManager instance.">RRPluginManagerHandle</a> handle);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;Plugin*                             castToPlugin(<a class="code" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7" title="Void pointer to a Plugin instance.">RRPluginHandle</a> handle);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;Parameters*                         castToParameters(<a class="code" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051" title="Void pointer to a RRParameters instance (Container for parameters)">RRParametersHandle</a> handle);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;BaseParameter*                      castToParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<a class="code" href="class_parameter.html">Parameter&lt; int &gt;</a>*                   castToIntParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<a class="code" href="class_parameter.html">Parameter&lt;double&gt;</a>*                  castToDoubleParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<a class="code" href="class_parameter.html">Parameter&lt;char*&gt;</a>*                   castToStringParameter(<a class="code" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a" title="Void pointer to a Parameter instance.">RRParameterHandle</a> handle);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">//Result data</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment"></span>RRCDataPtr                          createRRCData(<span class="keyword">const</span> rr::RoadRunnerData&amp; result);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 2 2013 14:28:55 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 2 2013 15:51:20 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3
 </small></address>

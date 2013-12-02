@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -121,9 +121,9 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 <tr class="memitem:ga49eebf6e3e99b8b1c60f39b8448396dc"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC <a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga49eebf6e3e99b8b1c60f39b8448396dc">getPlugin</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle, const char *pluginName)</td></tr>
 <tr class="memdesc:ga49eebf6e3e99b8b1c60f39b8448396dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetPluginHandle.  <a href="#ga49eebf6e3e99b8b1c60f39b8448396dc"></a><br/></td></tr>
 <tr class="separator:ga49eebf6e3e99b8b1c60f39b8448396dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga159ac52e69c08c9390e08e0a7e52fc14"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC long rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga159ac52e69c08c9390e08e0a7e52fc14">getPluginSharedLibHandle</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle, <a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> pluginName)</td></tr>
-<tr class="memdesc:ga159ac52e69c08c9390e08e0a7e52fc14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a handle to a plugins shared library.  <a href="#ga159ac52e69c08c9390e08e0a7e52fc14"></a><br/></td></tr>
-<tr class="separator:ga159ac52e69c08c9390e08e0a7e52fc14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae9ea6ad8a89780c47db0bce2e4430ae0"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC long rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#gae9ea6ad8a89780c47db0bce2e4430ae0">getPluginSharedLibHandle</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle, <a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> pluginHandle)</td></tr>
+<tr class="memdesc:gae9ea6ad8a89780c47db0bce2e4430ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a handle to a plugins shared library.  <a href="#gae9ea6ad8a89780c47db0bce2e4430ae0"></a><br/></td></tr>
+<tr class="separator:gae9ea6ad8a89780c47db0bce2e4430ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Plugin Manager Library API Functions. </p>
@@ -145,8 +145,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 <p>Create a new instance of a plugin manager. </p>
 <p>A PluginManager manages a collection of plugins, loaded and unloaded by the load and unload API functions respectively. </p>
 <dl class="section return"><dt>Returns</dt><dd>On success, a handle to a Plugin manager, on failure, NULL. </dd></dl>
-
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00026">26</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
 
 </div>
 </div>
@@ -211,8 +209,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 <dl class="section return"><dt>Returns</dt><dd>true if success, false otherwise.</dd></dl>
 <p>free the plugin manager </p>
 
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00051">51</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="gaffe090557b592784884a975c8f8d7399"></a>
@@ -237,8 +233,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns the number of loaded plugins, -1 if a problem is encountered </dd></dl>
-
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00110">110</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
 
 </div>
 </div>
@@ -276,8 +270,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin, with name as supplied in the parameter pluginName. Returns NULL if the plugin is not found </dd></dl>
 
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00118">118</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="gabc85bf42b27deee34740478183b78cca"></a>
@@ -303,11 +295,9 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns names for loaded plugins as a RRStringArrayPtr, NULL otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00154">154</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="ga159ac52e69c08c9390e08e0a7e52fc14"></a>
+<a class="anchor" id="gae9ea6ad8a89780c47db0bce2e4430ae0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -321,7 +311,7 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
-          <td class="paramname"><em>pluginName</em>&#160;</td>
+          <td class="paramname"><em>pluginHandle</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -378,8 +368,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin, NULL if unsuccesfull </dd></dl>
 
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00061">61</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="gaaa0917cf8657ecdb99a2caa05ebceddc"></a>
@@ -404,8 +392,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if Plugins are loaded, false otherwise </dd></dl>
-
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00077">77</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
 
 </div>
 </div>
@@ -443,8 +429,6 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the Plugin are unloaded succesfully, false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00093">93</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="ga017d30d12cac3c87aca4bcafebfa8c67"></a>
@@ -470,14 +454,12 @@ rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if Plugins are unloaded succesfully, false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="rrp__api_8cpp_source.html#l00085">85</a> of file <a class="el" href="rrp__api_8cpp_source.html">rrp_api.cpp</a>.</p>
-
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 2 2013 14:28:55 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 2 2013 15:51:20 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3
 </small></address>
