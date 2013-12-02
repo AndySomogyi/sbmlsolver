@@ -30,10 +30,10 @@ typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool destroyRRPlugin(Plugin *plugin);
 
-PluginManager::PluginManager(RoadRunner* aRR, const std::string& folder, const bool& autoLoad)
+PluginManager::PluginManager(const std::string& folder, const bool& autoLoad)
 :
 mPluginFolder(folder),
-mRR(aRR),
+//mRR(aRR),
 mPluginExtension(getPluginExtension())
 {
 
@@ -49,10 +49,10 @@ PluginManager::~PluginManager()
     unloadAll();
 }
 
-void PluginManager::setRoadRunner(RoadRunner* aRR)
-{
-    mRR = aRR;
-}
+//void PluginManager::setRoadRunner(RoadRunner* aRR)
+//{
+//    mRR = aRR;
+//}
 
 bool PluginManager::setPluginDir(const string& dir)
 {
@@ -181,7 +181,7 @@ bool PluginManager::loadPlugin(const string& _libName)
             createRRPluginFunc create = (createRRPluginFunc) libHandle->getSymbol("createPlugin");
 
             //This plugin
-            Plugin* aPlugin = create(mRR, this);
+            Plugin* aPlugin = create(NULL, this);
             if(aPlugin)
             {
                 aPlugin->setLibraryName(getFileNameNoExtension(libName));
@@ -394,7 +394,7 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
 
         char* name  = getName();
         char* cat   = getCategory();
-        bool  res   = setupCPlugin(mRR);
+        bool  res   = setupCPlugin(NULL);
 
         CPlugin* aPlugin = new CPlugin(name, cat);
         aPlugin->assignExecuteFunction(executeFunc);

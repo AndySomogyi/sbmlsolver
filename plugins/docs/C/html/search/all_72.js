@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['resetplugin',['resetPlugin',['../rrp__api_8h.html#ad23cafc934134288ef49f5834d05880f',1,'rrp_api.cpp']]],
+  ['resetplugin',['resetPlugin',['../group__plugins.html#gad23cafc934134288ef49f5834d05880f',1,'rrp::resetPlugin()'],['../group__plugins.html#gad23cafc934134288ef49f5834d05880f',1,'resetPlugin():&#160;rrp_api.cpp']]],
   ['rrp_5fapi_2eh',['rrp_api.h',['../rrp__api_8h.html',1,'']]],
   ['rrp_5ftypes_2eh',['rrp_types.h',['../rrp__types_8h.html',1,'']]],
   ['rrparameterhandle',['RRParameterHandle',['../rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a',1,'rrp_types.h']]],
