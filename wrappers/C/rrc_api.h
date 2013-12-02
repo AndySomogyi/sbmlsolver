@@ -1,10 +1,10 @@
 /**
- * @file rrc_core_api.h
- * @brief roadRunner C API 2012
+ * @file rrc_api.h
+ * @brief libRoadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
- * This file is part of cRoadRunner.
+ * This file is part of libRoadRunner.
  * See http://code.google.com/p/roadrunnerlib/ for more details.
  *
  * Copyright (C) 2012
@@ -38,8 +38,8 @@
  *
  * redistribute any piece of this software without proper attribution;
 */
-#ifndef rrc_core_apiH
-#define rrc_core_apiH
+#ifndef rrc_apiH
+#define rrc_apiH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
 #include "rrc_utilities.h"
@@ -48,28 +48,25 @@
 #include "rrc_libstruct_api.h"
 
 #if defined(__cplusplus)
-namespace rrc
-{
-extern "C"
-{
+namespace rrc { extern "C" {
 #endif
 
-///*!
-// \brief Initialize a new roadRunner instance and return a handle to it.
-// \return Returns a RoadRunner instance, returns null if it fails
-// \ingroup initialization
-//*/
+/*!
+ \brief Initialize a new roadRunner instance and return a handle to it.
+ \return Returns a RoadRunner instance, returns null if it fails
+ \ingroup initialization
+*/
 C_DECL_SPEC RRHandle rrcCallConv createRRInstance(void);
 
-///*!
-// \brief Initialize a new roadRunner instance and return a handle to it.
-// \param[in] tempFolder set roadrunners temporary folder
-// \param[in] compiler may be NULL, if NULL, uses default compiler.
-// If LLVM build is enabled, setting compiler to "llvm" enables llvm based
-// model generation.
-// \return Returns a RoadRunner instance, returns null if it fails
-// \ingroup initialization
-//*/
+/*!
+ \brief Initialize a new roadRunner instance and return a handle to it.
+ \param[in] tempFolder set roadrunners temporary folder
+ \param[in] compiler may be NULL, if NULL, uses default compiler.
+ If LLVM build is enabled, setting compiler to "llvm" enables llvm based
+ model generation.
+ \return Returns a RoadRunner instance, returns null if it fails
+ \ingroup initialization
+*/
 
 C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* compiler);
 

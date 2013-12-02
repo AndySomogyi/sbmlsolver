@@ -1,6 +1,6 @@
 /**
- * @file rrc_plugin_api.h
- * @brief roadRunner C API 2012
+ * @file rrp_api.h
+ * @brief libRoadRunner Plugins C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -50,11 +50,11 @@
 namespace rrp { extern "C" {
 #endif
 
-/**
- * create an instance of a plugin managager attached to the given RoadRunner instance.
- *
- * A PluginManager manages a collection of "plugins", the PluginManager
- * must be attached to a RoadRunner instance.
+/*!
+ \brief Create an instance of a plugin managager.
+ \brief A PluginManager manages a collection of plugins, loaded and unloaded by the load and unload API functions respectively.
+ \return On success, a handle to a Plugin manager. On failure, NULL is returned.a
+ \ingroup plugin_manager
  */
 RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle);
 
@@ -411,3 +411,101 @@ RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrData, int r, int c, dou
 #endif
 
 #endif
+
+
+///*! \mainpage Plugin framework for libRoadRunner
+// *
+// * \section intro_sec Introduction
+// *
+// * RoadRunner is a SBML compliant high performance and portable simulation engine
+// * for systems and synthetic biology. To run a simple SBML model
+// * and generate time series data we would call:
+// *
+// \code
+// RRCDataPtr result;
+//
+// if (!loadSBMLFromFile (rrHandle, "mymodel.xml"))
+//    exit;
+//
+// result = simulate (0, 10, 100);
+// printf (resultToString (output)
+// \endcode
+//
+// More complex example:
+//
+// \code
+// #include <stdlib.h>
+// #include <stdio.h>
+// #include "rrc_core_api.h"
+//
+// int main(int nargs, char** argv)
+// {
+//        RRHandle rrInstance = getRRInstance(RRHandle handle);
+//
+//        printf("loading model file %s\n", argv[1]);
+//
+//        if (!loadSBMLFromFile(argv[1])) {
+//           printf ("Error while loading SBML file\n");
+//           printf ("Error message: %s\n", getLastError(RRHandle handle));
+//           exit();
+//        }
+//
+//        RRCDataPtr output = simulate (0, 100, 1000);  // start time, end time, and number of points
+//
+//        printf("Output table has %i rows and %i columns\n", output->RSize, output->RCols);
+//        printResult (output);
+//
+//        freeResult (output);
+//        freeRRInstance (rrInstance)
+//
+//        return 0;
+// }
+// \endcode
+// * \section install_sec Installation
+// *
+// * Installation documentation is provided in the main google code page.
+//
+// * \section license_sec License
+// * Copyright (C) 2012
+// *   University of Washington, Seattle, WA, USA
+// *
+// * Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *     http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// *
+// * In plain english this means:
+// *
+// * You CAN freely download and use this software, in whole or in part, for personal,
+// * company internal, or commercial purposes;
+// *
+// * You CAN use the software in packages or distributions that you create.
+// *
+// * You SHOULD include a copy of the license in any redistribution you may make;
+// *
+// * You are NOT required include the source of software, or of any modifications you may
+// * have made to it, in any redistribution you may assemble that includes it.
+// *
+// * YOU CANNOT:
+// *
+// * redistribute any piece of this software without proper attribution;
+
+
+// \defgroup plugin_manager Plugin Manager
+// \brief Plugin Manager Library API Functions 
+
+// \defgroup freeRoutines Free memory routines
+// \brief Routines that should be used to free various data structures generated during the course of using the library
+
+//
+//*/
+//
+
+

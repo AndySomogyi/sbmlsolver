@@ -1,6 +1,6 @@
 /**
  * @file rrp_types.h
- * @brief roadRunner C API 2012
+ * @brief libRoadRunner Plugins C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
