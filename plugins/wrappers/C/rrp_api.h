@@ -469,6 +469,37 @@ int main()
     return 0;
 }
 \endcode
+
+    \section plugins_overview Overview
+    The libRoadRunner Plugin API is centered around three important concepts:
+    - A Plugin Manager (RRPluginManagerHandle)
+    - A Plugin (RRPlugin)
+    - A Plugin Parameter (RRParameter)
+
+    \section plugins_usage How to use plugins
+    A typical use case of the Plugin API may be as follows:
+
+    Plugin usage scenario
+    -# Client creates a PluginManager.
+    -# Client load plugins using the Plugin Manager.
+    -# Client get a handle to a plugin.
+    -# Client get a handle to a specific parameter in the plugin.
+    -# Client set the value of the parameter.
+    -# Client excutes the plugin.
+    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
+    .
+
+    \todo Fill out this section
+
+    \section plugins_writing How to write plugins
+    The current plugin framework is a 'minimalistic' API. It is designed to give a plugin developer
+    maximum amount of room for interacting with the RoadRunner core, and at the same time,
+    a minimum of requirements and abstract concepts getting in the way of designing a plugin.
+
+    This section will show you how to get on the way with your first plugin.
+    \todo Fill out this section
+
+
  * \section install_sec Installation
  *
  * Installation documentation is provided on the RoadRunner homepage: http://www.libroadrunner.org
@@ -507,17 +538,16 @@ int main()
 
 
  \defgroup plugin_manager Plugin Manager
- \brief Plugin Manager Library API Functions 
+ \brief Plugin Manager Library Functions
 
- \defgroup plugins Plugins
- \brief Plugins Functions. 
-    Functions that takes a Plugin Handle as an argument. 
+ \defgroup plugins Plugin Functions
+ \brief Functions operating on Plugin Handles.
 
  \defgroup plugin_parameters Plugin Parameters
- \brief Plugins Parameter Functions 
+ \brief Plugins Parameter related functions
 
 \defgroup utilities Utility Functions
- \brief Functions to help and assist int the Plugins framework 
+ \brief Functions to help and assist in the use of the Plugins framework
 
 
 */

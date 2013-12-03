@@ -50,7 +50,6 @@ namespace rrp { extern "C" {
 #endif
 
 /*! \addtogroup plugin_parameters
- *  Additional documentation for group 'mygrp'
  *  @{
  */
  
