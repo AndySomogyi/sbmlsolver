@@ -13,19 +13,6 @@ loadPlugins                                     = _loadPlugins
 unLoadPlugins                                   = _unLoadPlugins
 getPluginNames                                  = _getPluginNames
 
-;Functions taking a parameter handle
-createParameter                                 = _createParameter
-getParameterValueAsString                       = _getParameterValueAsString
-getParameterValueAsPointer                      = _getParameterValueAsPointer
-setPluginInputData                              = _setPluginInputData
-addParameterToList                              = _addParameterToList
-getParameterInfo                                = _getParameterInfo
-setParameterByString                            = _setParameterByString
-setIntParameter                                 = _setIntParameter
-setDoubleParameter                              = _setDoubleParameter
-setStringParameter                              = _setStringParameter
-getParameterType                                = _getParameterType
-
 ;Functions taking a plugin handle
 getPluginParameters                             = _getPluginParameters
 getPluginStatus                                 = _getPluginStatus
@@ -46,6 +33,19 @@ assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
 isPluginWorking                                 = _isPluginWorking
 isBeingTerminated                               = _isBeingTerminated
 wasTerminated                                   = _wasTerminated
+
+;Functions taking a parameter handle
+createParameter                                 = _createParameter
+getParameterValueAsString                       = _getParameterValueAsString
+getParameterValueAsPointer                      = _getParameterValueAsPointer
+setPluginInputData                              = _setPluginInputData
+addParameterToList                              = _addParameterToList
+getParameterInfo                                = _getParameterInfo
+setParameterByString                            = _setParameterByString
+setIntParameter                                 = _setIntParameter
+setDoubleParameter                              = _setDoubleParameter
+setStringParameter                              = _setStringParameter
+getParameterType                                = _getParameterType
 
 
 

@@ -123,8 +123,8 @@ int main(int argc, char* argv[])
 
     if(doMore && args.CalculateSteadyState)
     {
-           cout<<"Calculating steady state: "<<endl;
-         double ss;
+        cout<<"Calculating steady state: "<<endl;
+        double ss;
         bool success = steadyState(rrHandle, &ss);
         if(!success)
         {
@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
         setTimeStart(rrHandle, args.StartTime);
         setTimeEnd(rrHandle, args.EndTime);
         setNumPoints(rrHandle, args.Steps);
-        setTimeCourseSelectionList(rrHandle, args.SelectionList.c_str());
+        //setTimeCourseSelectionList(rrHandle, args.SelectionList.c_str());
         cout<<"Roadrunner is about to simulate model\n";
         RRStringArrayPtr list =  getTimeCourseSelectionList(rrHandle);
 
@@ -182,7 +182,7 @@ int main(int argc, char* argv[])
     {
         if(!args.SaveResultToFile)
         {
-            cout<<rrDataToString(result);
+            cout<<rrCDataToString(result);
         }
         else
         {
@@ -268,10 +268,4 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         exit(0);
     }
 }
-
-#if defined(CG_IDE) || defined(_MSC_VER)
-#pragma comment(lib, "IPHLPAPI.lib")    //Poco, getadapters info...
-#pragma comment(lib, "roadrunner-static.lib")
-#pragma comment(lib, "rrc_api.lib")
-#endif
 

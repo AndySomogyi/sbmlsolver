@@ -23,13 +23,12 @@ using namespace rr;
 using namespace rrc;
 
 
-RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle)
+RRPluginManagerHandle rrp_cc createPluginManager()
 {
     start_try
-        RoadRunner *rr = castToRoadRunner(rrHandle);
         string pluginDir = joinPath(getParentFolder(gDefaultSupportCodeFolder), "plugins");
 
-        PluginManager* pm = new PluginManager(rr, pluginDir, false);        
+        PluginManager* pm = new PluginManager(pluginDir, false);
         return pm;
     catch_ptr_macro
 }
@@ -41,7 +40,7 @@ RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir, bool a
 {
     start_try
         RoadRunner *rr = castToRoadRunner(rrHandle);
-        PluginManager* pm = new PluginManager(rr, pluginDir, autoLoad);
+        PluginManager* pm = new PluginManager(pluginDir, autoLoad);
         return pm;
     catch_ptr_macro
 }
