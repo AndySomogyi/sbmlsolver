@@ -54,6 +54,7 @@
 //When using the rrc_core_api from C++, the following routines are useful
 namespace rrc
 {
+using std::string;
 using std::vector;
 
 /*!
@@ -62,7 +63,7 @@ using std::vector;
  \param[in] error A string containg the error
  \ingroup cpp_support
 */
-C_DECL_SPEC void                        setError(const std::string& err);
+C_DECL_SPEC void                        setError(const string& err);
 
 /*!
  \brief Cast a handle to RoadRunner instance pointer, throws if it fails
@@ -70,7 +71,7 @@ C_DECL_SPEC void                        setError(const std::string& err);
  \return Pointer to a roadrunner instance
  \ingroup cpp_support
 */
-C_DECL_SPEC rr::RoadRunner*             castFrom(rrc::RRHandle rrHandle);
+C_DECL_SPEC rr::RoadRunner*             castToRoadRunner(RRHandle rrHandle);
 
 /*!
  \brief Cast a RoadRunner Data handle to RoadRunner Data instance pointer, throws if it fails
@@ -78,7 +79,7 @@ C_DECL_SPEC rr::RoadRunner*             castFrom(rrc::RRHandle rrHandle);
  \return Pointer to a roadrunner data instance
  \ingroup cpp_support
 */
-C_DECL_SPEC rr::RoadRunnerData*         castToRRData(rrc::RRDataHandle rrDataHandle);
+C_DECL_SPEC rr::RoadRunnerData*         castToRRData(RRDataHandle rrDataHandle);
 
 
 
@@ -89,7 +90,7 @@ C_DECL_SPEC rr::RoadRunnerData*         castToRRData(rrc::RRDataHandle rrDataHan
  \return True or false, indicating the result
  \ingroup cpp_support
 */
-C_DECL_SPEC bool                                copyVector(const rrc::RRVector* source, vector<double>& dest);
+C_DECL_SPEC bool                                copyVector(const RRVector* source, vector<double>& dest);
 
 /*!
  \brief Creates a C vector from a std::vector
@@ -97,7 +98,7 @@ C_DECL_SPEC bool                                copyVector(const rrc::RRVector* 
  \return A handle to a RRVector. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRVectorPtr                       createVector(const vector<double>& vec);
+C_DECL_SPEC RRVectorPtr                       createVector(const vector<double>& vec);
 
 /*!
  \brief Creates a C Complex vector from a std::vector<ls::Complex>
@@ -105,7 +106,7 @@ C_DECL_SPEC rrc::RRVectorPtr                       createVector(const vector<dou
  \return A handle to a RRComplexVector. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRComplexVectorPtr             createVector(const vector<ls::Complex>& vec);
+C_DECL_SPEC RRComplexVectorPtr             createVector(const vector<ls::Complex>& vec);
 
 /*!
  \brief Creates a std vector from a C vector
@@ -113,7 +114,7 @@ C_DECL_SPEC rrc::RRComplexVectorPtr             createVector(const vector<ls::Co
  \return A std vector object
  \ingroup cpp_support
 */
-C_DECL_SPEC vector<double>                      createVector(const rrc::RRVector* vec);
+C_DECL_SPEC vector<double>                      createVector(const RRVector* vec);
 
 /*!
  \brief Creates a C matrix  from a ls::DoubleMatrix, supplied as a pointer
@@ -121,7 +122,7 @@ C_DECL_SPEC vector<double>                      createVector(const rrc::RRVector
  \return A handle to a RRMatrix. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRDoubleMatrixPtr              createMatrix(const ls::DoubleMatrix* mat);
+C_DECL_SPEC RRDoubleMatrixPtr              createMatrix(const ls::DoubleMatrix* mat);
 
 /*!
  \brief Creates a ls::DoubleMatrix  from a RRMatrix, supplied as a pointer
@@ -129,7 +130,7 @@ C_DECL_SPEC rrc::RRDoubleMatrixPtr              createMatrix(const ls::DoubleMat
  \return A handle to a DoubleMatrix. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC ls::DoubleMatrix*                   createMatrix(const rrc::RRDoubleMatrixPtr mat);
+C_DECL_SPEC ls::DoubleMatrix*                   createMatrix(const RRDoubleMatrixPtr mat);
 
 
 /*!
@@ -138,7 +139,7 @@ C_DECL_SPEC ls::DoubleMatrix*                   createMatrix(const rrc::RRDouble
  \return A handle to a RRComplexMatrix. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRComplexMatrixPtr             createMatrix(const ls::ComplexMatrix* mat);
+C_DECL_SPEC RRComplexMatrixPtr             createMatrix(const ls::ComplexMatrix* mat);
 
 //Lists and arrays
 /*!
@@ -147,7 +148,7 @@ C_DECL_SPEC rrc::RRComplexMatrixPtr             createMatrix(const ls::ComplexMa
  \return A handle to a RRStringArray. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRStringArrayPtr               createList(const rr::StringList& list);
+C_DECL_SPEC RRStringArrayPtr               createList(const rr::StringList& list);
 
 /*!
  \brief Creates a heterogenoeus RRList from a rr::NewArrayList
@@ -155,7 +156,7 @@ C_DECL_SPEC rrc::RRStringArrayPtr               createList(const rr::StringList&
  \return A handle to a RRList. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRListPtr                      createArrayList(const NewArrayList& list);
+C_DECL_SPEC RRListPtr                      createArrayList(const NewArrayList& list);
 
 //Result data
 /*!
@@ -164,7 +165,7 @@ C_DECL_SPEC rrc::RRListPtr                      createArrayList(const NewArrayLi
  \return A handle to a RRData structure. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRCDataPtr    createRRCData(const rr::RoadRunnerData& data);
+C_DECL_SPEC RRCDataPtr    createRRCData(const rr::RoadRunnerData& data);
 
 }
 #endif

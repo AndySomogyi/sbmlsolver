@@ -33,14 +33,14 @@ bool CPlugin::execute(void* userData, bool useThread)
     return false;
 }
 
-_xmlNode* CPlugin::createConfigNode()
-{
-    return 0;
-}
-
-void CPlugin::loadConfig(const _xmlDoc* doc)
-{
-}
+//_xmlNode* CPlugin::createConfigNode()
+//{
+//    return 0;
+//}
+//
+//void CPlugin::loadConfig(const _xmlDoc* doc)
+//{
+//}
 
 }
 

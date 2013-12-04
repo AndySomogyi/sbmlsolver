@@ -9,10 +9,9 @@
 
 namespace lmfit
 {
-using std::stringstream;
-using std::string;
-
+using namespace std;
 using namespace rr;
+
 void my_printout(   int n_par,
                     const double *par,
                     int m_dat,

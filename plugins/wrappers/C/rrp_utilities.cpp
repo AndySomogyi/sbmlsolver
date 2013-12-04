@@ -34,7 +34,7 @@ using namespace rrc;
 //
 //char* rrcCallConv getFileContent(const char* fName)
 //{
-//    try
+//    start_try
 //    {
 //        string fContent = rr::getFileContent(fName);
 //        return rr::createText(fContent);
@@ -227,7 +227,7 @@ using namespace rrc;
 //
 //char* rrcCallConv listToString (RRListPtr list)
 //{
-//    try
+//    start_try
 //    {
 //        if(!list)
 //        {
@@ -302,7 +302,7 @@ using namespace rrc;
 //// Free Functions =====================================================
 //bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
 //{
-//    try
+//    start_try
 //    {
 //        if(matrix)
 //        {
@@ -322,7 +322,7 @@ using namespace rrc;
 //
 //bool rrcCallConv freeRRData(RRCDataPtr handle)
 //{
-//    try
+//    start_try
 //    {
 //        if (handle)
 //        {
@@ -347,7 +347,7 @@ using namespace rrc;
 //
 //bool rrcCallConv freeText(char* text)
 //{
-//    try
+//    start_try
 //    {
 //
 //        return rr::freeText(text);
@@ -363,7 +363,7 @@ using namespace rrc;
 //
 //bool rrcCallConv freeStringArray(RRStringArrayPtr sl)
 //{
-//    try
+//    start_try
 //    {
 //        delete sl;
 //        return true;
@@ -379,7 +379,7 @@ using namespace rrc;
 //
 //bool rrcCallConv freeVector(RRVectorPtr vector)
 //{
-//    try
+//    start_try
 //    {
 //        if(vector)
 //        {
@@ -398,7 +398,7 @@ using namespace rrc;
 //
 //bool rrcCallConv freeCCode(RRCCodePtr code)
 //{
-//    try
+//    start_try
 //    {
 //        if(code)
 //        {
@@ -688,7 +688,7 @@ using namespace rrc;
 ////====================== DATA WRITING ROUTINES ======================
 //bool rrcCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
 //{
-//    try
+//    start_try
 //    {
 //        RoadRunner *rr = castFrom(rrHandle);
 //        RoadRunnerData data;
@@ -708,7 +708,7 @@ using namespace rrc;
 //
 //bool rrcCallConv writeMultipleRRData(RRInstanceListPtr rrHandles, const char* fileNameAndPath)
 //{
-//    try
+//    start_try
 //    {
 //        RoadRunnerList *rrs = getRRList(rrHandles);
 //
@@ -747,7 +747,7 @@ using namespace rrc;
 //
 //char* rrcCallConv getStringElement (RRStringArrayPtr list, int index)
 //{
-//    try
+//    start_try
 //    {
 //      if (list == NULL)
 //      {
@@ -773,7 +773,7 @@ using namespace rrc;
 //
 //char* rrcCallConv stringArrayToString (const RRStringArrayPtr list)
 //{
-//    try
+//    start_try
 //    {
 //        if(!list)
 //        {
@@ -803,7 +803,7 @@ using namespace rrc;
 //
 //char* rrcCallConv rrDataToString(const RRCDataPtr result)
 //{
-//    try
+//    start_try
 //    {
 //        if(!result)
 //        {
@@ -843,7 +843,7 @@ using namespace rrc;
 //
 //char* rrcCallConv matrixToString(const RRDoubleMatrixPtr matrixHandle)
 //{
-//    try
+//    start_try
 //    {
 //        if(!matrixHandle)
 //        {
@@ -879,7 +879,7 @@ using namespace rrc;
 //
 //char* rrcCallConv complexMatrixToString(const RRComplexMatrixPtr matrixHandle)
 //{
-//    try
+//    start_try
 //    {
 //        if(!matrixHandle)
 //        {
@@ -909,7 +909,7 @@ using namespace rrc;
 //
 //char* rrcCallConv vectorToString(RRVectorPtr vecHandle)
 //{
-//    try
+//    start_try
 //    {
 //        if(!vecHandle)
 //        {
@@ -937,7 +937,7 @@ using namespace rrc;
 //
 //char* rrcCallConv complexVectorToString(RRComplexVectorPtr vecHandle)
 //{
-//    try
+//    start_try
 //    {
 //        if(!vecHandle)
 //        {

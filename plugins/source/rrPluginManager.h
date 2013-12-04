@@ -6,7 +6,6 @@
 #include "rrConstants.h"
 #include "rrStringList.h"
 #include "Poco/SharedLibrary.h"
-#include "Configurable.h"
 //---------------------------------------------------------------------------
 /* A minimalistic Plugin manager. */
 
@@ -19,7 +18,6 @@ namespace rrp
 {
 
 using std::string;
-using rr::Configurable;
 using rr::gEmptyString;
 using rr::RoadRunner;
 using Poco::SharedLibrary;
@@ -30,7 +28,7 @@ class Plugin;
  * @internal
  * Abstract class for plugins
  */
-class PLUGINS_API_DECLSPEC PluginManager : public Configurable
+class PLUGINS_API_DECLSPEC PluginManager
 {
     private:
         string                          mPluginFolder;
@@ -61,11 +59,6 @@ class PLUGINS_API_DECLSPEC PluginManager : public Configurable
         Plugin*                         operator[](const int& i);
         void                            setRoadRunner(RoadRunner* aRR);
         std::vector<string>             getPluginNames();
-
-        virtual _xmlNode*               createConfigNode();
-        virtual void                    loadConfig(const _xmlDoc* doc);
-        string                          getConfigurationXML();
-        void                            setConfigurationXML(const string& xml);
 };
 
 }

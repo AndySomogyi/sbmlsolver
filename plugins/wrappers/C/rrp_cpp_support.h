@@ -8,8 +8,25 @@ template <class T>
 class Parameter;
 class Parameters;
 class BaseParameter;
-class MinimizationData;
+class Plugin;
+class PluginManager;
 
+
+/*!
+ \brief Cast a handle to RoadRunner PluginManager pointer, throws if it fails
+ \param[in] handle  A RRPluginManagerHandle
+ \return Pointer to a PluginManager object
+ \ingroup cpp_support
+*/
+PluginManager*                       castToPluginManager(RRPluginManagerHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Plugin pointer, throws if it fails
+ \param[in] handle  A RRPluginHandle
+ \return Pointer to a Plugin object
+ \ingroup cpp_support
+*/
+Plugin*                             castToPlugin(RRPluginHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner Parameters pointer, throws if it fails

@@ -9,6 +9,34 @@ namespace rrp
 {
 using namespace rr;
 
+PluginManager* castToPluginManager(RRPluginManagerHandle handle)
+{
+    PluginManager *pm = static_cast<PluginManager*>(handle);
+    if(pm)
+    {
+        return pm;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid PluginManager handle");
+        throw(ex);
+    }
+}
+
+Plugin* castToPlugin(RRPluginHandle handle)
+{
+    Plugin* plugin = (Plugin*) handle;
+    if(plugin) //Will only fail if handle is NULL...
+    {
+        return plugin;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid Plugin handle");
+        throw(ex);
+    }
+}
+
 Parameters* castToParameters(RRParametersHandle handle)
 {
     Parameters* para = (Parameters*) handle;
@@ -75,20 +103,6 @@ Parameter<char*>* castToStringParameter(RRParameterHandle handle)
     else
     {
         Exception ex("Failed to cast to a valid Parameter handle");
-        throw(ex);
-    }
-}
-
-MinimizationData* castToMinimizationData(RRMinimizationDataHandle handle)
-{
-    MinimizationData* para = (MinimizationData*) handle;
-    if(para) //Will only fail if handle is NULL...
-    {
-        return para;
-    }
-    else
-    {
-        Exception ex("Failed to cast to a valid MinimizationData handle");
         throw(ex);
     }
 }
