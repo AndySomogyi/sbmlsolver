@@ -126,10 +126,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac7ed0222daee67405616805b1bd02125"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9519f489ada956e35bd0b65e44e96cdd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a9519f489ada956e35bd0b65e44e96cdd">getModelName</a> ()</td></tr>
 <tr class="separator:a9519f489ada956e35bd0b65e44e96cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61822e0ad53826249e04d72c3f45ab97"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a61822e0ad53826249e04d72c3f45ab97">setTempFileFolder</a> (const std::string &amp;folder)</td></tr>
-<tr class="separator:a61822e0ad53826249e04d72c3f45ab97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad16dd282c20c5c144cab252f4e2752f1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ad16dd282c20c5c144cab252f4e2752f1">getTempFolder</a> ()</td></tr>
-<tr class="separator:ad16dd282c20c5c144cab252f4e2752f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27aedd28b2a2d5453200ca4a4a2bf4c0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a27aedd28b2a2d5453200ca4a4a2bf4c0">oneStep</a> (double currentTime, double stepSize, bool <a class="el" href="classrr_1_1_road_runner.html#ae4b0eaa39fd37737e5f5fd7f7741e06c">reset</a>=true)</td></tr>
 <tr class="separator:a27aedd28b2a2d5453200ca4a4a2bf4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae380c9a35cca24a7c35633bcd4c6836c"><td class="memItemLeft" align="right" valign="top">const RoadRunnerData *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ae380c9a35cca24a7c35633bcd4c6836c">simulate</a> (const <a class="el" href="structrr_1_1_simulate_options.html">SimulateOptions</a> *options=0)</td></tr>
@@ -187,8 +183,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af69cf22ce68c8d5c4ab869fedefa16f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a2507cc2964f8aef0d200c5841bc218"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a2a2507cc2964f8aef0d200c5841bc218">writeSBML</a> ()</td></tr>
 <tr class="separator:a2a2507cc2964f8aef0d200c5841bc218"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01dbe5358bd652891be6209260523cb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a01dbe5358bd652891be6209260523cb6">setCompartmentByIndex</a> (const int &amp;index, const double &amp;value)</td></tr>
-<tr class="separator:a01dbe5358bd652891be6209260523cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3f4b6ef217424cb9b12c798dfd1129c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ad3f4b6ef217424cb9b12c798dfd1129c">evalModel</a> ()</td></tr>
 <tr class="separator:ad3f4b6ef217424cb9b12c798dfd1129c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7df50d5a0fa7265b62af24a2e996b6e0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a7df50d5a0fa7265b62af24a2e996b6e0">getuCC</a> (const std::string &amp;variableName, const std::string &amp;parameterName)</td></tr>
@@ -974,22 +968,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad16dd282c20c5c144cab252f4e2752f1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string rr::RoadRunner::getTempFolder </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>get the <a class="el" href="classrr_1_1_model_generator.html">ModelGenerator</a>'s temporary file directory. </p>
-
-</div>
-</div>
 <a class="anchor" id="a7df50d5a0fa7265b62af24a2e996b6e0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1301,33 +1279,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a01dbe5358bd652891be6209260523cb6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rr::RoadRunner::setCompartmentByIndex </td>
-          <td>(</td>
-          <td class="paramtype">const int &amp;&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double &amp;&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Sets the value of a compartment by its index </p>
-
-</div>
-</div>
 <a class="anchor" id="a4ce7d696fb39f5db0d9e4fa9f8f1192c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1410,23 +1361,6 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>makes a copy of an existing list of selection records. These will be saved and used for selection values in <a class="el" href="classrr_1_1_road_runner.html#aeffa5361c54d45cf24ce21b2cb0e2f29">getSteadyStateValues()</a>. </p>
-
-</div>
-</div>
-<a class="anchor" id="a61822e0ad53826249e04d72c3f45ab97"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rr::RoadRunner::setTempFileFolder </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>folder</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>set the location where the <a class="el" href="classrr_1_1_model_generator.html">ModelGenerator</a> creates temporary files, such as shared libraries. </p>
 
 </div>
 </div>
@@ -1515,7 +1449,7 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 4 2013 02:06:18 for RoadRunner by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 4 2013 02:28:55 for RoadRunner by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

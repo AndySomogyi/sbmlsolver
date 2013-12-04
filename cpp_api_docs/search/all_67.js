@@ -58,7 +58,6 @@ var searchData=
   ['getstoichiometry',['getStoichiometry',['../classrr_1_1_executable_model.html#af9f7809b903426c14942b01a8e24a2b7',1,'rr::ExecutableModel']]],
   ['getstoichiometrymatrix',['getStoichiometryMatrix',['../classrr_1_1_executable_model.html#a2aacbf75ac32b2b188f7850cd48b8f71',1,'rr::ExecutableModel']]],
   ['getsupportedidtypes',['getSupportedIdTypes',['../classrr_1_1_executable_model.html#a200b81cd9a7f1f9a6b3af6a35fcc4c63',1,'rr::ExecutableModel::getSupportedIdTypes()'],['../classrr_1_1_road_runner.html#a64fd889ed2292a496bc06739e8fa206e',1,'rr::RoadRunner::getSupportedIdTypes()']]],
-  ['gettempfolder',['getTempFolder',['../classrr_1_1_road_runner.html#ad16dd282c20c5c144cab252f4e2752f1',1,'rr::RoadRunner']]],
   ['gettemporarydirectory',['getTemporaryDirectory',['../classrr_1_1_model_generator.html#a89d7728fd2fa604a08e4733aeb09ce3c',1,'rr::ModelGenerator']]],
   ['getucc',['getuCC',['../classrr_1_1_road_runner.html#a7df50d5a0fa7265b62af24a2e996b6e0',1,'rr::RoadRunner']]],
   ['getuee',['getuEE',['../classrr_1_1_road_runner.html#ad1a582f68475ad9e923dd23b12397d86',1,'rr::RoadRunner::getuEE(const std::string &amp;reactionName, const std::string &amp;parameterName)'],['../classrr_1_1_road_runner.html#a6957a9119e32959e4bbd47107a22f8a5',1,'rr::RoadRunner::getuEE(const std::string &amp;reactionName, const std::string &amp;parameterName, bool computeSteadystate)']]],
