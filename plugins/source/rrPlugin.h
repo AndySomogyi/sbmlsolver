@@ -23,6 +23,7 @@ using std::string;
 
 class PLUGINS_API_DECLSPEC Plugin
 {
+    friend PluginManager;
     protected:
         string                          mName;
         string                          mLibraryName;
@@ -104,6 +105,10 @@ class PLUGINS_API_DECLSPEC Plugin
 
                                         //!check if the plugin was terminated
         bool                            wasTerminated();
+
+                                        //!Assign a roadrunner instance for the plugin to use
+        bool                            assignRoadRunnerInstance(RoadRunner* rr);
+
         //Virtuals
         virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
         virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);

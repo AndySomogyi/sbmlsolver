@@ -58,6 +58,39 @@ bool rrp_cc freePluginManager(RRPluginManagerHandle handle)
 }
 
 //PLUGIN Functions
+
+RRPluginHandle rrp_cc getFirstPlugin(RRPluginManagerHandle handle)
+{
+    start_try
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->getFirstPlugin();
+    catch_ptr_macro
+}
+
+RRPluginHandle rrp_cc getNextPlugin(RRPluginManagerHandle handle)
+{
+    start_try
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->getNextPlugin();
+    catch_ptr_macro
+}
+
+RRPluginHandle rrp_cc getPreviousPlugin(RRPluginManagerHandle handle)
+{
+    start_try
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->getPreviousPlugin();
+    catch_ptr_macro
+}
+
+RRPluginHandle rrp_cc getCurrentPlugin(RRPluginManagerHandle handle)
+{
+    start_try
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->getCurrentPlugin();
+    catch_ptr_macro
+}
+
 RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, const char* pluginName)
 {
     start_try
@@ -134,16 +167,16 @@ RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* plugin
 //    catch_ptr_macro
 //}
 
-RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id)
-{
-    start_try
-        PluginManager *pm = castToPluginManager(handle);
-        Plugin* aPlugin = pm->getPlugin(id);
-        return aPlugin;
-    catch_ptr_macro
-}
+//RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id)
+//{
+//    start_try
+//        PluginManager *pm = castToPluginManager(handle);
+//        Plugin* aPlugin = pm->getPlugin(id);
+//        return aPlugin;
+//    catch_ptr_macro
+//}
 
-RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle)
+RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
@@ -312,6 +345,15 @@ char* rrp_cc getPluginStatus(RRPluginHandle handle)
         return rr::createText(aPlugin->getStatus());
     catch_ptr_macro
 }
+
+bool rrp_cc assignRoadRunnerInstance(RRPluginHandle pHandle, RRHandle rrHandle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(pHandle);
+        return (aPlugin) ? aPlugin->assignRoadRunnerInstance(static_cast<RoadRunner*>(rrHandle)) : false;
+    catch_bool_macro
+}
+
 
 bool rrp_cc executePlugin(RRPluginHandle handle)
 {

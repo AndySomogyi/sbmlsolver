@@ -12,6 +12,11 @@ unLoadPlugin                                    = _unLoadPlugin
 loadPlugins                                     = _loadPlugins
 unLoadPlugins                                   = _unLoadPlugins
 getPluginNames                                  = _getPluginNames
+getPlugin                                       = _getPlugin
+getFirstPlugin                                  = _getFirstPlugin
+getNextPlugin                                   = _getNextPlugin
+getPreviousPlugin                               = _getPreviousPlugin
+getCurrentPlugin                                = _getCurrentPlugin
 
 ;Functions taking a plugin handle
 getPluginParameters                             = _getPluginParameters
@@ -33,6 +38,8 @@ assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
 isPluginWorking                                 = _isPluginWorking
 isBeingTerminated                               = _isBeingTerminated
 wasTerminated                                   = _wasTerminated
+assignRoadRunnerInstance                        = _assignRoadRunnerInstance
+getRRHandleFromPlugin                           = _getRRHandleFromPlugin
 
 ;Functions taking a parameter handle
 createParameter                                 = _createParameter

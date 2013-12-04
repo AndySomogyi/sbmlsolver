@@ -67,6 +67,12 @@ bool Plugin::wasTerminated()
     return false;
 }
 
+bool Plugin::assignRoadRunnerInstance(RoadRunner* rr)
+{
+    mRR = rr;
+    return mRR ? true : false;
+}
+
 RoadRunner* Plugin::getRoadRunnerInstance()
 {
     return mRR;

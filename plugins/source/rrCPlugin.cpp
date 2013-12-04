@@ -12,16 +12,17 @@ executeFunction(NULL)
 {}
 
 CPlugin::~CPlugin()
-{}
+{
+    //Designed to de-allocate any data in the C plugin
+    if(destroyFunction)
+    {
+        destroyFunction();
+    }
+}
 
 string CPlugin::getImplementationLanguage()
 {
     return "C";
-}
-
-void CPlugin::assignExecuteFunction(executeFnc func)
-{
-    executeFunction = func;
 }
 
 bool CPlugin::execute(void* userData, bool useThread)
@@ -33,14 +34,6 @@ bool CPlugin::execute(void* userData, bool useThread)
     return false;
 }
 
-//_xmlNode* CPlugin::createConfigNode()
-//{
-//    return 0;
-//}
-//
-//void CPlugin::loadConfig(const _xmlDoc* doc)
-//{
-//}
 
 }
 

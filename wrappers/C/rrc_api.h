@@ -862,7 +862,7 @@ C_DECL_SPEC bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int i
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec);
+C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVectorPtr vec);
 
 /*!
  \brief Set the boundary species concentration to the vector vec
@@ -882,7 +882,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, c
  \return Returns true if successful
  \ingroup boundary
 */
-C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec);
+C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVectorPtr vec);
 
 
 /*!
@@ -982,7 +982,7 @@ C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
  \return Returns true if successful
  \ingroup initialConditions
 */
-C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle handle, const RRVector* vec);
+C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle handle, const RRVectorPtr vec);
 
 /*!
  \brief Get the initial floating species concentrations
