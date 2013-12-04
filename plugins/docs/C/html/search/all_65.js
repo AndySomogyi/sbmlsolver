@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['executeplugin',['executePlugin',['../group__plugins.html#ga588a7bf7facbb2637b2ecfab4a84b08f',1,'rrp::executePlugin()'],['../group__plugins.html#ga588a7bf7facbb2637b2ecfab4a84b08f',1,'executePlugin():&#160;rrp_api.cpp']]],
-  ['executepluginex',['executePluginEx',['../group__plugins.html#gafb0f01a73641ebf78f10b1ea33540507',1,'rrp::executePluginEx()'],['../group__plugins.html#gafb0f01a73641ebf78f10b1ea33540507',1,'executePluginEx():&#160;rrp_api.cpp']]]
+  ['executeplugin',['executePlugin',['../group__plugins.html#ga2b1c9e09aa9589808d58397022b61998',1,'rrp::executePlugin()'],['../group__plugins.html#ga2b1c9e09aa9589808d58397022b61998',1,'executePlugin():&#160;rrp_api.cpp']]],
+  ['executepluginex',['executePluginEx',['../group__plugins.html#ga235def2d5793790ae1f4298a1461b691',1,'rrp::executePluginEx()'],['../group__plugins.html#ga235def2d5793790ae1f4298a1461b691',1,'executePluginEx():&#160;rrp_api.cpp']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>libRoadRunner Plugin C API: Plugin Functions</title>
+<title>libRoadRunner Plugin API: Plugin Functions</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">libRoadRunner Plugin C API
+   <div id="projectname">libRoadRunner Plugin API
    &#160;<span id="projectnumber">0.99</span>
    </div>
    <div id="projectbrief">Plugin Framework for libRoadRunner</div>
@@ -89,85 +89,86 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga4ebfeb102f822ed163b6ca320b15789d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga4ebfeb102f822ed163b6ca320b15789d">getPluginName</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga4ebfeb102f822ed163b6ca320b15789d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of a Plugin.  <a href="#ga4ebfeb102f822ed163b6ca320b15789d">More...</a><br/></td></tr>
-<tr class="separator:ga4ebfeb102f822ed163b6ca320b15789d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafef8128c4c535087bdfd28078227237a"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gafef8128c4c535087bdfd28078227237a">getPluginInfo</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:gafef8128c4c535087bdfd28078227237a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return some information about a Plugin.  <a href="#gafef8128c4c535087bdfd28078227237a">More...</a><br/></td></tr>
-<tr class="separator:gafef8128c4c535087bdfd28078227237a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1c3ae2a8462c535283fbcbc4cf0e7f83"><td class="memItemLeft" align="right" valign="top">unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga1c3ae2a8462c535283fbcbc4cf0e7f83">getPluginManualAsPDF</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga1c3ae2a8462c535283fbcbc4cf0e7f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function return such as a pointer to a string. Use the function getPluginManualNrOfBytes to get the exact length of this string.  <a href="#ga1c3ae2a8462c535283fbcbc4cf0e7f83">More...</a><br/></td></tr>
-<tr class="separator:ga1c3ae2a8462c535283fbcbc4cf0e7f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa284630d727b64bf8203e7adc3981918"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gaa284630d727b64bf8203e7adc3981918">getPluginManualNrOfBytes</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:gaa284630d727b64bf8203e7adc3981918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the byte size for the PDF manual.  <a href="#gaa284630d727b64bf8203e7adc3981918">More...</a><br/></td></tr>
-<tr class="separator:gaa284630d727b64bf8203e7adc3981918"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga588a7bf7facbb2637b2ecfab4a84b08f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga588a7bf7facbb2637b2ecfab4a84b08f">executePlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga588a7bf7facbb2637b2ecfab4a84b08f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The executePlugin function is the function designated to fire of a Plugins "worker". What is done when this function is entered is plugin dependent.  <a href="#ga588a7bf7facbb2637b2ecfab4a84b08f">More...</a><br/></td></tr>
-<tr class="separator:ga588a7bf7facbb2637b2ecfab4a84b08f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafb0f01a73641ebf78f10b1ea33540507"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gafb0f01a73641ebf78f10b1ea33540507">executePluginEx</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, void *userData, bool inAThread)</td></tr>
-<tr class="memdesc:gafb0f01a73641ebf78f10b1ea33540507"><td class="mdescLeft">&#160;</td><td class="mdescRight">The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.  <a href="#gafb0f01a73641ebf78f10b1ea33540507">More...</a><br/></td></tr>
-<tr class="separator:gafb0f01a73641ebf78f10b1ea33540507"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4c0fccbaa08fde4340650b1b58447cef"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga4c0fccbaa08fde4340650b1b58447cef">getPluginStatus</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga4c0fccbaa08fde4340650b1b58447cef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get some status of a plugin. See the plugins documentation on what to expect.  <a href="#ga4c0fccbaa08fde4340650b1b58447cef">More...</a><br/></td></tr>
-<tr class="separator:ga4c0fccbaa08fde4340650b1b58447cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0b93e8ea7762df704640cf1dd4c67b4d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga0b93e8ea7762df704640cf1dd4c67b4d">getPluginResult</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga0b93e8ea7762df704640cf1dd4c67b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a plugins result, as a string. See the plugins documentation on what to expect.  <a href="#ga0b93e8ea7762df704640cf1dd4c67b4d">More...</a><br/></td></tr>
-<tr class="separator:ga0b93e8ea7762df704640cf1dd4c67b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga92ac26d23bfe6d26e67feeaeecf2a224"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga92ac26d23bfe6d26e67feeaeecf2a224">resetPlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga92ac26d23bfe6d26e67feeaeecf2a224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset a Plugin. Plugin dependent. A reset function should bring the internal state of a plugin to a known state.  <a href="#ga92ac26d23bfe6d26e67feeaeecf2a224">More...</a><br/></td></tr>
-<tr class="separator:ga92ac26d23bfe6d26e67feeaeecf2a224"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga17e460cd7801b18ab67d0f1e41c9e1cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga17e460cd7801b18ab67d0f1e41c9e1cd">terminateWork</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga17e460cd7801b18ab67d0f1e41c9e1cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terminate any work that is in progress in a plugin. If the plugins worker is executed in a thread, this function will signal the internals of the plugin to terminate.  <a href="#ga17e460cd7801b18ab67d0f1e41c9e1cd">More...</a><br/></td></tr>
-<tr class="separator:ga17e460cd7801b18ab67d0f1e41c9e1cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa2a6a48712bc7152f5e1e8a59bc37e24"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gaa2a6a48712bc7152f5e1e8a59bc37e24">isBeingTerminated</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:gaa2a6a48712bc7152f5e1e8a59bc37e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the work of a plugin is currently being terminated.  <a href="#gaa2a6a48712bc7152f5e1e8a59bc37e24">More...</a><br/></td></tr>
-<tr class="separator:gaa2a6a48712bc7152f5e1e8a59bc37e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga096538e253fbeba2928272f17c70fe74"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga096538e253fbeba2928272f17c70fe74">wasTerminated</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga096538e253fbeba2928272f17c70fe74"><td class="mdescLeft">&#160;</td><td class="mdescRight">wasTerminated. query a plugin if work was terminated before completion  <a href="#ga096538e253fbeba2928272f17c70fe74">More...</a><br/></td></tr>
-<tr class="separator:ga096538e253fbeba2928272f17c70fe74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafce116478d3b43f57548f74d1fbded64"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gafce116478d3b43f57548f74d1fbded64">assignPluginStartedCallBack</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, <a class="el" href="rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5">pluginCallBack</a> cb, void *userData1, void *userData2)</td></tr>
-<tr class="memdesc:gafce116478d3b43f57548f74d1fbded64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign callback function fired when a plugin starts its work.  <a href="#gafce116478d3b43f57548f74d1fbded64">More...</a><br/></td></tr>
-<tr class="separator:gafce116478d3b43f57548f74d1fbded64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6f7abd9389122c27e6a9e6446461a195"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga6f7abd9389122c27e6a9e6446461a195">assignPluginProgressCallBack</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, <a class="el" href="rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5">pluginCallBack</a> cb, void *userData1, void *userData2)</td></tr>
-<tr class="memdesc:ga6f7abd9389122c27e6a9e6446461a195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign callback function fired as a plugin progresses.  <a href="#ga6f7abd9389122c27e6a9e6446461a195">More...</a><br/></td></tr>
-<tr class="separator:ga6f7abd9389122c27e6a9e6446461a195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad3d8e6341a89a45c63ef4b4ad80dff92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gad3d8e6341a89a45c63ef4b4ad80dff92">assignPluginFinishedCallBack</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, <a class="el" href="rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5">pluginCallBack</a> cb, void *userData1, void *userData2)</td></tr>
-<tr class="memdesc:gad3d8e6341a89a45c63ef4b4ad80dff92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign callback function fired when a plugin finishes its work.  <a href="#gad3d8e6341a89a45c63ef4b4ad80dff92">More...</a><br/></td></tr>
-<tr class="separator:gad3d8e6341a89a45c63ef4b4ad80dff92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8d62468d5be9eb9916d94407c282c92f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga8d62468d5be9eb9916d94407c282c92f">setPluginInputData</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, void *userData)</td></tr>
-<tr class="memdesc:ga8d62468d5be9eb9916d94407c282c92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hand external data to a plugin.  <a href="#ga8d62468d5be9eb9916d94407c282c92f">More...</a><br/></td></tr>
-<tr class="separator:ga8d62468d5be9eb9916d94407c282c92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga111e8e21b2869b5d4b2a51040b957fb4">isPluginWorking</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if plugin is actively working  <a href="#ga111e8e21b2869b5d4b2a51040b957fb4">More...</a><br/></td></tr>
-<tr class="separator:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacec5d960901b04722c75e7f120fcee95"><td class="memItemLeft" align="right" valign="top">RRHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gacec5d960901b04722c75e7f120fcee95">getRRHandleFromPlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:gacec5d960901b04722c75e7f120fcee95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roadrunner instance handle from plugin.  <a href="#gacec5d960901b04722c75e7f120fcee95">More...</a><br/></td></tr>
-<tr class="separator:gacec5d960901b04722c75e7f120fcee95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga21578a0841fe6d560c7b0a42806ab28f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga21578a0841fe6d560c7b0a42806ab28f">getPluginCapabilities</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga21578a0841fe6d560c7b0a42806ab28f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins capabilities as a string.  <a href="#ga21578a0841fe6d560c7b0a42806ab28f">More...</a><br/></td></tr>
-<tr class="separator:ga21578a0841fe6d560c7b0a42806ab28f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga189fef2b74f932bd8227c7227b540de9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga189fef2b74f932bd8227c7227b540de9">getPluginCapabilitiesAsXML</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga189fef2b74f932bd8227c7227b540de9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.  <a href="#ga189fef2b74f932bd8227c7227b540de9">More...</a><br/></td></tr>
-<tr class="separator:ga189fef2b74f932bd8227c7227b540de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga34f698b757da26584ea2392235841be9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga34f698b757da26584ea2392235841be9">getPluginParameters</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, const char *capability)</td></tr>
-<tr class="memdesc:ga34f698b757da26584ea2392235841be9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get plugin parameters for a specific capability.  <a href="#ga34f698b757da26584ea2392235841be9">More...</a><br/></td></tr>
-<tr class="separator:ga34f698b757da26584ea2392235841be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga723d5d78adb07bfb5f58fe4de48d757a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga723d5d78adb07bfb5f58fe4de48d757a">getPluginParameter</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, const char *parameterName, const char *capabilitiesName)</td></tr>
-<tr class="memdesc:ga723d5d78adb07bfb5f58fe4de48d757a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter handle to a parameter, located in a specific capability. If the capability argument is NULL the function will look into all capabilites and return the first parameter matching "parameterName".  <a href="#ga723d5d78adb07bfb5f58fe4de48d757a">More...</a><br/></td></tr>
-<tr class="separator:ga723d5d78adb07bfb5f58fe4de48d757a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab86468930010e57a618236d5375379ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gab86468930010e57a618236d5375379ea">setPluginParameter</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, const char *parameterName, const char *value)</td></tr>
-<tr class="memdesc:gab86468930010e57a618236d5375379ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a PluginParameter by a string.  <a href="#gab86468930010e57a618236d5375379ea">More...</a><br/></td></tr>
-<tr class="separator:gab86468930010e57a618236d5375379ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf7ad71ac029054bff36508b794d669dc"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gaf7ad71ac029054bff36508b794d669dc">getPluginName</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:gaf7ad71ac029054bff36508b794d669dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of a Plugin.  <a href="#gaf7ad71ac029054bff36508b794d669dc">More...</a><br/></td></tr>
+<tr class="separator:gaf7ad71ac029054bff36508b794d669dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0faa0cf05527d733667ebd5b08ff9f38"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga0faa0cf05527d733667ebd5b08ff9f38">getPluginInfo</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga0faa0cf05527d733667ebd5b08ff9f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return some information about a Plugin.  <a href="#ga0faa0cf05527d733667ebd5b08ff9f38">More...</a><br/></td></tr>
+<tr class="separator:ga0faa0cf05527d733667ebd5b08ff9f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5b04b7ee384c8185b1783ddde4d7cef9"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC unsigned char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga5b04b7ee384c8185b1783ddde4d7cef9">getPluginManualAsPDF</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga5b04b7ee384c8185b1783ddde4d7cef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function return such as a pointer to a string. Use the function getPluginManualNrOfBytes to get the exact length of this string.  <a href="#ga5b04b7ee384c8185b1783ddde4d7cef9">More...</a><br/></td></tr>
+<tr class="separator:ga5b04b7ee384c8185b1783ddde4d7cef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadbbfd42cf1fa1d5d188a80c73a0e7f2e"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC unsigned int rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gadbbfd42cf1fa1d5d188a80c73a0e7f2e">getPluginManualNrOfBytes</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:gadbbfd42cf1fa1d5d188a80c73a0e7f2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the byte size for the PDF manual.  <a href="#gadbbfd42cf1fa1d5d188a80c73a0e7f2e">More...</a><br/></td></tr>
+<tr class="separator:gadbbfd42cf1fa1d5d188a80c73a0e7f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b1c9e09aa9589808d58397022b61998"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga2b1c9e09aa9589808d58397022b61998">executePlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga2b1c9e09aa9589808d58397022b61998"><td class="mdescLeft">&#160;</td><td class="mdescRight">The executePlugin function is the function designated to fire of a Plugins "worker". What is done when this function is entered is plugin dependent.  <a href="#ga2b1c9e09aa9589808d58397022b61998">More...</a><br/></td></tr>
+<tr class="separator:ga2b1c9e09aa9589808d58397022b61998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga235def2d5793790ae1f4298a1461b691"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga235def2d5793790ae1f4298a1461b691">executePluginEx</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, void *userData, bool inAThread)</td></tr>
+<tr class="memdesc:ga235def2d5793790ae1f4298a1461b691"><td class="mdescLeft">&#160;</td><td class="mdescRight">The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.  <a href="#ga235def2d5793790ae1f4298a1461b691">More...</a><br/></td></tr>
+<tr class="separator:ga235def2d5793790ae1f4298a1461b691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae96fa967918f9c0b3f930a806f4a6651"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gae96fa967918f9c0b3f930a806f4a6651">getPluginStatus</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:gae96fa967918f9c0b3f930a806f4a6651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get some status of a plugin. See the plugins documentation on what to expect.  <a href="#gae96fa967918f9c0b3f930a806f4a6651">More...</a><br/></td></tr>
+<tr class="separator:gae96fa967918f9c0b3f930a806f4a6651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga54851b93e05b2719d87ce4f0c91fa7c8"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga54851b93e05b2719d87ce4f0c91fa7c8">getPluginResult</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga54851b93e05b2719d87ce4f0c91fa7c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a plugins result, as a string. See the plugins documentation on what to expect.  <a href="#ga54851b93e05b2719d87ce4f0c91fa7c8">More...</a><br/></td></tr>
+<tr class="separator:ga54851b93e05b2719d87ce4f0c91fa7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad23cafc934134288ef49f5834d05880f"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gad23cafc934134288ef49f5834d05880f">resetPlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:gad23cafc934134288ef49f5834d05880f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset a Plugin. Plugin dependent. A reset function should bring the internal state of a plugin to a known state.  <a href="#gad23cafc934134288ef49f5834d05880f">More...</a><br/></td></tr>
+<tr class="separator:gad23cafc934134288ef49f5834d05880f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7cee26a939dbcf04151c6e53a9609241"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC void rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga7cee26a939dbcf04151c6e53a9609241">terminateWork</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga7cee26a939dbcf04151c6e53a9609241"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terminate any work that is in progress in a plugin. If the plugins worker is executed in a thread, this function will signal the internals of the plugin to terminate.  <a href="#ga7cee26a939dbcf04151c6e53a9609241">More...</a><br/></td></tr>
+<tr class="separator:ga7cee26a939dbcf04151c6e53a9609241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga59dc04358e6889a41a1e2d5eb9d0aaff"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga59dc04358e6889a41a1e2d5eb9d0aaff">isBeingTerminated</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga59dc04358e6889a41a1e2d5eb9d0aaff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the work of a plugin is currently being terminated.  <a href="#ga59dc04358e6889a41a1e2d5eb9d0aaff">More...</a><br/></td></tr>
+<tr class="separator:ga59dc04358e6889a41a1e2d5eb9d0aaff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6605a00b53c6365a87f0f1378ceba860"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga6605a00b53c6365a87f0f1378ceba860">wasTerminated</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga6605a00b53c6365a87f0f1378ceba860"><td class="mdescLeft">&#160;</td><td class="mdescRight">wasTerminated. query a plugin if work was terminated before completion  <a href="#ga6605a00b53c6365a87f0f1378ceba860">More...</a><br/></td></tr>
+<tr class="separator:ga6605a00b53c6365a87f0f1378ceba860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5e80a240f3663aa6e388ea02d2005d6"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gad5e80a240f3663aa6e388ea02d2005d6">assignPluginStartedCallBack</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, <a class="el" href="rrp__types_8h.html#a942c5f52ed1a056333a9608b8a4799aa">pluginCallBack</a> cb, void *userData1, void *userData2)</td></tr>
+<tr class="memdesc:gad5e80a240f3663aa6e388ea02d2005d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign callback function fired when a plugin starts its work.  <a href="#gad5e80a240f3663aa6e388ea02d2005d6">More...</a><br/></td></tr>
+<tr class="separator:gad5e80a240f3663aa6e388ea02d2005d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1283c81853447c3838d1ec6737ce8363"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga1283c81853447c3838d1ec6737ce8363">assignPluginProgressCallBack</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, <a class="el" href="rrp__types_8h.html#a942c5f52ed1a056333a9608b8a4799aa">pluginCallBack</a> cb, void *userData1, void *userData2)</td></tr>
+<tr class="memdesc:ga1283c81853447c3838d1ec6737ce8363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign callback function fired as a plugin progresses.  <a href="#ga1283c81853447c3838d1ec6737ce8363">More...</a><br/></td></tr>
+<tr class="separator:ga1283c81853447c3838d1ec6737ce8363"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf13b6d362d697234805a265ac1ad9349"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gaf13b6d362d697234805a265ac1ad9349">assignPluginFinishedCallBack</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, <a class="el" href="rrp__types_8h.html#a942c5f52ed1a056333a9608b8a4799aa">pluginCallBack</a> cb, void *userData1, void *userData2)</td></tr>
+<tr class="memdesc:gaf13b6d362d697234805a265ac1ad9349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign callback function fired when a plugin finishes its work.  <a href="#gaf13b6d362d697234805a265ac1ad9349">More...</a><br/></td></tr>
+<tr class="separator:gaf13b6d362d697234805a265ac1ad9349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4bd6f0e43afaaeb0cbfb6e016c344400"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga4bd6f0e43afaaeb0cbfb6e016c344400">setPluginInputData</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, void *userData)</td></tr>
+<tr class="memdesc:ga4bd6f0e43afaaeb0cbfb6e016c344400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hand external data to a plugin.  <a href="#ga4bd6f0e43afaaeb0cbfb6e016c344400">More...</a><br/></td></tr>
+<tr class="separator:ga4bd6f0e43afaaeb0cbfb6e016c344400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab28dca1a69d8e779fc45bb754ef68982"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gab28dca1a69d8e779fc45bb754ef68982">isPluginWorking</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:gab28dca1a69d8e779fc45bb754ef68982"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if plugin is actively working  <a href="#gab28dca1a69d8e779fc45bb754ef68982">More...</a><br/></td></tr>
+<tr class="separator:gab28dca1a69d8e779fc45bb754ef68982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29d7d5758bba9eb775770cae49f89da2"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC RRHandle rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga29d7d5758bba9eb775770cae49f89da2">getRRHandleFromPlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga29d7d5758bba9eb775770cae49f89da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roadrunner instance handle from plugin.  <a href="#ga29d7d5758bba9eb775770cae49f89da2">More...</a><br/></td></tr>
+<tr class="separator:ga29d7d5758bba9eb775770cae49f89da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9520fea4e8ec8ff5db0114139fe4944f"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga9520fea4e8ec8ff5db0114139fe4944f">getPluginCapabilities</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga9520fea4e8ec8ff5db0114139fe4944f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins capabilities as a string.  <a href="#ga9520fea4e8ec8ff5db0114139fe4944f">More...</a><br/></td></tr>
+<tr class="separator:ga9520fea4e8ec8ff5db0114139fe4944f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga674702b70147933a98afe7d6c95f2dce"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga674702b70147933a98afe7d6c95f2dce">getPluginCapabilitiesAsXML</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga674702b70147933a98afe7d6c95f2dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.  <a href="#ga674702b70147933a98afe7d6c95f2dce">More...</a><br/></td></tr>
+<tr class="separator:ga674702b70147933a98afe7d6c95f2dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga681acce519b9594f4873afebfefd0ba9"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga681acce519b9594f4873afebfefd0ba9">getPluginParameters</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, const char *capability)</td></tr>
+<tr class="memdesc:ga681acce519b9594f4873afebfefd0ba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get plugin parameters for a specific capability.  <a href="#ga681acce519b9594f4873afebfefd0ba9">More...</a><br/></td></tr>
+<tr class="separator:ga681acce519b9594f4873afebfefd0ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga363a07eff2d7bab19edf6092f7f52626"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> <br class="typebreak"/>
+rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga363a07eff2d7bab19edf6092f7f52626">getPluginParameter</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, const char *parameterName, const char *capabilitiesName)</td></tr>
+<tr class="memdesc:ga363a07eff2d7bab19edf6092f7f52626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter handle to a parameter, located in a specific capability. If the capability argument is NULL the function will look into all capabilites and return the first parameter matching "parameterName".  <a href="#ga363a07eff2d7bab19edf6092f7f52626">More...</a><br/></td></tr>
+<tr class="separator:ga363a07eff2d7bab19edf6092f7f52626"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c73e0c79b0d1a1e0a6aa7894819d57e"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga6c73e0c79b0d1a1e0a6aa7894819d57e">setPluginParameter</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, const char *parameterName, const char *value)</td></tr>
+<tr class="memdesc:ga6c73e0c79b0d1a1e0a6aa7894819d57e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a PluginParameter by a string.  <a href="#ga6c73e0c79b0d1a1e0a6aa7894819d57e">More...</a><br/></td></tr>
+<tr class="separator:ga6c73e0c79b0d1a1e0a6aa7894819d57e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Functions operating on Plugin Handles. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="gad3d8e6341a89a45c63ef4b4ad80dff92"></a>
+<a class="anchor" id="gaf13b6d362d697234805a265ac1ad9349"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool assignPluginFinishedCallBack </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -175,7 +176,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5">pluginCallBack</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a942c5f52ed1a056333a9608b8a4799aa">pluginCallBack</a>&#160;</td>
           <td class="paramname"><em>cb</em>, </td>
         </tr>
         <tr>
@@ -212,12 +213,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga6f7abd9389122c27e6a9e6446461a195"></a>
+<a class="anchor" id="ga1283c81853447c3838d1ec6737ce8363"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool assignPluginProgressCallBack </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -225,7 +226,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5">pluginCallBack</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a942c5f52ed1a056333a9608b8a4799aa">pluginCallBack</a>&#160;</td>
           <td class="paramname"><em>cb</em>, </td>
         </tr>
         <tr>
@@ -262,12 +263,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gafce116478d3b43f57548f74d1fbded64"></a>
+<a class="anchor" id="gad5e80a240f3663aa6e388ea02d2005d6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool assignPluginStartedCallBack </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -275,7 +276,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5">pluginCallBack</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a942c5f52ed1a056333a9608b8a4799aa">pluginCallBack</a>&#160;</td>
           <td class="paramname"><em>cb</em>, </td>
         </tr>
         <tr>
@@ -312,12 +313,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga588a7bf7facbb2637b2ecfab4a84b08f"></a>
+<a class="anchor" id="ga2b1c9e09aa9589808d58397022b61998"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool executePlugin </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc executePlugin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -338,12 +339,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gafb0f01a73641ebf78f10b1ea33540507"></a>
+<a class="anchor" id="ga235def2d5793790ae1f4298a1461b691"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool executePluginEx </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc executePluginEx </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -381,12 +382,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga21578a0841fe6d560c7b0a42806ab28f"></a>
+<a class="anchor" id="ga9520fea4e8ec8ff5db0114139fe4944f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginCapabilities </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginCapabilities </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -406,12 +407,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga189fef2b74f932bd8227c7227b540de9"></a>
+<a class="anchor" id="ga674702b70147933a98afe7d6c95f2dce"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginCapabilitiesAsXML </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -431,12 +432,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gafef8128c4c535087bdfd28078227237a"></a>
+<a class="anchor" id="ga0faa0cf05527d733667ebd5b08ff9f38"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginInfo </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginInfo </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -456,12 +457,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga1c3ae2a8462c535283fbcbc4cf0e7f83"></a>
+<a class="anchor" id="ga5b04b7ee384c8185b1783ddde4d7cef9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned char* getPluginManualAsPDF </td>
+          <td class="memname">RRP_DECLSPEC unsigned char* rrp_cc getPluginManualAsPDF </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -481,12 +482,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa284630d727b64bf8203e7adc3981918"></a>
+<a class="anchor" id="gadbbfd42cf1fa1d5d188a80c73a0e7f2e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int getPluginManualNrOfBytes </td>
+          <td class="memname">RRP_DECLSPEC unsigned int rrp_cc getPluginManualNrOfBytes </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -506,12 +507,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga4ebfeb102f822ed163b6ca320b15789d"></a>
+<a class="anchor" id="gaf7ad71ac029054bff36508b794d669dc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginName </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginName </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -531,12 +532,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga723d5d78adb07bfb5f58fe4de48d757a"></a>
+<a class="anchor" id="ga363a07eff2d7bab19edf6092f7f52626"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> getPluginParameter </td>
+          <td class="memname">RRP_DECLSPEC <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> rrp_cc getPluginParameter </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -574,12 +575,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga34f698b757da26584ea2392235841be9"></a>
+<a class="anchor" id="ga681acce519b9594f4873afebfefd0ba9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginParameters </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginParameters </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -610,12 +611,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga0b93e8ea7762df704640cf1dd4c67b4d"></a>
+<a class="anchor" id="ga54851b93e05b2719d87ce4f0c91fa7c8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginResult </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginResult </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -635,12 +636,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga4c0fccbaa08fde4340650b1b58447cef"></a>
+<a class="anchor" id="gae96fa967918f9c0b3f930a806f4a6651"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* getPluginStatus </td>
+          <td class="memname">RRP_DECLSPEC char* rrp_cc getPluginStatus </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -660,12 +661,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gacec5d960901b04722c75e7f120fcee95"></a>
+<a class="anchor" id="ga29d7d5758bba9eb775770cae49f89da2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">RRHandle getRRHandleFromPlugin </td>
+          <td class="memname">RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -685,12 +686,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa2a6a48712bc7152f5e1e8a59bc37e24"></a>
+<a class="anchor" id="ga59dc04358e6889a41a1e2d5eb9d0aaff"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool isBeingTerminated </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc isBeingTerminated </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -710,12 +711,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga111e8e21b2869b5d4b2a51040b957fb4"></a>
+<a class="anchor" id="gab28dca1a69d8e779fc45bb754ef68982"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool isPluginWorking </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc isPluginWorking </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -735,12 +736,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga92ac26d23bfe6d26e67feeaeecf2a224"></a>
+<a class="anchor" id="gad23cafc934134288ef49f5834d05880f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool resetPlugin </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc resetPlugin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -760,12 +761,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga8d62468d5be9eb9916d94407c282c92f"></a>
+<a class="anchor" id="ga4bd6f0e43afaaeb0cbfb6e016c344400"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool setPluginInputData </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc setPluginInputData </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -796,12 +797,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gab86468930010e57a618236d5375379ea"></a>
+<a class="anchor" id="ga6c73e0c79b0d1a1e0a6aa7894819d57e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool setPluginParameter </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc setPluginParameter </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>, </td>
@@ -839,12 +840,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga17e460cd7801b18ab67d0f1e41c9e1cd"></a>
+<a class="anchor" id="ga7cee26a939dbcf04151c6e53a9609241"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void terminateWork </td>
+          <td class="memname">RRP_DECLSPEC void rrp_cc terminateWork </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -864,12 +865,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga096538e253fbeba2928272f17c70fe74"></a>
+<a class="anchor" id="ga6605a00b53c6365a87f0f1378ceba860"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool wasTerminated </td>
+          <td class="memname">RRP_DECLSPEC bool rrp_cc wasTerminated </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td>
           <td class="paramname"><em>handle</em>)</td><td></td>
@@ -892,7 +893,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 3 2013 12:43:57 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 4 2013 14:52:33 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

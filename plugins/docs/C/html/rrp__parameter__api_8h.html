@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>libRoadRunner Plugin C API: R:/rrl/plugins/wrappers/C/rrp_parameter_api.h File Reference</title>
+<title>libRoadRunner Plugin API: R:/rrl/plugins/wrappers/C/rrp_parameter_api.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">libRoadRunner Plugin C API
+   <div id="projectname">libRoadRunner Plugin API
    &#160;<span id="projectnumber">0.99</span>
    </div>
    <div id="projectbrief">Plugin Framework for libRoadRunner</div>
@@ -103,45 +103,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga32bfcd26b33157dd67b0bb289fc2bb43"><td class="memItemLeft" align="right" valign="top">RRStringArrayPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga32bfcd26b33157dd67b0bb289fc2bb43">getListOfParameters</a> (RRHandle handle, const char *cap_name)</td></tr>
-<tr class="memdesc:ga32bfcd26b33157dd67b0bb289fc2bb43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string list of parameters for a particular capability.  <a href="group__plugin__parameters.html#ga32bfcd26b33157dd67b0bb289fc2bb43">More...</a><br/></td></tr>
-<tr class="separator:ga32bfcd26b33157dd67b0bb289fc2bb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabae9681de8cd986b29e1d59aff80ae68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gabae9681de8cd986b29e1d59aff80ae68">createParameter</a> (const char *label, const char *type, void *value)</td></tr>
-<tr class="memdesc:gabae9681de8cd986b29e1d59aff80ae68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a double parameter t.  <a href="group__plugin__parameters.html#gabae9681de8cd986b29e1d59aff80ae68">More...</a><br/></td></tr>
-<tr class="separator:gabae9681de8cd986b29e1d59aff80ae68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga50f45de8a8d7b5eacb2aa80884df358f">addParameterToList</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle, <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> para)</td></tr>
-<tr class="memdesc:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter to a parameters container, from a parameter pointer.  <a href="group__plugin__parameters.html#ga50f45de8a8d7b5eacb2aa80884df358f">More...</a><br/></td></tr>
-<tr class="separator:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga803e504cda1aacb3af44baf33c3d2c8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga803e504cda1aacb3af44baf33c3d2c8f">setParameterByString</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, const char *value)</td></tr>
-<tr class="memdesc:ga803e504cda1aacb3af44baf33c3d2c8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a parameter by a string.  <a href="group__plugin__parameters.html#ga803e504cda1aacb3af44baf33c3d2c8f">More...</a><br/></td></tr>
-<tr class="separator:ga803e504cda1aacb3af44baf33c3d2c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaa16a86e006623582592c66bd5d64479"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaaa16a86e006623582592c66bd5d64479">setIntParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, int value)</td></tr>
-<tr class="memdesc:gaaa16a86e006623582592c66bd5d64479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an int parameter.  <a href="group__plugin__parameters.html#gaaa16a86e006623582592c66bd5d64479">More...</a><br/></td></tr>
-<tr class="separator:gaaa16a86e006623582592c66bd5d64479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3c4589af466b17fdb332f2baa882ddad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga3c4589af466b17fdb332f2baa882ddad">setDoubleParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, double value)</td></tr>
-<tr class="memdesc:ga3c4589af466b17fdb332f2baa882ddad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a double parameter.  <a href="group__plugin__parameters.html#ga3c4589af466b17fdb332f2baa882ddad">More...</a><br/></td></tr>
-<tr class="separator:ga3c4589af466b17fdb332f2baa882ddad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadf2f451da4bbd251070a1f6a613a478b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gadf2f451da4bbd251070a1f6a613a478b">setStringParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, char *value)</td></tr>
-<tr class="memdesc:gadf2f451da4bbd251070a1f6a613a478b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a string (char*) parameter.  <a href="group__plugin__parameters.html#gadf2f451da4bbd251070a1f6a613a478b">More...</a><br/></td></tr>
-<tr class="separator:gadf2f451da4bbd251070a1f6a613a478b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadc3f96581bd993f761e7ef2f9dc2e5ed"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gadc3f96581bd993f761e7ef2f9dc2e5ed">getParameterInfo</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
-<tr class="memdesc:gadc3f96581bd993f761e7ef2f9dc2e5ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters info.  <a href="group__plugin__parameters.html#gadc3f96581bd993f761e7ef2f9dc2e5ed">More...</a><br/></td></tr>
-<tr class="separator:gadc3f96581bd993f761e7ef2f9dc2e5ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaaee31220c0a9da809190628afcfefef"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaaaee31220c0a9da809190628afcfefef">getParameterValueAsString</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
-<tr class="memdesc:gaaaee31220c0a9da809190628afcfefef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters value as char*.  <a href="group__plugin__parameters.html#gaaaee31220c0a9da809190628afcfefef">More...</a><br/></td></tr>
-<tr class="separator:gaaaee31220c0a9da809190628afcfefef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2d37770ea9faf5441365859d19215bc0"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga2d37770ea9faf5441365859d19215bc0">getParameterValueAsPointer</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
-<tr class="memdesc:ga2d37770ea9faf5441365859d19215bc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters value as a void*.  <a href="group__plugin__parameters.html#ga2d37770ea9faf5441365859d19215bc0">More...</a><br/></td></tr>
-<tr class="separator:ga2d37770ea9faf5441365859d19215bc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9df3a1e21db846c5fc293700c133495d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga9df3a1e21db846c5fc293700c133495d">getParameterName</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
-<tr class="memdesc:ga9df3a1e21db846c5fc293700c133495d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters name.  <a href="group__plugin__parameters.html#ga9df3a1e21db846c5fc293700c133495d">More...</a><br/></td></tr>
-<tr class="separator:ga9df3a1e21db846c5fc293700c133495d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga985cf8e7ded43857b44e92969888c1ee"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga985cf8e7ded43857b44e92969888c1ee">getParameterHint</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
-<tr class="memdesc:ga985cf8e7ded43857b44e92969888c1ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters hint.  <a href="group__plugin__parameters.html#ga985cf8e7ded43857b44e92969888c1ee">More...</a><br/></td></tr>
-<tr class="separator:ga985cf8e7ded43857b44e92969888c1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga632fa26c5dc7eff1883c46b3bd12df2d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga632fa26c5dc7eff1883c46b3bd12df2d">getParameterType</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
-<tr class="memdesc:ga632fa26c5dc7eff1883c46b3bd12df2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters type.  <a href="group__plugin__parameters.html#ga632fa26c5dc7eff1883c46b3bd12df2d">More...</a><br/></td></tr>
-<tr class="separator:ga632fa26c5dc7eff1883c46b3bd12df2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga36dd2e21541d5f51a35db53726739ae3"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC RRStringArrayPtr <br class="typebreak"/>
+rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga36dd2e21541d5f51a35db53726739ae3">getListOfParameters</a> (RRHandle handle, const char *cap_name)</td></tr>
+<tr class="memdesc:ga36dd2e21541d5f51a35db53726739ae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string list of parameters for a particular capability.  <a href="group__plugin__parameters.html#ga36dd2e21541d5f51a35db53726739ae3">More...</a><br/></td></tr>
+<tr class="separator:ga36dd2e21541d5f51a35db53726739ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9acfe6d8ca26b6bfd614440481ec8b27"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> <br class="typebreak"/>
+rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga9acfe6d8ca26b6bfd614440481ec8b27">createParameter</a> (const char *label, const char *type, void *value)</td></tr>
+<tr class="memdesc:ga9acfe6d8ca26b6bfd614440481ec8b27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a double parameter t.  <a href="group__plugin__parameters.html#ga9acfe6d8ca26b6bfd614440481ec8b27">More...</a><br/></td></tr>
+<tr class="separator:ga9acfe6d8ca26b6bfd614440481ec8b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga71dc88e71ba5e6807756ac8833318e73"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga71dc88e71ba5e6807756ac8833318e73">addParameterToList</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle, <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> para)</td></tr>
+<tr class="memdesc:ga71dc88e71ba5e6807756ac8833318e73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter to a parameters container, from a parameter pointer.  <a href="group__plugin__parameters.html#ga71dc88e71ba5e6807756ac8833318e73">More...</a><br/></td></tr>
+<tr class="separator:ga71dc88e71ba5e6807756ac8833318e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1a6da1110b1d83d2884ebf5678bb669c"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga1a6da1110b1d83d2884ebf5678bb669c">setParameterByString</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, const char *value)</td></tr>
+<tr class="memdesc:ga1a6da1110b1d83d2884ebf5678bb669c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a parameter by a string.  <a href="group__plugin__parameters.html#ga1a6da1110b1d83d2884ebf5678bb669c">More...</a><br/></td></tr>
+<tr class="separator:ga1a6da1110b1d83d2884ebf5678bb669c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae264fec19cd8542d302d66e09f450ac5"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gae264fec19cd8542d302d66e09f450ac5">setIntParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, int value)</td></tr>
+<tr class="memdesc:gae264fec19cd8542d302d66e09f450ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an int parameter.  <a href="group__plugin__parameters.html#gae264fec19cd8542d302d66e09f450ac5">More...</a><br/></td></tr>
+<tr class="separator:gae264fec19cd8542d302d66e09f450ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa7223829566cea81c59e06146fa41365"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaa7223829566cea81c59e06146fa41365">setDoubleParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, double value)</td></tr>
+<tr class="memdesc:gaa7223829566cea81c59e06146fa41365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a double parameter.  <a href="group__plugin__parameters.html#gaa7223829566cea81c59e06146fa41365">More...</a><br/></td></tr>
+<tr class="separator:gaa7223829566cea81c59e06146fa41365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa68e8fdd3a223fb805ac67904b232a11"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC bool rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaa68e8fdd3a223fb805ac67904b232a11">setStringParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle, char *value)</td></tr>
+<tr class="memdesc:gaa68e8fdd3a223fb805ac67904b232a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a string (char*) parameter.  <a href="group__plugin__parameters.html#gaa68e8fdd3a223fb805ac67904b232a11">More...</a><br/></td></tr>
+<tr class="separator:gaa68e8fdd3a223fb805ac67904b232a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf66e5a28395d9327d8ad8ac87ef1a793"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaf66e5a28395d9327d8ad8ac87ef1a793">getParameterInfo</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
+<tr class="memdesc:gaf66e5a28395d9327d8ad8ac87ef1a793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters info.  <a href="group__plugin__parameters.html#gaf66e5a28395d9327d8ad8ac87ef1a793">More...</a><br/></td></tr>
+<tr class="separator:gaf66e5a28395d9327d8ad8ac87ef1a793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadae17115b2f4f495c9efc0731f6edc8d"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gadae17115b2f4f495c9efc0731f6edc8d">getParameterValueAsString</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
+<tr class="memdesc:gadae17115b2f4f495c9efc0731f6edc8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters value as char*.  <a href="group__plugin__parameters.html#gadae17115b2f4f495c9efc0731f6edc8d">More...</a><br/></td></tr>
+<tr class="separator:gadae17115b2f4f495c9efc0731f6edc8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga84b94557376c266089da082fefc1d67e"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC void *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga84b94557376c266089da082fefc1d67e">getParameterValueAsPointer</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
+<tr class="memdesc:ga84b94557376c266089da082fefc1d67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters value as a void*.  <a href="group__plugin__parameters.html#ga84b94557376c266089da082fefc1d67e">More...</a><br/></td></tr>
+<tr class="separator:ga84b94557376c266089da082fefc1d67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga338a9a078aefd2020a3346f6c256d7df"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga338a9a078aefd2020a3346f6c256d7df">getParameterName</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
+<tr class="memdesc:ga338a9a078aefd2020a3346f6c256d7df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters name.  <a href="group__plugin__parameters.html#ga338a9a078aefd2020a3346f6c256d7df">More...</a><br/></td></tr>
+<tr class="separator:ga338a9a078aefd2020a3346f6c256d7df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab53958f205b05ec830ebfe776d2b222f"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gab53958f205b05ec830ebfe776d2b222f">getParameterHint</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
+<tr class="memdesc:gab53958f205b05ec830ebfe776d2b222f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters hint.  <a href="group__plugin__parameters.html#gab53958f205b05ec830ebfe776d2b222f">More...</a><br/></td></tr>
+<tr class="separator:gab53958f205b05ec830ebfe776d2b222f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa32964e8f6f17b57df4940e06a5fad48"><td class="memItemLeft" align="right" valign="top">RRP_DECLSPEC char *rrp_cc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaa32964e8f6f17b57df4940e06a5fad48">getParameterType</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
+<tr class="memdesc:gaa32964e8f6f17b57df4940e06a5fad48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters type.  <a href="group__plugin__parameters.html#gaa32964e8f6f17b57df4940e06a5fad48">More...</a><br/></td></tr>
+<tr class="separator:gaa32964e8f6f17b57df4940e06a5fad48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Plugins API Parameters Header. </p>
@@ -161,7 +163,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 3 2013 12:43:57 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 4 2013 14:52:33 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>
