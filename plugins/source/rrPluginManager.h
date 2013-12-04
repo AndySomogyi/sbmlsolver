@@ -37,13 +37,13 @@ class PLUGINS_API_DECLSPEC PluginManager
         std::vector< std::pair< Poco::SharedLibrary*, Plugin* > > mPlugins;
 
         //This is a handle to a roadRunner instance
-        RoadRunner                     *mRR;
+//        RoadRunner                     *mRR;
         bool                            checkImplementationLanguage(SharedLibrary* plugin);
         const char*                     getImplementationLanguage(SharedLibrary* plugin);
         Plugin*                         createCPlugin(SharedLibrary *libHandle);
 
     public:
-                                        PluginManager(RoadRunner* aRR = NULL, const string& pluginFolder = gEmptyString, const bool& autoLoad = false);
+                                        PluginManager(const string& pluginFolder = gEmptyString, const bool& autoLoad = false);
         virtual                        ~PluginManager();
         bool                            setPluginDir(const string& dir);
         string                          getPluginDir();
@@ -57,7 +57,7 @@ class PLUGINS_API_DECLSPEC PluginManager
         Plugin*                         getPlugin(const int& i);
         Plugin*                         getPlugin(const string& name);
         Plugin*                         operator[](const int& i);
-        void                            setRoadRunner(RoadRunner* aRR);
+//        void                            setRoadRunner(RoadRunner* aRR);
         std::vector<string>             getPluginNames();
 };
 
