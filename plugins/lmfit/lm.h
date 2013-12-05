@@ -3,7 +3,7 @@
 #include <vector>
 #include "rrCapability.h"
 #include "rrParameter.h"
-#include "rrPlugin.h"
+#include "rrCPPPlugin.h"
 #include "rrRoadRunner.h"
 #include "rrc_types.h"
 #include "LMWorker.h"
@@ -16,7 +16,7 @@ using namespace rrp;
 using rr::RoadRunner;
 using std::string;
 
-class LM : public Plugin
+class LM : public CPPPlugin
 {
     friend class LMWorker;
 

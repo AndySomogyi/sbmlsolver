@@ -94,7 +94,6 @@ C_DECL_SPEC bool rrcCallConv disableLoggingToConsole(void);
  \return Returns true if succesful, false otherwise
  \ingroup logging
 */
-
 C_DECL_SPEC bool rrcCallConv enableLoggingToFile(RRHandle handle);
 
 /*!

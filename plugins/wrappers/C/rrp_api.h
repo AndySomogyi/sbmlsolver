@@ -56,7 +56,7 @@ namespace rrp { extern "C" {
  \return On success, a handle to a Plugin manager, on failure, NULL.
  \ingroup plugin_manager
  */
-RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager(void);
+RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager();
 
 /*!
  \brief Create a new instance of a plugin manager.
@@ -130,17 +130,53 @@ RRP_DECLSPEC int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle);
 RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle);
 
 /*!
+ \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
+ This function is typically used together with the getNextPlugin and the getPreviousPlugin functions.
+ \param handle Handle to a PluginManager instance
+ \return Returns a handle to a plugin. Returns NULL if the plugin is not found
+ \ingroup plugin_manager
+*/
+RRP_DECLSPEC RRPluginHandle rrp_cc getFirstPlugin(RRPluginManagerHandle handle);
+
+/*!
+ \brief getNextPlugin retrieves the "next" plugin in the plugin managers internal list of plugins. This function
+    is typically used together with the getFirstPlugin and getPreviousPlugin functions.
+ \param handle Handle to a PluginManager instance
+ \return Returns a handle to a plugin. Returns NULL if the plugin is not found
+ \ingroup plugin_manager
+*/
+RRP_DECLSPEC RRPluginHandle rrp_cc getNextPlugin(RRPluginManagerHandle handle);
+
+/*!
+ \brief getPreviousPlugin retrieves the "previous" plugin in the plugin managers internal list of plugins. This function
+    is typically used together with the getFirstPlugin and getNextPlugin functions.
+ \param handle Handle to a PluginManager instance
+ \return Returns a handle to a plugin. Returns NULL if the plugin is not found
+ \ingroup plugin_manager
+*/
+RRP_DECLSPEC RRPluginHandle rrp_cc getPreviousPlugin(RRPluginManagerHandle handle);
+
+/*!
+ \brief getCurrentPlugin retrieves the "current" plugin in the plugin managers internal list of plugins. This function
+    is typically used together with the getFirst, Next and getPreviousPlugin functions.
+ \param handle Handle to a PluginManager instance
+ \return Returns a handle to a plugin. Returns NULL if the plugin is not found
+ \ingroup plugin_manager
+*/
+RRP_DECLSPEC RRPluginHandle rrp_cc getCurrentPlugin(RRPluginManagerHandle handle);
+
+/*!
  \brief GetPluginHandle
  \param handle Handle to a PluginManager instance
  \param pluginName Pointer to string holding the name of a plugin
- \return Returns a handle to a plugin, with name as supplied in the parameter pluginName. 
+ \return Returns a handle to a plugin, with name as supplied in the parameter pluginName.
  Returns NULL if the plugin is not found
  \ingroup plugin_manager
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* pluginName);
 
 /*!
- \brief Get a handle to a plugins shared library 
+ \brief Get a handle to a plugins shared library
  \param handle Handle to a PluginManager instance
  \param pluginHandle Handle to a plugin
  \return Returns a handle to the shared library holding a plugin. Returns  -1 if the handle can't be retrieved.
@@ -185,11 +221,21 @@ RRP_DECLSPEC unsigned char* rrp_cc getPluginManualAsPDF(RRPluginHandle handle);
 RRP_DECLSPEC unsigned int rrp_cc getPluginManualNrOfBytes(RRPluginHandle handle);
 
 /*!
- \brief The executePlugin function is the function designated to fire of a Plugins "worker". 
- What is done when this function is entered is plugin dependent. 
+ \brief Assign a roadrunner instance handle for the plugin to use.
+    A plugin may use an externally created roadrunner instance for its internal work.
+  \param pHandle Handle to a plugin
+  \param rrHandle Handle to a plugin
+  \return Returns true or false indicating success/failure
+ \ingroup plugins
+*/
+RRP_DECLSPEC bool rrp_cc assignRoadRunnerInstance(RRPluginHandle pHandle, RRHandle rrHandle);
+
+/*!
+ \brief The executePlugin function is the function designated to fire of a Plugins "worker".
+ What is done when this function is entered is plugin dependent.
  \param handle Handle to a plugin
  \return Returns true or false indicating success/failure
- \note The execute function is blocking. If the plugin is todo long work, consider using 
+ \note The execute function is blocking. If the plugin is todo long work, consider using
  the executePluginEx function that have the option to execute the plugin code in a thread.
  \ingroup plugins
 */

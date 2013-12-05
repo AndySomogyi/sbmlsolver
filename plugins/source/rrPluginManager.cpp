@@ -25,7 +25,7 @@ using Poco::Glob;
 //Convenient function pointers
 typedef Plugin*     (*createRRPluginFunc)(RoadRunner*, PluginManager*);
 typedef char*       (*charStarFnc)();
-typedef bool        (*setupCPluginFnc)(RoadRunner*);
+typedef bool        (*setupCPluginFnc)(Plugin*);
 typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool destroyRRPlugin(Plugin *plugin);
@@ -33,7 +33,6 @@ bool destroyRRPlugin(Plugin *plugin);
 PluginManager::PluginManager(const std::string& folder, const bool& autoLoad)
 :
 mPluginFolder(folder),
-//mRR(aRR),
 mPluginExtension(getPluginExtension())
 {
 
@@ -49,11 +48,6 @@ PluginManager::~PluginManager()
     unloadAll();
 }
 
-//void PluginManager::setRoadRunner(RoadRunner* aRR)
-//{
-//    mRR = aRR;
-//}
-
 bool PluginManager::setPluginDir(const string& dir)
 {
     mPluginFolder = dir;
@@ -63,6 +57,50 @@ bool PluginManager::setPluginDir(const string& dir)
 string PluginManager::getPluginDir()
 {
     return mPluginFolder;
+}
+
+Plugin* PluginManager::getFirstPlugin()
+{
+    mPluginsIter = mPlugins.begin();
+    if(mPluginsIter != mPlugins.end())
+    {
+        return (*mPluginsIter).second;
+    }
+    return NULL;
+}
+
+Plugin* PluginManager::getCurrentPlugin()
+{
+    if(mPluginsIter != mPlugins.end())
+    {
+        return (*mPluginsIter).second;
+    }
+    return NULL;
+}
+
+Plugin* PluginManager::getNextPlugin()
+{
+    mPluginsIter++;
+    if(mPluginsIter != mPlugins.end())
+    {
+        return (*mPluginsIter).second;
+    }
+    return NULL;
+}
+
+Plugin* PluginManager::getPreviousPlugin()
+{
+    mPluginsIter--;
+    if(mPluginsIter != mPlugins.end())
+    {
+        return (*mPluginsIter).second;
+    }
+    return NULL;
+}
+
+Plugin* PluginManager::getPlugin(const int& i)
+{
+    return (*this)[i];
 }
 
 Plugin* PluginManager::operator[](const int& i)
@@ -78,16 +116,16 @@ Plugin* PluginManager::operator[](const int& i)
     }
 }
 
-
 bool PluginManager::load(const string& pluginName)
 {
     Log(lInfo) << "load: " << pluginName;
 
     bool result = true;
+
     //Throw if plugin folder don't exist
     if(!folderExists(mPluginFolder))
     {
-        Log(Logger::LOG_ERROR)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
+        Log(lError)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
         return false;
     }
 
@@ -104,7 +142,7 @@ bool PluginManager::load(const string& pluginName)
         Glob::glob(globPath, files);
     }
 
-    std::set<std::string>::iterator it = files.begin();
+    set<string>::iterator it = files.begin();
     //Try to load.. failing to load a plugin do not mean we abort. Catch and report the problem
     for (; it != files.end(); ++it)
     {
@@ -115,13 +153,13 @@ bool PluginManager::load(const string& pluginName)
             bool res = loadPlugin(plugin);
             if(!res)
             {
-                Log(Logger::LOG_ERROR)<<"There was a problem loading plugin: "<<plugin;
+                Log(lError)<<"There was a problem loading plugin: "<<plugin;
                 result = false;
             }
         }
         catch(...)
         {
-            Log(Logger::LOG_ERROR)<<"There was a serious problem loading plugin: "<<plugin;
+            Log(lError)<<"There was a serious problem loading plugin: "<<plugin;
             result = false;
         }
         //catch(poco exception....
@@ -169,10 +207,8 @@ bool PluginManager::loadPlugin(const string& _libName)
                 return false;
             }
             aPlugin->setLibraryName(getFileNameNoExtension(libName));
-            Capabilities *caps = aPlugin->getCapabilities();
-            // TODO xmlconfig
-            // mRR->addCapabilities(*(caps));
-            pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
+
+            rrPlugin storeMe(libHandle, aPlugin);
             mPlugins.push_back( storeMe );
             return true;
         }
@@ -185,13 +221,8 @@ bool PluginManager::loadPlugin(const string& _libName)
             if(aPlugin)
             {
                 aPlugin->setLibraryName(getFileNameNoExtension(libName));
-                //Add plugins capabilities to roadrunner
-                Capabilities *caps = aPlugin->getCapabilities();
 
-                // TODO xmlconfig
-                // mRR->addCapabilities(*(caps));
-
-                pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
+                rrPlugin storeMe(libHandle, aPlugin);
                 mPlugins.push_back( storeMe );
             }
             return true;
@@ -207,13 +238,13 @@ bool PluginManager::loadPlugin(const string& _libName)
     catch(const Exception& e)
     {
         msg<<"RoadRunner exception: "<<e.what()<<endl;
-        Log(Logger::LOG_ERROR)<<msg.str();
+        Log(lError)<<msg.str();
         return false;
     }
     catch(const Poco::Exception& ex)
     {
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-        Log(Logger::LOG_ERROR)<<msg.str();
+        Log(lError)<<msg.str();
         return false;
     }
     catch(...)
@@ -228,7 +259,7 @@ bool PluginManager::unloadAll()
     int nrPlugins = getNumberOfPlugins();
     for(int i = 0; i < nrPlugins; i++)
     {
-        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        rrPlugin* aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
         {
             SharedLibrary *pluginLibHandle    = aPluginLib->first;
@@ -260,10 +291,9 @@ bool PluginManager::unload(Plugin* plugin)
     int nrPlugins = getNumberOfPlugins();
 
     //Todo: test..!
-    for(vector< pair< Poco::SharedLibrary*, Plugin* > >::iterator it = mPlugins.begin();
-            it != mPlugins.end(); it++)
+    for(vector< rrPlugin >::iterator it = mPlugins.begin(); it != mPlugins.end(); it++)
     {
-        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(*it);
+        rrPlugin *aPluginLib = &(*it);
         if(aPluginLib)
         {
             SharedLibrary *pluginLibHandle    = aPluginLib->first;
@@ -284,7 +314,9 @@ bool PluginManager::unload(Plugin* plugin)
                 aPluginLib->first = NULL;
                 aPluginLib->second = NULL;
                 aPluginLib = NULL;
-                mPlugins.erase(it);
+
+                //Reset the plugins iterator to a valid one
+                mPluginsIter = mPlugins.erase(it);
                 result = true;
                 break;
             }
@@ -305,7 +337,7 @@ bool PluginManager::checkImplementationLanguage(Poco::SharedLibrary* plugin)
     {
         stringstream msg;
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-        Log(Logger::LOG_ERROR)<<msg.str();
+        Log(lError)<<msg.str();
         return false;
     }
 }
@@ -322,7 +354,7 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
     {
         stringstream msg;
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-        Log(Logger::LOG_ERROR)<<msg.str();
+        Log(lError)<<msg.str();
         return NULL;
     }
 }
@@ -356,16 +388,11 @@ int PluginManager::getNumberOfCategories()
     return -1;
 }
 
-Plugin* PluginManager::getPlugin(const int& i)
-{
-    return (*this)[i];
-}
-
 Plugin* PluginManager::getPlugin(const string& name)
 {
     for(int i = 0; i < getNumberOfPlugins(); i++)
     {
-        pair< Poco::SharedLibrary*, Plugin* >  aPluginLib = mPlugins[i];
+        rrPlugin aPluginLib = mPlugins[i];
         if(aPluginLib.first && aPluginLib.second)
         {
             Plugin* aPlugin = (Plugin*) aPluginLib.second;
@@ -389,20 +416,23 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
         //Minimum bare bone plugin need these
         charStarFnc         getName             = (charStarFnc)        libHandle->getSymbol("getName");
         charStarFnc         getCategory         = (charStarFnc)        libHandle->getSymbol("getCategory");
-        setupCPluginFnc     setupCPlugin        = (setupCPluginFnc)    libHandle->getSymbol("setupCPlugin");
-        executeFnc          executeFunc         = (executeFnc)         libHandle->getSymbol("executePlugin");
 
         char* name  = getName();
         char* cat   = getCategory();
-        bool  res   = setupCPlugin(NULL);
-
         CPlugin* aPlugin = new CPlugin(name, cat);
-        aPlugin->assignExecuteFunction(executeFunc);
+
+        aPlugin->executeFunction = (executeF)         libHandle->getSymbol("executePlugin");
+        aPlugin->destroyFunction = (destroyF)         libHandle->getSymbol("destroyPlugin");
+
+        setupCPluginFnc     setupCPlugin        = (setupCPluginFnc)    libHandle->getSymbol("setupCPlugin");
+
+        //This give the C plugin an opaque Handle to the CPlugin object
+        setupCPlugin(aPlugin);
         return aPlugin;
     }
     catch(const Poco::NotFoundException& ex)
     {
-        Log(Logger::LOG_ERROR)<<"Error in createCPlugin: " <<ex.message();
+        Log(lError)<<"Error in createCPlugin: " <<ex.message();
         return NULL;
     }
     return NULL;
@@ -412,7 +442,7 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
 // Plugin cleanup function
 bool destroyRRPlugin(Plugin *plugin)
 {
-    //we allocated in the factory with new, delete the passed object
+    //we allocated in the create function with new, delete the passed object
     try
     {
         delete plugin;
@@ -433,7 +463,7 @@ char* getPluginExtension()
 #if defined(_WIN32) || defined(__WIN32__)
     return "dll";
 #elif defined(UNIX)
-    return "a"; //?? not so??
+    return "a";
 #else
     // OSX
     return "dylib";

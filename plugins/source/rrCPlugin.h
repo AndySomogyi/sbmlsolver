@@ -6,31 +6,28 @@
 namespace rrp
 {
 
-typedef bool  (*executeFnc)(void*, bool);
+typedef bool  (*executeF)(void*, bool);
+typedef bool  (*destroyF)();
 
 /**
  * @internal
  */
 class PLUGINS_API_DECLSPEC CPlugin : public Plugin
 {
-    private:
+    friend PluginManager;
 
     protected:
-        executeFnc              executeFunction;
+        executeF                executeFunction;
+        destroyF                 destroyFunction;
 
     public:
-                                CPlugin(const std::string& name,
-                                    const std::string& cat = gNoneString,
-                                    RoadRunner* aRR = NULL);
+                                CPlugin(const string& name, const string& cat = gNoneString,
+                                            RoadRunner* aRR = NULL);
 
         virtual                ~CPlugin();
         string                  getImplementationLanguage();
         virtual bool            execute(void* userData = NULL, bool useThread = false);
 
-        void                    assignExecuteFunction(executeFnc func);
-
-//        virtual _xmlNode*       createConfigNode();
-//        virtual void            loadConfig(const _xmlDoc* doc);
 };
 
 }
