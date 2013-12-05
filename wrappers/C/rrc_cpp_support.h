@@ -45,11 +45,15 @@
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
 #include "rrRoadRunnerData.h"
-#include "rrRoadRunnerList.h"
 #include "rrStringList.h"
 #include "rrNewArrayList.h"
 #include "rrc_types.h"
 #include "rrc_exporter.h"
+
+namespace rr
+{
+class RoadRunner;
+}
 
 //When using the rrc_core_api from C++, the following routines are useful
 namespace rrc

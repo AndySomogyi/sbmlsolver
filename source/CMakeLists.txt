@@ -36,7 +36,6 @@ set(rrSources
     rrIniSection
     rrIniFile
     rrFileName
-    rrRoadRunnerList
     rrRoadRunnerData
     rrSelectionRecord
     rrModelGeneratorFactory
