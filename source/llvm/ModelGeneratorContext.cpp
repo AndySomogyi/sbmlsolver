@@ -332,14 +332,14 @@ void ModelGeneratorContext::initFunctionPassManager()
     {
         functionPassManager = new FunctionPassManager(module);
 
-	// Set up the optimizer pipeline.  Start with registering info about how the
-	// target lays out data structures.
+    // Set up the optimizer pipeline.  Start with registering info about how the
+    // target lays out data structures.
 
-	// we only support LLVM >= 3.1        
+    // we only support LLVM >= 3.1
 #if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
-	functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
+    functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
 #else
-	functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+    functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
 #endif
 
          // Provide basic AliasAnalysis support for GVN.
@@ -348,37 +348,37 @@ void ModelGeneratorContext::initFunctionPassManager()
 
         if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
         {
-            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
+            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
             functionPassManager->add(createInstructionSimplifierPass());
         }
 
         if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_COMBINING)
         {
-            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_INSTRUCTION_COMBINING";
+            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_COMBINING";
             functionPassManager->add(createInstructionCombiningPass());
         }
 
         if(options & ModelGenerator::OPTIMIZE_GVN)
         {
-            Log(Logger::LOG_NOTICE) << "using GVN optimization";
+            Log(Logger::LOG_INFORMATION) << "using GVN optimization";
             functionPassManager->add(createGVNPass());
         }
 
         if (options & ModelGenerator::OPTIMIZE_CFG_SIMPLIFICATION)
         {
-            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_CFG_SIMPLIFICATION";
+            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_CFG_SIMPLIFICATION";
             functionPassManager->add(createCFGSimplificationPass());
         }
 
         if (options & ModelGenerator::OPTIMIZE_DEAD_INST_ELIMINATION)
         {
-            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
+            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
             functionPassManager->add(createDeadInstEliminationPass());
         }
 
         if (options & ModelGenerator::OPTIMIZE_DEAD_CODE_ELIMINATION)
         {
-            Log(Logger::LOG_NOTICE) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
+            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
             functionPassManager->add(createDeadCodeEliminationPass());
         }
 
