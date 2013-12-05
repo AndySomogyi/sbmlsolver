@@ -198,10 +198,10 @@ rrLib.setMatrixElement.restype = c_bool
 rrLib.setMatrixElement.argtypes = [c_int, c_int, c_int, c_double]
 rrLib.getRRDataNumRows.restype = c_int
 rrLib.getRRDataNumCols.restype = c_int
-rrLib.getRRDataElement.restype = c_bool
+rrLib.getRRCDataElement.restype = c_bool
 rrLib.getRRDataColumnLabel.restype = c_char_p
-rrLib.getCCodeHeader.restype = c_char_p
-rrLib.getCCodeSource.restype = c_char_p
+#rrLib.getCCodeHeader.restype = c_char_p
+#rrLib.getCCodeSource.restype = c_char_p
 
 rrLib.isListItemInteger.resType = c_bool
 rrLib.isListItemDouble.resType = c_bool

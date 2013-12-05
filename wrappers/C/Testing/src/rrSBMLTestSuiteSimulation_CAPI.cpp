@@ -30,7 +30,7 @@ SBMLTestSuiteSimulation_CAPI::~SBMLTestSuiteSimulation_CAPI()
     // we own the result, but not the RR instance.
     if(mResultHandle)
     {
-        freeRRData(mResultHandle);
+        freeRRCData(mResultHandle);
     }
 }
 

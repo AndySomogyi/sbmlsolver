@@ -315,7 +315,7 @@ void evaluate(const double *par,       //Parameter vector
             count++;
         }
     }
-    freeRRData(rrcData);
+    freeRRCData(rrcData);
 }
 
 void LMWorker::createModelData(RoadRunnerData& data)

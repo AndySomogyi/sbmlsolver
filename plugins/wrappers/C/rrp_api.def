@@ -12,19 +12,11 @@ unLoadPlugin                                    = _unLoadPlugin
 loadPlugins                                     = _loadPlugins
 unLoadPlugins                                   = _unLoadPlugins
 getPluginNames                                  = _getPluginNames
-
-;Functions taking a parameter handle
-createParameter                                 = _createParameter
-getParameterValueAsString                       = _getParameterValueAsString
-getParameterValueAsPointer                      = _getParameterValueAsPointer
-setPluginInputData                              = _setPluginInputData
-addParameterToList                              = _addParameterToList
-getParameterInfo                                = _getParameterInfo
-setParameterByString                            = _setParameterByString
-setIntParameter                                 = _setIntParameter
-setDoubleParameter                              = _setDoubleParameter
-setStringParameter                              = _setStringParameter
-getParameterType                                = _getParameterType
+getPlugin                                       = _getPlugin
+getFirstPlugin                                  = _getFirstPlugin
+getNextPlugin                                   = _getNextPlugin
+getPreviousPlugin                               = _getPreviousPlugin
+getCurrentPlugin                                = _getCurrentPlugin
 
 ;Functions taking a plugin handle
 getPluginParameters                             = _getPluginParameters
@@ -46,6 +38,21 @@ assignPluginFinishedCallBack                    = _assignPluginFinishedCallBack
 isPluginWorking                                 = _isPluginWorking
 isBeingTerminated                               = _isBeingTerminated
 wasTerminated                                   = _wasTerminated
+assignRoadRunnerInstance                        = _assignRoadRunnerInstance
+getRRHandleFromPlugin                           = _getRRHandleFromPlugin
+
+;Functions taking a parameter handle
+createParameter                                 = _createParameter
+getParameterValueAsString                       = _getParameterValueAsString
+getParameterValueAsPointer                      = _getParameterValueAsPointer
+setPluginInputData                              = _setPluginInputData
+addParameterToList                              = _addParameterToList
+getParameterInfo                                = _getParameterInfo
+setParameterByString                            = _setParameterByString
+setIntParameter                                 = _setIntParameter
+setDoubleParameter                              = _setDoubleParameter
+setStringParameter                              = _setStringParameter
+getParameterType                                = _getParameterType
 
 
 
