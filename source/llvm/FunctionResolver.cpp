@@ -8,6 +8,7 @@
 #include "FunctionResolver.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
+#include "rrStringUtils.h"
 
 namespace rrllvm
 {
@@ -54,12 +55,16 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
 
         if (!math->isLambda())
         {
-            throw_llvm_exception("math elemetn of function definition must be a lambda");
+            throw_llvm_exception(symbol + ", math elemetn of function definition must be a lambda");
         }
 
         if (math->getNumChildren() != args.size() + 1)
         {
-            throw_llvm_exception("argument count does not match");
+            string expected = rr::toString(args.size() + 1);
+            string got = rr::toString(math->getNumChildren());
+
+            throw_llvm_exception(symbol + ", argument count does not match, expected " +
+                    expected + ", recieved: " + got);
         }
 
         symbols = new map<string, Value*>();

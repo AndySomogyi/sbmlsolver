@@ -45,7 +45,6 @@
 #include <sstream>
 #include <fstream>
 #include "rrRoadRunner.h"
-#include "rrRoadRunnerList.h"
 #include "c/rrCModelGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
@@ -555,7 +554,7 @@ RRDataHandle rrcCallConv simulate(RRHandle handle)
 
         rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
         return (RRDataHandle) rri->simulate();
-        
+
     catch_ptr_macro
 }
 

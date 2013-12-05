@@ -306,7 +306,7 @@ bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
  */
 void ConservationExtension::init()
 {
-    std::cout << __FUNC__ << std::endl;
+    //std::cout << __FUNC__ << std::endl;
 
     initilized = true;
     //-------------------------------------------------------------------------
@@ -399,7 +399,7 @@ void ConservationExtension::init()
     }
     else
     {
-        std::cout << "successfully registered conservation extension" << std::endl;
+        //std::cout << "successfully registered conservation extension" << std::endl;
     }
 }
 
