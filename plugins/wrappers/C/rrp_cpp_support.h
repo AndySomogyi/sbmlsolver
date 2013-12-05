@@ -1,14 +1,32 @@
 #ifndef rrp_cpp_supportH
 #define rrp_cpp_supportH
 #include "rrp_api.h"
-
+#include "rrRoadRunnerData.h"
 namespace rrp
 {
 template <class T>
 class Parameter;
 class Parameters;
 class BaseParameter;
-class MinimizationData;
+class Plugin;
+class PluginManager;
+
+
+/*!
+ \brief Cast a handle to RoadRunner PluginManager pointer, throws if it fails
+ \param[in] handle  A RRPluginManagerHandle
+ \return Pointer to a PluginManager object
+ \ingroup cpp_support
+*/
+PluginManager*                       castToPluginManager(RRPluginManagerHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Plugin pointer, throws if it fails
+ \param[in] handle  A RRPluginHandle
+ \return Pointer to a Plugin object
+ \ingroup cpp_support
+*/
+Plugin*                             castToPlugin(RRPluginHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner Parameters pointer, throws if it fails
@@ -50,13 +68,14 @@ Parameter<double>*                  castToDoubleParameter(RRParameterHandle hand
 */
 Parameter<char*>*                   castToStringParameter(RRParameterHandle handle);
 
+//Result data
 /*!
- \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails
- \param[in] handle  A handle to a roadrunner minimization data instance
- \return Pointer to a minimization data instance
+ \brief Creates a RRData structure from rr::RoadRunnerData object
+ \param[in] data  Input RoadRunner data
+ \return A handle to a RRData structure. Null if it fails
  \ingroup cpp_support
 */
-MinimizationData*                   castToMinimizationData(RRMinimizationDataHandle handle);
+RRCDataPtr                          createRRCData(const rr::RoadRunnerData& result);
 
 }
 

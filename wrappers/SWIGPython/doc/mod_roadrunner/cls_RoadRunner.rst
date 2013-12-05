@@ -28,7 +28,7 @@
    Creates a new SelectionRecord for the given selection string.
 
 
-.. method:: RoadRunner.computeSteadyStateValue(*args)
+.. method:: RoadRunner.getSteadyStateValues(*args)
 
    Returns a vector of steady state values for the floating species. The order of
    species in the vector is indicated by the order of species Ids in a call to
@@ -326,7 +326,7 @@
    :rtype: numpy.ndarray
 
 
-.. method:: RoadRunner.getSelectionValue(sel)
+.. method:: RoadRunner.getValue(sel)
 
    Returns the value for a given selection.
 
@@ -357,13 +357,6 @@
 .. attribute:: RoadRunner.selections
    :module: roadrunner
 
-.. attribute:: RoadRunner.steadyStateSelections
-
-   A list of SelectionRecords which determine what values are used for 
-   a steady state calculation. This list may be set by assigning a list
-   of valid selection symbols::
-
-     r.steadyStateSelections = ['S1', '[S2]', 'P1']
 
 
 .. method:: RoadRunner.createSelection(sel)
@@ -546,15 +539,6 @@
    Get the SimulateOptions object where simulation options may be set.
 
 
-.. method:: RoadRunner.steadyState()
-   :module: roadrunner
-
-   Attempt to evaluate the steady state for the model. The method returns
-   a value that indicates how close the solution is to the steady state.
-   The smaller the value the better. Values less than 1E-6 usually indicate a
-   steady state has been found. If necessary the method can be called a
-   second time to improve the solution.
-
 
 
 .. py:function:: RoadRunner_getCopyright()
@@ -602,3 +586,44 @@
 
    :returns: Returns true if successful
 
+
+.. Steady State Section
+
+.. attribute:: RoadRunner.steadyStateSelections
+
+   A list of SelectionRecords which determine what values are used for 
+   a steady state calculation. This list may be set by assigning a list
+   of valid selection symbols::
+
+     r.steadyStateSelections = ['S1', '[S2]', 'P1']
+
+
+.. method:: RoadRunner.steadyState()
+   :module: roadrunner
+
+   Attempt to evaluate the steady state for the model. The method returns
+   a value that indicates how close the solution is to the steady state.
+   The smaller the value the better. Values less than 1E-6 usually indicate a
+   steady state has been found. If necessary the method can be called a
+   second time to improve the solution.
+
+   :returns: the sum of squares of the steady state solution.
+
+   :rtype: double
+
+
+.. method:: RoadRunner.getSteadyStateValues()
+   :module: roadrunner
+    
+   Performs a steady state calculation (evolves the system to a steady
+   state), then calculates and returns the set of values specifed by
+   the steady state selections.
+
+   :returns: a numpy array corresponding to the values specified by steadyStateSelections
+
+   :rtype: numpy.ndarray
+
+
+
+
+      

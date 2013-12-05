@@ -1,26 +1,18 @@
 from numpy import *
-from matplotlib import *
 from matplotlib.pyplot import *
-from rrPython import *
 from rrPlugins import *
+sbmlModel ="../models/feedback.xml"
 
-sbmlModel ="../models/squareWaveModel.xml"
-setTempFolder('r:/temp')
-
+rr = roadrunner.RoadRunner()
 #Check temporary folder setting
-tempFolder=rr.getTempFolder()
-print 'TempFolder is: ' + tempFolder
+#tempFolder=rr.getTempFolder()
+#print 'TempFolder is: ' + tempFolder
 
-enableLogging()
-result = loadSBMLFromFile(sbmlModel)
-
+result = rr.load(sbmlModel)
 print 'Result of loading sbml: %r' % (result);
-#setTimeCourseSelectionList("time,S1")
-rrDataHandle = simulateEx(0, 100, 1000)
 
-rrcData = createRRCData(rrDataHandle)
-npData = getNPData(rrcData)
-print npData
+steps = 100
+rr.simulate(0, 15, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin("rrp_add_noise")
@@ -37,16 +29,16 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-setDoubleParameter(sigmaHandle, 1.e-1)
+setDoubleParameter(sigmaHandle, 1.e-2)
 
+rrDataHandle = getRoadRunnerDataHandle(rr)
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
-#Input Data
-results = getSimulationResult()
-S1_input = results[:,1]
-x = numpy.arange(0, len(S1_input), 1)
-
+rrcData = createRRCData(rrDataHandle)
+npData = getNPData(rrcData)
+x = npData[:,0]
+yInput = npData[:,1]
 
 #The plugin does it work in a thread, so don't proceed until it is done
 while isPluginWorking(noisePlugin) == True:
@@ -68,16 +60,15 @@ paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 paraList = getParameterValueAsPointer(paraHandle);
 
 #Add parameters to fit
-para1 = createParameter("k1", "double")
+para1 = createParameter("J0_VM1", "double")
 setDoubleParameter(para1, 0.2)
 addParameterToList(paraList, para1)
 
 #Input Data
-#rrData = getRoadRunnerData()
 setPluginInputData(lmPlugin, rrDataHandle)
 
 #set species to fit
-species = "[S1]"
+species = "[S1] [S2] [S3] [S4]"
 paraHandle = getPluginParameter(lmPlugin, "ModelDataSelectionList");
 setParameterByString(paraHandle, species)
 
@@ -105,17 +96,35 @@ print getPluginStatus(lmPlugin)
 #dataFile = tempFolder +
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueAsPointer(dataPHandle)
-writeRRData(dataHandle, tempFolder + "/ModelData.dat")
+rrcData = createRRCData(dataHandle)
+npData = getNPData(rrcData)
+S1 = npData[:,1]
+S2 = npData[:,2]
+S3 = npData[:,3]
+S4 = npData[:,4]
 
-dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
+
+#Observed data should be the same as the input data, see above
+##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
+##dataHandle = getParameterValueAsPointer(dataPHandle)
+##rrcData = createRRCData(dataHandle)
+##npData = getNPData(rrcData)
+##yOutput2 = npData[:,1]
+##length = len(yOutput)
+
+dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
 dataHandle = getParameterValueAsPointer(dataPHandle)
-writeRRData(dataHandle, tempFolder + "/Observed.dat")
+rrcData = createRRCData(dataHandle)
+npData = getNPData(rrcData)
+yOutput3 = npData[:,1]
 
-unloadAPI()
-rr.unloadAPI()
-t = arange(0.0, 2.0, 0.01)
-s = sin(2*pi*t)
-plot(t, s)
+plot(x, yInput,'*g')
+plot(x, S1, '-r')
+plot(x, S2, '-r')
+plot(x, S3, '-r')
+plot(x, S4, '-r')
+#plot(x, yOutput2, '*')
+plot(x, yOutput3, 'o')
 
 show()
 print "done"

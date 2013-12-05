@@ -19,9 +19,6 @@ class TestPlugin : public rrp::CPPPlugin
                                    ~TestPlugin();
         
         bool                        execute(void* userData, bool inThread = false);
-        virtual _xmlNode*           createConfigNode(){return NULL;}
-        virtual void                loadConfig(const _xmlDoc* doc){}
-
 };
 
 extern "C"

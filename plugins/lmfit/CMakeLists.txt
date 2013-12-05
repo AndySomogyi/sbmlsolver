@@ -37,16 +37,8 @@ if(WIN32)
 target_link_libraries (${target}
 lmfit-static
 rrplugins_api-static
+rrplugins_c_api                 
 rrc_api                 
-#roadrunner-static
-#poco_foundation-static
-#blas
-#lapack
-#rr-libstruct-static
-#libf2c
-#sundials_cvode
-#sundials_nvecserial
-#nleq-static
 )
 
 else() 

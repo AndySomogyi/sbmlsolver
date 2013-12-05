@@ -41,13 +41,11 @@
 #ifndef rrc_macrosH
 #define rrc_macrosH
 
-
 //=================== MACROS ================================
 /*!
  \brief macro to open a try/catch statement
  \ingroup macros
 */
-
 #define start_try                                           \
         try                                                 \
         {
@@ -57,6 +55,7 @@
  \ingroup macros
 */
 #define  catch_bool_macro                                   \
+    }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
         stringstream msg;                                   \
@@ -70,6 +69,7 @@
  \ingroup macros
 */
 #define  catch_ptr_macro                                    \
+    }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
         stringstream msg;                                   \
@@ -83,6 +83,7 @@
  \ingroup macros
 */
 #define catch_int_macro                                     \
+    }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
         stringstream msg;                                   \
@@ -96,11 +97,12 @@
  \ingroup macros
 */
 #define catch_void_macro                                    \
+    }                                                       \
     catch(const exception& ex)                              \
     {                                                       \
         stringstream msg;                                   \
         msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
         setError(msg.str());                                \
-    }                                                       \
+    }
 
 #endif

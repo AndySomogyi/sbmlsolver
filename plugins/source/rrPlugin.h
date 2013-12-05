@@ -3,10 +3,8 @@
 #include <sstream>
 #include <string>
 #include "rrPluginsAPIExporter.h"
-#include "rrOSSpecifics.h"
 #include "rrPluginsAPISettings.h"
 #include "rrCapabilities.h"
-#include "Configurable.h"
 
 namespace rr
 {
@@ -23,10 +21,7 @@ typedef void    (callback_cc *PluginCallBackFnc)(void* data1, void* data2);
 
 using std::string;
 
-/**
- * @internal
- */
-class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
+class PLUGINS_API_DECLSPEC Plugin
 {
     protected:
         string                          mName;
@@ -36,6 +31,10 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         string                          mVersion;
         string                          mCopyright;
         string                          mImplementationLanguage;
+
+                                        //! Boolean indicating if a user wants to terminate the work in a plugin
+        bool                            mTerminate;
+        bool                            mIsWorking; //Set to true if plugin is working
 
         /**
          * a pointer to a RoadRunner instance which the plugin
@@ -97,6 +96,14 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         BaseParameter*                  getParameter(const string& param, Capability& capability);
         bool                            setParameter(const string& nameOf, const char* value, Capability& capability);
 
+                                        //! User has the ability to terminate the work in a plugin by calling terminate()
+        void                            terminate();
+
+                                        //! Check if we are in the process of being terminated
+        bool                            isBeingTerminated();
+
+                                        //!check if the plugin was terminated
+        bool                            wasTerminated();
         //Virtuals
         virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
         virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
@@ -104,6 +111,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 
         virtual string                  getResult();
         virtual bool                    isWorking();
+
         virtual bool                    resetPlugin();
         virtual bool                    setInputData(void* data);
         virtual string                  getStatus();
@@ -111,6 +119,7 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         //Pure virtuals
         virtual string                  getImplementationLanguage() = 0;
         virtual bool                    execute(void* clientData = NULL, bool inAThread = false) = 0;
+
 };
 
 }

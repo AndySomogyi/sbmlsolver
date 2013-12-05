@@ -14,11 +14,6 @@ namespace lmfit
 using namespace rr;
 using namespace rrc;
 
-RRStringArray MakeStringArray()
-{
-    RRStringArray arr;
-    return arr;
-}
 
 LM::LM(rr::RoadRunner* aRR)
 :
@@ -95,6 +90,7 @@ bool LM::resetPlugin()
         return false;
     }
 
+    mTerminate = false;
     mSBML.getValueReference().clear();
     mObservedData.getValueReference().clear();
     mModelData.getValueReference().clear();
