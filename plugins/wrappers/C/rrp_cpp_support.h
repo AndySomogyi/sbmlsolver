@@ -50,7 +50,7 @@ namespace rrp
 template <class T>
 class Parameter;
 class Parameters;
-class BaseParameter;
+class PluginParameter;
 class Plugin;
 class PluginManager;
 
@@ -80,12 +80,12 @@ Plugin*                             castToPlugin(RRPluginHandle handle);
 Parameters*                         castToParameters(RRParametersHandle handle);
 
 /*!
- \brief Cast a handle to RoadRunner BaseParameter pointer, throws if it fails
+ \brief Cast a handle to RoadRunner PluginParameter pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner parameter instance
  \return Pointer to a baseparameter instance
  \ingroup cpp_support
 */
-BaseParameter*                      castToParameter(RRParameterHandle handle);
+PluginParameter*                      castToParameter(RRParameterHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner Parameter<int> pointer, throws if it fails

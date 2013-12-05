@@ -38,7 +38,7 @@ Parameters* Capability::getParameters()
     return &mParameters;
 }
 
-BaseParameter& Capability::operator[](const int& i)
+PluginParameter& Capability::operator[](const int& i)
 {
 
     return *(mParameters[i]);
@@ -64,7 +64,7 @@ u_int Capability::nrOfParameters() const
     return mParameters.count();
 }
 
-void Capability::addParameter(BaseParameter* me)
+void Capability::addParameter(PluginParameter* me)
 {
     mParameters.add(me);
 }
@@ -83,7 +83,7 @@ string Capability::asString()  const
     return caps.str();
 }
 
-BaseParameter* Capability::getParameter(const string& paraName)
+PluginParameter* Capability::getParameter(const string& paraName)
 {
     for(u_int i = 0; i < mParameters.count(); i++)
     {

@@ -146,7 +146,7 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
     //Go trough the parameter container and look for parameter
     for(int i = 0; i < capability.nrOfParameters(); i++)
     {
-        BaseParameter* aPar = const_cast<BaseParameter*>( &(capability[i]) );
+        PluginParameter* aPar = const_cast<PluginParameter*>( &(capability[i]) );
 
         if(aPar->getName() == nameOf)
         {
@@ -264,7 +264,7 @@ Parameters* Plugin::getParameters(Capability& capability)
     return capability.getParameters();
 }
 
-BaseParameter* Plugin::getParameter(const string& para, const string& capability)
+PluginParameter* Plugin::getParameter(const string& para, const string& capability)
 {
     //If capability string is empty, search all capabilites
     if(capability.size())
@@ -285,7 +285,7 @@ BaseParameter* Plugin::getParameter(const string& para, const string& capability
     return NULL;
 }
 
-BaseParameter* Plugin::getParameter(const string& para, Capability& capability)
+PluginParameter* Plugin::getParameter(const string& para, Capability& capability)
 {
     return capability.getParameter(para);
 }

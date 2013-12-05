@@ -3,7 +3,7 @@
 #include "libxml/xpath.h"
 
 #include "rrException.h"
-#include "rrBaseParameter.h"
+#include "rrPluginParameter.h"
 #include "rrParameter.h"
 #include "rrLogger.h"
 #include "rrCapabilities.h"
@@ -99,7 +99,7 @@ bool Capabilities::setParameter(const string& name, const string& value)
 
         if(paras)
         {
-            BaseParameter* aParameter = paras->getParameter(name);
+            PluginParameter* aParameter = paras->getParameter(name);
             if(aParameter)
             {
                 aParameter->setValueFromString(value);
@@ -137,7 +137,7 @@ string Capabilities::asXML()
         {
             xmlNodePtr paraNode = xmlNewChild(parameters, NULL, BAD_CAST "para", NULL);
 
-            BaseParameter* parameter = const_cast<BaseParameter*>(&(aCapability[j]));
+            PluginParameter* parameter = const_cast<PluginParameter*>(&(aCapability[j]));
             xmlNewProp(paraNode, BAD_CAST "name",   BAD_CAST parameter->getName().c_str());
             xmlNewProp(paraNode, BAD_CAST "value",  BAD_CAST parameter->getValueAsString().c_str());
             xmlNewProp(paraNode, BAD_CAST "hint",   BAD_CAST parameter->getHint().c_str());

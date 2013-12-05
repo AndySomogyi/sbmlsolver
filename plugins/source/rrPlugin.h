@@ -91,10 +91,10 @@ class PLUGINS_API_DECLSPEC Plugin
         Parameters*                     getParameters(Capability& capability); //Each capability has a set of parameters
         Parameters*                     getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
-        BaseParameter*                  getParameter(const string& param, const string& capability = "");
+        PluginParameter*                  getParameter(const string& param, const string& capability = "");
         bool                            setParameter(const string& nameOf, const char* value);
 
-        BaseParameter*                  getParameter(const string& param, Capability& capability);
+        PluginParameter*                  getParameter(const string& param, Capability& capability);
         bool                            setParameter(const string& nameOf, const char* value, Capability& capability);
 
                                         //! User has the ability to terminate the work in a plugin by calling terminate()

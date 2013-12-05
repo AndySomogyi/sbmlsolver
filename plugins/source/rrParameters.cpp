@@ -26,9 +26,9 @@ void Parameters::clear()
     mParas.clear();
 }
 
-void Parameters::add(BaseParameter* me, bool own)
+void Parameters::add(PluginParameter* me, bool own)
 {
-    mParas.push_back( pair<BaseParameter*, bool>(me, own) );
+    mParas.push_back( pair<PluginParameter*, bool>(me, own) );
 }
 
 StringList Parameters::asStringList() const
@@ -41,12 +41,12 @@ StringList Parameters::asStringList() const
     return list;
 }
 
-const BaseParameter* Parameters::operator[](const int& i) const
+const PluginParameter* Parameters::operator[](const int& i) const
 {
     return mParas[i].first;
 }
 
-BaseParameter* Parameters::operator[](const int& i)
+PluginParameter* Parameters::operator[](const int& i)
 {
     return mParas[i].first;
 }
@@ -56,7 +56,7 @@ u_int Parameters::count() const
     return mParas.size();
 }
 
-BaseParameter* Parameters::getParameter(const string& paraName)
+PluginParameter* Parameters::getParameter(const string& paraName)
 {
     for(int i = 0; i < count(); i++)
     {

@@ -295,7 +295,7 @@ RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* p
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        BaseParameter *para = NULL;
+        PluginParameter *para = NULL;
         if(aPlugin)
         {
             if(capabilitiesName != NULL)
@@ -317,7 +317,7 @@ bool rrp_cc setPluginParameter(RRPluginHandle handle, const char* parameterName,
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        BaseParameter* aParameter = (BaseParameter*) getPluginParameter(aPlugin, parameterName, NULL);
+        PluginParameter* aParameter = (PluginParameter*) getPluginParameter(aPlugin, parameterName, NULL);
         return setParameterByString(aParameter, value);
     catch_bool_macro
 }

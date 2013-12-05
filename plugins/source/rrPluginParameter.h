@@ -1,5 +1,5 @@
-#ifndef rrBaseParameterH
-#define rrBaseParameterH
+#ifndef rrPluginParameterH
+#define rrPluginParameterH
 #include "rrPluginsAPIExporter.h"
 #include <string>
 #include <ostream>
@@ -15,11 +15,11 @@ using std::ostream;
  * The BaseParameter class is an interface for derived Parameters, that can be of any type.
  */
 
-class PLUGINS_API_DECLSPEC BaseParameter
+class PLUGINS_API_DECLSPEC PluginParameter
 {
     public:
-                                            BaseParameter(const string& name, const string& hint);
-        virtual                            ~BaseParameter();
+                                            PluginParameter(const string& name, const string& hint);
+        virtual                            ~PluginParameter();
         string                              asString() const;
         string                              getName() const;
         string                              getHint() const;
@@ -32,7 +32,7 @@ class PLUGINS_API_DECLSPEC BaseParameter
 
 
         PLUGINS_API_DECLSPEC
-        friend ostream&                     operator<<(ostream& stream, const BaseParameter& outMe);
+        friend ostream&                     operator<<(ostream& stream, const PluginParameter& outMe);
 
     protected:
         string                              mName;

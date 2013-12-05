@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility>
 #include "rrPluginsAPIExporter.h"
-#include "rrBaseParameter.h"
+#include "rrPluginParameter.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
 
@@ -19,20 +19,20 @@ using std::string;
 class PLUGINS_API_DECLSPEC Parameters
 {
     protected:
-        vector< pair<BaseParameter*, bool> >    mParas;  //The container may owe the parameter. default is false
+        vector< pair<PluginParameter*, bool> >    mParas;  //The container may owe the parameter. default is false
 
     public:
                                                 Parameters();
         virtual                                ~Parameters();
-        void                                    add(BaseParameter* me, bool own = false);
+        void                                    add(PluginParameter* me, bool own = false);
         rr::StringList                          asStringList() const;
         u_int                                   count() const;
 
-        const BaseParameter*                    operator[](const int& i) const;
-        BaseParameter*                          operator[](const int& i);
+        const PluginParameter*                    operator[](const int& i) const;
+        PluginParameter*                          operator[](const int& i);
         string                                  getName() const;
         string                                  getDescription() const;
-        BaseParameter*                          getParameter(const string& paraName);
+        PluginParameter*                          getParameter(const string& paraName);
         void                                    clear();
 
         PLUGINS_API_DECLSPEC

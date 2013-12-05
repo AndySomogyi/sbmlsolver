@@ -10,7 +10,7 @@
 #include "rrp_api.h"
 #include "rrp_cpp_support.h"
 #include "rrParameter.h"
-#include "rrBaseParameter.h"
+#include "rrPluginParameter.h"
 //---------------------------------------------------------------------------
 
 namespace rrp
@@ -41,7 +41,7 @@ bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para
 {
     start_try
         Parameters* paras   = castToParameters(handle);
-        BaseParameter* bPara = castToParameter(para);
+        PluginParameter* bPara = castToParameter(para);
         paras->add(bPara, false);
         return true;
     catch_bool_macro
@@ -50,7 +50,7 @@ bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para
 char* rrp_cc getParameterInfo(RRParameterHandle handle)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         stringstream s;
         s<<"Name="<<para->getName()<<"\tType="<<para->getType()<<"\tHint="<<para->getHint();
         return createText(s.str());
@@ -61,7 +61,7 @@ char* rrp_cc getParameterInfo(RRParameterHandle handle)
 bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         para->setValueFromString(string(value));
         return true;
     catch_bool_macro
@@ -97,7 +97,7 @@ bool rrp_cc setStringParameter(RRParameterHandle handle, char* value)
 char* rrp_cc getParameterValueAsString(RRParameterHandle handle)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         string val = para->getValueAsString();
         return rr::createText(val);
     catch_ptr_macro
@@ -106,7 +106,7 @@ char* rrp_cc getParameterValueAsString(RRParameterHandle handle)
 void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         return para->getValueAsPointer();
     catch_ptr_macro
 }
@@ -114,7 +114,7 @@ void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle)
 char* rrp_cc getParameterName(RRParameterHandle handle)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         return rr::createText(para->getName());
     catch_ptr_macro
 }
@@ -122,7 +122,7 @@ char* rrp_cc getParameterName(RRParameterHandle handle)
 char* rrp_cc getParameterHint(RRParameterHandle handle)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         return rr::createText(para->getHint());
     catch_ptr_macro
 }
@@ -130,7 +130,7 @@ char* rrp_cc getParameterHint(RRParameterHandle handle)
 char* rrp_cc getParameterType(RRParameterHandle handle)
 {
     start_try
-        BaseParameter* para = castToParameter(handle);
+        PluginParameter* para = castToParameter(handle);
         return rr::createText(para->getType());
     catch_ptr_macro
 }

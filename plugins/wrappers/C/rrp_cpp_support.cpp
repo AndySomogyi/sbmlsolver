@@ -51,9 +51,9 @@ Parameters* castToParameters(RRParametersHandle handle)
     }
 }
 
-BaseParameter* castToParameter(RRParameterHandle handle)
+PluginParameter* castToParameter(RRParameterHandle handle)
 {
-    BaseParameter* para = (BaseParameter*) handle;
+    PluginParameter* para = (PluginParameter*) handle;
     if(para) //Will only fail if handle is NULL...
     {
         return para;

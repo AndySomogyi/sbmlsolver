@@ -7,7 +7,7 @@
 #include "rrUtils.h"
 #include "rrStringList.h"
 #include "rrConstants.h"
-#include "rrBaseParameter.h"
+#include "rrPluginParameter.h"
 #include "rrStringUtils.h"
 #include "rrRoadRunnerData.h"
 #include "rrParameters.h"
@@ -18,7 +18,7 @@ namespace rrp
 using std::string;
 
 template<class T>
-class Parameter : public BaseParameter
+class Parameter : public PluginParameter
 {
     protected:
         T                              mDummy;
@@ -41,7 +41,7 @@ class Parameter : public BaseParameter
 template<class T>
 Parameter<T>::Parameter(const string& name, const T& value, const string& hint)
 :
-BaseParameter(name, hint),
+PluginParameter(name, hint),
 mDummy(value),
 mValue(mDummy)
 {}
@@ -49,7 +49,7 @@ mValue(mDummy)
 //template<class T>
 //Parameter<T>::Parameter(const Parameter<T>& para)
 //:
-//rr::BaseParameter(para.getName(), para.getHint()),
+//rr::PluginParameter(para.getName(), para.getHint()),
 //mDummy(para.getValue()),
 //mValue(mDummy)
 //{ }
