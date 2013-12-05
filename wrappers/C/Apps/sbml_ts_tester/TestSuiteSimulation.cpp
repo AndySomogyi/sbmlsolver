@@ -22,7 +22,7 @@ TestSuiteSimulation::TestSuiteSimulation(const string& dataOutputFolder, const s
 
 TestSuiteSimulation::~TestSuiteSimulation()
 {
-    freeRRData(mResultHandle);
+    freeRRCData(mResultHandle);
 }
 
 void TestSuiteSimulation::UseHandle(RRHandle handle)
