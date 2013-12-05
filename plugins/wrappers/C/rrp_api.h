@@ -53,23 +53,22 @@ namespace rrp { extern "C" {
  \brief Create a new instance of a plugin manager.
  \brief A PluginManager manages a collection of plugins, loaded and unloaded by 
   the load and unload API functions respectively.
+ \param pluginDir Full path to folder containing plugins. If NULL, uses default folder.
  \return On success, a handle to a Plugin manager, on failure, NULL.
  \ingroup plugin_manager
  */
-RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager();
+RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager(const char* pluginDir);
 
-/*!
- \brief Create a new instance of a plugin manager.
- \brief A PluginManager manages a collection of plugins, loaded and unloaded by 
-  the load and unload API functions respectively.
- \param pluginDir Full path to folder containing plugins. 
- \param autoLoad Boolean indicating if plugins are to be loaded as part of the 
-        creation of the manager.
- \return On success, a handle to a Plugin manager, on failure, NULL.
-
- \ingroup plugin_manager
- */
-RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir, bool autoLoad);
+///*!
+// \brief Create a new instance of a plugin manager.
+// \brief A PluginManager manages a collection of plugins, loaded and unloaded by
+//  the load and unload API functions respectively.
+// \param pluginDir Full path to folder containing plugins.
+// \return On success, a handle to a Plugin manager, on failure, NULL.
+//
+// \ingroup plugin_manager
+// */
+//RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir);
 
 /*!
  \brief Free the plugin manager. A call to this function will also unload any loaded plugins.

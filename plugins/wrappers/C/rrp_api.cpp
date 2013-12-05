@@ -23,28 +23,36 @@ using namespace rr;
 using namespace rrc;
 
 
-RRPluginManagerHandle rrp_cc createPluginManager()
+RRPluginManagerHandle rrp_cc createPluginManager(const char* _pluginDir)
 {
     start_try
-        string pluginDir = joinPath(getParentFolder(gDefaultSupportCodeFolder), "plugins");
+        string pluginDir;
+        if(!_pluginDir)
+        {
+            pluginDir = joinPath(getParentFolder(gDefaultSupportCodeFolder), "plugins");
+        }
+        else
+        {
+            pluginDir = _pluginDir;
+        }
 
-        PluginManager* pm = new PluginManager(pluginDir, false);
+        PluginManager* pm = new PluginManager(pluginDir);
         return pm;
     catch_ptr_macro
 }
 
-/**
- * create an instance of a plugin managager attached to the given RoadRunner instance.
- */
-RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir, bool autoLoad, RRHandle rrHandle)
-{
-    start_try
-        RoadRunner *rr = castToRoadRunner(rrHandle);
-        PluginManager* pm = new PluginManager(pluginDir, autoLoad);
-        return pm;
-    catch_ptr_macro
-}
-
+///**
+// * create an instance of a plugin managager attached to the given RoadRunner instance.
+// */
+//RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir)
+//{
+//    start_try
+//        RoadRunner *rr = castToRoadRunner(rrHandle);
+//        PluginManager* pm = new PluginManager(pluginDir);
+//        return pm;
+//    catch_ptr_macro
+//}
+//
 /**
  * free the plugin manager
  */
@@ -119,7 +127,7 @@ bool rrp_cc unLoadPlugins(RRPluginManagerHandle handle)
 {
     start_try
         PluginManager *pm = castToPluginManager(handle);
-        return pm->unloadAll();
+        return pm->unload();
     catch_bool_macro
 }
 

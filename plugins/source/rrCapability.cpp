@@ -87,7 +87,7 @@ BaseParameter* Capability::getParameter(const string& paraName)
 {
     for(u_int i = 0; i < mParameters.count(); i++)
     {
-        if(mParameters[i] && mParameters[i]->mName == paraName)
+        if(mParameters[i] && mParameters[i]->getName() == paraName)
         {
             return mParameters[i];
         }

@@ -36,7 +36,7 @@ StringList Parameters::asStringList() const
     StringList list;
     for(int i = 0; i < count(); i++)
     {
-        list.add(mParas[i].first->mName);
+        list.add(mParas[i].first->getName());
     }
     return list;
 }
@@ -60,7 +60,7 @@ BaseParameter* Parameters::getParameter(const string& paraName)
 {
     for(int i = 0; i < count(); i++)
     {
-        if(paraName == mParas[i].first->mName)
+        if(paraName == mParas[i].first->getName())
         {
             return mParas[i].first;
         }

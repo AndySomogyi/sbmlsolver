@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrCPlugin.h"
+#include "rrStringList.h"
 //---------------------------------------------------------------------------
 
 namespace rrp
@@ -30,17 +31,11 @@ typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool destroyRRPlugin(Plugin *plugin);
 
-PluginManager::PluginManager(const std::string& folder, const bool& autoLoad)
+PluginManager::PluginManager(const std::string& folder)
 :
 mPluginFolder(folder),
 mPluginExtension(getPluginExtension())
-{
-
-    if(autoLoad)
-    {
-        load();
-    }
-}
+{}
 
 PluginManager::~PluginManager()
 {
@@ -253,6 +248,7 @@ bool PluginManager::loadPlugin(const string& _libName)
     }
 }
 
+//Todo: Clean up the unload process..
 bool PluginManager::unloadAll()
 {
     bool result(true);
@@ -287,10 +283,14 @@ bool PluginManager::unloadAll()
 
 bool PluginManager::unload(Plugin* plugin)
 {
+    if(!plugin)
+    {
+        return unloadAll();
+    }
+
     bool result(false);
     int nrPlugins = getNumberOfPlugins();
 
-    //Todo: test..!
     for(vector< rrPlugin >::iterator it = mPlugins.begin(); it != mPlugins.end(); it++)
     {
         rrPlugin *aPluginLib = &(*it);
@@ -359,20 +359,20 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
     }
 }
 
-std::vector<std::string> PluginManager::getPluginNames()
+StringList PluginManager::getPluginNames()
 {
-    std::vector<std::string> names;
-
+    StringList names;
     int nrPlugins = getNumberOfPlugins();
     for(int i = 0; i < nrPlugins; i++)
     {
         pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
         {
-            Plugin*           aPlugin     = aPluginLib->second;
-
-            //Then unload
-            names.push_back(aPlugin->getName());
+            Plugin* aPlugin     = aPluginLib->second;
+            if(aPlugin)
+            {
+                names.add(aPlugin->getName());
+            }
         }
     }
     return names;

@@ -1,6 +1,5 @@
 #pragma hdrstop
 #include <sstream>
-//#include "../wrappers/C/rrc_types.h"
 #include "rrStringUtils.h"
 #include "rrBaseParameter.h"
 #include "rrParameter.h"

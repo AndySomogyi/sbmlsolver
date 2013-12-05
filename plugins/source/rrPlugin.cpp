@@ -148,7 +148,7 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
     {
         BaseParameter* aPar = const_cast<BaseParameter*>( &(capability[i]) );
 
-        if(aPar->mName == nameOf)
+        if(aPar->getName() == nameOf)
         {
 //            if(dynamic_cast< Parameter<int>* >(aParameter))
 //            {
