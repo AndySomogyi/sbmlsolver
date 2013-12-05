@@ -1,0 +1,132 @@
+\hypertarget{group__rate_of_change}{\section{Rates of change group}
+\label{group__rate_of_change}\index{Rates of change group@{Rates of change group}}
+}
+
+
+Get information about rates of change.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} \hyperlink{group__rate_of_change_gab8675813f06e4017dbe9d7584dc2fceb}{get\-Rates\-Of\-Change} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the vector of rates of change as determined by the current state of the model. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} \hyperlink{group__rate_of_change_ga4713af515e980542c14a735bc0e43983}{get\-Rates\-Of\-Change\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the string list of rates of change Ids. \end{DoxyCompactList}\item 
+bool \hyperlink{group__rate_of_change_ga07c04f81f07fad80bc78369b122972c2}{get\-Rate\-Of\-Change} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const int, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve the rate of change for a given floating species. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} \hyperlink{group__rate_of_change_ga4e1783d741cc0c81954db891e085c664}{get\-Rates\-Of\-Change\-Ex} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const \hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vec)
+\begin{DoxyCompactList}\small\item\em Retrieve the vector of rates of change given a vector of floating species concentrations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Get information about rates of change. 
+
+\subsection{Function Documentation}
+\hypertarget{group__rate_of_change_ga07c04f81f07fad80bc78369b122972c2}{\index{Rates of change group@{Rates of change group}!get\-Rate\-Of\-Change@{get\-Rate\-Of\-Change}}
+\index{get\-Rate\-Of\-Change@{get\-Rate\-Of\-Change}!Rates of change group@{Rates of change group}}
+\subsubsection[{get\-Rate\-Of\-Change}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-Rate\-Of\-Change (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const int}]{, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__rate_of_change_ga07c04f81f07fad80bc78369b122972c2}
+
+
+Retrieve the rate of change for a given floating species. 
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__rate_of_change_ga07c04f81f07fad80bc78369b122972c2}{getRateOfChange} (&index, *value); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt out}  & {\em value} & Pointer to double, holding the rate of change \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns false if it fails, otherwise value contains the rate of change. 
+\end{DoxyReturn}
+\hypertarget{group__rate_of_change_gab8675813f06e4017dbe9d7584dc2fceb}{\index{Rates of change group@{Rates of change group}!get\-Rates\-Of\-Change@{get\-Rates\-Of\-Change}}
+\index{get\-Rates\-Of\-Change@{get\-Rates\-Of\-Change}!Rates of change group@{Rates of change group}}
+\subsubsection[{get\-Rates\-Of\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Vector\-Ptr} get\-Rates\-Of\-Change (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__rate_of_change_gab8675813f06e4017dbe9d7584dc2fceb}
+
+
+Retrieve the vector of rates of change as determined by the current state of the model. 
+
+Example\-:
+\begin{DoxyCode}
+values = \hyperlink{group__rate_of_change_gab8675813f06e4017dbe9d7584dc2fceb}{getRatesOfChange} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle} handle); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a vector of rates of change values 
+\end{DoxyReturn}
+\hypertarget{group__rate_of_change_ga4e1783d741cc0c81954db891e085c664}{\index{Rates of change group@{Rates of change group}!get\-Rates\-Of\-Change\-Ex@{get\-Rates\-Of\-Change\-Ex}}
+\index{get\-Rates\-Of\-Change\-Ex@{get\-Rates\-Of\-Change\-Ex}!Rates of change group@{Rates of change group}}
+\subsubsection[{get\-Rates\-Of\-Change\-Ex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Vector\-Ptr} get\-Rates\-Of\-Change\-Ex (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const {\bf R\-R\-Vector\-Ptr}}]{vec}
+\end{DoxyParamCaption}
+)}}\label{group__rate_of_change_ga4e1783d741cc0c81954db891e085c664}
+
+
+Retrieve the vector of rates of change given a vector of floating species concentrations. 
+
+Example\-:
+\begin{DoxyCode}
+values = \hyperlink{group__rate_of_change_ga4e1783d741cc0c81954db891e085c664}{getRatesOfChangeEx} (vector); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em vec} & Vector handle holding rates of change \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails 
+\end{DoxyReturn}
+\hypertarget{group__rate_of_change_ga4713af515e980542c14a735bc0e43983}{\index{Rates of change group@{Rates of change group}!get\-Rates\-Of\-Change\-Ids@{get\-Rates\-Of\-Change\-Ids}}
+\index{get\-Rates\-Of\-Change\-Ids@{get\-Rates\-Of\-Change\-Ids}!Rates of change group@{Rates of change group}}
+\subsubsection[{get\-Rates\-Of\-Change\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-String\-Array\-Ptr} get\-Rates\-Of\-Change\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__rate_of_change_ga4713af515e980542c14a735bc0e43983}
+
+
+Retrieve the string list of rates of change Ids. 
+
+Example\-:
+\begin{DoxyCode}
+Ids = \hyperlink{group__rate_of_change_ga4713af515e980542c14a735bc0e43983}{getRatesOfChangeIds} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle} handle); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a list of rates of change Ids 
+\end{DoxyReturn}

@@ -1,0 +1,57 @@
+\hypertarget{group__errorfunctions}{\section{Error handling functions}
+\label{group__errorfunctions}\index{Error handling functions@{Error handling functions}}
+}
+
+
+Error handlining routines.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group__errorfunctions_ga97333a9e820160be2bfbece76043662c}{has\-Error} (void)
+\begin{DoxyCompactList}\small\item\em Check if there is an error string to retrieve. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__errorfunctions_ga79375e9d9f82fa4f07ed0e9486133f0f}{get\-Last\-Error} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current error string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Error handlining routines. 
+
+\subsection{Function Documentation}
+\hypertarget{group__errorfunctions_ga79375e9d9f82fa4f07ed0e9486133f0f}{\index{Error handling functions@{Error handling functions}!get\-Last\-Error@{get\-Last\-Error}}
+\index{get\-Last\-Error@{get\-Last\-Error}!Error handling functions@{Error handling functions}}
+\subsubsection[{get\-Last\-Error}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Last\-Error (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__errorfunctions_ga79375e9d9f82fa4f07ed0e9486133f0f}
+
+
+Retrieve the current error string. 
+
+Example\-:
+\begin{DoxyCode}
+str = \hyperlink{group__errorfunctions_ga79375e9d9f82fa4f07ed0e9486133f0f}{getLastError} (\textcolor{keywordtype}{void}); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Return null if fails, otherwise returns a pointer to the error string 
+\end{DoxyReturn}
+\hypertarget{group__errorfunctions_ga97333a9e820160be2bfbece76043662c}{\index{Error handling functions@{Error handling functions}!has\-Error@{has\-Error}}
+\index{has\-Error@{has\-Error}!Error handling functions@{Error handling functions}}
+\subsubsection[{has\-Error}]{\setlength{\rightskip}{0pt plus 5cm}bool has\-Error (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__errorfunctions_ga97333a9e820160be2bfbece76043662c}
+
+
+Check if there is an error string to retrieve. 
+
+Example\-: status = has\-Error (void)
+
+\begin{DoxyReturn}{Returns}
+Returns true if there is an error waiting to be retrieved 
+\end{DoxyReturn}

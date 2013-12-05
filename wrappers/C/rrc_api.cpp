@@ -1,5 +1,5 @@
 /**
- * @file rrc_core_api.cpp
+ * @file rrc_api.cpp
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -943,7 +943,7 @@ bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, 
     catch_bool_macro
 }
 
-bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const RRVector* vec)
+bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const RRVectorPtr vec)
 {
     start_try
         vector<double> tempVec;
@@ -954,7 +954,7 @@ bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const 
     catch_bool_macro
 }
 
-bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec)
+bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVectorPtr vec)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -968,7 +968,7 @@ bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVecto
     catch_bool_macro
 }
 
-bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec)
+bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVectorPtr vec)
 {
     start_try
         vector<double> tempVec;

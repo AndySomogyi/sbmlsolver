@@ -94,11 +94,11 @@ Introduction</h1>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
-<div class="line">    <a class="code" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d" title="Void pointer to a PluginManager instance. ">RRPluginManagerHandle</a> pmHandle = <a class="code" href="group__plugin__manager.html#gaa9d7d43a9a8cbfa32e62259f4d4212ef" title="Create a new instance of a plugin manager. ">createPluginManager</a>();</div>
-<div class="line">    <a class="code" href="group__plugin__manager.html#gaaa0917cf8657ecdb99a2caa05ebceddc" title="Load plugins. The function will look in the default plugin folder for plugins, and load them...">loadPlugins</a>(pmHandle);</div>
+<div class="line">    <a class="code" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d" title="Void pointer to a PluginManager instance. ">RRPluginManagerHandle</a> pmHandle = <a class="code" href="group__plugin__manager.html#gac2bac8c93166b005b9b1fed6888011ff" title="Create a new instance of a plugin manager. ">createPluginManager</a>();</div>
+<div class="line">    <a class="code" href="group__plugin__manager.html#ga39328aa0dc5d7f42e939ef1fa7ef26e1" title="Load plugins. The function will look in the default plugin folder for plugins, and load them...">loadPlugins</a>(pmHandle);</div>
 <div class="line"></div>
-<div class="line">    cout&lt;&lt;<span class="stringliteral">&quot;Nr of loaded plugins:&quot;</span> &lt;&lt; <a class="code" href="group__plugin__manager.html#gaffe090557b592784884a975c8f8d7399" title="Get Number of loaded plugins. ">getNumberOfPlugins</a>(pmHandle)&lt;&lt;endl;</div>
-<div class="line">    RRStringArrayPtr names = <a class="code" href="group__plugin__manager.html#gabc85bf42b27deee34740478183b78cca" title="Function to retrieve the names of currently loaded plugins. ">getPluginNames</a>(pmHandle);</div>
+<div class="line">    cout&lt;&lt;<span class="stringliteral">&quot;Nr of loaded plugins:&quot;</span> &lt;&lt; <a class="code" href="group__plugin__manager.html#gac38fb7ce56fa90e828793d78ab802bf8" title="Get Number of loaded plugins. ">getNumberOfPlugins</a>(pmHandle)&lt;&lt;endl;</div>
+<div class="line">    RRStringArrayPtr names = <a class="code" href="group__plugin__manager.html#ga41dd4f1973c7c7b34bd0763bdbc5dae1" title="Function to retrieve the names of currently loaded plugins. ">getPluginNames</a>(pmHandle);</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">if</span>(!names)</div>
 <div class="line">    {</div>
@@ -111,15 +111,15 @@ Introduction</h1>
 <div class="line">        cout&lt;&lt;<span class="stringliteral">&quot;Plugin name: &quot;</span> &lt;&lt;names-&gt;String[i]&lt;&lt;endl;</div>
 <div class="line"></div>
 <div class="line">        <span class="comment">//Get a handle to a plugin</span></div>
-<div class="line">        <a class="code" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7" title="Void pointer to a Plugin instance. ">RRPluginHandle</a> plHandle = <a class="code" href="group__plugin__manager.html#ga49eebf6e3e99b8b1c60f39b8448396dc" title="GetPluginHandle. ">getPlugin</a>(pmHandle, names-&gt;String[i]);</div>
-<div class="line">        cout &lt;&lt;<a class="code" href="group__plugins.html#ga0faa0cf05527d733667ebd5b08ff9f38" title="Return some information about a Plugin. ">getPluginInfo</a>(plHandle)&lt;&lt;endl;</div>
+<div class="line">        <a class="code" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7" title="Void pointer to a Plugin instance. ">RRPluginHandle</a> plHandle = <a class="code" href="group__plugin__manager.html#gad021fa2cfa602603fddbbd278f55b454" title="GetPluginHandle. ">getPlugin</a>(pmHandle, names-&gt;String[i]);</div>
+<div class="line">        cout &lt;&lt;<a class="code" href="group__plugins.html#gafef8128c4c535087bdfd28078227237a" title="Return some information about a Plugin. ">getPluginInfo</a>(plHandle)&lt;&lt;endl;</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">    <span class="comment">//Cleanup.</span></div>
 <div class="line">    freeStringArray(names);</div>
-<div class="line">    <a class="code" href="group__plugin__manager.html#ga017d30d12cac3c87aca4bcafebfa8c67" title="Unload plugins. ">unLoadPlugins</a>(pmHandle);</div>
-<div class="line">    <a class="code" href="group__plugin__manager.html#ga43c93ff0acf2e6437ceb9eef51eed1a2" title="Free the plugin manager. A call to this function will also unload any loaded plugins. ">freePluginManager</a>(pmHandle);</div>
+<div class="line">    <a class="code" href="group__plugin__manager.html#gabc3a28ce89a1446eb537ebf106fa3252" title="Unload plugins. ">unLoadPlugins</a>(pmHandle);</div>
+<div class="line">    <a class="code" href="group__plugin__manager.html#ga5dd2745e4d12a6afdf29090f24b29d10" title="Free the plugin manager. A call to this function will also unload any loaded plugins. ">freePluginManager</a>(pmHandle);</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --><h1><a class="anchor" id="plugins_overview"></a>
@@ -168,7 +168,7 @@ License</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 4 2013 14:52:34 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 4 2013 16:27:33 for libRoadRunner Plugin API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

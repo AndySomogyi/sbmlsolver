@@ -1,6 +1,6 @@
 /**
  * @file rrc_api.h
- * @brief libRoadRunner C API 2012
+ * @brief libRoadRunner C API 2012-2013
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -1420,169 +1420,212 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 #endif
 
 #endif
+/*! \mainpage RoadRunner C API Library
+ *
+ * \section intro_sec Introduction
+ *
+ * RoadRunner is a SBML compliant high performance and portable simulation engine
+ * for systems and synthetic biology. To run a simple SBML model
+ * and generate time series data we would call:
+ *
+ \code
+ main()
+ {
+    if (!loadSBMLFromFile (rrHandle, "mymodel.xml"))
+        exit();
 
-///*! \mainpage cRoadRunner Library
-// *
-// * \section intro_sec Introduction
-// *
-// * RoadRunner is a SBML compliant high performance and portable simulation engine
-// * for systems and synthetic biology. To run a simple SBML model
-// * and generate time series data we would call:
-// *
-// \code
-// RRCDataPtr result;
-//
-// if (!loadSBMLFromFile (rrHandle, "mymodel.xml"))
-//    exit;
-//
-// result = simulate (0, 10, 100);
-// printf (resultToString (output)
-// \endcode
-//
-// More complex example:
-//
-// \code
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include "rrc_core_api.h"
-//
-// int main(int nargs, char** argv)
-// {
-//        RRHandle rrInstance = getRRInstance(RRHandle handle);
-//
-//        printf("loading model file %s\n", argv[1]);
-//
-//        if (!loadSBMLFromFile(argv[1])) {
-//           printf ("Error while loading SBML file\n");
-//           printf ("Error message: %s\n", getLastError(RRHandle handle));
-//           exit();
-//        }
-//
-//        RRCDataPtr output = simulate (0, 100, 1000);  // start time, end time, and number of points
-//
-//        printf("Output table has %i rows and %i columns\n", output->RSize, output->RCols);
-//        printResult (output);
-//
-//        freeResult (output);
-//        freeRRInstance (rrInstance)
-//
-//        return 0;
-// }
-// \endcode
-// * \section install_sec Installation
-// *
-// * Installation documentation is provided in the main google code page.
-//
-// * \section license_sec License
-// * Copyright (C) 2012
-// *   University of Washington, Seattle, WA, USA
-// *
-// * Licensed under the Apache License, Version 2.0 (the "License");
-// * you may not use this file except in compliance with the License.
-// * You may obtain a copy of the License at
-// *
-// *     http://www.apache.org/licenses/LICENSE-2.0
-// *
-// * Unless required by applicable law or agreed to in writing, software
-// * distributed under the License is distributed on an "AS IS" BASIS,
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// * See the License for the specific language governing permissions and
-// * limitations under the License.
-// *
-// * In plain english this means:
-// *
-// * You CAN freely download and use this software, in whole or in part, for personal,
-// * company internal, or commercial purposes;
-// *
-// * You CAN use the software in packages or distributions that you create.
-// *
-// * You SHOULD include a copy of the license in any redistribution you may make;
-// *
-// * You are NOT required include the source of software, or of any modifications you may
-// * have made to it, in any redistribution you may assemble that includes it.
-// *
-// * YOU CANNOT:
-// *
-// * redistribute any piece of this software without proper attribution;
+    result = simulate (0, 10, 100);
+    printf (rrDataToString (result));
+    return 0;
+ }
+ \endcode
+
+More complex example, using C API from C++:
+\code
+#include <iostream>
+#include <iomanip>
+#include "rrc_api.h"
+
+using namespace std;
+using namespace rrc;
+int main()
+{
+    char* modelFile("../models/test_1.xml");
+    RRHandle rrHandle = createRRInstance();
+
+    if (!loadSBML(rrHandle, modelFile))
+    {
+       cout << "Error while loading SBML file\n";
+       cout << "Error message: "<< getLastError() <<endl;
+       exit(-1);
+    }
+
+    RRDataHandle output = simulateEx (rrHandle, 0, 10, 10);  // start time, end time, and number of points
+    RRCData* cOutput = createRRCData(output);
+
+    int index = 0;
+    //Print out column headers.. typically time and species.
+    for(int col = 0; col < cOutput->CSize; col++)
+    {
+        cout<<setw(20)<<left<<cOutput->ColumnHeaders[index++];
+        if(col < cOutput->CSize -1)
+        {
+            cout<<"\t";
+        }
+    }
+    cout<<"\n";
+    index =0;
+    //Print out the data
+    for(int row = 0; row < cOutput->RSize; row++)
+    {
+        for(int col = 0; col < cOutput->CSize; col++)
+        {
+            cout<<setw(20)<<left<<cOutput->Data[index++];
+            if(col < cOutput->CSize -1)
+            {
+                cout<<"\t";
+            }
+        }
+        cout<<"\n";
+      }
+
+    //Cleanup
+    freeRRCData (cOutput);
+    freeRRInstance (rrHandle);
+    return 0;
+}
+
+\endcode
+
+Would create output like below
+
+\code
+loading model file: ..\models\test_1.xml
+Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler.
+time                    [S1]                    [S2]
+0                       0.00015                 0
+1.11111                 4.93788e-05             0.000100621
+2.22222                 1.62551e-05             0.000133745
+3.33333                 5.3511e-06              0.000144649
+4.44444                 1.76156e-06             0.000148238
+5.55556                 5.79896e-07             0.00014942
+6.66667                 1.90857e-07             0.000149809
+7.77778                 6.28294e-08             0.000149937
+8.88889                 2.05731e-08             0.000149979
+10                      6.74739e-09             0.000149993
+
+\endcode
+* \section install_sec Installation
+ *
+ * Installation documentation is provided in the main google code page.
+
+ * \section license_sec License
+ * Copyright (C) 2012
+ *   University of Washington, Seattle, WA, USA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * In plain english this means:
+ *
+ * You CAN freely download and use this software, in whole or in part, for personal,
+ * company internal, or commercial purposes;
+ *
+ * You CAN use the software in packages or distributions that you create.
+ *
+ * You SHOULD include a copy of the license in any redistribution you may make;
+ *
+ * You are NOT required include the source of software, or of any modifications you may
+ * have made to it, in any redistribution you may assemble that includes it.
+ *
+ * YOU CANNOT:
+ *
+ * redistribute any piece of this software without proper attribution;
 
 
-// \defgroup initialization Library initialization and termination methods
-// \brief Initialize library and terminate library instance
-//
-// \defgroup loadsave Read and write models
-// \brief Read and write models to files or strings. Support for SBML formats.
-//
-// \defgroup utility Utility functions
-// \brief Various miscellaneous routines that return useful inforamtion about the library
-//
-// \defgroup errorfunctions Error handling functions
-// \brief Error handlining routines
-//
-// \defgroup logging Logging functionality
-// \brief RoadRunners logging routines
-//
-// \defgroup state Current state of system
-// \brief Compute derivatives, fluxes, and other values of the system at the current state
-//
-// \defgroup simulation Time-course simulation
-// \brief Deterministic, stochastic, and hybrid simulation algorithms
-//
-// \defgroup steadystate Steady state routines
-// \brief Compute and obtain basic information about the steady state
-//
-// \defgroup reaction Reaction group
-// \brief Get information about reaction rates
-//
-// \defgroup rateOfChange Rates of change group
-// \brief Get information about rates of change
-//
-// \defgroup boundary Boundary species group
-// \brief Get information about boundary species
-//
-// \defgroup floating Floating species group
-// \brief Get information about floating species
-//
-// \defgroup initialConditions Initial conditions group
-// \brief Set or get initial conditions
-//
-// \defgroup parameters Parameters group
-// \brief Set and get global and local parameters
-//
-// \defgroup compartment Compartment group
-// \brief Set and Get information on compartments
-//
-// \defgroup mca Metabolic control analysis
-// \brief Calculate control coefficients and sensitivities
-//
-// \defgroup Stoich Stoichiometry analysis
-// \brief Linear algebra based methods for analyzing a reaction network
-//
-// \defgroup NOM Network object model (NOM) functions
-// \brief Network object model functions
-//
-// defgroup LibStruct LibStruct forwarded functions
-// brief Functions originating in the LibStruct library, forwarded to RoadRunner
-//
-// \defgroup LinearAlgebra Linear algebra functions
-// \brief Linear algebra utility functions
-//
-// \defgroup list List handling routines
-// \brief Some methods return lists (heterogeneous arrayts of data),
-// these routines make it easier to manipulate listse
-//
-// \defgroup helperRoutines Helper routines
-// \brief Helper routines for acessing the various C API types, eg lists and arrays
-//
-// \defgroup toString ToString routines
-// \brief Render various result data types as strings
-//
-// \defgroup stringArray StringArray routines
-// \brief Utility rountines to deal with the string array type
-//
-// \defgroup freeRoutines Free memory routines
-// \brief Routines that should be used to free various data structures generated during the course of using the library
+ \defgroup initialization Library initialization and termination methods
+ \brief Initialize library and terminate library instance
 
-//
-//*/
-//
+ \defgroup loadsave Read and write models
+ \brief Read and write models to files or strings. Support for SBML formats.
+
+ \defgroup utility Utility functions
+ \brief Various miscellaneous routines that return useful inforamtion about the library
+
+ \defgroup errorfunctions Error handling functions
+ \brief Error handlining routines
+
+ \defgroup logging Logging functionality
+ \brief RoadRunners logging routines
+
+ \defgroup state Current state of system
+ \brief Compute derivatives, fluxes, and other values of the system at the current state
+
+ \defgroup simulation Time-course simulation
+ \brief Deterministic, stochastic, and hybrid simulation algorithms
+
+ \defgroup steadystate Steady state routines
+ \brief Compute and obtain basic information about the steady state
+
+ \defgroup reaction Reaction group
+ \brief Get information about reaction rates
+
+ \defgroup rateOfChange Rates of change group
+ \brief Get information about rates of change
+
+ \defgroup boundary Boundary species group
+ \brief Get information about boundary species
+
+ \defgroup floating Floating species group
+ \brief Get information about floating species
+
+ \defgroup initialConditions Initial conditions group
+ \brief Set or get initial conditions
+
+ \defgroup parameters Parameters group
+ \brief Set and get global and local parameters
+
+ \defgroup compartment Compartment group
+ \brief Set and Get information on compartments
+
+ \defgroup mca Metabolic control analysis
+ \brief Calculate control coefficients and sensitivities
+
+ \defgroup Stoich Stoichiometry analysis
+ \brief Linear algebra based methods for analyzing a reaction network
+
+ \defgroup NOM Network object model (NOM) functions
+ \brief Network object model functions
+
+ \defgroup LinearAlgebra Linear algebra functions
+ \brief Linear algebra utility functions
+
+ \defgroup list List handling routines
+ \brief Some methods return lists (heterogeneous arrayts of data),
+ these routines make it easier to manipulate listse
+
+ \defgroup helperRoutines Helper routines
+ \brief Helper routines for acessing the various C API types, eg lists and arrays
+
+ \defgroup toString ToString routines
+ \brief Render various result data types as strings
+
+ \defgroup stringArray StringArray routines
+ \brief Utility rountines to deal with the string array type
+
+ \defgroup freeRoutines Free memory routines
+ \brief Routines that should be used to free various data structures generated during the course of using the library
+
+
+*/
+
 

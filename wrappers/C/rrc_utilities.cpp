@@ -306,7 +306,7 @@ bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
     catch_bool_macro
 }
 
-bool rrcCallConv freeRRData(RRCDataPtr handle)
+bool rrcCallConv freeRRCData(RRCDataPtr handle)
 {
     start_try
         if (handle)

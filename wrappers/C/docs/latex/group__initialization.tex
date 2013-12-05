@@ -1,0 +1,136 @@
+\hypertarget{group__initialization}{\section{Library initialization and termination methods}
+\label{group__initialization}\index{Library initialization and termination methods@{Library initialization and termination methods}}
+}
+
+
+Initialize library and terminate library instance.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} \hyperlink{group__initialization_gac5b4dbf9108edb1ea6e315379e5576e0}{create\-R\-R\-Instance} (void)
+\begin{DoxyCompactList}\small\item\em Initialize a new road\-Runner instance and return a handle to it. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} \hyperlink{group__initialization_ga03b0c84179407dda1f4ae19a66dacf47}{create\-R\-R\-Instance\-Ex} (const char $\ast$temp\-Folder, const char $\ast$compiler)
+\begin{DoxyCompactList}\small\item\em Initialize a new road\-Runner instance and return a handle to it. \end{DoxyCompactList}\item 
+bool \hyperlink{group__initialization_gaa085b3245183be2ee16a94dfe0de1751}{free\-R\-R\-Instance} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Free the road\-Runner instance. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}{get\-Install\-Folder} (void)
+\begin{DoxyCompactList}\small\item\em Returns the folder in which the Road\-Runner A\-P\-I is installed. \end{DoxyCompactList}\item 
+bool \hyperlink{group__initialization_gad1eb8bfdac1addc406f8ea5ee6d32c8d}{set\-Install\-Folder} (const char $\ast$folder)
+\begin{DoxyCompactList}\small\item\em Set the internal string containing the folder in where the Road\-Runner C A\-P\-I is installed. \end{DoxyCompactList}\item 
+bool \hyperlink{group__initialization_gaf336e356c4647feec53d5f8ca02614d5}{set\-Compute\-And\-Assign\-Conservation\-Laws} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const bool On\-\_\-\-Or\-\_\-\-Off)
+\begin{DoxyCompactList}\small\item\em Enable or disable conservation analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialize library and terminate library instance. 
+
+\subsection{Function Documentation}
+\hypertarget{group__initialization_gac5b4dbf9108edb1ea6e315379e5576e0}{\index{Library initialization and termination methods@{Library initialization and termination methods}!create\-R\-R\-Instance@{create\-R\-R\-Instance}}
+\index{create\-R\-R\-Instance@{create\-R\-R\-Instance}!Library initialization and termination methods@{Library initialization and termination methods}}
+\subsubsection[{create\-R\-R\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Handle} create\-R\-R\-Instance (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__initialization_gac5b4dbf9108edb1ea6e315379e5576e0}
+
+
+Initialize a new road\-Runner instance and return a handle to it. 
+
+\begin{DoxyReturn}{Returns}
+Returns a Road\-Runner instance, returns null if it fails 
+\end{DoxyReturn}
+\hypertarget{group__initialization_ga03b0c84179407dda1f4ae19a66dacf47}{\index{Library initialization and termination methods@{Library initialization and termination methods}!create\-R\-R\-Instance\-Ex@{create\-R\-R\-Instance\-Ex}}
+\index{create\-R\-R\-Instance\-Ex@{create\-R\-R\-Instance\-Ex}!Library initialization and termination methods@{Library initialization and termination methods}}
+\subsubsection[{create\-R\-R\-Instance\-Ex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Handle} create\-R\-R\-Instance\-Ex (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{temp\-Folder, }
+\item[{const char $\ast$}]{compiler}
+\end{DoxyParamCaption}
+)}}\label{group__initialization_ga03b0c84179407dda1f4ae19a66dacf47}
+
+
+Initialize a new road\-Runner instance and return a handle to it. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em temp\-Folder} & set roadrunners temporary folder \\
+\hline
+\mbox{\tt in}  & {\em compiler} & may be N\-U\-L\-L, if N\-U\-L\-L, uses default compiler. If L\-L\-V\-M build is enabled, setting compiler to \char`\"{}llvm\char`\"{} enables llvm based model generation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a Road\-Runner instance, returns null if it fails 
+\end{DoxyReturn}
+\hypertarget{group__initialization_gaa085b3245183be2ee16a94dfe0de1751}{\index{Library initialization and termination methods@{Library initialization and termination methods}!free\-R\-R\-Instance@{free\-R\-R\-Instance}}
+\index{free\-R\-R\-Instance@{free\-R\-R\-Instance}!Library initialization and termination methods@{Library initialization and termination methods}}
+\subsubsection[{free\-R\-R\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}bool free\-R\-R\-Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__initialization_gaa085b3245183be2ee16a94dfe0de1751}
+
+
+Free the road\-Runner instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}{\index{Library initialization and termination methods@{Library initialization and termination methods}!get\-Install\-Folder@{get\-Install\-Folder}}
+\index{get\-Install\-Folder@{get\-Install\-Folder}!Library initialization and termination methods@{Library initialization and termination methods}}
+\subsubsection[{get\-Install\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Install\-Folder (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}
+
+
+Returns the folder in which the Road\-Runner A\-P\-I is installed. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to string holding the install folder 
+\end{DoxyReturn}
+\hypertarget{group__initialization_gaf336e356c4647feec53d5f8ca02614d5}{\index{Library initialization and termination methods@{Library initialization and termination methods}!set\-Compute\-And\-Assign\-Conservation\-Laws@{set\-Compute\-And\-Assign\-Conservation\-Laws}}
+\index{set\-Compute\-And\-Assign\-Conservation\-Laws@{set\-Compute\-And\-Assign\-Conservation\-Laws}!Library initialization and termination methods@{Library initialization and termination methods}}
+\subsubsection[{set\-Compute\-And\-Assign\-Conservation\-Laws}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Compute\-And\-Assign\-Conservation\-Laws (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const bool}]{On\-\_\-\-Or\-\_\-\-Off}
+\end{DoxyParamCaption}
+)}}\label{group__initialization_gaf336e356c4647feec53d5f8ca02614d5}
+
+
+Enable or disable conservation analysis. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em On\-\_\-\-Or\-\_\-\-Off} & Set true to switch on conservation analysis \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__initialization_gad1eb8bfdac1addc406f8ea5ee6d32c8d}{\index{Library initialization and termination methods@{Library initialization and termination methods}!set\-Install\-Folder@{set\-Install\-Folder}}
+\index{set\-Install\-Folder@{set\-Install\-Folder}!Library initialization and termination methods@{Library initialization and termination methods}}
+\subsubsection[{set\-Install\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Install\-Folder (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{folder}
+\end{DoxyParamCaption}
+)}}\label{group__initialization_gad1eb8bfdac1addc406f8ea5ee6d32c8d}
+
+
+Set the internal string containing the folder in where the Road\-Runner C A\-P\-I is installed. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em folder} & Pointer to string holding the install folder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean indicating success 
+\end{DoxyReturn}

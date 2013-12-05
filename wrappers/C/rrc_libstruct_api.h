@@ -112,9 +112,8 @@ RRVectorPtr getConservedSums(RRHandle handle);
 
 /*!
  \brief Compute the eigenvalues of a double matrix
-
- \param[in] mat Handle to input matrix
- \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
+ \param[in] mat Pointer to a to double matrix 
+ \return Returns NULL if it fails, otherwise returns a matrix of eigenvalues.
  The first column will contain the real values and the second column the imaginary values
  \ingroup LinearAlgebra
 */
