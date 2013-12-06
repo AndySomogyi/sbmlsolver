@@ -1,0 +1,579 @@
+\hypertarget{group__helper_routines}{\section{Helper routines}
+\label{group__helper_routines}\index{Helper routines@{Helper routines}}
+}
+
+
+Helper routines for acessing the various C A\-P\-I types, eg lists and arrays.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv \hyperlink{group__helper_routines_gaa54dd2d3c615bb2838c0670d0344e001}{get\-Vector\-Length} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector)
+\begin{DoxyCompactList}\small\item\em Get the number of elements in a vector type. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} rrc\-Call\-Conv \hyperlink{group__helper_routines_ga9f52eab51dfe4dcd3d87538bf8ecd453}{create\-Vector} (int size)
+\begin{DoxyCompactList}\small\item\em Create a new vector with a given size. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_ga859e5c6b606171f6a86311de2ee36ca6}{get\-Vector\-Element} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector, int index, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Get a particular element from a vector. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_ga25a6d2f359f6a8fee529bc5c7e21ad9f}{set\-Vector\-Element} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector, int index, double value)
+\begin{DoxyCompactList}\small\item\em Set a particular element in a vector. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \\*
+rrc\-Call\-Conv \hyperlink{group__helper_routines_gabf1979f15bd6b02315b3f9d880fded85}{create\-R\-R\-Matrix} (int r, int c)
+\begin{DoxyCompactList}\small\item\em Create an empty matrix of size r by c. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv \hyperlink{group__helper_routines_ga13d0d619adf01ca451033e742aaed38e}{get\-Matrix\-Num\-Rows} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of rows in the given matrix. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv \hyperlink{group__helper_routines_ga643d224921897abead4fdcdf1e1e362e}{get\-Matrix\-Num\-Cols} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of columns in the given matrix. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_gaa33df22ddaa04d8703c1535904080886}{get\-Matrix\-Element} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m, int r, int c, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve an element at a given row and column from a matrix type variable. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_ga6006f42f161e87a1b1a98fbcc42bea20}{set\-Matrix\-Element} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m, int r, int c, double value)
+\begin{DoxyCompactList}\small\item\em Set an element at a given row and column with a given value in a matrix type variable. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_gaac303b0adb267fb6cbc244106299546e}{get\-Complex\-Matrix\-Element} (\hyperlink{rrc__types_8h_a8cf9e865d8541d100f153800adbb7c3f}{R\-R\-Complex\-Matrix\-Ptr} m, int r, int c, \hyperlink{rrc__types_8h_ada2046d7326c56ae29d8510fbf6622ee}{R\-R\-Complex\-Ptr} value)
+\begin{DoxyCompactList}\small\item\em Retrieve an element at a given row and column from a complex matrix type variable. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_ga4c1503693a172a994c6d685be5dcda70}{set\-Complex\-Matrix\-Element} (\hyperlink{rrc__types_8h_a8cf9e865d8541d100f153800adbb7c3f}{R\-R\-Complex\-Matrix\-Ptr} m, int r, int c, \hyperlink{rrc__types_8h_ada2046d7326c56ae29d8510fbf6622ee}{R\-R\-Complex\-Ptr} value)
+\begin{DoxyCompactList}\small\item\em Set an element at a given row and column with a given value in a complex matrix type variable. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rrc\-Call\-Conv \hyperlink{group__helper_routines_gaaf161cfff2d85cc5a08ce4fa40d72760}{create\-R\-R\-C\-Data} (\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Create a Road\-Runner C data structure (R\-R\-C\-Data\-Ptr) from Road\-Runner data. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv \hyperlink{group__helper_routines_gae18768d9447fda2618cacb5099eb768e}{get\-R\-R\-Data\-Num\-Rows} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of rows in the given Road\-Runner numberical data (returned from \hyperlink{group__simulation_gabbfb1f6f19c777c59fccf8c453c874f7}{simulate(\-R\-R\-Handle handle)}) \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv \hyperlink{group__helper_routines_ga76a2e0f7b1704b28ef0b6661b5e6ada9}{get\-R\-R\-Data\-Num\-Cols} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of columns in the given rr\-Data data (returned form simulat(\-R\-R\-Handle handle)) \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_gac62debe5a133f63fb3ebe6da3745693c}{get\-R\-R\-C\-Data\-Element} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data, int r, int c, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieves an element at a given row and column from a Road\-Runner data type variable. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C char $\ast$rrc\-Call\-Conv \hyperlink{group__helper_routines_gaaa98160597f72e56bf32eff95e7b1f0c}{get\-R\-R\-Data\-Column\-Label} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data, int column)
+\begin{DoxyCompactList}\small\item\em Retrieves a label for a given column in a rr\-Data type variable. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_ga63cba386b98dc030461d2c5e94bdab76}{write\-R\-R\-Data} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$file\-Name\-And\-Path)
+\begin{DoxyCompactList}\small\item\em Writes Road\-Runner data to file. \end{DoxyCompactList}\item 
+C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv \hyperlink{group__helper_routines_ga51ea8512eff69dc08b825c209914d11a}{compile\-Source} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$source\-File\-Name\-And\-Path)
+\begin{DoxyCompactList}\small\item\em Compiles source code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Helper routines for acessing the various C A\-P\-I types, eg lists and arrays. 
+
+\subsection{Function Documentation}
+\hypertarget{group__helper_routines_ga51ea8512eff69dc08b825c209914d11a}{\index{Helper routines@{Helper routines}!compile\-Source@{compile\-Source}}
+\index{compile\-Source@{compile\-Source}!Helper routines@{Helper routines}}
+\subsubsection[{compile\-Source}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv compile\-Source (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{source\-File\-Name\-And\-Path}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga51ea8512eff69dc08b825c209914d11a}
+
+
+Compiles source code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Handle to a R\-R\-Instance \\
+\hline
+{\em source\-File\-Name\-And\-Path} & Pointer to string holding the file(with path) to compile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returna a boolean indicating the result 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gaaf161cfff2d85cc5a08ce4fa40d72760}{\index{Helper routines@{Helper routines}!create\-R\-R\-C\-Data@{create\-R\-R\-C\-Data}}
+\index{create\-R\-R\-C\-Data@{create\-R\-R\-C\-Data}!Helper routines@{Helper routines}}
+\subsubsection[{create\-R\-R\-C\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf R\-R\-C\-Data\-Ptr} rrc\-Call\-Conv create\-R\-R\-C\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Data\-Handle}}]{rr\-Data}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gaaf161cfff2d85cc5a08ce4fa40d72760}
+
+
+Create a Road\-Runner C data structure (R\-R\-C\-Data\-Ptr) from Road\-Runner data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rr\-Data} & A pointer to a Road\-Runner numerical data type variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns N\-U\-L\-L if fails, otherwise returns a \hyperlink{struct_r_r_c_data}{R\-R\-C\-Data} handle 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gabf1979f15bd6b02315b3f9d880fded85}{\index{Helper routines@{Helper routines}!create\-R\-R\-Matrix@{create\-R\-R\-Matrix}}
+\index{create\-R\-R\-Matrix@{create\-R\-R\-Matrix}!Helper routines@{Helper routines}}
+\subsubsection[{create\-R\-R\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf R\-R\-Double\-Matrix\-Ptr} rrc\-Call\-Conv create\-R\-R\-Matrix (
+\begin{DoxyParamCaption}
+\item[{int}]{r, }
+\item[{int}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gabf1979f15bd6b02315b3f9d880fded85}
+
+
+Create an empty matrix of size r by c. 
+
+Matrices are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+m = \hyperlink{group__helper_routines_gabf1979f15bd6b02315b3f9d880fded85}{createRRMatrix} (2, 3); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em r,c} & Row and column sizes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns N\-U\-L\-L if fails, otherwise returns a handle to the matrix 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga9f52eab51dfe4dcd3d87538bf8ecd453}{\index{Helper routines@{Helper routines}!create\-Vector@{create\-Vector}}
+\index{create\-Vector@{create\-Vector}!Helper routines@{Helper routines}}
+\subsubsection[{create\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf R\-R\-Vector\-Ptr} rrc\-Call\-Conv create\-Vector (
+\begin{DoxyParamCaption}
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga9f52eab51dfe4dcd3d87538bf8ecd453}
+
+
+Create a new vector with a given size. 
+
+Vectors are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+myVector = \hyperlink{group__helper_routines_ga9f52eab51dfe4dcd3d87538bf8ecd453}{createVector} (10); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The number of element in the new vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a pointer to the new vector 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gaac303b0adb267fb6cbc244106299546e}{\index{Helper routines@{Helper routines}!get\-Complex\-Matrix\-Element@{get\-Complex\-Matrix\-Element}}
+\index{get\-Complex\-Matrix\-Element@{get\-Complex\-Matrix\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{get\-Complex\-Matrix\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv get\-Complex\-Matrix\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Complex\-Matrix\-Ptr}}]{m, }
+\item[{int}]{r, }
+\item[{int}]{c, }
+\item[{{\bf R\-R\-Complex\-Ptr}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gaac303b0adb267fb6cbc244106299546e}
+
+
+Retrieve an element at a given row and column from a complex matrix type variable. 
+
+Matrices are indexed from zero
+
+Example\-: 
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_gaac303b0adb267fb6cbc244106299546e}{getComplexMatrixElement} (m, 2, 4, &value);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em m} & A pointer to a complex matrix type variable \\
+\hline
+\mbox{\tt in}  & {\em r} & The row index to the matrix \\
+\hline
+\mbox{\tt in}  & {\em c} & The column index to the matrix \\
+\hline
+\mbox{\tt out}  & {\em value} & The retrieved value from the matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns True if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gaa33df22ddaa04d8703c1535904080886}{\index{Helper routines@{Helper routines}!get\-Matrix\-Element@{get\-Matrix\-Element}}
+\index{get\-Matrix\-Element@{get\-Matrix\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{get\-Matrix\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv get\-Matrix\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Double\-Matrix\-Ptr}}]{m, }
+\item[{int}]{r, }
+\item[{int}]{c, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gaa33df22ddaa04d8703c1535904080886}
+
+
+Retrieve an element at a given row and column from a matrix type variable. 
+
+Matrices are indexed from zero
+
+Example\-: 
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_gaa33df22ddaa04d8703c1535904080886}{getMatrixElement} (m, 2, 4, &value);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em m} & A pointer to a matrix type variable \\
+\hline
+\mbox{\tt in}  & {\em r} & The row index to the matrix \\
+\hline
+\mbox{\tt in}  & {\em c} & The column index to the matrix \\
+\hline
+\mbox{\tt out}  & {\em value} & The retrieved value from the matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns True if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga643d224921897abead4fdcdf1e1e362e}{\index{Helper routines@{Helper routines}!get\-Matrix\-Num\-Cols@{get\-Matrix\-Num\-Cols}}
+\index{get\-Matrix\-Num\-Cols@{get\-Matrix\-Num\-Cols}!Helper routines@{Helper routines}}
+\subsubsection[{get\-Matrix\-Num\-Cols}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv get\-Matrix\-Num\-Cols (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Double\-Matrix\-Ptr}}]{m}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga643d224921897abead4fdcdf1e1e362e}
+
+
+Retrieve the number of columns in the given matrix. 
+
+Matrices are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+nRows = \hyperlink{group__helper_routines_ga643d224921897abead4fdcdf1e1e362e}{getMatrixNumCols} (m); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & A pointer to a matrix type variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if fails, otherwise returns the number of columns 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga13d0d619adf01ca451033e742aaed38e}{\index{Helper routines@{Helper routines}!get\-Matrix\-Num\-Rows@{get\-Matrix\-Num\-Rows}}
+\index{get\-Matrix\-Num\-Rows@{get\-Matrix\-Num\-Rows}!Helper routines@{Helper routines}}
+\subsubsection[{get\-Matrix\-Num\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv get\-Matrix\-Num\-Rows (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Double\-Matrix\-Ptr}}]{m}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga13d0d619adf01ca451033e742aaed38e}
+
+
+Retrieve the number of rows in the given matrix. 
+
+Matrices are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+nRows = \hyperlink{group__helper_routines_ga13d0d619adf01ca451033e742aaed38e}{getMatrixNumRows} (m); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & A pointer to a matrix type variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if fails, otherwise returns the number of rows 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gac62debe5a133f63fb3ebe6da3745693c}{\index{Helper routines@{Helper routines}!get\-R\-R\-C\-Data\-Element@{get\-R\-R\-C\-Data\-Element}}
+\index{get\-R\-R\-C\-Data\-Element@{get\-R\-R\-C\-Data\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{get\-R\-R\-C\-Data\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv get\-R\-R\-C\-Data\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-C\-Data\-Ptr}}]{rr\-Data, }
+\item[{int}]{r, }
+\item[{int}]{c, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gac62debe5a133f63fb3ebe6da3745693c}
+
+
+Retrieves an element at a given row and column from a Road\-Runner data type variable. 
+
+Road\-Runner numerical data are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_gac62debe5a133f63fb3ebe6da3745693c}{getRRCDataElement} (rrData, 2, 4, *value); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rr\-Data} & A pointer to a rr\-Data type variable \\
+\hline
+\mbox{\tt in}  & {\em r} & -\/\-The row index to the rr\-Data data \\
+\hline
+\mbox{\tt in}  & {\em c} & -\/ The column index to the rr\-Data data \\
+\hline
+\mbox{\tt out}  & {\em value} & -\/ The retrieved value from the rr\-Data data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gaaa98160597f72e56bf32eff95e7b1f0c}{\index{Helper routines@{Helper routines}!get\-R\-R\-Data\-Column\-Label@{get\-R\-R\-Data\-Column\-Label}}
+\index{get\-R\-R\-Data\-Column\-Label@{get\-R\-R\-Data\-Column\-Label}!Helper routines@{Helper routines}}
+\subsubsection[{get\-R\-R\-Data\-Column\-Label}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C char$\ast$ rrc\-Call\-Conv get\-R\-R\-Data\-Column\-Label (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-C\-Data\-Ptr}}]{rr\-Data, }
+\item[{int}]{column}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gaaa98160597f72e56bf32eff95e7b1f0c}
+
+
+Retrieves a label for a given column in a rr\-Data type variable. 
+
+Result data are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+str = getResultColumnLabel (rrData, 2, 4); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rr\-Data} & A pointer to a rr\-Data type variable \\
+\hline
+\mbox{\tt in}  & {\em column} & -\/ The column index for the rr\-Data data (indexing from zero) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if fails, otherwise returns a pointer to the string column label 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga76a2e0f7b1704b28ef0b6661b5e6ada9}{\index{Helper routines@{Helper routines}!get\-R\-R\-Data\-Num\-Cols@{get\-R\-R\-Data\-Num\-Cols}}
+\index{get\-R\-R\-Data\-Num\-Cols@{get\-R\-R\-Data\-Num\-Cols}!Helper routines@{Helper routines}}
+\subsubsection[{get\-R\-R\-Data\-Num\-Cols}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv get\-R\-R\-Data\-Num\-Cols (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-C\-Data\-Ptr}}]{rr\-Data}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga76a2e0f7b1704b28ef0b6661b5e6ada9}
+
+
+Retrieve the number of columns in the given rr\-Data data (returned form simulat(\-R\-R\-Handle handle)) 
+
+Example\-:
+\begin{DoxyCode}
+nRows = getResultNumCols (rrData); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rr\-Data} & A pointer to a rr\-Data type variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if fails, otherwise returns the number of columns 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gae18768d9447fda2618cacb5099eb768e}{\index{Helper routines@{Helper routines}!get\-R\-R\-Data\-Num\-Rows@{get\-R\-R\-Data\-Num\-Rows}}
+\index{get\-R\-R\-Data\-Num\-Rows@{get\-R\-R\-Data\-Num\-Rows}!Helper routines@{Helper routines}}
+\subsubsection[{get\-R\-R\-Data\-Num\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv get\-R\-R\-Data\-Num\-Rows (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-C\-Data\-Ptr}}]{rr\-Data}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gae18768d9447fda2618cacb5099eb768e}
+
+
+Retrieve the number of rows in the given Road\-Runner numberical data (returned from \hyperlink{group__simulation_gabbfb1f6f19c777c59fccf8c453c874f7}{simulate(\-R\-R\-Handle handle)}) 
+
+Example\-:
+\begin{DoxyCode}
+nRows = \hyperlink{group__helper_routines_gae18768d9447fda2618cacb5099eb768e}{getRRDataNumRows} (result); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rr\-Data} & A pointer to a Road\-Runner numerical data type variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if fails, otherwise returns the number of rows 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga859e5c6b606171f6a86311de2ee36ca6}{\index{Helper routines@{Helper routines}!get\-Vector\-Element@{get\-Vector\-Element}}
+\index{get\-Vector\-Element@{get\-Vector\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{get\-Vector\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv get\-Vector\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Vector\-Ptr}}]{vector, }
+\item[{int}]{index, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga859e5c6b606171f6a86311de2ee36ca6}
+
+
+Get a particular element from a vector. 
+
+Vectors are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_ga859e5c6b606171f6a86311de2ee36ca6}{getVectorElement} (myVector, 10, *value); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & A pointer to the vector variable type \\
+\hline
+{\em index} & An integer indicating the ith element to retrieve (indexing is from zero) \\
+\hline
+{\em value} & A pointer to the retrieved double value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_gaa54dd2d3c615bb2838c0670d0344e001}{\index{Helper routines@{Helper routines}!get\-Vector\-Length@{get\-Vector\-Length}}
+\index{get\-Vector\-Length@{get\-Vector\-Length}!Helper routines@{Helper routines}}
+\subsubsection[{get\-Vector\-Length}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rrc\-Call\-Conv get\-Vector\-Length (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Vector\-Ptr}}]{vector}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_gaa54dd2d3c615bb2838c0670d0344e001}
+
+
+Get the number of elements in a vector type. 
+
+Vectors are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+count = \hyperlink{group__helper_routines_gaa54dd2d3c615bb2838c0670d0344e001}{getVectorLength} (myVector); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & A pointer to the vector variable type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if it fails, otherwise returns the number of elements in the vector 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga4c1503693a172a994c6d685be5dcda70}{\index{Helper routines@{Helper routines}!set\-Complex\-Matrix\-Element@{set\-Complex\-Matrix\-Element}}
+\index{set\-Complex\-Matrix\-Element@{set\-Complex\-Matrix\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{set\-Complex\-Matrix\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv set\-Complex\-Matrix\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Complex\-Matrix\-Ptr}}]{m, }
+\item[{int}]{r, }
+\item[{int}]{c, }
+\item[{{\bf R\-R\-Complex\-Ptr}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga4c1503693a172a994c6d685be5dcda70}
+
+
+Set an element at a given row and column with a given value in a complex matrix type variable. 
+
+Matrices are indexed from zero
+
+Example\-: 
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_ga4c1503693a172a994c6d685be5dcda70}{setComplexMatrixElement} (m, 2, 4, value);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em m} & A pointer to a complex matrix type variable \\
+\hline
+\mbox{\tt in}  & {\em r} & The row index to the matrix \\
+\hline
+\mbox{\tt in}  & {\em c} & The column index to the matrix \\
+\hline
+\mbox{\tt out}  & {\em value} & The value to set to the complex matrix element \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns True if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga6006f42f161e87a1b1a98fbcc42bea20}{\index{Helper routines@{Helper routines}!set\-Matrix\-Element@{set\-Matrix\-Element}}
+\index{set\-Matrix\-Element@{set\-Matrix\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{set\-Matrix\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv set\-Matrix\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Double\-Matrix\-Ptr}}]{m, }
+\item[{int}]{r, }
+\item[{int}]{c, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga6006f42f161e87a1b1a98fbcc42bea20}
+
+
+Set an element at a given row and column with a given value in a matrix type variable. 
+
+Matrices are indexed from zero
+
+Example\-: 
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_ga6006f42f161e87a1b1a98fbcc42bea20}{setMatrixElement} (m, 2, 4, value);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em m} & A pointer to a matrix type variable \\
+\hline
+\mbox{\tt in}  & {\em r} & The row index to the matrix \\
+\hline
+\mbox{\tt in}  & {\em c} & The column index to the matrix \\
+\hline
+\mbox{\tt out}  & {\em value} & The value to set to the matrix element \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns True if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga25a6d2f359f6a8fee529bc5c7e21ad9f}{\index{Helper routines@{Helper routines}!set\-Vector\-Element@{set\-Vector\-Element}}
+\index{set\-Vector\-Element@{set\-Vector\-Element}!Helper routines@{Helper routines}}
+\subsubsection[{set\-Vector\-Element}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv set\-Vector\-Element (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Vector\-Ptr}}]{vector, }
+\item[{int}]{index, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga25a6d2f359f6a8fee529bc5c7e21ad9f}
+
+
+Set a particular element in a vector. 
+
+Vectors are indexed from zero
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__helper_routines_ga25a6d2f359f6a8fee529bc5c7e21ad9f}{setVectorElement} (myVector, 10, 3.1415); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & A pointer to the vector variable type \\
+\hline
+{\em index} & An integer indicating the ith element to set (indexing is from zero) \\
+\hline
+{\em value} & The value to store in the vector at the indexth position \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__helper_routines_ga63cba386b98dc030461d2c5e94bdab76}{\index{Helper routines@{Helper routines}!write\-R\-R\-Data@{write\-R\-R\-Data}}
+\index{write\-R\-R\-Data@{write\-R\-R\-Data}!Helper routines@{Helper routines}}
+\subsubsection[{write\-R\-R\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rrc\-Call\-Conv write\-R\-R\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{file\-Name\-And\-Path}
+\end{DoxyParamCaption}
+)}}\label{group__helper_routines_ga63cba386b98dc030461d2c5e94bdab76}
+
+
+Writes Road\-Runner data to file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Handle to a Roadrunner Instance \\
+\hline
+{\em file\-Name\-And\-Path} & Pointer to string holding the file(with path) to write data to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returna a boolean indicating the result 
+\end{DoxyReturn}
