@@ -19,7 +19,11 @@ The LLVM backend and refactoring of the core was designed and undertaken by
 
 Andy Somogyi
 
-The C backed was developed by
+The C backend was developed by
+
+Totte Karlsson
+
+The Plugin Framework was designed and developed by
 
 Totte Karlsson
 

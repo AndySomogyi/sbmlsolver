@@ -18,7 +18,7 @@ using namespace rrc;
 LM::LM(rr::RoadRunner* aRR)
 :
 CPPPlugin(                  "Levenberg-Marquardt", "Fitting",       aRR, NULL),
-mLMFit(                     "LMFit",                                "",                     "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
+mLMFit(                     "LMFit",                                "Fit Model Parameters Using the Levenberg-Marquardt Algorithm"),    //The 'capability'
 mTempFolder(                "TempFolder",                           "",                     "Tempfolder used in the fitting"),
 mSBML(                      "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
 mObservedData(              "ObservedData",                         RoadRunnerData(),       "Data object holding observed (experimental) data"),

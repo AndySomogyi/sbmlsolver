@@ -1,6 +1,6 @@
 /**
  * @file rrCapabilities.h
- * @brief RoadRunner Capabilities class
+ * @brief Container for Capabilities
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -57,24 +57,77 @@ using std::vector;
 class PLUGINS_API_DECLSPEC Capabilities
 {
     public:
-                                        Capabilities(const string& name, const string& description);
+        /**
+            Create a Capabilitities container
+        */
+                                        Capabilities();//const string& name, const string& description);
+
+        /**
+            De allocate memory associated with the capabilities.
+        */
+                                       ~Capabilities();
+
+        /**
+            Add a capability
+        */
         void                            add(Capability& capability);
 
-        StringList                      asStringList();
+        /**
+            Get capabilities as a list of strings
+        */
         string                          info() const;
+
+        /**
+            Get number of capabilties.
+        */
         u_int                           count();
+
+        /**
+            Clear the capabilties container.
+        */
         void                            clear();
+
+        /**
+            Get a pointer to a capability using operator []
+        */
         Capability*                     operator[](int i);
+
+        /**
+            Get a pointer to a capability using a vaspability name.
+        */
         Capability*                     get(const string& capName);
+
+        /**
+            Set a parameter value in a capability.
+        */
         bool                            setParameter(const string& name, const string& value);
+
+        /**
+            Get capabilities as a list of strings
+        */
+        StringList                      asStringList();
+
+        /**
+            Get capabilities as XML
+        */
         string                          asXML();
 
+        /**
+            Output capabilities to a ostream
+        */
         PLUGINS_API_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const Capabilities& caps);
 
     protected:
-        string                          mName;
-        string                          mDescription;
+//        /**
+//            Name of capability
+//        */
+//        string                          mName;
+//
+//        /**
+//            Descritpion of a capability
+//        */
+//        string                          mDescription;
         mutable
         vector<Capability*>             mCapabilities;
 

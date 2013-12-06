@@ -46,7 +46,14 @@
 namespace rrp
 {
 
+/**
+Typedef for the plugins execute function
+*/
 typedef bool  (*executeF)(void*, bool);
+
+/**
+Typedef for the plugins destroy (cleanup) function
+*/
 typedef bool  (*destroyF)();
 
 /**
