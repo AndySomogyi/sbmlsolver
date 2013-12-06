@@ -466,14 +466,15 @@ RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrData, int r, int c, dou
 
 
 /*! \mainpage Plugin framework for libRoadRunner
- *
- * \section intro_sec Introduction
- *
- * RoadRunner is a SBML compliant high performance and portable simulation engine
- * for systems and synthetic biology. The plugin framework documented here, is available 
- * to assist in using and createing extensions (Plugins) to the main RoadRunner Core.
- * A simple example (a C++ program using RoadRunners C API's) on how to get access to plugins is shown below.
- *
+
+  \section intro_sec Introduction
+
+  RoadRunner is a SBML compliant high performance and portable simulation engine
+  for systems and synthetic biology.
+
+  The plugin framework documented here, is available to assist in using and creating extensions (Plugins) to the main RoadRunner Core.
+  A simple example (a C++ program using RoadRunners C API's) on how to get access to plugins is shown below.
+
 \code
 #include <iostream>
 #include "rrc_api.h"
