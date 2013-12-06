@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Accessing the SBML Model Variables &mdash; RoadRunner 0.99 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.99',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
+    <link rel="next" title="Utility Functions" href="utility_functions.html" />
+    <link rel="prev" title="Stability Analysis" href="stability.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utility_functions.html" title="Utility Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="stability.html" title="Stability Analysis"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="accessing-the-sbml-model-variables">
+<h1>Accessing the SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline">¶</a></h1>
+<p>The following methods allow users to obtain information on the model</p>
+<div class="section" id="compartment-group">
+<h2>Compartment Group<a class="headerlink" href="#compartment-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getCompartmentVolumes" title="roadrunner.ExecutableModel.getCompartmentVolumes"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getCompartmentVolumes</span></tt></a>([index])</td>
+<td>Returns a vector of compartment volumes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumCompartments" title="roadrunner.ExecutableModel.getNumCompartments"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumCompartments</span></tt></a>()</td>
+<td>Returns the number of compartments in the model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getCompartmentIds" title="roadrunner.ExecutableModel.getCompartmentIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getCompartmentIds</span></tt></a>([index])</td>
+<td>Returns a vector of compartment identifier symbols.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setCompartmentVolumes" title="roadrunner.ExecutableModel.setCompartmentVolumes"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setCompartmentVolumes</span></tt></a>(...)</td>
+<td>Sets a vector of compartment volumes.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="boundary-species-group">
+<h2>Boundary Species Group<a class="headerlink" href="#boundary-species-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getBoundarySpeciesConcentrations" title="roadrunner.ExecutableModel.getBoundarySpeciesConcentrations"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getBoundarySpeciesConcentrations</span></tt></a>([index])</td>
+<td>Returns a vector of boundary species concentrations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setBoundarySpeciesConcentrations" title="roadrunner.ExecutableModel.setBoundarySpeciesConcentrations"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setBoundarySpeciesConcentrations</span></tt></a>(...)</td>
+<td>Use this to set the entire set of boundary species concentrations in one call.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumBoundarySpecies" title="roadrunner.ExecutableModel.getNumBoundarySpecies"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumBoundarySpecies</span></tt></a>()</td>
+<td>Returns the number of boundary species in the model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getBoundarySpeciesIds" title="roadrunner.ExecutableModel.getBoundarySpeciesIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getBoundarySpeciesIds</span></tt></a>()</td>
+<td>Returns a vector of boundary species Ids.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="floating-species-group">
+<h2>Floating Species Group<a class="headerlink" href="#floating-species-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="roadrunner.ExecutableModel.getFloatingSpeciesConcentrations"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesConcentrations</span></tt></a>([index])</td>
+<td>Returns a vector of floating species concentrations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setFloatingSpeciesConcentrations" title="roadrunner.ExecutableModel.setFloatingSpeciesConcentrations"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setFloatingSpeciesConcentrations</span></tt></a>(...)</td>
+<td>Use this to set the entire set of floating species concentrations in one call.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumFloatingSpecies" title="roadrunner.ExecutableModel.getNumFloatingSpecies"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumFloatingSpecies</span></tt></a>()</td>
+<td>Returns the number of floating species in the model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesIds" title="roadrunner.ExecutableModel.getFloatingSpeciesIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesIds</span></tt></a>()</td>
+<td>Return a list of floating species sbml ids.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="initial-conditions-group">
+<h2>Initial Conditions Group<a class="headerlink" href="#initial-conditions-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+</div>
+<div class="section" id="reaction-group">
+<h2>Reaction Group<a class="headerlink" href="#reaction-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumReactions" title="roadrunner.ExecutableModel.getNumReactions"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumReactions</span></tt></a>()</td>
+<td>Returns the number of reactions in the model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getReactionRates" title="roadrunner.ExecutableModel.getReactionRates"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getReactionRates</span></tt></a>([index])</td>
+<td>Returns a vector of reaction rates for the current state of the model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getReactionIds" title="roadrunner.ExecutableModel.getReactionIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getReactionIds</span></tt></a>()</td>
+<td>Returns a vector of reaction Ids.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rates-of-change-group">
+<h2>Rates Of Change Group<a class="headerlink" href="#rates-of-change-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="roadrunner.ExecutableModel.getFloatingSpeciesAmountRates"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesAmountRates</span></tt></a>([index])</td>
+<td>Return a vector of floating species amount rates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getReactionRates" title="roadrunner.ExecutableModel.getReactionRates"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getReactionRates</span></tt></a>([index])</td>
+<td>Returns a vector of reaction rates for the current state of the model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumReactions" title="roadrunner.ExecutableModel.getNumReactions"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumReactions</span></tt></a>()</td>
+<td>Returns the number of reactions in the model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getReactionIds" title="roadrunner.ExecutableModel.getReactionIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getReactionIds</span></tt></a>()</td>
+<td>Returns a vector of reaction Ids.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="parameters-group">
+<h2>Parameters Group<a class="headerlink" href="#parameters-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setGlobalParameterValues" title="roadrunner.ExecutableModel.setGlobalParameterValues"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setGlobalParameterValues</span></tt></a>(...)</td>
+<td>Use this to set the entire set of global parameters in one call.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getGlobalParameterValues" title="roadrunner.ExecutableModel.getGlobalParameterValues"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getGlobalParameterValues</span></tt></a>([index])</td>
+<td>Return a vector of global parameter values.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumGlobalParameters" title="roadrunner.ExecutableModel.getNumGlobalParameters"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumGlobalParameters</span></tt></a>()</td>
+<td>Returns the number of global parameters in the model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumGlobalParameters" title="roadrunner.ExecutableModel.getNumGlobalParameters"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumGlobalParameters</span></tt></a>()</td>
+<td>Returns the number of global parameters in the model.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="current-state-of-the-system-group">
+<h2>Current State of the System Group<a class="headerlink" href="#current-state-of-the-system-group" title="Permalink to this headline">¶</a></h2>
+<p>When using the LLVM back end, all model state calculation are automatically
+performed using a techinque called lazy evaluation. If one sets the concentration
+of a species, the amount of of that species is automatically available without
+having to perform any addition operations. Similarly with any other value in the model.</p>
+<p>If an SBML parameter is defined by an assigment rule or function and its value then
+depends on a number of other values, simply setting to other values automatically
+cause the value of the most dependent variable to be set.</p>
+<p>This is identical how one operates in a spredsheet such as Microsoft Excel. For
+example, if one has a cell with an equation that depends on other cell, and those
+other cell depend on other values, setting the value of any upstream cell automatically
+causes that value to cascade down to the terminal cells. The LLVM back end roadruner
+function identically.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Accessing the SBML Model Variables</a><ul>
+<li><a class="reference internal" href="#compartment-group">Compartment Group</a></li>
+<li><a class="reference internal" href="#boundary-species-group">Boundary Species Group</a></li>
+<li><a class="reference internal" href="#floating-species-group">Floating Species Group</a></li>
+<li><a class="reference internal" href="#initial-conditions-group">Initial Conditions Group</a></li>
+<li><a class="reference internal" href="#reaction-group">Reaction Group</a></li>
+<li><a class="reference internal" href="#rates-of-change-group">Rates Of Change Group</a></li>
+<li><a class="reference internal" href="#parameters-group">Parameters Group</a></li>
+<li><a class="reference internal" href="#current-state-of-the-system-group">Current State of the System Group</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="stability.html"
+                        title="previous chapter">Stability Analysis</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utility_functions.html"
+                        title="next chapter">Utility Functions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/accessing_model.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utility_functions.html" title="Utility Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="stability.html" title="Stability Analysis"
+             >previous</a> |</li>
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>
