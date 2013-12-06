@@ -103,11 +103,11 @@ char* rrp_cc getParameterValueAsString(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle)
+void* rrp_cc getParameterValueHandle(RRParameterHandle handle)
 {
     start_try
         PluginParameter* para = castToParameter(handle);
-        return para->getValueAsPointer();
+        return para->getValueHandle();
     catch_ptr_macro
 }
 

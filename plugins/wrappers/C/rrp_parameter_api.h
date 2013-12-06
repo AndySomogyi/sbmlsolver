@@ -125,11 +125,11 @@ RRP_DECLSPEC char* rrp_cc getParameterInfo(RRParameterHandle handle);
 RRP_DECLSPEC char* rrp_cc getParameterValueAsString(RRParameterHandle handle);
 
 /*!
- \brief Get a parameters value as a void*
+ \brief Get a handle to a parameters value
  \param handle to a Parameter instance
- \return Returns the parameters value as a pointer if sucessful, NULL otherwise
+ \return Returns a Handle to the parameters value if sucessful, NULL otherwise
 */
-RRP_DECLSPEC void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle);
+RRP_DECLSPEC void* rrp_cc getParameterValueHandle(RRParameterHandle handle);
 
 /*!
  \brief Get a parameters name

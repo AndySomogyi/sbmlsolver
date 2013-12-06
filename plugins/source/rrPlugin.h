@@ -14,116 +14,329 @@ class RoadRunner;
 namespace rrp
 {
 using namespace rr;
+using std::string;
 class PluginManager;
 
-//Plugin callback functions
+/**
+ * Typedef for a Plugin callback function
+ */
 typedef void    (callback_cc *PluginCallBackFnc)(void* data1, void* data2);
 
-using std::string;
+/**
+  The Plugin class is a base class for all RoadRunner plugins.
+  A Plugin is implemented in a shared library, e.g. a DLL on Windows, and loaded at runtime by a PluginManager. Any RoadRunner Plugin need to inherit from
+  the Plugin class or any of its descendants. Here are the main characteristics of a Plugin:
 
+
+  -# The Plugin class do contain the bulk of how a Plugin is handled by the Plugin manager and any clients of the plugin, while
+  the atcual custom functionality is implmemented in a descendant Plugin.
+
+  -# A plugin may belong to a category and is identified by a name. It has properties like Author, Version, Copyright etc.
+
+  -# A Plugin typically expose various \a Capabilities, available to a client of a plugin trough the \a Capabilites conatiner.
+
+  -# Each Capability may have various numbers of \a Parameters that a client of the Plugin may \a set or \a get.
+
+  -# The internal work a plugin is designed to do may be executed in a separate thread, and various functions to monitor and manage
+  the work of a Plugin is exposed, e.g. isWorking(), terminate(), isBeingTerminated() etc.
+
+  -# A Plugin may implement various \a callback functions in order to communicate data or progress to a client. The Plugin class exposes three callbacks,
+   \a PluginStarted, \a PluginProgress and a \a PluginFinish callback. Each callback may communicate two opaque data parameters. Its up to the plugin implementor
+  to make use of these callbacks and what data to pass.
+
+  -# A plugin have access to other plugins through the PluginManager. Thus, a plugin may depend on other plugins.
+
+  -# A plugin may embed documentation in various forms, e.g. PDF (getPDFManual(), or simple text getExtendedInfo().
+
+
+
+ */
 class PLUGINS_API_DECLSPEC Plugin
 {
     friend PluginManager;
-    protected:
-        string                          mName;
-        string                          mLibraryName;
-        string                          mAuthor;
-        string                          mCategory;
-        string                          mVersion;
-        string                          mCopyright;
-        string                          mImplementationLanguage;
-
-                                        //! Boolean indicating if a user wants to terminate the work in a plugin
-        bool                            mTerminate;
-        bool                            mIsWorking; //Set to true if plugin is working
-
-        /**
-         * a pointer to a RoadRunner instance which the plugin
-         * uses.
-         */
-        RoadRunner                     *mRR;
-        const PluginManager            *mPM; //A plugin can't change a plugin manager..
-
-        //Plugin callback functionality
-        PluginCallBackFnc               mWorkStartedCB;
-        PluginCallBackFnc               mWorkProgressCB;
-        PluginCallBackFnc               mWorkFinishedCB;
-        void                           *mWorkStartedData1;
-        void                           *mWorkStartedData2;
-        void                           *mWorkProgressData1;
-        void                           *mWorkProgressData2;
-        void                           *mWorkFinishedData1;
-        void                           *mWorkFinishedData2;
-
-        Capabilities                    mCapabilities;          //Container for parameter data that can be exchanged to/from the plugin by using parameters
-        void                           *mClientData;            //Data passed trough the execute function,
-
     public:
+        /**
+            Create a plugin
+        */
                                         Plugin( const string& name = gEmptyString,
                                                 const string& cat = gNoneString,
                                                 RoadRunner* aRR = NULL,
                                                 const string& language = gNoneString,
                                                 const PluginManager* pm = NULL);
 
+        /**
+            Destroy the plugin.
+        */
         virtual                        ~Plugin();
 
+        /**
+            Get the name of the plugin.
+        */
         string                          getName();
-        void                            setLibraryName(const string& libName);
+
+        /**
+            Get the name of the compiled shared library that implemements the plugin.
+        */
         string                          getLibraryName();
+
+        /**
+            Get the name of plugin author(s)
+        */
         string                          getAuthor();
+
+        /**
+            Get plugin category
+        */
         string                          getCategory();
+
+        /**
+            Get plugin version information
+        */
         string                          getVersion();
+
+        /**
+            Get plugin copyright text
+        */
         string                          getCopyright();
 
-        //Misc.
+
+        /**
+            Retrieves the RoadRunner instance the plugin is using. Can be NULL.
+        */
         RoadRunner*                     getRoadRunnerInstance();
 
-        //Plugin documentation
-        string                          getInfo();
-        string                          getExtendedInfo();
+
+        /**
+            Retrieves various plugin information
+        */
+        virtual string                  getInfo();
+
+        /**
+            Retrieve more information than getInfo()
+        */
+        virtual string                  getExtendedInfo();
+
+        /**
+            Retrieve a plugins documentation embedded as PDF. May be NULL
+        */
         virtual unsigned char*          getManualAsPDF() const;
+
+        /**
+            Retrieve the size in bytes of the PDF string.
+        */
         virtual unsigned int            getPDFManualByteSize();
 
+        /**
+            Returns a pointer to a plugins Capabilities container
+        */
         Capabilities*                   getCapabilities();
+
+        /**
+            Get a pointer to a capability with specified name
+        */
         Capability*                     getCapability(const string& name);
+
+        /**
+            Retieves capabilities as XML
+        */
         string                          getCapabilitiesAsXML();
 
+        /**
+            Retieves parameters associated to a specific capability
+        */
         Parameters*                     getParameters(Capability& capability); //Each capability has a set of parameters
+
+        /**
+            Retieves parameters associated to a specific capability
+        */
         Parameters*                     getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
-        PluginParameter*                  getParameter(const string& param, const string& capability = "");
+        /**
+            Retieves a specific parameter, in a specific capability.
+        */
+        PluginParameter*                getParameter(const string& param, const string& capability = "");
+
+        /**
+            Retieves a specific parameter, in a specific capability.
+        */
+        PluginParameter*                getParameter(const string& param, Capability& capability);
+
+        /**
+            Sets the value of specified Parameter with value as specified
+        */
         bool                            setParameter(const string& nameOf, const char* value);
 
-        PluginParameter*                  getParameter(const string& param, Capability& capability);
+        /**
+            Sets the value of specified Parameter with value as specified
+        */
         bool                            setParameter(const string& nameOf, const char* value, Capability& capability);
 
-                                        //! User has the ability to terminate the work in a plugin by calling terminate()
+
+        /**
+            If the work of the plugin is carried out in a separate thread, terminate() will
+            signal termination of such work.
+        */
         void                            terminate();
 
-                                        //! Check if we are in the process of being terminated
+        /**
+            Check if the plugin worker is in the process of being terminated
+        */
         bool                            isBeingTerminated();
 
                                         //!check if the plugin was terminated
         bool                            wasTerminated();
 
+                                        //!check if the plugin is working
+        virtual bool                    isWorking();
+
                                         //!Assign a roadrunner instance for the plugin to use
         bool                            assignRoadRunnerInstance(RoadRunner* rr);
 
-        //Virtuals
+        /**
+            Assign function pointer and data the callback
+        */
         virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
+
+        /**
+            Assign function pointer and data the callback
+        */
         virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
+
+        /**
+            Assign function pointer and data the callback
+        */
         virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
 
+        /**
+            Function returnin a plugins "result", as a string
+        */
         virtual string                  getResult();
-        virtual bool                    isWorking();
 
+        /**
+            Reset the plugin.
+        */
         virtual bool                    resetPlugin();
+
+        /**
+            Function allowing opaque data being passed to a plugin. This
+        */
         virtual bool                    setInputData(void* data);
+
+        /**
+            Retrieve the status of the plugin.
+        */
         virtual string                  getStatus();
 
-        //Pure virtuals
+        /**
+            Retrieve the implementation language of the plugin.
+        */
         virtual string                  getImplementationLanguage() = 0;
+
+        /**
+            Execute the plugin
+        */
         virtual bool                    execute(void* clientData = NULL, bool inAThread = false) = 0;
+
+    protected:                          //! Name of Plugin
+        string                          mName;
+
+                                        //! Name of compiled shared library implementing the Plugin
+        string                          mLibraryName;
+
+                                        //! Name of plugin author(s)
+        string                          mAuthor;
+
+                                        //! Plugin category
+        string                          mCategory;
+
+                                        //! Plugin version
+        string                          mVersion;
+
+                                        //! Plugin copyright language
+        string                          mCopyright;
+
+                                        //! Plugin implementation language
+        string                          mImplementationLanguage;
+
+                                        //! Boolean flag indicating if a user wants to terminate the work in a plugin
+        bool                            mTerminate;
+
+                                        //! Boolean flag indicating if the plugin is working
+        bool                            mIsWorking;
+
+        /**
+         * A pointer to a RoadRunner instance which the plugin
+         * uses.
+         */
+        RoadRunner                     *mRR;
+
+        /**
+         * A pointer to the PluginManager that loaded the Plugin
+         * uses.
+         */
+        const PluginManager            *mPM;
+
+        /**
+         * Set the name of the shared library
+         */
+        void                            setLibraryName(const string& libName);
+
+        /**
+         * WorkStarted callback function pointer
+         */
+        PluginCallBackFnc               mWorkStartedCB;
+
+        /**
+         * Work In progress callback function pointer
+         */
+        PluginCallBackFnc               mWorkProgressCB;
+
+        /**
+         * WorkFinished callback function pointer
+         */
+        PluginCallBackFnc               mWorkFinishedCB;
+
+        /**
+         * Opaque data parameter 1 passed in the WorkStarted callback function
+         */
+        void                           *mWorkStartedData1;
+
+        /**
+         * Opaque data parameter 2 passed in the WorkStarted callback function
+         */
+        void                           *mWorkStartedData2;
+
+        /**
+         * Opaque data parameter 1 passed in the WorkProgress callback function
+         */
+        void                           *mWorkProgressData1;
+
+        /**
+         * Opaque data parameter 2 passed in the WorkProgress callback function
+         */
+        void                           *mWorkProgressData2;
+
+        /**
+         * Opaque data parameter 1 passed in the WorkFinished callback function
+         */
+        void                           *mWorkFinishedData1;
+
+        /**
+         * Opaque data parameter 2 passed in the WorkFinished callback function
+         */
+        void                           *mWorkFinishedData2;
+
+        /**
+         * Capabilities container. Descendant add capabilites to this container, as they wish.
+         * It is basically a container for parameter data that can be exchanged to/from the plugin by using parameters
+         */
+        Capabilities                    mCapabilities;
+
+        /**
+         * Opaque data pointer. Plugin designer may use this to communicat data of any type out/in to the plugin.
+        * This is also passed trough the execute function,
+         */
+        void                           *mClientData;
 
 };
 

@@ -37,7 +37,6 @@ unsigned int AddNoise::getPDFManualByteSize()
     return sizeofPDF;
 }
 
-
 bool AddNoise::isWorking()
 {
     return mAddNoiseWorker.isRunning();

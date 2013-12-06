@@ -209,7 +209,8 @@ string Plugin::getStatus()
     return msg.str();
 }
 
-string Plugin::getInfo() //Obs. subclasses may over ride this function and add more info
+//Obs. subclasses may over ride this function and add more info
+string Plugin::getInfo()
 {
     stringstream msg;
     msg<<setfill('.');

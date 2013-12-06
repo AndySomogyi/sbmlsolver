@@ -28,13 +28,20 @@ string PluginParameter::getHint() const
     return mHint;
 }
 
+void* PluginParameter::getValueHandle()
+{
+    return NULL;
+}
+
 string PluginParameter::getValueAsString() const
 {
+
     PluginParameter* ptr = const_cast<PluginParameter*>(this);
 
+    //Test some downcasting..
     if(dynamic_cast< Parameter<int>* >( ptr))
     {
-        return dynamic_cast< Parameter<int>* >(ptr) ->getValueAsString();
+        return dynamic_cast< Parameter<int>* >(ptr)->getValueAsString();
     }
 
     if(dynamic_cast< Parameter<double>* >(ptr))
@@ -47,13 +54,12 @@ string PluginParameter::getValueAsString() const
         return "boolean";
     }
 
-    return "Need to cast to subclass!";
+    return "Need to cast in subclass!";
 }
 
 string PluginParameter::asString() const
 {
     stringstream val;
-
     val<<"Name: "<<mName<<endl;
     val<<"Type: "<<getType()<<endl;
     val<<"Value: "<<getValueAsString()<<endl;

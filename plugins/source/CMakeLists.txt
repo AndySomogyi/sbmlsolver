@@ -10,7 +10,7 @@ include_directories(
     )
 
 set(sources
-rrBaseParameter
+rrPluginParameter
 rrCapabilities
 rrCapability
 rrCPlugin

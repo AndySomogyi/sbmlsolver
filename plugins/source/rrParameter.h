@@ -17,6 +17,15 @@ namespace rrp
 {
 using std::string;
 
+/**
+    Template class implementing a PluginParameter. As this class is a template, it can be of any type.
+
+    The characteristics of a Parameter is its type and its value. Various functions assist in setting/getting
+    a parameters value.
+
+    Of importance is the ability to get a pointer to its internal value, e.g. \a getValuePointer(), or \a getValueHandle(), as it is used as a
+    handle in the derived Plugins C API.
+*/
 template<class T>
 class Parameter : public PluginParameter
 {
@@ -25,6 +34,9 @@ class Parameter : public PluginParameter
         T&                             mValue;
 
     public:
+        /**
+            Create a parameter, assigning a name, value, and optionally a Hint.
+        */
                                        Parameter(const string& name, const T& value, const string& hint = "");
                                        Parameter(const Parameter<T>& para);
         void                           setValue(T* val);
@@ -33,7 +45,7 @@ class Parameter : public PluginParameter
         T                              getValue() const;
         T&                             getValueReference();
         T*                             getValuePointer();
-        void*                          getValueAsPointer();
+        void*                          getValueHandle();
         string                         getValueAsString() const;
         string                         getType() const;
 };
@@ -85,7 +97,7 @@ T& Parameter<T>::getValueReference()
 }
 
 template<class T>
-void* Parameter<T>::getValueAsPointer()
+void* Parameter<T>::getValueHandle()
 {
     return (void*) &mValue;
 }
@@ -144,16 +156,15 @@ inline string Parameter<char*>::getType() const
     return "char*";
 }
 
-
 //Todo:: these are probably not doing what is expected?
 template<>
-inline void Parameter<char*>::setValue(char **val)
+inline void Parameter<char*>::setValue(char** val)
 {
     mValue = val[0];
 }
 
 template<>
-inline void Parameter<char*>::setValue(char * const& val)
+inline void Parameter<char*>::setValue(char* const& val)
 {
     mValue = val;
 }
@@ -196,7 +207,7 @@ inline string Parameter<double>::getValueAsString() const
     return rr::toString(mValue, "%G");
 }
 
-//================= String ===============================
+//================= std::string ===============================
 template<>
 inline string Parameter<string>::getType() const
 {
@@ -241,7 +252,6 @@ inline string Parameter<rr::StringList>::getValueAsString() const
     return mValue.AsString();
 }
 
-
 template<>
 inline void Parameter< rr::StringList >::setValueFromString(const string& val)
 {
@@ -273,7 +283,7 @@ inline string Parameter<rr::RoadRunnerData>::getValueAsString() const
 template<>
 inline void Parameter<rr::RoadRunnerData>::setValueFromString(const string& val)
 {
-    //Todo: Implement this ugliness? This need work..
+    //Todo: Implement this ugliness?
 }
 
 template<>
@@ -286,7 +296,7 @@ inline string Parameter<rr::RoadRunnerData>::getType() const
 template<>
 inline string Parameter<rrc::RRStringArray>::getValueAsString() const
 {
-    //Todo:: fix this
+    //Todo:: when needed
     return string("");
 }
 
@@ -308,7 +318,7 @@ inline string Parameter<rrc::RRStringArray>::getType() const
     return "RRStringArray";
 }
 
-//========== Parameters
+//========== Parameters container
 template<>
 inline string Parameter<Parameters>::getValueAsString() const
 {
