@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 set(target rrp_cpp_plugin_demo)
 
 include_directories(
-../source
 ../../source
+../../../source
 ../../wrappers/C
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
