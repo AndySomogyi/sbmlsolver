@@ -2,7 +2,7 @@
 #include "rrRoadRunnerData.h"
 #include "rrLogger.h"
 #include "LMWorker.h"
-#include "rrNoise.h"
+//#include "noise.h"
 #include "lm.h"
 #include "lmfit/lmmin.h"
 #include "rrStringUtils.h"

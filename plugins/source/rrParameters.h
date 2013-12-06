@@ -1,6 +1,6 @@
 /**
  * @file rrParameters.h
- * @brief RoadRunner Parameters (base class) implementation
+ * @brief Parameters implementation - a container for Plugin parameters
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -41,6 +41,7 @@
 #ifndef rrParametersH
 #define rrParametersH
 #include <string>
+#include <list>
 #include <vector>
 #include <utility>
 #include "rrPluginsAPIExporter.h"
@@ -51,9 +52,9 @@
 namespace rrp
 {
 using std::vector;
+using std::list;
 using std::pair;
 using rr::StringList;
-
 using std::string;
 
 /**
@@ -66,24 +67,64 @@ class PLUGINS_API_DECLSPEC Parameters
            Create a parameter container
         */
                                                 Parameters();
+        /**
+           Deallocate memory allocated
+        */
         virtual                                ~Parameters();
-        void                                    add(PluginParameter* me, bool own = false);
+
+        /**
+           Add a parameter. By default, the container do not owe memory allocated by the parameter.
+           If the ownMemory flag is set to true, the container will de allocate memory for the parameter as well
+           \param para A pointer to a Plugin parameter
+           \param ownMemory Boolean flag indicating if the container is owing the memory of the parameter or not.
+        */
+        void                                    add(PluginParameter* para, bool ownMemory = false);
+
+        /**
+           Return parameters in the container as a list of strings.
+        */
         rr::StringList                          asStringList() const;
+
+        /**
+           Return number of parameters in the container.
+        */
         u_int                                   count() const;
 
+        /**
+           Access a parameter using operator []
+           \return A const Pointer to a PluginParameter
+        */
         const PluginParameter*                  operator[](const int& i) const;
+
+        /**
+           Access a parameter using operator []
+           \return A Pointer to a PluginParameter
+        */
         PluginParameter*                        operator[](const int& i);
-        string                                  getName() const;
-        string                                  getDescription() const;
+
+        /**
+           Get a parameter with a specific name
+           \return A Pointer to a PluginParameter if present, NULL otherwise
+        */
         PluginParameter*                        getParameter(const string& paraName);
+
+        /**
+           Empty the parameter container
+        */
         void                                    clear();
 
+        /**
+           Output the container to a output stream (ostream)
+        */
         PLUGINS_API_DECLSPEC
         friend ostream&                         operator <<(ostream& os, const Parameters& pars);
 
     protected:
-        //!The parameter container may owe the parameter, default is false. In certain ciscumstances, the container owe
-        //the memory of the parameter and will de allocate it on clear, or in the destruction of the container.
+        /**
+            The parameter container may owe the parameter, default is false. In certain ciscumstances, the container need to owe
+            the memory of the parameter and will de allocate it on clear, or in the destruction of the container.
+            \todo Change the container to a std::list.
+        */
         vector< pair<PluginParameter*, bool> >    mParas;
 };
 
