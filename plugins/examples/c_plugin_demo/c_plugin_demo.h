@@ -1,7 +1,7 @@
 #ifndef c_plugin_demoH
 #define c_plugin_demoH
 #include "rrPluginsAPIExporter.h"
-#include "rrCPluginFramework.h"
+//#include "rrCPluginFramework.h"
 //-----------------------------------------------------------
 #define cc __cdecl
 

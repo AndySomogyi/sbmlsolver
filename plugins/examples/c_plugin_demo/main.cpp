@@ -13,7 +13,7 @@ int main()
         setLogLevel("LOG_Debug");
         logMsg(clInfo, "Log message....");
 
-        RRPluginManagerHandle pm = createPluginManager();
+        RRPluginManagerHandle pm = createPluginManager(NULL);
         loadPlugins(pm);
         RRStringArray* list = getPluginNames(pm);
 

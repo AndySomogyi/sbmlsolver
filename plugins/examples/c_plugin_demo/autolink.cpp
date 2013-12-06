@@ -11,6 +11,7 @@
     #pragma comment(lib, "roadrunner.lib")
     #pragma comment(lib, "rrc_api.lib")
     #pragma comment(lib, "rre_api.lib")
+    #pragma comment(lib, "rrplugins_c_api.lib")
 #endif
 
 
