@@ -1,6 +1,6 @@
 /**
  * @file rrParameters.h
- * @brief RoadRunner Parameters (base class) implementation
+ * @brief Parameters implementation - a container for Plugin parameters
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------

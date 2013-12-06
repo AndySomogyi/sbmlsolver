@@ -1,6 +1,6 @@
 /**
  * @file rrCapabilities.h
- * @brief RoadRunner Capabilities class
+ * @brief Container for Capabilities
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------

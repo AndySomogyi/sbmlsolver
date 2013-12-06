@@ -13,7 +13,7 @@ using namespace rr;
 AddNoise::AddNoise(rr::RoadRunner* aRR, PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
 :
 CPPPlugin(                 "AddNoise",                 "Signal Processing",    aRR, NULL),
-mAddNoise(                 "Add Noise",                 "",                             "Add Noise"),
+mAddNoise(                 "Add Noise",                 "Add artificial noise to data"),
 mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of noise (Gaussian = 0, Psychological = 1)."),
 mSigma(                    "Sigma",                     1,                              "Size of applied noise"),
 mAddNoiseWorker(*this)
