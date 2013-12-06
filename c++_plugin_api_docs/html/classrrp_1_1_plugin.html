@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>RoadRunner Plugin C++ API: Plugin Class Reference</title>
+<title>libRoadRunner Plugin C++ API: rrp::Plugin Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">RoadRunner Plugin C++ API
+   <div id="projectname">libRoadRunner Plugin C++ API
    &#160;<span id="projectnumber">0.99</span>
    </div>
   </td>
@@ -38,7 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -60,10 +60,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,200 +88,236 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a>  </div>
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="classrrp_1_1_plugin-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Plugin Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">rrp::Plugin Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Inherited by <a class="el" href="classrrp_1_1_c_plugin.html">CPlugin</a>, and <a class="el" href="classrrp_1_1_c_p_p_plugin.html">CPPPlugin</a>.</p>
+<p><code>#include &lt;<a class="el" href="rr_plugin_8h_source.html">rrPlugin.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for rrp::Plugin:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classrrp_1_1_plugin.png" usemap="#rrp::Plugin_map" alt=""/>
+  <map id="rrp::Plugin_map" name="rrp::Plugin_map">
+<area href="classrrp_1_1_c_plugin.html" alt="rrp::CPlugin" shape="rect" coords="0,56,95,80"/>
+<area href="classrrp_1_1_c_p_p_plugin.html" alt="rrp::CPPPlugin" shape="rect" coords="105,56,200,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa8ecf9ddd0e6e0d9be96706bb2636fcb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8ecf9ddd0e6e0d9be96706bb2636fcb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Plugin</b> (const string &amp;name=gEmptyString, const string &amp;cat=gNoneString, RoadRunner *aRR=NULL, const string &amp;language=gNoneString, const <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> *pm=NULL)</td></tr>
-<tr class="separator:aa8ecf9ddd0e6e0d9be96706bb2636fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11335e13e50af74108bf926dc1340b4b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11335e13e50af74108bf926dc1340b4b"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> ()</td></tr>
-<tr class="separator:a11335e13e50af74108bf926dc1340b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d9e58083e167f6061aea9f45f667cc4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d9e58083e167f6061aea9f45f667cc4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setLibraryName</b> (const string &amp;libName)</td></tr>
-<tr class="separator:a6d9e58083e167f6061aea9f45f667cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3eb2fe3aab2b6f71074a16a0afe2f42"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae3eb2fe3aab2b6f71074a16a0afe2f42"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getLibraryName</b> ()</td></tr>
-<tr class="separator:ae3eb2fe3aab2b6f71074a16a0afe2f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae43e26f26f2e321551c286f9cb94f873"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae43e26f26f2e321551c286f9cb94f873"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getAuthor</b> ()</td></tr>
-<tr class="separator:ae43e26f26f2e321551c286f9cb94f873"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac40ba451e9451ea01abfb3fce42bdbf8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac40ba451e9451ea01abfb3fce42bdbf8"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getCategory</b> ()</td></tr>
-<tr class="separator:ac40ba451e9451ea01abfb3fce42bdbf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9392c43f8a1b95e9f8ee260ef4d83297"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9392c43f8a1b95e9f8ee260ef4d83297"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getVersion</b> ()</td></tr>
-<tr class="separator:a9392c43f8a1b95e9f8ee260ef4d83297"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a809f7fd215a07da3ed46285839b6d3b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a809f7fd215a07da3ed46285839b6d3b3"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getCopyright</b> ()</td></tr>
-<tr class="separator:a809f7fd215a07da3ed46285839b6d3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6030298fc6c78429834bf07a0d1da8d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6030298fc6c78429834bf07a0d1da8d6"></a>
-RoadRunner *&#160;</td><td class="memItemRight" valign="bottom"><b>getRoadRunnerInstance</b> ()</td></tr>
-<tr class="separator:a6030298fc6c78429834bf07a0d1da8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81d3a928d80c655f8462dd1f17196ae3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81d3a928d80c655f8462dd1f17196ae3"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getInfo</b> ()</td></tr>
-<tr class="separator:a81d3a928d80c655f8462dd1f17196ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbc8b3240248b1194bf10279925f2dac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adbc8b3240248b1194bf10279925f2dac"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getExtendedInfo</b> ()</td></tr>
-<tr class="separator:adbc8b3240248b1194bf10279925f2dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc22fa43da7d8666df40dd0e9573ca5e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc22fa43da7d8666df40dd0e9573ca5e"></a>
-virtual unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><b>getManualAsPDF</b> () const </td></tr>
-<tr class="separator:adc22fa43da7d8666df40dd0e9573ca5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4664ef583d6428a9b2e40ac854a17e42"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4664ef583d6428a9b2e40ac854a17e42"></a>
-virtual unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>getPDFManualByteSize</b> ()</td></tr>
-<tr class="separator:a4664ef583d6428a9b2e40ac854a17e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdfde369f51494d0addf2fdbe9be79fb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afdfde369f51494d0addf2fdbe9be79fb"></a>
-<a class="el" href="classrrp_1_1_capabilities.html">Capabilities</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getCapabilities</b> ()</td></tr>
-<tr class="separator:afdfde369f51494d0addf2fdbe9be79fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a716184dba55ab9dee98b3230a21ec407"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a716184dba55ab9dee98b3230a21ec407"></a>
-<a class="el" href="classrrp_1_1_capability.html">Capability</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getCapability</b> (const string &amp;name)</td></tr>
-<tr class="separator:a716184dba55ab9dee98b3230a21ec407"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4e665e2bc4da266711c1711e0f65066"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4e665e2bc4da266711c1711e0f65066"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>getCapabilitiesAsXML</b> ()</td></tr>
-<tr class="separator:af4e665e2bc4da266711c1711e0f65066"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a428b33636275d182dec3988be4a1e491"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a428b33636275d182dec3988be4a1e491"></a>
-<a class="el" href="classrrp_1_1_parameters.html">Parameters</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getParameters</b> (<a class="el" href="classrrp_1_1_capability.html">Capability</a> &amp;capability)</td></tr>
-<tr class="separator:a428b33636275d182dec3988be4a1e491"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b71bb36720cf0e7c5a18487c10e5578"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b71bb36720cf0e7c5a18487c10e5578"></a>
-<a class="el" href="classrrp_1_1_parameters.html">Parameters</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getParameters</b> (const string &amp;nameOfCapability=&quot;&quot;)</td></tr>
-<tr class="separator:a4b71bb36720cf0e7c5a18487c10e5578"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc6697dbcaf2d78879a211ba9f3a38c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc6697dbcaf2d78879a211ba9f3a38c9"></a>
-<a class="el" href="classrrp_1_1_base_parameter.html">BaseParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getParameter</b> (const string &amp;param, const string &amp;capability=&quot;&quot;)</td></tr>
-<tr class="separator:abc6697dbcaf2d78879a211ba9f3a38c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a180a8952816099273294591caeecd7bb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a180a8952816099273294591caeecd7bb"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setParameter</b> (const string &amp;nameOf, const char *value)</td></tr>
-<tr class="separator:a180a8952816099273294591caeecd7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09f84399d95cf17c8bfbd4ca8ba4541d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09f84399d95cf17c8bfbd4ca8ba4541d"></a>
-<a class="el" href="classrrp_1_1_base_parameter.html">BaseParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getParameter</b> (const string &amp;param, <a class="el" href="classrrp_1_1_capability.html">Capability</a> &amp;capability)</td></tr>
-<tr class="separator:a09f84399d95cf17c8bfbd4ca8ba4541d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7cd7ff71f3308f47b10a191fa23f58e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac7cd7ff71f3308f47b10a191fa23f58e"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setParameter</b> (const string &amp;nameOf, const char *value, <a class="el" href="classrrp_1_1_capability.html">Capability</a> &amp;capability)</td></tr>
-<tr class="separator:ac7cd7ff71f3308f47b10a191fa23f58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74a45d2648335936561898c390281a6a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74a45d2648335936561898c390281a6a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a74a45d2648335936561898c390281a6a">terminate</a> ()</td></tr>
-<tr class="memdesc:a74a45d2648335936561898c390281a6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">User has the ability to terminate the work in a plugin by calling <a class="el" href="classrrp_1_1_plugin.html#a74a45d2648335936561898c390281a6a" title="User has the ability to terminate the work in a plugin by calling terminate() ">terminate()</a> <br/></td></tr>
-<tr class="separator:a74a45d2648335936561898c390281a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2776abcc4000a1561343143ca153613"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac2776abcc4000a1561343143ca153613"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ac2776abcc4000a1561343143ca153613">isBeingTerminated</a> ()</td></tr>
-<tr class="memdesc:ac2776abcc4000a1561343143ca153613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if we are in the process of being terminated. <br/></td></tr>
-<tr class="separator:ac2776abcc4000a1561343143ca153613"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1aa634241ef70a0b4af580f21b8ac16"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad1aa634241ef70a0b4af580f21b8ac16"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ad1aa634241ef70a0b4af580f21b8ac16">wasTerminated</a> ()</td></tr>
-<tr class="memdesc:ad1aa634241ef70a0b4af580f21b8ac16"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the plugin was terminated <br/></td></tr>
-<tr class="separator:ad1aa634241ef70a0b4af580f21b8ac16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad53155563d9dcaf09802bae14e9d51de"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad53155563d9dcaf09802bae14e9d51de"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ad53155563d9dcaf09802bae14e9d51de">assignRoadRunnerInstance</a> (RoadRunner *rr)</td></tr>
-<tr class="memdesc:ad53155563d9dcaf09802bae14e9d51de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign a roadrunner instance for the plugin to use. <br/></td></tr>
-<tr class="separator:ad53155563d9dcaf09802bae14e9d51de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a828a016751bfffc342e398d3203d2624"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a828a016751bfffc342e398d3203d2624"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>assignPluginStartedCallBack</b> (PluginCallBackFnc pluginStarted, void *userData1=NULL, void *userData2=NULL)</td></tr>
-<tr class="separator:a828a016751bfffc342e398d3203d2624"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7798a936acdcf8934bc859bd4fb5bf7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7798a936acdcf8934bc859bd4fb5bf7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>assignPluginProgressCallBack</b> (PluginCallBackFnc pluginsProgress, void *userData1=NULL, void *userData2=NULL)</td></tr>
-<tr class="separator:ae7798a936acdcf8934bc859bd4fb5bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ca31b07721dbc2febc12d214f44fc79"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ca31b07721dbc2febc12d214f44fc79"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>assignPluginFinishedCallBack</b> (PluginCallBackFnc pluginsFinished, void *userData1=NULL, void *userData2=NULL)</td></tr>
-<tr class="separator:a6ca31b07721dbc2febc12d214f44fc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad071dec0887403ac2e91e86164982f53"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad071dec0887403ac2e91e86164982f53"></a>
-virtual string&#160;</td><td class="memItemRight" valign="bottom"><b>getResult</b> ()</td></tr>
-<tr class="separator:ad071dec0887403ac2e91e86164982f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2771cad1a3958152e20391a7672e4f1e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2771cad1a3958152e20391a7672e4f1e"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isWorking</b> ()</td></tr>
-<tr class="separator:a2771cad1a3958152e20391a7672e4f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c2db6ead987a6d9029410b48a13020d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c2db6ead987a6d9029410b48a13020d"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>resetPlugin</b> ()</td></tr>
-<tr class="separator:a8c2db6ead987a6d9029410b48a13020d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af371e5f407e8325b046fd5bb4029429c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af371e5f407e8325b046fd5bb4029429c"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>setInputData</b> (void *data)</td></tr>
-<tr class="separator:af371e5f407e8325b046fd5bb4029429c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98f764590f61833475a749b9e6ad825b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98f764590f61833475a749b9e6ad825b"></a>
-virtual string&#160;</td><td class="memItemRight" valign="bottom"><b>getStatus</b> ()</td></tr>
-<tr class="separator:a98f764590f61833475a749b9e6ad825b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c89d92714bd671b1a5b93d693d03b6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c89d92714bd671b1a5b93d693d03b6d"></a>
-virtual string&#160;</td><td class="memItemRight" valign="bottom"><b>getImplementationLanguage</b> ()=0</td></tr>
-<tr class="separator:a1c89d92714bd671b1a5b93d693d03b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d7207ae4903b67e2226cafaed979be0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d7207ae4903b67e2226cafaed979be0"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>execute</b> (void *clientData=NULL, bool inAThread=false)=0</td></tr>
-<tr class="separator:a4d7207ae4903b67e2226cafaed979be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebe02adf5e0c2ef290dda3b9e8c4568e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#aebe02adf5e0c2ef290dda3b9e8c4568e">Plugin</a> (const string &amp;name=gEmptyString, const string &amp;cat=gNoneString, RoadRunner *aRR=NULL, const string &amp;language=gNoneString, const <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> *pm=NULL)</td></tr>
+<tr class="separator:aebe02adf5e0c2ef290dda3b9e8c4568e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22b04f99e5889f6095ed4377e4b4c61a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a22b04f99e5889f6095ed4377e4b4c61a">~Plugin</a> ()</td></tr>
+<tr class="separator:a22b04f99e5889f6095ed4377e4b4c61a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5906927b852271a574e4d3865e8b3562"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a5906927b852271a574e4d3865e8b3562">getName</a> ()</td></tr>
+<tr class="separator:a5906927b852271a574e4d3865e8b3562"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a564ba7f8c8255e91f9f8db0391116d15"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a564ba7f8c8255e91f9f8db0391116d15">getLibraryName</a> ()</td></tr>
+<tr class="separator:a564ba7f8c8255e91f9f8db0391116d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbe5dab36f36d34e083506fd6e20b370"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#abbe5dab36f36d34e083506fd6e20b370">getAuthor</a> ()</td></tr>
+<tr class="separator:abbe5dab36f36d34e083506fd6e20b370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b4a272b17da998c5d609f25c8a0282"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a46b4a272b17da998c5d609f25c8a0282">getCategory</a> ()</td></tr>
+<tr class="separator:a46b4a272b17da998c5d609f25c8a0282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89fb12a9ce8a4efbcd2c71473452086b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a89fb12a9ce8a4efbcd2c71473452086b">getVersion</a> ()</td></tr>
+<tr class="separator:a89fb12a9ce8a4efbcd2c71473452086b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd00a6b18a578792452825d4bf67383f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#afd00a6b18a578792452825d4bf67383f">getCopyright</a> ()</td></tr>
+<tr class="separator:afd00a6b18a578792452825d4bf67383f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a059904a9f1c0bd548b4b43f671cef6ee"><td class="memItemLeft" align="right" valign="top">RoadRunner *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a059904a9f1c0bd548b4b43f671cef6ee">getRoadRunnerInstance</a> ()</td></tr>
+<tr class="separator:a059904a9f1c0bd548b4b43f671cef6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b012a6903f3673c711ac54aa6f35e21"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a4b012a6903f3673c711ac54aa6f35e21">getInfo</a> ()</td></tr>
+<tr class="separator:a4b012a6903f3673c711ac54aa6f35e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf77b07a595221433e79fcbc62fb7f58"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#abf77b07a595221433e79fcbc62fb7f58">getExtendedInfo</a> ()</td></tr>
+<tr class="separator:abf77b07a595221433e79fcbc62fb7f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af79ef0a680e802e164577673121f162d"><td class="memItemLeft" align="right" valign="top">virtual unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#af79ef0a680e802e164577673121f162d">getManualAsPDF</a> () const </td></tr>
+<tr class="separator:af79ef0a680e802e164577673121f162d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32e3fc330f4a08b5701f18753135afb3"><td class="memItemLeft" align="right" valign="top">virtual unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a32e3fc330f4a08b5701f18753135afb3">getPDFManualByteSize</a> ()</td></tr>
+<tr class="separator:a32e3fc330f4a08b5701f18753135afb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9926741fa97ce466321357ee4b6c9f06"><td class="memItemLeft" align="right" valign="top">Capabilities *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a9926741fa97ce466321357ee4b6c9f06">getCapabilities</a> ()</td></tr>
+<tr class="separator:a9926741fa97ce466321357ee4b6c9f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa62b3234a23226e4e63a868d1fcd1b75"><td class="memItemLeft" align="right" valign="top">Capability *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#aa62b3234a23226e4e63a868d1fcd1b75">getCapability</a> (const string &amp;name)</td></tr>
+<tr class="separator:aa62b3234a23226e4e63a868d1fcd1b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d4e3f594369c9221449506bd3b0a4c9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a0d4e3f594369c9221449506bd3b0a4c9">getCapabilitiesAsXML</a> ()</td></tr>
+<tr class="separator:a0d4e3f594369c9221449506bd3b0a4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d3b8126424a56c1c6e753a3ef0a834c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_parameters.html">Parameters</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a6d3b8126424a56c1c6e753a3ef0a834c">getParameters</a> (Capability &amp;capability)</td></tr>
+<tr class="separator:a6d3b8126424a56c1c6e753a3ef0a834c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273bdfc654dca56a02b514a20c835612"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_parameters.html">Parameters</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a273bdfc654dca56a02b514a20c835612">getParameters</a> (const string &amp;nameOfCapability=&quot;&quot;)</td></tr>
+<tr class="separator:a273bdfc654dca56a02b514a20c835612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3524da9f532a71b374c3a13cb801172"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ad3524da9f532a71b374c3a13cb801172">getParameter</a> (const string &amp;param, const string &amp;capability=&quot;&quot;)</td></tr>
+<tr class="separator:ad3524da9f532a71b374c3a13cb801172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a194b19a99fd7b5dec4ce8cdbe20b6abb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a194b19a99fd7b5dec4ce8cdbe20b6abb">getParameter</a> (const string &amp;param, Capability &amp;capability)</td></tr>
+<tr class="separator:a194b19a99fd7b5dec4ce8cdbe20b6abb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4a8fc4705648a398e86dc759c4c8082"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ab4a8fc4705648a398e86dc759c4c8082">setParameter</a> (const string &amp;nameOf, const char *value)</td></tr>
+<tr class="separator:ab4a8fc4705648a398e86dc759c4c8082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d4461d0845340ff5ca1e6f1a828d036"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a8d4461d0845340ff5ca1e6f1a828d036">setParameter</a> (const string &amp;nameOf, const char *value, Capability &amp;capability)</td></tr>
+<tr class="separator:a8d4461d0845340ff5ca1e6f1a828d036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9710171fa309c7238138ec4b5f1c843e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a9710171fa309c7238138ec4b5f1c843e">terminate</a> ()</td></tr>
+<tr class="separator:a9710171fa309c7238138ec4b5f1c843e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f3793401f6494d17fd8af45133085bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a3f3793401f6494d17fd8af45133085bb">isBeingTerminated</a> ()</td></tr>
+<tr class="separator:a3f3793401f6494d17fd8af45133085bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f9e47e8b3a176fb568ef8b162dd5d9d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f9e47e8b3a176fb568ef8b162dd5d9d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a7f9e47e8b3a176fb568ef8b162dd5d9d">wasTerminated</a> ()</td></tr>
+<tr class="memdesc:a7f9e47e8b3a176fb568ef8b162dd5d9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the plugin was terminated <br/></td></tr>
+<tr class="separator:a7f9e47e8b3a176fb568ef8b162dd5d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacd6d30587c5f84398164d75da512ad8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aacd6d30587c5f84398164d75da512ad8"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#aacd6d30587c5f84398164d75da512ad8">isWorking</a> ()</td></tr>
+<tr class="memdesc:aacd6d30587c5f84398164d75da512ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the plugin is working <br/></td></tr>
+<tr class="separator:aacd6d30587c5f84398164d75da512ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e960ed8a9e5a2a6b93dee123b064219"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e960ed8a9e5a2a6b93dee123b064219"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a9e960ed8a9e5a2a6b93dee123b064219">assignRoadRunnerInstance</a> (RoadRunner *rr)</td></tr>
+<tr class="memdesc:a9e960ed8a9e5a2a6b93dee123b064219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign a roadrunner instance for the plugin to use. <br/></td></tr>
+<tr class="separator:a9e960ed8a9e5a2a6b93dee123b064219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa226396bf8f3e9704945a3cccfdf8aa4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#aa226396bf8f3e9704945a3cccfdf8aa4">assignPluginStartedCallBack</a> (PluginCallBackFnc pluginStarted, void *userData1=NULL, void *userData2=NULL)</td></tr>
+<tr class="separator:aa226396bf8f3e9704945a3cccfdf8aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a001cbdac86daf3309f5da9fa90b85723"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a001cbdac86daf3309f5da9fa90b85723">assignPluginProgressCallBack</a> (PluginCallBackFnc pluginsProgress, void *userData1=NULL, void *userData2=NULL)</td></tr>
+<tr class="separator:a001cbdac86daf3309f5da9fa90b85723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ca1ade0cdcff1dd38b860b3cd00ec4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a69ca1ade0cdcff1dd38b860b3cd00ec4">assignPluginFinishedCallBack</a> (PluginCallBackFnc pluginsFinished, void *userData1=NULL, void *userData2=NULL)</td></tr>
+<tr class="separator:a69ca1ade0cdcff1dd38b860b3cd00ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34fb9de62b09ea9a2082e62e0491cf2f"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a34fb9de62b09ea9a2082e62e0491cf2f">getResult</a> ()</td></tr>
+<tr class="separator:a34fb9de62b09ea9a2082e62e0491cf2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d1a00783ab8792480cfd3552ca5371c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a4d1a00783ab8792480cfd3552ca5371c">resetPlugin</a> ()</td></tr>
+<tr class="separator:a4d1a00783ab8792480cfd3552ca5371c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae90ab44a650cf8a308cc11747586a2d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#aae90ab44a650cf8a308cc11747586a2d">setInputData</a> (void *data)</td></tr>
+<tr class="separator:aae90ab44a650cf8a308cc11747586a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48672cdba1e2312a3c8556ead760384e"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a48672cdba1e2312a3c8556ead760384e">getStatus</a> ()</td></tr>
+<tr class="separator:a48672cdba1e2312a3c8556ead760384e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7841c9295fd4546ea2dd54585d515376"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a7841c9295fd4546ea2dd54585d515376">getImplementationLanguage</a> ()=0</td></tr>
+<tr class="separator:a7841c9295fd4546ea2dd54585d515376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f003b48e77937773f44572be080bce9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a3f003b48e77937773f44572be080bce9">execute</a> (void *clientData=NULL, bool inAThread=false)=0</td></tr>
+<tr class="separator:a3f003b48e77937773f44572be080bce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a85748bcbe019051c28ef235a686ec76f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a85748bcbe019051c28ef235a686ec76f">setLibraryName</a> (const string &amp;libName)</td></tr>
+<tr class="separator:a85748bcbe019051c28ef235a686ec76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a1e458281effaffe16418036bea0ca965"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e458281effaffe16418036bea0ca965"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mName</b></td></tr>
-<tr class="separator:a1e458281effaffe16418036bea0ca965"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d2018b4eda57a195af8c1fea11b9b46"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d2018b4eda57a195af8c1fea11b9b46"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mLibraryName</b></td></tr>
-<tr class="separator:a3d2018b4eda57a195af8c1fea11b9b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4da57cedf87647ea3795296796263d1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4da57cedf87647ea3795296796263d1d"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mAuthor</b></td></tr>
-<tr class="separator:a4da57cedf87647ea3795296796263d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd6ad2d9dbd41a6df6950459a387c024"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd6ad2d9dbd41a6df6950459a387c024"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mCategory</b></td></tr>
-<tr class="separator:abd6ad2d9dbd41a6df6950459a387c024"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb07778335f133209fcff5f9ee8f6253"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adb07778335f133209fcff5f9ee8f6253"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mVersion</b></td></tr>
-<tr class="separator:adb07778335f133209fcff5f9ee8f6253"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52abb187ffe2d283f16c9b209d7d00a8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a52abb187ffe2d283f16c9b209d7d00a8"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mCopyright</b></td></tr>
-<tr class="separator:a52abb187ffe2d283f16c9b209d7d00a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add0bce194f1dba2f41339ead75f72dee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="add0bce194f1dba2f41339ead75f72dee"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>mImplementationLanguage</b></td></tr>
-<tr class="separator:add0bce194f1dba2f41339ead75f72dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7993b278e3345a27c3e01b2958b8ec12"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7993b278e3345a27c3e01b2958b8ec12"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a7993b278e3345a27c3e01b2958b8ec12">mTerminate</a></td></tr>
-<tr class="memdesc:a7993b278e3345a27c3e01b2958b8ec12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean indicating if a user wants to terminate the work in a plugin. <br/></td></tr>
-<tr class="separator:a7993b278e3345a27c3e01b2958b8ec12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a529811b5703f95e5b011fa628892435a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a529811b5703f95e5b011fa628892435a"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsWorking</b></td></tr>
-<tr class="separator:a529811b5703f95e5b011fa628892435a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d9856795c612466d534acc1c499d99d"><td class="memItemLeft" align="right" valign="top">RoadRunner *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a7d9856795c612466d534acc1c499d99d">mRR</a></td></tr>
-<tr class="separator:a7d9856795c612466d534acc1c499d99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1650c7ccff109575a7d353df67e0113"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1650c7ccff109575a7d353df67e0113"></a>
-const <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mPM</b></td></tr>
-<tr class="separator:ab1650c7ccff109575a7d353df67e0113"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a074d70671aa022c9af5412e3b922e15d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a074d70671aa022c9af5412e3b922e15d"></a>
-PluginCallBackFnc&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkStartedCB</b></td></tr>
-<tr class="separator:a074d70671aa022c9af5412e3b922e15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f6126e28345a68b55deff90021cde8b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f6126e28345a68b55deff90021cde8b"></a>
-PluginCallBackFnc&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkProgressCB</b></td></tr>
-<tr class="separator:a1f6126e28345a68b55deff90021cde8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ac29e12f2156a175499a61a6498316d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ac29e12f2156a175499a61a6498316d"></a>
-PluginCallBackFnc&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkFinishedCB</b></td></tr>
-<tr class="separator:a5ac29e12f2156a175499a61a6498316d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a594d966b27e51b56211a16890005f82e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a594d966b27e51b56211a16890005f82e"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkStartedData1</b></td></tr>
-<tr class="separator:a594d966b27e51b56211a16890005f82e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d6a556f4ec0ec0a9d572a48817f260f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d6a556f4ec0ec0a9d572a48817f260f"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkStartedData2</b></td></tr>
-<tr class="separator:a6d6a556f4ec0ec0a9d572a48817f260f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebfa0b9de43d4e8d7a61f255305f876e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aebfa0b9de43d4e8d7a61f255305f876e"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkProgressData1</b></td></tr>
-<tr class="separator:aebfa0b9de43d4e8d7a61f255305f876e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae42f59d008946c6fd4aa9bce6413b702"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae42f59d008946c6fd4aa9bce6413b702"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkProgressData2</b></td></tr>
-<tr class="separator:ae42f59d008946c6fd4aa9bce6413b702"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8386309019f353d08c69fe2a46a81af0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8386309019f353d08c69fe2a46a81af0"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkFinishedData1</b></td></tr>
-<tr class="separator:a8386309019f353d08c69fe2a46a81af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa97ee1143a6b3b573087422d7617e0f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa97ee1143a6b3b573087422d7617e0f0"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mWorkFinishedData2</b></td></tr>
-<tr class="separator:aa97ee1143a6b3b573087422d7617e0f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e12ea3cbeefbfc2cc64a50f5e61ace8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e12ea3cbeefbfc2cc64a50f5e61ace8"></a>
-<a class="el" href="classrrp_1_1_capabilities.html">Capabilities</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mCapabilities</b></td></tr>
-<tr class="separator:a9e12ea3cbeefbfc2cc64a50f5e61ace8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a711b972dfc233045debc311a5aa006c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a711b972dfc233045debc311a5aa006c1"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>mClientData</b></td></tr>
-<tr class="separator:a711b972dfc233045debc311a5aa006c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23989ae87afe5e72a0b5c3c460149f4c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a23989ae87afe5e72a0b5c3c460149f4c"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c">mName</a></td></tr>
+<tr class="memdesc:a23989ae87afe5e72a0b5c3c460149f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of <a class="el" href="classrrp_1_1_plugin.html">Plugin</a>. <br/></td></tr>
+<tr class="separator:a23989ae87afe5e72a0b5c3c460149f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae639bfcee04ce0194de1262802b0a54d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae639bfcee04ce0194de1262802b0a54d"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d">mLibraryName</a></td></tr>
+<tr class="memdesc:ae639bfcee04ce0194de1262802b0a54d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of compiled shared library implementing the <a class="el" href="classrrp_1_1_plugin.html">Plugin</a>. <br/></td></tr>
+<tr class="separator:ae639bfcee04ce0194de1262802b0a54d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30e687e32f01bc1691a486e4c2f79bcb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30e687e32f01bc1691a486e4c2f79bcb"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb">mAuthor</a></td></tr>
+<tr class="memdesc:a30e687e32f01bc1691a486e4c2f79bcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of plugin author(s) <br/></td></tr>
+<tr class="separator:a30e687e32f01bc1691a486e4c2f79bcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a689de45fb113aa3eacb5374d4045e913"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a689de45fb113aa3eacb5374d4045e913"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913">mCategory</a></td></tr>
+<tr class="memdesc:a689de45fb113aa3eacb5374d4045e913"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classrrp_1_1_plugin.html">Plugin</a> category. <br/></td></tr>
+<tr class="separator:a689de45fb113aa3eacb5374d4045e913"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a379f20e74ed0c0ac92344f1e6c7b5847"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a379f20e74ed0c0ac92344f1e6c7b5847"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847">mVersion</a></td></tr>
+<tr class="memdesc:a379f20e74ed0c0ac92344f1e6c7b5847"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classrrp_1_1_plugin.html">Plugin</a> version. <br/></td></tr>
+<tr class="separator:a379f20e74ed0c0ac92344f1e6c7b5847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a229cdcf6ff35922cc393a36ad85fc03f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a229cdcf6ff35922cc393a36ad85fc03f"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f">mCopyright</a></td></tr>
+<tr class="memdesc:a229cdcf6ff35922cc393a36ad85fc03f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classrrp_1_1_plugin.html">Plugin</a> copyright language. <br/></td></tr>
+<tr class="separator:a229cdcf6ff35922cc393a36ad85fc03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af296dc7a3a7453898572baf4f8126ae2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af296dc7a3a7453898572baf4f8126ae2"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2">mImplementationLanguage</a></td></tr>
+<tr class="memdesc:af296dc7a3a7453898572baf4f8126ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classrrp_1_1_plugin.html">Plugin</a> implementation language. <br/></td></tr>
+<tr class="separator:af296dc7a3a7453898572baf4f8126ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab35b7bad0855132722dbaec7ee699cc1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab35b7bad0855132722dbaec7ee699cc1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1">mTerminate</a></td></tr>
+<tr class="memdesc:ab35b7bad0855132722dbaec7ee699cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean flag indicating if a user wants to terminate the work in a plugin. <br/></td></tr>
+<tr class="separator:ab35b7bad0855132722dbaec7ee699cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a881ef4400f1f7650498987e6d93cd4e0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a881ef4400f1f7650498987e6d93cd4e0"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0">mIsWorking</a></td></tr>
+<tr class="memdesc:a881ef4400f1f7650498987e6d93cd4e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean flag indicating if the plugin is working. <br/></td></tr>
+<tr class="separator:a881ef4400f1f7650498987e6d93cd4e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0071589410784f4437ec5c52a0d1c97e"><td class="memItemLeft" align="right" valign="top">RoadRunner *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e">mRR</a></td></tr>
+<tr class="separator:a0071589410784f4437ec5c52a0d1c97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3da56af3e2dac256df5578630e89c6a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a">mPM</a></td></tr>
+<tr class="separator:ab3da56af3e2dac256df5578630e89c6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf346d6659dbff5a603c498e1ab9f7a4"><td class="memItemLeft" align="right" valign="top">PluginCallBackFnc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4">mWorkStartedCB</a></td></tr>
+<tr class="separator:acf346d6659dbff5a603c498e1ab9f7a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcdfb809a96ff2d5cd1ad0d2e6c5efb4"><td class="memItemLeft" align="right" valign="top">PluginCallBackFnc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4">mWorkProgressCB</a></td></tr>
+<tr class="separator:abcdfb809a96ff2d5cd1ad0d2e6c5efb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc3fccd8a643a46f7f4b52b9efa17d7b"><td class="memItemLeft" align="right" valign="top">PluginCallBackFnc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b">mWorkFinishedCB</a></td></tr>
+<tr class="separator:abc3fccd8a643a46f7f4b52b9efa17d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad75056a91af74afe2773c4420ac627f0"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0">mWorkStartedData1</a></td></tr>
+<tr class="separator:ad75056a91af74afe2773c4420ac627f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e191bc55fbb23b07091f6fe0261bc8a"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a5e191bc55fbb23b07091f6fe0261bc8a">mWorkStartedData2</a></td></tr>
+<tr class="separator:a5e191bc55fbb23b07091f6fe0261bc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64da99743e85694f674d9d477389eb39"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a64da99743e85694f674d9d477389eb39">mWorkProgressData1</a></td></tr>
+<tr class="separator:a64da99743e85694f674d9d477389eb39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3daac3dbfbee36b7c9d4d02b0ab50b93"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93">mWorkProgressData2</a></td></tr>
+<tr class="separator:a3daac3dbfbee36b7c9d4d02b0ab50b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb405004a5e1c4cf4c78fd1f2f65e6a3"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3">mWorkFinishedData1</a></td></tr>
+<tr class="separator:afb405004a5e1c4cf4c78fd1f2f65e6a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a301528955f6fc4fb8e2635f5b0b5f39e"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">mWorkFinishedData2</a></td></tr>
+<tr class="separator:a301528955f6fc4fb8e2635f5b0b5f39e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87f50c4cd4f34e46ca6ead57266686ea"><td class="memItemLeft" align="right" valign="top">Capabilities&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">mCapabilities</a></td></tr>
+<tr class="separator:a87f50c4cd4f34e46ca6ead57266686ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add430fc258fc022021a7728a6911b0b1"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">mClientData</a></td></tr>
+<tr class="separator:add430fc258fc022021a7728a6911b0b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="a7d9856795c612466d534acc1c499d99d"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> class is a base class for all RoadRunner plugins. A <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> is implemented in a shared library, e.g. a DLL on Windows, and loaded at runtime by a <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a>. Any RoadRunner <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> need to inherit from the <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> class or any of its descendants. Here are the main characteristics of a <a class="el" href="classrrp_1_1_plugin.html">Plugin</a>:</p>
+<ol type="1">
+<li>The <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> class do contain the bulk of how a <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> is handled by the <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> manager and any clients of the plugin, while the atcual custom functionality is implmemented in a descendant <a class="el" href="classrrp_1_1_plugin.html">Plugin</a>.</li>
+<li>A plugin may belong to a category and is identified by a name. It has properties like Author, Version, Copyright etc.</li>
+<li>A <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> typically expose various <em>Capabilities</em>, available to a client of a plugin trough the <em>Capabilites</em> conatiner.</li>
+<li>Each Capability may have various numbers of <em><a class="el" href="classrrp_1_1_parameters.html">Parameters</a></em> that a client of the <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> may <em>set</em> or <em>get</em>.</li>
+<li>The internal work a plugin is designed to do may be executed in a separate thread, and various functions to monitor and manage the work of a <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> is exposed, e.g. <a class="el" href="classrrp_1_1_plugin.html#aacd6d30587c5f84398164d75da512ad8" title="check if the plugin is working ">isWorking()</a>, <a class="el" href="classrrp_1_1_plugin.html#a9710171fa309c7238138ec4b5f1c843e">terminate()</a>, <a class="el" href="classrrp_1_1_plugin.html#a3f3793401f6494d17fd8af45133085bb">isBeingTerminated()</a> etc.</li>
+<li>A <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> may implement various <em>callback</em> functions in order to communicate data or progress to a client. The <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> class exposes three callbacks, <em>PluginStarted</em>, <em>PluginProgress</em> and a <em>PluginFinish</em> callback. Each callback may communicate two opaque data parameters. Its up to the plugin implementor to make use of these callbacks and what data to pass.</li>
+<li>A plugin have access to other plugins through the <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a>. Thus, a plugin may depend on other plugins.</li>
+<li>A plugin may embed documentation in various forms, e.g. PDF (getPDFManual(), or simple text <a class="el" href="classrrp_1_1_plugin.html#abf77b07a595221433e79fcbc62fb7f58">getExtendedInfo()</a>. </li>
+</ol>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="aebe02adf5e0c2ef290dda3b9e8c4568e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rrp::Plugin::Plugin </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>name</em> = <code>gEmptyString</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>cat</em> = <code>gNoneString</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RoadRunner *&#160;</td>
+          <td class="paramname"><em>aRR</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>language</em> = <code>gNoneString</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> *&#160;</td>
+          <td class="paramname"><em>pm</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Create a plugin </p>
+
+</div>
+</div>
+<a class="anchor" id="a22b04f99e5889f6095ed4377e4b4c61a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -289,7 +325,680 @@ void *&#160;</td><td class="memItemRight" valign="bottom"><b>mClientData</b></td
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">RoadRunner* mRR</td>
+          <td class="memname">rrp::Plugin::~Plugin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Destroy the plugin. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a69ca1ade0cdcff1dd38b860b3cd00ec4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::assignPluginFinishedCallBack </td>
+          <td>(</td>
+          <td class="paramtype">PluginCallBackFnc&#160;</td>
+          <td class="paramname"><em>pluginsFinished</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>userData1</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>userData2</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Assign function pointer and data the callback </p>
+
+</div>
+</div>
+<a class="anchor" id="a001cbdac86daf3309f5da9fa90b85723"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::assignPluginProgressCallBack </td>
+          <td>(</td>
+          <td class="paramtype">PluginCallBackFnc&#160;</td>
+          <td class="paramname"><em>pluginsProgress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>userData1</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>userData2</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Assign function pointer and data the callback </p>
+
+</div>
+</div>
+<a class="anchor" id="aa226396bf8f3e9704945a3cccfdf8aa4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::assignPluginStartedCallBack </td>
+          <td>(</td>
+          <td class="paramtype">PluginCallBackFnc&#160;</td>
+          <td class="paramname"><em>pluginStarted</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>userData1</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>userData2</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Assign function pointer and data the callback </p>
+
+</div>
+</div>
+<a class="anchor" id="a3f003b48e77937773f44572be080bce9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool rrp::Plugin::execute </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>clientData</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>inAThread</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Execute the plugin </p>
+
+<p>Implemented in <a class="el" href="classrrp_1_1_c_plugin.html#a216b0a5260a52eda5442be8fa4a1022f">rrp::CPlugin</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abbe5dab36f36d34e083506fd6e20b370"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getAuthor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the name of plugin author(s) </p>
+
+</div>
+</div>
+<a class="anchor" id="a9926741fa97ce466321357ee4b6c9f06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Capabilities * rrp::Plugin::getCapabilities </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a pointer to a plugins Capabilities container </p>
+
+</div>
+</div>
+<a class="anchor" id="a0d4e3f594369c9221449506bd3b0a4c9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getCapabilitiesAsXML </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retieves capabilities as XML </p>
+
+</div>
+</div>
+<a class="anchor" id="aa62b3234a23226e4e63a868d1fcd1b75"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Capability * rrp::Plugin::getCapability </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get a pointer to a capability with specified name </p>
+
+</div>
+</div>
+<a class="anchor" id="a46b4a272b17da998c5d609f25c8a0282"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getCategory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get plugin category </p>
+
+</div>
+</div>
+<a class="anchor" id="afd00a6b18a578792452825d4bf67383f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getCopyright </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get plugin copyright text </p>
+
+</div>
+</div>
+<a class="anchor" id="abf77b07a595221433e79fcbc62fb7f58"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getExtendedInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Retrieve more information than <a class="el" href="classrrp_1_1_plugin.html#a4b012a6903f3673c711ac54aa6f35e21">getInfo()</a> </p>
+
+</div>
+</div>
+<a class="anchor" id="a7841c9295fd4546ea2dd54585d515376"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual string rrp::Plugin::getImplementationLanguage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Retrieve the implementation language of the plugin. </p>
+
+<p>Implemented in <a class="el" href="classrrp_1_1_c_p_p_plugin.html#a123e8995b4b9ee565ed7d805591938a6">rrp::CPPPlugin</a>, and <a class="el" href="classrrp_1_1_c_plugin.html#a5e74bb69dac2b49e286627f3f8482592">rrp::CPlugin</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4b012a6903f3673c711ac54aa6f35e21"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Retrieves various plugin information </p>
+
+</div>
+</div>
+<a class="anchor" id="a564ba7f8c8255e91f9f8db0391116d15"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getLibraryName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the name of the compiled shared library that implemements the plugin. </p>
+
+</div>
+</div>
+<a class="anchor" id="af79ef0a680e802e164577673121f162d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char * rrp::Plugin::getManualAsPDF </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Retrieve a plugins documentation embedded as PDF. May be NULL </p>
+
+</div>
+</div>
+<a class="anchor" id="a5906927b852271a574e4d3865e8b3562"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the name of the plugin. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad3524da9f532a71b374c3a13cb801172"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> * rrp::Plugin::getParameter </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>capability</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retieves a specific parameter, in a specific capability. </p>
+
+</div>
+</div>
+<a class="anchor" id="a194b19a99fd7b5dec4ce8cdbe20b6abb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> * rrp::Plugin::getParameter </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Capability &amp;&#160;</td>
+          <td class="paramname"><em>capability</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retieves a specific parameter, in a specific capability. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6d3b8126424a56c1c6e753a3ef0a834c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_parameters.html">Parameters</a> * rrp::Plugin::getParameters </td>
+          <td>(</td>
+          <td class="paramtype">Capability &amp;&#160;</td>
+          <td class="paramname"><em>capability</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retieves parameters associated to a specific capability </p>
+
+</div>
+</div>
+<a class="anchor" id="a273bdfc654dca56a02b514a20c835612"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_parameters.html">Parameters</a> * rrp::Plugin::getParameters </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>nameOfCapability</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retieves parameters associated to a specific capability </p>
+
+</div>
+</div>
+<a class="anchor" id="a32e3fc330f4a08b5701f18753135afb3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int rrp::Plugin::getPDFManualByteSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Retrieve the size in bytes of the PDF string. </p>
+
+</div>
+</div>
+<a class="anchor" id="a34fb9de62b09ea9a2082e62e0491cf2f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getResult </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Function returnin a plugins "result", as a string </p>
+
+</div>
+</div>
+<a class="anchor" id="a059904a9f1c0bd548b4b43f671cef6ee"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RoadRunner * rrp::Plugin::getRoadRunnerInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves the RoadRunner instance the plugin is using. Can be NULL. </p>
+
+</div>
+</div>
+<a class="anchor" id="a48672cdba1e2312a3c8556ead760384e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Retrieve the status of the plugin. </p>
+
+</div>
+</div>
+<a class="anchor" id="a89fb12a9ce8a4efbcd2c71473452086b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::Plugin::getVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get plugin version information </p>
+
+</div>
+</div>
+<a class="anchor" id="a3f3793401f6494d17fd8af45133085bb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::isBeingTerminated </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if the plugin worker is in the process of being terminated </p>
+
+</div>
+</div>
+<a class="anchor" id="a4d1a00783ab8792480cfd3552ca5371c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::resetPlugin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Reset the plugin. </p>
+
+</div>
+</div>
+<a class="anchor" id="aae90ab44a650cf8a308cc11747586a2d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::setInputData </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Function allowing opaque data being passed to a plugin. This </p>
+
+</div>
+</div>
+<a class="anchor" id="a85748bcbe019051c28ef235a686ec76f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rrp::Plugin::setLibraryName </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>libName</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -298,7 +1007,357 @@ void *&#160;</td><td class="memItemRight" valign="bottom"><b>mClientData</b></td
   </tr>
 </table>
 </div><div class="memdoc">
-<p>a pointer to a RoadRunner instance which the plugin uses. </p>
+<p>Set the name of the shared library </p>
+
+</div>
+</div>
+<a class="anchor" id="ab4a8fc4705648a398e86dc759c4c8082"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::setParameter </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>nameOf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the value of specified Parameter with value as specified </p>
+
+</div>
+</div>
+<a class="anchor" id="a8d4461d0845340ff5ca1e6f1a828d036"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrp::Plugin::setParameter </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>nameOf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Capability &amp;&#160;</td>
+          <td class="paramname"><em>capability</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the value of specified Parameter with value as specified </p>
+
+</div>
+</div>
+<a class="anchor" id="a9710171fa309c7238138ec4b5f1c843e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rrp::Plugin::terminate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>If the work of the plugin is carried out in a separate thread, <a class="el" href="classrrp_1_1_plugin.html#a9710171fa309c7238138ec4b5f1c843e">terminate()</a> will signal termination of such work. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a87f50c4cd4f34e46ca6ead57266686ea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Capabilities rrp::Plugin::mCapabilities</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Capabilities container. Descendant add capabilites to this container, as they wish. It is basically a container for parameter data that can be exchanged to/from the plugin by using parameters </p>
+
+</div>
+</div>
+<a class="anchor" id="add430fc258fc022021a7728a6911b0b1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mClientData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data pointer. <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> designer may use this to communicat data of any type out/in to the plugin. This is also passed trough the execute function, </p>
+
+</div>
+</div>
+<a class="anchor" id="ab3da56af3e2dac256df5578630e89c6a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a>* rrp::Plugin::mPM</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A pointer to the <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> that loaded the <a class="el" href="classrrp_1_1_plugin.html">Plugin</a> uses. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0071589410784f4437ec5c52a0d1c97e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">RoadRunner* rrp::Plugin::mRR</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A pointer to a RoadRunner instance which the plugin uses. </p>
+
+</div>
+</div>
+<a class="anchor" id="abc3fccd8a643a46f7f4b52b9efa17d7b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PluginCallBackFnc rrp::Plugin::mWorkFinishedCB</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WorkFinished callback function pointer </p>
+
+</div>
+</div>
+<a class="anchor" id="afb405004a5e1c4cf4c78fd1f2f65e6a3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mWorkFinishedData1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data parameter 1 passed in the WorkFinished callback function </p>
+
+</div>
+</div>
+<a class="anchor" id="a301528955f6fc4fb8e2635f5b0b5f39e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mWorkFinishedData2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data parameter 2 passed in the WorkFinished callback function </p>
+
+</div>
+</div>
+<a class="anchor" id="abcdfb809a96ff2d5cd1ad0d2e6c5efb4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PluginCallBackFnc rrp::Plugin::mWorkProgressCB</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Work In progress callback function pointer </p>
+
+</div>
+</div>
+<a class="anchor" id="a64da99743e85694f674d9d477389eb39"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mWorkProgressData1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data parameter 1 passed in the WorkProgress callback function </p>
+
+</div>
+</div>
+<a class="anchor" id="a3daac3dbfbee36b7c9d4d02b0ab50b93"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mWorkProgressData2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data parameter 2 passed in the WorkProgress callback function </p>
+
+</div>
+</div>
+<a class="anchor" id="acf346d6659dbff5a603c498e1ab9f7a4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PluginCallBackFnc rrp::Plugin::mWorkStartedCB</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WorkStarted callback function pointer </p>
+
+</div>
+</div>
+<a class="anchor" id="ad75056a91af74afe2773c4420ac627f0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mWorkStartedData1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data parameter 1 passed in the WorkStarted callback function </p>
+
+</div>
+</div>
+<a class="anchor" id="a5e191bc55fbb23b07091f6fe0261bc8a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* rrp::Plugin::mWorkStartedData2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Opaque data parameter 2 passed in the WorkStarted callback function </p>
 
 </div>
 </div>
@@ -309,7 +1368,7 @@ void *&#160;</td><td class="memItemRight" valign="bottom"><b>mClientData</b></td
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 19:37:12 for RoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 5 2013 20:04:17 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>RoadRunner Plugin C++ API: Data Fields</title>
+<title>libRoadRunner Plugin C++ API: Class Members</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">RoadRunner Plugin C++ API
+   <div id="projectname">libRoadRunner Plugin C++ API
    &#160;<span id="projectnumber">0.99</span>
    </div>
   </td>
@@ -38,7 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -60,10 +60,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li class="current"><a href="functions.html"><span>Data&#160;Fields</span></a></li>
+      <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
   <div id="navrow3" class="tabs2">
@@ -71,6 +71,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li><a href="#index_a"><span>a</span></a></li>
+      <li><a href="#index_c"><span>c</span></a></li>
+      <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_g"><span>g</span></a></li>
+      <li><a href="#index_i"><span>i</span></a></li>
+      <li><a href="#index_l"><span>l</span></a></li>
+      <li><a href="#index_m"><span>m</span></a></li>
+      <li><a href="#index_o"><span>o</span></a></li>
+      <li><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_r"><span>r</span></a></li>
+      <li><a href="#index_s"><span>s</span></a></li>
+      <li><a href="#index_t"><span>t</span></a></li>
+      <li><a href="#index_u"><span>u</span></a></li>
+      <li><a href="#index_w"><span>w</span></a></li>
+      <li><a href="#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -79,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,30 +110,343 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all documented struct and union fields with links to the struct/union documentation for each field:</div><ul>
-<li>assignRoadRunnerInstance()
-: <a class="el" href="classrrp_1_1_plugin.html#ad53155563d9dcaf09802bae14e9d51de">Plugin</a>
+<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
+
+<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>assignPluginFinishedCallBack()
+: <a class="el" href="classrrp_1_1_plugin.html#a69ca1ade0cdcff1dd38b860b3cd00ec4">rrp::Plugin</a>
 </li>
+<li>assignPluginProgressCallBack()
+: <a class="el" href="classrrp_1_1_plugin.html#a001cbdac86daf3309f5da9fa90b85723">rrp::Plugin</a>
+</li>
+<li>assignPluginStartedCallBack()
+: <a class="el" href="classrrp_1_1_plugin.html#aa226396bf8f3e9704945a3cccfdf8aa4">rrp::Plugin</a>
+</li>
+<li>assignRoadRunnerInstance()
+: <a class="el" href="classrrp_1_1_plugin.html#a9e960ed8a9e5a2a6b93dee123b064219">rrp::Plugin</a>
+</li>
+<li>asString()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#ac477a9fbddd0b5413b6a316b250452d2">rrp::PluginParameter</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>CPlugin()
+: <a class="el" href="classrrp_1_1_c_plugin.html#ac07c1d3ef539d03fe04e9825804e113e">rrp::CPlugin</a>
+</li>
+<li>CPPPlugin()
+: <a class="el" href="classrrp_1_1_c_p_p_plugin.html#aed1b3a0eb4ded27c59d7ad54307c2297">rrp::CPPPlugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>destroyFunction
+: <a class="el" href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">rrp::CPlugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>execute()
+: <a class="el" href="classrrp_1_1_c_plugin.html#a216b0a5260a52eda5442be8fa4a1022f">rrp::CPlugin</a>
+, <a class="el" href="classrrp_1_1_plugin.html#a3f003b48e77937773f44572be080bce9">rrp::Plugin</a>
+</li>
+<li>executeFunction
+: <a class="el" href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">rrp::CPlugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>getAuthor()
+: <a class="el" href="classrrp_1_1_plugin.html#abbe5dab36f36d34e083506fd6e20b370">rrp::Plugin</a>
+</li>
+<li>getCapabilities()
+: <a class="el" href="classrrp_1_1_plugin.html#a9926741fa97ce466321357ee4b6c9f06">rrp::Plugin</a>
+</li>
+<li>getCapabilitiesAsXML()
+: <a class="el" href="classrrp_1_1_plugin.html#a0d4e3f594369c9221449506bd3b0a4c9">rrp::Plugin</a>
+</li>
+<li>getCapability()
+: <a class="el" href="classrrp_1_1_plugin.html#aa62b3234a23226e4e63a868d1fcd1b75">rrp::Plugin</a>
+</li>
+<li>getCategory()
+: <a class="el" href="classrrp_1_1_plugin.html#a46b4a272b17da998c5d609f25c8a0282">rrp::Plugin</a>
+</li>
+<li>getCopyright()
+: <a class="el" href="classrrp_1_1_plugin.html#afd00a6b18a578792452825d4bf67383f">rrp::Plugin</a>
+</li>
+<li>getCurrentPlugin()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#acdfc1edd535d3015090527ce0985902b">rrp::PluginManager</a>
+</li>
+<li>getExtendedInfo()
+: <a class="el" href="classrrp_1_1_plugin.html#abf77b07a595221433e79fcbc62fb7f58">rrp::Plugin</a>
+</li>
+<li>getFirstPlugin()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a27ab389b495036b398a7a9c51c6648c0">rrp::PluginManager</a>
+</li>
+<li>getHint()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a8bc7538335511ee025b947ab0ffe5d81">rrp::PluginParameter</a>
+</li>
+<li>getImplementationLanguage()
+: <a class="el" href="classrrp_1_1_c_plugin.html#a5e74bb69dac2b49e286627f3f8482592">rrp::CPlugin</a>
+, <a class="el" href="classrrp_1_1_c_p_p_plugin.html#a123e8995b4b9ee565ed7d805591938a6">rrp::CPPPlugin</a>
+, <a class="el" href="classrrp_1_1_plugin.html#a7841c9295fd4546ea2dd54585d515376">rrp::Plugin</a>
+</li>
+<li>getInfo()
+: <a class="el" href="classrrp_1_1_plugin.html#a4b012a6903f3673c711ac54aa6f35e21">rrp::Plugin</a>
+</li>
+<li>getLibraryName()
+: <a class="el" href="classrrp_1_1_plugin.html#a564ba7f8c8255e91f9f8db0391116d15">rrp::Plugin</a>
+</li>
+<li>getManualAsPDF()
+: <a class="el" href="classrrp_1_1_plugin.html#af79ef0a680e802e164577673121f162d">rrp::Plugin</a>
+</li>
+<li>getName()
+: <a class="el" href="classrrp_1_1_plugin.html#a5906927b852271a574e4d3865e8b3562">rrp::Plugin</a>
+, <a class="el" href="classrrp_1_1_plugin_parameter.html#af3b621c6aa24fd2c7606c884b64238ff">rrp::PluginParameter</a>
+</li>
+<li>getNextPlugin()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a15f2571331e64aef2e4b264e10fd4bd6">rrp::PluginManager</a>
+</li>
+<li>getNumberOfCategories()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a3663a9ecd80964e49ce64d2c7b1f0d59">rrp::PluginManager</a>
+</li>
+<li>getNumberOfPlugins()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#ae3f19dbaad3f70cb183047e09bae9aa5">rrp::PluginManager</a>
+</li>
+<li>getParameter()
+: <a class="el" href="classrrp_1_1_plugin.html#a194b19a99fd7b5dec4ce8cdbe20b6abb">rrp::Plugin</a>
+</li>
+<li>getParameters()
+: <a class="el" href="classrrp_1_1_plugin.html#a6d3b8126424a56c1c6e753a3ef0a834c">rrp::Plugin</a>
+</li>
+<li>getPDFManualByteSize()
+: <a class="el" href="classrrp_1_1_plugin.html#a32e3fc330f4a08b5701f18753135afb3">rrp::Plugin</a>
+</li>
+<li>getPlugin()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a0d2063f1e389b4a5fb128c99ef1dd114">rrp::PluginManager</a>
+</li>
+<li>getPluginDir()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a85ff5ca02e102597d6a23c6adb0e3a99">rrp::PluginManager</a>
+</li>
+<li>getPluginNames()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#af3943a5ecc01c919c1487d3158e09264">rrp::PluginManager</a>
+</li>
+<li>getPreviousPlugin()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a8750fa91f0574a2ac426b8471bcb54b7">rrp::PluginManager</a>
+</li>
+<li>getResult()
+: <a class="el" href="classrrp_1_1_plugin.html#a34fb9de62b09ea9a2082e62e0491cf2f">rrp::Plugin</a>
+</li>
+<li>getRoadRunnerInstance()
+: <a class="el" href="classrrp_1_1_plugin.html#a059904a9f1c0bd548b4b43f671cef6ee">rrp::Plugin</a>
+</li>
+<li>getStatus()
+: <a class="el" href="classrrp_1_1_plugin.html#a48672cdba1e2312a3c8556ead760384e">rrp::Plugin</a>
+</li>
+<li>getType()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a4516340dcab2fb260631484fd606fd68">rrp::PluginParameter</a>
+</li>
+<li>getValueAsString()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a48e9cac017816db7903e7ab4bd0f18e8">rrp::PluginParameter</a>
+</li>
+<li>getValueHandle()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a4f47801e0367c5853c4f56b7040027ab">rrp::PluginParameter</a>
+</li>
+<li>getVersion()
+: <a class="el" href="classrrp_1_1_plugin.html#a89fb12a9ce8a4efbcd2c71473452086b">rrp::Plugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>isBeingTerminated()
-: <a class="el" href="classrrp_1_1_plugin.html#ac2776abcc4000a1561343143ca153613">Plugin</a>
+: <a class="el" href="classrrp_1_1_plugin.html#a3f3793401f6494d17fd8af45133085bb">rrp::Plugin</a>
+</li>
+<li>isWorking()
+: <a class="el" href="classrrp_1_1_plugin.html#aacd6d30587c5f84398164d75da512ad8">rrp::Plugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
+<li>load()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a8b0d624decd2eed67d1075c73e5d112d">rrp::PluginManager</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>mAuthor
+: <a class="el" href="classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb">rrp::Plugin</a>
+</li>
+<li>mCapabilities
+: <a class="el" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">rrp::Plugin</a>
+</li>
+<li>mCategory
+: <a class="el" href="classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913">rrp::Plugin</a>
+</li>
+<li>mClientData
+: <a class="el" href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">rrp::Plugin</a>
+</li>
+<li>mCopyright
+: <a class="el" href="classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f">rrp::Plugin</a>
+</li>
+<li>mHint
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">rrp::PluginParameter</a>
+</li>
+<li>mImplementationLanguage
+: <a class="el" href="classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2">rrp::Plugin</a>
+</li>
+<li>mIsWorking
+: <a class="el" href="classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0">rrp::Plugin</a>
+</li>
+<li>mLibraryName
+: <a class="el" href="classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d">rrp::Plugin</a>
+</li>
+<li>mName
+: <a class="el" href="classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c">rrp::Plugin</a>
+, <a class="el" href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">rrp::PluginParameter</a>
+</li>
+<li>mParas
+: <a class="el" href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">rrp::Parameters</a>
+</li>
+<li>mPM
+: <a class="el" href="classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a">rrp::Plugin</a>
 </li>
 <li>mRR
-: <a class="el" href="classrrp_1_1_plugin.html#a7d9856795c612466d534acc1c499d99d">Plugin</a>
+: <a class="el" href="classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e">rrp::Plugin</a>
 </li>
 <li>mTerminate
-: <a class="el" href="classrrp_1_1_plugin.html#a7993b278e3345a27c3e01b2958b8ec12">Plugin</a>
+: <a class="el" href="classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1">rrp::Plugin</a>
 </li>
+<li>mVersion
+: <a class="el" href="classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847">rrp::Plugin</a>
+</li>
+<li>mWorkFinishedCB
+: <a class="el" href="classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b">rrp::Plugin</a>
+</li>
+<li>mWorkFinishedData1
+: <a class="el" href="classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3">rrp::Plugin</a>
+</li>
+<li>mWorkFinishedData2
+: <a class="el" href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">rrp::Plugin</a>
+</li>
+<li>mWorkProgressCB
+: <a class="el" href="classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4">rrp::Plugin</a>
+</li>
+<li>mWorkProgressData1
+: <a class="el" href="classrrp_1_1_plugin.html#a64da99743e85694f674d9d477389eb39">rrp::Plugin</a>
+</li>
+<li>mWorkProgressData2
+: <a class="el" href="classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93">rrp::Plugin</a>
+</li>
+<li>mWorkStartedCB
+: <a class="el" href="classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4">rrp::Plugin</a>
+</li>
+<li>mWorkStartedData1
+: <a class="el" href="classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0">rrp::Plugin</a>
+</li>
+<li>mWorkStartedData2
+: <a class="el" href="classrrp_1_1_plugin.html#a5e191bc55fbb23b07091f6fe0261bc8a">rrp::Plugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>operator&lt;&lt;
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a3d481417fd0b1008c85335244c268707">rrp::PluginParameter</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
+<li>Parameters()
+: <a class="el" href="classrrp_1_1_parameters.html#adf15c493aa00add80a2375c253f511d9">rrp::Parameters</a>
+</li>
+<li>Plugin()
+: <a class="el" href="classrrp_1_1_plugin.html#aebe02adf5e0c2ef290dda3b9e8c4568e">rrp::Plugin</a>
+</li>
+<li>PluginManager()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a80357025610a976cd88b507c19bf298e">rrp::PluginManager</a>
+</li>
+<li>PluginParameter()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a47ce2cf09d44a200c05b4db42992462e">rrp::PluginParameter</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>resetPlugin()
+: <a class="el" href="classrrp_1_1_plugin.html#a4d1a00783ab8792480cfd3552ca5371c">rrp::Plugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>setInputData()
+: <a class="el" href="classrrp_1_1_plugin.html#aae90ab44a650cf8a308cc11747586a2d">rrp::Plugin</a>
+</li>
+<li>setLibraryName()
+: <a class="el" href="classrrp_1_1_plugin.html#a85748bcbe019051c28ef235a686ec76f">rrp::Plugin</a>
+</li>
+<li>setParameter()
+: <a class="el" href="classrrp_1_1_plugin.html#a8d4461d0845340ff5ca1e6f1a828d036">rrp::Plugin</a>
+</li>
+<li>setPluginDir()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#ab92b7fcc19020b4ccf5107cf1101cebf">rrp::PluginManager</a>
+</li>
+<li>setValueFromString()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a723b4ce0a28e332489828a83bcb13e90">rrp::PluginParameter</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>terminate()
-: <a class="el" href="classrrp_1_1_plugin.html#a74a45d2648335936561898c390281a6a">Plugin</a>
+: <a class="el" href="classrrp_1_1_plugin.html#a9710171fa309c7238138ec4b5f1c843e">rrp::Plugin</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
+<li>unload()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#afad14f8ec4c29fbda252fae48c45836d">rrp::PluginManager</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
 <li>wasTerminated()
-: <a class="el" href="classrrp_1_1_plugin.html#ad1aa634241ef70a0b4af580f21b8ac16">Plugin</a>
+: <a class="el" href="classrrp_1_1_plugin.html#a7f9e47e8b3a176fb568ef8b162dd5d9d">rrp::Plugin</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_0x7e"></a>- ~ -</h3><ul>
+<li>~CPlugin()
+: <a class="el" href="classrrp_1_1_c_plugin.html#a5c7d62b28dae8148d761aa34642b14c9">rrp::CPlugin</a>
+</li>
+<li>~CPPPlugin()
+: <a class="el" href="classrrp_1_1_c_p_p_plugin.html#a314755249443da29bdc43c68e79b7b3f">rrp::CPPPlugin</a>
+</li>
+<li>~Plugin()
+: <a class="el" href="classrrp_1_1_plugin.html#a22b04f99e5889f6095ed4377e4b4c61a">rrp::Plugin</a>
+</li>
+<li>~PluginManager()
+: <a class="el" href="classrrp_1_1_plugin_manager.html#a33500637ceb46619bc9c440a8f05cbdf">rrp::PluginManager</a>
+</li>
+<li>~PluginParameter()
+: <a class="el" href="classrrp_1_1_plugin_parameter.html#a940630dfeba143f6fb04e9b61efb3604">rrp::PluginParameter</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 19:37:12 for RoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 5 2013 20:04:17 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

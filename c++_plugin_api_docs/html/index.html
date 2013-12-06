@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>RoadRunner Plugin C++ API: Main Page</title>
+<title>libRoadRunner Plugin C++ API: A Plugin Framework for libRoadRunner</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">RoadRunner Plugin C++ API
+   <div id="projectname">libRoadRunner Plugin C++ API
    &#160;<span id="projectnumber">0.99</span>
    </div>
   </td>
@@ -38,7 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -75,13 +75,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">RoadRunner Plugin C++ API Documentation</div>  </div>
+<div class="title">A Plugin Framework for libRoadRunner </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><dl class="section user"><dt></dt><dd>This document describes libRoadRunners Plugins API. </dd></dl>
+<dl class="section user"><dt></dt><dd>The Plugins API is centered around the <em>PluginManager</em>, <em>Plugin</em>, and <em>Parameter</em> classes. Where the Plugin manager is responsible for validating, loading and unloading plugins at runtime.</dd></dl>
+<dl class="section user"><dt></dt><dd>The Plugins themselves are self contained shared libraries that may be designed to extend the functionality of the main libRoadRunners core API.</dd></dl>
+<dl class="section user"><dt></dt><dd>The capabilities of a Plugin is communicated to a client by use of <em>Parameters</em>. A Parameter in this context, is a specialized object able to communicate various types of data between the Plugin and the client.</dd></dl>
+<dl class="section user"><dt></dt><dd>A client typically loads and configure a plugin, throught the use of Parameters, and then <em>executes</em> the plugin using a plugins execute function. Finally, the client may retrieve some kind of result from the Plugin, again, using a Parameter.</dd></dl>
+<dl class="section user"><dt></dt><dd>Since a Plugins function will be determined by the actual Plugin author, documentation on a Plugins purpose and on how to use the plugin, is ideally bundled with the plugin and retrieved by various Plugin functions, getInfo(), getExtendedInfo() and getManualAsPDF(). </dd></dl>
+<dl class="section user"><dt></dt><dd></dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Totte Karlsson (<a href="#" onclick="location.href='mai'+'lto:'+'tot'+'te'+'@du'+'ne'+'sci'+'en'+'tif'+'ic'+'.co'+'m'; return false;">totte<span style="display: none;">.nosp@m.</span>@dun<span style="display: none;">.nosp@m.</span>escie<span style="display: none;">.nosp@m.</span>ntif<span style="display: none;">.nosp@m.</span>ic.co<span style="display: none;">.nosp@m.</span>m</a>) </dd>
+<dd>
+Andy Somogyi (<a href="#" onclick="location.href='mai'+'lto:'+'and'+'y.'+'som'+'og'+'yi@'+'gm'+'ail'+'.c'+'om'; return false;">andy.<span style="display: none;">.nosp@m.</span>somo<span style="display: none;">.nosp@m.</span>gyi@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a>, <a href="#" onclick="location.href='mai'+'lto:'+'som'+'og'+'yie'+'@i'+'ndi'+'an'+'a.e'+'du'; return false;">somog<span style="display: none;">.nosp@m.</span>yie@<span style="display: none;">.nosp@m.</span>india<span style="display: none;">.nosp@m.</span>na.e<span style="display: none;">.nosp@m.</span>du</a>) </dd>
+<dd>
+Herbert M. Sauro (<a href="#" onclick="location.href='mai'+'lto:'+'hsa'+'ur'+'o@u'+'.w'+'ash'+'in'+'gto'+'n.'+'edu'; return false;">hsaur<span style="display: none;">.nosp@m.</span>o@u.<span style="display: none;">.nosp@m.</span>washi<span style="display: none;">.nosp@m.</span>ngto<span style="display: none;">.nosp@m.</span>n.edu</a>)</dd></dl>
+<dl class="section user"><dt></dt><dd>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</dd></dl>
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+</ul>
+<ul>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+</ul>
+<ul>
+<li>Neither the name of University of Washington nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ul>
+<dl class="section user"><dt></dt><dd></dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 19:37:12 for RoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 5 2013 20:04:17 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

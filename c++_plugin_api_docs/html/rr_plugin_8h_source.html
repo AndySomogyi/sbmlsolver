@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>RoadRunner Plugin C++ API: rrPlugin.h Source File</title>
+<title>libRoadRunner Plugin C++ API: rrPlugin.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">RoadRunner Plugin C++ API
+   <div id="projectname">libRoadRunner Plugin C++ API
    &#160;<span id="projectnumber">0.99</span>
    </div>
   </td>
@@ -38,7 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -83,141 +83,193 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">rrPlugin.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef rrPluginH</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define rrPluginH</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;rrPluginsAPIExporter.h&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;rrPluginsAPISettings.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;rrCapabilities.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>rr</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>RoadRunner;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>rrp</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>rr;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>PluginManager;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//Plugin callback functions</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">typedef</span> void    (callback_cc *PluginCallBackFnc)(<span class="keywordtype">void</span>* data1, <span class="keywordtype">void</span>* data2);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> std::string;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html">   24</a></span>&#160;<span class="keyword">class </span>PLUGINS_API_DECLSPEC <a class="code" href="classrrp_1_1_plugin.html">Plugin</a></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">string</span>                          mName;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">string</span>                          mLibraryName;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">string</span>                          mAuthor;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">string</span>                          mCategory;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">string</span>                          mVersion;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">string</span>                          mCopyright;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">string</span>                          mImplementationLanguage;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a7993b278e3345a27c3e01b2958b8ec12">   37</a></span>&#160;        <span class="keywordtype">bool</span>                            <a class="code" href="classrrp_1_1_plugin.html#a7993b278e3345a27c3e01b2958b8ec12">mTerminate</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">bool</span>                            mIsWorking; <span class="comment">//Set to true if plugin is working</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a7d9856795c612466d534acc1c499d99d">   44</a></span>&#160;        RoadRunner                     *<a class="code" href="classrrp_1_1_plugin.html#a7d9856795c612466d534acc1c499d99d">mRR</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">const</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>            *mPM; <span class="comment">//A plugin can&#39;t change a plugin manager..</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">//Plugin callback functionality</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        PluginCallBackFnc               mWorkStartedCB;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        PluginCallBackFnc               mWorkProgressCB;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        PluginCallBackFnc               mWorkFinishedCB;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">void</span>                           *mWorkStartedData1;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">void</span>                           *mWorkStartedData2;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span>                           *mWorkProgressData1;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">void</span>                           *mWorkProgressData2;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">void</span>                           *mWorkFinishedData1;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span>                           *mWorkFinishedData2;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="classrrp_1_1_capabilities.html">Capabilities</a>                    mCapabilities;          <span class="comment">//Container for parameter data that can be exchanged to/from the plugin by using parameters</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span>                           *mClientData;            <span class="comment">//Data passed trough the execute function,</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                        <a class="code" href="classrrp_1_1_plugin.html">Plugin</a>( <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name = gEmptyString,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                                <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; cat = gNoneString,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                                RoadRunner* aRR = NULL,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                                <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; language = gNoneString,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                                <span class="keyword">const</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>* pm = NULL);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">virtual</span>                        ~<a class="code" href="classrrp_1_1_plugin.html">Plugin</a>();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">string</span>                          getName();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">void</span>                            setLibraryName(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; libName);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">string</span>                          getLibraryName();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">string</span>                          getAuthor();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordtype">string</span>                          getCategory();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">string</span>                          getVersion();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">string</span>                          getCopyright();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="comment">//Misc.</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        RoadRunner*                     getRoadRunnerInstance();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">//Plugin documentation</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">string</span>                          getInfo();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">string</span>                          getExtendedInfo();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*          getManualAsPDF() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>            getPDFManualByteSize();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="classrrp_1_1_capabilities.html">Capabilities</a>*                   getCapabilities();</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="classrrp_1_1_capability.html">Capability</a>*                     getCapability(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">string</span>                          getCapabilitiesAsXML();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(<a class="code" href="classrrp_1_1_capability.html">Capability</a>&amp; capability); <span class="comment">//Each capability has a set of parameters</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOfCapability = <span class="stringliteral">&quot;&quot;</span>); <span class="comment">//Each capability has a set of parameters</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="classrrp_1_1_base_parameter.html">BaseParameter</a>*                  getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; capability = <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <a class="code" href="classrrp_1_1_base_parameter.html">BaseParameter</a>*                  getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, <a class="code" href="classrrp_1_1_capability.html">Capability</a>&amp; capability);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value, <a class="code" href="classrrp_1_1_capability.html">Capability</a>&amp; capability);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordtype">void</span>                            terminate();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordtype">bool</span>                            isBeingTerminated();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordtype">bool</span>                            wasTerminated();</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">bool</span>                            assignRoadRunnerInstance(RoadRunner* rr);</div>
+<a href="rr_plugin_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifndef rrPluginH</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define rrPluginH</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;rrPluginsAPIExporter.h&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;rrPluginsAPISettings.h&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;rrCapabilities.h&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">namespace </span>rr</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">class </span>RoadRunner;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">namespace </span>rrp</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">using namespace </span>rr;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">using</span> std::string;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">class </span>PluginManager;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">typedef</span> void    (callback_cc *PluginCallBackFnc)(<span class="keywordtype">void</span>* data1, <span class="keywordtype">void</span>* data2);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html">   94</a></span>&#160;<span class="keyword">class </span>PLUGINS_API_DECLSPEC <a class="code" href="classrrp_1_1_plugin.html">Plugin</a></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;{</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                                        <a class="code" href="classrrp_1_1_plugin.html">Plugin</a>( <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name = gEmptyString,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                                                <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; cat = gNoneString,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                                RoadRunner* aRR = NULL,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                                                <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; language = gNoneString,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                                <span class="keyword">const</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>* pm = NULL);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">virtual</span>                        ~<a class="code" href="classrrp_1_1_plugin.html">Plugin</a>();</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="comment">//Virtuals</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, <span class="keywordtype">void</span>* userData1 = NULL, <span class="keywordtype">void</span>* userData2 = NULL);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, <span class="keywordtype">void</span>* userData1 = NULL, <span class="keywordtype">void</span>* userData2 = NULL);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, <span class="keywordtype">void</span>* userData1 = NULL, <span class="keywordtype">void</span>* userData2 = NULL);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordtype">string</span>                          getName();</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getResult();</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    isWorking();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    resetPlugin();</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    setInputData(<span class="keywordtype">void</span>* data);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getStatus();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="comment">//Pure virtuals</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getImplementationLanguage() = 0;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    execute(<span class="keywordtype">void</span>* clientData = NULL, <span class="keywordtype">bool</span> inAThread = <span class="keyword">false</span>) = 0;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordtype">string</span>                          getLibraryName();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordtype">string</span>                          getAuthor();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">string</span>                          getCategory();</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classrrp_1_1_plugin_html_a7993b278e3345a27c3e01b2958b8ec12"><div class="ttname"><a href="classrrp_1_1_plugin.html#a7993b278e3345a27c3e01b2958b8ec12">rrp::Plugin::mTerminate</a></div><div class="ttdeci">bool mTerminate</div><div class="ttdoc">Boolean indicating if a user wants to terminate the work in a plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:37</div></div>
-<div class="ttc" id="classrrp_1_1_plugin_html"><div class="ttname"><a href="classrrp_1_1_plugin.html">rrp::Plugin</a></div><div class="ttdef"><b>Definition:</b> rrPlugin.h:24</div></div>
-<div class="ttc" id="classrrp_1_1_base_parameter_html"><div class="ttname"><a href="classrrp_1_1_base_parameter.html">rrp::BaseParameter</a></div><div class="ttdef"><b>Definition:</b> rrBaseParameter.h:14</div></div>
-<div class="ttc" id="classrrp_1_1_capabilities_html"><div class="ttname"><a href="classrrp_1_1_capabilities.html">rrp::Capabilities</a></div><div class="ttdef"><b>Definition:</b> rrCapabilities.h:14</div></div>
-<div class="ttc" id="classrrp_1_1_plugin_html_a7d9856795c612466d534acc1c499d99d"><div class="ttname"><a href="classrrp_1_1_plugin.html#a7d9856795c612466d534acc1c499d99d">rrp::Plugin::mRR</a></div><div class="ttdeci">RoadRunner * mRR</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:44</div></div>
-<div class="ttc" id="classrrp_1_1_plugin_manager_html"><div class="ttname"><a href="classrrp_1_1_plugin_manager.html">rrp::PluginManager</a></div><div class="ttdef"><b>Definition:</b> rrPluginManager.h:36</div></div>
-<div class="ttc" id="classrrp_1_1_parameters_html"><div class="ttname"><a href="classrrp_1_1_parameters.html">rrp::Parameters</a></div><div class="ttdef"><b>Definition:</b> rrParameters.h:19</div></div>
-<div class="ttc" id="classrrp_1_1_capability_html"><div class="ttname"><a href="classrrp_1_1_capability.html">rrp::Capability</a></div><div class="ttdef"><b>Definition:</b> rrCapability.h:16</div></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordtype">string</span>                          getVersion();</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordtype">string</span>                          getCopyright();</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        RoadRunner*                     getRoadRunnerInstance();</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getInfo();</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getExtendedInfo();</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*          getManualAsPDF() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>            getPDFManualByteSize();</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        Capabilities*                   getCapabilities();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        Capability*                     getCapability(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordtype">string</span>                          getCapabilitiesAsXML();</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(Capability&amp; capability); <span class="comment">//Each capability has a set of parameters</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOfCapability = <span class="stringliteral">&quot;&quot;</span>); <span class="comment">//Each capability has a set of parameters</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; capability = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, Capability&amp; capability);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value, Capability&amp; capability);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordtype">void</span>                            terminate();</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordtype">bool</span>                            isBeingTerminated();</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordtype">bool</span>                            wasTerminated();</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    isWorking();</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="keywordtype">bool</span>                            assignRoadRunnerInstance(RoadRunner* rr);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, <span class="keywordtype">void</span>* userData1 = NULL, <span class="keywordtype">void</span>* userData2 = NULL);</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, <span class="keywordtype">void</span>* userData1 = NULL, <span class="keywordtype">void</span>* userData2 = NULL);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, <span class="keywordtype">void</span>* userData1 = NULL, <span class="keywordtype">void</span>* userData2 = NULL);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getResult();</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    resetPlugin();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    setInputData(<span class="keywordtype">void</span>* data);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getStatus();</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                  getImplementationLanguage() = 0;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    execute(<span class="keywordtype">void</span>* clientData = NULL, <span class="keywordtype">bool</span> inAThread = <span class="keyword">false</span>) = 0;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keyword">protected</span>:                          </div>
+<div class="line"><a name="l00281"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c">  281</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c">mName</a>;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00284"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d">  284</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d">mLibraryName</a>;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb">  287</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb">mAuthor</a>;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913">  290</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913">mCategory</a>;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847">  293</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847">mVersion</a>;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f">  296</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f">mCopyright</a>;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
+<div class="line"><a name="l00299"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2">  299</a></span>&#160;        <span class="keywordtype">string</span>                          <a class="code" href="classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2">mImplementationLanguage</a>;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1">  302</a></span>&#160;        <span class="keywordtype">bool</span>                            <a class="code" href="classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1">mTerminate</a>;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
+<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0">  305</a></span>&#160;        <span class="keywordtype">bool</span>                            <a class="code" href="classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0">mIsWorking</a>;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
+<div class="line"><a name="l00311"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e">  311</a></span>&#160;        RoadRunner                     *<a class="code" href="classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e">mRR</a>;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;</div>
+<div class="line"><a name="l00317"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a">  317</a></span>&#160;        <span class="keyword">const</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>            *<a class="code" href="classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a">mPM</a>;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordtype">void</span>                            setLibraryName(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; libName);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
+<div class="line"><a name="l00327"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4">  327</a></span>&#160;        PluginCallBackFnc               <a class="code" href="classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4">mWorkStartedCB</a>;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;</div>
+<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4">  332</a></span>&#160;        PluginCallBackFnc               <a class="code" href="classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4">mWorkProgressCB</a>;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
+<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b">  337</a></span>&#160;        PluginCallBackFnc               <a class="code" href="classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b">mWorkFinishedCB</a>;</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
+<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0">  342</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0">mWorkStartedData1</a>;</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a5e191bc55fbb23b07091f6fe0261bc8a">  347</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#a5e191bc55fbb23b07091f6fe0261bc8a">mWorkStartedData2</a>;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
+<div class="line"><a name="l00352"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a64da99743e85694f674d9d477389eb39">  352</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#a64da99743e85694f674d9d477389eb39">mWorkProgressData1</a>;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;</div>
+<div class="line"><a name="l00357"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93">  357</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93">mWorkProgressData2</a>;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;</div>
+<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3">  362</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3">mWorkFinishedData1</a>;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;</div>
+<div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">  367</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">mWorkFinishedData2</a>;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;</div>
+<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">  373</a></span>&#160;        Capabilities                    <a class="code" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">mCapabilities</a>;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
+<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">  379</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">mClientData</a>;</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;};</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;}</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a881ef4400f1f7650498987e6d93cd4e0"><div class="ttname"><a href="classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0">rrp::Plugin::mIsWorking</a></div><div class="ttdeci">bool mIsWorking</div><div class="ttdoc">Boolean flag indicating if the plugin is working. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:305</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html"><div class="ttname"><a href="classrrp_1_1_plugin.html">rrp::Plugin</a></div><div class="ttdef"><b>Definition:</b> rrPlugin.h:94</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a301528955f6fc4fb8e2635f5b0b5f39e"><div class="ttname"><a href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">rrp::Plugin::mWorkFinishedData2</a></div><div class="ttdeci">void * mWorkFinishedData2</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:367</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a5e191bc55fbb23b07091f6fe0261bc8a"><div class="ttname"><a href="classrrp_1_1_plugin.html#a5e191bc55fbb23b07091f6fe0261bc8a">rrp::Plugin::mWorkStartedData2</a></div><div class="ttdeci">void * mWorkStartedData2</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:347</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a64da99743e85694f674d9d477389eb39"><div class="ttname"><a href="classrrp_1_1_plugin.html#a64da99743e85694f674d9d477389eb39">rrp::Plugin::mWorkProgressData1</a></div><div class="ttdeci">void * mWorkProgressData1</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:352</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_ab3da56af3e2dac256df5578630e89c6a"><div class="ttname"><a href="classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a">rrp::Plugin::mPM</a></div><div class="ttdeci">const PluginManager * mPM</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:317</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a229cdcf6ff35922cc393a36ad85fc03f"><div class="ttname"><a href="classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f">rrp::Plugin::mCopyright</a></div><div class="ttdeci">string mCopyright</div><div class="ttdoc">Plugin copyright language. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:296</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_ab35b7bad0855132722dbaec7ee699cc1"><div class="ttname"><a href="classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1">rrp::Plugin::mTerminate</a></div><div class="ttdeci">bool mTerminate</div><div class="ttdoc">Boolean flag indicating if a user wants to terminate the work in a plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:302</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a23989ae87afe5e72a0b5c3c460149f4c"><div class="ttname"><a href="classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c">rrp::Plugin::mName</a></div><div class="ttdeci">string mName</div><div class="ttdoc">Name of Plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:281</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a87f50c4cd4f34e46ca6ead57266686ea"><div class="ttname"><a href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">rrp::Plugin::mCapabilities</a></div><div class="ttdeci">Capabilities mCapabilities</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:373</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_abc3fccd8a643a46f7f4b52b9efa17d7b"><div class="ttname"><a href="classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b">rrp::Plugin::mWorkFinishedCB</a></div><div class="ttdeci">PluginCallBackFnc mWorkFinishedCB</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:337</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a30e687e32f01bc1691a486e4c2f79bcb"><div class="ttname"><a href="classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb">rrp::Plugin::mAuthor</a></div><div class="ttdeci">string mAuthor</div><div class="ttdoc">Name of plugin author(s) </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:287</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_afb405004a5e1c4cf4c78fd1f2f65e6a3"><div class="ttname"><a href="classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3">rrp::Plugin::mWorkFinishedData1</a></div><div class="ttdeci">void * mWorkFinishedData1</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:362</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a379f20e74ed0c0ac92344f1e6c7b5847"><div class="ttname"><a href="classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847">rrp::Plugin::mVersion</a></div><div class="ttdeci">string mVersion</div><div class="ttdoc">Plugin version. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:293</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_parameter_html"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html">rrp::PluginParameter</a></div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:18</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_ae639bfcee04ce0194de1262802b0a54d"><div class="ttname"><a href="classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d">rrp::Plugin::mLibraryName</a></div><div class="ttdeci">string mLibraryName</div><div class="ttdoc">Name of compiled shared library implementing the Plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:284</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_ad75056a91af74afe2773c4420ac627f0"><div class="ttname"><a href="classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0">rrp::Plugin::mWorkStartedData1</a></div><div class="ttdeci">void * mWorkStartedData1</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:342</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_af296dc7a3a7453898572baf4f8126ae2"><div class="ttname"><a href="classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2">rrp::Plugin::mImplementationLanguage</a></div><div class="ttdeci">string mImplementationLanguage</div><div class="ttdoc">Plugin implementation language. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:299</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_manager_html"><div class="ttname"><a href="classrrp_1_1_plugin_manager.html">rrp::PluginManager</a></div><div class="ttdef"><b>Definition:</b> rrPluginManager.h:76</div></div>
+<div class="ttc" id="classrrp_1_1_parameters_html"><div class="ttname"><a href="classrrp_1_1_parameters.html">rrp::Parameters</a></div><div class="ttdef"><b>Definition:</b> rrParameters.h:62</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a3daac3dbfbee36b7c9d4d02b0ab50b93"><div class="ttname"><a href="classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93">rrp::Plugin::mWorkProgressData2</a></div><div class="ttdeci">void * mWorkProgressData2</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:357</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_acf346d6659dbff5a603c498e1ab9f7a4"><div class="ttname"><a href="classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4">rrp::Plugin::mWorkStartedCB</a></div><div class="ttdeci">PluginCallBackFnc mWorkStartedCB</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:327</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a689de45fb113aa3eacb5374d4045e913"><div class="ttname"><a href="classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913">rrp::Plugin::mCategory</a></div><div class="ttdeci">string mCategory</div><div class="ttdoc">Plugin category. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:290</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_abcdfb809a96ff2d5cd1ad0d2e6c5efb4"><div class="ttname"><a href="classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4">rrp::Plugin::mWorkProgressCB</a></div><div class="ttdeci">PluginCallBackFnc mWorkProgressCB</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:332</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_a0071589410784f4437ec5c52a0d1c97e"><div class="ttname"><a href="classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e">rrp::Plugin::mRR</a></div><div class="ttdeci">RoadRunner * mRR</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:311</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_html_add430fc258fc022021a7728a6911b0b1"><div class="ttname"><a href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">rrp::Plugin::mClientData</a></div><div class="ttdeci">void * mClientData</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:379</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 19:37:12 for RoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 5 2013 20:04:16 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

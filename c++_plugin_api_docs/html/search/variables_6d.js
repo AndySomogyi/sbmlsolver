@@ -1,5 +1,27 @@
 var searchData=
 [
-  ['mrr',['mRR',['../classrrp_1_1_plugin.html#a7d9856795c612466d534acc1c499d99d',1,'rrp::Plugin']]],
-  ['mterminate',['mTerminate',['../classrrp_1_1_plugin.html#a7993b278e3345a27c3e01b2958b8ec12',1,'rrp::Plugin']]]
+  ['mauthor',['mAuthor',['../classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb',1,'rrp::Plugin']]],
+  ['mcapabilities',['mCapabilities',['../classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea',1,'rrp::Plugin']]],
+  ['mcategory',['mCategory',['../classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913',1,'rrp::Plugin']]],
+  ['mclientdata',['mClientData',['../classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1',1,'rrp::Plugin']]],
+  ['mcopyright',['mCopyright',['../classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f',1,'rrp::Plugin']]],
+  ['mhint',['mHint',['../classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186',1,'rrp::PluginParameter']]],
+  ['mimplementationlanguage',['mImplementationLanguage',['../classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2',1,'rrp::Plugin']]],
+  ['misworking',['mIsWorking',['../classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0',1,'rrp::Plugin']]],
+  ['mlibraryname',['mLibraryName',['../classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d',1,'rrp::Plugin']]],
+  ['mname',['mName',['../classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c',1,'rrp::Plugin::mName()'],['../classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a',1,'rrp::PluginParameter::mName()']]],
+  ['mparas',['mParas',['../classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc',1,'rrp::Parameters']]],
+  ['mpm',['mPM',['../classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a',1,'rrp::Plugin']]],
+  ['mrr',['mRR',['../classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e',1,'rrp::Plugin']]],
+  ['mterminate',['mTerminate',['../classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1',1,'rrp::Plugin']]],
+  ['mversion',['mVersion',['../classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847',1,'rrp::Plugin']]],
+  ['mworkfinishedcb',['mWorkFinishedCB',['../classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b',1,'rrp::Plugin']]],
+  ['mworkfinisheddata1',['mWorkFinishedData1',['../classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3',1,'rrp::Plugin']]],
+  ['mworkfinisheddata2',['mWorkFinishedData2',['../classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e',1,'rrp::Plugin']]],
+  ['mworkprogresscb',['mWorkProgressCB',['../classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4',1,'rrp::Plugin']]],
+  ['mworkprogressdata1',['mWorkProgressData1',['../classrrp_1_1_plugin.html#a64da99743e85694f674d9d477389eb39',1,'rrp::Plugin']]],
+  ['mworkprogressdata2',['mWorkProgressData2',['../classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93',1,'rrp::Plugin']]],
+  ['mworkstartedcb',['mWorkStartedCB',['../classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4',1,'rrp::Plugin']]],
+  ['mworkstarteddata1',['mWorkStartedData1',['../classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0',1,'rrp::Plugin']]],
+  ['mworkstarteddata2',['mWorkStartedData2',['../classrrp_1_1_plugin.html#a5e191bc55fbb23b07091f6fe0261bc8a',1,'rrp::Plugin']]]
 ];
