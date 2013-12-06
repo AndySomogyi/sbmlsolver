@@ -22,12 +22,11 @@ using std::vector;
 using std::string;
 using std::set;
 
-RR_DECLSPEC bool             cleanFolder(const string& folder, const string& baseName,  const std::vector<std::string>& extensions);
-RR_DECLSPEC double             gaussNoise(double mean, double sigma);
-RR_DECLSPEC string             getTime();
-RR_DECLSPEC string             getDateTime();
-RR_DECLSPEC string             getMD5(const string& text);
-RR_DECLSPEC void             sleep(int ms);
+RR_DECLSPEC bool            cleanFolder(const string& folder, const string& baseName,  const std::vector<std::string>& extensions);
+RR_DECLSPEC string          getTime();
+RR_DECLSPEC string          getDateTime();
+RR_DECLSPEC string          getMD5(const string& text);
+RR_DECLSPEC void            sleep(int ms);
 //Misc.
 RR_DECLSPEC std::size_t     indexOf(const std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            isNaN(const double& aNum);
@@ -43,11 +42,11 @@ RR_DECLSPEC bool            fileExists(const string& fileN);
 RR_DECLSPEC bool            folderExists(const string& folderN);
 RR_DECLSPEC bool            createFolder(const string& path);
 
-RR_DECLSPEC string            getParentFolder(const string& path);
-RR_DECLSPEC string            getCurrentExeFolder();
+RR_DECLSPEC string          getParentFolder(const string& path);
+RR_DECLSPEC string          getCurrentExeFolder();
 RR_DECLSPEC string          getUsersTempDataFolder();
-RR_DECLSPEC string            getCWD();
-RR_DECLSPEC const char        getPathSeparator();
+RR_DECLSPEC string          getCWD();
+RR_DECLSPEC const char      getPathSeparator();
 
 RR_DECLSPEC vector<string>  getLinesInFile(const string& fName);
 RR_DECLSPEC string          getFileContent(const string& fName);
@@ -66,13 +65,13 @@ RR_DECLSPEC vector<double>  createVector(const double* src, const int& size);
 
 #if defined(_WIN32) || defined(__WIN32__)
 RR_DECLSPEC HINSTANCE       loadDLL(const string& dll);
-RR_DECLSPEC bool               unLoadDLL(HINSTANCE dllHandle);
+RR_DECLSPEC bool            unLoadDLL(HINSTANCE dllHandle);
 RR_DECLSPEC FARPROC         getFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
-RR_DECLSPEC string             getWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
+RR_DECLSPEC string          getWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
 #endif
 
 #undef CreateFile
-RR_DECLSPEC bool             createFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
+RR_DECLSPEC bool            createFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
 
 } // rr Namespace
 #endif

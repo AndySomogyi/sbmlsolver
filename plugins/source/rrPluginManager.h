@@ -61,6 +61,9 @@ using Poco::SharedLibrary;
 
 class Plugin;
 
+/**
+Typedef for a plugins record in the plugins container
+*/
 typedef pair< Poco::SharedLibrary*, Plugin* > rrPlugin;
 
 /**

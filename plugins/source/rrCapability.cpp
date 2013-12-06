@@ -8,10 +8,10 @@ using namespace std;
 namespace rrp
 {
 
-Capability::Capability(const string& name, const string& method, const string& description)
+Capability::Capability(const string& name, const string& description)
 :
 mName(name),
-mMethod(method),
+//mMethod(method),
 mDescription(description)
 {}
 
@@ -21,15 +21,15 @@ Capability::~Capability()
 Capability::Capability(const Capability& from)
 :
 mName(from.mName),
-mMethod(from.mMethod),
+//mMethod(from.mMethod),
 mDescription(from.mDescription),
 mParameters(from.mParameters)
 {}
 
-void Capability::setup(const string& name, const string& method, const string& descr)
+void Capability::setup(const string& name, const string& descr)
 {
     mName = name;
-    mMethod = method;
+//    mMethod = method;
     mDescription = descr;
 }
 
@@ -54,10 +54,10 @@ string Capability::getDescription() const
     return mDescription;
 }
 
-string Capability::getMethod() const
-{
-    return mMethod;
-}
+//string Capability::getMethod() const
+//{
+//    return mMethod;
+//}
 
 u_int Capability::nrOfParameters() const
 {
@@ -73,7 +73,7 @@ string Capability::asString()  const
 {
     stringstream caps;
     caps<<"Name: " << mName <<endl;
-    caps<<"Method: " << mMethod<<endl;
+//    caps<<"Method: " << mMethod<<endl;
     caps<<"Description: " << mDescription<<endl;
 
     for(int i = 0; i < nrOfParameters(); i++)

@@ -50,34 +50,96 @@ namespace rrp
 {
 
 /**
-    A Capability.
+    A Capability. A capability is a basically a container of parameters, with the addition of a name and description.
+    \todo Might be better just inherit from Parameters and add the name, descr variables.
 */
 class PLUGINS_API_DECLSPEC Capability
 {
-    protected:
-        string                              mName;
-        string                              mDescription;
-        string                              mMethod;
-        Parameters                          mParameters;
-
     public:
-                                            Capability(const string& name, const string& method, const string& descr);
-                                            ~Capability();
+        /**
+            Create a capability
+        */
+                                            Capability(const string& name, const string& descr);
+
+        /**
+            De allocate any memory associated with the capability
+        */
+                                           ~Capability();
+
+        /**
+            Create a capability from another capability (copy ctor)
+        */
                                             Capability(const Capability& fromMe);
 
-        void                                setup(const string& name, const string& method, const string& descr);
-        void                                addParameter(PluginParameter* me);
-        string                              asString() const;
-        u_int                               nrOfParameters() const;
-        PluginParameter&                      operator[](const int& i);
+        /**
+            Get capability name
+        */
         string                              getName() const;
-        string                              getDescription() const;
-        string                              getMethod() const;
-        Parameters*                         getParameters();
-        PluginParameter*                      getParameter(const string& paraName);
 
+        /**
+            Get capability description
+        */
+        string                              getDescription() const;
+//        string                              getMethod() const;
+
+        /**
+            Get a pointers to the underlying parameter container
+        */
+        Parameters*                         getParameters();
+
+        /**
+            Get a pointer to a parameter with a specific name
+        */
+        PluginParameter*                    getParameter(const string& paraName);
+
+        /**
+            Assign name and description
+        */
+        void                                setup(const string& name, const string& descr);
+
+        /**
+            Add a parameter to the capability
+        */
+        void                                addParameter(PluginParameter* me);
+
+        /**
+            Get the capability as a string
+        */
+        string                              asString() const;
+
+        /**
+            Get number of parameters
+        */
+        u_int                               nrOfParameters() const;
+
+        /**
+            Get a reference to a parameter
+        */
+        PluginParameter&                    operator[](const int& i);
+
+        /**
+            Output the capability to a output stream
+        */
         PLUGINS_API_DECLSPEC
         friend ostream&                     operator <<(ostream& os, const Capability& caps);
+
+    protected:
+        /**
+            Name of capability
+        */
+        string                              mName;
+
+        /**
+            A description of the capability
+        */
+        string                              mDescription;
+//        string                              mMethod;
+
+        /**
+            Container for parameters associated with the capability
+        */
+        Parameters                          mParameters;
+
 };
 
 }

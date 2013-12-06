@@ -1,7 +1,6 @@
 #pragma hdrstop
 #include "libxml/tree.h"
 #include "libxml/xpath.h"
-
 #include "rrException.h"
 #include "rrPluginParameter.h"
 #include "rrParameter.h"
@@ -9,15 +8,17 @@
 #include "rrCapabilities.h"
 #include "rrCapability.h"
 
-using namespace std;
-
 namespace rrp
 {
+using namespace std;
 
-Capabilities::Capabilities(const string& name, const string& description)
-:
-mName(name),
-mDescription(description)
+Capabilities::Capabilities()//const string& name, const string& description)
+//:
+//mName(name),
+//mDescription(description)
+{}
+
+Capabilities::~Capabilities()
 {}
 
 void Capabilities::add(Capability& capability)
@@ -65,6 +66,7 @@ StringList Capabilities::asStringList()
 
     return caps;
 }
+
 string Capabilities::info() const
 {
     stringstream st;
@@ -127,8 +129,8 @@ string Capabilities::asXML()
     {
         Capability& aCapability = *(mCapabilities[i]);
         xmlNodePtr capNode = xmlNewChild(root_node, NULL, BAD_CAST "capability",NULL);
-        xmlNewProp(capNode, BAD_CAST "name", BAD_CAST mName.c_str());
-        xmlNewProp(capNode, BAD_CAST "description", BAD_CAST mDescription.c_str());
+//        xmlNewProp(capNode, BAD_CAST "name", BAD_CAST mName.c_str());
+//        xmlNewProp(capNode, BAD_CAST "description", BAD_CAST mDescription.c_str());
 
         xmlNodePtr parameters = xmlNewChild(capNode, NULL, BAD_CAST "parameters",NULL);
 
@@ -159,8 +161,8 @@ string Capabilities::asXML()
 
 ostream& operator<<(ostream& stream, const Capabilities& caps)
 {
-    stream<<"Capability: "<<caps.mName<<endl;
-    stream<<"Description: "<<caps.mDescription<<endl;
+//    stream<<"Capability: "<<caps.mName<<endl;
+//    stream<<"Description: "<<caps.mDescription<<endl;
     stream<<caps.info();
     return stream;
 }

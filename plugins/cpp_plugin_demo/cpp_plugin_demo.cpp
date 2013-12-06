@@ -13,10 +13,10 @@ using namespace std;
 TestPlugin::TestPlugin(RoadRunner* aRR, int testParameter)
 :
 CPPPlugin("TestPlugin", "No Category", aRR),
-mTestCapability("A Plugin Capability", "RunMe", "Exposing the RunMe Function"),
+mTestCapability("A Plugin Capability", "Exposing the RunMe Function"),
 mTestParameter("NrOfIterations", 123, "Hint for Nr of iterations")
 {
-    mTestCapability.setup("TestPlugin", "SetTimeCourseSelectionList", "A function in a plugin");
+    mTestCapability.setup("TestPlugin", "A function in a plugin");
     mTestCapability.addParameter(&mTestParameter);
     mCapabilities.add(mTestCapability);
 }
