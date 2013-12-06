@@ -3,7 +3,7 @@
 #include "rrLogger.h"
 #include "add_noise_worker.h"
 #include "rrUtils.h"
-#include "rrNoise.h"
+#include "noise.h"
 #include "add_noise.h"
 //---------------------------------------------------------------------------
 

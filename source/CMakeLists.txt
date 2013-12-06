@@ -39,7 +39,6 @@ set(rrSources
     rrRoadRunnerData
     rrSelectionRecord
     rrModelGeneratorFactory
-    rrNoise
     rrVersionInfo
     rrSparse
     rrSBMLModelSimulation

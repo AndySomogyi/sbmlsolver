@@ -2,7 +2,7 @@
 #include "rrLogger.h"
 #include "add_noise.h"
 #include "rrRoadRunner.h"
-#include "rrNoise.h"
+#include "noise.h"
 #include "add_noise_docs.h"
 
 //---------------------------------------------------------------------------
