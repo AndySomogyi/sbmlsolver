@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;rrPluginsAPIExporter.h&quot;</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;rrPluginsAPISettings.h&quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;rrCapabilities.h&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="rr_capabilities_8h.html">rrCapabilities.h</a>&quot;</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">namespace </span>rr</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
@@ -141,23 +142,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>            getPDFManualByteSize();</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        Capabilities*                   getCapabilities();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <a class="code" href="classrrp_1_1_capabilities.html">Capabilities</a>*                   getCapabilities();</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        Capability*                     getCapability(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <a class="code" href="classrrp_1_1_capability.html">Capability</a>*                     getCapability(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name);</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordtype">string</span>                          getCapabilitiesAsXML();</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(Capability&amp; capability); <span class="comment">//Each capability has a set of parameters</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(<a class="code" href="classrrp_1_1_capability.html">Capability</a>&amp; capability); <span class="comment">//Each capability has a set of parameters</span></div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>*                     getParameters(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOfCapability = <span class="stringliteral">&quot;&quot;</span>); <span class="comment">//Each capability has a set of parameters</span></div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; capability = <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, Capability&amp; capability);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; param, <a class="code" href="classrrp_1_1_capability.html">Capability</a>&amp; capability);</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value);</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value, Capability&amp; capability);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordtype">bool</span>                            setParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; nameOf, <span class="keyword">const</span> <span class="keywordtype">char</span>* value, <a class="code" href="classrrp_1_1_capability.html">Capability</a>&amp; capability);</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordtype">void</span>                            terminate();</div>
@@ -231,7 +232,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;</div>
 <div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">  367</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#a301528955f6fc4fb8e2635f5b0b5f39e">mWorkFinishedData2</a>;</div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;</div>
-<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">  373</a></span>&#160;        Capabilities                    <a class="code" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">mCapabilities</a>;</div>
+<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">  373</a></span>&#160;        <a class="code" href="classrrp_1_1_capabilities.html">Capabilities</a>                    <a class="code" href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">mCapabilities</a>;</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
 <div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">  379</a></span>&#160;        <span class="keywordtype">void</span>                           *<a class="code" href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">mClientData</a>;</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;</div>
@@ -248,28 +249,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classrrp_1_1_plugin_html_ab3da56af3e2dac256df5578630e89c6a"><div class="ttname"><a href="classrrp_1_1_plugin.html#ab3da56af3e2dac256df5578630e89c6a">rrp::Plugin::mPM</a></div><div class="ttdeci">const PluginManager * mPM</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:317</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a229cdcf6ff35922cc393a36ad85fc03f"><div class="ttname"><a href="classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f">rrp::Plugin::mCopyright</a></div><div class="ttdeci">string mCopyright</div><div class="ttdoc">Plugin copyright language. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:296</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_ab35b7bad0855132722dbaec7ee699cc1"><div class="ttname"><a href="classrrp_1_1_plugin.html#ab35b7bad0855132722dbaec7ee699cc1">rrp::Plugin::mTerminate</a></div><div class="ttdeci">bool mTerminate</div><div class="ttdoc">Boolean flag indicating if a user wants to terminate the work in a plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:302</div></div>
+<div class="ttc" id="classrrp_1_1_capabilities_html"><div class="ttname"><a href="classrrp_1_1_capabilities.html">rrp::Capabilities</a></div><div class="ttdef"><b>Definition:</b> rrCapabilities.h:57</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a23989ae87afe5e72a0b5c3c460149f4c"><div class="ttname"><a href="classrrp_1_1_plugin.html#a23989ae87afe5e72a0b5c3c460149f4c">rrp::Plugin::mName</a></div><div class="ttdeci">string mName</div><div class="ttdoc">Name of Plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:281</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a87f50c4cd4f34e46ca6ead57266686ea"><div class="ttname"><a href="classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea">rrp::Plugin::mCapabilities</a></div><div class="ttdeci">Capabilities mCapabilities</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:373</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_abc3fccd8a643a46f7f4b52b9efa17d7b"><div class="ttname"><a href="classrrp_1_1_plugin.html#abc3fccd8a643a46f7f4b52b9efa17d7b">rrp::Plugin::mWorkFinishedCB</a></div><div class="ttdeci">PluginCallBackFnc mWorkFinishedCB</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:337</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a30e687e32f01bc1691a486e4c2f79bcb"><div class="ttname"><a href="classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb">rrp::Plugin::mAuthor</a></div><div class="ttdeci">string mAuthor</div><div class="ttdoc">Name of plugin author(s) </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:287</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_afb405004a5e1c4cf4c78fd1f2f65e6a3"><div class="ttname"><a href="classrrp_1_1_plugin.html#afb405004a5e1c4cf4c78fd1f2f65e6a3">rrp::Plugin::mWorkFinishedData1</a></div><div class="ttdeci">void * mWorkFinishedData1</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:362</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a379f20e74ed0c0ac92344f1e6c7b5847"><div class="ttname"><a href="classrrp_1_1_plugin.html#a379f20e74ed0c0ac92344f1e6c7b5847">rrp::Plugin::mVersion</a></div><div class="ttdeci">string mVersion</div><div class="ttdoc">Plugin version. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:293</div></div>
-<div class="ttc" id="classrrp_1_1_plugin_parameter_html"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html">rrp::PluginParameter</a></div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:18</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_parameter_html"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html">rrp::PluginParameter</a></div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:58</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_ae639bfcee04ce0194de1262802b0a54d"><div class="ttname"><a href="classrrp_1_1_plugin.html#ae639bfcee04ce0194de1262802b0a54d">rrp::Plugin::mLibraryName</a></div><div class="ttdeci">string mLibraryName</div><div class="ttdoc">Name of compiled shared library implementing the Plugin. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:284</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_ad75056a91af74afe2773c4420ac627f0"><div class="ttname"><a href="classrrp_1_1_plugin.html#ad75056a91af74afe2773c4420ac627f0">rrp::Plugin::mWorkStartedData1</a></div><div class="ttdeci">void * mWorkStartedData1</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:342</div></div>
+<div class="ttc" id="rr_capabilities_8h_html"><div class="ttname"><a href="rr_capabilities_8h.html">rrCapabilities.h</a></div><div class="ttdoc">Container for Capabilities. </div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_af296dc7a3a7453898572baf4f8126ae2"><div class="ttname"><a href="classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2">rrp::Plugin::mImplementationLanguage</a></div><div class="ttdeci">string mImplementationLanguage</div><div class="ttdoc">Plugin implementation language. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:299</div></div>
-<div class="ttc" id="classrrp_1_1_plugin_manager_html"><div class="ttname"><a href="classrrp_1_1_plugin_manager.html">rrp::PluginManager</a></div><div class="ttdef"><b>Definition:</b> rrPluginManager.h:76</div></div>
-<div class="ttc" id="classrrp_1_1_parameters_html"><div class="ttname"><a href="classrrp_1_1_parameters.html">rrp::Parameters</a></div><div class="ttdef"><b>Definition:</b> rrParameters.h:62</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_manager_html"><div class="ttname"><a href="classrrp_1_1_plugin_manager.html">rrp::PluginManager</a></div><div class="ttdef"><b>Definition:</b> rrPluginManager.h:79</div></div>
+<div class="ttc" id="classrrp_1_1_parameters_html"><div class="ttname"><a href="classrrp_1_1_parameters.html">rrp::Parameters</a></div><div class="ttdef"><b>Definition:</b> rrParameters.h:63</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a3daac3dbfbee36b7c9d4d02b0ab50b93"><div class="ttname"><a href="classrrp_1_1_plugin.html#a3daac3dbfbee36b7c9d4d02b0ab50b93">rrp::Plugin::mWorkProgressData2</a></div><div class="ttdeci">void * mWorkProgressData2</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:357</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_acf346d6659dbff5a603c498e1ab9f7a4"><div class="ttname"><a href="classrrp_1_1_plugin.html#acf346d6659dbff5a603c498e1ab9f7a4">rrp::Plugin::mWorkStartedCB</a></div><div class="ttdeci">PluginCallBackFnc mWorkStartedCB</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:327</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a689de45fb113aa3eacb5374d4045e913"><div class="ttname"><a href="classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913">rrp::Plugin::mCategory</a></div><div class="ttdeci">string mCategory</div><div class="ttdoc">Plugin category. </div><div class="ttdef"><b>Definition:</b> rrPlugin.h:290</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_abcdfb809a96ff2d5cd1ad0d2e6c5efb4"><div class="ttname"><a href="classrrp_1_1_plugin.html#abcdfb809a96ff2d5cd1ad0d2e6c5efb4">rrp::Plugin::mWorkProgressCB</a></div><div class="ttdeci">PluginCallBackFnc mWorkProgressCB</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:332</div></div>
+<div class="ttc" id="classrrp_1_1_capability_html"><div class="ttname"><a href="classrrp_1_1_capability.html">rrp::Capability</a></div><div class="ttdef"><b>Definition:</b> rrCapability.h:56</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_a0071589410784f4437ec5c52a0d1c97e"><div class="ttname"><a href="classrrp_1_1_plugin.html#a0071589410784f4437ec5c52a0d1c97e">rrp::Plugin::mRR</a></div><div class="ttdeci">RoadRunner * mRR</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:311</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_html_add430fc258fc022021a7728a6911b0b1"><div class="ttname"><a href="classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1">rrp::Plugin::mClientData</a></div><div class="ttdeci">void * mClientData</div><div class="ttdef"><b>Definition:</b> rrPlugin.h:379</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 20:04:16 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 7 2013 13:19:05 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

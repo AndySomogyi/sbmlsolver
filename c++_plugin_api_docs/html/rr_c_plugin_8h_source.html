@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -92,40 +93,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">namespace </span>rrp</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">typedef</span> bool  (*executeF)(<span class="keywordtype">void</span>*, bool);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">typedef</span> bool  (*destroyF)();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classrrp_1_1_c_plugin.html">   56</a></span>&#160;<span class="keyword">class </span>PLUGINS_API_DECLSPEC <a class="code" href="classrrp_1_1_c_plugin.html">CPlugin</a> : <span class="keyword">public</span> <a class="code" href="classrrp_1_1_plugin.html">Plugin</a></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                <a class="code" href="classrrp_1_1_c_plugin.html">CPlugin</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; cat = gNoneString,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                            RoadRunner* aRR = NULL);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">virtual</span>                ~<a class="code" href="classrrp_1_1_c_plugin.html">CPlugin</a>();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">string</span>                  getImplementationLanguage();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>            execute(<span class="keywordtype">void</span>* userData = NULL, <span class="keywordtype">bool</span> useThread = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">typedef</span> bool  (*executeF)(<span class="keywordtype">void</span>*, bool);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">typedef</span> bool  (*destroyF)();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classrrp_1_1_c_plugin.html">   63</a></span>&#160;<span class="keyword">class </span>PLUGINS_API_DECLSPEC <a class="code" href="classrrp_1_1_c_plugin.html">CPlugin</a> : <span class="keyword">public</span> <a class="code" href="classrrp_1_1_plugin.html">Plugin</a></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classrrp_1_1_plugin_manager.html">PluginManager</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                <a class="code" href="classrrp_1_1_c_plugin.html">CPlugin</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; cat = gNoneString,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                            RoadRunner* aRR = NULL);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">   75</a></span>&#160;        executeF                <a class="code" href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">executeFunction</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">   81</a></span>&#160;        destroyF                <a class="code" href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">destroyFunction</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">virtual</span>                ~<a class="code" href="classrrp_1_1_c_plugin.html">CPlugin</a>();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">string</span>                  getImplementationLanguage();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span>            execute(<span class="keywordtype">void</span>* userData = NULL, <span class="keywordtype">bool</span> useThread = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">   82</a></span>&#160;        executeF                <a class="code" href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">executeFunction</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">   88</a></span>&#160;        destroyF                <a class="code" href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">destroyFunction</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classrrp_1_1_plugin_html"><div class="ttname"><a href="classrrp_1_1_plugin.html">rrp::Plugin</a></div><div class="ttdef"><b>Definition:</b> rrPlugin.h:94</div></div>
 <div class="ttc" id="rr_plugin_8h_html"><div class="ttname"><a href="rr_plugin_8h.html">rrPlugin.h</a></div><div class="ttdoc">RoadRunner plugin implementation. </div></div>
-<div class="ttc" id="classrrp_1_1_plugin_manager_html"><div class="ttname"><a href="classrrp_1_1_plugin_manager.html">rrp::PluginManager</a></div><div class="ttdef"><b>Definition:</b> rrPluginManager.h:76</div></div>
-<div class="ttc" id="classrrp_1_1_c_plugin_html"><div class="ttname"><a href="classrrp_1_1_c_plugin.html">rrp::CPlugin</a></div><div class="ttdef"><b>Definition:</b> rrCPlugin.h:56</div></div>
-<div class="ttc" id="classrrp_1_1_c_plugin_html_a38c99119542c1070844a1a5371c237bf"><div class="ttname"><a href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">rrp::CPlugin::destroyFunction</a></div><div class="ttdeci">destroyF destroyFunction</div><div class="ttdef"><b>Definition:</b> rrCPlugin.h:81</div></div>
-<div class="ttc" id="classrrp_1_1_c_plugin_html_aa7f6dbc703a771807096968f65788934"><div class="ttname"><a href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">rrp::CPlugin::executeFunction</a></div><div class="ttdeci">executeF executeFunction</div><div class="ttdef"><b>Definition:</b> rrCPlugin.h:75</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_manager_html"><div class="ttname"><a href="classrrp_1_1_plugin_manager.html">rrp::PluginManager</a></div><div class="ttdef"><b>Definition:</b> rrPluginManager.h:79</div></div>
+<div class="ttc" id="classrrp_1_1_c_plugin_html"><div class="ttname"><a href="classrrp_1_1_c_plugin.html">rrp::CPlugin</a></div><div class="ttdef"><b>Definition:</b> rrCPlugin.h:63</div></div>
+<div class="ttc" id="classrrp_1_1_c_plugin_html_a38c99119542c1070844a1a5371c237bf"><div class="ttname"><a href="classrrp_1_1_c_plugin.html#a38c99119542c1070844a1a5371c237bf">rrp::CPlugin::destroyFunction</a></div><div class="ttdeci">destroyF destroyFunction</div><div class="ttdef"><b>Definition:</b> rrCPlugin.h:88</div></div>
+<div class="ttc" id="classrrp_1_1_c_plugin_html_aa7f6dbc703a771807096968f65788934"><div class="ttname"><a href="classrrp_1_1_c_plugin.html#aa7f6dbc703a771807096968f65788934">rrp::CPlugin::executeFunction</a></div><div class="ttdeci">executeF executeFunction</div><div class="ttdef"><b>Definition:</b> rrCPlugin.h:82</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 20:04:16 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 7 2013 13:19:05 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
