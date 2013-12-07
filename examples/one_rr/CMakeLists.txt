@@ -40,7 +40,6 @@ sundials_nvecserial.a
 sundials_cvode.a
 pthread
 poco_foundation-static.a
-pugi-static.a
 dl
 )
 endif()

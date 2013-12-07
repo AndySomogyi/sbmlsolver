@@ -143,7 +143,6 @@ if(RR_BUILD_SHARED_CORE)
         sundials_nvecserial
         blas
         lapack
-        pugi-static
         nleq-static
         rr-libstruct-static
         poco_foundation-static
@@ -224,7 +223,6 @@ target_link_libraries (${target}-static
     sundials_nvecserial
     blas
     lapack
-    pugi-static
     nleq-static
     rr-libstruct-static
     poco_foundation-static

@@ -32,7 +32,6 @@
 //
 //#include "cvode/cvode.h"
 //
-//#include "pugi/pugixml.hpp"
 //#include "nleq/nleq1.h"
 //
 //#include "rrException.h"
