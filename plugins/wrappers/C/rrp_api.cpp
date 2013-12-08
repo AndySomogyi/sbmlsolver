@@ -475,8 +475,10 @@ RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle)
 int rrp_cc  getRRDataNumRows (RRCDataPtr result)
 {
     if (result == NULL)
+    {
        setError ("result argument is null in getResultNumRows");
        return -1;
+    }
     return result->RSize;
 }
 
