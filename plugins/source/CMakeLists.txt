@@ -81,7 +81,7 @@ add_library(${target}-static STATIC ${sources})
 
 set_property(TARGET ${target}-static
     PROPERTY COMPILE_DEFINITIONS
-    STATIC_RR
+#    STATIC_RR
     STATIC_PLUGINS_API
     LIBSBML_USE_CPP_NAMESPACE
     LIBSBML_STATIC

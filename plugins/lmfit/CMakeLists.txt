@@ -26,7 +26,7 @@ add_subdirectory(lib)
 add_definitions(
 -DPOCO_STATIC
 -DLIBSBML_STATIC
--DSTATIC_RR
+#-DSTATIC_RR
 -DSTATIC_PLUGINS_API
 -DEXPORT_RR_PLUGIN
 )
@@ -35,6 +35,7 @@ add_library(${target} SHARED ${sources})
 
 if(WIN32)
 target_link_libraries (${target}
+roadrunner
 lmfit-static
 rrplugins_api-static
 rrplugins_c_api                 

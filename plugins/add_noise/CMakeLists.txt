@@ -19,7 +19,7 @@ add_library(${target} SHARED ${sources})
 
 add_definitions(
 -DEXPORT_RR_PLUGIN
--DSTATIC_RR
+#-DSTATIC_RR
 -DSTATIC_RR_PLUGIN
 -DSTATIC_PLUGINS_API
 -DPOCO_STATIC
@@ -27,7 +27,7 @@ add_definitions(
 
 if(WIN32)
 target_link_libraries (${target}
-roadrunner-static
+roadrunner
 rrplugins_api-static
 )
 else() #UNIX
