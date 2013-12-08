@@ -4,20 +4,16 @@ from rrPlugins import *
 sbmlModel ="../models/feedback.xml"
 
 rr = roadrunner.RoadRunner()
-#Check temporary folder setting
-#tempFolder=rr.getTempFolder()
-#print 'TempFolder is: ' + tempFolder
 
 result = rr.load(sbmlModel)
 print 'Result of loading sbml: %r' % (result);
 
-steps = 100
-rr.simulate(0, 15, steps)
+steps = 50
+rr.simulate(0, 10, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin("rrp_add_noise")
 if not noisePlugin:
-    print getLastError()
     exit()
 
 print getPluginInfo(noisePlugin)
@@ -29,9 +25,10 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-setDoubleParameter(sigmaHandle, 1.e-2)
+setDoubleParameter(sigmaHandle, 3.e-2)
 
 rrDataHandle = getRoadRunnerDataHandle(rr)
+
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
@@ -57,7 +54,7 @@ print getPluginInfo(lmPlugin)
 paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 
 #The actual parameter value, as a pointer
-paraList = getParameterValueAsPointer(paraHandle);
+paraList = getParameterValueHandle(paraHandle);
 
 #Add parameters to fit
 para1 = createParameter("J0_VM1", "double")
@@ -92,10 +89,9 @@ executePluginEx(lmPlugin, None, False)
 print '=========================== Levenberg-Marquardt report after minimization '
 print getPluginStatus(lmPlugin)
 
-# Lok at the data
-#dataFile = tempFolder +
+# Look at the data
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
-dataHandle = getParameterValueAsPointer(dataPHandle)
+dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNPData(rrcData)
 S1 = npData[:,1]
@@ -106,25 +102,29 @@ S4 = npData[:,4]
 
 #Observed data should be the same as the input data, see above
 ##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
-##dataHandle = getParameterValueAsPointer(dataPHandle)
+##dataHandle = getParameterValueHandle(dataPHandle)
 ##rrcData = createRRCData(dataHandle)
 ##npData = getNPData(rrcData)
 ##yOutput2 = npData[:,1]
 ##length = len(yOutput)
 
 dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
-dataHandle = getParameterValueAsPointer(dataPHandle)
+dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNPData(rrcData)
 yOutput3 = npData[:,1]
 
+#Observe, the plotting of the data is erratic!!
+#The data itself however is proper. Find another way of plotting.
+
 plot(x, yInput,'*g')
 plot(x, S1, '-r')
-plot(x, S2, '-r')
-plot(x, S3, '-r')
-plot(x, S4, '-r')
+#plot(x, S2, '-r')
+#plot(x, S3, '-r')
+#plot(x, S4, '-r')
 #plot(x, yOutput2, '*')
 plot(x, yOutput3, 'o')
 
 show()
+unLoadPlugins()
 print "done"

@@ -67,14 +67,14 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 #\return Returns an instance of the library, returns None if it fails
 rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager():
-    return rrpLib.createPluginManager()
+    return rrpLib.createPluginManager(None)
 
 #===== The API allocate an internal global handle to =============
 #===== ONE instance of a plugin manager using the global rrHandle from rrPython
-rrI = roadrunner.RoadRunner()
-rrHandle = c_void_p(id(rrI))
+#rrI = roadrunner.RoadRunner()
+#rrHandle = c_void_p(id(rrI))
 
-gPluginManager = rrpLib.createPluginManager(rrHandle)
+gPluginManager = rrpLib.createPluginManager(None)
 
 ##\brief Free the plugin manager instance
 #\param rrpLib Free the plugin manager instance given in the argument
@@ -185,9 +185,9 @@ rrpLib.getParameterValueAsString.restype = c_char_p
 def getParameterValueAsString(parameter):
     return rrpLib.getParameterValueAsString(parameter)
 
-rrpLib.getParameterValueAsPointer.restype = c_void_p
-def getParameterValueAsPointer(parHandle):
-    return rrpLib.getParameterValueAsPointer(parHandle)
+rrpLib.getParameterValueHandle.restype = c_void_p
+def getParameterValueHandle(parHandle):
+    return rrpLib.getParameterValueHandle(parHandle)
 
 def setIntParameter(parameter, value):
     return rrpLib.setIntParameter(parameter, c_int(value))
@@ -208,19 +208,19 @@ def setParameterByString(parameter, value):
 def getParameterValue(paraHandle):
     paraType = getParameterType(paraHandle)
     if paraType == 'double':
-        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_double))
         return ptr[0]
     if paraType == 'int':
-        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_int))
         return ptr[0]
     if paraType == 'string':
-        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_char_p))
         return ptr[0]
     if paraType == 'NoiseType':
-        paraVoidPtr = getParameterValueAsPointer(paraHandle)
+        paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_int))
         return ptr[0]
     else:
@@ -254,11 +254,8 @@ def getNPData(rrcDataHandle):
     for row in range(rowCount):
         for col in range(colCount):
                 value = c_double()
-                if rrpLib.getRRDataElement(rrcDataHandle, row, col, pointer(value)) == True:
+                if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, pointer(value)) == True:
                     resultArray[row, col] = value.value
-                else:
-                    resultArray[row, col] = -1
-
     return resultArray
 
 
