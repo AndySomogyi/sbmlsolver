@@ -89,8 +89,7 @@ executePluginEx(lmPlugin, None, False)
 print '=========================== Levenberg-Marquardt report after minimization '
 print getPluginStatus(lmPlugin)
 
-# Lok at the data
-#dataFile = tempFolder +
+# Look at the data
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
@@ -114,6 +113,9 @@ dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNPData(rrcData)
 yOutput3 = npData[:,1]
+
+#Observe, the plotting of the data is erratic!!
+#The data itself however is proper. Find another way of plotting.
 
 plot(x, yInput,'*g')
 plot(x, S1, '-r')
