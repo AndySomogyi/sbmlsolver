@@ -149,20 +149,9 @@ int main(int argc, char * argv[])
 
         if(doContinue)
         {
-            if(args.SaveResultToFile)
-            {
-                //Write result
-                if(!simulation.SaveResult())
-                {
-                    //Failed to save data
-                }
-            }
-            else
-            {
-                //Write to std out
-                RoadRunnerData result = simulation.GetResult();
-                Log(Logger::LOG_FATAL)<<result;
-            }
+            //Write to std out
+            RoadRunnerData result = simulation.GetResult();
+            Log(Logger::LOG_FATAL)<<result;
         }
 
         delete rr;
@@ -184,7 +173,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
 
-    while ((c = GetOptions(argc, argv, (const char*) ("cpufv:n:d:t:l:m:s:e:z:"))) != -1)
+    while ((c = GetOptions(argc, argv, (const char*) ("cpuv:n:d:t:l:m:s:e:z:"))) != -1)
     {
         switch (c)
         {
@@ -199,7 +188,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('s'): args.StartTime                      = toDouble(rrOptArg);                  break;
             case ('e'): args.EndTime                        = toDouble(rrOptArg);                  break;
             case ('z'): args.Steps                          = toInt(rrOptArg);                     break;
-            case ('f'): args.SaveResultToFile               = true;                                break;
+//            case ('o'): args.SaveResultToFile               = rrOptArg;                            break;
             case ('?'):
             {
                     cout<<Usage(argv[0])<<endl;

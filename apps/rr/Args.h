@@ -14,7 +14,7 @@ class Args
         virtual                        ~Args(){}
         Logger::Level                   CurrentLogLevel;           //option v:
         string                          ModelFileName;      //option m:
-        bool                            SaveResultToFile;   //option f
+//        string                          SaveResultToFile;   //option o
         string                          DataOutputFolder;   //option d:
         string                          TempDataFolder;     //option t:
         bool                            Pause;              //option p

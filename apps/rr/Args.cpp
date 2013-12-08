@@ -22,7 +22,7 @@ StartTime(0),
 Duration(5),
 EndTime(StartTime + Duration),
 Steps(50),
-SaveResultToFile(false),
+//SaveResultToFile(""),
 SelectionList("")
 {}
 
@@ -32,9 +32,8 @@ string Usage(const string& prg)
     usage << "\nUSAGE for "<<prg<<"\n\n";
     usage<<left;
     usage<<setfill('.');
-    usage<<setw(25)<<"-v<debug level>"              <<" Debug levels: Error, Warning, Info, Debug, Debug'n', where n is 1-7. Defualt: Info\n";
+    usage<<setw(25)<<"-v<debug level>"              <<" Debug levels: Error, Warning, Info, Debug. Default: Info\n";
     usage<<setw(25)<<"-m<FileName>"                 <<" SBML Model File Name (with path)\n";
-    usage<<setw(25)<<"-f"                           <<" Save result to file (file name: \"<modelName>.csv\". If -f is not given, data is output to screen\n";
     usage<<setw(25)<<"-d<FilePath>"                 <<" Data output folder. If not given, data is output to current directory (implies -f is given)\n";
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
     usage<<setw(25)<<"-p"                           <<" Pause before exiting.\n";
