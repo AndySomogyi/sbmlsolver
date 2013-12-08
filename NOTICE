@@ -51,5 +51,18 @@ LibStruct
     Distributed under the BSD license
     http://sourceforge.net/p/libstruct/wiki/Home/
 
+LLVM
+    Copyright (c) 2003-2013 University of Illinois at Urbana-Champaign.
+    All rights reserved.
+
+    Developed by:
+        LLVM Team
+        University of Illinois at Urbana-Champaign
+        http://llvm.org
+
+    License:
+        The University of Illinois/NCSA Open Source License
+        http://opensource.org/licenses/UoI-NCSA.php
+
 
 
