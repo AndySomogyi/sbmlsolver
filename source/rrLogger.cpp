@@ -257,11 +257,11 @@ Logger::Level Logger::stringToLevel(const std::string& str)
     {
         return LOG_CRITICAL;
     }
-    else if(upstr == "LOG_ERROR")
+    else if(upstr == "LOG_ERROR" || upstr == "ERROR")
     {
         return LOG_ERROR;
     }
-    else if(upstr == "LOG_WARNING")
+    else if(upstr == "LOG_WARNING" || upstr == "WARNING")
     {
         return LOG_WARNING;
     }
@@ -269,7 +269,7 @@ Logger::Level Logger::stringToLevel(const std::string& str)
     {
         return LOG_NOTICE;
     }
-    else if(upstr == "LOG_INFORMATION")
+    else if(upstr == "LOG_INFORMATION" || upstr == "INFO")
     {
         return LOG_INFORMATION;
     }
@@ -277,7 +277,7 @@ Logger::Level Logger::stringToLevel(const std::string& str)
     {
         return LOG_DEBUG;
     }
-    else if(upstr == "LOG_TRACE")
+    else if(upstr == "LOG_TRACE" || upstr == "DEBUG")
     {
         return LOG_TRACE;
     }
