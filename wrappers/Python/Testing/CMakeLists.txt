@@ -16,10 +16,10 @@ DIRECTORY_PERMISSIONS
 #=============== INSTALL =====================
 install(
 FILES 
-rrTestCompiler.py
+#rrTestCompiler.py
 rrRunTests.py
 rrTester.py
-rrDebug.py 
+#rrDebug.py 
 DESTINATION python  	COMPONENT testing
 )
 

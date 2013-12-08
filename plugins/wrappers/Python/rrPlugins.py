@@ -247,6 +247,11 @@ rrpLib.createRRCData.restype = c_void_p
 def createRRCData(rrDataHandle):
     return rrpLib.createRRCData(rrDataHandle)
 
+##\brief Returns a string list in string form.
+rrpLib.stringArrayToStringFWD.restype = c_char_p
+def stringArrayToString(aList):
+    return rrpLib.stringArrayToStringFWD(aList)
+
 def getNPData(rrcDataHandle):
     rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
     colCount = rrpLib.getRRDataNumCols(rrcDataHandle)

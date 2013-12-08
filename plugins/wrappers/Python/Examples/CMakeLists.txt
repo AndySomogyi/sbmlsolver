@@ -3,7 +3,7 @@ PROJECT(RR_PYTHON_EXAMPLES)
 
 set(examples 	
 rrPluginTester.py
-rrBifurcationDemo.py
+#rrBifurcationDemo.py
 rrCallBackFunctionDemo.py
 )
 

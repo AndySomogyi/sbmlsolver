@@ -497,4 +497,9 @@ bool rrp_cc getRRCDataElementF(RRCDataPtr result, int r, int c, double *value)
     return rrc::getRRCDataElement(result, r, c, value);
 }
 
+char* rrp_cc stringArrayToStringFWD(const RRStringArrayPtr list)
+{
+    return rrc::stringArrayToString(list);
+}
+
 }
