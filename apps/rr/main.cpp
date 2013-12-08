@@ -1,13 +1,8 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
-#if defined(WIN32)
-#include <windows.h>
-#endif
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 #if defined(__CODEGEARC__)
 #include <dir.h>
@@ -17,7 +12,6 @@
 #include <direct.h>
 #endif
 
-#include <iomanip>
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
@@ -71,8 +65,7 @@ int main(int argc, char * argv[])
         if(args.ModelFileName.size())
         {
             string logName = getFileName(args.ModelFileName);
-            logName = changeFileExtensionTo(logName, ".log");
-            //gLog.init("", gLog.getLevel());
+            logName = changeFileExtensionTo(logName, ".log");            
         }
         else
         {
@@ -85,11 +78,11 @@ int main(int argc, char * argv[])
 
         Log(lDebug) << "Working Directory: "<<getCWD()<<endl;
 
-
         //Creating roadrunner
         Log(lDebug)<<"Creating RoadRunner..."<<endl;
         RoadRunner *rr  = new RoadRunner("", args.TempDataFolder);
         rr->reset();
+
         Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);
 
@@ -109,7 +102,7 @@ int main(int argc, char * argv[])
         simulation.ReCompileIfDllExists(true);
         if(doContinue && !simulation.LoadSBMLFromFile())
         {
-            Log(Logger::LOG_ERROR)<<"Failed loading SBML model";
+            Log(lError)<<"Failed loading SBML model";
             doContinue = false;
         }
 
@@ -125,7 +118,7 @@ int main(int argc, char * argv[])
             {
                 if(!simulation.LoadSettings(settingsFile))    //set selection list here!
                 {
-                    Log(Logger::LOG_ERROR)<<"Failed loading SBML model settings";
+                    Log(lError)<<"Failed loading SBML model settings";
                     doContinue = false;
                 }
             }
@@ -143,22 +136,34 @@ int main(int argc, char * argv[])
         //Then Simulate model
         if(doContinue && !simulation.Simulate())
         {
-            Log(Logger::LOG_ERROR)<<"Failed running simulation";
+            Log(lError)<<"Failed running simulation";
             throw("Failed running simulation");
         }
 
         if(doContinue)
         {
-            //Write to std out
             RoadRunnerData result = simulation.GetResult();
-            Log(Logger::LOG_FATAL)<<result;
+            if(args.OutputFileName.size() >  0)
+            {
+                ofstream os(args.OutputFileName.c_str());
+                os<<result;
+            }
+            else
+            {
+                //Write to std out
+                Log(lInfo)<<result;
+            }
         }
 
         delete rr;
     }
     catch(rr::Exception& ex)
     {
-        Log(Logger::LOG_ERROR)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
+        Log(lError)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
+    }
+    catch(...)
+    {
+        Log(lError)<<"There was a unknown problem.."<<endl;
     }
 
     Log(lInfo)<<"RoadRunner is exiting...";
@@ -173,7 +178,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
 
-    while ((c = GetOptions(argc, argv, (const char*) ("cpuv:n:d:t:l:m:s:e:z:"))) != -1)
+    while ((c = GetOptions(argc, argv, (const char*) ("cpuo:v:n:d:t:l:m:s:e:z:"))) != -1)
     {
         switch (c)
         {
@@ -188,11 +193,11 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('s'): args.StartTime                      = toDouble(rrOptArg);                  break;
             case ('e'): args.EndTime                        = toDouble(rrOptArg);                  break;
             case ('z'): args.Steps                          = toInt(rrOptArg);                     break;
-//            case ('o'): args.SaveResultToFile               = rrOptArg;                            break;
+            case ('o'): args.OutputFileName                 = rrOptArg;                            break;
             case ('?'):
             {
                     cout<<Usage(argv[0])<<endl;
-                    break;
+                    exit(-1);
             }
             default:
             {

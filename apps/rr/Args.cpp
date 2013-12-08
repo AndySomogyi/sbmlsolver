@@ -1,6 +1,3 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
 #include <iomanip>
 #include <sstream>
@@ -22,7 +19,6 @@ StartTime(0),
 Duration(5),
 EndTime(StartTime + Duration),
 Steps(50),
-//SaveResultToFile(""),
 SelectionList("")
 {}
 
@@ -34,6 +30,7 @@ string Usage(const string& prg)
     usage<<setfill('.');
     usage<<setw(25)<<"-v<debug level>"              <<" Debug levels: Error, Warning, Info, Debug. Default: Info\n";
     usage<<setw(25)<<"-m<FileName>"                 <<" SBML Model File Name (with path)\n";
+    usage<<setw(25)<<"-o<FileName>"                 <<" FileName for data output \n";
     usage<<setw(25)<<"-d<FilePath>"                 <<" Data output folder. If not given, data is output to current directory (implies -f is given)\n";
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
     usage<<setw(25)<<"-p"                           <<" Pause before exiting.\n";

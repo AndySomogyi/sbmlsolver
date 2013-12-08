@@ -13,7 +13,7 @@ endif(${MSVC})
 
 set(examples
 one_rr
-load_model_dll
+#load_model_dll
 )
 
 foreach(example ${examples})
