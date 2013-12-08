@@ -1,8 +1,55 @@
    libRoadRunner v 1.0
-   Copyright 2013 Andy Somogyi, Herbert Sauro
+   Copyright 2013 Andy Somogyi, Totte Karlsson, Herbert Sauro
 
-   This product includes software developed at
 
-California Institute of Technology, Pasadena, CA, USA and others. libSBML SBML Library http://sbml.org/Software/libSBML/LibSBML_License
+This product make use of the following software packages:
+
+libSBML SBML Library
+    http://sbml.org/Software/libSBML/LibSBML_License
+    California Institute of Technology, Pasadena, CA, USA and others. 
+
+POCO
+    Distributed under the Boost License
+    http://pocoproject.org/license.html
+
+SUNDIALS
+    Copyright (c) 2002, The Regents of the University of California. 
+    Produced at the Lawrence Livermore National Laboratory.
+    Distributed uner BSD License
+    http://computation.llnl.gov/casc/sundials/download/license.html
+
+NLEQ2
+    KONRAD-ZUSE-ZENTRUM FUR INFORMATIONSTECHNIK (ZIB)
+    BERLIN
+
+     Licence
+       You may use or modify this code for your own non commercial
+       purposes for an unlimited time. 
+       In any case you should not deliver this code without a special 
+       permission of ZIB.
+       In case you intend to use the code commercially, we oblige you
+       to sign an according licence agreement with ZIB.
+
+    http://www.zib.de/en/numerik/software/ant/nleq2.html   
+
+CLAPACK
+    Copyright (c) 1992-2008 The University of Tennessee.  All rights reserved.
+    Distributed under the modified BSD Licesne
+    http://www.netlib.org/lapack/LICENSE.txt
+
+LMFIT Package
+    Copyrighted by Joachim Wuttke
+    Distributed under the FreeBSD License.
+    http://apps.jcns.fz-juelich.de/doku/sc/lmfit
+
+tcc Tiny C Compiler
+    Copyright (c) 2001-2009 Fabrice Bellard
+    Distributed under the GNU Lesser General Public License.
+    http://bellard.org/tcc/
+
+LibStruct
+    Distributed under the BSD license
+    http://sourceforge.net/p/libstruct/wiki/Home/
+
 
 
