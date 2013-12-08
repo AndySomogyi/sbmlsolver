@@ -59,7 +59,7 @@ namespace rrp { extern "C" {
  */
 RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager(const char* pluginDir);
 
-///*!
+///*
 // \brief Create a new instance of a plugin manager.
 // \brief A PluginManager manages a collection of plugins, loaded and unloaded by
 //  the load and unload API functions respectively.
