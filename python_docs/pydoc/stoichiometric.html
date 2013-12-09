@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stoichiometric Analysis &mdash; RoadRunner 0.99 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.99',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
+    <link rel="next" title="Metabolic Control Analysis" href="metabolic.html" />
+    <link rel="prev" title="Steady State Analysis" href="steady_state.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="metabolic.html" title="Metabolic Control Analysis"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="steady_state.html" title="Steady State Analysis"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="stoichiometric-analysis">
+<h1>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>A network of <span class="math">m</span> chemical species and <span class="math">n</span> reactions can be described by the
+<span class="math">m</span> by <span class="math">n</span> stochiometry matrix <span class="math">\mathbf{N}</span>. <span class="math">\mathbf{N}_{i,j}</span> is the net number of
+species <span class="math">i</span> produced or consumed in reaction <span class="math">j</span>.  The dynamics of the network are
+described by</p>
+<div class="math">
+<p><span class="math">\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),</span></p>
+</div><p>where <span class="math">\mathbf{s}</span> is the vector of species concentrations, <span class="math">\mathbf{p}</span>
+is a vector of time independent parameters, and <span class="math">t</span> is time.</p>
+<p>Each structural conservation, or interchangably, <em>conserved sum</em> (e.g. conserved moiety) in
+the network coresponds to a lineraly dependent row in the stoichiometry matrix <span class="math">\mathbf{N}</span>.</p>
+<p>If there are conserved sums, then the row rank, <span class="math">r</span> of <span class="math">N</span> is <span class="math">&lt; m</span>, and
+the stochiometry matrix <span class="math">N</span> may first be re-ordered such that the first <span class="math">r</span> are linearly
+independent, and the remaining <span class="math">m-r</span> rows are linear combinations of the first <span class="math">r</span>
+rows. The <em>reduced stochiometry matrix</em> <span class="math">\mathbf{N_R}</span> is then formed from the first
+<span class="math">r</span> rows of <span class="math">N</span>. Finally, <span class="math">N</span> may be expressed as a product of the <span class="math">m \times r</span>
+<em>link matrix</em> <span class="math">\mathbf{L}</span> and the <span class="math">r \times n</span> <span class="math">\mathbf{N_R}</span> matrix:</p>
+<div class="math">
+<p><span class="math">\mathbf{N} = \mathbf{L}\mathbf{N_R}.</span></p>
+</div><p>The link matrix <span class="math">\mathbf{L}</span> has the form</p>
+<div class="math">
+<p><span class="math">\mathbf{L} = \left[ \begin{array}{c}
+                    \mathbf{I}_{r} \\
+                    \mathbf{L}_0    \end{array} \right],</span></p>
+</div><p>where <span class="math">\mathbf{I}_{r}</span> is the <span class="math">r \times r</span> identity matrix and <span class="math">\mathbf{L}_0</span> is a <span class="math">(m-r) \times r</span>
+matrix.</p>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<p>The following methods are related to the analysis of the stoichiometric matrix.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getStoichiometryMatrix" title="roadrunner.ExecutableModel.getStoichiometryMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getStoichiometryMatrix</span></tt></a>()</td>
+<td>Returns the current stoichiomentry matrix, a <span class="math">n \times m</span> matrix where <span class="math">n</span> is the number of species which take place in reactions (floating species) and <span class="math">m</span> is the number of reactions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getLinkMatrix" title="roadrunner.RoadRunner.getLinkMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getLinkMatrix</span></tt></a>()</td>
+<td>Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getNrMatrix" title="roadrunner.RoadRunner.getNrMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getNrMatrix</span></tt></a>()</td>
+<td>Returns the reduced stoichiometry matrix, <span class="math">N_R</span>, which wil have only r rows where r is the rank of</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getConservationMatrix" title="roadrunner.RoadRunner.getConservationMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getConservationMatrix</span></tt></a>()</td>
+<td>Returns a conservation matrix <span class="math">\Gamma</span> which is a <span class="math">c \times m</span> matrix</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getL0Matrix" title="roadrunner.RoadRunner.getL0Matrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getL0Matrix</span></tt></a>()</td>
+<td>Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumConservedMoieties" title="roadrunner.ExecutableModel.getNumConservedMoieties"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumConservedMoieties</span></tt></a>()</td>
+<td>Returns the number of conserved moieties in the model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getConservedMoietyIds" title="roadrunner.ExecutableModel.getConservedMoietyIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getConservedMoietyIds</span></tt></a>([index])</td>
+<td>Returns a vector of conserved moiety identifier symbols.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getConservedMoietyValues" title="roadrunner.ExecutableModel.getConservedMoietyValues"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getConservedMoietyValues</span></tt></a>([index])</td>
+<td>Returns a vector of conserved moiety volumes.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setConservedMoietyValues" title="roadrunner.ExecutableModel.setConservedMoietyValues"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setConservedMoietyValues</span></tt></a>(...)</td>
+<td>Sets a vector of conserved moiety values.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Stoichiometric Analysis</a><ul>
+<li><a class="reference internal" href="#preliminaries">Preliminaries</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="steady_state.html"
+                        title="previous chapter">Steady State Analysis</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="metabolic.html"
+                        title="next chapter">Metabolic Control Analysis</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/stoichiometric.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="metabolic.html" title="Metabolic Control Analysis"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="steady_state.html" title="Steady State Analysis"
+             >previous</a> |</li>
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>

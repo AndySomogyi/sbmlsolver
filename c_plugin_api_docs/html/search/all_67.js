@@ -26,9 +26,9 @@ var searchData=
   ['getpluginstatus',['getPluginStatus',['../group__plugins.html#ga4c0fccbaa08fde4340650b1b58447cef',1,'rrp::getPluginStatus()'],['../group__plugins.html#ga4c0fccbaa08fde4340650b1b58447cef',1,'getPluginStatus():&#160;rrp_api.cpp']]],
   ['getpreviousplugin',['getPreviousPlugin',['../group__plugin__manager.html#gae198fa41affe7b839c69d6f9e567dcd0',1,'rrp::getPreviousPlugin()'],['../group__plugin__manager.html#gae198fa41affe7b839c69d6f9e567dcd0',1,'getPreviousPlugin():&#160;rrp_api.cpp']]],
   ['getroadrunnerdatahandle',['getRoadRunnerDataHandle',['../rrp__api_8h.html#a8e37ec4cf49c37adde5dca2c0f3a5a1a',1,'rrp_api.cpp']]],
-  ['getrrcdataelementf',['getRRCDataElementF',['../rrp__api_8h.html#ab9c992bc9e9346062e49c290086e8449',1,'rrp_api.cpp']]],
-  ['getrrdatanumcols',['getRRDataNumCols',['../rrp__api_8h.html#a94531f474b344dd40357ceb516aef46c',1,'rrp_api.cpp']]],
-  ['getrrdatanumrows',['getRRDataNumRows',['../rrp__api_8h.html#a0309b51e111e53ee0131d88c118eb260',1,'rrp_api.cpp']]],
+  ['getrrcdataelementf',['getRRCDataElementF',['../group__utilities.html#gab9c992bc9e9346062e49c290086e8449',1,'rrp::getRRCDataElementF()'],['../group__utilities.html#gab9c992bc9e9346062e49c290086e8449',1,'getRRCDataElementF():&#160;rrp_api.cpp']]],
+  ['getrrdatanumcols',['getRRDataNumCols',['../group__utilities.html#ga94531f474b344dd40357ceb516aef46c',1,'rrp::getRRDataNumCols()'],['../group__utilities.html#ga94531f474b344dd40357ceb516aef46c',1,'getRRDataNumCols():&#160;rrp_api.cpp']]],
+  ['getrrdatanumrows',['getRRDataNumRows',['../group__utilities.html#ga0309b51e111e53ee0131d88c118eb260',1,'rrp::getRRDataNumRows()'],['../group__utilities.html#ga0309b51e111e53ee0131d88c118eb260',1,'getRRDataNumRows():&#160;rrp_api.cpp']]],
   ['getrrhandlefromplugin',['getRRHandleFromPlugin',['../group__plugins.html#gacec5d960901b04722c75e7f120fcee95',1,'rrp::getRRHandleFromPlugin()'],['../group__plugins.html#gacec5d960901b04722c75e7f120fcee95',1,'getRRHandleFromPlugin():&#160;rrp_api.cpp']]],
   ['ginstallfolder',['gInstallFolder',['../rrp__utilities_8h.html#ae4404be9766c980f2b2065a726ad42a6',1,'rrp_utilities.h']]],
   ['glasterror',['gLastError',['../rrp__utilities_8h.html#a8f3828dfd1294cbcf4e57b4e382f8a8c',1,'rrp_utilities.h']]]

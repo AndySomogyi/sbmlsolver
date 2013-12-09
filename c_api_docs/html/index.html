@@ -84,11 +84,11 @@ Introduction</h1>
 <p>RoadRunner is a SBML compliant high performance and portable simulation engine for systems and synthetic biology. To run a simple SBML model and generate time series data we would call:</p>
 <div class="fragment"><div class="line">main()</div>
 <div class="line">{</div>
-<div class="line">   <span class="keywordflow">if</span> (!<a class="code" href="group__loadsave.html#ga03cb924c6790b039f77a1a9c5dbcdda1">loadSBMLFromFile</a> (rrHandle, <span class="stringliteral">&quot;mymodel.xml&quot;</span>))</div>
+<div class="line">   <span class="keywordflow">if</span> (!<a class="code" href="group__loadsave.html#ga275b8f8d7350505c383fdc9634713041">loadSBMLFromFile</a> (rrHandle, <span class="stringliteral">&quot;mymodel.xml&quot;</span>))</div>
 <div class="line">       exit();</div>
 <div class="line"></div>
-<div class="line">   result = <a class="code" href="group__simulation.html#gabbfb1f6f19c777c59fccf8c453c874f7">simulate</a> (0, 10, 100);</div>
-<div class="line">   printf (<a class="code" href="group__to_string.html#ga41cff9a733e2531a57bc07b12ae4efe0">rrDataToString</a> (result));</div>
+<div class="line">   result = <a class="code" href="group__simulation.html#ga7631952c1a80ac25724bf67f7a7ddf7a">simulate</a> (0, 10, 100);</div>
+<div class="line">   printf (<a class="code" href="group__to_string.html#gaca8178efe067c3fb79f06f8dae02d210">rrDataToString</a> (result));</div>
 <div class="line">   <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>More complex example, using C API from C++: </p>
@@ -101,17 +101,17 @@ Introduction</h1>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    <span class="keywordtype">char</span>* modelFile(<span class="stringliteral">&quot;../models/test_1.xml&quot;</span>);</div>
-<div class="line">    <a class="code" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> rrHandle = <a class="code" href="group__initialization.html#ga3285113641ecf1dc35c39fceb39b60fc">createRRInstance</a>();</div>
+<div class="line">    <a class="code" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> rrHandle = <a class="code" href="group__initialization.html#gac5b4dbf9108edb1ea6e315379e5576e0">createRRInstance</a>();</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">if</span> (!<a class="code" href="group__loadsave.html#gaeaaaf4f7855457d6207934149f52f5f9">loadSBML</a>(rrHandle, modelFile))</div>
+<div class="line">    <span class="keywordflow">if</span> (!<a class="code" href="group__loadsave.html#gafb3515fd8472da389f5f24530017f037">loadSBML</a>(rrHandle, modelFile))</div>
 <div class="line">    {</div>
 <div class="line">       cout &lt;&lt; <span class="stringliteral">&quot;Error while loading SBML file\n&quot;</span>;</div>
-<div class="line">       cout &lt;&lt; <span class="stringliteral">&quot;Error message: &quot;</span>&lt;&lt; <a class="code" href="group__errorfunctions.html#gaa698640f13467d87966d8b90f0c3944c">getLastError</a>() &lt;&lt;endl;</div>
+<div class="line">       cout &lt;&lt; <span class="stringliteral">&quot;Error message: &quot;</span>&lt;&lt; <a class="code" href="group__errorfunctions.html#ga79375e9d9f82fa4f07ed0e9486133f0f">getLastError</a>() &lt;&lt;endl;</div>
 <div class="line">       exit(-1);</div>
 <div class="line">    }</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="rrc__types_8h.html#ad0beb6fbdd576789fab9cead01d8b9e9">RRDataHandle</a> output = <a class="code" href="group__simulation.html#ga320684a3df2f13afdfd2156e242ed0c2">simulateEx</a> (rrHandle, 0, 10, 10);  <span class="comment">// start time, end time, and number of points</span></div>
-<div class="line">    <a class="code" href="struct_r_r_c_data.html">RRCData</a>* cOutput = <a class="code" href="group__helper_routines.html#gaaf161cfff2d85cc5a08ce4fa40d72760">createRRCData</a>(output);</div>
+<div class="line">    <a class="code" href="rrc__types_8h.html#ad0beb6fbdd576789fab9cead01d8b9e9">RRDataHandle</a> output = <a class="code" href="group__simulation.html#gac3646c86d4a058ec4d43b1a66bf127cc">simulateEx</a> (rrHandle, 0, 10, 10);  <span class="comment">// start time, end time, and number of points</span></div>
+<div class="line">    <a class="code" href="struct_r_r_c_data.html">RRCData</a>* cOutput = <a class="code" href="group__helper_routines.html#gacd923bcda7652f46b813619b0843bcfd">createRRCData</a>(output);</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordtype">int</span> index = 0;</div>
 <div class="line">    <span class="comment">//Print out column headers.. typically time and species.</span></div>
@@ -140,8 +140,8 @@ Introduction</h1>
 <div class="line">      }</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">//Cleanup</span></div>
-<div class="line">    <a class="code" href="group__free_routines.html#gaca3178e98973909708974aedef4ece46">freeRRCData</a> (cOutput);</div>
-<div class="line">    <a class="code" href="group__initialization.html#gae0b2f65464742bba3beb0ad38dcdd863">freeRRInstance</a> (rrHandle);</div>
+<div class="line">    <a class="code" href="group__free_routines.html#ga96317bb0c9ad3daee01c9665cc14b223">freeRRCData</a> (cOutput);</div>
+<div class="line">    <a class="code" href="group__initialization.html#gaa085b3245183be2ee16a94dfe0de1751">freeRRInstance</a> (rrHandle);</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>Would create output like below</p>
@@ -177,7 +177,7 @@ License</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 7 2013 13:18:39 for libRoadRunner C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 8 2013 23:41:22 for libRoadRunner C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

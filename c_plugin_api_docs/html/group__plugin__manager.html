@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner Plugin C API
-   &#160;<span id="projectnumber">0.99</span>
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
    <div id="projectbrief">Plugin Framework for libRoadRunner</div>
   </td>
@@ -93,7 +93,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga97218781a3befa31826d4c0555897feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of a plugin manager.  <a href="#ga97218781a3befa31826d4c0555897feb">More...</a><br/></td></tr>
 <tr class="separator:ga97218781a3befa31826d4c0555897feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga5dd2745e4d12a6afdf29090f24b29d10">freePluginManager</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
-<tr class="memdesc:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of a plugin manager.  <a href="#ga5dd2745e4d12a6afdf29090f24b29d10">More...</a><br/></td></tr>
+<tr class="memdesc:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the plugin manager. A call to this function will also unload any loaded plugins.  <a href="#ga5dd2745e4d12a6afdf29090f24b29d10">More...</a><br/></td></tr>
 <tr class="separator:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga39328aa0dc5d7f42e939ef1fa7ef26e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga39328aa0dc5d7f42e939ef1fa7ef26e1">loadPlugins</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
 <tr class="memdesc:ga39328aa0dc5d7f42e939ef1fa7ef26e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugins. The function will look in the default plugin folder for plugins, and load them.  <a href="#ga39328aa0dc5d7f42e939ef1fa7ef26e1">More...</a><br/></td></tr>
@@ -175,16 +175,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Create a new instance of a plugin manager. </p>
-<p>A PluginManager manages a collection of plugins, loaded and unloaded by the load and unload API functions respectively. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pluginDir</td><td>Full path to folder containing plugins. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>On success, a handle to a Plugin manager, on failure, NULL.</dd></dl>
 <p>Free the plugin manager. A call to this function will also unload any loaded plugins. </p>
+<ul>
+<li></li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">handle</td><td>Handle to a plugin manager. </td></tr>
@@ -544,7 +538,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 7 2013 13:18:55 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 8 2013 23:09:43 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

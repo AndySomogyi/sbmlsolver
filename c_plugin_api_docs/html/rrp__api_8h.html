@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner Plugin C API
-   &#160;<span id="projectnumber">0.99</span>
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
    <div id="projectbrief">Plugin Framework for libRoadRunner</div>
   </td>
@@ -104,7 +104,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga97218781a3befa31826d4c0555897feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of a plugin manager.  <a href="group__plugin__manager.html#ga97218781a3befa31826d4c0555897feb">More...</a><br/></td></tr>
 <tr class="separator:ga97218781a3befa31826d4c0555897feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga5dd2745e4d12a6afdf29090f24b29d10">freePluginManager</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
-<tr class="memdesc:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of a plugin manager.  <a href="group__plugin__manager.html#ga5dd2745e4d12a6afdf29090f24b29d10">More...</a><br/></td></tr>
+<tr class="memdesc:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the plugin manager. A call to this function will also unload any loaded plugins.  <a href="group__plugin__manager.html#ga5dd2745e4d12a6afdf29090f24b29d10">More...</a><br/></td></tr>
 <tr class="separator:ga5dd2745e4d12a6afdf29090f24b29d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga39328aa0dc5d7f42e939ef1fa7ef26e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga39328aa0dc5d7f42e939ef1fa7ef26e1">loadPlugins</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
 <tr class="memdesc:ga39328aa0dc5d7f42e939ef1fa7ef26e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugins. The function will look in the default plugin folder for plugins, and load them.  <a href="group__plugin__manager.html#ga39328aa0dc5d7f42e939ef1fa7ef26e1">More...</a><br/></td></tr>
@@ -217,18 +217,21 @@ Functions</h2></td></tr>
 <tr class="memitem:a8e37ec4cf49c37adde5dca2c0f3a5a1a"><td class="memItemLeft" align="right" valign="top">RRDataHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#a8e37ec4cf49c37adde5dca2c0f3a5a1a">getRoadRunnerDataHandle</a> (RRHandle handle)</td></tr>
 <tr class="memdesc:a8e37ec4cf49c37adde5dca2c0f3a5a1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a handle to RoadRunners internal data.  <a href="#a8e37ec4cf49c37adde5dca2c0f3a5a1a">More...</a><br/></td></tr>
 <tr class="separator:a8e37ec4cf49c37adde5dca2c0f3a5a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37994a1e8908e32d285604242b207a95"><td class="memItemLeft" align="right" valign="top">RRCDataPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#a37994a1e8908e32d285604242b207a95">createRRCData</a> (RRDataHandle rrDataHandle)</td></tr>
-<tr class="memdesc:a37994a1e8908e32d285604242b207a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data.  <a href="#a37994a1e8908e32d285604242b207a95">More...</a><br/></td></tr>
-<tr class="separator:a37994a1e8908e32d285604242b207a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0309b51e111e53ee0131d88c118eb260"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#a0309b51e111e53ee0131d88c118eb260">getRRDataNumRows</a> (RRCDataPtr rrData)</td></tr>
-<tr class="memdesc:a0309b51e111e53ee0131d88c118eb260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))  <a href="#a0309b51e111e53ee0131d88c118eb260">More...</a><br/></td></tr>
-<tr class="separator:a0309b51e111e53ee0131d88c118eb260"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94531f474b344dd40357ceb516aef46c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#a94531f474b344dd40357ceb516aef46c">getRRDataNumCols</a> (RRCDataPtr rrData)</td></tr>
-<tr class="memdesc:a94531f474b344dd40357ceb516aef46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))  <a href="#a94531f474b344dd40357ceb516aef46c">More...</a><br/></td></tr>
-<tr class="separator:a94531f474b344dd40357ceb516aef46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9c992bc9e9346062e49c290086e8449"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#ab9c992bc9e9346062e49c290086e8449">getRRCDataElementF</a> (RRCDataPtr rrData, int r, int c, double *value)</td></tr>
-<tr class="memdesc:ab9c992bc9e9346062e49c290086e8449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an element at a given row and column from a RoadRunner data type variable.  <a href="#ab9c992bc9e9346062e49c290086e8449">More...</a><br/></td></tr>
-<tr class="separator:ab9c992bc9e9346062e49c290086e8449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37994a1e8908e32d285604242b207a95"><td class="memItemLeft" align="right" valign="top">RRCDataPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga37994a1e8908e32d285604242b207a95">createRRCData</a> (RRDataHandle rrDataHandle)</td></tr>
+<tr class="memdesc:ga37994a1e8908e32d285604242b207a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data.  <a href="group__utilities.html#ga37994a1e8908e32d285604242b207a95">More...</a><br/></td></tr>
+<tr class="separator:ga37994a1e8908e32d285604242b207a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0309b51e111e53ee0131d88c118eb260"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga0309b51e111e53ee0131d88c118eb260">getRRDataNumRows</a> (RRCDataPtr rrData)</td></tr>
+<tr class="memdesc:ga0309b51e111e53ee0131d88c118eb260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))  <a href="group__utilities.html#ga0309b51e111e53ee0131d88c118eb260">More...</a><br/></td></tr>
+<tr class="separator:ga0309b51e111e53ee0131d88c118eb260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga94531f474b344dd40357ceb516aef46c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga94531f474b344dd40357ceb516aef46c">getRRDataNumCols</a> (RRCDataPtr rrData)</td></tr>
+<tr class="memdesc:ga94531f474b344dd40357ceb516aef46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))  <a href="group__utilities.html#ga94531f474b344dd40357ceb516aef46c">More...</a><br/></td></tr>
+<tr class="separator:ga94531f474b344dd40357ceb516aef46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab9c992bc9e9346062e49c290086e8449"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#gab9c992bc9e9346062e49c290086e8449">getRRCDataElementF</a> (RRCDataPtr rrData, int r, int c, double *value)</td></tr>
+<tr class="memdesc:gab9c992bc9e9346062e49c290086e8449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an element at a given row and column from a RoadRunner data type variable.  <a href="group__utilities.html#gab9c992bc9e9346062e49c290086e8449">More...</a><br/></td></tr>
+<tr class="separator:gab9c992bc9e9346062e49c290086e8449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a16635fdf43dacf48d23002c55daf40"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#a4a16635fdf43dacf48d23002c55daf40">stringArrayToStringFWD</a> (const RRStringArrayPtr list)</td></tr>
+<tr class="memdesc:a4a16635fdf43dacf48d23002c55daf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string list in string form.  <a href="#a4a16635fdf43dacf48d23002c55daf40">More...</a><br/></td></tr>
+<tr class="separator:a4a16635fdf43dacf48d23002c55daf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Plugins Core C-API Header. </p>
@@ -246,31 +249,6 @@ Functions</h2></td></tr>
 <p>YOU CANNOT:</p>
 <p>redistribute any piece of this software without proper attribution; </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a37994a1e8908e32d285604242b207a95"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RRCDataPtr createRRCData </td>
-          <td>(</td>
-          <td class="paramtype">RRDataHandle&#160;</td>
-          <td class="paramname"><em>rrDataHandle</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rrDataHandle</td><td>A pointer to a RoadRunner numerical data type variable </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns NULL if fails, otherwise returns a RRCData handle </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a8e37ec4cf49c37adde5dca2c0f3a5a1a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -296,117 +274,30 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab9c992bc9e9346062e49c290086e8449"></a>
+<a class="anchor" id="a4a16635fdf43dacf48d23002c55daf40"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool getRRCDataElementF </td>
+          <td class="memname">char* stringArrayToStringFWD </td>
           <td>(</td>
-          <td class="paramtype">RRCDataPtr&#160;</td>
-          <td class="paramname"><em>rrData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Retrieves an element at a given row and column from a RoadRunner data type variable. </p>
-<p>RoadRunner numerical data are indexed from zero</p>
-<p>Example:</p>
-<div class="fragment"><div class="line">status = getRRCDataElement (rrData, 2, 4, *value); </div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">rrData</td><td>A pointer to a rrData type variable </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">r</td><td>-The row index to the rrData data </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">c</td><td>- The column index to the rrData data </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>- The retrieved value from the rrData data </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns true if succesful </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a94531f474b344dd40357ceb516aef46c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int getRRDataNumCols </td>
-          <td>(</td>
-          <td class="paramtype">RRCDataPtr&#160;</td>
-          <td class="paramname"><em>rrData</em></td><td>)</td>
+          <td class="paramtype">const RRStringArrayPtr&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle)) </p>
-<p>Example:</p>
-<div class="fragment"><div class="line">nRows = getResultNumCols (rrData); </div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rrData</td><td>A pointer to a rrData type variable </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns -1 if fails, otherwise returns the number of columns </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a0309b51e111e53ee0131d88c118eb260"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int getRRDataNumRows </td>
-          <td>(</td>
-          <td class="paramtype">RRCDataPtr&#160;</td>
-          <td class="paramname"><em>rrData</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle)) </p>
-<p>Example:</p>
-<div class="fragment"><div class="line">nRows = <a class="code" href="rrp__api_8h.html#a0309b51e111e53ee0131d88c118eb260">getRRDataNumRows</a> (result); </div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rrData</td><td>A pointer to a RoadRunner numerical data type variable </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns -1 if fails, otherwise returns the number of rows </dd></dl>
+<p>Returns a string list in string form. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns string list as a character string</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Forwarded from roadruners C API </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 7 2013 13:18:55 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 8 2013 23:09:42 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
