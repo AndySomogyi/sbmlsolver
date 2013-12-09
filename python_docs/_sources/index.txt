@@ -4,23 +4,17 @@
    contain the root `toctree` directive.
 
 #####################
-RoadRunner User Guide
+libRoadRunner User Guide
 #####################
 
 
-RoadRunner Overview
+libRoadRunner Overview
 ===================
 
 This guide is intended as an introduction and reference of the RoadRunner
 SBML Simulation Engine. This guide will show the most important features 
 and provides a complete API reference. 
 
-
-.. warning::
-
-   This "User Guide" is still a work in progress; some of the material is not organized, and
-   several aspects of RoadRunner are not yet covered sufficient
-   detail. <http://andysomogyi.github.io/roadrunner/pydoc/>`__ website.
 
 To get you started here is a very simple script that will load a model and run a time course
 simulation and plot the results::
