@@ -4,11 +4,11 @@
    contain the root `toctree` directive.
 
 #####################
-RoadRunner User Guide
+libRoadRunner User Guide
 #####################
 
 
-RoadRunner Overview
+libRoadRunner Overview
 ===================
 
 This guide is intended as an introduction and reference of the RoadRunner
