@@ -4,7 +4,7 @@ PROJECT(RR_PYTHON_EXAMPLES)
 set(examples 	
 getStoichMatrix.py
 threeLineSimulation.py
-simulateExSelectionList.py
+simulateSelectionList.py
 plotData.py
 )
 
