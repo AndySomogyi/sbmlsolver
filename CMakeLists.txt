@@ -298,5 +298,6 @@ install(    FILES
 NOTICE.txt
 VERSION.txt
 NEWS.txt
-)
+COPYING.txt
+DESTINATION .)
 
