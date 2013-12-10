@@ -4,7 +4,7 @@
 #include "LMWorker.h"
 //#include "noise.h"
 #include "lm.h"
-#include "lmfit/lmmin.h"
+#include "lib/lmmin.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "../wrappers/C/rrp_api.h"

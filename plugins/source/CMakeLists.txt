@@ -150,10 +150,12 @@ set(folders
     .
     )
 
-foreach(subfolder ${folders})
+foreach(folder ${folders})
     FILE (GLOB headers ${folder}/*.h)
-    install (   FILES ${headers}
-        DESTINATION include/plugins_api/${subfolder}
-        COMPONENT plugins_api)
-endforeach(subfolder)
+    install (   
+        FILES ${headers}
+        DESTINATION include/pluginslib/cpp
+        COMPONENT pluginsLib
+        )
+endforeach(folder)
 
