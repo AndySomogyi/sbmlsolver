@@ -1,5 +1,5 @@
-from rrPython import *
-rrPython.loadSBMLFromFile('../models/feedback.xml')
-result = rrPython.simulateEx(0.0,2.0,20)
+import roadrunner
+rr = roadrunner.RoadRunner()
 
-print getNPData(result)
+rr.load('../models/feedback.xml')
+print rr.simulate(0,2,20)

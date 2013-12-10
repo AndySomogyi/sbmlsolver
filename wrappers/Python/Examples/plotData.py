@@ -1,30 +1,21 @@
-from rrPython import *
+import roadrunner
 from numpy import *
 from matplotlib.pyplot import *
-model = open('../models/squareWaveMode.xml', 'r').read()
+model = open('../models/squareWaveModel.xml', 'r').read()
+rr = roadrunner.RoadRunner()
 
-setTempFolder('r:/temp')
-loadSBML(model)
-timeStart = 0.0
-timeEnd = 10.0
-numPoints = 50
-#resultHandle = simulateEx(timeStart, timeEnd, numPoints)
+rr.load(model)
+timeStart = 0
+timeEnd = 50
+numPoints = 500
+data = rr.simulate(timeStart, timeEnd, numPoints)
 
-#rrcData = createRRCData(resultHandle)
-#results = getNPData(rrcData)
-#print results
+print data
 
-##S1 = results[:,0]
-##
-##x = numpy.arange(timeStart, timeEnd, (timeEnd - timeStart)/numPoints)
-##plot.plot(x, S1, label="S1")
-##
-##plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
-##
-##plot.show()
+x = data['time']
+S1 = data['[S1]']
 
-t = arange(0.0, 2.0, 0.01)
-s = sin(2*pi*t)
-plot(t, s)
+plot(x, S1, "-ro", label="S1", )
 
+legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
 show()

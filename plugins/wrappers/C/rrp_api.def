@@ -4,7 +4,6 @@ LIBRARY     RRPLUGINS_C_API.DLL
 EXPORTS
 ;Functions taking a Plugin manager handle or related
 createPluginManager                             = _createPluginManager
-createPluginManagerEx                           = _createPluginManagerEx
 freePluginManager                               = _freePluginManager
 getNumberOfPlugins                              = _getNumberOfPlugins
 loadPlugin                                      = _loadPlugin
@@ -44,7 +43,7 @@ getRRHandleFromPlugin                           = _getRRHandleFromPlugin
 ;Functions taking a parameter handle
 createParameter                                 = _createParameter
 getParameterValueAsString                       = _getParameterValueAsString
-getParameterValueAsPointer                      = _getParameterValueAsPointer
+getParameterValueHandle                         = _getParameterValueHandle
 setPluginInputData                              = _setPluginInputData
 addParameterToList                              = _addParameterToList
 getParameterInfo                                = _getParameterInfo
