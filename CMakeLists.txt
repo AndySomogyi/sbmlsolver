@@ -293,3 +293,10 @@ foreach(runtime ${RUNTIMES})
         COMPONENT rr_core)
 endforeach()
 endif()
+
+install(    FILES     
+NOTICE.txt
+VERSION.txt
+NEWS.txt
+)
+
