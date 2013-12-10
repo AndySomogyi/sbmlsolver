@@ -31,7 +31,7 @@ add_definitions(
 -DEXPORT_RR_PLUGIN
 )
 
-add_library(${target} SHARED ${sources})
+add_library(${target} MODULE ${sources})
 
 if(WIN32)
 target_link_libraries (${target}

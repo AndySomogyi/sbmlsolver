@@ -15,7 +15,7 @@ add_noise_docs
 noise
 )
 
-add_library(${target} SHARED ${sources})
+add_library(${target} MODULE ${sources})
 
 add_definitions(
 -DEXPORT_RR_PLUGIN
