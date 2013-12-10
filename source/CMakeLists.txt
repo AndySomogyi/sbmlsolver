@@ -278,7 +278,7 @@ if(BUILD_LLVM)
     add_subdirectory(llvm_testing)
 endif(BUILD_LLVM)
 
-if(BUILD_TESTS)
+if(BUILD_TEST_TOOLS)
     add_subdirectory(testing)
 endif()
 
