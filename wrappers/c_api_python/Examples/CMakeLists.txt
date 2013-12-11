@@ -9,9 +9,9 @@ plotData.py
 )
 
 install(    
-            FILES 
-            ${examples} 
-            DESTINATION python 	
-            COMPONENT Python
-       )
+    FILES 
+    ${examples} 
+    DESTINATION c_api_python 	
+    COMPONENT Python
+    )
 

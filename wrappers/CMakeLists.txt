@@ -5,15 +5,15 @@ if(INSTALL_C_API)
 add_subdirectory("C")
 endif()
 
-if(INSTALL_PYTHON)
-add_subdirectory("Python")
+if(INSTALL_C_API_PYTHON)
+add_subdirectory("c_api_python")
 endif()
 
 if(INSTALL_DELPHI)
 add_subdirectory("Delphi")
 endif()
 
-if(BUILD_SWIG_PYTHON)
-    add_subdirectory("SWIGPython")
+if(BUILD_PYTHON)
+    add_subdirectory("Python")
 endif()
 

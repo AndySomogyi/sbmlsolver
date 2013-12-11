@@ -29,7 +29,7 @@ endif()
 
 add_subdirectory(wrappers)
 
-install(FILES Readme.txt
-DESTINATION plugins
+install(
+    FILES README.txt
+    DESTINATION plugins
 )
-

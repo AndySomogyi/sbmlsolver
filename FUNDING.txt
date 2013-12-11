@@ -1,0 +1,3 @@
+
+The development of libRoadRunner was funded through generous support
+of the NIH/NIGMS. Grant Number: GM081070

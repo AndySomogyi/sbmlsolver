@@ -67,7 +67,6 @@ have made to it, in any redistribution you may assemble that includes it.
 YOU CANNOT: redistribute any piece of this software without proper attribution;
 
  
-
   
 
 libRoadRunner logo

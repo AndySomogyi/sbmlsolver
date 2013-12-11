@@ -1,3 +1,11 @@
+""" 
+Usage:
+   python install_roadrunner.py
+
+   This file will install all the relevant roadRunner files 
+   so that roadrunner can be used from Python
+"""
+
 import site
 import shutil
 import os.path

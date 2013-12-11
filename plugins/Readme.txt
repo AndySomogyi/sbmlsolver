@@ -1,14 +1,14 @@
-PLUGINS
-The shared libraries in this folders are RoadRunner plugins.
-They are to be loaded with a plugin manager, see http://docs.libroadrunner.org/c++_plugin_api_docs/html/index.html
 
-Brief descriptions
-rrp_add_noise
-    This plugin can be used to add artificial noise to synthetic data.
+This directory contains to sample plugins:
 
-rrp_lm
-    This plugin is used to fit model parameters to 'observed' data.
+1. rrp_lm.dll
+
+This supports the Levenberg-Marquardt optimizer for fitting data to models.
+See libroadrunner.org for details.
+
+2. rrp_add_noise.dll
+
+This plugin can be used to generate Gaussian noise, useful for generating synthetic data sets to test
+the rrp_lm.dll. See libroadrunner.org for details.
 
 
-See the RoadRunner website on how to load and run these plugins.
-    

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 PROJECT(rrModels)
 
 set(models
+README.txt
 bistable.xml
 feedback.xml
 sbml_test_0001.xml 				
