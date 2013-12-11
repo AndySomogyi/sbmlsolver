@@ -8,7 +8,7 @@ rrLevenbergMarquardtDemo.py
 install(    
 FILES 
 ${examples} 
-DESTINATION python 	
+DESTINATION c_api_python 	
 COMPONENT Python
 )
 
