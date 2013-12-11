@@ -1,4 +1,4 @@
 #include "rrConstants.h"
 
 //---------------------------------------------------------------------------
-const char* RR_VERSION = "0.9.5";
+const char* RR_VERSION = "1.0.0";
