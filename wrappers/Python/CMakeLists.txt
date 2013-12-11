@@ -12,7 +12,7 @@ endif()
 install(
         FILES 
         rrPython.py 
-        DESTINATION python  	
+        DESTINATION c_api_python  	
         COMPONENT testing
        )
 

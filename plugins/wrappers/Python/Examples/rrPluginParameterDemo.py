@@ -1,4 +1,3 @@
-import rrPython as rr
 from rrPlugins import *
 
 #Load the 'noise' plugin in order to add some noise to the data

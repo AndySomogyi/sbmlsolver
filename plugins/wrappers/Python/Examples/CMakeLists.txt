@@ -5,6 +5,8 @@ set(examples
 rrPluginTester.py
 #rrBifurcationDemo.py
 rrCallBackFunctionDemo.py
+rrPluginDocumentationDemo.py
+rrPluginParameterDemo.py
 )
 
 install(    
