@@ -10,9 +10,9 @@ if len(os.path.dirname(__file__)):
     os.chdir(os.path.dirname(__file__))
 sharedLib=''
 rrpLib=None
-libHandle=None
 if sys.platform.startswith('win32'):
-    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
+    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..\\', 'bin'))
+    os.chdir(rrInstallFolder)
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
     sharedLib = os.path.join(rrInstallFolder, 'rrplugins_c_api.dll')
     rrpLib=CDLL(sharedLib)
@@ -28,35 +28,6 @@ else:
         raise Exception("could not locate RoadRunner shared library")
     rrpLib = cdll.LoadLibrary(sharedLib)
 
-##\mainpage notitle
-#\section Introduction
-#The plugin manager exposes a lightweight framework for adding functionality to RoadRunner by external plugins
-#
-#@code
-#
-#import rrPlugins
-# fill out...
-#@endcode
-#
-#\section Setup
-#In order to import the python module, the python folder within the plugin-manager install folder must be in the system's python path. To make sure it is, do the following in Windows:
-
-#Open the control panel and click on 'System'
-#The following will appear; click on 'Advanced System Settings'
-#\image html http://i.imgur.com/bvn9c.jpg
-
-#Click on the 'Environment Variables' button highlighted in the image below
-#\image html http://i.imgur.com/jBCfn.jpg
-
-#Highlight the python path entry and click edit. The prompt shown below will appear. Enter the location of the python folder within the install folder with a semicolon between any other entries.
-#\image html http://i.imgur.com/oLC32.jpg
-
-##\defgroup initialization Library initialization and termination methods
-# \brief Initialize library and terminate library instance
-
-# \defgroup freeRoutines Free memory routines
-# \brief Routines that should be used to free various data structures generated during the course of using the library
-
 
 #=======================rrp_api=======================#
 #Type of plugin callback, first argument is return type
@@ -69,13 +40,6 @@ rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager():
     return rrpLib.createPluginManager(None)
 
-#===== The API allocate an internal global handle to =============
-#===== ONE instance of a plugin manager using the global rrHandle from rrPython
-#rrI = roadrunner.RoadRunner()
-#rrHandle = c_void_p(id(rrI))
-
-gPluginManager = rrpLib.createPluginManager(None)
-
 ##\brief Free the plugin manager instance
 #\param rrpLib Free the plugin manager instance given in the argument
 rrpLib.freePluginManager.restype = c_bool
@@ -84,27 +48,30 @@ def freePluginManager(iHandle):
 
 #Unload the API
 def unloadAPI():
-    unLoadPlugins()
     windll.kernel32.FreeLibrary(rrpLib._handle)
 
-def loadPlugin(libraryName):
-    return rrpLib.loadPlugin(gPluginManager, libraryName)
-
 rrpLib.loadPlugins.restype = c_bool
-def loadPlugins():
-    return rrpLib.loadPlugins(gPluginManager)
+def loadPlugins(pmHandle):
+    return rrpLib.loadPlugins(pmHandle)
+
+def loadPlugin(pm, libraryName):
+    return rrpLib.loadPlugin(pm, libraryName)
 
 rrpLib.getPluginNames.restype = c_void_p
-def getPluginNames():
-    return rrpLib.getPluginNames(gPluginManager)
+def getPluginNames(pm):
+    return rrpLib.getPluginNames(pm)
 
 rrpLib.unLoadPlugins.restype = c_bool
-def unLoadPlugins():
-    return rrpLib.unLoadPlugins(gPluginManager)
+def unLoadPlugins(pm):
+    return rrpLib.unLoadPlugins(pm)
 
 rrpLib.getNumberOfPlugins.restype = c_int
-def getNumberOfPlugins():
-    return rrpLib.getNumberOfPlugins(gPluginManager)
+def getNumberOfPlugins(pm):
+    return rrpLib.getNumberOfPlugins(pm)
+
+rrpLib.getFirstPlugin.restype = c_void_p
+def getFirstPlugin(pm):
+    return rrpLib.getFirstPlugin(pm)
 
 #---------- PLUGIN HANDLING FUNCTIONS ============================================
 rrpLib.getPluginInfo.restype = c_char_p
@@ -262,5 +229,76 @@ def getNPData(rrcDataHandle):
                 if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, pointer(value)) == True:
                     resultArray[row, col] = value.value
     return resultArray
+
+##\mainpage notitle
+#\section Introduction
+#Roadrunners plugin library exposes a lightweight framework for adding functionality to RoadRunner core, by external plugins.
+#The code fragment below shows briefly how to load plugins, check for plugins and get an manipulate an individual plugin.
+#
+#@code
+#
+#import sys
+#import rrPlugins
+#rrp = rrPlugins
+#
+# #Load plugins from the plugin folder
+#result = rrp.loadPlugins()
+#if not result:
+#    print rrp.getLastError()
+#    exit()
+#
+#print 'Number of Plugins: ' + `rrp.getNumberOfPlugins()`
+#namesHandle = rrp.getPluginNames()
+#names = rrp.stringArrayToString(namesHandle)
+#
+#print names
+#
+#print `rrp.unLoadPlugins()`
+#print "done"
+#@endcode
+#
+#    \section plugins_overview Overview
+#    The libRoadRunner Plugin API is centered around three important concepts:
+#    - A Plugin Manager (RRPluginManagerHandle)
+#    - A Plugin (RRPlugin)
+#    - A Plugin Parameter (RRParameter)
+#
+#    \section plugins_usage How to use plugins
+#    A typical use case of the Plugin API may be as follows:
+#
+#    Plugin usage scenario
+#    -# Client creates a PluginManager.
+#    -# Client load plugins using the Plugin Manager.
+#    -# Client get a handle to a plugin.
+#    -# Client get a handle to a specific parameter in the plugin.
+#    -# Client set the value of the parameter.
+#    -# Client excutes the plugin.
+#    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
+#    .
+#
+#    \todo Fill out this section
+#
+#    \section plugins_writing How to write plugins
+#    The current plugin framework is a 'minimalistic' API. It is designed to give a plugin developer
+#    maximum amount of room for interacting with the RoadRunner core, and at the same time,
+#    a minimum of requirements and abstract concepts getting in the way of designing a plugin.
+#
+#    This section will show you how to get on the way with your first plugin.
+#    \todo Fill out this section
+#   \section main_section Using rrPlugins.py
+#   In order to use this wrapper (rrPlugins.py), the Python path need to inlcude the folder where the wrapper script is located, e.g.
+#   "c:\\roadrunner-1.0.0\\plugins\\python"
+#
+# \defgroup plugin_manager Plugin Manager
+# \brief Plugin Manager Library Functions
+#
+# \defgroup plugins Plugin Functions
+# \brief Functions operating on Plugin Handles.
+#
+# \defgroup plugin_parameters Plugin Parameters
+# \brief Plugins Parameter related functions
+#
+# \defgroup utilities Utility Functions
+# \brief Functions to help and assist in the use of the Plugins framework
 
 

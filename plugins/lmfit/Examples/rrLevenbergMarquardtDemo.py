@@ -3,6 +3,10 @@ from matplotlib.pyplot import *
 from rrPlugins import *
 sbmlModel ="../models/feedback.xml"
 
+#Create a plugin manager
+pm = createPluginManager()
+
+#Create a roadrunner instance
 rr = roadrunner.RoadRunner()
 
 result = rr.load(sbmlModel)
@@ -12,7 +16,7 @@ steps = 50
 rr.simulate(0, 10, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
-noisePlugin = loadPlugin("rrp_add_noise")
+noisePlugin = loadPlugin(pm, "rrp_add_noise")
 if not noisePlugin:
     exit()
 
@@ -42,7 +46,7 @@ while isPluginWorking(noisePlugin) == True:
     print "Plugin is not done yet";
 
 #Load the Levenberg-Marquardt minimization plugin
-lmPlugin = loadPlugin("rrp_lm")
+lmPlugin = loadPlugin(pm, "rrp_lm")
 if not lmPlugin:
     print getLastError()
     exit()
@@ -126,5 +130,5 @@ plot(x, S1, '-r')
 plot(x, yOutput3, 'o')
 
 show()
-unLoadPlugins()
+unLoadPlugins(pm)
 print "done"
