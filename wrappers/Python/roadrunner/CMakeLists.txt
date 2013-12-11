@@ -102,7 +102,7 @@ install(
     DESTINATION ${RR_PACKAGE_DIR}
 )
 
-set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/roadrunner/)
+set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
 
 #THIS IS EXAMPLE OF WORKING COMMAND
 # ADD_CUSTOM_COMMAND(

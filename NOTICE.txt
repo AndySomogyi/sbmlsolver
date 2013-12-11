@@ -2,7 +2,7 @@
    Copyright 2013 Andy Somogyi, Totte Karlsson, Herbert Sauro
 
 
-This product make use of the following software packages:
+This product makes use of the following software packages:
 
 libSBML
     Copyright (C) 2009-2013 jointly by the following organizations:
@@ -12,8 +12,11 @@ libSBML
     Copyright (C) 2002-2005 jointly by the following organizations: 
     1. California Institute of Technology, Pasadena, CA, USA
     2. Japan Science and Technology Agency, Japan
-    Portions of the source code comprising libSBML were copyrighted and contributed by third parties, and placed under the same LGPL 2.1 license as the rest of libSBML. The following are their copyright statements:
-    Copyright Î÷Î÷ 2004-2008 by European Media Laboratories Research gGmbH, Heidelberg, Germany (for the "SBML Layout" code and associated examples.)
+    Portions of the source code comprising libSBML were copyrighted and contributed 
+    by third parties, and placed under the same LGPL 2.1 license as the rest of 
+    libSBML. The following are their copyright statements:
+    Copyright (C) 2004-2008 by European Media Laboratories Research gGmbH, 
+    Heidelberg, Germany (for the "SBML Layout" code and associated examples.)
     http://sbml.org/Software/libSBML/LibSBML_License
     California Institute of Technology, Pasadena, CA, USA and others. 
 
@@ -33,11 +36,10 @@ NLEQ2
 
      Licence
        You may use or modify this code for your own non commercial
-       purposes for an unlimited time. 
-       In any case you should not deliver this code without a special 
-       permission of ZIB.
-       In case you intend to use the code commercially, we oblige you
-       to sign an according licence agreement with ZIB.
+       purposes for an unlimited time. In any case you should not deliver 
+       this code without a special permission of ZIB. In case you intend 
+       to use the code commercially, we oblige you to sign an according 
+       licence agreement with ZIB.
 
     http://www.zib.de/en/numerik/software/ant/nleq2.html   
 

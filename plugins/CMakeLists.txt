@@ -30,3 +30,7 @@ endif()
 
 add_subdirectory(wrappers)
 
+install(
+    FILES README.txt
+    DESTINATION plugins
+)

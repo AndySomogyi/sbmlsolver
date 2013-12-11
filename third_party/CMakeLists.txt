@@ -150,9 +150,12 @@ add_subdirectory(sundials)
 add_subdirectory(nleq)
 add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
-add_subdirectory(compilers)
 add_subdirectory(poco)
 add_subdirectory(rr_support)
+
+if(WIN32)
+    add_subdirectory(compilers)
+endif(WIN32)
 
 #==== SYSTEM FILES (COMPILER SPECIFICS) =================================================
 if(${BORLAND})
