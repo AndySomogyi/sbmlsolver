@@ -1,0 +1,8 @@
+Python PluginAPI 
+Totte Karlsson (tottek@gmail.com)
+
+The file rrPlugins.py is a python wrapper for RoadRunners pluginlib_c_api library.
+See documentation on the web, http://libroadrunner.org/ on how to use this wrapper.
+
+
+
