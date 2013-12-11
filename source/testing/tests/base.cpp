@@ -4,6 +4,7 @@
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
+#include "rrVersionInfo.h"
 
 using namespace UnitTest;
 using namespace rr;
@@ -20,8 +21,8 @@ SUITE(Base)
     TEST(VERSIONS)
     {
         //Static functions, don't need a handle, (gRR) ?
-        CHECK_EQUAL(gRR->getVersion(),                 "1.0.0");
-        CHECK_EQUAL(gRR->getlibSBMLVersion(),     "5.6.0");
+        CHECK_EQUAL(rr::getVersionStr(VERSIONSTR_BASIC), "1.0.0");
+        CHECK_EQUAL(rr::getVersionStr(VERSIONSTR_LIBSBML), "LibSBML Version: 5.6.0");
     }
 
     TEST(AllocateRR)

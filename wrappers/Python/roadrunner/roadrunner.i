@@ -209,12 +209,7 @@ import_array();
 %}
 
 %{
-    static std::string version_info() {
-        std::string init = rr::conservation::conservation_getInit() ? "true" : "false";
-        return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
-            + " on date " + string( __DATE__ ) + ", " + string(__TIME__) +
-            ", init: " + init;
-    }
+
 
 #ifndef _WIN32
 
@@ -236,13 +231,11 @@ import_array();
     }
 
 #endif
-
-
-
-
 %}
 
-std::string version_info();
+
+
+
 
 size_t sigtrap();
 
@@ -707,6 +700,7 @@ namespace std { class ostream{}; }
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <rrModelGenerator.h>
+%include <rrVersionInfo.h>
 
 %thread;
 %include <rrRoadRunner.h>
@@ -1411,5 +1405,6 @@ def plot(result, show=True):
 
     if show:
         p.show()
+
 %}
 

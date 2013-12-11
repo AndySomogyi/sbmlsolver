@@ -103,7 +103,6 @@ public:
      */
     std::string getModelName();
 
-    static std::string getlibSBMLVersion();
     bool unLoadModel();
 
     /**
@@ -574,20 +573,10 @@ public:
     void evalModel();
 
     /**
-     * return a string containing the RoadRunner version, the compiler
-     * it was built with and when it was compiled.
-     */
-    static std::string getVersion();
-
-    /**
      * getVersion plus info about dependent libs versions..
      */
     static std::string getExtendedVersionInfo();
 
-    /**
-     * get the copyright string
-     */
-    static std::string getCopyright();
 
     /**
      * Get unscaled control coefficient with respect to a global parameter

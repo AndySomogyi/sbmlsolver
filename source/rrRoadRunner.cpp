@@ -26,7 +26,7 @@
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
-#include <sbml/common/libsbml-version.h>
+
 
 namespace rr
 {
@@ -179,20 +179,19 @@ string RoadRunner::getInfo()
 //        info<<"Initialized: "        << (mModel->mIsInitialized ? "true" : "false")    <<endl;
     }
     info<<"ConservationAnalysis: "    <<    mComputeAndAssignConservationLaws << endl;
-    info<<"libSBML version: "        <<    getlibSBMLVersion()<<endl;
+    info<<"libSBML version: "         <<    getVersionStr(VERSIONSTR_LIBSBML) << endl;
     info<<"Temporary folder: "        <<    getTempFolder()<<endl;
-    info<<"Compiler location: "        <<    getCompiler()->getCompilerLocation()<<endl;
-    info<<"Support Code Folder: "    <<    getCompiler()->getSupportCodeFolder()<<endl;
-    info<<"Working Directory: "        <<    getCWD()<<endl;
+    info<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
+    info<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
+    info<<"Working Directory: "       <<    getCWD() << endl;
     return info.str();
 }
 
 string RoadRunner::getExtendedVersionInfo()
 {
     stringstream info;
-    info << "Version: "                << getVersion() << endl;
-    info<<"libSBML version: "          << getlibSBMLVersion() << endl;
-    info<<"Working Directory: "        << getCWD() << endl;
+    info << getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE | VERSIONSTR_LIBSBML) << endl;
+    info << "Working Directory: " << getCWD() << endl;
     return info.str();
 }
 
@@ -2408,23 +2407,6 @@ double RoadRunner::getValue(const std::string& sel)
     return getValue(createSelection(sel));
 }
 
-
-string RoadRunner::getVersion()
-{
-    return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
-            + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
-}
-
-string RoadRunner::getCopyright()
-{
-    return "(c) 2009-2013 HM. Sauro, FT. Bergmann, Totte Karlsson and Andy Somogyi, BSD Licence";
-}
-
-
-string RoadRunner::getlibSBMLVersion()
-{
-    return libsbml::getLibSBMLDottedVersion();
-}
 
 vector<double> RoadRunner::getSelectedValues()
 {

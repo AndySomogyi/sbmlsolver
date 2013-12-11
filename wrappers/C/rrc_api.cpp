@@ -48,6 +48,7 @@
 #include "c/rrCModelGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
+#include "rrVersionInfo.h"
 #include "rrUtils.h"
 #include "rrc_api.h"           // Need to include this before the support header..
 #include "rrc_utilities.h"   //Support functions, not exposed as api functions and or data
@@ -157,8 +158,27 @@ char* rrcCallConv getCPPAPIVersion(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rr::createText(rri->getVersion());
+        return rr::createText(rr::getVersionStr());
     catch_ptr_macro
+}
+
+int getVersionNbr()
+{
+    int nmajor = 100000 * RR_VERSION_MAJOR;
+    int nminor = 1000 *  RR_VERSION_MINOR;
+    int npatch = 10 * RR_VERSION_PATCH;
+
+    return nmajor + nminor + npatch;
+}
+
+char* getVersionStr()
+{
+    return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC).c_str());
+}
+
+char* getVersionStrEx()
+{
+    return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE).c_str());
 }
 
 char* rrcCallConv getRRCAPILocation()
@@ -184,15 +204,9 @@ char* rrcCallConv getRRCAPILocation()
 char* rrcCallConv getCopyright()
 {
     start_try
-        RRHandle handle = createRRInstance();
-        if(!handle)
-        {
-            return NULL;
-        }
 
-        RoadRunner* rri = castToRoadRunner(handle);
-        char* text = rr::createText(rri->getCopyright());
-        freeRRInstance(handle);
+        char* text = rr::createText(rr::getCopyrightStr());
+
         return text;
     catch_ptr_macro
 }
@@ -219,8 +233,7 @@ char* rrcCallConv getExtendedAPIInfo()
 char* rrcCallConv getlibSBMLVersion(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        return rr::createText(rri->getlibSBMLVersion());
+        return ::strdup(rr::getVersionStr(VERSIONSTR_LIBSBML).c_str());
     catch_ptr_macro
 }
 
