@@ -306,6 +306,6 @@ install(
 
 if(WIN32)
     install(
-        FILES win32_bin_README.txt DESTINATION bin/
+        FILES win32_bin_README.txt DESTINATION bin/ RENAME README.txt
     )
 endif(WIN32)
