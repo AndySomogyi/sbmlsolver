@@ -8,8 +8,8 @@ rrCallBackFunctionDemo.py
 )
 
 install(    
-FILES ${examples} 
-DESTINATION python/PluginExamples 	
+FILES ${examples} Readme.txt 
+DESTINATION c_api_python/PluginExamples 	
 COMPONENT Python
 )
 
