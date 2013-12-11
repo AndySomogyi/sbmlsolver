@@ -87,6 +87,14 @@ RRP_DECLSPEC bool rrp_cc freePluginManager(RRPluginManagerHandle handle);
 RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
 
 /*!
+ \brief Unload plugins
+ \param handle Handle to a PluginManager instance
+ \return Returns true if Plugins are unloaded succesfully, false otherwise
+ \ingroup plugin_manager
+*/
+RRP_DECLSPEC bool rrp_cc unLoadPlugins(RRPluginManagerHandle handle);
+
+/*!
  \brief Load a particular plugin
  \param handle Handle to a PluginManager instance
  \param pluginName Name of the plugin to load. The plugin name is the plugins shared library name, without path and extension.
@@ -94,14 +102,6 @@ RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
  \ingroup plugin_manager 
 */
 RRP_DECLSPEC RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, const char* pluginName);
-
-/*!
- \brief Unload plugins
- \param handle Handle to a PluginManager instance
- \return Returns true if Plugins are unloaded succesfully, false otherwise
- \ingroup plugin_manager
-*/
-RRP_DECLSPEC bool rrp_cc unLoadPlugins(RRPluginManagerHandle handle);
 
 /*!
  \brief unload a particular plugin
@@ -223,7 +223,7 @@ RRP_DECLSPEC unsigned int rrp_cc getPluginManualNrOfBytes(RRPluginHandle handle)
  \brief Assign a roadrunner instance handle for the plugin to use.
     A plugin may use an externally created roadrunner instance for its internal work.
   \param pHandle Handle to a plugin
-  \param rrHandle Handle to a plugin
+  \param rrHandle Handle to a RoadRunner instance
   \return Returns true or false indicating success/failure
  \ingroup plugins
 */
@@ -273,6 +273,14 @@ RRP_DECLSPEC char* rrp_cc getPluginResult(RRPluginHandle handle);
  \ingroup plugins
 */
 RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
+
+/*!
+ \brief check if plugin is actively working
+ \param handle Handle to a plugin
+ \return Returns true or false indicating i the plugin is busy or not
+ \ingroup plugins
+*/
+RRP_DECLSPEC bool rrp_cc isPluginWorking(RRPluginHandle handle);
 
 /*!
  \brief Terminate any work that is in progress in a plugin. If the plugins worker is executed in a thread, this function
@@ -341,13 +349,6 @@ RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, plu
 */
 RRP_DECLSPEC bool rrp_cc setPluginInputData(RRPluginHandle handle, void* userData);
 
-/*!
- \brief check if plugin is actively working
- \param handle Handle to a plugin
- \return Returns true or false indicating i the plugin is busy or not
- \ingroup plugins
-*/
-RRP_DECLSPEC bool rrp_cc isPluginWorking(RRPluginHandle handle);
 
 /*!
  \brief Get roadrunner instance handle from plugin
