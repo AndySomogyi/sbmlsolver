@@ -13,7 +13,7 @@ install(
         FILES 
         rrPlugins.py 
         rrPlugins.txt 
-        DESTINATION c_api_python  	
+        DESTINATION plugins/python  	
         COMPONENT plugins_api
        )
 

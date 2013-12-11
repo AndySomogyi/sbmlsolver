@@ -299,7 +299,6 @@ install(
     NOTICE.txt
     VERSION.txt
     NEWS.txt
-    COPYING.txt
     DESTINATION .
 )
 
