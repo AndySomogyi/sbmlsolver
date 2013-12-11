@@ -63,7 +63,7 @@ else()
     find_package(LLVM)
 endif()
 
-# should we use LLVM ?
+# should we build and install Testing tools?
 option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
 
 # should we use LLVM ?
@@ -242,12 +242,12 @@ endif(INSTALL_CXX_API)
 
 add_subdirectory(wrappers)
 
-if(BUILD_TESTS)
+if(BUILD_TESTING_TOOLS)
     message(STATUS "building tests")
     add_subdirectory(testing)
 else()
     message(STATUS "NOT building tests")
-endif(BUILD_TESTS)
+endif(BUILD_TESTING_TOOLS)
 
 if(BUILD_PLUGINS)
     message(STATUS "building plugins")
