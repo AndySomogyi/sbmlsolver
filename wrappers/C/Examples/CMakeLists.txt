@@ -1,7 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_C_API_Examples)
-#if(${MSVC})
-#endif(${MSVC})
 
 set(examples
 #get_c_code
@@ -21,5 +19,5 @@ foreach(example ${examples})
      install (FILES ${example}/CMakeLists.txt     DESTINATION Examples/c_api/${example}    COMPONENT example_files)
 endforeach(example)
 
-install (FILES Readme.txt             DESTINATION Examples/c_api COMPONENT doc_file)
-install (FILES CMakeLists.txt         DESTINATION Examples/c_api COMPONENT example_files)
+#install (FILES Readme.txt             DESTINATION Examples/c_api COMPONENT doc_file)
+#install (FILES CMakeLists.txt         DESTINATION Examples/c_api COMPONENT example_files)

@@ -64,6 +64,9 @@ else()
 endif()
 
 # should we use LLVM ?
+option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
+
+# should we use LLVM ?
 option (BUILD_LLVM "Build the LLVM back end" OFF)
 
 # should we build the swig python wrapper?
@@ -290,3 +293,11 @@ foreach(runtime ${RUNTIMES})
         COMPONENT rr_core)
 endforeach()
 endif()
+
+install(    FILES     
+NOTICE.txt
+VERSION.txt
+NEWS.txt
+COPYING.txt
+DESTINATION .)
+

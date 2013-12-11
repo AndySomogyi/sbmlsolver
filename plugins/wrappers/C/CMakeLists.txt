@@ -80,16 +80,19 @@ endif()
 #endif()
 #
 #=============== INSTALL =====================
-install(
-    FILES
-    rrp_api.h
-    rrp_api.h
-    rrp_utilities.h
-    rrp_types.h
-    rrp_exporter.h
-
-    DESTINATION include/plugins_api COMPONENT plugins_api
+#=== HEADERS
+set(folders
+    .
     )
+
+foreach(folder ${folders})
+    FILE (GLOB headers ${folder}/*.h)
+    install (   
+        FILES ${headers}
+        DESTINATION include/pluginsLib/c
+        COMPONENT pluginsLib
+        )
+endforeach(folder)
 
 install(
     TARGETS ${target}

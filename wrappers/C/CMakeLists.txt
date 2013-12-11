@@ -79,7 +79,7 @@ if(INSTALL_EXAMPLES)
     add_subdirectory(Examples)
 endif()
 
-if(BUILD_TESTS)
+if(BUILD_TEST_TOOLS)
     add_subdirectory(Testing)
 endif()
 
