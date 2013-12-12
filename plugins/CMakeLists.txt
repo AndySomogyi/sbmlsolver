@@ -25,7 +25,6 @@ if(${RRP_BUILD_EXAMPLES} STREQUAL ON)
 add_subdirectory(examples)
 endif()
 
-
 endif()
 
 add_subdirectory(wrappers)

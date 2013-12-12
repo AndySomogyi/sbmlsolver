@@ -5,11 +5,13 @@ set(examples
 rrPluginTester.py
 #rrBifurcationDemo.py
 rrCallBackFunctionDemo.py
+rrPluginDocumentationDemo.py
+rrPluginParameterDemo.py
 )
 
 install(    
-FILES ${examples} 
-DESTINATION python/PluginExamples 	
-COMPONENT Python
+FILES ${examples} Readme.txt 
+DESTINATION plugins/python/Examples 	
+COMPONENT plugins_api
 )
 

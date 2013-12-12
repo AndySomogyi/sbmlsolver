@@ -5,7 +5,13 @@ import roadrunner
 from ctypes import *
 from rrPlugins import *
 
+#Create a plugin manager
+pm = createPluginManager()
+
+#Create a roadrunner instance
 rr = roadrunner.RoadRunner()
+
+#Define callback functions
 def pluginStarted():
     print 'The plugin was started'
 
@@ -18,17 +24,17 @@ def pluginIsFinished():
 
 sbmlModel ="../models/bistable.xml"
 if not rr.load(sbmlModel):
-    print getLastError()
+    print 'Failed loading model'
     exit()
 
 rr.simulate(0, 10, 500)
 print rr.getInfo()
 
 #The plugin will need a handle to the underlying roadrunner data
-rrDataHandle = getRoadRunnerDataHandle(rr)
+rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
 #Load the 'noise' plugin in order to add some noise to roadrunner data
-noisePlugin = loadPlugin("rrp_add_noise")
+noisePlugin = loadPlugin(pm, "rrp_add_noise")
 if not noisePlugin:
     print rr.getLastError()
     exit()
@@ -74,4 +80,6 @@ plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
 plot.ylabel('Concentration (moles/L)')
 plot.xlabel('time (s)')
 plot.show()
+
+unLoadPlugins(pm)
 print "done"

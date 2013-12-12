@@ -17,7 +17,8 @@ one_rr
 )
 
 foreach(example ${examples})
-     add_subdirectory(${example})
+    #add_subdirectory(${example})
+
     FILE (GLOB hdrs ${example}/*.h)
      install (FILES ${hdrs}                         DESTINATION Examples/${example}    COMPONENT example_files)
     FILE (GLOB src ${example}/*.cpp)

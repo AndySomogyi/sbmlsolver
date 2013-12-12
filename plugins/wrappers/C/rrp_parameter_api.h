@@ -54,21 +54,23 @@ namespace rrp { extern "C" {
  */
  
 /*!
- \brief Get string list of parameters for a particular capability
- \param handle Handle to a RoadRunner instance
- \param cap_name pointer to a string holding the name of a capability
- \return Returns a handle to a StringArray if sucessful, NULL otherwise
-*/
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
-
-/*!
- \brief Create a double parameter t
+ \brief Create a parameter of type "type"
  \param label The parameters label as a string
- \param type  The parameters type as string. Possible values can be 'double', 'int', 'char*'
+ \param type  The parameters type as string. Possible values can be 'double', 'int', 'char*' etc,
  \param value The parameters initial value casted to a (void*) pointer
  \return Returns a handle to a new parameter, if succesful, NULL otherwise
 */
 RRP_DECLSPEC RRParameterHandle rrp_cc createParameter(const char* label, const char* type, void* value);
+
+///*
+// \brief Get string list of parameters for a particular capability
+// \param handle Handle to a RoadRunner instance
+// \param cap_name pointer to a string holding the name of a capability
+// \return Returns a handle to a StringArray if sucessful, NULL otherwise
+//*/
+//Todo: RoadRunner don't have parameters anymore
+//RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
+
 
 /*!
  \brief Add a parameter to a parameters container, from a parameter pointer.

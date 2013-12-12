@@ -3,6 +3,10 @@ from matplotlib.pyplot import *
 from rrPlugins import *
 sbmlModel ="../models/feedback.xml"
 
+#Create a plugin manager
+pm = createPluginManager()
+
+#Create a roadrunner instance
 rr = roadrunner.RoadRunner()
 
 result = rr.load(sbmlModel)
@@ -12,7 +16,7 @@ steps = 50
 rr.simulate(0, 10, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
-noisePlugin = loadPlugin("rrp_add_noise")
+noisePlugin = loadPlugin(pm, "rrp_add_noise")
 if not noisePlugin:
     exit()
 
@@ -27,13 +31,13 @@ print 'Current sigma is ' + aSigma
 #set size of noise
 setDoubleParameter(sigmaHandle, 3.e-2)
 
-rrDataHandle = getRoadRunnerDataHandle(rr)
+rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
 rrcData = createRRCData(rrDataHandle)
-npData = getNPData(rrcData)
+npData = getNumpyData(rrcData)
 x = npData[:,0]
 yInput = npData[:,1]
 
@@ -42,7 +46,7 @@ while isPluginWorking(noisePlugin) == True:
     print "Plugin is not done yet";
 
 #Load the Levenberg-Marquardt minimization plugin
-lmPlugin = loadPlugin("rrp_lm")
+lmPlugin = loadPlugin(pm, "rrp_lm")
 if not lmPlugin:
     print getLastError()
     exit()
@@ -93,7 +97,7 @@ print getPluginStatus(lmPlugin)
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
-npData = getNPData(rrcData)
+npData = getNumpyData(rrcData)
 S1 = npData[:,1]
 S2 = npData[:,2]
 S3 = npData[:,3]
@@ -104,14 +108,14 @@ S4 = npData[:,4]
 ##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
 ##dataHandle = getParameterValueHandle(dataPHandle)
 ##rrcData = createRRCData(dataHandle)
-##npData = getNPData(rrcData)
+##npData = getNumpyData(rrcData)
 ##yOutput2 = npData[:,1]
 ##length = len(yOutput)
 
 dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
-npData = getNPData(rrcData)
+npData = getNumpyData(rrcData)
 yOutput3 = npData[:,1]
 
 #Observe, the plotting of the data is erratic!!
@@ -126,5 +130,5 @@ plot(x, S1, '-r')
 plot(x, yOutput3, 'o')
 
 show()
-unLoadPlugins()
+unLoadPlugins(pm)
 print "done"

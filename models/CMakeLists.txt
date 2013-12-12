@@ -6,11 +6,9 @@ set(models
 README.txt
 bistable.xml
 feedback.xml
-test_1.xml 				
-ss_threestep.xml 	
-ss_TurnOnConservationAnalysis.xml 	
-ss_threeSpecies.xml
-squareWaveModel.xml
+sbml_test_0001.xml 				
+#ss_threestep.xml 	
+#ss_threeSpecies.xml
 )
 
 if(BUILD_TESTS)
@@ -18,5 +16,9 @@ add_subdirectory(test_models)
 endif()
 
 install(    FILES ${models}
+            DESTINATION models 	
+            COMPONENT sbml_models)
+
+install(    FILES Readme.txt
             DESTINATION models 	
             COMPONENT sbml_models)
