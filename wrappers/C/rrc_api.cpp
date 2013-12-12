@@ -163,9 +163,9 @@ char* rrcCallConv getCPPAPIVersion(RRHandle handle)
 
 int rrcCallConv getVersion()
 {
-    int nmajor = 100000 * RR_VERSION_MAJOR;
-    int nminor = 1000 *  RR_VERSION_MINOR;
-    int npatch = 10 * RR_VERSION_PATCH;
+    int nmajor = 10000 * RR_VERSION_MAJOR;
+    int nminor = 100 *  RR_VERSION_MINOR;
+    int npatch = 1 * RR_VERSION_PATCH;
 
     return nmajor + nminor + npatch;
 }
