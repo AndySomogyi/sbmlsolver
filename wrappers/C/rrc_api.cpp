@@ -157,12 +157,11 @@ char* rrcCallConv getAPIVersion()
 char* rrcCallConv getCPPAPIVersion(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
         return rr::createText(rr::getVersionStr());
     catch_ptr_macro
 }
 
-int getVersionNbr()
+int getVersion()
 {
     int nmajor = 100000 * RR_VERSION_MAJOR;
     int nminor = 1000 *  RR_VERSION_MINOR;
@@ -176,7 +175,7 @@ char* getVersionStr()
     return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC).c_str());
 }
 
-char* getVersionStrEx()
+char* getVersionEx()
 {
     return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE).c_str());
 }

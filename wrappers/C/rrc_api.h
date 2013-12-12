@@ -117,7 +117,7 @@ C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(RRHandle handle);
  is the major version, YY the minor and ZZ the revision,
  eg 10000, or 10100, 20000 etc
  */
-C_DECL_SPEC int getVersionNbr();
+C_DECL_SPEC int getVersion();
 
 /*!
  returns roadrunner as a string, i.e. "1.0.0"
@@ -127,7 +127,7 @@ C_DECL_SPEC char* getVersionStr();
 /*!
  returns something like "1.0.0; compiled with clang "3.3 (tags/RELEASE_33/final)" on date Dec  8 2013, 17:24:57'
  */
-C_DECL_SPEC char* getVersionStrEx();
+C_DECL_SPEC char* getVersionEx();
 
 /*!
  \brief Retrieve extended API info.
