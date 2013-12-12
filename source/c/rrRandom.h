@@ -1,8 +1,8 @@
 #ifndef rrRandomH
 #define rrRandomH
 //---------------------------------------------------------------------------
-#include "rrExporter.h"
-#include "mtrand/mtrand.h"
+
+#include "mtrand.h"
 
 namespace rr
 {
@@ -10,7 +10,7 @@ namespace rr
 /**
  * @internal
  */
-class RR_DECLSPEC Random
+class  Random
 {
 
     private:

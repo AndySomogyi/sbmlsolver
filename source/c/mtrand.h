@@ -47,7 +47,7 @@
 
 #include "rrExporter.h"
 
-class RR_DECLSPEC  MTRand_int32
+class  MTRand_int32
 { // Mersenne Twister random number generator
 public:
 // default constructor: uses default seed only if this is the first instance
@@ -126,7 +126,7 @@ private:
 };
 
 // generates double floating point numbers in the open interval (0, 1)
-class RR_DECLSPEC MTRand_open : public MTRand_int32 {
+class  MTRand_open : public MTRand_int32 {
 public:
   MTRand_open() : MTRand_int32() {}
   MTRand_open(unsigned long seed) : MTRand_int32(seed) {}

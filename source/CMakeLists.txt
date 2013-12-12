@@ -42,7 +42,7 @@ set(rrSources
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
-    mtrand/mtrand
+    c/mtrand
     c/rrStringBuilder
     c/rrStringListContainer
     c/rrSBMLSymbolDependencies
@@ -295,7 +295,7 @@ if(${INSTALL_CXX_API})
     #=== HEADERS
     set(subfolders
         .
-        ./mtrand
+        #./mtrand
         )
 
     foreach(subfolder ${subfolders})
