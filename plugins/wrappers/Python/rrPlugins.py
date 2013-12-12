@@ -165,18 +165,18 @@ rrpLib.getPluginName.restype = c_char_p
 def getPluginName(pluginHandle):
     return rrpLib.getPluginName(pluginHandle)
 
-## \brief Return some information about a Plugin. 
+## \brief Returns information about a Plugin. 
 ## \param pluginHandle Handle to a plugin
-## \return Returns info, as a string, for the plugin, None otherwise
+## \return Returns information as a string for the plugin, None otherwise
 ## \ingroup plugins
 rrpLib.getPluginInfo.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrpLib.getPluginInfo(pluginHandle)
 
-## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function return such as a pointer to a string. 
+## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function returns such as a pointer to a string. 
 ## Use the function getPluginManualNrOfBytes to get the exact length of this string.
 ## \param pluginHandle Handle to a plugin
-## \return Returns the plugins manuals pdf file as a unsigned char*. If not available, returns None.
+## \return Returns the plugin's manual pdf file as a unsigned char*. If not available, returns None.
 ## \ingroup plugins
 rrpLib.getPluginManualAsPDF.restype =  POINTER(c_ubyte)
 def getPluginManualAsPDF(pluginHandle):
@@ -184,7 +184,7 @@ def getPluginManualAsPDF(pluginHandle):
 
 ## \brief Get the byte size for the PDF manual.
 ## \param pluginHandle Handle to a plugin
-## \return Returns the nr of bytes in the plugins manuals pdf file as an unsigned int.
+## \return Returns the number of bytes in the plugin's manual pdf file as an unsigned int.
 ## \ingroup plugins
 def getPluginManualNrOfBytes(pluginHandle):
     return rrpLib.getPluginManualNrOfBytes(pluginHandle)
@@ -198,12 +198,13 @@ def getPluginManualNrOfBytes(pluginHandle):
 def assignRoadRunnerInstance(pluginHandle, rrHandle):
     return rrpLib.assignRoadRunnerInstance(pluginHandle, rrHandle)
 
-## \brief The executePlugin function is the function designated to fire of a Plugins "worker".
-## What is done when this function is entered is plugin dependent.
+## \brief The executePlugin function is called to start the plugin so that it can carry out its
+## function. The call is plugin dependent meaning that it could result in a calculation, starting up a GUI etc. 
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
-## \note The execute function is blocking. If the plugin is todo long work, consider using
-## the executePluginEx function that have the option to execute the plugin code in a thread.
+## \note The execute function is blocking, this means it won't returns to the caller until the task is complete. 
+## If the plugin is asked to carry out a lengthy calculation, consider using
+## the executePluginEx function that has the option to execute the plugin code in the background (in a thread);
 ## \ingroup plugins
 rrpLib.executePlugin.restype = c_bool
 def executePlugin(pluginHandle):
@@ -211,8 +212,8 @@ def executePlugin(pluginHandle):
 
 ## \brief The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.
 ## \param pluginHandle Handle to a plugin
-## \param userData void* pointer to user data. Plugin dependent. See specific plugin documentation for what to pass as argument.
-## \param inAThread bool indicating if the plugin should be executed in a thread.
+## \param userData void* pointer to user data. This will be plugin dependent. See specific plugin documentation for how to use this argument.
+## \param inAThread bool indicating if the plugin should be executed in the background (in a thread)
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
 rrpLib.executePlugin.restype = c_bool
@@ -242,9 +243,9 @@ def getPluginResult(pluginHandle):
 def resetPlugin(pluginHandle):
     return rrpLib.resetPlugin(pluginHandle)
 
-## \brief check if plugin is actively working
+## \brief Check if a plugin is actively working
 ## \param pluginHandle Handle to a plugin
-## \return Returns true or false indicating i the plugin is busy or not
+## \return Returns true or false indicating if the plugin is busy or not
 ## \ingroup plugins
 def isPluginWorking(pluginHandle):
     return rrpLib.isPluginWorking(pluginHandle)
@@ -293,7 +294,7 @@ rrpLib.assignPluginProgressCallBack.args =[c_void_p, pluginCallBackType1, c_void
 def assignPluginProgressCallBack(pluginHandle, pluginCallBack, userData1 = None, userData2 = None):
     return rrpLib.assignPluginProgressCallBack(pluginHandle, pluginCallBack, userData1, userData2)
 
-## \brief Assign callback function fired when a plugin finishes its work
+## \brief Assign a callback function that will be fired when a plugin finishes its work
 ## \param pluginHandle Handle to a plugin
 ## \param pluginCallBack Function pointer to callback routine
 ## \param userData1 void* pointer to user data.
@@ -306,7 +307,7 @@ def assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1 = None,
 
 ## \brief Hand external data to a plugin
 ## \param pluginHandle Handle to a plugin
-## \param userData void* pointer to user data. Plugin dependent.
+## \param userData void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
 def setPluginInputData(pluginHandle, userData):
@@ -320,9 +321,9 @@ rrpLib.getRRHandleFromPlugin.restype = c_void_p
 def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
-## \brief Get a Plugins capabilities as a string
+## \brief Get a Plugin's capabilities as a string
 ## \param pluginHandle Handle to a plugin
-## \return Returns available capabilities for a particular plugin as a pointer to a string, None otherwise.
+## \return Returns available capabilities for a particular plugin as a string, None otherwise.
 ## \ingroup plugins
 rrpLib.getPluginCapabilities.restype = c_char_p
 def getPluginCapabilities(pluginHandle):
@@ -330,7 +331,7 @@ def getPluginCapabilities(pluginHandle):
 
 ## \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
 ## \param pluginHandle Handle to a plugin
-## \return Returns available capabilities and parameter in the capability, for a particular plugin as a pointer to a string, None otherwise
+## \return Returns the capabilities of a plugin as an XML string. None otherwise
 ## \ingroup plugins
 rrpLib.getPluginCapabilitiesAsXML.restype = c_char_p
 def getPluginCapabilitiesAsXML(pluginHandle):
@@ -342,7 +343,7 @@ def getPluginCapabilitiesAsXML(pluginHandle):
 ## \param pluginHandle Handle to a plugin
 ## \param capabilityName Pointer to a string, holding the name of a capability. If None, returna parameters in all capabilities.
 ## \return Returns available parameters for a particular capability in a plugin, None otherwise
-## \ingroup plugins
+## \ingroup plugin_parameters
 rrpLib.getPluginParameters.restype = c_char_p
 def getPluginParameters(pluginHandle, capabilityName):
     return rrpLib.getPluginParameters(pluginHandle, capabilityName)
@@ -353,7 +354,7 @@ def getPluginParameters(pluginHandle, capabilityName):
 ## \param parameterName Name of the parameter
 ## \param capabilitiesName Name of a capability containing the parameter.
 ## \return Returns a handle to a parameter. Returns None if not found
-## \ingroup plugins
+## \ingroup plugin_parameters
 def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
     return rrpLib.getPluginParameter(pluginHandle, parameterName, capabilitiesName)
 
@@ -362,7 +363,7 @@ def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
 ## \param parameterName Name of parameter
 ## \param paraValue Value of parameter, as string
 ## \return true if succesful, false otherwise
-## \ingroup plugins
+## \ingroup plugin_parameters
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
