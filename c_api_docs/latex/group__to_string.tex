@@ -1,0 +1,145 @@
+\hypertarget{group__to_string}{\section{To\-String routines}
+\label{group__to_string}\index{To\-String routines@{To\-String routines}}
+}
+
+
+Render various result data types as strings.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{group__to_string_ga64ab435eba89b0abf13ae8d86e0a679d}{vector\-To\-String} (const \hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vec)
+\begin{DoxyCompactList}\small\item\em Returns a vector in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga21993774c8d77e0c8988d94d75f8036c}{complex\-Vector\-To\-String} (const \hyperlink{rrc__types_8h_ae05c63419a6ca0575eb327fd04dae4b5}{R\-R\-Complex\-Vector\-Ptr} vec)
+\begin{DoxyCompactList}\small\item\em Returns a complex vector in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_gaca8178efe067c3fb79f06f8dae02d210}{rr\-Data\-To\-String} (\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Returns a rr\-Data object in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga505aeb10e21f0ef93770f7723aa12514}{rr\-C\-Data\-To\-String} (const \hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Returns a rr\-C\-Data struct in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_gaf42846516870bc5cada2bbeb86f02be8}{matrix\-To\-String} (const \hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} mat)
+\begin{DoxyCompactList}\small\item\em Returns a matrix in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga41169534497c2764945c24949c11ddbb}{complex\-Matrix\-To\-String} (const \hyperlink{rrc__types_8h_a8cf9e865d8541d100f153800adbb7c3f}{R\-R\-Complex\-Matrix\-Ptr} mat)
+\begin{DoxyCompactList}\small\item\em Returns a complex matrix in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga404f239a08ca9e328087a488b500cef6}{string\-Array\-To\-String} (const \hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} list)
+\begin{DoxyCompactList}\small\item\em Returns a string list in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_gaf528aa5b0788d4b8c65d717da48a5839}{list\-To\-String} (const \hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} list)
+\begin{DoxyCompactList}\small\item\em Returns a list in string form. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Render various result data types as strings. 
+
+\subsection{Function Documentation}
+\hypertarget{group__to_string_ga41169534497c2764945c24949c11ddbb}{\index{To\-String routines@{To\-String routines}!complex\-Matrix\-To\-String@{complex\-Matrix\-To\-String}}
+\index{complex\-Matrix\-To\-String@{complex\-Matrix\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{complex\-Matrix\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ complex\-Matrix\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-Complex\-Matrix\-Ptr}}]{mat}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_ga41169534497c2764945c24949c11ddbb}
+
+
+Returns a complex matrix in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns complex matrix as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_ga21993774c8d77e0c8988d94d75f8036c}{\index{To\-String routines@{To\-String routines}!complex\-Vector\-To\-String@{complex\-Vector\-To\-String}}
+\index{complex\-Vector\-To\-String@{complex\-Vector\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{complex\-Vector\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ complex\-Vector\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-Complex\-Vector\-Ptr}}]{vec}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_ga21993774c8d77e0c8988d94d75f8036c}
+
+
+Returns a complex vector in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns complex vector as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_gaf528aa5b0788d4b8c65d717da48a5839}{\index{To\-String routines@{To\-String routines}!list\-To\-String@{list\-To\-String}}
+\index{list\-To\-String@{list\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{list\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ list\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-List\-Ptr}}]{list}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_gaf528aa5b0788d4b8c65d717da48a5839}
+
+
+Returns a list in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns list as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_gaf42846516870bc5cada2bbeb86f02be8}{\index{To\-String routines@{To\-String routines}!matrix\-To\-String@{matrix\-To\-String}}
+\index{matrix\-To\-String@{matrix\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{matrix\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ matrix\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-Double\-Matrix\-Ptr}}]{mat}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_gaf42846516870bc5cada2bbeb86f02be8}
+
+
+Returns a matrix in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns matrix as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_ga505aeb10e21f0ef93770f7723aa12514}{\index{To\-String routines@{To\-String routines}!rr\-C\-Data\-To\-String@{rr\-C\-Data\-To\-String}}
+\index{rr\-C\-Data\-To\-String@{rr\-C\-Data\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{rr\-C\-Data\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ rr\-C\-Data\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-C\-Data\-Ptr}}]{rr\-Data}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_ga505aeb10e21f0ef93770f7723aa12514}
+
+
+Returns a rr\-C\-Data struct in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns rr\-C\-Data struct as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_gaca8178efe067c3fb79f06f8dae02d210}{\index{To\-String routines@{To\-String routines}!rr\-Data\-To\-String@{rr\-Data\-To\-String}}
+\index{rr\-Data\-To\-String@{rr\-Data\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{rr\-Data\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ rr\-Data\-To\-String (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Data\-Handle}}]{rr\-Data}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_gaca8178efe067c3fb79f06f8dae02d210}
+
+
+Returns a rr\-Data object in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns rr\-Data as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_ga404f239a08ca9e328087a488b500cef6}{\index{To\-String routines@{To\-String routines}!string\-Array\-To\-String@{string\-Array\-To\-String}}
+\index{string\-Array\-To\-String@{string\-Array\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{string\-Array\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ string\-Array\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-String\-Array\-Ptr}}]{list}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_ga404f239a08ca9e328087a488b500cef6}
+
+
+Returns a string list in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns string list as a character string 
+\end{DoxyReturn}
+\hypertarget{group__to_string_ga64ab435eba89b0abf13ae8d86e0a679d}{\index{To\-String routines@{To\-String routines}!vector\-To\-String@{vector\-To\-String}}
+\index{vector\-To\-String@{vector\-To\-String}!ToString routines@{To\-String routines}}
+\subsubsection[{vector\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ vector\-To\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf R\-R\-Vector\-Ptr}}]{vec}
+\end{DoxyParamCaption}
+)}}\label{group__to_string_ga64ab435eba89b0abf13ae8d86e0a679d}
+
+
+Returns a vector in string form. 
+
+\begin{DoxyReturn}{Returns}
+Returns vector as a character string 
+\end{DoxyReturn}

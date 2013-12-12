@@ -1,0 +1,111 @@
+\hypertarget{rrc__logging__api_8h}{\section{rrc\-\_\-logging\-\_\-api.\-h File Reference}
+\label{rrc__logging__api_8h}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}
+}
+
+
+road\-Runner C A\-P\-I 2012  
+
+
+{\ttfamily \#include \char`\"{}rrc\-\_\-exporter.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rrc\-\_\-types.\-h\char`\"{}}\\*
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686a}{C\-Log\-Level} \{ \\*
+{\bfseries C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-U\-R\-R\-E\-N\-T} = 0, 
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa525ac69677867e7394315ab9e0ca0730}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-F\-A\-T\-A\-L} = 1, 
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa05ec9ed752e7dee87bc0318c3bc99cef}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L}, 
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aac8c0c1c440ee2f6e8bee9affa0dd2d47}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R}, 
+\\*
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa7a3e540aeb201b05e207e13e09a203b6}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G}, 
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa3134765a05a2946e8d63dc2523329903}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-N\-O\-T\-I\-C\-E}, 
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aab51627982460bb987ed7caf2d13fab81}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}, 
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aaa904cf111d8dd10890a7c8048fe18b54}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G}, 
+\\*
+\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aaa420078cddfd67c148f07436885216d1}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-T\-R\-A\-C\-E}
+ \}
+\begin{DoxyCompactList}\small\item\em Log level enum. \end{DoxyCompactList}\item 
+enum \{ {\bfseries cl\-Error} = C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R, 
+{\bfseries cl\-Info} = C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N, 
+{\bfseries cl\-Debug} = C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G, 
+{\bfseries cl\-Warning} = C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group__logging_ga1289bf0c4cc9c078d53d82b60e8dbdbb}{enable\-Logging\-To\-Console} (void)
+\begin{DoxyCompactList}\small\item\em Enable logging to console. \end{DoxyCompactList}\item 
+bool \hyperlink{group__logging_ga894d611c74147f5cd1dcb64c1a758b5e}{disable\-Logging\-To\-Console} (void)
+\begin{DoxyCompactList}\small\item\em Disable logging to console. \end{DoxyCompactList}\item 
+bool \hyperlink{group__logging_ga85cc1f6f174a51a4498b4a44313e8d18}{enable\-Logging\-To\-File} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Enable logging to log\-File. \end{DoxyCompactList}\item 
+bool \hyperlink{group__logging_gac1f91b27feb5ffdb19c6d54f3013d7e0}{disable\-Logging\-To\-File} ()
+\begin{DoxyCompactList}\small\item\em Disable logging to log\-File. \end{DoxyCompactList}\item 
+bool \hyperlink{group__logging_gad113b4e32a079d7a8c1d188561e1ffbc}{set\-Log\-Level} (const char $\ast$lvl)
+\begin{DoxyCompactList}\small\item\em Set the logging status level The logging level is determined by the following strings. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__logging_gab140cb9d963dc39925115865d5d63640}{get\-Log\-Level} (void)
+\begin{DoxyCompactList}\small\item\em Get the logging status level as a pointer to a string. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__logging_gaefba127a269969e3de8ebd380a009962}{get\-Log\-File\-Name} (void)
+\begin{DoxyCompactList}\small\item\em Get a pointer to the string that holds the logging file name path. \end{DoxyCompactList}\item 
+void \hyperlink{group__logging_ga46306556cbe2226881d4b9701f24982d}{log\-Msg} (enum \hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686a}{C\-Log\-Level} lvl, const char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Create a log message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+road\-Runner C A\-P\-I 2012 \begin{DoxyAuthor}{Author}
+Totte Karlsson \& Herbert M Sauro
+\end{DoxyAuthor}
+$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- This file is part of c\-Road\-Runner. See \href{http://code.google.com/p/roadrunnerlib}{\tt http\-://code.\-google.\-com/p/roadrunnerlib} for more details.
+
+Copyright (C) 2012-\/2013 University of Washington, Seattle, W\-A, U\-S\-A
+
+Licensed under the Apache License, Version 2.\-0 (the \char`\"{}\-License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \begin{DoxyVerb}http://www.apache.org/licenses/LICENSE-2.0
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+In plain english this means\-:
+
+You C\-A\-N freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+
+You C\-A\-N use the software in packages or distributions that you create.
+
+You S\-H\-O\-U\-L\-D include a copy of the license in any redistribution you may make;
+
+You are N\-O\-T required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+Y\-O\-U C\-A\-N\-N\-O\-T\-:
+
+redistribute any piece of this software without proper attribution; 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686a}{\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-Log\-Level@{C\-Log\-Level}}
+\index{C\-Log\-Level@{C\-Log\-Level}!rrc_logging_api.h@{rrc\-\_\-logging\-\_\-api.\-h}}
+\subsubsection[{C\-Log\-Level}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf C\-Log\-Level}}}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686a}
+
+
+Log level enum. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-F\-A\-T\-A\-L@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-F\-A\-T\-A\-L}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-F\-A\-T\-A\-L@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-F\-A\-T\-A\-L}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa525ac69677867e7394315ab9e0ca0730}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-F\-A\-T\-A\-L}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa525ac69677867e7394315ab9e0ca0730}
+}]Use the current level -- don't change the level from what it is. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa05ec9ed752e7dee87bc0318c3bc99cef}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa05ec9ed752e7dee87bc0318c3bc99cef}
+}]A fatal error. The application will most likely terminate. This is the highest priority. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aac8c0c1c440ee2f6e8bee9affa0dd2d47}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-E\-R\-R\-O\-R}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aac8c0c1c440ee2f6e8bee9affa0dd2d47}
+}]A critical error. The application might not be able to continue running successfully. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa7a3e540aeb201b05e207e13e09a203b6}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-W\-A\-R\-N\-I\-N\-G}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa7a3e540aeb201b05e207e13e09a203b6}
+}]An error. An operation did not complete successfully, but the application as a whole is not affected. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-N\-O\-T\-I\-C\-E@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-N\-O\-T\-I\-C\-E}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-N\-O\-T\-I\-C\-E@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-N\-O\-T\-I\-C\-E}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa3134765a05a2946e8d63dc2523329903}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-N\-O\-T\-I\-C\-E}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aa3134765a05a2946e8d63dc2523329903}
+}]A warning. An operation completed with an unexpected result. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aab51627982460bb987ed7caf2d13fab81}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aab51627982460bb987ed7caf2d13fab81}
+}]A notice, which is an information with just a higher priority. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aaa904cf111d8dd10890a7c8048fe18b54}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-D\-E\-B\-U\-G}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aaa904cf111d8dd10890a7c8048fe18b54}
+}]An informational message, usually denoting the successful completion of an operation. \index{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-T\-R\-A\-C\-E@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-T\-R\-A\-C\-E}!rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}}\index{rrc\-\_\-logging\-\_\-api.\-h@{rrc\-\_\-logging\-\_\-api.\-h}!C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-T\-R\-A\-C\-E@{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-T\-R\-A\-C\-E}}\item[{\em 
+\hypertarget{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aaa420078cddfd67c148f07436885216d1}{C\-L\-\_\-\-P\-R\-I\-O\-\_\-\-T\-R\-A\-C\-E}\label{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686aaa420078cddfd67c148f07436885216d1}
+}]A debugging message. A tracing message. This is the lowest priority. \end{description}
+\end{Desc}

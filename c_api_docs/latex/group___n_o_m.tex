@@ -1,0 +1,59 @@
+\hypertarget{group___n_o_m}{\section{Network object model (N\-O\-M) functions}
+\label{group___n_o_m}\index{Network object model (\-N\-O\-M) functions@{Network object model (\-N\-O\-M) functions}}
+}
+
+
+Network object model functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___n_o_m_gaaa0ed055afe440acf92f673a38d15bb0}{get\-Number\-Of\-Rules} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Returns the number of rules in the current model. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group___n_o_m_ga1c5aa0241b4ec1785f46d05b9dd67ba8}{get\-Model\-Name} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Returns the name of currently loaded S\-B\-M\-L model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Network object model functions. 
+
+\subsection{Function Documentation}
+\hypertarget{group___n_o_m_ga1c5aa0241b4ec1785f46d05b9dd67ba8}{\index{Network object model (\-N\-O\-M) functions@{Network object model (\-N\-O\-M) functions}!get\-Model\-Name@{get\-Model\-Name}}
+\index{get\-Model\-Name@{get\-Model\-Name}!Network object model (NOM) functions@{Network object model (\-N\-O\-M) functions}}
+\subsubsection[{get\-Model\-Name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Model\-Name (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group___n_o_m_ga1c5aa0241b4ec1785f46d05b9dd67ba8}
+
+
+Returns the name of currently loaded S\-B\-M\-L model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a char$\ast$ containing the name if succesful, N\-U\-L\-L otherwise 
+\end{DoxyReturn}
+\hypertarget{group___n_o_m_gaaa0ed055afe440acf92f673a38d15bb0}{\index{Network object model (\-N\-O\-M) functions@{Network object model (\-N\-O\-M) functions}!get\-Number\-Of\-Rules@{get\-Number\-Of\-Rules}}
+\index{get\-Number\-Of\-Rules@{get\-Number\-Of\-Rules}!Network object model (NOM) functions@{Network object model (\-N\-O\-M) functions}}
+\subsubsection[{get\-Number\-Of\-Rules}]{\setlength{\rightskip}{0pt plus 5cm}int get\-Number\-Of\-Rules (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group___n_o_m_gaaa0ed055afe440acf92f673a38d15bb0}
+
+
+Returns the number of rules in the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an integer larger or equal to 0 if succesful, or -\/1 on failure 
+\end{DoxyReturn}

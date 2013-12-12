@@ -1,0 +1,103 @@
+\hypertarget{group__initial_conditions}{\section{Initial conditions group}
+\label{group__initial_conditions}\index{Initial conditions group@{Initial conditions group}}
+}
+
+
+Set or get initial conditions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group__initial_conditions_ga48bea9d12449568647e4f0fc6ea22b3a}{set\-Floating\-Species\-Initial\-Concentrations} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const \hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vec)
+\begin{DoxyCompactList}\small\item\em Set the initial floating species concentrations. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} \hyperlink{group__initial_conditions_ga2f4703d54375cb17e20887df4eb90032}{get\-Floating\-Species\-Initial\-Concentrations} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Get the initial floating species concentrations. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} \hyperlink{group__initial_conditions_ga0839c13a84160df0f2b94e9aef0be5b6}{get\-Floating\-Species\-Initial\-Condition\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Get the initial floating species Ids. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Set or get initial conditions. 
+
+\subsection{Function Documentation}
+\hypertarget{group__initial_conditions_ga2f4703d54375cb17e20887df4eb90032}{\index{Initial conditions group@{Initial conditions group}!get\-Floating\-Species\-Initial\-Concentrations@{get\-Floating\-Species\-Initial\-Concentrations}}
+\index{get\-Floating\-Species\-Initial\-Concentrations@{get\-Floating\-Species\-Initial\-Concentrations}!Initial conditions group@{Initial conditions group}}
+\subsubsection[{get\-Floating\-Species\-Initial\-Concentrations}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Vector\-Ptr} get\-Floating\-Species\-Initial\-Concentrations (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__initial_conditions_ga2f4703d54375cb17e20887df4eb90032}
+
+
+Get the initial floating species concentrations. 
+
+Example\-:
+\begin{DoxyCode}
+vec = \hyperlink{group__initial_conditions_ga2f4703d54375cb17e20887df4eb90032}{getFloatingSpeciesInitialConcentrations} (
+      \hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle} handle); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails otherwise returns a vector containing the initial conditions 
+\end{DoxyReturn}
+\hypertarget{group__initial_conditions_ga0839c13a84160df0f2b94e9aef0be5b6}{\index{Initial conditions group@{Initial conditions group}!get\-Floating\-Species\-Initial\-Condition\-Ids@{get\-Floating\-Species\-Initial\-Condition\-Ids}}
+\index{get\-Floating\-Species\-Initial\-Condition\-Ids@{get\-Floating\-Species\-Initial\-Condition\-Ids}!Initial conditions group@{Initial conditions group}}
+\subsubsection[{get\-Floating\-Species\-Initial\-Condition\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-String\-Array\-Ptr} get\-Floating\-Species\-Initial\-Condition\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__initial_conditions_ga0839c13a84160df0f2b94e9aef0be5b6}
+
+
+Get the initial floating species Ids. 
+
+Example\-:
+\begin{DoxyCode}
+vec = \hyperlink{group__initial_conditions_ga0839c13a84160df0f2b94e9aef0be5b6}{getFloatingSpeciesInitialConditionIds} (
+      \hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle} handle); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails otherwise returns a vector containing names of the floating species 
+\end{DoxyReturn}
+\hypertarget{group__initial_conditions_ga48bea9d12449568647e4f0fc6ea22b3a}{\index{Initial conditions group@{Initial conditions group}!set\-Floating\-Species\-Initial\-Concentrations@{set\-Floating\-Species\-Initial\-Concentrations}}
+\index{set\-Floating\-Species\-Initial\-Concentrations@{set\-Floating\-Species\-Initial\-Concentrations}!Initial conditions group@{Initial conditions group}}
+\subsubsection[{set\-Floating\-Species\-Initial\-Concentrations}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Floating\-Species\-Initial\-Concentrations (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const {\bf R\-R\-Vector\-Ptr}}]{vec}
+\end{DoxyParamCaption}
+)}}\label{group__initial_conditions_ga48bea9d12449568647e4f0fc6ea22b3a}
+
+
+Set the initial floating species concentrations. 
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__initial_conditions_ga48bea9d12449568647e4f0fc6ea22b3a}{setFloatingSpeciesInitialConcentrations} (vec); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+ & {\em vec} & A vector of species concentrations\-: order given by \hyperlink{group__floating_ga18277715f5f3df21eaee5f99d65ed7b7}{get\-Floating\-Species\-Ids(\-R\-R\-Handle handle)} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}

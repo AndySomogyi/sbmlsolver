@@ -119,6 +119,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga92ac26d23bfe6d26e67feeaeecf2a224"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga92ac26d23bfe6d26e67feeaeecf2a224">resetPlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
 <tr class="memdesc:ga92ac26d23bfe6d26e67feeaeecf2a224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset a Plugin. Plugin dependent. A reset function should bring the internal state of a plugin to a known state.  <a href="#ga92ac26d23bfe6d26e67feeaeecf2a224">More...</a><br/></td></tr>
 <tr class="separator:ga92ac26d23bfe6d26e67feeaeecf2a224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga111e8e21b2869b5d4b2a51040b957fb4">isPluginWorking</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
+<tr class="memdesc:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if plugin is actively working  <a href="#ga111e8e21b2869b5d4b2a51040b957fb4">More...</a><br/></td></tr>
+<tr class="separator:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga17e460cd7801b18ab67d0f1e41c9e1cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga17e460cd7801b18ab67d0f1e41c9e1cd">terminateWork</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
 <tr class="memdesc:ga17e460cd7801b18ab67d0f1e41c9e1cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terminate any work that is in progress in a plugin. If the plugins worker is executed in a thread, this function will signal the internals of the plugin to terminate.  <a href="#ga17e460cd7801b18ab67d0f1e41c9e1cd">More...</a><br/></td></tr>
 <tr class="separator:ga17e460cd7801b18ab67d0f1e41c9e1cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,9 +143,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8d62468d5be9eb9916d94407c282c92f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga8d62468d5be9eb9916d94407c282c92f">setPluginInputData</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle, void *userData)</td></tr>
 <tr class="memdesc:ga8d62468d5be9eb9916d94407c282c92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hand external data to a plugin.  <a href="#ga8d62468d5be9eb9916d94407c282c92f">More...</a><br/></td></tr>
 <tr class="separator:ga8d62468d5be9eb9916d94407c282c92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga111e8e21b2869b5d4b2a51040b957fb4">isPluginWorking</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
-<tr class="memdesc:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if plugin is actively working  <a href="#ga111e8e21b2869b5d4b2a51040b957fb4">More...</a><br/></td></tr>
-<tr class="separator:ga111e8e21b2869b5d4b2a51040b957fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacec5d960901b04722c75e7f120fcee95"><td class="memItemLeft" align="right" valign="top">RRHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gacec5d960901b04722c75e7f120fcee95">getRRHandleFromPlugin</a> (<a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a> handle)</td></tr>
 <tr class="memdesc:gacec5d960901b04722c75e7f120fcee95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roadrunner instance handle from plugin.  <a href="#gacec5d960901b04722c75e7f120fcee95">More...</a><br/></td></tr>
 <tr class="separator:gacec5d960901b04722c75e7f120fcee95"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -343,7 +343,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pHandle</td><td>Handle to a plugin </td></tr>
-    <tr><td class="paramname">rrHandle</td><td>Handle to a plugin </td></tr>
+    <tr><td class="paramname">rrHandle</td><td>Handle to a RoadRunner instance </td></tr>
   </table>
   </dd>
 </dl>
@@ -931,7 +931,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 8 2013 23:09:43 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 11 2013 19:52:52 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

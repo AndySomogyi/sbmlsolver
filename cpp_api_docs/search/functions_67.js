@@ -9,7 +9,6 @@ var searchData=
   ['getconfigurationxml',['getConfigurationXML',['../classrr_1_1_road_runner.html#a1b92635414935e3d1d65fbac0d6871eb',1,'rr::RoadRunner']]],
   ['getconservedmoietyanalysis',['getConservedMoietyAnalysis',['../classrr_1_1_road_runner.html#af69cf22ce68c8d5c4ab869fedefa16f9',1,'rr::RoadRunner']]],
   ['getconservedsumchanged',['getConservedSumChanged',['../classrr_1_1_executable_model.html#a78d7c7496f2452280933a50057d2cda4',1,'rr::ExecutableModel']]],
-  ['getcopyright',['getCopyright',['../classrr_1_1_road_runner.html#a4b773957d863f152b5744904e5229ca6',1,'rr::RoadRunner']]],
   ['getee',['getEE',['../classrr_1_1_road_runner.html#a4faad67b12aaf15212f7c57697556d61',1,'rr::RoadRunner::getEE(const std::string &amp;reactionName, const std::string &amp;parameterName)'],['../classrr_1_1_road_runner.html#a54d7fece5e6ac6fcba4d113f62aff1e4',1,'rr::RoadRunner::getEE(const std::string &amp;reactionName, const std::string &amp;parameterName, bool computeSteadyState)']]],
   ['geteigenvalueids',['getEigenvalueIds',['../classrr_1_1_road_runner.html#afef1779a575df9d4905d281e485795f1',1,'rr::RoadRunner']]],
   ['geteigenvalues',['getEigenvalues',['../classrr_1_1_road_runner.html#af2ffe24f0f93699601b92d79ec291aa2',1,'rr::RoadRunner']]],
@@ -64,6 +63,5 @@ var searchData=
   ['getunscaledelasticitymatrix',['getUnscaledElasticityMatrix',['../classrr_1_1_road_runner.html#a60d096cd0738a337899ae6c6109c178e',1,'rr::RoadRunner']]],
   ['getunscaledparameterelasticity',['getUnscaledParameterElasticity',['../classrr_1_1_road_runner.html#ac755535bf3a1aedfbe9714bcacccc2e3',1,'rr::RoadRunner']]],
   ['getunscaledspecieselasticity',['getUnscaledSpeciesElasticity',['../classrr_1_1_road_runner.html#a5856b94d04fadfb190b407b126382503',1,'rr::RoadRunner']]],
-  ['getvalue',['getValue',['../classrr_1_1_executable_model.html#aebaced13ef2afd070d7a1c35eec8d9f2',1,'rr::ExecutableModel::getValue()'],['../classrr_1_1_road_runner.html#aa030bd78fd18af9737b6798e246dd4cb',1,'rr::RoadRunner::getValue()']]],
-  ['getversion',['getVersion',['../classrr_1_1_road_runner.html#a248d078936a41d47c8de44ac829389f4',1,'rr::RoadRunner']]]
+  ['getvalue',['getValue',['../classrr_1_1_executable_model.html#aebaced13ef2afd070d7a1c35eec8d9f2',1,'rr::ExecutableModel::getValue()'],['../classrr_1_1_road_runner.html#aa030bd78fd18af9737b6798e246dd4cb',1,'rr::RoadRunner::getValue()']]]
 ];

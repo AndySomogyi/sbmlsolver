@@ -1,0 +1,396 @@
+\hypertarget{group__utility}{\section{Utility functions}
+\label{group__utility}\index{Utility functions@{Utility functions}}
+}
+
+
+Various miscellaneous routines that return useful inforamtion about the library.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{group__utility_ga15926a2382e69eb842d4f74e76fe6572}{get\-A\-P\-I\-Version} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current version number of the C A\-P\-I library. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga54b7e9e1d61787294e15b00ad485ec01}{get\-C\-P\-P\-A\-P\-I\-Version} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the current version number of the C++ A\-P\-I (Core Road\-Runner A\-P\-I) library. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga4aa3b25a273d9d7c4c1750e51818bd56}{get\-Extended\-A\-P\-I\-Info} ()
+\begin{DoxyCompactList}\small\item\em Retrieve extended A\-P\-I info. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga3997a57475e6d266df999b8e94f000b1}{get\-Build\-Date} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current build date of the library. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga4e9d3eb8e6659d8c2696a3a81d64d6d8}{get\-Build\-Time} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current build time (H\-H\-:\-M\-M\-:S\-S) of the library. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga16eda89d3bd174a80f04c8001dfb7e83}{get\-Build\-Date\-Time} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current build date + time of the library. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga507ced51faf6bee8973726a470aceb17}{get\-Copyright} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current copyright notice for the library. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga6b79ad661e4164c02d900f25cdfc617b}{get\-Info} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve info about current state of roadrunner, e.\-g. loaded model, conservation\-Analysis etc. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_gab726c59a8850dfec26ee68278402b7bc}{getlib\-S\-B\-M\-L\-Version} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the current version number of the lib\-S\-B\-M\-L library. \end{DoxyCompactList}\item 
+bool \hyperlink{group__utility_ga8d788961a18c347e246bbe6011ca4df8}{set\-Temp\-Folder} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$folder)
+\begin{DoxyCompactList}\small\item\em Set the path to the temporary folder where the C code will be stored. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga4092eb05ae6dee0fa4b28b2ec9209cee}{get\-Temp\-Folder} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the current temporary folder path. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_gac438cd3e90fe25e796efb3476ee0c57d}{get\-Working\-Directory} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current working directory path. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_gae8a0c8e5e61c0b1643de3438e751fc3d}{get\-R\-R\-C\-A\-P\-I\-Location} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the directory path of the shared rr\-C\-Api library. \end{DoxyCompactList}\item 
+bool \hyperlink{group__utility_ga359c597f4e2f825bbf054f76e2df46d9}{set\-Compiler} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$f\-Name\-With\-Path)
+\begin{DoxyCompactList}\small\item\em Set the path and filename to the compiler to be used by roadrunner. \end{DoxyCompactList}\item 
+\hypertarget{group__utility_gabd72321b78397262a7ec604a76f2e331}{char $\ast$ \hyperlink{group__utility_gabd72321b78397262a7ec604a76f2e331}{get\-Compiler} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)}\label{group__utility_gabd72321b78397262a7ec604a76f2e331}
+
+\begin{DoxyCompactList}\small\item\em Get the name of the compiler currently being used by roadrunner. \end{DoxyCompactList}\item 
+bool \hyperlink{group__utility_ga67ef111be16bc217142f7042c4c73650}{set\-Compiler\-Location} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$folder)
+\begin{DoxyCompactList}\small\item\em Set the path to a folder containing the compiler to be used. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_gaa7fe2089043fa1cafdf34a9d879e0ec5}{get\-Compiler\-Location} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Get the path to a folder containing the compiler being used. \end{DoxyCompactList}\item 
+bool \hyperlink{group__utility_gaf6bd5a3e646e8c16b678bd7367662507}{set\-Support\-Code\-Folder} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$folder)
+\begin{DoxyCompactList}\small\item\em Set the path to a folder containing support code for model generation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__utility_ga204366fa4ab93a8e9870c8e40abd7e45}{get\-Support\-Code\-Folder} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Get the path to a folder containing support code. \end{DoxyCompactList}\item 
+bool \hyperlink{group__utility_ga9ebbfb65683084894314101e2c4e5571}{set\-Code\-Generation\-Mode} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, int mode)
+\begin{DoxyCompactList}\small\item\em Set the runtime generation option \mbox{[}Not yet implemented\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Various miscellaneous routines that return useful inforamtion about the library. 
+
+\subsection{Function Documentation}
+\hypertarget{group__utility_ga15926a2382e69eb842d4f74e76fe6572}{\index{Utility functions@{Utility functions}!get\-A\-P\-I\-Version@{get\-A\-P\-I\-Version}}
+\index{get\-A\-P\-I\-Version@{get\-A\-P\-I\-Version}!Utility functions@{Utility functions}}
+\subsubsection[{get\-A\-P\-I\-Version}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-A\-P\-I\-Version (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga15926a2382e69eb842d4f74e76fe6572}
+
+
+Retrieve the current version number of the C A\-P\-I library. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the version number of the C A\-P\-I library 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga3997a57475e6d266df999b8e94f000b1}{\index{Utility functions@{Utility functions}!get\-Build\-Date@{get\-Build\-Date}}
+\index{get\-Build\-Date@{get\-Build\-Date}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Build\-Date}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Build\-Date (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga3997a57475e6d266df999b8e94f000b1}
+
+
+Retrieve the current build date of the library. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the build date 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga16eda89d3bd174a80f04c8001dfb7e83}{\index{Utility functions@{Utility functions}!get\-Build\-Date\-Time@{get\-Build\-Date\-Time}}
+\index{get\-Build\-Date\-Time@{get\-Build\-Date\-Time}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Build\-Date\-Time}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Build\-Date\-Time (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga16eda89d3bd174a80f04c8001dfb7e83}
+
+
+Retrieve the current build date + time of the library. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the build date + time 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga4e9d3eb8e6659d8c2696a3a81d64d6d8}{\index{Utility functions@{Utility functions}!get\-Build\-Time@{get\-Build\-Time}}
+\index{get\-Build\-Time@{get\-Build\-Time}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Build\-Time}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Build\-Time (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga4e9d3eb8e6659d8c2696a3a81d64d6d8}
+
+
+Retrieve the current build time (H\-H\-:\-M\-M\-:S\-S) of the library. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the build time 
+\end{DoxyReturn}
+\hypertarget{group__utility_gaa7fe2089043fa1cafdf34a9d879e0ec5}{\index{Utility functions@{Utility functions}!get\-Compiler\-Location@{get\-Compiler\-Location}}
+\index{get\-Compiler\-Location@{get\-Compiler\-Location}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Compiler\-Location}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Compiler\-Location (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__utility_gaa7fe2089043fa1cafdf34a9d879e0ec5}
+
+
+Get the path to a folder containing the compiler being used. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the path if succesful, N\-U\-L\-L otherwise 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga507ced51faf6bee8973726a470aceb17}{\index{Utility functions@{Utility functions}!get\-Copyright@{get\-Copyright}}
+\index{get\-Copyright@{get\-Copyright}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Copyright}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Copyright (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga507ced51faf6bee8973726a470aceb17}
+
+
+Retrieve the current copyright notice for the library. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the copyright string 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga54b7e9e1d61787294e15b00ad485ec01}{\index{Utility functions@{Utility functions}!get\-C\-P\-P\-A\-P\-I\-Version@{get\-C\-P\-P\-A\-P\-I\-Version}}
+\index{get\-C\-P\-P\-A\-P\-I\-Version@{get\-C\-P\-P\-A\-P\-I\-Version}!Utility functions@{Utility functions}}
+\subsubsection[{get\-C\-P\-P\-A\-P\-I\-Version}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-C\-P\-P\-A\-P\-I\-Version (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga54b7e9e1d61787294e15b00ad485ec01}
+
+
+Retrieve the current version number of the C++ A\-P\-I (Core Road\-Runner A\-P\-I) library. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Road\-Runner instance handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the version number of the C++ A\-P\-I library 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga4aa3b25a273d9d7c4c1750e51818bd56}{\index{Utility functions@{Utility functions}!get\-Extended\-A\-P\-I\-Info@{get\-Extended\-A\-P\-I\-Info}}
+\index{get\-Extended\-A\-P\-I\-Info@{get\-Extended\-A\-P\-I\-Info}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Extended\-A\-P\-I\-Info}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Extended\-A\-P\-I\-Info (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga4aa3b25a273d9d7c4c1750e51818bd56}
+
+
+Retrieve extended A\-P\-I info. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns a string with the info 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga6b79ad661e4164c02d900f25cdfc617b}{\index{Utility functions@{Utility functions}!get\-Info@{get\-Info}}
+\index{get\-Info@{get\-Info}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Info}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga6b79ad661e4164c02d900f25cdfc617b}
+
+
+Retrieve info about current state of roadrunner, e.\-g. loaded model, conservation\-Analysis etc. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns a string with the info 
+\end{DoxyReturn}
+\hypertarget{group__utility_gab726c59a8850dfec26ee68278402b7bc}{\index{Utility functions@{Utility functions}!getlib\-S\-B\-M\-L\-Version@{getlib\-S\-B\-M\-L\-Version}}
+\index{getlib\-S\-B\-M\-L\-Version@{getlib\-S\-B\-M\-L\-Version}!Utility functions@{Utility functions}}
+\subsubsection[{getlib\-S\-B\-M\-L\-Version}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ getlib\-S\-B\-M\-L\-Version (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__utility_gab726c59a8850dfec26ee68278402b7bc}
+
+
+Retrieve the current version number of the lib\-S\-B\-M\-L library. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the version number of the library 
+\end{DoxyReturn}
+\hypertarget{group__utility_gae8a0c8e5e61c0b1643de3438e751fc3d}{\index{Utility functions@{Utility functions}!get\-R\-R\-C\-A\-P\-I\-Location@{get\-R\-R\-C\-A\-P\-I\-Location}}
+\index{get\-R\-R\-C\-A\-P\-I\-Location@{get\-R\-R\-C\-A\-P\-I\-Location}!Utility functions@{Utility functions}}
+\subsubsection[{get\-R\-R\-C\-A\-P\-I\-Location}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-R\-R\-C\-A\-P\-I\-Location (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_gae8a0c8e5e61c0b1643de3438e751fc3d}
+
+
+Retrieve the directory path of the shared rr\-C\-Api library. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the path 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga204366fa4ab93a8e9870c8e40abd7e45}{\index{Utility functions@{Utility functions}!get\-Support\-Code\-Folder@{get\-Support\-Code\-Folder}}
+\index{get\-Support\-Code\-Folder@{get\-Support\-Code\-Folder}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Support\-Code\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Support\-Code\-Folder (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga204366fa4ab93a8e9870c8e40abd7e45}
+
+
+Get the path to a folder containing support code. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the path if succesful, N\-U\-L\-L otherwise 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga4092eb05ae6dee0fa4b28b2ec9209cee}{\index{Utility functions@{Utility functions}!get\-Temp\-Folder@{get\-Temp\-Folder}}
+\index{get\-Temp\-Folder@{get\-Temp\-Folder}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Temp\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Temp\-Folder (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga4092eb05ae6dee0fa4b28b2ec9209cee}
+
+
+Retrieve the current temporary folder path. 
+
+When c\-Road\-Runner is run in C generation mode its uses a temporary folder to store the generate C source code. This method can be used to get the current value for the the temporary folder path. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the path 
+\end{DoxyReturn}
+\hypertarget{group__utility_gac438cd3e90fe25e796efb3476ee0c57d}{\index{Utility functions@{Utility functions}!get\-Working\-Directory@{get\-Working\-Directory}}
+\index{get\-Working\-Directory@{get\-Working\-Directory}!Utility functions@{Utility functions}}
+\subsubsection[{get\-Working\-Directory}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Working\-Directory (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__utility_gac438cd3e90fe25e796efb3476ee0c57d}
+
+
+Retrieve the current working directory path. 
+
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the path 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga9ebbfb65683084894314101e2c4e5571}{\index{Utility functions@{Utility functions}!set\-Code\-Generation\-Mode@{set\-Code\-Generation\-Mode}}
+\index{set\-Code\-Generation\-Mode@{set\-Code\-Generation\-Mode}!Utility functions@{Utility functions}}
+\subsubsection[{set\-Code\-Generation\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Code\-Generation\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga9ebbfb65683084894314101e2c4e5571}
+
+
+Set the runtime generation option \mbox{[}Not yet implemented\mbox{]}. 
+
+c\-Road\-Runner can either execute a model by generating, compiling and linking self-\/generated C code or it can employ an internal interpreter to evaluate the model equations. The later method is useful when the O\-S forbids the compiling of externally generated code.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em mode} & is set to 0 c\-Road\-Runner generates C Code, if set to 1 c\-Road\-Runner uses its internal math interpreter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns false if it fails, 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga359c597f4e2f825bbf054f76e2df46d9}{\index{Utility functions@{Utility functions}!set\-Compiler@{set\-Compiler}}
+\index{set\-Compiler@{set\-Compiler}!Utility functions@{Utility functions}}
+\subsubsection[{set\-Compiler}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Compiler (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{f\-Name\-With\-Path}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga359c597f4e2f825bbf054f76e2df46d9}
+
+
+Set the path and filename to the compiler to be used by roadrunner. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em f\-Name\-With\-Path} & Pointer to string holding the file\-Name and path to a compiler \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga67ef111be16bc217142f7042c4c73650}{\index{Utility functions@{Utility functions}!set\-Compiler\-Location@{set\-Compiler\-Location}}
+\index{set\-Compiler\-Location@{set\-Compiler\-Location}!Utility functions@{Utility functions}}
+\subsubsection[{set\-Compiler\-Location}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Compiler\-Location (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{folder}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga67ef111be16bc217142f7042c4c73650}
+
+
+Set the path to a folder containing the compiler to be used. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance\\
+\hline
+\mbox{\tt in}  & {\em folder} & Pointer to string holding the path to a compiler \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__utility_gaf6bd5a3e646e8c16b678bd7367662507}{\index{Utility functions@{Utility functions}!set\-Support\-Code\-Folder@{set\-Support\-Code\-Folder}}
+\index{set\-Support\-Code\-Folder@{set\-Support\-Code\-Folder}!Utility functions@{Utility functions}}
+\subsubsection[{set\-Support\-Code\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Support\-Code\-Folder (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{folder}
+\end{DoxyParamCaption}
+)}}\label{group__utility_gaf6bd5a3e646e8c16b678bd7367662507}
+
+
+Set the path to a folder containing support code for model generation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em folder} & Pointer to string holding the path to the support code folder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__utility_ga8d788961a18c347e246bbe6011ca4df8}{\index{Utility functions@{Utility functions}!set\-Temp\-Folder@{set\-Temp\-Folder}}
+\index{set\-Temp\-Folder@{set\-Temp\-Folder}!Utility functions@{Utility functions}}
+\subsubsection[{set\-Temp\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Temp\-Folder (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{folder}
+\end{DoxyParamCaption}
+)}}\label{group__utility_ga8d788961a18c347e246bbe6011ca4df8}
+
+
+Set the path to the temporary folder where the C code will be stored. 
+
+When c\-Road\-Runner is run in C generation mode its uses a temporary folder to store the generated C source code. This method can be used to set the temporary folder path if necessary. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em folder} & Pointer to string holdind folder path\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succesful 
+\end{DoxyReturn}

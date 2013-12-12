@@ -2,7 +2,7 @@ var searchData=
 [
   ['selectionrecord',['SelectionRecord',['../classrr_1_1_selection_record.html',1,'rr']]],
   ['selectionrecord',['SelectionRecord',['../classrr_1_1_selection_record.html#a391032a40def4753695ab6325446e67a',1,'rr::SelectionRecord::SelectionRecord(const int &amp;index=0, const SelectionType type=UNKNOWN, const string &amp;p1=&quot;&quot;, const string &amp;p2=&quot;&quot;)'],['../classrr_1_1_selection_record.html#a4482905716a2b6b5c031c629484bc944',1,'rr::SelectionRecord::SelectionRecord(const std::string str)']]],
-  ['selectiontype',['selectionType',['../classrr_1_1_selection_record.html#adae706f827ce8b7c3873b2fd77fa833c',1,'rr::SelectionRecord::selectionType()'],['../classrr_1_1_selection_record.html#a898963ab24a6ba614913715c981d8394',1,'rr::SelectionRecord::SelectionType()']]],
+  ['selectiontype',['SelectionType',['../classrr_1_1_selection_record.html#a898963ab24a6ba614913715c981d8394',1,'rr::SelectionRecord::SelectionType()'],['../classrr_1_1_selection_record.html#adae706f827ce8b7c3873b2fd77fa833c',1,'rr::SelectionRecord::selectionType()']]],
   ['setboundaryspeciesconcentrations',['setBoundarySpeciesConcentrations',['../classrr_1_1_executable_model.html#a4bb73d6d7076400f165335282b77524e',1,'rr::ExecutableModel']]],
   ['setcompartmentinitvolumes',['setCompartmentInitVolumes',['../classrr_1_1_executable_model.html#a40a1575ff92c1a0ce774cd319b383ab7',1,'rr::ExecutableModel']]],
   ['setcompiler',['setCompiler',['../classrr_1_1_model_generator.html#a073e238ec9912aca3c4345967a651815',1,'rr::ModelGenerator::setCompiler()'],['../classrr_1_1_road_runner.html#a4ce7d696fb39f5db0d9e4fa9f8f1192c',1,'rr::RoadRunner::setCompiler()']]],

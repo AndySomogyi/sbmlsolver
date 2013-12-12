@@ -1,0 +1,73 @@
+\hypertarget{rrc__cpp__support_8h}{\section{rrc\-\_\-cpp\-\_\-support.\-h File Reference}
+\label{rrc__cpp__support_8h}\index{rrc\-\_\-cpp\-\_\-support.\-h@{rrc\-\_\-cpp\-\_\-support.\-h}}
+}
+
+
+road\-Runner C A\-P\-I 2012  
+
+
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include \char`\"{}rr-\/libstruct/ls\-Matrix.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rr\-Road\-Runner\-Data.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rr\-String\-List.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rr\-New\-Array\-List.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rrc\-\_\-types.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rrc\-\_\-exporter.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries set\-Error} (const string \&err)
+\begin{DoxyCompactList}\small\item\em Set A\-P\-I error. \end{DoxyCompactList}\item 
+Road\-Runner $\ast$ {\bfseries cast\-To\-Road\-Runner} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} rr\-Handle)
+\begin{DoxyCompactList}\small\item\em Cast a handle to Road\-Runner instance pointer, throws if it fails. \end{DoxyCompactList}\item 
+Road\-Runner\-Data $\ast$ {\bfseries cast\-To\-R\-R\-Data} (\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} rr\-Data\-Handle)
+\begin{DoxyCompactList}\small\item\em Cast a Road\-Runner Data handle to Road\-Runner Data instance pointer, throws if it fails. \end{DoxyCompactList}\item 
+bool {\bfseries copy\-Vector} (const \hyperlink{struct_r_r_vector}{R\-R\-Vector} $\ast$source, vector$<$ double $>$ \&dest)
+\begin{DoxyCompactList}\small\item\em Copy a C vector to a std\-::vector. \end{DoxyCompactList}\item 
+\hyperlink{struct_r_r_vector}{R\-R\-Vector} $\ast$ {\bfseries create\-Vector} (const vector$<$ double $>$ \&vec)
+\begin{DoxyCompactList}\small\item\em Creates a C vector from a std\-::vector. \end{DoxyCompactList}\item 
+\hyperlink{struct_r_r_complex_vector}{R\-R\-Complex\-Vector} $\ast$ {\bfseries create\-Vector} (const vector$<$ ls\-::\-Complex $>$ \&vec)
+\begin{DoxyCompactList}\small\item\em Creates a C Complex vector from a std\-::vector$<$ls\-::\-Complex$>$ \end{DoxyCompactList}\item 
+vector$<$ double $>$ {\bfseries create\-Vector} (const \hyperlink{struct_r_r_vector}{R\-R\-Vector} $\ast$vec)
+\begin{DoxyCompactList}\small\item\em Creates a std vector from a C vector. \end{DoxyCompactList}\item 
+\hyperlink{struct_r_r_double_matrix}{R\-R\-Double\-Matrix} $\ast$ {\bfseries create\-Matrix} (const ls\-::\-Double\-Matrix $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Creates a C matrix from a ls\-::\-Double\-Matrix, supplied as a pointer. \end{DoxyCompactList}\item 
+ls\-::\-Double\-Matrix $\ast$ {\bfseries create\-Matrix} (const \hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} mat)
+\begin{DoxyCompactList}\small\item\em Creates a ls\-::\-Double\-Matrix from a R\-R\-Matrix, supplied as a pointer. \end{DoxyCompactList}\item 
+\hyperlink{struct_r_r_complex_matrix}{R\-R\-Complex\-Matrix} $\ast$ {\bfseries create\-Matrix} (const ls\-::\-Complex\-Matrix $\ast$mat)
+\begin{DoxyCompactList}\small\item\em Creates a C complex matrix from a ls\-::\-Complex\-Matrix, supplied as a pointer. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} {\bfseries create\-List} (const rr\-::\-String\-List \&list)
+\begin{DoxyCompactList}\small\item\em Creates a C String\-Array from a rr\-::\-String\-List. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} {\bfseries create\-Array\-List} (const New\-Array\-List \&list)
+\begin{DoxyCompactList}\small\item\em Creates a heterogenoeus \hyperlink{struct_r_r_list}{R\-R\-List} from a rr\-::\-New\-Array\-List. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} {\bfseries create\-R\-R\-C\-Data} (const rr\-::\-Road\-Runner\-Data \&data)
+\begin{DoxyCompactList}\small\item\em Creates a R\-R\-Data structure from rr\-::\-Road\-Runner\-Data object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+road\-Runner C A\-P\-I 2012 \begin{DoxyAuthor}{Author}
+Totte Karlsson \& Herbert M Sauro
+\end{DoxyAuthor}
+$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- This file is part of c\-Road\-Runner. See \href{http://code.google.com/p/roadrunnerlib}{\tt http\-://code.\-google.\-com/p/roadrunnerlib} for more details.
+
+Copyright (C) 2012-\/2013 University of Washington, Seattle, W\-A, U\-S\-A
+
+Licensed under the Apache License, Version 2.\-0 (the \char`\"{}\-License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \begin{DoxyVerb}http://www.apache.org/licenses/LICENSE-2.0
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+In plain english this means\-:
+
+You C\-A\-N freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+
+You C\-A\-N use the software in packages or distributions that you create.
+
+You S\-H\-O\-U\-L\-D include a copy of the license in any redistribution you may make;
+
+You are N\-O\-T required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+Y\-O\-U C\-A\-N\-N\-O\-T\-:
+
+redistribute any piece of this software without proper attribution; 
