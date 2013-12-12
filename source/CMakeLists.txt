@@ -23,7 +23,6 @@ set(rrSources
     rrGetOptions
     rrLogger
     rrExecutableModel
-    rrRandom
     rrRoadRunner
     rrRoadRunnerOptions
     rrStringList
@@ -67,6 +66,7 @@ set(rrSources
     c/rrModelSharedLibrary
     c/rrCModelDataUtil
     c/rrCompiledExecutableModel
+    c/rrRandom
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
