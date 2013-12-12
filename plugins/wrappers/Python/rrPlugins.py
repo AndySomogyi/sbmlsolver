@@ -558,7 +558,7 @@ def unloadAPI():
     
 ##\mainpage Front page for RoadRunners PluginLib Python wrapper
 #\section Introduction
-#Roadrunners plugin library exposes a lightweight framework for adding functionality to RoadRunner core, by means of 
+#Roadrunners plugin library exposes a simple framework for adding functionality to RoadRunner core, by means of 
 #external plugins.
 #The code fragment below shows briefly how to load plugins, check for plugins, and use an individual plugin.
 #
