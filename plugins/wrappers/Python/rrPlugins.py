@@ -560,7 +560,7 @@ def unloadAPI():
 #\section Introduction
 #Roadrunners plugin library exposes a lightweight framework for adding functionality to RoadRunner core, by means of 
 #external plugins.
-#The code fragment below shows briefly how to load plugins, check for plugins and get an manipulate an individual plugin.
+#The code fragment below shows briefly how to load plugins, check for plugins, and use an individual plugin.
 #
 #@code
 #import sys

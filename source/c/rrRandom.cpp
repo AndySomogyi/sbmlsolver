@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include "rrRandom.h"
-//---------------------------------------------------------------------------
+#include "mtrand.h"
 
 
 
@@ -10,7 +10,7 @@ Random::Random() {}
 
 double Random::NextDouble() const
 {
-	return mRand();
+    return mRand();
 }
 }
 

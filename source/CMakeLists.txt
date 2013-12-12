@@ -23,7 +23,6 @@ set(rrSources
     rrGetOptions
     rrLogger
     rrExecutableModel
-    rrRandom
     rrRoadRunner
     rrRoadRunnerOptions
     rrStringList
@@ -43,7 +42,7 @@ set(rrSources
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
-    mtrand/mtrand
+    c/mtrand
     c/rrStringBuilder
     c/rrStringListContainer
     c/rrSBMLSymbolDependencies
@@ -67,6 +66,7 @@ set(rrSources
     c/rrModelSharedLibrary
     c/rrCModelDataUtil
     c/rrCompiledExecutableModel
+    c/rrRandom
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
@@ -295,7 +295,7 @@ if(${INSTALL_CXX_API})
     #=== HEADERS
     set(subfolders
         .
-        ./mtrand
+        #./mtrand
         )
 
     foreach(subfolder ${subfolders})

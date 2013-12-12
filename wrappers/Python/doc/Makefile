@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
-HTMLDIR       = $(HOME)/src/roadrunner_doc/pydoc/
+HTMLDIR       = $(HOME)/src/gh-pages/python_docs
 
 
 # User-friendly check for sphinx-build
