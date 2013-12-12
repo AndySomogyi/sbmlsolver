@@ -629,12 +629,12 @@ def unloadAPI():
 #    -# Client excutes the plugin.
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
 #
-#   See examples page for examples on how to interact with plugins.
+#   See the examples page that provide exampl code on how to use plugins.
 #    \section plugins_writing How to write plugins
 #    \note Writing plugins in Python is not yet supported
 #
 # \section main_section Using rrPlugins.py
-# In order to use this wrapper (rrPlugins.py), the Python path need to inlcude the folder where the wrapper script is located, e.g.
+# In order to use this wrapper (rrPlugins.py), the Python path needs to inlcude the folder where the wrapper script is located, e.g.
 # "c:\\roadrunner-1.0.0\\plugins\\python"
 #
 # \defgroup plugin_manager Plugin Manager
@@ -675,5 +675,5 @@ def unloadAPI():
 
 ## \example rrCallBackFunctionDemo.py
 ## This Example shows
-## -# How to define Python callback functions and passig them to a plugin
+## -# How to define Python callback functions and passing them to a plugin
 
