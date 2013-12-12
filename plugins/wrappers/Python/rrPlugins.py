@@ -102,11 +102,13 @@ def getNumberOfPlugins(pm):
 
 ## \brief Function to retrieve the names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
-## \return Returns names for all loaded plugins as a RRStringArrayPtr, None otherwise
+## \return Returns names for all loaded plugins as a string, None otherwise
 ## \ingroup plugin_manager
 rrpLib.getPluginNames.restype = c_void_p
 def getPluginNames(pm):
-    return rrpLib.getPluginNames(pm)
+    namesHandle = rrpLib.getPluginNames(pm)
+    names = stringArrayToString(namesHandle)
+    return names.split(" ")
 
 ## \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
 ## This function is typically used together with the getNextPlugin and the getPreviousPlugin functions.
@@ -457,7 +459,7 @@ def getParameterName(paraHandle):
 ## \return Returns the parameters hint if successful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getParameterHint.restype = c_char_p
-def getParameterType(paraHandle):
+def getParameterHint(paraHandle):
     return rrpLib.getParameterHint(paraHandle)
 
 ## \brief Get a parameters type
