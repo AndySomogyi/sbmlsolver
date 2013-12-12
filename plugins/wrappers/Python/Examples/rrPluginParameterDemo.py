@@ -15,19 +15,17 @@ print getPluginCapabilitiesAsXML(plugin)
 
 paraHandle   = getPluginParameter(plugin, "NoiseType")
 
-
 print 'getting some info about the parameter'
 print getParameterInfo(paraHandle)
 
 paraValueString = getParameterValueAsString(paraHandle)
 print 'parameter is ' + paraValueString
 
-
 setParameterByString(paraHandle, "1")
 paraValueString = getParameterValueAsString(paraHandle)
 print 'Parameter is now: ' + paraValueString
 
-setEnumParameter(paraHandle, 0)
+setIntParameter(paraHandle, 0)
 test = getParameterValue(paraHandle)
 print test
 
@@ -40,10 +38,8 @@ paraHandle = getPluginParameter(plugin, "Sigma")
 print 'getting some info about the parameter'
 print getParameterInfo(paraHandle)
 
-
 paraValueString = getParameterValueAsString(paraHandle)
 print 'parameter is ' + paraValueString
-
 
 setParameterByString(paraHandle, "1.23")
 paraValueString = getParameterValueAsString(paraHandle)

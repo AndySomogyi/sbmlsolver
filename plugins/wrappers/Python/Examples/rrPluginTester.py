@@ -27,3 +27,5 @@ info = getPluginInfo(aPlugin)
 print info
 print `unLoadPlugins(pm)`
 print "done"
+
+

@@ -56,7 +56,7 @@ assignPluginProgressCallBack(plugin, cb_func2)
 cb_func3 =  pluginCallBackType1(pluginIsFinished)
 assignPluginFinishedCallBack(plugin, cb_func3)
 
-rrDataHandle = getRoadRunnerDataHandle(rr)
+rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 #Execute the noise plugin which will add some noise to the (internal) data
 executePluginEx(plugin, rrDataHandle, True)
 

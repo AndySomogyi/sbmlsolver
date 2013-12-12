@@ -31,13 +31,13 @@ print 'Current sigma is ' + aSigma
 #set size of noise
 setDoubleParameter(sigmaHandle, 3.e-2)
 
-rrDataHandle = getRoadRunnerDataHandle(rr)
+rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
 rrcData = createRRCData(rrDataHandle)
-npData = getNPData(rrcData)
+npData = getNumpyData(rrcData)
 x = npData[:,0]
 yInput = npData[:,1]
 
@@ -97,7 +97,7 @@ print getPluginStatus(lmPlugin)
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
-npData = getNPData(rrcData)
+npData = getNumpyData(rrcData)
 S1 = npData[:,1]
 S2 = npData[:,2]
 S3 = npData[:,3]
@@ -108,14 +108,14 @@ S4 = npData[:,4]
 ##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
 ##dataHandle = getParameterValueHandle(dataPHandle)
 ##rrcData = createRRCData(dataHandle)
-##npData = getNPData(rrcData)
+##npData = getNumpyData(rrcData)
 ##yOutput2 = npData[:,1]
 ##length = len(yOutput)
 
 dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
-npData = getNPData(rrcData)
+npData = getNumpyData(rrcData)
 yOutput3 = npData[:,1]
 
 #Observe, the plotting of the data is erratic!!

@@ -628,108 +628,14 @@ def unloadAPI():
 #    -# Client set the value of the parameter.
 #    -# Client excutes the plugin.
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
-#    .
 #
-#   The following example shows:
-#   -# How to define plugin callback functions
-#   -# Retrieve a plugins parameter values
-#   -# Set a plugins parameters. 
-#   -# Execute a plugin in a thread
-#   -# Pass Roadrunner data to a plugin
-#@code
-# import sys;
-# import numpy
-# import matplotlib.pyplot as plot
-# import roadrunner
-# from ctypes import *
-# from rrPlugins import *
-# 
-# #Create a plugin manager
-# pm = createPluginManager()
-# 
-# #Create a roadrunner instance
-# rr = roadrunner.RoadRunner()
-# 
-# #Define callback functions
-# def pluginStarted():
-#     print 'The plugin was started'
-# 
-# def pluginIsProgressing(progress, dummy):
-#     nr = progress[0]
-#     print '\nPlugin progress:' + `nr` +' %'
-# 
-# def pluginIsFinished():
-#     print 'The plugin did finish'
-# 
-# sbmlModel ="../models/bistable.xml"
-# if not rr.load(sbmlModel):
-#     print 'Failed loading model'
-#     exit()
-# 
-# rr.simulate(0, 10, 500)
-# print rr.getInfo()
-# 
-# #The plugin will need a handle to the underlying roadrunner data
-# rrDataHandle = getRoadRunnerDataHandle(rr)
-# 
-# #Load the 'noise' plugin in order to add some noise to roadrunner data
-# noisePlugin = loadPlugin(pm, "rrp_add_noise")
-# if not noisePlugin:
-#     print rr.getLastError()
-#     exit()
-# 
-# print getPluginInfo(noisePlugin)
-# 
-# #get parameter for the 'size' of the noise
-# sigmaHandle = getPluginParameter(noisePlugin, "Sigma")
-# 
-# aSigma = getParameterValueAsString(sigmaHandle)
-# print 'Current sigma is ' + aSigma
-# 
-# #Set size of noise
-# setDoubleParameter(sigmaHandle, 0.003)
-# 
-# #Check parameter
-# aSigma = getParameterValueAsString(sigmaHandle)
-# print 'Current sigma is ' + aSigma
-# 
-# cb_func1 =  pluginCallBackType1(pluginStarted)
-# assignPluginStartedCallBack(noisePlugin,  cb_func1)
-# 
-# cb_func2 =  pluginCallBackType2(pluginIsProgressing)
-# assignPluginProgressCallBack(noisePlugin, cb_func2)
-# 
-# cb_func3 =  pluginCallBackType1(pluginIsFinished)
-# assignPluginFinishedCallBack(noisePlugin, cb_func3)
-# 
-# #Execute the noise plugin which will add some noise to the (internal) data
-# executePluginEx(noisePlugin, rrDataHandle, True)
-# 
-# while isPluginWorking(noisePlugin) == True:
-#     print ('.'),
-# 
-# #Input Data
-# result = rr.getSimulationResult()
-# x = result['time']
-# y = result['[x]']
-# 
-# plot.plot(x, y, label="[x]")
-# 
-# plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
-# plot.ylabel('Concentration (moles/L)')
-# plot.xlabel('time (s)')
-# plot.show()
-# 
-# unLoadPlugins(pm)
-# print "done"
-#@endcode
-# \note The above example can be found in the Examples folder as rrNoisePluginDemo.py
+#   See examples page for examples on how to interact with plugins.
 #    \section plugins_writing How to write plugins
-#    \Note Writing plugins in Python is not yet supported
+#    \note Writing plugins in Python is not yet supported
 #
-#   \section main_section Using rrPlugins.py
-#   In order to use this wrapper (rrPlugins.py), the Python path need to inlcude the folder where the wrapper script is located, e.g.
-#   "c:\\roadrunner-1.0.0\\plugins\\python"
+# \section main_section Using rrPlugins.py
+# In order to use this wrapper (rrPlugins.py), the Python path need to inlcude the folder where the wrapper script is located, e.g.
+# "c:\\roadrunner-1.0.0\\plugins\\python"
 #
 # \defgroup plugin_manager Plugin Manager
 # \brief Plugin Manager Library Functions
@@ -745,4 +651,29 @@ def unloadAPI():
 # \defgroup utilities Utility Functions
 # \brief Functions to help and assist in the use of the Plugins framework
 
+# \defgroup examples Python Example Scripts
+# \brief Scripts illuminating concepts regarding RoadRunner Plugins
+
+## \example rrPluginTester.py
+## This Example shows
+## -# How to create a plugin manager
+## -# Get Plugin Names
+## -# Get a handle to a plugin
+## -# Obtain some info from the plugin
+
+## \example rrPluginParameterDemo.py
+## This Example shows
+## -# Get a handle to a parameter in a Plugin
+## -# Obtain some info about the parameter
+## -# Getting the value of the parameter
+## -# Setting the value of the parameter
+
+## \example rrPluginDocumentationDemo.py
+## This Example shows
+## -# Get a plugins Capabilities as XML
+## -# Obtain and view a Plugins documentaiton as PDF (Need a system PDF reader)
+
+## \example rrCallBackFunctionDemo.py
+## This Example shows
+## -# How to define Python callback functions and passig them to a plugin
 

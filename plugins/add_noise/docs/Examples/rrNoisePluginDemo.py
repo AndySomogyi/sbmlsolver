@@ -31,7 +31,7 @@ rr.simulate(0, 10, 500)
 print rr.getInfo()
 
 #The plugin will need a handle to the underlying roadrunner data
-rrDataHandle = getRoadRunnerDataHandle(rr)
+rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
 #Load the 'noise' plugin in order to add some noise to roadrunner data
 noisePlugin = loadPlugin(pm, "rrp_add_noise")
