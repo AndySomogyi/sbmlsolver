@@ -220,7 +220,7 @@ rrpLib.executePlugin.restype = c_bool
 def executePluginEx(pluginHandle, userData, inAThread=False):
     return rrpLib.executePluginEx(pluginHandle, c_void_p(userData), c_bool(inAThread))
 
-## \brief Get some status of a plugin. See the plugins documentation on what to expect. 
+## \brief Get status information from a plugin. This call is plugin dependent, see the plugin documentation for details
 ## \param pluginHandle Handle to a plugin
 ## \return Returns plugin status if available, as a string. None otherwise
 ## \ingroup plugins
@@ -228,7 +228,8 @@ rrpLib.getPluginStatus.restype = c_char_p
 def getPluginStatus(pluginHandle):
     return rrpLib.getPluginStatus(pluginHandle)
 
-## \brief Returns a plugins result, as a string. See the plugins documentation on what to expect. 
+## \brief Returns a plugins result, as a string. This is plugin dependent, see the plugin documentation for details.
+## \note If a plugin wants to returns speifici results, eg Array etc, these should be returned as parameters.  
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a plugins result if available. None otherwise
 ## \ingroup plugins
@@ -401,8 +402,8 @@ def setParameterByString(paraHandle, value):
 def setIntParameter(paraHandle, value):
     return rrpLib.setIntParameter(paraHandle, c_int(value))
 
-## \brief Set a double parameter
-## \param paraHandle to a Parameter instance
+## \brief Set the value for a double parameter
+## \param paraHandle Is a parameter instance
 ## \param value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
@@ -439,7 +440,7 @@ def getParameterValueAsString(paraHandle):
 
 ## \brief Get a handle to a parameters value
 ## \param paraHandle to a Parameter instance
-## \return Returns a Handle to the parameters value if successful, None otherwise
+## \return Returns a Handle to the parameter value if successful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getParameterValueHandle.restype = c_void_p
 def getParameterValueHandle(paraHandle):
@@ -453,9 +454,9 @@ rrpLib.getParameterName.restype = c_char_p
 def getParameterName(paraHandle):
     return rrpLib.getParameterName(paraHandle)
 
-## \brief Get a parameters hint
+## \brief Get a parameter type
 ## \param paraHandle to a Parameter instance
-## \return Returns the parameters hint if successful, None otherwise
+## \return Returns the parameters type if successful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getParameterHint.restype = c_char_p
 def getParameterType(paraHandle):
