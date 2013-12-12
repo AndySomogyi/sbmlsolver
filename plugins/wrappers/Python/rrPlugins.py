@@ -677,3 +677,8 @@ def unloadAPI():
 ## This Example shows
 ## -# How to define Python callback functions and passing them to a plugin
 
+## \example rrNoisePluginDemo.py
+## This Example Demonstrate the use of the AddNoise plugin
+
+## \example rrLevenbergMarquardtDemo.py
+## This Example Demonstrate the use of the Minimization Plugin, using the Levenberg-Marquardt algorithm.
