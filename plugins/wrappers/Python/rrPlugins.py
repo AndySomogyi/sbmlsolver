@@ -45,13 +45,12 @@ def createPluginManager(pluginDir = None):
     return rrpLib.createPluginManager(pluginDir)
 
 ## \brief Free the plugin manager. A call to this function will also unload any loaded plugins.
-## \param handle Handle to a plugin manager. 
+## \param pm Handle to a plugin manager. 
 ## \return true if success, false otherwise. 
 ## \ingroup plugin_manager
 rrpLib.freePluginManager.restype = c_bool
-def freePluginManager(iHandle):
-    return rrpLib.freePluginManager(iHandle)
-
+def freePluginManager(pm):
+    return rrpLib.freePluginManager(pm)
 
 ##
 ## \brief Load plugins. The function will look in the default plugin folder for plugins, and load them.
@@ -367,55 +366,113 @@ def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
-## \brief Retrieve a handle to RoadRunners internal data
-## \param rrHandle Handle to a RoadRunner instance
-## \return Returns an handle to roadrunners internal data object
-## \ingroup simulation
-def getRoadRunnerDataHandle(rrHandle):
-    return rrpLib.getRoadRunnerDataHandle(rrHandle)
-
+## \brief Create a parameter of type "type"
+## \param name The parameters name as a string
+## \param the_type  The parameters type as string. Possible values can be 'double', 'int', 'char*' etc,
+## \return Returns a handle to a new parameter, if succesful, None otherwise
+## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
 def createParameter(name, the_type):
     return rrpLib.createParameter(name, the_type, None)
 
+## \brief Add a parameter to a parameters container, from a parameter pointer.
+## \param listHandle Handle to a parameters container
+## \param paraHandle Handle to a roadrunner parameter
+## \return Returns a booelan indicating success
+## \ingroup plugin_parameters
 rrpLib.addParameterToList.restype = c_bool
 def addParameterToList(listHandle, paraHandle):
     return rrpLib.addParameterToList(listHandle, paraHandle)
 
+## \brief Set a parameter by a string
+## \param paraHandle to a Parameter instance
+## \param value Pointer to string holding the value to assign to the parameter, e.g. "0.01" to set a double to 0.01
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+def setParameterByString(paraHandle, value):
+    return rrpLib.setParameterByString(paraHandle, value)
 
+## \brief Set an int parameter
+## \param paraHandle to a Parameter instance
+## \param value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+def setIntParameter(paraHandle, value):
+    return rrpLib.setIntParameter(paraHandle, c_int(value))
 
+## \brief Set a double parameter
+## \param paraHandle to a Parameter instance
+## \param value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+#rrpLib.setDoubleParameter.args = [c_void_p, c_double]
+def setDoubleParameter(paraHandle, value):
+    return rrpLib.setDoubleParameter(paraHandle, c_double(value))
+
+## \brief Set a string (char*) parameter
+## \param paraHandle to a Parameter instance
+## \param value Value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+def setStringParameter(paraHandle, value):
+    return rrpLib.setStringParameter(paraHandle, c_char_p(value))
+
+#def setEnumParameter(parameter, value):
+#    return rrpLib.setIntParameter(parameter, value)
+
+## \brief Get a parameters info
+## \param paraHandle Handle to a parameter instance
+## \return Returns informational text about the parameter if successful, None otherwise
+## \ingroup plugin_parameters
 rrpLib.getParameterInfo.restype = c_char_p
 def getParameterInfo(paraHandle):
     return rrpLib.getParameterInfo(paraHandle)
 
+## \brief Get a parameters value as char*
+## \param paraHandle to a Parameter instance
+## \return Returns the parameters value if successful, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getParameterValueAsString.restype = c_char_p
+def getParameterValueAsString(paraHandle):
+    return rrpLib.getParameterValueAsString(paraHandle)
+
+## \brief Get a handle to a parameters value
+## \param paraHandle to a Parameter instance
+## \return Returns a Handle to the parameters value if successful, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getParameterValueHandle.restype = c_void_p
+def getParameterValueHandle(paraHandle):
+    return rrpLib.getParameterValueHandle(paraHandle)
+
+## \brief Get a parameters name
+## \param paraHandle to a Parameter instance
+## \return Returns the parameters name if successful, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getParameterName.restype = c_char_p
+def getParameterName(paraHandle):
+    return rrpLib.getParameterName(paraHandle)
+
+## \brief Get a parameters hint
+## \param paraHandle to a Parameter instance
+## \return Returns the parameters hint if successful, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getParameterHint.restype = c_char_p
+def getParameterType(paraHandle):
+    return rrpLib.getParameterHint(paraHandle)
+
+## \brief Get a parameters type
+## \param paraHandle to a Parameter instance
+## \return Returns the parameters type if successful, None otherwise
+## \ingroup plugin_parameters
 rrpLib.getParameterType.restype = c_char_p
 def getParameterType(paraHandle):
     return rrpLib.getParameterType(paraHandle)
 
-rrpLib.getParameterValueAsString.restype = c_char_p
-def getParameterValueAsString(parameter):
-    return rrpLib.getParameterValueAsString(parameter)
-
-rrpLib.getParameterValueHandle.restype = c_void_p
-def getParameterValueHandle(parHandle):
-    return rrpLib.getParameterValueHandle(parHandle)
-
-def setIntParameter(parameter, value):
-    return rrpLib.setIntParameter(parameter, c_int(value))
-
-#rrpLib.setDoubleParameter.args = [c_void_p, c_double]
-def setDoubleParameter(parameter, value):
-    return rrpLib.setDoubleParameter(parameter, c_double(value))
-
-def setStringParameter(parameter, value):
-    return rrpLib.setStringParameter(parameter, c_char_p(value))
-
-def setEnumParameter(parameter, value):
-    return rrpLib.setIntParameter(parameter, value)
-
-def setParameterByString(parameter, value):
-    return rrpLib.setParameterByString(parameter, value)
-
+## \brief Get the value of a parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \note This function works only primitive data types, such as int, double, string etc.
+## \ingroup plugin_parameters
 def getParameterValue(paraHandle):
     paraType = getParameterType(paraHandle)
     if paraType == 'double':
@@ -437,24 +494,52 @@ def getParameterValue(paraHandle):
     else:
         return None
 
-#DOCS
+## \brief Get a handle to a roadrunner object
+## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
+## \return Returns a handle to a roadrunner instance that can be used as an argument to the Python Plugin API 
+## library
+## \ingroup utilities
+def getRoadRunnerHandle(rrInstance):
+    return cast(int(rrInstance.this), c_void_p)
+    
+## \brief Retrieve a handle to RoadRunners internal data object
+## \param rrHandle Handle to a RoadRunner instance
+## \return Returns an handle to roadrunners internal data object
+## \ingroup utilities
+def getRoadRunnerDataHandle(rrHandle):
+    return rrpLib.getRoadRunnerDataHandle(rrHandle)
 
-
+## \brief Get a handle to a roadrunner data object from a RoadRunner instance
+## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
+## \return Returns a handle to a roadrunner data object that can be used as an argument to the Python Plugin API 
+## library
+## \ingroup utilities
 rrpLib.getRoadRunnerDataHandle.restype = c_void_p
-def getRoadRunnerDataHandle(aRRFromswig):
-    handle = getRoadRunnerHandle(aRRFromswig)
+def getRoadRunnerDataHandleFromInstance(rrInstance):
+    handle = getRoadRunnerHandle(rrInstance)
     return rrpLib.getRoadRunnerDataHandle(handle)
 
+## \brief Create a Handle to a simplified roadrunner data object
+## \param rrDataHandle A handle to a roadrunner data object, as returned from getRoadRunnerDataHandle()
+## \return Returns a handle to a simplified roadrunner data object that can be used as an argument to the getNumpyData() function 
+## \ingroup utilities
 rrpLib.createRRCData.restype = c_void_p
 def createRRCData(rrDataHandle):
     return rrpLib.createRRCData(rrDataHandle)
 
-##\brief Returns a string list in string form.
+## \brief Create a string from a RoadRunner stringlist handle
+## \param aList A handle to a roadrunner string list object
+## \return Returns a string on success, None otherwise 
+## \ingroup utilities
 rrpLib.stringArrayToStringFWD.restype = c_char_p
 def stringArrayToString(aList):
     return rrpLib.stringArrayToStringFWD(aList)
 
-def getNPData(rrcDataHandle):
+## \brief Convert roadrunner data to Numpy data
+## \param rrcDataHandle A handle to a simplified roadrunner data object
+## \return Returns a numpy data object
+## \ingroup utilities
+def getNumpyData(rrcDataHandle):
     rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
     colCount = rrpLib.getRRDataNumCols(rrcDataHandle)
     resultArray = np.zeros([rowCount, colCount])
@@ -465,40 +550,68 @@ def getNPData(rrcDataHandle):
                     resultArray[row, col] = value.value
     return resultArray
 
-#rrpLib.getRRHandle.restype = c_void_p
-def getRoadRunnerHandle(aRRFromswig):
-    return cast(int(aRRFromswig.this), c_void_p)
-
-
+## \brief Unload the plugins api shared library
+## \ingroup utilities
 def unloadAPI():
     windll.kernel32.FreeLibrary(rrpLib._handle)
-##\mainpage notitle
+
+    
+##\mainpage Front page for RoadRunners PluginLib Python wrapper
 #\section Introduction
-#Roadrunners plugin library exposes a lightweight framework for adding functionality to RoadRunner core, by external plugins.
+#Roadrunners plugin library exposes a lightweight framework for adding functionality to RoadRunner core, by means of 
+#external plugins.
 #The code fragment below shows briefly how to load plugins, check for plugins and get an manipulate an individual plugin.
 #
 #@code
-#
 #import sys
-#import rrPlugins
-#rrp = rrPlugins
+#from rrPlugins import *
 #
-# #Load plugins from the plugin folder
-#result = rrp.loadPlugins()
+##Create a plugin manager
+#pm = createPluginManager()
+#
+## Load plugins from the plugin folder
+#result = loadPlugins(pm)
 #if not result:
-#    print rrp.getLastError()
+#    print 'Failed to load any plugins'
 #    exit()
 #
-#print 'Number of Plugins: ' + `rrp.getNumberOfPlugins()`
-#namesHandle = rrp.getPluginNames()
-#names = rrp.stringArrayToString(namesHandle)
-#
+#print 'Number of Plugins: ' + `getNumberOfPlugins(pm)`
+#namesHandle = getPluginNames(pm)
+#names = stringArrayToString(namesHandle)
 #print names
 #
-#print `rrp.unLoadPlugins()`
+## Get a plugin handle
+#aPlugin = getFirstPlugin(pm)
+#
+#if(aPlugin == None):
+#    print 'Failed to get a handle to a plugin'
+#    exit()
+#
+#info = getPluginInfo(aPlugin)
+#
+#print info
+#print `unLoadPlugins(pm)`
 #print "done"
 #@endcode
 #
+# The above code produces the following output:
+#@code
+## *** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***
+## >>> 
+## *** Remote Interpreter Reinitialized  ***
+## >>> 
+## Number of Plugins: 2
+## AddNoise Levenberg-Marquardt
+## Name..........................AddNoise
+## Author........................Totte Karlsson
+## Category......................Signal Processing
+## Version.......................0.1
+## Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
+## 
+## True
+## done
+## >>> 
+#@endcode
 #    \section plugins_overview Overview
 #    The libRoadRunner Plugin API is centered around three important concepts:
 #    - A Plugin Manager (RRPluginManagerHandle)
@@ -508,7 +621,6 @@ def unloadAPI():
 #    \section plugins_usage How to use plugins
 #    A typical use case of the Plugin API may be as follows:
 #
-#    Plugin usage scenario
 #    -# Client creates a PluginManager.
 #    -# Client load plugins using the Plugin Manager.
 #    -# Client get a handle to a plugin.
@@ -518,15 +630,103 @@ def unloadAPI():
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
 #    .
 #
-#    \todo Fill out this section
-#
+#   The following example shows:
+#   -# How to define plugin callback functions
+#   -# Retrieve a plugins parameter values
+#   -# Set a plugins parameters. 
+#   -# Execute a plugin in a thread
+#   -# Pass Roadrunner data to a plugin
+#@code
+# import sys;
+# import numpy
+# import matplotlib.pyplot as plot
+# import roadrunner
+# from ctypes import *
+# from rrPlugins import *
+# 
+# #Create a plugin manager
+# pm = createPluginManager()
+# 
+# #Create a roadrunner instance
+# rr = roadrunner.RoadRunner()
+# 
+# #Define callback functions
+# def pluginStarted():
+#     print 'The plugin was started'
+# 
+# def pluginIsProgressing(progress, dummy):
+#     nr = progress[0]
+#     print '\nPlugin progress:' + `nr` +' %'
+# 
+# def pluginIsFinished():
+#     print 'The plugin did finish'
+# 
+# sbmlModel ="../models/bistable.xml"
+# if not rr.load(sbmlModel):
+#     print 'Failed loading model'
+#     exit()
+# 
+# rr.simulate(0, 10, 500)
+# print rr.getInfo()
+# 
+# #The plugin will need a handle to the underlying roadrunner data
+# rrDataHandle = getRoadRunnerDataHandle(rr)
+# 
+# #Load the 'noise' plugin in order to add some noise to roadrunner data
+# noisePlugin = loadPlugin(pm, "rrp_add_noise")
+# if not noisePlugin:
+#     print rr.getLastError()
+#     exit()
+# 
+# print getPluginInfo(noisePlugin)
+# 
+# #get parameter for the 'size' of the noise
+# sigmaHandle = getPluginParameter(noisePlugin, "Sigma")
+# 
+# aSigma = getParameterValueAsString(sigmaHandle)
+# print 'Current sigma is ' + aSigma
+# 
+# #Set size of noise
+# setDoubleParameter(sigmaHandle, 0.003)
+# 
+# #Check parameter
+# aSigma = getParameterValueAsString(sigmaHandle)
+# print 'Current sigma is ' + aSigma
+# 
+# cb_func1 =  pluginCallBackType1(pluginStarted)
+# assignPluginStartedCallBack(noisePlugin,  cb_func1)
+# 
+# cb_func2 =  pluginCallBackType2(pluginIsProgressing)
+# assignPluginProgressCallBack(noisePlugin, cb_func2)
+# 
+# cb_func3 =  pluginCallBackType1(pluginIsFinished)
+# assignPluginFinishedCallBack(noisePlugin, cb_func3)
+# 
+# #Execute the noise plugin which will add some noise to the (internal) data
+# executePluginEx(noisePlugin, rrDataHandle, True)
+# 
+# while isPluginWorking(noisePlugin) == True:
+#     print ('.'),
+# 
+# #Input Data
+# result = rr.getSimulationResult()
+# x = result['time']
+# y = result['[x]']
+# 
+# plot.plot(x, y, label="[x]")
+# 
+# plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
+# plot.ylabel('Concentration (moles/L)')
+# plot.xlabel('time (s)')
+# plot.show()
+# 
+# unLoadPlugins(pm)
+# print "done"
+#@endcode
+# \note The above example can be found in the Examples folder as rrNoisePluginDemo.py
 #    \section plugins_writing How to write plugins
-#    The current plugin framework is a 'minimalistic' API. It is designed to give a plugin developer
-#    maximum amount of room for interacting with the RoadRunner core, and at the same time,
-#    a minimum of requirements and abstract concepts getting in the way of designing a plugin.
+#    \Note Writing plugins in Python is not yet supported
 #
-#    This section will show you how to get on the way with your first plugin.
-#    \todo Fill out this section
 #   \section main_section Using rrPlugins.py
 #   In order to use this wrapper (rrPlugins.py), the Python path need to inlcude the folder where the wrapper script is located, e.g.
 #   "c:\\roadrunner-1.0.0\\plugins\\python"
