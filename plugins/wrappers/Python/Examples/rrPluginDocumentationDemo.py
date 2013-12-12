@@ -30,7 +30,7 @@ manual = cast(ptr, POINTER(c_char * nrOfBytes))[0]
 
 #Check if there is a PDF available
 if nrOfBytes == 0:
-    print 'This plugin don\'t have a manual'
+    print 'This plugin does not have a manual.'
     exit()
 
 #create a (temporary) pdf file from the data

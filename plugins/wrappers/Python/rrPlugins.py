@@ -566,7 +566,7 @@ def unloadAPI():
 #import sys
 #from rrPlugins import *
 #
-##Create a plugin manager
+## Create a plugin manager
 #pm = createPluginManager()
 #
 ## Load plugins from the plugin folder
@@ -605,7 +605,7 @@ def unloadAPI():
 ## Name..........................AddNoise
 ## Author........................Totte Karlsson
 ## Category......................Signal Processing
-## Version.......................0.1
+## Version.......................1.0
 ## Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
 ## 
 ## True
@@ -671,9 +671,9 @@ def unloadAPI():
 ## \example rrPluginDocumentationDemo.py
 ## This Example shows
 ## -# Get a plugins Capabilities as XML
-## -# Obtain and view a Plugins documentaiton as PDF (Need a system PDF reader)
+## -# Obtain and view a Plugin's documentation as a PDF (Needs a system PDF reader)
 
 ## \example rrCallBackFunctionDemo.py
 ## This Example shows
-## -# How to define Python callback functions and passig them to a plugin
+## -# How to define Python callback functions and passing them to a plugin
 

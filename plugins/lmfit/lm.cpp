@@ -31,6 +31,7 @@ mModelDataSelectionList(    "ModelDataSelectionList",               StringList()
 mNorm(                      "Norm",                                 -1.0,                   "Norm of fitting. An estimate of goodness of fit"),
 mLMWorker(*this)
 {
+    mVersion = "1.0";
 
     //Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);

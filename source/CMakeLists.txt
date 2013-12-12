@@ -196,7 +196,6 @@ if(RR_BUILD_SHARED_CORE)
             )
     endif(BUILD_LLVM)
 
-
 endif(RR_BUILD_SHARED_CORE)
 
 # static allways gets build
