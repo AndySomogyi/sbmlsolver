@@ -55,12 +55,12 @@
   <div class="section" id="stability-analysis">
 <h1>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Permalink to this headline">¶</a></h1>
 <p>The stability of a biochemical system is determined by the eigenvalues of the Jacobian matrix. Given
-<span class="math">m</span> floating species and <span class="math">n</span> reactions, the Jacobian matrix is defined as follows:</p>
+<img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> floating species and <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> reactions, the Jacobian matrix is defined as follows:</p>
 <div class="math">
-<p><span class="math">J=\begin{bmatrix} \dfrac{\partial F_1}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_1}{\partial S_m} \\
+<p><img src="_images/math/8c7b3daa647837fe718e8152f96f49fc41a52534.png" alt="J=\begin{bmatrix} \dfrac{\partial F_1}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_1}{\partial S_m} \\
 \vdots &amp; \ddots &amp; \vdots \\ \dfrac{\partial F_n}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_n}{\partial S_m}
-\end{bmatrix}</span></p>
-</div><p>where <span class="math">F_i</span> is the ith differential equation and <span class="math">S_i</span> the ith floating species. From roadRunner it is easy to obtain the Jacobian matrix using
+\end{bmatrix}"/></p>
+</div><p>where <img class="math" src="_images/math/c2ececdc0bb3ce97a20ed0b4fb7c3b1dd8383e9b.png" alt="F_i"/> is the ith differential equation and <img class="math" src="_images/math/9e0ec34cd8860ceb97113f81ba768ba739ad5166.png" alt="S_i"/> the ith floating species. From roadRunner it is easy to obtain the Jacobian matrix using
 the command:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">Jac</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
 </pre></div>
@@ -122,7 +122,7 @@ the command:</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

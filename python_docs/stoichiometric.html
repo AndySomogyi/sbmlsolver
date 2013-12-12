@@ -56,30 +56,30 @@
 <h1>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="preliminaries">
 <h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
-<p>A network of <span class="math">m</span> chemical species and <span class="math">n</span> reactions can be described by the
-<span class="math">m</span> by <span class="math">n</span> stochiometry matrix <span class="math">\mathbf{N}</span>. <span class="math">\mathbf{N}_{i,j}</span> is the net number of
-species <span class="math">i</span> produced or consumed in reaction <span class="math">j</span>.  The dynamics of the network are
+<p>A network of <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> chemical species and <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> reactions can be described by the
+<img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> by <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> stochiometry matrix <img class="math" src="_images/math/639a63f4b76f5cd6b54773491e1074fa937e2eaf.png" alt="\mathbf{N}"/>. <img class="math" src="_images/math/608b84d15dafec8544662c54dea539ceae0baaf5.png" alt="\mathbf{N}_{i,j}"/> is the net number of
+species <img class="math" src="_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i"/> produced or consumed in reaction <img class="math" src="_images/math/8122aa89ea6e80784c6513d22787ad86e36ad0cc.png" alt="j"/>.  The dynamics of the network are
 described by</p>
 <div class="math">
-<p><span class="math">\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),</span></p>
-</div><p>where <span class="math">\mathbf{s}</span> is the vector of species concentrations, <span class="math">\mathbf{p}</span>
-is a vector of time independent parameters, and <span class="math">t</span> is time.</p>
+<p><img src="_images/math/6026d7c1a3382e81d6e295f7cb80bd00cfadcf14.png" alt="\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),"/></p>
+</div><p>where <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> is the vector of species concentrations, <img class="math" src="_images/math/0a1c35be9c8d28ff85f7effb2c07f511e6720169.png" alt="\mathbf{p}"/>
+is a vector of time independent parameters, and <img class="math" src="_images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is time.</p>
 <p>Each structural conservation, or interchangably, <em>conserved sum</em> (e.g. conserved moiety) in
-the network coresponds to a lineraly dependent row in the stoichiometry matrix <span class="math">\mathbf{N}</span>.</p>
-<p>If there are conserved sums, then the row rank, <span class="math">r</span> of <span class="math">N</span> is <span class="math">&lt; m</span>, and
-the stochiometry matrix <span class="math">N</span> may first be re-ordered such that the first <span class="math">r</span> are linearly
-independent, and the remaining <span class="math">m-r</span> rows are linear combinations of the first <span class="math">r</span>
-rows. The <em>reduced stochiometry matrix</em> <span class="math">\mathbf{N_R}</span> is then formed from the first
-<span class="math">r</span> rows of <span class="math">N</span>. Finally, <span class="math">N</span> may be expressed as a product of the <span class="math">m \times r</span>
-<em>link matrix</em> <span class="math">\mathbf{L}</span> and the <span class="math">r \times n</span> <span class="math">\mathbf{N_R}</span> matrix:</p>
+the network coresponds to a lineraly dependent row in the stoichiometry matrix <img class="math" src="_images/math/639a63f4b76f5cd6b54773491e1074fa937e2eaf.png" alt="\mathbf{N}"/>.</p>
+<p>If there are conserved sums, then the row rank, <img class="math" src="_images/math/b55ca7a0aa88ab7d58f4fc035317fdac39b17861.png" alt="r"/> of <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> is <img class="math" src="_images/math/ccd7a92f72c668bad1a3bffc0c1eaa760f1cd4fc.png" alt="&lt; m"/>, and
+the stochiometry matrix <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> may first be re-ordered such that the first <img class="math" src="_images/math/b55ca7a0aa88ab7d58f4fc035317fdac39b17861.png" alt="r"/> are linearly
+independent, and the remaining <img class="math" src="_images/math/489e777b0be6d682e1f30c515d8f91a20c822b29.png" alt="m-r"/> rows are linear combinations of the first <img class="math" src="_images/math/b55ca7a0aa88ab7d58f4fc035317fdac39b17861.png" alt="r"/>
+rows. The <em>reduced stochiometry matrix</em> <img class="math" src="_images/math/036d5e8df1cab53abf0c851b82336dcb609c755f.png" alt="\mathbf{N_R}"/> is then formed from the first
+<img class="math" src="_images/math/b55ca7a0aa88ab7d58f4fc035317fdac39b17861.png" alt="r"/> rows of <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/>. Finally, <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> may be expressed as a product of the <img class="math" src="_images/math/5146e6980064e6140d192b4573d9937d65b3e2bc.png" alt="m \times r"/>
+<em>link matrix</em> <img class="math" src="_images/math/f36a69e6a3b183e05991c8cafae387e99ae527e4.png" alt="\mathbf{L}"/> and the <img class="math" src="_images/math/4d89bfdf9734fee857e63fec7b999eeb1d2feb45.png" alt="r \times n"/> <img class="math" src="_images/math/036d5e8df1cab53abf0c851b82336dcb609c755f.png" alt="\mathbf{N_R}"/> matrix:</p>
 <div class="math">
-<p><span class="math">\mathbf{N} = \mathbf{L}\mathbf{N_R}.</span></p>
-</div><p>The link matrix <span class="math">\mathbf{L}</span> has the form</p>
+<p><img src="_images/math/13414b2b8a72ffd85288efbb664cceabd1cd9ff7.png" alt="\mathbf{N} = \mathbf{L}\mathbf{N_R}."/></p>
+</div><p>The link matrix <img class="math" src="_images/math/f36a69e6a3b183e05991c8cafae387e99ae527e4.png" alt="\mathbf{L}"/> has the form</p>
 <div class="math">
-<p><span class="math">\mathbf{L} = \left[ \begin{array}{c}
+<p><img src="_images/math/46e1e32b694095fdaf03b9ca61de351f61747fa1.png" alt="\mathbf{L} = \left[ \begin{array}{c}
                     \mathbf{I}_{r} \\
-                    \mathbf{L}_0    \end{array} \right],</span></p>
-</div><p>where <span class="math">\mathbf{I}_{r}</span> is the <span class="math">r \times r</span> identity matrix and <span class="math">\mathbf{L}_0</span> is a <span class="math">(m-r) \times r</span>
+                    \mathbf{L}_0    \end{array} \right],"/></p>
+</div><p>where <img class="math" src="_images/math/d72d2dfc4f0ce5cd9dffef9e3ea08b3e40679226.png" alt="\mathbf{I}_{r}"/> is the <img class="math" src="_images/math/13d555b8700cffedc797111d611741797c4562b0.png" alt="r \times r"/> identity matrix and <img class="math" src="_images/math/28f13fdfd90141deb89333a475737c0db8ce85d9.png" alt="\mathbf{L}_0"/> is a <img class="math" src="_images/math/9a2c2f474345065043ba6f2a0ce3b83227c4dc5e.png" alt="(m-r) \times r"/>
 matrix.</p>
 </div>
 <div class="section" id="methods">
@@ -92,16 +92,16 @@ matrix.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getStoichiometryMatrix" title="roadrunner.ExecutableModel.getStoichiometryMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getStoichiometryMatrix</span></tt></a>()</td>
-<td>Returns the current stoichiomentry matrix, a <span class="math">n \times m</span> matrix where <span class="math">n</span> is the number of species which take place in reactions (floating species) and <span class="math">m</span> is the number of reactions.</td>
+<td>Returns the current stoichiomentry matrix, a <img class="math" src="_images/math/bed4cafeded4bdf622cee8198b01a198f5d635f6.png" alt="n \times m"/> matrix where <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> is the number of species which take place in reactions (floating species) and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is the number of reactions.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getLinkMatrix" title="roadrunner.RoadRunner.getLinkMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getLinkMatrix</span></tt></a>()</td>
 <td>Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getNrMatrix" title="roadrunner.RoadRunner.getNrMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getNrMatrix</span></tt></a>()</td>
-<td>Returns the reduced stoichiometry matrix, <span class="math">N_R</span>, which wil have only r rows where r is the rank of</td>
+<td>Returns the reduced stoichiometry matrix, <img class="math" src="_images/math/9ea520289972d82fa3dd03be522ffbe21abce96e.png" alt="N_R"/>, which wil have only r rows where r is the rank of</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getConservationMatrix" title="roadrunner.RoadRunner.getConservationMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getConservationMatrix</span></tt></a>()</td>
-<td>Returns a conservation matrix <span class="math">\Gamma</span> which is a <span class="math">c \times m</span> matrix</td>
+<td>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a <img class="math" src="_images/math/69466761ddad22006793cf7d2699b82f5d0e1d21.png" alt="c \times m"/> matrix</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getL0Matrix" title="roadrunner.RoadRunner.getL0Matrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getL0Matrix</span></tt></a>()</td>
 <td>Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses</td>
@@ -186,7 +186,7 @@ matrix.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

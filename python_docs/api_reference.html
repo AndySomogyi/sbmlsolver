@@ -172,8 +172,8 @@ into a single xml document which is returned as a string.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConservationMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getConservationMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a conservation matrix <span class="math">\Gamma</span> which is a <span class="math">c \times m</span> matrix
-where <span class="math">c</span> is the number of conservation laws and <span class="math">m</span> the number of species.</p>
+<dd><p>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a <img class="math" src="_images/math/69466761ddad22006793cf7d2699b82f5d0e1d21.png" alt="c \times m"/> matrix
+where <img class="math" src="_images/math/3372c1cb6d68cf97c2d231acc0b47b95a9ed04cc.png" alt="c"/> is the number of conservation laws and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> the number of species.</p>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -344,8 +344,8 @@ is the number of floating species and r the rank of the stichiometric matrix, N.
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getNrMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the reduced stoichiometry matrix, <span class="math">N_R</span>, which wil have only r rows where r is the rank of
-the full stoichiometry matrix. The matrix will be reordered such that the rows of <span class="math">N_R</span> are independent.</p>
+<dd><p>Returns the reduced stoichiometry matrix, <img class="math" src="_images/math/9ea520289972d82fa3dd03be522ffbe21abce96e.png" alt="N_R"/>, which wil have only r rows where r is the rank of
+the full stoichiometry matrix. The matrix will be reordered such that the rows of <img class="math" src="_images/math/9ea520289972d82fa3dd03be522ffbe21abce96e.png" alt="N_R"/> are independent.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1452,8 +1452,8 @@ large and only a single coefficent is needed.</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getStoichiometryMatrix">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current stoichiomentry matrix, a <span class="math">n \times m</span> matrix where <span class="math">n</span> is the
-number of species which take place in reactions (floating species) and <span class="math">m</span> is the number of
+<dd><p>Returns the current stoichiomentry matrix, a <img class="math" src="_images/math/bed4cafeded4bdf622cee8198b01a198f5d635f6.png" alt="n \times m"/> matrix where <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> is the
+number of species which take place in reactions (floating species) and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is the number of
 reactions.</p>
 <p>this is a line with &#8220;quotes&#8221;</p>
 <p>When the LLVM back end is used (default) this always returns the current state of the
@@ -1835,7 +1835,7 @@ modifer to distinguish it.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>
