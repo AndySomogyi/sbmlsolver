@@ -1,0 +1,483 @@
+\hypertarget{group__simulation}{\section{Time-\/course simulation}
+\label{group__simulation}\index{Time-\/course simulation@{Time-\/course simulation}}
+}
+
+
+Deterministic, stochastic, and hybrid simulation algorithms.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group__simulation_gaa77fd6c25d583b2ade1afd1579083a38}{set\-Configuration\-X\-M\-L} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$caps)
+\begin{DoxyCompactList}\small\item\em Set the simulator's capabilities. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__simulation_gaecfc8d40378bcfe9f8252a1769cafb7c}{get\-Configuration\-X\-M\-L} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Get the simulator's capabilities. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_gaa5898253f7c907443f5df78387e3e77c}{set\-Time\-Start} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, double time\-Start)
+\begin{DoxyCompactList}\small\item\em Set the time start for a time course simulation. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_gaf609c0853e0d053f43f4ef4f068f002f}{set\-Time\-End} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, double time\-End)
+\begin{DoxyCompactList}\small\item\em Set the time end for a time course simulation. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_ga13f8b0ebfd2effe5264c3fed0ebb2471}{set\-Num\-Points} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, int number\-Of\-Points)
+\begin{DoxyCompactList}\small\item\em Set the number of points to generate in a time course simulation. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_gabc78e3202e85470f1c0e380a8988fc9e}{set\-Time\-Course\-Selection\-List} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$list)
+\begin{DoxyCompactList}\small\item\em Set the selection list for output from simulate(void) or simulate\-Ex(void) \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} \hyperlink{group__simulation_ga4c2ce3bcc97cbd6a5dcae423dfeeba0c}{get\-Time\-Course\-Selection\-List} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Get the current selection list for simulate(void) or simulate\-Ex(void) \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} \hyperlink{group__simulation_ga7631952c1a80ac25724bf67f7a7ddf7a}{simulate} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation, use set\-Time\-Start, set\-Time\-End and set\-Num\-Points etc to set the simulation characteristics. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} \hyperlink{group__simulation_ga4c4bdc924e48c8e271e4654c6f40b3c8}{get\-Simulation\-Result} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the result of the last simulation. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} \hyperlink{group__simulation_gae6b70689ca3191f1a86a7e0c7a96d801}{get\-Road\-Runner\-Data} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve a handle to Road\-Runners internal data. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} \hyperlink{group__simulation_gac3646c86d4a058ec4d43b1a66bf127cc}{simulate\-Ex} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const double time\-Start, const double time\-End, const int number\-Of\-Points)
+\begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_ga64cec7cbfbac4e4a11dcda4cc6eb2b9e}{one\-Step} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const double current\-Time, const double step\-Size, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Carry out a one step integration of the model. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_gaf302d02e9f0d57dd05995a7a211e5236}{get\-Time\-Start} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, double $\ast$time\-Start)
+\begin{DoxyCompactList}\small\item\em Get the value of the current time start. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_ga1130df59dce620b619e3e58874025e57}{get\-Time\-End} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, double $\ast$time\-End)
+\begin{DoxyCompactList}\small\item\em Get the value of the current time end. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_ga3e14da4bd986a908e4f6bcfc42c20717}{get\-Num\-Points} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, int $\ast$num\-Points)
+\begin{DoxyCompactList}\small\item\em Get the value of the current number of points. \end{DoxyCompactList}\item 
+bool \hyperlink{group__simulation_gaeaf9374c9a0cad0898f5e0a37bc387c5}{reset} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Reset all floating species concentrations to their intial conditions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Deterministic, stochastic, and hybrid simulation algorithms. 
+
+\subsection{Function Documentation}
+\hypertarget{group__simulation_gaecfc8d40378bcfe9f8252a1769cafb7c}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Configuration\-X\-M\-L@{get\-Configuration\-X\-M\-L}}
+\index{get\-Configuration\-X\-M\-L@{get\-Configuration\-X\-M\-L}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Configuration\-X\-M\-L}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-Configuration\-X\-M\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gaecfc8d40378bcfe9f8252a1769cafb7c}
+
+
+Get the simulator's capabilities. 
+
+Example\-:
+
+
+\begin{DoxyCode}
+ <caps name=\textcolor{stringliteral}{"RoadRunner"} description=\textcolor{stringliteral}{"Settings For RoadRunner"}>
+  <section name=\textcolor{stringliteral}{"integration"} method=\textcolor{stringliteral}{"CVODE"} description=\textcolor{stringliteral}{"CVODE Integrator"}>
+    <cap name=\textcolor{stringliteral}{"BDFOrder"} value=\textcolor{stringliteral}{"5"} hint=\textcolor{stringliteral}{"Maximum order for BDF Method"} type=\textcolor{stringliteral}{"integer"} />
+    <cap name=\textcolor{stringliteral}{"AdamsOrder"} value=\textcolor{stringliteral}{"12"} hint=\textcolor{stringliteral}{"Maximum order for Adams Method"} type=\textcolor{stringliteral}{"integer"} />
+    <cap name=\textcolor{stringliteral}{"rtol"} value=\textcolor{stringliteral}{"1E-06"} hint=\textcolor{stringliteral}{"Relative Tolerance"} type=\textcolor{stringliteral}{"double"} />
+    <cap name=\textcolor{stringliteral}{"atol"} value=\textcolor{stringliteral}{"1E-12"} hint=\textcolor{stringliteral}{"Absolute Tolerance"} type=\textcolor{stringliteral}{"double"} />
+    <cap name=\textcolor{stringliteral}{"maxsteps"} value=\textcolor{stringliteral}{"10000"} hint=\textcolor{stringliteral}{"Maximum number of internal stepsc"} type=\textcolor{stringliteral}{"integer"} />
+    <cap name=\textcolor{stringliteral}{"initstep"} value=\textcolor{stringliteral}{"0"} hint=\textcolor{stringliteral}{"the initial step size"} type=\textcolor{stringliteral}{"double"} />
+    <cap name=\textcolor{stringliteral}{"minstep"} value=\textcolor{stringliteral}{"0"} hint=\textcolor{stringliteral}{"specifies a lower bound on the magnitude of the step size."} type=\textcolor{stringliteral}{"
+      double"} />
+    <cap name=\textcolor{stringliteral}{"maxstep"} value=\textcolor{stringliteral}{"0"} hint=\textcolor{stringliteral}{"specifies an upper bound on the magnitude of the step size."} type=\textcolor{stringliteral}{"
+      double"} />
+    <cap name=\textcolor{stringliteral}{"conservation"} value=\textcolor{stringliteral}{"1"} hint=\textcolor{stringliteral}{"enables (=1) or disables (=0) the conservation analysis of
+       models for timecourse simulations."} type=\textcolor{stringliteral}{"int"} />
+    <cap name=\textcolor{stringliteral}{"allowRandom"} value=\textcolor{stringliteral}{"1"} hint=\textcolor{stringliteral}{"if enabled (=1), reinterprets certain function definitions as
+       distributions and draws random numbers for it."} type=\textcolor{stringliteral}{"int"} />
+    <cap name=\textcolor{stringliteral}{"usekinsol"} value=\textcolor{stringliteral}{"0"} hint=\textcolor{stringliteral}{"Is KinSol used as steady state integrator"} type=\textcolor{stringliteral}{"int"} />
+  </section>
+
+  <section name=\textcolor{stringliteral}{"SteadyState"} method=\textcolor{stringliteral}{"NLEQ2"} description=\textcolor{stringliteral}{"NLEQ2 Steady State Solver"}>
+    <cap name=\textcolor{stringliteral}{"MaxIterations"} value=\textcolor{stringliteral}{"100"} hint=\textcolor{stringliteral}{"Maximum number of newton iterations"} type=\textcolor{stringliteral}{"integer"} />
+    <cap name=\textcolor{stringliteral}{"relativeTolerance"} value=\textcolor{stringliteral}{"0.0001"} hint=\textcolor{stringliteral}{"Relative precision of solution components"} type=\textcolor{stringliteral}{"
+      double"} />
+  </section>
+</caps>
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an X\-M\-L string 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga3e14da4bd986a908e4f6bcfc42c20717}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Num\-Points@{get\-Num\-Points}}
+\index{get\-Num\-Points@{get\-Num\-Points}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Num\-Points}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-Num\-Points (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{int $\ast$}]{num\-Points}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga3e14da4bd986a908e4f6bcfc42c20717}
+
+
+Get the value of the current number of points. 
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__simulation_ga3e14da4bd986a908e4f6bcfc42c20717}{getNumPoints} (rrHandle, &numberOfPoints); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+ & {\em num\-Points} & The current value for the number of points \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gae6b70689ca3191f1a86a7e0c7a96d801}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Road\-Runner\-Data@{get\-Road\-Runner\-Data}}
+\index{get\-Road\-Runner\-Data@{get\-Road\-Runner\-Data}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Road\-Runner\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Data\-Handle} get\-Road\-Runner\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gae6b70689ca3191f1a86a7e0c7a96d801}
+
+
+Retrieve a handle to Road\-Runners internal data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an handle to roadrunners internal data object 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga4c4bdc924e48c8e271e4654c6f40b3c8}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Simulation\-Result@{get\-Simulation\-Result}}
+\index{get\-Simulation\-Result@{get\-Simulation\-Result}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Simulation\-Result}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-C\-Data\-Ptr} get\-Simulation\-Result (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga4c4bdc924e48c8e271e4654c6f40b3c8}
+
+
+Retrieve the result of the last simulation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an handle to roadrunners internal data object 
+
+Returns an array (R\-R\-C\-Data\-Ptr) of columns containing the results of the simulation including string labels for the individual columms. 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga4c2ce3bcc97cbd6a5dcae423dfeeba0c}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Time\-Course\-Selection\-List@{get\-Time\-Course\-Selection\-List}}
+\index{get\-Time\-Course\-Selection\-List@{get\-Time\-Course\-Selection\-List}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Time\-Course\-Selection\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-String\-Array\-Ptr} get\-Time\-Course\-Selection\-List (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga4c2ce3bcc97cbd6a5dcae423dfeeba0c}
+
+
+Get the current selection list for simulate(void) or simulate\-Ex(void) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of symbol Ids indicating the current selection list 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga1130df59dce620b619e3e58874025e57}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Time\-End@{get\-Time\-End}}
+\index{get\-Time\-End@{get\-Time\-End}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Time\-End}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-Time\-End (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{double $\ast$}]{time\-End}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga1130df59dce620b619e3e58874025e57}
+
+
+Get the value of the current time end. 
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__simulation_ga1130df59dce620b619e3e58874025e57}{getTimeEnd} (rrHandle, &timeEnd); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+ & {\em time\-End} & The current value for the time end \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gaf302d02e9f0d57dd05995a7a211e5236}{\index{Time-\/course simulation@{Time-\/course simulation}!get\-Time\-Start@{get\-Time\-Start}}
+\index{get\-Time\-Start@{get\-Time\-Start}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{get\-Time\-Start}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-Time\-Start (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{double $\ast$}]{time\-Start}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gaf302d02e9f0d57dd05995a7a211e5236}
+
+
+Get the value of the current time start. 
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__simulation_gaf302d02e9f0d57dd05995a7a211e5236}{getTimeStart} (rrHandle, &timeStart); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt out}  & {\em time\-Start} & The current value for the time start \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga64cec7cbfbac4e4a11dcda4cc6eb2b9e}{\index{Time-\/course simulation@{Time-\/course simulation}!one\-Step@{one\-Step}}
+\index{one\-Step@{one\-Step}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{one\-Step}]{\setlength{\rightskip}{0pt plus 5cm}bool one\-Step (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const double}]{current\-Time, }
+\item[{const double}]{step\-Size, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga64cec7cbfbac4e4a11dcda4cc6eb2b9e}
+
+
+Carry out a one step integration of the model. 
+
+Example\-:
+\begin{DoxyCode}
+status = OneStep (rrHandle, currentTime, timeStep, newTimeStep); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em current\-Time} & The current time in the simulation \\
+\hline
+\mbox{\tt in}  & {\em step\-Size} & The step size to use in the integration \\
+\hline
+\mbox{\tt in}  & {\em value} & The new time (current\-Time + step\-Size)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gaeaf9374c9a0cad0898f5e0a37bc387c5}{\index{Time-\/course simulation@{Time-\/course simulation}!reset@{reset}}
+\index{reset@{reset}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}bool reset (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gaeaf9374c9a0cad0898f5e0a37bc387c5}
+
+
+Reset all floating species concentrations to their intial conditions. 
+
+Example\-:
+\begin{DoxyCode}
+status = \hyperlink{group__simulation_gaeaf9374c9a0cad0898f5e0a37bc387c5}{reset} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle} handle); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gaa77fd6c25d583b2ade1afd1579083a38}{\index{Time-\/course simulation@{Time-\/course simulation}!set\-Configuration\-X\-M\-L@{set\-Configuration\-X\-M\-L}}
+\index{set\-Configuration\-X\-M\-L@{set\-Configuration\-X\-M\-L}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{set\-Configuration\-X\-M\-L}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Configuration\-X\-M\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{caps}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gaa77fd6c25d583b2ade1afd1579083a38}
+
+
+Set the simulator's capabilities. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt out}  & {\em caps} & An X\-M\-L string that specifies the simulators capabilities \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if sucessful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga13f8b0ebfd2effe5264c3fed0ebb2471}{\index{Time-\/course simulation@{Time-\/course simulation}!set\-Num\-Points@{set\-Num\-Points}}
+\index{set\-Num\-Points@{set\-Num\-Points}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{set\-Num\-Points}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Num\-Points (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{int}]{number\-Of\-Points}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga13f8b0ebfd2effe5264c3fed0ebb2471}
+
+
+Set the number of points to generate in a time course simulation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em number\-Of\-Points} & Number of points to generate in the time course simulation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if sucessful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gabc78e3202e85470f1c0e380a8988fc9e}{\index{Time-\/course simulation@{Time-\/course simulation}!set\-Time\-Course\-Selection\-List@{set\-Time\-Course\-Selection\-List}}
+\index{set\-Time\-Course\-Selection\-List@{set\-Time\-Course\-Selection\-List}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{set\-Time\-Course\-Selection\-List}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Time\-Course\-Selection\-List (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{list}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gabc78e3202e85470f1c0e380a8988fc9e}
+
+
+Set the selection list for output from simulate(void) or simulate\-Ex(void) 
+
+Use get\-Available\-Time\-Course\-Symbols(void) to retrieve the list of all possible symbols.
+
+Example\-:
+\begin{DoxyCode}
+\hyperlink{group__simulation_gabc78e3202e85470f1c0e380a8988fc9e}{setTimeCourseSelectionList} (\textcolor{stringliteral}{"Time, S1, J1, J2"}); 
+\end{DoxyCode}
+
+
+or
+
+set\-Time\-Course\-Selection\-List (\char`\"{}\-Time S1 J1 J2\char`\"{})
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em list} & A string of Ids separated by spaces {\bfseries or} comma characters \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if sucessful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gaf609c0853e0d053f43f4ef4f068f002f}{\index{Time-\/course simulation@{Time-\/course simulation}!set\-Time\-End@{set\-Time\-End}}
+\index{set\-Time\-End@{set\-Time\-End}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{set\-Time\-End}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Time\-End (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{double}]{time\-End}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gaf609c0853e0d053f43f4ef4f068f002f}
+
+
+Set the time end for a time course simulation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em time\-End} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if sucessful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gaa5898253f7c907443f5df78387e3e77c}{\index{Time-\/course simulation@{Time-\/course simulation}!set\-Time\-Start@{set\-Time\-Start}}
+\index{set\-Time\-Start@{set\-Time\-Start}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{set\-Time\-Start}]{\setlength{\rightskip}{0pt plus 5cm}bool set\-Time\-Start (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{double}]{time\-Start}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gaa5898253f7c907443f5df78387e3e77c}
+
+
+Set the time start for a time course simulation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em time\-Start} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns True if sucessful 
+\end{DoxyReturn}
+\hypertarget{group__simulation_ga7631952c1a80ac25724bf67f7a7ddf7a}{\index{Time-\/course simulation@{Time-\/course simulation}!simulate@{simulate}}
+\index{simulate@{simulate}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{simulate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Data\-Handle} simulate (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_ga7631952c1a80ac25724bf67f7a7ddf7a}
+
+
+Carry out a time-\/course simulation, use set\-Time\-Start, set\-Time\-End and set\-Num\-Points etc to set the simulation characteristics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a handle to roadrunners internal data object. 
+\end{DoxyReturn}
+\hypertarget{group__simulation_gac3646c86d4a058ec4d43b1a66bf127cc}{\index{Time-\/course simulation@{Time-\/course simulation}!simulate\-Ex@{simulate\-Ex}}
+\index{simulate\-Ex@{simulate\-Ex}!Time-course simulation@{Time-\/course simulation}}
+\subsubsection[{simulate\-Ex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Data\-Handle} simulate\-Ex (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const double}]{time\-Start, }
+\item[{const double}]{time\-End, }
+\item[{const int}]{number\-Of\-Points}
+\end{DoxyParamCaption}
+)}}\label{group__simulation_gac3646c86d4a058ec4d43b1a66bf127cc}
+
+
+Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points. 
+
+Example\-: 
+\begin{DoxyCode}
+\hyperlink{struct_r_r_c_data}{RRCDataPtr} m;
+
+\textcolor{keywordtype}{double} timeStart = 0.0;
+\textcolor{keywordtype}{double} timeEnd = 25;
+\textcolor{keywordtype}{int} numberOfPoints = 200;
+
+m = \hyperlink{group__simulation_gac3646c86d4a058ec4d43b1a66bf127cc}{simulateEx} (rrHandle, timeStart, timeEnd, numberOfPoints);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em time\-Start} & Time start \\
+\hline
+\mbox{\tt in}  & {\em time\-End} & Time end \\
+\hline
+\mbox{\tt in}  & {\em number\-Of\-Points} & Number of points to generate\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a handle to roadrunners internal data object. 
+\end{DoxyReturn}

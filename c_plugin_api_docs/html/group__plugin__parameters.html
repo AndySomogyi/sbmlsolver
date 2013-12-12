@@ -89,11 +89,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga32bfcd26b33157dd67b0bb289fc2bb43"><td class="memItemLeft" align="right" valign="top">RRStringArrayPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga32bfcd26b33157dd67b0bb289fc2bb43">getListOfParameters</a> (RRHandle handle, const char *cap_name)</td></tr>
-<tr class="memdesc:ga32bfcd26b33157dd67b0bb289fc2bb43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string list of parameters for a particular capability.  <a href="#ga32bfcd26b33157dd67b0bb289fc2bb43">More...</a><br/></td></tr>
-<tr class="separator:ga32bfcd26b33157dd67b0bb289fc2bb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabae9681de8cd986b29e1d59aff80ae68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gabae9681de8cd986b29e1d59aff80ae68">createParameter</a> (const char *label, const char *type, void *value)</td></tr>
-<tr class="memdesc:gabae9681de8cd986b29e1d59aff80ae68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a double parameter t.  <a href="#gabae9681de8cd986b29e1d59aff80ae68">More...</a><br/></td></tr>
+<tr class="memdesc:gabae9681de8cd986b29e1d59aff80ae68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a parameter of type "type".  <a href="#gabae9681de8cd986b29e1d59aff80ae68">More...</a><br/></td></tr>
 <tr class="separator:gabae9681de8cd986b29e1d59aff80ae68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga50f45de8a8d7b5eacb2aa80884df358f">addParameterToList</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle, <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> para)</td></tr>
 <tr class="memdesc:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter to a parameters container, from a parameter pointer.  <a href="#ga50f45de8a8d7b5eacb2aa80884df358f">More...</a><br/></td></tr>
@@ -157,6 +154,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Add a parameter to a parameters container, from a parameter pointer. </p>
+<ul>
+<li></li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
@@ -198,52 +198,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Create a double parameter t. </p>
+<p>Create a parameter of type "type". </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">label</td><td>The parameters label as a string </td></tr>
-    <tr><td class="paramname">type</td><td>The parameters type as string. Possible values can be 'double', 'int', 'char*' </td></tr>
+    <tr><td class="paramname">type</td><td>The parameters type as string. Possible values can be 'double', 'int', 'char*' etc, </td></tr>
     <tr><td class="paramname">value</td><td>The parameters initial value casted to a (void*) pointer </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a handle to a new parameter, if succesful, NULL otherwise </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga32bfcd26b33157dd67b0bb289fc2bb43"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RRStringArrayPtr getListOfParameters </td>
-          <td>(</td>
-          <td class="paramtype">RRHandle&#160;</td>
-          <td class="paramname"><em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>cap_name</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get string list of parameters for a particular capability. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
-    <tr><td class="paramname">cap_name</td><td>pointer to a string holding the name of a capability </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a StringArray if sucessful, NULL otherwise </dd></dl>
 
 </div>
 </div>
@@ -544,7 +508,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 8 2013 23:09:43 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 11 2013 19:52:52 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

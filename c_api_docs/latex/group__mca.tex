@@ -1,0 +1,398 @@
+\hypertarget{group__mca}{\section{Metabolic control analysis}
+\label{group__mca}\index{Metabolic control analysis@{Metabolic control analysis}}
+}
+
+
+Calculate control coefficients and sensitivities.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__mca_gacad76b5762c25a32e413b99e9b2cfb10}{get\-Elasticity\-Coefficient\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Obtain the list of elasticity coefficient Ids. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__mca_ga90f444f3a93b225edda7264df6dbdb12}{get\-Unscaled\-Flux\-Control\-Coefficient\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Obtain the list of unscaled flux control coefficient Ids. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__mca_ga9c427f19db0adbed6fd5642aa2f921ba}{get\-Flux\-Control\-Coefficient\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Obtain the list of flux control coefficient Ids. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__mca_ga5eafcd38aa64319b3952f3379118a460}{get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Obtain the list of unscaled concentration control coefficient Ids. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__mca_ga650eb79cd39ede099c416607706b9608}{get\-Concentration\-Control\-Coefficient\-Ids} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Obtain the list of concentration coefficient Ids. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__mca_ga14c1f732f8988b2956f096de2fe284f6}{get\-Unscaled\-Elasticity\-Matrix} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the unscaled elasticity matrix for the current model. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__mca_ga4f2788a77a8c7549cb8e45b1c5a89bc7}{get\-Scaled\-Elasticity\-Matrix} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the scaled elasticity matrix for the current model. \end{DoxyCompactList}\item 
+bool \hyperlink{group__mca_ga2bb4853eff9e824836b776cf67ba63b0}{get\-Scaled\-Floating\-Species\-Elasticity} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$reaction\-Id, const char $\ast$species\-Id, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve the scaled elasticity matrix for the current model. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__mca_gacb5aba2a12248da9b2d55624687a7ace}{get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the matrix of unscaled concentration control coefficients for the current model. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__mca_ga9933c9181db0991fd502e76a1151a98f}{get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the matrix of scaled concentration control coefficients for the current model. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__mca_ga814b6a3331bd0e31f59b0c2ef82f6a1c}{get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the matrix of unscaled flux control coefficients for the current model. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__mca_ga4428693777e8c5e858709a455495d653}{get\-Scaled\-Flux\-Control\-Coefficient\-Matrix} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the matrix of scaled flux control coefficients for the current model. \end{DoxyCompactList}\item 
+bool \hyperlink{group__mca_gae8316aebf007cc8ea676ac3ed1ed1168}{getu\-C\-C} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$variable, const char $\ast$parameter, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve a single unscaled control coefficient. \end{DoxyCompactList}\item 
+bool \hyperlink{group__mca_ga65db235364c7a461c95b95cf492a8f8b}{get\-C\-C} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$variable, const char $\ast$parameter, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve a single control coefficient. \end{DoxyCompactList}\item 
+bool \hyperlink{group__mca_gab6c1db248f1c131833612dbcd6cc132a}{get\-E\-E} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$name, const char $\ast$species, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve a single elasticity coefficient. \end{DoxyCompactList}\item 
+bool \hyperlink{group__mca_ga528375b48f135755470a7cfbf3e7eeb9}{getu\-E\-E} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$name, const char $\ast$species, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve a single unscaled elasticity coefficient. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Calculate control coefficients and sensitivities. 
+
+\subsection{Function Documentation}
+\hypertarget{group__mca_ga65db235364c7a461c95b95cf492a8f8b}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-C\-C@{get\-C\-C}}
+\index{get\-C\-C@{get\-C\-C}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-C\-C}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-C\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{variable, }
+\item[{const char $\ast$}]{parameter, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga65db235364c7a461c95b95cf492a8f8b}
+
+
+Retrieve a single control coefficient. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em variable} & This is the dependent variable of the coefficient, for example a flux or species concentration \\
+\hline
+\mbox{\tt in}  & {\em parameter} & This is the independent parameter, for example a kinetic constant or boundary species \\
+\hline
+\mbox{\tt out}  & {\em value} & This is the value of the control coefficeint returns to the caller \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga650eb79cd39ede099c416607706b9608}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Concentration\-Control\-Coefficient\-Ids@{get\-Concentration\-Control\-Coefficient\-Ids}}
+\index{get\-Concentration\-Control\-Coefficient\-Ids@{get\-Concentration\-Control\-Coefficient\-Ids}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Concentration\-Control\-Coefficient\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-List\-Ptr} get\-Concentration\-Control\-Coefficient\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga650eb79cd39ede099c416607706b9608}
+
+
+Obtain the list of concentration coefficient Ids. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, if succesful it returns a list of Ids 
+\end{DoxyReturn}
+\hypertarget{group__mca_gab6c1db248f1c131833612dbcd6cc132a}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-E\-E@{get\-E\-E}}
+\index{get\-E\-E@{get\-E\-E}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-E\-E}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-E\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{species, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__mca_gab6c1db248f1c131833612dbcd6cc132a}
+
+
+Retrieve a single elasticity coefficient. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em name} & This is the reaction variable for the elasticity \\
+\hline
+\mbox{\tt in}  & {\em species} & This is the independent parameter, for example a floating of boundary species \\
+\hline
+\mbox{\tt out}  & {\em value} & This is the value of the elasticity coefficient returns to the caller \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__mca_gacad76b5762c25a32e413b99e9b2cfb10}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Elasticity\-Coefficient\-Ids@{get\-Elasticity\-Coefficient\-Ids}}
+\index{get\-Elasticity\-Coefficient\-Ids@{get\-Elasticity\-Coefficient\-Ids}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Elasticity\-Coefficient\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-List\-Ptr} get\-Elasticity\-Coefficient\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_gacad76b5762c25a32e413b99e9b2cfb10}
+
+
+Obtain the list of elasticity coefficient Ids. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, if succesful it returns a list 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga9c427f19db0adbed6fd5642aa2f921ba}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Flux\-Control\-Coefficient\-Ids@{get\-Flux\-Control\-Coefficient\-Ids}}
+\index{get\-Flux\-Control\-Coefficient\-Ids@{get\-Flux\-Control\-Coefficient\-Ids}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Flux\-Control\-Coefficient\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-List\-Ptr} get\-Flux\-Control\-Coefficient\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga9c427f19db0adbed6fd5642aa2f921ba}
+
+
+Obtain the list of flux control coefficient Ids. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, if succesful it returns a list of Ids 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga9933c9181db0991fd502e76a1151a98f}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix@{get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix}}
+\index{get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix@{get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Double\-Matrix\-Ptr} get\-Scaled\-Concentration\-Control\-Coefficient\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga9933c9181db0991fd502e76a1151a98f}
+
+
+Retrieve the matrix of scaled concentration control coefficients for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a matrix of scaled concentration control coefficients 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga4f2788a77a8c7549cb8e45b1c5a89bc7}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Scaled\-Elasticity\-Matrix@{get\-Scaled\-Elasticity\-Matrix}}
+\index{get\-Scaled\-Elasticity\-Matrix@{get\-Scaled\-Elasticity\-Matrix}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Scaled\-Elasticity\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Double\-Matrix\-Ptr} get\-Scaled\-Elasticity\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga4f2788a77a8c7549cb8e45b1c5a89bc7}
+
+
+Retrieve the scaled elasticity matrix for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a matrix of scaled elasticities. 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga2bb4853eff9e824836b776cf67ba63b0}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Scaled\-Floating\-Species\-Elasticity@{get\-Scaled\-Floating\-Species\-Elasticity}}
+\index{get\-Scaled\-Floating\-Species\-Elasticity@{get\-Scaled\-Floating\-Species\-Elasticity}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Scaled\-Floating\-Species\-Elasticity}]{\setlength{\rightskip}{0pt plus 5cm}bool get\-Scaled\-Floating\-Species\-Elasticity (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{reaction\-Id, }
+\item[{const char $\ast$}]{species\-Id, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga2bb4853eff9e824836b776cf67ba63b0}
+
+
+Retrieve the scaled elasticity matrix for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em reaction\-Id} & The reaction Id for computing the elasticity \\
+\hline
+\mbox{\tt in}  & {\em species\-Id} & The floating species to compute the elasticity for \\
+\hline
+\mbox{\tt out}  & {\em value} & The return value for the elasticity \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns false if it fails 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga4428693777e8c5e858709a455495d653}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Scaled\-Flux\-Control\-Coefficient\-Matrix@{get\-Scaled\-Flux\-Control\-Coefficient\-Matrix}}
+\index{get\-Scaled\-Flux\-Control\-Coefficient\-Matrix@{get\-Scaled\-Flux\-Control\-Coefficient\-Matrix}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Scaled\-Flux\-Control\-Coefficient\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Double\-Matrix\-Ptr} get\-Scaled\-Flux\-Control\-Coefficient\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga4428693777e8c5e858709a455495d653}
+
+
+Retrieve the matrix of scaled flux control coefficients for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a matrix of scaled flux control coefficients 
+\end{DoxyReturn}
+\hypertarget{group__mca_gae8316aebf007cc8ea676ac3ed1ed1168}{\index{Metabolic control analysis@{Metabolic control analysis}!getu\-C\-C@{getu\-C\-C}}
+\index{getu\-C\-C@{getu\-C\-C}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{getu\-C\-C}]{\setlength{\rightskip}{0pt plus 5cm}bool getu\-C\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{variable, }
+\item[{const char $\ast$}]{parameter, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__mca_gae8316aebf007cc8ea676ac3ed1ed1168}
+
+
+Retrieve a single unscaled control coefficient. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em variable} & This is the dependent variable of the coefficient, for example a flux or species concentration \\
+\hline
+\mbox{\tt in}  & {\em parameter} & This is the independent parameter, for example a kinetic constant or boundary species \\
+\hline
+\mbox{\tt out}  & {\em value} & This is the value of the unscaled control coefficeint returns to the caller \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga528375b48f135755470a7cfbf3e7eeb9}{\index{Metabolic control analysis@{Metabolic control analysis}!getu\-E\-E@{getu\-E\-E}}
+\index{getu\-E\-E@{getu\-E\-E}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{getu\-E\-E}]{\setlength{\rightskip}{0pt plus 5cm}bool getu\-E\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle, }
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{species, }
+\item[{double $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga528375b48f135755470a7cfbf3e7eeb9}
+
+
+Retrieve a single unscaled elasticity coefficient. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\mbox{\tt in}  & {\em name} & This is the reaction variable for the unscaled elasticity \\
+\hline
+\mbox{\tt in}  & {\em species} & This is the independent parameter, for example a floating of boundary species \\
+\hline
+\mbox{\tt out}  & {\em value} & This is the value of the unscaled elasticity coefficient returns to the caller \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga5eafcd38aa64319b3952f3379118a460}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids@{get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids}}
+\index{get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids@{get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-List\-Ptr} get\-Unscaled\-Concentration\-Control\-Coefficient\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga5eafcd38aa64319b3952f3379118a460}
+
+
+Obtain the list of unscaled concentration control coefficient Ids. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, if succesful it returns a list of Ids 
+\end{DoxyReturn}
+\hypertarget{group__mca_gacb5aba2a12248da9b2d55624687a7ace}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix@{get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix}}
+\index{get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix@{get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Double\-Matrix\-Ptr} get\-Unscaled\-Concentration\-Control\-Coefficient\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_gacb5aba2a12248da9b2d55624687a7ace}
+
+
+Retrieve the matrix of unscaled concentration control coefficients for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a matrix of unscaled concentration control coefficients The first column will contain the real values and the second column the imaginary values 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga14c1f732f8988b2956f096de2fe284f6}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Unscaled\-Elasticity\-Matrix@{get\-Unscaled\-Elasticity\-Matrix}}
+\index{get\-Unscaled\-Elasticity\-Matrix@{get\-Unscaled\-Elasticity\-Matrix}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Unscaled\-Elasticity\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Double\-Matrix\-Ptr} get\-Unscaled\-Elasticity\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga14c1f732f8988b2956f096de2fe284f6}
+
+
+Retrieve the unscaled elasticity matrix for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns nil if it fails, otherwise returns a matrix of unscaled elasticities 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga90f444f3a93b225edda7264df6dbdb12}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Unscaled\-Flux\-Control\-Coefficient\-Ids@{get\-Unscaled\-Flux\-Control\-Coefficient\-Ids}}
+\index{get\-Unscaled\-Flux\-Control\-Coefficient\-Ids@{get\-Unscaled\-Flux\-Control\-Coefficient\-Ids}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Unscaled\-Flux\-Control\-Coefficient\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-List\-Ptr} get\-Unscaled\-Flux\-Control\-Coefficient\-Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga90f444f3a93b225edda7264df6dbdb12}
+
+
+Obtain the list of unscaled flux control coefficient Ids. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, if succesful it returns a list of Ids 
+\end{DoxyReturn}
+\hypertarget{group__mca_ga814b6a3331bd0e31f59b0c2ef82f6a1c}{\index{Metabolic control analysis@{Metabolic control analysis}!get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix@{get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix}}
+\index{get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix@{get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix}!Metabolic control analysis@{Metabolic control analysis}}
+\subsubsection[{get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-R\-Double\-Matrix\-Ptr} get\-Unscaled\-Flux\-Control\-Coefficient\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-R\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group__mca_ga814b6a3331bd0e31f59b0c2ef82f6a1c}
+
+
+Retrieve the matrix of unscaled flux control coefficients for the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em handle} & Handle to a Road\-Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise returns a matrix of unscaled flux control coefficients 
+\end{DoxyReturn}

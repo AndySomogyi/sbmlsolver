@@ -1,0 +1,246 @@
+\hypertarget{rrc__utilities_8h}{\section{rrc\-\_\-utilities.\-h File Reference}
+\label{rrc__utilities_8h}\index{rrc\-\_\-utilities.\-h@{rrc\-\_\-utilities.\-h}}
+}
+
+
+road\-Runner C A\-P\-I 2012  
+
+
+{\ttfamily \#include \char`\"{}rrc\-\_\-exporter.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rrc\-\_\-types.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rrc\-\_\-macros.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{rrc__utilities_8h_adf0d900bc12890d3e508054fad529159}{get\-File\-Content} (const char $\ast$f\-Name)
+\begin{DoxyCompactList}\small\item\em Retrieves the the content of a file. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{rrc__utilities_8h_a9ad88a159bcdd9580d87d5e83e25519c}{create\-Text} (const char $\ast$text)
+\begin{DoxyCompactList}\small\item\em Creates memory for holding a string. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{rrc__utilities_8h_a559ba8dc5b0ec407f2b35cc4ab3bacfe}{create\-Text\-Memory} (const int count)
+\begin{DoxyCompactList}\small\item\em Creates memory for holding a string. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__list_gab6b39b0c87e8b3c9d416c99223d98bb5}{create\-R\-R\-List} (void)
+\begin{DoxyCompactList}\small\item\em Create a new list. \end{DoxyCompactList}\item 
+\hypertarget{group__list_ga1382c85efff1e5ef2c45a28321da99a6}{void \hyperlink{group__list_ga1382c85efff1e5ef2c45a28321da99a6}{free\-R\-R\-List} (\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} list)}\label{group__list_ga1382c85efff1e5ef2c45a28321da99a6}
+
+\begin{DoxyCompactList}\small\item\em Free R\-R\-List\-Ptr structure, i.\-e destroy a list. \end{DoxyCompactList}\item 
+int \hyperlink{group__list_ga4e64dc563715bec1bc7f026ac3daeca0}{get\-List\-Length} (\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} my\-List)
+\begin{DoxyCompactList}\small\item\em Returns the length of a given list. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} \hyperlink{group__list_ga1e385c28b44b23310db9811df2ba65ca}{create\-Integer\-Item} (int value)
+\begin{DoxyCompactList}\small\item\em Create a list item to store an integer. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} \hyperlink{group__list_gaa61ed635b56855236a98505603f0f555}{create\-Double\-Item} (double value)
+\begin{DoxyCompactList}\small\item\em Create a list item to store a double value. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} \hyperlink{group__list_ga1e1d689f107c91c0d300f0ea9a4cd018}{create\-String\-Item} (char $\ast$value)
+\begin{DoxyCompactList}\small\item\em Create a list item to store a pointer to a char$\ast$. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} \hyperlink{group__list_ga829d2f599093a059c771dc49b0034ac1}{create\-List\-Item} (struct \hyperlink{struct_r_r_list}{R\-R\-List} $\ast$value)
+\begin{DoxyCompactList}\small\item\em Create a list item to store a list. \end{DoxyCompactList}\item 
+int \hyperlink{group__list_ga62b890cf2f2b2eccb767e86f9c302e61}{add\-Item} (\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} list, \hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} $\ast$item)
+\begin{DoxyCompactList}\small\item\em Add a list item to a list and return index to the added item. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} \hyperlink{group__list_gaf1f33d11323825ab94f9318ba8b55de2}{get\-List\-Item} (\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} list, int index)
+\begin{DoxyCompactList}\small\item\em Returns the index$^\wedge$th item from the list. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_gab2569fd6833d5fee7e30efd3a41543e3}{is\-List\-Item\-Integer} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item)
+\begin{DoxyCompactList}\small\item\em Returns true or false if the list item is an integer. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_ga2c763671f6abbbe6b467dc6fd38cbb27}{is\-List\-Item\-Double} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item)
+\begin{DoxyCompactList}\small\item\em Returns true or false if the list item is a double. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_gaeffbde1640953b8ab54725edb9db5474}{is\-List\-Item\-String} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item)
+\begin{DoxyCompactList}\small\item\em Returns true or false if the list item is a character array. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_ga7adc281139a5571239beaf3fb4b42b47}{is\-List\-Item\-List} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item)
+\begin{DoxyCompactList}\small\item\em Returns true or false if the list item is a list itself. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_ga8b204dac55a44f35cc1904d5e0972db6}{is\-List\-Item} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item, enum \hyperlink{rrc__types_8h_ab99437ab2e88aa90b7ebb8add042b25e}{List\-Item\-Type} item\-Type)
+\begin{DoxyCompactList}\small\item\em Returns true or false if the list item is the given item\-Type. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_ga39de89e96a475dc43b7d6653c1b16bb2}{get\-Integer\-List\-Item} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item, int $\ast$value)
+\begin{DoxyCompactList}\small\item\em Returns the integer from a list item. \end{DoxyCompactList}\item 
+bool \hyperlink{group__list_ga70b6de5a951d9fc8f2fff4e725cc2ad8}{get\-Double\-List\-Item} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Returns the double from a list item. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__list_ga0af9b5f54fcb61b43650cc756d5d8773}{get\-String\-List\-Item} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item)
+\begin{DoxyCompactList}\small\item\em Returns the string from a list item. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} \hyperlink{group__list_ga062c416b761b13200f28830cf64e3b6c}{get\-List} (\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{R\-R\-List\-Item\-Ptr} item)
+\begin{DoxyCompactList}\small\item\em Returns a list from a list item if it contains a list. \end{DoxyCompactList}\item 
+\hypertarget{group__free_routines_ga96317bb0c9ad3daee01c9665cc14b223}{bool \hyperlink{group__free_routines_ga96317bb0c9ad3daee01c9665cc14b223}{free\-R\-R\-C\-Data} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} handle)}\label{group__free_routines_ga96317bb0c9ad3daee01c9665cc14b223}
+
+\begin{DoxyCompactList}\small\item\em Free the memory associated to a \hyperlink{struct_r_r_c_data}{R\-R\-C\-Data} object. \end{DoxyCompactList}\item 
+\hypertarget{group__free_routines_gab2e32a8a1058720ae1912a67f5bdc269}{bool \hyperlink{group__free_routines_gab2e32a8a1058720ae1912a67f5bdc269}{free\-Text} (char $\ast$text)}\label{group__free_routines_gab2e32a8a1058720ae1912a67f5bdc269}
+
+\begin{DoxyCompactList}\small\item\em Free char$\ast$ generated by library routines. \end{DoxyCompactList}\item 
+bool \hyperlink{group__free_routines_ga1063c18523547aa3339347d9fc8cd6e0}{free\-String\-Array} (\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} sl)
+\begin{DoxyCompactList}\small\item\em Free R\-R\-String\-List\-Handle structures. \end{DoxyCompactList}\item 
+\hypertarget{group__free_routines_ga8a8e57e9c2ec5d906c931d7a90b4ce18}{bool \hyperlink{group__free_routines_ga8a8e57e9c2ec5d906c931d7a90b4ce18}{free\-Vector} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector)}\label{group__free_routines_ga8a8e57e9c2ec5d906c931d7a90b4ce18}
+
+\begin{DoxyCompactList}\small\item\em Free R\-R\-Vector\-Handle structures. \end{DoxyCompactList}\item 
+\hypertarget{group__free_routines_gab028613cdb450eeb269bf18ca9e3595c}{bool \hyperlink{group__free_routines_gab028613cdb450eeb269bf18ca9e3595c}{free\-Matrix} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} matrix)}\label{group__free_routines_gab028613cdb450eeb269bf18ca9e3595c}
+
+\begin{DoxyCompactList}\small\item\em Free R\-R\-Double\-Matrix\-Ptr structures. \end{DoxyCompactList}\item 
+void \hyperlink{rrc__utilities_8h_a7d97fb7d74d93f746e25de8895e6e17a}{pause} (void)
+\begin{DoxyCompactList}\small\item\em pause If your program is running in a console, \hyperlink{rrc__utilities_8h_a7d97fb7d74d93f746e25de8895e6e17a}{pause()} will stop execution and wait for one keybord stroke in order to continue. \end{DoxyCompactList}\item 
+int \hyperlink{group__helper_routines_ga36649ac03ad15ad8242f03ff9d28b0a9}{get\-Vector\-Length} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector)
+\begin{DoxyCompactList}\small\item\em Get the number of elements in a vector type. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} \hyperlink{group__helper_routines_gac903628f96b1bf2308fa4a79b189cc1c}{create\-Vector} (int size)
+\begin{DoxyCompactList}\small\item\em Create a new vector with a given size. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_ga10140bb46cc906a75e575c81022a9f2a}{get\-Vector\-Element} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector, int index, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Get a particular element from a vector. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_gaca70bc807a455ec497b7d8e8a2affe45}{set\-Vector\-Element} (\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vector, int index, double value)
+\begin{DoxyCompactList}\small\item\em Set a particular element in a vector. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} \hyperlink{group__helper_routines_gaf462e87fffe618001f9a090db897b014}{create\-R\-R\-Matrix} (int r, int c)
+\begin{DoxyCompactList}\small\item\em Create an empty matrix of size r by c. \end{DoxyCompactList}\item 
+int \hyperlink{group__helper_routines_gace79da82f227142b2b12203eb90b39c2}{get\-Matrix\-Num\-Rows} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of rows in the given matrix. \end{DoxyCompactList}\item 
+int \hyperlink{group__helper_routines_ga48c14f12ed0903649369318daa595c16}{get\-Matrix\-Num\-Cols} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of columns in the given matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_gaaaeee435626a35220ef9329964633356}{get\-Matrix\-Element} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m, int r, int c, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieve an element at a given row and column from a matrix type variable. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_gab8c7891563c13c1e59fc65251d4a19d7}{set\-Matrix\-Element} (\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} m, int r, int c, double value)
+\begin{DoxyCompactList}\small\item\em Set an element at a given row and column with a given value in a matrix type variable. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_ga881e667ad97b6c4461bf54c3a265f395}{get\-Complex\-Matrix\-Element} (\hyperlink{rrc__types_8h_a8cf9e865d8541d100f153800adbb7c3f}{R\-R\-Complex\-Matrix\-Ptr} m, int r, int c, \hyperlink{rrc__types_8h_ada2046d7326c56ae29d8510fbf6622ee}{R\-R\-Complex\-Ptr} value)
+\begin{DoxyCompactList}\small\item\em Retrieve an element at a given row and column from a complex matrix type variable. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_gacbdd712d1e5d677c3849ea2d6dec4001}{set\-Complex\-Matrix\-Element} (\hyperlink{rrc__types_8h_a8cf9e865d8541d100f153800adbb7c3f}{R\-R\-Complex\-Matrix\-Ptr} m, int r, int c, \hyperlink{rrc__types_8h_ada2046d7326c56ae29d8510fbf6622ee}{R\-R\-Complex\-Ptr} value)
+\begin{DoxyCompactList}\small\item\em Set an element at a given row and column with a given value in a complex matrix type variable. \end{DoxyCompactList}\item 
+\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} \hyperlink{group__helper_routines_gacd923bcda7652f46b813619b0843bcfd}{create\-R\-R\-C\-Data} (\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Create a Road\-Runner C data structure (R\-R\-C\-Data\-Ptr) from Road\-Runner data. \end{DoxyCompactList}\item 
+int \hyperlink{group__helper_routines_ga0309b51e111e53ee0131d88c118eb260}{get\-R\-R\-Data\-Num\-Rows} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of rows in the given Road\-Runner numberical data (returned from \hyperlink{group__simulation_ga7631952c1a80ac25724bf67f7a7ddf7a}{simulate(\-R\-R\-Handle handle)}) \end{DoxyCompactList}\item 
+int \hyperlink{group__helper_routines_ga94531f474b344dd40357ceb516aef46c}{get\-R\-R\-Data\-Num\-Cols} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Retrieve the number of columns in the given rr\-Data data (returned form simulat(\-R\-R\-Handle handle)) \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_gaf9a9af778156ea40a6eafe602ba09259}{get\-R\-R\-C\-Data\-Element} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data, int r, int c, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Retrieves an element at a given row and column from a Road\-Runner data type variable. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__helper_routines_ga137a6bddea9c76f243efd818b7a1f956}{get\-R\-R\-Data\-Column\-Label} (\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data, int column)
+\begin{DoxyCompactList}\small\item\em Retrieves a label for a given column in a rr\-Data type variable. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga64ab435eba89b0abf13ae8d86e0a679d}{vector\-To\-String} (const \hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\-R\-Vector\-Ptr} vec)
+\begin{DoxyCompactList}\small\item\em Returns a vector in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga21993774c8d77e0c8988d94d75f8036c}{complex\-Vector\-To\-String} (const \hyperlink{rrc__types_8h_ae05c63419a6ca0575eb327fd04dae4b5}{R\-R\-Complex\-Vector\-Ptr} vec)
+\begin{DoxyCompactList}\small\item\em Returns a complex vector in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_gaca8178efe067c3fb79f06f8dae02d210}{rr\-Data\-To\-String} (\hyperlink{rrc__types_8h_ad0beb6fbdd576789fab9cead01d8b9e9}{R\-R\-Data\-Handle} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Returns a rr\-Data object in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga505aeb10e21f0ef93770f7723aa12514}{rr\-C\-Data\-To\-String} (const \hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\-R\-C\-Data\-Ptr} rr\-Data)
+\begin{DoxyCompactList}\small\item\em Returns a rr\-C\-Data struct in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_gaf42846516870bc5cada2bbeb86f02be8}{matrix\-To\-String} (const \hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\-R\-Double\-Matrix\-Ptr} mat)
+\begin{DoxyCompactList}\small\item\em Returns a matrix in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga41169534497c2764945c24949c11ddbb}{complex\-Matrix\-To\-String} (const \hyperlink{rrc__types_8h_a8cf9e865d8541d100f153800adbb7c3f}{R\-R\-Complex\-Matrix\-Ptr} mat)
+\begin{DoxyCompactList}\small\item\em Returns a complex matrix in string form. \end{DoxyCompactList}\item 
+int \hyperlink{group__string_array_gaa9c5170518e7af66f1347588a5cbd1a8}{get\-Number\-Of\-String\-Elements} (const \hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} list)
+\begin{DoxyCompactList}\small\item\em Returns the length of a string array. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__string_array_ga59111f88b19909001913792ed87a55da}{get\-String\-Element} (\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} list, int index)
+\begin{DoxyCompactList}\small\item\em Returns the indexth element from the string array in the argument value. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_ga404f239a08ca9e328087a488b500cef6}{string\-Array\-To\-String} (const \hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\-R\-String\-Array\-Ptr} list)
+\begin{DoxyCompactList}\small\item\em Returns a string list in string form. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{group__to_string_gaf528aa5b0788d4b8c65d717da48a5839}{list\-To\-String} (const \hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\-R\-List\-Ptr} list)
+\begin{DoxyCompactList}\small\item\em Returns a list in string form. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_ga9da8d82f97b3e2633ea0c8a7162eb5d2}{write\-R\-R\-Data} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$file\-Name\-And\-Path)
+\begin{DoxyCompactList}\small\item\em Writes Road\-Runner data to file. \end{DoxyCompactList}\item 
+bool \hyperlink{group__helper_routines_gae8189a0b11a0263d9232347bf7881776}{compile\-Source} (\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\-R\-Handle} handle, const char $\ast$source\-File\-Name\-And\-Path)
+\begin{DoxyCompactList}\small\item\em Compiles source code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{rrc__utilities_8h_a8f3828dfd1294cbcf4e57b4e382f8a8c}{char $\ast$ \hyperlink{rrc__utilities_8h_a8f3828dfd1294cbcf4e57b4e382f8a8c}{g\-Last\-Error}}\label{rrc__utilities_8h_a8f3828dfd1294cbcf4e57b4e382f8a8c}
+
+\begin{DoxyCompactList}\small\item\em Global parameter holding last error, if any. \end{DoxyCompactList}\item 
+\hypertarget{rrc__utilities_8h_ae4404be9766c980f2b2065a726ad42a6}{char $\ast$ \hyperlink{rrc__utilities_8h_ae4404be9766c980f2b2065a726ad42a6}{g\-Install\-Folder}}\label{rrc__utilities_8h_ae4404be9766c980f2b2065a726ad42a6}
+
+\begin{DoxyCompactList}\small\item\em Global parameter holding C A\-P\-I install folder. \end{DoxyCompactList}\item 
+\hypertarget{rrc__utilities_8h_a7abd7eb1ec507cbb9cd17ad024d0dc66}{const char $\ast$ \hyperlink{rrc__utilities_8h_a7abd7eb1ec507cbb9cd17ad024d0dc66}{A\-L\-L\-O\-C\-A\-T\-E\-\_\-\-A\-P\-I\-\_\-\-E\-R\-R\-O\-R\-\_\-\-M\-S\-G}}\label{rrc__utilities_8h_a7abd7eb1ec507cbb9cd17ad024d0dc66}
+
+\begin{DoxyCompactList}\small\item\em Global parameter holding message for an un-\/allocated A\-P\-I. \end{DoxyCompactList}\item 
+\hypertarget{rrc__utilities_8h_af8776c486d2155e2b40d97013c89c558}{const char $\ast$ \hyperlink{rrc__utilities_8h_af8776c486d2155e2b40d97013c89c558}{I\-N\-V\-A\-L\-I\-D\-\_\-\-H\-A\-N\-D\-L\-E\-\_\-\-E\-R\-R\-O\-R\-\_\-\-M\-S\-G}}\label{rrc__utilities_8h_af8776c486d2155e2b40d97013c89c558}
+
+\begin{DoxyCompactList}\small\item\em Global parameter holding message when an invalid is handed to a function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+road\-Runner C A\-P\-I 2012 \begin{DoxyAuthor}{Author}
+Totte Karlsson \& Herbert M Sauro
+\end{DoxyAuthor}
+$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- This file is part of c\-Road\-Runner. See \href{http://code.google.com/p/roadrunnerlib}{\tt http\-://code.\-google.\-com/p/roadrunnerlib} for more details.
+
+Copyright (C) 2012-\/2013 University of Washington, Seattle, W\-A, U\-S\-A
+
+Licensed under the Apache License, Version 2.\-0 (the \char`\"{}\-License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \begin{DoxyVerb}http://www.apache.org/licenses/LICENSE-2.0
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+In plain english this means\-:
+
+You C\-A\-N freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+
+You C\-A\-N use the software in packages or distributions that you create.
+
+You S\-H\-O\-U\-L\-D include a copy of the license in any redistribution you may make;
+
+You are N\-O\-T required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+Y\-O\-U C\-A\-N\-N\-O\-T\-:
+
+redistribute any piece of this software without proper attribution; 
+
+\subsection{Function Documentation}
+\hypertarget{rrc__utilities_8h_a9ad88a159bcdd9580d87d5e83e25519c}{\index{rrc\-\_\-utilities.\-h@{rrc\-\_\-utilities.\-h}!create\-Text@{create\-Text}}
+\index{create\-Text@{create\-Text}!rrc_utilities.h@{rrc\-\_\-utilities.\-h}}
+\subsubsection[{create\-Text}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ create\-Text (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{text}
+\end{DoxyParamCaption}
+)}}\label{rrc__utilities_8h_a9ad88a159bcdd9580d87d5e83e25519c}
+
+
+Creates memory for holding a string. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em text} & Pointer to a string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to a memory holding a copy of the input string 
+\end{DoxyReturn}
+\hypertarget{rrc__utilities_8h_a559ba8dc5b0ec407f2b35cc4ab3bacfe}{\index{rrc\-\_\-utilities.\-h@{rrc\-\_\-utilities.\-h}!create\-Text\-Memory@{create\-Text\-Memory}}
+\index{create\-Text\-Memory@{create\-Text\-Memory}!rrc_utilities.h@{rrc\-\_\-utilities.\-h}}
+\subsubsection[{create\-Text\-Memory}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ create\-Text\-Memory (
+\begin{DoxyParamCaption}
+\item[{const int}]{count}
+\end{DoxyParamCaption}
+)}}\label{rrc__utilities_8h_a559ba8dc5b0ec407f2b35cc4ab3bacfe}
+
+
+Creates memory for holding a string. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em count} & integer indicating number of elements to allocate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to string memory 
+\end{DoxyReturn}
+\hypertarget{rrc__utilities_8h_adf0d900bc12890d3e508054fad529159}{\index{rrc\-\_\-utilities.\-h@{rrc\-\_\-utilities.\-h}!get\-File\-Content@{get\-File\-Content}}
+\index{get\-File\-Content@{get\-File\-Content}!rrc_utilities.h@{rrc\-\_\-utilities.\-h}}
+\subsubsection[{get\-File\-Content}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ get\-File\-Content (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{f\-Name}
+\end{DoxyParamCaption}
+)}}\label{rrc__utilities_8h_adf0d900bc12890d3e508054fad529159}
+
+
+Retrieves the the content of a file. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em f\-Name} & Pointer to a string holding the name and optionla path to a file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Content of file as a string, returns null if it fails 
+\end{DoxyReturn}
+\hypertarget{rrc__utilities_8h_a7d97fb7d74d93f746e25de8895e6e17a}{\index{rrc\-\_\-utilities.\-h@{rrc\-\_\-utilities.\-h}!pause@{pause}}
+\index{pause@{pause}!rrc_utilities.h@{rrc\-\_\-utilities.\-h}}
+\subsubsection[{pause}]{\setlength{\rightskip}{0pt plus 5cm}void pause (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{rrc__utilities_8h_a7d97fb7d74d93f746e25de8895e6e17a}
+
+
+pause If your program is running in a console, \hyperlink{rrc__utilities_8h_a7d97fb7d74d93f746e25de8895e6e17a}{pause()} will stop execution and wait for one keybord stroke in order to continue. 
+
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
