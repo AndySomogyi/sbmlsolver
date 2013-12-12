@@ -75,7 +75,7 @@ def unLoadPlugins(pm):
 ##
 ## \brief Load a particular plugin
 ## \param pm Handle to a PluginManager instance
-## \param pluginName Name of the plugin to load. The plugin name is the plugins shared library name, without path and extension.
+## \param pluginName Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension.
 ## \return Returns a handle to a plugin, None if unsuccesfull
 ## \ingroup plugin_manager 
 ##
@@ -92,7 +92,7 @@ def loadPlugin(pm, pluginName):
 def unLoadPlugin(pm, pHandle):
     return rrpLib.unLoadPlugin(pm, pHandle)
 
-## \brief Get Number of loaded plugins.
+## \brief Get number of loaded plugins.
 ## \param pm Handle to a PluginManager instance
 ## \return Returns the number of loaded plugins, -1 if a problem is encountered
 ## \ingroup plugin_manager
@@ -100,9 +100,9 @@ rrpLib.getNumberOfPlugins.restype = c_int
 def getNumberOfPlugins(pm):
     return rrpLib.getNumberOfPlugins(pm)
 
-## \brief Function to retrieve the names of currently loaded plugins.
+## \brief Function to retrieve the names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
-## \return Returns names for loaded plugins as a RRStringArrayPtr, None otherwise
+## \return Returns names for all loaded plugins as a RRStringArrayPtr, None otherwise
 ## \ingroup plugin_manager
 rrpLib.getPluginNames.restype = c_void_p
 def getPluginNames(pm):
@@ -145,9 +145,9 @@ def getCurrentPlugin(pm):
     return rrpLib.getCurrentPlugin(pm)
 
 
-## \brief GetPluginHandle
+## \brief Get the plugin handle for the named plugin
 ## \param pm Handle to a PluginManager instance
-## \param pluginName Pointer to string holding the name of a plugin
+## \param pluginName A string that holds the name of the plugin
 ## \return Returns a handle to a plugin, with name as supplied in the parameter pluginName.
 ## Returns None if the plugin is not found
 ## \ingroup plugin_manager
