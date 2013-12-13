@@ -19,11 +19,13 @@ StartTime(0),
 Duration(5),
 EndTime(StartTime + Duration),
 Steps(50),
-SelectionList("")
+SelectionList(""),
+version("1.0.0")
 {}
 
 string Usage(const string& prg)
 {
+    Args args;
     stringstream usage;
     usage<< "rr.exe is a command line driven SBML simulator\n\n";
     usage << "\nUSAGE for "<<prg<<"\n\n";
@@ -41,8 +43,10 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-e<#>"                        <<" Set the end time for simulation. Default: 5\n";
     usage<<setw(25)<<"-z<#>"                        <<" Set number of steps in the simulation. Default: 50\n";
     usage<<setw(25)<<"-l<List>"                     <<" Set selection list. Separate variables using ',' or space\n";
+    usage<<setw(25)<<"-version"                     <<" Prints the current version.\n\n";
     usage<<setw(25)<<"-? "                          <<" Shows the help screen.\n\n";
 
+    usage<<"Version: "<<args.version<<"\n\n";
     usage<<"\nSystems Biology, UW 2013\n";
     return usage.str();
 }

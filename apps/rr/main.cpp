@@ -182,7 +182,17 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('v'): args.CurrentLogLevel                = Logger::stringToLevel(rrOptArg);     break;
+            case ('v'):
+                if(string(rrOptArg) == "ersion" ) //hack to get rr -version working :)
+                {
+                    cout<<"Version: "<<args.version<<endl;
+                    exit(-1);
+                }
+                else
+                {
+                    args.CurrentLogLevel                = Logger::stringToLevel(rrOptArg);
+                }
+                break;
             case ('c'): args.OnlyCompile                    = true;                                break;
             case ('p'): args.Pause                          = true;                                break;
             case ('t'): args.TempDataFolder                 = rrOptArg;                            break;

@@ -24,6 +24,7 @@ class Args
         double                          EndTime;            //option e
         int                             Steps;              //option z
         string                          SelectionList;      //option l:
+        string                          version;            //Not really an argument, ussed to keep rr.exe version
 };
 
 #endif
