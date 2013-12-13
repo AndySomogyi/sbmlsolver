@@ -1,5 +1,4 @@
 import os
-from rrPython import *
 from rrPlugins import *
 
 #Create a plugin manager
