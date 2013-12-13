@@ -61,7 +61,7 @@ paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 paraList = getParameterValueHandle(paraHandle);
 
 #Add parameters to fit
-para1 = createParameter("J0_VM1", "double")
+para1 = createParameter("J0_VM1", "double", "A Hint")
 setDoubleParameter(para1, 0.2)
 addParameterToList(paraList, para1)
 

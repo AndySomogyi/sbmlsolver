@@ -107,6 +107,20 @@ def getNumberOfPlugins(pm):
 rrpLib.getPluginNames.restype = c_void_p
 def getPluginNames(pm):
     namesHandle = rrpLib.getPluginNames(pm)
+    if not namesHandle:
+        return list()
+    names = stringArrayToString(namesHandle)
+    return names.split(" ")
+
+## \brief Function to retrieve the library names of all currently loaded plugins.
+## \param pm Handle to a PluginManager instance
+## \return Returns library names for all loaded plugins as a string, None otherwise
+## \ingroup plugin_manager
+rrpLib.getPluginLibraryNames.restype = c_void_p
+def getPluginLibraryNames(pm):
+    namesHandle = rrpLib.getPluginLibraryNames(pm)
+    if not namesHandle:
+        return list()
     names = stringArrayToString(namesHandle)
     return names.split(" ")
 

@@ -11,8 +11,7 @@ if not result:
     exit()
 
 print 'Number of Plugins: ' + `getNumberOfPlugins(pm)`
-namesHandle = getPluginNames(pm)
-names = stringArrayToString(namesHandle)
+names= getPluginNames(pm)
 print names
 
 ## Get a plugin handle

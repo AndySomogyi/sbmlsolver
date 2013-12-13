@@ -129,6 +129,14 @@ RRP_DECLSPEC int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle);
 RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle);
 
 /*!
+ \brief Function to retrieve the library name of currently loaded plugins.
+ \param handle Handle to a PluginManager instance
+ \return Returns names for loaded plugins as a RRStringArrayPtr, NULL otherwise
+ \ingroup plugin_manager
+*/
+RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle);
+
+/*!
  \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
  This function is typically used together with the getNextPlugin and the getPreviousPlugin functions.
  \param handle Handle to a PluginManager instance
