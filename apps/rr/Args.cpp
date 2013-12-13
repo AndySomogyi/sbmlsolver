@@ -11,7 +11,7 @@ Args::Args()
 UseOSTempFolder(false),
 OnlyCompile(false),
 Pause(false),
-CurrentLogLevel(Logger::LOG_INFORMATION),
+CurrentLogLevel(Logger::LOG_WARNING),
 ModelFileName(""),
 DataOutputFolder(""),
 TempDataFolder("."),
