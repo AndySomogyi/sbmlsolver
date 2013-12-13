@@ -315,7 +315,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         {
             if (j->second.expired())
             {
-                Log(Logger::LOG_INFORMATION) <<
+                Log(Logger::LOG_DEBUG) <<
                         "removing expired model resource for hash " << md5;
 
                 j = cachedModels.erase(j);
@@ -328,7 +328,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if ((i = cachedModels.find(md5)) == cachedModels.end())
         {
-            Log(Logger::LOG_INFORMATION) << "could not find existing cached resource "
+            Log(Logger::LOG_DEBUG) << "could not find existing cached resource "
                     "resources, for hash " << md5 <<
                     ", inserting new resources into cache";
 

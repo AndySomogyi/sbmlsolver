@@ -48,12 +48,12 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     codeGenVoidModelDataHeader(FunctionName, modelData);
 
-    Log(Logger::LOG_INFORMATION) << "boundarySpecies: \n";
+    Log(Logger::LOG_DEBUG) << "boundarySpecies: \n";
     for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
             i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
     {
         char* formula = SBML_formulaToString(i->second);
-        Log(Logger::LOG_INFORMATION) << "\t" << i->first << ": " << formula << "\n";
+        Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
     }
 
@@ -138,13 +138,13 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
                 builder);
     ASTNodeCodeGen astCodeGen(builder, initialValueResolver);
 
-    Log(Logger::LOG_INFORMATION) << "reactions: ";
+    Log(Logger::LOG_DEBUG) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
     for (int i = 0; i < ids.size(); i++)
     {
-        Log(Logger::LOG_INFORMATION) << ids[i] << ", ";
+        Log(Logger::LOG_DEBUG) << ids[i] << ", ";
     }
-    Log(Logger::LOG_INFORMATION) << "\n";
+    Log(Logger::LOG_DEBUG) << "\n";
 
     Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
     Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
@@ -158,7 +158,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
         LLVMModelDataSymbols::SpeciesReferenceInfo nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.row, nz.column);
         char* formula = SBML_formulaToString(node);
-        Log(Logger::LOG_INFORMATION) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
+        Log(Logger::LOG_DEBUG) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
                 << "\n";
         free(formula);
 

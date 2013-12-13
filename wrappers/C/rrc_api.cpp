@@ -172,12 +172,12 @@ int rrcCallConv getVersion()
 
 char* rrcCallConv getVersionStr()
 {
-    return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC).c_str());
+    return rr::createText(rr::getVersionStr(VERSIONSTR_BASIC).c_str());
 }
 
 char* rrcCallConv getVersionEx()
 {
-    return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE).c_str());
+    return rr::createText(rr::getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE).c_str());
 }
 
 char* rrcCallConv getRRCAPILocation()

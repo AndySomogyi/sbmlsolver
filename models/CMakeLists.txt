@@ -19,6 +19,6 @@ install(    FILES ${models}
             DESTINATION models 	
             COMPONENT sbml_models)
 
-install(    FILES Readme.txt
+install(    FILES README.txt
             DESTINATION models 	
             COMPONENT sbml_models)
