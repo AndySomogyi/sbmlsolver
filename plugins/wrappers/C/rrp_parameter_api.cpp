@@ -18,18 +18,78 @@ namespace rrp
 using namespace std;
 using namespace rr;
 
-RRParameterHandle rrp_cc createParameter(const char* label, const char* type, void* value)
+RRParameterHandle rrp_cc createParameter(const char* label, const char* type, const char* _hint, void* value)
 {
     start_try
+        char* hint = (char*) _hint;
+        if(!hint)
+        {
+            hint = "";
+        }
+
+
+        if(string(type) == string("bool"))
+        {
+            bool iniVal  = 0;
+            if(value != NULL)
+            {
+                //cast it
+                bool* val = (bool*) value;
+                iniVal = (*val);
+            }
+            Parameter<bool> *para = new Parameter<bool>(label, iniVal, hint);
+            return para;
+        }
+
+        if(string(type) == string("int"))
+        {
+            int iniVal  = 0;
+            if(value != NULL)
+            {
+                //cast it
+                int* val = (int*) value;
+                iniVal = (*val);
+            }
+            Parameter<int> *para = new Parameter<int>(label, iniVal, hint);
+            return para;
+        }
+
         if(string(type) == string("double"))
         {
             double iniVal  = 0;
             if(value != NULL)
             {
+                //cast it
                 double* dVal = (double*) value;
                 iniVal = (*dVal);
             }
-            Parameter<double> *para = new Parameter<double>(label, iniVal);
+            Parameter<double> *para = new Parameter<double>(label, iniVal, hint);
+            return para;
+        }
+
+        if(string(type) == string("char*"))
+        {
+            char* iniVal  = "";
+            if(value != NULL)
+            {
+                //cast it
+                char* *val = (char**) value;
+                iniVal = (*val);
+            }
+            Parameter<char*> *para = new Parameter<char*>(label, iniVal, hint);
+            return para;
+        }
+
+        if(string(type) == string("string"))
+        {
+            string iniVal  = "";
+            if(value != NULL)
+            {
+                //cast it
+                string* val = (string*) value;
+                iniVal = (*val);
+            }
+            Parameter<string> *para = new Parameter<string>(label, iniVal, hint);
             return para;
         }
 

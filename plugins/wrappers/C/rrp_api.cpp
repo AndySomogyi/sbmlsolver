@@ -201,6 +201,15 @@ RRStringArray* rrp_cc getPluginNames(RRPluginManagerHandle handle)
     catch_ptr_macro
 }
 
+RRStringArray* rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle)
+{
+    start_try
+        PluginManager *pm = castToPluginManager(handle);
+        StringList names = pm->getPluginLibraryNames();
+        return createList(names);
+    catch_ptr_macro
+}
+
 char* rrp_cc getPluginName(RRPluginHandle handle)
 {
     start_try

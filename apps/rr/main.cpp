@@ -19,6 +19,7 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrGetOptions.h"
 #include "Args.h"
+#include "rrStringList.h"
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
@@ -72,8 +73,7 @@ int main(int argc, char * argv[])
             Logger::enableConsoleLogging(Logger::getLevel());
         }
 
-        Log(lInfo) << "Logs are going to " << Logger::getFileName();
-        Log(lInfo) << "Log level is:" << Logger::getCurrentLevelAsString();
+        Log(lInfo) << "Current Log level is:" << Logger::getCurrentLevelAsString();
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
         Log(lDebug) << "Working Directory: "<<getCWD()<<endl;
@@ -143,6 +143,7 @@ int main(int argc, char * argv[])
         if(doContinue)
         {
             RoadRunnerData result = simulation.GetResult();
+
             if(args.OutputFileName.size() >  0)
             {
                 ofstream os(args.OutputFileName.c_str());
@@ -150,8 +151,7 @@ int main(int argc, char * argv[])
             }
             else
             {
-                //Write to std out
-                Log(lInfo)<<result;
+                cout<<result;
             }
         }
 

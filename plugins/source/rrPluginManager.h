@@ -169,6 +169,11 @@ class PLUGINS_API_DECLSPEC PluginManager
         */
         StringList                      getPluginNames();
 
+        /**
+            Retrieves the shared library names of all loaded plugins as a list of strings.
+            \return StringList A Stringlist containing the file name of each loaded Plugin.
+        */
+        StringList                      getPluginLibraryNames();
     private:
         string                          mPluginFolder;
         string                          mPluginExtension;    //Different on different OS's

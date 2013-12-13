@@ -160,19 +160,19 @@ inline string Parameter<char*>::getType() const
 template<>
 inline void Parameter<char*>::setValue(char** val)
 {
-    mValue = val[0];
+    mValue = rr::createText(string(val[0]));
 }
 
 template<>
 inline void Parameter<char*>::setValue(char* const& val)
 {
-    mValue = val;
+    mValue = rr::createText(string(val));
 }
 
 template<>
 inline void Parameter<char*>::setValueFromString(const string& val)
 {
-    strcpy(mValue, val.c_str());
+    mValue = rr::createText(val);
 }
 
 template<>

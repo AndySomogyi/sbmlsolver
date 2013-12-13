@@ -198,6 +198,7 @@ public:
  */
 enum LogLevel
 {
+    lAny        = Logger::LOG_ERROR,
     lError      = Logger::LOG_ERROR,
     lWarning    = Logger::LOG_WARNING,
     lInfo       = Logger::LOG_INFORMATION,
@@ -207,7 +208,6 @@ enum LogLevel
     lDebug3     = Logger::LOG_TRACE,
     lDebug4     = Logger::LOG_TRACE,
     lDebug5     = Logger::LOG_TRACE,
-    lAny        = Logger::LOG_TRACE,
     lUser       = Logger::LOG_TRACE
 };
 
