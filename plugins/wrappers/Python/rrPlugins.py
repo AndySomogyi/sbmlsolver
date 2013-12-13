@@ -382,10 +382,10 @@ def createParameter(name, the_type, hint):
 #        the_type = "char*"
     return rrpLib.createParameter(name, the_type, hint)
 
-## \brief Add a parameter to a parameters container, from a parameter pointer.
-## \param listHandle Handle to a parameters container
-## \param paraHandle Handle to a roadrunner parameter
-## \return Returns a booelan indicating success
+## \brief Add a parameter to a list of parameters.
+## \param listHandle Handle to a parameter list
+## \param paraHandle Handle to a parameter (see createParameter)
+## \return Returns a Boolean indicating success
 ## \ingroup plugin_parameters
 rrpLib.addParameterToList.restype = c_bool
 def addParameterToList(listHandle, paraHandle):
