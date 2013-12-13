@@ -566,7 +566,7 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
 
     if (Logger::LOG_INFORMATION <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::LOG_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
 
         log.stream() << "found " << independentGlobalParameterSize
                 << " independent and " << depParam.size()
@@ -623,9 +623,9 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
     // finally set how many we have
     independentBoundarySpeciesSize = indBndSpecies.size();
 
-    if (Logger::LOG_INFORMATION <= getLogger().getLevel())
+    if (Logger::LOG_DEBUG <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::LOG_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
 
         log.stream() << "found "
                 << indBndSpecies.size() << " independent and "
@@ -955,9 +955,9 @@ bool LLVMModelDataSymbols::isValidSpeciesReference(
 
 void LLVMModelDataSymbols::displayCompartmentInfo()
 {
-    if (Logger::LOG_INFORMATION <= getLogger().getLevel())
+    if (Logger::LOG_DEBUG <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::LOG_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
 
         log.stream() << "found " << independentCompartmentSize
                      << " independent and " << (compartmentsMap.size() -
