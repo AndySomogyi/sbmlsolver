@@ -1,10 +1,8 @@
 ##@Module rrPython
 #This module allows access to the rr_c_api.dll from python"""
-
 import sys
 import os
 import numpy as np
-
 from ctypes import *
 
 if len(os.path.dirname(__file__)):
@@ -19,9 +17,7 @@ if sys.platform.startswith('win32'):
     rrLib=CDLL(sharedLib)
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-
     print(os.path.join(rrInstallFolder, 'librrc_api.dylib'))
-
     # check for .so (linux)
     if os.path.isfile(os.path.join(rrInstallFolder, 'librrc_api.so')):
         sharedLib = os.path.join(rrInstallFolder, 'librrc_api.so')
@@ -31,102 +27,14 @@ else:
         raise Exception("could not locate RoadRunner shared library")
     rrLib = cdll.LoadLibrary(sharedLib)
 
-
-##\mainpage notitle
-#\section Introduction
-#RoadRunner is a high performance and portable simulation engine for systems and synthetic biology. To run a simple SBML model and generate time series data we would call:
-#
-#@code
-#
-#import rrPython
-#
-#rrPython.loadSBMLFromFile('C:\\Models\\mymodel.xml')
-#
-#rrPython.simulate()
-#@endcode
-#
-#\section Setup
-#In order to import the python module, the python folder within the roadRunner install folder must be in the system's python path. To make sure it is, do the following in Windows:
-#
-#Open the control panel and click on 'System'
-#The following will appear; click on 'Advanced System Settings'
-#\image html http://i.imgur.com/bvn9c.jpg
-#
-#Click on the 'Environment Variables' button highlighted in the image below
-#\image html http://i.imgur.com/jBCfn.jpg
-#
-#Highlight the python path entry and click edit. The prompt shown below will appear. Enter the location of the python folder within the install folder with a semicolon between any other entries.
-#\image html http://i.imgur.com/oLC32.jpg
-
-##\defgroup initialization Library initialization and termination methods
-# \brief Initialize library and terminate library instance
-#
-# \defgroup loadsave Read and Write models
-# \brief Read and write models to files or strings. Support for SBML formats.
-#
-# \defgroup utility Utility functions
-# \brief Various miscellaneous routines that return useful information about the library
-#
-# \defgroup errorfunctions Error handling functions
-# \brief Error handling routines
-#
-# \defgroup state Current state of system
-# \brief Compute derivatives, fluxes, and other values of the system at the current state
-#
-# \defgroup steadystate Steady State Routines
-# \brief Compute and obtain basic information about the steady state
-#
-# \defgroup reaction Reaction group
-# \brief Get information about reaction rates
-#
-# \defgroup rateOfChange Rates of change group
-# \brief Get information about rates of change
-#
-# \defgroup boundary Boundary species group
-# \brief Get information about boundary species
-#
-# \defgroup floating Floating species group
-# \brief Get information about floating species
-#
-# \defgroup initialConditions Initial conditions group
-# \brief Set or get initial conditions
-#
-# \defgroup parameters Parameter group
-# \brief Set and get global and local parameters
-#
-# \defgroup compartment Compartment group
-# \brief Set and Get information on compartments
-#
-# \defgroup simulation Time-course simulation
-# \brief Deterministic, stochastic, and hybrid simulation algorithms
-#
-# \defgroup mca Metabolic Control Analysis
-# \brief Calculate control coefficients and sensitivities
-#
-# \defgroup stoich Stoichiometry analysis
-# \brief Linear algebra based methods for analyzing a reaction network
-#
-# \defgroup helperRoutines Helper Routines
-# \brief Helper routines for acessing the various C API types, eg lists and arrays
-#
-# \defgroup toString ToString Routines
-# \brief Render various result data types as strings
-#
-# \defgroup freeRoutines Free memory routines
-# \brief Routines that should be used to free various data structures generated during the course of using the library
-
-
 #=======================rr_c_api=======================#
 rrLib.createRRInstance.restype = c_void_p
-
 
 #===== The Python API allocate an internal global handle to ONE instance of the Roadrunner API
 gHandle = rrLib.createRRInstance()
 
-
 # Utility and informational methods
 rrLib.getInfo.restype       = c_char_p
-rrLib.getAPIVersion.restype = c_char_p
 rrLib.getBuildDate.restype = c_char_p
 rrLib.getBuildTime.restype = c_char_p
 rrLib.getBuildDateTime.restype = c_char_p
@@ -200,8 +108,6 @@ rrLib.getRRDataNumRows.restype = c_int
 rrLib.getRRDataNumCols.restype = c_int
 rrLib.getRRCDataElement.restype = c_bool
 rrLib.getRRDataColumnLabel.restype = c_char_p
-#rrLib.getCCodeHeader.restype = c_char_p
-#rrLib.getCCodeSource.restype = c_char_p
 
 rrLib.isListItemInteger.resType = c_bool
 rrLib.isListItemDouble.resType = c_bool
@@ -328,10 +234,6 @@ def getInfo():
     theInfo = filter(None, theInfo.split('\n'))
     return theInfo
 
-##\brief Retrieve the current version number of the library
-#\return char* version - Returns null if it fails, otherwise it returns the version number of the library
-def getAPIVersion():
-    return rrLib.getAPIVersion()
 
 ##\brief Retrieve the current build date of the library
 #\return Returns null if it fails, otherwise it returns the build date
@@ -432,6 +334,26 @@ def getLogFileName():
 #\return status - Returns true if there is an error waiting to be retrieved
 def hasError():
     return rrLib.hasError()
+
+## Get the version number.
+## returns the individual version numbers as XXYYZZ where XX
+## is the major version, YY the minor and ZZ the revision,
+## eg 10000, or 10100, 20000 etc
+## \return the roadrunner version number in the form or 102030 if the number
+## is 1.2.3
+def getVersion():
+    return rrLib.getVersion()
+
+## returns roadrunner as a string, i.e. "1.0.0"
+rrLib.getVersionStr.restype = c_char_p
+def getVersionStr():
+    return rrLib.getVersionStr()
+
+## \brief returns something like "1.0.0; 
+## compiled with clang "3.3 (tags/RELEASE_33/final)" on date Dec  8 2013, 17:24:57'
+rrLib.getVersionEx.restype = c_char_p
+def getVersionEx():
+    return rrLib.getVersionEx()
 
 ##\brief Returns the last error
 #
@@ -2015,11 +1937,95 @@ def createRRMatrix (marray):
             rrLib.setMatrixElement (rrm, i, j, marray[i, j])
     return rrm
 
-# ---------------------------------------------------------------------------------
 
 #Miscellaneous
 def compileSource(sourceFileName, rrHandle = None):
     if rrHandle is None:
         rrHandle = gHandle
     return rrLib.compileSource(rrHandle, sourceFileName)
+
+##\mainpage notitle
+#\section Introduction
+#RoadRunner is a high performance and portable simulation engine for systems and synthetic biology. To run a simple SBML model and generate time series data we would call:
+#
+#@code
+#
+#import rrPython
+#
+#rrPython.loadSBMLFromFile('C:\\Models\\mymodel.xml')
+#
+#rrPython.simulate()
+#@endcode
+#
+#\section Setup
+#In order to import the python module, the python folder within the roadRunner install folder must be in the system's python path. To make sure it is, do the following in Windows:
+#
+#Open the control panel and click on 'System'
+#The following will appear; click on 'Advanced System Settings'
+#\image html http://i.imgur.com/bvn9c.jpg
+#
+#Click on the 'Environment Variables' button highlighted in the image below
+#\image html http://i.imgur.com/jBCfn.jpg
+#
+#Highlight the python path entry and click edit. The prompt shown below will appear. Enter the location of the python folder within the install folder with a semicolon between any other entries.
+#\image html http://i.imgur.com/oLC32.jpg
+
+##\defgroup initialization Library initialization and termination methods
+# \brief Initialize library and terminate library instance
+#
+# \defgroup loadsave Read and Write models
+# \brief Read and write models to files or strings. Support for SBML formats.
+#
+# \defgroup utility Utility functions
+# \brief Various miscellaneous routines that return useful information about the library
+#
+# \defgroup errorfunctions Error handling functions
+# \brief Error handling routines
+#
+# \defgroup state Current state of system
+# \brief Compute derivatives, fluxes, and other values of the system at the current state
+#
+# \defgroup steadystate Steady State Routines
+# \brief Compute and obtain basic information about the steady state
+#
+# \defgroup reaction Reaction group
+# \brief Get information about reaction rates
+#
+# \defgroup rateOfChange Rates of change group
+# \brief Get information about rates of change
+#
+# \defgroup boundary Boundary species group
+# \brief Get information about boundary species
+#
+# \defgroup floating Floating species group
+# \brief Get information about floating species
+#
+# \defgroup initialConditions Initial conditions group
+# \brief Set or get initial conditions
+#
+# \defgroup parameters Parameter group
+# \brief Set and get global and local parameters
+#
+# \defgroup compartment Compartment group
+# \brief Set and Get information on compartments
+#
+# \defgroup simulation Time-course simulation
+# \brief Deterministic, stochastic, and hybrid simulation algorithms
+#
+# \defgroup mca Metabolic Control Analysis
+# \brief Calculate control coefficients and sensitivities
+#
+# \defgroup stoich Stoichiometry analysis
+# \brief Linear algebra based methods for analyzing a reaction network
+#
+# \defgroup helperRoutines Helper Routines
+# \brief Helper routines for acessing the various C API types, eg lists and arrays
+#
+# \defgroup toString ToString Routines
+# \brief Render various result data types as strings
+#
+# \defgroup freeRoutines Free memory routines
+# \brief Routines that should be used to free various data structures generated during the course of using the library
+
+
 

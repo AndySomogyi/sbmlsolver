@@ -31,8 +31,8 @@ print test
 
 paraValueString = getParameterValueAsString(paraHandle)
 print 'Parameter is now: ' + paraValueString
-########### ------------------------------------------------------
 
+## Retrieve a parameter handle
 paraHandle = getPluginParameter(plugin, "Sigma")
 
 print 'getting some info about the parameter'

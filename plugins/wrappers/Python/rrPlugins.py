@@ -102,11 +102,13 @@ def getNumberOfPlugins(pm):
 
 ## \brief Function to retrieve the names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
-## \return Returns names for all loaded plugins as a RRStringArrayPtr, None otherwise
+## \return Returns names for all loaded plugins as a string, None otherwise
 ## \ingroup plugin_manager
 rrpLib.getPluginNames.restype = c_void_p
 def getPluginNames(pm):
-    return rrpLib.getPluginNames(pm)
+    namesHandle = rrpLib.getPluginNames(pm)
+    names = stringArrayToString(namesHandle)
+    return names.split(" ")
 
 ## \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
 ## This function is typically used together with the getNextPlugin and the getPreviousPlugin functions.
@@ -368,14 +370,17 @@ def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
-## \brief Create a parameter of type "type"
+## \brief Create a parameter of type "type" with a name and hint property
 ## \param name The parameters name as a string
-## \param the_type  The parameters type as string. Possible values can be 'double', 'int', 'char*' etc,
+## \param the_type  The parameters type as string. Possible values: 'bool', 'int', 'double', 'string'
+## \param hint  The parameters hint as a string.
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
-def createParameter(name, the_type):
-    return rrpLib.createParameter(name, the_type, None)
+def createParameter(name, the_type, hint):
+#    if the_type == "string":
+#        the_type = "char*"
+    return rrpLib.createParameter(name, the_type, hint)
 
 ## \brief Add a parameter to a parameters container, from a parameter pointer.
 ## \param listHandle Handle to a parameters container
@@ -391,6 +396,7 @@ def addParameterToList(listHandle, paraHandle):
 ## \param value Pointer to string holding the value to assign to the parameter, e.g. "0.01" to set a double to 0.01
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
+rrpLib.setParameterByString.restype = c_bool
 def setParameterByString(paraHandle, value):
     return rrpLib.setParameterByString(paraHandle, value)
 
@@ -399,6 +405,7 @@ def setParameterByString(paraHandle, value):
 ## \param value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
+rrpLib.setIntParameter.restype = c_bool
 def setIntParameter(paraHandle, value):
     return rrpLib.setIntParameter(paraHandle, c_int(value))
 
@@ -407,7 +414,7 @@ def setIntParameter(paraHandle, value):
 ## \param value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
-#rrpLib.setDoubleParameter.args = [c_void_p, c_double]
+rrpLib.setDoubleParameter.restype = c_bool
 def setDoubleParameter(paraHandle, value):
     return rrpLib.setDoubleParameter(paraHandle, c_double(value))
 
@@ -416,6 +423,7 @@ def setDoubleParameter(paraHandle, value):
 ## \param value Value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
+rrpLib.setStringParameter.restype = c_bool
 def setStringParameter(paraHandle, value):
     return rrpLib.setStringParameter(paraHandle, c_char_p(value))
 
@@ -459,7 +467,7 @@ def getParameterName(paraHandle):
 ## \return Returns the parameters type if successful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getParameterHint.restype = c_char_p
-def getParameterType(paraHandle):
+def getParameterHint(paraHandle):
     return rrpLib.getParameterHint(paraHandle)
 
 ## \brief Get a parameters type
@@ -486,9 +494,7 @@ def getParameterValue(paraHandle):
         ptr = cast(paraVoidPtr, POINTER(c_int))
         return ptr[0]
     if paraType == 'string':
-        paraVoidPtr = getParameterValueHandle(paraHandle)
-        ptr = cast(paraVoidPtr, POINTER(c_char_p))
-        return ptr[0]
+        return getParameterValueAsString(paraHandle)
     if paraType == 'NoiseType':
         paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_int))
@@ -568,7 +574,7 @@ def unloadAPI():
 #import sys
 #from rrPlugins import *
 #
-##Create a plugin manager
+## Create a plugin manager
 #pm = createPluginManager()
 #
 ## Load plugins from the plugin folder
@@ -607,7 +613,7 @@ def unloadAPI():
 ## Name..........................AddNoise
 ## Author........................Totte Karlsson
 ## Category......................Signal Processing
-## Version.......................0.1
+## Version.......................1.0
 ## Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
 ## 
 ## True
@@ -673,9 +679,14 @@ def unloadAPI():
 ## \example rrPluginDocumentationDemo.py
 ## This Example shows
 ## -# Get a plugins Capabilities as XML
-## -# Obtain and view a Plugins documentaiton as PDF (Need a system PDF reader)
+## -# Obtain and view a Plugin's documentation as a PDF (Needs a system PDF reader)
 
 ## \example rrCallBackFunctionDemo.py
 ## This Example shows
 ## -# How to define Python callback functions and passing them to a plugin
 
+## \example rrNoisePluginDemo.py
+## This Example Demonstrate the use of the AddNoise plugin
+
+## \example rrLevenbergMarquardtDemo.py
+## This Example Demonstrate the use of the Minimization Plugin, using the Levenberg-Marquardt algorithm.

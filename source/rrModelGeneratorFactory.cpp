@@ -33,7 +33,7 @@ ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compil
     }
 #endif
 
-    Log(Logger::LOG_NOTICE) << "Creating C based model generator using " << compiler << " compiler.";
+    Log(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
 
     // default (for now...), the old C code generating model generator.
     return new CModelGenerator(tempFolder, supportCodeFolder, compiler);

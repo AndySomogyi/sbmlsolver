@@ -161,7 +161,7 @@ char* rrcCallConv getCPPAPIVersion(RRHandle handle)
     catch_ptr_macro
 }
 
-int getVersion()
+int rrcCallConv getVersion()
 {
     int nmajor = 10000 * RR_VERSION_MAJOR;
     int nminor = 100 *  RR_VERSION_MINOR;
@@ -170,12 +170,12 @@ int getVersion()
     return nmajor + nminor + npatch;
 }
 
-char* getVersionStr()
+char* rrcCallConv getVersionStr()
 {
     return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC).c_str());
 }
 
-char* getVersionEx()
+char* rrcCallConv getVersionEx()
 {
     return ::strdup(rr::getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE).c_str());
 }

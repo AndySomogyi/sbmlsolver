@@ -1,10 +1,10 @@
 import sys
 from rrPlugins import *
 
-#Create a plugin manager
+## Create a plugin manager
 pm = createPluginManager()
 
-#Load plugins from the plugin folder
+## Load plugins from the plugin folder
 result = loadPlugins(pm)
 if not result:
     print 'Failed to load any plugins'
@@ -15,7 +15,7 @@ namesHandle = getPluginNames(pm)
 names = stringArrayToString(namesHandle)
 print names
 
-#get a plugin handle
+## Get a plugin handle
 aPlugin = getFirstPlugin(pm)
 
 if(aPlugin == None):

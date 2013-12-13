@@ -176,12 +176,19 @@ endif (${BUILD_LLVM})
 
 if(${MSVC})
     add_definitions(
-        -DCRT_NONSTDC_NO_DEPRECATE
         -DPOCO_NO_AUTOMATIC_LIBS
-        -D_CRT_SECURE_NO_WARNINGS   #MS wanting you to changes basically all standard C functions :(
+        -DCRT_NONSTDC_NO_DEPRECATE
+        -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
         )
+        
+    #  4251 About exporting std classes
+    #  4018 Comparing unsigned/signed ints
+    #  4996 Deprecated functions   
+    add_definitions( "/wd4251 /wd4018 /wd4996 /nologo" )   
+
     SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} /EHsc ")
     SET (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
+
 endif()
 
 #=== COMPILER FLAGS
@@ -242,12 +249,12 @@ endif(INSTALL_CXX_API)
 
 add_subdirectory(wrappers)
 
-if(BUILD_TESTING_TOOLS)
+if(BUILD_TEST_TOOLS)
     message(STATUS "building tests")
     add_subdirectory(testing)
 else()
     message(STATUS "NOT building tests")
-endif(BUILD_TESTING_TOOLS)
+endif(BUILD_TEST_TOOLS)
 
 if(BUILD_PLUGINS)
     message(STATUS "building plugins")

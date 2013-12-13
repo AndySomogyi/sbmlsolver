@@ -108,7 +108,7 @@ C_DECL_SPEC char* rrcCallConv getAPIVersion(void);
 C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(RRHandle handle);
 
 /*!
- get the version number.
+ Get the version number.
 
  \return the roadrunner version number in the form or 102030 if the number
  is 1.2.3
@@ -117,17 +117,17 @@ C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(RRHandle handle);
  is the major version, YY the minor and ZZ the revision,
  eg 10000, or 10100, 20000 etc
  */
-C_DECL_SPEC int getVersion();
+C_DECL_SPEC int  rrcCallConv getVersion();
 
 /*!
  returns roadrunner as a string, i.e. "1.0.0"
  */
-C_DECL_SPEC char* getVersionStr();
+C_DECL_SPEC char*  rrcCallConv getVersionStr();
 
 /*!
  returns something like "1.0.0; compiled with clang "3.3 (tags/RELEASE_33/final)" on date Dec  8 2013, 17:24:57'
  */
-C_DECL_SPEC char* getVersionEx();
+C_DECL_SPEC char*  rrcCallConv getVersionEx();
 
 /*!
  \brief Retrieve extended API info.

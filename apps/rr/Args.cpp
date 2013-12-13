@@ -11,7 +11,7 @@ Args::Args()
 UseOSTempFolder(false),
 OnlyCompile(false),
 Pause(false),
-CurrentLogLevel(Logger::LOG_INFORMATION),
+CurrentLogLevel(Logger::LOG_WARNING),
 ModelFileName(""),
 DataOutputFolder(""),
 TempDataFolder("."),
@@ -25,6 +25,7 @@ SelectionList("")
 string Usage(const string& prg)
 {
     stringstream usage;
+    usage<< "rr.exe is a command line driven SBML simulator\n\n";
     usage << "\nUSAGE for "<<prg<<"\n\n";
     usage<<left;
     usage<<setfill('.');
@@ -42,7 +43,7 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-l<List>"                     <<" Set selection list. Separate variables using ',' or space\n";
     usage<<setw(25)<<"-? "                          <<" Shows the help screen.\n\n";
 
-    usage<<"\nSystems Biology, UW 2012\n";
+    usage<<"\nSystems Biology, UW 2013\n";
     return usage.str();
 }
 

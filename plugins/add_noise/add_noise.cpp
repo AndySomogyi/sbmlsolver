@@ -18,6 +18,7 @@ mNoiseType(                "NoiseType",                 ntGaussian,             
 mSigma(                    "Sigma",                     1,                              "Size of applied noise"),
 mAddNoiseWorker(*this)
 {
+    mVersion = "1.0";
     //Setup the plugins capabilities
     mCapabilities.add(mAddNoise);
     mAddNoise.addParameter(&mNoiseType);

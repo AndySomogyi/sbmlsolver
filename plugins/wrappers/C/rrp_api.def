@@ -11,6 +11,7 @@ unLoadPlugin                                    = _unLoadPlugin
 loadPlugins                                     = _loadPlugins
 unLoadPlugins                                   = _unLoadPlugins
 getPluginNames                                  = _getPluginNames
+getPluginLibraryNames                           = _getPluginLibraryNames
 getPlugin                                       = _getPlugin
 getFirstPlugin                                  = _getFirstPlugin
 getNextPlugin                                   = _getNextPlugin

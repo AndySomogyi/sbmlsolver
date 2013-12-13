@@ -378,6 +378,25 @@ StringList PluginManager::getPluginNames()
     return names;
 }
 
+StringList PluginManager::getPluginLibraryNames()
+{
+    StringList names;
+    int nrPlugins = getNumberOfPlugins();
+    for(int i = 0; i < nrPlugins; i++)
+    {
+        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        if(aPluginLib)
+        {
+            Plugin* aPlugin     = aPluginLib->second;
+            if(aPlugin)
+            {
+                names.add(aPlugin->getLibraryName());
+            }
+        }
+    }
+    return names;
+}
+
 int PluginManager::getNumberOfPlugins()
 {
     return mPlugins.size();
