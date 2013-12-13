@@ -25,6 +25,7 @@ var searchData=
   ['getpdfmanualbytesize',['getPDFManualByteSize',['../classrrp_1_1_plugin.html#a32e3fc330f4a08b5701f18753135afb3',1,'rrp::Plugin']]],
   ['getplugin',['getPlugin',['../classrrp_1_1_plugin_manager.html#a0d2063f1e389b4a5fb128c99ef1dd114',1,'rrp::PluginManager']]],
   ['getplugindir',['getPluginDir',['../classrrp_1_1_plugin_manager.html#a85ff5ca02e102597d6a23c6adb0e3a99',1,'rrp::PluginManager']]],
+  ['getpluginlibrarynames',['getPluginLibraryNames',['../classrrp_1_1_plugin_manager.html#a9921754ad81f9c269c4669522325151e',1,'rrp::PluginManager']]],
   ['getpluginnames',['getPluginNames',['../classrrp_1_1_plugin_manager.html#af3943a5ecc01c919c1487d3158e09264',1,'rrp::PluginManager']]],
   ['getpreviousplugin',['getPreviousPlugin',['../classrrp_1_1_plugin_manager.html#a8750fa91f0574a2ac426b8471bcb54b7',1,'rrp::PluginManager']]],
   ['getresult',['getResult',['../classrrp_1_1_plugin.html#a34fb9de62b09ea9a2082e62e0491cf2f',1,'rrp::Plugin']]],

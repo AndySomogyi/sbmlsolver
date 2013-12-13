@@ -127,6 +127,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0d2063f1e389b4a5fb128c99ef1dd114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3943a5ecc01c919c1487d3158e09264"><td class="memItemLeft" align="right" valign="top">StringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_manager.html#af3943a5ecc01c919c1487d3158e09264">getPluginNames</a> ()</td></tr>
 <tr class="separator:af3943a5ecc01c919c1487d3158e09264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9921754ad81f9c269c4669522325151e"><td class="memItemLeft" align="right" valign="top">StringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_manager.html#a9921754ad81f9c269c4669522325151e">getPluginLibraryNames</a> ()</td></tr>
+<tr class="separator:a9921754ad81f9c269c4669522325151e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classrrp_1_1_plugin_manager.html">PluginManager</a> class is responsible for loading and unloading plugins. Each plugin is validated and categorized during the load process. A plugin that don't pass validation will not be loaded.</p>
@@ -305,6 +307,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a9921754ad81f9c269c4669522325151e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">StringList rrp::PluginManager::getPluginLibraryNames </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves the shared library names of all loaded plugins as a list of strings. </p>
+<dl class="section return"><dt>Returns</dt><dd>StringList A Stringlist containing the file name of each loaded <a class="el" href="classrrp_1_1_plugin.html">Plugin</a>. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="af3943a5ecc01c919c1487d3158e09264"></a>
 <div class="memitem">
 <div class="memproto">
@@ -407,7 +426,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 19:52:25 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2013 22:19:16 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
