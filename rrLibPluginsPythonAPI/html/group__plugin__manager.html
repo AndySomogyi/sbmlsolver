@@ -105,10 +105,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga140343e76c68386c4c1f4e077a863016"><td class="mdescLeft">&#160;</td><td class="mdescRight">unload a particular plugin  <a href="#ga140343e76c68386c4c1f4e077a863016">More...</a><br/></td></tr>
 <tr class="separator:ga140343e76c68386c4c1f4e077a863016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga00081a51f3070fc0a02cfd93ef961e23"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23">getNumberOfPlugins</a></td></tr>
-<tr class="memdesc:ga00081a51f3070fc0a02cfd93ef961e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get Number of loaded plugins.  <a href="#ga00081a51f3070fc0a02cfd93ef961e23">More...</a><br/></td></tr>
+<tr class="memdesc:ga00081a51f3070fc0a02cfd93ef961e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of loaded plugins.  <a href="#ga00081a51f3070fc0a02cfd93ef961e23">More...</a><br/></td></tr>
 <tr class="separator:ga00081a51f3070fc0a02cfd93ef961e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9edbc24939810499d1bf3056531ff114"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">getPluginNames</a></td></tr>
-<tr class="memdesc:ga9edbc24939810499d1bf3056531ff114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to retrieve the names of currently loaded plugins.  <a href="#ga9edbc24939810499d1bf3056531ff114">More...</a><br/></td></tr>
+<tr class="memdesc:ga9edbc24939810499d1bf3056531ff114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to retrieve the names of all currently loaded plugins.  <a href="#ga9edbc24939810499d1bf3056531ff114">More...</a><br/></td></tr>
 <tr class="separator:ga9edbc24939810499d1bf3056531ff114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga77a2b5b4f52822d85acae4b9f35199a8"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8">getFirstPlugin</a></td></tr>
 <tr class="memdesc:ga77a2b5b4f52822d85acae4b9f35199a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.  <a href="#ga77a2b5b4f52822d85acae4b9f35199a8">More...</a><br/></td></tr>
@@ -123,7 +123,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga41c52348c1de66c9176002f915942c96"><td class="mdescLeft">&#160;</td><td class="mdescRight">getCurrentPlugin retrieves the "current" plugin in the plugin managers internal list of plugins.  <a href="#ga41c52348c1de66c9176002f915942c96">More...</a><br/></td></tr>
 <tr class="separator:ga41c52348c1de66c9176002f915942c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga85066806c559efe636cd6e8012199e7d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga85066806c559efe636cd6e8012199e7d">getPlugin</a></td></tr>
-<tr class="memdesc:ga85066806c559efe636cd6e8012199e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetPluginHandle.  <a href="#ga85066806c559efe636cd6e8012199e7d">More...</a><br/></td></tr>
+<tr class="memdesc:ga85066806c559efe636cd6e8012199e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the plugin handle for the named plugin.  <a href="#ga85066806c559efe636cd6e8012199e7d">More...</a><br/></td></tr>
 <tr class="separator:ga85066806c559efe636cd6e8012199e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -274,7 +274,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get Number of loaded plugins. </p>
+<p>Get number of loaded plugins. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
@@ -309,11 +309,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GetPluginHandle. </p>
+<p>Get the plugin handle for the named plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
-    <tr><td class="paramname">pluginName</td><td>Pointer to string holding the name of a plugin </td></tr>
+    <tr><td class="paramname">pluginName</td><td>A string that holds the name of the plugin </td></tr>
   </table>
   </dd>
 </dl>
@@ -335,14 +335,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Function to retrieve the names of currently loaded plugins. </p>
+<p>Function to retrieve the names of all currently loaded plugins. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns names for loaded plugins as a RRStringArrayPtr, None otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns names for all loaded plugins as a RRStringArrayPtr, None otherwise </dd></dl>
 
 </div>
 </div>
@@ -400,7 +400,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
-    <tr><td class="paramname">pluginName</td><td>Name of the plugin to load. The plugin name is the plugins shared library name, without path and extension. </td></tr>
+    <tr><td class="paramname">pluginName</td><td>Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension. </td></tr>
   </table>
   </dd>
 </dl>
@@ -498,7 +498,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 11 2013 19:56:58 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2013 19:54:06 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
