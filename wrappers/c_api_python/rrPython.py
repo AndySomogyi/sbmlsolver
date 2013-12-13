@@ -615,7 +615,7 @@ def getNPData(rrcDataHandle):
                 rvalue = m
                 cvalue = n
                 value = c_double()
-                if rrLib.getRRDataElement(rrcDataHandle, rvalue, cvalue, pointer(value)) == True:
+                if rrLib.getRRCDataElement(rrcDataHandle, rvalue, cvalue, pointer(value)) == True:
                     resultArray[m, n] = value.value
     return resultArray
 
@@ -629,7 +629,7 @@ def getRoadRunnerData(aHandle = None):
         aHandle = gHandle
     return rrLib.getRoadRunnerData(aHandle)
 
-#use getRRDataElement and other helper routines to build array that can be used in numpy to plot with matplotlib
+#use getRRCDataElement and other helper routines to build array that can be used in numpy to plot with matplotlib
 #get num cols, get num rows, create array, fill array with two loops
 
 
