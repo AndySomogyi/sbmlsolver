@@ -175,7 +175,7 @@ rrpLib.getPluginInfo.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrpLib.getPluginInfo(pluginHandle)
 
-## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function returns such as a pointer to a string.
+## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF.
 ## Use the function getPluginManualNrOfBytes to get the exact length of this string.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns the plugin's manual pdf file as a unsigned char*. If not available, returns None.
@@ -400,7 +400,7 @@ rrpLib.setParameterByString.restype = c_bool
 def setParameterByString(paraHandle, value):
     return rrpLib.setParameterByString(paraHandle, value)
 
-## \brief Set an int parameter
+## \brief Set an integer parameter
 ## \param paraHandle to a Parameter instance
 ## \param value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
@@ -418,7 +418,7 @@ rrpLib.setDoubleParameter.restype = c_bool
 def setDoubleParameter(paraHandle, value):
     return rrpLib.setDoubleParameter(paraHandle, c_double(value))
 
-## \brief Set a string (char*) parameter
+## \brief Set a string parameter
 ## \param paraHandle to a Parameter instance
 ## \param value Value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
@@ -430,7 +430,7 @@ def setStringParameter(paraHandle, value):
 #def setEnumParameter(parameter, value):
 #    return rrpLib.setIntParameter(parameter, value)
 
-## \brief Get a parameters info
+## \brief Get inforamtion on a parameter
 ## \param paraHandle Handle to a parameter instance
 ## \return Returns informational text about the parameter if successful, None otherwise
 ## \ingroup plugin_parameters
@@ -438,7 +438,7 @@ rrpLib.getParameterInfo.restype = c_char_p
 def getParameterInfo(paraHandle):
     return rrpLib.getParameterInfo(paraHandle)
 
-## \brief Get a parameters value as char*
+## \brief Get a parameter value in the form of a string
 ## \param paraHandle to a Parameter instance
 ## \return Returns the parameters value if successful, None otherwise
 ## \ingroup plugin_parameters
@@ -446,7 +446,7 @@ rrpLib.getParameterValueAsString.restype = c_char_p
 def getParameterValueAsString(paraHandle):
     return rrpLib.getParameterValueAsString(paraHandle)
 
-## \brief Get a handle to a parameters value
+## \brief Get a handle to a parameter value
 ## \param paraHandle to a Parameter instance
 ## \return Returns a Handle to the parameter value if successful, None otherwise
 ## \ingroup plugin_parameters
@@ -454,7 +454,7 @@ rrpLib.getParameterValueHandle.restype = c_void_p
 def getParameterValueHandle(paraHandle):
     return rrpLib.getParameterValueHandle(paraHandle)
 
-## \brief Get a parameters name
+## \brief Get the name of a parameter
 ## \param paraHandle to a Parameter instance
 ## \return Returns the parameters name if successful, None otherwise
 ## \ingroup plugin_parameters
@@ -470,7 +470,7 @@ rrpLib.getParameterHint.restype = c_char_p
 def getParameterHint(paraHandle):
     return rrpLib.getParameterHint(paraHandle)
 
-## \brief Get a parameters type
+## \brief Get the type of a parameter
 ## \param paraHandle to a Parameter instance
 ## \return Returns the parameters type if successful, None otherwise
 ## \ingroup plugin_parameters
@@ -478,10 +478,10 @@ rrpLib.getParameterType.restype = c_char_p
 def getParameterType(paraHandle):
     return rrpLib.getParameterType(paraHandle)
 
-## \brief Get the value of a parameter
+## \brief Get the value of a parameter no matter what type it is
 ## \param paraHandle A Handle to a parameter
 ## \return Returns the value of the parameter if succesful, None otherwise
-## \note This function works only primitive data types, such as int, double, string etc.
+## \note This function works only primitive data types, such as int, double, and string.
 ## \ingroup plugin_parameters
 def getParameterValue(paraHandle):
     paraType = getParameterType(paraHandle)
@@ -685,6 +685,10 @@ def unloadAPI():
 #
 # \defgroup plugin_parameters Plugin Parameters
 # \brief Plugins Parameter related functions
+# The plugin systems upport parameter objects, these objects contain a variety of information about a given parameter, these include: 
+name, value, type, hint, and a description. The following types are curerntly supported, Booleans, Integers, doubles, strings and lists of string. 
+Parameters are also grouped according to a capability. 
+
 #
 # \defgroup utilities Utility Functions
 # \brief Functions to help and assist in the use of the Plugins framework
