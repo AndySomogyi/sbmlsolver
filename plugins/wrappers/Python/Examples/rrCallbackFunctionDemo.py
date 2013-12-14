@@ -25,8 +25,7 @@ def pluginIsFinished():
 sbmlModel ="../../models/bistable.xml"
 if os.path.exists(sbmlModel):
     model = open(sbmlModel, 'r').read()
-    result = rr.load(model)
-    print 'Result of loading sbml: %r' % (result);
+    rr.load(model)
 else:
     print "The sbml model file: " + sbmlModel +" can't be found"
     exit()
