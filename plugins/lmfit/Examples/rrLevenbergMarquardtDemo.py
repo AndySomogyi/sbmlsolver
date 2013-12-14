@@ -1,23 +1,25 @@
 from numpy import *
-from matplotlib.pyplot import *
+import matplotlib.pyplot as plot
 from rrPlugins import *
-sbmlModel ="../models/feedback.xml"
 
 #Create a plugin manager
-pm = createPluginManager()
+pluginFolder = ".\\.."
+pm = createPluginManager(pluginFolder)
 
 #Create a roadrunner instance
 rr = roadrunner.RoadRunner()
 
+sbmlModel ="../../models/sbml_test_0001.xml"
 result = rr.load(sbmlModel)
 print 'Result of loading sbml: %r' % (result);
 
-steps = 50
-rr.simulate(0, 10, steps)
+steps = 1350
+npData = rr.simulate(0, 10, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin(pm, "rrp_add_noise")
 if not noisePlugin:
+    print "Failed to load the noise plugin.."
     exit()
 
 print getPluginInfo(noisePlugin)
@@ -29,17 +31,22 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #set size of noise
-setDoubleParameter(sigmaHandle, 3.e-2)
+setDoubleParameter(sigmaHandle, 3.e-6)
 
 rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, rrDataHandle)
 
+#Input Data
 rrcData = createRRCData(rrDataHandle)
 npData = getNumpyData(rrcData)
-x = npData[:,0]
-yInput = npData[:,1]
+#print result
+
+x = npData[:,0] #result['time']
+y1Input = npData[:,1]
+y2Input = npData[:,2]
+print x
 
 #The plugin does it work in a thread, so don't proceed until it is done
 while isPluginWorking(noisePlugin) == True:
@@ -61,24 +68,22 @@ paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 paraList = getParameterValueHandle(paraHandle);
 
 #Add parameters to fit
-para1 = createParameter("J0_VM1", "double", "A Hint")
+para1 = createParameter("k1", "double", "A Hint")
 setDoubleParameter(para1, 0.2)
 addParameterToList(paraList, para1)
 
 #Input Data
+###rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 setPluginInputData(lmPlugin, rrDataHandle)
 
 #set species to fit
-species = "[S1] [S2] [S3] [S4]"
+species = "[S1] [S2]"
 paraHandle = getPluginParameter(lmPlugin, "ModelDataSelectionList");
 setParameterByString(paraHandle, species)
 
 #Get species list in observed data
 paraHandle = getPluginParameter(lmPlugin, "ObservedDataSelectionList");
 setParameterByString(paraHandle, species)
-
-#set the plugins tempFolder
-setPluginParameter(lmPlugin, "TempFolder", "r:/temp/")
 
 #set input sbml model
 setPluginParameter(lmPlugin, "SBML", rr.getSBML())
@@ -98,37 +103,33 @@ dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNumpyData(rrcData)
-S1 = npData[:,1]
-S2 = npData[:,2]
-S3 = npData[:,3]
-S4 = npData[:,4]
+S1Model = npData[:,1]
+S2Model = npData[:,2]
 
-
-#Observed data should be the same as the input data, see above
-##dataPHandle = getPluginParameter(lmPlugin, "ObservedData");
-##dataHandle = getParameterValueHandle(dataPHandle)
-##rrcData = createRRCData(dataHandle)
-##npData = getNumpyData(rrcData)
-##yOutput2 = npData[:,1]
-##length = len(yOutput)
 
 dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNumpyData(rrcData)
-yOutput3 = npData[:,1]
+s1Residual= npData[:,1]
+s2Residual= npData[:,2]
 
-#Observe, the plotting of the data is erratic!!
-#The data itself however is proper. Find another way of plotting.
+print "x:" + `len(x)`
+print "y1" + `len(y1Input)`
 
-plot(x, yInput,'*g')
-plot(x, S1, '-r')
+plot.plot(x, y1Input,'*r', label="S1 Input")
+plot.plot(x, S1Model, '-r', label="S1 Fitted")
+
+plot.plot(x, y2Input,'*b', label="S2 Input")
+plot.plot(x, S2Model, '-b', label="S2 Fitted")
+
+plot.plot(x, s1Residual,'xr',  label="S1 Residual")
+plot.plot(x, s2Residual, 'xb', label="S2 Residual")
+
 #plot(x, S2, '-r')
-#plot(x, S3, '-r')
-#plot(x, S4, '-r')
-#plot(x, yOutput2, '*')
-plot(x, yOutput3, 'o')
+#plot.plot(x, yOutput3, 'o')
 
-show()
+plot.legend(bbox_to_anchor=(1.05, 1), loc=1, borderaxespad=0.)
+plot.show()
 unLoadPlugins(pm)
 print "done"

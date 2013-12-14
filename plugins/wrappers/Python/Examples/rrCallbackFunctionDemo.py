@@ -1,3 +1,4 @@
+import os
 import roadrunner
 import matplotlib.pyplot as plot
 import numpy
@@ -7,7 +8,8 @@ from rrPlugins import *
 rr = roadrunner.RoadRunner()
 
 #Create a plugin manager
-pm = createPluginManager()
+pluginFolder = "../../plugins"
+pm = createPluginManager(pluginFolder)
 
 def pluginStarted():
     print 'The plugin was started'
@@ -19,10 +21,14 @@ def pluginIsProgressing(progress, dummy):
 def pluginIsFinished():
     print 'The plugin did finish'
 
-sbmlModel ="../models/bistable.xml"
-model = open(sbmlModel, 'r').read()
-result = rr.load(model)
-print 'Result of loading sbml: %r' % (result);
+#Check if model file exists
+sbmlModel ="../../models/bistable.xml"
+if os.path.exists(sbmlModel):
+    model = open(sbmlModel, 'r').read()
+    rr.load(model)
+else:
+    print "The sbml model file: " + sbmlModel +" can't be found"
+    exit()
 
 timeStart = 0
 timeEnd = 10
@@ -32,7 +38,7 @@ rr.simulate(timeStart, timeEnd, numPoints)
 #Load the 'noise' plugin in order to add some noise to the data
 plugin = loadPlugin(pm, "rrp_add_noise")
 if not plugin:
-    print rr.getLastError()
+    print getLastError()
     exit()
 
 print getPluginInfo(plugin)

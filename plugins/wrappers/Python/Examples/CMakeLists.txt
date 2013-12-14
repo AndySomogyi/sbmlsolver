@@ -11,7 +11,7 @@ rrPluginParameterDemo.py
 
 install(    
 FILES ${examples} README.txt 
-DESTINATION plugins/python/Examples 	
+DESTINATION plugins/Examples 	
 COMPONENT plugins_api
 )
 

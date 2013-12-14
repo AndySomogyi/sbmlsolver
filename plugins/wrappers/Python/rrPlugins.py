@@ -1,31 +1,17 @@
 ##@Module rrPlugins
 #This module allows access to the rrplugins_api.dll from python"""
 import sys
-import os
 import numpy as np
 import roadrunner
 from ctypes import *
 
-if len(os.path.dirname(__file__)):
-    os.chdir(os.path.dirname(__file__))
-sharedLib=''
+sharedLib='rrplugins_c_api'
 rrpLib=None
 if sys.platform.startswith('win32'):
-    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..\\', 'bin'))
-    os.chdir(rrInstallFolder)
-    os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib = os.path.join(rrInstallFolder, 'rrplugins_c_api.dll')
-    rrpLib=CDLL(sharedLib)
-else:
-    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-    print(os.path.join(rrInstallFolder, 'librrp_api.dylib'))
-    # check for .so (linux)
-    if os.path.isfile(os.path.join(rrInstallFolder, 'librrp_api.so')):
-        sharedLib = os.path.join(rrInstallFolder, 'librrp_api.so')
-    elif os.path.isfile(os.path.join(rrInstallFolder, 'librrp_api.dylib')):
-        sharedLib = os.path.join(rrInstallFolder, 'librrp_api.dylib')
-    else:
-        raise Exception("could not locate RoadRunner shared library")
+        sharedLib = sharedLib + '.dll'
+        rrpLib=CDLL(sharedLib)
+elif sys.platform.startswith('Linux'):
+    sharedLib = sharedLib + '.dll'
     rrpLib = cdll.LoadLibrary(sharedLib)
 
 
@@ -35,7 +21,7 @@ pluginCallBackType1  = CFUNCTYPE(None)
 pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 
 ## \brief Create a new instance of a plugin manager.
-## \brief A PluginManager manages a collection of plugins, loaded and unloaded by 
+## \brief A PluginManager manages a collection of plugins, loaded and unloaded by
 ##  the load and unload API functions respectively.
 ## \param pluginDir Full path to folder containing plugins. If None, uses default folder.
 ## \return On success, a handle to a Plugin manager, on failure, None.
@@ -45,8 +31,8 @@ def createPluginManager(pluginDir = None):
     return rrpLib.createPluginManager(pluginDir)
 
 ## \brief Free the plugin manager. A call to this function will also unload any loaded plugins.
-## \param pm Handle to a plugin manager. 
-## \return true if success, false otherwise. 
+## \param pm Handle to a plugin manager.
+## \return true if success, false otherwise.
 ## \ingroup plugin_manager
 rrpLib.freePluginManager.restype = c_bool
 def freePluginManager(pm):
@@ -77,7 +63,7 @@ def unLoadPlugins(pm):
 ## \param pm Handle to a PluginManager instance
 ## \param pluginName Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension.
 ## \return Returns a handle to a plugin, None if unsuccesfull
-## \ingroup plugin_manager 
+## \ingroup plugin_manager
 ##
 def loadPlugin(pm, pluginName):
     return rrpLib.loadPlugin(pm, pluginName)
@@ -181,7 +167,7 @@ rrpLib.getPluginName.restype = c_char_p
 def getPluginName(pluginHandle):
     return rrpLib.getPluginName(pluginHandle)
 
-## \brief Returns information about a Plugin. 
+## \brief Returns information about a Plugin.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns information as a string for the plugin, None otherwise
 ## \ingroup plugins
@@ -189,7 +175,7 @@ rrpLib.getPluginInfo.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrpLib.getPluginInfo(pluginHandle)
 
-## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function returns such as a pointer to a string. 
+## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF. This function returns such as a pointer to a string.
 ## Use the function getPluginManualNrOfBytes to get the exact length of this string.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns the plugin's manual pdf file as a unsigned char*. If not available, returns None.
@@ -215,10 +201,10 @@ def assignRoadRunnerInstance(pluginHandle, rrHandle):
     return rrpLib.assignRoadRunnerInstance(pluginHandle, rrHandle)
 
 ## \brief The executePlugin function is called to start the plugin so that it can carry out its
-## function. The call is plugin dependent meaning that it could result in a calculation, starting up a GUI etc. 
+## function. The call is plugin dependent meaning that it could result in a calculation, starting up a GUI etc.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
-## \note The execute function is blocking, this means it won't returns to the caller until the task is complete. 
+## \note The execute function is blocking, this means it won't returns to the caller until the task is complete.
 ## If the plugin is asked to carry out a lengthy calculation, consider using
 ## the executePluginEx function that has the option to execute the plugin code in the background (in a thread);
 ## \ingroup plugins
@@ -245,7 +231,7 @@ def getPluginStatus(pluginHandle):
     return rrpLib.getPluginStatus(pluginHandle)
 
 ## \brief Returns a plugins result, as a string. This is plugin dependent, see the plugin documentation for details.
-## \note If a plugin wants to returns speifici results, eg Array etc, these should be returned as parameters.  
+## \note If a plugin wants to returns speifici results, eg Array etc, these should be returned as parameters.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a plugins result if available. None otherwise
 ## \ingroup plugins
@@ -268,7 +254,7 @@ def isPluginWorking(pluginHandle):
     return rrpLib.isPluginWorking(pluginHandle)
 
 ## \brief Terminate any work that is in progress in a plugin. If the plugins worker is executed in a thread, this function
-## will signal the internals of the plugin to terminate. 
+## will signal the internals of the plugin to terminate.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
@@ -356,7 +342,7 @@ def getPluginCapabilitiesAsXML(pluginHandle):
 
 
 #================ Plugin Parameter functionality ======================
-## \brief Get plugin parameters for a specific capability. 
+## \brief Get plugin parameters for a specific capability.
 ## \param pluginHandle Handle to a plugin
 ## \param capabilityName Pointer to a string, holding the name of a capability. If None, returna parameters in all capabilities.
 ## \return Returns available parameters for a particular capability in a plugin, None otherwise
@@ -518,12 +504,12 @@ def getParameterValue(paraHandle):
 
 ## \brief Get a handle to a roadrunner object
 ## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
-## \return Returns a handle to a roadrunner instance that can be used as an argument to the Python Plugin API 
+## \return Returns a handle to a roadrunner instance that can be used as an argument to the Python Plugin API
 ## library
 ## \ingroup utilities
 def getRoadRunnerHandle(rrInstance):
     return cast(int(rrInstance.this), c_void_p)
-    
+
 ## \brief Retrieve a handle to RoadRunners internal data object
 ## \param rrHandle Handle to a RoadRunner instance
 ## \return Returns an handle to roadrunners internal data object
@@ -533,7 +519,7 @@ def getRoadRunnerDataHandle(rrHandle):
 
 ## \brief Get a handle to a roadrunner data object from a RoadRunner instance
 ## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
-## \return Returns a handle to a roadrunner data object that can be used as an argument to the Python Plugin API 
+## \return Returns a handle to a roadrunner data object that can be used as an argument to the Python Plugin API
 ## library
 ## \ingroup utilities
 rrpLib.getRoadRunnerDataHandle.restype = c_void_p
@@ -543,7 +529,7 @@ def getRoadRunnerDataHandleFromInstance(rrInstance):
 
 ## \brief Create a Handle to a simplified roadrunner data object
 ## \param rrDataHandle A handle to a roadrunner data object, as returned from getRoadRunnerDataHandle()
-## \return Returns a handle to a simplified roadrunner data object that can be used as an argument to the getNumpyData() function 
+## \return Returns a handle to a simplified roadrunner data object that can be used as an argument to the getNumpyData() function
 ## \ingroup utilities
 rrpLib.createRRCData.restype = c_void_p
 def createRRCData(rrDataHandle):
@@ -551,7 +537,7 @@ def createRRCData(rrDataHandle):
 
 ## \brief Create a string from a RoadRunner stringlist handle
 ## \param aList A handle to a roadrunner string list object
-## \return Returns a string on success, None otherwise 
+## \return Returns a string on success, None otherwise
 ## \ingroup utilities
 rrpLib.stringArrayToStringFWD.restype = c_char_p
 def stringArrayToString(aList):
@@ -561,26 +547,56 @@ def stringArrayToString(aList):
 ## \param rrcDataHandle A handle to a simplified roadrunner data object
 ## \return Returns a numpy data object
 ## \ingroup utilities
+#rrpLib.getRRCDataElementF.args =[c_void_p, c_int, c_int, POINTER(c_double)]
+rrpLib.getRRCDataElementF.restype = c_bool
 def getNumpyData(rrcDataHandle):
     rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
     colCount = rrpLib.getRRDataNumCols(rrcDataHandle)
     resultArray = np.zeros([rowCount, colCount])
     for row in range(rowCount):
         for col in range(colCount):
-                value = c_double()
-                if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, pointer(value)) == True:
-                    resultArray[row, col] = value.value
+                val = c_double()
+                if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, byref(val)) == True:
+                    resultArray[row, col] = val.value
+                else:
+                    print "problem"
     return resultArray
+
+#Note, a hard bug in the above function was the initial absence of the c_bool restype. Removing that, make the function works up to 128 rows,
+#and after that it will fail!!
+
+## \brief Get a individual data element from a RRCData structure
+## \param rrcDataHandle A handle to a simplified roadrunner data object (RRCData)
+## \param r A row index
+## \param c A col index
+## \param value A double value
+## \return Returns true or false
+## \ingroup utilities
+
+def getRRCDataElement(rrcDataHandle, r, c):
+    val = c_double()
+    if rrpLib.getRRCDataElementF(rrcDataHandle, r, c, byref(val)) == False:
+        return float(NaN)
+    else:
+        return val.value
+
+
+## \brief Get last (API) error. This returns the last error if any.
+## \return Returns a string with an error success, None otherwise
+## \ingroup utilities
+rrpLib.getLastPluginError.restype = c_char_p
+def getLastError():
+    return rrpLib.getLastPluginError()
 
 ## \brief Unload the plugins api shared library
 ## \ingroup utilities
 def unloadAPI():
     windll.kernel32.FreeLibrary(rrpLib._handle)
 
-    
+
 ##\mainpage Front page for RoadRunners PluginLib Python wrapper
 #\section Introduction
-#Roadrunners plugin library exposes a simple framework for adding functionality to RoadRunner core, by means of 
+#Roadrunners plugin library exposes a simple framework for adding functionality to RoadRunner core, by means of
 #external plugins.
 #The code fragment below shows briefly how to load plugins, check for plugins, and use an individual plugin.
 #
@@ -619,9 +635,9 @@ def unloadAPI():
 # The above code produces the following output:
 #@code
 ## *** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***
-## >>> 
+## >>>
 ## *** Remote Interpreter Reinitialized  ***
-## >>> 
+## >>>
 ## Number of Plugins: 2
 ## AddNoise Levenberg-Marquardt
 ## Name..........................AddNoise
@@ -629,10 +645,10 @@ def unloadAPI():
 ## Category......................Signal Processing
 ## Version.......................1.0
 ## Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
-## 
+##
 ## True
 ## done
-## >>> 
+## >>>
 #@endcode
 #    \section plugins_overview Overview
 #    The libRoadRunner Plugin API is centered around three important concepts:
@@ -661,8 +677,8 @@ def unloadAPI():
 #
 # \defgroup plugin_manager Plugin Manager
 # \brief Plugin Manager Library Functions
-# The Plugin manager loads and manages one or more plugins. Handles to individual plugins are obtained 
-# by the getFirstPlugin, getNextPlugin etc functions, or the getPlugin(pluginName) function. 
+# The Plugin manager loads and manages one or more plugins. Handles to individual plugins are obtained
+# by the getFirstPlugin, getNextPlugin etc functions, or the getPlugin(pluginName) function.
 #
 # \defgroup plugins Plugin Functions
 # \brief Functions operating on Plugin Handles.

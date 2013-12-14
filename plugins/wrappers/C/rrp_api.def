@@ -19,6 +19,7 @@ getPreviousPlugin                               = _getPreviousPlugin
 getCurrentPlugin                                = _getCurrentPlugin
 
 ;Functions taking a plugin handle
+getPluginName                                   = _getPluginName
 getPluginParameters                             = _getPluginParameters
 getPluginStatus                                 = _getPluginStatus
 getPluginParameter                              = _getPluginParameter
@@ -40,9 +41,15 @@ isBeingTerminated                               = _isBeingTerminated
 wasTerminated                                   = _wasTerminated
 assignRoadRunnerInstance                        = _assignRoadRunnerInstance
 getRRHandleFromPlugin                           = _getRRHandleFromPlugin
+getRoadRunnerDataHandle                         = _getRoadRunnerDataHandle
+createRRCData                                   = _createRRCData
+stringArrayToStringFWD                          = _stringArrayToStringFWD
+getLastPluginError                              = _getLastPluginError
 
 ;Functions taking a parameter handle
 createParameter                                 = _createParameter
+getParameterName                                = _getParameterName
+getParameterHint                                = _getParameterHint
 getParameterValueAsString                       = _getParameterValueAsString
 getParameterValueHandle                         = _getParameterValueHandle
 setPluginInputData                              = _setPluginInputData

@@ -2,12 +2,13 @@ import sys
 from rrPlugins import *
 
 ## Create a plugin manager
-pm = createPluginManager()
+pm = createPluginManager(".\\..")
 
 ## Load plugins from the plugin folder
 result = loadPlugins(pm)
 if not result:
     print 'Failed to load any plugins'
+    print getLastError()
     exit()
 
 print 'Number of Plugins: ' + `getNumberOfPlugins(pm)`

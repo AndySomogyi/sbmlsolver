@@ -22,6 +22,7 @@ using namespace std;
 using namespace rr;
 using namespace rrc;
 
+char*       gLastError                  = NULL;
 
 RRPluginManagerHandle rrp_cc createPluginManager(const char* _pluginDir)
 {
@@ -29,7 +30,7 @@ RRPluginManagerHandle rrp_cc createPluginManager(const char* _pluginDir)
         string pluginDir;
         if(!_pluginDir)
         {
-            pluginDir = joinPath(getParentFolder(gDefaultSupportCodeFolder), "plugins");
+            pluginDir = ".";
         }
         else
         {
@@ -41,18 +42,7 @@ RRPluginManagerHandle rrp_cc createPluginManager(const char* _pluginDir)
     catch_ptr_macro
 }
 
-///**
-// * create an instance of a plugin managager attached to the given RoadRunner instance.
-// */
-//RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir)
-//{
-//    start_try
-//        RoadRunner *rr = castToRoadRunner(rrHandle);
-//        PluginManager* pm = new PluginManager(pluginDir);
-//        return pm;
-//    catch_ptr_macro
-//}
-//
+
 /**
  * free the plugin manager
  */
@@ -171,15 +161,6 @@ RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* plugin
 //        PluginManager *pm = castToPluginManager(handle);
 //        Plugin* aPlugin = pm->getPlugin(pluginName);
 //
-//        return aPlugin;
-//    catch_ptr_macro
-//}
-
-//RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id)
-//{
-//    start_try
-//        PluginManager *pm = castToPluginManager(handle);
-//        Plugin* aPlugin = pm->getPlugin(id);
 //        return aPlugin;
 //    catch_ptr_macro
 //}
@@ -509,6 +490,11 @@ bool rrp_cc getRRCDataElementF(RRCDataPtr result, int r, int c, double *value)
 char* rrp_cc stringArrayToStringFWD(const RRStringArrayPtr list)
 {
     return rrc::stringArrayToString(list);
+}
+
+char* rrp_cc getLastPluginError()
+{   
+    return rrc::getLastError();
 }
 
 }
