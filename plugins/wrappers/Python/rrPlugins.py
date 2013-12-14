@@ -25,7 +25,7 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ##  the load and unload API functions respectively.
 ## \param pluginDir Full path to folder containing plugins. If None, uses default folder.
 ## \return On success, a handle to a Plugin manager, on failure, None.
-## \example pm = rrPlugins.createPluginManager ()
+##  pm = rrPlugins.createPluginManager ()
 ## \ingroup plugin_manager
 rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager(pluginDir = None):
