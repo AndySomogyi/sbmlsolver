@@ -124,6 +124,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga41dd4f1973c7c7b34bd0763bdbc5dae1"><td class="memItemLeft" align="right" valign="top">RRStringArrayPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga41dd4f1973c7c7b34bd0763bdbc5dae1">getPluginNames</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
 <tr class="memdesc:ga41dd4f1973c7c7b34bd0763bdbc5dae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to retrieve the names of currently loaded plugins.  <a href="group__plugin__manager.html#ga41dd4f1973c7c7b34bd0763bdbc5dae1">More...</a><br/></td></tr>
 <tr class="separator:ga41dd4f1973c7c7b34bd0763bdbc5dae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d6b316e0a9ed1cdb881506652585928"><td class="memItemLeft" align="right" valign="top">RRStringArrayPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga2d6b316e0a9ed1cdb881506652585928">getPluginLibraryNames</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
+<tr class="memdesc:ga2d6b316e0a9ed1cdb881506652585928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to retrieve the library name of currently loaded plugins.  <a href="group__plugin__manager.html#ga2d6b316e0a9ed1cdb881506652585928">More...</a><br/></td></tr>
+<tr class="separator:ga2d6b316e0a9ed1cdb881506652585928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga87b6167b7a8bcfc18ed1ba034206e473"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#a1c8490e1c0e5e608a161fd8e73f441e7">RRPluginHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga87b6167b7a8bcfc18ed1ba034206e473">getFirstPlugin</a> (<a class="el" href="rrp__types_8h.html#add4e2fee231fbcdfb9086e38f8ea0f3d">RRPluginManagerHandle</a> handle)</td></tr>
 <tr class="memdesc:ga87b6167b7a8bcfc18ed1ba034206e473"><td class="mdescLeft">&#160;</td><td class="mdescRight">getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins. This function is typically used together with the getNextPlugin and the getPreviousPlugin functions.  <a href="group__plugin__manager.html#ga87b6167b7a8bcfc18ed1ba034206e473">More...</a><br/></td></tr>
 <tr class="separator:ga87b6167b7a8bcfc18ed1ba034206e473"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -226,12 +229,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga94531f474b344dd40357ceb516aef46c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga94531f474b344dd40357ceb516aef46c">getRRDataNumCols</a> (RRCDataPtr rrData)</td></tr>
 <tr class="memdesc:ga94531f474b344dd40357ceb516aef46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))  <a href="group__utilities.html#ga94531f474b344dd40357ceb516aef46c">More...</a><br/></td></tr>
 <tr class="separator:ga94531f474b344dd40357ceb516aef46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab9c992bc9e9346062e49c290086e8449"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#gab9c992bc9e9346062e49c290086e8449">getRRCDataElementF</a> (RRCDataPtr rrData, int r, int c, double *value)</td></tr>
-<tr class="memdesc:gab9c992bc9e9346062e49c290086e8449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an element at a given row and column from a RoadRunner data type variable.  <a href="group__utilities.html#gab9c992bc9e9346062e49c290086e8449">More...</a><br/></td></tr>
-<tr class="separator:gab9c992bc9e9346062e49c290086e8449"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a16635fdf43dacf48d23002c55daf40"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rrp__api_8h.html#a4a16635fdf43dacf48d23002c55daf40">stringArrayToStringFWD</a> (const RRStringArrayPtr list)</td></tr>
-<tr class="memdesc:a4a16635fdf43dacf48d23002c55daf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string list in string form.  <a href="#a4a16635fdf43dacf48d23002c55daf40">More...</a><br/></td></tr>
-<tr class="separator:a4a16635fdf43dacf48d23002c55daf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff628862647b2fb7fa959dcfb0874520"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#gaff628862647b2fb7fa959dcfb0874520">getRRCDataElementF</a> (RRCDataPtr rrcData, int r, int c, double *value)</td></tr>
+<tr class="memdesc:gaff628862647b2fb7fa959dcfb0874520"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an element at a given row and column from a RoadRunner data type variable.  <a href="group__utilities.html#gaff628862647b2fb7fa959dcfb0874520">More...</a><br/></td></tr>
+<tr class="separator:gaff628862647b2fb7fa959dcfb0874520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4a16635fdf43dacf48d23002c55daf40"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga4a16635fdf43dacf48d23002c55daf40">stringArrayToStringFWD</a> (const RRStringArrayPtr list)</td></tr>
+<tr class="memdesc:ga4a16635fdf43dacf48d23002c55daf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string list in string form.  <a href="group__utilities.html#ga4a16635fdf43dacf48d23002c55daf40">More...</a><br/></td></tr>
+<tr class="separator:ga4a16635fdf43dacf48d23002c55daf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e2a175cf823ad8181791df438d01c90"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga7e2a175cf823ad8181791df438d01c90">getLastPluginError</a> ()</td></tr>
+<tr class="memdesc:ga7e2a175cf823ad8181791df438d01c90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return last API error.  <a href="group__utilities.html#ga7e2a175cf823ad8181791df438d01c90">More...</a><br/></td></tr>
+<tr class="separator:ga7e2a175cf823ad8181791df438d01c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Plugins Core C-API Header. </p>
@@ -274,30 +280,10 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4a16635fdf43dacf48d23002c55daf40"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* stringArrayToStringFWD </td>
-          <td>(</td>
-          <td class="paramtype">const RRStringArrayPtr&#160;</td>
-          <td class="paramname"><em>list</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a string list in string form. </p>
-<dl class="section return"><dt>Returns</dt><dd>Returns string list as a character string</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Forwarded from roadruners C API </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 22:19:32 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 10:28:49 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

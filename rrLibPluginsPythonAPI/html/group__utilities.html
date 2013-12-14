@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -64,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -104,6 +105,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga1b51dd4dc436e3576b7fb1accbd97282"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282">getNumpyData</a></td></tr>
 <tr class="memdesc:ga1b51dd4dc436e3576b7fb1accbd97282"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert roadrunner data to Numpy data.  <a href="#ga1b51dd4dc436e3576b7fb1accbd97282">More...</a><br/></td></tr>
 <tr class="separator:ga1b51dd4dc436e3576b7fb1accbd97282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3eed6afeffa9a1740b4c9021a397bef"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#gad3eed6afeffa9a1740b4c9021a397bef">getRRCDataElement</a></td></tr>
+<tr class="memdesc:gad3eed6afeffa9a1740b4c9021a397bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a individual data element from a RRCData structure.  <a href="#gad3eed6afeffa9a1740b4c9021a397bef">More...</a><br/></td></tr>
+<tr class="separator:gad3eed6afeffa9a1740b4c9021a397bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga56f7c40f7e467559cb60b5f0464722d1"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1">getLastError</a></td></tr>
+<tr class="memdesc:ga56f7c40f7e467559cb60b5f0464722d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get last (API) error.  <a href="#ga56f7c40f7e467559cb60b5f0464722d1">More...</a><br/></td></tr>
+<tr class="separator:ga56f7c40f7e467559cb60b5f0464722d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga53e9fdf43d7b3fec2abfe30ad5c06030"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga53e9fdf43d7b3fec2abfe30ad5c06030"></a>
 def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga53e9fdf43d7b3fec2abfe30ad5c06030">unloadAPI</a></td></tr>
 <tr class="memdesc:ga53e9fdf43d7b3fec2abfe30ad5c06030"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unload the plugins api shared library. <br/></td></tr>
@@ -137,6 +144,25 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
 
 </div>
 </div>
+<a class="anchor" id="ga56f7c40f7e467559cb60b5f0464722d1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getLastError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get last (API) error. </p>
+<p>This returns the last error if any. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns a string with an error success, None otherwise </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga1b51dd4dc436e3576b7fb1accbd97282"></a>
 <div class="memitem">
 <div class="memproto">
@@ -158,7 +184,8 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a numpy data object </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a numpy data object</dd></dl>
+<p>rrpLib.getRRCDataElementF.args =[c_void_p, c_int, c_int, POINTER(c_double)] </p>
 
 </div>
 </div>
@@ -237,6 +264,50 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
 
 </div>
 </div>
+<a class="anchor" id="gad3eed6afeffa9a1740b4c9021a397bef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getRRCDataElement </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>rrcDataHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a individual data element from a RRCData structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rrcDataHandle</td><td>A handle to a simplified roadrunner data object (RRCData) </td></tr>
+    <tr><td class="paramname">r</td><td>A row index </td></tr>
+    <tr><td class="paramname">c</td><td>A col index </td></tr>
+    <tr><td class="paramname">value</td><td>A double value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true or false </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaf3ce1b17c9bcab03e61af1be746e33e4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -265,7 +336,7 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 22:20:24 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 10:29:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

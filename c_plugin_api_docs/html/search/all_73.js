@@ -6,5 +6,5 @@ var searchData=
   ['setplugininputdata',['setPluginInputData',['../group__plugins.html#ga8d62468d5be9eb9916d94407c282c92f',1,'rrp::setPluginInputData()'],['../group__plugins.html#ga8d62468d5be9eb9916d94407c282c92f',1,'setPluginInputData():&#160;rrp_api.cpp']]],
   ['setpluginparameter',['setPluginParameter',['../group__plugins.html#gab86468930010e57a618236d5375379ea',1,'rrp::setPluginParameter()'],['../group__plugins.html#gab86468930010e57a618236d5375379ea',1,'setPluginParameter():&#160;rrp_api.cpp']]],
   ['setstringparameter',['setStringParameter',['../group__plugin__parameters.html#gadf2f451da4bbd251070a1f6a613a478b',1,'rrp::setStringParameter()'],['../group__plugin__parameters.html#gadf2f451da4bbd251070a1f6a613a478b',1,'setStringParameter():&#160;rrp_parameter_api.cpp']]],
-  ['stringarraytostringfwd',['stringArrayToStringFWD',['../rrp__api_8h.html#a4a16635fdf43dacf48d23002c55daf40',1,'rrp_api.cpp']]]
+  ['stringarraytostringfwd',['stringArrayToStringFWD',['../group__utilities.html#ga4a16635fdf43dacf48d23002c55daf40',1,'rrp::stringArrayToStringFWD()'],['../group__utilities.html#ga4a16635fdf43dacf48d23002c55daf40',1,'stringArrayToStringFWD():&#160;rrp_api.cpp']]]
 ];

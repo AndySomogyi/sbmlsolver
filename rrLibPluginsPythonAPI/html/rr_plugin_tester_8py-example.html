@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -64,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,17 +90,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> rrPlugins <span class="keyword">import</span> *</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">## Create a plugin manager</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>()</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>(<span class="stringliteral">&quot;.\\..&quot;</span>)</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">## Load plugins from the plugin folder</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;result = <a class="code" href="group__plugin__manager.html#gad9d4b7c7544e8db0e20aeee0818f644c">loadPlugins</a>(pm)</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> result:</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;Failed to load any plugins&#39;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    exit()</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Number of Plugins: &#39;</span> + `<a class="code" href="group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23">getNumberOfPlugins</a>(pm)`</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;namesHandle = <a class="code" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">getPluginNames</a>(pm)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;names = <a class="code" href="group__utilities.html#gaf3ce1b17c9bcab03e61af1be746e33e4">stringArrayToString</a>(namesHandle)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">print</span> <a class="code" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1">getLastError</a>()</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    exit()</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Number of Plugins: &#39;</span> + `<a class="code" href="group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23">getNumberOfPlugins</a>(pm)`</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;names= <a class="code" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">getPluginNames</a>(pm)</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordflow">print</span> names</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">## Get a plugin handle</span></div>
@@ -119,7 +120,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 22:20:24 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 10:29:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

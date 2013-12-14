@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>rrpluginslib python wrapper: Examples</title>
+<title>rrpluginslib python wrapper: install_roadrunner_plugins_win Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,8 +39,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li class="current"><a href="examples.html"><span>Examples</span></a></li>
+      <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -59,7 +59,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="namespaces.html"><span>Namespace&#160;List</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -74,26 +78,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">Examples</div>  </div>
+<div class="title">install_roadrunner_plugins_win Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all examples:</div><ul>
-<li><a class="el" href="rr_call_back_function_demo_8py-example.html">rrCallBackFunctionDemo.py</a></li>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a1a5f1f14a7836041c6fbc6b6dc4348da"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a5f1f14a7836041c6fbc6b6dc4348da"></a>
+def&#160;</td><td class="memItemRight" valign="bottom"><b>rmroadrunner</b></td></tr>
+<tr class="separator:a1a5f1f14a7836041c6fbc6b6dc4348da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a28215b79d59892af5f26e8493c42ffa8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a28215b79d59892af5f26e8493c42ffa8"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>splist</b> = site.getsitepackages()</td></tr>
+<tr class="separator:a28215b79d59892af5f26e8493c42ffa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a254884ceb04aa9adaa4e26bccc1164"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a254884ceb04aa9adaa4e26bccc1164"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>sp</b> = ''</td></tr>
+<tr class="separator:a4a254884ceb04aa9adaa4e26bccc1164"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f42ac05cd1bc0a6aa88d284e0eccc72"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f42ac05cd1bc0a6aa88d284e0eccc72"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>dst</b> = os.path.join(sp, 'roadrunner')</td></tr>
+<tr class="separator:a5f42ac05cd1bc0a6aa88d284e0eccc72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1984cc20fe2d93bac990143f095f9fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1984cc20fe2d93bac990143f095f9fd"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>src</b> = os.path.abspath(os.path.join('site-packages', 'roadrunner'))</td></tr>
+<tr class="separator:ab1984cc20fe2d93bac990143f095f9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af972aa319b63e86da15f945ead31ef7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af972aa319b63e86da15f945ead31ef7d"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>pluginsrc</b> = os.path.split(src)</td></tr>
+<tr class="separator:af972aa319b63e86da15f945ead31ef7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf5b923b9efe05af726e1c9358c3083d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf5b923b9efe05af726e1c9358c3083d"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>plugindst</b> = os.path.split(dst)</td></tr>
+<tr class="separator:acf5b923b9efe05af726e1c9358c3083d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><pre class="fragment">Usage:
+   python install_roadrunner.py
 
-<li><a class="el" href="rr_levenberg_marquardt_demo_8py-example.html">rrLevenbergMarquardtDemo.py</a></li>
-
-<li><a class="el" href="rr_noise_plugin_demo_8py-example.html">rrNoisePluginDemo.py</a></li>
-
-<li><a class="el" href="rr_plugin_documentation_demo_8py-example.html">rrPluginDocumentationDemo.py</a></li>
-
-<li><a class="el" href="rr_plugin_parameter_demo_8py-example.html">rrPluginParameterDemo.py</a></li>
-
-<li><a class="el" href="rr_plugin_tester_8py-example.html">rrPluginTester.py</a></li>
-
-</ul>
-</div><!-- contents -->
+   This file will install all the relevant roadRunner files 
+   so that roadrunner can be used from Python
+</pre> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated on Sat Dec 14 2013 10:29:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">

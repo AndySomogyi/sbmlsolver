@@ -98,9 +98,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga94531f474b344dd40357ceb516aef46c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga94531f474b344dd40357ceb516aef46c">getRRDataNumCols</a> (RRCDataPtr rrData)</td></tr>
 <tr class="memdesc:ga94531f474b344dd40357ceb516aef46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))  <a href="#ga94531f474b344dd40357ceb516aef46c">More...</a><br/></td></tr>
 <tr class="separator:ga94531f474b344dd40357ceb516aef46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab9c992bc9e9346062e49c290086e8449"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#gab9c992bc9e9346062e49c290086e8449">getRRCDataElementF</a> (RRCDataPtr rrData, int r, int c, double *value)</td></tr>
-<tr class="memdesc:gab9c992bc9e9346062e49c290086e8449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an element at a given row and column from a RoadRunner data type variable.  <a href="#gab9c992bc9e9346062e49c290086e8449">More...</a><br/></td></tr>
-<tr class="separator:gab9c992bc9e9346062e49c290086e8449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff628862647b2fb7fa959dcfb0874520"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#gaff628862647b2fb7fa959dcfb0874520">getRRCDataElementF</a> (RRCDataPtr rrcData, int r, int c, double *value)</td></tr>
+<tr class="memdesc:gaff628862647b2fb7fa959dcfb0874520"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an element at a given row and column from a RoadRunner data type variable.  <a href="#gaff628862647b2fb7fa959dcfb0874520">More...</a><br/></td></tr>
+<tr class="separator:gaff628862647b2fb7fa959dcfb0874520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4a16635fdf43dacf48d23002c55daf40"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga4a16635fdf43dacf48d23002c55daf40">stringArrayToStringFWD</a> (const RRStringArrayPtr list)</td></tr>
+<tr class="memdesc:ga4a16635fdf43dacf48d23002c55daf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string list in string form.  <a href="#ga4a16635fdf43dacf48d23002c55daf40">More...</a><br/></td></tr>
+<tr class="separator:ga4a16635fdf43dacf48d23002c55daf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e2a175cf823ad8181791df438d01c90"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utilities.html#ga7e2a175cf823ad8181791df438d01c90">getLastPluginError</a> ()</td></tr>
+<tr class="memdesc:ga7e2a175cf823ad8181791df438d01c90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return last API error.  <a href="#ga7e2a175cf823ad8181791df438d01c90">More...</a><br/></td></tr>
+<tr class="separator:ga7e2a175cf823ad8181791df438d01c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Functions to help and assist in the use of the Plugins framework. </p>
@@ -130,7 +136,26 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gab9c992bc9e9346062e49c290086e8449"></a>
+<a class="anchor" id="ga7e2a175cf823ad8181791df438d01c90"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* getLastPluginError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return last API error. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns a string with the error</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Forwarded from roadruners C API </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaff628862647b2fb7fa959dcfb0874520"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -138,7 +163,7 @@ Functions</h2></td></tr>
           <td class="memname">bool getRRCDataElementF </td>
           <td>(</td>
           <td class="paramtype">RRCDataPtr&#160;</td>
-          <td class="paramname"><em>rrData</em>, </td>
+          <td class="paramname"><em>rrcData</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -172,7 +197,7 @@ Functions</h2></td></tr>
 <div class="fragment"><div class="line">status = getRRCDataElement (rrData, 2, 4, *value); </div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">rrData</td><td>A pointer to a rrData type variable </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">rrcData</td><td>A pointer to a rrCData type variable </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">r</td><td>-The row index to the rrData data </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">c</td><td>- The column index to the rrData data </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>- The retrieved value from the rrData data </td></tr>
@@ -237,10 +262,30 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga4a16635fdf43dacf48d23002c55daf40"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* stringArrayToStringFWD </td>
+          <td>(</td>
+          <td class="paramtype">const RRStringArrayPtr&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a string list in string form. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns string list as a character string</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Forwarded from roadruners C API </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 22:19:32 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 10:28:49 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

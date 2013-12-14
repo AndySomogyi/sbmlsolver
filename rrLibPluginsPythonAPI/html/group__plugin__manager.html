@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -64,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -110,6 +111,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9edbc24939810499d1bf3056531ff114"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">getPluginNames</a></td></tr>
 <tr class="memdesc:ga9edbc24939810499d1bf3056531ff114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to retrieve the names of all currently loaded plugins.  <a href="#ga9edbc24939810499d1bf3056531ff114">More...</a><br/></td></tr>
 <tr class="separator:ga9edbc24939810499d1bf3056531ff114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9957c5163f513ec1afd444a10bda1c0d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga9957c5163f513ec1afd444a10bda1c0d">getPluginLibraryNames</a></td></tr>
+<tr class="memdesc:ga9957c5163f513ec1afd444a10bda1c0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to retrieve the library names of all currently loaded plugins.  <a href="#ga9957c5163f513ec1afd444a10bda1c0d">More...</a><br/></td></tr>
+<tr class="separator:ga9957c5163f513ec1afd444a10bda1c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga77a2b5b4f52822d85acae4b9f35199a8"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8">getFirstPlugin</a></td></tr>
 <tr class="memdesc:ga77a2b5b4f52822d85acae4b9f35199a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.  <a href="#ga77a2b5b4f52822d85acae4b9f35199a8">More...</a><br/></td></tr>
 <tr class="separator:ga77a2b5b4f52822d85acae4b9f35199a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -321,6 +325,31 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga9957c5163f513ec1afd444a10bda1c0d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getPluginLibraryNames </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function to retrieve the library names of all currently loaded plugins. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns library names for all loaded plugins as a string, None otherwise </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga9edbc24939810499d1bf3056531ff114"></a>
 <div class="memitem">
 <div class="memproto">
@@ -498,7 +527,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 22:20:24 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 10:29:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

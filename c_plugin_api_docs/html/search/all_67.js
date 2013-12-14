@@ -2,6 +2,7 @@ var searchData=
 [
   ['getcurrentplugin',['getCurrentPlugin',['../group__plugin__manager.html#gaf606ba5c91c2453669afe258ab514f76',1,'rrp::getCurrentPlugin()'],['../group__plugin__manager.html#gaf606ba5c91c2453669afe258ab514f76',1,'getCurrentPlugin():&#160;rrp_api.cpp']]],
   ['getfirstplugin',['getFirstPlugin',['../group__plugin__manager.html#ga87b6167b7a8bcfc18ed1ba034206e473',1,'rrp::getFirstPlugin()'],['../group__plugin__manager.html#ga87b6167b7a8bcfc18ed1ba034206e473',1,'getFirstPlugin():&#160;rrp_api.cpp']]],
+  ['getlastpluginerror',['getLastPluginError',['../group__utilities.html#ga7e2a175cf823ad8181791df438d01c90',1,'rrp::getLastPluginError()'],['../group__utilities.html#ga7e2a175cf823ad8181791df438d01c90',1,'getLastPluginError():&#160;rrp_api.cpp']]],
   ['getnextplugin',['getNextPlugin',['../group__plugin__manager.html#ga15cf594fc7dd932820029493b7f0f2a6',1,'rrp::getNextPlugin()'],['../group__plugin__manager.html#ga15cf594fc7dd932820029493b7f0f2a6',1,'getNextPlugin():&#160;rrp_api.cpp']]],
   ['getnumberofplugins',['getNumberOfPlugins',['../group__plugin__manager.html#gac38fb7ce56fa90e828793d78ab802bf8',1,'rrp::getNumberOfPlugins()'],['../group__plugin__manager.html#gac38fb7ce56fa90e828793d78ab802bf8',1,'getNumberOfPlugins():&#160;rrp_api.cpp']]],
   ['getparameterhint',['getParameterHint',['../group__plugin__parameters.html#ga985cf8e7ded43857b44e92969888c1ee',1,'rrp::getParameterHint()'],['../group__plugin__parameters.html#ga985cf8e7ded43857b44e92969888c1ee',1,'getParameterHint():&#160;rrp_parameter_api.cpp']]],
@@ -14,6 +15,7 @@ var searchData=
   ['getplugincapabilities',['getPluginCapabilities',['../group__plugins.html#ga21578a0841fe6d560c7b0a42806ab28f',1,'rrp::getPluginCapabilities()'],['../group__plugins.html#ga21578a0841fe6d560c7b0a42806ab28f',1,'getPluginCapabilities():&#160;rrp_api.cpp']]],
   ['getplugincapabilitiesasxml',['getPluginCapabilitiesAsXML',['../group__plugins.html#ga189fef2b74f932bd8227c7227b540de9',1,'rrp::getPluginCapabilitiesAsXML()'],['../group__plugins.html#ga189fef2b74f932bd8227c7227b540de9',1,'getPluginCapabilitiesAsXML():&#160;rrp_api.cpp']]],
   ['getplugininfo',['getPluginInfo',['../group__plugins.html#gafef8128c4c535087bdfd28078227237a',1,'rrp::getPluginInfo()'],['../group__plugins.html#gafef8128c4c535087bdfd28078227237a',1,'getPluginInfo():&#160;rrp_api.cpp']]],
+  ['getpluginlibrarynames',['getPluginLibraryNames',['../group__plugin__manager.html#ga2d6b316e0a9ed1cdb881506652585928',1,'rrp::getPluginLibraryNames()'],['../group__plugin__manager.html#ga2d6b316e0a9ed1cdb881506652585928',1,'getPluginLibraryNames():&#160;rrp_api.cpp']]],
   ['getpluginmanualaspdf',['getPluginManualAsPDF',['../group__plugins.html#ga1c3ae2a8462c535283fbcbc4cf0e7f83',1,'rrp::getPluginManualAsPDF()'],['../group__plugins.html#ga1c3ae2a8462c535283fbcbc4cf0e7f83',1,'getPluginManualAsPDF():&#160;rrp_api.cpp']]],
   ['getpluginmanualnrofbytes',['getPluginManualNrOfBytes',['../group__plugins.html#gaa284630d727b64bf8203e7adc3981918',1,'rrp::getPluginManualNrOfBytes()'],['../group__plugins.html#gaa284630d727b64bf8203e7adc3981918',1,'getPluginManualNrOfBytes():&#160;rrp_api.cpp']]],
   ['getpluginname',['getPluginName',['../group__plugins.html#ga4ebfeb102f822ed163b6ca320b15789d',1,'rrp::getPluginName()'],['../group__plugins.html#ga4ebfeb102f822ed163b6ca320b15789d',1,'getPluginName():&#160;rrp_api.cpp']]],
@@ -25,10 +27,10 @@ var searchData=
   ['getpluginstatus',['getPluginStatus',['../group__plugins.html#ga4c0fccbaa08fde4340650b1b58447cef',1,'rrp::getPluginStatus()'],['../group__plugins.html#ga4c0fccbaa08fde4340650b1b58447cef',1,'getPluginStatus():&#160;rrp_api.cpp']]],
   ['getpreviousplugin',['getPreviousPlugin',['../group__plugin__manager.html#gae198fa41affe7b839c69d6f9e567dcd0',1,'rrp::getPreviousPlugin()'],['../group__plugin__manager.html#gae198fa41affe7b839c69d6f9e567dcd0',1,'getPreviousPlugin():&#160;rrp_api.cpp']]],
   ['getroadrunnerdatahandle',['getRoadRunnerDataHandle',['../rrp__api_8h.html#a8e37ec4cf49c37adde5dca2c0f3a5a1a',1,'rrp_api.cpp']]],
-  ['getrrcdataelementf',['getRRCDataElementF',['../group__utilities.html#gab9c992bc9e9346062e49c290086e8449',1,'rrp::getRRCDataElementF()'],['../group__utilities.html#gab9c992bc9e9346062e49c290086e8449',1,'getRRCDataElementF():&#160;rrp_api.cpp']]],
+  ['getrrcdataelementf',['getRRCDataElementF',['../group__utilities.html#gaff628862647b2fb7fa959dcfb0874520',1,'rrp::getRRCDataElementF()'],['../group__utilities.html#gaff628862647b2fb7fa959dcfb0874520',1,'getRRCDataElementF():&#160;rrp_api.cpp']]],
   ['getrrdatanumcols',['getRRDataNumCols',['../group__utilities.html#ga94531f474b344dd40357ceb516aef46c',1,'rrp::getRRDataNumCols()'],['../group__utilities.html#ga94531f474b344dd40357ceb516aef46c',1,'getRRDataNumCols():&#160;rrp_api.cpp']]],
   ['getrrdatanumrows',['getRRDataNumRows',['../group__utilities.html#ga0309b51e111e53ee0131d88c118eb260',1,'rrp::getRRDataNumRows()'],['../group__utilities.html#ga0309b51e111e53ee0131d88c118eb260',1,'getRRDataNumRows():&#160;rrp_api.cpp']]],
   ['getrrhandlefromplugin',['getRRHandleFromPlugin',['../group__plugins.html#gacec5d960901b04722c75e7f120fcee95',1,'rrp::getRRHandleFromPlugin()'],['../group__plugins.html#gacec5d960901b04722c75e7f120fcee95',1,'getRRHandleFromPlugin():&#160;rrp_api.cpp']]],
   ['ginstallfolder',['gInstallFolder',['../rrp__utilities_8h.html#ae4404be9766c980f2b2065a726ad42a6',1,'rrp_utilities.h']]],
-  ['glasterror',['gLastError',['../rrp__utilities_8h.html#a8f3828dfd1294cbcf4e57b4e382f8a8c',1,'rrp_utilities.h']]]
+  ['glasterror',['gLastError',['../rrp__utilities_8h.html#a8f3828dfd1294cbcf4e57b4e382f8a8c',1,'rrp_api.cpp']]]
 ];
