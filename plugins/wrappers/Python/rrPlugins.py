@@ -25,6 +25,7 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ##  the load and unload API functions respectively.
 ## \param pluginDir Full path to folder containing plugins. If None, uses default folder.
 ## \return On success, a handle to a Plugin manager, on failure, None.
+## \example pm = rrPlugins.createPluginManager ()
 ## \ingroup plugin_manager
 rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager(pluginDir = None):
@@ -324,17 +325,17 @@ rrpLib.getRRHandleFromPlugin.restype = c_void_p
 def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
-## \brief Get a Plugin's capabilities as a string
+## \brief Get a Plugin's categpory list as a string
 ## \param pluginHandle Handle to a plugin
-## \return Returns available capabilities for a particular plugin as a string, None otherwise.
+## \return Returns the available categories for a particular plugin as a string, None otherwise.
 ## \ingroup plugins
 rrpLib.getPluginCapabilities.restype = c_char_p
 def getPluginCapabilities(pluginHandle):
     return rrpLib.getPluginCapabilities(pluginHandle)
 
-## \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
+## \brief Get a Plugins categories as a xml document. The string returned from this function is formated as xml.
 ## \param pluginHandle Handle to a plugin
-## \return Returns the capabilities of a plugin as an XML string. None otherwise
+## \return Returns the categories of a plugin as an XML string. None otherwise
 ## \ingroup plugins
 rrpLib.getPluginCapabilitiesAsXML.restype = c_char_p
 def getPluginCapabilitiesAsXML(pluginHandle):
@@ -342,20 +343,20 @@ def getPluginCapabilitiesAsXML(pluginHandle):
 
 
 #================ Plugin Parameter functionality ======================
-## \brief Get plugin parameters for a specific capability.
+## \brief Get plugin parameters for a specific category.
 ## \param pluginHandle Handle to a plugin
-## \param capabilityName Pointer to a string, holding the name of a capability. If None, returna parameters in all capabilities.
-## \return Returns available parameters for a particular capability in a plugin, None otherwise
+## \param categoryName Pointer to a string, holding the name of a category. If None, returna parameters in all categories.
+## \return Returns available parameters for a particular category in a plugin, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getPluginParameters.restype = c_char_p
 def getPluginParameters(pluginHandle, capabilityName):
     return rrpLib.getPluginParameters(pluginHandle, capabilityName)
 
-## \brief Get a parameter handle to a parameter, located in a specific capability. If the capability argument is None
-## the function will look into all capabilites and return the first parameter matching "parameterName".
+## \brief Get a parameter handle to a parameter, located in a specific category. If the category argument is None
+## the function will look into all categories and return the first parameter matching "parameterName".
 ## \param pluginHandle Handle to a plugin
 ## \param parameterName Name of the parameter
-## \param capabilitiesName Name of a capability containing the parameter.
+## \param categoriesName Name of a category containing the parameter.
 ## \return Returns a handle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
 def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
@@ -685,9 +686,9 @@ def unloadAPI():
 #
 # \defgroup plugin_parameters Plugin Parameters
 # \brief Plugins Parameter related functions
-# The plugin systems upport parameter objects, these objects contain a variety of information about a given parameter, these include: 
-name, value, type, hint, and a description. The following types are curerntly supported, Booleans, Integers, doubles, strings and lists of string. 
-Parameters are also grouped according to a capability. 
+# The plugin system support parameter objects, these objects contain a variety of information about a given parameter, these include: 
+name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and lists of strings. 
+Parameters are also grouped into convenient categories. 
 
 #
 # \defgroup utilities Utility Functions
@@ -712,7 +713,7 @@ Parameters are also grouped according to a capability.
 
 ## \example rrPluginDocumentationDemo.py
 ## This Example shows
-## -# Get a plugins Capabilities as XML
+## -# Get a plugin's categories in the form of an XML string
 ## -# Obtain and view a Plugin's documentation as a PDF (Needs a system PDF reader)
 
 ## \example rrCallBackFunctionDemo.py
