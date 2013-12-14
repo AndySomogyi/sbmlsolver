@@ -13,7 +13,7 @@ sbmlModel ="../../models/sbml_test_0001.xml"
 result = rr.load(sbmlModel)
 print 'Result of loading sbml: %r' % (result);
 
-steps = 50
+steps = 1350
 npData = rr.simulate(0, 10, steps)
 
 #Load the 'noise' plugin in order to add some noise to the data
@@ -39,8 +39,6 @@ rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 executePluginEx(noisePlugin, rrDataHandle)
 
 #Input Data
-#result = rr.getSimulationResult()
-
 rrcData = createRRCData(rrDataHandle)
 npData = getNumpyData(rrcData)
 #print result

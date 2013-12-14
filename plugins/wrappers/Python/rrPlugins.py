@@ -547,16 +547,39 @@ def stringArrayToString(aList):
 ## \param rrcDataHandle A handle to a simplified roadrunner data object
 ## \return Returns a numpy data object
 ## \ingroup utilities
+#rrpLib.getRRCDataElementF.args =[c_void_p, c_int, c_int, POINTER(c_double)]
+rrpLib.getRRCDataElementF.restype = c_bool
 def getNumpyData(rrcDataHandle):
     rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
     colCount = rrpLib.getRRDataNumCols(rrcDataHandle)
     resultArray = np.zeros([rowCount, colCount])
     for row in range(rowCount):
         for col in range(colCount):
-                value = c_double()
-                if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, pointer(value)) == True:
-                    resultArray[row, col] = value.value
+                val = c_double()
+                if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, byref(val)) == True:
+                    resultArray[row, col] = val.value
+                else:
+                    print "problem"
     return resultArray
+
+#Note, a hard bug in the above function was the initial absence of the c_bool restype. Removing that, make the function works up to 128 rows,
+#and after that it will fail!!
+
+## \brief Get a individual data element from a RRCData structure
+## \param rrcDataHandle A handle to a simplified roadrunner data object (RRCData)
+## \param r A row index
+## \param c A col index
+## \param value A double value
+## \return Returns true or false
+## \ingroup utilities
+
+def getRRCDataElement(rrcDataHandle, r, c):
+    val = c_double()
+    if rrpLib.getRRCDataElementF(rrcDataHandle, r, c, byref(val)) == False:
+        return float(NaN)
+    else:
+        return val.value
+
 
 ## \brief Get last (API) error. This returns the last error if any.
 ## \return Returns a string with an error success, None otherwise
