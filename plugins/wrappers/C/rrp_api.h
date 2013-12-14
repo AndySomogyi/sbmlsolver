@@ -457,22 +457,30 @@ RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
 
  Example: \code status = getRRCDataElement (rrData, 2, 4, *value); \endcode
 
- \param rrData A pointer to a rrData type variable
+ \param rrcData A pointer to a rrCData type variable
  \param r -The row index to the rrData data
  \param c - The column index to the rrData data
  \param[out] value - The retrieved value from the rrData data
  \return Returns true if succesful
  \ingroup utilities
 */
-RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrData, int r, int c, double *value);
+RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrcData, int r, int c, double *value);
 
 /*!
  \brief Returns a string list in string form.
  \return Returns string list as a character string
- \ingroup toString
+ \ingroup utilities
  \note Forwarded from roadruners C API
 */
 RRP_DECLSPEC char* rrp_cc stringArrayToStringFWD(const RRStringArrayPtr list);
+
+/*!
+ \brief Return last API error
+ \return Returns a string with the error
+ \ingroup utilities
+ \note Forwarded from roadruners C API
+*/
+RRP_DECLSPEC char* rrp_cc getLastPluginError();
 
 #if defined(__cplusplus)
 } }    //rrp namespace and extern "C"

@@ -1,12 +1,14 @@
 import sys;
 import numpy
+import os
 import matplotlib.pyplot as plot
 import roadrunner
 from ctypes import *
 from rrPlugins import *
 
 #Create a plugin manager
-pm = createPluginManager()
+pluginFolder = ".\\.."
+pm = createPluginManager(".\\..")
 
 #Create a roadrunner instance
 rr = roadrunner.RoadRunner()
@@ -22,7 +24,7 @@ def pluginIsProgressing(progress, dummy):
 def pluginIsFinished():
     print 'The plugin did finish'
 
-sbmlModel ="../models/bistable.xml"
+sbmlModel ="../../models/bistable.xml"
 if not rr.load(sbmlModel):
     print 'Failed loading model'
     exit()
@@ -36,7 +38,7 @@ rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 #Load the 'noise' plugin in order to add some noise to roadrunner data
 noisePlugin = loadPlugin(pm, "rrp_add_noise")
 if not noisePlugin:
-    print rr.getLastError()
+    print getLastError()
     exit()
 
 print getPluginInfo(noisePlugin)

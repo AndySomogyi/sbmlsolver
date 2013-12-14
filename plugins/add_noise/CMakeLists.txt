@@ -73,7 +73,7 @@ COMPONENT plugins
 
 install(FILES
 docs/Examples/rrNoisePluginDemo.py
-DESTINATION plugins/python/Examples
+DESTINATION plugins/Examples
 )
 
 

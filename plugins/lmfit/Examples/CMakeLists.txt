@@ -8,7 +8,7 @@ rrLevenbergMarquardtDemo.py
 install(    
 FILES 
 ${examples} 
-DESTINATION plugins/python/Examples
+DESTINATION plugins/Examples
 COMPONENT Python
 )
 
