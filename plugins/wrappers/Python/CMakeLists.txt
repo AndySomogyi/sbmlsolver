@@ -17,3 +17,9 @@ install(
         COMPONENT plugins_api
        )
 
+
+if(WIN32)
+    install(FILES install_roadrunner_plugins_win.py
+        DESTINATION plugins    
+        )
+endif(WIN32)
