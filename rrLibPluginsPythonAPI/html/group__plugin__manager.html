@@ -87,6 +87,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga49235bbd20c3542fa55135c8db73de1c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a></td></tr>
+<tr class="memdesc:ga49235bbd20c3542fa55135c8db73de1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of a plugin manager.  <a href="#ga49235bbd20c3542fa55135c8db73de1c">More...</a><br/></td></tr>
+<tr class="separator:ga49235bbd20c3542fa55135c8db73de1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gade5b049dddf4ec3cd1d6c62e6cc45953"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#gade5b049dddf4ec3cd1d6c62e6cc45953">freePluginManager</a></td></tr>
 <tr class="memdesc:gade5b049dddf4ec3cd1d6c62e6cc45953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the plugin manager.  <a href="#gade5b049dddf4ec3cd1d6c62e6cc45953">More...</a><br/></td></tr>
 <tr class="separator:gade5b049dddf4ec3cd1d6c62e6cc45953"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +134,33 @@ Functions</h2></td></tr>
 <p>Plugin Manager Library Functions The Plugin manager loads and manages one or more plugins. </p>
 <p>Handles to individual plugins are obtained by the getFirstPlugin, getNextPlugin etc functions, or the getPlugin(pluginName) function. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga49235bbd20c3542fa55135c8db73de1c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.createPluginManager </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pluginDir</em> = <code>None</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new instance of a plugin manager. </p>
+<p>A PluginManager manages a collection of plugins, loaded and unloaded by the load and unload API functions respectively. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pluginDir</td><td>Full path to folder containing plugins. If None, uses default folder. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>On success, a handle to a Plugin manager, on failure, None. <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;pm = rrPlugins.createPluginManager ()</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gade5b049dddf4ec3cd1d6c62e6cc45953"></a>
 <div class="memitem">
 <div class="memproto">
@@ -498,7 +528,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 14 2013 17:22:06 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 17:25:23 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
