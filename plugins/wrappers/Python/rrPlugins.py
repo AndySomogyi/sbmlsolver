@@ -15,6 +15,54 @@ elif sys.platform.startswith('Linux'):
     rrpLib = cdll.LoadLibrary(sharedLib)
 
 
+# Experimental parameter object class
+# Usage:
+# p = rrPlugins.ParameterObject ("k1", "hint", 0.1)
+# p.value = 0.5
+# print p.name
+
+class ParameterObject:
+    _parameterHandle = -1
+    
+    def __getValue (self): 
+        return getParameterValue (self._parameterHandle)
+              
+    def __setValue (self, value):
+       if type (value) is int:
+           setIntParameter (self._parameterHandle, value)
+       if type (value) is float:
+           setDoubleParameter (self._parameterHandle, value)
+       if type (value) is str:
+           setStringParameter (self._parameterHandle, value)
+    value = property (__getValue, __setValue)
+
+    def __getName (self): 
+        return getParameterName(self._parameterHandle)                   
+    name = property (__getName)
+
+    def __getHint (self): 
+        return getParameterHint(self._parameterHandle)                   
+    hint = property (__getHint)
+
+    def __getType (self): 
+        return getParameterType(self._parameterHandle)                   
+    pType = property (__getType)
+
+    def __init__(self, name, hint, value):
+      if type (value) is int:
+        self._parameterHandle = createParameter (name, "int", hint)
+      if type (value) is float:
+        self._parameterHandle = createParameter (name, "double", hint)
+      if type (value) is str:
+        self._parameterHandle = createParameter (name, "string", hint)
+      self.__setValue (value)
+    
+    def __getHandle (self):
+        return self._parameterHandle  
+
+    handle = property (__getHandle)
+  
+           
 #=======================rrp_api=======================#
 #Type of plugin callback, first argument is return type
 pluginCallBackType1  = CFUNCTYPE(None)
@@ -26,7 +74,9 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ## \param pluginDir Full path to folder containing plugins. If None, uses default folder.
 ## \return On success, a handle to a Plugin manager, on failure, None.
 #
-## @code pm = rrPlugins.createPluginManager () @endcode
+## @code pm = rrPlugins.createPluginManager () 
+## @endcode
+#
 ## \ingroup plugin_manager
 rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager(pluginDir = None):
@@ -377,6 +427,10 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## \param the_type  The parameters type as string. Possible values: 'bool', 'int', 'double', 'string'
 ## \param hint  The parameters hint as a string.
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
+#
+## @code parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant") 
+## @endcode
+#
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
 def createParameter(name, the_type, hint):
@@ -606,7 +660,7 @@ def unloadAPI():
 #import sys
 #from rrPlugins import *
 #
-## Create a plugin manager
+## #Create a plugin manager
 #pm = createPluginManager()
 #
 ## Load plugins from the plugin folder
@@ -687,9 +741,9 @@ def unloadAPI():
 #
 # \defgroup plugin_parameters Plugin Parameters
 # \brief Plugins Parameter related functions
-# The plugin system support parameter objects, these objects contain a variety of information about a given parameter, these include: 
-name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and lists of strings. 
-Parameters are also grouped into convenient categories. 
+# The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: 
+# name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and 
+# lists of strings. Parameters are also grouped into convenient categories. 
 
 #
 # \defgroup utilities Utility Functions
