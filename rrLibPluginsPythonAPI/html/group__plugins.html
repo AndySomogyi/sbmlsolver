@@ -145,10 +145,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:gad6c58d1d67f69f9ad04f0f8e120e980c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roadrunner instance handle from plugin.  <a href="#gad6c58d1d67f69f9ad04f0f8e120e980c">More...</a><br/></td></tr>
 <tr class="separator:gad6c58d1d67f69f9ad04f0f8e120e980c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga53250a43739e6369bf3eea3c83159dd3"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga53250a43739e6369bf3eea3c83159dd3">getPluginCapabilities</a></td></tr>
-<tr class="memdesc:ga53250a43739e6369bf3eea3c83159dd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugin's capabilities as a string.  <a href="#ga53250a43739e6369bf3eea3c83159dd3">More...</a><br/></td></tr>
+<tr class="memdesc:ga53250a43739e6369bf3eea3c83159dd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugin's categpory list as a string.  <a href="#ga53250a43739e6369bf3eea3c83159dd3">More...</a><br/></td></tr>
 <tr class="separator:ga53250a43739e6369bf3eea3c83159dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga2e156d743b140d6fbcb9fb0ca041e789">getPluginCapabilitiesAsXML</a></td></tr>
-<tr class="memdesc:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins capabilities as a xml document.  <a href="#ga2e156d743b140d6fbcb9fb0ca041e789">More...</a><br/></td></tr>
+<tr class="memdesc:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins categories as a xml document.  <a href="#ga2e156d743b140d6fbcb9fb0ca041e789">More...</a><br/></td></tr>
 <tr class="separator:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -425,14 +425,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a Plugin's capabilities as a string. </p>
+<p>Get a Plugin's categpory list as a string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns available capabilities for a particular plugin as a string, None otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the available categories for a particular plugin as a string, None otherwise. </dd></dl>
 
 </div>
 </div>
@@ -450,7 +450,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a Plugins capabilities as a xml document. </p>
+<p>Get a Plugins categories as a xml document. </p>
 <p>The string returned from this function is formated as xml. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -458,7 +458,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the capabilities of a plugin as an XML string. None otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the categories of a plugin as an XML string. None otherwise </dd></dl>
 
 </div>
 </div>
@@ -502,7 +502,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get Plugin manual as PDF. </p>
-<p>A plugin may embedd a help manual as a PDF. This function returns such as a pointer to a string. Use the function getPluginManualNrOfBytes to get the exact length of this string. </p>
+<p>A plugin may embedd a help manual as a PDF. Use the function getPluginManualNrOfBytes to get the exact length of this string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -808,7 +808,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 14 2013 10:29:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 16:57:51 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

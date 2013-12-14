@@ -5,6 +5,5 @@ var searchData=
   ['setparameterbystring',['setParameterByString',['../group__plugin__parameters.html#ga8baa68fbe4532efd4d776ce1c1855d82',1,'rrPlugins']]],
   ['setplugininputdata',['setPluginInputData',['../group__plugins.html#gab8724f2d3ac55e3e419c0eb8cf037a9b',1,'rrPlugins']]],
   ['setpluginparameter',['setPluginParameter',['../group__plugin__parameters.html#gadf5147ec7a556bbfc61ee5d2cb265ae5',1,'rrPlugins']]],
-  ['setstringparameter',['setStringParameter',['../group__plugin__parameters.html#ga7197e331e86f77292a538fb0af139f42',1,'rrPlugins']]],
-  ['stringarraytostring',['stringArrayToString',['../group__utilities.html#gaf3ce1b17c9bcab03e61af1be746e33e4',1,'rrPlugins']]]
+  ['setstringparameter',['setStringParameter',['../group__plugin__parameters.html#ga7197e331e86f77292a538fb0af139f42',1,'rrPlugins']]]
 ];

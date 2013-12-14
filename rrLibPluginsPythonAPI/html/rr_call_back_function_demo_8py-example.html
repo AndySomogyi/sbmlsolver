@@ -94,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">#Create a plugin manager</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;pluginFolder = <span class="stringliteral">&quot;../../plugins&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>(pluginFolder)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;pm = createPluginManager(pluginFolder)</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">def </span>pluginStarted():</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;The plugin was started&#39;</span></div>
@@ -123,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">#Load the &#39;noise&#39; plugin in order to add some noise to the data</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;plugin = <a class="code" href="group__plugin__manager.html#gab9c91ced7d49ddbd89ba3020d72f1c96">loadPlugin</a>(pm, <span class="stringliteral">&quot;rrp_add_noise&quot;</span>)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> plugin:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">print</span> <a class="code" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1">getLastError</a>()</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">print</span> getLastError()</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    exit()</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugins.html#gabdf72eebd206ac891cfc681b74811a0a">getPluginInfo</a>(plugin)</div>
@@ -147,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;cb_func3 =  pluginCallBackType1(pluginIsFinished)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<a class="code" href="group__plugins.html#ga52e84c5eb8895be7c9458dfc8baa010f">assignPluginFinishedCallBack</a>(plugin, cb_func3)</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;rrDataHandle = <a class="code" href="group__utilities.html#ga8868f172d6b9c954a20fad7187f23c64">getRoadRunnerDataHandleFromInstance</a>(rr)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">#Execute the noise plugin which will add some noise to the (internal) data</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<a class="code" href="group__plugins.html#ga04ef5e823ecf7d6157756fbd0c1603f6">executePluginEx</a>(plugin, rrDataHandle, <span class="keyword">True</span>)</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
@@ -167,13 +167,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;plot.show()</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<a class="code" href="group__plugin__manager.html#ga650a8e90787cee3bcad7b844df766248">unLoadPlugins</a>(pm)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<a class="code" href="group__utilities.html#ga53e9fdf43d7b3fec2abfe30ad5c06030">unloadAPI</a>()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;unloadAPI()</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;done&quot;</span></div>
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 14 2013 10:29:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 16:57:51 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

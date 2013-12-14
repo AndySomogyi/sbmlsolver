@@ -2,10 +2,8 @@ var searchData=
 [
   ['getcurrentplugin',['getCurrentPlugin',['../group__plugin__manager.html#ga41c52348c1de66c9176002f915942c96',1,'rrPlugins']]],
   ['getfirstplugin',['getFirstPlugin',['../group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8',1,'rrPlugins']]],
-  ['getlasterror',['getLastError',['../group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1',1,'rrPlugins']]],
   ['getnextplugin',['getNextPlugin',['../group__plugin__manager.html#ga83b28fc49904148333128932f9f0fa0d',1,'rrPlugins']]],
   ['getnumberofplugins',['getNumberOfPlugins',['../group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23',1,'rrPlugins']]],
-  ['getnumpydata',['getNumpyData',['../group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282',1,'rrPlugins']]],
   ['getparameterhint',['getParameterHint',['../group__plugin__parameters.html#ga843ccc03d3ca35b3a70389513f2093e1',1,'rrPlugins']]],
   ['getparameterinfo',['getParameterInfo',['../group__plugin__parameters.html#ga5a02bcbe35aaaf38ee6ef9f32ffa64c8',1,'rrPlugins']]],
   ['getparametername',['getParameterName',['../group__plugin__parameters.html#ga91d3d28fd3f172eeb54c99a68f9cada7',1,'rrPlugins']]],
@@ -27,9 +25,5 @@ var searchData=
   ['getpluginresult',['getPluginResult',['../group__plugins.html#gac4fe0db0c504ea53ebe66c5d06852e89',1,'rrPlugins']]],
   ['getpluginstatus',['getPluginStatus',['../group__plugins.html#ga0a0a0752c9339e7b19402da603092931',1,'rrPlugins']]],
   ['getpreviousplugin',['getPreviousPlugin',['../group__plugin__manager.html#gaad6327c658be9b54711d91e892f36623',1,'rrPlugins']]],
-  ['getroadrunnerdatahandle',['getRoadRunnerDataHandle',['../group__utilities.html#ga3c580a700ace61925f0cb0bc84686824',1,'rrPlugins']]],
-  ['getroadrunnerdatahandlefrominstance',['getRoadRunnerDataHandleFromInstance',['../group__utilities.html#ga8868f172d6b9c954a20fad7187f23c64',1,'rrPlugins']]],
-  ['getroadrunnerhandle',['getRoadRunnerHandle',['../group__utilities.html#ga1af8f9c2bf937ec762f1516b830d4003',1,'rrPlugins']]],
-  ['getrrcdataelement',['getRRCDataElement',['../group__utilities.html#gad3eed6afeffa9a1740b4c9021a397bef',1,'rrPlugins']]],
   ['getrrhandlefromplugin',['getRRHandleFromPlugin',['../group__plugins.html#gad6c58d1d67f69f9ad04f0f8e120e980c',1,'rrPlugins']]]
 ];
