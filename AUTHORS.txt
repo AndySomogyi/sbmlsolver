@@ -19,7 +19,7 @@ The LLVM backend and refactoring of the core was designed and undertaken by
 
     Andy Somogyi
 
-The C backend was ported to C++ by
+The C# backend was ported to C++ by
 
     Totte Karlsson
 
