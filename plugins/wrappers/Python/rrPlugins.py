@@ -1,9 +1,15 @@
 ##@Module rrPlugins
 #This module allows access to the rrplugins_api.dll from python"""
+import os
 import sys
 import numpy as np
 import roadrunner
 from ctypes import *
+
+# Get current folder and construct an absolute path to
+# the plugins.
+dirPath = os.path.dirname(os.path.realpath(__file__))
+gDefaultPluginsPath  = os.path.split(dirPath)[0]
 
 sharedLib='rrplugins_c_api'
 rrpLib=None

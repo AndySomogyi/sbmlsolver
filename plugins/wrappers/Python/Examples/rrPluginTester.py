@@ -4,7 +4,8 @@ from rrPlugins import *
 ## Create a plugin manager
 pm = createPluginManager()
 
-print 'The plugin manager will look for plugins in the following folder: ' + gDefaultPluginsPath
+print 'The plugin manager will look for \
+        plugins in the following folder: ' + gDefaultPluginsPath
 
 ## Load plugins from the plugin folder
 result = loadPlugins(pm)

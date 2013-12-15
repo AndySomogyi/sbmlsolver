@@ -7,8 +7,7 @@ from ctypes import *
 from rrPlugins import *
 
 #Create a plugin manager
-pluginFolder = ".\\.."
-pm = createPluginManager(".\\..")
+pm = createPluginManager()
 
 #Create a roadrunner instance
 rr = roadrunner.RoadRunner()

@@ -2,8 +2,7 @@ import os
 from rrPlugins import *
 
 #Create a plugin manager
-pluginFolder = ".\\.."
-pm = createPluginManager(pluginFolder)
+pm = createPluginManager()
 
 pluginName = "rrp_add_noise"
 plugin = loadPlugin(pm, pluginName)
