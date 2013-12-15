@@ -1,13 +1,13 @@
 import sys
 from rrPlugins import *
 
-## Create a plugin manager
+# Create a plugin manager
 pm = createPluginManager()
 
 print 'The plugin manager will look for \
-        plugins in the following folder: ' + gDefaultPluginsPath
+plugins in the following folder: ' + gDefaultPluginsPath
 
-## Load plugins from the plugin folder
+# Load plugins from the plugin folder
 result = loadPlugins(pm)
 if not result:
     print 'Failed to load any plugins'
@@ -18,7 +18,7 @@ print 'Number of Plugins: ' + `getNumberOfPlugins(pm)`
 names= getPluginNames(pm)
 print names
 
-## Get a plugin handle
+# Get a plugin handle
 aPlugin = getFirstPlugin(pm)
 
 if(aPlugin == None):
@@ -30,5 +30,3 @@ info = getPluginInfo(aPlugin)
 print info
 print `unLoadPlugins(pm)`
 print "done"
-
-
