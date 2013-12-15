@@ -49,7 +49,15 @@ print('installing roadrunner to site packages dir: ' + sp)
 
 dst = os.path.join(sp, 'roadrunner')
 
-src = os.path.abspath(os.path.join('site-packages', 'roadrunner'))
+# src dir should be location of the roadunner package, i.e.
+# src directory is :c:\Users\IEUser\local\site-packages\roadrunner
+
+
+# need to get relative to this file as cwd may be different than
+# dir the file dir if its say run from desktop. 
+cwd = os.path.dirname(os.path.abspath(__file__))
+
+src = os.path.abspath(os.path.join(cwd, 'site-packages', 'roadrunner'))
 
 print('src directory is :' + src)
 
