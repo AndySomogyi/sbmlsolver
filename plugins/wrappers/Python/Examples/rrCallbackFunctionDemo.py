@@ -81,6 +81,6 @@ plot.xlabel('time (s)')
 plot.show()
 
 unLoadPlugins(pm)
-unloadAPI()
+unLoadAPI()
 
 print "done"

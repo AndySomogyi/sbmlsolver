@@ -29,10 +29,10 @@ elif sys.platform.startswith('Linux'):
 
 class ParameterObject:
     _parameterHandle = -1
-    
-    def __getValue (self): 
+
+    def __getValue (self):
         return getParameterValue (self._parameterHandle)
-              
+
     def __setValue (self, value):
        if type (value) is int:
            setIntParameter (self._parameterHandle, value)
@@ -42,16 +42,16 @@ class ParameterObject:
            setStringParameter (self._parameterHandle, value)
     value = property (__getValue, __setValue)
 
-    def __getName (self): 
-        return getParameterName(self._parameterHandle)                   
+    def __getName (self):
+        return getParameterName(self._parameterHandle)
     name = property (__getName)
 
-    def __getHint (self): 
-        return getParameterHint(self._parameterHandle)                   
+    def __getHint (self):
+        return getParameterHint(self._parameterHandle)
     hint = property (__getHint)
 
-    def __getType (self): 
-        return getParameterType(self._parameterHandle)                   
+    def __getType (self):
+        return getParameterType(self._parameterHandle)
     pType = property (__getType)
 
     def __init__(self, name, hint, value):
@@ -62,13 +62,13 @@ class ParameterObject:
       if type (value) is str:
         self._parameterHandle = createParameter (name, "string", hint)
       self.__setValue (value)
-    
+
     def __getHandle (self):
-        return self._parameterHandle  
+        return self._parameterHandle
 
     handle = property (__getHandle)
-  
-           
+
+
 #=======================rrp_api=======================#
 #Type of plugin callback, first argument is return type
 pluginCallBackType1  = CFUNCTYPE(None)
@@ -85,8 +85,11 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ## @endcode
 #
 ## \ingroup plugin_manager
+
 rrpLib.createPluginManager.restype = c_void_p
 def createPluginManager(pluginDir = None):
+    if pluginDir == None:
+        pluginDir = gDefaultPluginsPath
     return rrpLib.createPluginManager(pluginDir)
 
 ## \brief Free the plugin manager. A call to this function will also unload any loaded plugins.
@@ -271,6 +274,7 @@ def getPluginManualNrOfBytes(pluginHandle):
 ##  \param rrHandle Handle to a roadrunner instance
 ##  \return Returns true or false indicating success/failure
 ## \ingroup plugins
+rrpLib.assignRoadRunnerInstance.restype = c_bool
 def assignRoadRunnerInstance(pluginHandle, rrHandle):
     return rrpLib.assignRoadRunnerInstance(pluginHandle, rrHandle)
 
@@ -318,6 +322,7 @@ def getPluginResult(pluginHandle):
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
+rrpLib.resetPlugin.restype = c_bool
 def resetPlugin(pluginHandle):
     return rrpLib.resetPlugin(pluginHandle)
 
@@ -328,6 +333,7 @@ def resetPlugin(pluginHandle):
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating if the plugin is busy or not
 ## \ingroup plugins
+rrpLib.isPluginWorking.restype = c_bool
 def isPluginWorking(pluginHandle):
     return rrpLib.isPluginWorking(pluginHandle)
 
@@ -336,6 +342,7 @@ def isPluginWorking(pluginHandle):
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
+rrpLib.terminateWork.restype = c_bool
 def terminateWork(pluginHandle):
     return rrpLib.terminateWork(pluginHandle)
 
@@ -343,6 +350,7 @@ def terminateWork(pluginHandle):
 ## \param pluginHandle Handle to the plugin
 ## \return Returns true or false indicating if the work within the plugin is in the process of being terminated
 ## \ingroup plugins
+rrpLib.isBeingTerminated.restype = c_bool
 def isBeingTerminated(pluginHandle):
     return rrpLib.isBeingTerminated(pluginHandle)
 
@@ -351,6 +359,7 @@ def isBeingTerminated(pluginHandle):
 ## \param pluginHandle Handle to the plugin
 ## \return Returns true or false indicating if the work in the plugin was terminated or not
 ## \ingroup plugins
+rrpLib.wasTerminated.restype = c_bool
 def wasTerminated(pluginHandle):
     return rrpLib.wasTerminated(pluginHandle)
 
@@ -392,6 +401,7 @@ def assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1 = None,
 ## \param userData void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
+rrpLib.setPluginInputData.restype = c_bool
 def setPluginInputData(pluginHandle, userData):
     return rrpLib.setPluginInputData(pluginHandle, c_void_p(userData))
 
@@ -446,6 +456,7 @@ def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
 ## \param paraValue Value of parameter, as string
 ## \return true if succesful, false otherwise
 ## \ingroup plugin_parameters
+rrpLib.setPluginParameter.restype = c_bool
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
@@ -455,8 +466,8 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## \param hint  The parameters hint as a string.
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
 #
-## @code 
-## parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant") 
+## @code
+## parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant")
 ## @endcode
 #
 ## \ingroup plugin_parameters
@@ -471,7 +482,7 @@ def createParameter(name, the_type, hint):
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
 #
-## @code 
+## @code
 ## paraList = getParameterValueHandle(paraHandle);
 ## para1 = createParameter("k1", "double", "A Hint")
 ## setDoubleParameter(para1, 0.2)
@@ -682,7 +693,7 @@ def getLastError():
 
 ## \brief Unload the plugins api shared library
 ## \ingroup utilities
-def unloadAPI():
+def unLoadAPI():
     windll.kernel32.FreeLibrary(rrpLib._handle)
 
 
@@ -777,9 +788,9 @@ def unloadAPI():
 #
 # \defgroup plugin_parameters Plugin Parameters
 # \brief Plugins Parameter related functions
-# The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: 
-# name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and 
-# lists of strings. Parameters are also grouped into convenient categories. 
+# The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include:
+# name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and
+# lists of strings. Parameters are also grouped into convenient categories.
 
 #
 # \defgroup utilities Utility Functions
