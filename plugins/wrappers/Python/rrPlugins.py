@@ -376,7 +376,7 @@ rrpLib.getRRHandleFromPlugin.restype = c_void_p
 def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
-## \brief Get a Plugin's categpory list as a string
+## \brief Get a Plugin's category list as a string
 ## \param pluginHandle Handle to a plugin
 ## \return Returns the available categories for a particular plugin as a string, None otherwise.
 ## \ingroup plugins
@@ -428,7 +428,8 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## \param hint  The parameters hint as a string.
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
 #
-## @code parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant") 
+## @code 
+## parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant") 
 ## @endcode
 #
 ## \ingroup plugin_parameters
@@ -442,6 +443,14 @@ def createParameter(name, the_type, hint):
 ## \param listHandle Handle to a parameter list
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
+#
+## @code 
+## paraList = getParameterValueHandle(paraHandle);
+## para1 = createParameter("k1", "double", "A Hint")
+## setDoubleParameter(para1, 0.2)
+## addParameterToList(paraList, para1)
+## @endcode
+#
 ## \ingroup plugin_parameters
 rrpLib.addParameterToList.restype = c_bool
 def addParameterToList(listHandle, paraHandle):
