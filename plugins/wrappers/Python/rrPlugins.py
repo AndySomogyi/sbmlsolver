@@ -75,6 +75,7 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ## \return On success, a handle to a Plugin manager, on failure, None.
 #
 ## @code pm = rrPlugins.createPluginManager () 
+##
 ## @endcode
 #
 ## \ingroup plugin_manager
@@ -85,6 +86,11 @@ def createPluginManager(pluginDir = None):
 ## \brief Free the plugin manager. A call to this function will also unload any loaded plugins.
 ## \param pm Handle to a plugin manager.
 ## \return true if success, false otherwise.
+##
+## @code pm = rrPlugins.createPluginManager () 
+##
+## @endcode
+##
 ## \ingroup plugin_manager
 rrpLib.freePluginManager.restype = c_bool
 def freePluginManager(pm):
@@ -94,6 +100,11 @@ def freePluginManager(pm):
 ## \brief Load plugins. The function will look in the default plugin folder for plugins, and load them.
 ## \param pm Handle to a PluginManager instance
 ## \return Returns true if Plugins are loaded, false otherwise
+#
+## @code pm = rrPlugins.createPluginManager () 
+#
+## @endcode
+#
 ## \ingroup plugin_manager
 ##
 rrpLib.loadPlugins.restype = c_bool
@@ -104,6 +115,11 @@ def loadPlugins(pm):
 ## \brief Unload plugins
 ## \param pm Handle to a PluginManager instance
 ## \return Returns true if Plugins are unloaded succesfully, false otherwise
+##
+## @code pm = rrPlugins.createPluginManager () 
+##
+## @endcode
+##
 ## \ingroup plugin_manager
 ##
 rrpLib.unLoadPlugins.restype = c_bool
@@ -669,10 +685,10 @@ def unloadAPI():
 #import sys
 #from rrPlugins import *
 #
-## #Create a plugin manager
+### Create a plugin manager
 #pm = createPluginManager()
 #
-## Load plugins from the plugin folder
+### Load plugins from the plugin folder
 #result = loadPlugins(pm)
 #if not result:
 #    print 'Failed to load any plugins'
@@ -683,7 +699,7 @@ def unloadAPI():
 #names = stringArrayToString(namesHandle)
 #print names
 #
-## Get a plugin handle
+### Get a plugin handle
 #aPlugin = getFirstPlugin(pm)
 #
 #if(aPlugin == None):
