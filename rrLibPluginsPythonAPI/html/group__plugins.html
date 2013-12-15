@@ -579,8 +579,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns a plugins result, as a string. </p>
-<p>This is plugin dependent, see the plugin documentation for details. </p>
-<dl class="section note"><dt>Note</dt><dd>If a plugin wants to returns speifici results, eg Array etc, these should be returned as parameters. </dd></dl>
+<p>This is plugin dependent, and a plugin designer may, or may not, implement this function. See the plugin documentation for details. </p>
+<dl class="section note"><dt>Note</dt><dd>If a plugin wants to returns specific result, e.g. an Array, or a a float, these are better communicated troughthe use of Plugin Paarameters. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -657,6 +657,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check if the work of a plugin is currently being terminated. </p>
+<p>This function is useful when a plugin is executed in a thread. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to the plugin </td></tr>
@@ -682,6 +683,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check if a plugin is actively working. </p>
+<p>This function is used when the work in the plugin is executed in a thread (see executeEx). The isPluginWorking will return true as long work is being active and false when the work is done. This is useful in UI environments. Also, see the various callback functions on how to get status back from a plugin during its execution. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -769,7 +771,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Terminate any work that is in progress in a plugin. </p>
-<p>If the plugins worker is executed in a thread, this function will signal the internals of the plugin to terminate. </p>
+<p>If the plugins worker is executed in a thread, this function will signal the internals of the plugin to terminate. This function is used when a plugins work is executed in a thread. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -795,7 +797,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>wasTerminated. </p>
-<p>query a plugin if work was terminated before completion </p>
+<p>Query a plugin if work was terminated succesfully. This function may be used in combination with the terminateWork, and isBeingTerminated functions. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to the plugin </td></tr>
@@ -809,7 +811,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 14 2013 23:55:00 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 15 2013 01:11:22 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
