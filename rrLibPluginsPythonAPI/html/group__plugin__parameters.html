@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -65,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -82,7 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Plugins Parameter related functions The plugin system support parameter objects, these objects contain a variety of information about a given parameter, these include:  
+<p>Plugins Parameter related functions The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: name, value, type, hint, and a description.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -137,7 +138,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga0b39ee01649795f0f9b5464f72ee4fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>Plugins Parameter related functions The plugin system support parameter objects, these objects contain a variety of information about a given parameter, these include: </p>
+<p>Plugins Parameter related functions The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: name, value, type, hint, and a description. </p>
+<p>The following types are curerntly supported, Booleans, integers, doubles, strings and lists of strings. Parameters are also grouped into convenient categories. </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="gacc611f172084abc62488e69ec5900063"></a>
 <div class="memitem">
@@ -171,8 +173,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a Boolean indicating success </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns a Boolean indicating success</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;paraList = <a class="code" href="group__plugin__parameters.html#ga50da49d517aec983da3a221499873ffb">getParameterValueHandle</a>(paraHandle);</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;para1 = <a class="code" href="group__plugin__parameters.html#ga935eb24b2c15b6341ac2ef9f6136a6f7">createParameter</a>(<span class="stringliteral">&quot;k1&quot;</span>, <span class="stringliteral">&quot;double&quot;</span>, <span class="stringliteral">&quot;A Hint&quot;</span>)</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<a class="code" href="group__plugin__parameters.html#ga9b957da7a62838e16025ebe3055d383a">setDoubleParameter</a>(para1, 0.2)</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<a class="code" href="group__plugin__parameters.html#gacc611f172084abc62488e69ec5900063">addParameterToList</a>(paraList, para1)</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga935eb24b2c15b6341ac2ef9f6136a6f7"></a>
@@ -214,8 +220,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a new parameter, if succesful, None otherwise </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a new parameter, if succesful, None otherwise</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;parameterHandle = rrPlugins.createParameter (<span class="stringliteral">&quot;k1&quot;</span>, <span class="stringliteral">&quot;double&quot;</span>, <span class="stringliteral">&quot;A rate constant&quot;</span>) </div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga843ccc03d3ca35b3a70389513f2093e1"></a>
@@ -664,7 +671,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 14 2013 17:34:57 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 14 2013 20:38:04 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
