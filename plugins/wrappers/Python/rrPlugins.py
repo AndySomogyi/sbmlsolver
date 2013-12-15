@@ -13,12 +13,17 @@ gDefaultPluginsPath  = os.path.split(dirPath)[0]
 
 sharedLib='rrplugins_c_api'
 rrpLib=None
-if sys.platform.startswith('win32'):
+try:
+
+    if sys.platform.startswith('win32'):
         sharedLib = sharedLib + '.dll'
         rrpLib=CDLL(sharedLib)
-elif sys.platform.startswith('Linux'):
-    sharedLib = sharedLib + '.dll'
-    rrpLib = cdll.LoadLibrary(sharedLib)
+    elif sys.platform.startswith('Linux'):
+        sharedLib = sharedLib + '.a'
+        rrpLib = cdll.LoadLibrary(sharedLib)
+except:
+    print 'ERROR: Unable to locate shared library: ' + sharedLib
+    exit()
 
 
 # Experimental parameter object class
