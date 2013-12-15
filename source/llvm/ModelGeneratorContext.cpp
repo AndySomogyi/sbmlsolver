@@ -523,19 +523,19 @@ void ModelGeneratorContext::addGlobalMappings()
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arccosh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) acosh);
+                        (void*) LibFunc::acosh);
 
     // AST_FUNCTION_ARCSINH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arcsinh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) asinh);
+                        (void*) LibFunc::asinh);
 
     // AST_FUNCTION_ARCTANH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arctanh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) atanh);
+                        (void*) LibFunc::atanh);
 
 }
 
