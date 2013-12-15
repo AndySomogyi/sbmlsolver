@@ -8,8 +8,7 @@ from rrPlugins import *
 rr = roadrunner.RoadRunner()
 
 #Create a plugin manager
-pluginFolder = "../../plugins"
-pm = createPluginManager(pluginFolder)
+pm = createPluginManager()
 
 def pluginStarted():
     print 'The plugin was started'

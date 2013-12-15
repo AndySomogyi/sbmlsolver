@@ -1,9 +1,15 @@
 ##@Module rrPlugins
 #This module allows access to the rrplugins_api.dll from python"""
+import os
 import sys
 import numpy as np
 import roadrunner
 from ctypes import *
+
+# Get current folder and construct an absolute path to
+# the plugins.
+dirPath = os.path.dirname(os.path.realpath(__file__))
+gDefaultPluginsPath  = os.path.split(dirPath)[0]
 
 sharedLib='rrplugins_c_api'
 rrpLib=None
@@ -298,8 +304,9 @@ rrpLib.getPluginStatus.restype = c_char_p
 def getPluginStatus(pluginHandle):
     return rrpLib.getPluginStatus(pluginHandle)
 
-## \brief Returns a plugins result, as a string. This is plugin dependent, see the plugin documentation for details.
-## \note If a plugin wants to returns speifici results, eg Array etc, these should be returned as parameters.
+## \brief Returns a plugins result, as a string. This is plugin dependent, and a plugin designer may, or may not, implement
+## this function. See the plugin documentation for details.
+## \note If a plugin wants to returns specific result, e.g. an Array, or a a float, these are better communicated troughthe use of Plugin Paarameters.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a plugins result if available. None otherwise
 ## \ingroup plugins
@@ -314,7 +321,10 @@ def getPluginResult(pluginHandle):
 def resetPlugin(pluginHandle):
     return rrpLib.resetPlugin(pluginHandle)
 
-## \brief Check if a plugin is actively working
+## \brief Check if a plugin is actively working. This function is used when the work in the plugin is 
+## executed in a thread (see executeEx). The isPluginWorking will return true as long work is being active
+## and false when the work is done. This is useful in UI environments. Also, see the various callback functions on 
+## how to get status back from a plugin during its execution.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating if the plugin is busy or not
 ## \ingroup plugins
@@ -322,21 +332,22 @@ def isPluginWorking(pluginHandle):
     return rrpLib.isPluginWorking(pluginHandle)
 
 ## \brief Terminate any work that is in progress in a plugin. If the plugins worker is executed in a thread, this function
-## will signal the internals of the plugin to terminate.
+## will signal the internals of the plugin to terminate. This function is used when a plugins work is executed in a thread.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
 def terminateWork(pluginHandle):
     return rrpLib.terminateWork(pluginHandle)
 
-## \brief Check if the work of a plugin is currently being terminated
+## \brief Check if the work of a plugin is currently being terminated. This function is useful when a plugin is executed in a thread. 
 ## \param pluginHandle Handle to the plugin
 ## \return Returns true or false indicating if the work within the plugin is in the process of being terminated
 ## \ingroup plugins
 def isBeingTerminated(pluginHandle):
     return rrpLib.isBeingTerminated(pluginHandle)
 
-## \brief wasTerminated. query a  plugin if work was terminated before completion
+## \brief wasTerminated. Query a plugin if work was terminated succesfully. This function may be used in combination with
+## the terminateWork, and isBeingTerminated functions.
 ## \param pluginHandle Handle to the plugin
 ## \return Returns true or false indicating if the work in the plugin was terminated or not
 ## \ingroup plugins

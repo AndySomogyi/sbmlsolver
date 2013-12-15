@@ -3,8 +3,7 @@ import matplotlib.pyplot as plot
 from rrPlugins import *
 
 #Create a plugin manager
-pluginFolder = ".\\.."
-pm = createPluginManager(pluginFolder)
+pm = createPluginManager()
 
 #Create a roadrunner instance
 rr = roadrunner.RoadRunner()
