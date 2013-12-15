@@ -81,9 +81,10 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ## \return On success, a handle to a Plugin manager, on failure, None.
 #
 ## @code pm = rrPlugins.createPluginManager () 
-##
-## @endcode
-#
+## pm = createPluginManager()
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_manager
 
 rrpLib.createPluginManager.restype = c_void_p
@@ -703,37 +704,7 @@ def unLoadAPI():
 #external plugins.
 #The code fragment below shows briefly how to load plugins, check for plugins, and use an individual plugin.
 #
-#@code
-#import sys
-#from rrPlugins import *
-#
-### Create a plugin manager
-#pm = createPluginManager()
-#
-### Load plugins from the plugin folder
-#result = loadPlugins(pm)
-#if not result:
-#    print 'Failed to load any plugins'
-#    exit()
-#
-#print 'Number of Plugins: ' + `getNumberOfPlugins(pm)`
-#namesHandle = getPluginNames(pm)
-#names = stringArrayToString(namesHandle)
-#print names
-#
-### Get a plugin handle
-#aPlugin = getFirstPlugin(pm)
-#
-#if(aPlugin == None):
-#    print 'Failed to get a handle to a plugin'
-#    exit()
-#
-#info = getPluginInfo(aPlugin)
-#
-#print info
-#print `unLoadPlugins(pm)`
-#print "done"
-#@endcode
+#\include rrPluginTester.py
 #
 # The above code produces the following output:
 #@code
@@ -791,7 +762,7 @@ def unLoadAPI():
 # The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include:
 # name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and
 # lists of strings. Parameters are also grouped into convenient categories.
-
+#
 #
 # \defgroup utilities Utility Functions
 # \brief Functions to help and assist in the use of the Plugins framework
