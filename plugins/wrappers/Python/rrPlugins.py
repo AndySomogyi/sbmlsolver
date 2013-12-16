@@ -329,7 +329,7 @@ def getPluginInfo(pluginHandle):
 ## if numOfBytes == 0:
 ##    print 'This plugin does not have a manual.'
 ##    exit()
-## outFName = pluginName + '.pdf'
+## outFName = getPluginName (pluginHandle) + '.pdf'
 ## with open(outFName, 'wb') as output:
 ##    output.write(manual)
 ## os.system('start ' + outFName)
@@ -520,7 +520,7 @@ def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
 #================ Plugin Parameter functionality ======================
-## \brief Get a handle to a plugins list of parameters 
+## \brief Get a handle to the list of parameters for a plugin
 ## \param pluginHandle Handle to a plugin
 ## \return Returns available parameters for a particular, None otherwise
 ## \ingroup plugin_parameters
@@ -529,23 +529,23 @@ def getPluginParameters(pluginHandle):
     return rrpLib.getPluginParameters(pluginHandle)
 
 ## \brief Clear a list of parameters 
-## \param parasHandle Handle to a list of parameters
+## \param paraHandle Handle to a list of parameters
 ## \return True or false, indicating result
 ## \ingroup plugin_parameters
 ## \note This function is to be used on a plugins parameter that is of type parameterList. 
 ## Observe that the plugin itself can return a paramterList. It is a bad idea to empty this one
 ## as this will remove the ability to retrieve any of the plugins parameters subsequently
 rrpLib.clearPluginParameters.restype = c_bool
-def clearPluginParameters(parasHandle):
-    return rrpLib.clearPluginParameters(parasHandle)
+def clearPluginParameters(paraHandle):
+    return rrpLib.clearPluginParameters(paraHandle)
 
-## \brief Get a list of a plugins parameter names
+## \brief Get a list of parameter names for a plugin
 ## \param pluginHandle Handle to a plugin
 ## \return Returns names for all parameters in the plugin
 ## \ingroup plugin_parameters
 rrpLib.getListOfParameterNames.restype = c_char_p
-def getListOfParameterNames(parasHandle):
-    paras = rrpLib.getListOfParameterNames(parasHandle)
+def getListOfParameterNames(paraHandle):
+    paras = rrpLib.getListOfParameterNames(paraHandle)
     if not paras:
         return list()
     else:        
