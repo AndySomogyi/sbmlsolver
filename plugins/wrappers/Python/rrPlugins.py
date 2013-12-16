@@ -75,8 +75,37 @@ class ParameterObject:
 
 
 #=======================rrp_api=======================#
-#Type of plugin callback, first argument is return type
+#Type of plugin callbacks, first argument is return type
+
+## \brief Plugin Function callback type definition
+## This is a helper object that a client can use as an argument to a roadrunner plugin.
+## The exact number of plugins callback functions required arguments, and their type, is plugin dependent. A client of the
+## the plugin need to get this information from plugin specific documentation. 
+## An example of using this particular function, pluginCallbackType1 is shown below. As can see, this python function 
+##don't take any arguments.
+##@code
+##def myPluginFunction():
+##    print 'The plugin can call this function!'
+## #After loading the plugin, the user can assign this function as a plugin callback as follows
+## cb_func1 =  pluginCallBackType1(myPluginFunction)
+## assignPluginStartedCallBack(plugin,  cb_func1)
+##@endcode
 pluginCallBackType1  = CFUNCTYPE(None)
+
+## \brief Plugin Function callback type definition
+## This is a helper object that a client can use as an argument to a roadrunner plugin.
+## The exact number of plugins callback functions required arguments, and their type, is plugin dependent. A client of the
+## the plugin need to get this information from plugin specific documentation. 
+## An example of using this particular function, pluginCallbackType2 is shown below. As can see, this python function 
+## do take two arguments. The first argument is an integer, indicating progress, the second argument is not used in this particular case.
+##@code
+##def pluginIsProgressing(progress, dummy):
+##    nr = progress[0]
+##    print '\nPlugin progress:' + `nr` +' %'
+## #After loading the plugin, the user can assign this function as a plugin callback as follows
+## cb_func2 =  pluginCallBackType1(pluginIsProgressing)
+## assignPluginStartedCallBack(plugin,  cb_func2)
+##@endcode
 pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 
 ## \brief Create a new instance of a plugin manager.
