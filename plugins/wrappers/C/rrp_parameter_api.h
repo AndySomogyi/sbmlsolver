@@ -153,6 +153,13 @@ RRP_DECLSPEC char* rrp_cc getParameterHint(RRParameterHandle handle);
 */
 RRP_DECLSPEC char* rrp_cc getParameterType(RRParameterHandle handle);
 
+RRP_DECLSPEC RRParameterHandle rrp_cc getFirstPlugin(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getNextPlugin(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getPreviousPlugin(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentPlugin(RRParametersHandle handle);
+
+
+
 /*! @} */
 
 #if defined(__cplusplus)

@@ -47,7 +47,7 @@ class LM : public CPPPlugin
         bool                                    execute(bool inThread = false);
         string                                  getResult();
         bool                                    resetPlugin();
-        bool                                    setInputData(void* data);
+        bool                                    assignInput(void* data);
         string                                  getImplementationLanguage();
         string                                  getStatus();
         bool                                    isWorking();

@@ -199,69 +199,69 @@ char* rrp_cc getPluginName(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-char* rrp_cc getPluginCapabilities(RRPluginHandle handle)
+//char* rrp_cc getPluginCapabilities(RRPluginHandle handle)
+//{
+//    start_try
+//        Plugin* aPlugin = castToPlugin(handle);
+//        if(aPlugin)
+//        {
+//            StringList aList;
+//            Capabilities* caps = aPlugin->getCapabilities();
+//            if(!caps)
+//            {
+//                return NULL;
+//            }
+//
+//            for(int i = 0; i < caps->count(); i++)
+//            {
+//                aList.add((*caps)[i]->getName());
+//            }
+//            return createText(aList.AsString().c_str());
+//        }
+//        else
+//        {
+//            return NULL;
+//        }
+//    catch_ptr_macro
+//}
+//
+//char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle)
+//{
+//    start_try
+//        Plugin* aPlugin = castToPlugin(handle);
+//        if(aPlugin)
+//        {
+//            string xml = aPlugin->getCapabilitiesAsXML();
+//            if(!xml.size())
+//            {
+//                return NULL;
+//            }
+//
+//            return createText(xml);
+//        }
+//        else
+//        {
+//            return NULL;
+//        }
+//    catch_ptr_macro
+//}
+//
+RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        if(aPlugin)
-        {
-            StringList aList;
-            Capabilities* caps = aPlugin->getCapabilities();
-            if(!caps)
-            {
-                return NULL;
-            }
-
-            for(int i = 0; i < caps->count(); i++)
-            {
-                aList.add((*caps)[i]->getName());
-            }
-            return createText(aList.AsString().c_str());
-        }
-        else
-        {
-            return NULL;
-        }
+        return aPlugin->getParameters();
     catch_ptr_macro
 }
 
-char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle)
+char* rrp_cc getListOfParameterNames(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
+       
         if(aPlugin)
         {
-            string xml = aPlugin->getCapabilitiesAsXML();
-            if(!xml.size())
-            {
-                return NULL;
-            }
-
-            return createText(xml);
-        }
-        else
-        {
-            return NULL;
-        }
-    catch_ptr_macro
-}
-
-char* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability)
-{
-    start_try
-        Plugin* aPlugin = castToPlugin(handle);
-        if(aPlugin)
-        {
-            string cap;
-            if(capability)
-            {
-                cap = capability;
-            }
-            else
-            {
-               cap = ("");
-            }
-            Parameters* paras = aPlugin->getParameters(cap);
+            Parameters* paras = aPlugin->getParameters();
             if(!paras)
             {
                 return NULL;
@@ -281,23 +281,14 @@ char* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability)
     catch_ptr_macro
 }
 
-RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
+RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* parameterName)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
         PluginParameter *para = NULL;
         if(aPlugin)
-        {
-            if(capabilitiesName != NULL)
-            {
-                para = aPlugin->getParameter(parameterName, capabilitiesName);
-            }
-            else
-            {
-                para = aPlugin->getParameter(parameterName);
-            }
-               return para;
-
+        {           
+            return aPlugin->getParameter(parameterName);
         }
         return NULL;
     catch_ptr_macro
@@ -307,7 +298,7 @@ bool rrp_cc setPluginParameter(RRPluginHandle handle, const char* parameterName,
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        PluginParameter* aParameter = (PluginParameter*) getPluginParameter(aPlugin, parameterName, NULL);
+        PluginParameter* aParameter = (PluginParameter*) getPluginParameter(aPlugin, parameterName);
         return setParameterByString(aParameter, value);
     catch_bool_macro
 }
@@ -351,7 +342,6 @@ bool rrp_cc assignRoadRunnerInstance(RRPluginHandle pHandle, RRHandle rrHandle)
         return (aPlugin) ? aPlugin->assignRoadRunnerInstance(static_cast<RoadRunner*>(rrHandle)) : false;
     catch_bool_macro
 }
-
 
 bool rrp_cc executePlugin(RRPluginHandle handle)
 {

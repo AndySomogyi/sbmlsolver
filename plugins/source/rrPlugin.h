@@ -167,29 +167,10 @@ class PLUGINS_API_DECLSPEC Plugin
         virtual unsigned int            getPDFManualByteSize();
 
         /**
-            Returns a pointer to a plugins Capabilities container
+            Retieves the parameters 
         */
-        Capabilities*                   getCapabilities();
+        Parameters*                     getParameters(); //Each capability has a set of parameters
 
-        /**
-            Get a pointer to a capability with specified name
-        */
-        Capability*                     getCapability(const string& name);
-
-        /**
-            Retieves capabilities as XML
-        */
-        string                          getCapabilitiesAsXML();
-
-        /**
-            Retieves parameters associated to a specific capability
-        */
-        Parameters*                     getParameters(Capability& capability); //Each capability has a set of parameters
-
-        /**
-            Retieves parameters associated to a specific capability
-        */
-        Parameters*                     getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
         /**
             Retieves a specific parameter, in a specific capability.

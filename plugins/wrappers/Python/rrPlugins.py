@@ -456,40 +456,41 @@ rrpLib.getRRHandleFromPlugin.restype = c_void_p
 def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
-## \brief Get a Plugin's property list as a string
-## \param pluginHandle Handle to a plugin
-##
-## @code
-## names = rrPlugins.getPluginProperties(pm)
-## print names
-## ['SBML', 'experimentalData', etc]
-## @endcode 
-## \htmlonly  <br/> 
-## \endhtmlonly 
-## \return Returns the available properties for a particular plugin as a string, None otherwise.
-## \ingroup plugins
-rrpLib.getPluginCapabilities.restype = c_char_p
-def getPluginCapabilities(pluginHandle):
-    return rrpLib.getPluginCapabilities(pluginHandle)
-
-## \brief Get the list of plugin properties as a xml document. The string returned from this function is formated as xml.
-## \param pluginHandle Handle to a plugin
-## \return Returns the list of properties of a plugin as an XML string. None otherwise
-## \ingroup plugins
-rrpLib.getPluginCapabilitiesAsXML.restype = c_char_p
-def getPluginCapabilitiesAsXML(pluginHandle):
-    return rrpLib.getPluginCapabilitiesAsXML(pluginHandle)
-
-
 #================ Plugin Parameter functionality ======================
-## \brief Get plugin parameters for a specific category.
+## \brief Get a handle to a plugins list of parameters 
 ## \param pluginHandle Handle to a plugin
-## \param categoryName A string holding the name of a category. If None, returna parameters in all categories.
-## \return Returns available parameters for a particular category in a plugin, None otherwise
+## \return Returns available parameters for a particular, None otherwise
 ## \ingroup plugin_parameters
-rrpLib.getPluginParameters.restype = c_char_p
-def getPluginParameters(pluginHandle, capabilityName):
-    return rrpLib.getPluginParameters(pluginHandle, capabilityName)
+rrpLib.getPluginParameters.restype = c_void_p
+def getPluginParameters(pluginHandle):
+    return rrpLib.getPluginParameters(pluginHandle)
+
+## \brief Get a list of a plugins parameter names
+## \param pluginHandle Handle to a plugin
+## \return Returns names for all parameters in the plugin
+## \ingroup plugin_parameters
+rrpLib.getListOfParameterNames.restype = c_char_p
+def getListOfParameterNames(pluginHandle):
+    paras = rrpLib.getListOfParameterNames(pluginHandle)
+    if not paras:
+        return list()
+    else:        
+        names = paras.split(',')     
+        return names            
+
+## \brief Get the 'first' parameter handle to a parameter in a parameters list
+## \param paraListHandle Handle to a parameterList
+## \return Returns a handle to a parameter. Returns None if not found
+## \ingroup plugin_parameters
+def getFirstParameter(paraListHandle):
+    return rrpLib.getFirstParameter(paraListHandle)
+
+## \brief Get 'next' parameter handle to a parameter in a parameters list
+## \param paraListHandle Handle to a parameterList
+## \return Returns a handle to a parameter. Returns None if not found
+## \ingroup plugin_parameters
+def getNextParameter(paraListHandle):
+    return rrpLib.getNextParameter(paraListHandle)
 
 ## \brief Get a parameter handle to a parameter, located in a specific category. If the category argument is None
 ## the function will look into all categories and return the first parameter matching "parameterName".

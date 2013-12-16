@@ -127,7 +127,7 @@ string LM::getResult()
     return msg.str();
 }
 
-bool LM::setInputData(void* inputData)
+bool LM::assignInput(void* inputData)
 {
     //Cast data to RRData
     RoadRunnerData* data = (RoadRunnerData*) inputData;

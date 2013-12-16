@@ -84,10 +84,10 @@ bool Plugin::resetPlugin()
     return true;
 }
 
-string Plugin::getCapabilitiesAsXML()
-{
-    return mCapabilities.asXML();
-}
+//string Plugin::getCapabilitiesAsXML()
+//{
+//    return mCapabilities.asXML();
+//}
 
 bool Plugin::assignInput(void* userData)
 {
@@ -226,8 +226,8 @@ string Plugin::getExtendedInfo()
 {
     stringstream msg;
     msg<<getInfo();
-    msg<<"\nCapabilities Info\n";
-    msg<<(*getCapabilities());
+    msg<<"\nParameter Info\n";
+    msg<<(*getParameters());
     return msg.str();
 }
 
@@ -241,28 +241,20 @@ unsigned char* Plugin::getManualAsPDF() const
     return NULL;
 }
 
-Capabilities* Plugin::getCapabilities()
-{
-    return &mCapabilities;
-}
+//Capabilities* Plugin::getCapabilities()
+//{
+//    return &mCapabilities;
+//}
 
-Parameters* Plugin::getParameters(const string& capName)
+Parameters* Plugin::getParameters()
 {
-    //Return parameters for capability with name
+    //For now, if capName is "" return all
     for(int i = 0; i < mCapabilities.count(); i++)
     {
-        if(mCapabilities[i]->getName() == capName)
-        {
-            return mCapabilities[i]->getParameters();
-        }
-    }
+        return mCapabilities[i]->getParameters();
+    }    
 
     return NULL;
-}
-
-Parameters* Plugin::getParameters(Capability& capability)
-{
-    return capability.getParameters();
 }
 
 PluginParameter* Plugin::getParameter(const string& para, const string& capability)
@@ -291,17 +283,17 @@ PluginParameter* Plugin::getParameter(const string& para, Capability& capability
     return capability.getParameter(para);
 }
 
-Capability* Plugin::getCapability(const string& name)
-{
-    for(int i = 0; i < mCapabilities.count(); i++)
-    {
-        if(mCapabilities[i]->getName() == name)
-        {
-            return (mCapabilities[i]);
-        }
-    }
-    return NULL;
-}
+//Capability* Plugin::getCapability(const string& name)
+//{
+//    for(int i = 0; i < mCapabilities.count(); i++)
+//    {
+//        if(mCapabilities[i]->getName() == name)
+//        {
+//            return (mCapabilities[i]);
+//        }
+//    }
+//    return NULL;
+//}
 
 string Plugin::getResult()
 {

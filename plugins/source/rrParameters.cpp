@@ -68,4 +68,55 @@ PluginParameter* Parameters::getParameter(const string& paraName)
     return NULL;
 }
 
+PluginParameter* Parameters::getFirst()
+{
+    mParasIter = mParas.begin();
+    if(mParasIter != mParas.end())
+    {
+        return (*mParasIter).first;
+    }
+    return NULL;
+}
+
+PluginParameter* Parameters::getCurrent()
+{
+    if(mParasIter != mParas.end())
+    {
+        return (*mParasIter).first;
+    }
+    return NULL;
+}
+
+PluginParameter* Parameters::getNext()
+{
+    mParasIter++;
+    if(mParasIter != mParas.end())
+    {
+        return (*mParasIter).first;
+    }
+    return NULL;
+}
+
+PluginParameter* Parameters::getPrevious()
+{
+    mParasIter--;
+    if(mParasIter != mParas.end())
+    {
+        return (*mParasIter).first;
+    }
+    return NULL;
+}
+
+ostream& operator<<(ostream& stream, const Parameters& paras)
+{
+    for(int i = 0; i < paras.count(); i++)
+    {
+        
+        stream << paras.mParas[i].first;
+        
+    }
+    return stream;
+}
+
+
 }

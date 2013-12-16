@@ -218,4 +218,37 @@ char* rrp_cc getParameterType(RRParameterHandle handle)
     catch_ptr_macro
 }
 
+RRParameterHandle rrp_cc getFirst(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getFirst();
+    catch_ptr_macro
+}
+
+RRParameterHandle rrp_cc getNext(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getNext();
+    catch_ptr_macro
+}
+
+RRParameterHandle rrp_cc getPrevious(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getPrevious();
+    catch_ptr_macro
+}
+
+RRParameterHandle rrp_cc getCurrent(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getCurrent();
+    catch_ptr_macro
+}
+
+
 }//namespace
