@@ -30,7 +30,7 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
 
         if(string(type) == string("bool"))
         {
-            bool iniVal  = 0;
+            bool iniVal  = false;
             if(value != NULL)
             {
                 //cast it
@@ -51,6 +51,20 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
                 iniVal = (*val);
             }
             Parameter<int> *para = new Parameter<int>(label, iniVal, hint);
+            return para;
+        }
+
+        //Don't support type 'float', it just causes problems. Make it a double
+        if(string(type) == string("float"))
+        {
+            double iniVal  = 0;
+            if(value != NULL)
+            {
+                //cast it
+                double* dVal = (double*) value;
+                iniVal = (*dVal);
+            }
+            Parameter<double> *para = new Parameter<double>(label, iniVal, hint);
             return para;
         }
 

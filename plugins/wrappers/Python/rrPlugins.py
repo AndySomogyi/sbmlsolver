@@ -525,21 +525,8 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
 def createParameter(name, the_type, hint, value=None):
-#    if the_type == "string":
-#        the_type = "char*"
-    ptr = rrpLib.createParameter(name, the_type, hint)
-    if value == None:
-       return ptr
-    else:
-       if type (value) is bool:
-           setBoolParameter (ptr, value)
-       if type (value) is int:
-           setIntParameter (ptr, value)
-       if type (value) is float:
-           setDoubleParameter (ptr, value)
-       if type (value) is str:
-           setStringParameter (ptr, value)  
-       return ptr     
+    ptr = rrpLib.createParameter(name, the_type, hint, value)
+    return ptr
 
 ## \brief Add a parameter to a list of parameters. Use getParameterValueHandle to add parameters to a list.
 ## \param listHandle Handle to a parameter list
