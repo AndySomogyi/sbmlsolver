@@ -520,7 +520,7 @@
 
      rr.simulate (0, 3, 100)
 
-   The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+   The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
    is followed by a call to::
 
      rr.simulate()
