@@ -2,6 +2,7 @@ var searchData=
 [
   ['add',['add',['../classrrp_1_1_capabilities.html#adc56c5f96385d0eb1a3c1c9948147deb',1,'rrp::Capabilities::add()'],['../classrrp_1_1_parameters.html#a28f959d7517b85761aac859993341b28',1,'rrp::Parameters::add()']]],
   ['addparameter',['addParameter',['../classrrp_1_1_capability.html#a915d8278058ddbb94192969d50045a25',1,'rrp::Capability']]],
+  ['assigninput',['assignInput',['../classrrp_1_1_plugin.html#afdd48a1e979c6a4bf5596504dcc29110',1,'rrp::Plugin']]],
   ['assignpluginfinishedcallback',['assignPluginFinishedCallBack',['../classrrp_1_1_plugin.html#a69ca1ade0cdcff1dd38b860b3cd00ec4',1,'rrp::Plugin']]],
   ['assignpluginprogresscallback',['assignPluginProgressCallBack',['../classrrp_1_1_plugin.html#a001cbdac86daf3309f5da9fa90b85723',1,'rrp::Plugin']]],
   ['assignpluginstartedcallback',['assignPluginStartedCallBack',['../classrrp_1_1_plugin.html#aa226396bf8f3e9704945a3cccfdf8aa4',1,'rrp::Plugin']]],

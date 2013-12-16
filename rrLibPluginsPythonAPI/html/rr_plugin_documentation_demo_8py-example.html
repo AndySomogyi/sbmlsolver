@@ -100,36 +100,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">#Get some general info about the plugin</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugins.html#gabdf72eebd206ac891cfc681b74811a0a">getPluginInfo</a>(plugin)</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">#Get the plugins capabilities</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugins.html#ga53250a43739e6369bf3eea3c83159dd3">getPluginCapabilities</a>(plugin)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">#Get the plugins parameters</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;paras =  <a class="code" href="group__plugin__parameters.html#gac7f3391b5b8679fb7e12568aea456818">getPluginParameters</a>(plugin)</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">#Get parameters associated with a capability</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugin__parameters.html#gac7f3391b5b8679fb7e12568aea456818">getPluginParameters</a>(plugin, <span class="stringliteral">&#39;Add Noise&#39;</span>)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugin__parameters.html#gaa3b1c08848599f7a3566991cfb3ab2bc">getListOfParameterNames</a>(paras)</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">#Get xml</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugins.html#ga2e156d743b140d6fbcb9fb0ca041e789">getPluginCapabilitiesAsXML</a>(plugin)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">#Get the manual for the plugin (bundled as embedded PDF)</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;ptr = <a class="code" href="group__plugins.html#gacd1a4f3130dc6f17aa9576c4b1836474">getPluginManualAsPDF</a>(plugin)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;nrOfBytes = <a class="code" href="group__plugins.html#ga60a87a367897fa2b9410b10b520d6f07">getPluginManualNrOfBytes</a>(plugin)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;manual = cast(ptr, POINTER(c_char * nrOfBytes))[0]</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">#Check if there is a PDF available</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordflow">if</span> nrOfBytes == 0:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;This plugin does not have a manual.&#39;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    exit()</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">#Get the manual for the plugin (bundled as embedded PDF)</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;ptr = <a class="code" href="group__plugins.html#gacd1a4f3130dc6f17aa9576c4b1836474">getPluginManualAsPDF</a>(plugin)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;nrOfBytes = <a class="code" href="group__plugins.html#ga60a87a367897fa2b9410b10b520d6f07">getPluginManualNrOfBytes</a>(plugin)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;manual = cast(ptr, POINTER(c_char * nrOfBytes))[0]</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">#Check if there is a PDF available</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordflow">if</span> nrOfBytes == 0:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;This plugin does not have a manual.&#39;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    exit()</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">#create a (temporary) pdf file from the data</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;outFName = pluginName + <span class="stringliteral">&#39;.pdf&#39;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">#create a (temporary) pdf file from the data</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;outFName = pluginName + <span class="stringliteral">&#39;.pdf&#39;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;with open(outFName, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> output:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    output.write(manual)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;with open(outFName, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> output:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    output.write(manual)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;os.system(<span class="stringliteral">&#39;start &#39;</span> + outFName) <span class="comment">#a total guess</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;os.system(<span class="stringliteral">&#39;start &#39;</span> + outFName) <span class="comment">#a total guess</span></div>
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 15 2013 14:57:17 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 13:03:16 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

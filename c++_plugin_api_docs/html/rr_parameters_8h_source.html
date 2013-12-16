@@ -122,26 +122,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                        getParameter(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; paraName);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordtype">void</span>                                    clear();</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        PLUGINS_API_DECLSPEC</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">friend</span> ostream&amp;                         operator &lt;&lt;(ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>&amp; pars);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">  128</a></span>&#160;        vector&lt; pair&lt;PluginParameter*, bool&gt; &gt;    <a class="code" href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">mParas</a>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;};</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                        getFirst();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                        getNext();</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                        getPrevious();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>*                        getCurrent();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordtype">void</span>                                    clear();</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        PLUGINS_API_DECLSPEC</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keyword">friend</span> ostream&amp;                         operator &lt;&lt;(ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classrrp_1_1_parameters.html">Parameters</a>&amp; pars);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">  152</a></span>&#160;        vector&lt; pair&lt;PluginParameter*, bool&gt; &gt;                  <a class="code" href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">mParas</a>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        vector&lt; pair&lt;PluginParameter*, bool&gt; &gt;::iterator        mParasIter;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;};</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;}</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="rr_plugin_parameter_8h_html"><div class="ttname"><a href="rr_plugin_parameter_8h.html">rrPluginParameter.h</a></div><div class="ttdoc">RoadRunner Parameter class implementation. </div></div>
-<div class="ttc" id="classrrp_1_1_parameters_html_a4123f5ec8c3b63c930a29e68c79d90fc"><div class="ttname"><a href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">rrp::Parameters::mParas</a></div><div class="ttdeci">vector&lt; pair&lt; PluginParameter *, bool &gt; &gt; mParas</div><div class="ttdef"><b>Definition:</b> rrParameters.h:128</div></div>
+<div class="ttc" id="classrrp_1_1_parameters_html_a4123f5ec8c3b63c930a29e68c79d90fc"><div class="ttname"><a href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">rrp::Parameters::mParas</a></div><div class="ttdeci">vector&lt; pair&lt; PluginParameter *, bool &gt; &gt; mParas</div><div class="ttdef"><b>Definition:</b> rrParameters.h:152</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_parameter_html"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html">rrp::PluginParameter</a></div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:58</div></div>
 <div class="ttc" id="classrrp_1_1_parameters_html"><div class="ttname"><a href="classrrp_1_1_parameters.html">rrp::Parameters</a></div><div class="ttdef"><b>Definition:</b> rrParameters.h:63</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 15 2013 14:57:16 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 13:03:11 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

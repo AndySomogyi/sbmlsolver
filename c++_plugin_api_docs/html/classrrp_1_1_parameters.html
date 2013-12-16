@@ -117,6 +117,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a41bc6902e49bb371665cd99593c841cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63b13d7689342c50c728724ee3c9483c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#a63b13d7689342c50c728724ee3c9483c">getParameter</a> (const string &amp;paraName)</td></tr>
 <tr class="separator:a63b13d7689342c50c728724ee3c9483c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19638b326a35d47518a2c5c78ffdb2cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#a19638b326a35d47518a2c5c78ffdb2cb">getFirst</a> ()</td></tr>
+<tr class="separator:a19638b326a35d47518a2c5c78ffdb2cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bdab0dbc2e6dbd19effb2e90977e146"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#a1bdab0dbc2e6dbd19effb2e90977e146">getNext</a> ()</td></tr>
+<tr class="separator:a1bdab0dbc2e6dbd19effb2e90977e146"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9fc8edee487c19535bcf22375259d0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#ad9fc8edee487c19535bcf22375259d0e">getPrevious</a> ()</td></tr>
+<tr class="separator:ad9fc8edee487c19535bcf22375259d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66bc6b1b098b3d21c1cbd0b5b861a2ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#a66bc6b1b098b3d21c1cbd0b5b861a2ee">getCurrent</a> ()</td></tr>
+<tr class="separator:a66bc6b1b098b3d21c1cbd0b5b861a2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a089535eb8d9d34bfb5440c1d0dd5bc39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#a089535eb8d9d34bfb5440c1d0dd5bc39">clear</a> ()</td></tr>
 <tr class="separator:a089535eb8d9d34bfb5440c1d0dd5bc39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -125,6 +133,10 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a4123f5ec8c3b63c930a29e68c79d90fc"><td class="memItemLeft" align="right" valign="top">vector&lt; pair&lt; <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> <br class="typebreak"/>
 *, bool &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_parameters.html#a4123f5ec8c3b63c930a29e68c79d90fc">mParas</a></td></tr>
 <tr class="separator:a4123f5ec8c3b63c930a29e68c79d90fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcb4aea2331c76807c3baa2bf175a615"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afcb4aea2331c76807c3baa2bf175a615"></a>
+vector&lt; pair&lt; <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> <br class="typebreak"/>
+*, bool &gt; &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><b>mParasIter</b></td></tr>
+<tr class="separator:afcb4aea2331c76807c3baa2bf175a615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -257,6 +269,57 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a66bc6b1b098b3d21c1cbd0b5b861a2ee"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> * rrp::Parameters::getCurrent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get Current Parameter. De Advances the internal iterator to next element </p>
+<dl class="section return"><dt>Returns</dt><dd>A Pointer to a <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> if present, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a19638b326a35d47518a2c5c78ffdb2cb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> * rrp::Parameters::getFirst </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get First Parameter. Resets the internal iterator to first element </p>
+<dl class="section return"><dt>Returns</dt><dd>A Pointer to a <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> if present, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1bdab0dbc2e6dbd19effb2e90977e146"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> * rrp::Parameters::getNext </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get Next Parameter. Advances the internal iterator to next element </p>
+<dl class="section return"><dt>Returns</dt><dd>A Pointer to a <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> if present, NULL otherwise </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a63b13d7689342c50c728724ee3c9483c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -271,6 +334,23 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Get a parameter with a specific name </p>
+<dl class="section return"><dt>Returns</dt><dd>A Pointer to a <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> if present, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad9fc8edee487c19535bcf22375259d0e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> * rrp::Parameters::getPrevious </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get Previous Parameter. De Advances the internal iterator to next element </p>
 <dl class="section return"><dt>Returns</dt><dd>A Pointer to a <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> if present, NULL otherwise </dd></dl>
 
 </div>
@@ -377,7 +457,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 15 2013 14:57:16 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 13:03:12 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

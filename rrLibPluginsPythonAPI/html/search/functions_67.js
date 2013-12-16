@@ -1,8 +1,11 @@
 var searchData=
 [
   ['getcurrentplugin',['getCurrentPlugin',['../group__plugin__manager.html#ga41c52348c1de66c9176002f915942c96',1,'rrPlugins']]],
+  ['getfirstparameter',['getFirstParameter',['../group__plugin__parameters.html#gace5a3927dc33350c762a481afcf4f49d',1,'rrPlugins']]],
   ['getfirstplugin',['getFirstPlugin',['../group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8',1,'rrPlugins']]],
   ['getlasterror',['getLastError',['../group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1',1,'rrPlugins']]],
+  ['getlistofparameternames',['getListOfParameterNames',['../group__plugin__parameters.html#gaa3b1c08848599f7a3566991cfb3ab2bc',1,'rrPlugins']]],
+  ['getnextparameter',['getNextParameter',['../group__plugin__parameters.html#gaad52595f030f54b6d2e8dd9d91955db9',1,'rrPlugins']]],
   ['getnextplugin',['getNextPlugin',['../group__plugin__manager.html#ga83b28fc49904148333128932f9f0fa0d',1,'rrPlugins']]],
   ['getnumberofplugins',['getNumberOfPlugins',['../group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23',1,'rrPlugins']]],
   ['getnumpydata',['getNumpyData',['../group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282',1,'rrPlugins']]],
@@ -14,8 +17,6 @@ var searchData=
   ['getparametervalueasstring',['getParameterValueAsString',['../group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767',1,'rrPlugins']]],
   ['getparametervaluehandle',['getParameterValueHandle',['../group__plugin__parameters.html#ga50da49d517aec983da3a221499873ffb',1,'rrPlugins']]],
   ['getplugin',['getPlugin',['../group__plugin__manager.html#ga85066806c559efe636cd6e8012199e7d',1,'rrPlugins']]],
-  ['getplugincapabilities',['getPluginCapabilities',['../group__plugins.html#ga53250a43739e6369bf3eea3c83159dd3',1,'rrPlugins']]],
-  ['getplugincapabilitiesasxml',['getPluginCapabilitiesAsXML',['../group__plugins.html#ga2e156d743b140d6fbcb9fb0ca041e789',1,'rrPlugins']]],
   ['getplugininfo',['getPluginInfo',['../group__plugins.html#gabdf72eebd206ac891cfc681b74811a0a',1,'rrPlugins']]],
   ['getpluginlibrarynames',['getPluginLibraryNames',['../group__plugin__manager.html#ga9957c5163f513ec1afd444a10bda1c0d',1,'rrPlugins']]],
   ['getpluginmanualaspdf',['getPluginManualAsPDF',['../group__plugins.html#gacd1a4f3130dc6f17aa9576c4b1836474',1,'rrPlugins']]],

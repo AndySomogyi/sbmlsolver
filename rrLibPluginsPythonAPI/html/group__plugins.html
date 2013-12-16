@@ -139,18 +139,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga52e84c5eb8895be7c9458dfc8baa010f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga52e84c5eb8895be7c9458dfc8baa010f">assignPluginFinishedCallBack</a></td></tr>
 <tr class="memdesc:ga52e84c5eb8895be7c9458dfc8baa010f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign a callback function that will be fired when a plugin finishes its work.  <a href="#ga52e84c5eb8895be7c9458dfc8baa010f">More...</a><br/></td></tr>
 <tr class="separator:ga52e84c5eb8895be7c9458dfc8baa010f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab8724f2d3ac55e3e419c0eb8cf037a9b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gab8724f2d3ac55e3e419c0eb8cf037a9b">setPluginInputData</a></td></tr>
-<tr class="memdesc:gab8724f2d3ac55e3e419c0eb8cf037a9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hand external data to a plugin.  <a href="#gab8724f2d3ac55e3e419c0eb8cf037a9b">More...</a><br/></td></tr>
-<tr class="separator:gab8724f2d3ac55e3e419c0eb8cf037a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5f345b0173c92cacdaa788b805a0a34e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga5f345b0173c92cacdaa788b805a0a34e">assignPluginInput</a></td></tr>
+<tr class="memdesc:ga5f345b0173c92cacdaa788b805a0a34e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hand external data to a plugin: THIS METHOD IS UNDER REVIEW.  <a href="#ga5f345b0173c92cacdaa788b805a0a34e">More...</a><br/></td></tr>
+<tr class="separator:ga5f345b0173c92cacdaa788b805a0a34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad6c58d1d67f69f9ad04f0f8e120e980c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gad6c58d1d67f69f9ad04f0f8e120e980c">getRRHandleFromPlugin</a></td></tr>
-<tr class="memdesc:gad6c58d1d67f69f9ad04f0f8e120e980c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roadrunner instance handle from plugin.  <a href="#gad6c58d1d67f69f9ad04f0f8e120e980c">More...</a><br/></td></tr>
+<tr class="memdesc:gad6c58d1d67f69f9ad04f0f8e120e980c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the roadrunner instance handle from plugin assuming the plugin has one.  <a href="#gad6c58d1d67f69f9ad04f0f8e120e980c">More...</a><br/></td></tr>
 <tr class="separator:gad6c58d1d67f69f9ad04f0f8e120e980c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53250a43739e6369bf3eea3c83159dd3"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga53250a43739e6369bf3eea3c83159dd3">getPluginCapabilities</a></td></tr>
-<tr class="memdesc:ga53250a43739e6369bf3eea3c83159dd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugin's category list as a string.  <a href="#ga53250a43739e6369bf3eea3c83159dd3">More...</a><br/></td></tr>
-<tr class="separator:ga53250a43739e6369bf3eea3c83159dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga2e156d743b140d6fbcb9fb0ca041e789">getPluginCapabilitiesAsXML</a></td></tr>
-<tr class="memdesc:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Plugins categories as a xml document.  <a href="#ga2e156d743b140d6fbcb9fb0ca041e789">More...</a><br/></td></tr>
-<tr class="separator:ga2e156d743b140d6fbcb9fb0ca041e789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Functions operating on Plugin Handles. </p>
@@ -198,6 +192,42 @@ Functions</h2></td></tr>
     <tr><td class="paramname">pluginCallBack</td><td>Function pointer to callback routine </td></tr>
     <tr><td class="paramname">userData1</td><td>void* pointer to user data. </td></tr>
     <tr><td class="paramname">userData2</td><td>void* pointer to user data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true or false indicating success/failure </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga5f345b0173c92cacdaa788b805a0a34e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.assignPluginInput </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pluginHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>userData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hand external data to a plugin: THIS METHOD IS UNDER REVIEW. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
+    <tr><td class="paramname">userData</td><td>void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details. </td></tr>
   </table>
   </dd>
 </dl>
@@ -383,12 +413,6 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>userData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>inAThread</em> = <code>False</code>&#160;</td>
         </tr>
         <tr>
@@ -403,63 +427,11 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
-    <tr><td class="paramname">userData</td><td>void* pointer to user data. This will be plugin dependent. See specific plugin documentation for how to use this argument. </td></tr>
     <tr><td class="paramname">inAThread</td><td>bool indicating if the plugin should be executed in the background (in a thread) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true or false indicating success/failure </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga53250a43739e6369bf3eea3c83159dd3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def rrPlugins.getPluginCapabilities </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>pluginHandle</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a Plugin's category list as a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the available categories for a particular plugin as a string, None otherwise. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga2e156d743b140d6fbcb9fb0ca041e789"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def rrPlugins.getPluginCapabilitiesAsXML </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>pluginHandle</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a Plugins categories as a xml document. </p>
-<p>The string returned from this function is formated as xml. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the categories of a plugin as an XML string. None otherwise </dd></dl>
 
 </div>
 </div>
@@ -510,8 +482,19 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the plugin's manual pdf file as a unsigned char*. If not available, returns None. </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns the plugin's manual pdf file as a unsigned char*. If not available, returns None.</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ptr = <a class="code" href="group__plugins.html#gacd1a4f3130dc6f17aa9576c4b1836474">getPluginManualAsPDF</a>(pluginHandle)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;numOfBytes = <a class="code" href="group__plugins.html#ga60a87a367897fa2b9410b10b520d6f07">getPluginManualNrOfBytes</a>(pluginHandle)</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;manual = cast(ptr, POINTER(c_char * numOfBytes))[0]</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordflow">if</span> numOfBytes == 0:</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;   <span class="keywordflow">print</span> <span class="stringliteral">&#39;This plugin does not have a manual.&#39;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;   exit()</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;outFName = pluginName + <span class="stringliteral">&#39;.pdf&#39;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;with open(outFName, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> output:</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;   output.write(manual)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;os.system(<span class="stringliteral">&#39;start &#39;</span> + outFName)</div>
+</div><!-- fragment -->  <br/> 
+  
 </div>
 </div>
 <a class="anchor" id="ga60a87a367897fa2b9410b10b520d6f07"></a>
@@ -560,8 +543,10 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the plugins full name, as a string, None otherwise </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns the internal name of a plugin. None otherwise</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;name = <a class="code" href="group__plugins.html#ga70c5423255afa7b967339996f6d1579f">rrPlugins.getPluginName</a>(pluginHandle)</div>
+</div><!-- fragment -->  <br/> 
+  
 </div>
 </div>
 <a class="anchor" id="gac4fe0db0c504ea53ebe66c5d06852e89"></a>
@@ -580,7 +565,7 @@ Functions</h2></td></tr>
 
 <p>Returns a plugins result, as a string. </p>
 <p>This is plugin dependent, and a plugin designer may, or may not, implement this function. See the plugin documentation for details. </p>
-<dl class="section note"><dt>Note</dt><dd>If a plugin wants to returns specific result, e.g. an Array, or a a float, these are better communicated troughthe use of Plugin Paarameters. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If a plugin wants to returns specific result, e.g. an Array, or a a float, these are better communicated through the use of Plugin Parameters. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -631,7 +616,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get roadrunner instance handle from plugin. </p>
+<p>Get the roadrunner instance handle from plugin assuming the plugin has one. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a Plugin instance </td></tr>
@@ -720,42 +705,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gab8724f2d3ac55e3e419c0eb8cf037a9b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def rrPlugins.setPluginInputData </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>pluginHandle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>userData</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Hand external data to a plugin. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
-    <tr><td class="paramname">userData</td><td>void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns true or false indicating success/failure </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="gaf930d9f4b9c7e4846f6b2dea931ad7b3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -811,7 +760,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 15 2013 14:57:17 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 13:03:16 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

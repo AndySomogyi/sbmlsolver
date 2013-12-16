@@ -133,7 +133,16 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Plugin Manager Library Functions The Plugin manager loads and manages one or more plugins. </p>
-<p>Handles to individual plugins are obtained by the getFirstPlugin, getNextPlugin etc functions, or the getPlugin(pluginName) function. </p>
+<p>Handles to individual plugins are obtained by the getFirstPlugin, getNextPlugin etc functions, or the getPlugin(pluginName) function.</p>
+<p>The basic approach to using the plugin system is:</p>
+<ol type="1">
+<li>Create a plugin manager first</li>
+<li>Load the plugins using loadPlugins (all) or loadPlugin (specific one)</li>
+<li>Obtain the plugin handle using getPlugin or directly from loadPlugin (singular)</li>
+<li>Using the plugin handle, set values to the plugin parameters</li>
+<li>Run the plugin method ExecutePlugin</li>
+<li>Retrieve results from plugin parameters </li>
+</ol>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="ga49235bbd20c3542fa55135c8db73de1c"></a>
 <div class="memitem">
@@ -158,8 +167,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>On success, a handle to a Plugin manager, on failure, None.</dd></dl>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;pm = rrPlugins.createPluginManager () </div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>()</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">rrPlugins.createPluginManager</a>()</div>
 </div><!-- fragment -->  <br/> 
   
 </div>
@@ -186,9 +194,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if success, false otherwise.</dd></dl>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;pm = rrPlugins.createPluginManager () </div>
-</div><!-- fragment --> 
+<dl class="section return"><dt>Returns</dt><dd>true if success, false otherwise. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="ga41c52348c1de66c9176002f915942c96"></a>
@@ -290,7 +297,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the number of loaded plugins, -1 if a problem is encountered </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the number of loaded plugins, -1 if a problem is encountered. Call <a class="el" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1" title="Get last (API) error. ">rrPlugins.getLastError()</a> to obtain error message. </dd></dl>
 
 </div>
 </div>
@@ -351,8 +358,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns library names for all loaded plugins as a string, None otherwise </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns library names for all loaded plugins as a string, None otherwise</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;names = <a class="code" href="group__plugin__manager.html#ga9957c5163f513ec1afd444a10bda1c0d">rrPlugins.getPluginLibraryNames</a>(pm)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keywordflow">print</span> names</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;[<span class="stringliteral">&#39;rrp_add_noise&#39;</span>, <span class="stringliteral">&#39;rrp_lm&#39;</span>]</div>
+</div><!-- fragment -->  <br/> 
+  
 </div>
 </div>
 <a class="anchor" id="ga9edbc24939810499d1bf3056531ff114"></a>
@@ -376,8 +387,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns names for all loaded plugins as a string, None otherwise </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns names for all loaded plugins as a string, None otherwise</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;names = <a class="code" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">rrPlugins.getPluginNames</a>(pm)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keywordflow">print</span> names</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;[<span class="stringliteral">&#39;AddNoise&#39;</span>, <span class="stringliteral">&#39;Levenberg-Marquardt&#39;</span>]</div>
+</div><!-- fragment -->  <br/> 
+  
 </div>
 </div>
 <a class="anchor" id="gaad6327c658be9b54711d91e892f36623"></a>
@@ -434,12 +449,14 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
-    <tr><td class="paramname">pluginName</td><td>Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension. </td></tr>
+    <tr><td class="paramname">pluginName</td><td>Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension. The library names for the plugins can be obtained by calling <a class="el" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114" title="Function to retrieve the names of all currently loaded plugins. ">getPluginNames()</a> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin, None if unsuccesfull </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin, None if unsuccesful</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;lmPlugin = <a class="code" href="group__plugin__manager.html#gab9c91ced7d49ddbd89ba3020d72f1c96">rrPlugins.loadPlugin</a>(pm, <span class="stringliteral">&quot;rrp_lm&quot;</span>)</div>
+</div><!-- fragment -->  <br/> 
+  
 </div>
 </div>
 <a class="anchor" id="gad9d4b7c7544e8db0e20aeee0818f644c"></a>
@@ -465,8 +482,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if Plugins are loaded, false otherwise</dd></dl>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;pm = rrPlugins.createPluginManager () </div>
-</div><!-- fragment --> 
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;sucess = rrPlugins.loadPlugins (pm) </div>
+</div><!-- fragment -->  <br/> 
+  
 </div>
 </div>
 <a class="anchor" id="ga140343e76c68386c4c1f4e077a863016"></a>
@@ -526,15 +544,14 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns true if Plugins are unloaded succesfully, false otherwise</dd></dl>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;pm = rrPlugins.createPluginManager () </div>
-</div><!-- fragment --> 
+<dl class="section return"><dt>Returns</dt><dd>Returns true if Plugins are unloaded succesfully, false otherwise </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 15 2013 14:57:17 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 13:03:16 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

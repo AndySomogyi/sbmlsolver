@@ -92,6 +92,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaef2fbf5438cd4063e023c2538a585882"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaef2fbf5438cd4063e023c2538a585882">createParameter</a> (const char *label, const char *type, const char *hint, void *value)</td></tr>
 <tr class="memdesc:gaef2fbf5438cd4063e023c2538a585882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a parameter of type "type".  <a href="#gaef2fbf5438cd4063e023c2538a585882">More...</a><br/></td></tr>
 <tr class="separator:gaef2fbf5438cd4063e023c2538a585882"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5d15e821f7ca7f6efb0da70766790d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gad5d15e821f7ca7f6efb0da70766790d7">freeParameter</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> para)</td></tr>
+<tr class="memdesc:gad5d15e821f7ca7f6efb0da70766790d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the memory created by a parameter.  <a href="#gad5d15e821f7ca7f6efb0da70766790d7">More...</a><br/></td></tr>
+<tr class="separator:gad5d15e821f7ca7f6efb0da70766790d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga50f45de8a8d7b5eacb2aa80884df358f">addParameterToList</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle, <a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> para)</td></tr>
 <tr class="memdesc:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter to a parameters container, from a parameter pointer.  <a href="#ga50f45de8a8d7b5eacb2aa80884df358f">More...</a><br/></td></tr>
 <tr class="separator:ga50f45de8a8d7b5eacb2aa80884df358f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,6 +128,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga632fa26c5dc7eff1883c46b3bd12df2d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga632fa26c5dc7eff1883c46b3bd12df2d">getParameterType</a> (<a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> handle)</td></tr>
 <tr class="memdesc:ga632fa26c5dc7eff1883c46b3bd12df2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameters type.  <a href="#ga632fa26c5dc7eff1883c46b3bd12df2d">More...</a><br/></td></tr>
 <tr class="separator:ga632fa26c5dc7eff1883c46b3bd12df2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6a1b23ecc5bcb7c11b9fefbefd236011"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga6a1b23ecc5bcb7c11b9fefbefd236011">getFirstPlugin</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle)</td></tr>
+<tr class="memdesc:ga6a1b23ecc5bcb7c11b9fefbefd236011"><td class="mdescLeft">&#160;</td><td class="mdescRight">getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins. This function is typically used together with the getNextPlugin and the getPreviousPlugin functions.  <a href="#ga6a1b23ecc5bcb7c11b9fefbefd236011">More...</a><br/></td></tr>
+<tr class="separator:ga6a1b23ecc5bcb7c11b9fefbefd236011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab118a57474ae32c8e36344d22741c1ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gab118a57474ae32c8e36344d22741c1ec">getNextPlugin</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle)</td></tr>
+<tr class="memdesc:gab118a57474ae32c8e36344d22741c1ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">getNextPlugin retrieves the "next" plugin in the plugin managers internal list of plugins. This function is typically used together with the getFirstPlugin and getPreviousPlugin functions.  <a href="#gab118a57474ae32c8e36344d22741c1ec">More...</a><br/></td></tr>
+<tr class="separator:gab118a57474ae32c8e36344d22741c1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee9869b0bbe528a3d257622fd84db53f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaee9869b0bbe528a3d257622fd84db53f">getPreviousPlugin</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle)</td></tr>
+<tr class="memdesc:gaee9869b0bbe528a3d257622fd84db53f"><td class="mdescLeft">&#160;</td><td class="mdescRight">getPreviousPlugin retrieves the "previous" plugin in the plugin managers internal list of plugins. This function is typically used together with the getFirstPlugin and getNextPlugin functions.  <a href="#gaee9869b0bbe528a3d257622fd84db53f">More...</a><br/></td></tr>
+<tr class="separator:gaee9869b0bbe528a3d257622fd84db53f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b19de61fdcde1a76948848f2c775d06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga3b19de61fdcde1a76948848f2c775d06">getCurrentPlugin</a> (<a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a> handle)</td></tr>
+<tr class="memdesc:ga3b19de61fdcde1a76948848f2c775d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">getCurrentPlugin retrieves the "current" plugin in the plugin managers internal list of plugins. This function is typically used together with the getFirst, Next and getPreviousPlugin functions.  <a href="#ga3b19de61fdcde1a76948848f2c775d06">More...</a><br/></td></tr>
+<tr class="separator:ga3b19de61fdcde1a76948848f2c775d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Plugins Parameter related functions. </p>
@@ -154,9 +169,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Add a parameter to a parameters container, from a parameter pointer. </p>
-<ul>
-<li></li>
-</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
@@ -215,6 +227,106 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a handle to a new parameter, if succesful, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gad5d15e821f7ca7f6efb0da70766790d7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool freeParameter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a>&#160;</td>
+          <td class="paramname"><em>para</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free the memory created by a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>A handle to the parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if sucessful, false otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga3b19de61fdcde1a76948848f2c775d06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> getCurrentPlugin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getCurrentPlugin retrieves the "current" plugin in the plugin managers internal list of plugins. This function is typically used together with the getFirst, Next and getPreviousPlugin functions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>Handle to a PluginManager instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin. Returns NULL if the plugin is not found </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga6a1b23ecc5bcb7c11b9fefbefd236011"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> getFirstPlugin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins. This function is typically used together with the getNextPlugin and the getPreviousPlugin functions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>Handle to a PluginManager instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin. Returns NULL if the plugin is not found </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gab118a57474ae32c8e36344d22741c1ec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> getNextPlugin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getNextPlugin retrieves the "next" plugin in the plugin managers internal list of plugins. This function is typically used together with the getFirstPlugin and getPreviousPlugin functions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>Handle to a PluginManager instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin. Returns NULL if the plugin is not found </dd></dl>
 
 </div>
 </div>
@@ -368,6 +480,31 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gaee9869b0bbe528a3d257622fd84db53f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="rrp__types_8h.html#ad617fcede4fcb97c61b03ea93b06c63a">RRParameterHandle</a> getPreviousPlugin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrp__types_8h.html#a32d0a20840be1873694cf354129d5051">RRParametersHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getPreviousPlugin retrieves the "previous" plugin in the plugin managers internal list of plugins. This function is typically used together with the getFirstPlugin and getNextPlugin functions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>Handle to a PluginManager instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a plugin. Returns NULL if the plugin is not found </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga3c4589af466b17fdb332f2baa882ddad"></a>
 <div class="memitem">
 <div class="memproto">
@@ -515,7 +652,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 15 2013 14:57:17 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 13:03:14 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
