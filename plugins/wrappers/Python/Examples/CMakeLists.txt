@@ -17,3 +17,12 @@ DESTINATION plugins/Examples
 COMPONENT plugins_api
 )
 
+
+if(BUILD_TEST_TOOLS)
+install(    
+FILES runAllPythonExamples.sh 
+DESTINATION plugins/Examples 	
+COMPONENT plugins_api
+)
+endif()
+
