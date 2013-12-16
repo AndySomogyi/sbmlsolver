@@ -20,9 +20,9 @@ To get you started here is a very simple script that will load a model and run a
 simulation and plot the results::
 
    from roadrunner import *
-   r = RoadRunner()
-   r.load('mymodel.xml')
-   result = r.simulate()
+   rr = RoadRunner()
+   rr.load('mymodel.xml')
+   result = rr.simulate()
    plot(result)
  
 The result is a standard numpy array which may be plotted using `matplotlib
