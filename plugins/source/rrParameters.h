@@ -109,6 +109,30 @@ class PLUGINS_API_DECLSPEC Parameters
         PluginParameter*                        getParameter(const string& paraName);
 
         /**
+           Get First Parameter. Resets the internal iterator to first element
+           \return A Pointer to a PluginParameter if present, NULL otherwise
+        */
+        PluginParameter*                        getFirst();
+
+        /**
+           Get Next Parameter. Advances the internal iterator to next element
+           \return A Pointer to a PluginParameter if present, NULL otherwise
+        */
+        PluginParameter*                        getNext();
+
+        /**
+           Get Previous Parameter. De Advances the internal iterator to next element
+           \return A Pointer to a PluginParameter if present, NULL otherwise
+        */
+        PluginParameter*                        getPrevious();
+        
+        /**
+           Get Current Parameter. De Advances the internal iterator to next element
+           \return A Pointer to a PluginParameter if present, NULL otherwise
+        */
+        PluginParameter*                        getCurrent();
+        
+        /**
            Empty the parameter container
         */
         void                                    clear();
@@ -125,7 +149,8 @@ class PLUGINS_API_DECLSPEC Parameters
             the memory of the parameter and will de allocate it on clear, or in the destruction of the container.
             \todo Change the container to a std::list.
         */
-        vector< pair<PluginParameter*, bool> >    mParas;
+        vector< pair<PluginParameter*, bool> >                  mParas;
+        vector< pair<PluginParameter*, bool> >::iterator        mParasIter;
 };
 
 }

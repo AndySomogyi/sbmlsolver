@@ -167,29 +167,10 @@ class PLUGINS_API_DECLSPEC Plugin
         virtual unsigned int            getPDFManualByteSize();
 
         /**
-            Returns a pointer to a plugins Capabilities container
+            Retieves the parameters 
         */
-        Capabilities*                   getCapabilities();
+        Parameters*                     getParameters(); //Each capability has a set of parameters
 
-        /**
-            Get a pointer to a capability with specified name
-        */
-        Capability*                     getCapability(const string& name);
-
-        /**
-            Retieves capabilities as XML
-        */
-        string                          getCapabilitiesAsXML();
-
-        /**
-            Retieves parameters associated to a specific capability
-        */
-        Parameters*                     getParameters(Capability& capability); //Each capability has a set of parameters
-
-        /**
-            Retieves parameters associated to a specific capability
-        */
-        Parameters*                     getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
         /**
             Retieves a specific parameter, in a specific capability.
@@ -260,7 +241,7 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
             Function allowing opaque data being passed to a plugin. This
         */
-        virtual bool                    setInputData(void* data);
+        virtual bool                    assignInput(void* data);
 
         /**
             Retrieve the status of the plugin.
@@ -275,7 +256,7 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
             Execute the plugin
         */
-        virtual bool                    execute(void* clientData = NULL, bool inAThread = false) = 0;
+        virtual bool                    execute(bool inAThread = false) = 0;
 
     protected:                          //! Name of Plugin
         string                          mName;

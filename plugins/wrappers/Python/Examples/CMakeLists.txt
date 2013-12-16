@@ -7,6 +7,8 @@ rrPluginTester.py
 rrCallBackFunctionDemo.py
 rrPluginDocumentationDemo.py
 rrPluginParameterDemo.py
+rrLevenbergMarquardtDemo.py
+rrNoisePluginDemo.py
 )
 
 install(    

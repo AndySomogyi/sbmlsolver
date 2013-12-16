@@ -13,12 +13,17 @@ gDefaultPluginsPath  = os.path.split(dirPath)[0]
 
 sharedLib='rrplugins_c_api'
 rrpLib=None
-if sys.platform.startswith('win32'):
+try:
+
+    if sys.platform.startswith('win32'):
         sharedLib = sharedLib + '.dll'
         rrpLib=CDLL(sharedLib)
-elif sys.platform.startswith('Linux'):
-    sharedLib = sharedLib + '.dll'
-    rrpLib = cdll.LoadLibrary(sharedLib)
+    elif sys.platform.startswith('Linux'):
+        sharedLib = sharedLib + '.a'
+        rrpLib = cdll.LoadLibrary(sharedLib)
+except:
+    print 'ERROR: Unable to locate shared library: ' + sharedLib
+    exit()
 
 
 # Experimental parameter object class
@@ -70,8 +75,37 @@ class ParameterObject:
 
 
 #=======================rrp_api=======================#
-#Type of plugin callback, first argument is return type
+#Type of plugin callbacks, first argument is return type
+
+## \brief Plugin Function callback type definition
+## This is a helper object that a client can use as an argument to a roadrunner plugin.
+## The exact number of plugins callback functions required arguments, and their type, is plugin dependent. A client of the
+## the plugin need to get this information from plugin specific documentation. 
+## An example of using this particular function, pluginCallbackType1 is shown below. As can see, this python function 
+##don't take any arguments.
+##@code
+##def myPluginFunction():
+##    print 'The plugin can call this function!'
+## #After loading the plugin, the user can assign this function as a plugin callback as follows
+## cb_func1 =  pluginCallBackType1(myPluginFunction)
+## assignPluginStartedCallBack(plugin,  cb_func1)
+##@endcode
 pluginCallBackType1  = CFUNCTYPE(None)
+
+## \brief Plugin Function callback type definition
+## This is a helper object that a client can use as an argument to a roadrunner plugin.
+## The exact number of plugins callback functions required arguments, and their type, is plugin dependent. A client of the
+## the plugin need to get this information from plugin specific documentation. 
+## An example of using this particular function, pluginCallbackType2 is shown below. As can see, this python function 
+## do take two arguments. The first argument is an integer, indicating progress, the second argument is not used in this particular case.
+##@code
+##def pluginIsProgressing(progress, dummy):
+##    nr = progress[0]
+##    print '\nPlugin progress:' + `nr` +' %'
+## #After loading the plugin, the user can assign this function as a plugin callback as follows
+## cb_func2 =  pluginCallBackType1(pluginIsProgressing)
+## assignPluginStartedCallBack(plugin,  cb_func2)
+##@endcode
 pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 
 ## \brief Create a new instance of a plugin manager.
@@ -333,9 +367,9 @@ def executePlugin(pluginHandle):
 ## \param inAThread bool indicating if the plugin should be executed in the background (in a thread)
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.executePlugin.restype = c_bool
-def executePluginEx(pluginHandle, userData, inAThread=False):
-    return rrpLib.executePluginEx(pluginHandle, c_void_p(userData), c_bool(inAThread))
+rrpLib.executePluginEx.restype = c_bool
+def executePluginEx(pluginHandle, inAThread=False):
+    return rrpLib.executePluginEx(pluginHandle, c_bool(inAThread))
 
 ## \brief Get status information from a plugin. This call is plugin dependent, see the plugin documentation for details
 ## \param pluginHandle Handle to a plugin
@@ -439,9 +473,9 @@ def assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1 = None,
 ## \param userData void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.setPluginInputData.restype = c_bool
-def setPluginInputData(pluginHandle, userData):
-    return rrpLib.setPluginInputData(pluginHandle, c_void_p(userData))
+rrpLib.assignPluginInput.restype = c_bool
+def assignPluginInput(pluginHandle, userData):
+    return rrpLib.assignPluginInput(pluginHandle, c_void_p(userData))
 
 ## \brief Get the roadrunner instance handle from plugin assuming the plugin has one
 ## \param pluginHandle Handle to a Plugin instance
@@ -451,40 +485,52 @@ rrpLib.getRRHandleFromPlugin.restype = c_void_p
 def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
-## \brief Get a Plugin's property list as a string
-## \param pluginHandle Handle to a plugin
-##
-## @code
-## names = rrPlugins.getPluginProperties(pm)
-## print names
-## ['SBML', 'experimentalData', etc]
-## @endcode 
-## \htmlonly  <br/> 
-## \endhtmlonly 
-## \return Returns the available properties for a particular plugin as a string, None otherwise.
-## \ingroup plugins
-rrpLib.getPluginCapabilities.restype = c_char_p
-def getPluginCapabilities(pluginHandle):
-    return rrpLib.getPluginCapabilities(pluginHandle)
-
-## \brief Get the list of plugin properties as a xml document. The string returned from this function is formated as xml.
-## \param pluginHandle Handle to a plugin
-## \return Returns the list of properties of a plugin as an XML string. None otherwise
-## \ingroup plugins
-rrpLib.getPluginCapabilitiesAsXML.restype = c_char_p
-def getPluginCapabilitiesAsXML(pluginHandle):
-    return rrpLib.getPluginCapabilitiesAsXML(pluginHandle)
-
-
 #================ Plugin Parameter functionality ======================
-## \brief Get plugin parameters for a specific category.
+## \brief Get a handle to a plugins list of parameters 
 ## \param pluginHandle Handle to a plugin
-## \param categoryName A string holding the name of a category. If None, returna parameters in all categories.
-## \return Returns available parameters for a particular category in a plugin, None otherwise
+## \return Returns available parameters for a particular, None otherwise
 ## \ingroup plugin_parameters
-rrpLib.getPluginParameters.restype = c_char_p
-def getPluginParameters(pluginHandle, capabilityName):
-    return rrpLib.getPluginParameters(pluginHandle, capabilityName)
+rrpLib.getPluginParameters.restype = c_void_p
+def getPluginParameters(pluginHandle):
+    return rrpLib.getPluginParameters(pluginHandle)
+
+## \brief Clear a list of parameters 
+## \param parasHandle Handle to a list of parameters
+## \return True or false, indicating result
+## \ingroup plugin_parameters
+## \note This function is to be used on a plugins parameter that is of type parameterList. 
+## Observe that the plugin itself can return a paramterList. It is a bad idea to empty this one
+## as this will remove the ability to retrieve any of the plugins parameters subsequently
+rrpLib.clearPluginParameters.restype = c_bool
+def clearPluginParameters(parasHandle):
+    return rrpLib.clearPluginParameters(parasHandle)
+
+## \brief Get a list of a plugins parameter names
+## \param pluginHandle Handle to a plugin
+## \return Returns names for all parameters in the plugin
+## \ingroup plugin_parameters
+rrpLib.getListOfParameterNames.restype = c_char_p
+def getListOfParameterNames(parasHandle):
+    paras = rrpLib.getListOfParameterNames(parasHandle)
+    if not paras:
+        return list()
+    else:        
+        names = paras.split(',')     
+        return names            
+
+## \brief Get the 'first' parameter handle to a parameter in a parameters list
+## \param paraListHandle Handle to a parameterList
+## \return Returns a handle to a parameter. Returns None if not found
+## \ingroup plugin_parameters
+def getFirstParameter(paraListHandle):
+    return rrpLib.getFirstParameter(paraListHandle)
+
+## \brief Get 'next' parameter handle to a parameter in a parameters list
+## \param paraListHandle Handle to a parameterList
+## \return Returns a handle to a parameter. Returns None if not found
+## \ingroup plugin_parameters
+def getNextParameter(paraListHandle):
+    return rrpLib.getNextParameter(paraListHandle)
 
 ## \brief Get a parameter handle to a parameter, located in a specific category. If the category argument is None
 ## the function will look into all categories and return the first parameter matching "parameterName".
@@ -519,28 +565,40 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
-def createParameter(name, the_type, hint, value=None):
-#    if the_type == "string":
-#        the_type = "char*"
-    ptr = rrpLib.createParameter(name, the_type, hint)
+def createParameter(name, the_type, hint, value=None):    
     if value == None:
-       return ptr
+       return rrpLib.createParameter(name, the_type, hint, value)
     else:
-       if type (value) is bool:
+        ptr = rrpLib.createParameter(name, the_type, hint)
+        if the_type is "bool":
            setBoolParameter (ptr, value)
-       if type (value) is int:
+        elif the_type is "int":
            setIntParameter (ptr, value)
-       if type (value) is float:
+        elif the_type is "float":
            setDoubleParameter (ptr, value)
-       if type (value) is str:
-           setStringParameter (ptr, value)  
-       return ptr     
+        elif the_type is "double":
+           setDoubleParameter (ptr, value)           
+        elif the_type is "string":
+           setStringParameter (ptr, value)
+        else:
+            print "Error: Can't set the value of this parameter!"     
+        return ptr     
+
+
+## \brief Free memory for a parameter
+## \param paraHandle Handle to a Parameter instance
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.freeParameter.restype = c_bool
+def freeParameter(paraHandle):
+    return rrpLib.freeParameter(paraHandle)
+
 
 ## \brief Add a parameter to a list of parameters. Use getParameterValueHandle to add parameters to a list.
 ## \param listHandle Handle to a parameter list
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
-#
+##
 ## @code
 ## paraList = getParameterValueHandle(paraHandle);
 ## if rrPlugins.getParameterType (paraList) != "list":

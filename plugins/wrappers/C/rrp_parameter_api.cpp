@@ -30,7 +30,7 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
 
         if(string(type) == string("bool"))
         {
-            bool iniVal  = 0;
+            bool iniVal  = false;
             if(value != NULL)
             {
                 //cast it
@@ -51,6 +51,20 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
                 iniVal = (*val);
             }
             Parameter<int> *para = new Parameter<int>(label, iniVal, hint);
+            return para;
+        }
+
+        //Don't support type 'float', it just causes problems. Make it a double
+        if(string(type) == string("float"))
+        {
+            double iniVal  = 0;
+            if(value != NULL)
+            {
+                //cast it
+                double* dVal = (double*) value;
+                iniVal = (*dVal);
+            }
+            Parameter<double> *para = new Parameter<double>(label, iniVal, hint);
             return para;
         }
 
@@ -95,6 +109,15 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
 
         return NULL;
     catch_ptr_macro
+}
+
+bool rrp_cc freeParameter(RRParameterHandle paraHandle)
+{
+    start_try
+        PluginParameter* para   = castToParameter(paraHandle);
+        delete para;
+        return true;
+    catch_bool_macro
 }
 
 bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para)
@@ -194,5 +217,62 @@ char* rrp_cc getParameterType(RRParameterHandle handle)
         return rr::createText(para->getType());
     catch_ptr_macro
 }
+
+RRParameterHandle rrp_cc getFirst(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getFirst();
+    catch_ptr_macro
+}
+
+RRParameterHandle rrp_cc getNext(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getNext();
+    catch_ptr_macro
+}
+
+RRParameterHandle rrp_cc getPrevious(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getPrevious();
+    catch_ptr_macro
+}
+
+RRParameterHandle rrp_cc getCurrent(RRParametersHandle handle)
+{
+    start_try
+        Parameters *paras = castToParameters(handle);
+        return paras->getCurrent();
+    catch_ptr_macro
+}
+
+bool rrp_cc clearPluginParameters(RRParametersHandle handle)
+{
+    start_try
+        Parameters* paras = castToParameters(handle);
+        paras->clear();
+        return true;
+    catch_bool_macro
+}
+
+char* rrp_cc getListOfParameterNames(RRParametersHandle handle)
+{
+    start_try
+        Parameters* paras = castToParameters(handle);    
+        StringList aList;
+        for(int i = 0; i < paras->count(); i++)
+        {
+            aList.add((*paras)[i]->getName());
+        }
+        return createText(aList.AsString().c_str());
+
+    catch_ptr_macro
+}
+
+
 
 }//namespace

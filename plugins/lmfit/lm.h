@@ -44,10 +44,10 @@ class LM : public CPPPlugin
                                                 LM(RoadRunner* aRR = NULL);
                                                ~LM();
 
-        bool                                    execute(void* data, bool inThread = false);
+        bool                                    execute(bool inThread = false);
         string                                  getResult();
         bool                                    resetPlugin();
-        bool                                    setInputData(void* data);
+        bool                                    assignInput(void* data);
         string                                  getImplementationLanguage();
         string                                  getStatus();
         bool                                    isWorking();

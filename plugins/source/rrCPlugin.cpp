@@ -25,11 +25,11 @@ string CPlugin::getImplementationLanguage()
     return "C";
 }
 
-bool CPlugin::execute(void* userData, bool useThread)
+bool CPlugin::execute(bool useThread)
 {
     if(executeFunction)
     {
-        return executeFunction(userData, useThread);
+        return executeFunction(useThread);
     }
     return false;
 }

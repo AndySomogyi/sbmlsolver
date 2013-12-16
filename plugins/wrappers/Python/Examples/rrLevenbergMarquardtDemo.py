@@ -64,6 +64,8 @@ print getPluginInfo(lmPlugin)
 
 #Setup the plugin for minimization
 #See documentation for available parameters
+
+observedData = getPluginParameter(lmPlugin, "ObservedData");
 paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 
 #The actual parameter value, as a pointer

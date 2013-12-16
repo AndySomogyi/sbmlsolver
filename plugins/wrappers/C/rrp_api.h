@@ -251,12 +251,11 @@ RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
 /*!
  \brief The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.
  \param handle Handle to a plugin
- \param userData void* pointer to user data. Plugin dependent. See specific plugin documentation for what to pass as argument.
  \param inAThread bool indicating if the plugin should be executed in a thread.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThread);
+RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, bool inAThread);
 
 /*!
  \brief Get some status of a plugin. See the plugins documentation on what to expect. 
@@ -355,8 +354,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, plu
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc setPluginInputData(RRPluginHandle handle, void* userData);
-
+RRP_DECLSPEC bool rrp_cc assignPluginInput(RRPluginHandle handle, void* userData);
 
 /*!
  \brief Get roadrunner instance handle from plugin
@@ -374,33 +372,33 @@ RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
 */
 RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
-/*!
- \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
- \param handle Handle to a plugin
- \return Returns available capabilities and parameter in the capability, for a particular plugin as a pointer to a string, NULL otherwise
- \ingroup plugins
-*/
-RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
+///*
+// \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
+// \param handle Handle to a plugin
+// \return Returns available capabilities and parameter in the capability, for a particular plugin as a pointer to a string, NULL otherwise
+// \ingroup plugins
+//*/
+//RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
+
+
 
 /*!
  \brief Get plugin parameters for a specific capability. 
  \param handle Handle to a plugin
- \param capability Pointer to a string, holding the name of a capability.
- \return Returns available parameters for a particular capability in a plugin, NULL otherwise
+  \return Returns a handle to a plugins parameter container, NULL otherwise
  \ingroup plugins
 */
-RRP_DECLSPEC char* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability);
+RRP_DECLSPEC RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle);
+
 
 /*!
- \brief Get a parameter handle to a parameter, located in a specific capability. If the capability argument is NULL
- the function will look into all capabilites and return the first parameter matching "parameterName".
+ \brief Get a parameter handle to a parameter.
  \param handle Handle to a plugin
  \param parameterName Name of the parameter
- \param capabilitiesName Name of a capability containing the parameter.
  \return Returns a handle to a parameter. Returns NULL if not found
  \ingroup plugins
 */
-RRP_DECLSPEC RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName);
+RRP_DECLSPEC RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* parameterName);
 
 /*!
  \brief Set the value of a PluginParameter by a string.

@@ -41,7 +41,6 @@ if not plugin:
     exit()
 
 print getPluginInfo(plugin)
-print getPluginCapabilities(plugin)
 
 #get parameter for noise 'size'
 sigmaHandle = getPluginParameter(plugin, "Sigma")
@@ -62,12 +61,13 @@ cb_func3 =  pluginCallBackType1(pluginIsFinished)
 assignPluginFinishedCallBack(plugin, cb_func3)
 
 rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
+
+assignPluginInput(plugin, rrDataHandle)
 #Execute the noise plugin which will add some noise to the (internal) data
-executePluginEx(plugin, rrDataHandle, True)
+executePluginEx(plugin, True)
 
 while isPluginWorking(plugin) == True:
     print ('.'),
-
 
 result = rr.getSimulationResult()
 x = result['time']

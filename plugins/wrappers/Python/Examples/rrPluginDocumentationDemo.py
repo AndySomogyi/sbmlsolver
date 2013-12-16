@@ -13,14 +13,11 @@ if not plugin:
 #Get some general info about the plugin
 print getPluginInfo(plugin)
 
-#Get the plugins capabilities
-print getPluginCapabilities(plugin)
+#Get the plugins parameters
+paras =  getPluginParameters(plugin)
 
 #Get parameters associated with a capability
-print getPluginParameters(plugin, 'Add Noise')
-
-#Get xml
-print getPluginCapabilitiesAsXML(plugin)
+print getListOfParameterNames(paras)
 
 #Get the manual for the plugin (bundled as embedded PDF)
 ptr = getPluginManualAsPDF(plugin)

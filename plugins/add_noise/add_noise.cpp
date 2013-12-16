@@ -43,12 +43,12 @@ bool AddNoise::isWorking()
     return mAddNoiseWorker.isRunning();
 }
 
-bool AddNoise::execute(void* inputData, bool inThread)
+bool AddNoise::execute(bool inThread)
 {
     Log(lDebug)<<"Executing the AddNoise plugin by Totte Karlsson";
 
     //Capture data handle
-    mClientData = inputData;
+    //mClientData = inputData;
 
     //go away and carry out the work in a thread
     return mAddNoiseWorker.start(inThread);
