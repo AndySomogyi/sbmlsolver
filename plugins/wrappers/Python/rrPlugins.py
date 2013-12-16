@@ -85,8 +85,8 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ## \param pluginDir Full path to folder containing plugins. If None, uses default folder.
 ## \return On success, a handle to a Plugin manager, on failure, None.
 #
-## @code pm = rrPlugins.createPluginManager () 
-## pm = createPluginManager()
+## @code
+## pm = rrPlugins.createPluginManager()
 ## @endcode 
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
@@ -102,10 +102,6 @@ def createPluginManager(pluginDir = None):
 ## \param pm Handle to a plugin manager.
 ## \return true if success, false otherwise.
 ##
-## @code pm = rrPlugins.createPluginManager () 
-##
-## @endcode
-##
 ## \ingroup plugin_manager
 rrpLib.freePluginManager.restype = c_bool
 def freePluginManager(pm):
@@ -115,11 +111,11 @@ def freePluginManager(pm):
 ## \brief Load plugins. The function will look in the default plugin folder for plugins, and load them.
 ## \param pm Handle to a PluginManager instance
 ## \return Returns true if Plugins are loaded, false otherwise
-#
-## @code pm = rrPlugins.createPluginManager () 
-#
+##
+## @code sucess = rrPlugins.loadPlugins (pm) 
 ## @endcode
-#
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_manager
 ##
 rrpLib.loadPlugins.restype = c_bool
@@ -131,10 +127,6 @@ def loadPlugins(pm):
 ## \param pm Handle to a PluginManager instance
 ## \return Returns true if Plugins are unloaded succesfully, false otherwise
 ##
-## @code pm = rrPlugins.createPluginManager () 
-##
-## @endcode
-##
 ## \ingroup plugin_manager
 ##
 rrpLib.unLoadPlugins.restype = c_bool
@@ -144,8 +136,15 @@ def unLoadPlugins(pm):
 ##
 ## \brief Load a particular plugin
 ## \param pm Handle to a PluginManager instance
-## \param pluginName Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension.
-## \return Returns a handle to a plugin, None if unsuccesfull
+## \param pluginName Name of the plugin to load. The plugin name is the plugin's shared library name, without path and extension. 
+## The library names for the plugins can be obtained by calling getPluginNames()
+## \return Returns a handle to a plugin, None if unsuccesful
+##
+## @code
+## lmPlugin = rrPlugins.loadPlugin(pm, "rrp_lm")
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_manager
 ##
 def loadPlugin(pm, pluginName):
@@ -163,7 +162,7 @@ def unLoadPlugin(pm, pHandle):
 
 ## \brief Get number of loaded plugins.
 ## \param pm Handle to a PluginManager instance
-## \return Returns the number of loaded plugins, -1 if a problem is encountered
+## \return Returns the number of loaded plugins, -1 if a problem is encountered. Call rrPlugins.getLastError() to obtain error message.
 ## \ingroup plugin_manager
 rrpLib.getNumberOfPlugins.restype = c_int
 def getNumberOfPlugins(pm):
@@ -172,6 +171,14 @@ def getNumberOfPlugins(pm):
 ## \brief Function to retrieve the names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
 ## \return Returns names for all loaded plugins as a string, None otherwise
+##
+## @code
+## names = rrPlugins.getPluginNames(pm)
+## print names
+## ['AddNoise', 'Levenberg-Marquardt']
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_manager
 rrpLib.getPluginNames.restype = c_void_p
 def getPluginNames(pm):
@@ -184,6 +191,14 @@ def getPluginNames(pm):
 ## \brief Function to retrieve the library names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
 ## \return Returns library names for all loaded plugins as a string, None otherwise
+##
+## @code
+## names = rrPlugins.getPluginLibraryNames(pm)
+## print names
+## ['rrp_add_noise', 'rrp_lm']
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_manager
 rrpLib.getPluginLibraryNames.restype = c_void_p
 def getPluginLibraryNames(pm):
@@ -244,7 +259,13 @@ def getPlugin(pm, pluginName):
 #---------- PLUGIN HANDLING FUNCTIONS ============================================
 ## \brief Get the name of a Plugin
 ## \param pluginHandle Handle to a plugin
-## \return Returns the plugins full name, as a string, None otherwise
+## \return Returns the internal name of a plugin. None otherwise
+##
+## @code
+## name = rrPlugins.getPluginName(pluginHandle)
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugins
 rrpLib.getPluginName.restype = c_char_p
 def getPluginName(pluginHandle):
@@ -262,6 +283,22 @@ def getPluginInfo(pluginHandle):
 ## Use the function getPluginManualNrOfBytes to get the exact length of this string.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns the plugin's manual pdf file as a unsigned char*. If not available, returns None.
+##
+## @code
+## ptr = getPluginManualAsPDF(pluginHandle)
+## numOfBytes = getPluginManualNrOfBytes(pluginHandle)
+## manual = cast(ptr, POINTER(c_char * numOfBytes))[0]
+## if numOfBytes == 0:
+##    print 'This plugin does not have a manual.'
+##    exit()
+## outFName = pluginName + '.pdf'
+## with open(outFName, 'wb') as output:
+##    output.write(manual)
+## os.system('start ' + outFName)
+##
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugins
 rrpLib.getPluginManualAsPDF.restype =  POINTER(c_ubyte)
 def getPluginManualAsPDF(pluginHandle):
@@ -298,7 +335,6 @@ def executePlugin(pluginHandle):
 
 ## \brief The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.
 ## \param pluginHandle Handle to a plugin
-## \param userData void* pointer to user data. This will be plugin dependent. See specific plugin documentation for how to use this argument.
 ## \param inAThread bool indicating if the plugin should be executed in the background (in a thread)
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
@@ -316,7 +352,8 @@ def getPluginStatus(pluginHandle):
 
 ## \brief Returns a plugins result, as a string. This is plugin dependent, and a plugin designer may, or may not, implement
 ## this function. See the plugin documentation for details.
-## \note If a plugin wants to returns specific result, e.g. an Array, or a a float, these are better communicated troughthe use of Plugin Paarameters.
+## \note If a plugin wants to returns specific result, e.g. an Array, or a a float, these are better communicated 
+## through the use of Plugin Parameters.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a plugins result if available. None otherwise
 ## \ingroup plugins
@@ -402,7 +439,7 @@ rrpLib.assignPluginFinishedCallBack.args =[c_void_p, pluginCallBackType1, c_void
 def assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1 = None, userData2 = None):
     return rrpLib.assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1, userData2)
 
-## \brief Hand external data to a plugin
+## \brief Hand external data to a plugin: THIS METHOD IS UNDER REVIEW
 ## \param pluginHandle Handle to a plugin
 ## \param userData void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details.
 ## \return Returns true or false indicating success/failure
@@ -411,7 +448,7 @@ rrpLib.setPluginInputData.restype = c_bool
 def setPluginInputData(pluginHandle, userData):
     return rrpLib.setPluginInputData(pluginHandle, c_void_p(userData))
 
-## \brief Get roadrunner instance handle from plugin
+## \brief Get the roadrunner instance handle from plugin assuming the plugin has one
 ## \param pluginHandle Handle to a Plugin instance
 ## \return Returns a handle to a rrInstance if available, returns None otherwise
 ## \ingroup plugins
@@ -419,17 +456,25 @@ rrpLib.getRRHandleFromPlugin.restype = c_void_p
 def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
-## \brief Get a Plugin's category list as a string
+## \brief Get a Plugin's property list as a string
 ## \param pluginHandle Handle to a plugin
-## \return Returns the available categories for a particular plugin as a string, None otherwise.
+##
+## @code
+## names = rrPlugins.getPluginProperties(pm)
+## print names
+## ['SBML', 'experimentalData', etc]
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
+## \return Returns the available properties for a particular plugin as a string, None otherwise.
 ## \ingroup plugins
 rrpLib.getPluginCapabilities.restype = c_char_p
 def getPluginCapabilities(pluginHandle):
     return rrpLib.getPluginCapabilities(pluginHandle)
 
-## \brief Get a Plugins categories as a xml document. The string returned from this function is formated as xml.
+## \brief Get the list of plugin properties as a xml document. The string returned from this function is formated as xml.
 ## \param pluginHandle Handle to a plugin
-## \return Returns the categories of a plugin as an XML string. None otherwise
+## \return Returns the list of properties of a plugin as an XML string. None otherwise
 ## \ingroup plugins
 rrpLib.getPluginCapabilitiesAsXML.restype = c_char_p
 def getPluginCapabilitiesAsXML(pluginHandle):
@@ -439,7 +484,7 @@ def getPluginCapabilitiesAsXML(pluginHandle):
 #================ Plugin Parameter functionality ======================
 ## \brief Get plugin parameters for a specific category.
 ## \param pluginHandle Handle to a plugin
-## \param categoryName Pointer to a string, holding the name of a category. If None, returna parameters in all categories.
+## \param categoryName A string holding the name of a category. If None, returna parameters in all categories.
 ## \return Returns available parameters for a particular category in a plugin, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getPluginParameters.restype = c_char_p
@@ -475,26 +520,43 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## @code
 ## parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant")
 ## @endcode
-#
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
-def createParameter(name, the_type, hint):
+def createParameter(name, the_type, hint, value=None):
 #    if the_type == "string":
 #        the_type = "char*"
-    return rrpLib.createParameter(name, the_type, hint)
+    ptr = rrpLib.createParameter(name, the_type, hint)
+    if value == None:
+       return ptr
+    else:
+       if type (value) is bool:
+           setBoolParameter (ptr, value)
+       if type (value) is int:
+           setIntParameter (ptr, value)
+       if type (value) is float:
+           setDoubleParameter (ptr, value)
+       if type (value) is str:
+           setStringParameter (ptr, value)  
+       return ptr     
 
-## \brief Add a parameter to a list of parameters.
+## \brief Add a parameter to a list of parameters. Use getParameterValueHandle to add parameters to a list.
 ## \param listHandle Handle to a parameter list
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
 #
 ## @code
 ## paraList = getParameterValueHandle(paraHandle);
+## if rrPlugins.getParameterType (paraList) != "list":
+##    print "Parameter is not a list"
+##    exit()
 ## para1 = createParameter("k1", "double", "A Hint")
 ## setDoubleParameter(para1, 0.2)
 ## addParameterToList(paraList, para1)
 ## @endcode
-#
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.addParameterToList.restype = c_bool
 def addParameterToList(listHandle, paraHandle):
@@ -555,9 +617,15 @@ rrpLib.getParameterValueAsString.restype = c_char_p
 def getParameterValueAsString(paraHandle):
     return rrpLib.getParameterValueAsString(paraHandle)
 
-## \brief Get a handle to a parameter value
+## \brief Get a handle to a parameter value. Such parameters could be any type, including a list of parameters.
 ## \param paraHandle to a Parameter instance
 ## \return Returns a Handle to the parameter value if successful, None otherwise
+#
+## @code
+## parameterHandle = rrPlugins.getParameterValueHandle (parhandle)
+## @endcode
+## \htmlonly  <br/> 
+## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.getParameterValueHandle.restype = c_void_p
 def getParameterValueHandle(paraHandle):
@@ -759,14 +827,27 @@ def unLoadAPI():
 # The Plugin manager loads and manages one or more plugins. Handles to individual plugins are obtained
 # by the getFirstPlugin, getNextPlugin etc functions, or the getPlugin(pluginName) function.
 #
+# The basic approach to using the plugin system is:
+#
+# 1. Create a plugin manager first
+#
+# 2. Load the plugins using loadPlugins (all) or loadPlugin (specific one)
+# 
+# 3. Obtain the plugin handle using getPlugin or directly from loadPlugin (singular)
+#
+# 4. Using the plugin handle, set values to the plugin parameters
+#
+# 5. Run the plugin method ExecutePlugin
+#
+# 6. Retrieve results from plugin parameters
 # \defgroup plugins Plugin Functions
 # \brief Functions operating on Plugin Handles.
 #
 # \defgroup plugin_parameters Plugin Parameters
 # \brief Plugins Parameter related functions
 # The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include:
-# name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings and
-# lists of strings. Parameters are also grouped into convenient categories.
+# name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings,
+# lists of strings and roadRunner data array format. Parameters are also grouped into convenient categories which can be useful for GUI applications.
 #
 #
 # \defgroup utilities Utility Functions
