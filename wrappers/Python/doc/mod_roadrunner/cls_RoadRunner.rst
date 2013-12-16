@@ -518,7 +518,7 @@
    The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
    one calls::
 
-     rr.simulate (0, 3.14, 100)
+     rr.simulate (0, 3, 100)
 
    The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
    is followed by a call to::
