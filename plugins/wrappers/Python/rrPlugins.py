@@ -528,6 +528,19 @@ rrpLib.getPluginParameters.restype = c_void_p
 def getPluginParameters(pluginHandle):
     return rrpLib.getPluginParameters(pluginHandle)
 
+## \brief Get a list of parameter names in a plugin
+## \param pluginHandle Handle to a plugin
+## \return Returns a list of parameter names, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getListOfPluginParameterNames.restype = c_char_p
+def getListOfPluginParameterNames(pluginHandle):
+    paraNames =  rrpLib.getListOfPluginParameterNames(pluginHandle)
+    if not paraNames:
+        return list()
+    else:        
+        names = paraNames.split(',')     
+        return names 
+        
 ## \brief If a parameter type is listOfParameters, this method will clear that list.
 ## \param paraHandle Handle to a list of parameters
 ## \return True or false, indicating result
@@ -539,18 +552,26 @@ rrpLib.clearPluginParameters.restype = c_bool
 def clearPluginParameters(paraHandle):
     return rrpLib.clearPluginParameters(paraHandle)
 
-## \brief Get a list of parameter names for a plugin
+## \brief Get a list of a plugins parameter names
 ## \param pluginHandle Handle to a plugin
 ## \return Returns names for all parameters in the plugin
 ## \ingroup plugin_parameters
-rrpLib.getListOfParameterNames.restype = c_char_p
-def getListOfParameterNames(paraHandle):
-    paras = rrpLib.getListOfParameterNames(paraHandle)
+rrpLib.getNamesFromParameterList.restype = c_char_p
+def getNamesFromParameterList(paraHandle):
+    paras = rrpLib.getNamesFromParameterList(paraHandle)
     if not paras:
         return list()
     else:        
         names = paras.split(',')     
         return names            
+
+## \brief Get a plugins properties as formatted xml 
+## \param pluginHandle Handle to a plugin
+## \return Returns a string on success, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getPluginPropertiesAsXML.restype = c_char_p
+def getPluginPropertiesAsXML(pluginHandle):
+    return rrpLib.getPluginPropertiesAsXML(pluginHandle)
 
 ## \brief Get the 'first' parameter handle to a parameter in a parameters list
 ## \param paraListHandle Handle to a parameterList
@@ -566,15 +587,13 @@ def getFirstParameter(paraListHandle):
 def getNextParameter(paraListHandle):
     return rrpLib.getNextParameter(paraListHandle)
 
-## \brief Get a parameter handle to a parameter, located in a specific category. If the category argument is None
-## the function will look into all categories and return the first parameter matching "parameterName".
+## \brief Get a parameter handle to a parameter, with a specific name.
 ## \param pluginHandle Handle to a plugin
 ## \param parameterName Name of the parameter
-## \param categoriesName Name of a category containing the parameter.
 ## \return Returns a handle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
-def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
-    return rrpLib.getPluginParameter(pluginHandle, parameterName, capabilitiesName)
+def getPluginParameter(pluginHandle, parameterName):
+    return rrpLib.getPluginParameter(pluginHandle, parameterName)
 
 ## \brief Set the value of a PluginParameter by a string.
 ## \param pluginHandle Handle to a plugin
@@ -586,6 +605,25 @@ rrpLib.setPluginParameter.restype = c_bool
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
+## \brief Set a parameters description
+## \param paraHandle to a Parameter instance
+## \param descr String holding the description
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setParameterDescription.restype = c_bool
+def setParameterDescription(paraHandle, descr):
+    return rrpLib.setParameterDescription(paraHandle, descr)
+
+## \brief Set a parameters Hint property
+## \param paraHandle to a Parameter instance
+## \param descr String holding the hint text
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setParameterHint.restype = c_bool
+def setParameterHint(paraHandle, descr):
+    return rrpLib.setParameterHint(paraHandle, descr)
+    
+    
 ## \brief Create a parameter of type "type" with a name and hint property
 ##  Valid types include: 'bool', 'int', 'double', 'string', and 'listOfParameters'
 ## \param name The parameters name as a string
@@ -687,9 +725,6 @@ def setDoubleParameter(paraHandle, value):
 rrpLib.setStringParameter.restype = c_bool
 def setStringParameter(paraHandle, value):
     return rrpLib.setStringParameter(paraHandle, c_char_p(value))
-
-#def setEnumParameter(parameter, value):
-#    return rrpLib.setIntParameter(parameter, value)
 
 ## \brief Get inforamtion on a parameter
 ## \param paraHandle Handle to a parameter instance
