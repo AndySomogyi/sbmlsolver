@@ -496,11 +496,8 @@ def getPluginParameters(pluginHandle):
 
 ## \brief Clear a list of parameters 
 ## \param parasHandle Handle to a list of parameters
-## \return True or false, indicating result
+## \return True or false, indicating result. Observe there are parameterLists that are not 'clearable', e.g. a plugins primary parameterList
 ## \ingroup plugin_parameters
-## \note This function is to be used on a plugins parameter that is of type parameterList. 
-## Observe that the plugin itself can return a paramterList. It is a bad idea to empty this one
-## as this will remove the ability to retrieve any of the plugins parameters subsequently
 rrpLib.clearPluginParameters.restype = c_bool
 def clearPluginParameters(parasHandle):
     return rrpLib.clearPluginParameters(parasHandle)
@@ -540,15 +537,13 @@ def getFirstParameter(paraListHandle):
 def getNextParameter(paraListHandle):
     return rrpLib.getNextParameter(paraListHandle)
 
-## \brief Get a parameter handle to a parameter, located in a specific category. If the category argument is None
-## the function will look into all categories and return the first parameter matching "parameterName".
+## \brief Get a parameter handle to a parameter, with a specific name.
 ## \param pluginHandle Handle to a plugin
 ## \param parameterName Name of the parameter
-## \param categoriesName Name of a category containing the parameter.
 ## \return Returns a handle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
-def getPluginParameter(pluginHandle, parameterName, capabilitiesName = None):
-    return rrpLib.getPluginParameter(pluginHandle, parameterName, capabilitiesName)
+def getPluginParameter(pluginHandle, parameterName):
+    return rrpLib.getPluginParameter(pluginHandle, parameterName)
 
 ## \brief Set the value of a PluginParameter by a string.
 ## \param pluginHandle Handle to a plugin
