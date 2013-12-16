@@ -10,8 +10,11 @@ if not plugin:
     exit()
 
 print getPluginInfo(plugin)
-print getPluginCapabilities(plugin)
-print getPluginCapabilitiesAsXML(plugin)
+#Get the plugins parameters
+paras =  getPluginParameters(plugin)
+
+#Get parameters associated with a capability
+print getListOfParameterNames(paras)
 
 paraHandle   = getPluginParameter(plugin, "NoiseType")
 
