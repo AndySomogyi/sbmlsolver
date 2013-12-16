@@ -532,9 +532,14 @@ def getPluginParameters(pluginHandle):
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a list of parameter names, None otherwise
 ## \ingroup plugin_parameters
-rrpLib.getListOfPluginParameterNames.restype = c_void_p
+rrpLib.getListOfPluginParameterNames.restype = c_char_p
 def getListOfPluginParameterNames(pluginHandle):
-    return rrpLib.getListOfPluginParameterNames(pluginHandle)
+    paraNames =  rrpLib.getListOfPluginParameterNames(pluginHandle)
+    if not paraNames:
+        return list()
+    else:        
+        names = paraNames.split(',')     
+        return names 
 
 ## \brief Clear a list of parameters 
 ## \param parasHandle Handle to a list of parameters
