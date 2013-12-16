@@ -63,14 +63,12 @@ namespace rrp { extern "C" {
 */
 RRP_DECLSPEC RRParameterHandle rrp_cc createParameter(const char* label, const char* type, const char* hint, void* value);
 
-///*
-// \brief Get string list of parameters for a particular capability
-// \param handle Handle to a RoadRunner instance
-// \param cap_name pointer to a string holding the name of a capability
-// \return Returns a handle to a StringArray if sucessful, NULL otherwise
-//*/
-//Todo: RoadRunner don't have parameters anymore
-//RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
+/*!
+ \brief Free the memory created by a parameter
+ \param paraHandle A handle to the parameter
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc freeParameter(RRParameterHandle para);
 
 
 /*!

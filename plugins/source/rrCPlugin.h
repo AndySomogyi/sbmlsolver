@@ -49,7 +49,7 @@ namespace rrp
 /**
 Typedef for the plugins execute function
 */
-typedef bool  (*executeF)(void*, bool);
+typedef bool  (*executeF)(bool);
 
 /**
 Typedef for the plugins destroy (cleanup) function
@@ -71,7 +71,7 @@ class PLUGINS_API_DECLSPEC CPlugin : public Plugin
                                 //!De allocate the plugin
         virtual                ~CPlugin();
         string                  getImplementationLanguage();
-        virtual bool            execute(void* userData = NULL, bool useThread = false);
+        virtual bool            execute(bool useThread = false);
 
     protected:
 

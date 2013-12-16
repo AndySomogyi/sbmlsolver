@@ -260,7 +260,7 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
             Function allowing opaque data being passed to a plugin. This
         */
-        virtual bool                    setInputData(void* data);
+        virtual bool                    assignInput(void* data);
 
         /**
             Retrieve the status of the plugin.
@@ -275,7 +275,7 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
             Execute the plugin
         */
-        virtual bool                    execute(void* clientData = NULL, bool inAThread = false) = 0;
+        virtual bool                    execute(bool inAThread = false) = 0;
 
     protected:                          //! Name of Plugin
         string                          mName;

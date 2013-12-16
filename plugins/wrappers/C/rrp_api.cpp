@@ -355,14 +355,14 @@ bool rrp_cc assignRoadRunnerInstance(RRPluginHandle pHandle, RRHandle rrHandle)
 
 bool rrp_cc executePlugin(RRPluginHandle handle)
 {
-    return executePluginEx(handle, NULL, false);
+    return executePluginEx(handle, false);
 }
 
-bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThread)
+bool rrp_cc executePluginEx(RRPluginHandle handle, bool inAThread)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->execute(userData, inAThread) : false;
+        return (aPlugin) ? aPlugin->execute(inAThread) : false;
     catch_bool_macro
 }
 
@@ -398,11 +398,11 @@ char* rrp_cc getPluginResult(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-bool rrp_cc setPluginInputData(RRPluginHandle handle, void* data)
+bool rrp_cc assignPluginInput(RRPluginHandle handle, void* data)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->setInputData(data) : false;
+        return (aPlugin) ? aPlugin->assignInput(data) : false;
     catch_bool_macro
 }
 

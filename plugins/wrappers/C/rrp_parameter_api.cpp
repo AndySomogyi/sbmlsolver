@@ -111,6 +111,15 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
     catch_ptr_macro
 }
 
+bool rrp_cc freeParameter(RRParameterHandle paraHandle)
+{
+    start_try
+        PluginParameter* para   = castToParameter(paraHandle);
+        delete para;
+        return true;
+    catch_bool_macro
+}
+
 bool rrp_cc addParameterToList(RRParametersHandle handle, RRParameterHandle para)
 {
     start_try

@@ -89,7 +89,7 @@ string Plugin::getCapabilitiesAsXML()
     return mCapabilities.asXML();
 }
 
-bool Plugin::setInputData(void* userData)
+bool Plugin::assignInput(void* userData)
 {
     //Do whats needed in descendants
     mClientData = userData;

@@ -27,8 +27,12 @@ RR_DECLSPEC string          getTime();
 RR_DECLSPEC string          getDateTime();
 RR_DECLSPEC string          getMD5(const string& text);
 RR_DECLSPEC void            sleep(int ms);
+
 //Misc.
-RR_DECLSPEC std::size_t     indexOf(const std::vector<std::string>& vec, const std::string& elem );
+/*!
+\brief indexOf returns the index of an element in the vector. If not found, or if vector size is zero, it returns -1.
+*/
+RR_DECLSPEC int             indexOf(const std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            isNaN(const double& aNum);
 RR_DECLSPEC bool            isNullOrEmpty(const string& str);    //Can't be null, but empty
 RR_DECLSPEC void            pause(bool doIt = true, const string& msg = "");

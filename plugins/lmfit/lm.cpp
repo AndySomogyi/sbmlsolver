@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "rrLogger.h"
+#include "rrException.h"
 #include "lm.h"
 #include "../../wrappers/C/rrc_api.h"
 #include "../../wrappers/C/rrc_utilities.h"
@@ -141,11 +142,24 @@ bool LM::setInputData(void* inputData)
     return true;
 }
 
-bool LM::execute(void* data, bool inThread)
+bool LM::execute(bool inThread)
 {
-    Log(lInfo)<<"Executing the LM plugin";
-    mLMWorker.start(inThread);
-    return true;
+    try
+    {
+        Log(lInfo)<<"Executing the LM plugin";
+        mLMWorker.start(inThread);
+        return true;
+    }
+    catch(const Exception& ex)
+    {
+        Log(lError) << "There was a problem in the execute of the LMFIT plugin: " << ex.getMessage();
+        throw(ex);
+    }
+    catch(...)
+    {
+        Log(lError) << "There was an unknown problem in the execute of the LMFIT plugin.";
+        throw("There was an unknown problem in the execute of the LMFIT plugin.");
+    }
 }
 
 // Plugin factory function

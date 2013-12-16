@@ -34,8 +34,11 @@ setDoubleParameter(sigmaHandle, 3.e-6)
 
 rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
+#Assign data to the plugin
+assignPluginInput(noisePlugin, rrDataHandle)
+
 #Execute the noise plugin which will add some noise to the data
-executePluginEx(noisePlugin, rrDataHandle)
+executePluginEx(noisePlugin, False)
 
 #Input Data
 rrcData = createRRCData(rrDataHandle)
@@ -73,7 +76,7 @@ addParameterToList(paraList, para1)
 
 #Input Data
 ###rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
-setPluginInputData(lmPlugin, rrDataHandle)
+assignPluginInput(lmPlugin, rrDataHandle)
 
 #set species to fit
 species = "[S1] [S2]"
@@ -92,7 +95,12 @@ print '=========================== Levenberg-Marquardt report before minimizatio
 print getPluginStatus(lmPlugin)
 
 #Execute lmfit plugin
-executePluginEx(lmPlugin, None, False)
+res = executePluginEx(lmPlugin, False)
+
+if res == False:
+    print getLastError()
+    exit()
+    
 
 print '=========================== Levenberg-Marquardt report after minimization '
 print getPluginStatus(lmPlugin)

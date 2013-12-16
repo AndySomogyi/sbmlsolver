@@ -338,9 +338,9 @@ def executePlugin(pluginHandle):
 ## \param inAThread bool indicating if the plugin should be executed in the background (in a thread)
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.executePlugin.restype = c_bool
-def executePluginEx(pluginHandle, userData, inAThread=False):
-    return rrpLib.executePluginEx(pluginHandle, c_void_p(userData), c_bool(inAThread))
+rrpLib.executePluginEx.restype = c_bool
+def executePluginEx(pluginHandle, inAThread=False):
+    return rrpLib.executePluginEx(pluginHandle, c_bool(inAThread))
 
 ## \brief Get status information from a plugin. This call is plugin dependent, see the plugin documentation for details
 ## \param pluginHandle Handle to a plugin
@@ -444,9 +444,9 @@ def assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1 = None,
 ## \param userData void* pointer to user data. Plugin dependent, see the specific documentation on the plugin for details.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.setPluginInputData.restype = c_bool
-def setPluginInputData(pluginHandle, userData):
-    return rrpLib.setPluginInputData(pluginHandle, c_void_p(userData))
+rrpLib.assignPluginInput.restype = c_bool
+def assignPluginInput(pluginHandle, userData):
+    return rrpLib.assignPluginInput(pluginHandle, c_void_p(userData))
 
 ## \brief Get the roadrunner instance handle from plugin assuming the plugin has one
 ## \param pluginHandle Handle to a Plugin instance

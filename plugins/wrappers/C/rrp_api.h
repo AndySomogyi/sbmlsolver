@@ -251,12 +251,11 @@ RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
 /*!
  \brief The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.
  \param handle Handle to a plugin
- \param userData void* pointer to user data. Plugin dependent. See specific plugin documentation for what to pass as argument.
  \param inAThread bool indicating if the plugin should be executed in a thread.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData, bool inAThread);
+RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, bool inAThread);
 
 /*!
  \brief Get some status of a plugin. See the plugins documentation on what to expect. 
@@ -355,8 +354,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, plu
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc setPluginInputData(RRPluginHandle handle, void* userData);
-
+RRP_DECLSPEC bool rrp_cc assignPluginInput(RRPluginHandle handle, void* userData);
 
 /*!
  \brief Get roadrunner instance handle from plugin
