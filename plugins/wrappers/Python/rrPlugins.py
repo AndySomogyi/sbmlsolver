@@ -524,15 +524,40 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
 ## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
-def createParameter(name, the_type, hint, value=None):
-    ptr = rrpLib.createParameter(name, the_type, hint, value)
-    return ptr
+def createParameter(name, the_type, hint, value=None):    
+    if value == None:
+       return rrpLib.createParameter(name, the_type, hint, value)
+    else:
+        ptr = rrpLib.createParameter(name, the_type, hint)
+        if the_type is "bool":
+           setBoolParameter (ptr, value)
+        elif the_type is "int":
+           setIntParameter (ptr, value)
+        elif the_type is "float":
+           setDoubleParameter (ptr, value)
+        elif the_type is "double":
+           setDoubleParameter (ptr, value)           
+        elif the_type is "string":
+           setStringParameter (ptr, value)
+        else:
+            print "Error: Can't set the value of this parameter!"     
+        return ptr     
+
+
+## \brief Free memory for a parameter
+## \param paraHandle Handle to a Parameter instance
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.freeParameter.restype = c_bool
+def freeParameter(paraHandle):
+    return rrpLib.freeParameter(paraHandle)
+
 
 ## \brief Add a parameter to a list of parameters. Use getParameterValueHandle to add parameters to a list.
 ## \param listHandle Handle to a parameter list
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
-#
+##
 ## @code
 ## paraList = getParameterValueHandle(paraHandle);
 ## if rrPlugins.getParameterType (paraList) != "list":
