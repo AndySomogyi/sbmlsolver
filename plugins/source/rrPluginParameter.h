@@ -53,7 +53,7 @@ using std::ostream;
 
 /**
  * The PluginParameter class is an interface for derived Parameters, that can be of any type.
- * A parameter has a name and a hint, encapsulating the the purpose of the actual parameter.
+ * A parameter has a name, description and a hint, encapsulating the the purpose of the actual parameter.
  */
 class PLUGINS_API_DECLSPEC PluginParameter
 {
@@ -76,6 +76,21 @@ class PLUGINS_API_DECLSPEC PluginParameter
          * Return the parameters name
          */
         string                              getName() const;
+
+        /**
+         * Return description of the parameter
+         */
+        string                              getDescription() const;
+        
+        /**
+         * Set the description of a parameter
+         */
+        void                                setDescription(const string& descr);
+        
+        /**
+         * Set the hint of a parameter
+         */
+        void                                setHint(const string& hint);
 
         /**
          * Return the parameters hint
@@ -116,6 +131,11 @@ class PLUGINS_API_DECLSPEC PluginParameter
          * The name of the parameter.
          */
         string                              mName;
+
+        /**
+         * The description of a parameter.
+         */
+        string                              mDescription;
 
         /**
          * The hint of the parameter.

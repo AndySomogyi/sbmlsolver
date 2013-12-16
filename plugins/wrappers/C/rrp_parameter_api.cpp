@@ -135,11 +135,28 @@ char* rrp_cc getParameterInfo(RRParameterHandle handle)
     start_try
         PluginParameter* para = castToParameter(handle);
         stringstream s;
-        s<<"Name="<<para->getName()<<"\tType="<<para->getType()<<"\tHint="<<para->getHint();
+        s<<"Name="<<para->getName()<<"\tType="<<para->getType()<<"\tDescription="<<para->getDescription()<<"\tHint="<<para->getHint();
         return createText(s.str());
     catch_ptr_macro
 }
 
+bool rrp_cc setParameterDescription(RRParameterHandle handle, const char* value)
+{
+    start_try
+        PluginParameter* para = castToParameter(handle);
+        para->setDescription(string(value));        
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc setParameterHint(RRParameterHandle handle, const char* value)
+{
+    start_try
+        PluginParameter* para = castToParameter(handle);
+        para->setHint(string(value));
+        return true;
+    catch_bool_macro
+}
 
 bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
 {
@@ -218,7 +235,7 @@ char* rrp_cc getParameterType(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-RRParameterHandle rrp_cc getFirst(RRParametersHandle handle)
+RRParameterHandle rrp_cc getFirstParameter(RRParametersHandle handle)
 {
     start_try
         Parameters *paras = castToParameters(handle);
@@ -226,7 +243,7 @@ RRParameterHandle rrp_cc getFirst(RRParametersHandle handle)
     catch_ptr_macro
 }
 
-RRParameterHandle rrp_cc getNext(RRParametersHandle handle)
+RRParameterHandle rrp_cc getNextParameter(RRParametersHandle handle)
 {
     start_try
         Parameters *paras = castToParameters(handle);
@@ -234,7 +251,7 @@ RRParameterHandle rrp_cc getNext(RRParametersHandle handle)
     catch_ptr_macro
 }
 
-RRParameterHandle rrp_cc getPrevious(RRParametersHandle handle)
+RRParameterHandle rrp_cc getPreviousParameter(RRParametersHandle handle)
 {
     start_try
         Parameters *paras = castToParameters(handle);
@@ -242,7 +259,7 @@ RRParameterHandle rrp_cc getPrevious(RRParametersHandle handle)
     catch_ptr_macro
 }
 
-RRParameterHandle rrp_cc getCurrent(RRParametersHandle handle)
+RRParameterHandle rrp_cc getCurrentParameter(RRParametersHandle handle)
 {
     start_try
         Parameters *paras = castToParameters(handle);
@@ -272,7 +289,6 @@ char* rrp_cc getListOfParameterNames(RRParametersHandle handle)
 
     catch_ptr_macro
 }
-
 
 
 }//namespace

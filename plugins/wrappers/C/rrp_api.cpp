@@ -461,4 +461,14 @@ char* rrp_cc getLastPluginError()
     return rrc::getLastError();
 }
 
+char* rrp_cc getPluginParametersAsXML(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        
+    return createText(aPlugin->getParametersAsXML().c_str());
+    catch_ptr_macro
+}
+
+
 }

@@ -518,6 +518,14 @@ def getListOfParameterNames(parasHandle):
         names = paras.split(',')     
         return names            
 
+## \brief Get the list of parameters as formatted xml 
+## \param pluginHandle Handle to a plugin
+## \return Returns a string, formatted as XML with available parameters, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getPluginParametersAsXML.restype = c_char_p
+def getPluginParametersAsXML(pluginHandle):
+    return rrpLib.getPluginParametersAsXML(pluginHandle)
+
 ## \brief Get the 'first' parameter handle to a parameter in a parameters list
 ## \param paraListHandle Handle to a parameterList
 ## \return Returns a handle to a parameter. Returns None if not found
@@ -552,12 +560,30 @@ rrpLib.setPluginParameter.restype = c_bool
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
+## \brief Set a parameters description
+## \param paraHandle to a Parameter instance
+## \param descr String holding the description
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setParameterDescription.restype = c_bool
+def setParameterDescription(paraHandle, descr):
+    return rrpLib.setParameterDescription(paraHandle, descr)
+
+## \brief Set a parameters Hint property
+## \param paraHandle to a Parameter instance
+## \param descr String holding the hint text
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setParameterHint.restype = c_bool
+def setParameterHint(paraHandle, descr):
+    return rrpLib.setParameterHint(paraHandle, descr)
+
 ## \brief Create a parameter of type "type" with a name and hint property
 ## \param name The parameters name as a string
 ## \param the_type  The parameters type as string. Possible values: 'bool', 'int', 'double', 'string'
 ## \param hint  The parameters hint as a string.
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
-#
+##
 ## @code
 ## parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant")
 ## @endcode
@@ -584,7 +610,6 @@ def createParameter(name, the_type, hint, value=None):
             print "Error: Can't set the value of this parameter!"     
         return ptr     
 
-
 ## \brief Free memory for a parameter
 ## \param paraHandle Handle to a Parameter instance
 ## \return Returns true if successful, false otherwise
@@ -592,7 +617,6 @@ def createParameter(name, the_type, hint, value=None):
 rrpLib.freeParameter.restype = c_bool
 def freeParameter(paraHandle):
     return rrpLib.freeParameter(paraHandle)
-
 
 ## \brief Add a parameter to a list of parameters. Use getParameterValueHandle to add parameters to a list.
 ## \param listHandle Handle to a parameter list
@@ -650,9 +674,6 @@ def setDoubleParameter(paraHandle, value):
 rrpLib.setStringParameter.restype = c_bool
 def setStringParameter(paraHandle, value):
     return rrpLib.setStringParameter(paraHandle, c_char_p(value))
-
-#def setEnumParameter(parameter, value):
-#    return rrpLib.setIntParameter(parameter, value)
 
 ## \brief Get inforamtion on a parameter
 ## \param paraHandle Handle to a parameter instance

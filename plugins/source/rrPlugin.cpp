@@ -84,10 +84,10 @@ bool Plugin::resetPlugin()
     return true;
 }
 
-//string Plugin::getCapabilitiesAsXML()
-//{
-//    return mCapabilities.asXML();
-//}
+string Plugin::getParametersAsXML()
+{
+    return mCapabilities.asXML();
+}
 
 bool Plugin::assignInput(void* userData)
 {

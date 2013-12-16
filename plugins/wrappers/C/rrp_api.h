@@ -372,13 +372,13 @@ RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
 */
 RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
-///*
-// \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
-// \param handle Handle to a plugin
-// \return Returns available capabilities and parameter in the capability, for a particular plugin as a pointer to a string, NULL otherwise
-// \ingroup plugins
-//*/
-//RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
+/*!
+ \brief Get a Plugins Parameterse as an xml document. The string returned from this function is formated as xml.
+ \param handle Handle to a plugin
+ \return Returns available parameters in the plugin, as a pointer to a string, NULL otherwise
+ \ingroup plugins
+*/
+RRP_DECLSPEC char* rrp_cc getPluginParametersAsXML(RRPluginHandle handle);
 
 
 
