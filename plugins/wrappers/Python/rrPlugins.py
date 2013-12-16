@@ -620,14 +620,20 @@ rrpLib.setParameterHint.restype = c_bool
 def setParameterHint(paraHandle, descr):
     return rrpLib.setParameterHint(paraHandle, descr)
 
+    
+    
 ## \brief Create a parameter of type "type" with a name and hint property
+##  Valid types include: 'bool', 'int', 'double', 'string', and 'listOfParameters'
 ## \param name The parameters name as a string
-## \param the_type  The parameters type as string. Possible values: 'bool', 'int', 'double', 'string'
-## \param hint  The parameters hint as a string.
+## \param the_type  The parameters type as string. Possible values: 'bool', 'int', 'double', 'string', and 'listOfParameters'
+## \param hint The parameters hint as a string.
+## \param value This is an optional argument to set the parameter (supports int, double and string).
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
 ##
 ## @code
-## parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant")
+## parameterHandle = rrPlugins.createParameter ("k1", string", "A message")
+##  
+parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant", 0.3)
 ## @endcode
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
@@ -660,18 +666,18 @@ rrpLib.freeParameter.restype = c_bool
 def freeParameter(paraHandle):
     return rrpLib.freeParameter(paraHandle)
 
-## \brief Add a parameter to a list of parameters. Use getParameterValueHandle to add parameters to a list.
+
+## \brief Add a parameter to a list of parameters. The handle to the parameter list can be obtained using getParameterValueHandle.
 ## \param listHandle Handle to a parameter list
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
 ##
 ## @code
 ## paraList = getParameterValueHandle(paraHandle);
-## if rrPlugins.getParameterType (paraList) != "list":
+## if rrPlugins.getParameterType (paraList) != "listOfParameters":
 ##    print "Parameter is not a list"
 ##    exit()
-## para1 = createParameter("k1", "double", "A Hint")
-## setDoubleParameter(para1, 0.2)
+## para1 = createParameter("k1", "double", "A Hint", 0.2)
 ## addParameterToList(paraList, para1)
 ## @endcode
 ## \htmlonly  <br/> 
@@ -962,8 +968,12 @@ def unLoadAPI():
 # \defgroup plugin_parameters Plugin Parameters
 # \brief Plugins Parameter related functions
 # The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include:
-# name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings,
-# lists of strings and roadRunner data array format. Parameters are also grouped into convenient categories which can be useful for GUI applications.
+# the name, value, type, hint, and a description. The following types are currently supported, Booleans, integers, doubles, strings,
+# list of parameter objects and the roadRunner data array format. Parameters can also grouped into convenient categories which can be useful 
+# for GUI applications. A plugin normally exposes the parameters to a user, however it is also possible to create new parameters 
+# using the createParameter call. Such parameters are usally used to populate a plugin parameter that is a list of
+# other parameters using the method addParameterToList. Note that the plugin system only supports two layers of parameter. 
+# In the followng a paraHandle points to a single parameter object.
 #
 #
 # \defgroup utilities Utility Functions
