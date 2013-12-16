@@ -470,8 +470,8 @@ def getPluginParameters(pluginHandle):
 ## \return Returns names for all parameters in the plugin
 ## \ingroup plugin_parameters
 rrpLib.getListOfParameterNames.restype = c_char_p
-def getListOfParameterNames(pluginHandle):
-    paras = rrpLib.getListOfParameterNames(pluginHandle)
+def getListOfParameterNames(parasHandle):
+    paras = rrpLib.getListOfParameterNames(parasHandle)
     if not paras:
         return list()
     else:        

@@ -395,7 +395,7 @@ RRP_DECLSPEC RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle
  \return Returns a string with the names of each parameter, NULL otherwise
  \ingroup plugins
 */
-RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
 
 /*!
  \brief Get a parameter handle to a parameter.
