@@ -545,9 +545,9 @@ def getListOfPluginParameterNames(pluginHandle):
 ## \param parasHandle Handle to a list of parameters
 ## \return True or false, indicating result. Observe there are parameterLists that are not 'clearable', e.g. a plugins primary parameterList
 ## \ingroup plugin_parameters
-rrpLib.clearPluginParameters.restype = c_bool
-def clearPluginParameters(parasHandle):
-    return rrpLib.clearPluginParameters(parasHandle)
+rrpLib.clearParameterList.restype = c_bool
+def clearParameterList(parameterListHandle):
+    return rrpLib.clearParameterList(parameterListHandle)
 
 ## \brief Get a list of a plugins parameter names
 ## \param pluginHandle Handle to a plugin

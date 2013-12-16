@@ -196,7 +196,7 @@ RRP_DECLSPEC char* rrp_cc getNamesFromParameterList(RRParametersHandle handle);
   \return Returns true or false indicating result
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc clearPluginParameters(RRParametersHandle handle);
+RRP_DECLSPEC bool rrp_cc clearParameterList(RRParametersHandle handle);
 
 /*! @} */
 

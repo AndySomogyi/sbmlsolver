@@ -66,7 +66,7 @@ class PLUGINS_API_DECLSPEC Parameters
         /**
            Create a parameter container
         */
-                                                Parameters();
+                                                Parameters(bool canClear = true);
         /**
            Deallocate memory allocated
         */
@@ -134,8 +134,8 @@ class PLUGINS_API_DECLSPEC Parameters
         
         /**
            Empty the parameter container
-        */
-        void                                    clear();
+        */  
+        bool                                    clear();
 
         /**
            Output the container to a output stream (ostream)
@@ -151,6 +151,12 @@ class PLUGINS_API_DECLSPEC Parameters
         */
         vector< pair<PluginParameter*, bool> >                  mParas;
         vector< pair<PluginParameter*, bool> >::iterator        mParasIter;
+
+
+        /**
+            Boolean indicating if a client of the container can clear the list. True by default
+        */            
+        bool                                                    mCanClientClearList;
 };
 
 }

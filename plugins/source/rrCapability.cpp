@@ -12,7 +12,8 @@ Capability::Capability(const string& name, const string& description)
 :
 mName(name),
 //mMethod(method),
-mDescription(description)
+mDescription(description),
+mParameters(false)
 {}
 
 Capability::~Capability()

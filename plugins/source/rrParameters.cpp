@@ -6,7 +6,8 @@ namespace rrp
 {
 using namespace rr;
 
-Parameters::Parameters()
+Parameters::Parameters(bool canClientClear)
+    :mCanClientClearList(canClientClear)
 {}
 
 Parameters::~Parameters()
@@ -14,8 +15,13 @@ Parameters::~Parameters()
     clear();
 }
 
-void Parameters::clear()
+bool Parameters::clear()
 {
+    if(mCanClientClearList == false)
+    {
+        return false;
+    }
+
     for(int i = 0; i < mParas.size(); i++)
     {
         if(mParas[i].second == true)
@@ -24,6 +30,7 @@ void Parameters::clear()
         }
     }
     mParas.clear();
+    return true;
 }
 
 void Parameters::add(PluginParameter* me, bool own)
