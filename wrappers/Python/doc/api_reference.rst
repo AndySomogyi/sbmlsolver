@@ -4,9 +4,9 @@ RoadRunner API Reference
 
 .. py:currentmodule:: roadrunner
 
-This is some text that references :mod:`roadrunner`
+This is the API Reference page for the module: :mod:`roadrunner`
 
-The method,  :meth:`RoadRunner.test` does something.
+.. The method,  :meth:`RoadRunner.test` does something.
 
 
 .. module:: roadrunner
