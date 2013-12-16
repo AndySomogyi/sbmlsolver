@@ -45,7 +45,10 @@ static Function* createGlobalMappingFunction(const char* funcName,
 static SBMLDocument *checkedReadSBMLFromString(const char* xml);
 
 // MSVC 2010 and earlier do not include the hyperbolic functions, define there here
-#if defined(_MSC_VER) && _MSC_VER < 1700
+// MSVC++ 11.0 _MSC_VER == 1700 (Visual Studio 2012)
+#if defined(_MSC_VER)
+
+#if _MSC_VER < 1700
 
 static double asinh(double value)
 {
@@ -61,6 +64,13 @@ double atanh(double value)
 {
     return log((1. / value + 1.) / (1. / value - 1.)) / 2.;
 }
+
+#else
+
+// MSVC 2012 and above have this function in amp_math.h,
+// http://msdn.microsoft.com/en-us/library/hh308374(v=vs.110).aspx
+#include <amp_math.h>
+#endif
 
 #endif
 
