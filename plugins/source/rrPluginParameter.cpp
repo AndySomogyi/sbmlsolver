@@ -28,6 +28,21 @@ string PluginParameter::getHint() const
     return mHint;
 }
 
+string PluginParameter::getDescription() const
+{
+    return mDescription;
+}
+
+void PluginParameter::setDescription(const string& descr)
+{
+    mDescription = descr;
+}
+
+void PluginParameter::setHint(const string& hint)
+{
+    mHint = hint;
+}
+
 void* PluginParameter::getValueHandle()
 {
     return NULL;

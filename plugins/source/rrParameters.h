@@ -83,7 +83,7 @@ class PLUGINS_API_DECLSPEC Parameters
         /**
            Return parameters in the container as a list of strings.
         */
-        rr::StringList                          asStringList() const;
+        rr::StringList                          getNames() const;
 
         /**
            Return number of parameters in the container.

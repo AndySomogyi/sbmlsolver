@@ -31,7 +31,7 @@ void Parameters::add(PluginParameter* me, bool own)
     mParas.push_back( pair<PluginParameter*, bool>(me, own) );
 }
 
-StringList Parameters::asStringList() const
+StringList Parameters::getNames() const
 {
     StringList list;
     for(int i = 0; i < count(); i++)

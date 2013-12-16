@@ -322,7 +322,7 @@ inline string Parameter<rrc::RRStringArray>::getType() const
 template<>
 inline string Parameter<Parameters>::getValueAsString() const
 {
-    StringList list = mValue.asStringList();
+    StringList list = mValue.getNames();
     return list.AsString();
 }
 

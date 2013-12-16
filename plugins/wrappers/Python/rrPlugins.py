@@ -540,6 +540,7 @@ def getListOfPluginParameterNames(pluginHandle):
     else:        
         names = paraNames.split(',')     
         return names 
+
         
 ## \brief If a parameter type is listOfParameters, this method will clear that list.
 ## \param paraHandle Handle to a list of parameters
@@ -549,8 +550,8 @@ def getListOfPluginParameterNames(pluginHandle):
 ## The top level parameter list in a plugin is also a listOfParameters, however, this is protect
 ## the top level from being cleared by this method.
 rrpLib.clearPluginParameters.restype = c_bool
-def clearPluginParameters(paraHandle):
-    return rrpLib.clearPluginParameters(paraHandle)
+def clearPluginParameters(parasHandle):
+    return rrpLib.clearPluginParameters(parasHandle)
 
 ## \brief Get a list of a plugins parameter names
 ## \param pluginHandle Handle to a plugin
@@ -622,6 +623,7 @@ def setParameterDescription(paraHandle, descr):
 rrpLib.setParameterHint.restype = c_bool
 def setParameterHint(paraHandle, descr):
     return rrpLib.setParameterHint(paraHandle, descr)
+
     
     
 ## \brief Create a parameter of type "type" with a name and hint property
@@ -631,7 +633,7 @@ def setParameterHint(paraHandle, descr):
 ## \param hint The parameters hint as a string.
 ## \param value This is an optional argument to set the parameter (supports int, double and string).
 ## \return Returns a handle to a new parameter, if succesful, None otherwise
-#
+##
 ## @code
 ## parameterHandle = rrPlugins.createParameter ("k1", string", "A message")
 ##  
@@ -659,7 +661,6 @@ def createParameter(name, the_type, hint, value=None):
         else:
             print "Error: Can't set the value of this parameter!"     
         return ptr     
-
 
 ## \brief Free memory for a parameter
 ## \param paraHandle Handle to a Parameter instance

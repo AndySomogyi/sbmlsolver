@@ -62,8 +62,7 @@ void AddNoiseWorker::run()
             }
 
             if(mTheHost.mWorkProgressCB)
-            {
-                //mTheHost.mPluginProgress.setValue( (int) 0.5 + (row /(data.rSize() -1.0)) *100.0);
+            {                
                 int progress = (int) (row * 100.0) /(data.rSize() -1.0) ;
                 mTheHost.mWorkProgressCB((void*) &progress,  mTheHost.mWorkProgressData2);
             }

@@ -147,16 +147,40 @@ RRP_DECLSPEC char* rrp_cc getParameterName(RRParameterHandle handle);
 RRP_DECLSPEC char* rrp_cc getParameterHint(RRParameterHandle handle);
 
 /*!
+ \brief Set a parameters hint
+ \param handle to a Parameter instance
+ \param value The parameter hint as a string
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setParameterHint(RRParameterHandle handle, const char* value);
+
+/*!
+ \brief Get a parameters description
+ \param handle to a Parameter instance
+ \return Returns the parameters description as a string sucessful, NULL otherwise
+*/
+RRP_DECLSPEC char* rrp_cc getParameterDescription(RRParameterHandle handle);
+
+/*!
+ \brief Set a parameters Description
+ \param handle to a Parameter instance
+ \param value The parameter description as a string
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setParameterDescription(RRParameterHandle handle, const char* value);
+
+/*!
  \brief Get a parameters type
  \param handle to a Parameter instance
  \return Returns the parameters type if sucessful, NULL otherwise
 */
 RRP_DECLSPEC char* rrp_cc getParameterType(RRParameterHandle handle);
 
-RRP_DECLSPEC RRParameterHandle rrp_cc getFirstPlugin(RRParametersHandle handle);
-RRP_DECLSPEC RRParameterHandle rrp_cc getNextPlugin(RRParametersHandle handle);
-RRP_DECLSPEC RRParameterHandle rrp_cc getPreviousPlugin(RRParametersHandle handle);
-RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentPlugin(RRParametersHandle handle);
+
+RRP_DECLSPEC RRParameterHandle rrp_cc getFirstParameter(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getNextParameter(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getPreviousParameter(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentParameter(RRParametersHandle handle);
 
 /*!
  \brief Get a list of names for a plugins parameters.
@@ -164,8 +188,7 @@ RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentPlugin(RRParametersHandle handle
  \return Returns a string with the names of each parameter, NULL otherwise
  \ingroup plugins
 */
-RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
-
+RRP_DECLSPEC char* rrp_cc getNamesFromParameterList(RRParametersHandle handle);
 
 /*!
  \brief Clear a list of parameters

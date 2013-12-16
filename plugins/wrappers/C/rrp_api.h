@@ -372,24 +372,29 @@ RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
 */
 RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
-///*
-// \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
-// \param handle Handle to a plugin
-// \return Returns available capabilities and parameter in the capability, for a particular plugin as a pointer to a string, NULL otherwise
-// \ingroup plugins
-//*/
-//RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
-
-
+/*!
+ \brief Get a Plugins Parameterse as an xml document. The string returned from this function is formated as xml.
+ \param handle Handle to a plugin
+ \return Returns available parameters in the plugin, as a pointer to a string, NULL otherwise
+ \ingroup plugins
+*/
+RRP_DECLSPEC char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle);
 
 /*!
- \brief Get plugin parameters for a specific capability. 
+ \brief Get a handle to a plugins parameters
  \param handle Handle to a plugin
   \return Returns a handle to a plugins parameter container, NULL otherwise
  \ingroup plugins
 */
 RRP_DECLSPEC RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle);
 
+/*!
+ \brief Get a list of a plugin parameter names, as a string. Space being the delimiter.
+ \param handle Handle to a plugin
+  \return Returns a string if succesfull, NULL otherwise
+ \ingroup plugins
+*/
+RRP_DECLSPEC char* rrp_cc getListOfPluginParameterNames(RRPluginHandle handle);
 
 /*!
  \brief Get a parameter handle to a parameter.

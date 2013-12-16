@@ -65,7 +65,7 @@ print getPluginInfo(lmPlugin)
 #Setup the plugin for minimization
 #See documentation for available parameters
 
-observedData = getPluginParameter(lmPlugin, "ObservedData");
+observedData = getPluginParameter(lmPlugin, "ExperimentalData");
 paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
 
 #The actual parameter value, as a pointer
@@ -116,7 +116,7 @@ S1Model = npData[:,1]
 S2Model = npData[:,2]
 
 
-dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
+dataPHandle = getPluginParameter(lmPlugin, "Residuals");
 dataHandle = getParameterValueHandle(dataPHandle)
 rrcData = createRRCData(dataHandle)
 npData = getNumpyData(rrcData)
