@@ -48,7 +48,7 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml);
 // MSVC++ 11.0 _MSC_VER == 1700 (Visual Studio 2012)
 #if defined(_MSC_VER)
 
-#if _MSC_VER < 1700
+#if _MSC_VER <= 1700
 
 static double asinh(double value)
 {
@@ -533,19 +533,19 @@ void ModelGeneratorContext::addGlobalMappings()
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arccosh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) LibFunc::acosh);
+                        (void*) acosh);
 
     // AST_FUNCTION_ARCSINH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arcsinh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) LibFunc::asinh);
+                        (void*) asinh);
 
     // AST_FUNCTION_ARCTANH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arctanh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) LibFunc::atanh);
+                        (void*) atanh);
 
 }
 
