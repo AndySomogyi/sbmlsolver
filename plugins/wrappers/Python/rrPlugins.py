@@ -465,6 +465,17 @@ rrpLib.getPluginParameters.restype = c_void_p
 def getPluginParameters(pluginHandle):
     return rrpLib.getPluginParameters(pluginHandle)
 
+## \brief Clear a list of parameters 
+## \param parasHandle Handle to a list of parameters
+## \return True or false, indicating result
+## \ingroup plugin_parameters
+## \note This function is to be used on a plugins parameter that is of type parameterList. 
+## Observe that the plugin itself can return a paramterList. It is a bad idea to empty this one
+## as this will remove the ability to retrieve any of the plugins parameters subsequently
+rrpLib.clearPluginParameters.restype = c_bool
+def clearPluginParameters(parasHandle):
+    return rrpLib.clearPluginParameters(parasHandle)
+
 ## \brief Get a list of a plugins parameter names
 ## \param pluginHandle Handle to a plugin
 ## \return Returns names for all parameters in the plugin

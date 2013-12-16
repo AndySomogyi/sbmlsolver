@@ -158,7 +158,22 @@ RRP_DECLSPEC RRParameterHandle rrp_cc getNextPlugin(RRParametersHandle handle);
 RRP_DECLSPEC RRParameterHandle rrp_cc getPreviousPlugin(RRParametersHandle handle);
 RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentPlugin(RRParametersHandle handle);
 
+/*!
+ \brief Get a list of names for a plugins parameters.
+ \param handle Handle to a plugin
+ \return Returns a string with the names of each parameter, NULL otherwise
+ \ingroup plugins
+*/
+RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
 
+
+/*!
+ \brief Clear a list of parameters
+ \param handle Handle to a Parameters list
+  \return Returns true or false indicating result
+ \ingroup plugins
+*/
+RRP_DECLSPEC bool rrp_cc clearPluginParameters(RRParametersHandle handle);
 
 /*! @} */
 

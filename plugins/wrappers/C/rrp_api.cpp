@@ -246,25 +246,12 @@ char* rrp_cc getPluginName(RRPluginHandle handle)
 //    catch_ptr_macro
 //}
 //
+
 RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
         return aPlugin->getParameters();
-    catch_ptr_macro
-}
-
-char* rrp_cc getListOfParameterNames(RRParametersHandle handle)
-{
-    start_try
-        Parameters* paras = castToParameters(handle);    
-        StringList aList;
-        for(int i = 0; i < paras->count(); i++)
-        {
-            aList.add((*paras)[i]->getName());
-        }
-        return createText(aList.AsString().c_str());
-
     catch_ptr_macro
 }
 

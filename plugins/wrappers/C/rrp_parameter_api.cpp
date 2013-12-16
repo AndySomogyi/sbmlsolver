@@ -250,5 +250,29 @@ RRParameterHandle rrp_cc getCurrent(RRParametersHandle handle)
     catch_ptr_macro
 }
 
+bool rrp_cc clearPluginParameters(RRParametersHandle handle)
+{
+    start_try
+        Parameters* paras = castToParameters(handle);
+        paras->clear();
+        return true;
+    catch_bool_macro
+}
+
+char* rrp_cc getListOfParameterNames(RRParametersHandle handle)
+{
+    start_try
+        Parameters* paras = castToParameters(handle);    
+        StringList aList;
+        for(int i = 0; i < paras->count(); i++)
+        {
+            aList.add((*paras)[i]->getName());
+        }
+        return createText(aList.AsString().c_str());
+
+    catch_ptr_macro
+}
+
+
 
 }//namespace

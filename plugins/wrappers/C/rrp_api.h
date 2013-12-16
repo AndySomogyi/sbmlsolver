@@ -380,6 +380,8 @@ RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 //*/
 //RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
 
+
+
 /*!
  \brief Get plugin parameters for a specific capability. 
  \param handle Handle to a plugin
@@ -388,14 +390,6 @@ RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 */
 RRP_DECLSPEC RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle);
 
-
-/*!
- \brief Get a list of names for a plugins parameters.
- \param handle Handle to a plugin
- \return Returns a string with the names of each parameter, NULL otherwise
- \ingroup plugins
-*/
-RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
 
 /*!
  \brief Get a parameter handle to a parameter.
