@@ -188,7 +188,7 @@ RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentParameter(RRParametersHandle han
  \return Returns a string with the names of each parameter, NULL otherwise
  \ingroup plugins
 */
-RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
+RRP_DECLSPEC char* rrp_cc getNamesFromParameterList(RRParametersHandle handle);
 
 /*!
  \brief Clear a list of parameters

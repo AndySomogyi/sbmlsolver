@@ -528,6 +528,14 @@ rrpLib.getPluginParameters.restype = c_void_p
 def getPluginParameters(pluginHandle):
     return rrpLib.getPluginParameters(pluginHandle)
 
+## \brief Get a list of parameter names in a plugin
+## \param pluginHandle Handle to a plugin
+## \return Returns a list of parameter names, None otherwise
+## \ingroup plugin_parameters
+rrpLib.getListOfPluginParameterNames.restype = c_void_p
+def getListOfPluginParameterNames(pluginHandle):
+    return rrpLib.getListOfPluginParameterNames(pluginHandle)
+
 ## \brief Clear a list of parameters 
 ## \param parasHandle Handle to a list of parameters
 ## \return True or false, indicating result. Observe there are parameterLists that are not 'clearable', e.g. a plugins primary parameterList
@@ -540,22 +548,22 @@ def clearPluginParameters(parasHandle):
 ## \param pluginHandle Handle to a plugin
 ## \return Returns names for all parameters in the plugin
 ## \ingroup plugin_parameters
-rrpLib.getListOfParameterNames.restype = c_char_p
-def getListOfParameterNames(paraHandle):
-    paras = rrpLib.getListOfParameterNames(paraHandle)
+rrpLib.getNamesFromParameterList.restype = c_char_p
+def getNamesFromParameterList(paraHandle):
+    paras = rrpLib.getNamesFromParameterList(paraHandle)
     if not paras:
         return list()
     else:        
         names = paras.split(',')     
         return names            
 
-## \brief Get the list of parameters as formatted xml 
+## \brief Get a plugins properties as formatted xml 
 ## \param pluginHandle Handle to a plugin
-## \return Returns a string, formatted as XML with available parameters, None otherwise
+## \return Returns a string on success, None otherwise
 ## \ingroup plugin_parameters
-rrpLib.getPluginParametersAsXML.restype = c_char_p
-def getPluginParametersAsXML(pluginHandle):
-    return rrpLib.getPluginParametersAsXML(pluginHandle)
+rrpLib.getPluginPropertiesAsXML.restype = c_char_p
+def getPluginPropertiesAsXML(pluginHandle):
+    return rrpLib.getPluginPropertiesAsXML(pluginHandle)
 
 ## \brief Get the 'first' parameter handle to a parameter in a parameters list
 ## \param paraListHandle Handle to a parameterList

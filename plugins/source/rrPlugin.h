@@ -172,9 +172,14 @@ class PLUGINS_API_DECLSPEC Plugin
         Parameters*                     getParameters(); //Each capability has a set of parameters
 
         /**
-            Retieves the parameters, as XML
+            Retieves the names of the parameters 
         */
-        string                          getParametersAsXML(); //Each capability has a set of parameters
+        StringList                      getParameterNames(); //Each capability has a set of parameters
+
+        /**
+            Retieves a plugin properties, as XML
+        */
+        string                          getPluginPropertiesAsXML(); 
 
         /**
             Retieves a specific parameter, in a specific capability.

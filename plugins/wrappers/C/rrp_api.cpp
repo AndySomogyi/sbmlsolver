@@ -199,59 +199,19 @@ char* rrp_cc getPluginName(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-//char* rrp_cc getPluginCapabilities(RRPluginHandle handle)
-//{
-//    start_try
-//        Plugin* aPlugin = castToPlugin(handle);
-//        if(aPlugin)
-//        {
-//            StringList aList;
-//            Capabilities* caps = aPlugin->getCapabilities();
-//            if(!caps)
-//            {
-//                return NULL;
-//            }
-//
-//            for(int i = 0; i < caps->count(); i++)
-//            {
-//                aList.add((*caps)[i]->getName());
-//            }
-//            return createText(aList.AsString().c_str());
-//        }
-//        else
-//        {
-//            return NULL;
-//        }
-//    catch_ptr_macro
-//}
-//
-//char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle)
-//{
-//    start_try
-//        Plugin* aPlugin = castToPlugin(handle);
-//        if(aPlugin)
-//        {
-//            string xml = aPlugin->getCapabilitiesAsXML();
-//            if(!xml.size())
-//            {
-//                return NULL;
-//            }
-//
-//            return createText(xml);
-//        }
-//        else
-//        {
-//            return NULL;
-//        }
-//    catch_ptr_macro
-//}
-//
-
 RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
         return aPlugin->getParameters();
+    catch_ptr_macro
+}
+
+char* rrp_cc getListOfPluginParameterNames(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);        
+        return createText(aPlugin->getParameterNames().AsString());
     catch_ptr_macro
 }
 
@@ -461,14 +421,13 @@ char* rrp_cc getLastPluginError()
     return rrc::getLastError();
 }
 
-char* rrp_cc getPluginParametersAsXML(RRPluginHandle handle)
+char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
         
-    return createText(aPlugin->getParametersAsXML().c_str());
+    return createText(aPlugin->getPluginPropertiesAsXML().c_str());
     catch_ptr_macro
 }
-
 
 }

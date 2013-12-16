@@ -276,7 +276,7 @@ bool rrp_cc clearPluginParameters(RRParametersHandle handle)
     catch_bool_macro
 }
 
-char* rrp_cc getListOfParameterNames(RRParametersHandle handle)
+char* rrp_cc getNamesFromParameterList(RRParametersHandle handle)
 {
     start_try
         Parameters* paras = castToParameters(handle);    

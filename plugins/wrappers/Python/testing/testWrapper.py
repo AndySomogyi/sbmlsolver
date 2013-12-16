@@ -8,13 +8,13 @@ print getPluginNames(pm)
 pl = getFirstPlugin(pm)
 print getPluginInfo(pl)
 
-print getPluginParametersAsXML(pl)
+print getPluginPropertiesAsXML(pl)
 
 parasHandle = getPluginParameters(pl)
-paraNames = getListOfParameterNames(parasHandle)
-
+paraNames = getNamesFromParameterList(parasHandle)
 print paraNames 
 
+print getListOfPluginParameterNames(pl)
 para = getPluginParameter(pl, "Sigma")
 
 print getParameterInfo(para)

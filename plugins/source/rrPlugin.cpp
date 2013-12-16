@@ -84,7 +84,7 @@ bool Plugin::resetPlugin()
     return true;
 }
 
-string Plugin::getParametersAsXML()
+string Plugin::getPluginPropertiesAsXML()
 {
     return mCapabilities.asXML();
 }
@@ -241,10 +241,19 @@ unsigned char* Plugin::getManualAsPDF() const
     return NULL;
 }
 
-//Capabilities* Plugin::getCapabilities()
-//{
-//    return &mCapabilities;
-//}
+StringList Plugin::getParameterNames()
+{
+    StringList names;        
+    //For now, if capName is "" return all
+    for(int i = 0; i < mCapabilities.count(); i++)
+    {
+        Parameters* paras = mCapabilities[i]->getParameters();
+        
+        names.Append(paras->getNames());
+    }    
+
+    return names;
+}
 
 Parameters* Plugin::getParameters()
 {
