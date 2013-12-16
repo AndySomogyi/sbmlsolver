@@ -4,7 +4,17 @@ import os
 import sys
 import numpy as np
 import roadrunner
+import tempfile
+import time
 from ctypes import *
+
+"""
+CTypes Python Bindings to the RoadRunner Plugin API.
+
+Currently this is a fairly raw implementation with few Pythonic refinements
+"""
+
+__version__ = "1.0.0"
 
 # Get current folder and construct an absolute path to
 # the plugins.
@@ -14,7 +24,6 @@ gDefaultPluginsPath  = os.path.split(dirPath)[0]
 sharedLib='rrplugins_c_api'
 rrpLib=None
 try:
-
     if sys.platform.startswith('win32'):
         sharedLib = sharedLib + '.dll'
         rrpLib=CDLL(sharedLib)
@@ -74,7 +83,7 @@ class ParameterObject:
     handle = property (__getHandle)
 
 
-#=======================rrp_api=======================#
+#=======================rrp_api========================#
 #Type of plugin callbacks, first argument is return type
 
 ## \brief Plugin Function callback type definition
@@ -320,7 +329,7 @@ def getPluginInfo(pluginHandle):
 ## if numOfBytes == 0:
 ##    print 'This plugin does not have a manual.'
 ##    exit()
-## outFName = pluginName + '.pdf'
+## outFName = getPluginName (pluginHandle) + '.pdf'
 ## with open(outFName, 'wb') as output:
 ##    output.write(manual)
 ## os.system('start ' + outFName)
@@ -340,6 +349,31 @@ def getPluginManualAsPDF(pluginHandle):
 def getPluginManualNrOfBytes(pluginHandle):
     return rrpLib.getPluginManualNrOfBytes(pluginHandle)
 
+
+## \brief If a plugin has a built-in PDF manual, display it.
+## \param pluginHandle Handle to a plugin
+## \return Returns False is the plugin has no manual
+##
+## @code
+## success = displayPluginManual(pluginHandle)
+##
+## @endcode 
+## \htmlonly  <br/> 
+## \endhtmlonly 
+## \ingroup plugins
+def displayPluginManual(pluginHandle):
+    ptr = getPluginManualAsPDF(pluginHandle)
+    numOfBytes = getPluginManualNrOfBytes(pluginHandle)
+    manual = cast(ptr, POINTER(c_char * numOfBytes))[0]
+    if numOfBytes == 0:
+       print 'This plugin does not have a manual.'
+       return False
+    outFName = tempfile.gettempdir() + '\\' + getPluginName (pluginHandle) + '.pdf'
+    print outFName
+    with open(outFName, 'wb') as output:
+      output.write(manual)
+    os.system('start ' + outFName) 
+    
 ## \brief Assign a roadrunner instance handle for the plugin to use.
 ##    A plugin may use an externally created roadrunner instance for its internal work.
 ##  \param pluginHandle Handle to a plugin
@@ -486,7 +520,7 @@ def getRRHandleFromPlugin(pluginHandle):
     return rrpLib.getRRHandleFromPlugin(pluginHandle)
 
 #================ Plugin Parameter functionality ======================
-## \brief Get a handle to a plugins list of parameters 
+## \brief Get a handle to the list of parameters for a plugin
 ## \param pluginHandle Handle to a plugin
 ## \return Returns available parameters for a particular, None otherwise
 ## \ingroup plugin_parameters
@@ -507,8 +541,8 @@ def clearPluginParameters(parasHandle):
 ## \return Returns names for all parameters in the plugin
 ## \ingroup plugin_parameters
 rrpLib.getListOfParameterNames.restype = c_char_p
-def getListOfParameterNames(parasHandle):
-    paras = rrpLib.getListOfParameterNames(parasHandle)
+def getListOfParameterNames(paraHandle):
+    paras = rrpLib.getListOfParameterNames(paraHandle)
     if not paras:
         return list()
     else:        
