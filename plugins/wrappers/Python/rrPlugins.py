@@ -633,7 +633,7 @@ def setParameterHint(paraHandle, descr):
 ## @code
 ## parameterHandle = rrPlugins.createParameter ("k1", string", "A message")
 ##  
-parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant", 0.3)
+##parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant", 0.3)
 ## @endcode
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
