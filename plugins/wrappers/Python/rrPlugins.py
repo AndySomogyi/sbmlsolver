@@ -934,7 +934,10 @@ def unLoadAPI():
 # \brief Plugins Parameter related functions
 # The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include:
 # name, value, type, hint, and a description. The following types are curerntly supported, Booleans, integers, doubles, strings,
-# lists of strings and roadRunner data array format. Parameters are also grouped into convenient categories which can be useful for GUI applications.
+# lists of strings and roadRunner data array format. Parameters are also grouped into convenient categories which can be useful 
+# for GUI applications. A paraHandle points to a single parameter object. A plugin normally supplies the parameters to a user to se, however
+# it is also possible to create new parameters using the createParameter call. This is usally used to populate a plugin parameter that is a 
+# list of parameters using the method addParameterToList
 #
 #
 # \defgroup utilities Utility Functions
