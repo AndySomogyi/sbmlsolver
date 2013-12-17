@@ -107,6 +107,19 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
             return para;
         }
 
+        if(string(type) == string("listOfParameters"))
+        {
+            Parameters iniVal;
+            if(value != NULL)
+            {
+                //cast it
+                Parameters* val = (Parameters*) value;
+                iniVal = (*val);
+            }
+            Parameter<Parameters> *para = new Parameter<Parameters>(label, iniVal, hint);
+            return para;
+        }
+
         return NULL;
     catch_ptr_macro
 }

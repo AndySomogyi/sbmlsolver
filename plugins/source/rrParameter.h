@@ -336,7 +336,7 @@ inline void Parameter<Parameters>::setValueFromString(const string& val)
 template<>
 inline string Parameter<Parameters>::getType() const
 {
-    return "Parameters";
+    return "listOfParameters";
 }
 
 }

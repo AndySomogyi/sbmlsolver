@@ -146,6 +146,7 @@ bool PluginManager::load(const string& pluginName)
         Log(lInfo)<<"Loading plugin: "<<plugin;
         try
         {
+                            
             bool res = loadPlugin(plugin);
             if(!res)
             {
@@ -172,6 +173,7 @@ bool PluginManager::loadPlugin(const string& _libName)
         string prefix("rrp_");
         if(_libName.substr(0, prefix.size()) != prefix)
         {
+            Log(lWarning)<<"The Plugin: "<<_libName<<" lack the rrp_ prefix. Can't be loaded";    
             return false;
         }
         string libName(_libName);
@@ -180,7 +182,13 @@ bool PluginManager::loadPlugin(const string& _libName)
             libName = libName + "." + getPluginExtension();
         }
 
-        //Todo: memory leak
+        //Check if Plugin is already loaded first
+        if(getPlugin(libName))
+        {
+            Log(lWarning)<<"The Plugin: "<<libName<<" is already loaded";    
+            return true;
+        }
+
         SharedLibrary *libHandle = new SharedLibrary;
         libHandle->load(joinPath(mPluginFolder, libName));
 
