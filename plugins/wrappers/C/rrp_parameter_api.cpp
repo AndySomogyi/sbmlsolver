@@ -116,6 +116,7 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
                 Parameters* val = (Parameters*) value;
                 iniVal = (*val);
             }
+
             Parameter<Parameters> *para = new Parameter<Parameters>(label, iniVal, hint);
             return para;
         }
@@ -267,8 +268,9 @@ bool rrp_cc getListParameter(RRParameterHandle handle, void* (value))
 {
     start_try
         Parameter<Parameters>* para = castToParametersParameter(handle);
-        Parameters* assignTo = castToParameters(value);
-        (*assignTo) = para->getValue();
+        //Parameters* assignTo = castToParameters(value);
+        //
+        (value) = (void*) &(para->getValue());
         return true;
     catch_bool_macro
 }

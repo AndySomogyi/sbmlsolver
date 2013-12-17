@@ -63,7 +63,22 @@ setBoolParameter(boolParaHandle, False)
 print getBoolParameter(boolParaHandle)
 
 #====Test some strings
-stringParaHandle = createParameter("bool", "string", "Hello", "Hello2")
+stringParaHandle = createParameter("myStringParameter", "string", "Hello", "Hello2")
 print getStringParameter(stringParaHandle)
-setStringParameter(stringParaHandle, "bla bla")
+setStringParameter(stringParaHandle, "Setting a string value")
 print getStringParameter(stringParaHandle)
+
+#====Test list of parameters Todo:: clean this up!!
+lOfP = createParameter("test", "listOfParameters", "Hello")
+listPHandle = getListParameter(lOfP)
+print getNamesFromParameterList(listPHandle)
+lOfP2 = createParameter("test", "listOfParameters", "Hello")
+
+addParameterToList(listPHandle, stringParaHandle)
+print getNamesFromParameterList(listPHandle)
+setListParameter(lOfP, lOfP2)
+ 
+print getNamesFromParameterList(listPHandle)
+
+
+

@@ -173,21 +173,21 @@ RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-RRStringArray* rrp_cc getPluginNames(RRPluginManagerHandle handle)
+char* rrp_cc getPluginNames(RRPluginManagerHandle handle)
 {
     start_try
         PluginManager *pm = castToPluginManager(handle);
         StringList names = pm->getPluginNames();
-        return createList(names);
+        return createText(names.AsString());
     catch_ptr_macro
 }
 
-RRStringArray* rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle)
+char* rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle)
 {
     start_try
         PluginManager *pm = castToPluginManager(handle);
         StringList names = pm->getPluginLibraryNames();
-        return createList(names);
+        return createText(names.AsString());
     catch_ptr_macro
 }
 
@@ -419,6 +419,11 @@ char* rrp_cc stringArrayToStringFWD(const RRStringArrayPtr list)
 char* rrp_cc getLastPluginError()
 {   
     return rrc::getLastError();
+}
+
+bool rrp_cc freeText(char* text)
+{
+    return rr::freeText(text);
 }
 
 char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle)

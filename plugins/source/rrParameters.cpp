@@ -10,9 +10,17 @@ Parameters::Parameters(bool canClientClear)
     :mCanClientClearList(canClientClear)
 {}
 
+                                        
 Parameters::~Parameters()
 {
     clear();
+}
+
+Parameters::Parameters(const Parameters& cpyMe)
+{
+    this->mCanClientClearList = true;
+    this->mParas = cpyMe.mParas;
+    this->mParasIter = this->mParas.begin();
 }
 
 bool Parameters::clear()

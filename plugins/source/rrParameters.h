@@ -73,6 +73,10 @@ class PLUGINS_API_DECLSPEC Parameters
         virtual                                ~Parameters();
 
         /**
+           Copy constructor
+        */
+                                                Parameters(const Parameters& cpyMe);
+        /**
            Add a parameter. By default, the container do not owe memory allocated by the parameter.
            If the ownMemory flag is set to true, the container will de allocate memory for the parameter as well
            \param para A pointer to a Plugin parameter

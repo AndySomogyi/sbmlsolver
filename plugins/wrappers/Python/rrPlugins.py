@@ -99,6 +99,7 @@ class ParameterObject:
 ## cb_func1 =  pluginCallBackType1(myPluginFunction)
 ## assignPluginStartedCallBack(plugin,  cb_func1)
 ##@endcode
+## \ingroup plugins
 pluginCallBackType1  = CFUNCTYPE(None)
 
 ## \brief Plugin Function callback type definition
@@ -115,6 +116,7 @@ pluginCallBackType1  = CFUNCTYPE(None)
 ## cb_func2 =  pluginCallBackType1(pluginIsProgressing)
 ## assignPluginStartedCallBack(plugin,  cb_func2)
 ##@endcode
+## \ingroup plugins
 pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 
 ## \brief Create a new instance of a plugin manager.
@@ -122,7 +124,7 @@ pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 ##  the load and unload API functions respectively.
 ## \param pluginDir Full path to folder containing plugins. If None, uses default folder.
 ## \return On success, a handle to a Plugin manager, on failure, None.
-#
+##
 ## @code
 ## pm = rrPlugins.createPluginManager()
 ## @endcode 
@@ -218,13 +220,14 @@ def getNumberOfPlugins(pm):
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
 ## \ingroup plugin_manager
-rrpLib.getPluginNames.restype = c_void_p
+rrpLib.getPluginNames.restype = c_char_p
 def getPluginNames(pm):
-    namesHandle = rrpLib.getPluginNames(pm)
-    if not namesHandle:
-        return list()
-    names = stringArrayToString(namesHandle)
-    return names.split(" ")
+    names = rrpLib.getPluginNames(pm)
+    res = names
+    rrpLib.freeText(c_char_p(names))
+    if not res:
+        return list()    
+    return res.split(",")
 
 ## \brief Function to retrieve the library names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
@@ -238,12 +241,11 @@ def getPluginNames(pm):
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
 ## \ingroup plugin_manager
-rrpLib.getPluginLibraryNames.restype = c_void_p
+rrpLib.getPluginLibraryNames.restype = c_char_p
 def getPluginLibraryNames(pm):
-    namesHandle = rrpLib.getPluginLibraryNames(pm)
-    if not namesHandle:
-        return list()
-    names = stringArrayToString(namesHandle)
+    names = rrpLib.getPluginLibraryNames(pm)
+    if not names:
+        return list()    
     return names.split(" ")
 
 ## \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
@@ -396,7 +398,7 @@ rrpLib.executePlugin.restype = c_bool
 def executePlugin(pluginHandle):
     return rrpLib.executePlugin(pluginHandle)
 
-## \brief The executePluginEx is similar to the executePlugin function, except it takes two extra arguments.
+## \brief The executePluginEx is similar to the executePlugin function, except it takes one extra argument.
 ## \param pluginHandle Handle to a plugin
 ## \param inAThread bool indicating if the plugin should be executed in the background (in a thread)
 ## \return Returns true or false indicating success/failure
@@ -854,12 +856,12 @@ def setStringParameter(paraHandle, value):
 
 ## \brief Get the list value for a parameter
 ## \param paraHandle to a parameter instance
-## \return Returns an string value. Throws an exception of the parameter type is not a list of parameters
+## \return Returns a handle to a ListParameter. Throws an exception of the parameter type is not a list of parameters
 ## \ingroup plugin_parameters 
 rrpLib.getListParameter.restype = c_bool
 def getListParameter (paraHandle):
     if getParameterType (paraHandle) == "listOfParameters":
-       return rrpLib.getListParameter (paraHandle)
+        return getParameterValueHandle(paraHandle)
     else:
        raise TypeError ('Parameter is not a list type')
     
@@ -924,14 +926,6 @@ def getRoadRunnerDataHandle(rrInstance):
     rrHandle = cast(int(rrInstance.this), c_void_p)
     return rrpLib.getRoadRunnerDataHandle(rrHandle)
 
-## \brief Create a string from a RoadRunner stringlist handle
-## \param aList A handle to a roadrunner string list object
-## \return Returns a string on success, None otherwise
-## \ingroup utilities
-rrpLib.stringArrayToStringFWD.restype = c_char_p
-def stringArrayToString(aList):
-    return rrpLib.stringArrayToStringFWD(aList)
-
 ## \brief Convert roadrunner data to Numpy data
 ## \param rrcDataHandle A handle to a simplified roadrunner data object
 ## \return Returns a numpy data object
@@ -952,7 +946,6 @@ def getNumpyData(rrcDataHandle):
 
 #Note, a hard bug in the above function was the initial absence of the c_bool restype. Removing that, make the function works up to 128 rows,
 #and after that it will fail!!
-
 
 
 ## \brief Get last (API) error. This returns the last error if any.
@@ -1010,8 +1003,29 @@ def unLoadAPI():
 #    -# Client set the value of the parameter.
 #    -# Client excutes the plugin.
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
+#   \subsection pluginCallbacks PluginCallback functionality
+# In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of  plugin callback functions.
+# In short, a callback function is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins
+# execution.
 #
-#   See the examples page that provide exampl code on how to use plugins.
+# A single plugin may support of up to three callback functions. The intended use of these functions are to signal the events of the following:
+#   -# PluginInitialization
+#   -# PluginProgress 
+#   -# PluginFinalization 
+#
+# Each callback function support up to two opaque data parameters. The plugin documentation need to provide the exact type of these arguments. 
+# In it simplest form, a plugin may choose to define a callback function taking no arguments at all.
+# Below are listed a few properties, characteristics of callbacks in the RoadRunner Plugin framework.
+#   -# A plugin callback is a regular function defined by the client of the plugin.
+#   -# A plugin callback function do not return any value.
+#   -# The type and number of arguments needed in the plugin callback is defined by the plugin (see plugin docs).
+#   -# Plugin callback are assigned to the plugin before a plugins execute function.
+#   -# Assigning callbacks are optional. A plugins internal work should not be affected wether a callback is assigned or not.
+#   -# Plugin callbacks are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin callback
+#   will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin callback function is executed in a separate
+# thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system. 
+#
+#   See the examples page that provide example code on how to use plugins, parameters and callback functionss.
 #    \section plugins_writing How to write plugins
 #    \note Writing plugins in Python is not yet supported
 #
