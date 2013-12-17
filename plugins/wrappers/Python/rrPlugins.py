@@ -827,7 +827,7 @@ def setDoubleParameter(paraHandle, value):
 ## \param paraHandle to a parameter instance
 ## \return Returns an string value. Throws an exception of the parameter type is not a string
 ## \ingroup plugin_parameters 
-rrpLib.getStringParameter.restype = c_char_p
+rrpLib.getStringParameter.restype = c_bool
 def getStringParameter (paraHandle):
     if getParameterType (paraHandle) == "string":
         val = c_char_p()
@@ -851,7 +851,7 @@ def setStringParameter(paraHandle, value):
 ## \param paraHandle to a parameter instance
 ## \return Returns an string value. Throws an exception of the parameter type is not a list of parameters
 ## \ingroup plugin_parameters 
-rrpLib.getListParameter.restype = c_char_p
+rrpLib.getListParameter.restype = c_bool
 def getListParameter (paraHandle):
     if getParameterType (paraHandle) == "listOfParameters":
        return rrpLib.getListParameter (paraHandle)
