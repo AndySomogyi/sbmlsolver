@@ -314,17 +314,17 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
          * WorkStarted event function pointer
          */
-        PluginEvent                     mWorkStartedCB;
+        PluginEvent                     mWorkStartedEvent;
 
         /**
          * Work In progress event function pointer
          */
-        PluginEvent                     mWorkProgressCB;
+        PluginEvent                     mWorkProgressEvent;
 
         /**
          * WorkFinished event function pointer
          */
-        PluginEvent                     mWorkFinishedCB;
+        PluginEvent                     mWorkFinishedEvent;
 
         /**
          * Opaque data parameter 1 passed in the WorkStarted event function
