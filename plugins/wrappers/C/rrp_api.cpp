@@ -290,7 +290,7 @@ bool rrp_cc executePluginEx(RRPluginHandle handle, bool inAThread)
     catch_bool_macro
 }
 
-bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
+bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, PluginEvent theCB, void* userData1, void* userData2)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
@@ -298,7 +298,7 @@ bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, pluginCallBack theCB, vo
     catch_bool_macro
 }
 
-bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
+bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, PluginEvent theCB, void* userData1, void* userData2)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
@@ -306,7 +306,7 @@ bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, pluginCallBack theCB, v
     catch_bool_macro
 }
 
-bool rrp_cc assignOnFinishedEvent(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
+bool rrp_cc assignOnFinishedEvent(RRPluginHandle handle, PluginEvent theCB, void* userData1, void* userData2)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);

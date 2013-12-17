@@ -58,7 +58,7 @@ using std::string;
 class PluginManager;
 
 /**
- * Typedef for a Plugin callback function
+ * Typedef for a Plugin event function
  */
 typedef void    (callback_cc *PluginEvent)(void* data1, void* data2);
 
@@ -314,17 +314,17 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
          * WorkStarted callback function pointer
          */
-        PluginEvent               mWorkStartedCB;
+        PluginEvent                     mWorkStartedCB;
 
         /**
          * Work In progress callback function pointer
          */
-        PluginEvent               mWorkProgressCB;
+        PluginEvent                     mWorkProgressCB;
 
         /**
          * WorkFinished callback function pointer
          */
-        PluginEvent               mWorkFinishedCB;
+        PluginEvent                     mWorkFinishedCB;
 
         /**
          * Opaque data parameter 1 passed in the WorkStarted callback function

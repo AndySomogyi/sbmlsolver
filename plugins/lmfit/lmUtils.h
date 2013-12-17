@@ -27,7 +27,7 @@ typedef struct
     RRHandle                rrHandle;
     double*                 time;
     RRPluginHandle          mLMPlugin;
-    pluginCallBack          mProgressCallBack;
+    PluginEvent          mProgressCallBack;
     void*                   mProgressCallBackContextData;
     char*                   mProgressCallBackMessage;
 } lmDataStructure;

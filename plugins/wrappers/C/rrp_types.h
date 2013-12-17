@@ -51,7 +51,7 @@ namespace rrp { extern "C"  { using namespace rrc;
  \brief Typedef for plugin callback function
  \ingroup pluginRoutines
 */
-typedef void (callback_cc *pluginCallBack)(void*, void*);
+typedef void (callback_cc *PluginEvent)(void*, void*);
 
  /*!@brief Void pointer to a PluginManager instance */
  typedef void* RRPluginManagerHandle;
