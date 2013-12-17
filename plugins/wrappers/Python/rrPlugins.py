@@ -750,6 +750,62 @@ rrpLib.getParameterType.restype = c_char_p
 def getParameterType(paraHandle):
     return rrpLib.getParameterType(paraHandle)
 
+## \brief Get the Boolean value for a parameter
+## \param paraHandle to a Parameter instance
+## \return Returns an Boolean value. Throws an exception of the parameter type is not an Boolean
+## \ingroup plugin_parameters
+rrpLib.getIntParameter.restype = c_bool
+def getIntParameter (paraHandle):
+    if getParameterType (paraHandle) == "bool":
+       return rrpLib.getIntParameter (paraHandle)
+    else:
+       raise TypeError ('Parameter is not a Boolean type')
+
+## \brief Get the integer value for a parameter
+## \param paraHandle to a parameter instance
+## \return Returns an integer value. Throws an exception of the parameter type is not an integer
+## \ingroup plugin_parameters
+rrpLib.getIntParameter.restype = c_int
+def getIntParameter (paraHandle):
+    if getParameterType (paraHandle) == "int":
+       return rrpLib.getIntParameter (paraHandle)
+    else:
+       raise TypeError ('Parameter is not an integer type')
+    
+## \brief Get the double value for a parameter
+## \param paraHandle to a parameter instance
+## \return Returns an double value. Throws an exception of the parameter type is not an double
+## \ingroup plugin_parameters
+rrpLib.getDoubleParameter.restype = c_double
+def getDoubleParameter (paraHandle):
+    if getParameterType (paraHandle) == "double":
+       return rrpLib.getDoubleParameter (paraHandle)
+    else:
+       raise TypeError ('Parameter is not a double type')
+    
+## \brief Get the string value for a parameter
+## \param paraHandle to a parameter instance
+## \return Returns an string value. Throws an exception of the parameter type is not a string
+## \ingroup plugin_parameters 
+rrpLib.getStringParameter.restype = c_char_p
+def getStringParameter (paraHandle):
+    if getParameterType (paraHandle) == "string":
+       return rrpLib.getStringParameter (paraHandle)
+    else:
+       raise TypeError ('Parameter is not a string type')
+    
+## \brief Get the list value for a parameter
+## \param paraHandle to a parameter instance
+## \return Returns an string value. Throws an exception of the parameter type is not a list of parameters
+## \ingroup plugin_parameters 
+rrpLib.getListParameter.restype = c_char_p
+def getListParameter (paraHandle):
+    if getParameterType (paraHandle) == "listOfParameters":
+       return rrpLib.getListParameter (paraHandle)
+    else:
+       raise TypeError ('Parameter is not a list type')
+
+    
 ## \brief Get the value of a parameter no matter what type it is
 ## \param paraHandle A Handle to a parameter
 ## \return Returns the value of the parameter if succesful, None otherwise
