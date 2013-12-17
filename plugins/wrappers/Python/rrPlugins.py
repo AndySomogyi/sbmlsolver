@@ -218,13 +218,12 @@ def getNumberOfPlugins(pm):
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
 ## \ingroup plugin_manager
-rrpLib.getPluginNames.restype = c_void_p
+rrpLib.getPluginNames.restype = c_char_p
 def getPluginNames(pm):
-    namesHandle = rrpLib.getPluginNames(pm)
-    if not namesHandle:
-        return list()
-    names = stringArrayToString(namesHandle)
-    return names.split(" ")
+    names = rrpLib.getPluginNames(pm)
+    if not names:
+        return list()    
+    return names.split(",")
 
 ## \brief Function to retrieve the library names of all currently loaded plugins.
 ## \param pm Handle to a PluginManager instance
@@ -238,12 +237,11 @@ def getPluginNames(pm):
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
 ## \ingroup plugin_manager
-rrpLib.getPluginLibraryNames.restype = c_void_p
+rrpLib.getPluginLibraryNames.restype = c_char_p
 def getPluginLibraryNames(pm):
-    namesHandle = rrpLib.getPluginLibraryNames(pm)
-    if not namesHandle:
-        return list()
-    names = stringArrayToString(namesHandle)
+    names = rrpLib.getPluginLibraryNames(pm)
+    if not names:
+        return list()    
     return names.split(" ")
 
 ## \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
@@ -854,12 +852,12 @@ def setStringParameter(paraHandle, value):
 
 ## \brief Get the list value for a parameter
 ## \param paraHandle to a parameter instance
-## \return Returns an string value. Throws an exception of the parameter type is not a list of parameters
+## \return Returns a handle to a ListParameter. Throws an exception of the parameter type is not a list of parameters
 ## \ingroup plugin_parameters 
 rrpLib.getListParameter.restype = c_bool
 def getListParameter (paraHandle):
     if getParameterType (paraHandle) == "listOfParameters":
-       return rrpLib.getListParameter (paraHandle)
+        return getParameterValueHandle(paraHandle)
     else:
        raise TypeError ('Parameter is not a list type')
     
@@ -924,14 +922,6 @@ def getRoadRunnerDataHandle(rrInstance):
     rrHandle = cast(int(rrInstance.this), c_void_p)
     return rrpLib.getRoadRunnerDataHandle(rrHandle)
 
-## \brief Create a string from a RoadRunner stringlist handle
-## \param aList A handle to a roadrunner string list object
-## \return Returns a string on success, None otherwise
-## \ingroup utilities
-rrpLib.stringArrayToStringFWD.restype = c_char_p
-def stringArrayToString(aList):
-    return rrpLib.stringArrayToStringFWD(aList)
-
 ## \brief Convert roadrunner data to Numpy data
 ## \param rrcDataHandle A handle to a simplified roadrunner data object
 ## \return Returns a numpy data object
@@ -952,7 +942,6 @@ def getNumpyData(rrcDataHandle):
 
 #Note, a hard bug in the above function was the initial absence of the c_bool restype. Removing that, make the function works up to 128 rows,
 #and after that it will fail!!
-
 
 
 ## \brief Get last (API) error. This returns the last error if any.
