@@ -386,7 +386,7 @@ RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle)
     catch_ptr_macro
 }
 
-int rrp_cc  getRRDataNumRows (RRCDataPtr result)
+int rrp_cc  getRRCDataNumRows (RRCDataPtr result)
 {
     if (result == NULL)
     {
@@ -396,7 +396,7 @@ int rrp_cc  getRRDataNumRows (RRCDataPtr result)
     return result->RSize;
 }
 
-int  rrp_cc  getRRDataNumCols (RRCDataPtr result)
+int  rrp_cc  getRRCDataNumCols (RRCDataPtr result)
 {
     if (result == NULL)
     {
@@ -429,5 +429,35 @@ char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle)
     return createText(aPlugin->getPluginPropertiesAsXML().c_str());
     catch_ptr_macro
 }
+
+
+bool rrp_cc getRoadRunnerDataElement(RRDataHandle data, int row, int col, double* value)
+{
+    start_try
+        RoadRunnerData* rrData = castToRRData(data);
+        const DoubleMatrix& theData = rrData->getData();
+        *value = theData.Element(row, col);
+        return true;
+    catch_bool_macro
+}
+
+
+int rrp_cc getRoadRunnerDataNumRows(RRDataHandle _data)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(_data);
+        return data->rSize();        
+    catch_int_macro
+}
+
+int rrp_cc getRoadRunnerDataNumCols(RRDataHandle _data)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(_data);
+        return data->cSize();        
+    catch_int_macro
+}
+
+
 
 }

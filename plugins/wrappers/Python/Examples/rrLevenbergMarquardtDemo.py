@@ -41,8 +41,7 @@ assignPluginInput(noisePlugin, rrDataHandle)
 executePluginEx(noisePlugin, False)
 
 #Input Data
-rrcData = createRRCData(rrDataHandle)
-npData = getNumpyData(rrcData)
+npData = getNumpyData(rrDataHandle)
 #print result
 
 x = npData[:,0] #result['time']
@@ -110,16 +109,14 @@ print getPluginStatus(lmPlugin)
 # Look at the data
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueHandle(dataPHandle)
-rrcData = createRRCData(dataHandle)
-npData = getNumpyData(rrcData)
+npData = getNumpyData(dataHandle)
 S1Model = npData[:,1]
 S2Model = npData[:,2]
 
 
 dataPHandle = getPluginParameter(lmPlugin, "Residuals");
 dataHandle = getParameterValueHandle(dataPHandle)
-rrcData = createRRCData(dataHandle)
-npData = getNumpyData(rrcData)
+npData = getNumpyData(dataHandle)
 s1Residual= npData[:,1]
 s2Residual= npData[:,2]
 

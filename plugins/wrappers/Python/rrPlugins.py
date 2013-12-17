@@ -784,6 +784,10 @@ def getParameterType(paraHandle):
 ## \ingroup plugin_parameters
 def getParameterValue(paraHandle):
     paraType = getParameterType(paraHandle)
+    if paraType == 'bool':
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_bool))
+        return ptr[0]
     if paraType == 'double':
         paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_double))
@@ -793,11 +797,7 @@ def getParameterValue(paraHandle):
         ptr = cast(paraVoidPtr, POINTER(c_int))
         return ptr[0]
     if paraType == 'string':
-        return getParameterValueAsString(paraHandle)
-    if paraType == 'NoiseType':
-        paraVoidPtr = getParameterValueHandle(paraHandle)
-        ptr = cast(paraVoidPtr, POINTER(c_int))
-        return ptr[0]
+        return getParameterValueAsString(paraHandle)    
     else:
         return None
 
@@ -826,14 +826,6 @@ def getRoadRunnerDataHandleFromInstance(rrInstance):
     handle = getRoadRunnerHandle(rrInstance)
     return rrpLib.getRoadRunnerDataHandle(handle)
 
-## \brief Create a Handle to a simplified roadrunner data object
-## \param rrDataHandle A handle to a roadrunner data object, as returned from getRoadRunnerDataHandle()
-## \return Returns a handle to a simplified roadrunner data object that can be used as an argument to the getNumpyData() function
-## \ingroup utilities
-rrpLib.createRRCData.restype = c_void_p
-def createRRCData(rrDataHandle):
-    return rrpLib.createRRCData(rrDataHandle)
-
 ## \brief Create a string from a RoadRunner stringlist handle
 ## \param aList A handle to a roadrunner string list object
 ## \return Returns a string on success, None otherwise
@@ -846,16 +838,15 @@ def stringArrayToString(aList):
 ## \param rrcDataHandle A handle to a simplified roadrunner data object
 ## \return Returns a numpy data object
 ## \ingroup utilities
-#rrpLib.getRRCDataElementF.args =[c_void_p, c_int, c_int, POINTER(c_double)]
-rrpLib.getRRCDataElementF.restype = c_bool
+rrpLib.getRoadRunnerDataElement.restype = c_bool
 def getNumpyData(rrcDataHandle):
-    rowCount = rrpLib.getRRDataNumRows(rrcDataHandle)
-    colCount = rrpLib.getRRDataNumCols(rrcDataHandle)
+    rowCount = rrpLib.getRoadRunnerDataNumRows(rrcDataHandle)
+    colCount = rrpLib.getRoadRunnerDataNumCols(rrcDataHandle)
     resultArray = np.zeros([rowCount, colCount])
     for row in range(rowCount):
         for col in range(colCount):
                 val = c_double()
-                if rrpLib.getRRCDataElementF(rrcDataHandle, row, col, byref(val)) == True:
+                if rrpLib.getRoadRunnerDataElement(rrcDataHandle, row, col, byref(val)) == True:
                     resultArray[row, col] = val.value
                 else:
                     print "problem"
@@ -864,20 +855,6 @@ def getNumpyData(rrcDataHandle):
 #Note, a hard bug in the above function was the initial absence of the c_bool restype. Removing that, make the function works up to 128 rows,
 #and after that it will fail!!
 
-## \brief Get a individual data element from a RRCData structure
-## \param rrcDataHandle A handle to a simplified roadrunner data object (RRCData)
-## \param r A row index
-## \param c A col index
-## \param value A double value
-## \return Returns true or false
-## \ingroup utilities
-
-def getRRCDataElement(rrcDataHandle, r, c):
-    val = c_double()
-    if rrpLib.getRRCDataElementF(rrcDataHandle, r, c, byref(val)) == False:
-        return float(NaN)
-    else:
-        return val.value
 
 
 ## \brief Get last (API) error. This returns the last error if any.
