@@ -84,40 +84,43 @@ class ParameterObject:
 
 
 #=======================rrp_api========================#
-#Type of plugin callbacks, first argument is return type
+#Type of plugin events, first argument is return type
 
-## \brief Plugin Function callback type definition
+## \brief Plugin function event type definition
 ## This is a helper object that a client can use as an argument to a roadrunner plugin.
-## The exact number of plugins callback functions required arguments, and their type, is plugin dependent. A client of the
-## the plugin need to get this information from plugin specific documentation. 
-## An example of using this particular function, pluginCallbackType1 is shown below. As can see, this python function 
-##don't take any arguments.
+## The exact number of plugins functions required arguments, and their type, is plugin dependent. A client of the
+## the plugin needs to get this information from the plugin specific documentation. 
+## An example of using NotifyEvent is shown below. The NotifyEvent takes no arguments.
 ##@code
 ##def myPluginFunction():
 ##    print 'The plugin can call this function!'
-## #After loading the plugin, the user can assign this function as a plugin callback as follows
-## cb_func1 =  pluginCallBackType1(myPluginFunction)
-## assignPluginStartedCallBack(plugin,  cb_func1)
+## #After loading the plugin, the user can assign this function as a plugin event to monitor the start of the plugin as follows
+## Note, make sure yuo assign the event to a variable (c_event) so that the Python garbage 
+## collector doesn't delete it
+## c_event = NotifyEvent(myPluginFunction)
+## assignOnStartedEvent(plugin,  c_event)
 ##@endcode
 ## \ingroup plugins
-pluginCallBackType1  = CFUNCTYPE(None)
+NotifyEvent  = CFUNCTYPE(None)
 
-## \brief Plugin Function callback type definition
+## \brief Plugin function event type definition
 ## This is a helper object that a client can use as an argument to a roadrunner plugin.
-## The exact number of plugins callback functions required arguments, and their type, is plugin dependent. A client of the
-## the plugin need to get this information from plugin specific documentation. 
-## An example of using this particular function, pluginCallbackType2 is shown below. As can see, this python function 
-## do take two arguments. The first argument is an integer, indicating progress, the second argument is not used in this particular case.
+## The exact number of plugins event functions required arguments, and their type is plugin dependent. A client of the
+## the plugin need to get this information from plugin specific documentation. An example of 
+## using this particular function, NotifyIntStrEvent is shown below. As can see, this python function takes two arguments.
+## The first argument is an integer, indicating progress (possibly a percentage), the second argument is not used in this particular case.
 ##@code
 ##def pluginIsProgressing(progress, dummy):
 ##    nr = progress[0]
 ##    print '\nPlugin progress:' + `nr` +' %'
-## #After loading the plugin, the user can assign this function as a plugin callback as follows
-## cb_func2 =  pluginCallBackType1(pluginIsProgressing)
-## assignPluginStartedCallBack(plugin,  cb_func2)
+## #After loading the plugin, the user can assign this function as a plugin event as follows
+## Note, make sure yuo assign the event to a variable (c_event) so that the Python garbage 
+## collector doesn't delete it
+## c_event = NotifyIntStrEvent(pluginIsProgressing)
+## assignOnStartedEvent(plugin, c_event)
 ##@endcode
 ## \ingroup plugins
-pluginCallBackType2  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
+NotifyIntStrEvent  = CFUNCTYPE(None, POINTER(c_int), c_void_p)
 
 ## \brief Create a new instance of a plugin manager.
 ## \brief A PluginManager manages a collection of plugins, loaded and unloaded by
@@ -436,7 +439,7 @@ def resetPlugin(pluginHandle):
 
 ## \brief Check if a plugin is actively working. This function is used when the work in the plugin is 
 ## executed in a thread (see executeEx). The isPluginWorking will return true as long work is being active
-## and false when the work is done. This is useful in UI environments. Also, see the various callback functions on 
+## and false when the work is done. This is useful in UI environments. Also, see the various event types on 
 ## how to get status back from a plugin during its execution.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating if the plugin is busy or not
@@ -471,38 +474,37 @@ rrpLib.wasTerminated.restype = c_bool
 def wasTerminated(pluginHandle):
     return rrpLib.wasTerminated(pluginHandle)
 
-## \brief Assign callback function fired when a plugin starts its work
+## \brief Assign OnStartedEvent function, fired when a plugin starts its work
 ## \param pluginHandle Handle to a plugin
-## \param pluginCallBack Function pointer to callback routine
+## \param pluginEvent Function pointer to OnEvent routine
 ## \param userData1 void* pointer to user data.
 ## \param userData2 void* pointer to user data.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.assignPluginStartedCallBack.args =[c_void_p, pluginCallBackType1, c_void_p]
-def assignPluginStartedCallBack(pluginHandle, pluginCallBack, userData1 = None, userData2 = None):
-    return rrpLib.assignPluginStartedCallBack(pluginHandle, pluginCallBack, userData1, userData2)
+rrpLib.assignOnStartedEvent.args =[c_void_p, NotifyEvent, c_void_p]
+def assignOnStartedEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
+    return rrpLib.assignOnStartedEvent(pluginHandle, pluginEvent, userData1, userData2)
 
-## \brief Assign callback function fired as a plugin progresses
-## \param pluginHandle Handle to a plugin
-## \param pluginCallBack Function pointer to callback routine
+## \brief Assign OnProgressEvent function. Plugin dependent but can be used to report back progress
+## \param pluginHandle Handle to a pluginevent routine
 ## \param userData1 void* pointer to user data.
 ## \param userData2 void* pointer to user data.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.assignPluginProgressCallBack.args =[c_void_p, pluginCallBackType1, c_void_p]
-def assignPluginProgressCallBack(pluginHandle, pluginCallBack, userData1 = None, userData2 = None):
-    return rrpLib.assignPluginProgressCallBack(pluginHandle, pluginCallBack, userData1, userData2)
+rrpLib.assignOnProgresEvent.args =[c_void_p, NotifyEvent, c_void_p]
+def assignOnProgressEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
+    return rrpLib.assignOnProgressEvent(pluginHandle, pluginEvent, userData1, userData2)
 
-## \brief Assign a callback function that will be fired when a plugin finishes its work
+## \brief Assign a OnEvent function. Fired when a plugin finishes its work
 ## \param pluginHandle Handle to a plugin
-## \param pluginCallBack Function pointer to callback routine
+## \param pluginEvent Function pointer to event routine
 ## \param userData1 void* pointer to user data.
 ## \param userData2 void* pointer to user data.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.assignPluginFinishedCallBack.args =[c_void_p, pluginCallBackType1, c_void_p]
-def assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1 = None, userData2 = None):
-    return rrpLib.assignPluginFinishedCallBack(pluginHandle, pluginCallBack, userData1, userData2)
+rrpLib.assignOnFinishedEvent.args =[c_void_p, NotifyEvent, c_void_p]
+def assignOnFinishedEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
+    return rrpLib.assignOnFinishedEvent(pluginHandle, pluginEvent, userData1, userData2)
 
 ## \brief Hand external data to a plugin: THIS METHOD IS UNDER REVIEW
 ## \param pluginHandle Handle to a plugin
@@ -1003,29 +1005,29 @@ def unLoadAPI():
 #    -# Client set the value of the parameter.
 #    -# Client excutes the plugin.
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
-#   \subsection pluginCallbacks PluginCallback functionality
-# In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of  plugin callback functions.
-# In short, a callback function is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins
+#   \subsection pluginEvents PluginEvent functionality
+# In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of  plugin event functions.
+# In short, a n event is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins
 # execution.
 #
-# A single plugin may support of up to three callback functions. The intended use of these functions are to signal the events of the following:
+# A single plugin may support of up to three event functions. The intended use of these functions are to signal the events in the following:
 #   -# PluginInitialization
 #   -# PluginProgress 
 #   -# PluginFinalization 
 #
-# Each callback function support up to two opaque data parameters. The plugin documentation need to provide the exact type of these arguments. 
-# In it simplest form, a plugin may choose to define a callback function taking no arguments at all.
-# Below are listed a few properties, characteristics of callbacks in the RoadRunner Plugin framework.
-#   -# A plugin callback is a regular function defined by the client of the plugin.
-#   -# A plugin callback function do not return any value.
-#   -# The type and number of arguments needed in the plugin callback is defined by the plugin (see plugin docs).
-#   -# Plugin callback are assigned to the plugin before a plugins execute function.
-#   -# Assigning callbacks are optional. A plugins internal work should not be affected wether a callback is assigned or not.
-#   -# Plugin callbacks are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin callback
-#   will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin callback function is executed in a separate
+# Each event function support up to two opaque data parameters. The plugin documentation needs to provide the exact type of these arguments. 
+# In it simplest form, a plugin may choose to define an event function taking no arguments at all.
+# Below are listed a few properties, characteristics of events in the RoadRunner Plugin framework.
+#   -# A plugin event is a regular function defined by the client of the plugin.
+#   -# A plugin event function do not return any value.
+#   -# The type and number of arguments needed in the plugin event is defined by the plugin (see plugin docs).
+#   -# Plugin event are assigned to the plugin before a plugins execute function.
+#   -# Assigning events is optional. A plugins internal work should not be affected wether a event is assigned or not.
+#   -# Plugin events are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin event
+#   will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin event function is executed in a separate
 # thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system. 
 #
-#   See the examples page that provide example code on how to use plugins, parameters and callback functionss.
+#   See the examples page that provide example code on how to use plugins, parameters and event functionss.
 #    \section plugins_writing How to write plugins
 #    \note Writing plugins in Python is not yet supported
 #
@@ -1090,9 +1092,9 @@ def unLoadAPI():
 ## -# Get a plugin's categories in the form of an XML string
 ## -# Obtain and view a Plugin's documentation as a PDF (Needs a system PDF reader)
 
-## \example rrCallBackFunctionDemo.py
+## \example rrEventFunctionDemo.py
 ## This Example shows
-## -# How to define Python callback functions and passing them to a plugin
+## -# How to define Python event functions and passing them to a plugin
 
 ## \example rrNoisePluginDemo.py
 ## This Example Demonstrate the use of the AddNoise plugin
