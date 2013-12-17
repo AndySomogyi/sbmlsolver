@@ -29,7 +29,7 @@ paraValueString = getParameterValueAsString(paraHandle)
 print 'Parameter is now: ' + paraValueString
 
 setIntParameter(paraHandle, 0)
-test = getParameterValue(paraHandle)
+test = getIntParameter(paraHandle)
 print test
 
 paraValueString = getParameterValueAsString(paraHandle)
@@ -55,3 +55,15 @@ print test
 
 paraValueString = getParameterValueAsString(paraHandle)
 print 'Parameter is now: ' + paraValueString
+
+#======= Test bools
+boolParaHandle = createParameter("bool", "bool", "Hint", True)
+print getBoolParameter(boolParaHandle)
+setBoolParameter(boolParaHandle, False)
+print getBoolParameter(boolParaHandle)
+
+#====Test some strings
+stringParaHandle = createParameter("bool", "string", "Hello", "Hello2")
+print getStringParameter(stringParaHandle)
+setStringParameter(stringParaHandle, "bla bla")
+print getStringParameter(stringParaHandle)

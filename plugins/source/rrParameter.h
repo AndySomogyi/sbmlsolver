@@ -152,13 +152,14 @@ inline string Parameter<int>::getValueAsString() const
 template<>
 inline string Parameter<char*>::getType() const
 {
-    return "char*";
+    return "string"; //Don't call it char* ?
 }
 
-//Todo:: these are probably not doing what is expected?
+
 template<>
 inline void Parameter<char*>::setValue(char** val)
 {
+    rr::freeText(mValue);
     mValue = rr::createText(string(val[0]));
 }
 
@@ -166,6 +167,12 @@ template<>
 inline void Parameter<char*>::setValue(char* const& val)
 {
     mValue = rr::createText(string(val));
+}
+
+template<>
+inline char* Parameter<char*>::getValue() const
+{
+    return mValue;
 }
 
 template<>
@@ -209,7 +216,7 @@ inline string Parameter<double>::getValueAsString() const
 template<>
 inline string Parameter<string>::getType() const
 {
-    return "string";
+    return "std::string";
 }
 
 template<>
@@ -340,6 +347,12 @@ inline string Parameter<Parameters>::getValueAsString() const
 {
     StringList list = mValue.getNames();
     return list.AsString();
+}
+
+template<>
+inline void Parameter<Parameters>::setValue(Parameters* val)
+{
+    mValue = (*val);
 }
 
 template<>

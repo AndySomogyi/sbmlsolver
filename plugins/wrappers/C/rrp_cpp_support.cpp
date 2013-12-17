@@ -135,6 +135,20 @@ Parameter<Parameters>* castToParametersParameter(RRParameterHandle handle)
     }
 }
 
+RoadRunnerData* castToRoadRunnerData(RRDataHandle handle)
+{
+    RoadRunnerData* para = (RoadRunnerData*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+        return para;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid string Parameter handle");
+        throw(ex);
+    }
+}
+
 Parameter<RoadRunnerData>* castToRoadRunnerDataParameter(RRParameterHandle handle)
 {
     Parameter<RoadRunnerData>* para = (Parameter<RoadRunnerData>*) handle;
