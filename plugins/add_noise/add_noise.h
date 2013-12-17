@@ -21,7 +21,7 @@ class AddNoise : public CPPPlugin
 
     private:
         Capability              mAddNoise;
-        Parameter<NoiseType>    mNoiseType;
+        Parameter<int>    mNoiseType;
         Parameter<double>       mSigma;
         AddNoiseWorker          mAddNoiseWorker;
 

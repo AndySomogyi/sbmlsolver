@@ -81,7 +81,7 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
             return para;
         }
 
-        if(string(type) == string("char*"))
+        if(string(type) == string("string"))
         {
             char* iniVal  = "";
             if(value != NULL)
@@ -94,7 +94,7 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
             return para;
         }
 
-        if(string(type) == string("string"))
+        if(string(type) == string("std::string"))
         {
             string iniVal  = "";
             if(value != NULL)
@@ -104,6 +104,19 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
                 iniVal = (*val);
             }
             Parameter<string> *para = new Parameter<string>(label, iniVal, hint);
+            return para;
+        }
+
+        if(string(type) == string("listOfParameters"))
+        {
+            Parameters iniVal;
+            if(value != NULL)
+            {
+                //cast it
+                Parameters* val = (Parameters*) value;
+                iniVal = (*val);
+            }
+            Parameter<Parameters> *para = new Parameter<Parameters>(label, iniVal, hint);
             return para;
         }
 
@@ -167,11 +180,39 @@ bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
     catch_bool_macro
 }
 
+bool rrp_cc setBoolParameter(RRParameterHandle handle, bool value)
+{
+    start_try
+        Parameter<bool>* para = castToBoolParameter(handle);
+        para->setValue(value);
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc getBoolParameter(RRParameterHandle handle, bool* value)
+{
+    start_try
+        Parameter<bool>* para = castToBoolParameter(handle);
+        (*value) = para->getValue();
+        return true;
+    catch_bool_macro
+}
+
+
 bool rrp_cc setIntParameter(RRParameterHandle handle, int value)
 {
     start_try
         Parameter<int>* para = castToIntParameter(handle);
         para->setValue(value);
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc getIntParameter(RRParameterHandle handle, int *value)
+{
+    start_try
+        Parameter<int>* para = castToIntParameter(handle);
+        (*value) = para->getValue();
         return true;
     catch_bool_macro
 }
@@ -185,11 +226,68 @@ bool rrp_cc setDoubleParameter(RRParameterHandle handle, double value)
     catch_bool_macro
 }
 
+bool rrp_cc getDoubleParameter(RRParameterHandle handle, double *value)
+{
+    start_try
+        Parameter<double>* para = castToDoubleParameter(handle);
+        (*value) = para->getValue();
+        return true;
+    catch_bool_macro
+}
+
 bool rrp_cc setStringParameter(RRParameterHandle handle, char* value)
 {
     start_try
         Parameter<char*>* para = castToStringParameter(handle);
         para->setValue(value);
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc getStringParameter(RRParameterHandle handle, char* (*value))
+{
+    start_try
+        Parameter<char*>* para = castToStringParameter(handle);
+        
+        (*value) = para->getValue();
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc setListParameter(RRParameterHandle handle, void* value)
+{
+    start_try
+        Parameter<Parameters>* para = castToParametersParameter(handle);
+        para->setValue((Parameters*)(value));
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc getListParameter(RRParameterHandle handle, void* (value))
+{
+    start_try
+        Parameter<Parameters>* para = castToParametersParameter(handle);
+        Parameters* assignTo = castToParameters(value);
+        (*assignTo) = para->getValue();
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc setRoadRunnerDataParameter(RRParameterHandle handle, void* value)
+{
+    start_try
+        Parameter<RoadRunnerData>* para = castToRoadRunnerDataParameter(handle);
+        para->setValue((RoadRunnerData*) value);
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc getRoadRunnerDataParameter(RRParameterHandle handle, void* value)
+{
+    start_try
+        Parameter<RoadRunnerData>* para = castToRoadRunnerDataParameter(handle);
+        RoadRunnerData* assignTo = castToRoadRunnerData(value);
+        (*assignTo) = para->getValue();
         return true;
     catch_bool_macro
 }
