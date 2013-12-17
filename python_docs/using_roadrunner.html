@@ -187,29 +187,16 @@ the following syntax:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="plotting-data">
-<h2>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h2>
-<p>To plot data returned by simulate one can use the matplotlib package for Python. To import matplotlib, type the
-following:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-</pre></div>
-</div>
-<p>Assuming the simulate returns an array called result, and that the first column represents
-the x axis and the remaining columns the y axis, we type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">result</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>This will bring up a new window showing the plot. To clear the plot for next time, type the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="selecting-what-data-to-generate">
-<h2>Selecting what Data to Generate<a class="headerlink" href="#selecting-what-data-to-generate" title="Permalink to this headline">¶</a></h2>
-<p>The command simulate, by default returns an array, where the first column is time and the reminaing columns
-are the floating species. It is possible however to change what is returned by simulate using the selection
-command. For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
+<div class="section" id="selecting-simulation-output">
+<h2>Selecting Simulation Output<a class="headerlink" href="#selecting-simulation-output" title="Permalink to this headline">¶</a></h2>
+<p>RoadRunner supports a range of options for selecting what data a simulation should return. For more
+detailed information on selections, see the <a class="reference internal" href="selecting_values.html#selecting-values"><em>Selecting Values</em></a> section.</p>
+<p>The simulate method, by default returns an <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.rec.html">structured array</a>,
+which are arrays that also contain column names. These can be ploted directly using the
+roadrunner.plot function.</p>
+<p>The output selections default to time and the set of floating species.
+It is possible to change the simulation result values by changing the selection list.
+For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">]</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -219,6 +206,32 @@ return time in the first column and S2 in the second column. To specify this we 
 type the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">]</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plotting-data">
+<h2>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h2>
+<p>The built in roadrunner.plot function displays the simulation result and a legend using
+matplotlib. Simply pass it a simulation result:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If one wants more control over the data plots, or if one wished to pass the simulation result to
+other numpy functions that expect a unstructured (conventional) array, disable the structured array
+result with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">structuredResult</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>This will return a unstructured array. Assuming the simulate returns an array called result, and that the first column represents
+the x axis and the remaining columns the y axis, we type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pylab</span>
+<span class="n">pylab</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">result</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">pylab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will bring up a new window showing the plot. To clear the plot for next time, type the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pylab</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -241,8 +254,8 @@ type the following:</p>
 <li><a class="reference internal" href="#loading-models">Loading Models</a></li>
 <li><a class="reference internal" href="#running-simulations">Running Simulations</a></li>
 <li><a class="reference internal" href="#changing-parameters">Changing Parameters</a></li>
+<li><a class="reference internal" href="#selecting-simulation-output">Selecting Simulation Output</a></li>
 <li><a class="reference internal" href="#plotting-data">Plotting Data</a></li>
-<li><a class="reference internal" href="#selecting-what-data-to-generate">Selecting what Data to Generate</a></li>
 <li><a class="reference internal" href="#changing-initial-conditions">Changing Initial Conditions</a></li>
 </ul>
 </li>
