@@ -4,10 +4,10 @@
 //C function calling convention
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
     #define rrp_cc      __cdecl
-    #define callback_cc __cdecl      //For plugin callback functions
+    #define event_cc __cdecl      //For plugin event functions
 #else
     #define rrp_cc
-    #define callback_cc
+    #define event_cc
 #endif
 
 #if !defined(__cplusplus)

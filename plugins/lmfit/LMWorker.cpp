@@ -134,7 +134,7 @@ void LMWorker::workerStarted()
 
 void LMWorker::workerFinished()
 {
-    mTheHost.mIsWorking = false;//Set this flag before callback so client can query plugin about termination
+    mTheHost.mIsWorking = false;//Set this flag before event so client can query plugin about termination
     if(mTheHost.mWorkFinishedCB)
     {
         mTheHost.mWorkFinishedCB(NULL, mTheHost.mWorkFinishedData2);
@@ -225,8 +225,8 @@ bool LMWorker::setup()
     mLMData.rrHandle                = mRRI;
     mRRI->setSelections(species);
 
-    mLMData.mProgressCallBack               = mTheHost.mWorkProgressCB;
-    mLMData.mProgressCallBackContextData    = mTheHost.mWorkProgressData2;
+    mLMData.mProgressEvent               = mTheHost.mWorkProgressCB;
+    mLMData.mProgressEventContextData    = mTheHost.mWorkProgressData2;
     return true;
 }
 

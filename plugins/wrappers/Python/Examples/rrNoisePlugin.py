@@ -39,7 +39,7 @@ noisePlugin = loadPlugin(pm, "rrp_add_noise")
 if not noisePlugin:
     print getLastError()
     exit()
-
+assignPluginInput(noisePlugin, rrDataHandle)
 print getPluginInfo(noisePlugin)
 
 #get parameter for the 'size' of the noise
@@ -49,26 +49,23 @@ aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
 #Set size of noise
-setDoubleParameter(sigmaHandle, 0.003)
+setDoubleParameter(sigmaHandle, 0.03)
 
 #Check parameter
 aSigma = getParameterValueAsString(sigmaHandle)
 print 'Current sigma is ' + aSigma
 
-cb_func1 =  pluginCallBackType1(pluginStarted)
-assignPluginStartedCallBack(noisePlugin,  cb_func1)
+cb_func1 =  NotifyEvent(pluginStarted)
+assignOnStartedEvent(noisePlugin,  cb_func1)
 
-cb_func2 =  pluginCallBackType2(pluginIsProgressing)
-assignPluginProgressCallBack(noisePlugin, cb_func2)
+cb_func2 =  NotifyIntStrEvent(pluginIsProgressing)
+assignOnProgressEvent(noisePlugin, cb_func2)
 
-cb_func3 =  pluginCallBackType1(pluginIsFinished)
-assignPluginFinishedCallBack(noisePlugin, cb_func3)
-
-#Assign plugin input data
-assignPluginInput(noisePlugin, rrDataHandle)
+cb_func3 =  NotifyEvent(pluginIsFinished)
+assignOnFinishedEvent(noisePlugin, cb_func3)
 
 #Execute the noise plugin which will add some noise to the (internal) data
-executePluginEx(noisePlugin, True)
+executePluginEx(noisePlugin, False)
 
 while isPluginWorking(noisePlugin) == True:
     print ('.'),

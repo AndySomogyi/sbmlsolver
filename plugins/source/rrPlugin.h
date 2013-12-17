@@ -60,7 +60,7 @@ class PluginManager;
 /**
  * Typedef for a Plugin event function
  */
-typedef void    (callback_cc *PluginEvent)(void* data1, void* data2);
+typedef void    (event_cc *PluginEvent)(void* data1, void* data2);
 
 /**
   The Plugin class is a base class for all RoadRunner plugins.
@@ -80,9 +80,9 @@ typedef void    (callback_cc *PluginEvent)(void* data1, void* data2);
   -# The internal work a plugin is designed to do may be executed in a separate thread, and various functions to monitor and manage
   the work of a Plugin is exposed, e.g. isWorking(), terminate(), isBeingTerminated() etc.
 
-  -# A Plugin may implement various \a callback functions in order to communicate data or progress to a client. The Plugin class exposes three callbacks,
-   \a PluginStarted, \a PluginProgress and a \a PluginFinish callback. Each callback may communicate two opaque data parameters. Its up to the plugin implementor
-  to make use of these callbacks and what data to pass.
+  -# A Plugin may implement various \a event functions in order to communicate data or progress to a client. The Plugin class exposes three events,
+   \a PluginStarted, \a PluginProgress and a \a PluginFinish event. Each event may communicate two opaque data parameters. Its up to the plugin implementor
+  to make use of these events and what data to pass.
 
   -# A plugin have access to other plugins through the PluginManager. Thus, a plugin may depend on other plugins.
 
@@ -223,17 +223,17 @@ class PLUGINS_API_DECLSPEC Plugin
         bool                            assignRoadRunnerInstance(RoadRunner* rr);
 
         /**
-            Assign function pointer and data the callback
+            Assign function pointer and data the event
         */
         virtual bool                    assignOnStartedEvent(PluginEvent pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
-            Assign function pointer and data the callback
+            Assign function pointer and data the event
         */
         virtual bool                    assignOnProgressEvent(PluginEvent pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
-            Assign function pointer and data the callback
+            Assign function pointer and data the event
         */
         virtual bool                    assignOnFinishedEvent(PluginEvent pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
 
@@ -312,47 +312,47 @@ class PLUGINS_API_DECLSPEC Plugin
         void                            setLibraryName(const string& libName);
 
         /**
-         * WorkStarted callback function pointer
+         * WorkStarted event function pointer
          */
         PluginEvent                     mWorkStartedCB;
 
         /**
-         * Work In progress callback function pointer
+         * Work In progress event function pointer
          */
         PluginEvent                     mWorkProgressCB;
 
         /**
-         * WorkFinished callback function pointer
+         * WorkFinished event function pointer
          */
         PluginEvent                     mWorkFinishedCB;
 
         /**
-         * Opaque data parameter 1 passed in the WorkStarted callback function
+         * Opaque data parameter 1 passed in the WorkStarted event function
          */
         void                           *mWorkStartedData1;
 
         /**
-         * Opaque data parameter 2 passed in the WorkStarted callback function
+         * Opaque data parameter 2 passed in the WorkStarted event function
          */
         void                           *mWorkStartedData2;
 
         /**
-         * Opaque data parameter 1 passed in the WorkProgress callback function
+         * Opaque data parameter 1 passed in the WorkProgress event function
          */
         void                           *mWorkProgressData1;
 
         /**
-         * Opaque data parameter 2 passed in the WorkProgress callback function
+         * Opaque data parameter 2 passed in the WorkProgress event function
          */
         void                           *mWorkProgressData2;
 
         /**
-         * Opaque data parameter 1 passed in the WorkFinished callback function
+         * Opaque data parameter 1 passed in the WorkFinished event function
          */
         void                           *mWorkFinishedData1;
 
         /**
-         * Opaque data parameter 2 passed in the WorkFinished callback function
+         * Opaque data parameter 2 passed in the WorkFinished event function
          */
         void                           *mWorkFinishedData2;
 

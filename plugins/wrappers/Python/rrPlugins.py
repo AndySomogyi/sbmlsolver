@@ -486,12 +486,11 @@ def assignOnStartedEvent(pluginHandle, pluginEvent, userData1 = None, userData2 
     return rrpLib.assignOnStartedEvent(pluginHandle, pluginEvent, userData1, userData2)
 
 ## \brief Assign OnProgressEvent function. Plugin dependent but can be used to report back progress
-## \param pluginHandle Handle to a pluginevent routine
-## \param userData1 void* pointer to user data.
+## \param pluginHandle Handle to a pluginevent routine## \param userData1 void* pointer to user data.
 ## \param userData2 void* pointer to user data.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.assignOnProgresEvent.args =[c_void_p, NotifyEvent, c_void_p]
+rrpLib.assignOnProgressEvent.args =[c_void_p, NotifyEvent, c_void_p]
 def assignOnProgressEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
     return rrpLib.assignOnProgressEvent(pluginHandle, pluginEvent, userData1, userData2)
 
@@ -812,7 +811,7 @@ def setIntParameter(paraHandle, value):
 ## \param paraHandle to a parameter instance
 ## \return Returns a double value. Throws an exception if the parameter type is not a double
 ## \ingroup plugin_parameters
-rrpLib.getDoubleParameter.restype = c_double
+rrpLib.getDoubleParameter.restype = c_bool
 def getDoubleParameter (paraHandle):
     if getParameterType (paraHandle) == "double":
         val = c_double()

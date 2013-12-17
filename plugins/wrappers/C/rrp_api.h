@@ -315,9 +315,9 @@ RRP_DECLSPEC bool rrp_cc isBeingTerminated(RRPluginHandle handle);
 RRP_DECLSPEC bool rrp_cc wasTerminated(RRPluginHandle handle);
 
 /*!
- \brief Assign callback function fired when a plugin starts its work
+ \brief Assign event function fired when a plugin starts its work
  \param handle Handle to a plugin
- \param cb Function pointer to callback routine
+ \param cb Function pointer to event routine
  \param userData1 void* pointer to user data.
  \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
@@ -326,9 +326,9 @@ RRP_DECLSPEC bool rrp_cc wasTerminated(RRPluginHandle handle);
 RRP_DECLSPEC bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, PluginEvent cb, void* userData1, void* userData2);
 
 /*!
- \brief Assign callback function fired as a plugin progresses
+ \brief Assign event function fired as a plugin progresses
  \param handle Handle to a plugin
- \param cb Function pointer to callback routine
+ \param cb Function pointer to event routine
  \param userData1 void* pointer to user data.
  \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
@@ -337,9 +337,9 @@ RRP_DECLSPEC bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, PluginEvent
 RRP_DECLSPEC bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, PluginEvent cb, void* userData1, void* userData2);
 
 /*!
- \brief Assign callback function fired when a plugin finishes its work
+ \brief Assign event function fired when a plugin finishes its work
  \param handle Handle to a plugin
- \param cb Function pointer to callback routine
+ \param cb Function pointer to event routine
  \param userData1 void* pointer to user data.
  \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
