@@ -256,7 +256,7 @@ def getFirstPlugin(pm):
     return rrpLib.getFirstPlugin(pm)
 
 ## \brief getNextPlugin retrieves the "next" plugin in the plugin managers internal list of plugins. This function
-##    is typically used together with the getFirstPlugin and getPreviousPlugin functions.
+## is typically used together with the getFirstPlugin and getPreviousPlugin functions.
 ## \param pm Handle to a PluginManager instance
 ## \return Returns a handle to a plugin. Returns None if the plugin is not found
 ## \ingroup plugin_manager
@@ -530,7 +530,7 @@ def getPluginParameters(pluginHandle):
 
 ## \brief Get a list of parameter names in a plugin
 ## \param pluginHandle Handle to a plugin
-## \return Returns a list of parameter names, None otherwise
+## \return Returns the netire list of top level parameter names, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getListOfPluginParameterNames.restype = c_char_p
 def getListOfPluginParameterNames(pluginHandle):
@@ -541,17 +541,18 @@ def getListOfPluginParameterNames(pluginHandle):
         names = paraNames.split(',')     
         return names 
 
-## \brief Clear a list of parameters 
+## \brief Clear a list of parameters. Some parameters exposed by plugins are lists that can hold other parameters. New parameter can be
+## added to these lists. clearParameterList can be used to clear the list is a new list needs to be constructed.
 ## \param parasHandle Handle to a list of parameters
-## \return True or false, indicating result. Observe there are parameterLists that are not 'clearable', e.g. a plugins primary parameterList
+## \return True or false, indicating result. The top level list of parameters in a plugin can not be cleared.
 ## \ingroup plugin_parameters
 rrpLib.clearParameterList.restype = c_bool
 def clearParameterList(parameterListHandle):
     return rrpLib.clearParameterList(parameterListHandle)
 
-## \brief Get a list of a plugins parameter names
+## \brief If the parameter is a list, this method returns the list of parameter names in that list
 ## \param pluginHandle Handle to a plugin
-## \return Returns names for all parameters in the plugin
+## \return Returns names for all parameters in the list
 ## \ingroup plugin_parameters
 rrpLib.getNamesFromParameterList.restype = c_char_p
 def getNamesFromParameterList(paraHandle):
@@ -562,7 +563,7 @@ def getNamesFromParameterList(paraHandle):
         names = paras.split(',')     
         return names            
 
-## \brief Get a plugins properties as formatted xml 
+## \brief Get a the properties of a plugins in the form ofxml 
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a string on success, None otherwise
 ## \ingroup plugin_parameters
@@ -570,24 +571,24 @@ rrpLib.getPluginPropertiesAsXML.restype = c_char_p
 def getPluginPropertiesAsXML(pluginHandle):
     return rrpLib.getPluginPropertiesAsXML(pluginHandle)
 
-## \brief Get the 'first' parameter handle to a parameter in a parameters list
+## \brief Get the 'first' parameter handle to a parameter in a list of parameters
 ## \param paraListHandle Handle to a parameterList
 ## \return Returns a handle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
 def getFirstParameter(paraListHandle):
     return rrpLib.getFirstParameter(paraListHandle)
 
-## \brief Get 'next' parameter handle to a parameter in a parameters list
+## \brief Get the 'next' parameter handle to a parameter in a list of parameters
 ## \param paraListHandle Handle to a parameterList
 ## \return Returns a handle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
 def getNextParameter(paraListHandle):
     return rrpLib.getNextParameter(paraListHandle)
 
-## \brief Get a parameter handle to a parameter, with a specific name.
+## \brief Get a parameter handle to a parameter given the name of the parameter.
 ## \param pluginHandle Handle to a plugin
 ## \param parameterName Name of the parameter
-## \return Returns a handle to a parameter. Returns None if not found
+## \return Returns a paraHandle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
 def getPluginParameter(pluginHandle, parameterName):
     return rrpLib.getPluginParameter(pluginHandle, parameterName)
@@ -602,7 +603,7 @@ rrpLib.setPluginParameter.restype = c_bool
 def setPluginParameter(pluginHandle, parameterName, paraValue):
     return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
 
-## \brief Set a parameters description
+## \brief Set the description of a parameter
 ## \param paraHandle to a Parameter instance
 ## \param descr String holding the description
 ## \return Returns true if successful, false otherwise
@@ -611,7 +612,7 @@ rrpLib.setParameterDescription.restype = c_bool
 def setParameterDescription(paraHandle, descr):
     return rrpLib.setParameterDescription(paraHandle, descr)
 
-## \brief Set a parameters Hint property
+## \brief Set the hint property of a parameter
 ## \param paraHandle to a Parameter instance
 ## \param descr String holding the hint text
 ## \return Returns true if successful, false otherwise
@@ -619,8 +620,6 @@ def setParameterDescription(paraHandle, descr):
 rrpLib.setParameterHint.restype = c_bool
 def setParameterHint(paraHandle, descr):
     return rrpLib.setParameterHint(paraHandle, descr)
-
-    
     
 ## \brief Create a parameter of type "type" with a name and hint property
 ##  Valid types include: 'bool', 'int', 'double', 'string', and 'listOfParameters'
@@ -667,18 +666,23 @@ def freeParameter(paraHandle):
     return rrpLib.freeParameter(paraHandle)
 
 
-## \brief Add a parameter to a list of parameters. The handle to the parameter list can be obtained using getParameterValueHandle.
+## \brief Add a parameter to a list of parameters. 
+## The handle to the parameter list can be obtained using getListParameter (parHandle). Some plugins may have parameters that
+## require list of parameters to be specified. For example when deciding what kinetic parameters to fit in a model, the list 
+## of kinetic parameters can be pass to the plugin as a list. This method can be used to add the names of the kinetic parameters
+## to the list. 
 ## \param listHandle Handle to a parameter list
 ## \param paraHandle Handle to a parameter (see createParameter)
 ## \return Returns a Boolean indicating success
 ##
 ## @code
-## paraList = getParameterValueHandle(paraHandle);
+## paraList = getListParameter (paraHandle);
 ## if rrPlugins.getParameterType (paraList) != "listOfParameters":
 ##    print "Parameter is not a list"
 ##    exit()
-## para1 = createParameter("k1", "double", "A Hint", 0.2)
-## addParameterToList(paraList, para1)
+##
+## newParameter = createParameter("k1", "double", "A Hint", 0.2)
+## addParameterToList(paraList, newParameter)
 ## @endcode
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
@@ -740,6 +744,7 @@ def getParameterValueAsString(paraHandle):
     return rrpLib.getParameterValueAsString(paraHandle)
 
 ## \brief Get a handle to a parameter value. Such parameters could be any type, including a list of parameters.
+## Use getlistParameter(paraHandle) instead.
 ## \param paraHandle to a Parameter instance
 ## \return Returns a Handle to the parameter value if successful, None otherwise
 #
@@ -761,9 +766,9 @@ rrpLib.getParameterName.restype = c_char_p
 def getParameterName(paraHandle):
     return rrpLib.getParameterName(paraHandle)
 
-## \brief Get a parameter type
+## \brief Get the hint text for a parameter
 ## \param paraHandle to a Parameter instance
-## \return Returns the parameters type if successful, None otherwise
+## \return Returns the hint value for a parameter if successful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getParameterHint.restype = c_char_p
 def getParameterHint(paraHandle):
@@ -771,7 +776,7 @@ def getParameterHint(paraHandle):
 
 ## \brief Get the type of a parameter
 ## \param paraHandle to a Parameter instance
-## \return Returns the parameters type if successful, None otherwise
+## \return Returns the parameters type as a string if successful, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getParameterType.restype = c_char_p
 def getParameterType(paraHandle):
@@ -779,18 +784,18 @@ def getParameterType(paraHandle):
 
 ## \brief Get the Boolean value for a parameter
 ## \param paraHandle to a Parameter instance
-## \return Returns an Boolean value. Throws an exception of the parameter type is not an Boolean
+## \return Returns a Boolean value. Throws an exception if the parameter type is not a Boolean
 ## \ingroup plugin_parameters
-rrpLib.getIntParameter.restype = c_bool
-def getIntParameter (paraHandle):
+rrpLib.getBoolParameter.restype = c_bool
+def getBoolParameter (paraHandle):
     if getParameterType (paraHandle) == "bool":
-       return rrpLib.getIntParameter (paraHandle)
+       return rrpLib.getBoolParameter (paraHandle)
     else:
        raise TypeError ('Parameter is not a Boolean type')
 
 ## \brief Get the integer value for a parameter
 ## \param paraHandle to a parameter instance
-## \return Returns an integer value. Throws an exception of the parameter type is not an integer
+## \return Returns an integer value. Throws an exception if the parameter type is not an integer
 ## \ingroup plugin_parameters
 rrpLib.getIntParameter.restype = c_int
 def getIntParameter (paraHandle):
@@ -801,7 +806,7 @@ def getIntParameter (paraHandle):
     
 ## \brief Get the double value for a parameter
 ## \param paraHandle to a parameter instance
-## \return Returns an double value. Throws an exception of the parameter type is not an double
+## \return Returns a double value. Throws an exception if the parameter type is not a double
 ## \ingroup plugin_parameters
 rrpLib.getDoubleParameter.restype = c_double
 def getDoubleParameter (paraHandle):
@@ -812,7 +817,7 @@ def getDoubleParameter (paraHandle):
     
 ## \brief Get the string value for a parameter
 ## \param paraHandle to a parameter instance
-## \return Returns an string value. Throws an exception of the parameter type is not a string
+## \return Returns an string value. Throws an exception if the parameter type is not a string
 ## \ingroup plugin_parameters 
 rrpLib.getStringParameter.restype = c_char_p
 def getStringParameter (paraHandle):
@@ -821,7 +826,7 @@ def getStringParameter (paraHandle):
     else:
        raise TypeError ('Parameter is not a string type')
     
-## \brief Get the list value for a parameter
+## \brief Get the list handle for a parameter (assuming it is a list parameter)
 ## \param paraHandle to a parameter instance
 ## \return Returns an string value. Throws an exception of the parameter type is not a list of parameters
 ## \ingroup plugin_parameters 
@@ -831,12 +836,11 @@ def getListParameter (paraHandle):
        return rrpLib.getListParameter (paraHandle)
     else:
        raise TypeError ('Parameter is not a list type')
-
     
 ## \brief Get the value of a parameter no matter what type it is
 ## \param paraHandle A Handle to a parameter
 ## \return Returns the value of the parameter if succesful, None otherwise
-## \note This function works only primitive data types, such as int, double, and string.
+## \note This function only works on primitive data types, such as int, double, and string.
 ## \ingroup plugin_parameters
 def getParameterValue(paraHandle):
     paraType = getParameterType(paraHandle)
@@ -1002,12 +1006,12 @@ def unLoadAPI():
 # \brief Plugins Parameter related functions
 # The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include:
 # the name, value, type, hint, and a description. The following types are currently supported, Booleans, integers, doubles, strings,
-# list of parameter objects and the roadRunner data array format. Parameters can also grouped into convenient categories which can be useful 
-# for GUI applications. A plugin normally exposes the parameters to a user, however it is also possible to create new parameters 
-# using the createParameter call. Such parameters are usally used to populate a plugin parameter that is a list of
-# other parameters using the method addParameterToList. Note that the plugin system only supports two layers of parameter. 
+# list of parameter objects and the roadRunner data array format. Parameters can also be grouped into convenient categories which can be useful 
+# for GUI applications. Every plugin exposes as a set of parameters than can be inspected and set by a host application. 
+# The list of plugin parameters will be called the pluginParameters. Within the pluginParameters are individual parameter entries.
+# As already aluded to, these parameter entries can store a variety of different data types, incuding additional lists of parameters. Such lists
+# are popoluated by creating new parameters using the createParameter method and then added to the list using the addParameterToList method.
 # In the followng a paraHandle points to a single parameter object.
-#
 #
 # \defgroup utilities Utility Functions
 # \brief Functions to help and assist in the use of the Plugins framework
