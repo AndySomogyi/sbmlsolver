@@ -96,7 +96,7 @@ bool Plugin::assignInput(void* userData)
     return true;
 }
 
-bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* userData1, void* userData2)
+bool Plugin::assignPluginStartedCallBack(PluginEvent startedFnc, void* userData1, void* userData2)
 {
     mWorkStartedCB = startedFnc;
     mWorkStartedData1 = userData1;
@@ -104,7 +104,7 @@ bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* use
     return true;
 }
 
-bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* userData1, void* userData2)
+bool Plugin::assignPluginProgressCallBack(PluginEvent progress, void* userData1, void* userData2)
 {
     mWorkProgressCB = progress;
     mWorkProgressData1 = userData1;
@@ -112,7 +112,7 @@ bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* user
     return true;
 }
 
-bool Plugin::assignPluginFinishedCallBack(PluginCallBackFnc endFnc, void* userData1, void* userData2)
+bool Plugin::assignPluginFinishedCallBack(PluginEvent endFnc, void* userData1, void* userData2)
 {
     mWorkFinishedCB = endFnc;
     mWorkFinishedData1 = userData1;

@@ -60,7 +60,7 @@ class PluginManager;
 /**
  * Typedef for a Plugin callback function
  */
-typedef void    (callback_cc *PluginCallBackFnc)(void* data1, void* data2);
+typedef void    (callback_cc *PluginEvent)(void* data1, void* data2);
 
 /**
   The Plugin class is a base class for all RoadRunner plugins.
@@ -225,17 +225,17 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
             Assign function pointer and data the callback
         */
-        virtual bool                    assignPluginStartedCallBack(PluginCallBackFnc pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginStartedCallBack(PluginEvent pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
             Assign function pointer and data the callback
         */
-        virtual bool                    assignPluginProgressCallBack(PluginCallBackFnc pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginProgressCallBack(PluginEvent pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
             Assign function pointer and data the callback
         */
-        virtual bool                    assignPluginFinishedCallBack(PluginCallBackFnc pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignPluginFinishedCallBack(PluginEvent pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
             Function returnin a plugins "result", as a string
@@ -314,17 +314,17 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
          * WorkStarted callback function pointer
          */
-        PluginCallBackFnc               mWorkStartedCB;
+        PluginEvent               mWorkStartedCB;
 
         /**
          * Work In progress callback function pointer
          */
-        PluginCallBackFnc               mWorkProgressCB;
+        PluginEvent               mWorkProgressCB;
 
         /**
          * WorkFinished callback function pointer
          */
-        PluginCallBackFnc               mWorkFinishedCB;
+        PluginEvent               mWorkFinishedCB;
 
         /**
          * Opaque data parameter 1 passed in the WorkStarted callback function
