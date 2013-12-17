@@ -874,30 +874,21 @@ rrpLib.setRoadRunnerDataParameter.restype = c_bool
 def setRoadRunnerDataParameter(paraHandle, value):
     return rrpLib.setRoadRunnerDataParameter(paraHandle, c_void_p(value))
 
-## \brief Get a handle to a roadrunner object
-## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
-## \return Returns a handle to a roadrunner instance that can be used as an argument to the Python Plugin API
-## library
-## \ingroup utilities
-def getRoadRunnerHandle(rrInstance):
-    return cast(int(rrInstance.this), c_void_p)
+#### \brief Get a handle to a roadrunner object
+#### \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
+#### \return Returns a handle to a roadrunner instance that can be used as an argument to the Python Plugin API
+#### library
+#### \ingroup utilities
+##def getRoadRunnerHandle(rrInstance):
+##    return cast(int(rrInstance.this), c_void_p)
 
 ## \brief Retrieve a handle to RoadRunners internal data object
-## \param rrHandle Handle to a RoadRunner instance
+## \param rrInstance A RoadRunner instance, as returned from roadrunner.RoadRunner() 
 ## \return Returns an handle to roadrunners internal data object
 ## \ingroup utilities
-def getRoadRunnerDataHandle(rrHandle):
+def getRoadRunnerDataHandle(rrInstance):
+    rrHandle = cast(int(rrInstance.this), c_void_p)
     return rrpLib.getRoadRunnerDataHandle(rrHandle)
-
-## \brief Get a handle to a roadrunner data object from a RoadRunner instance
-## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
-## \return Returns a handle to a roadrunner data object that can be used as an argument to the Python Plugin API
-## library
-## \ingroup utilities
-rrpLib.getRoadRunnerDataHandle.restype = c_void_p
-def getRoadRunnerDataHandleFromInstance(rrInstance):
-    handle = getRoadRunnerHandle(rrInstance)
-    return rrpLib.getRoadRunnerDataHandle(handle)
 
 ## \brief Create a string from a RoadRunner stringlist handle
 ## \param aList A handle to a roadrunner string list object

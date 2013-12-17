@@ -10,12 +10,12 @@ if not plugin:
     exit()
 
 print getPluginInfo(plugin)
-
 #Get the plugins parameters
 paras =  getPluginParameters(plugin)
 
 #Get parameters associated with a capability
 print getListOfPluginParameterNames(paras)
+
 paraHandle   = getPluginParameter(plugin, "NoiseType")
 
 print 'getting some info about the parameter'
