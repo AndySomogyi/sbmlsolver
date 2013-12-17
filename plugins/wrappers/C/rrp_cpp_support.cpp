@@ -65,6 +65,20 @@ PluginParameter* castToParameter(RRParameterHandle handle)
     }
 }
 
+Parameter<bool>* castToBoolParameter(RRParameterHandle handle)
+{
+    Parameter<bool>* para = (Parameter<bool>*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+        return para;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid Boolean Parameter handle");
+        throw(ex);
+    }
+}
+
 Parameter<int>* castToIntParameter(RRParameterHandle handle)
 {
     Parameter<int>* para = (Parameter<int>*) handle;
@@ -74,7 +88,7 @@ Parameter<int>* castToIntParameter(RRParameterHandle handle)
     }
     else
     {
-        Exception ex("Failed to cast to a valid Parameter handle");
+        Exception ex("Failed to cast to a valid Integer Parameter handle");
         throw(ex);
     }
 }
@@ -88,7 +102,7 @@ Parameter<double>* castToDoubleParameter(RRParameterHandle handle)
     }
     else
     {
-        Exception ex("Failed to cast to a valid Parameter handle");
+        Exception ex("Failed to cast to a valid Double Parameter handle");
         throw(ex);
     }
 }
@@ -102,7 +116,35 @@ Parameter<char*>* castToStringParameter(RRParameterHandle handle)
     }
     else
     {
-        Exception ex("Failed to cast to a valid Parameter handle");
+        Exception ex("Failed to cast to a valid string Parameter handle");
+        throw(ex);
+    }
+}
+
+Parameter<Parameters>* castToParametersParameter(RRParameterHandle handle)
+{
+    Parameter<Parameters>* para = (Parameter<Parameters>*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+        return para;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid string Parameter handle");
+        throw(ex);
+    }
+}
+
+Parameter<RoadRunnerData>* castToRoadRunnerDataParameter(RRParameterHandle handle)
+{
+    Parameter<RoadRunnerData>* para = (Parameter<RoadRunnerData>*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+        return para;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid string Parameter handle");
         throw(ex);
     }
 }

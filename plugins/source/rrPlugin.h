@@ -363,8 +363,9 @@ class PLUGINS_API_DECLSPEC Plugin
         Capabilities                    mCapabilities;
 
         /**
-         * Opaque data pointer. Plugin designer may use this to communicat data of any type out/in to the plugin.
-        * This is also passed trough the execute function,
+         * Opaque data pointer. Plugin designer may use this to communicat data of any type out/in to the plugin
+         * using the assignPluginInput() function.
+         * 
          */
         void                           *mClientData;
 

@@ -180,6 +180,15 @@ bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value)
     catch_bool_macro
 }
 
+bool rrp_cc setBoolParameter(RRParameterHandle handle, bool value)
+{
+    start_try
+        Parameter<bool>* para = castToBoolParameter(handle);
+        para->setValue(value);
+        return true;
+    catch_bool_macro
+}
+
 bool rrp_cc setIntParameter(RRParameterHandle handle, int value)
 {
     start_try
@@ -203,6 +212,24 @@ bool rrp_cc setStringParameter(RRParameterHandle handle, char* value)
     start_try
         Parameter<char*>* para = castToStringParameter(handle);
         para->setValue(value);
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc setParametersParameter(RRParameterHandle handle, void* value)
+{
+    start_try
+        Parameter<Parameters>* para = castToParametersParameter(handle);
+        para->setValue(value);
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc setRoadRunnerDataParameter(RRParameterHandle handle, void* value)
+{
+    start_try
+        Parameter<RoadRunnerData>* para = castToRoadRunnerDataParameter(handle);
+        para->setValue((RoadRunnerData*) value);
         return true;
     catch_bool_macro
 }

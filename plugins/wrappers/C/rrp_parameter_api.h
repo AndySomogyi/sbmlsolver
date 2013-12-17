@@ -88,6 +88,14 @@ RRP_DECLSPEC bool rrp_cc addParameterToList(RRParametersHandle handle, RRParamet
 RRP_DECLSPEC bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value);
 
 /*!
+ \brief Set a boolean parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setBoolParameter(RRParameterHandle handle, bool value);
+
+/*!
  \brief Set an int parameter
  \param handle to a Parameter instance
  \param value to assign to the parameter.
@@ -110,6 +118,22 @@ RRP_DECLSPEC bool rrp_cc setDoubleParameter(RRParameterHandle handle, double val
  \return Returns true if sucessful, false otherwise
 */
 RRP_DECLSPEC bool rrp_cc setStringParameter(RRParameterHandle handle, char* value);
+
+/*!
+ \brief Set a listOfParameters (Parameters) parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setParametersParameter(RRParameterHandle handle, void* value);
+
+/*!
+ \brief Set a roadRunnerDataParameter parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setRoadRunnerDataParameter(RRParameterHandle handle, void* value);
 
 /*!
  \brief Get a parameters info

@@ -9,8 +9,14 @@ paraListHandle = getParameterValueHandle(paramHandle)
 print getNamesFromParameterList(paraListHandle)
 
 #Add a new parameter
-aParameter = createParameter("newOne", "double", "the hint")
-addParameterToList(paraListHandle, aParameter)
+aParameterHandle = createParameter("newOne", "double", "the hint")
+addParameterToList(paraListHandle, aParameterHandle)
+
+setDoubleParameter(aParameterHandle, 34)
+print getDoubleParameter(aParameterHandle)
+
+#Or you can use
+print getParameterValue(aParameterHandle)
 
 #Should not be empty
 print getNamesFromParameterList (paraListHandle)
@@ -28,3 +34,4 @@ print clearParameterList(paraListHandle)
 print getNamesFromParameterList (paraListHandle)
 
 freeParameter(paramHandle)
+

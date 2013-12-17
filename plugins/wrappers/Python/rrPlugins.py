@@ -696,33 +696,6 @@ rrpLib.setParameterByString.restype = c_bool
 def setParameterByString(paraHandle, value):
     return rrpLib.setParameterByString(paraHandle, value)
 
-## \brief Set an integer parameter
-## \param paraHandle to a Parameter instance
-## \param value to assign to the parameter.
-## \return Returns true if successful, false otherwise
-## \ingroup plugin_parameters
-rrpLib.setIntParameter.restype = c_bool
-def setIntParameter(paraHandle, value):
-    return rrpLib.setIntParameter(paraHandle, c_int(value))
-
-## \brief Set the value for a double parameter
-## \param paraHandle Is a parameter instance
-## \param value to assign to the parameter.
-## \return Returns true if successful, false otherwise
-## \ingroup plugin_parameters
-rrpLib.setDoubleParameter.restype = c_bool
-def setDoubleParameter(paraHandle, value):
-    return rrpLib.setDoubleParameter(paraHandle, c_double(value))
-
-## \brief Set a string parameter
-## \param paraHandle to a Parameter instance
-## \param value Value to assign to the parameter.
-## \return Returns true if successful, false otherwise
-## \ingroup plugin_parameters
-rrpLib.setStringParameter.restype = c_bool
-def setStringParameter(paraHandle, value):
-    return rrpLib.setStringParameter(paraHandle, c_char_p(value))
-
 ## \brief Get inforamtion on a parameter
 ## \param paraHandle Handle to a parameter instance
 ## \return Returns informational text about the parameter if successful, None otherwise
@@ -788,18 +761,118 @@ def getParameterValue(paraHandle):
         paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_bool))
         return ptr[0]
-    if paraType == 'double':
-        paraVoidPtr = getParameterValueHandle(paraHandle)
-        ptr = cast(paraVoidPtr, POINTER(c_double))
-        return ptr[0]
     if paraType == 'int':
         paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_int))
         return ptr[0]
+    if paraType == 'double':
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_double))
+        return ptr[0]
     if paraType == 'string':
-        return getParameterValueAsString(paraHandle)    
+        return getParameterValueAsString(paraHandle)
+    if paraType == 'listOfParameters':
+        return getParameterValueHandle(paraHandle)    
+    if paraType == 'roadRunnerData':
+        return getParameterValueHandle(paraHandle)            
     else:
         return None
+
+## \brief Get the value of a Boolean parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \ingroup plugin_parameters
+def getBoolParameter(paraHandle):
+        return getParameterValue(paraHandle)
+    
+## \brief Get the value of a Integer parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \ingroup plugin_parameters
+def getIntParameter(paraHandle):
+        return getParameterValue(paraHandle)
+
+## \brief Set a boolean parameter
+## \param paraHandle to a Parameter instance
+## \param value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setBoolParameter.restype = c_bool
+def setBoolParameter(paraHandle, value):
+    return rrpLib.setBoolParameter(paraHandle, c_bool(value))
+
+## \brief Set an integer parameter
+## \param paraHandle to a Parameter instance
+## \param value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setIntParameter.restype = c_bool
+def setIntParameter(paraHandle, value):
+    return rrpLib.setIntParameter(paraHandle, c_int(value))
+
+## \brief Get the value of a Double parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \ingroup plugin_parameters
+def getDoubleParameter(paraHandle):
+        return getParameterValue(paraHandle)
+
+## \brief Set the value for a double parameter
+## \param paraHandle Is a parameter instance
+## \param value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setDoubleParameter.restype = c_bool
+def setDoubleParameter(paraHandle, value):
+    return rrpLib.setDoubleParameter(paraHandle, c_double(value))
+
+## \brief Get the value of a String parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \ingroup plugin_parameters
+def getStringParameter(paraHandle):
+        return getParameterValue(paraHandle)
+
+## \brief Set a string parameter
+## \param paraHandle to a Parameter instance
+## \param value Value to assign to the parameter.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setStringParameter.restype = c_bool
+def setStringParameter(paraHandle, value):
+    return rrpLib.setStringParameter(paraHandle, c_char_p(value))
+
+## \brief Get the value of a listOfParameters parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \ingroup plugin_parameters
+def getListParameter(paraHandle):
+        return getParameterValue(paraHandle)
+
+## \brief Set a list parameter
+## \param paraHandle to a Parameter instance
+## \param value Value to assign to the parameter (must be a handle to a listOfParameters.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setParametersParameter.restype = c_bool
+def setListParameter(paraHandle, value):
+    return rrpLib.setParametersParameter(paraHandle, c_void_p(value))
+
+## \brief Get the value of a roadRunnerData parameter
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \ingroup plugin_parameters
+def getRoadRunnerDataParameter(paraHandle):
+        return getParameterValue(paraHandle)
+
+## \brief Set a roadRunnerData parameter
+## \param paraHandle to a Parameter instance
+## \param value Value to assign to the parameter (must be a handle to roadRunnerData.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_parameters
+rrpLib.setRoadRunnerDataParameter.restype = c_bool
+def setRoadRunnerDataParameter(paraHandle, value):
+    return rrpLib.setRoadRunnerDataParameter(paraHandle, c_void_p(value))
 
 ## \brief Get a handle to a roadrunner object
 ## \param rrInstance A Python RoadRunner instance, as returned from roadrunner.RoadRunner()
@@ -987,4 +1060,3 @@ def unLoadAPI():
 
 ## \example rrLevenbergMarquardtDemo.py
 ## This Example Demonstrate the use of the Minimization Plugin, using the Levenberg-Marquardt algorithm.
-

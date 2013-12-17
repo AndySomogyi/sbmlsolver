@@ -111,7 +111,6 @@ inline string Parameter<bool>::getType() const
     return "bool";
 }
 
-
 template<>
 inline void Parameter<bool>::setValue(const bool& val)
 {
@@ -180,7 +179,6 @@ inline string Parameter<char*>::getValueAsString() const
 {
     return rr::toString(mValue);
 }
-
 
 //================= Double ===============================
 template<>
@@ -286,10 +284,28 @@ inline void Parameter<rr::RoadRunnerData>::setValueFromString(const string& val)
     //Todo: Implement this ugliness?
 }
 
+//template<>
+//inline void Parameter<bool>::setValue(const bool& val)
+//{
+//    mValue = val;
+//}
+
+template<>
+inline void Parameter<rr::RoadRunnerData>::setValue(const rr::RoadRunnerData& val)
+{
+    mValue = val;
+}
+
+template<>
+inline void Parameter<rr::RoadRunnerData>::setValue(rr::RoadRunnerData* val)
+{
+    mValue = (*val);
+}
+
 template<>
 inline string Parameter<rr::RoadRunnerData>::getType() const
 {
-    return "RoadRunnerData";
+    return "roadRunnerData";
 }
 
 //============ RRStringArray
@@ -332,6 +348,13 @@ inline void Parameter<Parameters>::setValueFromString(const string& val)
     Log(rr::lError)<<"Trying to set Parameters container by a string..";
     return;
 }
+
+template<>
+inline void Parameter<Parameters>::setValue(const Parameters& val)
+{
+    mValue = val;
+}
+
 
 template<>
 inline string Parameter<Parameters>::getType() const
