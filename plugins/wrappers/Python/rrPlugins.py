@@ -541,17 +541,13 @@ def getListOfPluginParameterNames(pluginHandle):
         names = paraNames.split(',')     
         return names 
 
-        
-## \brief If a parameter type is listOfParameters, this method will clear that list.
-## \param paraHandle Handle to a list of parameters
-## \return True or false, indicating result
+## \brief Clear a list of parameters 
+## \param parasHandle Handle to a list of parameters
+## \return True or false, indicating result. Observe there are parameterLists that are not 'clearable', e.g. a plugins primary parameterList
 ## \ingroup plugin_parameters
-## \note This function is to be used to clear a parameter which is of type listOfParameters. 
-## The top level parameter list in a plugin is also a listOfParameters, however, this is protect
-## the top level from being cleared by this method.
-rrpLib.clearPluginParameters.restype = c_bool
-def clearPluginParameters(parasHandle):
-    return rrpLib.clearPluginParameters(parasHandle)
+rrpLib.clearParameterList.restype = c_bool
+def clearParameterList(parameterListHandle):
+    return rrpLib.clearParameterList(parameterListHandle)
 
 ## \brief Get a list of a plugins parameter names
 ## \param pluginHandle Handle to a plugin
@@ -637,7 +633,7 @@ def setParameterHint(paraHandle, descr):
 ## @code
 ## parameterHandle = rrPlugins.createParameter ("k1", string", "A message")
 ##  
-parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant", 0.3)
+##parameterHandle = rrPlugins.createParameter ("k1", "double", "A rate constant", 0.3)
 ## @endcode
 ## \htmlonly  <br/> 
 ## \endhtmlonly 
