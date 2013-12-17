@@ -88,6 +88,14 @@ Parameters*                         castToParameters(RRParametersHandle handle);
 PluginParameter*                      castToParameter(RRParameterHandle handle);
 
 /*!
+ \brief Cast a handle to RoadRunner Parameter<bool> pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a Parameter<int>* instance
+ \ingroup cpp_support
+*/
+Parameter< bool >*                   castToBoolParameter(RRParameterHandle handle);
+
+/*!
  \brief Cast a handle to RoadRunner Parameter<int> pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner parameter instance
  \return Pointer to a Parameter<int>* instance
@@ -110,6 +118,30 @@ Parameter<double>*                  castToDoubleParameter(RRParameterHandle hand
  \ingroup cpp_support
 */
 Parameter<char*>*                   castToStringParameter(RRParameterHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Parameter<Parameters> pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a Parameter<Parameters>* instance
+ \ingroup cpp_support
+*/
+Parameter<Parameters>*              castToParametersParameter(RRParameterHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunnerData pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunnerdata instance
+ \return Pointer to a RoadRunnerData instance
+ \ingroup cpp_support
+*/
+rr::RoadRunnerData*                 castToRoadRunnerData(RRParameterHandle handle);
+
+/*!
+ \brief Cast a handle to RoadRunner Parameter<RoadRunnerData> pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a Parameter<RoadRunnerData>* instance
+ \ingroup cpp_support
+*/
+Parameter<rr::RoadRunnerData>*      castToRoadRunnerDataParameter(RRParameterHandle handle);
 
 //Result data
 /*!

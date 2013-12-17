@@ -15,7 +15,9 @@ cd wrappers/C
 doxygen core_c_api.doxy
 cd $cwd
 
-make -f wrappers/Python/doc/Makefile html
+cd  wrappers/Python/doc
+make html
+cd $cwd
 
 cd plugins/source
 doxygen Doxyfile_cpp_api.doxy

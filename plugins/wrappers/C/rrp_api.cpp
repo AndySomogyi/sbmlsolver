@@ -173,21 +173,21 @@ RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-RRStringArray* rrp_cc getPluginNames(RRPluginManagerHandle handle)
+char* rrp_cc getPluginNames(RRPluginManagerHandle handle)
 {
     start_try
         PluginManager *pm = castToPluginManager(handle);
         StringList names = pm->getPluginNames();
-        return createList(names);
+        return createText(names.AsString());
     catch_ptr_macro
 }
 
-RRStringArray* rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle)
+char* rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle)
 {
     start_try
         PluginManager *pm = castToPluginManager(handle);
         StringList names = pm->getPluginLibraryNames();
-        return createList(names);
+        return createText(names.AsString());
     catch_ptr_macro
 }
 
@@ -199,59 +199,19 @@ char* rrp_cc getPluginName(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-//char* rrp_cc getPluginCapabilities(RRPluginHandle handle)
-//{
-//    start_try
-//        Plugin* aPlugin = castToPlugin(handle);
-//        if(aPlugin)
-//        {
-//            StringList aList;
-//            Capabilities* caps = aPlugin->getCapabilities();
-//            if(!caps)
-//            {
-//                return NULL;
-//            }
-//
-//            for(int i = 0; i < caps->count(); i++)
-//            {
-//                aList.add((*caps)[i]->getName());
-//            }
-//            return createText(aList.AsString().c_str());
-//        }
-//        else
-//        {
-//            return NULL;
-//        }
-//    catch_ptr_macro
-//}
-//
-//char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle)
-//{
-//    start_try
-//        Plugin* aPlugin = castToPlugin(handle);
-//        if(aPlugin)
-//        {
-//            string xml = aPlugin->getCapabilitiesAsXML();
-//            if(!xml.size())
-//            {
-//                return NULL;
-//            }
-//
-//            return createText(xml);
-//        }
-//        else
-//        {
-//            return NULL;
-//        }
-//    catch_ptr_macro
-//}
-//
-
 RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
         return aPlugin->getParameters();
+    catch_ptr_macro
+}
+
+char* rrp_cc getListOfPluginParameterNames(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);        
+        return createText(aPlugin->getParameterNames().AsString());
     catch_ptr_macro
 }
 
@@ -426,7 +386,7 @@ RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle)
     catch_ptr_macro
 }
 
-int rrp_cc  getRRDataNumRows (RRCDataPtr result)
+int rrp_cc  getRRCDataNumRows (RRCDataPtr result)
 {
     if (result == NULL)
     {
@@ -436,7 +396,7 @@ int rrp_cc  getRRDataNumRows (RRCDataPtr result)
     return result->RSize;
 }
 
-int  rrp_cc  getRRDataNumCols (RRCDataPtr result)
+int  rrp_cc  getRRCDataNumCols (RRCDataPtr result)
 {
     if (result == NULL)
     {
@@ -460,5 +420,49 @@ char* rrp_cc getLastPluginError()
 {   
     return rrc::getLastError();
 }
+
+bool rrp_cc freeText(char* text)
+{
+    return rr::freeText(text);
+}
+
+char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle)
+{
+    start_try
+        Plugin* aPlugin = castToPlugin(handle);
+        
+    return createText(aPlugin->getPluginPropertiesAsXML().c_str());
+    catch_ptr_macro
+}
+
+
+bool rrp_cc getRoadRunnerDataElement(RRDataHandle data, int row, int col, double* value)
+{
+    start_try
+        RoadRunnerData* rrData = castToRRData(data);
+        const DoubleMatrix& theData = rrData->getData();
+        *value = theData.Element(row, col);
+        return true;
+    catch_bool_macro
+}
+
+
+int rrp_cc getRoadRunnerDataNumRows(RRDataHandle _data)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(_data);
+        return data->rSize();        
+    catch_int_macro
+}
+
+int rrp_cc getRoadRunnerDataNumCols(RRDataHandle _data)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(_data);
+        return data->cSize();        
+    catch_int_macro
+}
+
+
 
 }

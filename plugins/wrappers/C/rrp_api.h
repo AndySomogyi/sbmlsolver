@@ -126,7 +126,7 @@ RRP_DECLSPEC int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle);
  \return Returns names for loaded plugins as a RRStringArrayPtr, NULL otherwise
  \ingroup plugin_manager
 */
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginNames(RRPluginManagerHandle handle);
 
 /*!
  \brief Function to retrieve the library name of currently loaded plugins.
@@ -134,7 +134,7 @@ RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle
  \return Returns names for loaded plugins as a RRStringArrayPtr, NULL otherwise
  \ingroup plugin_manager
 */
-RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginLibraryNames(RRPluginManagerHandle handle);
 
 /*!
  \brief getFirstPlugin retrieves the "first" plugin in the plugin managers internal list of plugins.
@@ -372,24 +372,29 @@ RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
 */
 RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
-///*
-// \brief Get a Plugins capabilities as a xml document. The string returned from this function is formated as xml.
-// \param handle Handle to a plugin
-// \return Returns available capabilities and parameter in the capability, for a particular plugin as a pointer to a string, NULL otherwise
-// \ingroup plugins
-//*/
-//RRP_DECLSPEC char* rrp_cc getPluginCapabilitiesAsXML(RRPluginHandle handle);
-
-
+/*!
+ \brief Get a Plugins Parameterse as an xml document. The string returned from this function is formated as xml.
+ \param handle Handle to a plugin
+ \return Returns available parameters in the plugin, as a pointer to a string, NULL otherwise
+ \ingroup plugins
+*/
+RRP_DECLSPEC char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle);
 
 /*!
- \brief Get plugin parameters for a specific capability. 
+ \brief Get a handle to a plugins parameters
  \param handle Handle to a plugin
   \return Returns a handle to a plugins parameter container, NULL otherwise
  \ingroup plugins
 */
 RRP_DECLSPEC RRParametersHandle rrp_cc getPluginParameters(RRPluginHandle handle);
 
+/*!
+ \brief Get a list of a plugin parameter names, as a string. Space being the delimiter.
+ \param handle Handle to a plugin
+  \return Returns a string if succesfull, NULL otherwise
+ \ingroup plugins
+*/
+RRP_DECLSPEC char* rrp_cc getListOfPluginParameterNames(RRPluginHandle handle);
 
 /*!
  \brief Get a parameter handle to a parameter.
@@ -427,7 +432,7 @@ RRP_DECLSPEC RRDataHandle rrp_cc getRoadRunnerDataHandle(RRHandle handle);
 RRP_DECLSPEC RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle);
 
 /*!
- \brief Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))
+ \brief Retrieve the number of rows in the given RoadRunner C numberical data (returned from simulate(RRHandle handle))
 
  Example: \code nRows = getRRDataNumRows (result); \endcode
 
@@ -435,10 +440,10 @@ RRP_DECLSPEC RRCDataPtr rrp_cc createRRCData(RRDataHandle rrDataHandle);
  \return Returns -1 if fails, otherwise returns the number of rows
  \ingroup utilities
 */
-RRP_DECLSPEC int rrp_cc getRRDataNumRows (RRCDataPtr rrData);
+RRP_DECLSPEC int rrp_cc getRRCDataNumRows (RRCDataPtr rrData);
 
 /*!
- \brief Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))
+ \brief Retrieve the number of columns in the given rrCData data (returned form simulat(RRHandle handle))
 
  Example: \code nRows = getResultNumCols (rrData); \endcode
 
@@ -446,10 +451,10 @@ RRP_DECLSPEC int rrp_cc getRRDataNumRows (RRCDataPtr rrData);
  \return Returns -1 if fails, otherwise returns the number of columns
  \ingroup utilities
 */
-RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
+RRP_DECLSPEC int rrp_cc getRRCDataNumCols (RRCDataPtr rrData);
 
 /*!
- \brief Retrieves an element at a given row and column from a RoadRunner data type variable
+ \brief Retrieves an element at a given row and column from a RRCData struct type variable
 
  RoadRunner numerical data are indexed from zero
 
@@ -460,9 +465,31 @@ RRP_DECLSPEC int rrp_cc getRRDataNumCols (RRCDataPtr rrData);
  \param c - The column index to the rrData data
  \param[out] value - The retrieved value from the rrData data
  \return Returns true if succesful
+ \note The F indicate this is a forwarde fucntion from RoadRUnners C API.
  \ingroup utilities
 */
 RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrcData, int r, int c, double *value);
+
+
+/*!
+ \brief Retrieves an element at a given row and column from a RoadRunner data type variable
+
+ RoadRunner numerical data are indexed from zero
+
+ Example: \code status = getRoadRunnerDataElement (rrDataHandle, 2, 4, *value); \endcode
+
+ \param rrcData A Handle o a RoadRunner data type variable
+ \param r -The row index to the rrData data
+ \param c - The column index to the rrData data
+ \param[out] value - The retrieved value from the rrData data
+ \return Returns true if succesful
+ \ingroup utilities
+*/
+RRP_DECLSPEC bool rrp_cc getRoadRunnerDataElement(RRDataHandle rrData, int r, int c, double *value);
+
+RRP_DECLSPEC int rrp_cc getRoadRunnerDataNumRows(RRDataHandle rrData);
+
+RRP_DECLSPEC int rrp_cc getRoadRunnerDataNumCols(RRDataHandle rrData);
 
 /*!
  \brief Returns a string list in string form.
@@ -479,6 +506,13 @@ RRP_DECLSPEC char* rrp_cc stringArrayToStringFWD(const RRStringArrayPtr list);
  \note Forwarded from roadruners C API
 */
 RRP_DECLSPEC char* rrp_cc getLastPluginError();
+
+/*!
+ \brief Free char* generated by library routines
+ \ingroup freeRoutines
+*/
+RRP_DECLSPEC bool rrp_cc freeText(char* text);
+
 
 #if defined(__cplusplus)
 } }    //rrp namespace and extern "C"

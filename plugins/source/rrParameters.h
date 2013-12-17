@@ -66,12 +66,16 @@ class PLUGINS_API_DECLSPEC Parameters
         /**
            Create a parameter container
         */
-                                                Parameters();
+                                                Parameters(bool canClear = true);
         /**
            Deallocate memory allocated
         */
         virtual                                ~Parameters();
 
+        /**
+           Copy constructor
+        */
+                                                Parameters(const Parameters& cpyMe);
         /**
            Add a parameter. By default, the container do not owe memory allocated by the parameter.
            If the ownMemory flag is set to true, the container will de allocate memory for the parameter as well
@@ -83,7 +87,7 @@ class PLUGINS_API_DECLSPEC Parameters
         /**
            Return parameters in the container as a list of strings.
         */
-        rr::StringList                          asStringList() const;
+        rr::StringList                          getNames() const;
 
         /**
            Return number of parameters in the container.
@@ -134,8 +138,8 @@ class PLUGINS_API_DECLSPEC Parameters
         
         /**
            Empty the parameter container
-        */
-        void                                    clear();
+        */  
+        bool                                    clear();
 
         /**
            Output the container to a output stream (ostream)
@@ -151,6 +155,12 @@ class PLUGINS_API_DECLSPEC Parameters
         */
         vector< pair<PluginParameter*, bool> >                  mParas;
         vector< pair<PluginParameter*, bool> >::iterator        mParasIter;
+
+
+        /**
+            Boolean indicating if a client of the container can clear the list. True by default
+        */            
+        bool                                                    mCanClientClearList;
 };
 
 }

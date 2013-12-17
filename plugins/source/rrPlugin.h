@@ -171,6 +171,15 @@ class PLUGINS_API_DECLSPEC Plugin
         */
         Parameters*                     getParameters(); //Each capability has a set of parameters
 
+        /**
+            Retieves the names of the parameters 
+        */
+        StringList                      getParameterNames(); //Each capability has a set of parameters
+
+        /**
+            Retieves a plugin properties, as XML
+        */
+        string                          getPluginPropertiesAsXML(); 
 
         /**
             Retieves a specific parameter, in a specific capability.
@@ -354,8 +363,9 @@ class PLUGINS_API_DECLSPEC Plugin
         Capabilities                    mCapabilities;
 
         /**
-         * Opaque data pointer. Plugin designer may use this to communicat data of any type out/in to the plugin.
-        * This is also passed trough the execute function,
+         * Opaque data pointer. Plugin designer may use this to communicat data of any type out/in to the plugin
+         * using the assignPluginInput() function.
+         * 
          */
         void                           *mClientData;
 

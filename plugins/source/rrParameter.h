@@ -111,7 +111,6 @@ inline string Parameter<bool>::getType() const
     return "bool";
 }
 
-
 template<>
 inline void Parameter<bool>::setValue(const bool& val)
 {
@@ -153,13 +152,14 @@ inline string Parameter<int>::getValueAsString() const
 template<>
 inline string Parameter<char*>::getType() const
 {
-    return "char*";
+    return "string"; //Don't call it char* ?
 }
 
-//Todo:: these are probably not doing what is expected?
+
 template<>
 inline void Parameter<char*>::setValue(char** val)
 {
+    rr::freeText(mValue);
     mValue = rr::createText(string(val[0]));
 }
 
@@ -167,6 +167,12 @@ template<>
 inline void Parameter<char*>::setValue(char* const& val)
 {
     mValue = rr::createText(string(val));
+}
+
+template<>
+inline char* Parameter<char*>::getValue() const
+{
+    return mValue;
 }
 
 template<>
@@ -180,7 +186,6 @@ inline string Parameter<char*>::getValueAsString() const
 {
     return rr::toString(mValue);
 }
-
 
 //================= Double ===============================
 template<>
@@ -211,7 +216,7 @@ inline string Parameter<double>::getValueAsString() const
 template<>
 inline string Parameter<string>::getType() const
 {
-    return "string";
+    return "std::string";
 }
 
 template<>
@@ -286,10 +291,28 @@ inline void Parameter<rr::RoadRunnerData>::setValueFromString(const string& val)
     //Todo: Implement this ugliness?
 }
 
+//template<>
+//inline void Parameter<bool>::setValue(const bool& val)
+//{
+//    mValue = val;
+//}
+
+template<>
+inline void Parameter<rr::RoadRunnerData>::setValue(const rr::RoadRunnerData& val)
+{
+    mValue = val;
+}
+
+template<>
+inline void Parameter<rr::RoadRunnerData>::setValue(rr::RoadRunnerData* val)
+{
+    mValue = (*val);
+}
+
 template<>
 inline string Parameter<rr::RoadRunnerData>::getType() const
 {
-    return "RoadRunnerData";
+    return "roadRunnerData";
 }
 
 //============ RRStringArray
@@ -322,8 +345,14 @@ inline string Parameter<rrc::RRStringArray>::getType() const
 template<>
 inline string Parameter<Parameters>::getValueAsString() const
 {
-    StringList list = mValue.asStringList();
+    StringList list = mValue.getNames();
     return list.AsString();
+}
+
+template<>
+inline void Parameter<Parameters>::setValue(Parameters* val)
+{
+    mValue = (*val);
 }
 
 template<>
@@ -334,9 +363,16 @@ inline void Parameter<Parameters>::setValueFromString(const string& val)
 }
 
 template<>
+inline void Parameter<Parameters>::setValue(const Parameters& val)
+{
+    mValue = val;
+}
+
+
+template<>
 inline string Parameter<Parameters>::getType() const
 {
-    return "Parameters";
+    return "listOfParameters";
 }
 
 }

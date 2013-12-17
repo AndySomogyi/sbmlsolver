@@ -1,6 +1,6 @@
-**************************
+**************
 Basic Tutorial
-**************************
+**************
 
 .. currentmodule:: roadrunner
 
@@ -115,30 +115,20 @@ the following syntax::
   rr.model['k1'] = 1.2
   
 
-Plotting Data
--------------
+Selecting Simulation Output
+---------------------------
 
-To plot data returned by simulate one can use the matplotlib package for Python. To import matplotlib, type the
-following::
+RoadRunner supports a range of options for selecting what data a simulation should return. For more
+detailed information on selections, see the :ref:`selecting-values` section.
 
-  import matplotlib.pyplot as plt
-  
-Assuming the simulate returns an array called result, and that the first column represents
-the x axis and the remaining columns the y axis, we type::
+The simulate method, by default returns an `structured array
+<http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_,
+which are arrays that also contain column names. These can be ploted directly using the
+roadrunner.plot function. 
 
-    plt.plot (result[:,0],result[:,1:])
-    plt.show()
-
-This will bring up a new window showing the plot. To clear the plot for next time, type the command::
-
-  plt.clf()
-
-Selecting what Data to Generate
--------------------------------
-
-The command simulate, by default returns an array, where the first column is time and the reminaing columns
-are the floating species. It is possible however to change what is returned by simulate using the selection
-command. For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
+The output selections default to time and the set of floating species. 
+It is possible to change the simulation result values by changing the selection list. 
+For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type::
 
   rr.selections = ['time', 'S2']
@@ -149,6 +139,34 @@ type the following::
 
   rr.selections = ['S1', 'S2']
   result = rr.simulate(0, 10, 100)
+
+
+Plotting Data
+-------------
+
+The built in roadrunner.plot function displays the simulation result and a legend using
+matplotlib. Simply pass it a simulation result::
+
+  result = rr.simulate(0, 10, 100)
+  roadrunner.plot(result)
+
+If one wants more control over the data plots, or if one wished to pass the simulation result to
+other numpy functions that expect a unstructured (conventional) array, disable the structured array 
+result with::
+
+  rr.simulateOptions.structuredResult = False
+
+This will return a unstructured array. Assuming the simulate returns an array called result, and that the first column represents
+the x axis and the remaining columns the y axis, we type::
+
+    import pylab
+    pylab.plot (result[:,0],result[:,1:])
+    pylab.show()
+
+This will bring up a new window showing the plot. To clear the plot for next time, type the command::
+
+  pylab.clf()
+
   
 
 Changing Initial Conditions

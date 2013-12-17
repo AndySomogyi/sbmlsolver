@@ -13,7 +13,11 @@ result = rr.load(sbmlModel)
 print 'Result of loading sbml: %r' % (result);
 
 steps = 1350
-npData = rr.simulate(0, 10, steps)
+rr.simulate(0, 10, steps)
+
+#Each roadrunner instance has an embedded dataobject
+#we can get a handle to it by the following function  
+rrDataHandle = getRoadRunnerDataHandle(rr)
 
 #Load the 'noise' plugin in order to add some noise to the data
 noisePlugin = loadPlugin(pm, "rrp_add_noise")
@@ -32,17 +36,15 @@ print 'Current sigma is ' + aSigma
 #set size of noise
 setDoubleParameter(sigmaHandle, 3.e-6)
 
-rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
 
-#Assign data to the plugin
+#Assign data to the Noise plugin
 assignPluginInput(noisePlugin, rrDataHandle)
 
 #Execute the noise plugin which will add some noise to the data
 executePluginEx(noisePlugin, False)
 
 #Input Data
-rrcData = createRRCData(rrDataHandle)
-npData = getNumpyData(rrcData)
+npData = getNumpyData(rrDataHandle)
 #print result
 
 x = npData[:,0] #result['time']
@@ -64,9 +66,8 @@ print getPluginInfo(lmPlugin)
 
 #Setup the plugin for minimization
 #See documentation for available parameters
-
-observedData = getPluginParameter(lmPlugin, "ObservedData");
-paraHandle = getPluginParameter(lmPlugin, "InputParameterList");
+experimentalData    = getPluginParameter(lmPlugin, "ExperimentalData");
+paraHandle          = getPluginParameter(lmPlugin, "InputParameterList");
 
 #The actual parameter value, as a pointer
 paraList = getParameterValueHandle(paraHandle);
@@ -77,8 +78,7 @@ setDoubleParameter(para1, 0.2)
 addParameterToList(paraList, para1)
 
 #Input Data
-###rrDataHandle = getRoadRunnerDataHandleFromInstance(rr)
-assignPluginInput(lmPlugin, rrDataHandle)
+setRoadRunnerDataParameter(experimentalData, rrDataHandle)
 
 #set species to fit
 species = "[S1] [S2]"
@@ -110,16 +110,14 @@ print getPluginStatus(lmPlugin)
 # Look at the data
 dataPHandle = getPluginParameter(lmPlugin, "ModelData");
 dataHandle = getParameterValueHandle(dataPHandle)
-rrcData = createRRCData(dataHandle)
-npData = getNumpyData(rrcData)
+npData = getNumpyData(dataHandle)
 S1Model = npData[:,1]
 S2Model = npData[:,2]
 
 
-dataPHandle = getPluginParameter(lmPlugin, "ResidualsData");
+dataPHandle = getPluginParameter(lmPlugin, "Residuals");
 dataHandle = getParameterValueHandle(dataPHandle)
-rrcData = createRRCData(dataHandle)
-npData = getNumpyData(rrcData)
+npData = getNumpyData(dataHandle)
 s1Residual= npData[:,1]
 s2Residual= npData[:,2]
 

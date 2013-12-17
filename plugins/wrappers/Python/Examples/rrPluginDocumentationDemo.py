@@ -13,11 +13,9 @@ if not plugin:
 #Get some general info about the plugin
 print getPluginInfo(plugin)
 
-#Get the plugins parameters
-paras =  getPluginParameters(plugin)
 
 #Get parameters associated with a capability
-print getListOfParameterNames(paras)
+print getListOfPluginParameterNames(plugin)
 
 #Get the manual for the plugin (bundled as embedded PDF)
 ptr = getPluginManualAsPDF(plugin)

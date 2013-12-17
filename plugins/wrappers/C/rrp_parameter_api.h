@@ -88,12 +88,36 @@ RRP_DECLSPEC bool rrp_cc addParameterToList(RRParametersHandle handle, RRParamet
 RRP_DECLSPEC bool rrp_cc setParameterByString(RRParameterHandle handle, const char* value);
 
 /*!
+ \brief Get a boolean parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc getBoolParameter(RRParameterHandle handle, bool* value);
+
+/*!
+ \brief Set a boolean parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setBoolParameter(RRParameterHandle handle, bool value);
+
+/*!
  \brief Set an int parameter
  \param handle to a Parameter instance
  \param value to assign to the parameter.
  \return Returns true if sucessful, false otherwise
 */
 RRP_DECLSPEC bool rrp_cc setIntParameter(RRParameterHandle handle, int value);
+
+/*!
+ \brief Get the value of an int parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc getIntParameter(RRParameterHandle handle, int *value);
 
 /*!
  \brief Set a double parameter
@@ -104,12 +128,61 @@ RRP_DECLSPEC bool rrp_cc setIntParameter(RRParameterHandle handle, int value);
 RRP_DECLSPEC bool rrp_cc setDoubleParameter(RRParameterHandle handle, double value);
 
 /*!
+ \brief Get the value of a double parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc getDoubleParameter(RRParameterHandle handle, double *value);
+
+/*!
  \brief Set a string (char*) parameter
  \param handle to a Parameter instance
  \param value to assign to the parameter.
  \return Returns true if sucessful, false otherwise
 */
 RRP_DECLSPEC bool rrp_cc setStringParameter(RRParameterHandle handle, char* value);
+
+/*!
+ \brief Get the value of a string (char*) parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc getStringParameter(RRParameterHandle handle, char* (*value));
+
+/*!
+ \brief Set a listOfParameters (Parameters) parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setListParameter(RRParameterHandle handle, void* (value));
+
+/*!
+ \brief Get the value of a listOfParameters (Parameters) parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc getListParameter(RRParameterHandle handle, void* (value));
+
+
+/*!
+ \brief Set a roadRunnerDataParameter parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setRoadRunnerDataParameter(RRParameterHandle handle, void* value);
+
+/*!
+ \brief Get the value of a roadRunnerDataParameter parameter
+ \param handle to a Parameter instance
+ \param value to assign to the parameter.
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc getRoadRunnerDataParameter(RRParameterHandle handle, void* value);
 
 /*!
  \brief Get a parameters info
@@ -147,16 +220,40 @@ RRP_DECLSPEC char* rrp_cc getParameterName(RRParameterHandle handle);
 RRP_DECLSPEC char* rrp_cc getParameterHint(RRParameterHandle handle);
 
 /*!
+ \brief Set a parameters hint
+ \param handle to a Parameter instance
+ \param value The parameter hint as a string
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setParameterHint(RRParameterHandle handle, const char* value);
+
+/*!
+ \brief Get a parameters description
+ \param handle to a Parameter instance
+ \return Returns the parameters description as a string sucessful, NULL otherwise
+*/
+RRP_DECLSPEC char* rrp_cc getParameterDescription(RRParameterHandle handle);
+
+/*!
+ \brief Set a parameters Description
+ \param handle to a Parameter instance
+ \param value The parameter description as a string
+ \return Returns true if sucessful, false otherwise
+*/
+RRP_DECLSPEC bool rrp_cc setParameterDescription(RRParameterHandle handle, const char* value);
+
+/*!
  \brief Get a parameters type
  \param handle to a Parameter instance
  \return Returns the parameters type if sucessful, NULL otherwise
 */
 RRP_DECLSPEC char* rrp_cc getParameterType(RRParameterHandle handle);
 
-RRP_DECLSPEC RRParameterHandle rrp_cc getFirstPlugin(RRParametersHandle handle);
-RRP_DECLSPEC RRParameterHandle rrp_cc getNextPlugin(RRParametersHandle handle);
-RRP_DECLSPEC RRParameterHandle rrp_cc getPreviousPlugin(RRParametersHandle handle);
-RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentPlugin(RRParametersHandle handle);
+
+RRP_DECLSPEC RRParameterHandle rrp_cc getFirstParameter(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getNextParameter(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getPreviousParameter(RRParametersHandle handle);
+RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentParameter(RRParametersHandle handle);
 
 /*!
  \brief Get a list of names for a plugins parameters.
@@ -164,8 +261,7 @@ RRP_DECLSPEC RRParameterHandle rrp_cc getCurrentPlugin(RRParametersHandle handle
  \return Returns a string with the names of each parameter, NULL otherwise
  \ingroup plugins
 */
-RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
-
+RRP_DECLSPEC char* rrp_cc getNamesFromParameterList(RRParametersHandle handle);
 
 /*!
  \brief Clear a list of parameters
@@ -173,7 +269,7 @@ RRP_DECLSPEC char* rrp_cc getListOfParameterNames(RRParametersHandle handle);
   \return Returns true or false indicating result
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc clearPluginParameters(RRParametersHandle handle);
+RRP_DECLSPEC bool rrp_cc clearParameterList(RRParametersHandle handle);
 
 /*! @} */
 

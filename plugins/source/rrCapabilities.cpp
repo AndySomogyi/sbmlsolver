@@ -121,18 +121,14 @@ string Capabilities::asXML()
 
     doc = xmlNewDoc(BAD_CAST "1.0");
     xmlKeepBlanksDefault(0);
-    root_node = xmlNewNode(NULL, BAD_CAST "capabilities");
+    root_node = xmlNewNode(NULL, BAD_CAST "pluginProperties");
     xmlDocSetRootElement(doc, root_node);
 
     //Add capabilitys
     for(int i = 0; i < count(); i++)
     {
         Capability& aCapability = *(mCapabilities[i]);
-        xmlNodePtr capNode = xmlNewChild(root_node, NULL, BAD_CAST "capability",NULL);
-//        xmlNewProp(capNode, BAD_CAST "name", BAD_CAST mName.c_str());
-//        xmlNewProp(capNode, BAD_CAST "description", BAD_CAST mDescription.c_str());
-
-        xmlNodePtr parameters = xmlNewChild(capNode, NULL, BAD_CAST "parameters",NULL);
+        xmlNodePtr parameters = xmlNewChild(root_node, NULL, BAD_CAST "parameters",NULL);
 
         //Add parameters within each capability
         for(int j = 0; j < aCapability.nrOfParameters(); j++)
@@ -140,10 +136,11 @@ string Capabilities::asXML()
             xmlNodePtr paraNode = xmlNewChild(parameters, NULL, BAD_CAST "para", NULL);
 
             PluginParameter* parameter = const_cast<PluginParameter*>(&(aCapability[j]));
-            xmlNewProp(paraNode, BAD_CAST "name",   BAD_CAST parameter->getName().c_str());
-            xmlNewProp(paraNode, BAD_CAST "value",  BAD_CAST parameter->getValueAsString().c_str());
-            xmlNewProp(paraNode, BAD_CAST "hint",   BAD_CAST parameter->getHint().c_str());
-            xmlNewProp(paraNode, BAD_CAST "type",   BAD_CAST parameter->getType().c_str());
+            xmlNewProp(paraNode, BAD_CAST "name",           BAD_CAST parameter->getName().c_str());
+            xmlNewProp(paraNode, BAD_CAST "value",          BAD_CAST parameter->getValueAsString().c_str());            
+            xmlNewProp(paraNode, BAD_CAST "type",           BAD_CAST parameter->getType().c_str());
+            xmlNewProp(paraNode, BAD_CAST "hint",           BAD_CAST parameter->getHint().c_str());
+            xmlNewProp(paraNode, BAD_CAST "description",    BAD_CAST parameter->getDescription().c_str());
         }
     }
 

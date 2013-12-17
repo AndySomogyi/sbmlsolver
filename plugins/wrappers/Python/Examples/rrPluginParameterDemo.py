@@ -14,7 +14,7 @@ print getPluginInfo(plugin)
 paras =  getPluginParameters(plugin)
 
 #Get parameters associated with a capability
-print getListOfParameterNames(paras)
+print getListOfPluginParameterNames(paras)
 
 paraHandle   = getPluginParameter(plugin, "NoiseType")
 
@@ -29,7 +29,7 @@ paraValueString = getParameterValueAsString(paraHandle)
 print 'Parameter is now: ' + paraValueString
 
 setIntParameter(paraHandle, 0)
-test = getParameterValue(paraHandle)
+test = getIntParameter(paraHandle)
 print test
 
 paraValueString = getParameterValueAsString(paraHandle)
@@ -55,3 +55,30 @@ print test
 
 paraValueString = getParameterValueAsString(paraHandle)
 print 'Parameter is now: ' + paraValueString
+
+#======= Test bools
+boolParaHandle = createParameter("bool", "bool", "Hint", True)
+print getBoolParameter(boolParaHandle)
+setBoolParameter(boolParaHandle, False)
+print getBoolParameter(boolParaHandle)
+
+#====Test some strings
+stringParaHandle = createParameter("myStringParameter", "string", "Hello", "Hello2")
+print getStringParameter(stringParaHandle)
+setStringParameter(stringParaHandle, "Setting a string value")
+print getStringParameter(stringParaHandle)
+
+#====Test list of parameters Todo:: clean this up!!
+lOfP = createParameter("test", "listOfParameters", "Hello")
+listPHandle = getListParameter(lOfP)
+print getNamesFromParameterList(listPHandle)
+lOfP2 = createParameter("test", "listOfParameters", "Hello")
+
+addParameterToList(listPHandle, stringParaHandle)
+print getNamesFromParameterList(listPHandle)
+setListParameter(lOfP, lOfP2)
+ 
+print getNamesFromParameterList(listPHandle)
+
+
+
