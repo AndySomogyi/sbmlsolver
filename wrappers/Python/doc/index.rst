@@ -19,11 +19,11 @@ and provides a complete API reference.
 To get you started here is a very simple script that will load a model and run a time course
 simulation and plot the results::
 
-   from roadrunner import *
-   rr = RoadRunner()
+   import roadrunner
+   rr = roadrunner.RoadRunner()
    rr.load('mymodel.xml')
    result = rr.simulate()
-   plot(result)
+   roadrunner.plot(result)
  
 The result is a standard numpy array which may be plotted using `matplotlib
 <http://matplotlib.org/>`_. Now read the tutorials to learn more about the capabilities of RoadRunner. 

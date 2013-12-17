@@ -16,16 +16,17 @@ The variable rr is your reference to roadrunner. Anything you want to do with ro
 specified using the variable rr. For exmaple, to get the current version of roadRunner type the
 following::
 
-  rr.getVersion()
+  roadrunner.__version__
 
 Loading Models
 --------------
 
 RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is 
-possible to load that model using the method, loadSBMLFromFile. Let's assume you have a model called
+possible to load that model using the method, ``load()``. Let's assume you have a model called
 mymodel.xml in C:\MyModels. To load this model in Windows we would use the command::
 
   rr.load("C:/MyModels/mymodel.xml")
+  rr.load(os.path.dirname(roadrunner.__file__)+"/testing/test_1.xml")
 
 Note, Windows typically used the back slash, '\\' to indicate a directory separator, however in
 most languages including python, this is the escape character, therefore one can also enter Windows

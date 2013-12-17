@@ -2,10 +2,6 @@
    The main RoadRunner class.
 
 
-.. method:: RoadRunner.test()
-
-   this method does some stuff
-
 .. method:: RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')
 
    All three of the RoadRunner options default to the empty string, in this
@@ -412,7 +408,7 @@
 .. method:: RoadRunner.isModelLoaded()
    :module: roadrunner
 
-   TODO docs
+   Return True if model was loaded; False otherwise
 
 
 
