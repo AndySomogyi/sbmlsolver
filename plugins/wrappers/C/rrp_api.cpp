@@ -421,6 +421,11 @@ char* rrp_cc getLastPluginError()
     return rrc::getLastError();
 }
 
+bool rrp_cc freeText(char* text)
+{
+    return rr::freeText(text);
+}
+
 char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle)
 {
     start_try
