@@ -1,3 +1,5 @@
+.. _selecting-values:
+
 ****************
 Selecting Values
 ****************
