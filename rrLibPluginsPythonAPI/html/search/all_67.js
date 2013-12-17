@@ -1,10 +1,15 @@
 var searchData=
 [
+  ['getboolparameter',['getBoolParameter',['../group__plugin__parameters.html#ga7da466b9265ea3ca7c8e75770a5296ca',1,'rrPlugins']]],
   ['getcurrentplugin',['getCurrentPlugin',['../group__plugin__manager.html#ga41c52348c1de66c9176002f915942c96',1,'rrPlugins']]],
+  ['getdoubleparameter',['getDoubleParameter',['../group__plugin__parameters.html#ga9f27ababcbafd0d8ec40117e9508b6c5',1,'rrPlugins']]],
   ['getfirstparameter',['getFirstParameter',['../group__plugin__parameters.html#gace5a3927dc33350c762a481afcf4f49d',1,'rrPlugins']]],
   ['getfirstplugin',['getFirstPlugin',['../group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8',1,'rrPlugins']]],
+  ['getintparameter',['getIntParameter',['../group__plugin__parameters.html#ga34eb230ea0dd512105f4ce5778c6e4c4',1,'rrPlugins']]],
   ['getlasterror',['getLastError',['../group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1',1,'rrPlugins']]],
-  ['getlistofparameternames',['getListOfParameterNames',['../group__plugin__parameters.html#gaa3b1c08848599f7a3566991cfb3ab2bc',1,'rrPlugins']]],
+  ['getlistofpluginparameternames',['getListOfPluginParameterNames',['../group__plugin__parameters.html#ga24e817520f7c2f1fe96bd5c581f72727',1,'rrPlugins']]],
+  ['getlistparameter',['getListParameter',['../group__plugin__parameters.html#ga470614c3544bfa303980657c1f534b5f',1,'rrPlugins']]],
+  ['getnamesfromparameterlist',['getNamesFromParameterList',['../group__plugin__parameters.html#ga8c57622a2b0ea7d6b7c727fa1211d3ea',1,'rrPlugins']]],
   ['getnextparameter',['getNextParameter',['../group__plugin__parameters.html#gaad52595f030f54b6d2e8dd9d91955db9',1,'rrPlugins']]],
   ['getnextplugin',['getNextPlugin',['../group__plugin__manager.html#ga83b28fc49904148333128932f9f0fa0d',1,'rrPlugins']]],
   ['getnumberofplugins',['getNumberOfPlugins',['../group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23',1,'rrPlugins']]],
@@ -25,12 +30,13 @@ var searchData=
   ['getpluginnames',['getPluginNames',['../group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114',1,'rrPlugins']]],
   ['getpluginparameter',['getPluginParameter',['../group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e',1,'rrPlugins']]],
   ['getpluginparameters',['getPluginParameters',['../group__plugin__parameters.html#gac7f3391b5b8679fb7e12568aea456818',1,'rrPlugins']]],
+  ['getpluginpropertiesasxml',['getPluginPropertiesAsXML',['../group__plugin__parameters.html#gab463ccdc7b04768bb687864fc50ad52b',1,'rrPlugins']]],
   ['getpluginresult',['getPluginResult',['../group__plugins.html#gac4fe0db0c504ea53ebe66c5d06852e89',1,'rrPlugins']]],
   ['getpluginstatus',['getPluginStatus',['../group__plugins.html#ga0a0a0752c9339e7b19402da603092931',1,'rrPlugins']]],
   ['getpreviousplugin',['getPreviousPlugin',['../group__plugin__manager.html#gaad6327c658be9b54711d91e892f36623',1,'rrPlugins']]],
   ['getroadrunnerdatahandle',['getRoadRunnerDataHandle',['../group__utilities.html#ga3c580a700ace61925f0cb0bc84686824',1,'rrPlugins']]],
   ['getroadrunnerdatahandlefrominstance',['getRoadRunnerDataHandleFromInstance',['../group__utilities.html#ga8868f172d6b9c954a20fad7187f23c64',1,'rrPlugins']]],
   ['getroadrunnerhandle',['getRoadRunnerHandle',['../group__utilities.html#ga1af8f9c2bf937ec762f1516b830d4003',1,'rrPlugins']]],
-  ['getrrcdataelement',['getRRCDataElement',['../group__utilities.html#gad3eed6afeffa9a1740b4c9021a397bef',1,'rrPlugins']]],
-  ['getrrhandlefromplugin',['getRRHandleFromPlugin',['../group__plugins.html#gad6c58d1d67f69f9ad04f0f8e120e980c',1,'rrPlugins']]]
+  ['getrrhandlefromplugin',['getRRHandleFromPlugin',['../group__plugins.html#gad6c58d1d67f69f9ad04f0f8e120e980c',1,'rrPlugins']]],
+  ['getstringparameter',['getStringParameter',['../group__plugin__parameters.html#gacb8fd656da1a881b9a4186a2642c4d24',1,'rrPlugins']]]
 ];

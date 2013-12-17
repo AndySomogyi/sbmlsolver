@@ -108,37 +108,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">string</span>                              getName() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">string</span>                              getHint() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="comment">//Pure virtuals</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"></span>        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      getValueAsString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      getType() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span>*                       getValueHandle();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span>                        setValueFromString(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; value) = 0;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">string</span>                              getDescription() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">void</span>                                setDescription(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; descr);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordtype">void</span>                                setHint(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; hint);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordtype">string</span>                              getHint() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment">//Pure virtuals</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"></span>        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      getValueAsString() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        PLUGINS_API_DECLSPEC</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">friend</span> ostream&amp;                     operator&lt;&lt;(ostream&amp; stream, <span class="keyword">const</span> <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>&amp; outMe);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">  118</a></span>&#160;        <span class="keywordtype">string</span>                              <a class="code" href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">mName</a>;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">  123</a></span>&#160;        <span class="keywordtype">string</span>                              <a class="code" href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">mHint</a>;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;};</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor"></span></div>
-<div class="ttc" id="classrrp_1_1_plugin_parameter_html_a297329b5314bab08066c1f77c847243a"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">rrp::PluginParameter::mName</a></div><div class="ttdeci">string mName</div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:118</div></div>
-<div class="ttc" id="classrrp_1_1_plugin_parameter_html_ade65789d0610c592e51ab82611272186"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">rrp::PluginParameter::mHint</a></div><div class="ttdeci">string mHint</div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:123</div></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      getType() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span>*                       getValueHandle();</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span>                        setValueFromString(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; value) = 0;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        PLUGINS_API_DECLSPEC</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">friend</span> ostream&amp;                     operator&lt;&lt;(ostream&amp; stream, <span class="keyword">const</span> <a class="code" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a>&amp; outMe);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">  133</a></span>&#160;        <span class="keywordtype">string</span>                              <a class="code" href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">mName</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin_parameter.html#ace9cd73b4007e78a5e4b68cc9fd708ab">  138</a></span>&#160;        <span class="keywordtype">string</span>                              <a class="code" href="classrrp_1_1_plugin_parameter.html#ace9cd73b4007e78a5e4b68cc9fd708ab">mDescription</a>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">  143</a></span>&#160;        <span class="keywordtype">string</span>                              <a class="code" href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">mHint</a>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;};</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;}</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor"></span></div>
+<div class="ttc" id="classrrp_1_1_plugin_parameter_html_a297329b5314bab08066c1f77c847243a"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">rrp::PluginParameter::mName</a></div><div class="ttdeci">string mName</div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:133</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_parameter_html_ade65789d0610c592e51ab82611272186"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">rrp::PluginParameter::mHint</a></div><div class="ttdeci">string mHint</div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:143</div></div>
 <div class="ttc" id="classrrp_1_1_plugin_parameter_html"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html">rrp::PluginParameter</a></div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:58</div></div>
+<div class="ttc" id="classrrp_1_1_plugin_parameter_html_ace9cd73b4007e78a5e4b68cc9fd708ab"><div class="ttname"><a href="classrrp_1_1_plugin_parameter.html#ace9cd73b4007e78a5e4b68cc9fd708ab">rrp::PluginParameter::mDescription</a></div><div class="ttdeci">string mDescription</div><div class="ttdef"><b>Definition:</b> rrPluginParameter.h:138</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 13:03:12 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 23:44:18 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

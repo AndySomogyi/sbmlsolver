@@ -1,11 +1,12 @@
 var searchData=
 [
   ['mauthor',['mAuthor',['../classrrp_1_1_plugin.html#a30e687e32f01bc1691a486e4c2f79bcb',1,'rrp::Plugin']]],
+  ['mcanclientclearlist',['mCanClientClearList',['../classrrp_1_1_parameters.html#a549298f0616374c9f44b4ae046a90c0a',1,'rrp::Parameters']]],
   ['mcapabilities',['mCapabilities',['../classrrp_1_1_capabilities.html#a765c7db53788f0f0c9d74104b96d7674',1,'rrp::Capabilities::mCapabilities()'],['../classrrp_1_1_plugin.html#a87f50c4cd4f34e46ca6ead57266686ea',1,'rrp::Plugin::mCapabilities()']]],
   ['mcategory',['mCategory',['../classrrp_1_1_plugin.html#a689de45fb113aa3eacb5374d4045e913',1,'rrp::Plugin']]],
   ['mclientdata',['mClientData',['../classrrp_1_1_plugin.html#add430fc258fc022021a7728a6911b0b1',1,'rrp::Plugin']]],
   ['mcopyright',['mCopyright',['../classrrp_1_1_plugin.html#a229cdcf6ff35922cc393a36ad85fc03f',1,'rrp::Plugin']]],
-  ['mdescription',['mDescription',['../classrrp_1_1_capability.html#af8b42f18760ef805c9d4802cd7ead2c7',1,'rrp::Capability']]],
+  ['mdescription',['mDescription',['../classrrp_1_1_capability.html#af8b42f18760ef805c9d4802cd7ead2c7',1,'rrp::Capability::mDescription()'],['../classrrp_1_1_plugin_parameter.html#ace9cd73b4007e78a5e4b68cc9fd708ab',1,'rrp::PluginParameter::mDescription()']]],
   ['mhint',['mHint',['../classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186',1,'rrp::PluginParameter']]],
   ['mimplementationlanguage',['mImplementationLanguage',['../classrrp_1_1_plugin.html#af296dc7a3a7453898572baf4f8126ae2',1,'rrp::Plugin']]],
   ['misworking',['mIsWorking',['../classrrp_1_1_plugin.html#a881ef4400f1f7650498987e6d93cd4e0',1,'rrp::Plugin']]],

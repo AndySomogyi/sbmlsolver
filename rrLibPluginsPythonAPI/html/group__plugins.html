@@ -100,6 +100,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga60a87a367897fa2b9410b10b520d6f07"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga60a87a367897fa2b9410b10b520d6f07">getPluginManualNrOfBytes</a></td></tr>
 <tr class="memdesc:ga60a87a367897fa2b9410b10b520d6f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the byte size for the PDF manual.  <a href="#ga60a87a367897fa2b9410b10b520d6f07">More...</a><br/></td></tr>
 <tr class="separator:ga60a87a367897fa2b9410b10b520d6f07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ba0eaf31ad580aac168826fe3e9df27"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga4ba0eaf31ad580aac168826fe3e9df27">displayPluginManual</a></td></tr>
+<tr class="memdesc:ga4ba0eaf31ad580aac168826fe3e9df27"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a plugin has a built-in PDF manual, display it.  <a href="#ga4ba0eaf31ad580aac168826fe3e9df27">More...</a><br/></td></tr>
+<tr class="separator:ga4ba0eaf31ad580aac168826fe3e9df27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaeeafd6ec2044474fda2f112d76d60f49"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gaeeafd6ec2044474fda2f112d76d60f49">assignRoadRunnerInstance</a></td></tr>
 <tr class="memdesc:gaeeafd6ec2044474fda2f112d76d60f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign a roadrunner instance handle for the plugin to use.  <a href="#gaeeafd6ec2044474fda2f112d76d60f49">More...</a><br/></td></tr>
 <tr class="separator:gaeeafd6ec2044474fda2f112d76d60f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -372,6 +375,33 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga4ba0eaf31ad580aac168826fe3e9df27"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.displayPluginManual </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pluginHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If a plugin has a built-in PDF manual, display it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns False is the plugin has no manual</dd></dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;success = <a class="code" href="group__plugins.html#ga4ba0eaf31ad580aac168826fe3e9df27">displayPluginManual</a>(pluginHandle)</div>
+</div><!-- fragment -->  <br/> 
+  
+</div>
+</div>
 <a class="anchor" id="ga9d5a736be14a1983b5d3fa9c359ba407"></a>
 <div class="memitem">
 <div class="memproto">
@@ -489,7 +519,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordflow">if</span> numOfBytes == 0:</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;   <span class="keywordflow">print</span> <span class="stringliteral">&#39;This plugin does not have a manual.&#39;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;   exit()</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;outFName = pluginName + <span class="stringliteral">&#39;.pdf&#39;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;outFName = getPluginName (pluginHandle) + <span class="stringliteral">&#39;.pdf&#39;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;with open(outFName, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> output:</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;   output.write(manual)</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;os.system(<span class="stringliteral">&#39;start &#39;</span> + outFName)</div>
@@ -760,7 +790,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 13:03:16 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 23:44:18 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

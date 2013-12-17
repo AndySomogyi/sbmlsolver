@@ -83,34 +83,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Plugins Parameter related functions The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: name, value, type, hint, and a description.  
+<p>Plugins Parameter related functions The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: the name, value, type, hint, and a description.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:gac7f3391b5b8679fb7e12568aea456818"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gac7f3391b5b8679fb7e12568aea456818">getPluginParameters</a></td></tr>
-<tr class="memdesc:gac7f3391b5b8679fb7e12568aea456818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a handle to a plugins list of parameters.  <a href="#gac7f3391b5b8679fb7e12568aea456818">More...</a><br/></td></tr>
+<tr class="memdesc:gac7f3391b5b8679fb7e12568aea456818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a handle to the list of parameters for a plugin.  <a href="#gac7f3391b5b8679fb7e12568aea456818">More...</a><br/></td></tr>
 <tr class="separator:gac7f3391b5b8679fb7e12568aea456818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6621600b3da7e5fa04087ce116318f57"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga6621600b3da7e5fa04087ce116318f57">clearPluginParameters</a></td></tr>
-<tr class="memdesc:ga6621600b3da7e5fa04087ce116318f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear a list of parameters.  <a href="#ga6621600b3da7e5fa04087ce116318f57">More...</a><br/></td></tr>
-<tr class="separator:ga6621600b3da7e5fa04087ce116318f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa3b1c08848599f7a3566991cfb3ab2bc"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaa3b1c08848599f7a3566991cfb3ab2bc">getListOfParameterNames</a></td></tr>
-<tr class="memdesc:gaa3b1c08848599f7a3566991cfb3ab2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a list of a plugins parameter names.  <a href="#gaa3b1c08848599f7a3566991cfb3ab2bc">More...</a><br/></td></tr>
-<tr class="separator:gaa3b1c08848599f7a3566991cfb3ab2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24e817520f7c2f1fe96bd5c581f72727"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga24e817520f7c2f1fe96bd5c581f72727">getListOfPluginParameterNames</a></td></tr>
+<tr class="memdesc:ga24e817520f7c2f1fe96bd5c581f72727"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a list of parameter names in a plugin.  <a href="#ga24e817520f7c2f1fe96bd5c581f72727">More...</a><br/></td></tr>
+<tr class="separator:ga24e817520f7c2f1fe96bd5c581f72727"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga05fbdd68876fd7c367c9380e8795e87d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga05fbdd68876fd7c367c9380e8795e87d">clearParameterList</a></td></tr>
+<tr class="memdesc:ga05fbdd68876fd7c367c9380e8795e87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear a list of parameters.  <a href="#ga05fbdd68876fd7c367c9380e8795e87d">More...</a><br/></td></tr>
+<tr class="separator:ga05fbdd68876fd7c367c9380e8795e87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c57622a2b0ea7d6b7c727fa1211d3ea"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga8c57622a2b0ea7d6b7c727fa1211d3ea">getNamesFromParameterList</a></td></tr>
+<tr class="memdesc:ga8c57622a2b0ea7d6b7c727fa1211d3ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the parameter is a list, this method returns the list of parameter names in that list.  <a href="#ga8c57622a2b0ea7d6b7c727fa1211d3ea">More...</a><br/></td></tr>
+<tr class="separator:ga8c57622a2b0ea7d6b7c727fa1211d3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab463ccdc7b04768bb687864fc50ad52b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gab463ccdc7b04768bb687864fc50ad52b">getPluginPropertiesAsXML</a></td></tr>
+<tr class="memdesc:gab463ccdc7b04768bb687864fc50ad52b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a the properties of a plugins in the form ofxml.  <a href="#gab463ccdc7b04768bb687864fc50ad52b">More...</a><br/></td></tr>
+<tr class="separator:gab463ccdc7b04768bb687864fc50ad52b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gace5a3927dc33350c762a481afcf4f49d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gace5a3927dc33350c762a481afcf4f49d">getFirstParameter</a></td></tr>
-<tr class="memdesc:gace5a3927dc33350c762a481afcf4f49d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 'first' parameter handle to a parameter in a parameters list.  <a href="#gace5a3927dc33350c762a481afcf4f49d">More...</a><br/></td></tr>
+<tr class="memdesc:gace5a3927dc33350c762a481afcf4f49d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 'first' parameter handle to a parameter in a list of parameters.  <a href="#gace5a3927dc33350c762a481afcf4f49d">More...</a><br/></td></tr>
 <tr class="separator:gace5a3927dc33350c762a481afcf4f49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaad52595f030f54b6d2e8dd9d91955db9"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gaad52595f030f54b6d2e8dd9d91955db9">getNextParameter</a></td></tr>
-<tr class="memdesc:gaad52595f030f54b6d2e8dd9d91955db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 'next' parameter handle to a parameter in a parameters list.  <a href="#gaad52595f030f54b6d2e8dd9d91955db9">More...</a><br/></td></tr>
+<tr class="memdesc:gaad52595f030f54b6d2e8dd9d91955db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 'next' parameter handle to a parameter in a list of parameters.  <a href="#gaad52595f030f54b6d2e8dd9d91955db9">More...</a><br/></td></tr>
 <tr class="separator:gaad52595f030f54b6d2e8dd9d91955db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gadd4a9d279563989ffd0d5779750d700e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a></td></tr>
-<tr class="memdesc:gadd4a9d279563989ffd0d5779750d700e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter handle to a parameter, located in a specific category.  <a href="#gadd4a9d279563989ffd0d5779750d700e">More...</a><br/></td></tr>
+<tr class="memdesc:gadd4a9d279563989ffd0d5779750d700e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter handle to a parameter given the name of the parameter.  <a href="#gadd4a9d279563989ffd0d5779750d700e">More...</a><br/></td></tr>
 <tr class="separator:gadd4a9d279563989ffd0d5779750d700e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gadf5147ec7a556bbfc61ee5d2cb265ae5"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gadf5147ec7a556bbfc61ee5d2cb265ae5">setPluginParameter</a></td></tr>
 <tr class="memdesc:gadf5147ec7a556bbfc61ee5d2cb265ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a PluginParameter by a string.  <a href="#gadf5147ec7a556bbfc61ee5d2cb265ae5">More...</a><br/></td></tr>
 <tr class="separator:gadf5147ec7a556bbfc61ee5d2cb265ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga86b77cf7fdec79d50196dd8196963944"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga86b77cf7fdec79d50196dd8196963944">setParameterDescription</a></td></tr>
+<tr class="memdesc:ga86b77cf7fdec79d50196dd8196963944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the description of a parameter.  <a href="#ga86b77cf7fdec79d50196dd8196963944">More...</a><br/></td></tr>
+<tr class="separator:ga86b77cf7fdec79d50196dd8196963944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48917bc602a9b6dd51cbbd8cc3ae7aed"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga48917bc602a9b6dd51cbbd8cc3ae7aed">setParameterHint</a></td></tr>
+<tr class="memdesc:ga48917bc602a9b6dd51cbbd8cc3ae7aed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the hint property of a parameter.  <a href="#ga48917bc602a9b6dd51cbbd8cc3ae7aed">More...</a><br/></td></tr>
+<tr class="separator:ga48917bc602a9b6dd51cbbd8cc3ae7aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga935eb24b2c15b6341ac2ef9f6136a6f7"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga935eb24b2c15b6341ac2ef9f6136a6f7">createParameter</a></td></tr>
-<tr class="memdesc:ga935eb24b2c15b6341ac2ef9f6136a6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a parameter of type "type" with a name and hint property.  <a href="#ga935eb24b2c15b6341ac2ef9f6136a6f7">More...</a><br/></td></tr>
+<tr class="memdesc:ga935eb24b2c15b6341ac2ef9f6136a6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a parameter of type "type" with a name and hint property Valid types include: 'bool', 'int', 'double', 'string', and 'listOfParameters'.  <a href="#ga935eb24b2c15b6341ac2ef9f6136a6f7">More...</a><br/></td></tr>
 <tr class="separator:ga935eb24b2c15b6341ac2ef9f6136a6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafbd64e49f5bc28d96545cde3bb4c683a"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gafbd64e49f5bc28d96545cde3bb4c683a">freeParameter</a></td></tr>
 <tr class="memdesc:gafbd64e49f5bc28d96545cde3bb4c683a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free memory for a parameter.  <a href="#gafbd64e49f5bc28d96545cde3bb4c683a">More...</a><br/></td></tr>
@@ -143,18 +155,33 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga91d3d28fd3f172eeb54c99a68f9cada7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of a parameter.  <a href="#ga91d3d28fd3f172eeb54c99a68f9cada7">More...</a><br/></td></tr>
 <tr class="separator:ga91d3d28fd3f172eeb54c99a68f9cada7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga843ccc03d3ca35b3a70389513f2093e1"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga843ccc03d3ca35b3a70389513f2093e1">getParameterHint</a></td></tr>
-<tr class="memdesc:ga843ccc03d3ca35b3a70389513f2093e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter type.  <a href="#ga843ccc03d3ca35b3a70389513f2093e1">More...</a><br/></td></tr>
+<tr class="memdesc:ga843ccc03d3ca35b3a70389513f2093e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the hint text for a parameter.  <a href="#ga843ccc03d3ca35b3a70389513f2093e1">More...</a><br/></td></tr>
 <tr class="separator:ga843ccc03d3ca35b3a70389513f2093e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga631ab62c334e01c77122d6964f20c3c0"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga631ab62c334e01c77122d6964f20c3c0">getParameterType</a></td></tr>
 <tr class="memdesc:ga631ab62c334e01c77122d6964f20c3c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type of a parameter.  <a href="#ga631ab62c334e01c77122d6964f20c3c0">More...</a><br/></td></tr>
 <tr class="separator:ga631ab62c334e01c77122d6964f20c3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7da466b9265ea3ca7c8e75770a5296ca"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga7da466b9265ea3ca7c8e75770a5296ca">getBoolParameter</a></td></tr>
+<tr class="memdesc:ga7da466b9265ea3ca7c8e75770a5296ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Boolean value for a parameter.  <a href="#ga7da466b9265ea3ca7c8e75770a5296ca">More...</a><br/></td></tr>
+<tr class="separator:ga7da466b9265ea3ca7c8e75770a5296ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga34eb230ea0dd512105f4ce5778c6e4c4"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga34eb230ea0dd512105f4ce5778c6e4c4">getIntParameter</a></td></tr>
+<tr class="memdesc:ga34eb230ea0dd512105f4ce5778c6e4c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the integer value for a parameter.  <a href="#ga34eb230ea0dd512105f4ce5778c6e4c4">More...</a><br/></td></tr>
+<tr class="separator:ga34eb230ea0dd512105f4ce5778c6e4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9f27ababcbafd0d8ec40117e9508b6c5"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga9f27ababcbafd0d8ec40117e9508b6c5">getDoubleParameter</a></td></tr>
+<tr class="memdesc:ga9f27ababcbafd0d8ec40117e9508b6c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the double value for a parameter.  <a href="#ga9f27ababcbafd0d8ec40117e9508b6c5">More...</a><br/></td></tr>
+<tr class="separator:ga9f27ababcbafd0d8ec40117e9508b6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacb8fd656da1a881b9a4186a2642c4d24"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#gacb8fd656da1a881b9a4186a2642c4d24">getStringParameter</a></td></tr>
+<tr class="memdesc:gacb8fd656da1a881b9a4186a2642c4d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the string value for a parameter.  <a href="#gacb8fd656da1a881b9a4186a2642c4d24">More...</a><br/></td></tr>
+<tr class="separator:gacb8fd656da1a881b9a4186a2642c4d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga470614c3544bfa303980657c1f534b5f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga470614c3544bfa303980657c1f534b5f">getListParameter</a></td></tr>
+<tr class="memdesc:ga470614c3544bfa303980657c1f534b5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the list handle for a parameter (assuming it is a list parameter)  <a href="#ga470614c3544bfa303980657c1f534b5f">More...</a><br/></td></tr>
+<tr class="separator:ga470614c3544bfa303980657c1f534b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0b39ee01649795f0f9b5464f72ee4fed"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__parameters.html#ga0b39ee01649795f0f9b5464f72ee4fed">getParameterValue</a></td></tr>
 <tr class="memdesc:ga0b39ee01649795f0f9b5464f72ee4fed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a parameter no matter what type it is.  <a href="#ga0b39ee01649795f0f9b5464f72ee4fed">More...</a><br/></td></tr>
 <tr class="separator:ga0b39ee01649795f0f9b5464f72ee4fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>Plugins Parameter related functions The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: name, value, type, hint, and a description. </p>
-<p>The following types are curerntly supported, Booleans, integers, doubles, strings, lists of strings and roadRunner data array format. Parameters are also grouped into convenient categories which can be useful for GUI applications. </p>
+<p>Plugins Parameter related functions The plugin system supports parameter objects, these objects contain a variety of information about a given parameter, these include: the name, value, type, hint, and a description. </p>
+<p>The following types are currently supported, Booleans, integers, doubles, strings, list of parameter objects and the roadRunner data array format. Parameters can also be grouped into convenient categories which can be useful for GUI applications. Every plugin exposes as a set of parameters than can be inspected and set by a host application. The list of plugin parameters will be called the pluginParameters. Within the pluginParameters are individual parameter entries. As already aluded to, these parameter entries can store a variety of different data types, incuding additional lists of parameters. Such lists are popoluated by creating new parameters using the createParameter method and then added to the list using the addParameterToList method. In the followng a paraHandle points to a single parameter object. </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="gacc611f172084abc62488e69ec5900063"></a>
 <div class="memitem">
@@ -181,7 +208,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Add a parameter to a list of parameters. </p>
-<p>Use getParameterValueHandle to add parameters to a list. </p>
+<p>The handle to the parameter list can be obtained using getListParameter (parHandle). Some plugins may have parameters that require list of parameters to be specified. For example when deciding what kinetic parameters to fit in a model, the list of kinetic parameters can be pass to the plugin as a list. This method can be used to add the names of the kinetic parameters to the list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">listHandle</td><td>Handle to a parameter list </td></tr>
@@ -190,40 +217,40 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a Boolean indicating success</dd></dl>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;paraList = <a class="code" href="group__plugin__parameters.html#ga50da49d517aec983da3a221499873ffb">getParameterValueHandle</a>(paraHandle);</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keywordflow">if</span> rrPlugins.getParameterType (paraList) != <span class="stringliteral">&quot;list&quot;</span>:</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;paraList = getListParameter (paraHandle);</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keywordflow">if</span> rrPlugins.getParameterType (paraList) != <span class="stringliteral">&quot;listOfParameters&quot;</span>:</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;   <span class="keywordflow">print</span> <span class="stringliteral">&quot;Parameter is not a list&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;   exit()</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;para1 = <a class="code" href="group__plugin__parameters.html#ga935eb24b2c15b6341ac2ef9f6136a6f7">createParameter</a>(<span class="stringliteral">&quot;k1&quot;</span>, <span class="stringliteral">&quot;double&quot;</span>, <span class="stringliteral">&quot;A Hint&quot;</span>)</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<a class="code" href="group__plugin__parameters.html#ga9b957da7a62838e16025ebe3055d383a">setDoubleParameter</a>(para1, 0.2)</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<a class="code" href="group__plugin__parameters.html#gacc611f172084abc62488e69ec5900063">addParameterToList</a>(paraList, para1)</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;newParameter = <a class="code" href="group__plugin__parameters.html#ga935eb24b2c15b6341ac2ef9f6136a6f7">createParameter</a>(<span class="stringliteral">&quot;k1&quot;</span>, <span class="stringliteral">&quot;double&quot;</span>, <span class="stringliteral">&quot;A Hint&quot;</span>, 0.2)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<a class="code" href="group__plugin__parameters.html#gacc611f172084abc62488e69ec5900063">addParameterToList</a>(paraList, newParameter)</div>
 </div><!-- fragment -->  <br/> 
   
 </div>
 </div>
-<a class="anchor" id="ga6621600b3da7e5fa04087ce116318f57"></a>
+<a class="anchor" id="ga05fbdd68876fd7c367c9380e8795e87d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">def rrPlugins.clearPluginParameters </td>
+          <td class="memname">def rrPlugins.clearParameterList </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>parasHandle</em></td><td>)</td>
+          <td class="paramname"><em>parameterListHandle</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Clear a list of parameters. </p>
+<p>Some parameters exposed by plugins are lists that can hold other parameters. New parameter can be added to these lists. clearParameterList can be used to clear the list is a new list needs to be constructed. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parasHandle</td><td>Handle to a list of parameters </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True or false, indicating result</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is to be used on a plugins parameter that is of type parameterList. Observe that the plugin itself can return a paramterList. It is a bad idea to empty this one as this will remove the ability to retrieve any of the plugins parameters subsequently </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True or false, indicating result. The top level list of parameters in a plugin can not be cleared. </dd></dl>
 
 </div>
 </div>
@@ -263,17 +290,20 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Create a parameter of type "type" with a name and hint property. </p>
+<p>Create a parameter of type "type" with a name and hint property Valid types include: 'bool', 'int', 'double', 'string', and 'listOfParameters'. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The parameters name as a string </td></tr>
-    <tr><td class="paramname">the_type</td><td>The parameters type as string. Possible values: 'bool', 'int', 'double', 'string' </td></tr>
+    <tr><td class="paramname">the_type</td><td>The parameters type as string. Possible values: 'bool', 'int', 'double', 'string', and 'listOfParameters' </td></tr>
     <tr><td class="paramname">hint</td><td>The parameters hint as a string. </td></tr>
+    <tr><td class="paramname">value</td><td>This is an optional argument to set the parameter (supports int, double and string). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a handle to a new parameter, if succesful, None otherwise</dd></dl>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;parameterHandle = rrPlugins.createParameter (<span class="stringliteral">&quot;k1&quot;</span>, <span class="stringliteral">&quot;double&quot;</span>, <span class="stringliteral">&quot;A rate constant&quot;</span>)</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; parameterHandle = rrPlugins.createParameter (<span class="stringliteral">&quot;k1&quot;</span>, string<span class="stringliteral">&quot;, &quot;</span>A message<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">  </span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">parameterHandle = rrPlugins.createParameter (</span><span class="stringliteral">&quot;k1&quot;</span>, <span class="stringliteral">&quot;double&quot;</span>, <span class="stringliteral">&quot;A rate constant&quot;</span>, 0.3)</div>
 </div><!-- fragment -->  <br/> 
   
 </div>
@@ -303,6 +333,56 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga7da466b9265ea3ca7c8e75770a5296ca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getBoolParameter </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Boolean value for a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a Parameter instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a Boolean value. Throws an exception if the parameter type is not a Boolean </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga9f27ababcbafd0d8ec40117e9508b6c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getDoubleParameter </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the double value for a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a parameter instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a double value. Throws an exception if the parameter type is not a double </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gace5a3927dc33350c762a481afcf4f49d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -317,7 +397,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get the 'first' parameter handle to a parameter in a parameters list. </p>
+<p>Get the 'first' parameter handle to a parameter in a list of parameters. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paraListHandle</td><td>Handle to a parameterList </td></tr>
@@ -328,28 +408,103 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa3b1c08848599f7a3566991cfb3ab2bc"></a>
+<a class="anchor" id="ga34eb230ea0dd512105f4ce5778c6e4c4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">def rrPlugins.getListOfParameterNames </td>
+          <td class="memname">def rrPlugins.getIntParameter </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>parasHandle</em></td><td>)</td>
+          <td class="paramname"><em>paraHandle</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a list of a plugins parameter names. </p>
+<p>Get the integer value for a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a parameter instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an integer value. Throws an exception if the parameter type is not an integer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga24e817520f7c2f1fe96bd5c581f72727"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getListOfPluginParameterNames </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pluginHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a list of parameter names in a plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns names for all parameters in the plugin </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the netire list of top level parameter names, None otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga470614c3544bfa303980657c1f534b5f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getListParameter </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the list handle for a parameter (assuming it is a list parameter) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a parameter instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an string value. Throws an exception of the parameter type is not a list of parameters </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga8c57622a2b0ea7d6b7c727fa1211d3ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getNamesFromParameterList </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If the parameter is a list, this method returns the list of parameter names in that list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns names for all parameters in the list </dd></dl>
 
 </div>
 </div>
@@ -367,7 +522,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get 'next' parameter handle to a parameter in a parameters list. </p>
+<p>Get the 'next' parameter handle to a parameter in a list of parameters. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paraListHandle</td><td>Handle to a parameterList </td></tr>
@@ -392,14 +547,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a parameter type. </p>
+<p>Get the hint text for a parameter. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paraHandle</td><td>to a Parameter instance </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the parameters type if successful, None otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the hint value for a parameter if successful, None otherwise </dd></dl>
 
 </div>
 </div>
@@ -474,7 +629,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the parameters type if successful, None otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the parameters type as a string if successful, None otherwise </dd></dl>
 
 </div>
 </div>
@@ -500,7 +655,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns the value of the parameter if succesful, None otherwise </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function works only primitive data types, such as int, double, and string. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function only works on primitive data types, such as int, double, and string. </dd></dl>
 
 </div>
 </div>
@@ -544,7 +699,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get a handle to a parameter value. </p>
-<p>Such parameters could be any type, including a list of parameters. </p>
+<p>Such parameters could be any type, including a list of parameters. Use getlistParameter(paraHandle) instead. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paraHandle</td><td>to a Parameter instance </td></tr>
@@ -571,13 +726,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>parameterName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>capabilitiesName</em> = <code>None</code>&#160;</td>
+          <td class="paramname"><em>parameterName</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -587,17 +736,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a parameter handle to a parameter, located in a specific category. </p>
-<p>If the category argument is None the function will look into all categories and return the first parameter matching "parameterName". </p>
+<p>Get a parameter handle to a parameter given the name of the parameter. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
     <tr><td class="paramname">parameterName</td><td>Name of the parameter </td></tr>
-    <tr><td class="paramname">categoriesName</td><td>Name of a category containing the parameter. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a handle to a parameter. Returns None if not found </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a paraHandle to a parameter. Returns None if not found </dd></dl>
 
 </div>
 </div>
@@ -615,7 +762,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a handle to a plugins list of parameters. </p>
+<p>Get a handle to the list of parameters for a plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -623,6 +770,56 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns available parameters for a particular, None otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gab463ccdc7b04768bb687864fc50ad52b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getPluginPropertiesAsXML </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pluginHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a the properties of a plugins in the form ofxml. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a string on success, None otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gacb8fd656da1a881b9a4186a2642c4d24"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.getStringParameter </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the string value for a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a parameter instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an string value. Throws an exception if the parameter type is not a string </dd></dl>
 
 </div>
 </div>
@@ -734,6 +931,78 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga86b77cf7fdec79d50196dd8196963944"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.setParameterDescription </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>descr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the description of a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a Parameter instance </td></tr>
+    <tr><td class="paramname">descr</td><td>String holding the description </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if successful, false otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga48917bc602a9b6dd51cbbd8cc3ae7aed"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rrPlugins.setParameterHint </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>paraHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>descr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the hint property of a parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paraHandle</td><td>to a Parameter instance </td></tr>
+    <tr><td class="paramname">descr</td><td>String holding the hint text </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if successful, false otherwise </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gadf5147ec7a556bbfc61ee5d2cb265ae5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -816,7 +1085,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 13:03:16 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 23:44:18 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

@@ -124,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="group__plugins.html#ga04ef5e823ecf7d6157756fbd0c1603f6">executePluginEx</a>(noisePlugin, <span class="keyword">False</span>)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">#Input Data</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;rrcData = <a class="code" href="group__utilities.html#ga4f8d56c3d083a83bef7c5a658f1fe206">createRRCData</a>(rrDataHandle)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;rrcData = createRRCData(rrDataHandle)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;npData = <a class="code" href="group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282">getNumpyData</a>(rrcData)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">#print result</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
@@ -148,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">#Setup the plugin for minimization</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">#See documentation for available parameters</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;observedData = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(lmPlugin, <span class="stringliteral">&quot;ObservedData&quot;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;observedData = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(lmPlugin, <span class="stringliteral">&quot;ExperimentalData&quot;</span>);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;paraHandle = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(lmPlugin, <span class="stringliteral">&quot;InputParameterList&quot;</span>);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">#The actual parameter value, as a pointer</span></div>
@@ -193,15 +193,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment"># Look at the data</span></div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;dataPHandle = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(lmPlugin, <span class="stringliteral">&quot;ModelData&quot;</span>);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;dataHandle = <a class="code" href="group__plugin__parameters.html#ga50da49d517aec983da3a221499873ffb">getParameterValueHandle</a>(dataPHandle)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;rrcData = <a class="code" href="group__utilities.html#ga4f8d56c3d083a83bef7c5a658f1fe206">createRRCData</a>(dataHandle)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;rrcData = createRRCData(dataHandle)</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;npData = <a class="code" href="group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282">getNumpyData</a>(rrcData)</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;S1Model = npData[:,1]</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;S2Model = npData[:,2]</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;dataPHandle = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(lmPlugin, <span class="stringliteral">&quot;ResidualsData&quot;</span>);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;dataPHandle = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(lmPlugin, <span class="stringliteral">&quot;Residuals&quot;</span>);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;dataHandle = <a class="code" href="group__plugin__parameters.html#ga50da49d517aec983da3a221499873ffb">getParameterValueHandle</a>(dataPHandle)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;rrcData = <a class="code" href="group__utilities.html#ga4f8d56c3d083a83bef7c5a658f1fe206">createRRCData</a>(dataHandle)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;rrcData = createRRCData(dataHandle)</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;npData = <a class="code" href="group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282">getNumpyData</a>(rrcData)</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;s1Residual= npData[:,1]</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;s2Residual= npData[:,2]</div>
@@ -228,7 +228,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 13:03:16 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 23:44:18 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

@@ -132,8 +132,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>clearPluginParameters()
-: <a class="el" href="group__plugins.html#gabd1e6f04996f9ea748e69f5f09a43108">rrp_parameter_api.h</a>
+<li>clearParameterList()
+: <a class="el" href="group__plugins.html#gae045474fec1565f65ff91b1e8c8d1a92">rrp_parameter_api.h</a>
 </li>
 <li>createParameter()
 : <a class="el" href="group__plugin__parameters.html#gaef2fbf5438cd4063e023c2538a585882">rrp_parameter_api.h</a>
@@ -170,24 +170,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>getCurrentPlugin()
 : <a class="el" href="group__plugin__manager.html#gaf606ba5c91c2453669afe258ab514f76">rrp_api.h</a>
-, <a class="el" href="group__plugin__parameters.html#ga3b19de61fdcde1a76948848f2c775d06">rrp_parameter_api.h</a>
 </li>
 <li>getFirstPlugin()
-: <a class="el" href="group__plugin__parameters.html#ga6a1b23ecc5bcb7c11b9fefbefd236011">rrp_parameter_api.h</a>
-, <a class="el" href="group__plugin__manager.html#ga87b6167b7a8bcfc18ed1ba034206e473">rrp_api.h</a>
+: <a class="el" href="group__plugin__manager.html#ga87b6167b7a8bcfc18ed1ba034206e473">rrp_api.h</a>
 </li>
 <li>getLastPluginError()
 : <a class="el" href="group__utilities.html#ga7e2a175cf823ad8181791df438d01c90">rrp_api.h</a>
 </li>
-<li>getListOfParameterNames()
-: <a class="el" href="group__plugins.html#ga3652e173b3ae31397307fbc7b9a587cd">rrp_parameter_api.h</a>
+<li>getListOfPluginParameterNames()
+: <a class="el" href="group__plugins.html#ga42498201e39dbebc4e4560f4d4c15b41">rrp_api.h</a>
+</li>
+<li>getNamesFromParameterList()
+: <a class="el" href="group__plugins.html#ga630f6d630b5ef454b3cbda00b194b969">rrp_parameter_api.h</a>
 </li>
 <li>getNextPlugin()
-: <a class="el" href="group__plugin__parameters.html#gab118a57474ae32c8e36344d22741c1ec">rrp_parameter_api.h</a>
-, <a class="el" href="group__plugin__manager.html#ga15cf594fc7dd932820029493b7f0f2a6">rrp_api.h</a>
+: <a class="el" href="group__plugin__manager.html#ga15cf594fc7dd932820029493b7f0f2a6">rrp_api.h</a>
 </li>
 <li>getNumberOfPlugins()
 : <a class="el" href="group__plugin__manager.html#gac38fb7ce56fa90e828793d78ab802bf8">rrp_api.h</a>
+</li>
+<li>getParameterDescription()
+: <a class="el" href="group__plugin__parameters.html#ga1de14ceb3a52bebac017275e2e9aaf36">rrp_parameter_api.h</a>
 </li>
 <li>getParameterHint()
 : <a class="el" href="group__plugin__parameters.html#ga985cf8e7ded43857b44e92969888c1ee">rrp_parameter_api.h</a>
@@ -237,6 +240,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getPluginParameters()
 : <a class="el" href="group__plugins.html#gaa176499e8a84cf4151c65df5aaa819ed">rrp_api.h</a>
 </li>
+<li>getPluginPropertiesAsXML()
+: <a class="el" href="group__plugins.html#gab9c5e798d31c162f206820c135f37b02">rrp_api.h</a>
+</li>
 <li>getPluginResult()
 : <a class="el" href="group__plugins.html#ga0b93e8ea7762df704640cf1dd4c67b4d">rrp_api.h</a>
 </li>
@@ -248,7 +254,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getPreviousPlugin()
 : <a class="el" href="group__plugin__manager.html#gae198fa41affe7b839c69d6f9e567dcd0">rrp_api.h</a>
-, <a class="el" href="group__plugin__parameters.html#gaee9869b0bbe528a3d257622fd84db53f">rrp_parameter_api.h</a>
 </li>
 <li>getRoadRunnerDataHandle()
 : <a class="el" href="rrp__api_8h.html#a8e37ec4cf49c37adde5dca2c0f3a5a1a">rrp_api.h</a>
@@ -305,6 +310,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setParameterByString()
 : <a class="el" href="group__plugin__parameters.html#ga803e504cda1aacb3af44baf33c3d2c8f">rrp_parameter_api.h</a>
 </li>
+<li>setParameterDescription()
+: <a class="el" href="group__plugin__parameters.html#ga7de557e451abfff2c5751ac4f5b9b515">rrp_parameter_api.h</a>
+</li>
+<li>setParameterHint()
+: <a class="el" href="group__plugin__parameters.html#gaad8efcdf92e8058157af5bc5e72ff5d0">rrp_parameter_api.h</a>
+</li>
 <li>setPluginParameter()
 : <a class="el" href="group__plugins.html#gab86468930010e57a618236d5375379ea">rrp_api.h</a>
 </li>
@@ -342,7 +353,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 13:03:14 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 23:44:18 for libRoadRunner Plugin C API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

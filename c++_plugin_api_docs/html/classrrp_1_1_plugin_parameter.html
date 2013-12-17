@@ -109,6 +109,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac477a9fbddd0b5413b6a316b250452d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3b621c6aa24fd2c7606c884b64238ff"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#af3b621c6aa24fd2c7606c884b64238ff">getName</a> () const </td></tr>
 <tr class="separator:af3b621c6aa24fd2c7606c884b64238ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af665bab46b5c99053a22e475d537727f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#af665bab46b5c99053a22e475d537727f">getDescription</a> () const </td></tr>
+<tr class="separator:af665bab46b5c99053a22e475d537727f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ae86cf49156814e0b4ed7e4401268ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#a1ae86cf49156814e0b4ed7e4401268ab">setDescription</a> (const string &amp;descr)</td></tr>
+<tr class="separator:a1ae86cf49156814e0b4ed7e4401268ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3a6fb7e46d1ebf0c416b0de068875d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#ad3a6fb7e46d1ebf0c416b0de068875d2">setHint</a> (const string &amp;hint)</td></tr>
+<tr class="separator:ad3a6fb7e46d1ebf0c416b0de068875d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bc7538335511ee025b947ab0ffe5d81"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#a8bc7538335511ee025b947ab0ffe5d81">getHint</a> () const </td></tr>
 <tr class="separator:a8bc7538335511ee025b947ab0ffe5d81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48e9cac017816db7903e7ab4bd0f18e8"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#a48e9cac017816db7903e7ab4bd0f18e8">getValueAsString</a> () const </td></tr>
@@ -124,6 +130,8 @@ Public Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a297329b5314bab08066c1f77c847243a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#a297329b5314bab08066c1f77c847243a">mName</a></td></tr>
 <tr class="separator:a297329b5314bab08066c1f77c847243a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace9cd73b4007e78a5e4b68cc9fd708ab"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#ace9cd73b4007e78a5e4b68cc9fd708ab">mDescription</a></td></tr>
+<tr class="separator:ace9cd73b4007e78a5e4b68cc9fd708ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade65789d0610c592e51ab82611272186"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrp_1_1_plugin_parameter.html#ade65789d0610c592e51ab82611272186">mHint</a></td></tr>
 <tr class="separator:ade65789d0610c592e51ab82611272186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -133,7 +141,7 @@ Friends</h2></td></tr>
 <tr class="separator:a3d481417fd0b1008c85335244c268707"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> class is an interface for derived <a class="el" href="classrrp_1_1_parameters.html">Parameters</a>, that can be of any type. A parameter has a name and a hint, encapsulating the the purpose of the actual parameter. </p>
+<div class="textblock"><p>The <a class="el" href="classrrp_1_1_plugin_parameter.html">PluginParameter</a> class is an interface for derived <a class="el" href="classrrp_1_1_parameters.html">Parameters</a>, that can be of any type. A parameter has a name, description and a hint, encapsulating the the purpose of the actual parameter. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a47ce2cf09d44a200c05b4db42992462e"></a>
 <div class="memitem">
@@ -200,6 +208,22 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Return the parameter in a string representation </p>
+
+</div>
+</div>
+<a class="anchor" id="af665bab46b5c99053a22e475d537727f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::PluginParameter::getDescription </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return description of the parameter </p>
 
 </div>
 </div>
@@ -308,6 +332,40 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1ae86cf49156814e0b4ed7e4401268ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rrp::PluginParameter::setDescription </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>descr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the description of a parameter </p>
+
+</div>
+</div>
+<a class="anchor" id="ad3a6fb7e46d1ebf0c416b0de068875d2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rrp::PluginParameter::setHint </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>hint</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the hint of a parameter </p>
+
+</div>
+</div>
 <a class="anchor" id="a723b4ce0a28e332489828a83bcb13e90"></a>
 <div class="memitem">
 <div class="memproto">
@@ -370,6 +428,27 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ace9cd73b4007e78a5e4b68cc9fd708ab"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rrp::PluginParameter::mDescription</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The description of a parameter. </p>
+
+</div>
+</div>
 <a class="anchor" id="ade65789d0610c592e51ab82611272186"></a>
 <div class="memitem">
 <div class="memproto">
@@ -419,7 +498,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 13:03:12 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 16 2013 23:44:18 for libRoadRunner Plugin C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

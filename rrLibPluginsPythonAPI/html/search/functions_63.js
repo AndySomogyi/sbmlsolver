@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['clearpluginparameters',['clearPluginParameters',['../group__plugin__parameters.html#ga6621600b3da7e5fa04087ce116318f57',1,'rrPlugins']]],
+  ['clearparameterlist',['clearParameterList',['../group__plugin__parameters.html#ga05fbdd68876fd7c367c9380e8795e87d',1,'rrPlugins']]],
   ['createparameter',['createParameter',['../group__plugin__parameters.html#ga935eb24b2c15b6341ac2ef9f6136a6f7',1,'rrPlugins']]],
-  ['createpluginmanager',['createPluginManager',['../group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c',1,'rrPlugins']]],
-  ['createrrcdata',['createRRCData',['../group__utilities.html#ga4f8d56c3d083a83bef7c5a658f1fe206',1,'rrPlugins']]]
+  ['createpluginmanager',['createPluginManager',['../group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c',1,'rrPlugins']]]
 ];
