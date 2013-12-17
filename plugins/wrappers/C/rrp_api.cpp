@@ -290,27 +290,27 @@ bool rrp_cc executePluginEx(RRPluginHandle handle, bool inAThread)
     catch_bool_macro
 }
 
-bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
+bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->assignPluginStartedCallBack(theCB, userData1, userData2) : false;
+        return (aPlugin) ? aPlugin->assignOnStartedEvent(theCB, userData1, userData2) : false;
     catch_bool_macro
 }
 
-bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
+bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->assignPluginProgressCallBack(theCB, userData1, userData2) : false;
+        return (aPlugin) ? aPlugin->assignOnProgressEvent(theCB, userData1, userData2) : false;
     catch_bool_macro
 }
 
-bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
+bool rrp_cc assignOnFinishedEvent(RRPluginHandle handle, pluginCallBack theCB, void* userData1, void* userData2)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        return (aPlugin) ? aPlugin->assignPluginFinishedCallBack(theCB, userData1, userData2) : false;
+        return (aPlugin) ? aPlugin->assignOnFinishedEvent(theCB, userData1, userData2) : false;
     catch_bool_macro
 }
 

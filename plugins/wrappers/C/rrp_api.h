@@ -323,7 +323,7 @@ RRP_DECLSPEC bool rrp_cc wasTerminated(RRPluginHandle handle);
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
+RRP_DECLSPEC bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
 /*!
  \brief Assign callback function fired as a plugin progresses
@@ -334,7 +334,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, plug
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
+RRP_DECLSPEC bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
 /*!
  \brief Assign callback function fired when a plugin finishes its work
@@ -345,7 +345,7 @@ RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, plu
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
+RRP_DECLSPEC bool rrp_cc assignOnFinishedEvent(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
 
 /*!
  \brief Hand external data to a plugin

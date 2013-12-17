@@ -225,17 +225,17 @@ class PLUGINS_API_DECLSPEC Plugin
         /**
             Assign function pointer and data the callback
         */
-        virtual bool                    assignPluginStartedCallBack(PluginEvent pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignOnStartedEvent(PluginEvent pluginStarted, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
             Assign function pointer and data the callback
         */
-        virtual bool                    assignPluginProgressCallBack(PluginEvent pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignOnProgressEvent(PluginEvent pluginsProgress, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
             Assign function pointer and data the callback
         */
-        virtual bool                    assignPluginFinishedCallBack(PluginEvent pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
+        virtual bool                    assignOnFinishedEvent(PluginEvent pluginsFinished, void* userData1 = NULL, void* userData2 = NULL);
 
         /**
             Function returnin a plugins "result", as a string
