@@ -83,7 +83,8 @@ public:
      * populate from a csv file.
      */
     bool loadSimpleFormat(const std::string& fileName);
-    bool writeTo(const std::string& fileName) const;
+    bool writeTo(const std::string& fileName) const;    //Comment: rename to writeToFile ?
+    bool readFrom(const std::string& fileName) const;
     bool check() const;    //Check if containst proper data
 
     /**
@@ -115,10 +116,10 @@ public:
 
 
 protected:
-    std::vector<std::string> mColumnNames;
-    DoubleMatrix mTheData;
-    DoubleMatrix mWeights;         //Matrix containing weights
-    int mTimePrecision;            //The precision when saved to file
+    mutable std::vector<std::string> mColumnNames;  //Allow friends to change this one
+    mutable DoubleMatrix mTheData;                  //Allow friends to change this one
+    mutable DoubleMatrix mWeights;                  //Allow friends to change this one
+    int mTimePrecision;                             //The precision when saved to file
     int mDataPrecision;            //The precision when saved to file
     std::string mName;             //For debugging purposes mainly..
 };

@@ -446,6 +446,13 @@ bool rrp_cc getRoadRunnerDataElement(RRDataHandle data, int row, int col, double
     catch_bool_macro
 }
 
+char* rrp_cc getRoadRunnerDataColumnHeader(RRDataHandle _data)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(_data);
+        return createText(data->getColumnNamesAsString());        
+    catch_ptr_macro
+}
 
 int rrp_cc getRoadRunnerDataNumRows(RRDataHandle _data)
 {
@@ -463,6 +470,44 @@ int rrp_cc getRoadRunnerDataNumCols(RRDataHandle _data)
     catch_int_macro
 }
 
+RRDataHandle rrp_cc createRoadRunnerData(int nRows, int nCols, char* colNames)
+{
+    start_try
+        RoadRunnerData* data = new RoadRunnerData(nRows, nCols);
+        if (colNames)
+        {
+            StringList colNames(colNames, ",");
+            data->setColumnNames(colNames);
+        }
+        return data;        
+    catch_ptr_macro
+}
+
+bool rrp_cc freeRoadRunnerData(RRDataHandle rrData)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(rrData);
+        delete data;
+        return true;
+    catch_bool_macro
+}
+
+bool rrp_cc writeRoadRunnerDataToFile(RRDataHandle rrData, char* fName)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(rrData);
+        return data->writeTo(fName);        
+    catch_bool_macro
+}
+
+bool rrp_cc readRoadRunnerDataFromFile(RRDataHandle rrData, char* fName)
+{
+    start_try
+        RoadRunnerData* data = castToRRData(rrData);
+        return data->readFrom(fName);        
+    catch_bool_macro
+
+}
 
 
 }

@@ -11,6 +11,7 @@ rrPluginParameterLists.py
 rrLevenbergMarquardt.py
 rrNoisePlugin.py
 rrTwoPlugins.py
+rrCreateNoisyData.py
 )
 
 install(    
