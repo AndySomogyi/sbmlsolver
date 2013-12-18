@@ -21,12 +21,11 @@ class LM : public CPPPlugin
     friend class LMWorker;
 
     protected:
-        Capability                              mLMFit;
-        Parameter<string>                       mTempFolder;
+        Capability                              mLMFit;        
         Parameter<string>                       mSBML;                          //This is the model
-        Parameter<RoadRunnerData>               mObservedData;
-        Parameter<RoadRunnerData>               mModelData;
-        Parameter<RoadRunnerData>               mResidualsData;
+        Parameter<RoadRunnerData*>              mObservedData;
+        Parameter<RoadRunnerData*>              mModelData;
+        Parameter<RoadRunnerData*>              mResidualsData;
         Parameter<Parameters>                   mInputParameterList;            //Parameters to fit
         Parameter<Parameters>                   mOutputParameterList;           //Parameters that was fitted
         Parameter<StringList>                   mObservedDataSelectionList;     //Species selection list for observed data
@@ -46,8 +45,7 @@ class LM : public CPPPlugin
 
         bool                                    execute(bool inThread = false);
         string                                  getResult();
-        bool                                    resetPlugin();
-        bool                                    assignInput(void* data);
+        bool                                    resetPlugin();        
         string                                  getImplementationLanguage();
         string                                  getStatus();
         bool                                    isWorking();

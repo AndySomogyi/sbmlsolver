@@ -292,7 +292,7 @@ bool rrp_cc getListParameter(RRParameterHandle handle, void* (value))
 bool rrp_cc setRoadRunnerDataParameter(RRParameterHandle handle, void* value)
 {
     start_try
-        Parameter<RoadRunnerData>* para = castToRoadRunnerDataParameter(handle);
+        Parameter<RoadRunnerData*>* para = castToRoadRunnerDataParameter(handle);
         para->setValue((RoadRunnerData*) value);
         return true;
     catch_bool_macro
@@ -301,9 +301,9 @@ bool rrp_cc setRoadRunnerDataParameter(RRParameterHandle handle, void* value)
 bool rrp_cc getRoadRunnerDataParameter(RRParameterHandle handle, void* value)
 {
     start_try
-        Parameter<RoadRunnerData>* para = castToRoadRunnerDataParameter(handle);
+        Parameter<RoadRunnerData*>* para = castToRoadRunnerDataParameter(handle);
         RoadRunnerData* assignTo = castToRoadRunnerData(value);
-        (*assignTo) = para->getValue();
+        (assignTo) = para->getValue();
         return true;
     catch_bool_macro
 }

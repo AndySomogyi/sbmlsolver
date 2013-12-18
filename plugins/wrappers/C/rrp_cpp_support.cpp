@@ -149,9 +149,9 @@ RoadRunnerData* castToRoadRunnerData(RRDataHandle handle)
     }
 }
 
-Parameter<RoadRunnerData>* castToRoadRunnerDataParameter(RRParameterHandle handle)
+Parameter<RoadRunnerData*>* castToRoadRunnerDataParameter(RRParameterHandle handle)
 {
-    Parameter<RoadRunnerData>* para = (Parameter<RoadRunnerData>*) handle;
+    Parameter<RoadRunnerData*>* para = (Parameter<RoadRunnerData*>*) handle;
     if(para) //Will only fail if handle is NULL...
     {
         return para;

@@ -14,7 +14,7 @@ print getPluginInfo(plugin)
 paras =  getPluginParameters(plugin)
 
 #Get parameters associated with a capability
-print getListOfPluginParameterNames(paras)
+print getListOfPluginParameterNames(plugin)
 
 paraHandle   = getPluginParameter(plugin, "NoiseType")
 

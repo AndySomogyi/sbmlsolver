@@ -20,20 +20,21 @@ class AddNoise : public CPPPlugin
         enum NoiseType {ntGaussian = 0, ntPsychological, ntUndefined};
 
     private:
-        Capability              mAddNoise;
-        Parameter<int>          mNoiseType;
-        Parameter<double>       mSigma;
-        AddNoiseWorker          mAddNoiseWorker;
+        Capability                  mAddNoise;
+        Parameter<int>              mNoiseType;
+        Parameter<double>           mSigma;
+        Parameter<RoadRunnerData*>  mData;
+        AddNoiseWorker              mAddNoiseWorker;
 
     public:
-                                AddNoise(RoadRunner* aRR = NULL, PluginEvent fn1 = NULL, PluginEvent fn2 = NULL, PluginEvent fn3 = NULL);
-                               ~AddNoise();
+                                    AddNoise(RoadRunner* aRR = NULL, PluginEvent fn1 = NULL, PluginEvent fn2 = NULL, PluginEvent fn3 = NULL);
+                                   ~AddNoise();
 
-                                //user data is
-        bool                    execute(bool inThread = false);
-        bool                    isWorking(); //Returns true as long the thread is active..
-        unsigned char*          getManualAsPDF() const;
-        unsigned int            getPDFManualByteSize();
+                                
+        bool                        execute(bool inThread = false);
+        bool                        isWorking(); //Returns true as long the thread is active..
+        unsigned char*              getManualAsPDF() const;
+        unsigned int                getPDFManualByteSize();
 };
 
 extern "C"

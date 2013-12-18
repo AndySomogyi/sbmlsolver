@@ -915,8 +915,10 @@ def getParameterValue(paraHandle):
         return getParameterValueAsString(paraHandle)
     if paraType == 'listOfParameters':
         return getParameterValueHandle(paraHandle)    
-    if paraType == 'roadRunnerData':
-        return getParameterValueHandle(paraHandle)            
+    if paraType == 'roadRunnerData': #The value of this is a handle
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_void_p))
+        return ptr[0]             
     else:
        raise TypeError ('Parameter is not a string type')
 
@@ -1017,6 +1019,10 @@ def createRoadRunnerDataFromFile(fName):
     if rrpLib.readRoadRunnerDataFromFile(rrDataHandle, fName) == False:
         print 'Failed to read data'
     return rrDataHandle
+
+def getText(fName):
+    file = open(fName, 'r')
+    return file.read()
 
 ## \brief Free RoadRunnerData 
 ## \param dataHandle Handle to a roadrunner data object 
