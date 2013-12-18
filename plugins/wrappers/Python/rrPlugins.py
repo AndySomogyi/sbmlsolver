@@ -7,6 +7,7 @@ import roadrunner
 import tempfile
 import time
 from ctypes import *
+import matplotlib.pyplot as plot
 
 """
 CTypes Python Bindings to the RoadRunner Plugin API.
@@ -948,6 +949,27 @@ def getNumpyData(rrDataHandle):
     #Not sure how to append the col names.                    
     return resultArray
 
+def plotRoadRunnerData(data, colHeaders):
+    nrCols = data.shape[1]
+    nrRows = data.shape[0]
+     
+    if len(colHeaders) < 1:
+        print "bad data"
+        return
+    xlbl = colHeaders[0]
+    nrOfSeries = nrCols -1
+    x = data[:,0]  
+    
+    for serie in range(nrOfSeries):
+        ySeries = np.zeros([nrRows])
+        print 'creating series' + `serie`
+        ySeries = data[:,serie + 1]
+        plot.plot(x, ySeries, "", label=colHeaders[serie +1])      
+              
+    plot.legend(bbox_to_anchor=(1.05, 1), loc=1, borderaxespad=0.)    
+    plot.xlabel(xlbl)    
+    plot.ylabel('Concentration (moles/L)')
+    plot.show()
 ## \brief Get column header in roadrunner data
 ## \param rrDataHandle A handle to a oadrunner data object
 ## \return Returns a numpy data object
@@ -958,7 +980,7 @@ def getRoadRunnerDataColumnHeader(rrDataHandle):
     hdr = rrpLib.getRoadRunnerDataColumnHeader(rrDataHandle)
     res = hdr
     rrpLib.freeText(res)
-    return hdr.split('.') 
+    return hdr.split(',') 
 
 
 ## \brief Write RoadRunnerData to a file
