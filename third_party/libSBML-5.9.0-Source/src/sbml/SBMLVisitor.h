@@ -97,7 +97,7 @@ class Priority;
 class ListOf;
 
 
-class SBMLVisitor
+class LIBSBML_EXTERN SBMLVisitor
 {
 public:
 
