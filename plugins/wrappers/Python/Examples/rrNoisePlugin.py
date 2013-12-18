@@ -1,9 +1,5 @@
-import sys;
-import numpy
-import os
 import matplotlib.pyplot as plot
 import roadrunner
-from ctypes import *
 from rrPlugins import *
 
 #Create a plugin manager

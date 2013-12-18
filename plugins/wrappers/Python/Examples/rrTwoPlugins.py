@@ -1,5 +1,5 @@
-from numpy import *
 import matplotlib.pyplot as plot
+from numpy import *
 from rrPlugins import *
 
 #Create a plugin manager

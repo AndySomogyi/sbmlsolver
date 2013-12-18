@@ -1,8 +1,4 @@
-import sys;
-import numpy
-import os
 import roadrunner
-from ctypes import *
 from rrPlugins import *
 
 #Create a plugin manager
