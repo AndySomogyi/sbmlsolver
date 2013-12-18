@@ -20,8 +20,9 @@ To get you started here is a very simple script that will load an example SBML m
 simulation and plot the results::
 
    import roadrunner
+   import roadrunner.testing
    rr = roadrunner.RoadRunner()
-   rr.load(os.path.dirname(roadrunner.__file__)+"/testing/test_1.xml") 
+   rr.load(roadrunner.testing.get_data('feedback.xml'))
    result = rr.simulate()
    roadrunner.plot(result)
  
@@ -52,3 +53,4 @@ Indices and tables
 * :ref:`search`
 
 
+.. highlight:: python
