@@ -95,9 +95,9 @@ class ParameterObject:
 ##@code
 ##def myPluginFunction():
 ##    print 'The plugin can call this function!'
-## #After loading the plugin, the user can assign this function as a plugin event to monitor the start of the plugin as follows
-## Note, make sure yuo assign the event to a variable (c_event) so that the Python garbage 
-## collector doesn't delete it
+## #The user can assign this function as a plugin event to monitor the start of the plugin as follows.
+## #Note, make sure you assign the event to a variable (c_event) so that the Python garbage 
+## #collector doesn't delete it
 ## c_event = NotifyEvent(myPluginFunction)
 ## assignOnStartedEvent(plugin,  c_event)
 ##@endcode
@@ -108,15 +108,16 @@ NotifyEvent  = CFUNCTYPE(None)
 ## This is a helper object that a client can use as an argument to a roadrunner plugin.
 ## The exact number of plugins event functions required arguments, and their type is plugin dependent. A client of the
 ## the plugin need to get this information from plugin specific documentation. An example of 
-## using this particular function, NotifyIntStrEvent is shown below. As can see, this python function takes two arguments.
-## The first argument is an integer, indicating progress (possibly a percentage), the second argument is not used in this particular case.
+## using this particular function, NotifyIntStrEvent is shown below. As indicated, this python function takes two arguments.
+## The first argument is an integer, indicating progress (possibly a percentage), the second argument is not used in this particular case, but still required.
 ##@code
 ##def pluginIsProgressing(progress, dummy):
 ##    nr = progress[0]
 ##    print '\nPlugin progress:' + `nr` +' %'
-## #After loading the plugin, the user can assign this function as a plugin event as follows
-## Note, make sure yuo assign the event to a variable (c_event) so that the Python garbage 
-## collector doesn't delete it
+## #The user can assign this function as a plugin event to monitor the start of the plugin as follows.
+## #Note, make sure you assign the event to a variable (c_event) so that the Python garbage 
+## #collector doesn't delete it
+## c_event = NotifyEvent(myPluginFunction)
 ## c_event = NotifyIntStrEvent(pluginIsProgressing)
 ## assignOnStartedEvent(plugin, c_event)
 ##@endcode
@@ -167,7 +168,7 @@ def loadPlugins(pm):
     return rrpLib.loadPlugins(pm)
 
 ##
-## \brief Unload plugins
+## \brief Unload all plugins. 
 ## \param pm Handle to a PluginManager instance
 ## \return Returns true if Plugins are unloaded succesfully, false otherwise
 ##
@@ -195,7 +196,7 @@ def loadPlugin(pm, pluginName):
     return rrpLib.loadPlugin(pm, pluginName)
 
 ##
-## \brief unload a particular plugin
+## \brief Unload a particular plugin
 ## \param pm Handle to a PluginManager instance
 ## \param pHandle Handle to a Plugin instance
 ## \return Returns true if the Plugin are unloaded succesfully, false otherwise
@@ -358,7 +359,7 @@ def getPluginManualNrOfBytes(pluginHandle):
 
 ## \brief If a plugin has a built-in PDF manual, display it.
 ## \param pluginHandle Handle to a plugin
-## \return Returns False is the plugin has no manual
+## \return Returns False if the plugin has no manual
 ##
 ## @code
 ## success = displayPluginManual(pluginHandle)
@@ -394,7 +395,7 @@ def assignRoadRunnerInstance(pluginHandle, rrHandle):
 ## function. The call is plugin dependent meaning that it could result in a calculation, starting up a GUI etc.
 ## \param pluginHandle Handle to a plugin
 ## \return Returns true or false indicating success/failure
-## \note The execute function is blocking, this means it won't returns to the caller until the task is complete.
+## \note The execute function is a regular blocking function, meaning it won't return to the caller until the task is complete.
 ## If the plugin is asked to carry out a lengthy calculation, consider using
 ## the executePluginEx function that has the option to execute the plugin code in the background (in a thread);
 ## \ingroup plugins
@@ -466,7 +467,7 @@ rrpLib.isBeingTerminated.restype = c_bool
 def isBeingTerminated(pluginHandle):
     return rrpLib.isBeingTerminated(pluginHandle)
 
-## \brief wasTerminated. Query a plugin if work was terminated succesfully. This function may be used in combination with
+## \brief Query a plugin if work was terminated succesfully. This function may be used in combination with
 ## the terminateWork, and isBeingTerminated functions.
 ## \param pluginHandle Handle to the plugin
 ## \return Returns true or false indicating if the work in the plugin was terminated or not
@@ -475,7 +476,7 @@ rrpLib.wasTerminated.restype = c_bool
 def wasTerminated(pluginHandle):
     return rrpLib.wasTerminated(pluginHandle)
 
-## \brief Assign OnStartedEvent function, fired when a plugin starts its work
+## \brief Assigns a plugins OnStartedEvent function.Plugin dependent. Intended usage is to report back on plugin initialization.
 ## \param pluginHandle Handle to a plugin
 ## \param pluginEvent Function pointer to OnEvent routine
 ## \param userData1 void* pointer to user data.
@@ -486,8 +487,9 @@ rrpLib.assignOnStartedEvent.args =[c_void_p, NotifyEvent, c_void_p]
 def assignOnStartedEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
     return rrpLib.assignOnStartedEvent(pluginHandle, pluginEvent, userData1, userData2)
 
-## \brief Assign OnProgressEvent function. Plugin dependent but can be used to report back progress
-## \param pluginHandle Handle to a pluginevent routine## \param userData1 void* pointer to user data.
+## \brief Assigns a plugins OnProgressEvent function. Plugin dependent. Intended usage is to report back progress
+## \param pluginHandle Handle to a pluginevent routine
+## \param userData1 void* pointer to user data.
 ## \param userData2 void* pointer to user data.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
@@ -495,7 +497,8 @@ rrpLib.assignOnProgressEvent.args =[c_void_p, NotifyEvent, c_void_p]
 def assignOnProgressEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
     return rrpLib.assignOnProgressEvent(pluginHandle, pluginEvent, userData1, userData2)
 
-## \brief Assign a OnEvent function. Fired when a plugin finishes its work
+## \brief Assigns a plugins OnFinishedEvent function. Plugin dependent. Intended usage is to report back on plugin finalization.
+
 ## \param pluginHandle Handle to a plugin
 ## \param pluginEvent Function pointer to event routine
 ## \param userData1 void* pointer to user data.
@@ -526,7 +529,7 @@ def getRRHandleFromPlugin(pluginHandle):
 #================ Plugin Parameter functionality ======================
 ## \brief Get a handle to the list of parameters for a plugin
 ## \param pluginHandle Handle to a plugin
-## \return Returns available parameters for a particular, None otherwise
+## \return Returns a handle to a list of Parameters on success, None otherwise
 ## \ingroup plugin_parameters
 rrpLib.getPluginParameters.restype = c_void_p
 def getPluginParameters(pluginHandle):
@@ -572,7 +575,7 @@ def getNamesFromParameterList(paraMeterHandle):
         names = paras.split(',')     
         return names            
 
-## \brief Get a the properties of a plugins in the form ofxml 
+## \brief Get a the properties of a plugins in xml format. 
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a string on success, None otherwise
 ## \ingroup plugin_parameters
@@ -636,8 +639,38 @@ def setPluginParameter(pluginHandle, parameterName, paraValue):
            raise ('Bad Handle')                        
     return False
 
+## \brief Set the value of a Parameter 
+## \param parameter handle Handle to a parameter
+## \param paraValue Value of parameter
+## \return true if successful, false otherwise
+## \ingroup plugin_parameters
+def setParameter(paraHandle, paraValue):
+    if paraHandle:
+        paraType = getParameterType(paraHandle)
+        if paraType == 'bool':
+            return setBoolParameter(paraHandle, paraValue)          
+        if paraType == 'int':
+            return setIntParameter(paraHandle, paraValue)
+        if paraType == 'double':
+            return setDoubleParameter(paraHandle, paraValue)
+        if paraType == 'string':
+            return setStringParameter(paraHandle, paraValue)            
+        if paraType == 'std::string': #Behaves the same in the backend
+            return setStringParameter(paraHandle, paraValue)            
+        if paraType == 'listOfParameters':
+            return setListParameter(paraHandle, paraValue)                
+        if paraType == 'roadRunnerData': #The value of this is a handle
+            return setRoadRunnerDataParameter(paraHandle, paraValue)
+        if paraType == 'StringList':
+            return setParameterByString(paraHandle, paraValue)                                 
+        else:
+           raise TypeError ('Cannot set the value of such parameter')
+    else:
+           raise ('Bad Handle')                        
+    return False
+
 ## \brief Set the description of a parameter
-## \param paraHandle to a Parameter instance
+## \param paraHandle Handle to a Parameter instance
 ## \param descr String holding the description
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
@@ -646,7 +679,7 @@ def setParameterDescription(paraHandle, descr):
     return rrpLib.setParameterDescription(paraHandle, descr)
 
 ## \brief Set the hint property of a parameter
-## \param paraHandle to a Parameter instance
+## \param paraHandle Handle to a Parameter instance
 ## \param descr String holding the hint text
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
@@ -869,7 +902,7 @@ def setDoubleParameter(paraHandle, value):
 
 ## \brief Get the string value for a parameter
 ## \param paraHandle to a parameter instance
-## \return Returns an string value. Throws an exception of the parameter type is not a string
+## \return Returns a string value. Throws an exception if the parameter type is not a string
 ## \ingroup plugin_parameters 
 rrpLib.getStringParameter.restype = c_bool
 def getStringParameter (paraHandle):
@@ -883,7 +916,7 @@ def getStringParameter (paraHandle):
        raise TypeError ('Parameter is not a string type')
     
 ## \brief Set a string parameter
-## \param paraHandle to a Parameter instance
+## \param paraHandle Handle to a Parameter instance
 ## \param value Value to assign to the parameter.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
@@ -920,7 +953,7 @@ def getRoadRunnerDataParameter(paraHandle):
         return getParameterValue(paraHandle)
 
 ## \brief Set a roadRunnerData parameter
-## \param paraHandle to a Parameter instance
+## \param paraHandle Handle to a Parameter instance
 ## \param value Value to assign to the parameter (must be a handle to roadRunnerData.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
@@ -947,6 +980,8 @@ def getParameterValue(paraHandle):
         paraVoidPtr = getParameterValueHandle(paraHandle)
         ptr = cast(paraVoidPtr, POINTER(c_double))
         return ptr[0]
+    if paraType == 'std::string':
+        return getParameterValueAsString(paraHandle)
     if paraType == 'string':
         return getParameterValueAsString(paraHandle)
     if paraType == 'listOfParameters':
@@ -960,7 +995,7 @@ def getParameterValue(paraHandle):
 
 ## \brief Retrieve a handle to RoadRunners internal data object
 ## \param rrInstance A RoadRunner instance, as returned from roadrunner.RoadRunner() 
-## \return Returns an handle to roadrunners internal data object
+## \return Returns a handle to roadrunners internal data object
 ## \ingroup utilities
 def getRoadRunnerDataHandle(rrInstance):
     rrHandle = cast(int(rrInstance.this), c_void_p)
@@ -1009,7 +1044,7 @@ def plotRoadRunnerData(data, colHeaders):
     plot.ylabel('Concentration (moles/L)')
     plot.show()
 ## \brief Get column header in roadrunner data
-## \param rrDataHandle A handle to a oadrunner data object
+## \param rrDataHandle A handle to a roadrunner data object
 ## \return Returns a numpy data object
 ## \ingroup utilities
 
@@ -1091,27 +1126,30 @@ def unLoadAPI():
 #
 # The above code produces the following output:
 #@code
-## *** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***
-## >>>
-## *** Remote Interpreter Reinitialized  ***
-## >>>
-## Number of Plugins: 2
-## AddNoise Levenberg-Marquardt
-## Name..........................AddNoise
-## Author........................Totte Karlsson
-## Category......................Signal Processing
-## Version.......................1.0
-## Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
+##*** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***
+##>>> 
+##*** Remote Interpreter Reinitialized  ***
+##>>> 
+##The plugin manager will look for plugins in the following folder: R:\installs\vs_debug\plugins
+##Number of Plugins: 2
+##Plugin Names: ['AddNoise', 'Levenberg-Marquardt']
+##PluginName: 'AddNoise'
+##Name..........................AddNoise
+##Author........................Totte Karlsson
+##Category......................Signal Processing
+##Version.......................1.0
+##Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
 ##
-## True
-## done
-## >>>
+##PluginParameters: ['NoiseType', 'Sigma', 'InputData']
+##True
+##done
+##>>> 
 #@endcode
 #    \section plugins_overview Overview
 #    The libRoadRunner Plugin API is centered around three important concepts:
-#    - A Plugin Manager (RRPluginManagerHandle)
-#    - A Plugin (RRPlugin)
-#    - A Plugin Parameter (RRParameter)
+#    - A Plugin Manager 
+#    - Plugins 
+#    - Plugin Parameters 
 #
 #    \section plugins_usage How to use plugins
 #    A typical use case of the Plugin API may be as follows:
@@ -1125,13 +1163,13 @@ def unLoadAPI():
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
 #   \subsection pluginEvents PluginEvent functionality
 # In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of  plugin event functions.
-# In short, a n event is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins
+# In short, an event is a regular function that is defined and implemented by the client of a plugin, but executed from within the plugin, during the plugins
 # execution.
 #
-# A single plugin may support of up to three event functions. The intended use of these functions are to signal the events in the following:
-#   -# PluginInitialization
-#   -# PluginProgress 
-#   -# PluginFinalization 
+# A single plugin may support of up to three event functions. The intended use of these functions are to signal the events of the following:
+#   -# Plugin Initialization
+#   -# Plugin Progress 
+#   -# Plugin Finalization 
 #
 # Each event function support up to two opaque data parameters. The plugin documentation needs to provide the exact type of these arguments. 
 # In it simplest form, a plugin may choose to define an event function taking no arguments at all.
@@ -1139,19 +1177,19 @@ def unLoadAPI():
 #   -# A plugin event is a regular function defined by the client of the plugin.
 #   -# A plugin event function do not return any value.
 #   -# The type and number of arguments needed in the plugin event is defined by the plugin (see plugin docs).
-#   -# Plugin event are assigned to the plugin before a plugins execute function.
-#   -# Assigning events is optional. A plugins internal work should not be affected wether a event is assigned or not.
+#   -# Plugin events are assigned to the plugin before a plugins execute function.
+#   -# Assigning events is optional. A plugins internal work should not be affected wether an event is assigned or not.
 #   -# Plugin events are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin event
-#   will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin event function is executed in a separate
+#   will be executed in the same thread as the plugin worker. Depending on your environment and if the plugin event function is executed in a separate
 # thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system. 
 #
-#   See the examples page that provide example code on how to use plugins, parameters and event functionss.
+#   See the examples page that provide example code on how to use plugins, parameters and event functions.
 #    \section plugins_writing How to write plugins
 #    \note Writing plugins in Python is not yet supported
 #
 # \section main_section Using rrPlugins.py
-# In order to use this wrapper (rrPlugins.py), the Python path needs to inlcude the folder where the wrapper script is located, e.g.
-# "c:\\roadrunner-1.0.0\\plugins\\python"
+# In order to use this wrapper (rrPlugins.py), your systems environmental Python path variable, i.e. PYTHONPATH, needs to include the folder where the wrapper script is located, e.g.
+# "c:\\roadrunner-1.0.0\\plugins\\python". Currently, this need to be set manually by the user.
 #
 # \defgroup plugin_manager Plugin Manager
 # \brief Plugin Manager Library Functions
@@ -1168,7 +1206,7 @@ def unLoadAPI():
 #
 # 4. Using the plugin handle, set values to the plugin parameters
 #
-# 5. Run the plugin method ExecutePlugin
+# 5. Run the plugin method execute(pluginHandle)
 #
 # 6. Retrieve results from plugin parameters
 # \defgroup plugins Plugin Functions
