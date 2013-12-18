@@ -50,22 +50,17 @@
             
   <div class="section" id="roadrunner-api-reference">
 <h1>RoadRunner API Reference<a class="headerlink" href="#roadrunner-api-reference" title="Permalink to this headline">¶</a></h1>
-<p>This is some text that references <a class="reference internal" href="#module-roadrunner" title="roadrunner: Simulate and Analyze Systems Biology Models (OSX, Unix, Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">roadrunner</span></tt></a></p>
-<p>The method,  <a class="reference internal" href="#roadrunner.RoadRunner.test" title="roadrunner.RoadRunner.test"><tt class="xref py py-meth docutils literal"><span class="pre">RoadRunner.test()</span></tt></a> does something.</p>
+<p>This is the API Reference page for the module: <a class="reference internal" href="#module-roadrunner" title="roadrunner: Simulate and Analyze Systems Biology Models (OSX, Unix, Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">roadrunner</span></tt></a></p>
 <span class="target" id="module-roadrunner"></span><p>The RoadRunner SBML Simulation Engine,
 (c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlson</p>
 <dl class="class">
 <dt id="roadrunner.RoadRunner">
 <em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner</tt><a class="headerlink" href="#roadrunner.RoadRunner" title="Permalink to this definition">¶</a></dt>
 <dt>
-<tt class="descname">The main RoadRunner class.</tt></dt>
+<tt class="descname">The main RoadRunner class. Its objects, i.e. ``rr = RoadRunner()`` perform</tt></dt>
+<dt>
+<tt class="descname">the libRoaRunner functions, i.e. ``rr.simulate()``.</tt></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.RoadRunner.test">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">test</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.test" title="Permalink to this definition">¶</a></dt>
-<dd><p>this method does some stuff</p>
-</dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.__init__">
@@ -612,7 +607,7 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 <dl class="method">
 <dt id="roadrunner.RoadRunner.isModelLoaded">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">isModelLoaded</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.isModelLoaded" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Return True if model was loaded; False otherwise</p>
 </dd></dl>
 
 <dl class="method">
@@ -723,10 +718,10 @@ simulations.</dd>
 </dl>
 <p>The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
 one calls:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+<p>The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
 is followed by a call to:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
@@ -1835,7 +1830,7 @@ modifer to distinguish it.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
     </div>
   </body>
 </html>

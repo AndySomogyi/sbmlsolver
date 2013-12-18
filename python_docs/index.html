@@ -55,13 +55,14 @@
 <p>This guide is intended as an introduction and reference of the RoadRunner
 SBML Simulation Engine. This guide will show the most important features
 and provides a complete API reference.</p>
-<p>To get you started here is a very simple script that will load a model and run a time course
+<p>To get you started here is a very simple script that will load an example SBML model and run a time course
 simulation and plot the results:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">()</span>
-<span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="kn">import</span> <span class="nn">roadrunner.testing</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s">&#39;feedback.xml&#39;</span><span class="p">))</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The result is a standard numpy array which may be plotted using <a class="reference external" href="http://matplotlib.org/">matplotlib</a>. Now read the tutorials to learn more about the capabilities of RoadRunner.</p>
@@ -84,35 +85,19 @@ simulation and plot the results:</p>
 <li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#changing-parameters">Changing Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#selecting-simulation-output">Selecting Simulation Output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#plotting-data">Plotting Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#changing-initial-conditions">Changing Initial Conditions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="what_is_sbml.html">What Is SBML?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="what_is_rr.html">What is RoadRunner</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#licence">Licence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#technical-details">Technical Details</a></li>
-<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#technical-aspects">Technical Aspects</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="rr_basics.html">RoadRunner Basics</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="starting_py_and_rr.html">Starting Python and RoadRunner</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_simulation.html">Running a Simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="looking_at_results.html">Looking at the Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selecting_values.html">Selecting Values</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="selecting_values.html#selection-syntax">Selection syntax</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="selecting_values.html#experimenting-with-selections">Experimenting With Selections</a></li>
-<li class="toctree-l4"><a class="reference internal" href="selecting_values.html#selecting-simulation-results">Selecting Simulation Results</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="selecting_values.html#methods-and-properties-which-accept-selections">Methods and properties which accept selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what_is_rr.html">What is libRoadRunner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#licence-and-copyright">Licence and Copyright</a></li>
+<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#fundamental-objects">Fundamental Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#example-of-libroadrunner-in-use">Example of libRoadRunner in Use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="what_is_rr.html#technical-footnotes">Technical Footnotes</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="timecourse_simulation.html">Time Course Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
@@ -213,7 +198,7 @@ simulation and plot the results:</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
     </div>
   </body>
 </html>
