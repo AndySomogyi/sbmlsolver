@@ -84,7 +84,7 @@ public:
      */
     bool loadSimpleFormat(const std::string& fileName);
     bool writeTo(const std::string& fileName) const;    //Comment: rename to writeToFile ?
-    bool readFrom(const std::string& fileName); 
+    bool readFrom(const std::string& fileName);
     bool check() const;    //Check if containst proper data
 
     /**
@@ -116,10 +116,10 @@ public:
 
 
 protected:
-    std::vector<std::string> mColumnNames;  //Allow friends to change this one
-    DoubleMatrix mTheData;                  //Allow friends to change this one
-    DoubleMatrix mWeights;                  //Allow friends to change this one
-    int mTimePrecision;                             //The precision when saved to file
+    std::vector<std::string> mColumnNames;
+    DoubleMatrix mTheData;
+    DoubleMatrix mWeights;
+    int mTimePrecision;            //The precision when saved to file
     int mDataPrecision;            //The precision when saved to file
     std::string mName;             //For debugging purposes mainly..
 };
