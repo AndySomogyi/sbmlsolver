@@ -65,16 +65,19 @@ set(BUILD_KINSOL        OFF CACHE BOOL "")
 set(BUILD_UNIT_TEST     OFF CACHE BOOL "")
 
 #LIBXML stuff
-set(LIBXML_INCLUDE_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libsbml/include/" CACHE string "test")
+
+if(WIN32)
+    set(LIBXML_INCLUDE_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libsbml/include/" CACHE string "test")
+endif(WIN32)
 
 if(${BORLAND})
-set(FOLDER_POSTFIX "xe")
-set(LIBXML_LIBRARY      "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libsbml/lib/libxml2_xe.lib" CACHE string "test")
+    set(FOLDER_POSTFIX "xe")
+    set(LIBXML_LIBRARY      "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libsbml/lib/libxml2_xe.lib" CACHE string "test")
 endif(${BORLAND})
 
 if(${MSVC})
-set(FOLDER_POSTFIX "vs")
-set(LIBXML_LIBRARY      "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libsbml/lib/libxml2.lib" CACHE string "test")
+    set(FOLDER_POSTFIX "vs")
+    set(LIBXML_LIBRARY      "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libsbml/lib/libxml2.lib" CACHE string "test")
 endif()
 
 set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
@@ -104,7 +107,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/bin)
 
 link_directories( 
-${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
+    ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
 )
 
 #=== COMPILER FLAGS 
@@ -144,7 +147,7 @@ add_definitions(
 endif()
 
 #Add Third Party Folders
-add_subdirectory(libsbml)
+add_subdirectory(libSBML-5.9.0-Source)
 add_subdirectory(clapack/3.2.1)
 add_subdirectory(sundials)
 add_subdirectory(nleq)
