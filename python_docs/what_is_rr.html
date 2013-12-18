@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>What is RoadRunner &mdash; libRoadRunner 1.0.0 documentation</title>
+    <title>What is libRoadRunner &mdash; libRoadRunner 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -54,184 +54,203 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="what-is-roadrunner">
-<h1>What is RoadRunner<a class="headerlink" href="#what-is-roadrunner" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="what-is-libroadrunner">
+<h1>What is libRoadRunner<a class="headerlink" href="#what-is-libroadrunner" title="Permalink to this headline">¶</a></h1>
 <p>RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models.</p>
-<p>RoadRunner 1.0 supports the following features:</p>
-<ol class="arabic">
-<li><p class="first">Time Dependent Simulation (with optional conservation law reduction) using CVODE.</p>
-</li>
-<li><p class="first">Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.</p>
-</li>
-<li><p class="first">Defaults to LLVM code generation on the backend, resulting is very fast simulation times.</p>
-</li>
-<li><p class="first">Optional generation of model C code and linking at run-time.</p>
-</li>
-<li><p class="first">Compute steady state.</p>
-</li>
-<li><p class="first">Metabolic Control Analysis.</p>
-</li>
-<li><p class="first">Frequency Domain Analysis.</p>
-</li>
-<li><dl class="first docutils">
-<dt>Access to:</dt>
-<dd><ol class="first last arabic simple">
-<li>Eigenvalues and Eigenvectors.</li>
-<li>Jacobian, full and reduced.</li>
-<li>Structural Matrices of the stoichiometry matrix.</li>
-</ol>
+<p>RoadRunner 1.0
+Up to date documentation can be found on <a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a>
+Also the static <a class="reference external" href="../index.html">documentation home page</a> provides an introduction.</p>
+<div class="section" id="licence-and-copyright">
+<h2>Licence and Copyright<a class="headerlink" href="#licence-and-copyright" title="Permalink to this headline">¶</a></h2>
+<p>libRoadRunner is free and open source. Licensing and Distribution
+Terms can be found in the LICENCE.txt file in the root directory
+of the distribution.</p>
+<p>Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA</p>
+<p>Licensed under the Apache License, Version 2.0: <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a></p>
+<p><a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a></p>
+</div>
+<div class="section" id="fundamental-objects">
+<h2>Fundamental Objects<a class="headerlink" href="#fundamental-objects" title="Permalink to this headline">¶</a></h2>
+<p>The libRoadRunner package uses two fundametal objects of
+class <tt class="docutils literal"><span class="pre">RoadRunner</span></tt> and class <tt class="docutils literal"><span class="pre">ExecutableModel</span></tt>.</p>
+<dl class="docutils">
+<dt><strong>RoadRunner</strong></dt>
+<dd><ul class="first last simple">
+<li>Typically the top level object</li>
+<li>Responsible for orchestrating all of the internal components, such as model loading,
+JIT compilation, integration and output.</li>
+</ul>
+</dd>
+<dt><strong>ExecutableModel</strong></dt>
+<dd><ul class="first last simple">
+<li>Represents a compiled sbml model</li>
+<li>Properties to get and set any state variables.</li>
+</ul>
 </dd>
 </dl>
-</li>
-<li><p class="first">Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin.</p>
-</li>
-</ol>
-<div class="section" id="licence">
-<h2>Licence<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
-<p>Licence</p>
-<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
-<p><a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
-<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
-<p>In plain english this means:</p>
-<p>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</p>
-<p>You CAN use the software in packages or distributions that you create.</p>
-<p>You SHOULD include a copy of the license in any redistribution you may make;</p>
-<p>You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.</p>
-<p>YOU CANNOT: redistribute any piece of this software without proper attribution;</p>
+<p>The Python API is a very clean simple interface that uses all native Python objects.
+All the returned types are <cite>Numpy</cite> arrays.</p>
 </div>
-<div class="section" id="technical-details">
-<h2>Technical Details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
-<p>Here is a transcript of an interactive ipython session:</p>
-<div class="highlight-python"><pre>import RoadRunner as rr
-rr?
-Type:       module
-String Form:&lt;module 'RoadRunner' from 'RoadRunner.pyc'&gt;
-File:       /Users/andy/.local/lib/Python/RoadRunner.py
-Docstring:
-The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson
-
-rr.RoadRunner?
-Type:       type
-String Form:&lt;class 'RoadRunner.RoadRunner'&gt;
-File:       /Users/andy/.local/lib/Python/RoadRunner.py
-Docstring:
-The main RoadRunner class.</pre>
-</div>
-<p>All three of the RoadRunner options default to the empty string, in this
-case, the default values are used.</p>
-<p>usual import stuff:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span> <span class="kn">as</span> <span class="nn">rr</span>
+<div class="section" id="example-of-libroadrunner-in-use">
+<h2>Example of libRoadRunner in Use<a class="headerlink" href="#example-of-libroadrunner-in-use" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Transcript from an <a class="reference external" href="http://ipython.org/">IPython</a> session to demonstrate libRoadRunner use on this interactive Python console.</div></blockquote>
+<p><strong>Import</strong> roardrunner and numpy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="kn">import</span> <span class="nn">roadrunner.testing</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">n</span>
 <span class="kn">import</span> <span class="nn">numpy.linalg</span> <span class="kn">as</span> <span class="nn">lin</span>
 </pre></div>
 </div>
-<p>make a RoadRunner and load an SBML model:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
-<span class="n">r</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;/Users/andy/src/sbml_test/cases/semantic/00110/00110-sbml-l3v1.xml&quot;</span><span class="p">)</span>
-<span class="bp">True</span>
+<p><strong>Load</strong> an SBML model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s">&#39;Test_1.xml&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>get the model, the model obj has all the accessors sbml elements names / values:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Use the build in RR function to get the Jacobian, notice this is returned as a native
-numpy matrix:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">jac</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>display it:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">jac</span>
-<span class="n">array</span><span class="p">([[</span> <span class="mf">0.75</span><span class="p">,</span>  <span class="mf">0.5</span> <span class="p">,</span>  <span class="mf">0.25</span><span class="p">],</span>
-<span class="p">[</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75</span><span class="p">,</span>  <span class="mf">0.</span>  <span class="p">],</span>
-<span class="p">[</span> <span class="mf">0.</span>  <span class="p">,</span>  <span class="mf">0.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">]])</span>
-</pre></div>
-</div>
-<p>get a vector of floating species amounts:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">amt</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getFloatingSpeciesAmounts</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>dsplay it:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">amt</span>
-<span class="n">array</span><span class="p">([</span> <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">])</span>
-</pre></div>
-</div>
-<p>look at the floating species ids:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span>
-<span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">,</span> <span class="s">&#39;S3&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>numpy has a huge amount of numeric capability, here we calculate
-the eigensystem from the Jacobian.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">lin</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">jac</span><span class="p">)</span>
-<span class="p">(</span><span class="n">array</span><span class="p">([</span> <span class="o">-</span><span class="mf">5.75693909e-01</span><span class="p">,</span>   <span class="mf">3.25693909e-01</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.55019192e-17</span><span class="p">]),</span>
-<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.18130286</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.79611302</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.57735027</span><span class="p">],</span>
-     <span class="p">[</span> <span class="mf">0.78010553</span><span class="p">,</span>  <span class="mf">0.55506939</span><span class="p">,</span>  <span class="mf">0.57735027</span><span class="p">],</span>
-     <span class="p">[</span><span class="o">-</span><span class="mf">0.59880267</span><span class="p">,</span>  <span class="mf">0.24104363</span><span class="p">,</span>  <span class="mf">0.57735027</span><span class="p">]]))</span>
-</pre></div>
-</div>
-<p>suppose we wanted to calculate the matrix vector product of the jacobian with the
-floating species amounts, its a single statement now that we use native types.:</p>
-<div class="highlight-python"><pre>n.dot(jac, amt)
-Out[13]: array([ 1.25, -1.5 ,  0.25])</pre>
-</div>
-<p>first column in result is time, rest are whatever is selected.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])</span>
-</pre></div>
-</div>
-<p>stored in two Python lists, <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">b</span></tt>, we could iterate over
-each element:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
-    <span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</pre></div>
-</div>
-<p>This produces the correct answer, but if <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">b</span></tt> each contain</p>
-<p>and initializations, memory allocation, etc.)</p>
-<div class="highlight-python"><pre>for (i = 0; i &lt; rows; i++): {
-  c[i] = a[i]*b[i];
-}</pre>
-</div>
-<p>This saves all the overhead involved in interpreting the Python code
-and manipulating Python objects, but at the expense of the benefits
-gained from coding in Python.  Furthermore, the coding work required
-increases with the dimensionality of our data. In the case of a 2-D
-array, for example, the C code (abridged as before) expands to</p>
-<div class="highlight-python"><pre>for (i = 0; i &lt; rows; i++): {
-  for (j = 0; j &lt; columns; j++): {
-    c[i][j] = a[i][j]*b[i][j];
-  }
-}</pre>
-</div>
-<p>NumPy gives us the best of both worlds: element-by-element operations
-are the &#8220;default mode&#8221; when an <cite>ndarray</cite> is involved, but the
-element-by-element operation is speedily executed by pre-compiled C
-code.  In NumPy</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
-</pre></div>
-</div>
-<p>does what the earlier examples do, at near-C speeds, but with the code
-simplicity we expect from something based on Python (indeed, the NumPy</p>
-</div>
-<div class="section" id="technical-aspects">
-<h2>Technical Aspects<a class="headerlink" href="#technical-aspects" title="Permalink to this headline">¶</a></h2>
-<p>The roadrunner package contains two fundametal objects, <cite>RoadRunner</cite>
-and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level object,
-it is responsible for orchestrating all of the internal components
-such as model loading, JIT compilation, integration and output.</p>
-<p>** roadrunner overview</p>
 <dl class="docutils">
-<dt>** ExecutableModel</dt>
-<dd><ul class="first last simple">
-<li>represents a compiled sbml model</li>
-<li>properties to get and set any state variables.</li>
-</ul>
+<dt></dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="bp">True</span>
+</pre></div>
+</div>
 </dd>
 </dl>
-<p>I&#8217;ve got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
-array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it.</p>
+<p>Get the <strong>model</strong>, the model object has all the accessors sbml elements, names, values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Use the built in RR function to get the <strong>Jacobian</strong>, notice this is returned as a native
+numpy matrix, and display it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jac</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
+<span class="n">jac</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt></dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.2</span>  <span class="p">,</span>  <span class="mf">0.067</span><span class="p">,</span>  <span class="mf">0.</span>   <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.15</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.467</span><span class="p">,</span>  <span class="mf">0.09</span> <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.</span>   <span class="p">,</span>  <span class="mf">0.4</span>  <span class="p">,</span> <span class="o">-</span><span class="mf">0.64</span> <span class="p">]])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Get a vector of <strong>floating species amounts</strong>, and display it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">amt</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getFloatingSpeciesAmounts</span><span class="p">()</span>
+<span class="n">amt</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt></dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="n">array</span><span class="p">([</span> <span class="mf">0.1</span> <span class="p">,</span>  <span class="mf">0.25</span><span class="p">,</span>  <span class="mf">0.1</span> <span class="p">])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Look at the <strong>floating species ids</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt></dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">,</span> <span class="s">&#39;S3&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Numpy has a huge amount of numeric capability, here we calculate
+the <strong>eigensystem from the Jacobian</strong>.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">lin</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">jac</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt></dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.15726345</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.38237134</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.76736521</span><span class="p">]),</span>
+ <span class="n">array</span><span class="p">([[</span> <span class="mf">0.77009381</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.19510707</span><span class="p">,</span>  <span class="mf">0.03580588</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">0.49121122</span><span class="p">,</span>  <span class="mf">0.53107368</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30320915</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">0.40702219</span><span class="p">,</span>  <span class="mf">0.82455683</span><span class="p">,</span>  <span class="mf">0.95225109</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Suppose we wanted to calculate the matrix vector product of the <strong>jacobian with the
+floating species amounts</strong>, its a single statement, since we use native types.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">n</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">jac</span><span class="p">,</span> <span class="n">amt</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt></dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.00325</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.09275</span><span class="p">,</span>  <span class="mf">0.036</span>  <span class="p">])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Finally, you can of course <strong>simulate over time</strong>. The first column in result is time,
+the rest are whatever is selected. The easies way to plot is to use <tt class="docutils literal"><span class="pre">roadrunner.plot</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using libRoadRunner in <a class="reference external" href="http://ipython.org/">IPython</a> you can <strong>get documentation</strong> easily using a <tt class="docutils literal"><span class="pre">?</span></tt> after the object or method:</p>
+<div class="highlight-python"><pre>rr.simulate?</pre>
+</div>
+<dl class="docutils">
+<dt></dt>
+<dd><div class="first last highlight-python"><pre>Type:       instancemethod
+String Form:&lt;bound method RoadRunner.simulate of &lt;roadrunner.RoadRunner() { this = 03D2E6F0 }&gt;&gt;
+File:       c:\python27\lib\site-packages\roadrunner\roadrunner.py
+
+
+Definition: rr.simulate(self, *args)
+Docstring:
+RoadRunner.simulate(*args)
+
+Simulate the current SBML model.
+
+There are a number of ways to call simulate.
+
+1. With no arguments. In this case, the current set of `SimulateOptions` will
+   be used for the simulation. The current set may be changed either directly
+   via setSimulateOptions() or with one of the two alternate ways of calling
+   simulate.
+
+2: With single `SimulateOptions` argument. In this case, all of the settings
+   in the given options are copied and will be used for the current and future
+   simulations.
+
+3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
+   these three values are copied and will be used for the current and future simulations.
+
+The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+one calls::
+
+  rr.simulate (0, 3.14, 100)
+
+The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+is followed by a call to::
+
+  rr.simulate()
+
+This simulation will use the previous values.
+
+:returns: a numpy array with each selected output timeseries being a
+          column vector, and the 0'th column is the simulation time.
+:rtype: numpy.ndarray</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="technical-footnotes">
+<h2>Technical Footnotes<a class="headerlink" href="#technical-footnotes" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Much of the time, the Numpy array just holds a pointer to a block of data owned
+by RoadRunner, for example, the array returned by <cite>rr.simulate()</cite> just has a pointer
+to the results matrix which is owned by the <cite>RoadRunner</cite>, so there is NO COPYING
+involved. If you have no need for the result, just ignore it, it costs virtually
+nothing to return it.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -243,10 +262,11 @@ array returned by simulate just has a pointer to the results matrix which is own
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">What is RoadRunner</a><ul>
-<li><a class="reference internal" href="#licence">Licence</a></li>
-<li><a class="reference internal" href="#technical-details">Technical Details</a></li>
-<li><a class="reference internal" href="#technical-aspects">Technical Aspects</a></li>
+<li><a class="reference internal" href="#">What is libRoadRunner</a><ul>
+<li><a class="reference internal" href="#licence-and-copyright">Licence and Copyright</a></li>
+<li><a class="reference internal" href="#fundamental-objects">Fundamental Objects</a></li>
+<li><a class="reference internal" href="#example-of-libroadrunner-in-use">Example of libRoadRunner in Use</a></li>
+<li><a class="reference internal" href="#technical-footnotes">Technical Footnotes</a></li>
 </ul>
 </li>
 </ul>
@@ -300,7 +320,7 @@ array returned by simulate just has a pointer to the results matrix which is own
     </div>
     <div class="footer">
         &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
     </div>
   </body>
 </html>
