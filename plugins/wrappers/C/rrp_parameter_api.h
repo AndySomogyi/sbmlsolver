@@ -149,7 +149,7 @@ RRP_DECLSPEC bool rrp_cc setStringParameter(RRParameterHandle handle, char* valu
  \param value to assign to the parameter.
  \return Returns true if sucessful, false otherwise
 */
-RRP_DECLSPEC bool rrp_cc getStringParameter(RRParameterHandle handle, char* (*value));
+RRP_DECLSPEC bool rrp_cc getStringParameter(RRParameterHandle handle, const char* (*value));
 
 /*!
  \brief Set a listOfParameters (Parameters) parameter

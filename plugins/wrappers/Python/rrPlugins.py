@@ -7,6 +7,7 @@ import roadrunner
 import tempfile
 import time
 from ctypes import *
+import matplotlib.pyplot as plot
 
 """
 CTypes Python Bindings to the RoadRunner Plugin API.
@@ -551,15 +552,20 @@ def getListOfPluginParameterNames(pluginHandle):
 ## \ingroup plugin_parameters
 rrpLib.clearParameterList.restype = c_bool
 def clearParameterList(parameterListHandle):
-    return rrpLib.clearParameterList(parameterListHandle)
+    handle = getParameterValueHandle(parameterListHandle)
+    return rrpLib.clearParameterList(handle)
 
 ## \brief If the parameter is a list, this method returns the list of parameter names in that list
-## \param pluginHandle Handle to a plugin
+## \param parameterHandle Handle to a parameter
 ## \return Returns names for all parameters in the list
 ## \ingroup plugin_parameters
 rrpLib.getNamesFromParameterList.restype = c_char_p
-def getNamesFromParameterList(paraHandle):
-    paras = rrpLib.getNamesFromParameterList(paraHandle)
+def getNamesFromParameterList(paraMeterHandle):
+    paraType = getParameterType(paraMeterHandle)
+    if paraType != 'listOfParameters':
+        raise 'That is not a valid list parameter'
+    listHandle = getParameterValueHandle(paraMeterHandle)
+    paras = rrpLib.getNamesFromParameterList(listHandle)
     if not paras:
         return list()
     else:        
@@ -575,11 +581,12 @@ def getPluginPropertiesAsXML(pluginHandle):
     return rrpLib.getPluginPropertiesAsXML(pluginHandle)
 
 ## \brief Get the 'first' parameter handle to a parameter in a list of parameters
-## \param paraListHandle Handle to a parameterList
+## \param paraListHandle Handle to a parameterListParameter
 ## \return Returns a handle to a parameter. Returns None if not found
 ## \ingroup plugin_parameters
 def getFirstParameter(paraListHandle):
-    return rrpLib.getFirstParameter(paraListHandle)
+    handle = getParameterValueHandle(paraListHandle)
+    return rrpLib.getFirstParameter(handle)
 
 ## \brief Get the 'next' parameter handle to a parameter in a list of parameters
 ## \param paraListHandle Handle to a parameterList
@@ -596,15 +603,38 @@ def getNextParameter(paraListHandle):
 def getPluginParameter(pluginHandle, parameterName):
     return rrpLib.getPluginParameter(pluginHandle, parameterName)
 
-## \brief Set the value of a PluginParameter by a string.
+## \brief Set the value of a PluginParameter 
 ## \param pluginHandle Handle to a plugin
 ## \param parameterName Name of parameter
-## \param paraValue Value of parameter, as string
+## \param paraValue Value of parameter
 ## \return true if succesful, false otherwise
 ## \ingroup plugin_parameters
 rrpLib.setPluginParameter.restype = c_bool
 def setPluginParameter(pluginHandle, parameterName, paraValue):
-    return rrpLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
+    paraHandle = getPluginParameter(pluginHandle,parameterName)
+    if paraHandle:
+        paraType = getParameterType(paraHandle)
+        if paraType == 'bool':
+            return setBoolParameter(paraHandle, paraValue)          
+        if paraType == 'int':
+            return setIntParameter(paraHandle, paraValue)
+        if paraType == 'double':
+            return setDoubleParameter(paraHandle, paraValue)
+        if paraType == 'string':
+            return setStringParameter(paraHandle, paraValue)            
+        if paraType == 'std::string': #Behaves the same in the backend
+            return setStringParameter(paraHandle, paraValue)            
+        if paraType == 'listOfParameters':
+            return setListParameter(paraHandle, paraValue)                
+        if paraType == 'roadRunnerData': #The value of this is a handle
+            return setRoadRunnerDataParameter(paraHandle, paraValue)
+        if paraType == 'StringList':
+            return setParameterByString(paraHandle, paraValue)                                 
+        else:
+           raise TypeError ('Cannot set the value of such parameter')
+    else:
+           raise ('Bad Handle')                        
+    return False
 
 ## \brief Set the description of a parameter
 ## \param paraHandle to a Parameter instance
@@ -645,6 +675,8 @@ def createParameter(name, the_type, hint="", value=None):
     if value == None:
        return rrpLib.createParameter(name, the_type, hint, value)
     else:
+        if the_type == 'string':    #Otherwise underlying string type will be char*, don't
+            the_type = 'std::string'
         ptr = rrpLib.createParameter(name, the_type, hint)
         if the_type is "bool":
            setBoolParameter (ptr, value)
@@ -656,8 +688,11 @@ def createParameter(name, the_type, hint="", value=None):
            setDoubleParameter (ptr, value)           
         elif the_type is "string":
            setStringParameter (ptr, value)
+        elif the_type is "std::string":
+           setStringParameter (ptr, value)
+           
         else:
-            print "Error: Can't set the value of this parameter!"     
+            print "Error: Can't set the value of parameter with type:" + the_type     
         return ptr     
 
 ## \brief Free memory for a parameter
@@ -670,20 +705,16 @@ def freeParameter(paraHandle):
 
 
 ## \brief Add a parameter to a list of parameters. 
-## The handle to the parameter list can be obtained using getListParameter (parHandle). Some plugins may have parameters that
+## Some plugins may have parameters that
 ## require list of parameters to be specified. For example when deciding what kinetic parameters to fit in a model, the list 
 ## of kinetic parameters can be pass to the plugin as a list. This method can be used to add the names of the kinetic parameters
 ## to the list. 
-## \param listHandle Handle to a parameter list
-## \param paraHandle Handle to a parameter (see createParameter)
+## \param list A Handle to a Parameter with type listOfParameters
+## \param paraHandle Handle to the parameter to add to the list(see createParameter)
 ## \return Returns a Boolean indicating success
 ##
 ## @code
-## paraList = getListParameter (paraHandle);
-## if rrPlugins.getParameterType (paraList) != "listOfParameters":
-##    print "Parameter is not a list"
-##    exit()
-##
+## paraList = getPluginParameter(plHandle, "SpeciesList");
 ## newParameter = createParameter("k1", "double", "A Hint", 0.2)
 ## addParameterToList(paraList, newParameter)
 ## @endcode
@@ -691,8 +722,13 @@ def freeParameter(paraHandle):
 ## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.addParameterToList.restype = c_bool
-def addParameterToList(listHandle, paraHandle):
-    return rrpLib.addParameterToList(listHandle, paraHandle)
+def addParameterToList(paraHandle, addMe):
+    #Make sure the parameter is of type list    
+    if getParameterType(paraHandle) == 'listOfParameters':
+        listHandle = getParameterValue(paraHandle)
+        return rrpLib.addParameterToList(listHandle, addMe)
+    else:
+        return false
 
 ## \brief Set a parameter by a string
 ## \param paraHandle to a Parameter instance
@@ -837,7 +873,7 @@ def setDoubleParameter(paraHandle, value):
 ## \ingroup plugin_parameters 
 rrpLib.getStringParameter.restype = c_bool
 def getStringParameter (paraHandle):
-    if getParameterType (paraHandle) == "string":
+    if getParameterType (paraHandle) == "string" or getParameterType (paraHandle) == "std::string":
         val = c_char_p()
         if rrpLib.getStringParameter (paraHandle, byref(val)) == True:
             return val.value
@@ -868,12 +904,13 @@ def getListParameter (paraHandle):
     
 ## \brief Set a list parameter
 ## \param paraHandle to a Parameter instance
-## \param value Value to assign to the parameter (must be a handle to a listOfParameters.
+## \param value Value to assign to the parameter (must be a handle to a Parameter of listOfParameters.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_parameters
 rrpLib.setListParameter.restype = c_bool
 def setListParameter(paraHandle, value):
-    return rrpLib.setListParameter(paraHandle, c_void_p(value))
+    handle = getParameterValueHandle(value)
+    return rrpLib.setListParameter(paraHandle, c_void_p(handle))
 
 ## \brief Get the value of a roadRunnerData parameter
 ## \param paraHandle A Handle to a parameter
@@ -914,8 +951,10 @@ def getParameterValue(paraHandle):
         return getParameterValueAsString(paraHandle)
     if paraType == 'listOfParameters':
         return getParameterValueHandle(paraHandle)    
-    if paraType == 'roadRunnerData':
-        return getParameterValueHandle(paraHandle)            
+    if paraType == 'roadRunnerData': #The value of this is a handle
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_void_p))
+        return ptr[0]             
     else:
        raise TypeError ('Parameter is not a string type')
 
@@ -948,6 +987,27 @@ def getNumpyData(rrDataHandle):
     #Not sure how to append the col names.                    
     return resultArray
 
+def plotRoadRunnerData(data, colHeaders):
+    nrCols = data.shape[1]
+    nrRows = data.shape[0]
+     
+    if len(colHeaders) < 1:
+        print "bad data"
+        return
+    xlbl = colHeaders[0]
+    nrOfSeries = nrCols -1
+    x = data[:,0]  
+    
+    for serie in range(nrOfSeries):
+        ySeries = np.zeros([nrRows])
+        print 'creating series' + `serie`
+        ySeries = data[:,serie + 1]
+        plot.plot(x, ySeries, "", label=colHeaders[serie +1])      
+              
+    plot.legend(bbox_to_anchor=(1.05, 1), loc=1, borderaxespad=0.)    
+    plot.xlabel(xlbl)    
+    plot.ylabel('Concentration (moles/L)')
+    plot.show()
 ## \brief Get column header in roadrunner data
 ## \param rrDataHandle A handle to a oadrunner data object
 ## \return Returns a numpy data object
@@ -958,7 +1018,7 @@ def getRoadRunnerDataColumnHeader(rrDataHandle):
     hdr = rrpLib.getRoadRunnerDataColumnHeader(rrDataHandle)
     res = hdr
     rrpLib.freeText(res)
-    return hdr.split('.') 
+    return hdr.split(',') 
 
 
 ## \brief Write RoadRunnerData to a file
@@ -995,6 +1055,10 @@ def createRoadRunnerDataFromFile(fName):
     if rrpLib.readRoadRunnerDataFromFile(rrDataHandle, fName) == False:
         print 'Failed to read data'
     return rrDataHandle
+
+def getText(fName):
+    file = open(fName, 'r')
+    return file.read()
 
 ## \brief Free RoadRunnerData 
 ## \param dataHandle Handle to a roadrunner data object 

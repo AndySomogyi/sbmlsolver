@@ -15,6 +15,7 @@ import os
 import sys
 
 import _winreg
+import win32gui, win32con
 
 def rmroadrunner(path):
 	print('deleting roadrunner from ' + path)
@@ -83,33 +84,54 @@ plugindst = os.path.split(plugindst)[0]
 print "Plugin destination: " + plugindst
 
 # Add to PythonPath
-sys.path.append (plugindst + '\\roadrunner\\python')
+# sys.path.append (plugindst + '\\roadrunner\\python')
 print "Python Path = " + plugindst + '\\roadrunner\\python'
 
 # Copy rrPlugins.py and rrPython.py
 #shutil.copyfile (rootDirSrc + '\\plugins\\python\\rrPlugins.py', plugindst + '\\roadrunner\\python\\rrPlugins.py')
 #shutil.copyfile (rootDirSrc + '\\c_api_python\\rrPython.py', plugindst + '\\roadrunner\\python\\rrPython.py')
 
-# Now add the rootsrc to the PATH directory
-localMachine = _winreg.ConnectRegistry(None, _winreg.HKEY_LOCAL_MACHINE)
+localMachine = _winreg.ConnectRegistry(None, _winreg.HKEY_CURRENT_USER)
 
-# Get the current path
-envKey = _winreg.OpenKey(localMachine, r"SYSTEM\CurrentControlSet\Control\Session Manager\Environment")
-path = _winreg.QueryValueEx(envKey, "Path")[0]
+envKey = _winreg.OpenKey(localMachine, r"Environment",  0, _winreg.KEY_ALL_ACCESS)
+try:
+  currentPythonPath = _winreg.QueryValueEx(envKey, "PYTHONPATH")[0]
+except:
+  print "Can't find python path"
+  currentPythonPath = ""
 _winreg.CloseKey(envKey)
 
+# Now add the rootsrc to the PATH directory
+localMachine = _winreg.ConnectRegistry(None, _winreg.HKEY_LOCAL_MACHINE)
 binPath = rootDirSrc + "\\bin"
+envKey =_winreg.OpenKey(localMachine, r"SYSTEM\CurrentControlSet\Control\Session Manager\Environment", 0, _winreg.KEY_ALL_ACCESS)
+path = _winreg.QueryValueEx(envKey, "Path")[0]
 # Check if the rootDirSrc + \\bin is already in the path
 if not (binPath.lower() in path.lower()):
-   envKey =_winreg.OpenKey(localMachine, r"SYSTEM\CurrentControlSet\Control\Session Manager\Environment", 0, _winreg.KEY_ALL_ACCESS)
    # now append root/bin to the path
-   _winreg.SetValueEx(envKey, "PATH", 0, _winreg.REG_EXPAND_SZ,path  + ";" + binPath)
-   _winreg.CloseKey(envKey)
+   _winreg.SetValueEx(envKey, "PATH", 0, _winreg.REG_EXPAND_SZ, path  + ";" + binPath)
    print "PATH modified to: " + binPath
 else:
    print "Path already pointing to root directory: " + binPath
+_winreg.CloseKey(envKey)
 
+pythonPath = rootDirSrc + '\\plugins\\python'
+localMachine = _winreg.ConnectRegistry(None, _winreg.HKEY_CURRENT_USER)
+envKey =_winreg.OpenKey(localMachine, r"Environment", 0, _winreg.KEY_ALL_ACCESS)
+if not (pythonPath.lower() in currentPythonPath.lower()):
+   # now set the env var
+   if (currentPythonPath == ""):
+      _winreg.SetValueEx(envKey, "PYTHONPATH", 0, _winreg.REG_SZ, pythonPath)
+   else:
+      _winreg.SetValueEx(envKey, "PYTHONPATH", 0, _winreg.REG_EXPAND_SZ, currentPythonPath  + ";" + pythonPath)
+   print "PYTHONPATH modified to: " + pythonPath
+else:
+   print "PythonPath already pointing to python path: " + pythonPath
+_winreg.CloseKey(envKey)
 _winreg.CloseKey(localMachine)
+
+win32gui.SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+
 
 
 

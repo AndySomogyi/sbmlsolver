@@ -3,27 +3,28 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-#####################
+########################
 libRoadRunner User Guide
-#####################
+########################
 
 
 libRoadRunner Overview
-===================
+======================
 
 This guide is intended as an introduction and reference of the RoadRunner
 SBML Simulation Engine. This guide will show the most important features 
 and provides a complete API reference. 
 
 
-To get you started here is a very simple script that will load a model and run a time course
+To get you started here is a very simple script that will load an example SBML model and run a time course
 simulation and plot the results::
 
-   from roadrunner import *
-   r = RoadRunner()
-   r.load('mymodel.xml')
-   result = r.simulate()
-   plot(result)
+   import roadrunner
+   import roadrunner.testing
+   rr = roadrunner.RoadRunner()
+   rr.load(roadrunner.testing.get_data('feedback.xml'))
+   result = rr.simulate()
+   roadrunner.plot(result)
  
 The result is a standard numpy array which may be plotted using `matplotlib
 <http://matplotlib.org/>`_. Now read the tutorials to learn more about the capabilities of RoadRunner. 
@@ -33,9 +34,7 @@ Contents:
 .. toctree::
 
    introduction
-   rr_basics
    read_write_functions
-   timecourse_simulation
    steady_state
    stoichiometric
    metabolic
@@ -52,3 +51,4 @@ Indices and tables
 * :ref:`search`
 
 
+.. highlight:: python
