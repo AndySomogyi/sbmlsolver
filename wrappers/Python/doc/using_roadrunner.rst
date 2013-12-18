@@ -23,7 +23,7 @@ Loading Models
 
 RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is 
 possible to load that model using the method, ``load()``. Let's assume you have a model called
-mymodel.xml in C:\MyModels. To load this model in Windows we would use the command::
+mymodel.xml in ``C:\MyModels``. To load this model in **Windows** we would use the command::
 
    rr.load("C:/MyModels/mymodel.xml")
 
@@ -32,13 +32,22 @@ most languages including python, this is the escape character, therefore one can
 paths using the forward slash '/' which does not cause issues. If one want to use the backslash,
 these must be typed twice, i.e. ``'C:\\MyModels\\mymodel.xml'``.
 
-On the Mac or Linux we might use the command::
+On the **Mac or Linux** we might use one of these two commands::
 
    rr.load("/home/MyModels/mymodel.xml")
+   
+   rr.load("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010") #Note: Not available on Windows
 
-If the model was loaded successfully the load method will return True otherwise an exception will 
+If the model was loaded successfully the load method will return ``True`` otherwise an exception will 
 be raised that contains extendend information detailing exactly what failed. If any warnings are
 found in the sbml document, these will be displayed in the console error log. 
+
+Additionally there are a few models available with the libRoadRunner download. Two models are available 
+in the testing module ``feedback.xml`` and ``Test_1.xml``. To access these use::
+
+   rr.load(roadrunner.testing.get_data('feedback.xml'))
+   
+There are a few addtional models in the ``models/`` directory of the distribution, where you installed libRoadRunner.
 
 Running Simulations
 -------------------
@@ -139,6 +148,7 @@ type the following::
   rr.selections = ['S1', 'S2']
   result = rr.simulate(0, 10, 100)
 
+.. _Selecting Values: selecting_values
 
 Plotting Data
 -------------
@@ -168,9 +178,10 @@ This will bring up a new window showing the plot. To clear the plot for next tim
 
   
 
-Changing Initial Conditions
----------------------------
+.. todo:: add the section
+   Changing Initial Conditions
+   ---------------------------
 
-To be completed
+   To be completed
 
 
