@@ -1,5 +1,5 @@
-   libRoadRunner v 1.0
-   Copyright 2013 Andy Somogyi, Totte Karlsson, Herbert Sauro
+   libRoadRunner v 1.0.0
+   Copyright 2012-2013 Andy Somogyi, Totte Karlsson, Herbert Sauro
 
 
 This product makes use of the following software packages:
