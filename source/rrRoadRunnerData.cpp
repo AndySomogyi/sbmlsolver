@@ -320,7 +320,7 @@ bool RoadRunnerData::writeTo(const string& fileName) const
     return true;
 }
 
-bool RoadRunnerData::readFrom(const string& fileName) const
+bool RoadRunnerData::readFrom(const string& fileName)
 {
     ifstream aFile(fileName.c_str());
     if(!aFile)
@@ -328,8 +328,8 @@ bool RoadRunnerData::readFrom(const string& fileName) const
         Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
         return false;
     }
-    RoadRunnerData* temp = const_cast<RoadRunnerData*> (this);
-    aFile >> (*temp); 
+    
+    aFile >> (*this); 
     aFile.close();
     return true;
 }

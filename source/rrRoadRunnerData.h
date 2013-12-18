@@ -84,7 +84,7 @@ public:
      */
     bool loadSimpleFormat(const std::string& fileName);
     bool writeTo(const std::string& fileName) const;    //Comment: rename to writeToFile ?
-    bool readFrom(const std::string& fileName) const;
+    bool readFrom(const std::string& fileName); 
     bool check() const;    //Check if containst proper data
 
     /**
