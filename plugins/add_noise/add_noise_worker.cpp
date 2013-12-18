@@ -42,9 +42,9 @@ bool AddNoiseWorker::isRunning()
 
 void AddNoiseWorker::run()
 {
-    if(mTheHost.mWorkStartedCB)
+    if(mTheHost.mWorkStartedEvent)
     {
-        mTheHost.mWorkStartedCB(NULL, mTheHost.mWorkStartedData2);
+        mTheHost.mWorkStartedEvent(NULL, mTheHost.mWorkStartedData2);
     }
 
     if(mTheHost.mClientData)
@@ -61,17 +61,17 @@ void AddNoiseWorker::run()
                 data(row, col + 1) = yData;
             }
 
-            if(mTheHost.mWorkProgressCB)
+            if(mTheHost.mWorkProgressEvent)
             {                
                 int progress = (int) (row * 100.0) /(data.rSize() -1.0) ;
-                mTheHost.mWorkProgressCB((void*) &progress,  mTheHost.mWorkProgressData2);
+                mTheHost.mWorkProgressEvent((void*) &progress,  mTheHost.mWorkProgressData2);
             }
         }
     }
 
-    if(mTheHost.mWorkFinishedCB)
+    if(mTheHost.mWorkFinishedEvent)
     {
-        mTheHost.mWorkFinishedCB(NULL, mTheHost.mWorkFinishedData2);
+        mTheHost.mWorkFinishedEvent(NULL, mTheHost.mWorkFinishedData2);
     }
 }
 

@@ -203,7 +203,16 @@ void RoadRunnerData::setDataPrecision(const int& prec)
 
 string RoadRunnerData::getColumnNamesAsString() const
 {
-    return rr::toString(mColumnNames);
+    string lbls;
+    for(int i = 0; i < mColumnNames.size(); i++)
+    {
+        lbls.append(mColumnNames[i]);
+        if(i < mColumnNames.size() -1)
+        {
+            lbls.append(",");
+        }
+    }
+    return lbls;
 }
 
 void RoadRunnerData::allocate(const int& cSize, const int& rSize)
@@ -308,6 +317,20 @@ bool RoadRunnerData::writeTo(const string& fileName) const
     aFile<<(*this);
     aFile.close();
 
+    return true;
+}
+
+bool RoadRunnerData::readFrom(const string& fileName)
+{
+    ifstream aFile(fileName.c_str());
+    if(!aFile)
+    {
+        Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
+        return false;
+    }
+    
+    aFile >> (*this); 
+    aFile.close();
     return true;
 }
 
@@ -420,7 +443,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
         return ss;
     }
 
-    data.setColumnNames(splitString(colNames->mValue, ","));
+    data.setColumnNames(splitString(colNames->mValue, ",{}")); //Remove any braces
 
     //Read number of cols and rows and setup data
     IniKey* aKey1 = infoSection->GetKey("NUMBER_OF_COLS");

@@ -486,12 +486,11 @@ def assignOnStartedEvent(pluginHandle, pluginEvent, userData1 = None, userData2 
     return rrpLib.assignOnStartedEvent(pluginHandle, pluginEvent, userData1, userData2)
 
 ## \brief Assign OnProgressEvent function. Plugin dependent but can be used to report back progress
-## \param pluginHandle Handle to a pluginevent routine
-## \param userData1 void* pointer to user data.
+## \param pluginHandle Handle to a pluginevent routine## \param userData1 void* pointer to user data.
 ## \param userData2 void* pointer to user data.
 ## \return Returns true or false indicating success/failure
 ## \ingroup plugins
-rrpLib.assignOnProgresEvent.args =[c_void_p, NotifyEvent, c_void_p]
+rrpLib.assignOnProgressEvent.args =[c_void_p, NotifyEvent, c_void_p]
 def assignOnProgressEvent(pluginHandle, pluginEvent, userData1 = None, userData2 = None):
     return rrpLib.assignOnProgressEvent(pluginHandle, pluginEvent, userData1, userData2)
 
@@ -642,7 +641,7 @@ def setParameterHint(paraHandle, descr):
 ## \endhtmlonly 
 ## \ingroup plugin_parameters
 rrpLib.createParameter.restype = c_void_p
-def createParameter(name, the_type, hint, value=None):    
+def createParameter(name, the_type, hint="", value=None):    
     if value == None:
        return rrpLib.createParameter(name, the_type, hint, value)
     else:
@@ -812,7 +811,7 @@ def setIntParameter(paraHandle, value):
 ## \param paraHandle to a parameter instance
 ## \return Returns a double value. Throws an exception if the parameter type is not a double
 ## \ingroup plugin_parameters
-rrpLib.getDoubleParameter.restype = c_double
+rrpLib.getDoubleParameter.restype = c_bool
 def getDoubleParameter (paraHandle):
     if getParameterType (paraHandle) == "double":
         val = c_double()
@@ -929,26 +928,81 @@ def getRoadRunnerDataHandle(rrInstance):
     return rrpLib.getRoadRunnerDataHandle(rrHandle)
 
 ## \brief Convert roadrunner data to Numpy data
-## \param rrcDataHandle A handle to a simplified roadrunner data object
+## \param rrDataHandle A handle to a roadrunner data object
 ## \return Returns a numpy data object
 ## \ingroup utilities
 rrpLib.getRoadRunnerDataElement.restype = c_bool
-def getNumpyData(rrcDataHandle):
-    rowCount = rrpLib.getRoadRunnerDataNumRows(rrcDataHandle)
-    colCount = rrpLib.getRoadRunnerDataNumCols(rrcDataHandle)
+def getNumpyData(rrDataHandle):
+    colHeader = rrpLib.getRoadRunnerDataColumnHeader(rrDataHandle)
+    rowCount = rrpLib.getRoadRunnerDataNumRows(rrDataHandle)
+    colCount = rrpLib.getRoadRunnerDataNumCols(rrDataHandle)
     resultArray = np.zeros([rowCount, colCount])
     for row in range(rowCount):
         for col in range(colCount):
                 val = c_double()
-                if rrpLib.getRoadRunnerDataElement(rrcDataHandle, row, col, byref(val)) == True:
+                if rrpLib.getRoadRunnerDataElement(rrDataHandle, row, col, byref(val)) == True:
                     resultArray[row, col] = val.value
                 else:
                     print "problem"
+    #resultArray = np.append(resultArray, colHeader.split(","))
+    #Not sure how to append the col names.                    
     return resultArray
 
-#Note, a hard bug in the above function was the initial absence of the c_bool restype. Removing that, make the function works up to 128 rows,
-#and after that it will fail!!
+## \brief Get column header in roadrunner data
+## \param rrDataHandle A handle to a oadrunner data object
+## \return Returns a numpy data object
+## \ingroup utilities
 
+rrpLib.getRoadRunnerDataColumnHeader.restype = c_char_p
+def getRoadRunnerDataColumnHeader(rrDataHandle):
+    hdr = rrpLib.getRoadRunnerDataColumnHeader(rrDataHandle)
+    res = hdr
+    rrpLib.freeText(res)
+    return hdr.split('.') 
+
+
+## \brief Write RoadRunnerData to a file
+## \param rrDataHandle A handle to roadunnerdata
+## \param fName Name of output file, including path. If no path is given, the file is written to the
+## current working directory 
+## \return Returns True or false indicating result
+## \ingroup utilities
+rrpLib.writeRoadRunnerDataToFile.restype = c_bool
+def writeRoadRunnerData(rrDataHandle, fName):    
+    return rrpLib.writeRoadRunnerDataToFile(rrDataHandle, fName)
+
+
+## \brief Read RoadRunnerData from a file
+## \param rrDataHandle A handle to roadunnerdata
+## \param fName Name of input file, including path. If no path is given, the file is read 
+## in current working directory 
+## \return Returns True or false indicating result
+## \ingroup utilities
+rrpLib.readRoadRunnerDataFromFile.restype = c_bool
+def readRoadRunnerData(rrDataHandle, fName):    
+    return rrpLib.readRoadRunnerDataFromFile(rrDataHandle, fName)
+
+## \brief Create RoadRunnerData from a file
+## \param fName Name of input file, including path. If no path is given, the file is read 
+## in current working directory 
+## \return Returns a handle to RoadRunner data if successful, None otherwise
+## \note Use the freeRoadRunnerData to free memory allocated by the returned data
+## \ingroup utilities
+rrpLib.createRoadRunnerData.restype = c_void_p
+def createRoadRunnerDataFromFile(fName):
+    #Create a RoadRunner data object
+    rrDataHandle = rrpLib.createRoadRunnerData(0,0,"")       
+    if rrpLib.readRoadRunnerDataFromFile(rrDataHandle, fName) == False:
+        print 'Failed to read data'
+    return rrDataHandle
+
+## \brief Free RoadRunnerData 
+## \param dataHandle Handle to a roadrunner data object 
+## \return Returns True or false indicating result
+## \ingroup utilities
+rrpLib.freeRoadRunnerData.restype = c_bool
+def freeRoadRunnerData(rrDataHandle):      
+    return rrpLib.freeRoadRunnerData(rrDataHandle)
 
 ## \brief Get last (API) error. This returns the last error if any.
 ## \return Returns a string with an error success, None otherwise

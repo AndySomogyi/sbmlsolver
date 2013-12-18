@@ -21,12 +21,12 @@ class AddNoise : public CPPPlugin
 
     private:
         Capability              mAddNoise;
-        Parameter<int>    mNoiseType;
+        Parameter<int>          mNoiseType;
         Parameter<double>       mSigma;
         AddNoiseWorker          mAddNoiseWorker;
 
     public:
-                                AddNoise(RoadRunner* aRR = NULL, PluginCallBackFnc fn1 = NULL, PluginCallBackFnc fn2 = NULL, PluginCallBackFnc fn3 = NULL);
+                                AddNoise(RoadRunner* aRR = NULL, PluginEvent fn1 = NULL, PluginEvent fn2 = NULL, PluginEvent fn3 = NULL);
                                ~AddNoise();
 
                                 //user data is

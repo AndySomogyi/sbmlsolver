@@ -71,9 +71,9 @@ DESTINATION plugins
 COMPONENT plugins
 )
 
-install(FILES
-docs/Examples/rrNoisePluginDemo.py
-DESTINATION plugins/Examples
-)
+#install(FILES
+#docs/Examples/rrNoisePluginDemo.py
+#DESTINATION plugins/Examples
+#)
 
 

@@ -73,9 +73,9 @@ void LMWorker::run()
     //Setup data structures
     setup();
 
-    if(mTheHost.mWorkProgressCB)
+    if(mTheHost.mWorkProgressEvent)
     {
-        mTheHost.mWorkProgressCB(mTheHost.mWorkProgressData1, NULL);
+        mTheHost.mWorkProgressEvent(mTheHost.mWorkProgressData1, NULL);
     }
 
     //This is the library function doing the minimization..
@@ -126,18 +126,18 @@ void LMWorker::run()
 void LMWorker::workerStarted()
 {
     mTheHost.mIsWorking = true;
-    if(mTheHost.mWorkStartedCB)
+    if(mTheHost.mWorkStartedEvent)
     {
-        mTheHost.mWorkStartedCB(NULL, mTheHost.mWorkStartedData2);
+        mTheHost.mWorkStartedEvent(NULL, mTheHost.mWorkStartedData2);
     }
 }
 
 void LMWorker::workerFinished()
 {
-    mTheHost.mIsWorking = false;//Set this flag before callback so client can query plugin about termination
-    if(mTheHost.mWorkFinishedCB)
+    mTheHost.mIsWorking = false;//Set this flag before event so client can query plugin about termination
+    if(mTheHost.mWorkFinishedEvent)
     {
-        mTheHost.mWorkFinishedCB(NULL, mTheHost.mWorkFinishedData2);
+        mTheHost.mWorkFinishedEvent(NULL, mTheHost.mWorkFinishedData2);
     }
 }
 
@@ -225,8 +225,8 @@ bool LMWorker::setup()
     mLMData.rrHandle                = mRRI;
     mRRI->setSelections(species);
 
-    mLMData.mProgressCallBack               = mTheHost.mWorkProgressCB;
-    mLMData.mProgressCallBackContextData    = mTheHost.mWorkProgressData2;
+    mLMData.mProgressEvent               = mTheHost.mWorkProgressEvent;
+    mLMData.mProgressEventContextData    = mTheHost.mWorkProgressData2;
     return true;
 }
 
