@@ -1,5 +1,6 @@
 .. class:: RoadRunner
-   The main RoadRunner class.
+   The main RoadRunner class. Its objects, i.e. ``rr = RoadRunner()`` perform 
+   the libRoaRunner functions, i.e. ``rr.simulate()``.
 
 
 .. method:: RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')

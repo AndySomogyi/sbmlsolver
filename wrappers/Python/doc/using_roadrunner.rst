@@ -9,8 +9,8 @@ Load RoadRunner
 
 To startup roadRunner use the commands at the Python prompt::
 
-  import roadrunner
-  rr = roadrunner.RoadRunner()
+   import roadrunner
+   rr = roadrunner.RoadRunner()
   
 The variable rr is your reference to roadrunner. Anything you want to do with roadrunner must be 
 specified using the variable rr. For exmaple, to get the current version of roadRunner type the
@@ -25,8 +25,7 @@ RoadRunner reads models using the SBML format. If you have a SBML model stored o
 possible to load that model using the method, ``load()``. Let's assume you have a model called
 mymodel.xml in C:\MyModels. To load this model in Windows we would use the command::
 
-  rr.load("C:/MyModels/mymodel.xml")
-  rr.load(os.path.dirname(roadrunner.__file__)+"/testing/test_1.xml")
+   rr.load("C:/MyModels/mymodel.xml")
 
 Note, Windows typically used the back slash, '\\' to indicate a directory separator, however in
 most languages including python, this is the escape character, therefore one can also enter Windows
@@ -35,7 +34,7 @@ these must be typed twice, i.e. ``'C:\\MyModels\\mymodel.xml'``.
 
 On the Mac or Linux we might use the command::
 
-  rr.load("/home/MyModels/mymodel.xml")
+   rr.load("/home/MyModels/mymodel.xml")
 
 If the model was loaded successfully the load method will return True otherwise an exception will 
 be raised that contains extendend information detailing exactly what failed. If any warnings are
