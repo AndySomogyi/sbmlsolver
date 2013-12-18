@@ -742,7 +742,7 @@ namespace std { class ostream{}; }
     const rr::SimulateOptions *simulateOptions;
 
 
-    const rr::RoadRunnerData *simulate(int startTime, int endTime, int steps) {
+    const rr::RoadRunnerData *simulate(double startTime, double endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
         s.start = startTime;
         s.duration = endTime - startTime;

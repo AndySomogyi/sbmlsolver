@@ -315,37 +315,37 @@ RRP_DECLSPEC bool rrp_cc isBeingTerminated(RRPluginHandle handle);
 RRP_DECLSPEC bool rrp_cc wasTerminated(RRPluginHandle handle);
 
 /*!
- \brief Assign callback function fired when a plugin starts its work
+ \brief Assign event function fired when a plugin starts its work
  \param handle Handle to a plugin
- \param cb Function pointer to callback routine
+ \param cb Function pointer to event routine
  \param userData1 void* pointer to user data.
  \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc assignPluginStartedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
+RRP_DECLSPEC bool rrp_cc assignOnStartedEvent(RRPluginHandle handle, PluginEvent cb, void* userData1, void* userData2);
 
 /*!
- \brief Assign callback function fired as a plugin progresses
+ \brief Assign event function fired as a plugin progresses
  \param handle Handle to a plugin
- \param cb Function pointer to callback routine
+ \param cb Function pointer to event routine
  \param userData1 void* pointer to user data.
  \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc assignPluginProgressCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
+RRP_DECLSPEC bool rrp_cc assignOnProgressEvent(RRPluginHandle handle, PluginEvent cb, void* userData1, void* userData2);
 
 /*!
- \brief Assign callback function fired when a plugin finishes its work
+ \brief Assign event function fired when a plugin finishes its work
  \param handle Handle to a plugin
- \param cb Function pointer to callback routine
+ \param cb Function pointer to event routine
  \param userData1 void* pointer to user data.
  \param userData2 void* pointer to user data.
  \return Returns true or false indicating success/failure
  \ingroup plugins
 */
-RRP_DECLSPEC bool rrp_cc assignPluginFinishedCallBack(RRPluginHandle handle, pluginCallBack cb, void* userData1, void* userData2);
+RRP_DECLSPEC bool rrp_cc assignOnFinishedEvent(RRPluginHandle handle, PluginEvent cb, void* userData1, void* userData2);
 
 /*!
  \brief Hand external data to a plugin
@@ -485,12 +485,12 @@ RRP_DECLSPEC bool rrp_cc getRRCDataElementF(RRCDataPtr rrcData, int r, int c, do
  \return Returns true if succesful
  \ingroup utilities
 */
-RRP_DECLSPEC bool rrp_cc getRoadRunnerDataElement(RRDataHandle rrData, int r, int c, double *value);
-
-RRP_DECLSPEC int rrp_cc getRoadRunnerDataNumRows(RRDataHandle rrData);
-
-RRP_DECLSPEC int rrp_cc getRoadRunnerDataNumCols(RRDataHandle rrData);
-
+RRP_DECLSPEC bool           rrp_cc getRoadRunnerDataElement(RRDataHandle rrData, int r, int c, double *value);
+RRP_DECLSPEC char*          rrp_cc getRoadRunnerDataColumnHeader(RRDataHandle _data);
+RRP_DECLSPEC int            rrp_cc getRoadRunnerDataNumRows(RRDataHandle rrData);
+RRP_DECLSPEC int            rrp_cc getRoadRunnerDataNumCols(RRDataHandle rrData);
+RRP_DECLSPEC RRDataHandle   rrp_cc createRoadRunnerData(int rows, int cols, char* colNames);
+RRP_DECLSPEC bool           rrp_cc freeRoadRunnerData(RRDataHandle handle);
 /*!
  \brief Returns a string list in string form.
  \return Returns string list as a character string
@@ -498,6 +498,11 @@ RRP_DECLSPEC int rrp_cc getRoadRunnerDataNumCols(RRDataHandle rrData);
  \note Forwarded from roadruners C API
 */
 RRP_DECLSPEC char* rrp_cc stringArrayToStringFWD(const RRStringArrayPtr list);
+
+RRP_DECLSPEC bool rrp_cc writeRoadRunnerDataToFile(RRDataHandle rrData, char* fName);
+RRP_DECLSPEC bool rrp_cc readRoadRunnerDataFromFile(RRDataHandle rrData, char* fName);
+
+
 
 /*!
  \brief Return last API error

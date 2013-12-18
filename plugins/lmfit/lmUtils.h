@@ -27,9 +27,9 @@ typedef struct
     RRHandle                rrHandle;
     double*                 time;
     RRPluginHandle          mLMPlugin;
-    pluginCallBack          mProgressCallBack;
-    void*                   mProgressCallBackContextData;
-    char*                   mProgressCallBackMessage;
+    PluginEvent          mProgressEvent;
+    void*                   mProgressEventContextData;
+    char*                   mProgressEventMessage;
 } lmDataStructure;
 
 void my_printout(   int n_par,
@@ -52,7 +52,7 @@ void ui_printout(   int n_par,
                     int iter,                               //iter  : outer loop counter
                     int nfev);                              //nfev  : number of calls to *evaluate
 
-//Evaluate is the callback function that lmfit call to evaulate residuals
+//Evaluate is the event function that lmfit call to evaulate residuals
 void evaluate(      const double   *par,                    //Parameter vector
                     int             m_dat,                  //Dimension of residue vector
                     const void     *userData,               //Data structure

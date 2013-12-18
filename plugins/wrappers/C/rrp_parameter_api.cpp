@@ -121,6 +121,20 @@ RRParameterHandle rrp_cc createParameter(const char* label, const char* type, co
             return para;
         }
 
+        if(string(type) == string("roadRunnerData"))
+        {
+            RoadRunnerData iniVal;
+            if(value != NULL)
+            {
+                //cast it
+                RoadRunnerData* val = (RoadRunnerData*) value;
+                iniVal = (*val);
+            }
+
+            Parameter<RoadRunnerData> *para = new Parameter<RoadRunnerData>(label, iniVal, hint);
+            return para;
+        }
+
         return NULL;
     catch_ptr_macro
 }

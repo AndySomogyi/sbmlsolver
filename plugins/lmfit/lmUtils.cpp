@@ -133,12 +133,12 @@ void ui_printout(   int n_par,
         }
     }
 
-    //Callback to UI, with progress data
+    //Event to UI, with progress data
     string msg = ss.str();
-    if(myData->mProgressCallBack)
+    if(myData->mProgressEvent)
     {
         char* passMsg = createText(msg);
-        myData->mProgressCallBack((void*) passMsg, myData->mProgressCallBackContextData);
+        myData->mProgressEvent((void*) passMsg, myData->mProgressEventContextData);
         delete [] passMsg;
     }
 

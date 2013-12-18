@@ -21,9 +21,9 @@ mCategory(category),
 mVersion("0.0"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
-mWorkStartedCB(NULL),
-mWorkProgressCB(NULL),
-mWorkFinishedCB(NULL),
+mWorkStartedEvent(NULL),
+mWorkProgressEvent(NULL),
+mWorkFinishedEvent(NULL),
 mCapabilities(),//name, category),
 mImplementationLanguage(language),
 mPM(pm),
@@ -96,25 +96,25 @@ bool Plugin::assignInput(void* userData)
     return true;
 }
 
-bool Plugin::assignPluginStartedCallBack(PluginCallBackFnc startedFnc, void* userData1, void* userData2)
+bool Plugin::assignOnStartedEvent(PluginEvent startedFnc, void* userData1, void* userData2)
 {
-    mWorkStartedCB = startedFnc;
+    mWorkStartedEvent = startedFnc;
     mWorkStartedData1 = userData1;
     mWorkStartedData2 = userData2;
     return true;
 }
 
-bool Plugin::assignPluginProgressCallBack(PluginCallBackFnc progress, void* userData1, void* userData2)
+bool Plugin::assignOnProgressEvent(PluginEvent progress, void* userData1, void* userData2)
 {
-    mWorkProgressCB = progress;
+    mWorkProgressEvent = progress;
     mWorkProgressData1 = userData1;
     mWorkProgressData2 = userData2;
     return true;
 }
 
-bool Plugin::assignPluginFinishedCallBack(PluginCallBackFnc endFnc, void* userData1, void* userData2)
+bool Plugin::assignOnFinishedEvent(PluginEvent endFnc, void* userData1, void* userData2)
 {
-    mWorkFinishedCB = endFnc;
+    mWorkFinishedEvent = endFnc;
     mWorkFinishedData1 = userData1;
     mWorkFinishedData2 = userData2;
     return true;

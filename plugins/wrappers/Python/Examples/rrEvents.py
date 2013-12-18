@@ -36,9 +36,6 @@ rr.simulate(timeStart, timeEnd, numPoints)
 
 #Load the 'noise' plugin in order to add some noise to the data
 plugin = loadPlugin(pm, "rrp_add_noise")
-if not plugin:
-    print getLastError()
-    exit()
 
 print getPluginInfo(plugin)
 
@@ -51,18 +48,20 @@ print 'Current sigma is ' + aSigma
 #set size of noise
 setParameterByString(sigmaHandle, '0.01')
 
-cb_func1 =  pluginCallBackType1(pluginStarted)
-assignPluginStartedCallBack(plugin,  cb_func1)
+cb_func1 =  NotifyEvent(pluginStarted)
+assignOnStartedEvent(plugin,  cb_func1)
 
-cb_func2 =  pluginCallBackType2(pluginIsProgressing)
-assignPluginProgressCallBack(plugin, cb_func2)
+cb_func2 =  NotifyIntStrEvent(pluginIsProgressing)
+assignOnProgressEvent(plugin, cb_func2)
 
-cb_func3 =  pluginCallBackType1(pluginIsFinished)
-assignPluginFinishedCallBack(plugin, cb_func3)
+cb_func3 =  NotifyEvent(pluginIsFinished)
+assignOnFinishedEvent(plugin, cb_func3)
 
 rrDataHandle = getRoadRunnerDataHandle(rr)
 
+#Assign data to the plugin
 assignPluginInput(plugin, rrDataHandle)
+
 #Execute the noise plugin which will add some noise to the (internal) data
 executePluginEx(plugin, True)
 

@@ -10,7 +10,7 @@ namespace addNoise
 {
 using namespace rr;
 
-AddNoise::AddNoise(rr::RoadRunner* aRR, PluginCallBackFnc fn1, PluginCallBackFnc fn2, PluginCallBackFnc fn3)
+AddNoise::AddNoise(rr::RoadRunner* aRR, PluginEvent fn1, PluginEvent fn2, PluginEvent fn3)
 :
 CPPPlugin(                 "AddNoise",                 "Signal Processing",    aRR, NULL),
 mAddNoise(                 "Add Noise",                "Add artificial noise to data"),
