@@ -14,6 +14,7 @@ var searchData=
   ['getnextplugin',['getNextPlugin',['../group__plugin__manager.html#ga83b28fc49904148333128932f9f0fa0d',1,'rrPlugins']]],
   ['getnumberofplugins',['getNumberOfPlugins',['../group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23',1,'rrPlugins']]],
   ['getnumpydata',['getNumpyData',['../group__utilities.html#ga1b51dd4dc436e3576b7fb1accbd97282',1,'rrPlugins']]],
+  ['getparameter',['getParameter',['../group__plugin__parameters.html#ga528aed719728798481c2b721a2ff0a99',1,'rrPlugins']]],
   ['getparameterhint',['getParameterHint',['../group__plugin__parameters.html#ga843ccc03d3ca35b3a70389513f2093e1',1,'rrPlugins']]],
   ['getparameterinfo',['getParameterInfo',['../group__plugin__parameters.html#ga5a02bcbe35aaaf38ee6ef9f32ffa64c8',1,'rrPlugins']]],
   ['getparametername',['getParameterName',['../group__plugin__parameters.html#ga91d3d28fd3f172eeb54c99a68f9cada7',1,'rrPlugins']]],

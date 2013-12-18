@@ -98,13 +98,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:gad9d4b7c7544e8db0e20aeee0818f644c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugins.  <a href="#gad9d4b7c7544e8db0e20aeee0818f644c">More...</a><br/></td></tr>
 <tr class="separator:gad9d4b7c7544e8db0e20aeee0818f644c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga650a8e90787cee3bcad7b844df766248"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga650a8e90787cee3bcad7b844df766248">unLoadPlugins</a></td></tr>
-<tr class="memdesc:ga650a8e90787cee3bcad7b844df766248"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unload plugins.  <a href="#ga650a8e90787cee3bcad7b844df766248">More...</a><br/></td></tr>
+<tr class="memdesc:ga650a8e90787cee3bcad7b844df766248"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unload all plugins.  <a href="#ga650a8e90787cee3bcad7b844df766248">More...</a><br/></td></tr>
 <tr class="separator:ga650a8e90787cee3bcad7b844df766248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab9c91ced7d49ddbd89ba3020d72f1c96"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#gab9c91ced7d49ddbd89ba3020d72f1c96">loadPlugin</a></td></tr>
 <tr class="memdesc:gab9c91ced7d49ddbd89ba3020d72f1c96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a particular plugin.  <a href="#gab9c91ced7d49ddbd89ba3020d72f1c96">More...</a><br/></td></tr>
 <tr class="separator:gab9c91ced7d49ddbd89ba3020d72f1c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga140343e76c68386c4c1f4e077a863016"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga140343e76c68386c4c1f4e077a863016">unLoadPlugin</a></td></tr>
-<tr class="memdesc:ga140343e76c68386c4c1f4e077a863016"><td class="mdescLeft">&#160;</td><td class="mdescRight">unload a particular plugin  <a href="#ga140343e76c68386c4c1f4e077a863016">More...</a><br/></td></tr>
+<tr class="memdesc:ga140343e76c68386c4c1f4e077a863016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unload a particular plugin.  <a href="#ga140343e76c68386c4c1f4e077a863016">More...</a><br/></td></tr>
 <tr class="separator:ga140343e76c68386c4c1f4e077a863016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga00081a51f3070fc0a02cfd93ef961e23"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23">getNumberOfPlugins</a></td></tr>
 <tr class="memdesc:ga00081a51f3070fc0a02cfd93ef961e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of loaded plugins.  <a href="#ga00081a51f3070fc0a02cfd93ef961e23">More...</a><br/></td></tr>
@@ -140,7 +140,7 @@ Functions</h2></td></tr>
 <li>Load the plugins using loadPlugins (all) or loadPlugin (specific one)</li>
 <li>Obtain the plugin handle using getPlugin or directly from loadPlugin (singular)</li>
 <li>Using the plugin handle, set values to the plugin parameters</li>
-<li>Run the plugin method ExecutePlugin</li>
+<li>Run the plugin method execute(pluginHandle)</li>
 <li>Retrieve results from plugin parameters </li>
 </ol>
 <h2 class="groupheader">Function Documentation</h2>
@@ -511,7 +511,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>unload a particular plugin </p>
+<p>Unload a particular plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
@@ -537,7 +537,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Unload plugins. </p>
+<p>Unload all plugins. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pm</td><td>Handle to a PluginManager instance </td></tr>
@@ -551,7 +551,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 18 2013 16:41:01 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

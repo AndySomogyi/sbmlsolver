@@ -9,6 +9,7 @@ var searchData=
   ['getconfigurationxml',['getConfigurationXML',['../classrr_1_1_road_runner.html#a1b92635414935e3d1d65fbac0d6871eb',1,'rr::RoadRunner']]],
   ['getconservedmoietyanalysis',['getConservedMoietyAnalysis',['../classrr_1_1_road_runner.html#af69cf22ce68c8d5c4ab869fedefa16f9',1,'rr::RoadRunner']]],
   ['getconservedsumchanged',['getConservedSumChanged',['../classrr_1_1_executable_model.html#a78d7c7496f2452280933a50057d2cda4',1,'rr::ExecutableModel']]],
+  ['getcurrentsbml',['getCurrentSBML',['../classrr_1_1_road_runner.html#aaafb3e8f351ff365597ec47f7228b897',1,'rr::RoadRunner']]],
   ['getee',['getEE',['../classrr_1_1_road_runner.html#a4faad67b12aaf15212f7c57697556d61',1,'rr::RoadRunner::getEE(const std::string &amp;reactionName, const std::string &amp;parameterName)'],['../classrr_1_1_road_runner.html#a54d7fece5e6ac6fcba4d113f62aff1e4',1,'rr::RoadRunner::getEE(const std::string &amp;reactionName, const std::string &amp;parameterName, bool computeSteadyState)']]],
   ['geteigenvalueids',['getEigenvalueIds',['../classrr_1_1_road_runner.html#afef1779a575df9d4905d281e485795f1',1,'rr::RoadRunner']]],
   ['geteigenvalues',['getEigenvalues',['../classrr_1_1_road_runner.html#af2ffe24f0f93699601b92d79ec291aa2',1,'rr::RoadRunner']]],
