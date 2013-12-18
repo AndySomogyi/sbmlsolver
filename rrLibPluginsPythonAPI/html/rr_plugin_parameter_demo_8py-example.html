@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,67 +87,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Getting the value of the parameter</li>
 <li>Setting the value of the parameter</li>
 </ol>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> rrPlugins <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">#Create a plugin manager</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>()</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#Load the &#39;noise&#39; plugin in order to add some noise to the data</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;plugin = <a class="code" href="group__plugin__manager.html#gab9c91ced7d49ddbd89ba3020d72f1c96">loadPlugin</a>(pm, <span class="stringliteral">&quot;rrp_add_noise&quot;</span>)</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> plugin:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">print</span> <a class="code" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1">getLastError</a>()</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    exit()</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugins.html#gabdf72eebd206ac891cfc681b74811a0a">getPluginInfo</a>(plugin)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">#Get the plugins parameters</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;paras =  <a class="code" href="group__plugin__parameters.html#gac7f3391b5b8679fb7e12568aea456818">getPluginParameters</a>(plugin)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">#Get parameters associated with a capability</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugin__parameters.html#ga24e817520f7c2f1fe96bd5c581f72727">getListOfPluginParameterNames</a>(paras)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;paraHandle   = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(plugin, <span class="stringliteral">&quot;NoiseType&quot;</span>)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;getting some info about the parameter&#39;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugin__parameters.html#ga5a02bcbe35aaaf38ee6ef9f32ffa64c8">getParameterInfo</a>(paraHandle)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;paraValueString = <a class="code" href="group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767">getParameterValueAsString</a>(paraHandle)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;parameter is &#39;</span> + paraValueString</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<a class="code" href="group__plugin__parameters.html#ga8baa68fbe4532efd4d776ce1c1855d82">setParameterByString</a>(paraHandle, <span class="stringliteral">&quot;1&quot;</span>)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;paraValueString = <a class="code" href="group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767">getParameterValueAsString</a>(paraHandle)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Parameter is now: &#39;</span> + paraValueString</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<a class="code" href="group__plugin__parameters.html#ga89fdc0123d29b2ccd1ae7c7036a00384">setIntParameter</a>(paraHandle, 0)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;test = <a class="code" href="group__plugin__parameters.html#ga0b39ee01649795f0f9b5464f72ee4fed">getParameterValue</a>(paraHandle)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordflow">print</span> test</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;paraValueString = <a class="code" href="group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767">getParameterValueAsString</a>(paraHandle)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Parameter is now: &#39;</span> + paraValueString</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">## Retrieve a parameter handle</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;paraHandle = <a class="code" href="group__plugin__parameters.html#gadd4a9d279563989ffd0d5779750d700e">getPluginParameter</a>(plugin, <span class="stringliteral">&quot;Sigma&quot;</span>)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;getting some info about the parameter&#39;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugin__parameters.html#ga5a02bcbe35aaaf38ee6ef9f32ffa64c8">getParameterInfo</a>(paraHandle)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;paraValueString = <a class="code" href="group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767">getParameterValueAsString</a>(paraHandle)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;parameter is &#39;</span> + paraValueString</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="group__plugin__parameters.html#ga8baa68fbe4532efd4d776ce1c1855d82">setParameterByString</a>(paraHandle, <span class="stringliteral">&quot;1.23&quot;</span>)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;paraValueString = <a class="code" href="group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767">getParameterValueAsString</a>(paraHandle)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Parameter is now: &#39;</span> + paraValueString</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;var = 2.23</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<a class="code" href="group__plugin__parameters.html#ga9b957da7a62838e16025ebe3055d383a">setDoubleParameter</a>(paraHandle, var)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;test = <a class="code" href="group__plugin__parameters.html#ga0b39ee01649795f0f9b5464f72ee4fed">getParameterValue</a>(paraHandle)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordflow">print</span> test</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;paraValueString = <a class="code" href="group__plugin__parameters.html#ga4bec29caae195f24d0abe594463fd767">getParameterValueAsString</a>(paraHandle)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Parameter is now: &#39;</span> + paraValueString</div>
-</div><!-- fragment --> </div><!-- contents -->
+<div class="fragment"></div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 23:50:29 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

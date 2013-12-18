@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['plugincallback',['pluginCallBack',['../rrp__types_8h.html#a679c3fa3d2585f2ce16ffc2918cd4bb5',1,'rrp_types.h']]]
+  ['pluginevent',['PluginEvent',['../rrp__types_8h.html#ae251f68ced34545b1f4a130b7419dc89',1,'rrp_types.h']]]
 ];

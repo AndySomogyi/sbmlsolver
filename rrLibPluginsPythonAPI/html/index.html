@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -149,9 +149,27 @@ How to use plugins</h1>
 <li>Client get a handle to a specific parameter in the plugin.</li>
 <li>Client set the value of the parameter.</li>
 <li>Client excutes the plugin.</li>
-<li>Client retrieve the value of a plugins parameter, e.g. a "result" parameter.</li>
+<li>Client retrieve the value of a plugins parameter, e.g. a "result" parameter. </li>
 </ol>
-<p>See the examples page that provide exampl code on how to use plugins. </p>
+<h2><a class="anchor" id="pluginEvents"></a>
+PluginEvent functionality</h2>
+<p>In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of plugin event functions. In short, a n event is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins execution.</p>
+<p>A single plugin may support of up to three event functions. The intended use of these functions are to signal the events in the following:</p>
+<ol type="1">
+<li>PluginInitialization</li>
+<li>PluginProgress</li>
+<li>PluginFinalization</li>
+</ol>
+<p>Each event function support up to two opaque data parameters. The plugin documentation needs to provide the exact type of these arguments. In it simplest form, a plugin may choose to define an event function taking no arguments at all. Below are listed a few properties, characteristics of events in the RoadRunner Plugin framework.</p>
+<ol type="1">
+<li>A plugin event is a regular function defined by the client of the plugin.</li>
+<li>A plugin event function do not return any value.</li>
+<li>The type and number of arguments needed in the plugin event is defined by the plugin (see plugin docs).</li>
+<li>Plugin event are assigned to the plugin before a plugins execute function.</li>
+<li>Assigning events is optional. A plugins internal work should not be affected wether a event is assigned or not.</li>
+<li>Plugin events are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin event will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin event function is executed in a separate thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system.</li>
+</ol>
+<p>See the examples page that provide example code on how to use plugins, parameters and event functionss. </p>
 <h1><a class="anchor" id="plugins_writing"></a>
 How to write plugins</h1>
 <dl class="section note"><dt>Note</dt><dd>Writing plugins in Python is not yet supported</dd></dl>
@@ -161,7 +179,7 @@ Using rrPlugins.py</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 23:50:29 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

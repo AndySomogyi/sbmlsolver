@@ -34,9 +34,9 @@ var searchData=
   ['getpluginresult',['getPluginResult',['../group__plugins.html#gac4fe0db0c504ea53ebe66c5d06852e89',1,'rrPlugins']]],
   ['getpluginstatus',['getPluginStatus',['../group__plugins.html#ga0a0a0752c9339e7b19402da603092931',1,'rrPlugins']]],
   ['getpreviousplugin',['getPreviousPlugin',['../group__plugin__manager.html#gaad6327c658be9b54711d91e892f36623',1,'rrPlugins']]],
+  ['getroadrunnerdatacolumnheader',['getRoadRunnerDataColumnHeader',['../group__utilities.html#ga434c0e21419a8b954c04360870d4f47d',1,'rrPlugins']]],
   ['getroadrunnerdatahandle',['getRoadRunnerDataHandle',['../group__utilities.html#ga3c580a700ace61925f0cb0bc84686824',1,'rrPlugins']]],
-  ['getroadrunnerdatahandlefrominstance',['getRoadRunnerDataHandleFromInstance',['../group__utilities.html#ga8868f172d6b9c954a20fad7187f23c64',1,'rrPlugins']]],
-  ['getroadrunnerhandle',['getRoadRunnerHandle',['../group__utilities.html#ga1af8f9c2bf937ec762f1516b830d4003',1,'rrPlugins']]],
+  ['getroadrunnerdataparameter',['getRoadRunnerDataParameter',['../group__plugin__parameters.html#gaec3a4a2b95221cba10b1e2d721e7be22',1,'rrPlugins']]],
   ['getrrhandlefromplugin',['getRRHandleFromPlugin',['../group__plugins.html#gad6c58d1d67f69f9ad04f0f8e120e980c',1,'rrPlugins']]],
   ['getstringparameter',['getStringParameter',['../group__plugin__parameters.html#gacb8fd656da1a881b9a4186a2642c4d24',1,'rrPlugins']]]
 ];

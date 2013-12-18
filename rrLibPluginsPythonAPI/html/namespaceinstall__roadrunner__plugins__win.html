@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,26 +106,49 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>sp</b> = ''</td></t
 <tr class="memitem:a5f42ac05cd1bc0a6aa88d284e0eccc72"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f42ac05cd1bc0a6aa88d284e0eccc72"></a>
 tuple&#160;</td><td class="memItemRight" valign="bottom"><b>dst</b> = os.path.join(sp, 'roadrunner')</td></tr>
 <tr class="separator:a5f42ac05cd1bc0a6aa88d284e0eccc72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbfa4358925986ea5d974c103e28e5f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbfa4358925986ea5d974c103e28e5f2"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>cwd</b> = os.path.dirname(os.path.abspath(__file__))</td></tr>
+<tr class="separator:abbfa4358925986ea5d974c103e28e5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fc8de584ed7de6cf2118a69d031bbf6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8fc8de584ed7de6cf2118a69d031bbf6"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>upOneCwd</b> = os.path.split(cwd)</td></tr>
+<tr class="separator:a8fc8de584ed7de6cf2118a69d031bbf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1984cc20fe2d93bac990143f095f9fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1984cc20fe2d93bac990143f095f9fd"></a>
-tuple&#160;</td><td class="memItemRight" valign="bottom"><b>src</b> = os.path.abspath(os.path.join('site-packages', 'roadrunner'))</td></tr>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>src</b> = os.path.abspath(os.path.join(upOneCwd, 'site-packages', 'roadrunner'))</td></tr>
 <tr class="separator:ab1984cc20fe2d93bac990143f095f9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af972aa319b63e86da15f945ead31ef7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af972aa319b63e86da15f945ead31ef7d"></a>
 tuple&#160;</td><td class="memItemRight" valign="bottom"><b>pluginsrc</b> = os.path.split(src)</td></tr>
 <tr class="separator:af972aa319b63e86da15f945ead31ef7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae012bb14f226a6099d58d3d751afb368"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae012bb14f226a6099d58d3d751afb368"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>rootDirSrc</b> = os.path.split(pluginsrc)</td></tr>
+<tr class="separator:ae012bb14f226a6099d58d3d751afb368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf5b923b9efe05af726e1c9358c3083d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf5b923b9efe05af726e1c9358c3083d"></a>
 tuple&#160;</td><td class="memItemRight" valign="bottom"><b>plugindst</b> = os.path.split(dst)</td></tr>
 <tr class="separator:acf5b923b9efe05af726e1c9358c3083d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac48929d35482130c81277a623ead8dc5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac48929d35482130c81277a623ead8dc5"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>localMachine</b> = _winreg.ConnectRegistry(None, _winreg.HKEY_LOCAL_MACHINE)</td></tr>
+<tr class="separator:ac48929d35482130c81277a623ead8dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01d52580c128a05a5163a40d1f496906"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01d52580c128a05a5163a40d1f496906"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>envKey</b> = _winreg.OpenKey(localMachine, r&quot;SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot;)</td></tr>
+<tr class="separator:a01d52580c128a05a5163a40d1f496906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6fc00af7c5b5a7c5f40ce6dc6b47d85"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6fc00af7c5b5a7c5f40ce6dc6b47d85"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>path</b> = _winreg.QueryValueEx(envKey, &quot;Path&quot;)</td></tr>
+<tr class="separator:ae6fc00af7c5b5a7c5f40ce6dc6b47d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af671844a201552b07cce6304ce01769c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af671844a201552b07cce6304ce01769c"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>binPath</b> = rootDirSrc+&quot;\\bin&quot;</td></tr>
+<tr class="separator:af671844a201552b07cce6304ce01769c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">Usage:
-   python install_roadrunner.py
+   python install_roadrunner_plugins.py
 
    This file will install all the relevant roadRunner files 
-   so that roadrunner can be used from Python
+   and plugins so that roadrunner can be used from Python
+   In addition ise setup the PYTHONPATH and modified the PATH
+   Currently for Windows only
 </pre> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 16 2013 23:50:29 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
