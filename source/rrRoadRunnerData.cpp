@@ -329,7 +329,7 @@ bool RoadRunnerData::readFrom(const string& fileName) const
         return false;
     }
     RoadRunnerData* temp = const_cast<RoadRunnerData*> (this);
-    aFile >> (*temp);   //Can it be tis easy?
+    aFile >> (*temp); 
     aFile.close();
     return true;
 }

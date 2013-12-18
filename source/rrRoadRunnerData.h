@@ -116,9 +116,9 @@ public:
 
 
 protected:
-    mutable std::vector<std::string> mColumnNames;  //Allow friends to change this one
-    mutable DoubleMatrix mTheData;                  //Allow friends to change this one
-    mutable DoubleMatrix mWeights;                  //Allow friends to change this one
+    std::vector<std::string> mColumnNames;  //Allow friends to change this one
+    DoubleMatrix mTheData;                  //Allow friends to change this one
+    DoubleMatrix mWeights;                  //Allow friends to change this one
     int mTimePrecision;                             //The precision when saved to file
     int mDataPrecision;            //The precision when saved to file
     std::string mName;             //For debugging purposes mainly..
