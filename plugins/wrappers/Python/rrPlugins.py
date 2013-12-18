@@ -961,10 +961,41 @@ rrpLib.setRoadRunnerDataParameter.restype = c_bool
 def setRoadRunnerDataParameter(paraHandle, value):
     return rrpLib.setRoadRunnerDataParameter(paraHandle, c_void_p(value))
 
-## \brief Get the value of a parameter no matter what type it is
+## \brief Get the value of a parameter.
 ## \param paraHandle A Handle to a parameter
 ## \return Returns the value of the parameter if succesful, None otherwise
-## \note This function only works on primitive data types, such as int, double, and string.
+## \ingroup plugin_parameters
+def getParameter(paraHandle):
+    paraType = getParameterType(paraHandle)
+    if paraType == 'bool':
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_bool))
+        return ptr[0]
+    if paraType == 'int':
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_int))
+        return ptr[0]
+    if paraType == 'double':
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_double))
+        return ptr[0]
+    if paraType == 'std::string':
+        return getParameterValueAsString(paraHandle)
+    if paraType == 'string':
+        return getParameterValueAsString(paraHandle)
+    if paraType == 'listOfParameters':
+        return getParameterValueHandle(paraHandle)    
+    if paraType == 'roadRunnerData': #The value of this is a handle
+        paraVoidPtr = getParameterValueHandle(paraHandle)
+        ptr = cast(paraVoidPtr, POINTER(c_void_p))
+        return ptr[0]             
+    else:
+       raise TypeError ('Parameter is not a string type')
+
+## \brief Get the value of a parameter.
+## \param paraHandle A Handle to a parameter
+## \return Returns the value of the parameter if succesful, None otherwise
+## \note Legacy function. Use getParameter() instead.
 ## \ingroup plugin_parameters
 def getParameterValue(paraHandle):
     paraType = getParameterType(paraHandle)
