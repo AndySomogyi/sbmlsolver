@@ -34,9 +34,7 @@ Contents:
 .. toctree::
 
    introduction
-   rr_basics
    read_write_functions
-   timecourse_simulation
    steady_state
    stoichiometric
    metabolic
