@@ -12,10 +12,11 @@ rrLevenbergMarquardt.py
 rrNoisePlugin.py
 rrTwoPlugins.py
 rrCreateNoisyData.py
+rrReadDataFromFile.py
 )
 
 install(    
-FILES ${examples} README.txt 
+FILES ${examples} README.txt testData.dat
 DESTINATION plugins/Examples 	
 COMPONENT plugins_api
 )

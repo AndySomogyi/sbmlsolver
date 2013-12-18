@@ -23,7 +23,7 @@ using std::string;
     The characteristics of a Parameter is its type and its value. Various functions assist in setting/getting
     a parameters value.
 
-    Of importance is the ability to get a pointer to its internal value, e.g. \a getValuePointer(), or \a getValueHandle(), as it is used as a
+    Of importance is the ability to get a pointer to its internal value, e.g. \a getValuePointer(), or \a getValueHandle(), as it can be used as a
     handle in the derived Plugins C API.
 */
 template<class T>
@@ -57,14 +57,6 @@ PluginParameter(name, hint),
 mDummy(value),
 mValue(mDummy)
 {}
-
-//template<class T>
-//Parameter<T>::Parameter(const Parameter<T>& para)
-//:
-//rr::PluginParameter(para.getName(), para.getHint()),
-//mDummy(para.getValue()),
-//mValue(mDummy)
-//{ }
 
 template<class T>
 void Parameter<T>::setValue(const T& val)
@@ -288,14 +280,8 @@ inline string Parameter<rr::RoadRunnerData>::getValueAsString() const
 template<>
 inline void Parameter<rr::RoadRunnerData>::setValueFromString(const string& val)
 {
-    //Todo: Implement this ugliness?
+    //This is not implemented, but could easily be.    
 }
-
-//template<>
-//inline void Parameter<bool>::setValue(const bool& val)
-//{
-//    mValue = val;
-//}
 
 template<>
 inline void Parameter<rr::RoadRunnerData>::setValue(const rr::RoadRunnerData& val)
@@ -311,6 +297,39 @@ inline void Parameter<rr::RoadRunnerData>::setValue(rr::RoadRunnerData* val)
 
 template<>
 inline string Parameter<rr::RoadRunnerData>::getType() const
+{
+    return "roadRunnerDataOld";
+}
+
+//Pointer to data
+template<>
+inline string Parameter<rr::RoadRunnerData*>::getValueAsString() const
+{
+    std::stringstream rrData;
+    rrData << (mValue);
+    return rrData.str();
+}
+
+template<>
+inline void Parameter<rr::RoadRunnerData*>::setValueFromString(const string& val)
+{
+    //This is not implemented, but could easily be.    
+}
+
+//template<>
+//inline void Parameter<rr::RoadRunnerData*>::setValue(const rr::RoadRunnerData& val)
+//{
+//    mValue = val;
+//}
+//
+//template<>
+//inline void Parameter<rr::RoadRunnerData*>::setValue(rr::RoadRunnerData* val)
+//{
+//    mValue = (*val);
+//}
+
+template<>
+inline string Parameter<rr::RoadRunnerData*>::getType() const
 {
     return "roadRunnerData";
 }

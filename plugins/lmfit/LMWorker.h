@@ -24,8 +24,8 @@ class LMWorker : public Poco::Runnable
         LM&                         mTheHost;
         bool                        setupRoadRunner();
         bool                        setup();
-        void                        createModelData(RoadRunnerData& data);
-        void                        createResidualsData(RoadRunnerData& data);
+        void                        createModelData(RoadRunnerData* data);
+        void                        createResidualsData(RoadRunnerData* data);
         void                        workerStarted();
         void                        workerFinished();
     public:

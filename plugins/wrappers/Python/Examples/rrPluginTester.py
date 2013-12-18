@@ -1,4 +1,3 @@
-import sys
 from rrPlugins import *
 
 # Create a plugin manager
@@ -15,18 +14,17 @@ if not result:
     exit()
 
 print 'Number of Plugins: ' + `getNumberOfPlugins(pm)`
-names= getPluginNames(pm)
-print names
+print 'Plugin Names: ' + `getPluginNames(pm)`
 
-# Get a plugin handle
+# Get a handle to a plugin
 aPlugin = getFirstPlugin(pm)
 
 if(aPlugin == None):
     print 'Failed to get a handle to a plugin'
     exit()
 
-info = getPluginInfo(aPlugin)
-
-print info
+print 'PluginName: ' + `getPluginName(aPlugin)`
+print getPluginInfo(aPlugin)
+print 'PluginParameters: ' + `getListOfPluginParameterNames(aPlugin)`
 print `unLoadPlugins(pm)`
 print "done"

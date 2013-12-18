@@ -430,8 +430,7 @@ char* rrp_cc getPluginPropertiesAsXML(RRPluginHandle handle)
 {
     start_try
         Plugin* aPlugin = castToPlugin(handle);
-        
-    return createText(aPlugin->getPluginPropertiesAsXML().c_str());
+        return createText(aPlugin->getPluginPropertiesAsXML().c_str());
     catch_ptr_macro
 }
 
@@ -476,7 +475,8 @@ RRDataHandle rrp_cc createRoadRunnerData(int nRows, int nCols, char* colNames)
         RoadRunnerData* data = new RoadRunnerData(nRows, nCols);
         if (colNames)
         {
-            StringList colNames(colNames, ",");
+            string cNames(colNames);
+            StringList colNames(cNames, ",");
             data->setColumnNames(colNames);
         }
         return data;        

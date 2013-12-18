@@ -1,16 +1,13 @@
 from rrPlugins import *
 
-paramHandle = createParameter("myList", "listOfParameters", "a Hint")
-
-#getHandle toValue
-paraListHandle = getParameterValueHandle(paramHandle)
+listParaHandle = createParameter("myList", "listOfParameters", "a Hint")
 
 #Should be empty
-print getNamesFromParameterList(paraListHandle)
+print getNamesFromParameterList(listParaHandle)
 
 #Add a new parameter
 aParameterHandle = createParameter("newOne", "double", "the hint")
-addParameterToList(paraListHandle, aParameterHandle)
+addParameterToList(listParaHandle, aParameterHandle)
 
 setDoubleParameter(aParameterHandle, 34)
 print getDoubleParameter(aParameterHandle)
@@ -19,19 +16,19 @@ print getDoubleParameter(aParameterHandle)
 print getParameterValue(aParameterHandle)
 
 #Should not be empty
-print getNamesFromParameterList (paraListHandle)
+print getNamesFromParameterList (listParaHandle)
 
 #Get the parameter
-paraHandle = getFirstParameter(paraListHandle)
+paraHandle = getFirstParameter(listParaHandle)
 
 print getParameterHint (paraHandle)
 print getParameterInfo (paraHandle)
-print getNamesFromParameterList (paraListHandle)
+print getNamesFromParameterList (listParaHandle)
 
 
-print clearParameterList(paraListHandle)
+print clearParameterList(listParaHandle)
 #Should be empty
-print getNamesFromParameterList (paraListHandle)
+print getNamesFromParameterList (listParaHandle)
 
-freeParameter(paramHandle)
+freeParameter(listParaHandle)
 
