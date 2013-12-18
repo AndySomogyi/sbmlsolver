@@ -39,7 +39,7 @@ setRoadRunnerDataParameter(dataPara, rrDataHandle)
 
 #get parameter for the 'size' of the noise
 #Set size of noise
-setPluginParameter(noisePlugin,"Sigma", "1e-2")
+setPluginParameter(noisePlugin,"Sigma", 1e-2)
 
 cb_func1 =  NotifyEvent(pluginStarted)
 assignOnStartedEvent(noisePlugin,  cb_func1)

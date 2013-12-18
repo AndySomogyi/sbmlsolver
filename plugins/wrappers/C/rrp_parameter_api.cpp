@@ -253,18 +253,18 @@ bool rrp_cc getDoubleParameter(RRParameterHandle handle, double *value)
 bool rrp_cc setStringParameter(RRParameterHandle handle, char* value)
 {
     start_try
-        Parameter<char*>* para = castToStringParameter(handle);
+        Parameter<string>* para = castToStringParameter(handle);
         para->setValue(value);
         return true;
     catch_bool_macro
 }
 
-bool rrp_cc getStringParameter(RRParameterHandle handle, char* (*value))
+bool rrp_cc getStringParameter(RRParameterHandle handle, const char* (*value))
 {
     start_try
-        Parameter<char*>* para = castToStringParameter(handle);
-        
-        (*value) = para->getValue();
+        Parameter<string>* para = castToStringParameter(handle);
+                
+        (*value) = para->getValue().c_str();
         return true;
     catch_bool_macro
 }

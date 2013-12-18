@@ -20,7 +20,7 @@ dataPara = getPluginParameter(noisePlugin, "InputData")
 setRoadRunnerDataParameter(dataPara, rrDataHandle)
 
 #get parameter for the 'size' of the noise
-setPluginParameter(noisePlugin, "Sigma", "1.e-5")
+setPluginParameter(noisePlugin, "Sigma", 1.e-5)
 
 #Execute the noise plugin which will add some noise to the (internal) data
 executePlugin(noisePlugin)

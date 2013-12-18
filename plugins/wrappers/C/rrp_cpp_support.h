@@ -112,12 +112,12 @@ Parameter< int >*                   castToIntParameter(RRParameterHandle handle)
 Parameter<double>*                  castToDoubleParameter(RRParameterHandle handle);
 
 /*!
- \brief Cast a handle to RoadRunner Parameter<char*> pointer, throws if it fails
+ \brief Cast a handle to RoadRunner Parameter<string> pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner parameter instance
  \return Pointer to a Parameter<double>* instance
  \ingroup cpp_support
 */
-Parameter<char*>*                   castToStringParameter(RRParameterHandle handle);
+Parameter<string>*                   castToStringParameter(RRParameterHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner Parameter<Parameters> pointer, throws if it fails

@@ -70,15 +70,17 @@ print getStringParameter(stringParaHandle)
 
 #====Test list of parameters Todo:: clean this up!!
 lOfP = createParameter("test", "listOfParameters", "Hello")
-listPHandle = getListParameter(lOfP)
-print getNamesFromParameterList(listPHandle)
+print getNamesFromParameterList(lOfP)
 lOfP2 = createParameter("test", "listOfParameters", "Hello")
 
-addParameterToList(listPHandle, stringParaHandle)
-print getNamesFromParameterList(listPHandle)
+addParameterToList(lOfP, stringParaHandle)
+addParameterToList(lOfP, stringParaHandle)
+addParameterToList(lOfP2, stringParaHandle)
+print getNamesFromParameterList(lOfP)
 setListParameter(lOfP, lOfP2)
  
-print getNamesFromParameterList(listPHandle)
+print getNamesFromParameterList(lOfP)
+print getNamesFromParameterList(lOfP2)
 
 
 

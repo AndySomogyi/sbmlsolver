@@ -23,10 +23,7 @@ setPluginParameter(lmPlugin, "SBML", sbml)
 
 #See documentation for available parameters
 experimentalData    = getPluginParameter(lmPlugin, "ExperimentalData");
-paraHandle          = getPluginParameter(lmPlugin, "InputParameterList");
-
-#The actual parameter value, as a pointer
-paraList = getParameterValueHandle(paraHandle);
+paraList            = getPluginParameter(lmPlugin, "InputParameterList");
 
 #Add parameters to fit
 para1 = createParameter("k1", "double", "", 0.2)

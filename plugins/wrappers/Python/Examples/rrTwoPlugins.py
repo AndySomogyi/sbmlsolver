@@ -26,7 +26,7 @@ setRoadRunnerDataParameter(dataPara, rrDataHandle)
 
 #get parameter for the 'size' of the noise
 #Set size of noise
-setPluginParameter(noisePlugin,"Sigma", "1.e-5")
+setPluginParameter(noisePlugin,"Sigma", 1.e-5)
 
 #Execute the noise plugin which will add some noise to the data
 executePlugin(noisePlugin)
@@ -46,24 +46,19 @@ lmPlugin = loadPlugin(pm, "rrp_lm")
 expDataParameter    = getPluginParameter(lmPlugin, "ExperimentalData");
 paraHandle          = getPluginParameter(lmPlugin, "InputParameterList");
 
-#The actual parameter value, as a pointer :TODO: use getListParameter func instead
-paraList = getParameterValueHandle(paraHandle);
-
 #Create and add parameters to fit to the plugins parameter list
 para1 = createParameter("k1", "double", "A Hint", 0.2)
-addParameterToList(paraList, para1)
+addParameterToList(paraHandle, para1)
 
-#Assign data to the experiemtal data parametra: Todo use setParameter function instead
-setRoadRunnerDataParameter(expDataParameter, rrDataHandle)
+
+setPluginParameter(lmPlugin, "ExperimentalData", rrDataHandle)
 
 #Setup selection listst
 species = "[S1] [S2]"
-paraHandle = getPluginParameter(lmPlugin, "FittedDataSelectionList");
-setParameterByString(paraHandle, species) #Todo use setParameter
+setPluginParameter(lmPlugin, "FittedDataSelectionList", species);
 
 #Get species list in observed data
-paraHandle = getPluginParameter(lmPlugin, "ExperimentalDataSelectionList");
-setParameterByString(paraHandle, species)
+setPluginParameter(lmPlugin, "ExperimentalDataSelectionList", species);
 
 #set input sbml model
 setPluginParameter(lmPlugin, "SBML", rr.getSBML())
