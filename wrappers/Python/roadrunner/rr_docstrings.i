@@ -445,14 +445,6 @@ length as index.
 
 
 
-%feature("docstring") rr::RoadRunner::test "
-RoadRunner.test()
-
-this method does some stuff
-";
-
-
-
 %feature("docstring") rr::RoadRunner "
 RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')
 
@@ -930,7 +922,7 @@ Returns theversion of the libSBML library that is currently being used.
 %feature("docstring") rr::RoadRunner::isModelLoaded "
 RoadRunner.isModelLoaded()
 
-TODO docs
+Return True if model was loaded; False otherwise
 ";
 
 
@@ -1044,9 +1036,9 @@ There are a number of ways to call simulate.
 The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
 one calls::
 
-  rr.simulate (0, 3.14, 100)
+  rr.simulate (0, 3, 100)
 
-The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
 is followed by a call to::
 
   rr.simulate()

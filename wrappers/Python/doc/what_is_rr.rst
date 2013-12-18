@@ -1,194 +1,186 @@
-******************
-What is RoadRunner
-******************
-
+*********************
+What is libRoadRunner
+*********************
 RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
+RoadRunner 1.0
+Up to date documentation can be found on http://libroadrunner.org/
+Also the static `documentation home page <../index.html>`_ provides an introduction.
 
-RoadRunner 1.0 supports the following features:
+Licence and Copyright
+---------------------
+libRoadRunner is free and open source. Licensing and Distribution 
+Terms can be found in the LICENCE.txt file in the root directory 
+of the distribution.
 
-1. Time Dependent Simulation (with optional conservation law reduction) using CVODE.
-2. Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.
-3. Defaults to LLVM code generation on the backend, resulting is very fast simulation times.
-4. Optional generation of model C code and linking at run-time.
-5. Compute steady state.
-6. Metabolic Control Analysis.
-7. Frequency Domain Analysis.
-8. Access to:   
-     1. Eigenvalues and Eigenvectors.
-     2. Jacobian, full and reduced.
-     3. Structural Matrices of the stoichiometry matrix.
-9. Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin.
+Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.html
+ 
+http://libroadrunner.org/
+
+Fundamental Objects
+-------------------
+The libRoadRunner package uses two fundametal objects of 
+class ``RoadRunner`` and class ``ExecutableModel``.
+
+**RoadRunner**
+ - Typically the top level object
+ - Responsible for orchestrating all of the internal components, such as model loading, 
+   JIT compilation, integration and output. 
 
 
-Licence
--------
+**ExecutableModel**
+ - Represents a compiled sbml model
+ - Properties to get and set any state variables.
 
-Licence
+The Python API is a very clean simple interface that uses all native Python objects. 
+All the returned types are `Numpy` arrays. 
 
-Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+Example of libRoadRunner in Use
+-------------------------------
+ Transcript from an `IPython`_ session to demonstrate libRoadRunner use on this interactive Python console.
+.. _IPython: http://ipython.org/ 
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+**Import** roardrunner and numpy::
 
-In plain english this means:
+   import roadrunner
+   import roadrunner.testing
+   import numpy as n
+   import numpy.linalg as lin
 
-You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+**Load** an SBML model::
 
-You CAN use the software in packages or distributions that you create.
+   rr = roadrunner.RoadRunner()
+   rr.load(roadrunner.testing.get_data('Test_1.xml'))
 
-You SHOULD include a copy of the license in any redistribution you may make;
+\
+     ::
+   
+      True
 
-You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+Get the **model**, the model object has all the accessors sbml elements, names, values::
+   
+   m = rr.getModel()
 
-YOU CANNOT: redistribute any piece of this software without proper attribution;
+Use the built in RR function to get the **Jacobian**, notice this is returned as a native
+numpy matrix, and display it::
+   
+   jac = rr.getFullJacobian()
+   jac
 
-Technical Details
------------------
+\
+     ::
+   
+      array([[-0.2  ,  0.067,  0.   ],
+             [ 0.15 , -0.467,  0.09 ],
+             [ 0.   ,  0.4  , -0.64 ]])
 
-Here is a transcript of an interactive ipython session::
+Get a vector of **floating species amounts**, and display it::
 
-  import RoadRunner as rr
-  rr?
-  Type:       module
-  String Form:<module 'RoadRunner' from 'RoadRunner.pyc'>
-  File:       /Users/andy/.local/lib/Python/RoadRunner.py
-  Docstring:
-  The RoadRunner SBML Simulation Engine,
-  (c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson
+   amt = m.getFloatingSpeciesAmounts()
+   amt
+
+\
+     ::
+   
+      array([ 0.1 ,  0.25,  0.1 ])
+
+Look at the **floating species ids**::
+   
+   m.getFloatingSpeciesIds()
+
+\
+     ::
+   
+      ['S1', 'S2', 'S3']
+
+Numpy has a huge amount of numeric capability, here we calculate
+the **eigensystem from the Jacobian**.::
+
+   lin.eig(jac)
+
+\
+     ::
+   
+      (array([-0.15726345, -0.38237134, -0.76736521]),
+       array([[ 0.77009381, -0.19510707,  0.03580588],
+              [ 0.49121122,  0.53107368, -0.30320915],
+              [ 0.40702219,  0.82455683,  0.95225109]]))
+
+Suppose we wanted to calculate the matrix vector product of the **jacobian with the 
+floating species amounts**, its a single statement, since we use native types.::
+
+   n.dot(jac, amt)
+
+\
+     ::
+
+         array([-0.00325, -0.09275,  0.036  ])
+
+Finally, you can of course **simulate over time**. The first column in result is time, 
+the rest are whatever is selected. The easies way to plot is to use ``roadrunner.plot``::
+   
+   results = rr.simulate()
+   roadrunner.plot(results)
+   
+Using libRoadRunner in `IPython`_ you can **get documentation** easily using a ``?`` after the object or method::
+
+   rr.simulate?
+
+\
+     ::
+
+      Type:       instancemethod
+      String Form:<bound method RoadRunner.simulate of <roadrunner.RoadRunner() { this = 03D2E6F0 }>>
+      File:       c:\python27\lib\site-packages\roadrunner\roadrunner.py
+
+
+      Definition: rr.simulate(self, *args)
+      Docstring:
+      RoadRunner.simulate(*args)
       
-  rr.RoadRunner?
-  Type:       type
-  String Form:<class 'RoadRunner.RoadRunner'>
-  File:       /Users/andy/.local/lib/Python/RoadRunner.py
-  Docstring:
-  The main RoadRunner class.
+      Simulate the current SBML model.
+      
+      There are a number of ways to call simulate.
+      
+      1. With no arguments. In this case, the current set of `SimulateOptions` will
+         be used for the simulation. The current set may be changed either directly
+         via setSimulateOptions() or with one of the two alternate ways of calling
+         simulate.
+      
+      2: With single `SimulateOptions` argument. In this case, all of the settings
+         in the given options are copied and will be used for the current and future
+         simulations.
+      
+      3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
+         these three values are copied and will be used for the current and future simulations.
+      
+      The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+      one calls::
+      
+        rr.simulate (0, 3.14, 100)
+      
+      The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+      is followed by a call to::
+      
+        rr.simulate()
+      
+      This simulation will use the previous values.
+      
+      :returns: a numpy array with each selected output timeseries being a
+                column vector, and the 0'th column is the simulation time.
+      :rtype: numpy.ndarray
 
-All three of the RoadRunner options default to the empty string, in this
-case, the default values are used.
+Technical Footnotes
+-------------------
 
-usual import stuff::
+.. [#] Much of the time, the Numpy array just holds a pointer to a block of data owned
+       by RoadRunner, for example, the array returned by `rr.simulate()` just has a pointer 
+       to the results matrix which is owned by the `RoadRunner`, so there is NO COPYING 
+       involved. If you have no need for the result, just ignore it, it costs virtually 
+       nothing to return it. 
 
-  import roadrunner as rr
-  import numpy as n
-  import numpy.linalg as lin
-
-make a RoadRunner and load an SBML model::
-
-  r = rr.RoadRunner()
-  r.loadSBMLFromFile("/Users/andy/src/sbml_test/cases/semantic/00110/00110-sbml-l3v1.xml")
-  True
-
-get the model, the model obj has all the accessors sbml elements names / values::
-
-  m = r.getModel()
-
-Use the build in RR function to get the Jacobian, notice this is returned as a native
-numpy matrix::
-
-  jac = r.getFullJacobian()
-
-display it::
-
-  jac
-  array([[ 0.75,  0.5 ,  0.25],
-  [-0.75, -0.75,  0.  ],
-  [ 0.  ,  0.25, -0.25]])
-
-get a vector of floating species amounts::
-
-  amt = m.getFloatingSpeciesAmounts()
-
-dsplay it::
-
-  amt
-  array([ 1.,  1.,  0.])
-
-look at the floating species ids::
-
-  m.getFloatingSpeciesIds()
-  ['S1', 'S2', 'S3']
-
-numpy has a huge amount of numeric capability, here we calculate
-the eigensystem from the Jacobian.::
-
-  lin.eig(jac)
-  (array([ -5.75693909e-01,   3.25693909e-01,  -8.55019192e-17]),
-  array([[-0.18130286, -0.79611302, -0.57735027],
-       [ 0.78010553,  0.55506939,  0.57735027],
-       [-0.59880267,  0.24104363,  0.57735027]]))
-
-suppose we wanted to calculate the matrix vector product of the jacobian with the 
-floating species amounts, its a single statement now that we use native types.::
-
-  n.dot(jac, amt)
-  Out[13]: array([ 1.25, -1.5 ,  0.25])
-
-
-first column in result is time, rest are whatever is selected.::
-
-  p.plot(s[:,0], s[:,1:])
-
-stored in two Python lists, ``a`` and ``b``, we could iterate over
-each element::
-
-  c = []
-  for i in range(len(a)):
-      c.append(a[i]*b[i])
-
-This produces the correct answer, but if ``a`` and ``b`` each contain
-
-and initializations, memory allocation, etc.)
-
-::
-
-  for (i = 0; i < rows; i++): {
-    c[i] = a[i]*b[i];
-  }
-
-This saves all the overhead involved in interpreting the Python code
-and manipulating Python objects, but at the expense of the benefits
-gained from coding in Python.  Furthermore, the coding work required
-increases with the dimensionality of our data. In the case of a 2-D
-array, for example, the C code (abridged as before) expands to
-
-::
-
-  for (i = 0; i < rows; i++): {
-    for (j = 0; j < columns; j++): {
-      c[i][j] = a[i][j]*b[i][j];
-    }
-  }
-
-NumPy gives us the best of both worlds: element-by-element operations
-are the "default mode" when an `ndarray` is involved, but the
-element-by-element operation is speedily executed by pre-compiled C
-code.  In NumPy
-
-::
-
-  c = a * b
-
-does what the earlier examples do, at near-C speeds, but with the code
-simplicity we expect from something based on Python (indeed, the NumPy
-
-
-Technical Aspects
------------------
-
-The roadrunner package contains two fundametal objects, `RoadRunner`
-and `ExecutableModel`. `RoadRunner` is the typically the top level object,
-it is responsible for orchestrating all of the internal components 
-such as model loading, JIT compilation, integration and output. 
-
-** roadrunner overview
-
-** ExecutableModel
- - represents a compiled sbml model
- - properties to get and set any state variables.
-
-
-I've got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
-array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it. 
+.. highlight:: python
