@@ -1091,27 +1091,30 @@ def unLoadAPI():
 #
 # The above code produces the following output:
 #@code
-## *** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***
-## >>>
-## *** Remote Interpreter Reinitialized  ***
-## >>>
-## Number of Plugins: 2
-## AddNoise Levenberg-Marquardt
-## Name..........................AddNoise
-## Author........................Totte Karlsson
-## Category......................Signal Processing
-## Version.......................1.0
-## Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
+##*** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***
+##>>> 
+##*** Remote Interpreter Reinitialized  ***
+##>>> 
+##The plugin manager will look for plugins in the following folder: R:\installs\vs_debug\plugins
+##Number of Plugins: 2
+##Plugin Names: ['AddNoise', 'Levenberg-Marquardt']
+##PluginName: 'AddNoise'
+##Name..........................AddNoise
+##Author........................Totte Karlsson
+##Category......................Signal Processing
+##Version.......................1.0
+##Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012
 ##
-## True
-## done
-## >>>
+##PluginParameters: ['NoiseType', 'Sigma', 'InputData']
+##True
+##done
+##>>> 
 #@endcode
 #    \section plugins_overview Overview
 #    The libRoadRunner Plugin API is centered around three important concepts:
-#    - A Plugin Manager (RRPluginManagerHandle)
-#    - A Plugin (RRPlugin)
-#    - A Plugin Parameter (RRParameter)
+#    - A Plugin Manager 
+#    - Plugins 
+#    - Plugin Parameters 
 #
 #    \section plugins_usage How to use plugins
 #    A typical use case of the Plugin API may be as follows:
@@ -1125,13 +1128,13 @@ def unLoadAPI():
 #    -# Client retrieve the value of a plugins parameter, e.g. a "result" parameter.
 #   \subsection pluginEvents PluginEvent functionality
 # In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of  plugin event functions.
-# In short, a n event is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins
+# In short, an event is a regular function that is defined and implemented by the client of a plugin, but executed from within the plugin, during the plugins
 # execution.
 #
-# A single plugin may support of up to three event functions. The intended use of these functions are to signal the events in the following:
-#   -# PluginInitialization
-#   -# PluginProgress 
-#   -# PluginFinalization 
+# A single plugin may support of up to three event functions. The intended use of these functions are to signal the events of the following:
+#   -# Plugin Initialization
+#   -# Plugin Progress 
+#   -# Plugin Finalization 
 #
 # Each event function support up to two opaque data parameters. The plugin documentation needs to provide the exact type of these arguments. 
 # In it simplest form, a plugin may choose to define an event function taking no arguments at all.
@@ -1139,19 +1142,19 @@ def unLoadAPI():
 #   -# A plugin event is a regular function defined by the client of the plugin.
 #   -# A plugin event function do not return any value.
 #   -# The type and number of arguments needed in the plugin event is defined by the plugin (see plugin docs).
-#   -# Plugin event are assigned to the plugin before a plugins execute function.
-#   -# Assigning events is optional. A plugins internal work should not be affected wether a event is assigned or not.
+#   -# Plugin events are assigned to the plugin before a plugins execute function.
+#   -# Assigning events is optional. A plugins internal work should not be affected wether an event is assigned or not.
 #   -# Plugin events are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin event
-#   will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin event function is executed in a separate
+#   will be executed in the same thread as the plugin worker. Depending on your environment and if the plugin event function is executed in a separate
 # thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system. 
 #
-#   See the examples page that provide example code on how to use plugins, parameters and event functionss.
+#   See the examples page that provide example code on how to use plugins, parameters and event functions.
 #    \section plugins_writing How to write plugins
 #    \note Writing plugins in Python is not yet supported
 #
 # \section main_section Using rrPlugins.py
-# In order to use this wrapper (rrPlugins.py), the Python path needs to inlcude the folder where the wrapper script is located, e.g.
-# "c:\\roadrunner-1.0.0\\plugins\\python"
+# In order to use this wrapper (rrPlugins.py), your systems environmental Python path variable, i.e. PYTHONPATH, needs to include the folder where the wrapper script is located, e.g.
+# "c:\\roadrunner-1.0.0\\plugins\\python". Currently, this need to be set manually by the user.
 #
 # \defgroup plugin_manager Plugin Manager
 # \brief Plugin Manager Library Functions
