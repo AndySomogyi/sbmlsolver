@@ -219,17 +219,6 @@
 
    :rtype: numpy.ndarray
 
-
-
-.. method:: RoadRunner.getModelGenerator()
-   :module: roadrunner
-
-   TODO docs
-
-   :rtype: numpy.ndarray
-
-
-
 .. method:: RoadRunner.getNrMatrix()
    :module: roadrunner
 
@@ -237,7 +226,6 @@
    the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
 
    :rtype: numpy.ndarray
-
 
 
 .. staticmethod:: RoadRunner.getParamPromotedSBML(*args)
@@ -248,7 +236,6 @@
 
    :param str sbml: the contents of an sbml document
    :rtype: str
-
 
 
 .. method:: RoadRunner.getReducedJacobian()
@@ -564,20 +551,6 @@
 
    :param str sbml: the contents of an sbml document
    :rtype: str
-
-
-
-.. py:function:: RoadRunner_getVersion()
-   :module: roadrunner
-
-   TODO docs
-
-
-.. py:function:: RoadRunner_getlibSBMLVersion()
-   :module: roadrunner
-
-   TODO docs
-
 
 .. method:: RoadRunner.evalModel()
    :module: roadrunner
