@@ -5,6 +5,7 @@ RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
 RoadRunner 1.0
+
 Up to date documentation can be found on http://libroadrunner.org/
 Also the static `documentation home page <../index.html>`_ provides an introduction.
 
@@ -22,27 +23,29 @@ http://libroadrunner.org/
 
 Fundamental Objects
 -------------------
-The libRoadRunner package uses two fundametal objects of 
-class ``RoadRunner`` and class ``ExecutableModel``.
+The libRoadRunner package uses two fundametal objects e.g. ``rr`` of 
+class ``RoadRunner`` and e.g. ``rr.model`` of class ``ExecutableModel``. 
 
 **RoadRunner**
  - Typically the top level object
  - Responsible for orchestrating all of the internal components, such as model loading, 
-   JIT compilation, integration and output. 
+   JIT compilation, integration and output.
+ - Initialized with ``rr = roadrunner.RoadRunner()``
 
 
 **ExecutableModel**
  - Represents a compiled sbml model
  - Properties to get and set any state variables.
+ - Initialized when SBML is loaded ``r.load('mymodel.xml')``
 
 The Python API is a very clean simple interface that uses all native Python objects. 
-All the returned types are `Numpy` arrays. 
+All the returned types are structured `Numpy` arrays. 
 
 
 Example of libRoadRunner in Use
 -------------------------------
- Transcript from an `IPython`_ session to demonstrate libRoadRunner use on this interactive Python console.
-.. _IPython: http://ipython.org/ 
+Transcript from an Python session to demonstrate libRoadRunner use on this interactive Python console.
+ 
 
 **Import** roardrunner and numpy::
 
@@ -126,7 +129,10 @@ the rest are whatever is selected. The easies way to plot is to use ``roadrunner
    results = rr.simulate()
    roadrunner.plot(results)
    
-Using libRoadRunner in `IPython`_ you can **get documentation** easily using a ``?`` after the object or method::
+.. seealso::  To get numpy unstructured array, see: :ref:`plotting-data`
+   
+Using libRoadRunner in `IPython <http://ipython.org/>`_ you can **get documentation** 
+easily using a ``?`` after the object or method::
 
    rr.simulate?
 
@@ -182,5 +188,22 @@ Technical Footnotes
        to the results matrix which is owned by the `RoadRunner`, so there is NO COPYING 
        involved. If you have no need for the result, just ignore it, it costs virtually 
        nothing to return it. 
+       
+.. [#] Current State of the System Group
+       
+       When using the LLVM back end, all model state calculation are automatically 
+       performed using a techinque called lazy evaluation. If one sets the concentration 
+       of a species, the amount of of that species is automatically available without 
+       having to perform any addition operations. Similarly with any other value in the model. 
+       
+       If an SBML parameter is defined by an assigment rule or function and its value then 
+       depends on a number of other values, simply setting to other values automatically 
+       cause the value of the most dependent variable to be set. 
+       
+       This is identical how one operates in a spredsheet such as Microsoft Excel. For 
+       example, if one has a cell with an equation that depends on other cell, and those
+       other cell depend on other values, setting the value of any upstream cell automatically
+       causes that value to cascade down to the terminal cells. The LLVM back end roadruner
+       function identically. 
 
 .. highlight:: python

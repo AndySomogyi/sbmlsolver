@@ -5,7 +5,7 @@
 
 .. method:: RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')
 
-   All three of the RoadRunner options default to the empty string, in this
+   All three of the libRoadRunner options default to the empty string, in this
    case, the default values are used.
 
 
@@ -34,7 +34,9 @@
 
 .. method:: RoadRunner.getCC(variable, parameter)
 
-   Returns a scaled control coefficient with respect to a parameter. For example::
+   Returns a scaled control coefficient with respect to a global parameter.
+   
+   For example::
 
      rr.getCC ('J1', 'Vmax')
      rr.getCC ('S1', 'Xo')
@@ -56,7 +58,7 @@
 
 .. method:: RoadRunner.getuCC(variableId, parameterId)
 
-   Get unscaled control coefficient with respect to a global parameter
+   Get unscaled control coefficient with respect to a global parameter.
 
    :param variableId: must be either a reaction or floating species.
 
@@ -100,7 +102,9 @@
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: roadrunner
 
-   Retireve a single elasticity coefficient. For example::
+   Retrieve a single elasticity coefficient with respect to a global parameter.
+   
+   For example::
 
      x = rr.getEE ('J1', 'Vmax')
 
@@ -113,7 +117,7 @@
 
 .. method:: RoadRunner.getuEE(reactionId, parameterId)
 
-   Get unscaled elasticity coefficient with respect to a global parameter or species
+   Get unscaled elasticity coefficient with respect to a global parameter or species.
 
 
 .. method:: RoadRunner.getEigenvalueIds()
@@ -122,7 +126,7 @@
    returns a list of floating species ids with thier names
    prefixed with ``eigen_``. For example, if the model contained
    the floating species ``S1`` and ``S2``, this would return a list
-   containing ["eigen_S1", "eigen_S2"].
+   containing \["eigen_S1", "eigen_S2"].
 
 
 .. method:: RoadRunner.getEigenvalues(m)
@@ -145,7 +149,7 @@
    :module: roadrunner
 
    Returns a list of the floating species Ids, but with theIids surrounded
-   by square brackets, i.e. 'S1' -> '[S1]'
+   by square brackets, i.e. 'S1' -> '\[S1]'
 
 
 .. method:: RoadRunner.getFullJacobian()
@@ -215,17 +219,6 @@
 
    :rtype: numpy.ndarray
 
-
-
-.. method:: RoadRunner.getModelGenerator()
-   :module: roadrunner
-
-   TODO docs
-
-   :rtype: numpy.ndarray
-
-
-
 .. method:: RoadRunner.getNrMatrix()
    :module: roadrunner
 
@@ -233,7 +226,6 @@
    the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
 
    :rtype: numpy.ndarray
-
 
 
 .. staticmethod:: RoadRunner.getParamPromotedSBML(*args)
@@ -244,7 +236,6 @@
 
    :param str sbml: the contents of an sbml document
    :rtype: str
-
 
 
 .. method:: RoadRunner.getReducedJacobian()
@@ -270,9 +261,10 @@
 .. method:: RoadRunner.getCurrentSBML()
    :module: roadrunner
 
-   Returns the *current state* of the model in the form of an SBML string. That is the SBML
-   will reflect the current state of the model and not the orginal SBML that was loaded
-   into roadRunner.
+   Returns the current state of the model in the form of an sbml string. 
+   
+   That is the SBML will reflect the current state of the model and not the 
+   orginal SBML that was loaded into roadRunner.
 
    :rtype: str
 
@@ -280,7 +272,7 @@
 .. method:: RoadRunner.getSBML()
    :module: roadrunner
 
-   Returns the original SBML model that was loaded into roadRunner.
+   Returns the original sbml model that was loaded into roadrunner.
 
    :rtype: str
 
@@ -393,7 +385,7 @@
 
 
 
-.. staticmethod:: RoadRunner.getVersion()
+.. staticmethod:: RoadRunner.__version__()
    :module: roadrunner
 
    Returns the current version of the roadRunner library.
@@ -416,8 +408,7 @@
 .. method:: RoadRunner.load(uriOrDocument)
    :module: roadrunner
 
-   Loads an SBML document. This method will automatically figure out if the given string
-   is file path, uri, or contents of an SBML document. 
+   Loads an sbml document, given a string for file path, uri, or contents. 
 
    This method also accepts http uri for remote files, however this feature is currently limited 
    to the Mac version, plan on enabling http loading of SBML documents on Windows and Linux 
@@ -561,20 +552,6 @@
    :param str sbml: the contents of an sbml document
    :rtype: str
 
-
-
-.. py:function:: RoadRunner_getVersion()
-   :module: roadrunner
-
-   TODO docs
-
-
-.. py:function:: RoadRunner_getlibSBMLVersion()
-   :module: roadrunner
-
-   TODO docs
-
-
 .. method:: RoadRunner.evalModel()
    :module: roadrunner
 
@@ -592,7 +569,7 @@
    a steady state calculation. This list may be set by assigning a list
    of valid selection symbols::
 
-     r.steadyStateSelections = ['S1', '[S2]', 'P1']
+     r.steadyStateSelections = \['S1', '\[S2]', 'P1']
 
 
 .. method:: RoadRunner.steadyState()
