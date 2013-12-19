@@ -125,17 +125,23 @@ tuple&#160;</td><td class="memItemRight" valign="bottom"><b>rootDirSrc</b> = os.
 tuple&#160;</td><td class="memItemRight" valign="bottom"><b>plugindst</b> = os.path.split(dst)</td></tr>
 <tr class="separator:acf5b923b9efe05af726e1c9358c3083d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac48929d35482130c81277a623ead8dc5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac48929d35482130c81277a623ead8dc5"></a>
-tuple&#160;</td><td class="memItemRight" valign="bottom"><b>localMachine</b> = _winreg.ConnectRegistry(None, _winreg.HKEY_LOCAL_MACHINE)</td></tr>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>localMachine</b> = _winreg.ConnectRegistry(None, _winreg.HKEY_CURRENT_USER)</td></tr>
 <tr class="separator:ac48929d35482130c81277a623ead8dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01d52580c128a05a5163a40d1f496906"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01d52580c128a05a5163a40d1f496906"></a>
-tuple&#160;</td><td class="memItemRight" valign="bottom"><b>envKey</b> = _winreg.OpenKey(localMachine, r&quot;SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot;)</td></tr>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>envKey</b> = _winreg.OpenKey(localMachine, r&quot;Environment&quot;, 0, _winreg.KEY_ALL_ACCESS)</td></tr>
 <tr class="separator:a01d52580c128a05a5163a40d1f496906"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6fc00af7c5b5a7c5f40ce6dc6b47d85"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6fc00af7c5b5a7c5f40ce6dc6b47d85"></a>
-tuple&#160;</td><td class="memItemRight" valign="bottom"><b>path</b> = _winreg.QueryValueEx(envKey, &quot;Path&quot;)</td></tr>
-<tr class="separator:ae6fc00af7c5b5a7c5f40ce6dc6b47d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3b05adfbee758ac5d4d24df7965bf59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3b05adfbee758ac5d4d24df7965bf59"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>currentPythonPath</b> = _winreg.QueryValueEx(envKey, &quot;PYTHONPATH&quot;)</td></tr>
+<tr class="separator:ad3b05adfbee758ac5d4d24df7965bf59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af671844a201552b07cce6304ce01769c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af671844a201552b07cce6304ce01769c"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>binPath</b> = rootDirSrc+&quot;\\bin&quot;</td></tr>
 <tr class="separator:af671844a201552b07cce6304ce01769c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6fc00af7c5b5a7c5f40ce6dc6b47d85"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6fc00af7c5b5a7c5f40ce6dc6b47d85"></a>
+tuple&#160;</td><td class="memItemRight" valign="bottom"><b>path</b> = _winreg.QueryValueEx(envKey, &quot;Path&quot;)</td></tr>
+<tr class="separator:ae6fc00af7c5b5a7c5f40ce6dc6b47d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74c50787ca7205c9dac1a4ba20e49bfd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74c50787ca7205c9dac1a4ba20e49bfd"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>pythonPath</b> = rootDirSrc+'\\plugins\\python'</td></tr>
+<tr class="separator:a74c50787ca7205c9dac1a4ba20e49bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">Usage:
@@ -148,7 +154,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>binPath</b> = rootD
 </pre> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 18 2013 23:07:34 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

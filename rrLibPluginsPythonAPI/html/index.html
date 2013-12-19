@@ -83,61 +83,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><h1><a class="anchor" id="Introduction"></a>
 Introduction</h1>
 <p>Roadrunners plugin library exposes a simple framework for adding functionality to RoadRunner core, by means of external plugins. The code fragment below shows briefly how to load plugins, check for plugins, and use an individual plugin.</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> sys</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> rrPlugins <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Create a plugin manager</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>()</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;The plugin manager will look for \</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">plugins in the following folder: &#39;</span> + gDefaultPluginsPath</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"># Load plugins from the plugin folder</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;result = <a class="code" href="group__plugin__manager.html#gad9d4b7c7544e8db0e20aeee0818f644c">loadPlugins</a>(pm)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> result:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;Failed to load any plugins&#39;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">print</span> <a class="code" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1">getLastError</a>()</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    exit()</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Number of Plugins: &#39;</span> + `<a class="code" href="group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23">getNumberOfPlugins</a>(pm)`</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;names= <a class="code" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">getPluginNames</a>(pm)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">print</span> names</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"># Get a plugin handle</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;aPlugin = <a class="code" href="group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8">getFirstPlugin</a>(pm)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;if(aPlugin == <span class="keywordtype">None</span>):</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;Failed to get a handle to a plugin&#39;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    exit()</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;info = <a class="code" href="group__plugins.html#gabdf72eebd206ac891cfc681b74811a0a">getPluginInfo</a>(aPlugin)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">print</span> info</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordflow">print</span> `<a class="code" href="group__plugin__manager.html#ga650a8e90787cee3bcad7b844df766248">unLoadPlugins</a>(pm)`</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;done&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> rrPlugins <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Create a plugin manager</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;pm = <a class="code" href="group__plugin__manager.html#ga49235bbd20c3542fa55135c8db73de1c">createPluginManager</a>()</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;The plugin manager will look for \</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">plugins in the following folder: &#39;</span> + gDefaultPluginsPath</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># Load plugins from the plugin folder</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;result = <a class="code" href="group__plugin__manager.html#gad9d4b7c7544e8db0e20aeee0818f644c">loadPlugins</a>(pm)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> result:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;Failed to load any plugins&#39;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">print</span> <a class="code" href="group__utilities.html#ga56f7c40f7e467559cb60b5f0464722d1">getLastError</a>()</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    exit()</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Number of Plugins: &#39;</span> + `<a class="code" href="group__plugin__manager.html#ga00081a51f3070fc0a02cfd93ef961e23">getNumberOfPlugins</a>(pm)`</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;Plugin Names: &#39;</span> + `<a class="code" href="group__plugin__manager.html#ga9edbc24939810499d1bf3056531ff114">getPluginNames</a>(pm)`</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"># Get a handle to a plugin</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;aPlugin = <a class="code" href="group__plugin__manager.html#ga77a2b5b4f52822d85acae4b9f35199a8">getFirstPlugin</a>(pm)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;if(aPlugin == <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;Failed to get a handle to a plugin&#39;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    exit()</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;PluginName: &#39;</span> + `<a class="code" href="group__plugins.html#ga70c5423255afa7b967339996f6d1579f">getPluginName</a>(aPlugin)`</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">print</span> <a class="code" href="group__plugins.html#gabdf72eebd206ac891cfc681b74811a0a">getPluginInfo</a>(aPlugin)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&#39;PluginParameters: &#39;</span> + `<a class="code" href="group__plugin__parameters.html#ga24e817520f7c2f1fe96bd5c581f72727">getListOfPluginParameterNames</a>(aPlugin)`</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordflow">print</span> `<a class="code" href="group__plugin__manager.html#ga650a8e90787cee3bcad7b844df766248">unLoadPlugins</a>(pm)`</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;done&quot;</span></div>
 </div><!-- fragment --><p>The above code produces the following output: </p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;*** Python 2.7.3 (default, Apr 10 2012, 23:31:26) [MSC v.1500 32 bit (Intel)] on win32. ***</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;&gt;&gt;&gt;</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;&gt;&gt;&gt; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;*** Remote Interpreter Reinitialized  ***</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;&gt;&gt;&gt;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;Number of Plugins: 2</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;AddNoise Levenberg-Marquardt</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Name..........................AddNoise</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;Author........................Totte Karlsson</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;Category......................Signal Processing</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;Version.......................1.0</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">True</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;done</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;&gt;&gt;&gt;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;&gt;&gt;&gt; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;The plugin manager will look <span class="keywordflow">for</span> plugins <span class="keywordflow">in</span> the following folder: R:\installs\vs_debug\plugins</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;Number of Plugins: 2</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Plugin Names: [<span class="stringliteral">&#39;AddNoise&#39;</span>, <span class="stringliteral">&#39;Levenberg-Marquardt&#39;</span>]</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;PluginName: <span class="stringliteral">&#39;AddNoise&#39;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;Name..........................AddNoise</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;Author........................Totte Karlsson</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;Category......................Signal Processing</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;Version.......................1.0</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;Copyright.....................Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;PluginParameters: [<span class="stringliteral">&#39;NoiseType&#39;</span>, <span class="stringliteral">&#39;Sigma&#39;</span>, <span class="stringliteral">&#39;InputData&#39;</span>]</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">True</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;done</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;&gt;&gt;&gt; </div>
 </div><!-- fragment --> <h1><a class="anchor" id="plugins_overview"></a>
 Overview</h1>
 <p>The libRoadRunner Plugin API is centered around three important concepts:</p>
 <ul>
-<li>A Plugin Manager (RRPluginManagerHandle)</li>
-<li>A Plugin (RRPlugin)</li>
-<li>A Plugin Parameter (RRParameter)</li>
+<li>A Plugin Manager</li>
+<li>Plugins</li>
+<li>Plugin Parameters</li>
 </ul>
 <h1><a class="anchor" id="plugins_usage"></a>
 How to use plugins</h1>
@@ -153,33 +154,33 @@ How to use plugins</h1>
 </ol>
 <h2><a class="anchor" id="pluginEvents"></a>
 PluginEvent functionality</h2>
-<p>In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of plugin event functions. In short, a n event is a regular function that is defined and implemented by the client of a plugin, but executed within the plugin, during the plugins execution.</p>
-<p>A single plugin may support of up to three event functions. The intended use of these functions are to signal the events in the following:</p>
+<p>In addition to data parameters that communicate data between a client and the plugin, the framework also support for a variety of plugin event functions. In short, an event is a regular function that is defined and implemented by the client of a plugin, but executed from within the plugin, during the plugins execution.</p>
+<p>A single plugin may support of up to three event functions. The intended use of these functions are to signal the events of the following:</p>
 <ol type="1">
-<li>PluginInitialization</li>
-<li>PluginProgress</li>
-<li>PluginFinalization</li>
+<li>Plugin Initialization</li>
+<li>Plugin Progress</li>
+<li>Plugin Finalization</li>
 </ol>
 <p>Each event function support up to two opaque data parameters. The plugin documentation needs to provide the exact type of these arguments. In it simplest form, a plugin may choose to define an event function taking no arguments at all. Below are listed a few properties, characteristics of events in the RoadRunner Plugin framework.</p>
 <ol type="1">
 <li>A plugin event is a regular function defined by the client of the plugin.</li>
 <li>A plugin event function do not return any value.</li>
 <li>The type and number of arguments needed in the plugin event is defined by the plugin (see plugin docs).</li>
-<li>Plugin event are assigned to the plugin before a plugins execute function.</li>
-<li>Assigning events is optional. A plugins internal work should not be affected wether a event is assigned or not.</li>
-<li>Plugin events are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin event will be executed in the same thread as the plugin worker. Depending on your environement and if the plugin event function is executed in a separate thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system.</li>
+<li>Plugin events are assigned to the plugin before a plugins execute function.</li>
+<li>Assigning events is optional. A plugins internal work should not be affected wether an event is assigned or not.</li>
+<li>Plugin events are blocking functions. If the work in a plugin is executed in a thread, see executeEx, the plugin event will be executed in the same thread as the plugin worker. Depending on your environment and if the plugin event function is executed in a separate thread, regular use of thread synchronization measuress may be needed in order to not create an unstable system.</li>
 </ol>
-<p>See the examples page that provide example code on how to use plugins, parameters and event functionss. </p>
+<p>See the examples page that provide example code on how to use plugins, parameters and event functions. </p>
 <h1><a class="anchor" id="plugins_writing"></a>
 How to write plugins</h1>
 <dl class="section note"><dt>Note</dt><dd>Writing plugins in Python is not yet supported</dd></dl>
 <h1><a class="anchor" id="main_section"></a>
 Using rrPlugins.py</h1>
-<p>In order to use this wrapper (rrPlugins.py), the Python path needs to inlcude the folder where the wrapper script is located, e.g. "c:\\roadrunner-1.0.0\\plugins\\python" </p>
+<p>In order to use this wrapper (rrPlugins.py), your systems environmental Python path variable, i.e. PYTHONPATH, needs to include the folder where the wrapper script is located, e.g. "c:\\roadrunner-1.0.0\\plugins\\python". Currently, this need to be set manually by the user. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 18 2013 23:07:34 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

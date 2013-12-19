@@ -132,16 +132,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga1f0cccc1d476f3f66f3e30ab53551ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the work of a plugin is currently being terminated.  <a href="#ga1f0cccc1d476f3f66f3e30ab53551ea1">More...</a><br/></td></tr>
 <tr class="separator:ga1f0cccc1d476f3f66f3e30ab53551ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga34dd6241165175ec35948c91fe50555a"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga34dd6241165175ec35948c91fe50555a">wasTerminated</a></td></tr>
-<tr class="memdesc:ga34dd6241165175ec35948c91fe50555a"><td class="mdescLeft">&#160;</td><td class="mdescRight">wasTerminated.  <a href="#ga34dd6241165175ec35948c91fe50555a">More...</a><br/></td></tr>
+<tr class="memdesc:ga34dd6241165175ec35948c91fe50555a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query a plugin if work was terminated succesfully.  <a href="#ga34dd6241165175ec35948c91fe50555a">More...</a><br/></td></tr>
 <tr class="separator:ga34dd6241165175ec35948c91fe50555a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4b355491ce7ea83aaa9c598d3d863dee"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga4b355491ce7ea83aaa9c598d3d863dee">assignOnStartedEvent</a></td></tr>
-<tr class="memdesc:ga4b355491ce7ea83aaa9c598d3d863dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign OnStartedEvent function, fired when a plugin starts its work.  <a href="#ga4b355491ce7ea83aaa9c598d3d863dee">More...</a><br/></td></tr>
+<tr class="memdesc:ga4b355491ce7ea83aaa9c598d3d863dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a plugins OnStartedEvent function.Plugin dependent.  <a href="#ga4b355491ce7ea83aaa9c598d3d863dee">More...</a><br/></td></tr>
 <tr class="separator:ga4b355491ce7ea83aaa9c598d3d863dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2b69503e05dfe3be3e7e8e54ab10399e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga2b69503e05dfe3be3e7e8e54ab10399e">assignOnProgressEvent</a></td></tr>
-<tr class="memdesc:ga2b69503e05dfe3be3e7e8e54ab10399e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign OnProgressEvent function.  <a href="#ga2b69503e05dfe3be3e7e8e54ab10399e">More...</a><br/></td></tr>
+<tr class="memdesc:ga2b69503e05dfe3be3e7e8e54ab10399e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a plugins OnProgressEvent function.  <a href="#ga2b69503e05dfe3be3e7e8e54ab10399e">More...</a><br/></td></tr>
 <tr class="separator:ga2b69503e05dfe3be3e7e8e54ab10399e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa16934e09f4dbbf39236930c785b09c3"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#gaa16934e09f4dbbf39236930c785b09c3">assignOnFinishedEvent</a></td></tr>
-<tr class="memdesc:gaa16934e09f4dbbf39236930c785b09c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign a OnEvent function.  <a href="#gaa16934e09f4dbbf39236930c785b09c3">More...</a><br/></td></tr>
+<tr class="memdesc:gaa16934e09f4dbbf39236930c785b09c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a plugins OnFinishedEvent function.  <a href="#gaa16934e09f4dbbf39236930c785b09c3">More...</a><br/></td></tr>
 <tr class="separator:gaa16934e09f4dbbf39236930c785b09c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5f345b0173c92cacdaa788b805a0a34e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__plugins.html#ga5f345b0173c92cacdaa788b805a0a34e">assignPluginInput</a></td></tr>
 <tr class="memdesc:ga5f345b0173c92cacdaa788b805a0a34e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hand external data to a plugin: THIS METHOD IS UNDER REVIEW.  <a href="#ga5f345b0173c92cacdaa788b805a0a34e">More...</a><br/></td></tr>
@@ -198,8 +198,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Assign a OnEvent function. </p>
-<p>Fired when a plugin finishes its work </p>
+<p>Assigns a plugins OnFinishedEvent function. </p>
+<p>Plugin dependent. Intended usage is to report back on plugin finalization. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -249,8 +249,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Assign OnProgressEvent function. </p>
-<p>Plugin dependent but can be used to report back progress </p>
+<p>Assigns a plugins OnProgressEvent function. </p>
+<p>Plugin dependent. Intended usage is to report back progress </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a pluginevent routine </td></tr>
@@ -299,7 +299,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Assign OnStartedEvent function, fired when a plugin starts its work. </p>
+<p>Assigns a plugins OnStartedEvent function.Plugin dependent. </p>
+<p>Intended usage is to report back on plugin initialization. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to a plugin </td></tr>
@@ -407,7 +408,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns False is the plugin has no manual</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns False if the plugin has no manual</dd></dl>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;success = <a class="code" href="group__plugins.html#ga4ba0eaf31ad580aac168826fe3e9df27">displayPluginManual</a>(pluginHandle)</div>
 </div><!-- fragment -->  <br/> 
   
@@ -436,7 +437,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true or false indicating success/failure </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The execute function is blocking, this means it won't returns to the caller until the task is complete. If the plugin is asked to carry out a lengthy calculation, consider using the executePluginEx function that has the option to execute the plugin code in the background (in a thread); </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The execute function is a regular blocking function, meaning it won't return to the caller until the task is complete. If the plugin is asked to carry out a lengthy calculation, consider using the executePluginEx function that has the option to execute the plugin code in the background (in a thread); </dd></dl>
 
 </div>
 </div>
@@ -786,8 +787,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>wasTerminated. </p>
-<p>Query a plugin if work was terminated succesfully. This function may be used in combination with the terminateWork, and isBeingTerminated functions. </p>
+<p>Query a plugin if work was terminated succesfully. </p>
+<p>This function may be used in combination with the terminateWork, and isBeingTerminated functions. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pluginHandle</td><td>Handle to the plugin </td></tr>
@@ -813,11 +814,11 @@ Variables</h2></td></tr>
 <p>The exact number of plugins functions required arguments, and their type, is plugin dependent. A client of the the plugin needs to get this information from the plugin specific documentation. An example of using NotifyEvent is shown below. The NotifyEvent takes no arguments. </p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">def </span>myPluginFunction():</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;The plugin can call this function!&#39;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; <span class="comment">#After loading the plugin, the user can assign this function as a plugin event to monitor the start of the plugin as follows</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; Note, make sure yuo assign the event to a variable (c_event) so that the Python garbage </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; collector doesn<span class="stringliteral">&#39;t delete it</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral"> c_event = <a class="code" href="group__plugins.html#ga91417d104fb7ea0eae017feeaabea52a">NotifyEvent</a>(myPluginFunction)</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral"> <a class="code" href="group__plugins.html#ga4b355491ce7ea83aaa9c598d3d863dee">assignOnStartedEvent</a>(plugin,  c_event)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; <span class="comment">#The user can assign this function as a plugin event to monitor the start of the plugin as follows.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; <span class="comment">#Note, make sure you assign the event to a variable (c_event) so that the Python garbage </span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; <span class="comment">#collector doesn&#39;t delete it</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; c_event = <a class="code" href="group__plugins.html#ga91417d104fb7ea0eae017feeaabea52a">NotifyEvent</a>(myPluginFunction)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; <a class="code" href="group__plugins.html#ga4b355491ce7ea83aaa9c598d3d863dee">assignOnStartedEvent</a>(plugin,  c_event)</div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -832,22 +833,23 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Plugin function event type definition This is a helper object that a client can use as an argument to a roadrunner plugin. </p>
-<p>The exact number of plugins event functions required arguments, and their type is plugin dependent. A client of the the plugin need to get this information from plugin specific documentation. An example of using this particular function, NotifyIntStrEvent is shown below. As can see, this python function takes two arguments. The first argument is an integer, indicating progress (possibly a percentage), the second argument is not used in this particular case. </p>
+<p>The exact number of plugins event functions required arguments, and their type is plugin dependent. A client of the the plugin need to get this information from plugin specific documentation. An example of using this particular function, NotifyIntStrEvent is shown below. As indicated, this python function takes two arguments. The first argument is an integer, indicating progress (possibly a percentage), the second argument is not used in this particular case, but still required. </p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">def </span>pluginIsProgressing(progress, dummy):</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    nr = progress[0]</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&#39;\nPlugin progress:&#39;</span> + `nr` +<span class="stringliteral">&#39; %&#39;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; <span class="comment">#After loading the plugin, the user can assign this function as a plugin event as follows</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; Note, make sure yuo assign the event to a variable (c_event) so that the Python garbage </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; collector doesn<span class="stringliteral">&#39;t delete it</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral"> c_event = <a class="code" href="group__plugins.html#ga65e0684dcbe5d6a9e3745a2194d9a6bd">NotifyIntStrEvent</a>(pluginIsProgressing)</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral"> <a class="code" href="group__plugins.html#ga4b355491ce7ea83aaa9c598d3d863dee">assignOnStartedEvent</a>(plugin, c_event)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; <span class="comment">#The user can assign this function as a plugin event to monitor the start of the plugin as follows.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; <span class="comment">#Note, make sure you assign the event to a variable (c_event) so that the Python garbage </span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; <span class="comment">#collector doesn&#39;t delete it</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; c_event = <a class="code" href="group__plugins.html#ga91417d104fb7ea0eae017feeaabea52a">NotifyEvent</a>(myPluginFunction)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; c_event = <a class="code" href="group__plugins.html#ga65e0684dcbe5d6a9e3745a2194d9a6bd">NotifyIntStrEvent</a>(pluginIsProgressing)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; <a class="code" href="group__plugins.html#ga4b355491ce7ea83aaa9c598d3d863dee">assignOnStartedEvent</a>(plugin, c_event)</div>
 </div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 17 2013 20:28:07 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 18 2013 23:07:34 for rrpluginslib python wrapper by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

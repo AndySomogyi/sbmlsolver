@@ -182,8 +182,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adbea6710dcab6c825573ce5c9b35dd57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af69cf22ce68c8d5c4ab869fedefa16f9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#af69cf22ce68c8d5c4ab869fedefa16f9">getConservedMoietyAnalysis</a> ()</td></tr>
 <tr class="separator:af69cf22ce68c8d5c4ab869fedefa16f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a2507cc2964f8aef0d200c5841bc218"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a2a2507cc2964f8aef0d200c5841bc218">writeSBML</a> ()</td></tr>
-<tr class="separator:a2a2507cc2964f8aef0d200c5841bc218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaafb3e8f351ff365597ec47f7228b897"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#aaafb3e8f351ff365597ec47f7228b897">getCurrentSBML</a> ()</td></tr>
+<tr class="separator:aaafb3e8f351ff365597ec47f7228b897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3f4b6ef217424cb9b12c798dfd1129c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ad3f4b6ef217424cb9b12c798dfd1129c">evalModel</a> ()</td></tr>
 <tr class="separator:ad3f4b6ef217424cb9b12c798dfd1129c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7df50d5a0fa7265b62af24a2e996b6e0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a7df50d5a0fa7265b62af24a2e996b6e0">getuCC</a> (const std::string &amp;variableName, const std::string &amp;parameterName)</td></tr>
@@ -454,6 +454,22 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>is conservation analysis enabled. This is set </p>
+
+</div>
+</div>
+<a class="anchor" id="aaafb3e8f351ff365597ec47f7228b897"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string rr::RoadRunner::getCurrentSBML </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the SBML with the current parameterset. </p>
 
 </div>
 </div>
@@ -1375,22 +1391,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2a2507cc2964f8aef0d200c5841bc218"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string rr::RoadRunner::writeSBML </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the SBML with the current parameterset. </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="rr_road_runner_8h_source.html">rrRoadRunner.h</a></li>
 <li>rrRoadRunner.cpp</li>
@@ -1398,7 +1398,7 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 17 2013 20:27:54 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 18 2013 23:07:19 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
