@@ -487,7 +487,9 @@ getFloatingSpeciesIds()
 %feature("docstring") rr::RoadRunner::getCC "
 RoadRunner.getCC(variable, parameter)
 
-Returns a scaled control coefficient with respect to a parameter. For example::
+Returns a scaled control coefficient with respect to a global parameter.
+
+For example::
 
   rr.getCC ('J1', 'Vmax')
   rr.getCC ('S1', 'Xo')
@@ -512,7 +514,7 @@ return concentration control coefficients with respect to speies S1 and S2.
 %feature("docstring") rr::RoadRunner::getuCC "
 RoadRunner.getuCC(variableId, parameterId)
 
-Get unscaled control coefficient with respect to a global parameter
+Get unscaled control coefficient with respect to a global parameter.
 
 :param variableId: must be either a reaction or floating species.
 
@@ -562,7 +564,9 @@ Returns the copyright string
 %feature("docstring") rr::RoadRunner::getEE "
 RoadRunner.getEE(reactionId, parameterId, steadyState=True)
 
-Retireve a single elasticity coefficient. For example::
+Retrieve a single elasticity coefficient with respect to a global parameter.
+
+For example::
 
   x = rr.getEE ('J1', 'Vmax')
 
@@ -578,7 +582,7 @@ Retireve a single elasticity coefficient. For example::
 %feature("docstring") rr::RoadRunner::getuEE "
 RoadRunner.getuEE(reactionId, parameterId)
 
-Get unscaled elasticity coefficient with respect to a global parameter or species
+Get unscaled elasticity coefficient with respect to a global parameter or species.
 ";
 
 
@@ -589,7 +593,7 @@ RoadRunner.getEigenvalueIds()
 returns a list of floating species ids with thier names
 prefixed with ``eigen_``. For example, if the model contained
 the floating species ``S1`` and ``S2``, this would return a list
-containing [\"eigen_S1\", \"eigen_S2\"].
+containing \\\\[\"eigen_S1\", \"eigen_S2\"].
 ";
 
 
@@ -616,7 +620,7 @@ getVersion plus info about dependent libs versions.
 RoadRunner.getFloatingSpeciesAmountIds()
 
 Returns a list of the floating species Ids, but with theIids surrounded
-by square brackets, i.e. 'S1' -> '[S1]'
+by square brackets, i.e. 'S1' -> '\\\\[S1]'
 ";
 
 
@@ -757,9 +761,10 @@ which there will be rank (N) and the bottom rows the dependent species.
 %feature("docstring") rr::RoadRunner::getCurrentSBML "
 RoadRunner.getCurrentSBML()
 
-Returns the *current state* of the model in the form of an SBML string. That is the SBML
-will reflect the current state of the model and not the orginal SBML that was loaded
-into roadRunner.
+Returns the current state of the model in the form of an sbml string.
+
+That is the SBML will reflect the current state of the model and not the
+orginal SBML that was loaded into roadRunner.
 
 :rtype: str
 ";
@@ -769,7 +774,7 @@ into roadRunner.
 %feature("docstring") rr::RoadRunner::getSBML "
 RoadRunner.getSBML()
 
-Returns the original SBML model that was loaded into roadRunner.
+Returns the original sbml model that was loaded into roadrunner.
 
 :rtype: str
 ";
@@ -903,8 +908,8 @@ Assumes that the reaction rates have been precomputed at the operating point !!
 
 
 
-%feature("docstring") rr::RoadRunner::getVersion "
-RoadRunner.getVersion()
+%feature("docstring") rr::RoadRunner::__version__ "
+RoadRunner.__version__()
 
 Returns the current version of the roadRunner library.
 ";
@@ -930,8 +935,7 @@ Return True if model was loaded; False otherwise
 %feature("docstring") rr::RoadRunner::load "
 RoadRunner.load(uriOrDocument)
 
-Loads an SBML document. This method will automatically figure out if the given string
-is file path, uri, or contents of an SBML document.
+Loads an sbml document, given a string for file path, uri, or contents.
 
 This method also accepts http uri for remote files, however this feature is currently limited
 to the Mac version, plan on enabling http loading of SBML documents on Windows and Linux
@@ -1114,7 +1118,7 @@ A list of SelectionRecords which determine what values are used for
 a steady state calculation. This list may be set by assigning a list
 of valid selection symbols::
 
-  r.steadyStateSelections = ['S1', '[S2]', 'P1']
+  r.steadyStateSelections = \\\\['S1', '\\\\[S2]', 'P1']
 ";
 
 

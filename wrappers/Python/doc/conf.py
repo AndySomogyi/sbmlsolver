@@ -32,6 +32,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.pngmath',
+    'sphinx.ext.todo',
     'sphinx.ext.autosummary'
 ]
 

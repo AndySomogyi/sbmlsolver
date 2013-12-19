@@ -53,7 +53,7 @@ and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access
 
    import roadrunner
    import roadrunner.testing
-   rr.load(roadrunner.testing.get_data('feedback.xml'))
+   rr.load(roadrunner.testing.getData('feedback.xml'))
    
 There are a few additional models in the ``models/`` directory of the distribution, where you installed libRoadRunner.
 
