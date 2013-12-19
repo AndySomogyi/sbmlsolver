@@ -65,7 +65,7 @@
 <dl class="method">
 <dt id="roadrunner.RoadRunner.__init__">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">__init__</tt><big>(</big><em>compiler=''</em>, <em>tempDir=''</em>, <em>supportCodeDir=''</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>All three of the RoadRunner options default to the empty string, in this
+<dd><p>All three of the libRoadRunner options default to the empty string, in this
 case, the default values are used.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -100,7 +100,8 @@ getFloatingSpeciesIds()</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getCC">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getCC</tt><big>(</big><em>variable</em>, <em>parameter</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a scaled control coefficient with respect to a parameter. For example:</p>
+<dd><p>Returns a scaled control coefficient with respect to a global parameter.</p>
+<p>For example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;J1&#39;</span><span class="p">,</span> <span class="s">&#39;Vmax&#39;</span><span class="p">)</span>
 <span class="n">rr</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;Xo&#39;</span><span class="p">)</span>
 <span class="n">rr</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;S2&#39;</span><span class="p">,</span> <span class="s">&#39;Km&#39;</span><span class="p">)</span>
@@ -133,7 +134,7 @@ or boundary species</li>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getuCC">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getuCC</tt><big>(</big><em>variableId</em>, <em>parameterId</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getuCC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unscaled control coefficient with respect to a global parameter</p>
+<dd><p>Get unscaled control coefficient with respect to a global parameter.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -180,7 +181,8 @@ where <img class="math" src="_images/math/3372c1cb6d68cf97c2d231acc0b47b95a9ed04
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEE">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em>, <em>steadyState=True</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retireve a single elasticity coefficient. For example:</p>
+<dd><p>Retrieve a single elasticity coefficient with respect to a global parameter.</p>
+<p>For example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getEE</span> <span class="p">(</span><span class="s">&#39;J1&#39;</span><span class="p">,</span> <span class="s">&#39;Vmax&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -204,7 +206,7 @@ species</li>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getuEE">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getuEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getuEE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unscaled elasticity coefficient with respect to a global parameter or species</p>
+<dd><p>Get unscaled elasticity coefficient with respect to a global parameter or species.</p>
 </dd></dl>
 
 <dl class="method">
@@ -323,20 +325,6 @@ is the number of floating species and r the rank of the stichiometric matrix, N.
 </dd></dl>
 
 <dl class="method">
-<dt id="roadrunner.RoadRunner.getModelGenerator">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getModelGenerator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getModelGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="roadrunner.RoadRunner.getNrMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the reduced stoichiometry matrix, <img class="math" src="_images/math/9ea520289972d82fa3dd03be522ffbe21abce96e.png" alt="N_R"/>, which wil have only r rows where r is the rank of
@@ -401,9 +389,9 @@ which there will be rank (N) and the bottom rows the dependent species.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getCurrentSBML">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getCurrentSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCurrentSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the <em>current state</em> of the model in the form of an SBML string. That is the SBML
-will reflect the current state of the model and not the orginal SBML that was loaded
-into roadRunner.</p>
+<dd><p>Returns the current state of the model in the form of an sbml string.</p>
+<p>That is the SBML will reflect the current state of the model and not the
+orginal SBML that was loaded into roadRunner.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -417,7 +405,7 @@ into roadRunner.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSBML">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the original SBML model that was loaded into roadRunner.</p>
+<dd><p>Returns the original sbml model that was loaded into roadrunner.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -593,8 +581,8 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 </dd></dl>
 
 <dl class="staticmethod">
-<dt id="roadrunner.RoadRunner.getVersion">
-<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getVersion" title="Permalink to this definition">¶</a></dt>
+<dt id="roadrunner.RoadRunner.__version__">
+<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">__version__</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.__version__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the current version of the roadRunner library.</p>
 </dd></dl>
 
@@ -613,8 +601,7 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 <dl class="method">
 <dt id="roadrunner.RoadRunner.load">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">load</tt><big>(</big><em>uriOrDocument</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads an SBML document. This method will automatically figure out if the given string
-is file path, uri, or contents of an SBML document.</p>
+<dd><p>Loads an sbml document, given a string for file path, uri, or contents.</p>
 <p>This method also accepts http uri for remote files, however this feature is currently limited
 to the Mac version, plan on enabling http loading of SBML documents on Windows and Linux
 shortly.</p>
@@ -775,18 +762,6 @@ to be global parameters.</p>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="roadrunner.RoadRunner_getVersion">
-<tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner_getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner_getVersion" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="roadrunner.RoadRunner_getlibSBMLVersion">
-<tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner_getlibSBMLVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner_getlibSBMLVersion" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="roadrunner.RoadRunner.evalModel">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">evalModel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.evalModel" title="Permalink to this definition">¶</a></dt>
@@ -808,8 +783,7 @@ It does <em>not</em> carry out an integration step.</p>
 <dd><p>A list of SelectionRecords which determine what values are used for
 a steady state calculation. This list may be set by assigning a list
 of valid selection symbols:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;[S2]&#39;</span><span class="p">,</span> <span class="s">&#39;P1&#39;</span><span class="p">]</span>
-</pre></div>
+<div class="highlight-python"><pre>r.steadyStateSelections = \['S1', '\[S2]', 'P1']</pre>
 </div>
 </dd></dl>
 

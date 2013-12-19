@@ -26,6 +26,7 @@
     <link rel="top" title="libRoadRunner 1.0.0 documentation" href="index.html" />
     <link rel="next" title="Stoichiometric Analysis" href="stoichiometric.html" />
     <link rel="prev" title="SBML Read/Write Functions" href="read_write_functions.html" /> 
+    <link rel="prev" title="Selecting Values" href="selecting_values.html" /> 
   </head>
   <body>
     <div class="related">
@@ -63,7 +64,13 @@ the network equation when all the rates of change zero. That is the concentratio
 species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> that satisfy:</p>
 <div class="math">
 <p><img src="_images/math/d073099dd6b77c6c1933f9e9b4eee7ba5310dff7.png" alt="\mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t) = 0"/></p>
-</div><p>The following methods deal wth steady state analysis:</p>
+</div><p>For example you can use <tt class="docutils literal"><span class="pre">steadyStateSelections</span></tt> to select which value <tt class="docutils literal"><span class="pre">getSteadyStateValues</span></tt> should retrieve:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getSteadyStateValues</span> <span class="p">()</span>
+<span class="go">array([ 0.54314239])</span>
+</pre></div>
+</div>
+<p>The following methods deal wth steady state analysis:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -90,8 +97,8 @@ species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="read_write_functions.html"
-                        title="previous chapter">SBML Read/Write Functions</a></p>
+  <p class="topless"><a href="selecting_values.html"
+                        title="previous chapter">Selecting Values</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="stoichiometric.html"
                         title="next chapter">Stoichiometric Analysis</a></p>
@@ -130,7 +137,7 @@ species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b
           <a href="stoichiometric.html" title="Stoichiometric Analysis"
              >next</a> |</li>
         <li class="right" >
-          <a href="read_write_functions.html" title="SBML Read/Write Functions"
+          <a href="selecting_values.html" title="Selecting Values"
              >previous</a> |</li>
         <li><a href="index.html">libRoadRunner 1.0.0 documentation</a> &raquo;</li> 
       </ul>

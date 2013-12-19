@@ -58,14 +58,18 @@ and provides a complete API reference.</p>
 <p>To get you started here is a very simple script that will load an example SBML model and run a time course
 simulation and plot the results:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
-<span class="kn">import</span> <span class="nn">roadrunner.testing</span>
 <span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
-<span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s">&#39;feedback.xml&#39;</span><span class="p">))</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;mymodel.xml&quot;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 <span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The result is a standard numpy array which may be plotted using <a class="reference external" href="http://matplotlib.org/">matplotlib</a>. Now read the tutorials to learn more about the capabilities of RoadRunner.</p>
+<p>Looking for a model to start with? We included a couple with libRoadRunner, see <a class="reference internal" href="using_roadrunner.html#loading-models"><em>Loading Models</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The result is a structured numpy array which cannot be plotted using <a class="reference external" href="http://matplotlib.org/">matplotlib</a> directly. See <a class="reference internal" href="using_roadrunner.html#plotting-data"><em>Plotting Data</em></a> for help in plotting.</p>
+</div>
+<p>Now read the tutorials to learn more about the capabilities of RoadRunner.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -79,7 +83,7 @@ simulation and plot the results:</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="using_roadrunner.html">Basic Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#load-roadrunner">Load RoadRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#import-roadrunner">Import RoadRunner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#loading-models">Loading Models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#running-simulations">Running Simulations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="using_roadrunner.html#changing-parameters">Changing Parameters</a></li>
@@ -98,6 +102,15 @@ simulation and plot the results:</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selecting_values.html">Selecting Values</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="selecting_values.html#selection-syntax">Selection syntax</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="selecting_values.html#experimenting-with-selections">Experimenting With Selections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="selecting_values.html#selecting-simulation-results">Selecting Simulation Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="selecting_values.html#methods-and-properties-which-accept-selections">Methods and properties which accept selections</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
@@ -118,7 +131,6 @@ simulation and plot the results:</p>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#reaction-group">Reaction Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#rates-of-change-group">Rates Of Change Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#parameters-group">Parameters Group</a></li>
-<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#current-state-of-the-system-group">Current State of the System Group</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a><ul>

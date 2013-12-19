@@ -18,3 +18,6 @@ the command::
    Jac = rr.getFullJacobian()
 
 which returns the Jacobian matrix in the variable Jac.
+
+It is possible for full Jacobian to be singular. In these situations one should call instead the related method, ``getReducedJacobian()``.
+

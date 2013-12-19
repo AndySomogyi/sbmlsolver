@@ -57,29 +57,48 @@
 <p>The following methodsprovide basic information about the current roadRunner installation.</p>
 <div class="section" id="information-group">
 <h2>Information Group<a class="headerlink" href="#information-group" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">rr.getInfo()</span></tt> returns useful information about libRoadRunner&#8217;s current state:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">rr</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+<span class="go">Model Loaded: false</span>
+<span class="go">ConservationAnalysis: 0</span>
+<span class="go">libSBML version: LibSBML Version: 5.9.0</span>
+<span class="go">Temporary folder: not used</span>
+<span class="go">Compiler location: not used</span>
+<span class="go">Support Code Folder: not used</span>
+<span class="go">Working Directory: C:\dev\eclipse</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">rr.getVersionStr</span></tt> returns specific information Strings based on arguments passed to it.
+For example to get the libSBML version used, you can:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">roadrunner</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getVersionStr</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">VERSIONSTR_LIBSBML</span><span class="p">)</span>
+<span class="go">LibSBML Version: 5.9.0</span>
+</pre></div>
+</div>
+<p>or you can do any combination of the <em>VERSIONSTR_</em> options:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getVersionStr</span><span class="p">(</span>
+<span class="go">                             roadrunner.VERSIONSTR_BASIC |</span>
+<span class="go">                             roadrunner.VERSIONSTR_COMPILER |</span>
+<span class="go">                             roadrunner.VERSIONSTR_DATE |</span>
+<span class="go">                             roadrunner.VERSIONSTR_LIBSBML)</span>
+<span class="go">1.0.0; Compiler: Microsoft Visual Studio 2010; Date: Dec 18 2013, 22:59:30; LibSBML Version: 5.9.0</span>
+</pre></div>
+</div>
+<p>There is also the standard python <tt class="docutils literal"><span class="pre">__version__</span></tt> which is actually set
+when the module is loaded from <tt class="docutils literal"><span class="pre">getVersionStr</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">__version__</span>
+<span class="go">1.0.0; Compiler: Microsoft Visual Studio 2010; Date: Dec 18 2013, 22:59:30</span>
+</pre></div>
+</div>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getVersion" title="roadrunner.RoadRunner.getVersion"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getVersion</span></tt></a></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getCopyright" title="roadrunner.RoadRunner.getCopyright"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getCopyright</span></tt></a></td>
-<td></td>
-</tr>
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getInfo" title="roadrunner.RoadRunner.getInfo"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getInfo</span></tt></a>()</td>
 <td>return info about the current state of the object</td>
-</tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getExtendedAPIInfo</span></tt></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getlibSBMLVersion" title="roadrunner.RoadRunner.getlibSBMLVersion"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getlibSBMLVersion</span></tt></a></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getCompiler" title="roadrunner.RoadRunner.getCompiler"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getCompiler</span></tt></a>()</td>
-<td>Return the compiler used to build the ExecutableModel.</td>
 </tr>
 </tbody>
 </table>

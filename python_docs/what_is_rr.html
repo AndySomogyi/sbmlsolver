@@ -58,8 +58,8 @@
 <h1>What is libRoadRunner<a class="headerlink" href="#what-is-libroadrunner" title="Permalink to this headline">¶</a></h1>
 <p>RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models.</p>
-<p>RoadRunner 1.0
-Up to date documentation can be found on <a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a>
+<p>RoadRunner 1.0</p>
+<p>Up to date documentation can be found on <a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a>
 Also the static <a class="reference external" href="../index.html">documentation home page</a> provides an introduction.</p>
 <div class="section" id="licence-and-copyright">
 <h2>Licence and Copyright<a class="headerlink" href="#licence-and-copyright" title="Permalink to this headline">¶</a></h2>
@@ -72,30 +72,31 @@ of the distribution.</p>
 </div>
 <div class="section" id="fundamental-objects">
 <h2>Fundamental Objects<a class="headerlink" href="#fundamental-objects" title="Permalink to this headline">¶</a></h2>
-<p>The libRoadRunner package uses two fundametal objects of
-class <tt class="docutils literal"><span class="pre">RoadRunner</span></tt> and class <tt class="docutils literal"><span class="pre">ExecutableModel</span></tt>.</p>
+<p>The libRoadRunner package uses two fundametal objects e.g. <tt class="docutils literal"><span class="pre">rr</span></tt> of
+class <tt class="docutils literal"><span class="pre">RoadRunner</span></tt> and e.g. <tt class="docutils literal"><span class="pre">rr.model</span></tt> of class <tt class="docutils literal"><span class="pre">ExecutableModel</span></tt>.</p>
 <dl class="docutils">
 <dt><strong>RoadRunner</strong></dt>
 <dd><ul class="first last simple">
 <li>Typically the top level object</li>
 <li>Responsible for orchestrating all of the internal components, such as model loading,
 JIT compilation, integration and output.</li>
+<li>Initialized with <tt class="docutils literal"><span class="pre">rr</span> <span class="pre">=</span> <span class="pre">roadrunner.RoadRunner()</span></tt></li>
 </ul>
 </dd>
 <dt><strong>ExecutableModel</strong></dt>
 <dd><ul class="first last simple">
 <li>Represents a compiled sbml model</li>
 <li>Properties to get and set any state variables.</li>
+<li>Initialized when SBML is loaded <tt class="docutils literal"><span class="pre">r.load('mymodel.xml')</span></tt></li>
 </ul>
 </dd>
 </dl>
 <p>The Python API is a very clean simple interface that uses all native Python objects.
-All the returned types are <cite>Numpy</cite> arrays.</p>
+All the returned types are structured <cite>Numpy</cite> arrays.</p>
 </div>
 <div class="section" id="example-of-libroadrunner-in-use">
 <h2>Example of libRoadRunner in Use<a class="headerlink" href="#example-of-libroadrunner-in-use" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div>Transcript from an <a class="reference external" href="http://ipython.org/">IPython</a> session to demonstrate libRoadRunner use on this interactive Python console.</div></blockquote>
+<p>Transcript from an Python session to demonstrate libRoadRunner use on this interactive Python console.</p>
 <p><strong>Import</strong> roardrunner and numpy:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
 <span class="kn">import</span> <span class="nn">roadrunner.testing</span>
@@ -190,7 +191,12 @@ the rest are whatever is selected. The easies way to plot is to use <tt class="d
 <span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Using libRoadRunner in <a class="reference external" href="http://ipython.org/">IPython</a> you can <strong>get documentation</strong> easily using a <tt class="docutils literal"><span class="pre">?</span></tt> after the object or method:</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">To get numpy unstructured array, see: <a class="reference internal" href="using_roadrunner.html#plotting-data"><em>Plotting Data</em></a></p>
+</div>
+<p>Using libRoadRunner in <a class="reference external" href="http://ipython.org/">IPython</a> you can <strong>get documentation</strong>
+easily using a <tt class="docutils literal"><span class="pre">?</span></tt> after the object or method:</p>
 <div class="highlight-python"><pre>rr.simulate?</pre>
 </div>
 <dl class="docutils">
@@ -249,6 +255,25 @@ by RoadRunner, for example, the array returned by <cite>rr.simulate()</cite> jus
 to the results matrix which is owned by the <cite>RoadRunner</cite>, so there is NO COPYING
 involved. If you have no need for the result, just ignore it, it costs virtually
 nothing to return it.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><p class="first">Current State of the System Group</p>
+<p>When using the LLVM back end, all model state calculation are automatically
+performed using a techinque called lazy evaluation. If one sets the concentration
+of a species, the amount of of that species is automatically available without
+having to perform any addition operations. Similarly with any other value in the model.</p>
+<p>If an SBML parameter is defined by an assigment rule or function and its value then
+depends on a number of other values, simply setting to other values automatically
+cause the value of the most dependent variable to be set.</p>
+<p class="last">This is identical how one operates in a spredsheet such as Microsoft Excel. For
+example, if one has a cell with an equation that depends on other cell, and those
+other cell depend on other values, setting the value of any upstream cell automatically
+causes that value to cascade down to the terminal cells. The LLVM back end roadruner
+function identically.</p>
+</td></tr>
 </tbody>
 </table>
 </div>

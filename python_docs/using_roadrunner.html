@@ -56,22 +56,22 @@
             
   <div class="section" id="basic-tutorial">
 <h1>Basic Tutorial<a class="headerlink" href="#basic-tutorial" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="load-roadrunner">
-<h2>Load RoadRunner<a class="headerlink" href="#load-roadrunner" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="import-roadrunner">
+<h2>Import RoadRunner<a class="headerlink" href="#import-roadrunner" title="Permalink to this headline">¶</a></h2>
 <p>To startup roadRunner use the commands at the Python prompt:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
 <span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The variable rr is your reference to roadrunner. Anything you want to do with roadrunner must be
-specified using the variable rr. For exmaple, to get the current version of roadRunner type the
-following:</p>
+<p>The variable <tt class="docutils literal"><span class="pre">rr</span></tt> is your reference to roadrunner. Anything you want to do with roadrunner must be
+specified using the variable <tt class="docutils literal"><span class="pre">rr</span></tt>.</p>
+<p>To get the current version of libRoadRunner type the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">roadrunner</span><span class="o">.</span><span class="n">__version__</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="loading-models">
-<h2>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline">¶</a></h2>
 <p>RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is
 possible to load that model using the method, <tt class="docutils literal"><span class="pre">load()</span></tt>. Let&#8217;s assume you have a model called
 mymodel.xml in <tt class="docutils literal"><span class="pre">C:\MyModels</span></tt>. To load this model in <strong>Windows</strong> we would use the command:</p>
@@ -90,13 +90,15 @@ these must be typed twice, i.e. <tt class="docutils literal"><span class="pre">'
 </div>
 <p>If the model was loaded successfully the load method will return <tt class="docutils literal"><span class="pre">True</span></tt> otherwise an exception will
 be raised that contains extendend information detailing exactly what failed. If any warnings are
-found in the sbml document, these will be displayed in the console error log.</p>
-<p>Additionally there are a few models available with the libRoadRunner download. Two models are available
-in the testing module <tt class="docutils literal"><span class="pre">feedback.xml</span></tt> and <tt class="docutils literal"><span class="pre">Test_1.xml</span></tt>. To access these use:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s">&#39;feedback.xml&#39;</span><span class="p">))</span>
-</pre></div>
+found in the SBML document, these will be displayed in the console error log.</p>
+<p>Additionally, there are a couple models <strong>included with libRoadRunner</strong>. The models  <tt class="docutils literal"><span class="pre">feedback.xml</span></tt>
+and <tt class="docutils literal"><span class="pre">Test_1.xml</span></tt> are available in the <tt class="docutils literal"><span class="pre">roadrunner.testing</span></tt> module. To access these use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="hll"><span class="kn">import</span> <span class="nn">roadrunner.testing</span>
+</span><span class="hll"><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&#39;feedback.xml&#39;</span><span class="p">))</span>
+</span></pre></div>
 </div>
-<p>There are a few addtional models in the <tt class="docutils literal"><span class="pre">models/</span></tt> directory of the distribution, where you installed libRoadRunner.</p>
+<p>There are a few additional models in the <tt class="docutils literal"><span class="pre">models/</span></tt> directory of the distribution, where you installed libRoadRunner.</p>
 </div>
 <div class="section" id="running-simulations">
 <h2>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this headline">¶</a></h2>
@@ -190,8 +192,8 @@ this we must reset the initial conditions back to the original values. To do tha
 <p>Often during a modeling experiment we will need to change parameter values, that is the values of the various
 kinetic constants in the model. If a model has a kinetic constants k1, then we can change or inspect the value using
 the following syntax:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&#39;k1&#39;</span><span class="p">]</span>
-<span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&#39;k1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.2</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">k1</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="mf">1.2</span>
 </pre></div>
 </div>
 </div>
@@ -201,7 +203,7 @@ the following syntax:</p>
 detailed information on selections, see the <a class="reference internal" href="selecting_values.html#selecting-values"><em>Selecting Values</em></a> section.</p>
 <p>The simulate method, by default returns an <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.rec.html">structured array</a>,
 which are arrays that also contain column names. These can be ploted directly using the
-roadrunner.plot function.</p>
+<tt class="docutils literal"><span class="pre">roadrunner.plot</span></tt> function.</p>
 <p>The output selections default to time and the set of floating species.
 It is possible to change the simulation result values by changing the selection list.
 For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
@@ -216,9 +218,13 @@ type the following:</p>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">More details on <a class="reference internal" href="selecting_values.html"><em>Selecting Values</em></a></p>
+</div>
 </div>
 <div class="section" id="plotting-data">
-<h2>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h2>
 <p>The built in roadrunner.plot function displays the simulation result and a legend using
 matplotlib. Simply pass it a simulation result:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -226,7 +232,7 @@ matplotlib. Simply pass it a simulation result:</p>
 </pre></div>
 </div>
 <p>If one wants more control over the data plots, or if one wished to pass the simulation result to
-other numpy functions that expect a unstructured (conventional) array, disable the structured array
+other <tt class="docutils literal"><span class="pre">numpy</span></tt> functions that expect a <strong>unstructured (conventional) array</strong>, disable the structured array
 result with:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">structuredResult</span> <span class="o">=</span> <span class="bp">False</span>
 </pre></div>
@@ -242,6 +248,33 @@ the x axis and the remaining columns the y axis, we type:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">pylab</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Plot a graph using normal numpy arrays and will use the selections from roadrunner to add a legend.</p>
+<p>Below is a convenient function to plot with a legend. The first argument must be a roadrunner variable.
+The second argument must be an array containing data to plot. The first column of the array will be the
+x-axis and remaining columns the y-axis. Returns a handle to the plotting object.</p>
+<p>Copy the code below into your own python script and use it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">plotWithLegend</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot an array and include a legend. The first argument must be a roadrunner variable.</span>
+<span class="sd">    The second argument must be an array containing data to plot. The first column of the array will</span>
+<span class="sd">    be the x-axis and remaining columns the y-axis. Returns</span>
+<span class="sd">    a handle to the plotting object.</span>
+
+<span class="sd">    plotWithLegend (r, result)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s">&#39;First argument must be a roadrunner variable&#39;</span><span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">legendItems</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">selections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="n">columns</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span> <span class="p">(</span><span class="n">legendItems</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s">&#39;Legend list must match result array&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">columns</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legendItems</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span> <span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">&#39;upper left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">plt</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -254,7 +287,7 @@ the x axis and the remaining columns the y axis, we type:</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Basic Tutorial</a><ul>
-<li><a class="reference internal" href="#load-roadrunner">Load RoadRunner</a></li>
+<li><a class="reference internal" href="#import-roadrunner">Import RoadRunner</a></li>
 <li><a class="reference internal" href="#loading-models">Loading Models</a></li>
 <li><a class="reference internal" href="#running-simulations">Running Simulations</a></li>
 <li><a class="reference internal" href="#changing-parameters">Changing Parameters</a></li>
