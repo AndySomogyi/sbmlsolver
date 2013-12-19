@@ -5,7 +5,7 @@
 
 .. method:: RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')
 
-   All three of the RoadRunner options default to the empty string, in this
+   All three of the libRoadRunner options default to the empty string, in this
    case, the default values are used.
 
 

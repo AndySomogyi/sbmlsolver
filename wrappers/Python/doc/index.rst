@@ -20,14 +20,16 @@ To get you started here is a very simple script that will load an example SBML m
 simulation and plot the results::
 
    import roadrunner
-   import roadrunner.testing
    rr = roadrunner.RoadRunner()
-   rr.load(roadrunner.testing.get_data('feedback.xml'))
+   rr.load("mymodel.xml")
    result = rr.simulate()
    roadrunner.plot(result)
- 
-The result is a standard numpy array which may be plotted using `matplotlib
-<http://matplotlib.org/>`_. Now read the tutorials to learn more about the capabilities of RoadRunner. 
+
+Looking for a model to start with? We included a couple with libRoadRunner, see :ref:`loading-models`.   
+
+.. note:: The result is a structured numpy array which cannot be plotted using `matplotlib <http://matplotlib.org/>`_ directly. See :ref:`plotting-data` for help in plotting. 
+
+Now read the tutorials to learn more about the capabilities of RoadRunner.  
 
 Contents:
 
@@ -35,6 +37,7 @@ Contents:
 
    introduction
    read_write_functions
+   selecting_values
    steady_state
    stoichiometric
    metabolic
