@@ -333,6 +333,15 @@ bool rrcCallConv freeText(char* text)
 bool rrcCallConv freeStringArray(RRStringArrayPtr sl)
 {
     start_try
+        if(!sl) //Already free
+        {
+            return true;
+        }
+        for(int i = 0; i < sl->Count; i++)
+        {
+            delete [] sl->String[i];
+        }
+        delete [] sl->String;
         delete sl;
         return true;
     catch_bool_macro

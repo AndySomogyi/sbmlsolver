@@ -47,9 +47,9 @@ void AddNoiseWorker::run()
         mTheHost.mWorkStartedEvent(NULL, mTheHost.mWorkStartedData2);
     }
 
-    if(mTheHost.mClientData)
+    if(mTheHost.mData.getValue())
     {
-        RoadRunnerData& data = *(RoadRunnerData*) (mTheHost.mClientData);
+        RoadRunnerData& data = *(mTheHost.mData.getValue());
         Noise noise(0, mTheHost.mSigma.getValue());
         noise.randomize();
 
@@ -68,6 +68,7 @@ void AddNoiseWorker::run()
             }
         }
     }
+    
 
     if(mTheHost.mWorkFinishedEvent)
     {

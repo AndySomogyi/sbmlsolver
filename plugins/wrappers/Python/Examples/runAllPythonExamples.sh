@@ -1,8 +1,6 @@
 #! bash
-
-echo 'hello'
+echo 'Run all examples in a folder'
 examples="`ls *.py`"
-
 for example in $examples 
 do
     echo "Running Example: $example"

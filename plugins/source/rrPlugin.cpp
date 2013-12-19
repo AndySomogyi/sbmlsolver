@@ -193,19 +193,11 @@ string Plugin::getCopyright()
     return mCopyright;
 }
 
+//Overload in descendants and add info there.
 string Plugin::getStatus()
 {
     stringstream msg;
-    msg<<"Has RoadRunner instance: ";
-    if(mRR)
-    {
-        msg<<" True\n";
-    }
-    else
-    {
-        msg<<" False\n";
-    }
-
+    msg<<"The following is a status message for Plugin: "<<mName<<"\n";
     return msg.str();
 }
 

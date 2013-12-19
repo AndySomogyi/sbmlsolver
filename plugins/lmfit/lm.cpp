@@ -20,22 +20,19 @@ LM::LM(rr::RoadRunner* aRR)
 :
 CPPPlugin(                  "Levenberg-Marquardt", "Fitting",       aRR, NULL),
 mLMFit(                     "LMFit",                                "Fit Model Parameters Using the Levenberg-Marquardt Algorithm"),    //The 'capability'
-mTempFolder(                "TempFolder",                           "",                     "Tempfolder used in the fitting"),
 mSBML(                      "SBML",                                 "<none>",               "SBML, i.e. the model to be used in the fitting"),
-mObservedData(              "ExperimentalData",                     RoadRunnerData(),       "Data object holding Experimental data"),
-mModelData(                 "ModelData",                            RoadRunnerData(),       "Data object holding model data"),
-mResidualsData(             "Residuals",                            RoadRunnerData(),       "Data object holding residuals"),
+mObservedData(              "ExperimentalData",                     NULL,                   "Data object holding Experimental data: Provided by client"),
+mModelData(                 "FittedData",                           NULL,                   "Data object holding model data: Handed to client"),
+mResidualsData(             "Residuals",                            NULL,                   "Data object holding residuals: Handed to client"),
 mInputParameterList(        "InputParameterList",                   Parameters(),           "List of parameters to fit"),
 mOutputParameterList(       "OutputParameterList",                  Parameters(),           "List of parameters that was fittedt"),
-mObservedDataSelectionList( "ObservedDataSelectionList",            StringList(),           "Observed data selection list"),
-mModelDataSelectionList(    "ModelDataSelectionList",               StringList(),           "Modeled data selection list"),
+mObservedDataSelectionList( "ExperimentalDataSelectionList",            StringList(),       "Experimental data selection list"),
+mModelDataSelectionList(    "FittedDataSelectionList",               StringList(),           "Fitted data selection list"),
 mNorm(                      "Norm",                                 -1.0,                   "Norm of fitting. An estimate of goodness of fit"),
 mLMWorker(*this)
 {
     mVersion = "1.0";
-
     //Setup the plugins capabilities
-    mLMFit.addParameter(&mTempFolder);
     mLMFit.addParameter(&mSBML);
     mLMFit.addParameter(&mObservedData);
     mLMFit.addParameter(&mModelData);
@@ -46,10 +43,20 @@ mLMWorker(*this)
     mLMFit.addParameter(&mModelDataSelectionList);
     mLMFit.addParameter(&mNorm);
     mCapabilities.add(mLMFit);
+
+    //Allocate model and Residuals data
+    mResidualsData.setValue(new RoadRunnerData());
+    mModelData.setValue(new RoadRunnerData());
 }
 
 LM::~LM()
-{}
+{
+    //DE allocate data        
+    RoadRunnerData* data = mResidualsData.getValue();
+    delete data;
+    data =  mModelData.getValue();
+    delete data;
+}
 
 bool LM::isWorking()
 {
@@ -74,8 +81,7 @@ StringList LM::getObservedDataSelectionList()
 string LM::getStatus()
 {
     stringstream msg;
-    msg<<Plugin::getStatus();
-    msg<<"TempFolder: "<<mTempFolder<<"\n";
+    msg<<Plugin::getStatus();    
     msg <<getResult();
     return msg.str();
 }
@@ -94,19 +100,14 @@ bool LM::resetPlugin()
 
     mTerminate = false;
     mSBML.getValueReference().clear();
-    mObservedData.getValueReference().clear();
-    mModelData.getValueReference().clear();
-    mResidualsData.getValueReference().clear();
+    mObservedData.getValueReference()->clear();
+    mModelData.getValueReference()->clear();
+    mResidualsData.getValueReference()->clear();
     mInputParameterList.getValueReference().clear();
     mOutputParameterList.getValueReference().clear();
     mObservedDataSelectionList.getValueReference().clear();
     mModelDataSelectionList.getValueReference().clear();
     return true;
-}
-
-string LM::getTempFolder()
-{
-    return mTempFolder.getValue();
 }
 
 string LM::getSBML()
@@ -125,21 +126,6 @@ string LM::getResult()
     }
     msg<<"Norm: "<<mNorm.getValue();
     return msg.str();
-}
-
-bool LM::assignInput(void* inputData)
-{
-    //Cast data to RRData
-    RoadRunnerData* data = (RoadRunnerData*) inputData;
-
-    if(!data)
-    {
-        return false;
-    }
-
-    RoadRunnerData rrData((*data));
-    mObservedData.setValue((*data));    //This copies the data
-    return true;
 }
 
 bool LM::execute(bool inThread)

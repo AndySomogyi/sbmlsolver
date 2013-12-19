@@ -1,4 +1,3 @@
-import os
 from rrPlugins import *
 
 #Create a plugin manager

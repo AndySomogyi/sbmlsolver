@@ -1333,7 +1333,7 @@ string RoadRunner::getModelName()
 
 // TODO Looks like major problems here, this
 // apears to modify the AFTER a model has been created from it.
-string RoadRunner::writeSBML()
+string RoadRunner::getCurrentSBML()
 {
     NOMSupport NOM;
 

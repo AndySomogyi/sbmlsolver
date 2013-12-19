@@ -119,6 +119,7 @@ void LMWorker::run()
 
     mTheHost.mNorm.setValue(status.fnorm);
     createModelData(mTheHost.mModelData.getValueReference());
+
     createResidualsData(mTheHost.mResidualsData.getValueReference());
     workerFinished();
 }
@@ -163,7 +164,7 @@ bool LMWorker::setup()
         }
     }
 
-    RoadRunnerData& obsData             = mTheHost.mObservedData.getValueReference();
+    RoadRunnerData& obsData             = *(mTheHost.mObservedData.getValueReference());
     mLMData.nrOfTimePoints              = obsData.rSize();
     mLMData.timeStart                   = obsData.getTimeStart();
     mLMData.timeEnd                     = obsData.getTimeEnd();
@@ -318,8 +319,9 @@ void evaluate(const double *par,       //Parameter vector
     freeRRCData(rrcData);
 }
 
-void LMWorker::createModelData(RoadRunnerData& data)
+void LMWorker::createModelData(RoadRunnerData* _data)
 {
+    RoadRunnerData& data = *(_data);        
     //We now have the parameters
     StringList selList("time");
     selList.Append(mTheHost.mModelDataSelectionList.getValue());
@@ -345,16 +347,17 @@ void LMWorker::createModelData(RoadRunnerData& data)
     }
 }
 
-void LMWorker::createResidualsData(RoadRunnerData& data)
+void LMWorker::createResidualsData(RoadRunnerData* _data)
 {
+    RoadRunnerData& resData = *(_data);        
     //We now have the parameters
-    RoadRunnerData& obsData = mTheHost.mObservedData.getValueReference();
-    RoadRunnerData& modData = mTheHost.mModelData.getValueReference();
+    RoadRunnerData& obsData = *(mTheHost.mObservedData.getValueReference());
+    RoadRunnerData& modData = *(mTheHost.mModelData.getValueReference());
 
-    data.reSize(modData.rSize(), modData.cSize());
+    resData.reSize(modData.rSize(), modData.cSize());
 
     //setup coulumn names
-    data.setColumnNames(modData.getColumnNames());
+    resData.setColumnNames(modData.getColumnNames());
 
     for(int sel = 0; sel < mLMData.nrOfSpecies + 1; sel++)    //selection 1 becuase of time column..
     {
@@ -362,7 +365,7 @@ void LMWorker::createResidualsData(RoadRunnerData& data)
         {
             if(sel == 0)
             {
-                data(i, sel) = modData(i, sel);    //Time
+                resData(i, sel) = modData(i, sel);    //Time
             }
             else
             {
@@ -372,7 +375,7 @@ void LMWorker::createResidualsData(RoadRunnerData& data)
                 int colNr = modData.getColumnIndex(specie);
                 if(colNr != -1)
                 {
-                    data(i,sel) = obsData(i, sel) - modData(i, colNr);
+                    resData(i,sel) = obsData(i, sel) - modData(i, colNr);
                 }
                 else
                 {

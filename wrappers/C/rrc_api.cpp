@@ -240,7 +240,7 @@ char* rrcCallConv getCurrentSBML(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rr::createText(rri->writeSBML());
+        return rr::createText(rri->getCurrentSBML());
     catch_ptr_macro
 }
 

@@ -21,7 +21,7 @@ lsLUResult
 include_directories(
 .
 ${THIRD_PARTY_FOLDER}/clapack/3.2.1/INCLUDE
-${THIRD_PARTY_FOLDER}/libsbml/src
+${THIRD_PARTY_FOLDER}/libSBML-5.9.0-Source/src
 )
 
 #add_library(${target} SHARED ${sources})

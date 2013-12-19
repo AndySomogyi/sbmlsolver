@@ -57,10 +57,8 @@ assignOnProgressEvent(plugin, cb_func2)
 cb_func3 =  NotifyEvent(pluginIsFinished)
 assignOnFinishedEvent(plugin, cb_func3)
 
-rrDataHandle = getRoadRunnerDataHandle(rr)
-
 #Assign data to the plugin
-assignPluginInput(plugin, rrDataHandle)
+setPluginParameter(plugin,"InputData", getRoadRunnerDataHandle(rr))
 
 #Execute the noise plugin which will add some noise to the (internal) data
 executePluginEx(plugin, True)

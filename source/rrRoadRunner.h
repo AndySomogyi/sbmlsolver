@@ -379,7 +379,7 @@ public:
     /**
      * Returns the SBML with the current parameterset.
      */
-    std::string writeSBML();
+    std::string getCurrentSBML();
 
     /**
      * @internal

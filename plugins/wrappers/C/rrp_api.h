@@ -365,14 +365,6 @@ RRP_DECLSPEC bool rrp_cc assignPluginInput(RRPluginHandle handle, void* userData
 RRP_DECLSPEC RRHandle rrp_cc getRRHandleFromPlugin(RRPluginHandle handle);
 
 /*!
- \brief Get a Plugins capabilities as a string
- \param handle Handle to a plugin
- \return Returns available capabilities for a particular plugin as a pointer to a string, NULL otherwise.
- \ingroup plugins
-*/
-RRP_DECLSPEC char* rrp_cc getPluginCapabilities(RRPluginHandle handle);
-
-/*!
  \brief Get a Plugins Parameterse as an xml document. The string returned from this function is formated as xml.
  \param handle Handle to a plugin
  \return Returns available parameters in the plugin, as a pointer to a string, NULL otherwise

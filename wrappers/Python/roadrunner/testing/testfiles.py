@@ -1,14 +1,14 @@
 import pkgutil
 import roadrunner
 
-def get_data(resource):
-    """OB
+def getData(resource):
+    """
     get the contents of a testing resource file.
     """
     return pkgutil.get_data(__name__, resource)
 
 
-def get_roadrunner(resource):
+def getRoadRunner(resource):
     """
     return a RoadRunner instance loaded with one of the test files.
     """

@@ -1,9 +1,5 @@
-import sys;
-import numpy
-import os
 import matplotlib.pyplot as plot
 import roadrunner
-from ctypes import *
 from rrPlugins import *
 
 #Create a plugin manager
@@ -29,31 +25,21 @@ if not rr.load(sbmlModel):
     exit()
 
 rr.simulate(0, 10, 500)
-print rr.getInfo()
 
 #The plugin will need a handle to the underlying roadrunner data
 rrDataHandle = getRoadRunnerDataHandle(rr)
 
 #Load the 'noise' plugin in order to add some noise to roadrunner data
 noisePlugin = loadPlugin(pm, "rrp_add_noise")
-if not noisePlugin:
-    print getLastError()
-    exit()
-assignPluginInput(noisePlugin, rrDataHandle)
-print getPluginInfo(noisePlugin)
+
+#The noise plugin has one parameter named, InputData.
+#Assigning our data to it allow the plugin to do work on it
+dataPara = getPluginParameter(noisePlugin, "InputData")
+setRoadRunnerDataParameter(dataPara, rrDataHandle)
 
 #get parameter for the 'size' of the noise
-sigmaHandle = getPluginParameter(noisePlugin, "Sigma")
-
-aSigma = getParameterValueAsString(sigmaHandle)
-print 'Current sigma is ' + aSigma
-
 #Set size of noise
-setDoubleParameter(sigmaHandle, 0.03)
-
-#Check parameter
-aSigma = getParameterValueAsString(sigmaHandle)
-print 'Current sigma is ' + aSigma
+setPluginParameter(noisePlugin,"Sigma", 1e-2)
 
 cb_func1 =  NotifyEvent(pluginStarted)
 assignOnStartedEvent(noisePlugin,  cb_func1)
@@ -65,22 +51,13 @@ cb_func3 =  NotifyEvent(pluginIsFinished)
 assignOnFinishedEvent(noisePlugin, cb_func3)
 
 #Execute the noise plugin which will add some noise to the (internal) data
-executePluginEx(noisePlugin, False)
-
-while isPluginWorking(noisePlugin) == True:
-    print ('.'),
+executePlugin(noisePlugin)
 
 #Input Data
-result = rr.getSimulationResult()
-x = result['time']
-y = result['[x]']
+rrData = getNumpyData(rrDataHandle)
+colNames = getRoadRunnerDataColumnHeader(rrDataHandle)
 
-plot.plot(x, y, label="[x]")
-
-plot.legend(bbox_to_anchor=(1.05, 1), loc=5, borderaxespad=0.)
-plot.ylabel('Concentration (moles/L)')
-plot.xlabel('time (s)')
-plot.show()
+plotRoadRunnerData(rrData, colNames)
 
 unLoadPlugins(pm)
 print "done"
