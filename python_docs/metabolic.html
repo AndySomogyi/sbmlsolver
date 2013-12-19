@@ -84,6 +84,7 @@ to a perturbation in some external effector. These are defined by:</p>
 <div class="section" id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <p>The following methods allow users to obtain various metabolic control coefficients.</p>
+<p>This first block of methods are for parameter independent coefficients.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -114,6 +115,15 @@ to a perturbation in some external effector. These are defined by:</p>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix" title="roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getScaledConcentrationControlCoefficientMatrix</span></tt></a>()</td>
 <td>Returns the m by n matrix of scaled conentration control coefficients where m is the number of floating species and n the number of reactiohs.</td>
 </tr>
+</tbody>
+</table>
+<p>Use these to obtain metabolic control coefficients.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getuCC" title="roadrunner.RoadRunner.getuCC"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getuCC</span></tt></a>(variableId,&nbsp;parameterId)</td>
 <td>Get unscaled control coefficient with respect to a global parameter</td>
 </tr>

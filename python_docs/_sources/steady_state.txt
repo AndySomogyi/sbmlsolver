@@ -19,6 +19,12 @@ species, :math:`\mathbf{s}` that satisfy:
 
    \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t) = 0 
 
+For example you can use ``steadyStateSelections`` to select which value ``getSteadyStateValues`` should retrieve::
+
+     >>> rr.steadyStateSelections = ['S1']
+     >>> rr.getSteadyStateValues ()
+     array([ 0.54314239])
+
 
 The following methods deal wth steady state analysis:
 
@@ -29,3 +35,4 @@ The following methods deal wth steady state analysis:
    RoadRunner.steadyState
 
    RoadRunner.getSteadyStateValues
+   

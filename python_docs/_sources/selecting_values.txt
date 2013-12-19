@@ -81,14 +81,14 @@ One my try individual selection string using the :meth:`RoadRunner.getSelectionV
 takes a selection string, determines if it is valid, and returns the value it selects. For example::
 
 
-    >>> r.getSelectionValue("cc(S1, J4_KS4)")
+    >>> rr.getSelectionValue("cc(S1, J4_KS4)")
         -0.42955738179207886
 
 Even though they are almost always specified by a string, RoadRunner selections are actually
 object. One can create a selection object directly using :meth:`RoadRunner.createSelection`, and in
 order to see extended information about, simply display it. For example, using ipython::
 
-    >>> sel = r.createSelection("cc(S1, J4_KS4)")
+    >>> sel = rr.createSelection("cc(S1, J4_KS4)")
     >>> sel
         SelectionRecord({'index' : -1, 'p1' : 'S1', 'p2' : 'J4_KS4', 'selectionType' : CONTROL})
 
@@ -99,12 +99,12 @@ new once created with :meth:`RoadRunner.createSelection`. If someone has does no
 the concentration of species ``S2`` and instead wants to display the rate of change of species
 ``S``::
 
-    >>> r.selections
+    >>> rr.selections
         ["time", "[S1]", "[S2]", "[S3]", "[S4]"]
 
-    >>> sel = r.createSelection("S1'")
-    >>> r.selections[2] = sel
-    >>> r.selections
+    >>> sel = rr.createSelection("S1'")
+    >>> rr.selections[2] = sel
+    >>> rr.selections
         ["time", "[S1]", "S1'", "[S3]", "[S4]"]
 
 Even though the selection list intentionally appears as a list of string, it is actually a list of
@@ -119,13 +119,13 @@ The colums of the RoadRunner simulation result are determined by selections, the
 the :attr:`RoadRunner.selections` property. This is a list of what values will be displayed in the
 result, and can be set simply by::
 
-    r.selections = ['time', '[S1]', 'S1', "S1'"]
+    rr.selections = ['time', '[S1]', 'S1', "S1'"]
 
 This example selects the columns time, concentration of ``S1``, amount of ``S1`` and rate of change
 of ``S1``. One may also have derivative values in the simulation selection, for example, if one
 wanted to plot the elasticity of a particular reaction::
 
-    r.selections = ['time', '[S1]', "ee(J1, P1)"]
+    rr.selections = ['time', '[S1]', "ee(J1, P1)"]
 
 
 
