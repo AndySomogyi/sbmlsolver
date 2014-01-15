@@ -19,6 +19,9 @@
 	<![endif]-->
 	
 
+<link rel="stylesheet" href="css/default.css" type="text/css" />
+<link rel="stylesheet" href="css/pygments.css" type="text/css" />
+
 <link rel='stylesheet' id='wp-quicklatex-format-css'  href='css/quicklatex-format.css' type='text/css' media='all' />
 <link rel='stylesheet' id='jetpack-widgets-css'  href='css/widgets.css' type='text/css' media='all' />
 <!--
@@ -36,14 +39,28 @@
 					<div class="entry-content">
 						<h1>libRoadrunner</h1>
 <p>A high performance and portable simulation engine for systems and synthetic biology.</p>
-Three extensive APIs designed specially for modelers.
-These links point to documentation local to the system. For up to date documentation please visit: <a href="http://libroadrunner.org">http://libroadrunner.org</a>
+<div class="body">
+<p>To get started try the Python script below. These commands will load an example SBML model, run a time course simulation, and plot the results.</p>
+<div class="highlight-python">
+<div class="highlight">
+<pre>
+<span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="kn">import</span> <span class="nn">roadrunner.testing</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;roadrunner.testing.getData('feedback.xml')&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+</div> <!-- #body -->							
+
+libRoadRunner has three extensive APIs designed specially for modelers.
+The links below point to local documentation on your system. For up to date documentation please visit: <a href="http://libroadrunner.org">http://libroadrunner.org</a>
 <ol>
 <li><a href="cpp_api_docs/index.html">C++ API</a></li>
 <li><a href="c_api_docs/html/index.html">C API</a></li>
 <li><a href="python_docs/index.html">Python bindings</a></li>
-<li><a href="c_plugin_api_docs/html/index.html">C Plugin API</a></li>
-<li><a href="c++_plugin_api_docs/html/index.html">C++ Plugin API</a></li>
 </ol>
 
 <p><a title="Documentation" href="http://libroadrunner.org/documentation-2/">libRoadRunner 1.0</a> supports the following features:</p>
@@ -54,10 +71,8 @@ These links point to documentation local to the system. For up to date documenta
 <li>Uses latest libSBML distribution</li>
 <li>Defaults to LLVM code generation on the backend, resulting is very fast simulation times</li>
 <li>Optional generation of model C code and linking at run-time</li>
-<li>Add plugins, distribution comes with Levenberg-Marquardt optimizer plugin</li>
 <li><span style="line-height: 1.5;">Supports Metabolic Control Analysis</span></li>
 <li>Supports Frequency Domain Analysis</li>
-<li>Additional Plugin API (C and C++)</li>
 <li>APIs support fast access to model quantities</li>
 <li>Access to other items such as:</li>
 </ul>
@@ -69,16 +84,16 @@ These links point to documentation local to the system. For up to date documenta
 </ol>
 </ol>
 <h2>Availability</h2>
-<p>RoadRunner is <a title="Apache 2.0 License" href="http://www.apache.org/licenses/LICENSE-2.0">licensed for free</a> as an <a title="GitHub" href="https://github.com/AndySomogyi/roadrunner">open source</a> (Apache License, Version 2.0)  programmatic <strong>library</strong> for use in other applications without restriction and as a�<strong>standalone</strong> command line driven application.</p>
-<p>On Windows, OS X, and Linux binary files can be downloaded from <a title="SourceForge" href="http://sourceforge.net/projects/libroadrunner/files">http://sourceforge.net/projects/libroadrunner/files</a> and <strong><a title="Install Roadrunner" href="http://libroadrunner.org/install-roadrunner/">installed </a></strong>ready for use.</p>
+<p>libRoadRunner is <a title="Apache 2.0 License" href="http://www.apache.org/licenses/LICENSE-2.0">licensed for free</a> as an <a title="GitHub" href="https://github.com/AndySomogyi/roadrunner">open source</a> (Apache License, Version 2.0) programmatic <strong>library</strong> for use in other applications without restriction and as a <strong>standalone</strong> command line driven application.</p>
+<p>On Windows, OS X, and Linux binary files can be downloaded from <a title="SourceForge" href="http://sourceforge.net/projects/libroadrunner/files">http://sourceforge.net/projects/libroadrunner/files</a> and <strong><a title="Install libRoadrunner" href="http://libroadrunner.org/install-roadrunner/">installed </a></strong>ready for use.</p>
 <h3>Acknowledgements</h3>
 <p>This work is funded by the generous support of the NIH/NIGMS grant: GM081070</p>
 <p><a href="http://libroadrunner.org/wp-content/uploads/2013/11/nigms_logo_Small.png"><img class="alignnone size-thumbnail wp-image-206" alt="nigms_logo_Small" src="http://libroadrunner.org/wp-content/uploads/2013/11/nigms_logo_Small-120x150.png" width="120" height="150" /></a></p>
 <h2><a name="license"></a></h2>
 <h3>Licence</h3>
-<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<p>Licensed under the Apache License, Version 2.0 (the License); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
 <p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
-<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an AS IS BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
 <p>In plain English this means:</p>
 <p>You CAN freely download and use this software, in whole or in part, for personal or commercial purposes without restriction.</p>
 <p>You CAN use the software in packages or distributions that you create.</p>
@@ -95,7 +110,6 @@ These links point to documentation local to the system. For up to date documenta
 											</footer><!-- .entry-meta -->
 				</article><!-- #post -->
 
-							
 		</div><!-- #content -->
 	</div><!-- #primary -->
 
