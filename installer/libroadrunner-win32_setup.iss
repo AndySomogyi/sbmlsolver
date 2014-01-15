@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "University of Washington, Seattle, WA, USA"
 #define MyAppURL "http://libroadrunner.org/"
-#define MyAppExeName "docs\index.html"
+#define MyAppExeName "doc\index.html"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
