@@ -22,20 +22,22 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\Program Files (x86)\libroadrunner-1.0.0\LICENSE.txt
-InfoBeforeFile=C:\Program Files (x86)\libroadrunner-1.0.0\NOTICE.txt
-InfoAfterFile=C:\Program Files (x86)\libroadrunner-1.0.0\README.txt
+LicenseFile=..\LICENSE.txt
+InfoBeforeFile=..\NOTICE.txt
+InfoAfterFile=..\README.txt
 OutputBaseFilename=install-libRoadRunner-1.0.0
 OutputDir=.
 SetupIconFile=libroadrunner_logo_tan.ico
 Compression=lzma
 SolidCompression=yes
 
+
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "libRoadRunner-python-setup.exe";  DestDir: "{tmp}";
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -44,4 +46,8 @@ Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
+Filename: "{tmp}\libRoadRunner-python-setup.exe"; StatusMsg: "Installing roadrunner Python package..."; Parameters: "/verysilent"; 
+;Flags: skipifdoesntexist;
+
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
+
