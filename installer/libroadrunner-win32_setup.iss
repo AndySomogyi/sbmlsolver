@@ -20,16 +20,33 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
-DisableDirPage=yes 
-; DisableDirPage=yes - disable this is in debugging - turns off choosing destination
+
+;disable the following when debugging
+;turns off choosing destination
+;DisableDirPage=yes
+;turns off welcome
+;DisableWelcomePage=yes
+;turn off finished
+;DisableFinishedPage=yes 
+
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
+
+;disable these when debugging - turns off choosing license and view notice
 LicenseFile=..\LICENSE.txt
-InfoBeforeFile=..\NOTICE.txt
+
+;Dropped the readme and view, too many steps
+;InfoBeforeFile=..\NOTICE.txt
 ;InfoAfterFile=..\README.txt
+;turn off ready
+DisableReadyPage=yes
+
 OutputBaseFilename=install-libRoadRunner-1.0.0
 OutputDir=.
-SetupIconFile=libroadrunner_logo_tan.ico
+
+;UninstallDisplayIcon does not seem to work - likely "Obsolete since 5.0.0", like the other Uninstall*
+;UninstallDisplayIcon=trash.ico
+;SetupIconFile=libroadrunner_logo_tan.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -38,15 +55,21 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: exec_libs
-;debugging Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: exec_libs
+Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: exec_libs
+;for debugging the install script
+; Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: exec_libs
+Source: "trash.ico"; DestDir: "{app}\icons"; Flags: ignoreversion; Components: exec_libs
+Source: "libroadrunner_logo_tan.ico"; DestDir: "{app}\icons"; Flags: ignoreversion; Components: exec_libs
 Source: "libRoadRunner-python-setup.exe";  DestDir: "{tmp}"; Components: python
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\icons\libroadrunner_logo_tan.ico"; Components: exec_libs
+Name: "{app}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; IconFilename: "{app}\icons\trash.ico"; Components: exec_libs
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; IconFilename: "{app}\icons\trash.ico"
+
+ 
 
 [Components]
 Name: "python"; Description: "Python API bindings (roadrunner.py)"; Types: full
@@ -58,7 +81,5 @@ Root: "HKLM"; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environm
 [Run]
 Filename: "{tmp}\libRoadRunner-python-setup.exe"; StatusMsg: "Installing roadrunner Python package..."; Flags: skipifdoesntexist;
 ;Parameters: "/silent"; 
-
-
 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
