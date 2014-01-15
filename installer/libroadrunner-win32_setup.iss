@@ -20,11 +20,13 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
+DisableDirPage=yes 
+; DisableDirPage=yes - disable this is in debugging - turns off choosing destination
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE.txt
 InfoBeforeFile=..\NOTICE.txt
-InfoAfterFile=..\README.txt
+;InfoAfterFile=..\README.txt
 OutputBaseFilename=install-libRoadRunner-1.0.0
 OutputDir=.
 SetupIconFile=libroadrunner_logo_tan.ico
@@ -36,8 +38,9 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "libRoadRunner-python-setup.exe";  DestDir: "{tmp}";
+Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: exec_libs
+;debugging Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: exec_libs
+Source: "libRoadRunner-python-setup.exe";  DestDir: "{tmp}"; Components: python
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -45,9 +48,17 @@ Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
+[Components]
+Name: "python"; Description: "Python API bindings (roadrunner.py)"; Types: full
+Name: "exec_libs"; Description: "Executable with C/C++ Libraries"; Types: full
+
+[Registry]
+Root: "HKLM"; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: string; ValueName: "ROADRUNNER_HOME"; ValueData: "{app}"; Flags: createvalueifdoesntexist
+
 [Run]
-Filename: "{tmp}\libRoadRunner-python-setup.exe"; StatusMsg: "Installing roadrunner Python package..."; Parameters: "/verysilent"; 
-;Flags: skipifdoesntexist;
+Filename: "{tmp}\libRoadRunner-python-setup.exe"; StatusMsg: "Installing roadrunner Python package..."; Flags: skipifdoesntexist;
+;Parameters: "/silent"; 
+
+
 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
-
