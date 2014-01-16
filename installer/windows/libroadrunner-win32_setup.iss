@@ -33,11 +33,11 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 
 ;disable these when debugging - turns off choosing license and view notice
-LicenseFile=..\LICENSE.txt
+LicenseFile=..\..\LICENSE.txt
 
 ;Dropped the readme and view, too many steps
-;InfoBeforeFile=..\NOTICE.txt
-;InfoAfterFile=..\README.txt
+;InfoBeforeFile=..\..\NOTICE.txt
+;InfoAfterFile=..\..\README.txt
 ;turn off ready
 DisableReadyPage=yes
 
@@ -55,7 +55,7 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: exec_libs
+Source: "..\..\*"; Excludes: "*.~*, \installer\*, \site-packages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: exec_libs
 ;for debugging the install script
 ; Source: "..\*"; Excludes: "*.~*, \installer\*, \site-packages\*, \plugins\*, \compilers\*, \include\*, \doc\*, \bin\*, \lib\*, \Temp\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: exec_libs
 Source: "trash.ico"; DestDir: "{app}\icons"; Flags: ignoreversion; Components: exec_libs

@@ -22,8 +22,8 @@ DisableWelcomePage=yes
 DefaultDirName=C:\Python27\Lib\site-packages\{#MyAppName}
 DefaultGroupName=libRoadRunner
 DisableProgramGroupPage=yes
-;LicenseFile=..\LICENSE.txt
-;InfoBeforeFile=..\NOTICE.txt
+;LicenseFile=..\..\LICENSE.txt
+;InfoBeforeFile=..\..\NOTICE.txt
 DisableReadyPage=yes
 DisableFinishedPage=yes
 OutputDir=.
@@ -36,5 +36,5 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\site-packages\roadrunner\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\site-packages\roadrunner\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
