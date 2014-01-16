@@ -103,15 +103,8 @@ void RoadRunnerData::allocateWeights()
     {
         for(int j = 0; j < cSize(); j++)
         {
-            if(j == 0)
-            {
-                mWeights(i,j) = i + 1;
-            }
-            else
-            {
-                mWeights(i,j) = 1;
-            }
-         }
+            mWeights(i,j) = 1;
+        }
     }
 }
 
