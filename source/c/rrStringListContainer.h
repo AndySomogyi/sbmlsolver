@@ -40,8 +40,5 @@ class RR_DECLSPEC StringListContainer
 };
 
 ostream& operator<<(ostream& stream, const StringListContainer& list);
-
-typedef StringListContainer ArrayList; //ArrayList is C# name..
-typedef StringListContainer StringCollection;
 }
 #endif

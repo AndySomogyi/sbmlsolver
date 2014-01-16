@@ -35,7 +35,7 @@ if(UNIX)
 endif()
 
 target_link_libraries (${target}
-    rrc_api
+    roadrunner_c_api
     unit_test-static
     poco_xml-static
     )

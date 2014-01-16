@@ -414,14 +414,14 @@ StringListContainer NOMSupport::getListOfFloatingSpecies()
 }
 
 
-ArrayList NOMSupport::getListOfParameters()
+StringListContainer NOMSupport::getListOfParameters()
 {
     if (mModel == NULL)
     {
         throw Exception("You need to load the model first");
     }
 
-    ArrayList paramStrValueList;
+    StringListContainer paramStrValueList;
 
     int numOfGlobalParameters = mModel->getNumParameters();
 
@@ -522,7 +522,7 @@ string NOMSupport::getNthBoundarySpeciesCompartmentName(const int& nIndex)
 
 
 
-ArrayList NOMSupport::getNthError(const int& nIndex)
+StringListContainer NOMSupport::getNthError(const int& nIndex)
 {
     if (mSBMLDoc == NULL)
     {
@@ -535,7 +535,7 @@ ArrayList NOMSupport::getNthError(const int& nIndex)
     }
 
     const SBMLError *error = mSBMLDoc->getError(nIndex);
-    ArrayList oResult;// = new ArrayList();
+    StringListContainer oResult;// = new StringListContainer();
 
     switch (error->getSeverity())
     {
@@ -570,14 +570,14 @@ bool NOMSupport::getNthUseValuesFromTriggerTime(const int& arg)
     return oEvent->getUseValuesFromTriggerTime();
 }
 
-ArrayList NOMSupport::getNthEvent(const int& arg)
+StringListContainer NOMSupport::getNthEvent(const int& arg)
 {
     if (mModel == NULL)
     {
         throw Exception("You need to load the model first");
     }
 
-    ArrayList triggerAssignmentsList;
+    StringListContainer triggerAssignmentsList;
     libsbml::Event *oEvent = mModel->getEvent((int)arg);
 
     if (oEvent == NULL)
@@ -611,7 +611,7 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
 
     for (int i = 0; i < numEventAssignments; i++)
     {
-        StringList assignmentList;// = new ArrayList();
+        StringList assignmentList;// = new StringListContainer();
 
         EventAssignment *ea = oEvent->getEventAssignment(i);
         string lValue = ea->getVariable();
@@ -652,7 +652,7 @@ string NOMSupport::getNthFloatingSpeciesCompartmentName(int nIndex)
 }
 
 
-ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
+StringListContainer NOMSupport::getNthFunctionDefinition(const int& arg)
 {
     if (mModel == NULL)
     {
@@ -674,7 +674,7 @@ ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
     string fnId = fnDefn->getId();
     string fnMath = SBML_formulaToStdString(fnDefn->getBody());
 
-    ArrayList fnDefnList;
+    StringListContainer fnDefnList;
     fnDefnList.Add(fnId);
 
     int numArgs = (int) fnDefn->getNumArguments();
@@ -1087,7 +1087,7 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
     int numLocalParameters = (int)oLaw.getNumLocalParameters();
     if (numLocalParameters > 0)
     {
-        StringCollection oList;// = new StringCollection();
+        StringListContainer oList;// = new StringCollection();
         for (int j = numLocalParameters; j > 0; j--)
         {
             LocalParameter* localParameter = (LocalParameter*)oLaw.getLocalParameter(j - 1)->clone();
@@ -1781,7 +1781,7 @@ string NOMSupport::validateSBML(const string& sModel)
     {
         for (int i = 0; i < oDoc->getNumErrors(); i++)
         {
-            ArrayList oList = getNthError(i);
+            StringListContainer oList = getNthError(i);
         }
         delete oDoc;
         throw Exception("SBML Validation failed: " + oBuilder.ToString());

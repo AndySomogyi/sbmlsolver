@@ -1829,7 +1829,7 @@ void CSharpModelGenerator::writeEvalEvents(CodeBuilder& sb, const int& numEvents
 
     for (int i = 0; i < numEvents; i++)
     {
-        ArrayList ev = mNOM->getNthEvent(i);
+        StringListContainer ev = mNOM->getNthEvent(i);
         StringList tempList = ev[0];
         string eventString = tempList[0];
 
@@ -2045,7 +2045,7 @@ void CSharpModelGenerator::writeEventAssignments(CodeBuilder& sb, const int& num
         sb<<append("\t// Event assignments" + NL());
         for (int i = 0; i < numEvents; i++)
         {
-            ArrayList ev = mNOM->getNthEvent(i);
+            StringListContainer ev = mNOM->getNthEvent(i);
             eventType.push_back(mNOM->getNthUseValuesFromTriggerTime(i));
             eventPersistentType.push_back(mNOM->getModel()->getEvent(i)->getTrigger()->getPersistent());
 

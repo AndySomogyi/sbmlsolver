@@ -937,7 +937,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
 
     for (int i = 0; i < numEvents; i++)
     {
-        ArrayList ev = mNOM->getNthEvent(i);
+        StringListContainer ev = mNOM->getNthEvent(i);
         StringList tempList = ev[0];
         string eventString = tempList[0];
 
@@ -1161,7 +1161,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
         mSource<<append("// Event assignments" + NL());
         for (int i = 0; i < numEvents; i++)
         {
-            ArrayList ev = mNOM->getNthEvent(i);
+            StringListContainer ev = mNOM->getNthEvent(i);
             eventType.push_back(mNOM->getNthUseValuesFromTriggerTime(i));
             eventPersistentType.push_back(mNOM->getModel()->getEvent(i)->getTrigger()->getPersistent());
 
@@ -2318,8 +2318,14 @@ bool CModelGenerator::compileCurrentModel()
 }
 
 
-bool CModelGenerator::setTemporaryDirectory(const string& path)
+bool CModelGenerator::setTemporaryDirectory(const string& _path)
 {
+    string path = _path;
+    if(!_path.size())
+    {
+        path = getCWD();
+    }
+
     if(folderExists(path))
     {
         Log(lDebug2)<<"Setting model generators temp file folder to "<< path;
@@ -2435,8 +2441,6 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
 
     CompiledExecutableModel *model = 0;
 
-
-
     //Create a model
     if(mModelLib->isLoaded())
     {
@@ -2445,8 +2449,14 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     else
     {
         Log(Logger::LOG_ERROR)<<"Failed to create model from DLL";
-        model = NULL;
+        model = NULL;        
     }
+
+    if(!model)
+    {
+        throw(CoreException("Failed creating model"));
+    }
+    
 
     //Finally intitilaize the model..
     model->evalInitialConditions();

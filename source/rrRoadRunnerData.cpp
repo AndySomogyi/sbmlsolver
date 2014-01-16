@@ -231,14 +231,27 @@ bool RoadRunnerData::hasWeights() const
     return (mWeights.size() > 0) ? true : false;
 }
 
-double RoadRunnerData::weight(int row, int col) const
+
+double RoadRunnerData::getDataElement(int row, int col)
+{
+    return mTheData(row,col);    
+}
+
+void   RoadRunnerData::setDataElement(int row, int col, double value)
+{
+    mTheData(row,col) = value;
+}
+
+
+
+double RoadRunnerData::getWeight(int row, int col) const
 {
     return mWeights(row, col);
 }
 
-double& RoadRunnerData::setWeight(int row, int col)
+void RoadRunnerData::setWeight(int row, int col, double value)
 {
-    return mWeights(row, col);
+    mWeights(row, col) = value;
 }
 
 double RoadRunnerData::operator() (const unsigned& row, const unsigned& col) const
@@ -314,9 +327,15 @@ bool RoadRunnerData::writeTo(const string& fileName) const
         Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
         return false;
     }
+ 
+    if(!check())
+    {
+        Log(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
+        return false;
+    }
+
     aFile<<(*this);
     aFile.close();
-
     return true;
 }
 
@@ -344,8 +363,8 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
     }
 
     ss<<"[INFO]"<<endl;
-    ss<<"ROAD_RUNNER_VERSION=0.5"    <<endl;
-    ss<<"CREATOR=rrWinC-0.1"        <<endl;
+    ss<<"DATA_FORMAT_VERSION=1.0"   <<endl;
+    ss<<"CREATOR=libRoadRunner"      <<endl;
     ss<<"NUMBER_OF_COLS="            <<data.cSize()<<endl;
     ss<<"NUMBER_OF_ROWS="            <<data.rSize()<<endl;
     ss<<"COLUMN_HEADERS="            <<data.getColumnNamesAsString()<<endl;
