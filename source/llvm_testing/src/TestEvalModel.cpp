@@ -40,7 +40,7 @@ bool TestEvalModel::test()
 
     Log(Logger::LOG_INFORMATION) << "Evaluating Model for " << fileName << endl;
 
-    model->evalModel(0, 0, 0);
+    model->getStateVectorRate(0, 0, 0);
 
     Log(Logger::LOG_INFORMATION) << model << endl;
 

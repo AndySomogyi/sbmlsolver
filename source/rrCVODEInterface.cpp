@@ -196,7 +196,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             if (!haveVariables() && mModel->getNumEvents() == 0)
             {
                 mModel->convertToAmounts();
-                mModel->evalModel(tout, 0, 0);
+                mModel->getStateVectorRate(tout, 0, 0);
                 return tout;
             }
 
@@ -295,7 +295,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     ExecutableModel *model = cvInstance->mModel;
 
-    model->evalModel(time, y, ydot);
+    model->getStateVectorRate(time, y, ydot);
 
     if (cvInstance->mStateVectorSize == 0 && cvInstance->mStateVector &&
             NV_LENGTH_S(cvInstance->mStateVector) == 1)

@@ -302,23 +302,6 @@ void LLVMExecutableModel::computeConservedTotals()
 {
 }
 
-double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
-{
-    /*
-    if (index >= 0 && index < modelData->numFloatingSpecies)
-    {
-        int compIndex = modelData->floatingSpeciesCompartments[index];
-        return modelData->floatingSpeciesAmounts[index] /
-                modelData->compartmentVolumes[compIndex];
-    }
-    else
-    {
-        Log(Logger::LOG_PRIO_ERROR) << "index " << index << "out of range";
-        throw Exception(string(__FUNC__) + string(": index out of range"));
-    }
-    */
-    return 0;
-}
 
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
@@ -348,7 +331,7 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 {
 }
 
-void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
+void LLVMExecutableModel::getStateVectorRate(double time, const double *y, double *dydt)
 {
     modelData->time = time;
 
@@ -1068,6 +1051,12 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             setBoundarySpeciesAmounts(1, &index, &value);
             break;
         }
+        else if(this->getReactionIndex(sel.p1) >= 0)
+        {
+            throw LLVMException("The sbml id '" + id +
+                    "' is for a reaction, reaction rates can not be set externally");
+            break;
+        }
         else
         {
             throw LLVMException("Invalid or non-existant sbml id  '" + id + "' for set value");
@@ -1120,10 +1109,8 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             break;
         }
 
-
-
     default:
-        Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
+
         throw LLVMException("Invalid selection '" + sel.to_string() + "' for setting value");
         break;
     }
@@ -1287,7 +1274,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
 
     // state vector is packed such that first numRateRules are the rate rule rates,
     // and the last numIndFloatingSpecies are the number of independent species.
-    this->evalModel(this->getTime(), 0, dydt);
+    this->getStateVectorRate(this->getTime(), 0, dydt);
 
     double* amountRates = dydt + modelData->numRateRules;
 

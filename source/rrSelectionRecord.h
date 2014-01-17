@@ -119,7 +119,19 @@ public:
         ALL_DEPENDENT_AMOUNT =              ~INDEPENDENT & ~CONCENTRATION,
 
         ALL_INDEPENDENT_CONCENTRATION =     ~DEPENDENT & ~AMOUNT,
-        ALL_DEPENDENT_CONCENTRATION =       ~INDEPENDENT & ~AMOUNT
+        ALL_DEPENDENT_CONCENTRATION =       ~INDEPENDENT & ~AMOUNT,
+
+
+        /**
+         * The combination of values that uniquely define the current state of
+         * the sbml model.
+         *
+         * Note, any sbml variable can be defined by a rule, the model state
+         * is defined as the set of variabls that define the current state of the
+         * model. These do not include the initial values as the initial values
+         * can not be changed by advancing the model with the integrator.
+         */
+        MODEL_STATE =                       ALL_INDEPENDENT_AMOUNT & ~INITIAL
     };
 
     /**

@@ -153,6 +153,14 @@ public:
     SimulateOptions& getSimulateOptions();
 
     /**
+     * Get a reference to the options that determine how this class should behave.
+     *
+     * These are general options. For options specific for loading or simulationg,
+     * @see getSimulateOptions.
+     */
+    RoadRunnerOptions& getOptions();
+
+    /**
      * get the currently loaded sbml document as a string.
      */
     std::string getSBML();
@@ -654,7 +662,15 @@ private:
      */
     LibStructural* mLS;
 
-    SimulateOptions mSettings;
+    /**
+     * options that are specific to the simulation
+     */
+    SimulateOptions simulateOptions;
+
+    /**
+     * various general options that can be modified by external callers.
+     */
+    RoadRunnerOptions options;
 
 
     int createDefaultSteadyStateSelectionList();

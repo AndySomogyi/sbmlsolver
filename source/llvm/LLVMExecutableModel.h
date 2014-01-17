@@ -187,7 +187,7 @@ public:
      * @param[out] dydt calculated rate of change of the state vector, if null,
      * it is ignored.
      */
-    virtual void evalModel(double time, const double *y, double* dydt=0);
+    virtual void getStateVectorRate(double time, const double *y, double* dydt=0);
 
 
     virtual void testConstraints();
@@ -546,8 +546,6 @@ private:
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
 
-
-    double getFloatingSpeciesConcentration(int index);
 
     typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);
 

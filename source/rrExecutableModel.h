@@ -451,11 +451,6 @@ public:
      */
     virtual int setStateVector(const double *stateVector) = 0;
 
-
-    virtual void convertToConcentrations() = 0;
-    virtual void updateDependentSpeciesValues() = 0;
-    virtual void computeAllRatesOfChange() = 0;
-
     /**
      * the state vector y is the rate rule values and floating species
      * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
@@ -472,7 +467,7 @@ public:
      * @param[out] dydt calculated rate of change of the state vector, if null,
      *         it is ignored.
      */
-    virtual void evalModel(double time, const double *y, double* dydt=0) = 0;
+    virtual void getStateVectorRate(double time, const double *y, double* dydt=0) = 0;
 
     virtual void testConstraints() = 0;
 
@@ -562,6 +557,21 @@ public:
      * Only for floating species.
      */
     virtual void convertToAmounts() = 0;
+
+    /**
+     * @deprecated
+     */
+    virtual void convertToConcentrations() = 0;
+
+    /**
+     * @deprecated
+     */
+    virtual void updateDependentSpeciesValues() = 0;
+
+    /**
+     * @deprecated
+     */
+    virtual void computeAllRatesOfChange() = 0;
 };
 
 /**
