@@ -600,7 +600,7 @@ void CompiledExecutableModel::computeAllRatesOfChange()
     ccomputeAllRatesOfChange(&mData);
 }
 
-void CompiledExecutableModel::evalModel(double timein, const double *y, double *dydt)
+void CompiledExecutableModel::getStateVectorRate(double timein, const double *y, double *dydt)
 {
     if(!cevalModel)
     {
@@ -987,7 +987,7 @@ vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const v
     }
 
     this->convertToAmounts();
-    this->evalModel(timeEnd, 0, 0);
+    this->getStateVectorRate(timeEnd, 0, 0);
 
     // copy original evenStatusArray
     vector<bool> eventStatusArray(mData.eventStatusArray,
@@ -1038,7 +1038,7 @@ int CompiledExecutableModel::applyPendingEvents(const double *stateVector,
             }
 
             this->convertToAmounts();
-            this->evalModel(timeEnd, 0, 0);
+            this->getStateVectorRate(timeEnd, 0, 0);
             mAssignments.erase(mAssignments.begin() + i);
 
             handled++;
@@ -1171,7 +1171,7 @@ void CompiledExecutableModel::evalEvents(double timeEnd,
     }
     this->convertToAmounts();
 
-    this->evalModel(timeEnd, 0, 0);
+    this->getStateVectorRate(timeEnd, 0, 0);
 
     this->getStateVector(finalState);
 
@@ -1249,7 +1249,7 @@ void CompiledExecutableModel::evalEventRoots(double time,
 
     this->pushState();
 
-    this->evalModel(time, 0, 0);
+    this->getStateVectorRate(time, 0, 0);
     this->setStateVector(stateVector);
 
     this->evalEvents(time, 0);

@@ -529,6 +529,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::RoadRunner::setSimulateOptions;
 %ignore rr::RoadRunner::getIds(int types, std::list<std::string> &);
 
+%ignore rr::RoadRunner::getOptions;
+
 
 
 // rename these, the injected python code will take care of
@@ -593,7 +595,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::convertToConcentrations;
 %ignore rr::ExecutableModel::updateDependentSpeciesValues;
 %ignore rr::ExecutableModel::computeAllRatesOfChange;
-%ignore rr::ExecutableModel::evalModel;
+%ignore rr::ExecutableModel::getStateVectorRate;
 %ignore rr::ExecutableModel::testConstraints;
 %ignore rr::ExecutableModel::print;
 %ignore rr::ExecutableModel::getNumEvents;
@@ -741,6 +743,8 @@ namespace std { class ostream{}; }
 
     const rr::SimulateOptions *simulateOptions;
 
+    rr::RoadRunnerOptions *options;
+
 
     const rr::RoadRunnerData *simulate(double startTime, double endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
@@ -792,9 +796,12 @@ namespace std { class ostream{}; }
 
    %pythoncode %{
         def getModel(self):
-            m = self._getModel();
-            m._makeProperties()
-            return m
+            if self.options.disablePythonDynamicProperties:
+                return self._getModel()
+            else:
+                m = self._getModel();
+                m._makeProperties()
+                return m
 
         __swig_getmethods__["selections"] = _getSelections
         __swig_setmethods__["selections"] = _setSelections
@@ -851,6 +858,17 @@ namespace std { class ostream{}; }
     void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
         r->setSimulateOptions(*opt);
     }
+
+
+    rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
+        return &r->getOptions();
+    }
+
+    void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
+        rr::RoadRunnerOptions *rropt = &r->getOptions();
+        *rropt = *opt;
+    }
+
 %}
 
 
@@ -937,10 +955,36 @@ namespace std { class ostream{}; }
         if (value) {
             opt->integratorFlags |= SimulateOptions::STIFF;
         } else {
-            opt->integratorFlags &= !SimulateOptions::STIFF;
+            opt->integratorFlags &= ~SimulateOptions::STIFF;
         }
     }
 %}
+
+
+
+%extend rr::RoadRunnerOptions
+{
+    bool disablePythonDynamicProperties;
+}
+
+%{
+
+
+    bool rr_RoadRunnerOptions_disablePythonDynamicProperties_get(RoadRunnerOptions* opt) {
+        return opt->flags & rr::RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+    }
+
+    void rr_RoadRunnerOptions_disablePythonDynamicProperties_set(RoadRunnerOptions* opt, bool value) {
+        if (value) {
+            opt->flags |= rr::RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+        } else {
+            opt->flags &= ~rr::RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+        }
+    }
+
+
+%}
+
 
 
 %extend rr::ExecutableModel

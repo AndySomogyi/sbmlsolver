@@ -302,7 +302,7 @@ public:
      * @param[out] dydt calculated rate of change of the state vector, if null,
      * it is ignored.
      */
-    virtual void evalModel(double time, const double *y, double *dydt = 0);
+    virtual void getStateVectorRate(double time, const double *y, double *dydt = 0);
 
     virtual void evalEvents(const double time, const double *y);
     virtual void resetEvents();
