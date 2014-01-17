@@ -149,10 +149,15 @@ if(RR_BUILD_SHARED_CORE)
         )
 
     
-    if(${BORLAND})
+    # link with libxml, aperently borland can't link with a 
+    # conventional C library, need to be specially converted for borland
+
+    if(UNIX)
+	target_link_libraries(${target} xml2)       	 
+    elseif(${MSVC})
+	target_link_libraries (${target} libxml2)
+    elseif(${BORLAND})
         target_link_libraries (${target} libxml2_xe)
-    else()
-        target_link_libraries(${target} xml2)
     endif()
 
 
