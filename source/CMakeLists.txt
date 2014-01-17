@@ -148,15 +148,13 @@ if(RR_BUILD_SHARED_CORE)
         poco_foundation-static
         )
 
-    if(WIN32)
-        if(${BORLAND})
-            target_link_libraries (${target} libxml2_xe)
-        endif()
+    
+    if(${BORLAND})
+        target_link_libraries (${target} libxml2_xe)
+    else()
+        target_link_libraries(${target} xml2)
+    endif()
 
-        if(${MSVC})
-            target_link_libraries(${target} libxml2)
-        endif()
-    endif(WIN32)        
 
     if (USE_POCO_NET)
     target_link_libraries (${target}
