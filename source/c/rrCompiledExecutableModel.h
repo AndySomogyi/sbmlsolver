@@ -260,6 +260,8 @@ public:
     double getAmount(const int i);
     virtual void initializeRates();
 
+    virtual std::string getStateVectorId(int index);
+
     virtual void setRateRuleValues(const double *rateRuleValues);
 
     /**

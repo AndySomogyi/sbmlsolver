@@ -181,7 +181,13 @@ public:
     uint getGlobalParameterIndex(std::string const&) const;
 
     uint getRateRuleIndex(std::string const&) const;
+
     uint getRateRuleSize() const;
+
+    /**
+     * get the symbolic id of the i'th rate rule
+     */
+    std::string getRateRuleId(uint indx) const;
 
     /**
      * number of global parameters which are not determined by rules.
@@ -201,6 +207,12 @@ public:
      * All floating species ids, independent first.
      */
     std::vector<std::string> getFloatingSpeciesIds() const;
+
+
+    /**
+     * get the symbolic id of the i'th floating species.
+     */
+    std::string getFloatingSpeciesId(uint indx) const;
 
 
     /**

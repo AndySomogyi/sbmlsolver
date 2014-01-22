@@ -1737,8 +1737,14 @@ void CompiledExecutableModel::setValue(const std::string& id, double value)
         break;
     }
 }
+
 int CompiledExecutableModel::getFloatingSpeciesConcentrationRates(int len, int const *indx,
         double *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+std::string CompiledExecutableModel::getStateVectorId(int index)
 {
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }

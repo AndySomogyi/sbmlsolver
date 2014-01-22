@@ -57,7 +57,6 @@ set(rrSources
     c/rrPendingAssignment
     c/rrCompiledModelGenerator
     c/rrCModelGenerator
-    c/rrCSharpModelGenerator
     c/rrCodeBuilder
     c/rrCCompiler
     c/rrScanner

@@ -99,6 +99,51 @@ int RoadRunner::getInstanceID()
     return mInstanceID;
 }
 
+RoadRunner::RoadRunner(const std::string& uriOrSBML,
+        const LoadSBMLOptions* options) :
+    mUseKinsol(false),
+    mDiffStepSize(0.05),
+    mSteadyStateThreshold(1.E-2),
+    mRawRoadRunnerData(),
+    mRoadRunnerData(),
+    mCurrentSBMLFileName(""),
+    mCVode(0),
+    mSelectionList(),
+    mModelGenerator(0),
+    mComputeAndAssignConservationLaws(false),
+    mSteadyStateSelection(),
+    mModel(0),
+    mCurrentSBML(),
+    mLS(0),
+    simulateOptions()
+{
+
+#if defined(BUILD_LLVM)
+    string compiler =  "LLVM" ;
+#else
+    string compiler = gDefaultCompiler;
+#endif
+
+    // for now, dump out who we are
+    Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
+            ", tempDir:" << gDefaultTempFolder << ", supportCodeDir: " <<
+            gDefaultSupportCodeFolder;
+
+    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+            gDefaultTempFolder, gDefaultSupportCodeFolder);
+
+    setTempFileFolder(gDefaultTempFolder);
+
+    if (!uriOrSBML.empty()) {
+        load(uriOrSBML, options);
+    }
+
+    //Increase instance count..
+    mInstanceCount++;
+    mInstanceID = mInstanceCount;
+}
+
+
 RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& _supportCodeDir) :
         mUseKinsol(false),

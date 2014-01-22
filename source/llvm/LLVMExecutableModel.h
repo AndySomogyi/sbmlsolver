@@ -137,12 +137,10 @@ public:
     virtual void computeConservedTotals();
 
 
-    //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
 
 
-
-    virtual void setRateRuleValues(const double *rateRuleValues);
+    virtual std::string getStateVectorId(int index);
 
     /**
      * copies the internal model state vector into the provided

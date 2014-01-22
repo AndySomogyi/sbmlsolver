@@ -397,29 +397,6 @@ public:
                 double *values) = 0;
 
     /**
-     * Evaluate the reaction rates using the current model state.
-     *
-     * The reaction rates are stored in ModelData::reactionRates.
-     */
-    virtual void evalReactionRates() = 0;
-
-    /**
-     * set the 'values' of the rate rules.
-     *
-     * Rate rules are a set of rate equations, i.e dy/dt, where y is some
-     * existing model variable, i.e. volume, parameter, etc...
-     *
-     * This function sets all of the values that the derivatives integrated
-     * to, i.e. if dy/dt is the rate of change of say a compartment volume,
-     * than this function takes that compartment volume and stores it in
-     * the appropriate place.
-     *
-     * The length of rateRuleValues obviously must be the number of
-     * rate rules we have.
-     */
-    virtual void setRateRuleValues(const double *rateRuleValues) = 0;
-
-    /**
      * get the 'values' i.e. the what the rate rule integrates to, and
      * store it in the given array.
      *
@@ -429,6 +406,17 @@ public:
     virtual void getRateRuleValues(double *rateRuleValues) = 0;
 
     /**
+     * get the id of an element of the state vector.
+     */
+    virtual std::string getStateVectorId(int index) = 0;
+
+    /**
+     * The state vector is a vector of elements that are defined by
+     * differential equations (rate rules) or independent floating species
+     * are defined by reactions.
+     *
+     * To get the ids of the state vector elements, use getStateVectorId.
+     *
      * copies the internal model state vector into the provided
      * buffer.
      *
@@ -572,6 +560,11 @@ public:
      * @deprecated
      */
     virtual void computeAllRatesOfChange() = 0;
+
+    /**
+     * @deprecated
+     */
+    virtual void evalReactionRates() = 0;
 };
 
 /**

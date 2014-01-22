@@ -314,10 +314,6 @@ void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
     memcpy(rateRuleValues, modelData->rateRuleValuesAlias, modelData->numRateRules * sizeof(double));
 }
 
-void LLVMExecutableModel::setRateRuleValues(const double *rateRuleValues)
-{
-    memcpy(modelData->rateRuleValuesAlias, rateRuleValues, modelData->numRateRules * sizeof(double));
-}
 
 void LLVMExecutableModel::convertToConcentrations()
 {
@@ -517,8 +513,7 @@ int LLVMExecutableModel::getFloatingSpeciesIndex(const string& id)
 
 string LLVMExecutableModel::getFloatingSpeciesId(int index)
 {
-    vector<string> ids = symbols->getFloatingSpeciesIds();
-    return ids[index];
+    return symbols->getFloatingSpeciesId(index);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
@@ -872,6 +867,13 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
+
+    if (checkExact(SelectionRecord::STATE_VECTOR, types)) {
+        int stateVectorSize = getStateVector(0);
+        for (int i = 0; i < stateVectorSize; ++i) {
+            ids.push_back(getStateVectorId(i));
+        }
+    }
 }
 
 int LLVMExecutableModel::getSupportedIdTypes()
@@ -1133,6 +1135,18 @@ int LLVMExecutableModel::setBoundarySpeciesAmounts(int len, const int* indx,
                 &LLVMExecutableModel::getBoundarySpeciesId, len, indx, values);
     }
     return result;
+}
+
+std::string LLVMExecutableModel::getStateVectorId(int index)
+{
+    if (index < modelData->numRateRules )
+    {
+        return symbols->getRateRuleId(index);
+    }
+    else
+    {
+        return symbols->getFloatingSpeciesId(index - modelData->numRateRules);
+    }
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

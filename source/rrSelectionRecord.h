@@ -63,6 +63,7 @@ public:
         DEPENDENT =                         (0x1 << 18),
         INDEPENDENT =                       (0x1 << 19),
         CONSREVED_MOIETY =                  (0x1 << 20),
+        STATE_VECTOR =                      (0x1 << 21),
 
         UNKNOWN_CONCENTRATION =             UNKNOWN | CONCENTRATION,
 

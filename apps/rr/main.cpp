@@ -66,7 +66,7 @@ int main(int argc, char * argv[])
         if(args.ModelFileName.size())
         {
             string logName = getFileName(args.ModelFileName);
-            logName = changeFileExtensionTo(logName, ".log");            
+            logName = changeFileExtensionTo(logName, ".log");
         }
         else
         {
@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
 
         //Creating roadrunner
         Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder);
+        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder, "");
         rr->reset();
 
         Log(lDebug)<<"....."<<endl;
