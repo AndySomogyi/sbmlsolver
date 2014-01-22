@@ -49,10 +49,6 @@
     #define NAN (INFINITY - INFINITY)
     #define isnan _isnan
 #else
-    #define _INFINITY (DBL_MAX + DBL_MAX)
-    #define _NAN (INFINITY - INFINITY)
-
-
     #include <signal.h>
     #define isnan std::isnan
 #endif
@@ -1184,7 +1180,7 @@ namespace std { class ostream{}; }
     /**
      * get a copy of the state vector rate using the current state.
      */
-    PyObject *getStateVectorRate(double time = _NAN) {
+    PyObject *getStateVectorRate(double time = NAN) {
         int len = ($self)->getStateVector(0);
 
         npy_intp dims[1] = {len};
@@ -1196,11 +1192,8 @@ namespace std { class ostream{}; }
         }
 
         if (isnan(time)) {
-            printf("time is nan\n");
             time = ($self)->getTime();
-        } else {
-            printf("time is not nan\n");
-        }
+        } 
 
         double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
@@ -1232,11 +1225,8 @@ namespace std { class ostream{}; }
         }
 
         if (isnan(time)) {
-            printf("time is nan\n");
             time = ($self)->getTime();
-        } else {
-            printf("time is not nan\n");
-        }
+        } 
 
         double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
@@ -1266,11 +1256,8 @@ namespace std { class ostream{}; }
         }
 
         if (isnan(time)) {
-            printf("time is nan\n");
-            time = ($self)->getTime();
-        } else {
-            printf("time is not nan\n");
-        }
+	    time = ($self)->getTime();
+        } 
 
         ($self)->getStateVectorRate(time, in_values, out_values);
     }
