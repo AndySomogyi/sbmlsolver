@@ -1256,7 +1256,7 @@ namespace std { class ostream{}; }
         }
 
         if (isnan(time)) {
-	    time = ($self)->getTime();
+            time = ($self)->getTime();
         } 
 
         ($self)->getStateVectorRate(time, in_values, out_values);
