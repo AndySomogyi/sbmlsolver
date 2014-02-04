@@ -195,6 +195,41 @@ const std::string& LLVMModelDataSymbols::getModelName() const
     return modelName;
 }
 
+LLVMModelDataSymbols::SymbolIndexType LLVMModelDataSymbols::getSymbolIndex(
+        const std::string& name, int& result) const
+{
+    StringUIntMap::const_iterator i;
+
+    if((i = floatingSpeciesMap.find(name)) != floatingSpeciesMap.end())
+    {
+        result = i->second;
+        return FLOATING_SPECIES;
+    }
+    else if((i = boundarySpeciesMap.find(name)) != boundarySpeciesMap.end())
+    {
+        result = i->second;
+        return BOUNDARY_SPECIES;
+    }
+    else if((i = compartmentsMap.find(name)) != compartmentsMap.end())
+    {
+        result = i->second;
+        return COMPARTMENT;
+    }
+    else if((i = globalParametersMap.find(name)) != globalParametersMap.end())
+    {
+        result = i->second;
+        return GLOBAL_PARAMETER;
+    }
+    else if((i = reactionsMap.find(name)) != reactionsMap.end())
+    {
+        result = i->second;
+        return REACTION;
+    }
+
+    result = -1;
+    return INVALID_SYMBOL;
+}
+
 uint LLVMModelDataSymbols::getCompartmentIndex(
         const std::string& id) const
 {

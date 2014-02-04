@@ -102,9 +102,13 @@ public:
         REACTION_RATE =                     REACTION | RATE | DEPENDENT,
 
         /**
-         * initial floating species values
+         * initial species values
          */
+        INITIAL_AMOUNT =                    INITIAL | AMOUNT | INDEPENDENT | DEPENDENT,
         INITIAL_FLOATING_AMOUNT =           INITIAL | FLOATING | AMOUNT | INDEPENDENT | DEPENDENT,
+
+
+        INITIAL_CONCENTRATION =             INITIAL | CONCENTRATION | INDEPENDENT | DEPENDENT,
         INITIAL_FLOATING_CONCENTRATION =    INITIAL | FLOATING | CONCENTRATION | INDEPENDENT | DEPENDENT,
 
 

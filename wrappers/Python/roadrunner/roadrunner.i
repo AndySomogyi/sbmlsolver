@@ -336,6 +336,9 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
                 PyObject *type = PyString_FromString("f8");
                 PyObject *tup = PyTuple_Pack(2, col, type);
 
+				Py_DECREF(col);
+				Py_DECREF(type);
+
                 void PyList_SET_ITEM(list, i, tup);
             }
 

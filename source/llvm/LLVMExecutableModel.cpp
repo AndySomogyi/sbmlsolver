@@ -868,12 +868,13 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
-    if (checkExact(SelectionRecord::STATE_VECTOR, types)) {
+    if (SelectionRecord::STATE_VECTOR == types) {
         int stateVectorSize = getStateVector(0);
         for (int i = 0; i < stateVectorSize; ++i) {
             ids.push_back(getStateVectorId(i));
         }
     }
+
 }
 
 int LLVMExecutableModel::getSupportedIdTypes()
@@ -888,8 +889,8 @@ int LLVMExecutableModel::getSupportedIdTypes()
         SelectionRecord::GLOBAL_PARAMETER |
         SelectionRecord::FLOATING_AMOUNT |
         SelectionRecord::BOUNDARY_AMOUNT |
-        SelectionRecord::INITIAL_FLOATING_AMOUNT |
-        SelectionRecord::INITIAL_FLOATING_CONCENTRATION |
+        SelectionRecord::INITIAL_AMOUNT |
+        SelectionRecord::INITIAL_CONCENTRATION |
         SelectionRecord::STOICHIOMETRY;
 }
 
@@ -914,94 +915,82 @@ double LLVMExecutableModel::getValue(const std::string& id)
     case SelectionRecord::UNKNOWN_ELEMENT:
         // check for sbml element types
 
-        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        switch(symbols->getSymbolIndex(sel.p1, index))
         {
+        case LLVMModelDataSymbols::FLOATING_SPECIES:
             getFloatingSpeciesAmounts(1, &index, &result);
             break;
-        }
-        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
-        {
+        case LLVMModelDataSymbols::BOUNDARY_SPECIES:
             getBoundarySpeciesAmounts(1, &index, &result);
             break;
-        }
-        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
-        {
+        case LLVMModelDataSymbols::COMPARTMENT:
             getCompartmentVolumes(1, &index, &result);
             break;
-        }
-        else if ((index = getGlobalParameterIndex(sel.p1)) >= 0)
-        {
+        case LLVMModelDataSymbols::GLOBAL_PARAMETER:
             getGlobalParameterValues(1, &index, &result);
             break;
-        }
-        else if ((index = getReactionIndex(sel.p1)) >= 0)
-        {
+        case LLVMModelDataSymbols::REACTION:
             getReactionRates(1, &index, &result);
             break;
-        }
-        else
-        {
+        default:
             throw LLVMException("No sbml element exists for symbol '" + id + "'");
             break;
         }
+        break;
+
     case SelectionRecord::UNKNOWN_CONCENTRATION:
-        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        switch(symbols->getSymbolIndex(sel.p1, index))
         {
+        case LLVMModelDataSymbols::FLOATING_SPECIES:
             getFloatingSpeciesConcentrations(1, &index, &result);
             break;
-        }
-        else if ((index = getBoundarySpeciesIndex(sel.p1)) >= 0)
-        {
+        case LLVMModelDataSymbols::BOUNDARY_SPECIES:
             getBoundarySpeciesConcentrations(1, &index, &result);
             break;
-        }
-        else
-        {
+        default:
             string msg = "No sbml element exists for concentration selection '" + id + "'";
-            Log(Logger::LOG_ERROR) << msg;
             throw LLVMException(msg);
-            break;
         }
+        break;
+
     case SelectionRecord::FLOATING_AMOUNT_RATE:
-        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if (symbols->getSymbolIndex(sel.p1, index) == LLVMModelDataSymbols::FLOATING_SPECIES)
         {
             getFloatingSpeciesAmountRates(1, &index, &result);
-            break;
         }
         else
         {
             throw LLVMException("Invalid id '" + id + "' for floating amount rate");
-            break;
         }
+        break;
 
-    case SelectionRecord::INITIAL_FLOATING_AMOUNT:
-        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+    case SelectionRecord::INITIAL_AMOUNT:
+        switch(symbols->getSymbolIndex(sel.p1, index))
         {
+        case LLVMModelDataSymbols::FLOATING_SPECIES:
             getFloatingSpeciesInitAmounts(1, &index, &result);
             break;
-        }
-        else if ((index = getCompartmentIndex(sel.p1)) >= 0)
-        {
-            getCompartmentInitVolumes(1, &index, &result);
+        case LLVMModelDataSymbols::COMPARTMENT:
+            this->getCompartmentInitVolumes(1, &index, &result);
             break;
+        default:
+            string msg = "Invalid Id for initial value: '" + id + "'";
+            throw LLVMException(msg);
         }
-        else
-        {
-            throw LLVMException("Invalid id '" + id + "' for floating amount rate");
-            break;
-        }
-    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
-        if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
+        break;
+
+    case SelectionRecord::INITIAL_CONCENTRATION:
+        if (symbols->getSymbolIndex(sel.p1, index) == LLVMModelDataSymbols::FLOATING_SPECIES)
         {
             getFloatingSpeciesInitConcentrations(1, &index, &result);
             break;
         }
         else
         {
-            throw LLVMException("Invalid id '" + id + "' for floating species");
+            throw LLVMException("Invalid id '" + id + "' for inital floating species concentration");
             break;
         }
-
+        break;
 
     default:
         Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
@@ -1083,7 +1072,7 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             break;
         }
 
-    case SelectionRecord::INITIAL_FLOATING_AMOUNT:
+    case SelectionRecord::INITIAL_AMOUNT:
         if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             setFloatingSpeciesInitAmounts(1, &index, &value);
@@ -1099,7 +1088,7 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             throw LLVMException("Invalid id '" + id + "' for floating amount rate");
             break;
         }
-    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+    case SelectionRecord::INITIAL_CONCENTRATION:
         if ((index = getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             setFloatingSpeciesInitConcentrations(1, &index, &value);

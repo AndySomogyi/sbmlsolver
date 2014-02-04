@@ -192,9 +192,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 
 RoadRunner::~RoadRunner()
 {
-    Log(lDebug4)<<"In RoadRunner DTOR";
-
-    Log(lDebug3) << "In " << __FUNC__ << "\n";
+    Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
 
     delete mModelGenerator;
     delete mModel;
@@ -492,7 +490,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
         return std::numeric_limits<double>::quiet_NaN();
     }
     break;
-    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+    case SelectionRecord::INITIAL_CONCENTRATION:
         mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
         break;
     case SelectionRecord::STOICHIOMETRY:
@@ -2790,7 +2788,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
         }
         break;
-    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+    case SelectionRecord::INITIAL_CONCENTRATION:
         if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
