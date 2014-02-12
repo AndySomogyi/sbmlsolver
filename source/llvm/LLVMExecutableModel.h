@@ -28,11 +28,15 @@
 #include "SetValuesCodeGen.h"
 #include "SetInitialValuesCodeGen.h"
 #include "EventQueue.h"
+#include "rrSelectionRecord.h"
 
-#ifdef _MSC_VER
+
+#if __cplusplus >= 201103L || defined(_MSC_VER)
 #include <memory>
+#include <unordered_map>
 #else
 #include <tr1/memory>
+#include <tr1/unordered_map>
 #endif
 
 #include <map>
@@ -477,6 +481,14 @@ public:
 private:
 
     /**
+     * get a selection record for a given stirng. if the string is valid,
+     * the SelectionRecord is created and cached.
+     *
+     * if the string is invalid, and exception is thrown.
+     */
+    const rr::SelectionRecord& getSelection(const std::string& sel);
+
+    /**
      * previous state
      * get current state
      * current state becomes previous state for next itteration
@@ -547,6 +559,11 @@ private:
 
     typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);
 
+    /**
+     * cache the selection records
+     */
+    typedef std::tr1::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
+    SelectionMap selectionRecordCache;
 
     /**
      * get the values from the model struct and populate the given values array.

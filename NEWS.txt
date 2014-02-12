@@ -1,14 +1,17 @@
-*   Fixed memory leaks in Python API, performance improvments in 
+*   Cache selection types and indices in model.getValue / setValue, 
+    significant improvement in sbml symbol access times. 
+
+*   Fixed memory leaks in Python API, performance improvements in 
     selections. 
 
 *   New RoadRunner constructor which takes a URI and load options. 
 
 *   Plugins moved to Tellurium project.
 
-*   Added getStateVectorRate and getStateVectorIds to ExecutableModel interace,
-    readily allows roadrunner to be used wth external integrators.
+*   Added getStateVectorRate and getStateVectorIds to ExecutableModel interface,
+    readily allows roadrunner to be used with external integrators.
 
-*   SBML variable access performance improvments. 
+*   SBML variable access performance improvements. 
 
 -- Version 1.0.0
 
