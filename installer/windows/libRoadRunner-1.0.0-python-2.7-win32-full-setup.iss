@@ -2,9 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "roadrunner"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.0.1-rc1"
 #define MyAppPublisher "University of Washington, Seattle, WA, USA"
 #define MyAppURL "http://libroadrunner.org/"
+#define MyAppSetupIconFile "libroadrunner_logo_tan.ico"
+#define ThisInstallerPostfix "win32-full-setup"
 
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
@@ -52,15 +54,15 @@ DefaultDirName={code:SetDefaultAppDirName}
 ;DisableDirPage=yes
 
 
-DefaultGroupName=libRoadRunner
+;DefaultGroupName=libRoadRunner
 DisableProgramGroupPage=yes
 ;LicenseFile=..\..\LICENSE.txt
 ;InfoBeforeFile=..\..\NOTICE.txt
 DisableReadyPage=yes
-DisableFinishedPage=yes
+;DisableFinishedPage=yes   ;finished page is good feedback
 OutputDir=.
-OutputBaseFilename=libRoadRunner-1.0.0-python-2.7-win32-full-setup
-SetupIconFile=libroadrunner_logo_tan.ico
+OutputBaseFilename={#MyAppName}-{#MyAppVersion}-{#Py}-{#PyVer}-{#ThisInstallerPostfix}
+SetupIconFile={#MyAppSetupIconFile}
 Compression=lzma
 SolidCompression=yes
 
@@ -68,7 +70,10 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\..\site-packages\roadrunner\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\site-packages\{#AppDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\LICENSE.TXT"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE1.TXT"; Flags: ignoreversion
+Source: "NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE2.TXT"; Flags: ignoreversion
 Source: "..\..\bin\iconv.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\libxml2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -79,7 +84,7 @@ Source: "{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoe
 Source: "{#PyparsingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
 Source: "{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
-Source: "{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
+Source: "{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Code]
@@ -123,8 +128,10 @@ begin
     end
   else
     begin
-    MsgBox('Could not find Python',mbError,MB_OK);
-    ExitProcess(1);
+    MsgBox('Our installer did not find your Python installation. You need '
+    + 'Python to run {#MyAppName}. In the next step use [Your Python installation'
+    + ' location]\Lib\site-packages\{#AppDir} directory.',mbError,MB_OK);
+    //ExitProcess(1);
     end
 end;
 
