@@ -11,9 +11,10 @@
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
-#define DateutilInstaller "python-dateutil-2.2.win32-py2.7.exe"
-#define PyparsingInstaller "pyparsing-2.0.1.win32-py2.7.exe"
-#define SixInstaller "six-1.5.2.win32-py2.7.exe"
+;#define DateutilInstaller "python-dateutil-2.2.win32-py2.7.exe"
+;#define PyparsingInstaller "pyparsing-2.0.1.win32-py2.7.exe"
+;#define SixInstaller "six-1.5.2.win32-py2.7.exe"
+#define PipInstaller "get-pip.py"
 
 ;downloads turned off, installers packaged
 ;#define PyInstallerURL "http://python.org/ftp/python/2.7.6/python-2.7.6.msi" 
@@ -22,6 +23,7 @@
 ;#define DateutilInstallerURL "http://www.lfd.uci.edu/~gohlke/pythonlibs/#python-dateutil" ;there does not appear to be a direct URL to the file
 ;#define PyparsingInstallerURL "http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyparsing" The one from "http://downloads.sourceforge.net/project/pyparsing/pyparsing/pyparsing-2.0.1/pyparsing-2.0.1.win32-py2.7.exe" did not work.
 ;#define SixInstaller "http://www.lfd.uci.edu/~gohlke/pythonlibs/#six"
+;#define PipInstallerURL "https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
  
 #define Py "Python"
 #define PyVer "2.7"
@@ -30,6 +32,7 @@
 #define Matplotlib "matplotlib"
 ;#define MatplotlibVer "1.0"
 #define AppDir "roadrunner"
+#define Pip "C:\Python27\Scripts\pip.exe"
 
 ;Used for downloader
 ;#include ReadReg(HKEY_LOCAL_MACHINE,'Software\Sherlock Software\InnoTools\Downloader','ScriptPath','');
@@ -79,13 +82,18 @@ Source: "..\..\bin\libxml2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion 
-Source: "{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "{#PyparsingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
-Source: "{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
-Source: "{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+
+Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
+Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[Run]
+Filename: "{tmp}\{#PipInstaller}"; Verb: "open"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 
 [Code]
 //////////////////////////////////////////////////////////////////////////////
@@ -324,9 +332,9 @@ begin
 
     //filecopy(ExpandConstant('{#MatplotlibInstaller}'),ExpandConstant('{tmp}\{#MatplotlibInstaller}'),false);
     ExtractTemporaryFile('{#MatplotlibInstaller}');
-    ExtractTemporaryFile('{#DateutilInstaller}');
-    ExtractTemporaryFile('{#PyparsingInstaller}');
-    ExtractTemporaryFile('{#SixInstaller}');
+    //ExtractTemporaryFile('{#DateutilInstaller}');
+    //ExtractTemporaryFile('{#PyparsingInstaller}');
+    //ExtractTemporaryFile('{#SixInstaller}');
 
 
     //The following were used to test downloader srategy
@@ -368,9 +376,9 @@ begin
       if (installMatplot) then
         begin
         RunOtherInstaller('{#MatplotlibInstaller}');
-        RunOtherInstaller('{#DateutilInstaller}');
-        RunOtherInstaller('{#PyparsingInstaller}');
-        RunOtherInstaller('{#SixInstaller}');
+        //RunOtherInstaller('{#DateutilInstaller}');
+        //RunOtherInstaller('{#PyparsingInstaller}');
+        //RunOtherInstaller('{#SixInstaller}');
         end;
       end;
     end;
