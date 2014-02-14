@@ -25,10 +25,11 @@ Loading Models
 --------------
 
 RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is 
-possible to load that model using the method, ``load()``. Let's assume you have a model called
+possible to load that model either by giving he document contents or path to the Roadrunner
+constructor, or later by using the method, ``load()``. Let's assume you have a model called
 mymodel.xml in ``C:\MyModels``. To load this model in **Windows** we would use the command::
 
-   rr.load("C:/MyModels/mymodel.xml")
+   rr = roadrunner.RoadRunner("C:/MyModels/mymodel.xml")
 
 Note, Windows typically used the back slash, '\\' to indicate a directory separator, however in
 most languages including python, this is the escape character, therefore one can also enter Windows
@@ -37,11 +38,12 @@ these must be typed twice, i.e. ``'C:\\MyModels\\mymodel.xml'``.
 
 On the **Mac or Linux** we might use one of these two commands::
 
-   rr.load("/home/MyModels/mymodel.xml")
+   rr = roadrunner.RoadRunner("/home/MyModels/mymodel.xml")
    
-   rr.load("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010") #Note: Not available on Windows
+   #Note: Not available on Windows
+   rr = roadrunner.RoadRunner("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010") 
 
-If the model was loaded successfully the load method will return ``True`` otherwise an exception will 
+If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will 
 be raised that contains extendend information detailing exactly what failed. If any warnings are
 found in the SBML document, these will be displayed in the console error log. 
 
@@ -146,7 +148,8 @@ The output selections default to time and the set of floating species.
 It is possible to change the simulation result values by changing the selection list. 
 For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type::
-   rr.selections = ['time', 'S2']
+   
+  rr.selections = ['time', 'S2']
    result = rr.simulate (0, 10, 100)
   
 In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we 
@@ -217,10 +220,10 @@ Copy the code below into your own python script and use it::
 
 .. todo:: add the section
 
-   Changing Initial Conditions
-   ---------------------------
+Changing Initial Conditions
+---------------------------
 
-   To be completed
+To be completed
 
 
 .. highlight:: python

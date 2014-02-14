@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Basic Tutorial &mdash; libRoadRunner 1.0.0 documentation</title>
+    <title>Basic Tutorial &mdash; libRoadRunner 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0',
+        VERSION:     '1.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="libRoadRunner 1.0.0 documentation" href="index.html" />
+    <link rel="top" title="libRoadRunner 1.0.1 documentation" href="index.html" />
     <link rel="up" title="Introduction" href="introduction.html" />
     <link rel="next" title="What Is SBML?" href="what_is_sbml.html" />
     <link rel="prev" title="Installing RoadRunner" href="installing_rr.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="installing_rr.html" title="Installing RoadRunner"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">libRoadRunner 1.0.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">libRoadRunner 1.0.1 documentation</a> &raquo;</li>
           <li><a href="introduction.html" accesskey="U">Introduction</a> &raquo;</li> 
       </ul>
     </div>  
@@ -73,9 +73,10 @@ specified using the variable <tt class="docutils literal"><span class="pre">rr</
 <div class="section" id="loading-models">
 <span id="id1"></span><h2>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline">¶</a></h2>
 <p>RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is
-possible to load that model using the method, <tt class="docutils literal"><span class="pre">load()</span></tt>. Let&#8217;s assume you have a model called
+possible to load that model either by giving he document contents or path to the Roadrunner
+constructor, or later by using the method, <tt class="docutils literal"><span class="pre">load()</span></tt>. Let&#8217;s assume you have a model called
 mymodel.xml in <tt class="docutils literal"><span class="pre">C:\MyModels</span></tt>. To load this model in <strong>Windows</strong> we would use the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;C:/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;C:/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note, Windows typically used the back slash, &#8216;\&#8217; to indicate a directory separator, however in
@@ -83,12 +84,13 @@ most languages including python, this is the escape character, therefore one can
 paths using the forward slash &#8216;/&#8217; which does not cause issues. If one want to use the backslash,
 these must be typed twice, i.e. <tt class="docutils literal"><span class="pre">'C:\\MyModels\\mymodel.xml'</span></tt>.</p>
 <p>On the <strong>Mac or Linux</strong> we might use one of these two commands:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
 
-<span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span> <span class="c">#Note: Not available on Windows</span>
+<span class="c">#Note: Not available on Windows</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If the model was loaded successfully the load method will return <tt class="docutils literal"><span class="pre">True</span></tt> otherwise an exception will
+<p>If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will
 be raised that contains extendend information detailing exactly what failed. If any warnings are
 found in the SBML document, these will be displayed in the console error log.</p>
 <p>Additionally, there are a couple models <strong>included with libRoadRunner</strong>. The models  <tt class="docutils literal"><span class="pre">feedback.xml</span></tt>
@@ -208,9 +210,8 @@ which are arrays that also contain column names. These can be ploted directly us
 It is possible to change the simulation result values by changing the selection list.
 For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">]</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>rr.selections = ['time', 'S2']
+ result = rr.simulate (0, 10, 100)</pre>
 </div>
 <p>In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we
 type the following:</p>
@@ -276,6 +277,10 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
 </pre></div>
 </div>
 </div>
+<div class="section" id="changing-initial-conditions">
+<h2>Changing Initial Conditions<a class="headerlink" href="#changing-initial-conditions" title="Permalink to this headline">¶</a></h2>
+<p>To be completed</p>
+</div>
 </div>
 
 
@@ -293,6 +298,7 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
 <li><a class="reference internal" href="#changing-parameters">Changing Parameters</a></li>
 <li><a class="reference internal" href="#selecting-simulation-output">Selecting Simulation Output</a></li>
 <li><a class="reference internal" href="#plotting-data">Plotting Data</a></li>
+<li><a class="reference internal" href="#changing-initial-conditions">Changing Initial Conditions</a></li>
 </ul>
 </li>
 </ul>
@@ -340,7 +346,7 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
         <li class="right" >
           <a href="installing_rr.html" title="Installing RoadRunner"
              >previous</a> |</li>
-        <li><a href="index.html">libRoadRunner 1.0.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">libRoadRunner 1.0.1 documentation</a> &raquo;</li>
           <li><a href="introduction.html" >Introduction</a> &raquo;</li> 
       </ul>
     </div>

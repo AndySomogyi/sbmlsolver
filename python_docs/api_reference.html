@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RoadRunner API Reference &mdash; libRoadRunner 1.0.0 documentation</title>
+    <title>RoadRunner API Reference &mdash; libRoadRunner 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0',
+        VERSION:     '1.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="libRoadRunner 1.0.0 documentation" href="index.html" />
+    <link rel="top" title="libRoadRunner 1.0.1 documentation" href="index.html" />
     <link rel="prev" title="Utility Functions" href="utility_functions.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="utility_functions.html" title="Utility Functions"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">libRoadRunner 1.0.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">libRoadRunner 1.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -64,23 +64,26 @@
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.__init__">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">__init__</tt><big>(</big><em>compiler=''</em>, <em>tempDir=''</em>, <em>supportCodeDir=''</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>All three of the libRoadRunner options default to the empty string, in this
-case, the default values are used.</p>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">__init__</tt><big>(</big><em>uriOrSBML = &quot;&quot;</em>, <em>options = None</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new RoadRunner object. If the first argument is specified,
+it should be a string containing either the contents of an sbml document,
+or a formated URI specifying the path or location of a sbml document.</p>
+<p>If options is given, it shhould be a LoadSBMLOptions object.</p>
+<p>If no arguments are given, a document may be loaded at any future time
+using the load method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>compiler</strong> &#8211; if LLVM build is enabled, the compiler defaults to LLVM.</li>
-<li><strong>tempDir</strong> &#8211; (string) typically ignored, only used by the old C RoadRunner.</li>
-<li><strong>supportCodeDir</strong> &#8211; typically ignored, only used by the old C RoadRunner</li>
+<li><strong>uriOrSBML</strong> &#8211; a URI, local path or sbml document contents.</li>
+<li><strong>options</strong> &#8211; (LoadSBMLOptions) an options object specifying how the
+sbml document should be loaded</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>and some more stuff.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1385,7 +1388,7 @@ array of all the values to set.</li>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setTime">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">setTime</tt><big>(</big><em>time</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setTime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the model time variable. NOt sure what this does.</p>
+<dd><p>Set the model time variable.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1435,6 +1438,90 @@ currect value.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an n by m numpy ndarray of the stoichiometrix coeffecients.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getStateVector">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStateVector</tt><big>(</big><span class="optional">[</span><em>stateVector</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStateVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of all the variables that represent the state of the system. The state is
+considered all values which change with the dynamics of the model. This would include all species
+which are produced or consumed by reactions, and all variables which are defined by rate rules.</p>
+<p>Variables such as global parameters, compartments, or boundary species which do not change with
+the model dynamics are considered parameters and are thus not part of the state.</p>
+<p>In performance critical applications, the optional stateVector array should be provided where the
+output variables will be written to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stateVector</strong> (<em>numpy.ndarray</em>) &#8211; <p>an optional numpy array where the state vector variables will be writen. If
+no state vector array is given, a new one will be constructed and returned.</p>
+<p>This should be the same length as the model state vector.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getStateVectorId">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStateVectorId</tt><big>(</big><em>index</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStateVectorId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the id (symbolc name) of a state vector item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>int</em>) &#8211; the index of the desired state vector item</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getStateVectorIds">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStateVectorIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStateVectorIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all state vector ids</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getStateVectorRate">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStateVectorRate</tt><big>(</big><em>time</em><span class="optional">[</span>, <em>stateVector</em><span class="optional">]</span><span class="optional">[</span>, <em>stateVectorRate</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStateVectorRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the rate of change of all state vector varibles.</p>
+<p>Note, the rate of change of species returned by this method is always in units of amount /
+time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time</strong> (<em>double</em>) &#8211; the model time at which the calculation should be performed.</li>
+<li><strong>numpy.ndarray</strong> &#8211; (optional) the model state at which the calculation should be performed. If
+this is not give, the current state is used.</li>
+<li><strong>numpy.ndarray</strong> &#8211; (optional) an output array where the rates of change will be written to. If
+this is not given, a new array is allocated and returned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">an array of the rates of change of all state vector variables.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1799,7 +1886,7 @@ modifer to distinguish it.</p>
         <li class="right" >
           <a href="utility_functions.html" title="Utility Functions"
              >previous</a> |</li>
-        <li><a href="index.html">libRoadRunner 1.0.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">libRoadRunner 1.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

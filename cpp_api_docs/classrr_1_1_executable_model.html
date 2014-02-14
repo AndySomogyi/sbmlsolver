@@ -165,18 +165,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a86fe96598b06cee5ca9a28dfdfd9d437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a230b955ef99e7616fb8d12c068b01f7b"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a230b955ef99e7616fb8d12c068b01f7b">getReactionId</a> (int index)=0</td></tr>
 <tr class="separator:a230b955ef99e7616fb8d12c068b01f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e0e14f373b101b044559ec2c06a2a39"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a5e0e14f373b101b044559ec2c06a2a39">evalReactionRates</a> ()=0</td></tr>
-<tr class="separator:a5e0e14f373b101b044559ec2c06a2a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2be036df6f2d85bb633e326c0e801f88"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a2be036df6f2d85bb633e326c0e801f88">setRateRuleValues</a> (const double *rateRuleValues)=0</td></tr>
-<tr class="separator:a2be036df6f2d85bb633e326c0e801f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8372872ec5858e91adc81080ad763c84"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a8372872ec5858e91adc81080ad763c84">getRateRuleValues</a> (double *rateRuleValues)=0</td></tr>
 <tr class="separator:a8372872ec5858e91adc81080ad763c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33aa26c54bd1c0978ad24e2210d001fc"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a33aa26c54bd1c0978ad24e2210d001fc">getStateVectorId</a> (int index)=0</td></tr>
+<tr class="separator:a33aa26c54bd1c0978ad24e2210d001fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75b6f37ac538d2d2a0709fe4080b0570"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a75b6f37ac538d2d2a0709fe4080b0570">getStateVector</a> (double *stateVector)=0</td></tr>
 <tr class="separator:a75b6f37ac538d2d2a0709fe4080b0570"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57a67063c957714b916d4a3d4277c3b9"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a57a67063c957714b916d4a3d4277c3b9">setStateVector</a> (const double *stateVector)=0</td></tr>
 <tr class="separator:a57a67063c957714b916d4a3d4277c3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f35c7ea16ac6e447eacd7d4a9e1a1a4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a4f35c7ea16ac6e447eacd7d4a9e1a1a4">evalModel</a> (double time, const double *y, double *dydt=0)=0</td></tr>
-<tr class="separator:a4f35c7ea16ac6e447eacd7d4a9e1a1a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0495c2ece9edad29d61849b2443d4274"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a0495c2ece9edad29d61849b2443d4274">getStateVectorRate</a> (double time, const double *y, double *dydt=0)=0</td></tr>
+<tr class="separator:a0495c2ece9edad29d61849b2443d4274"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dfbc74b5662469e050b8df80644e31a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a4dfbc74b5662469e050b8df80644e31a">getEventTriggers</a> (int len, const int *indx, unsigned char *values)=0</td></tr>
 <tr class="separator:a4dfbc74b5662469e050b8df80644e31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b6f43b8a273ac54aa5c8776c75bf1e2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a7b6f43b8a273ac54aa5c8776c75bf1e2">evalEventRoots</a> (double time, const double *y, double *gdot)=0</td></tr>
@@ -191,6 +189,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2294de2848a8411d7dacd62caeb8963e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a119764cf63c094f8063ccac5f8190a80"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a119764cf63c094f8063ccac5f8190a80">convertToAmounts</a> ()=0</td></tr>
 <tr class="separator:a119764cf63c094f8063ccac5f8190a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1e784a2f2f951fc1c74cde2ca26b893"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#ad1e784a2f2f951fc1c74cde2ca26b893">convertToConcentrations</a> ()=0</td></tr>
+<tr class="separator:ad1e784a2f2f951fc1c74cde2ca26b893"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c46304cf254796fbf3ed73a5c7f0682"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a3c46304cf254796fbf3ed73a5c7f0682">updateDependentSpeciesValues</a> ()=0</td></tr>
+<tr class="separator:a3c46304cf254796fbf3ed73a5c7f0682"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e53afd18d5ce83c41176ffec519092c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a4e53afd18d5ce83c41176ffec519092c">computeAllRatesOfChange</a> ()=0</td></tr>
+<tr class="separator:a4e53afd18d5ce83c41176ffec519092c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e0e14f373b101b044559ec2c06a2a39"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a5e0e14f373b101b044559ec2c06a2a39">evalReactionRates</a> ()=0</td></tr>
+<tr class="separator:a5e0e14f373b101b044559ec2c06a2a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classrr_1_1_executable_model.html">ExecutableModel</a> interface provides a way to access an sbml model that was compiled, JIT'd or interpreted as executable (runnable) module.</p>
@@ -222,6 +228,30 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4e53afd18d5ce83c41176ffec519092c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void rr::ExecutableModel::computeAllRatesOfChange </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000007">Deprecated:</a></b></dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a21fb68c451c822fa83c5b18a18ca4734"></a>
 <div class="memitem">
 <div class="memproto">
@@ -268,6 +298,30 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>The old C backend had state variables for everything, here only for compatability, does nothing in LLVM.</dd></dl>
 <p>Only for floating species. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad1e784a2f2f951fc1c74cde2ca26b893"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void rr::ExecutableModel::convertToConcentrations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd></dd></dl>
 
 </div>
 </div>
@@ -348,56 +402,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4f35c7ea16ac6e447eacd7d4a9e1a1a4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void rr::ExecutableModel::evalModel </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double *&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>dydt</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>the state vector y is the rate rule values and floating species concentrations concatenated. y is of length numFloatingSpecies + numRateRules.</p>
-<p>The state vector is packed such that the first n raterule elements are the values of the rate rules, and the last n floatingspecies are the floating species values.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">time</td><td>current simulator time </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>state vector, must be either null, or have a size of that speciefied by getStateVector. If y is null, then the model is evaluated using its current state. If y is not null, then the y is considered the state vector. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">dydt</td><td>calculated rate of change of the state vector, if null, it is ignored. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a5e0e14f373b101b044559ec2c06a2a39"></a>
 <div class="memitem">
 <div class="memproto">
@@ -418,8 +422,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Evaluate the reaction rates using the current model state.</p>
-<p>The reaction rates are stored in ModelData::reactionRates. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000008">Deprecated:</a></b></dt><dd></dd></dl>
 
 </div>
 </div>
@@ -1265,6 +1268,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The state vector is a vector of elements that are defined by differential equations (rate rules) or independent floating species are defined by reactions.</p>
+<p>To get the ids of the state vector elements, use getStateVectorId.</p>
 <p>copies the internal model state vector into the provided buffer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1273,6 +1278,81 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of items coppied into the provided buffer, if stateVector is NULL, returns the length of the state vector. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a33aa26c54bd1c0978ad24e2210d001fc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string rr::ExecutableModel::getStateVectorId </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>get the id of an element of the state vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0495c2ece9edad29d61849b2443d4274"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void rr::ExecutableModel::getStateVectorRate </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>dydt</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>the state vector y is the rate rule values and floating species concentrations concatenated. y is of length numFloatingSpecies + numRateRules.</p>
+<p>The state vector is packed such that the first n raterule elements are the values of the rate rules, and the last n floatingspecies are the floating species values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">time</td><td>current simulator time </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>state vector, must be either null, or have a size of that speciefied by getStateVector. If y is null, then the model is evaluated using its current state. If y is not null, then the y is considered the state vector. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">dydt</td><td>calculated rate of change of the state vector, if null, it is ignored. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1688,34 +1768,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2be036df6f2d85bb633e326c0e801f88"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void rr::ExecutableModel::setRateRuleValues </td>
-          <td>(</td>
-          <td class="paramtype">const double *&#160;</td>
-          <td class="paramname"><em>rateRuleValues</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>set the 'values' of the rate rules.</p>
-<p>Rate rules are a set of rate equations, i.e dy/dt, where y is some existing model variable, i.e. volume, parameter, etc...</p>
-<p>This function sets all of the values that the derivatives integrated to, i.e. if dy/dt is the rate of change of say a compartment volume, than this function takes that compartment volume and stores it in the appropriate place.</p>
-<p>The length of rateRuleValues obviously must be the number of rate rules we have. </p>
-
-</div>
-</div>
 <a class="anchor" id="a57a67063c957714b916d4a3d4277c3b9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1783,13 +1835,37 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3c46304cf254796fbf3ed73a5c7f0682"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void rr::ExecutableModel::updateDependentSpeciesValues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd></dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="rr_executable_model_8h_source.html">rrExecutableModel.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 18 2013 23:07:19 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

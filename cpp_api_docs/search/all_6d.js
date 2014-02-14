@@ -2,6 +2,7 @@ var searchData=
 [
   ['min_5fabsolute',['MIN_ABSOLUTE',['../structrr_1_1_simulate_options.html#a1d67cc8b5c596aa535c1696385ff23ba',1,'rr::SimulateOptions']]],
   ['min_5frelative',['MIN_RELATIVE',['../structrr_1_1_simulate_options.html#ae88fd6451e8b69fb6918d3e8248aa299',1,'rr::SimulateOptions']]],
+  ['model_5fstate',['MODEL_STATE',['../classrr_1_1_selection_record.html#a898963ab24a6ba614913715c981d8394a042c7745287999549dfaba12fc66d110',1,'rr::SelectionRecord']]],
   ['modelgenerator',['ModelGenerator',['../classrr_1_1_model_generator.html',1,'rr']]],
   ['modelgeneratorfactory',['ModelGeneratorFactory',['../classrr_1_1_model_generator_factory.html',1,'rr']]],
   ['modelgeneratoropt',['ModelGeneratorOpt',['../structrr_1_1_load_s_b_m_l_options.html#a7b6ca6fc32892dbe782f3eb718762ad6',1,'rr::LoadSBMLOptions']]],

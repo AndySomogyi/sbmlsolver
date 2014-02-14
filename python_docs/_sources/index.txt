@@ -20,8 +20,7 @@ To get you started here is a very simple script that will load an example SBML m
 simulation and plot the results::
 
    import roadrunner
-   rr = roadrunner.RoadRunner()
-   rr.load("mymodel.xml")
+   rr = roadrunner.RoadRunner("mymodel.xml")
    result = rr.simulate()
    roadrunner.plot(result)
 

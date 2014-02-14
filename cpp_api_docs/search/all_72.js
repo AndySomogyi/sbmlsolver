@@ -7,6 +7,7 @@ var searchData=
   ['relative',['relative',['../structrr_1_1_simulate_options.html#ae51c0dd98194faf552b19dd3e3e39768',1,'rr::SimulateOptions']]],
   ['reset',['reset',['../classrr_1_1_executable_model.html#a217c61819d9b029c5928ace53b805e89',1,'rr::ExecutableModel::reset()'],['../classrr_1_1_road_runner.html#ae4b0eaa39fd37737e5f5fd7f7741e06c',1,'rr::RoadRunner::reset()']]],
   ['reset_5fmodel',['RESET_MODEL',['../structrr_1_1_simulate_options.html#a4bc2a6d4d8f9da649e8e2a507192c8faa0f7e24d751df0cc6b9316ce2713bdd0c',1,'rr::SimulateOptions']]],
-  ['roadrunner',['RoadRunner',['../classrr_1_1_road_runner.html#a626f4bfe3accf4c6b0b61695b63ec481',1,'rr::RoadRunner']]],
-  ['roadrunner',['RoadRunner',['../classrr_1_1_road_runner.html',1,'rr']]]
+  ['roadrunner',['RoadRunner',['../classrr_1_1_road_runner.html#a2532ed02dbbc2b625bf291240d3f1e3e',1,'rr::RoadRunner::RoadRunner(const std::string &amp;uriOrSBML=&quot;&quot;, const LoadSBMLOptions *options=0)'],['../classrr_1_1_road_runner.html#a3e326546550b3f4533dd7d6b3f2f4250',1,'rr::RoadRunner::RoadRunner(const std::string &amp;compiler, const std::string &amp;tempDir, const std::string &amp;supportCodeDir)']]],
+  ['roadrunner',['RoadRunner',['../classrr_1_1_road_runner.html',1,'rr']]],
+  ['roadrunneroptions',['RoadRunnerOptions',['../structrr_1_1_road_runner_options.html',1,'rr']]]
 ];

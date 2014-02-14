@@ -109,8 +109,10 @@ Inheritance diagram for rr::RoadRunner:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a626f4bfe3accf4c6b0b61695b63ec481"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a626f4bfe3accf4c6b0b61695b63ec481">RoadRunner</a> (const std::string &amp;compiler=&quot;&quot;, const std::string &amp;tempDir=&quot;&quot;, const std::string &amp;supportCodeDir=&quot;&quot;)</td></tr>
-<tr class="separator:a626f4bfe3accf4c6b0b61695b63ec481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2532ed02dbbc2b625bf291240d3f1e3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a2532ed02dbbc2b625bf291240d3f1e3e">RoadRunner</a> (const std::string &amp;uriOrSBML=&quot;&quot;, const <a class="el" href="structrr_1_1_load_s_b_m_l_options.html">LoadSBMLOptions</a> *options=0)</td></tr>
+<tr class="separator:a2532ed02dbbc2b625bf291240d3f1e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e326546550b3f4533dd7d6b3f2f4250"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a3e326546550b3f4533dd7d6b3f2f4250">RoadRunner</a> (const std::string &amp;compiler, const std::string &amp;tempDir, const std::string &amp;supportCodeDir)</td></tr>
+<tr class="separator:a3e326546550b3f4533dd7d6b3f2f4250"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a102e7c27e29219ae56e48ffd607fd621"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a102e7c27e29219ae56e48ffd607fd621">~RoadRunner</a> ()</td></tr>
 <tr class="separator:a102e7c27e29219ae56e48ffd607fd621"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cc53f3668f94b3d88764e14b24bc87e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a6cc53f3668f94b3d88764e14b24bc87e">getInstanceID</a> ()</td></tr>
@@ -135,6 +137,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aaf6508bdeb579b0eb79ec1cf23acc319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1200e15aa2a3c0b8662e26f74f8320ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrr_1_1_simulate_options.html">SimulateOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a1200e15aa2a3c0b8662e26f74f8320ae">getSimulateOptions</a> ()</td></tr>
 <tr class="separator:a1200e15aa2a3c0b8662e26f74f8320ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abca853c2d24000857a1c0971b99ec004"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrr_1_1_road_runner_options.html">RoadRunnerOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#abca853c2d24000857a1c0971b99ec004">getOptions</a> ()</td></tr>
+<tr class="separator:abca853c2d24000857a1c0971b99ec004"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46780863292ac487f9e32ebefd8e788"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ab46780863292ac487f9e32ebefd8e788">getSBML</a> ()</td></tr>
 <tr class="separator:ab46780863292ac487f9e32ebefd8e788"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4b0eaa39fd37737e5f5fd7f7741e06c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ae4b0eaa39fd37737e5f5fd7f7741e06c">reset</a> ()</td></tr>
@@ -253,7 +257,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The <a class="el" href="classrr_1_1_road_runner.html">RoadRunner</a> class is responsible for loading and simulating SBML models.</p>
 <p>MemoryManagment: Any pointer returned by a get... method is owned by the <a class="el" href="classrr_1_1_road_runner.html">RoadRunner</a> object and does NOT have to be deleted. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a626f4bfe3accf4c6b0b61695b63ec481"></a>
+<a class="anchor" id="a2532ed02dbbc2b625bf291240d3f1e3e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -261,19 +265,55 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">rr::RoadRunner::RoadRunner </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>compiler</em> = <code>&quot;&quot;</code>, </td>
+          <td class="paramname"><em>uriOrSBML</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrr_1_1_load_s_b_m_l_options.html">LoadSBMLOptions</a> *&#160;</td>
+          <td class="paramname"><em>options</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>load an sbml document from anywhere.</p>
+<p>same arguments as load.</p>
+<p>If options is not null, then the RoadRunner::computeAndAssignConservationLaws flag is set to whatever value is specified in the options struct.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uriOrSBML,:</td><td>a URI, local path or sbml document contents. </td></tr>
+    <tr><td class="paramname">options,:</td><td>an options struct, if null, default values are used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a3e326546550b3f4533dd7d6b3f2f4250"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rr::RoadRunner::RoadRunner </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>compiler</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>tempDir</em> = <code>&quot;&quot;</code>, </td>
+          <td class="paramname"><em>tempDir</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>supportCodeDir</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramname"><em>supportCodeDir</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -741,6 +781,24 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>returns the model name if a model is loaded, empty string otherwise. </p>
+
+</div>
+</div>
+<a class="anchor" id="abca853c2d24000857a1c0971b99ec004"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structrr_1_1_road_runner_options.html">RoadRunnerOptions</a> &amp; rr::RoadRunner::getOptions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get a reference to the options that determine how this class should behave.</p>
+<p>These are general options. For options specific for loading or simulationg, </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classrr_1_1_road_runner.html#a1200e15aa2a3c0b8662e26f74f8320ae">getSimulateOptions</a>. </dd></dl>
 
 </div>
 </div>
@@ -1398,7 +1456,7 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 18 2013 23:07:19 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
