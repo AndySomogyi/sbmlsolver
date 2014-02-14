@@ -1,4 +1,8 @@
 .DS_Store
+*~
+*.pyc
+*#
+.#*
 
 # libsbml auto-generated files
 third_party/libSBML-5.9.0-Source/src/bindings/swig/libsbml-packages.h
