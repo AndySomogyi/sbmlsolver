@@ -3,22 +3,26 @@
    the libRoaRunner functions, i.e. ``rr.simulate()``.
 
 
-.. method:: RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')
 
-   All three of the libRoadRunner options default to the empty string, in this
-   case, the default values are used.
+.. method:: RoadRunner.__init__(uriOrSBML = "", options = None)
 
+   Creates a new RoadRunner object. If the first argument is specified, 
+   it should be a string containing either the contents of an sbml document, 
+   or a formated URI specifying the path or location of a sbml document. 
 
-   :param compiler: if LLVM build is enabled, the compiler defaults to LLVM.
+   If options is given, it shhould be a LoadSBMLOptions object. 
+
+   If no arguments are given, a document may be loaded at any future time
+   using the load method. 
+
+   :param uriOrSBML: a URI, local path or sbml document contents.
    :type name: str (optional)
 
-   :param tempDir: (string) typically ignored, only used by the old C RoadRunner.
+   :param options: (LoadSBMLOptions) an options object specifying how the 
+                   sbml document should be loaded
    :type name: str (optional)
 
-   :param supportCodeDir: typically ignored, only used by the old C RoadRunner
-   :type name: str (optional)
 
-   and some more stuff.
 
 .. method:: RoadRunner.createSelection(str)
 
