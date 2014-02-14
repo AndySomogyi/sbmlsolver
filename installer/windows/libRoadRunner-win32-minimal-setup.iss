@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "roadrunner"
-#define MyAppVersion "1.0.1-rc1"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "University of Washington, Seattle, WA, USA"
 #define MyAppURL "http://libroadrunner.org/"
 #define MyAppSetupIconFile "libroadrunner_logo_tan.ico"
-#define ThisInstallerPostfix "minimal-setup"
+#define ThisInstallerPostfix "win32-minimal-setup"
  
 #define Py "Python"
 #define PyVer "2.7"
@@ -53,7 +53,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Source: "..\..\site-packages\{#AppDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\LICENSE.TXT"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE1.TXT"; Flags: ignoreversion
-Source: "NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE2.TXT"; Flags: ignoreversion
+Source: "libRoadrunner-installer-dependencies\NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE2.TXT"; Flags: ignoreversion
 Source: "..\..\bin\iconv.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\libxml2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\bin\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
