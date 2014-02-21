@@ -19,8 +19,8 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrGetOptions.h"
 #include "Args.h"
-#include "rrStringList.h"
-//---------------------------------------------------------------------------
+#include "rrVersionInfo.h"
+
 using namespace std;
 using namespace rr;
 
@@ -185,7 +185,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('v'):
                 if(string(rrOptArg) == "ersion" ) //hack to get rr -version working :)
                 {
-                    cout<<"Version: "<<args.version<<endl;
+                    cout << "Version: " << rr::getVersionStr() << std::endl;
                     exit(-1);
                 }
                 else
