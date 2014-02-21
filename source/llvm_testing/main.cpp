@@ -195,7 +195,7 @@ void bench(int n)
     double* nu = new double[n];
     double* a = new double[n];
 
-    srandom(time(NULL));
+    srand(time(NULL));
 
     for(int i = 0; i < n; ++i)
     {
