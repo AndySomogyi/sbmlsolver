@@ -225,6 +225,8 @@ LLVMExecutableModel::LLVMExecutableModel(
     eventAssignTimes.resize(modelData->numEvents);
 
     evalInitialConditions();
+
+    reset();
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -680,14 +682,14 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 
         LoggingBuffer log(Logger::LOG_TRACE, __FILE__, __LINE__);
 
-        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
-
         log.stream() << __FUNC__ << ",  out stateVector: ";
         if (stateVector) {
             dump_array(log.stream(), modelData->numRateRules + modelData->numIndFloatingSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
+
+        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
     }
 
     return modelData->numRateRules + modelData->numIndFloatingSpecies;
