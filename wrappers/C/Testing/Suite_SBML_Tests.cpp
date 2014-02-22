@@ -765,9 +765,7 @@ SUITE(SBML_TEST_SUITE)
  TEST(745) { CHECK(RunTest("l2v4", 745)); }
  TEST(746) { CHECK(RunTest("l2v4", 746)); }
  TEST(747) { CHECK(RunTest("l2v4", 747)); }
-#if !defined(_MSC_VER)
- TEST(748) { CHECK(RunTest("l2v4", 748)); } //Stopped working may23, cmake problem ?
-#endif
+ TEST(748) { CHECK(RunTest("l2v4", 748)); } 
  TEST(749) { CHECK(RunTest("l2v4", 749)); }
  TEST(750) { CHECK(RunTest("l2v4", 750)); }
  TEST(751) { CHECK(RunTest("l2v4", 751)); }
@@ -861,9 +859,8 @@ SUITE(SBML_TEST_SUITE)
  TEST(839) { CHECK(RunTest("l2v4", 839)); }
  TEST(840) { CHECK(RunTest("l2v4", 840)); }
  TEST(841) { CHECK(RunTest("l2v4", 841)); }
-
-TEST(842) { CHECK(RunTest("l2v4", 842)); }
-TEST(843) { CHECK(RunTest("l2v4", 843)); }
+ TEST(842) { CHECK(RunTest("l2v4", 842)); }
+ TEST(843) { CHECK(RunTest("l2v4", 843)); }
 //TEST(844) { CHECK(RunTest("l2v4", 844)); }           //Not Supported
 TEST(845) { CHECK(RunTest("l2v4", 845)); }
 TEST(846) { CHECK(RunTest("l2v4", 846)); }
@@ -948,7 +945,6 @@ TEST(924) { CHECK(RunTest("l2v4", 924)); }
 TEST(925) { CHECK(RunTest("l2v4", 925)); }
 TEST(926) { CHECK(RunTest("l2v4", 926)); }
 TEST(927) { CHECK(RunTest("l2v4", 927)); }
-
 TEST(928) { CHECK(RunTest("l3v1", 928)); }
 TEST(929) { CHECK(RunTest("l3v1", 929)); }
 TEST(930) { CHECK(RunTest("l3v1", 930)); }
@@ -956,7 +952,6 @@ TEST(931) { CHECK(RunTest("l3v1", 931)); }
 TEST(932) { CHECK(RunTest("l3v1", 932)); }
 TEST(934) { CHECK(RunTest("l3v1", 934)); }
 TEST(935) { CHECK(RunTest("l3v1", 935)); }
-
 TEST(936) { CHECK(RunTest("l2v4", 936)); }
 //TEST(937) { CHECK(RunTest("l2v4", 937)); }      //Not Supported
 //TEST(938) { CHECK(RunTest("l2v4", 938)); }      //Not Supported
@@ -973,55 +968,35 @@ TEST(948) { CHECK(RunTest("l2v4", 948)); }
 TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(950) { CHECK(RunTest("l2v4", 950)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
-
-#if !defined(_MSC_VER)
-TEST(952) { CHECK(RunTest("l3v1", 952)); }        //This one is erratic.. it sometimes passes and sometimes end in a segfault!
-#endif
-
+TEST(952) { CHECK(RunTest("l3v1", 952)); }       
 TEST(953) { CHECK(RunTest("l3v1", 953)); }
-
 TEST(954) { CHECK(RunTest("l2v4", 954)); }
-//TEST(955) { CHECK(RunTest("l2v4", 955)); }
+TEST(955) { CHECK(RunTest("l2v4", 955)); }
 TEST(956) { CHECK(RunTest("l2v4", 956)); }
-//TEST(957) { CHECK(RunTest("l2v4", 957)); }
-//TEST(958) { CHECK(RunTest("l2v4", 958)); }
+TEST(957) { CHECK(RunTest("l2v4", 957)); }
+TEST(958) { CHECK(RunTest("l2v4", 958)); }
 //TEST(959) { CHECK(RunTest("l2v4", 959)); }
-
 TEST(960) { CHECK(RunTest("l3v1", 960)); }
 TEST(961) { CHECK(RunTest("l3v1", 961)); }
-//TEST(962) { CHECK(RunTest("l3v1", 962)); }
-
-#if !defined(__CODEGEARC__)
+TEST(962) { CHECK(RunTest("l3v1", 962)); }
 TEST(963) { CHECK(RunTest("l3v1", 963)); }
 TEST(964) { CHECK(RunTest("l3v1", 964)); }
-#endif
-
-#if !defined(_MSC_VER)
-//TEST(965) { CHECK(RunTest("l3v1", 965)); } //This one is erratic.. it sometimes passes and sometimes end in a segfault!
-#endif
-
-//TEST(966) { CHECK(RunTest("l3v1", 966)); }
+TEST(965) { CHECK(RunTest("l3v1", 965)); } 
+TEST(966) { CHECK(RunTest("l3v1", 966)); }
 TEST(967) { CHECK(RunTest("l3v1", 967)); }
-
-
-
 TEST(968) { CHECK(RunTest("l2v4", 968)); }
 TEST(969) { CHECK(RunTest("l3v1", 969)); }
 TEST(970) { CHECK(RunTest("l3v1", 970)); }
 TEST(971) { CHECK(RunTest("l3v1", 971)); }
 TEST(972) { CHECK(RunTest("l3v1", 972)); }
 TEST(973) { CHECK(RunTest("l2v4", 973)); }
-
 TEST(974) { CHECK(RunTest("l3v1", 974)); }
 TEST(975) { CHECK(RunTest("l3v1", 975)); }
 TEST(976) { CHECK(RunTest("l3v1", 976)); }
 TEST(977) { CHECK(RunTest("l3v1", 977)); }
-//TEST(978) { CHECK(RunTest("l3v1", 978)); }
-
+TEST(978) { CHECK(RunTest("l3v1", 978)); }
 TEST(979) { CHECK(RunTest("l2v4", 979)); }
-
-TEST(980)  { CHECK(RunTest("l3v1", 980 )); }
-
+TEST(980) { CHECK(RunTest("l3v1", 980)); }
 //TEST(981)  { CHECK(RunTest("l3v1", 981  )); }
 //TEST(982)  { CHECK(RunTest("l3v1", 982  )); }
 //TEST(983)  { CHECK(RunTest("l3v1", 983  )); }
@@ -1034,11 +1009,11 @@ TEST(989)  { CHECK(RunTest("l2v4", 989  )); }
 TEST(990)  { CHECK(RunTest("l2v4", 990  )); }
 TEST(991)  { CHECK(RunTest("l2v4", 991  )); }
 TEST(992)  { CHECK(RunTest("l2v4", 992  )); }
-//TEST(993)  { CHECK(RunTest("l2v4", 993  )); }
+//TEST(993)  { CHECK(RunTest("l2v4", 993  )); } // algebraic
 TEST(994)  { CHECK(RunTest("l2v4", 994  )); }
-//TEST(995)  { CHECK(RunTest("l3v1", 995  )); }
-//TEST(996)  { CHECK(RunTest("l3v1", 996  )); }
-//TEST(997)  { CHECK(RunTest("l3v1", 997  )); }
+TEST(995)  { CHECK(RunTest("l3v1", 995  )); }
+TEST(996)  { CHECK(RunTest("l3v1", 996  )); }
+TEST(997)  { CHECK(RunTest("l3v1", 997  )); }
 TEST(998)  { CHECK(RunTest("l3v1", 998  )); }
 TEST(999)  { CHECK(RunTest("l3v1", 999  )); }
 //TEST(1000) { CHECK(RunTest("l3v1", 1000 )); }
@@ -1085,7 +1060,7 @@ TEST(1040) { CHECK(RunTest("l3v1", 1040 )); }
 TEST(1041) { CHECK(RunTest("l3v1", 1041 )); }
 TEST(1042) { CHECK(RunTest("l3v1", 1042 )); }
 TEST(1043) { CHECK(RunTest("l3v1", 1043 )); }
-//TEST(1044) { CHECK(RunTest("l3v1", 1044 )); }
+//TEST(1044) { CHECK(RunTest("l3v1", 1044 )); } // algegraic
 TEST(1045) { CHECK(RunTest("l3v1", 1045 )); }
 TEST(1046) { CHECK(RunTest("l3v1", 1046 )); }
 TEST(1047) { CHECK(RunTest("l3v1", 1047 )); }
@@ -1230,7 +1205,6 @@ TEST(1185) { CHECK(RunTest("l3v1", 1185 )); }
 
 }
 
-#if !defined(__CODEGEARC__)
 
 /**
  * The original test suite used for Valgrind testing
@@ -1457,9 +1431,7 @@ SUITE(SBML_TEST_SUITE_EVENTS)
     TEST(745) { CHECK(RunTest("l2v4", 745)); }
     TEST(746) { CHECK(RunTest("l2v4", 746)); }
     TEST(747) { CHECK(RunTest("l2v4", 747)); }
-#if !defined(_MSC_VER)
-    TEST(748) { CHECK(RunTest("l2v4", 748)); } //Stopped working may23, cmake problem ?
-#endif
+    TEST(748) { CHECK(RunTest("l2v4", 748)); } 
     TEST(749) { CHECK(RunTest("l2v4", 749)); }
     TEST(750) { CHECK(RunTest("l2v4", 750)); }
     TEST(751) { CHECK(RunTest("l2v4", 751)); }
@@ -1489,37 +1461,25 @@ SUITE(SBML_TEST_SUITE_EVENTS)
     TEST(775) { CHECK(RunTest("l2v4", 775)); }
     TEST(776) { CHECK(RunTest("l2v4", 776)); }
 
-#if !defined(_MSC_VER)
-    TEST(952) { CHECK(RunTest("l3v1", 952)); }        //This one is erratic.. it sometimes passes and sometimes end in a segfault!
-#endif
 
+    TEST(952) { CHECK(RunTest("l3v1", 952)); }       
     TEST(953) { CHECK(RunTest("l3v1", 953)); }
-
     TEST(954) { CHECK(RunTest("l2v4", 954)); }
-    //TEST(955) { CHECK(RunTest("l2v4", 955)); }
+    TEST(955) { CHECK(RunTest("l2v4", 955)); }
     TEST(956) { CHECK(RunTest("l2v4", 956)); }
-    //TEST(957) { CHECK(RunTest("l2v4", 957)); }
-    //TEST(958) { CHECK(RunTest("l2v4", 958)); }
+    TEST(957) { CHECK(RunTest("l2v4", 957)); }
+    TEST(958) { CHECK(RunTest("l2v4", 958)); }
     //TEST(959) { CHECK(RunTest("l2v4", 959)); }
-
     TEST(960) { CHECK(RunTest("l3v1", 960)); }
     TEST(961) { CHECK(RunTest("l3v1", 961)); }
-    //TEST(962) { CHECK(RunTest("l3v1", 962)); }
+    TEST(962) { CHECK(RunTest("l3v1", 962)); }
 
-#if !defined(__CODEGEARC__)
+
     TEST(963) { CHECK(RunTest("l3v1", 963)); }
     TEST(964) { CHECK(RunTest("l3v1", 964)); }
-#endif
-
-#if !defined(_MSC_VER)
-    //TEST(965) { CHECK(RunTest("l3v1", 965)); } //This one is erratic.. it sometimes passes and sometimes end in a segfault!
-#endif
-
-    //TEST(966) { CHECK(RunTest("l3v1", 966)); }
+    TEST(965) { CHECK(RunTest("l3v1", 965)); } 
+    TEST(966) { CHECK(RunTest("l3v1", 966)); }
     TEST(967) { CHECK(RunTest("l3v1", 967)); }
-
-
-
     TEST(968) { CHECK(RunTest("l2v4", 968)); }
 }
 
@@ -1760,7 +1720,7 @@ SUITE(SBML_TEST_SUITE_C_FAIL)
     TEST(1182) { CHECK(RunTest("l3v1", 1182 )); }
     TEST(1183) { CHECK(RunTest("l3v1", 1183 )); }
 }
-#endif
+
 
 
 
