@@ -51,6 +51,9 @@ struct TestCase
 
 void getPairs(TestCase *&, int& npairs);
 
+// testing of ln vs pow perf
+#if 0
+
 #if defined(_WIN32)
 #include <Windows.h>
 
@@ -67,9 +70,6 @@ void getPairs(TestCase *&, int& npairs);
 #else
 #error "Unable to define getRealTime( ) for an unknown OS."
 #endif
-
-
-
 
 
 /**
@@ -152,10 +152,6 @@ double getRealTime( )
 
 
 
-
-using namespace std;
-using namespace rr;
-
 bool RunTest(const string& version, int caseNumber);
 
 double frand(double fMin, double fMax)
@@ -218,6 +214,10 @@ void bench(int n)
     cout << "b1: " << b1 << ", time: " << (b1e - start) << ", b2: " << b2 << ", time: " << (end - b1e) << endl;
 
 }
+#endif
+
+using namespace std;
+using namespace rr;
 
 int main(int argc, char* argv[])
 {
