@@ -52,6 +52,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 Source: "..\..\site-packages\{#AppDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\LICENSE.TXT"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\NEWS.TXT"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE1.TXT"; Flags: ignoreversion
 Source: "libRoadrunner-installer-dependencies\NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE2.TXT"; Flags: ignoreversion
 Source: "..\..\bin\iconv.dll"; DestDir: "{app}"; Flags: ignoreversion
