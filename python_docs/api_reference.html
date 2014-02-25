@@ -1124,7 +1124,7 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which comparment ids to return.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which compartment ids to return.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of compartment ids.</td>
 </tr>
@@ -1406,7 +1406,7 @@ array of all the values to set.</li>
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStoichiometry</tt><big>(</big><em>speciesIndex</em>, <em>reactionIndex</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStoichiometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the stochiometric coefficient for the given species index and reaction index.</p>
 <p>Frequently one does not need the full stochiometrix matrix, particularly if the system is
-large and only a single coefficent is needed.</p>
+large and only a single coefficient is needed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1424,18 +1424,18 @@ large and only a single coefficent is needed.</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getStoichiometryMatrix">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current stoichiomentry matrix, a <img class="math" src="_images/math/bed4cafeded4bdf622cee8198b01a198f5d635f6.png" alt="n \times m"/> matrix where <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> is the
+<dd><p>Returns the current stoichiometry matrix, a <img class="math" src="_images/math/bed4cafeded4bdf622cee8198b01a198f5d635f6.png" alt="n \times m"/> matrix where <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> is the
 number of species which take place in reactions (floating species) and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is the number of
 reactions.</p>
 <p>this is a line with &#8220;quotes&#8221;</p>
 <p>When the LLVM back end is used (default) this always returns the current state of the
-stochiometric coeffecients, so if any of these are determined by any rule, this will return the
-currect value.</p>
+stochiometric coefficients, so if any of these are determined by any rule, this will return the
+current value.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an n by m numpy ndarray of the stoichiometrix coeffecients.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an n by m numpy ndarray of the stoichiometric coefficients.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
 </tr>
@@ -1457,7 +1457,7 @@ output variables will be written to.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stateVector</strong> (<em>numpy.ndarray</em>) &#8211; <p>an optional numpy array where the state vector variables will be writen. If
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stateVector</strong> (<em>numpy.ndarray</em>) &#8211; <p>an optional numpy array where the state vector variables will be written. If
 no state vector array is given, a new one will be constructed and returned.</p>
 <p>This should be the same length as the model state vector.</p>
 </td>
@@ -1471,7 +1471,7 @@ no state vector array is given, a new one will be constructed and returned.</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getStateVectorId">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStateVectorId</tt><big>(</big><em>index</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStateVectorId" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the id (symbolc name) of a state vector item.</p>
+<dd><p>Get the id (symbolic name) of a state vector item.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1501,7 +1501,7 @@ no state vector array is given, a new one will be constructed and returned.</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getStateVectorRate">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStateVectorRate</tt><big>(</big><em>time</em><span class="optional">[</span>, <em>stateVector</em><span class="optional">]</span><span class="optional">[</span>, <em>stateVectorRate</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStateVectorRate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the rate of change of all state vector varibles.</p>
+<dd><p>Calculates the rate of change of all state vector variables.</p>
 <p>Note, the rate of change of species returned by this method is always in units of amount /
 time.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1549,7 +1549,7 @@ this is not given, a new array is allocated and returned.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which comparment ids to return.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which compartment ids to return.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of compartment ids.</td>
 </tr>
@@ -1580,7 +1580,7 @@ given by the order of Ids returned by getConservedMoietyIds()</p>
 <dt id="roadrunner.ExecutableModel.setConservedMoietyValues">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedMoietyValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedMoietyValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a vector of conserved moiety values.</p>
-<p><em>Note</em> This method currently only updates the conserved moeity values, it does
+<p><em>Note</em> This method currently only updates the conserved moiety values, it does
 not update the initial species condition from which the values were calculated.</p>
 <p>If the index vector is not given, then the values vector treated as a vector of all
 values to set. If index is given, then  values should have the same
