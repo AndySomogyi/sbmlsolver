@@ -15,7 +15,7 @@
 #define __func__ __FUNCDNAME__
 #endif
 
-#if defined(__CODEGEARC__)
+#if defined(__BORLANDC__)
 #pragma warn -8012             //comparing unsigned and signed
 #pragma warn -8004             //variable never used
 #endif
@@ -41,7 +41,7 @@
         #define DEPRECATED(func) func __attribute__ ((deprecated))
     #elif defined(_MSC_VER)
         #define DEPRECATED(func) __declspec(deprecated) func
-    #elif defined(__CODEGEARC__)
+    #elif defined(__BORLANDC__)
         #define DEPRECATED(func) __declspec(deprecated) func
     #else
         #pragma message("WARNING: You need to implement DEPRECATED for this compiler")
@@ -49,9 +49,11 @@
     #endif
 #endif
 
-#if defined(_MSC_VER) || defined(__CODEGEARC__)
-    #define rrCallConv __stdcall
-#else
+#if defined(_MSC_VER) 
+    #define rrCallConv __cdecl
+#elif defined(__BORLANDC__)
+    #define rrCallConv __cdecl
+#else	
     #define rrCallConv
 #endif
 

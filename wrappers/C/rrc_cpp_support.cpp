@@ -268,7 +268,7 @@ RRStringArrayPtr createList(const StringList& sList)
 //    return theList;
 //}
 
-RRList* createArrayList(const rrc::NewArrayList& aList)
+RRList* createArrayList(const rrc::ArrayList& aList)
 {
     if(!aList.Count())
     {
@@ -284,31 +284,31 @@ RRList* createArrayList(const rrc::NewArrayList& aList)
     for(int i = 0; i < itemCount; i++)
     {
         //Have to figure out subtype of item
-        NewArrayListItemObject* ptr = const_cast<NewArrayListItemObject*>(&aList[i]);
-        if(dynamic_cast<NewArrayListItem<int>*>(ptr))
+        ArrayListItemBase* ptr = const_cast<ArrayListItemBase*>(&aList[i]);
+        if(dynamic_cast<ArrayListItem<int>*>(ptr))
         {
-            int val = (int) *(dynamic_cast<NewArrayListItem<int>*>(ptr));
+            int val = (int) *(dynamic_cast<ArrayListItem<int>*>(ptr));
             myItem = createIntegerItem (val);
             addItem (theList, &myItem);
         }
-        else if(dynamic_cast<NewArrayListItem<double>*>(ptr))
+        else if(dynamic_cast<ArrayListItem<double>*>(ptr))
         {
-            double val = (double) *(dynamic_cast<NewArrayListItem<double>*>(ptr));
+            double val = (double) *(dynamic_cast<ArrayListItem<double>*>(ptr));
             myItem = createDoubleItem (val);
             addItem (theList, &myItem);
         }
-        else if(dynamic_cast<NewArrayListItem<string>*>(ptr))
+        else if(dynamic_cast<ArrayListItem<string>*>(ptr))
         {
-            string item = (string) *(dynamic_cast<NewArrayListItem<string>*>(ptr));
+            string item = (string) *(dynamic_cast<ArrayListItem<string>*>(ptr));
             char* str = (char *) new char[item.size() + 1];
             strcpy (str, item.c_str());
             myItem = createStringItem (str);
             addItem (theList, &myItem);
         }
-        else if(dynamic_cast<NewArrayListItem<StringList>*>(ptr))
+        else if(dynamic_cast<ArrayListItem<StringList>*>(ptr))
         {
-            StringList list             = (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(ptr));
-            NewArrayList  aList;
+            StringList list             = (StringList) *(dynamic_cast<ArrayListItem<StringList>*>(ptr));
+            ArrayList  aList;
             for(int i = 0; i < list.Count(); i++)
             {
                 aList.Add(list[i]);
@@ -318,9 +318,9 @@ RRList* createArrayList(const rrc::NewArrayList& aList)
                addItem (theList, &myItem);
         }
 
-        else if(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr))
+        else if(dynamic_cast<ArrayListItem<ArrayList>*>(ptr))
         {
-            NewArrayList list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr));
+            ArrayList list = (ArrayList) *(dynamic_cast<ArrayListItem<ArrayList>*>(ptr));
             RRListPtr myList             = createArrayList (list);
             RRListItemPtr myListItem     = createListItem (myList);
             addItem (theList, &myListItem);
@@ -412,7 +412,7 @@ RRCDataPtr createRRCData(const RoadRunnerData& result)
             rrCData->Data[index] = result(row, col);
             if(result.hasWeights())
             {
-                rrCData->Weights[index] = result.weight(row, col);
+                rrCData->Weights[index] = result.getWeight(row, col);
             }
             ++index;
         }

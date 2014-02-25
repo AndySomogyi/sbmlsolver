@@ -99,6 +99,51 @@ int RoadRunner::getInstanceID()
     return mInstanceID;
 }
 
+RoadRunner::RoadRunner(const std::string& uriOrSBML,
+        const LoadSBMLOptions* options) :
+    mUseKinsol(false),
+    mDiffStepSize(0.05),
+    mSteadyStateThreshold(1.E-2),
+    mRawRoadRunnerData(),
+    mRoadRunnerData(),
+    mCurrentSBMLFileName(""),
+    mCVode(0),
+    mSelectionList(),
+    mModelGenerator(0),
+    mComputeAndAssignConservationLaws(false),
+    mSteadyStateSelection(),
+    mModel(0),
+    mCurrentSBML(),
+    mLS(0),
+    simulateOptions()
+{
+
+#if defined(BUILD_LLVM)
+    string compiler =  "LLVM" ;
+#else
+    string compiler = gDefaultCompiler;
+#endif
+
+    // for now, dump out who we are
+    Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
+            ", tempDir:" << gDefaultTempFolder << ", supportCodeDir: " <<
+            gDefaultSupportCodeFolder;
+
+    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+            gDefaultTempFolder, gDefaultSupportCodeFolder);
+
+    setTempFileFolder(gDefaultTempFolder);
+
+    if (!uriOrSBML.empty()) {
+        load(uriOrSBML, options);
+    }
+
+    //Increase instance count..
+    mInstanceCount++;
+    mInstanceID = mInstanceCount;
+}
+
+
 RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& _supportCodeDir) :
         mUseKinsol(false),
@@ -116,7 +161,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mModel(0),
         mCurrentSBML(),
         mLS(0),
-        mSettings()
+        simulateOptions()
 {
 
 
@@ -147,9 +192,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 
 RoadRunner::~RoadRunner()
 {
-    Log(lDebug4)<<"In RoadRunner DTOR";
-
-    Log(lDebug3) << "In " << __FUNC__ << "\n";
+    Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
 
     delete mModelGenerator;
     delete mModel;
@@ -237,12 +280,12 @@ bool RoadRunner::isModelLoaded()
 
 void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
-    mSettings = settings;
+    simulateOptions = settings;
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
 {
-    return mSettings;
+    return simulateOptions;
 }
 
 bool RoadRunner::getConservedMoietyAnalysis()
@@ -285,7 +328,7 @@ int RoadRunner::createTimeCourseSelectionList()
 {
     // make a list out of the values in the settings,
     // will always have at least a "time" at the first item.
-    vector<string> settingsList = createSelectionList(mSettings);
+    vector<string> settingsList = createSelectionList(simulateOptions);
 
     assert(settingsList.size() >= 1 && "selection list from SimulateOptions does does not have time");
 
@@ -326,7 +369,7 @@ bool RoadRunner::initializeModel()
             delete mCVode;
         }
 
-        mCVode = new CvodeInterface(mModel, &mSettings);
+        mCVode = new CvodeInterface(mModel, &simulateOptions);
 
         // reset the simulation state
         reset();
@@ -447,7 +490,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
         return std::numeric_limits<double>::quiet_NaN();
     }
     break;
-    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+    case SelectionRecord::INITIAL_CONCENTRATION:
         mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
         break;
     case SelectionRecord::STOICHIOMETRY:
@@ -984,7 +1027,7 @@ void RoadRunner::evalModel()
         throw CoreException(gEmptyModelMessage);
     }
     mModel->convertToAmounts();
-    mModel->evalModel(mModel->getTime(), 0);
+    mModel->getStateVectorRate(mModel->getTime(), 0);
 }
 
 
@@ -2136,9 +2179,9 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
             throw CoreException(gEmptyModelMessage);
         }
 
-        mSettings.start = 0;
-        mSettings.duration = 50.0;
-        mSettings.steps = 1;
+        simulateOptions.start = 0;
+        simulateOptions.duration = 50.0;
+        simulateOptions.steps = 1;
 
         simulate(); //This will crash, because numpoints == 1, not anymore, numPoints = 2 if numPoints <= 1
         if (steadyState() > mSteadyStateThreshold)
@@ -2356,7 +2399,7 @@ void RoadRunner::correctMaxStep()
 {
     if(mCVode)
     {
-        double maxStep = (mSettings.duration) / (mSettings.steps + 1);
+        double maxStep = (simulateOptions.duration) / (simulateOptions.steps + 1);
         maxStep = min(mCVode->mMaxStep, maxStep);
         mCVode->mMaxStep = maxStep;
     }
@@ -2434,7 +2477,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     if (_options)
     {
-        this->mSettings = *_options;
+        this->simulateOptions = *_options;
     }
 
     //This one creates the list of what we will look at in the result
@@ -2442,26 +2485,26 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     if (mCVode)
     {
-        mCVode->setTolerances(mSettings.relative, mSettings.absolute);
+        mCVode->setTolerances(simulateOptions.relative, simulateOptions.absolute);
     }
 
-    if (mSettings.flags & SimulateOptions::RESET_MODEL)
+    if (simulateOptions.flags & SimulateOptions::RESET_MODEL)
     {
         reset(); // reset back to initial conditions
     }
 
-    if (mSettings.duration < 0 || mSettings.start < 0
-            || mSettings.steps <= 0 )
+    if (simulateOptions.duration < 0 || simulateOptions.start < 0
+            || simulateOptions.steps <= 0 )
     {
         throw CoreException("Illegal input to simulate");
     }
 
     // set how the result should be returned to python
-    mRoadRunnerData.structuredResult = mSettings.flags & SimulateOptions::STRUCTURED_RESULT;
+    mRoadRunnerData.structuredResult = simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
 
-    double timeEnd = mSettings.duration + mSettings.start;
-    double timeStart = mSettings.start;
-    int numPoints = mSettings.steps + 1;
+    double timeEnd = simulateOptions.duration + simulateOptions.start;
+    double timeStart = simulateOptions.start;
+    int numPoints = simulateOptions.steps + 1;
 
     if (numPoints <= 1)
     {
@@ -2474,10 +2517,10 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
     // ignored if same
-    mRawRoadRunnerData.resize(mSettings.steps + 1, nrCols);
+    mRawRoadRunnerData.resize(simulateOptions.steps + 1, nrCols);
 
     // evalute the model with its current state
-    mModel->evalModel(timeStart, 0, 0);
+    mModel->getStateVectorRate(timeStart, 0, 0);
 
     addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
 
@@ -2490,8 +2533,8 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double tout = timeStart;
 
     //The simulation is executed right here..
-    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< mSettings.steps + 1 <<" times";
-    for (int i = 1; i < mSettings.steps + 1; i++)
+    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< simulateOptions.steps + 1 <<" times";
+    for (int i = 1; i < simulateOptions.steps + 1; i++)
     {
         Log(Logger::LOG_DEBUG)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
@@ -2569,7 +2612,7 @@ _xmlNode *RoadRunner::createConfigNode()
     }
     else
     {
-        CvodeInterface tmp(0, &mSettings);
+        CvodeInterface tmp(0, &simulateOptions);
         Configurable::addChild(capies, tmp.createConfigNode());
     }
 
@@ -2745,7 +2788,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
         }
         break;
-    case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+    case SelectionRecord::INITIAL_CONCENTRATION:
         if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
@@ -3220,8 +3263,10 @@ vector<string> RoadRunner::getEigenvalueIds()
 #endif /***********************************************************************/
 /******************************************************************************/
 
-
-
+RoadRunnerOptions& RoadRunner::getOptions()
+{
+    return options;
+}
 
 }//namespace
 

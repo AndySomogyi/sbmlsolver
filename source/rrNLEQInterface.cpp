@@ -291,7 +291,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     // sets the state vector
     model->setStateVector(y);
 
-    model->evalModel(0, y, fval);
+    model->getStateVectorRate(0, y, fval);
 
     if (rr::Logger::getLevel() >= Logger::LOG_DEBUG)
     {
@@ -384,7 +384,7 @@ double NLEQInterface::computeSumsOfSquares()
 {
     double sum = 0;
     vector<double> rates(model->getStateVector(0));
-    model->evalModel(0, 0, &rates[0]);
+    model->getStateVectorRate(0, 0, &rates[0]);
 
     for (int i = 0; i < n; i++)
     {

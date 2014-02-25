@@ -17,7 +17,7 @@ set_property(   TARGET ${target}
                 PROPERTY  COMPILE_DEFINITIONS 
                           STATIC_RR             #when linking with static lib, no declspec shuld be present..
 )
-target_link_libraries (${target} rrc_api roadrunner)
+target_link_libraries (${target} roadrunner_c_api roadrunner)
 
 install(
         TARGETS ${target} 		

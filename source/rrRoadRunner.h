@@ -41,6 +41,20 @@ class RR_DECLSPEC RoadRunner : public Configurable
 public:
 
     /**
+     * load an sbml document from anywhere.
+     *
+     * same arguments as load.
+     *
+     * If options is not null, then the RoadRunner::computeAndAssignConservationLaws
+     * flag is set to whatever value is specified in the options struct.
+     *
+     * @param uriOrSBML: a URI, local path or sbml document contents.
+     * @param options: an options struct, if null, default values are used.
+     */
+    RoadRunner(const std::string& uriOrSBML = "",
+            const LoadSBMLOptions* options = 0);
+
+    /**
      * All three of the RoadRunner options default to the empty string, in this
      * case, the default values are used.
      *
@@ -50,8 +64,8 @@ public:
      * @param supportCodeDir: If the old external C compiler is used, this is
      *      the location where roadrunner C include files are.
      */
-    RoadRunner(const std::string& compiler = "", const std::string& tempDir = "",
-            const std::string& supportCodeDir = "");
+    RoadRunner(const std::string& compiler, const std::string& tempDir,
+            const std::string& supportCodeDir);
 
     /**
      * free any memory this class allocated
@@ -158,6 +172,14 @@ public:
      * by setSimulateOptions or simulate.
      */
     SimulateOptions& getSimulateOptions();
+
+    /**
+     * Get a reference to the options that determine how this class should behave.
+     *
+     * These are general options. For options specific for loading or simulationg,
+     * @see getSimulateOptions.
+     */
+    RoadRunnerOptions& getOptions();
 
     /**
      * get the currently loaded sbml document as a string.
@@ -726,7 +748,15 @@ private:
      */
     LibStructural* mLS;
 
-    SimulateOptions mSettings;
+    /**
+     * options that are specific to the simulation
+     */
+    SimulateOptions simulateOptions;
+
+    /**
+     * various general options that can be modified by external callers.
+     */
+    RoadRunnerOptions options;
 
 
     int createDefaultSteadyStateSelectionList();

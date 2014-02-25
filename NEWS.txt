@@ -1,2 +1,26 @@
-Dec 10 2013
-    This file was added and Version 1.0.0 is released (TK)
+-- Version 1.0.1
+*   Fixed bug where nested sbml functions were not handled properly. Now
+    it correctly reports when sbml functions are called with invalid 
+    number of args. 
+
+*   Fixed bug where where a log trace message incorectly created. 
+
+*   Display version info correctly in the command line rr program. 
+
+*   Cache selection types and indices in model.getValue / setValue, 
+    significant improvement in sbml symbol access times. 
+
+*   Fixed memory leaks in Python API, performance improvements in 
+    selections. 
+
+*   New RoadRunner constructor which takes a URI and load options. 
+
+*   Plugins moved to Tellurium project.
+
+*   Added getStateVectorRate and getStateVectorIds to ExecutableModel interface,
+    readily allows roadrunner to be used with external integrators.
+
+*   SBML variable access performance improvements. 
+
+-- Version 1.0.0
+*   Initial release

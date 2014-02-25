@@ -58,7 +58,10 @@
 #endif
 
 
-#if defined(_MSC_VER) || defined(__CODEGEARC__)
+//C function calling conventions
+#if defined(_MSC_VER)
+    #define rrcCallConv __cdecl
+#elif defined(__CODEGEARC__)
     #define rrcCallConv __cdecl
 #else
     #define rrcCallConv

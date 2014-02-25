@@ -48,18 +48,20 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     codeGenVoidModelDataHeader(FunctionName, modelData);
 
-    Log(Logger::LOG_DEBUG) << "boundarySpecies: \n";
-    for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
-            i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
+    if (Logger::LOG_DEBUG <= rr::Logger::getLevel())
     {
-        char* formula = SBML_formulaToString(i->second);
-        Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
+        Log(Logger::LOG_DEBUG) << "boundarySpecies: \n";
+        for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
+                i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
+        {
+            char* formula = SBML_formulaToString(i->second);
+            Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
+            free(formula);
+        }
     }
 
     ModelDataStoreSymbolResolver modelDataResolver(modelData, model,
             modelSymbols, dataSymbols, builder, initialValueResolver);
-
 
     // generate model code for both floating and boundary species
     codeGenSpecies(modelDataResolver);

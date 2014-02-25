@@ -226,9 +226,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #if defined(CG_IDE)
 
 #if defined(STATIC_RRC)
-#pragma comment(lib, "rrc_api-static.lib")
+#pragma comment(lib, "roadrunner_c_api-static.lib")
 #else
-#pragma comment(lib, "rrc_api.lib")
+#pragma comment(lib, "roadrunner_c_api.lib")
 #endif
 
 #if defined(STATIC_RR)

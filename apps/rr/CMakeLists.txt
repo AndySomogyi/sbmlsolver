@@ -10,7 +10,7 @@ add_definitions(
 -DPOCO_STATIC
 -DSTATIC_PUGI
 -DLIBSBML_STATIC 
--DSTATIC_RR
+#-DSTATIC_RR
 -DSTATIC_LIBSTRUCT
 -DLIBLAX_STATIC  
 -DSTATIC_NLEQ
@@ -22,7 +22,8 @@ add_definitions(
 )
 
 target_link_libraries (${target} 
-roadrunner-static
+#roadrunner-static
+roadrunner
 )
 endif()
 

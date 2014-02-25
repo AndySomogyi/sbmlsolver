@@ -63,7 +63,7 @@ endif()
 
 if(UNIX)
     target_link_libraries (${target}
-        rrc_api
+        roadrunner_c_api
         roadrunner-static
         libunit_test-static${staticLibPrefix}
         lapack

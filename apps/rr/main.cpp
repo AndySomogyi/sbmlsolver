@@ -19,8 +19,8 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrGetOptions.h"
 #include "Args.h"
-#include "rrStringList.h"
-//---------------------------------------------------------------------------
+#include "rrVersionInfo.h"
+
 using namespace std;
 using namespace rr;
 
@@ -66,7 +66,7 @@ int main(int argc, char * argv[])
         if(args.ModelFileName.size())
         {
             string logName = getFileName(args.ModelFileName);
-            logName = changeFileExtensionTo(logName, ".log");            
+            logName = changeFileExtensionTo(logName, ".log");
         }
         else
         {
@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
 
         //Creating roadrunner
         Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder);
+        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder, "");
         rr->reset();
 
         Log(lDebug)<<"....."<<endl;
@@ -185,7 +185,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('v'):
                 if(string(rrOptArg) == "ersion" ) //hack to get rr -version working :)
                 {
-                    cout<<"Version: "<<args.version<<endl;
+                    cout << "Version: " << rr::getVersionStr() << std::endl;
                     exit(-1);
                 }
                 else

@@ -35,6 +35,7 @@
 #include <sbml/SBMLReader.h>
 #include <time.h>
 #include <stdio.h>
+#include <cmath>
 
 
 
@@ -50,236 +51,201 @@ struct TestCase
 
 void getPairs(TestCase *&, int& npairs);
 
+// testing of ln vs pow perf
+#if 0
 
-struct A
+#if defined(_WIN32)
+#include <Windows.h>
+
+#elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
+#include <unistd.h>    /* POSIX flags */
+#include <time.h>    /* clock_gettime(), time() */
+#include <sys/time.h>    /* gethrtime(), gettimeofday() */
+
+#if defined(__MACH__) && defined(__APPLE__)
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+#endif
+
+#else
+#error "Unable to define getRealTime( ) for an unknown OS."
+#endif
+
+
+/**
+ * Returns the real time, in seconds, or -1.0 if an error occurred.
+ *
+ * Time is measured since an arbitrary and OS-dependent start time.
+ * The returned real time is only useful for computing an elapsed time
+ * between two calls to this function.
+ */
+double getRealTime( )
 {
-    unsigned a;
-    unsigned b;
-};
+#if defined(_WIN32)
+    FILETIME tm;
+    ULONGLONG t;
+#if defined(NTDDI_WIN8) && NTDDI_VERSION >= NTDDI_WIN8
+    /* Windows 8, Windows Server 2012 and later. ---------------- */
+    GetSystemTimePreciseAsFileTime( &tm );
+#else
+    /* Windows 2000 and later. ---------------------------------- */
+    GetSystemTimeAsFileTime( &tm );
+#endif
+    t = ((ULONGLONG)tm.dwHighDateTime << 32) | (ULONGLONG)tm.dwLowDateTime;
+    return (double)t / 10000000.0;
 
+#elif (defined(__hpux) || defined(hpux)) || ((defined(__sun__) || defined(__sun) || defined(sun)) && (defined(__SVR4) || defined(__svr4__)))
+    /* HP-UX, Solaris. ------------------------------------------ */
+    return (double)gethrtime( ) / 1000000000.0;
 
-struct B
-{
-    unsigned a;
-    unsigned b;
-    double data[0];
-};
+#elif defined(__MACH__) && defined(__APPLE__)
+    /* OSX. ----------------------------------------------------- */
+    static double timeConvert = 0.0;
+    if ( timeConvert == 0.0 )
+    {
+        mach_timebase_info_data_t timeBase;
+        (void)mach_timebase_info( &timeBase );
+        timeConvert = (double)timeBase.numer /
+            (double)timeBase.denom /
+            1000000000.0;
+    }
+    return (double)mach_absolute_time( ) * timeConvert;
 
+#elif defined(_POSIX_VERSION)
+    /* POSIX. --------------------------------------------------- */
+#if defined(_POSIX_TIMERS) && (_POSIX_TIMERS > 0)
+    {
+        struct timespec ts;
+#if defined(CLOCK_MONOTONIC_PRECISE)
+        /* BSD. --------------------------------------------- */
+        const clockid_t id = CLOCK_MONOTONIC_PRECISE;
+#elif defined(CLOCK_MONOTONIC_RAW)
+        /* Linux. ------------------------------------------- */
+        const clockid_t id = CLOCK_MONOTONIC_RAW;
+#elif defined(CLOCK_HIGHRES)
+        /* Solaris. ----------------------------------------- */
+        const clockid_t id = CLOCK_HIGHRES;
+#elif defined(CLOCK_MONOTONIC)
+        /* AIX, BSD, Linux, POSIX, Solaris. ----------------- */
+        const clockid_t id = CLOCK_MONOTONIC;
+#elif defined(CLOCK_REALTIME)
+        /* AIX, BSD, HP-UX, Linux, POSIX. ------------------- */
+        const clockid_t id = CLOCK_REALTIME;
+#else
+        const clockid_t id = (clockid_t)-1;    /* Unknown. */
+#endif /* CLOCK_* */
+        if ( id != (clockid_t)-1 && clock_gettime( id, &ts ) != -1 )
+            return (double)ts.tv_sec +
+                (double)ts.tv_nsec / 1000000000.0;
+        /* Fall thru. */
+    }
+#endif /* _POSIX_TIMERS */
 
-
-struct C
-{
-    unsigned a;
-    unsigned b;
-    double data[1];
-};
-
-static void testStruct()
-{
-    std::cout << "size A: " << sizeof(A) << std::endl;
-    std::cout << "size B: " << sizeof(B) << std::endl;
-    std::cout << "size C: " << sizeof(C) << std::endl;
-
-
+    /* AIX, BSD, Cygwin, HP-UX, Linux, OSX, POSIX, Solaris. ----- */
+    struct timeval tm;
+    gettimeofday( &tm, NULL );
+    return (double)tm.tv_sec + (double)tm.tv_usec / 1000000.0;
+#else
+    return -1.0;        /* Failed. */
+#endif
 }
 
 
 
+bool RunTest(const string& version, int caseNumber);
+
+double frand(double fMin, double fMax)
+{
+    double f = (double)rand() / RAND_MAX;
+    return fMin + f * (fMax - fMin);
+}
+
+double bench1(int n, double* nu, double* a)
+{
+    double s = 0;
+
+    for(int i = 0; i < n; ++i)
+    {
+        s = s + nu[i] * std::log(a[i]);
+    }
+
+    return std::exp(s);
+}
+
+double bench2(int n, double* nu, double* a)
+{
+    double p = 1.0;
+
+    for(int i = 0; i < n; ++i)
+    {
+        p = p * std::pow(a[i], nu[i]);
+    }
+
+    return p;
+}
+
+void bench(int n)
+{
+    cout << "running test for " << n << " size" << endl;
+
+    double* nu = new double[n];
+    double* a = new double[n];
+
+    srand(time(NULL));
+
+    for(int i = 0; i < n; ++i)
+    {
+        nu[i] = floor(frand(0, 4));
+        a[i] = frand(0.1,2.4);
+    }
+
+
+
+    double start = getRealTime();
+
+    double b1 = bench1(n, nu, a);
+
+    double b1e = getRealTime();
+
+    double b2 = bench2(n, nu, a);
+
+    double end = getRealTime();
+
+    cout << "b1: " << b1 << ", time: " << (b1e - start) << ", b2: " << b2 << ", time: " << (end - b1e) << endl;
+
+}
+#endif
+
 using namespace std;
 using namespace rr;
 
-bool RunTest(const string& version, int caseNumber);
-
 int main(int argc, char* argv[])
 {
-
-    //cout << "RoadRunner LLVM SBML Test Suite" << endl;
-    //cout << "built on " << string( __DATE__ ) + ", " + string(__TIME__);
-    //cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
-
-
-
-    const char* compiler = "llvm";
-
-    ConfigurableTest::testRoadRunner("/Users/andy/local/testing/feedback.xml", "/Users/andy/config.xml");
-
-    return 0;
-
-
-
-
-    if (argc > 2)
+    if (argc != 3)
     {
-        string rw = argv[2];
-        if (rw.size() > 0)
-        {
-            char c = rw[0];
-
-            if (c == 'r')
-            {
-                TestRoadRunner::testRead(argv[1]);
-            }
-            else
-            {
-                //sleep(10);
-                TestRoadRunner::testCons2(argv[1]);
-                //sleep(10);
-            }
-        }
-        else
-        {
-            cout << "invalid args" << endl;
-        }
-    }
-    else
-    {
-        cout << "error: no file given" << endl;
+        cout << "usage llvm_tester path_to_model log_level" << std::endl;
+        return 0;
     }
 
-    return 0;
-
-
-
-
-    if (argc > 1)
-    {
-
-        cout << "testing '" << argv[1] << "'" << endl;
-
-        TestRoadRunner::testLoad(argv[1]);
-
-        //string s = TestRoadRunner::read_uri(argv[1]);
-
-
-
-        //cout << s << endl;
-    }
-
-    return 0;
-
-    uint a;
-
-    std::vector<int> vec;
-
-
-
-
-
-
-
-    Logger::enableConsoleLogging();
-
-    Logger::setLevel(Logger::LOG_TRACE);
-
-
-    int testCase = 0;
-
-    if (argc >= 2)
-    {
-        testCase = atoi(argv[1]);
-    }
-
-    Log(Logger::LOG_NOTICE) << "running test case " << testCase;
-
-
-    //runSparseTest(33, 323, 50);
-
-    //runLLVMCSRMatrixTest(33, 323, 50);
-
-
-    TestCase *pairs;
-    int npairs;
-    //
-    //    StrIntPair test = {"l2v4", 14};
-    //    runInitialValueAssigmentTest(test.first, test.second);
-    //
-    //    return 0;
-
-    getPairs(pairs, npairs);
-
-    /*
-
-    StrIntPair p =
-    { "l2v4", 190 };
     try
     {
-        TestBase test(p.first, p.second);
-    } catch (std::exception &e)
+        Logger::Level level = Logger::stringToLevel(argv[2]);
+
+        cout << "setting log level to " << Logger::levelToString(level) << std::endl;
+        cout << "loading file " << argv[1] << std::endl;
+
+        Logger::setLevel(level);
+
+        RoadRunner r(argv[1]);
+
+        cout << r.getModel()->getInfo();
+
+        cout << "all done" << std::endl;
+    }
+    catch(std::exception &e)
     {
-        Log(lError) << "Error with test " << p.first << ", " << p.second
-                << ": " << e.what();
+        cout << "error: " << e.what();
     }
-     */
-
-    const int loop = 1;
-
-
-
-    time_t start, stop;
-    clock_t startc, stopc;
-
-    /*
-
-    startc = clock();
-    time(&start);
-    // Do stuff
-
-
-    for (int i = 0; i < loop; ++i) {
-        //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
-        try
-        {
-            TestRoadRunner test(pairs[0].first, pairs[0].second);
-            test.test("gcc");
-        }
-        catch (std::exception &e)
-        {
-            Log(lError) << "Error with test " << pairs[i].first << ", " << pairs[i].second
-                    << ": " << e.what();
-        }
-    }
-
-    stopc = clock();
-    time(&stop);
-
-    printf("C Model Used %0.2f seconds of CPU time. \n", (double)(stopc - startc)/CLOCKS_PER_SEC);
-    printf("C Model Finished in about %.0f seconds. \n", difftime(stop, start));
-
-     */
-
-    startc = clock();
-    time(&start);
-
-    int i = 2;
-    //for (int i = 0; i < loop; ++i) {
-    //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
-    try
-    {
-        TestEvalModel test("llvm", pairs[testCase].first, pairs[testCase].second);
-        test.test();
-        //TestRoadRunner test(compiler, pairs[testCase].first, pairs[testCase].second);
-        //test.test(compiler);
-        //test.saveResult();
-        //test.compareReference();
-    }
-    catch (std::exception &e)
-    {
-        Log(Logger::LOG_ERROR) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
-                << ": " << e.what();
-    }
-    //}
-
-    stopc = clock();
-    time(&stop);
-
-    printf("LLVM Model Used %0.2f seconds of CPU time. \n", (double)(stopc - startc)/CLOCKS_PER_SEC);
-    printf("LLVM Model Finished in about %.0f seconds. \n", difftime(stop, start));
-
-
-    //StrIntPair test = {"l3v1", 999  };
-    //StrIntPair test = {"l2v4", 7};
-    //runInitialValueAssigmentTest(test.first, test.second);
-
 
     return 0;
 }

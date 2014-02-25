@@ -28,11 +28,15 @@
 #include "SetValuesCodeGen.h"
 #include "SetInitialValuesCodeGen.h"
 #include "EventQueue.h"
+#include "rrSelectionRecord.h"
 
-#ifdef _MSC_VER
+
+#if __cplusplus >= 201103L || defined(_MSC_VER)
 #include <memory>
+#include <unordered_map>
 #else
 #include <tr1/memory>
+#include <tr1/unordered_map>
 #endif
 
 #include <map>
@@ -137,12 +141,10 @@ public:
     virtual void computeConservedTotals();
 
 
-    //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
 
 
-
-    virtual void setRateRuleValues(const double *rateRuleValues);
+    virtual std::string getStateVectorId(int index);
 
     /**
      * copies the internal model state vector into the provided
@@ -187,7 +189,7 @@ public:
      * @param[out] dydt calculated rate of change of the state vector, if null,
      * it is ignored.
      */
-    virtual void evalModel(double time, const double *y, double* dydt=0);
+    virtual void getStateVectorRate(double time, const double *y, double* dydt=0);
 
 
     virtual void testConstraints();
@@ -479,6 +481,14 @@ public:
 private:
 
     /**
+     * get a selection record for a given stirng. if the string is valid,
+     * the SelectionRecord is created and cached.
+     *
+     * if the string is invalid, and exception is thrown.
+     */
+    const rr::SelectionRecord& getSelection(const std::string& sel);
+
+    /**
      * previous state
      * get current state
      * current state becomes previous state for next itteration
@@ -547,10 +557,13 @@ private:
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
 
 
-    double getFloatingSpeciesConcentration(int index);
-
     typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);
 
+    /**
+     * cache the selection records
+     */
+    typedef std::tr1::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
+    SelectionMap selectionRecordCache;
 
     /**
      * get the values from the model struct and populate the given values array.

@@ -270,8 +270,8 @@ std::string SelectionRecord::to_repr() const
     case SelectionRecord::CONTROL: selType = "CONTROL"; break;
     case SelectionRecord::UNSCALED_CONTROL: selType = "UNSCALED_CONTROL"; break;
     case SelectionRecord::EIGENVALUE: selType = "EIGENVALUE"; break;
-	case SelectionRecord::INITIAL_FLOATING_AMOUNT: selType = "INITIAL_VALUE"; break;
-	case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: selType = "INITIAL_CONCENTRATION"; break;
+    case SelectionRecord::INITIAL_AMOUNT: selType = "INITIAL_AMOUNT"; break;
+    case SelectionRecord::INITIAL_CONCENTRATION: selType = "INITIAL_CONCENTRATION"; break;
     case SelectionRecord::STOICHIOMETRY: selType = "STOICHIOMETRY"; break;
     case SelectionRecord::UNKNOWN_ELEMENT: selType = "UNKNOWN_ELEMENT"; break;
     case SelectionRecord::UNKNOWN_CONCENTRATION: selType = "UNKNOWN_CONCENTRATION"; break;
@@ -323,11 +323,11 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     }
     else if(is_init_value(str, p1))
     {
-        selectionType = INITIAL_FLOATING_AMOUNT;
+        selectionType = INITIAL_AMOUNT;
     }
     else if(is_init_conc(str, p1))
     {
-        selectionType = INITIAL_FLOATING_CONCENTRATION;
+        selectionType = INITIAL_CONCENTRATION;
     }
     else if(is_stoich(str, p1, p2))
     {
@@ -378,10 +378,10 @@ std::string rr::SelectionRecord::to_string() const
     case EIGENVALUE:
         result = "eigen(" + p1 + ")";
         break;
-    case INITIAL_FLOATING_AMOUNT:
+    case INITIAL_AMOUNT:
         result = "init(" + p1 + ")";
         break;
-    case INITIAL_FLOATING_CONCENTRATION:
+    case INITIAL_CONCENTRATION:
         result = "init([" + p1 + "])";
         break;
     case STOICHIOMETRY:

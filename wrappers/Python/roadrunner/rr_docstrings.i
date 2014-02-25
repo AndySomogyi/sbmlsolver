@@ -348,7 +348,8 @@ The order of parameters is given by the order of Ids returned by getGlobalParame
 %feature("docstring") rr::ExecutableModel::setTime "
 ExecutableModel.setTime(time)
 
-Set the model time variable. NOt sure what this does.
+Set the model time variable.
+
 
 :param time: time the time value to set.
 :returns: None
@@ -363,6 +364,7 @@ Returns the stochiometric coefficient for the given species index and reaction i
 
 Frequently one does not need the full stochiometrix matrix, particularly if the system is
 large and only a single coefficent is needed.
+
 
 :param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
 :param reactionIndex: a reaction index from :meth:`getReactionIds`
@@ -383,7 +385,73 @@ When the LLVM back end is used (default) this always returns the current state o
 stochiometric coeffecients, so if any of these are determined by any rule, this will return the
 currect value.
 
+
 :returns: an n by m numpy ndarray of the stoichiometrix coeffecients.
+:rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getStateVector "
+ExecutableModel.getStateVector([stateVector])
+
+Returns a vector of all the variables that represent the state of the system. The state is
+considered all values which change with the dynamics of the model. This would include all species
+which are produced or consumed by reactions, and all variables which are defined by rate rules.
+
+Variables such as global parameters, compartments, or boundary species which do not change with
+the model dynamics are considered parameters and are thus not part of the state.
+
+In performance critical applications, the optional stateVector array should be provided where the
+output variables will be written to.
+
+
+:param numpy.ndarray stateVector: an optional numpy array where the state vector variables will be writen. If
+                    no state vector array is given, a new one will be constructed and returned.
+
+                    This should be the same length as the model state vector.
+:rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getStateVectorId "
+ExecutableModel.getStateVectorId(index)
+
+Get the id (symbolc name) of a state vector item.
+
+:param int index: the index of the desired state vector item
+:rtype: str
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getStateVectorIds "
+ExecutableModel.getStateVectorIds()
+
+Returns a list of all state vector ids
+
+:rtype: list
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getStateVectorRate "
+ExecutableModel.getStateVectorRate(time, [stateVector], [stateVectorRate])
+
+Calculates the rate of change of all state vector varibles.
+
+Note, the rate of change of species returned by this method is always in units of amount /
+time.
+
+
+:param double time: the model time at which the calculation should be performed.
+:param numpy.ndarray: (optional) the model state at which the calculation should be performed. If
+                      this is not give, the current state is used.
+:param numpy.ndarray: (optional) an output array where the rates of change will be written to. If
+                      this is not given, a new array is allocated and returned.
+
+:returns: an array of the rates of change of all state vector variables.
 :rtype: numpy.ndarray
 ";
 
@@ -403,6 +471,7 @@ Returns the number of conserved moieties in the model.
 ExecutableModel.getConservedMoietyIds([index])
 
 Returns a vector of conserved moiety identifier symbols.
+
 
 :param index: A array of compartment indices indicating which comparment ids to return.
 :type index: None or numpy.ndarray
@@ -439,29 +508,29 @@ length as index.
 :param numpy.ndarray index: (optional) an index array indicating which items to set,
                             or if no index array is given, the first param should be an
                             array of all the  values to set.
-
 :param numpy.ndarray values: the values to set.
 ";
 
 
 
 %feature("docstring") rr::RoadRunner "
-RoadRunner.__init__(compiler='', tempDir='', supportCodeDir='')
+RoadRunner.__init__(uriOrSBML = "", options = None)
 
-All three of the libRoadRunner options default to the empty string, in this
-case, the default values are used.
+Creates a new RoadRunner object. If the first argument is specified,
+it should be a string containing either the contents of an sbml document,
+or a formated URI specifying the path or location of a sbml document.
 
+If options is given, it shhould be a LoadSBMLOptions object.
 
-:param compiler: if LLVM build is enabled, the compiler defaults to LLVM.
+If no arguments are given, a document may be loaded at any future time
+using the load method.
+
+:param uriOrSBML: a URI, local path or sbml document contents.
 :type name: str (optional)
 
-:param tempDir: (string) typically ignored, only used by the old C RoadRunner.
+:param options: (LoadSBMLOptions) an options object specifying how the
+                sbml document should be loaded
 :type name: str (optional)
-
-:param supportCodeDir: typically ignored, only used by the old C RoadRunner
-:type name: str (optional)
-
-and some more stuff.
 ";
 
 
@@ -697,16 +766,6 @@ RoadRunner.getLinkMatrix()
 
 Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
 is the number of floating species and r the rank of the stichiometric matrix, N.
-
-:rtype: numpy.ndarray
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getModelGenerator "
-RoadRunner.getModelGenerator()
-
-TODO docs
 
 :rtype: numpy.ndarray
 ";
@@ -1083,17 +1142,6 @@ to be global parameters.
 
 :param str sbml: the contents of an sbml document
 :rtype: str
-
-
-
-.. py:function:: RoadRunner_getVersion()
-
-TODO docs
-
-
-.. py:function:: RoadRunner_getlibSBMLVersion()
-
-TODO docs
 ";
 
 

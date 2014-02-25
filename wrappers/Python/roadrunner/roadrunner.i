@@ -40,10 +40,20 @@
     #include <rrVersionInfo.h>
     #include <rrException.h>
     #include <assert.h>
+    #include <math.h>
+    #include <cmath>
 
-#ifndef _WIN32
-#include <signal.h>
+// Windows is just so special...
+#ifdef _WIN32
+    #define INFINITY (DBL_MAX + DBL_MAX)
+    #define NAN (INFINITY - INFINITY)
+    #define isnan _isnan
+#else
+    #include <signal.h>
+    #define isnan std::isnan
 #endif
+
+
     using namespace rr;
 %}
 
@@ -271,6 +281,8 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
     return array;
 }
 
+
+
 static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
     std::stringstream s;
     s << "[";
@@ -323,6 +335,9 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
                 PyObject *col = PyString_FromString(names[i].c_str());
                 PyObject *type = PyString_FromString("f8");
                 PyObject *tup = PyTuple_Pack(2, col, type);
+
+				Py_DECREF(col);
+				Py_DECREF(type);
 
                 void PyList_SET_ITEM(list, i, tup);
             }
@@ -381,6 +396,10 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 // typemap for the set***Values methods
 %apply (int DIM1, int* IN_ARRAY1) {(int leni, int const* indx)};
 %apply (int DIM1, double* IN_ARRAY1) {(int lenv, const  double* values)};
+
+// typemap for getStateVector, getStateVectorRate
+%apply (int DIM1, double* IN_ARRAY1)      {(int in_len, double const *in_values)};
+%apply (int DIM1, double* INPLACE_ARRAY1) {(int out_len, double* out_values)};
 
 #define LIB_EXTERN
 #define RR_DECLSPEC
@@ -529,6 +548,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::RoadRunner::setSimulateOptions;
 %ignore rr::RoadRunner::getIds(int types, std::list<std::string> &);
 
+%ignore rr::RoadRunner::getOptions;
+
 
 
 // rename these, the injected python code will take care of
@@ -569,6 +590,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getFloatingSpeciesAmounts(int, int const*, double *);
 %ignore rr::ExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(int, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesConcentrationRates(int, int const*, double *);
+
 %ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(int, int const*, double *);
 %ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, const double *values);
@@ -588,12 +611,13 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::computeConservedTotals;
 %ignore rr::ExecutableModel::setRateRuleValues;
 %ignore rr::ExecutableModel::getRateRuleValues;
-%ignore rr::ExecutableModel::getStateVector;
+%ignore rr::ExecutableModel::getStateVector(double *stateVector);
 %ignore rr::ExecutableModel::setStateVector;
 %ignore rr::ExecutableModel::convertToConcentrations;
 %ignore rr::ExecutableModel::updateDependentSpeciesValues;
 %ignore rr::ExecutableModel::computeAllRatesOfChange;
-%ignore rr::ExecutableModel::evalModel;
+%ignore rr::ExecutableModel::getStateVectorRate(double time, const double *y, double* dydt);
+%ignore rr::ExecutableModel::getStateVectorRate(double time, const double *y);
 %ignore rr::ExecutableModel::testConstraints;
 %ignore rr::ExecutableModel::print;
 %ignore rr::ExecutableModel::getNumEvents;
@@ -741,6 +765,8 @@ namespace std { class ostream{}; }
 
     const rr::SimulateOptions *simulateOptions;
 
+    rr::RoadRunnerOptions *options;
+
 
     const rr::RoadRunnerData *simulate(double startTime, double endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
@@ -792,9 +818,12 @@ namespace std { class ostream{}; }
 
    %pythoncode %{
         def getModel(self):
-            m = self._getModel();
-            m._makeProperties()
-            return m
+            if self.options.disablePythonDynamicProperties:
+                return self._getModel()
+            else:
+                m = self._getModel();
+                m._makeProperties()
+                return m
 
         __swig_getmethods__["selections"] = _getSelections
         __swig_setmethods__["selections"] = _setSelections
@@ -851,6 +880,17 @@ namespace std { class ostream{}; }
     void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
         r->setSimulateOptions(*opt);
     }
+
+
+    rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
+        return &r->getOptions();
+    }
+
+    void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
+        rr::RoadRunnerOptions *rropt = &r->getOptions();
+        *rropt = *opt;
+    }
+
 %}
 
 
@@ -937,10 +977,36 @@ namespace std { class ostream{}; }
         if (value) {
             opt->integratorFlags |= SimulateOptions::STIFF;
         } else {
-            opt->integratorFlags &= !SimulateOptions::STIFF;
+            opt->integratorFlags &= ~SimulateOptions::STIFF;
         }
     }
 %}
+
+
+
+%extend rr::RoadRunnerOptions
+{
+    bool disablePythonDynamicProperties;
+}
+
+%{
+
+
+    bool rr_RoadRunnerOptions_disablePythonDynamicProperties_get(RoadRunnerOptions* opt) {
+        return opt->flags & rr::RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+    }
+
+    void rr_RoadRunnerOptions_disablePythonDynamicProperties_set(RoadRunnerOptions* opt, bool value) {
+        if (value) {
+            opt->flags |= rr::RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+        } else {
+            opt->flags &= ~rr::RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+        }
+    }
+
+
+%}
+
 
 
 %extend rr::ExecutableModel
@@ -1074,6 +1140,227 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
     }
 
+    /***
+     ** state vector section
+     ***/
+
+
+
+    /**
+     * overload which returns a copy of the state vector
+     */
+    PyObject *getStateVector() {
+        int len = ($self)->getStateVector(0);
+
+        npy_intp dims[1] = {len};
+        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+
+        if (!array) {
+            // TODO error handling.
+            return 0;
+        }
+
+        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
+
+        ($self)->getStateVector(data);
+
+        return array;
+    }
+
+
+    void getStateVector(int out_len, double* out_values) {
+        int len = ($self)->getStateVector(0);
+
+        if (len > out_len) {
+            PyErr_Format(PyExc_ValueError,
+                         "given array of size %d, insufficient size for state vector %d.",
+                         out_len, len);
+            return;
+        }
+
+        ($self)->getStateVector(out_values);
+    }
+
+    /**
+     * get a copy of the state vector rate using the current state.
+     */
+    PyObject *getStateVectorRate(double time = NAN) {
+        int len = ($self)->getStateVector(0);
+
+        npy_intp dims[1] = {len};
+        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+
+        if (!array) {
+            // TODO error handling.
+            return 0;
+        }
+
+        if (isnan(time)) {
+            time = ($self)->getTime();
+        } 
+
+        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
+
+        ($self)->getStateVectorRate(time, 0, data);
+
+        return array;
+    }
+
+
+    PyObject *getStateVectorRate(double time, PyObject *arg) {
+        
+        // length of state vector
+        int len = ($self)->getStateVector(0);
+
+        if (isnan(time)) {
+            time = ($self)->getTime();
+        } 
+
+        // check if the pyobj is an npy double array
+        PyArrayObject *array  = obj_to_array_no_conversion(arg, NPY_DOUBLE);
+
+        // need contigous and native
+        // these set py error if they fail
+        if (array && require_contiguous(array) && require_native(array)) 
+        {
+            // The number of dimensions in the array.
+            int ndim = PyArray_NDIM(array);
+
+            // pointer to the dimensions/shape of the array. 
+            npy_intp *pdims = PyArray_DIMS(array);
+
+            if (ndim > 0 && pdims[ndim-1] == len) {
+
+                // total number of elements in array
+                npy_intp size = PyArray_SIZE(array);
+
+                printf("size: %i\n", (int)size);
+
+                // how many state vectors we have in given array
+                int nvec = size / len;
+
+                // pointer to start of data block
+                double* stateVec = (double*)PyArray_DATA(array);
+
+                // make result data, copy descriptor
+                PyArray_Descr *dtype = PyArray_DESCR(array);
+                Py_INCREF(dtype);
+
+                // If strides is NULL, then the array strides are computed as 
+                // C-style contiguous (default) 
+                PyObject *result = PyArray_NewFromDescr(&PyArray_Type,
+                                                        dtype,
+                                                        ndim,
+                                                        pdims,
+                                                        NULL,
+                                                        NULL,
+                                                        0,
+                                                        NULL);
+
+                // out data
+                double* stateVecRate = (double*)PyArray_DATA(result);
+
+                // get the state vector rates, bump the data pointers
+                // to the next state vec 
+                for (int i = 0; i < nvec; ++i) {
+                    ($self)->getStateVectorRate(time, stateVec, stateVecRate);
+                    stateVec += len;
+                    stateVecRate += len;
+                }
+
+                return result;
+            }
+
+            PyErr_Format(PyExc_TypeError,
+                         "Require an N dimensional array where N must be at least 1 and "
+                         "the trailing dimension must be the same as the state vector size. " 
+                         "require trailing dimension of %i but recieved %d", len, (int)pdims[ndim-1]);
+            
+           
+        }
+
+        // error case, PyErr is set if we get here.
+        return 0;
+    }
+
+
+    PyObject *getStateVectorRate(double time, PyObject *arg1, PyObject *arg2) {
+
+        // length of state vector
+        int len = ($self)->getStateVector(0);
+
+        if (isnan(time)) {
+            time = ($self)->getTime();
+        } 
+
+        // check if the pyobj is an npy double array
+        PyArrayObject *array1  = obj_to_array_no_conversion(arg1, NPY_DOUBLE);
+        PyArrayObject *array2  = obj_to_array_no_conversion(arg2, NPY_DOUBLE);
+
+        // need contigous and native
+        // these set py error if they fail
+        if (array1 && require_contiguous(array1) && require_native(array1) &&
+            array2 && require_contiguous(array2) && require_native(array2))
+        {
+            // The number of dimensions in the array.
+            int ndim1 = PyArray_NDIM(array1);
+            int ndim2 = PyArray_NDIM(array2);
+
+            // pointer to the dimensions/shape of the array. 
+            npy_intp *pdims1 = PyArray_DIMS(array1);
+            npy_intp *pdims2 = PyArray_DIMS(array2);
+
+            if (ndim1 > 0 && pdims1[ndim1-1] == len &&
+                ndim2 > 0 && pdims2[ndim2-1] == len ) {
+
+                // total number of elements in array
+                npy_intp size = PyArray_SIZE(array1);
+
+                if (size == PyArray_SIZE(array2)) {
+
+                    printf("size: %i\n", (int)size);
+
+                    // how many state vectors we have in given array
+                    int nvec = size / len;
+                    
+                    // pointer to start of data block
+                    double* stateVec = (double*)PyArray_DATA(array1);
+                    
+                    // out data
+                    double* stateVecRate = (double*)PyArray_DATA(array2);
+
+                    // get the state vector rates, bump the data pointers
+                    // to the next state vec 
+                    for (int i = 0; i < nvec; ++i) {
+                        ($self)->getStateVectorRate(time, stateVec, stateVecRate);
+                        stateVec += len;
+                        stateVecRate += len;
+                    }
+                    
+                    // only error free result case
+                    // caller should decref the array so we need incrref it.
+                    Py_INCREF(arg2);
+                    return arg2;
+
+                } else {
+                    PyErr_Format(PyExc_TypeError,
+                                 "Both arrays must be the same size and shape, array 1 size: %i, "
+                                 "array 2 size: %i", (int)size, (int)PyArray_SIZE(array2));
+                }
+            } else {
+                PyErr_Format(PyExc_TypeError,
+                             "Require an N dimensional array where N must be at least 1 and "
+                             "the trailing dimension must be the same as the state vector size. " 
+                             "require trailing dimension of %i but recieved %d", len, (int)pdims1[ndim1-1]);
+            }
+        }
+
+        // error case, PyErr is set if we get here.
+        return 0;
+    }
+
+
+
 
     /***
      ** get ids section
@@ -1115,6 +1402,11 @@ namespace std { class ostream{}; }
     PyObject *getFloatingSpeciesAmountRateIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT_RATE);
     }
+
+    PyObject *getStateVectorIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::STATE_VECTOR);
+    }
+
 
 
     /***

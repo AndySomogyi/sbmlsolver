@@ -46,18 +46,18 @@ public:
     SBMLDocument*           getSBMLDocument();
     static string           getlibSBMLVersion();
 
-    ArrayList               getDerivedUnitDefinition(const string& sId);
-    ArrayList               getListOfBoundarySpeciesIds();
-    ArrayList               getListOfErrors();
+    StringListContainer     getDerivedUnitDefinition(const string& sId);
+    StringListContainer     getListOfBoundarySpeciesIds();
+    StringListContainer     getListOfErrors();
     StringListContainer     getListOfFloatingSpecies();
-    ArrayList               getListOfFloatingSpeciesIds();
-    ArrayList               getListOfParameters();
-    ArrayList               getNthError(const int& nIndex);
-    ArrayList               getNthEvent(const int& arg);
-    ArrayList               getNthFunctionDefinition(const int& arg);
-    ArrayList               getNthListOfModifiers(const int& nIndex);
-    ArrayList               getNthListOfProducts(const int& nIndex);
-    ArrayList               getNthListOfReactants(const int& nIndex);
+    StringListContainer     getListOfFloatingSpeciesIds();
+    StringListContainer     getListOfParameters();
+    StringListContainer     getNthError(const int& nIndex);
+    StringListContainer     getNthEvent(const int& arg);
+    StringListContainer     getNthFunctionDefinition(const int& arg);
+    StringListContainer     getNthListOfModifiers(const int& nIndex);
+    StringListContainer     getNthListOfProducts(const int& nIndex);
+    StringListContainer     getNthListOfReactants(const int& nIndex);
     ASTNode                 replaceSymbol(ASTNode* node, const string& oldId, const string& newId);
     bool                    exists(const string& sId);
     bool                    getNthParameterHasValue(const int& nReactionIndex, const int& nParameterIndex);
@@ -278,7 +278,7 @@ private:
 
     StringSymbolHashTable   mSymbolTable;
 
-    ArrayList               returnUnitDefinition(UnitDefinition oDefinition);
+    StringListContainer     returnUnitDefinition(UnitDefinition oDefinition);
 
     ASTNode                 changeTimeToCSymbol(ASTNode* node, const string& name, const int& type);
     bool                    addMissingModifiers(Model *oModel);

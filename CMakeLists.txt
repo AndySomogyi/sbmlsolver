@@ -89,16 +89,15 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-OPTION (INSTALL_CXX_API          "Generate C++ api"                               ON )
-OPTION (INSTALL_C_API            "Generate C API"                                 ON )
-OPTION (INSTALL_C_API_PYTHON     "Package ctypes  Python wrapper for the C API"   ON )
-OPTION (INSTALL_APPS             "Build and install Apps"                         ON )
-OPTION (INSTALL_EXAMPLES         "Build and install Examples"                     OFF)
-OPTION (INSTALL_STATIC_LIB       "Install RoadRunner CXX static lib"              OFF)
-OPTION (RR_BUILD_SHARED_CORE     "Build RoadRunner Core Shared library"           OFF)
-OPTION (BUILD_TESTS              "Build the SBML C API test suite"                OFF)
-OPTION (INSTALL_SBML_MODELS      "Install SBML Models"                            ON )
-OPTION (BUILD_PLUGINS            "Build and Install Plugins"                      OFF)
+OPTION (INSTALL_CXX_API         "Generate C++ api"                               ON )
+OPTION (INSTALL_C_API           "Generate C API"                                 ON )
+OPTION (INSTALL_C_API_PYTHON    "Package ctypes  Python wrapper for the C API"   ON )
+OPTION (INSTALL_APPS            "Build and install Apps"                         ON )
+OPTION (INSTALL_EXAMPLES        "Build and install Examples"                     OFF)
+OPTION (INSTALL_STATIC_LIB      "Install RoadRunner CXX static lib"              OFF)
+OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"           ON)
+OPTION (BUILD_TESTS             "Build the SBML C API test suite"                OFF)
+OPTION (INSTALL_SBML_MODELS     "Install SBML Models"                            ON )
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS            ON)
@@ -256,12 +255,6 @@ else()
     message(STATUS "NOT building tests")
 endif(BUILD_TEST_TOOLS)
 
-if(BUILD_PLUGINS)
-    message(STATUS "building plugins")
-    add_subdirectory(plugins)
-else()
-    message(STATUS "NOT building plugins")
-endif(BUILD_PLUGINS)
 
 #======================= INSTALL STUFF ========================================================
 #What sub folders to move into...?

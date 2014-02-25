@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "rrSparse.h"
 #include "rrModelGenerator.h"
+#include "rrStringUtils.h"
 #include "conservation/ConservationExtension.h"
 
 #include <Poco/LogStream.h>
@@ -192,6 +193,41 @@ LLVMModelDataSymbols::~LLVMModelDataSymbols()
 const std::string& LLVMModelDataSymbols::getModelName() const
 {
     return modelName;
+}
+
+LLVMModelDataSymbols::SymbolIndexType LLVMModelDataSymbols::getSymbolIndex(
+        const std::string& name, int& result) const
+{
+    StringUIntMap::const_iterator i;
+
+    if((i = floatingSpeciesMap.find(name)) != floatingSpeciesMap.end())
+    {
+        result = i->second;
+        return FLOATING_SPECIES;
+    }
+    else if((i = boundarySpeciesMap.find(name)) != boundarySpeciesMap.end())
+    {
+        result = i->second;
+        return BOUNDARY_SPECIES;
+    }
+    else if((i = compartmentsMap.find(name)) != compartmentsMap.end())
+    {
+        result = i->second;
+        return COMPARTMENT;
+    }
+    else if((i = globalParametersMap.find(name)) != globalParametersMap.end())
+    {
+        result = i->second;
+        return GLOBAL_PARAMETER;
+    }
+    else if((i = reactionsMap.find(name)) != reactionsMap.end())
+    {
+        result = i->second;
+        return REACTION;
+    }
+
+    result = -1;
+    return INVALID_SYMBOL;
 }
 
 uint LLVMModelDataSymbols::getCompartmentIndex(
@@ -422,6 +458,21 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
+std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
+{
+    for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
+            i != floatingSpeciesMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    throw std::out_of_range("attempted to access floating species id at index " + rr::toString(indx));
+}
+
+
 uint LLVMModelDataSymbols::getIndependentFloatingSpeciesSize() const
 {
     return independentFloatingSpeciesSize;
@@ -501,6 +552,21 @@ uint LLVMModelDataSymbols::getRateRuleIndex(std::string const& id) const
 uint LLVMModelDataSymbols::getRateRuleSize() const
 {
     return rateRules.size();
+}
+
+std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
+{
+    for(StringUIntMap::const_iterator i = rateRules.begin();
+            i != rateRules.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    throw std::out_of_range("attempted to access rate rule id at index " +
+            rr::toString(indx));
 }
 
 bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
@@ -899,6 +965,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
         }
     }
 }
+
 
 
 bool LLVMModelDataSymbols::isValidSpeciesReference(

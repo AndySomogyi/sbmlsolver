@@ -132,6 +132,17 @@ public:
         Reactant, Product, Modifier
     };
 
+    /**
+     * The model frequently looks for indices to sbml symbols.
+     *
+     * This is a list of the types of sbml symbols that this
+     * class keeps track of.
+     */
+    enum SymbolIndexType
+    {
+        FLOATING_SPECIES, BOUNDARY_SPECIES, COMPARTMENT, GLOBAL_PARAMETER, REACTION, INVALID_SYMBOL
+    };
+
     struct SpeciesReferenceInfo
     {
         uint row;
@@ -149,6 +160,16 @@ public:
     const std::string& getModelName() const;
 
     uint getCompartmentIndex(std::string const&) const;
+
+    /**
+     * checks to see if we have the given symbol in the sbml.
+     *
+     * @param name the name of the sbml symbol to look up.
+     * @param result if successfull, this is set to the index
+     * @returns the type of symbol, if no symbol is found, then
+     * INVALID_SYMBOL is returned.
+     */
+    SymbolIndexType getSymbolIndex(const std::string& name, int& result) const;
 
     /**
      * get the index of a floating species.
@@ -181,7 +202,13 @@ public:
     uint getGlobalParameterIndex(std::string const&) const;
 
     uint getRateRuleIndex(std::string const&) const;
+
     uint getRateRuleSize() const;
+
+    /**
+     * get the symbolic id of the i'th rate rule
+     */
+    std::string getRateRuleId(uint indx) const;
 
     /**
      * number of global parameters which are not determined by rules.
@@ -201,6 +228,12 @@ public:
      * All floating species ids, independent first.
      */
     std::vector<std::string> getFloatingSpeciesIds() const;
+
+
+    /**
+     * get the symbolic id of the i'th floating species.
+     */
+    std::string getFloatingSpeciesId(uint indx) const;
 
 
     /**

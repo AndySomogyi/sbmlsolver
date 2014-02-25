@@ -46,22 +46,30 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         }
         else
         {
-            return parentResolver.loadSymbolValue(symbol);
+            return parentResolver.loadSymbolValue(symbol, args);
         }
     }
     else if ((funcDef = model->getListOfFunctionDefinitions()->get(symbol)))
     {
         const ASTNode *math = funcDef->getMath();
+        const unsigned nchild = math->getNumChildren();
 
         if (!math->isLambda())
         {
-            throw_llvm_exception(symbol + ", math elemetn of function definition must be a lambda");
+            throw_llvm_exception(symbol + ", math element of function definition must be a lambda");
         }
 
-        if (math->getNumChildren() != args.size() + 1)
+        // must have at least one trailing apply node
+        if (nchild < 1)
         {
-            string expected = rr::toString(args.size() + 1);
-            string got = rr::toString(math->getNumChildren());
+            throw_llvm_exception("function node " + symbol + " must have at least one child node, "
+                    "this node has " + rr::toString(nchild) +  " child nodes");
+        }
+
+        if (nchild - 1 != args.size())
+        {
+            string expected = rr::toString(nchild - 1);
+            string got = rr::toString(args.size());
 
             throw_llvm_exception(symbol + ", argument count does not match, expected " +
                     expected + ", recieved: " + got);
@@ -69,7 +77,8 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
 
         symbols = new map<string, Value*>();
 
-        for (uint i = 0; i < math->getNumChildren() - 1; ++i)
+        // first set of child nodes are bvars, these go into new local scope
+        for (uint i = 0; i < nchild - 1; ++i)
         {
             const ASTNode *c = math->getChild(i);
             assert(c->isBvar());
@@ -77,7 +86,11 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         }
 
         ASTNodeCodeGen astCodeGen(builder, *this);
-        Value *result = astCodeGen.codeGen(math->getChild(math->getNumChildren() - 1));
+
+        // the last child should be an apply node
+        const ASTNode *apply = math->getChild(nchild - 1);
+        Value *result = astCodeGen.codeGen(apply);
+
         delete symbols;
         symbols = 0;
         return result;

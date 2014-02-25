@@ -57,7 +57,6 @@ set(rrSources
     c/rrPendingAssignment
     c/rrCompiledModelGenerator
     c/rrCModelGenerator
-    c/rrCSharpModelGenerator
     c/rrCodeBuilder
     c/rrCCompiler
     c/rrScanner
@@ -146,8 +145,20 @@ if(RR_BUILD_SHARED_CORE)
         nleq-static
         rr-libstruct-static
         poco_foundation-static
-        libxml2
         )
+
+    
+    # link with libxml, aperently borland can't link with a 
+    # conventional C library, need to be specially converted for borland
+
+    if(UNIX)
+	target_link_libraries(${target} xml2)       	 
+    elseif(${MSVC})
+	target_link_libraries (${target} libxml2)
+    elseif(${BORLAND})
+        target_link_libraries (${target} libxml2_xe)
+    endif()
+
 
     if (USE_POCO_NET)
     target_link_libraries (${target}
@@ -156,8 +167,7 @@ if(RR_BUILD_SHARED_CORE)
     add_definitions(
         -DWITH_POCO_NET
     )
-
-    endif()
+    endif(USE_POCO_NET)
 
     if(UNIX)
         target_link_libraries (${target}
@@ -173,7 +183,7 @@ if(RR_BUILD_SHARED_CORE)
             )
     endif(UNIX)
 
-    #Libxml we can't build right now
+    #Libxml is not built. Use a VS converted import file for Borland
     if(${BORLAND})
         target_link_libraries (${target}
             libxml2_xe
@@ -264,20 +274,17 @@ endif(BUILD_LLVM)
 
 #Libxml we can't build right now
 if(${BORLAND})
-    target_link_libraries (${target}-static
-        libxml2_xe
-        )
+    target_link_libraries (${target}-static libxml2_xe)
 endif()
 
 if(${MSVC})
     target_link_libraries(${target}-static libxml2)
 endif()
 
-if(BUILD_LLVM)
-    add_subdirectory(llvm_testing)
-endif(BUILD_LLVM)
-
 if(BUILD_TEST_TOOLS)
+    if(BUILD_LLVM)
+        add_subdirectory(llvm_testing)
+    endif(BUILD_LLVM)
     add_subdirectory(testing)
 endif()
 

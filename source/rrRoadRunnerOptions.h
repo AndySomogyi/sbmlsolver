@@ -292,5 +292,35 @@ struct RR_DECLSPEC SimulateOptions
 };
 
 
+
+/**
+ * A set of options that determine how the top level RoadRunner class
+ * should behave.
+ */
+struct RR_DECLSPEC RoadRunnerOptions
+{
+    enum Options
+    {
+        /**
+         * RoadRunner by default dynamically generates accessor properties
+         * for all sbml symbol names on the model object when it is retrieved
+         * in Python. This feature is very nice for interactive use, but
+         * can slow things down. If this feature is not needed, it
+         * can be disabled here.
+         */
+        DISABLE_PYTHON_DYNAMIC_PROPERTIES             = (0x1 << 0), // => 0x00000001
+    };
+
+    /**
+     * a bitmask of the options specified in the Options enumeration.
+     */
+    uint32_t flags;
+
+    RoadRunnerOptions() : flags(0)
+    {
+    }
+};
+
+
 } /* namespace rr */
 #endif /* RRROADRUNNEROPTIONS_H_ */

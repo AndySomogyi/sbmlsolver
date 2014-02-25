@@ -404,15 +404,18 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
 {
-    uint nargs = ast->getNumChildren();
+    const uint nargs = ast->getNumChildren();
 
     Value** args = (Value**) alloca(nargs*sizeof(Value*));
 
-    for (uint i = 0; i < ast->getNumChildren(); ++i)
+    for (uint i = 0; i < nargs; ++i)
     {
         const ASTNode *c = ast->getChild(i);
         args[i] = codeGen(c);
     }
+
+    Log(Logger::LOG_TRACE) << "ASTNodeCodeGen::functionCallCodeGen, name: "
+            << ast->getName() << ", numChild: " << nargs;
 
     return resolver.loadSymbolValue(ast->getName(), ArrayRef<Value*>(args, nargs));
 }

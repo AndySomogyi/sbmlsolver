@@ -1,4 +1,4 @@
-set(target rrc_api)
+set(target roadrunner_c_api)
 
 set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 
@@ -12,9 +12,9 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 
 #The C-api is built as a shared library..
 add_library(${target} SHARED
-    rrNewArrayList
-    rrNewArrayListItem
-    rrNewArrayListItemObject
+    rrArrayList
+    rrArrayListItem
+    rrArrayListItemBase
     rrc_api
     rrc_logging_api
     rrc_nom_api
@@ -23,10 +23,6 @@ add_library(${target} SHARED
     rrc_cpp_support
 )
 
-#if(${MSVC})
-#    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrc_api.def\"")
-#endif()
-
 #Link C_api dll statically to roadrunner and libsbml
 if(WIN32)
     set_property(TARGET ${target}
@@ -34,7 +30,6 @@ if(WIN32)
         EXPORT_RRC
         LIBSBML_STATIC
         LIBLAX_STATIC
-        STATIC_PUGI
         POCO_STATIC
         STATIC_LIBSTRUCT
         STATIC_RR
@@ -58,7 +53,6 @@ else() #Unix
         PROPERTY  COMPILE_DEFINITIONS
         LIBSBML_STATIC
         LIBLAX_STATIC
-        STATIC_PUGI
         STATIC_LIBSTRUCT
         )
 
@@ -84,14 +78,13 @@ if(BUILD_TEST_TOOLS)
 endif()
 
 #=============== INSTALL =====================
+#Glob all header files
+FILE (GLOB headers rrc*.h)
+
 install(
     FILES
-    ${target}.h
-    rrc_utilities.h
-    rrc_types.h
-    rrc_exporter.h
-
-    DESTINATION include/c_api COMPONENT c_api
+    ${headers}
+    DESTINATION include/rr/C COMPONENT c_api
     )
 
 install(

@@ -810,7 +810,7 @@ static SymbolList readGlobalParameters(NOMSupport &nom)
     SymbolList gblobalParameterList;
 
     int numGlobalParameters;
-    ArrayList oParameters = nom.getListOfParameters();
+    StringListContainer oParameters = nom.getListOfParameters();
     numGlobalParameters = oParameters.Count();
     for (u_int i = 0; i < numGlobalParameters; i++)
     {

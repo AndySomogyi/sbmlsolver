@@ -13,16 +13,16 @@ libHandle=None
 if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib = os.path.join(rrInstallFolder, 'rrc_api.dll')
+    sharedLib = os.path.join(rrInstallFolder, 'roadrunner_c_api.dll')
     rrLib=CDLL(sharedLib)
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-    print(os.path.join(rrInstallFolder, 'librrc_api.dylib'))
+    print(os.path.join(rrInstallFolder, 'libroadrunner_c_api.dylib'))
     # check for .so (linux)
-    if os.path.isfile(os.path.join(rrInstallFolder, 'librrc_api.so')):
-        sharedLib = os.path.join(rrInstallFolder, 'librrc_api.so')
-    elif os.path.isfile(os.path.join(rrInstallFolder, 'librrc_api.dylib')):
-        sharedLib = os.path.join(rrInstallFolder, 'librrc_api.dylib')
+    if os.path.isfile(os.path.join(rrInstallFolder, 'libroadrunner_c_api.so')):
+        sharedLib = os.path.join(rrInstallFolder, 'libroadrunner_c_api.so')
+    elif os.path.isfile(os.path.join(rrInstallFolder, 'libroadrunner_c_api.dylib')):
+        sharedLib = os.path.join(rrInstallFolder, 'libroadrunner_c_api.dylib')
     else:
         raise Exception("could not locate RoadRunner shared library")
     rrLib = cdll.LoadLibrary(sharedLib)
