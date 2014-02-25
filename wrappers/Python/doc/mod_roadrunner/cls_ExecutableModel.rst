@@ -104,7 +104,7 @@
 
    Returns a vector of compartment identifier symbols.
 
-   :param index: A array of compartment indices indicating which comparment ids to return.
+   :param index: A array of compartment indices indicating which compartment ids to return.
    :type index: None or numpy.ndarray
    :returns: a list of compartment ids.
 
@@ -315,7 +315,7 @@
    Returns the stochiometric coefficient for the given species index and reaction index. 
 
    Frequently one does not need the full stochiometrix matrix, particularly if the system is 
-   large and only a single coefficent is needed. 
+   large and only a single coefficient is needed. 
 
 
    :param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
@@ -324,18 +324,18 @@
 
 .. method:: ExecutableModel.getStoichiometryMatrix()
 
-   Returns the current stoichiomentry matrix, a :math:`n \times m` matrix where :math:`n` is the
+   Returns the current stoichiometry matrix, a :math:`n \times m` matrix where :math:`n` is the
    number of species which take place in reactions (floating species) and :math:`m` is the number of
    reactions.
 
    this is a line with "quotes"
 
    When the LLVM back end is used (default) this always returns the current state of the
-   stochiometric coeffecients, so if any of these are determined by any rule, this will return the
-   currect value. 
+   stochiometric coefficients, so if any of these are determined by any rule, this will return the
+   current value. 
 
 
-   :returns: an n by m numpy ndarray of the stoichiometrix coeffecients. 
+   :returns: an n by m numpy ndarray of the stoichiometric coefficients. 
    :rtype: numpy.ndarray
 
 
@@ -352,7 +352,7 @@
    output variables will be written to. 
 
 
-   :param numpy.ndarray stateVector: an optional numpy array where the state vector variables will be writen. If
+   :param numpy.ndarray stateVector: an optional numpy array where the state vector variables will be written. If
                        no state vector array is given, a new one will be constructed and returned. 
 
                        This should be the same length as the model state vector. 
@@ -361,7 +361,7 @@
                
 .. method:: ExecutableModel.getStateVectorId(index)
 
-   Get the id (symbolc name) of a state vector item. 
+   Get the id (symbolic name) of a state vector item. 
 
    :param int index: the index of the desired state vector item
    :rtype: str
@@ -374,7 +374,7 @@
 
 .. method:: ExecutableModel.getStateVectorRate(time, [stateVector], [stateVectorRate])
 
-   Calculates the rate of change of all state vector varibles. 
+   Calculates the rate of change of all state vector variables. 
 
    Note, the rate of change of species returned by this method is always in units of amount /
    time. 
@@ -402,7 +402,7 @@
    Returns a vector of conserved moiety identifier symbols.
 
 
-   :param index: A array of compartment indices indicating which comparment ids to return.
+   :param index: A array of compartment indices indicating which compartment ids to return.
    :type index: None or numpy.ndarray
    :returns: a list of compartment ids.
 
@@ -419,7 +419,7 @@
 
    Sets a vector of conserved moiety values.
 
-   *Note* This method currently only updates the conserved moeity values, it does 
+   *Note* This method currently only updates the conserved moiety values, it does 
    not update the initial species condition from which the values were calculated. 
    
    If the index vector is not given, then the values vector treated as a vector of all
@@ -430,5 +430,4 @@
                                or if no index array is given, the first param should be an
                                array of all the  values to set.
    :param numpy.ndarray values: the values to set.
-
 
