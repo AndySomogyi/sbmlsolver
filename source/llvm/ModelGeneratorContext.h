@@ -137,6 +137,12 @@ public:
             const llvm::LLVMContext **ctx, const llvm::ExecutionEngine **eng,
             const std::string **errStr);
 
+    /**
+     * TODO: doc me
+     * deal with differences between MCJIT and JIT
+     */
+    void addGlobalMapping(const llvm::GlobalValue *GV, void *Addr);
+
 
     bool getConservedMoietyAnalysis() const;
 

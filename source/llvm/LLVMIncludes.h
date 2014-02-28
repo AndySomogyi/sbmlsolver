@@ -62,6 +62,8 @@
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/JIT.h>
+#include <llvm/ExecutionEngine/MCJIT.h>
+#include <llvm/Support/DynamicLibrary.h>
 #include <llvm/PassManager.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Transforms/Scalar.h>
@@ -70,7 +72,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #ifdef _MSC_VER
-#pragma warning( pop ) 
+#pragma warning( pop )
 #endif
 
 #pragma pop_macro("min")
