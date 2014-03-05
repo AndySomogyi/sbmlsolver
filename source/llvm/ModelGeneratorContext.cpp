@@ -27,7 +27,7 @@ using namespace libsbml;
 using rr::Logger;
 using rr::ModelGenerator;
 
-//#define RR_USE_MCJIT 1
+#define RR_USE_MCJIT 1
 
 namespace rrllvm
 {
