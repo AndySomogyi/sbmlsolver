@@ -1076,6 +1076,11 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
 
             eventAttributes[i] = attr;
             eventAssignmentsSize[i] = event->getListOfEventAssignments()->size();
+
+            if (event->isSetId())
+            {
+                eventIds.insert(StringUIntPair(event->getId(), i));
+            }
         }
     }
 }
@@ -1199,6 +1204,37 @@ uint LLVMModelDataSymbols::getInitGlobalParameterSize() const
     return independentInitGlobalParameterSize;
 }
 
+std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
+{
+    return getIds(eventIds);
+}
+
+std::string LLVMModelDataSymbols::getEventId(uint indx) const
+{
+    for (StringUIntMap::const_iterator i = eventIds.begin();
+            i != eventIds.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    throw std::out_of_range("attempted to access event id at index " + rr::toString(indx));
+}
+
+uint LLVMModelDataSymbols::getEventIndex(const std::string& id) const
+{
+    StringUIntMap::const_iterator i = eventIds.find(id);
+    if (i != eventIds.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find event with id " + id, __FUNC__);
+    }
+}
 
 } /* namespace rr */
 

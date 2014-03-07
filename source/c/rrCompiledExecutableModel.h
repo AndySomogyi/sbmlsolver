@@ -477,6 +477,11 @@ public:
     virtual int getCompartmentInitVolumes(int len, int const *indx,
                     double *values);
 
+    virtual int getEventIndex(const std::string&);
+    virtual std::string getEventId(int);
+    virtual void setEventHandler(int, rr::EventHandlerPtr);
+    virtual rr::EventHandlerPtr getEventHandler(int);
+
     friend class CompiledModelState;
 };
 }

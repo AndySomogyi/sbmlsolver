@@ -1,14 +1,14 @@
 
 // Module Name
-%module(docstring="The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "
-        ""threads"=1) roadrunner
+%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro", 
+        "threads"=1 /*, directors="1"*/) roadrunner
 
 // most methods should leave the GIL locked, no point to extra overhead
 // for fast methods. Only Roadrunner with long methods like simulate
 // and load release the GIL.
 %nothread;
 
+//%feature("director") PyEventHandler; 
 
 // ************************************************************
 // Module Includes
@@ -42,6 +42,13 @@
     #include <assert.h>
     #include <math.h>
     #include <cmath>
+
+    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventHandler 
+    // class. This function is defined later in this compilation unit.
+    PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
+    
+
+    #include "PyEventHandler.h"
 
 // Windows is just so special...
 #ifdef _WIN32
@@ -386,6 +393,15 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 };
 
 
+    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventHandler 
+    // class. This function is defined later in this compilation unit.
+
+PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
+    return SWIG_NewPointerObj(SWIG_as_voidptr(e), SWIGTYPE_p_rr__ExecutableModel, 0 |  0 );
+}
+
+
+
 %}
 
 
@@ -620,7 +636,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getStateVectorRate(double time, const double *y);
 %ignore rr::ExecutableModel::testConstraints;
 %ignore rr::ExecutableModel::print;
-%ignore rr::ExecutableModel::getNumEvents;
+//%ignore rr::ExecutableModel::getNumEvents;
 %ignore rr::ExecutableModel::getEventTriggers;
 %ignore rr::ExecutableModel::evalEvents;
 %ignore rr::ExecutableModel::applyPendingEvents;
@@ -658,32 +674,11 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
-
-// ignore Plugin methods that will be deprecated
-%ignore rr::Plugin::assignCallbacks;
-//%ignore rr::Plugin::getCopyright;
-%ignore rr::Plugin::getParameters;
-%ignore rr::Plugin::setInputData;
-//%ignore rr::Plugin::execute;
-//%ignore rr::Plugin::getImplementationLanguage;
-//%ignore rr::Plugin::getResult;
-//%ignore rr::Plugin::setLibraryName;
-//%ignore rr::Plugin::getAuthor;
-//%ignore rr::Plugin::getInfo;
-//%ignore rr::Plugin::getStatus;
-%ignore rr::Plugin::setParameter;
-%ignore rr::Plugin::getCapabilities;
-//%ignore rr::Plugin::getLibraryName;
-//%ignore rr::Plugin::getVersion;
-//%ignore rr::Plugin::this
-%ignore rr::Plugin::getCapability;
-//%ignore rr::Plugin::getName;
-//%ignore rr::Plugin::isWorking;
-//%ignore rr::Plugin::getCategory;
-%ignore rr::Plugin::getParameter;
-//%ignore rr::Plugin::resetPlugin;
-
-
+// map the events to python using the PyEventHandler class
+%ignore rr::ExecutableModel::setEventHandler(int index, rr::EventHandlerPtr eventHandler);
+%ignore rr::ExecutableModel::getEventHandler(int index);
+%ignore rr::EventHandlerPtr;
+%ignore rr::EventHandler;
 
 %ignore rr::ostream;
 %ignore ostream;
@@ -732,6 +727,9 @@ namespace std { class ostream{}; }
 
 %include <rrSelectionRecord.h>
 %include "conservation/ConservedMoietyConverter.h"
+
+%include "PyEventHandler.h"
+
 
 %extend std::vector<rr::SelectionRecord>
 {
@@ -1407,6 +1405,10 @@ namespace std { class ostream{}; }
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::STATE_VECTOR);
     }
 
+    PyObject *getEventIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::EVENT);
+    }
+
 
 
     /***
@@ -1610,6 +1612,23 @@ namespace std { class ostream{}; }
         std::stringstream s;
         s << "<roadrunner.ExecutableModel() { this = " << (void*)$self << " }>";
         return s.str();
+    }
+
+    /**
+     * events section
+     */
+    rr::PyEventHandler *getEvent(int index) {
+        ExecutableModel *p = $self;
+        EventHandlerPtr eventHandler = p->getEventHandler(index);
+
+        if(eventHandler) {
+            PyEventHandler *impl = dynamic_cast<PyEventHandler*>(eventHandler.get());
+            return impl;
+        } else {
+            PyEventHandler *impl = new PyEventHandler();
+            p->setEventHandler(index, EventHandlerPtr(impl));
+            return impl;
+        }
     }
 
     %pythoncode %{

@@ -473,10 +473,21 @@ public:
      */
     inline void assignEvent(uint eventId, double* data)
     {
+        const rr::EventHandlerPtr &handler = eventHandlers[eventId];
+        if(handler)
+        {
+            handler->onAssignment(this, eventId, symbols->getEventId(eventId));
+        }
+
         eventAssignPtr(modelData, eventId, data);
     }
 
     bool getEventTieBreak(uint eventA, uint eventB);
+
+    virtual int getEventIndex(const std::string& eid);
+    virtual std::string getEventId(int index);
+    virtual void setEventHandler(int index, rr::EventHandlerPtr eventHandler);
+    virtual rr::EventHandlerPtr getEventHandler(int index);
 
 private:
 
@@ -564,6 +575,13 @@ private:
      */
     typedef std::tr1::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
     SelectionMap selectionRecordCache;
+
+    /**
+     * event handlers, we don't own these, just borrow them
+     *
+     * array of modelData.numEvents length.
+     */
+    std::vector<rr::EventHandlerPtr> eventHandlers;
 
     /**
      * get the values from the model struct and populate the given values array.

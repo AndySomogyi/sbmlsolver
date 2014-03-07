@@ -13,6 +13,7 @@
 #include "rrLogger.h"
 #include "rrException.h"
 #include "LLVMException.h"
+#include "rrStringUtils.h"
 #include <iomanip>
 #include <cstdlib>
 
@@ -20,6 +21,8 @@ using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
 using rr::SelectionRecord;
+using rr::EventHandler;
+using rr::EventHandlerPtr;
 
 #if defined (_WIN32)
 #define isnan _isnan
@@ -216,8 +219,10 @@ LLVMExecutableModel::LLVMExecutableModel(
     getFloatingSpeciesInitAmountsPtr(rc->getFloatingSpeciesInitAmountsPtr),
     setFloatingSpeciesInitAmountsPtr(rc->setFloatingSpeciesInitAmountsPtr),
     getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
-    setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr)
+    setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
+    eventHandlers(modelData->numEvents, EventHandlerPtr()) // init eventHandlers vector
 {
+
     modelData->time = -1.0; // time is initially before simulation starts
 
     std::srand(std::time(0));
@@ -532,7 +537,15 @@ int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
 string LLVMExecutableModel::getBoundarySpeciesId(int indx)
 {
     vector<string> ids = symbols->getBoundarySpeciesIds();
-    return ids[indx];
+    if (indx < ids.size())
+    {
+        return ids[indx];
+    }
+    else
+    {
+        throw_llvm_exception("index out of range");
+        return "";
+    }
 }
 
 int LLVMExecutableModel::getGlobalParameterIndex(const string& id)
@@ -876,6 +889,12 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
+    if (SelectionRecord::EVENT & types)
+    {
+        std::vector<std::string> eventIds = symbols->getEventIds();
+        std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
+    }
+
 }
 
 int LLVMExecutableModel::getSupportedIdTypes()
@@ -1156,6 +1175,59 @@ std::string LLVMExecutableModel::getStateVectorId(int index)
     else
     {
         return symbols->getFloatingSpeciesId(index - modelData->numRateRules);
+    }
+}
+
+int LLVMExecutableModel::getEventIndex(const std::string& eventId)
+{
+    try
+    {
+        return symbols->getEventIndex(eventId);
+    }
+    catch(LLVMException&)
+    {
+        return -1;
+    }
+}
+
+std::string LLVMExecutableModel::getEventId(int indx)
+{
+    vector<string> ids = symbols->getEventIds();
+    if (indx < ids.size())
+    {
+        return ids[indx];
+    }
+    else
+    {
+        throw_llvm_exception("index out of range");
+        return "";
+    }
+}
+
+void LLVMExecutableModel::setEventHandler(int index,
+        rr::EventHandlerPtr eventHandler)
+{
+    if (index < modelData->numEvents)
+    {
+        Log(Logger::LOG_DEBUG) << "setting event handler " << index << " to " << eventHandler;
+        eventHandlers[index] = eventHandler;
+    }
+    else
+    {
+        throw_llvm_exception("index " + rr::toString(index) + " out of range");
+    }
+}
+
+rr::EventHandlerPtr LLVMExecutableModel::getEventHandler(int index)
+{
+    if (index < modelData->numEvents)
+    {
+        return eventHandlers[index];
+    }
+    else
+    {
+        throw_llvm_exception("index " + rr::toString(index) + " out of range");
+        return EventHandlerPtr();
     }
 }
 
@@ -1534,6 +1606,11 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         // transition from non-triggered to triggered
         if (c && !prevEventState[i])
         {
+            const EventHandlerPtr &handler = eventHandlers[i];
+            if(handler)
+            {
+                handler->onTrigger(this, i, symbols->getEventId(i));
+            }
             pendingEvents.push(rrllvm::Event(*this, i));
         }
     }

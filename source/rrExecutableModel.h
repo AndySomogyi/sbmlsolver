@@ -7,8 +7,28 @@
 #include <list>
 #include <ostream>
 
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 namespace rr
 {
+
+class ExecutableModel;
+
+class EventHandler
+{
+public:
+    virtual void onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+    virtual void onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+
+protected:
+    ~EventHandler() {};
+};
+
+typedef std::tr1::shared_ptr<EventHandler> EventHandlerPtr;
 
 /**
  * The ExecutableModel interface provides a way to access an
@@ -565,7 +585,17 @@ public:
      * @deprecated
      */
     virtual void evalReactionRates() = 0;
+
+
+    virtual int getEventIndex(const std::string& eid) = 0;
+    virtual std::string getEventId(int index) = 0;
+    virtual void setEventHandler(int index, EventHandlerPtr eventHandler) = 0;
+    virtual EventHandlerPtr getEventHandler(int index) = 0;
 };
+
+
+
+
 
 /**
  * dump the model to a stream convenience func
