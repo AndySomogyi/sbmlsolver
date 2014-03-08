@@ -23,6 +23,7 @@ using rr::LoggingBuffer;
 using rr::SelectionRecord;
 using rr::EventHandler;
 using rr::EventHandlerPtr;
+using rr::EventHandlerException;
 
 #if defined (_WIN32)
 #define isnan _isnan
@@ -1609,7 +1610,11 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
             const EventHandlerPtr &handler = eventHandlers[i];
             if(handler)
             {
-                handler->onTrigger(this, i, symbols->getEventId(i));
+                uint result = handler->onTrigger(this, i, symbols->getEventId(i));
+
+                if(result & EventHandler::HALT_SIMULATION) {
+                    throw EventHandlerException(result);
+                }
             }
             pendingEvents.push(rrllvm::Event(*this, i));
         }

@@ -678,7 +678,11 @@ PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
 %ignore rr::ExecutableModel::setEventHandler(int index, rr::EventHandlerPtr eventHandler);
 %ignore rr::ExecutableModel::getEventHandler(int index);
 %ignore rr::EventHandlerPtr;
-%ignore rr::EventHandler;
+%ignore rr::EventHandlerException;
+
+// ignore the EventHandler virtuals, but leave the enum
+%ignore rr::EventHandler::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
+%ignore rr::EventHandler::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
 
 %ignore rr::ostream;
 %ignore ostream;

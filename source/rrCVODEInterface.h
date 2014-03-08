@@ -18,7 +18,6 @@ namespace rr
 
 using std::string;
 
-class Event;
 class ExecutableModel;
 class RoadRunner;
 
@@ -90,7 +89,6 @@ private:
     int                         mOneStepCount;
     bool                        mFollowEvents;
 
-    void                        handleCVODEError(const int& errCode);
     void                        assignPendingEvents(const double& timeEnd, const double& tout);
 
 

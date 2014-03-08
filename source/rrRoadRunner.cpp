@@ -1042,7 +1042,16 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
     {
         mCVode->reStart(currentTime, mModel);
     }
-    return mCVode->oneStep(currentTime, stepSize);
+
+    try
+    {
+        return mCVode->oneStep(currentTime, stepSize);
+    }
+    catch (EventHandlerException& e)
+    {
+        Log(Logger::LOG_NOTICE) << e.what();
+        return mModel->getTime();
+    }
 }
 
 
@@ -2534,13 +2543,22 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     //The simulation is executed right here..
     Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< simulateOptions.steps + 1 <<" times";
-    for (int i = 1; i < simulateOptions.steps + 1; i++)
+
+    try
     {
-        Log(Logger::LOG_DEBUG)<<"Step "<<i;
-        mCVode->oneStep(tout, hstep);
-        tout = timeStart + i * hstep;
-        addNthOutputToResult(mRawRoadRunnerData, i, tout);
+        for (int i = 1; i < simulateOptions.steps + 1; i++)
+        {
+            Log(Logger::LOG_DEBUG)<<"Step "<<i;
+            mCVode->oneStep(tout, hstep);
+            tout = timeStart + i * hstep;
+            addNthOutputToResult(mRawRoadRunnerData, i, tout);
+        }
     }
+    catch (EventHandlerException& e)
+    {
+        Log(Logger::LOG_NOTICE) << e.what();
+    }
+
     Log(Logger::LOG_DEBUG)<<"Simulation done..";
 
     // set the data into the RoadRunnerData struct

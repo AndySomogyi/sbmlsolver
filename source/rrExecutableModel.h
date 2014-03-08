@@ -18,14 +18,69 @@ namespace rr
 
 class ExecutableModel;
 
+/**
+ * RoadRunner has the capatiblity to notify user objects of any sbml event.
+ *
+ * In order to listen to sbml events, one simply implements the EventHandler
+ * interface and resgisters it with the ExecutableModel::setEventHandler method.
+ *
+ * To remove it, just pass in a 0.
+ *
+ * EventHanders are free to change any model parameters.
+ *
+ * They may return a result value specified by the Result enum. Currently, we
+ * we only have the HALT_SIMULATION which will result in RoadRunner::oneStep
+ * or RoadRunner::simulate to stop at the current time and return. This may be usefull
+ * if someone wants to run a simulation up until some threshold or state is reached.
+ */
 class EventHandler
 {
 public:
-    virtual void onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
-    virtual void onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+    enum Result
+    {
+        HALT_SIMULATION               = (0x1 << 0),  // => 0x00000001
+    };
+
+    virtual uint onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+    virtual uint onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
 
 protected:
     ~EventHandler() {};
+};
+
+class EventHandlerException: public std::exception
+{
+public:
+    explicit EventHandlerException(uint resultCode) :
+            resultCode(resultCode)
+    {
+        msg = "EventHandlerException, resultCode: ";
+
+        switch (resultCode)
+        {
+        case EventHandler::HALT_SIMULATION:
+            msg += "HALT_SIMULATION";
+            break;
+        }
+    }
+
+    virtual ~EventHandlerException() throw()
+    {
+    };
+
+    virtual const char* what() const throw()
+    {
+        return msg.c_str();
+    }
+
+    uint getResultCode() const
+    {
+        return resultCode;
+    }
+
+private:
+    uint resultCode;
+    std::string msg;
 };
 
 typedef std::tr1::shared_ptr<EventHandler> EventHandlerPtr;

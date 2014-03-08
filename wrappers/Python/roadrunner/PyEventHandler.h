@@ -77,8 +77,11 @@ private:
     PyObject *pyOnTrigger;
     PyObject *pyOnAssignment;
 
-    virtual void onTrigger(ExecutableModel* model, int index, const std::string& eventId)
+    virtual uint onTrigger(ExecutableModel* model, int index, const std::string& eventId)
     {
+        uint result = 0;
+        std::string err;
+
         Log(Logger::LOG_INFORMATION) << __FUNC__ << "model: " << (void*)model << ", event id: " << eventId << ", index: " << index;
 
         if (pyOnTrigger) {
@@ -94,20 +97,52 @@ private:
             */
 
             PyObject *args = Py_BuildValue("(N, i, s)", pyModel, index, eventId.c_str());
-            PyObject *result = PyEval_CallObject(pyOnTrigger, args);
+            PyObject *pyres = PyEval_CallObject(pyOnTrigger, args);
 
+
+            if (PyErr_Occurred()) {
+
+                PyObject* pystr = PyObject_Str(PyErr_Occurred());
+                err = std::string("Python error occured in onTrigger: ") + PyString_AsString(pystr);
+
+                Log(Logger::LOG_ERROR) << err;
+
+                Py_XDECREF(pystr);
+                PyErr_Clear();
+            }
+            else if (PyInt_Check(pyres)) {
+                result = PyInt_AsLong(pyres);
+            }
+            else if (pyres != Py_None) {
+                PyObject* pystr = PyObject_Str(pyres);
+                const char* cstr = PyString_AsString(pystr);
+
+                Log(Logger::LOG_WARNING) << "The Python onTrigger handler returned " << cstr;
+                Log(Logger::LOG_WARNING) << "None or an integer are the only valid return values";
+
+                Py_XDECREF(pystr);
+            }
             
-            Py_XDECREF(result);
+            Py_XDECREF(pyres);
             Py_XDECREF(args);
 
             // Release the thread. No Python API allowed beyond this point.
             PyGILState_Release(gstate);
 
+            if (!err.empty())
+            {
+                throw std::runtime_error(err);
+            }
         }
+
+        return result;
     }
 
-    virtual void onAssignment(ExecutableModel* model, int index, const std::string& eventId)
+    virtual uint onAssignment(ExecutableModel* model, int index, const std::string& eventId)
     {
+        uint result = 0;
+        std::string err;
+
         Log(Logger::LOG_INFORMATION) << __FUNC__ << "model: " << (void*)model << ", event id: " << eventId << ", index: " << index;
 
         if (pyOnAssignment) {
@@ -115,14 +150,45 @@ private:
 
             PyObject *pyModel = ExecutableModel_NewPythonObj(model);
             PyObject *args = Py_BuildValue("(N, i, s)", pyModel, index, eventId.c_str());
-            PyObject *result = PyEval_CallObject(pyOnAssignment, args);
+            PyObject *pyres = PyEval_CallObject(pyOnAssignment, args);
 
-            Py_XDECREF(result);
+            if (PyErr_Occurred()) {
+
+                PyObject* pystr = PyObject_Str(PyErr_Occurred());
+                err = std::string("Python error occured in onAssignment: ") + PyString_AsString(pystr);
+
+                Log(Logger::LOG_ERROR) << err;
+
+                Py_XDECREF(pystr);
+                PyErr_Clear();
+            }
+            else if (PyInt_Check(pyres)) {
+                result = PyInt_AsLong(pyres);
+            }
+            else if (pyres != Py_None) {
+                PyObject* pystr = PyObject_Str(pyres);
+                const char* cstr = PyString_AsString(pystr);
+
+                Log(Logger::LOG_WARNING) << "The Python onAssignment handler returned " << cstr;
+                Log(Logger::LOG_WARNING) << "None or an integer are the only valid return values";
+
+                Py_XDECREF(pystr);
+            }
+            
+
+            Py_XDECREF(pyres);
             Py_XDECREF(args);
 
             // Release the thread. No Python API allowed beyond this point.
             PyGILState_Release(gstate);
+
+            if (!err.empty())
+            {
+                throw std::runtime_error(err);
+            }
         }
+        
+        return result;
     }
 };
 

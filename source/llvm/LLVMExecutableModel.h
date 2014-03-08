@@ -473,13 +473,18 @@ public:
      */
     inline void assignEvent(uint eventId, double* data)
     {
+        // apply the sbml JITed event assignments
+        eventAssignPtr(modelData, eventId, data);
+
         const rr::EventHandlerPtr &handler = eventHandlers[eventId];
         if(handler)
         {
-            handler->onAssignment(this, eventId, symbols->getEventId(eventId));
-        }
+            uint result = handler->onAssignment(this, eventId, symbols->getEventId(eventId));
 
-        eventAssignPtr(modelData, eventId, data);
+            if(result & rr::EventHandler::HALT_SIMULATION) {
+                throw rr::EventHandlerException(result);
+            }
+        }
     }
 
     bool getEventTieBreak(uint eventA, uint eventB);

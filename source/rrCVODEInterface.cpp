@@ -37,6 +37,19 @@ const int CvodeInterface::mDefaultMaxNumSteps = 10000;
 const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
 const int CvodeInterface::mDefaultMaxBDFOrder = 5;
 
+/**
+ * decode the cvode error code to a string
+ */
+static std::string cvodeDecodeError(int cvodeError);
+
+/**
+ * macro to throw a (hopefully) usefull error message
+ */
+#define handleCVODEError(errCode) \
+        { std::string _err_what = std::string("CVODE Error: ") + \
+          cvodeDecodeError(errCode); \
+          throw IntegratorException(_err_what, std::string(__FUNC__)); }
+
 void* CvodeInterface::createCvode(const SimulateOptions* options)
 {
     void* result = 0;
@@ -181,107 +194,100 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     // get the original event status
     vector<unsigned char> eventStatus(mModel->getEventTriggers(0, 0, 0), false);
 
-    try
+
+    // here we stop for a too small timestep ... this seems troublesome to me ...
+    while (tout - timeEnd > 1E-16)
     {
-        // here we stop for a too small timestep ... this seems troublesome to me ...
-        while (tout - timeEnd > 1E-16)
+        if (hstep < 1E-16)
         {
-            if (hstep < 1E-16)
+            return tout;
+        }
+
+        // here we bail in case we have no ODEs set up with CVODE ... though we should
+        // still at least evaluate the model function
+        if (!haveVariables() && mModel->getNumEvents() == 0)
+        {
+            mModel->convertToAmounts();
+            mModel->getStateVectorRate(tout, 0, 0);
+            return tout;
+        }
+
+        if (mLastTimeValue > timeStart)
+        {
+            reStart(timeStart, mModel);
+        }
+
+        double nextTargetEndTime = tout;
+
+        if (mModel->getPendingEventSize() > 0 &&
+                mModel->getNextPendingEventTime(false) < nextTargetEndTime)
+        {
+            nextTargetEndTime = mModel->getNextPendingEventTime(true);
+        }
+
+        // event status before time step
+        mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
+
+        // time step
+        int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, CV_NORMAL);
+
+        if (nResult == CV_ROOT_RETURN && mFollowEvents)
+        {
+            Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
+            Log(Logger::LOG_DEBUG) << "--- E V E N T   ( " << mOneStepCount << ", time: " << timeEnd << " ) ";
+            Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
+
+
+            bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
+
+            if(tooCloseToStart)
             {
-                return tout;
-            }
-
-            // here we bail in case we have no ODEs set up with CVODE ... though we should
-            // still at least evaluate the model function
-            if (!haveVariables() && mModel->getNumEvents() == 0)
-            {
-                mModel->convertToAmounts();
-                mModel->getStateVectorRate(tout, 0, 0);
-                return tout;
-            }
-
-            if (mLastTimeValue > timeStart)
-            {
-                reStart(timeStart, mModel);
-            }
-
-            double nextTargetEndTime = tout;
-
-            if (mModel->getPendingEventSize() > 0 &&
-                    mModel->getNextPendingEventTime(false) < nextTargetEndTime)
-            {
-                nextTargetEndTime = mModel->getNextPendingEventTime(true);
-            }
-
-            // event status before time step
-            mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
-
-            // time step
-            int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, CV_NORMAL);
-
-            if (nResult == CV_ROOT_RETURN && mFollowEvents)
-            {
-                Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
-                Log(Logger::LOG_DEBUG) << "--- E V E N T   ( " << mOneStepCount << ", time: " << timeEnd << " ) ";
-                Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
-
-
-                bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
-
-                if(tooCloseToStart)
-                {
-                    strikes =  3;
-                }
-                else
-                {
-                    strikes--;
-                }
-
-                if (tooCloseToStart || strikes > 0)
-                {
-                    handleRootsForTime(timeEnd, eventStatus);
-                    reStart(timeEnd, mModel);
-                    mLastEvent = timeEnd;
-                }
-            }
-            else if (nResult == CV_SUCCESS || !mFollowEvents)
-            {
-                mModel->setTime(tout);
-                assignResultsToModel();
+                strikes =  3;
             }
             else
             {
-                handleCVODEError(nResult);
+                strikes--;
             }
 
-            mLastTimeValue = timeEnd;
-
-            try
+            if (tooCloseToStart || strikes > 0)
             {
-                mModel->testConstraints();
+                // evaluate events
+                handleRootsForTime(timeEnd, eventStatus);
+                reStart(timeEnd, mModel);
+                mLastEvent = timeEnd;
             }
-            catch (const Exception& e)
-            {
-                Log(lWarning)<<"Constraint Violated at time = " + toString(timeEnd)<<": " + e.Message();
-
-            }
-
-            assignPendingEvents(timeEnd, tout);
-
-            if (tout - timeEnd > 1E-16)
-            {
-                timeStart = timeEnd;
-            }
-            Log(lDebug3)<<"tout: "<<tout<<gTab<<"timeEnd: "<<timeEnd;
         }
-        return (timeEnd);
+        else if (nResult == CV_SUCCESS || !mFollowEvents)
+        {
+            mModel->setTime(tout);
+            assignResultsToModel();
+        }
+        else
+        {
+            handleCVODEError(nResult);
+        }
+
+        mLastTimeValue = timeEnd;
+
+        try
+        {
+            mModel->testConstraints();
+        }
+        catch (const Exception& e)
+        {
+            Log(lWarning)<<"Constraint Violated at time = " + toString(timeEnd)<<": " + e.Message();
+        }
+
+        assignPendingEvents(timeEnd, tout);
+
+        if (tout - timeEnd > 1E-16)
+        {
+            timeStart = timeEnd;
+        }
+        Log(lDebug3)<<"tout: "<<tout<<gTab<<"timeEnd: "<<timeEnd;
     }
-    catch(const Exception& ex)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in OneStep: "<<ex.getMessage()<<endl;
-        initializeCVODEInterface(mModel);    //tk says ??? tk
-        throw;
-    }
+    return timeEnd;
+
 }
 
 void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
@@ -541,16 +547,6 @@ void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 }
 
 
-void CvodeInterface::handleCVODEError(const int& errCode)
-{
-    if (errCode < 0)
-    {
-        Log(Logger::LOG_ERROR) << "**************** Error in RunCVode: "
-                << errCode << " ****************************" << endl;
-        throw(Exception("Error in CVODE...!"));
-    }
-}
-
 // Sets the value of an element in a N_Vector object
 void SetVector (N_Vector v, int Index, double Value)
 {
@@ -641,6 +637,100 @@ void CvodeInterface::loadConfig(const _xmlDoc* doc)
 }
 
 
-}
+static std::string cvodeDecodeError(int cvodeError)
+{
+    const char* result;
 
+    switch (cvodeError) {
+    case CV_TOO_MUCH_WORK:
+        result = "CV_TOO_MUCH_WORK: The solver took mxstep internal steps but "
+            "could not reach tout. The default value for "
+            "mxstep is MXSTEP_DEFAULT = 500.";
+        break;
+    case CV_TOO_MUCH_ACC:
+        result = "CV_TOO_MUCH_ACC: The solver could not satisfy the accuracy "
+            "demanded by the user for some internal step.";
+        break;
+    case CV_ERR_FAILURE:
+        result = "CV_ERR_FAILURE: Error test failures occurred too many times "
+            "(= MXNEF = 7) during one internal time step or"
+            "occurred with |h| = hmin.";
+            break;
+    case CV_CONV_FAILURE:
+        result = "CV_CONV_FAILURE: Convergence test failures occurred too many "
+            "times (= MXNCF = 10) during one internal time"
+            "step or occurred with |h| = hmin.";
+            break;
+    case CV_LINIT_FAIL:
+        result = "CV_LINIT_FAIL: The linear solver's initialization function "
+            "failed.";
+            break;
+    case CV_LSETUP_FAIL:
+        result = "CV_LSETUP_FAIL: The linear solver's setup routine failed in an "
+            "unrecoverable manner.";
+        break;
+    case CV_LSOLVE_FAIL:
+        result = "CV_LSOLVE_FAIL: The linear solver's solve routine failed in an "
+            "unrecoverable manner.";
+        break;
+    case CV_RHSFUNC_FAIL:
+        result = "CV_RHSFUNC_FAIL";
+        break;
+    case CV_FIRST_RHSFUNC_ERR:
+        result = "CV_FIRST_RHSFUNC_ERR";
+        break;
+    case CV_REPTD_RHSFUNC_ERR:
+        result = "CV_REPTD_RHSFUNC_ERR";
+        break;
+    case CV_UNREC_RHSFUNC_ERR:
+        result = "CV_UNREC_RHSFUNC_ERR";
+        break;
+    case CV_RTFUNC_FAIL:
+        result = "CV_RTFUNC_FAIL";
+        break;
+    case CV_MEM_FAIL:
+        result = "CV_MEM_FAIL";
+        break;
+    case CV_MEM_NULL:
+        result = "CV_MEM_NULL: The cvode_mem argument was NULL.";
+        break;
+    case CV_ILL_INPUT:
+        result =  "CV_ILL_INPUT: One of the inputs to CVode is illegal. This "
+            "includes the situation when a component of the "
+            "error weight vectors becomes < 0 during "
+            "internal time-stepping.  It also includes the "
+            "situation where a root of one of the root "
+            "functions was found both at t0 and very near t0. "
+            "The ILL_INPUT flag will also be returned if the "
+            "linear solver routine CV--- (called by the user "
+            "after calling CVodeCreate) failed to set one of "
+            "the linear solver-related fields in cvode_mem or "
+            "if the linear solver's init routine failed. In "
+            "any case, the user should see the printed "
+            "error message for more details.";
+            break;
+    case CV_NO_MALLOC:
+        result = "CV_NO_MALLOC: indicating that cvode_mem has not been "
+            "allocated (i.e., CVodeInit has not been "
+            "called).";
+        break;
+    case CV_BAD_K:
+        result = "CV_BAD_K: k is not in the range 0, 1, ..., qu.";
+        break;
+    case CV_BAD_T:
+        result = "CV_BAD_T: t is not in the interval [tn-hu,tn].";
+        break;
+    case CV_BAD_DKY:
+        result = "CV_BAD_DKY: The dky argument was NULL.";
+        break;
+    case CV_TOO_CLOSE:
+        result = "CV_TOO_CLOSE:";
+        break;
+    default:
+        result = "Unknown Error Code";
+        break;
+    }
+    return result;
+}
+}
 
