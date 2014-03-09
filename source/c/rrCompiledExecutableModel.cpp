@@ -1759,12 +1759,12 @@ std::string CompiledExecutableModel::getEventId(int)
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
-void CompiledExecutableModel::setEventHandler(int, EventHandlerPtr)
+void CompiledExecutableModel::setEventListener(int, EventListenerPtr)
 {
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
-EventHandlerPtr CompiledExecutableModel::getEventHandler(int)
+EventListenerPtr CompiledExecutableModel::getEventListener(int)
 {
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }

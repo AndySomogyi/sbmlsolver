@@ -1,6 +1,6 @@
 
 // Module Name
-%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro", 
+%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
         "threads"=1 /*, directors="1"*/) roadrunner
 
 // most methods should leave the GIL locked, no point to extra overhead
@@ -8,7 +8,7 @@
 // and load release the GIL.
 %nothread;
 
-//%feature("director") PyEventHandler; 
+//%feature("director") PyEventListener;
 
 // ************************************************************
 // Module Includes
@@ -43,12 +43,12 @@
     #include <math.h>
     #include <cmath>
 
-    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventHandler 
+    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
-    
 
-    #include "PyEventHandler.h"
+
+    #include "PyEventListener.h"
 
 // Windows is just so special...
 #ifdef _WIN32
@@ -343,8 +343,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
                 PyObject *type = PyString_FromString("f8");
                 PyObject *tup = PyTuple_Pack(2, col, type);
 
-				Py_DECREF(col);
-				Py_DECREF(type);
+                Py_DECREF(col);
+                Py_DECREF(type);
 
                 void PyList_SET_ITEM(list, i, tup);
             }
@@ -393,7 +393,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 };
 
 
-    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventHandler 
+    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
 
 PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
@@ -674,15 +674,15 @@ PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
-// map the events to python using the PyEventHandler class
-%ignore rr::ExecutableModel::setEventHandler(int index, rr::EventHandlerPtr eventHandler);
-%ignore rr::ExecutableModel::getEventHandler(int index);
-%ignore rr::EventHandlerPtr;
-%ignore rr::EventHandlerException;
+// map the events to python using the PyEventListener class
+%ignore rr::ExecutableModel::setEventListener(int, rr::EventListenerPtr);
+%ignore rr::ExecutableModel::getEventListener(int);
+%ignore rr::EventListenerPtr;
+%ignore rr::EventListenerException;
 
-// ignore the EventHandler virtuals, but leave the enum
-%ignore rr::EventHandler::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
-%ignore rr::EventHandler::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
+// ignore the EventListener virtuals, but leave the enum
+%ignore rr::EventListener::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
+%ignore rr::EventListener::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
 
 %ignore rr::ostream;
 %ignore ostream;
@@ -732,7 +732,7 @@ namespace std { class ostream{}; }
 %include <rrSelectionRecord.h>
 %include "conservation/ConservedMoietyConverter.h"
 
-%include "PyEventHandler.h"
+%include "PyEventListener.h"
 
 
 %extend std::vector<rr::SelectionRecord>
@@ -1199,7 +1199,7 @@ namespace std { class ostream{}; }
 
         if (isnan(time)) {
             time = ($self)->getTime();
-        } 
+        }
 
         double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
@@ -1210,25 +1210,25 @@ namespace std { class ostream{}; }
 
 
     PyObject *getStateVectorRate(double time, PyObject *arg) {
-        
+
         // length of state vector
         int len = ($self)->getStateVector(0);
 
         if (isnan(time)) {
             time = ($self)->getTime();
-        } 
+        }
 
         // check if the pyobj is an npy double array
         PyArrayObject *array  = obj_to_array_no_conversion(arg, NPY_DOUBLE);
 
         // need contigous and native
         // these set py error if they fail
-        if (array && require_contiguous(array) && require_native(array)) 
+        if (array && require_contiguous(array) && require_native(array))
         {
             // The number of dimensions in the array.
             int ndim = PyArray_NDIM(array);
 
-            // pointer to the dimensions/shape of the array. 
+            // pointer to the dimensions/shape of the array.
             npy_intp *pdims = PyArray_DIMS(array);
 
             if (ndim > 0 && pdims[ndim-1] == len) {
@@ -1248,8 +1248,8 @@ namespace std { class ostream{}; }
                 PyArray_Descr *dtype = PyArray_DESCR(array);
                 Py_INCREF(dtype);
 
-                // If strides is NULL, then the array strides are computed as 
-                // C-style contiguous (default) 
+                // If strides is NULL, then the array strides are computed as
+                // C-style contiguous (default)
                 PyObject *result = PyArray_NewFromDescr(&PyArray_Type,
                                                         dtype,
                                                         ndim,
@@ -1263,7 +1263,7 @@ namespace std { class ostream{}; }
                 double* stateVecRate = (double*)PyArray_DATA(result);
 
                 // get the state vector rates, bump the data pointers
-                // to the next state vec 
+                // to the next state vec
                 for (int i = 0; i < nvec; ++i) {
                     ($self)->getStateVectorRate(time, stateVec, stateVecRate);
                     stateVec += len;
@@ -1275,10 +1275,10 @@ namespace std { class ostream{}; }
 
             PyErr_Format(PyExc_TypeError,
                          "Require an N dimensional array where N must be at least 1 and "
-                         "the trailing dimension must be the same as the state vector size. " 
+                         "the trailing dimension must be the same as the state vector size. "
                          "require trailing dimension of %i but recieved %d", len, (int)pdims[ndim-1]);
-            
-           
+
+
         }
 
         // error case, PyErr is set if we get here.
@@ -1293,7 +1293,7 @@ namespace std { class ostream{}; }
 
         if (isnan(time)) {
             time = ($self)->getTime();
-        } 
+        }
 
         // check if the pyobj is an npy double array
         PyArrayObject *array1  = obj_to_array_no_conversion(arg1, NPY_DOUBLE);
@@ -1308,7 +1308,7 @@ namespace std { class ostream{}; }
             int ndim1 = PyArray_NDIM(array1);
             int ndim2 = PyArray_NDIM(array2);
 
-            // pointer to the dimensions/shape of the array. 
+            // pointer to the dimensions/shape of the array.
             npy_intp *pdims1 = PyArray_DIMS(array1);
             npy_intp *pdims2 = PyArray_DIMS(array2);
 
@@ -1324,21 +1324,21 @@ namespace std { class ostream{}; }
 
                     // how many state vectors we have in given array
                     int nvec = size / len;
-                    
+
                     // pointer to start of data block
                     double* stateVec = (double*)PyArray_DATA(array1);
-                    
+
                     // out data
                     double* stateVecRate = (double*)PyArray_DATA(array2);
 
                     // get the state vector rates, bump the data pointers
-                    // to the next state vec 
+                    // to the next state vec
                     for (int i = 0; i < nvec; ++i) {
                         ($self)->getStateVectorRate(time, stateVec, stateVecRate);
                         stateVec += len;
                         stateVecRate += len;
                     }
-                    
+
                     // only error free result case
                     // caller should decref the array so we need incrref it.
                     Py_INCREF(arg2);
@@ -1352,7 +1352,7 @@ namespace std { class ostream{}; }
             } else {
                 PyErr_Format(PyExc_TypeError,
                              "Require an N dimensional array where N must be at least 1 and "
-                             "the trailing dimension must be the same as the state vector size. " 
+                             "the trailing dimension must be the same as the state vector size. "
                              "require trailing dimension of %i but recieved %d", len, (int)pdims1[ndim1-1]);
             }
         }
@@ -1620,17 +1620,20 @@ namespace std { class ostream{}; }
 
     /**
      * events section
+     *
+     * TODO, the returned event is not valid after the model object is freed.
+     * is this OK???
      */
-    rr::PyEventHandler *getEvent(int index) {
+    rr::PyEventListener *getEvent(int index) {
         ExecutableModel *p = $self;
-        EventHandlerPtr eventHandler = p->getEventHandler(index);
+        EventListenerPtr e = p->getEventListener(index);
 
-        if(eventHandler) {
-            PyEventHandler *impl = dynamic_cast<PyEventHandler*>(eventHandler.get());
+        if(e) {
+            PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
             return impl;
         } else {
-            PyEventHandler *impl = new PyEventHandler();
-            p->setEventHandler(index, EventHandlerPtr(impl));
+            PyEventListener *impl = new PyEventListener();
+            p->setEventListener(index, EventListenerPtr(impl));
             return impl;
         }
     }

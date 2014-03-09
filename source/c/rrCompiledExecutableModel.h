@@ -479,8 +479,8 @@ public:
 
     virtual int getEventIndex(const std::string&);
     virtual std::string getEventId(int);
-    virtual void setEventHandler(int, rr::EventHandlerPtr);
-    virtual rr::EventHandlerPtr getEventHandler(int);
+    virtual void setEventListener(int, rr::EventListenerPtr);
+    virtual rr::EventListenerPtr getEventListener(int);
 
     friend class CompiledModelState;
 };

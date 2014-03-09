@@ -6,16 +6,16 @@
 
 namespace rr
 {
-class PyEventHandler : public EventHandler
+class PyEventListener : public EventListener
 {
 public:
-    
-    PyEventHandler() : pyOnTrigger(0), pyOnAssignment(0)
+
+    PyEventListener() : pyOnTrigger(0), pyOnAssignment(0)
     {
         Log(Logger::LOG_INFORMATION) << __FUNC__;
     }
 
-    virtual ~PyEventHandler()
+    virtual ~PyEventListener()
     {
         Log(Logger::LOG_NOTICE) << __FUNC__;
 
@@ -48,7 +48,7 @@ public:
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
         }
-        
+
         Py_XINCREF(py);              /* Add a reference to new callback */
         Py_XDECREF(pyOnAssignment);  /* Dispose of previous callback */
         pyOnAssignment = py;           /* Remember new callback */
@@ -91,8 +91,8 @@ private:
             PyObject *pyModel = ExecutableModel_NewPythonObj(model);
 
             /* format strings:
-               N (object) [PyObject *] - Same as O, except it doesn’t increment the reference count 
-               on the object. Useful when the object is created by a call to an object constructor 
+               N (object) [PyObject *] - Same as O, except it doesn’t increment the reference count
+               on the object. Useful when the object is created by a call to an object constructor
                in the argument list.
             */
 
@@ -122,7 +122,7 @@ private:
 
                 Py_XDECREF(pystr);
             }
-            
+
             Py_XDECREF(pyres);
             Py_XDECREF(args);
 
@@ -174,7 +174,7 @@ private:
 
                 Py_XDECREF(pystr);
             }
-            
+
 
             Py_XDECREF(pyres);
             Py_XDECREF(args);
@@ -187,7 +187,7 @@ private:
                 throw std::runtime_error(err);
             }
         }
-        
+
         return result;
     }
 };

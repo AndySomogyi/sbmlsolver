@@ -1036,7 +1036,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
     {
         return mCVode->oneStep(currentTime, stepSize);
     }
-    catch (EventHandlerException& e)
+    catch (EventListenerException& e)
     {
         Log(Logger::LOG_NOTICE) << e.what();
         return mModel->getTime();
@@ -2519,7 +2519,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
             addNthOutputToResult(mRawRoadRunnerData, i, tout);
         }
     }
-    catch (EventHandlerException& e)
+    catch (EventListenerException& e)
     {
         Log(Logger::LOG_NOTICE) << e.what();
     }

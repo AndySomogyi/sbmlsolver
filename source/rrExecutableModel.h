@@ -33,7 +33,7 @@ class ExecutableModel;
  * or RoadRunner::simulate to stop at the current time and return. This may be usefull
  * if someone wants to run a simulation up until some threshold or state is reached.
  */
-class EventHandler
+class EventListener
 {
 public:
     enum Result
@@ -45,26 +45,26 @@ public:
     virtual uint onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
 
 protected:
-    ~EventHandler() {};
+    ~EventListener() {};
 };
 
-class EventHandlerException: public std::exception
+class EventListenerException: public std::exception
 {
 public:
-    explicit EventHandlerException(uint resultCode) :
+    explicit EventListenerException(uint resultCode) :
             resultCode(resultCode)
     {
         msg = "EventHandlerException, resultCode: ";
 
         switch (resultCode)
         {
-        case EventHandler::HALT_SIMULATION:
+        case EventListener::HALT_SIMULATION:
             msg += "HALT_SIMULATION";
             break;
         }
     }
 
-    virtual ~EventHandlerException() throw()
+    virtual ~EventListenerException() throw()
     {
     };
 
@@ -83,7 +83,7 @@ private:
     std::string msg;
 };
 
-typedef std::tr1::shared_ptr<EventHandler> EventHandlerPtr;
+typedef std::tr1::shared_ptr<EventListener> EventListenerPtr;
 
 /**
  * The ExecutableModel interface provides a way to access an
@@ -644,8 +644,8 @@ public:
 
     virtual int getEventIndex(const std::string& eid) = 0;
     virtual std::string getEventId(int index) = 0;
-    virtual void setEventHandler(int index, EventHandlerPtr eventHandler) = 0;
-    virtual EventHandlerPtr getEventHandler(int index) = 0;
+    virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;
+    virtual EventListenerPtr getEventListener(int index) = 0;
 };
 
 

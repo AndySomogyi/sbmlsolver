@@ -21,9 +21,9 @@ using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
 using rr::SelectionRecord;
-using rr::EventHandler;
-using rr::EventHandlerPtr;
-using rr::EventHandlerException;
+using rr::EventListener;
+using rr::EventListenerPtr;
+using rr::EventListenerException;
 
 #if defined (_WIN32)
 #define isnan _isnan
@@ -221,7 +221,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     setFloatingSpeciesInitAmountsPtr(rc->setFloatingSpeciesInitAmountsPtr),
     getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
     setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
-    eventHandlers(modelData->numEvents, EventHandlerPtr()) // init eventHandlers vector
+    eventListeners(modelData->numEvents, EventListenerPtr()) // init eventHandlers vector
 {
 
     modelData->time = -1.0; // time is initially before simulation starts
@@ -1205,13 +1205,13 @@ std::string LLVMExecutableModel::getEventId(int indx)
     }
 }
 
-void LLVMExecutableModel::setEventHandler(int index,
-        rr::EventHandlerPtr eventHandler)
+void LLVMExecutableModel::setEventListener(int index,
+        rr::EventListenerPtr eventHandler)
 {
     if (index < modelData->numEvents)
     {
         Log(Logger::LOG_DEBUG) << "setting event handler " << index << " to " << eventHandler;
-        eventHandlers[index] = eventHandler;
+        eventListeners[index] = eventHandler;
     }
     else
     {
@@ -1219,16 +1219,16 @@ void LLVMExecutableModel::setEventHandler(int index,
     }
 }
 
-rr::EventHandlerPtr LLVMExecutableModel::getEventHandler(int index)
+rr::EventListenerPtr LLVMExecutableModel::getEventListener(int index)
 {
     if (index < modelData->numEvents)
     {
-        return eventHandlers[index];
+        return eventListeners[index];
     }
     else
     {
         throw_llvm_exception("index " + rr::toString(index) + " out of range");
-        return EventHandlerPtr();
+        return EventListenerPtr();
     }
 }
 
@@ -1607,13 +1607,13 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         // transition from non-triggered to triggered
         if (c && !prevEventState[i])
         {
-            const EventHandlerPtr &handler = eventHandlers[i];
+            const EventListenerPtr &handler = eventListeners[i];
             if(handler)
             {
                 uint result = handler->onTrigger(this, i, symbols->getEventId(i));
 
-                if(result & EventHandler::HALT_SIMULATION) {
-                    throw EventHandlerException(result);
+                if(result & EventListener::HALT_SIMULATION) {
+                    throw EventListenerException(result);
                 }
             }
             pendingEvents.push(rrllvm::Event(*this, i));
