@@ -56,11 +56,12 @@ public:
     bool haveVariables();
 
     double oneStep(double timeStart, double hstep);
-    void assignNewVector(ExecutableModel *model);
-    void assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
 
-    // Restart the simulation using a different initial condition
-    void                        reStart(double timeStart, ExecutableModel* model);
+    /**
+     * copies the state vector out of the model and into cvode vector,
+     * re-initializes cvode.
+     */
+    void reStart(double timeStart);
 
 private:
 
@@ -91,6 +92,16 @@ private:
      */
     void assignResultsToModel();
 
+    /**
+     * Update the abl tolerance vector using the abs tol in the options.
+     *
+     * Play some games if the value of the state vector is small, adjust the
+     * tolerance accordingly.
+     *
+     * Side effect is model state is copied into cvode state vector.
+     */
+    void updateAbsTolVector();
+
 
     void                        assignPendingEvents(double timeEnd, double tout);
 
@@ -120,17 +131,7 @@ private:
     int                         mMaxNumSteps;
 
 
-    /**
-     * return the options rel tol if acceptible, otherwise, use
-     * the cvode defaults.
-     */
-    double getRelativeTolerance();
 
-    /**
-     * return the options abs tol if acceptable, otherwise, use
-     * default values.
-     */
-    double getAbsoluteTolerence();
 
     /**
      * pointer to an options struct, this is typically

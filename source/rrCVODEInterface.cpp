@@ -101,6 +101,10 @@ options(*options)
     {
         initializeCVODEInterface(aModel);
     }
+
+    // if we pass a 0, we re-load all the values from our options.
+    // saves from copying it twice.
+    setSimulateOptions(0);
 }
 
 CvodeInterface::~CvodeInterface()
@@ -124,14 +128,22 @@ CvodeInterface::~CvodeInterface()
 
 void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
 {
-    options = *o;
+    if(o)
+    {
+        options = *o;
+    }
 
+    // if mAbstolArray, also have mStateVector
     if (mAbstolArray)
     {
+        assert(mStateVector && "mStateVector shold not be NULL");
+
         for (unsigned i = 0; i < NV_LENGTH_S(mAbstolArray); ++i)
         {
             NV_DATA_S(mAbstolArray)[i] = options.absolute;
         }
+
+        updateAbsTolVector();
     }
 }
 
@@ -221,7 +233,7 @@ double CvodeInterface::oneStep(double timeStart, double hstep)
 
         if (mLastTimeValue > timeStart)
         {
-            reStart(timeStart, mModel);
+            reStart(timeStart);
         }
 
         double nextTargetEndTime = tout;
@@ -260,7 +272,7 @@ double CvodeInterface::oneStep(double timeStart, double hstep)
             {
                 // evaluate events
                 handleRootsForTime(timeEnd, eventStatus);
-                reStart(timeEnd, mModel);
+                reStart(timeEnd);
                 mLastEvent = timeEnd;
             }
         }
@@ -323,7 +335,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
                 SetVector((N_Vector) mAbstolArray, i, options.absolute);
             }
 
-            assignNewVector(oModel, true);
+            updateAbsTolVector();
 
             mCVODE_Memory = createCvode(&options);
 
@@ -395,7 +407,7 @@ void CvodeInterface::assignPendingEvents(double timeEnd, double tout)
     int handled = mModel->applyPendingEvents(stateVector, timeEnd, tout);
     if (handled > 0)
     {
-        reStart(timeEnd, mModel);
+        reStart(timeEnd);
     }
 }
 
@@ -422,66 +434,42 @@ void CvodeInterface::assignResultsToModel()
     }
 }
 
-void CvodeInterface::assignNewVector(ExecutableModel *model)
-{
-    assignNewVector(model, false);
-}
 
-// Restart the simulation using a different initial condition
-void CvodeInterface::assignNewVector(ExecutableModel *oModel,
-        bool assignNewTolerances)
+
+void CvodeInterface::updateAbsTolVector()
 {
-    if (mStateVector == 0)
+    if (mStateVector == 0 || mModel == 0)
     {
-        if (oModel && oModel->getStateVector(0) != 0)
-        {
-            Log(lWarning) << "Attempting to assign non-zero state vector to "
-                    "zero length state vector in " << __FUNC__;
-        }
         return;
     }
 
-    if (oModel->getStateVector(0) > NV_LENGTH_S(mStateVector))
+    mModel->getStateVector(NV_DATA_S(mStateVector));
+
+    double dMin = options.absolute;
+
+    for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
     {
-        stringstream msg;
-        msg << "attempt to assign different length data to existing state vector, ";
-        msg << "new data has " << oModel->getStateVector(0) << " elements and ";
-        msg << "existing state vector has " << NV_LENGTH_S(mStateVector);
-
-        poco_error(getLogger(), msg.str());
-
-        throw CVODEException(msg.str());
+        double tmp = NV_DATA_S(mStateVector)[i] / 1000.;
+        if (tmp < dMin)
+        {
+            dMin = tmp;
+        }
     }
 
-    oModel->getStateVector(NV_DATA_S(mStateVector));
-
-    if (assignNewTolerances)
+    for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
     {
-        double dMin = options.absolute;
-
-        for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
-        {
-            double tmp = NV_DATA_S(mStateVector)[i] / 1000.;
-            if (tmp > 0 && tmp < dMin)
-            {
-                dMin = tmp;
-            }
-        }
-
-        for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
-        {
-            setAbsTolerance(i, dMin);
-        }
-
-        // TODO: events are bizarre, need to clean them up eventually
-        if (!haveVariables() && mModel->getNumEvents() > 0)
-        {
-            setAbsTolerance(0, dMin);
-            SetVector(mStateVector, 0, 1.0);
-        }
-
-        Log(lDebug1)<<"Set tolerance to: "<<setprecision(16)<< dMin;
+        setAbsTolerance(i, dMin);
     }
+
+    // TODO: events are bizarre, need to clean them up eventually
+    if (!haveVariables() && mModel->getNumEvents() > 0)
+    {
+        setAbsTolerance(0, dMin);
+        SetVector(mStateVector, 0, 1.0);
+    }
+
+    Log(Logger::LOG_TRACE) << "Set tolerance to: "<<setprecision(16)<< dMin;
+
 }
 
 void CvodeInterface::setAbsTolerance(int index, double dValue)
@@ -499,15 +487,15 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
     SetVector(mAbstolArray, index, dTolerance);
 }
 
-void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
+void CvodeInterface::reStart(double timeStart)
 {
-    assignNewVector(model);
+    if (mStateVector && mCVODE_Memory)
+    {
+        mModel->getStateVector(NV_DATA_S(mStateVector));
+    }
 
     if(mCVODE_Memory)
     {
-        //CVodeSetInitStep(mCVODE_Memory, mInitStep);
-        //CVodeSetMinStep(mCVODE_Memory, mMinStep);
-        //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
         reInit(timeStart);
     }
 }

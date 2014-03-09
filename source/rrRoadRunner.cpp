@@ -634,11 +634,11 @@ void RoadRunner::reset()
             mModel->computeConservedTotals();
         }
 
-        mCVode->assignNewVector(mModel, true);
+
         mCVode->testRootsAtInitialTime();
 
         mModel->setTime(0.0);
-        mCVode->reStart(0.0, mModel);
+        mCVode->reStart(0.0);
 
         try
         {
@@ -1023,7 +1023,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 
     if (reset)
     {
-        mCVode->reStart(currentTime, mModel);
+        mCVode->reStart(currentTime);
     }
 
     try
@@ -2490,10 +2490,10 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
 
-    //Todo: Don't understand this code.. MTK
+    // if we have a state vector, copy into integrator vector.
     if (mCVode->haveVariables())
     {
-        mCVode->reStart(timeStart, mModel);
+        mCVode->reStart(timeStart);
     }
 
     double tout = timeStart;
