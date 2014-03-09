@@ -65,7 +65,7 @@ public:
 
 private:
 
-    double                      mMaxStep;
+
     int                         mRootCount;
     int                         mCount;
 
@@ -125,10 +125,7 @@ private:
 
     int                         mMaxAdamsOrder;
     int                         mMaxBDFOrder;
-    double                      mInitStep;
-    double                      mMinStep;
 
-    int                         mMaxNumSteps;
 
 
 

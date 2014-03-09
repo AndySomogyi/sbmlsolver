@@ -91,10 +91,6 @@ mOneStepCount(0),
 mFollowEvents(true),
 mMaxAdamsOrder(mDefaultMaxAdamsOrder),
 mMaxBDFOrder(mDefaultMaxBDFOrder),
-mInitStep(0.0),
-mMinStep(0.0),
-mMaxStep(0.0),
-mMaxNumSteps(mDefaultMaxNumSteps),
 options(*options)
 {
     if(aModel)
@@ -131,6 +127,26 @@ void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
     if(o)
     {
         options = *o;
+    }
+
+    if (options.initialTimeStep > 0)
+    {
+        CVodeSetInitStep(mCVODE_Memory, options.initialTimeStep);
+    }
+
+    if (options.minimumTimeStep > 0)
+    {
+        CVodeSetMinStep(mCVODE_Memory, options.minimumTimeStep);
+    }
+
+    if (options.maximumTimeStep > 0)
+    {
+        CVodeSetMaxStep(mCVODE_Memory, options.maximumTimeStep);
+    }
+
+    if (options.maximumNumSteps > 0)
+    {
+        CVodeSetMaxNumSteps(mCVODE_Memory, options.maximumNumSteps);
     }
 
     // if mAbstolArray, also have mStateVector
@@ -588,13 +604,13 @@ _xmlNode* CvodeInterface::createConfigNode()
     Configurable::addChild(cap, Configurable::createParameterNode(
             "atol", "Absolute Tolerance", options.absolute));
     Configurable::addChild(cap, Configurable::createParameterNode(
-            "maxsteps", "Maximum number of internal stepsc", mMaxNumSteps));
+            "maxsteps", "Maximum number of internal stepsc", options.maximumNumSteps));
     Configurable::addChild(cap, Configurable::createParameterNode(
-            "initstep", "the initial step size", mInitStep));
+            "initstep", "the initial step size", options.initialTimeStep));
     Configurable::addChild(cap, Configurable::createParameterNode(
-            "minstep", "specifies a lower bound on the magnitude of the step size.", mMinStep));
+            "minstep", "specifies a lower bound on the magnitude of the step size.", options.minimumTimeStep));
     Configurable::addChild(cap, Configurable::createParameterNode(
-            "maxstep", "specifies an upper bound on the magnitude of the step size.", mMaxStep));
+            "maxstep", "specifies an upper bound on the magnitude of the step size.", options.maximumTimeStep));
 
     return cap;
 }
@@ -605,10 +621,10 @@ void CvodeInterface::loadConfig(const _xmlDoc* doc)
     mMaxAdamsOrder = Configurable::getParameterIntValue(doc, "Integration", "AdamsOrder");
     options.relative = Configurable::getParameterDoubleValue(doc, "Integration", "rtol");
     options.absolute = Configurable::getParameterDoubleValue(doc, "Integration", "atol");
-    mMaxNumSteps = Configurable::getParameterIntValue(doc, "Integration", "maxsteps");
-    mInitStep = Configurable::getParameterDoubleValue(doc, "Integration", "initstep");
-    mMinStep = Configurable::getParameterDoubleValue(doc, "Integration", "minstep");
-    mMaxStep = Configurable::getParameterDoubleValue(doc, "Integration", "maxstep");
+    options.maximumNumSteps = Configurable::getParameterIntValue(doc, "Integration", "maxsteps");
+    options.initialTimeStep = Configurable::getParameterDoubleValue(doc, "Integration", "initstep");
+    options.minimumTimeStep = Configurable::getParameterDoubleValue(doc, "Integration", "minstep");
+    options.maximumTimeStep = Configurable::getParameterDoubleValue(doc, "Integration", "maxstep");
 }
 
 

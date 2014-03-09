@@ -1021,6 +1021,12 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
         throw CoreException(gEmptyModelMessage);
     }
 
+    if(dirtySimulateOptions)
+    {
+        mCVode->setSimulateOptions(&simulateOptions);
+        dirtySimulateOptions = false;
+    }
+
     if (reset)
     {
         mCVode->reStart(currentTime);
@@ -2444,14 +2450,16 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     if (_options)
     {
         this->simulateOptions = *_options;
+        dirtySimulateOptions = true;
     }
 
     //This one creates the list of what we will look at in the result
     createTimeCourseSelectionList();
 
-    if (mCVode)
+    if (dirtySimulateOptions)
     {
         mCVode->setSimulateOptions(&simulateOptions);
+        dirtySimulateOptions = false;
     }
 
     if (simulateOptions.flags & SimulateOptions::RESET_MODEL)
