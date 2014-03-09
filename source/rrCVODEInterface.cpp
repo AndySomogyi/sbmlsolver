@@ -82,8 +82,6 @@ void* CvodeInterface::createCvode(const SimulateOptions* options)
 
 CvodeInterface::CvodeInterface(ExecutableModel *aModel, const SimulateOptions* options)
 :
-mDefaultReltol(options->relative),
-mDefaultAbsTol(options->absolute),
 mStateVector(NULL),
 mAbstolArray(NULL),
 mCVODE_Memory(NULL),
@@ -97,9 +95,7 @@ mInitStep(0.0),
 mMinStep(0.0),
 mMaxStep(0.0),
 mMaxNumSteps(mDefaultMaxNumSteps),
-mRelTol(options->relative),
-mAbsTol(options->absolute),
-options(options)
+options(*options)
 {
     if(aModel)
     {
@@ -109,7 +105,7 @@ options(options)
 
 CvodeInterface::~CvodeInterface()
 {
-    //CVode crashes if handed NULL vectorc... (: ! ........
+    // cvode does not check for null values.
     if(mCVODE_Memory)
     {
         CVodeFree( &mCVODE_Memory);
@@ -126,7 +122,20 @@ CvodeInterface::~CvodeInterface()
     }
 }
 
-int CvodeInterface::allocateCvodeMem ()
+void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
+{
+    options = *o;
+
+    if (mAbstolArray)
+    {
+        for (unsigned i = 0; i < NV_LENGTH_S(mAbstolArray); ++i)
+        {
+            NV_DATA_S(mAbstolArray)[i] = options.absolute;
+        }
+    }
+}
+
+int CvodeInterface::allocateCvodeMem()
 {
     if (mCVODE_Memory == NULL)
     {
@@ -145,10 +154,10 @@ int CvodeInterface::allocateCvodeMem ()
     {
         return result;
     }
-    return CVodeSVtolerances(mCVODE_Memory, mRelTol, mAbstolArray);
+    return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
 }
 
-int CvodeInterface::rootInit (const int& numRoots)//, TRootCallBack callBack, void *gdata)
+int CvodeInterface::rootInit(int numRoots)
 {
     if (mCVODE_Memory == NULL)
     {
@@ -159,8 +168,7 @@ int CvodeInterface::rootInit (const int& numRoots)//, TRootCallBack callBack, vo
 }
 
 // Initialize cvode with a new set of initial conditions
-//int CvodeInterface::CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
-int CvodeInterface::reInit (const double& t0)
+int CvodeInterface::reInit(double t0)
 {
     if (mCVODE_Memory == NULL)
     {
@@ -174,10 +182,10 @@ int CvodeInterface::reInit (const double& t0)
         return result;
     }
 
-    return CVodeSVtolerances(mCVODE_Memory, mRelTol, mAbstolArray);
+    return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
 }
 
-double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
+double CvodeInterface::oneStep(double timeStart, double hstep)
 {
     Log(lDebug3)<<"---------------------------------------------------";
     Log(lDebug3)<<"--- O N E     S T E P      ( "<<mOneStepCount<< " ) ";
@@ -187,7 +195,6 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     mCount = 0;
 
     double timeEnd = 0.0;
-    double timeStart = _timeStart;
     double tout = timeStart + hstep;
     int strikes = 3;
 
@@ -238,7 +245,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
 
 
-            bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
+            bool tooCloseToStart = fabs(timeEnd - mLastEvent) > options.relative;
 
             if(tooCloseToStart)
             {
@@ -290,47 +297,6 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
 
 }
 
-void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
-{
-    CvodeInterface* cvInstance = (CvodeInterface*) userData;
-    if(!cvInstance)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function!";
-        return;
-    }
-
-    ExecutableModel *model = cvInstance->mModel;
-
-    model->getStateVectorRate(time, y, ydot);
-
-    if (cvInstance->mStateVectorSize == 0 && cvInstance->mStateVector &&
-            NV_LENGTH_S(cvInstance->mStateVector) == 1)
-    {
-        ydot[0] = 0.0;
-    }
-
-    Log(Logger::LOG_TRACE) << __FUNC__ << endl;
-    Log(Logger::LOG_TRACE) << model << endl;
-
-    cvInstance->mCount++;
-}
-
-void EventFcn(double time, double* y, double* gdot, void* userData)
-{
-    CvodeInterface* cvInstance = (CvodeInterface*) userData;
-    if(!cvInstance)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function";
-        return;
-    }
-
-    ExecutableModel *model = cvInstance->mModel;
-
-    model->evalEventRoots(time, y, gdot);
-
-    cvInstance->mRootCount++;
-}
-
 bool CvodeInterface::haveVariables()
 {
     return (mStateVectorSize > 0) ? true : false;
@@ -354,12 +320,12 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
             mAbstolArray = N_VNew_Serial(mStateVectorSize);
             for (int i = 0; i < mStateVectorSize; i++)
             {
-                SetVector((N_Vector) mAbstolArray, i, mDefaultAbsTol);
+                SetVector((N_Vector) mAbstolArray, i, options.absolute);
             }
 
             assignNewVector(oModel, true);
 
-            mCVODE_Memory = createCvode(options);
+            mCVODE_Memory = createCvode(&options);
 
             int errCode = allocateCvodeMem();
 
@@ -391,9 +357,9 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
             mAbstolArray = N_VNew_Serial(allocated);
 
             SetVector(mStateVector, 0, 0);
-            SetVector(mAbstolArray, 0, mDefaultAbsTol);
+            SetVector(mAbstolArray, 0, options.absolute);
 
-            mCVODE_Memory = createCvode(options);
+            mCVODE_Memory = createCvode(&options);
 
             int errCode = allocateCvodeMem();
             if (errCode < 0)
@@ -423,7 +389,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
     }
 }
 
-void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& tout)
+void CvodeInterface::assignPendingEvents(double timeEnd, double tout)
 {
     double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
     int handled = mModel->applyPendingEvents(stateVector, timeEnd, tout);
@@ -491,7 +457,7 @@ void CvodeInterface::assignNewVector(ExecutableModel *oModel,
 
     if (assignNewTolerances)
     {
-        double dMin = mAbsTol;
+        double dMin = options.absolute;
 
         for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
         {
@@ -521,13 +487,13 @@ void CvodeInterface::assignNewVector(ExecutableModel *oModel,
 void CvodeInterface::setAbsTolerance(int index, double dValue)
 {
     double dTolerance = dValue;
-    if (dValue > 0 && mAbsTol > dValue)
+    if (dValue > 0 && options.absolute > dValue)
     {
         dTolerance = dValue;
     }
     else
     {
-        dTolerance = mAbsTol;
+        dTolerance = options.absolute;
     }
 
     SetVector(mAbstolArray, index, dTolerance);
@@ -560,6 +526,47 @@ double GetVector (N_Vector v, int Index)
     return data[Index];
 }
 
+void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
+{
+    CvodeInterface* cvInstance = (CvodeInterface*) userData;
+    if(!cvInstance)
+    {
+        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function!";
+        return;
+    }
+
+    ExecutableModel *model = cvInstance->mModel;
+
+    model->getStateVectorRate(time, y, ydot);
+
+    if (cvInstance->mStateVectorSize == 0 && cvInstance->mStateVector &&
+            NV_LENGTH_S(cvInstance->mStateVector) == 1)
+    {
+        ydot[0] = 0.0;
+    }
+
+    Log(Logger::LOG_TRACE) << __FUNC__ << endl;
+    Log(Logger::LOG_TRACE) << model << endl;
+
+    cvInstance->mCount++;
+}
+
+void EventFcn(double time, double* y, double* gdot, void* userData)
+{
+    CvodeInterface* cvInstance = (CvodeInterface*) userData;
+    if(!cvInstance)
+    {
+        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function";
+        return;
+    }
+
+    ExecutableModel *model = cvInstance->mModel;
+
+    model->evalEventRoots(time, y, gdot);
+
+    cvInstance->mRootCount++;
+}
+
 // Cvode calls this to compute the dy/dts. This routine in turn calls the
 // model function which is located in the host application.
 int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data)
@@ -577,27 +584,7 @@ int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data)
     return CV_SUCCESS;
 }
 
-unsigned CvodeInterface::setTolerances(double relative, double absolute)
-{
-    mRelTol = relative;
-    mAbsTol = absolute;
 
-    if (mAbstolArray)
-    {
-        for (unsigned i = 0; i < NV_LENGTH_S(mAbstolArray); ++i)
-        {
-            NV_DATA_S(mAbstolArray)[i] = mAbsTol;
-        }
-    }
-    return 0;
-}
-
-unsigned CvodeInterface::getTolerances(double* relative, double* absolute)
-{
-    *relative = mRelTol;
-    *absolute = mAbsTol;
-    return 0;
-}
 
 _xmlNode* CvodeInterface::createConfigNode()
 {
@@ -609,9 +596,9 @@ _xmlNode* CvodeInterface::createConfigNode()
     Configurable::addChild(cap, Configurable::createParameterNode(
             "AdamsOrder", "Maximum order for Adams Method", mMaxAdamsOrder));
     Configurable::addChild(cap, Configurable::createParameterNode(
-            "rtol", "Relative Tolerance", mRelTol));
+            "rtol", "Relative Tolerance", options.relative));
     Configurable::addChild(cap, Configurable::createParameterNode(
-            "atol", "Absolute Tolerance", mAbsTol));
+            "atol", "Absolute Tolerance", options.absolute));
     Configurable::addChild(cap, Configurable::createParameterNode(
             "maxsteps", "Maximum number of internal stepsc", mMaxNumSteps));
     Configurable::addChild(cap, Configurable::createParameterNode(
@@ -628,8 +615,8 @@ void CvodeInterface::loadConfig(const _xmlDoc* doc)
 {
     mMaxBDFOrder = Configurable::getParameterIntValue(doc, "Integration", "BDFOrder");
     mMaxAdamsOrder = Configurable::getParameterIntValue(doc, "Integration", "AdamsOrder");
-    mRelTol = Configurable::getParameterDoubleValue(doc, "Integration", "rtol");
-    mAbsTol = Configurable::getParameterDoubleValue(doc, "Integration", "atol");
+    options.relative = Configurable::getParameterDoubleValue(doc, "Integration", "rtol");
+    options.absolute = Configurable::getParameterDoubleValue(doc, "Integration", "atol");
     mMaxNumSteps = Configurable::getParameterIntValue(doc, "Integration", "maxsteps");
     mInitStep = Configurable::getParameterDoubleValue(doc, "Integration", "initstep");
     mMinStep = Configurable::getParameterDoubleValue(doc, "Integration", "minstep");

@@ -8,25 +8,26 @@
 #ifndef INTEGRATOR_H_
 #define INTEGRATOR_H_
 
-#include <stdexcept>
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
+#include "rrRoadRunnerOptions.h"
+#include <stdexcept>
 
 namespace rr
 {
+
+
 
 class Integrator
 {
 public:
 
-    virtual unsigned setTolerances(double relative, double absolute) = 0;
-
     /**
-     * get the tolerences used by the integrator
-     *
-     *
+     * Set the configuration parameters the integrator uses.
      */
-    virtual unsigned getTolerances(double *relative, double *absolute) = 0;
+    virtual void setSimulateOptions(const SimulateOptions* options) = 0;
+
+    virtual ~Integrator() {};
 };
 
 

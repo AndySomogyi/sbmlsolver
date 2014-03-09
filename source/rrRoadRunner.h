@@ -232,12 +232,6 @@ public:
 
     /**
      * @internal
-     * @deprecated, use ExecutableModel::getFloatingSpeciesAmountRates
-     */
-    std::vector<double> getRatesOfChange();
-
-    /**
-     * @internal
      * @deprecated
      * returns a list of reaction ids obtained from
      * ExecutableModel::getReactionId
@@ -275,12 +269,6 @@ public:
      */
     void setConfigurationXML(const std::string& xml);
 
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void correctMaxStep();
 
 /************************ Selection Ids Species Section ***********************/
 #if (1) /**********************************************************************/
@@ -718,7 +706,6 @@ private:
     ls::DoubleMatrix mRawRoadRunnerData;
     RoadRunnerData mRoadRunnerData;
 
-    std::string mCurrentSBMLFileName;
 
     /**
      * The Cvode object get created just after a model is created, it then
@@ -754,6 +741,15 @@ private:
     SimulateOptions simulateOptions;
 
     /**
+     * The sim options may be requested via getSimulateOptions. In this
+     * case, the caller may modify it, so we assume its dirty.
+     *
+     * These options are re-loaded into the integrator in simulate and
+     * oneStep.
+     */
+    bool dirtySimulateOptions;
+
+    /**
      * various general options that can be modified by external callers.
      */
     RoadRunnerOptions options;
@@ -772,9 +768,6 @@ private:
     double getVariableValue(const VariableType::VariableType variableType,
             const int variableIndex);
 
-
-
-    std::string createModelName(const std::string& mCurrentSBMLFileName);
 
     /**
      * the LibStruct is normally null, only created on demand here.

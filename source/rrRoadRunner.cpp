@@ -106,7 +106,6 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     mSteadyStateThreshold(1.E-2),
     mRawRoadRunnerData(),
     mRoadRunnerData(),
-    mCurrentSBMLFileName(""),
     mCVode(0),
     mSelectionList(),
     mModelGenerator(0),
@@ -115,7 +114,8 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     mModel(0),
     mCurrentSBML(),
     mLS(0),
-    simulateOptions()
+    simulateOptions(),
+    dirtySimulateOptions(true)
 {
 
 #if defined(BUILD_LLVM)
@@ -148,11 +148,9 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& _supportCodeDir) :
         mUseKinsol(false),
         mDiffStepSize(0.05),
-
         mSteadyStateThreshold(1.E-2),
         mRawRoadRunnerData(),
         mRoadRunnerData(),
-        mCurrentSBMLFileName(""),
         mCVode(0),
         mSelectionList(),
         mModelGenerator(0),
@@ -218,8 +216,6 @@ string RoadRunner::getInfo()
     if(mModel)
     {
         info<<"ModelName: "            <<  mModel->getModelName()<<endl;
-//        info<<"Model DLL Loaded: "    << (mModel->mDLL.isLoaded() ? "true" : "false")    <<endl;
-//        info<<"Initialized: "        << (mModel->mIsInitialized ? "true" : "false")    <<endl;
     }
     info<<"ConservationAnalysis: "    <<    mComputeAndAssignConservationLaws << endl;
     info<<"libSBML version: "         <<    getVersionStr(VERSIONSTR_LIBSBML) << endl;
@@ -280,11 +276,13 @@ bool RoadRunner::isModelLoaded()
 
 void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
+    dirtySimulateOptions = true;
     simulateOptions = settings;
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
 {
+    dirtySimulateOptions = true;
     return simulateOptions;
 }
 
@@ -535,21 +533,6 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
 vector<double> RoadRunner::getConservedMoietyValues()
 {
     return getLibStruct()->getConservedSums();
-}
-
-string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
-{
-    //Generate source code for the model
-    string modelName;
-    if(mCurrentSBMLFileName.size())
-    {
-        modelName = getFileNameNoExtension(mCurrentSBMLFileName);
-    }
-    else
-    {
-        modelName = toString(mInstanceID);
-    }
-    return modelName;
 }
 
 bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
@@ -2382,37 +2365,11 @@ vector<double> RoadRunner::getReactionRates()
     return rates;
 }
 
-// Help("Returns the current vector of rates of change")
-vector<double> RoadRunner::getRatesOfChange()
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    mModel->computeAllRatesOfChange();
-    vector<double> result(mModel->getNumFloatingSpecies());
-    mModel->getFloatingSpeciesAmountRates(result.size(), 0, &result[0]);
-    return result;
-}
-
-
-
-
 Integrator* RoadRunner::getIntegrator()
 {
     return mCVode;
 }
 
-void RoadRunner::correctMaxStep()
-{
-    if(mCVode)
-    {
-        double maxStep = (simulateOptions.duration) / (simulateOptions.steps + 1);
-        maxStep = min(mCVode->mMaxStep, maxStep);
-        mCVode->mMaxStep = maxStep;
-    }
-}
 
 bool RoadRunner::setValue(const string& sId, double dValue)
 {
@@ -2494,7 +2451,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     if (mCVode)
     {
-        mCVode->setTolerances(simulateOptions.relative, simulateOptions.absolute);
+        mCVode->setSimulateOptions(&simulateOptions);
     }
 
     if (simulateOptions.flags & SimulateOptions::RESET_MODEL)

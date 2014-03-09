@@ -82,7 +82,7 @@ namespace rrc
 
 using namespace std;
 using namespace rr;
-//Should these not be part of the C++ API ???
+
 static ArrayList         sel_getFluxControlCoefficientIds(RoadRunner* rr);
 static ArrayList         sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
 static ArrayList         sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
@@ -94,6 +94,8 @@ static ArrayList         sel_getElasticityCoefficientIds(RoadRunner* rr);
 static ArrayList         sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
 static vector<string>    sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
 static vector<string>    sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
+
+static vector<double> rr_getRatesOfChange(RoadRunner* rr);
 
 RRHandle rrcCallConv createRRInstance()
 {
@@ -615,7 +617,7 @@ RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        vector<double> rates = rri->getRatesOfChange();
+        vector<double> rates = rr_getRatesOfChange(rri);
 
         if(!rates.size())
         {
@@ -1228,7 +1230,7 @@ RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr ve
         vector<double> values = rrc::createVector(vec);
 
         rri->setFloatingSpeciesConcentrations(values);
-        vector<double> tempList = rri->getRatesOfChange();
+        vector<double> tempList = rr_getRatesOfChange(rri);
         return rrc::createVector (tempList);
     catch_ptr_macro
 }
@@ -1774,6 +1776,20 @@ vector<string> sel_getBoundarySpeciesConcSymbols(RoadRunner* rr)
         result.push_back("[" + ids[i] + "]");
     }
 
+    return result;
+}
+
+vector<double> rr_getRatesOfChange(RoadRunner* rr)
+{
+    ExecutableModel *mModel = rr->getModel();
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    mModel->computeAllRatesOfChange();
+    vector<double> result(mModel->getNumFloatingSpecies());
+    mModel->getFloatingSpeciesAmountRates(result.size(), 0, &result[0]);
     return result;
 }
 

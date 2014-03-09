@@ -28,10 +28,6 @@ class RoadRunner;
 class CvodeInterface : public Integrator, public Configurable
 {
 public:
-    double                      mMaxStep;
-    int                         mRootCount;
-    int                         mCount;
-
     CvodeInterface(ExecutableModel* oModel, const SimulateOptions* options);
 
     virtual ~CvodeInterface();
@@ -50,29 +46,30 @@ public:
     virtual void loadConfig(const _xmlDoc* doc);
 
 
-    virtual unsigned setTolerances(double relative, double absolute);
-    virtual unsigned getTolerances(double *relative, double *absolute);
+    /**
+     * set the options the integrator will use.
+     */
+    virtual void setSimulateOptions(const SimulateOptions* options);
 
-    void                        assignResultsToModel();
 
-    void                        testRootsAtInitialTime();
-    bool                        haveVariables();
+    void testRootsAtInitialTime();
+    bool haveVariables();
 
-    double                      oneStep(const double& timeStart, const double& hstep);
-    void                        assignNewVector(ExecutableModel *model);
-    void                        assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
+    double oneStep(double timeStart, double hstep);
+    void assignNewVector(ExecutableModel *model);
+    void assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
 
     // Restart the simulation using a different initial condition
     void                        reStart(double timeStart, ExecutableModel* model);
 
 private:
 
-    const double                mDefaultReltol;
-    const double                mDefaultAbsTol;
+    double                      mMaxStep;
+    int                         mRootCount;
+    int                         mCount;
+
     static const int            mDefaultMaxNumSteps;
 
-    string                      mTempPathstring;
-    int                         mErrorFileCounter;
 
     int                         mStateVectorSize;
     N_Vector                    mStateVector;
@@ -89,16 +86,30 @@ private:
     int                         mOneStepCount;
     bool                        mFollowEvents;
 
-    void                        assignPendingEvents(const double& timeEnd, const double& tout);
+    /**
+     * copy the values from the cvode state vector into the executable model.
+     */
+    void assignResultsToModel();
+
+
+    void                        assignPendingEvents(double timeEnd, double tout);
 
 
     void                        handleRootsForTime(double timeEnd,
                                     std::vector<unsigned char> &previousEventStatus);
 
-    int                         rootInit (const int& numRoots);
-    int                         reInit (const double& t0);
+    int                         rootInit(int numRoots);
+    int                         reInit (double t0);
     int                         allocateCvodeMem ();
-    void                        initializeCVODEInterface(ExecutableModel *oModel);
+
+    /**
+     * Set up the cvode state vector size and various other cvode
+     * init tasks. Specific to the model.
+     *
+     * Only called once
+     */
+    void initializeCVODEInterface(ExecutableModel *oModel);
+
     void                        setAbsTolerance(int index, double dValue);
 
     int                         mMaxAdamsOrder;
@@ -109,17 +120,32 @@ private:
     int                         mMaxNumSteps;
 
 
-    double                      mRelTol;
-    double                      mAbsTol;
+    /**
+     * return the options rel tol if acceptible, otherwise, use
+     * the cvode defaults.
+     */
+    double getRelativeTolerance();
 
+    /**
+     * return the options abs tol if acceptable, otherwise, use
+     * default values.
+     */
+    double getAbsoluteTolerence();
 
     /**
      * pointer to an options struct, this is typically
      * owned by the RoadRunner object.
      */
-    const SimulateOptions* options;
+    SimulateOptions options;
 
+    /**
+     * get state vector rate function called by cvode.
+     */
     friend void ModelFcn(int n, double time, double* y, double* ydot, void* userData);
+
+    /**
+     * event status function called by cvode.
+     */
     friend void EventFcn(double time, double* y, double* gdot, void* userData);
 
     static void* createCvode(const SimulateOptions *options);
