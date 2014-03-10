@@ -1034,7 +1034,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 
     try
     {
-        return mCVode->oneStep(currentTime, stepSize);
+        return mCVode->integrate(currentTime, stepSize);
     }
     catch (EventListenerException& e)
     {
@@ -2514,7 +2514,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
         for (int i = 1; i < simulateOptions.steps + 1; i++)
         {
             Log(Logger::LOG_DEBUG)<<"Step "<<i;
-            mCVode->oneStep(tout, hstep);
+            mCVode->integrate(tout, hstep);
             tout = timeStart + i * hstep;
             addNthOutputToResult(mRawRoadRunnerData, i, tout);
         }

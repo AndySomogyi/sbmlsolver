@@ -50,6 +50,16 @@ static std::string cvodeDecodeError(int cvodeError);
           cvodeDecodeError(errCode); \
           throw IntegratorException(_err_what, std::string(__FUNC__)); }
 
+void CvodeInterface::setListener(IntegratorListenerPtr p)
+{
+    listener = p;
+}
+
+IntegratorListenerPtr CvodeInterface::getListener()
+{
+    return listener;
+}
+
 void* CvodeInterface::createCvode(const SimulateOptions* options)
 {
     void* result = 0;
@@ -213,7 +223,7 @@ int CvodeInterface::reInit(double t0)
     return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
 }
 
-double CvodeInterface::oneStep(double timeStart, double hstep)
+double CvodeInterface::integrate(double timeStart, double hstep)
 {
     Log(lDebug3)<<"---------------------------------------------------";
     Log(lDebug3)<<"--- O N E     S T E P      ( "<<mOneStepCount<< " ) ";
@@ -225,6 +235,9 @@ double CvodeInterface::oneStep(double timeStart, double hstep)
     double timeEnd = 0.0;
     double tout = timeStart + hstep;
     int strikes = 3;
+
+    const int itask = options.integratorFlags & SimulateOptions::ONE_STEP
+            ? CV_ONE_STEP : CV_NORMAL;
 
     // get the original event status
     vector<unsigned char> eventStatus(mModel->getEventTriggers(0, 0, 0), false);
@@ -264,7 +277,7 @@ double CvodeInterface::oneStep(double timeStart, double hstep)
         mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
 
         // time step
-        int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, CV_NORMAL);
+        int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, itask);
 
         if (nResult == CV_ROOT_RETURN && mFollowEvents)
         {
@@ -290,12 +303,22 @@ double CvodeInterface::oneStep(double timeStart, double hstep)
                 handleRootsForTime(timeEnd, eventStatus);
                 reStart(timeEnd);
                 mLastEvent = timeEnd;
+
+                if (listener)
+                {
+                    listener->onEvent(this, mModel, timeEnd);
+                }
             }
         }
         else if (nResult == CV_SUCCESS || !mFollowEvents)
         {
-            mModel->setTime(tout);
+            mModel->setTime(timeEnd);
             assignResultsToModel();
+
+            if (listener)
+            {
+                listener->onTimeStep(this, mModel, timeEnd);
+            }
         }
         else
         {

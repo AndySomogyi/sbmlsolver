@@ -46,9 +46,11 @@
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
+    PyObject *Integrator_NewPythonObj(rr::Integrator*);
 
 
     #include "PyEventListener.h"
+    #include "PyIntegratorListener.h"
 
 // Windows is just so special...
 #ifdef _WIN32
@@ -85,6 +87,13 @@
 
 // all the documentation goes here.
 %include "rr_docstrings.i"
+
+ // the integrator listener is a shared ptr
+#define SWIG_SHARED_PTR_SUBNAMESPACE tr1
+%include "std_shared_ptr.i"
+
+%shared_ptr(rr::PyIntegratorListener)
+
 
 
 %template(IntVector) std::vector<int>;
@@ -393,11 +402,15 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 };
 
 
-    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
-    // class. This function is defined later in this compilation unit.
+// make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
+// class. This function is defined later in this compilation unit.
 
 PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
     return SWIG_NewPointerObj(SWIG_as_voidptr(e), SWIGTYPE_p_rr__ExecutableModel, 0 |  0 );
+}
+
+PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
+    return SWIG_NewPointerObj(SWIG_as_voidptr(i), SWIGTYPE_p_rr__Integrator, 0 |  0 );
 }
 
 
@@ -684,6 +697,16 @@ PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
 %ignore rr::EventListener::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
 %ignore rr::EventListener::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
 
+// ignore the C++ class, only deal with the python version
+%ignore rr::IntegratorListener;
+
+%ignore rr::Integrator::setListener(rr::IntegratorListenerPtr);
+%ignore rr::Integrator::getListener();
+
+//%ignore rr::Integrator::addIntegratorListener;
+//%ignore rr::Integrator::removeIntegratorListener;
+
+
 %ignore rr::ostream;
 %ignore ostream;
 %ignore std::ostream;
@@ -730,10 +753,11 @@ namespace std { class ostream{}; }
 %nothread;
 
 %include <rrSelectionRecord.h>
-%include "conservation/ConservedMoietyConverter.h"
+%include <conservation/ConservedMoietyConverter.h>
+%include <Integrator.h>
 
 %include "PyEventListener.h"
-
+%include "PyIntegratorListener.h"
 
 %extend std::vector<rr::SelectionRecord>
 {
@@ -1698,8 +1722,36 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values(types).__iter__()
-
     %}
+}
+
+%extend rr::Integrator {
+
+    void setListener(const rr::PyIntegratorListenerPtr &listener) {
+
+        Log(rr::Logger::LOG_NOTICE) << __FUNC__ << ", use count: " << listener.use_count();
+
+        std::tr1::shared_ptr<rr::IntegratorListener> i = 
+            std::tr1::dynamic_pointer_cast<rr::IntegratorListener>(listener);
+
+        Log(rr::Logger::LOG_NOTICE) << __FUNC__ << ", after cast use count: " << listener.use_count();
+
+        ($self)->setListener(i);
+    }
+
+    rr::PyIntegratorListenerPtr _getListener() {
+
+        Log(rr::Logger::LOG_NOTICE) << __FUNC__;
+
+        rr::IntegratorListenerPtr l = ($self)->getListener();
+
+        rr::PyIntegratorListenerPtr ptr = 
+            std::tr1::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
+
+        Log(rr::Logger::LOG_NOTICE) << __FUNC__ << ", use count: " << ptr.use_count();
+
+        return ptr;
+    }
 }
 
 %pythoncode %{

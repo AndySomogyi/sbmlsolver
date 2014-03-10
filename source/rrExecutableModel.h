@@ -48,6 +48,12 @@ protected:
     ~EventListener() {};
 };
 
+/**
+ * listeners are shared objects, so use std smart pointers
+ * to manage them.
+ */
+typedef std::tr1::shared_ptr<EventListener> EventListenerPtr;
+
 class EventListenerException: public std::exception
 {
 public:
@@ -83,7 +89,7 @@ private:
     std::string msg;
 };
 
-typedef std::tr1::shared_ptr<EventListener> EventListenerPtr;
+
 
 /**
  * The ExecutableModel interface provides a way to access an
