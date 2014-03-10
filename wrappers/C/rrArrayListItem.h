@@ -1,7 +1,7 @@
 #ifndef rrArrayListItemH
 #define rrArrayListItemH
 #include "rrExporter.h"
-#include "rrStringList.h"
+#include "rrcStringList.h"
 #include "rrArrayListItemBase.h"
 
 //This unit contains

@@ -7,7 +7,6 @@
 #include "rrTestSuiteModelSimulation.h"
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
-//---------------------------------------------------------------------------
 
 using namespace std;
 namespace rr
@@ -199,16 +198,25 @@ bool TestSuiteModelSimulation::SaveAllData()
             {
                 if(col == 0)
                 {
-                    StringList ref_cnames =  mReferenceData.getColumnNames();
-                    ref_cnames.PostFix("_ref");
-                    fs << ref_cnames.AsString();
+                    vector<string> ref_cnames =  mReferenceData.getColumnNames();
+                    for(vector<string>::iterator i = ref_cnames.begin();
+                            i != ref_cnames.end(); ++i) {
+                        *i = *i + "_ref";
+                    }
+                    fs << rr::toString(ref_cnames);
                     fs << ",";
-                    StringList res_cnames =  mResultData.getColumnNames();
-                    res_cnames.PostFix("_rr");
-                    fs << res_cnames.AsString();
+                    vector<string> res_cnames =  mResultData.getColumnNames();
+                    for(vector<string>::iterator i = ref_cnames.begin();
+                            i != ref_cnames.end(); ++i) {
+                        *i = *i + "_rr";
+                    }
+                    fs << rr::toString(res_cnames);
                     fs << ",";
-                    StringList err_names = ref_cnames - res_cnames;
-                    fs << err_names.AsString();
+                    vector<string> err_names(ref_cnames.size(), "");
+                    for(int i = 0; i < err_names.size(); ++i ) {
+                        err_names[i] = ref_cnames[i] + "-" + res_cnames[i];
+                    }
+                    fs << rr::toString(err_names);
                 }
             }
 

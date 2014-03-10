@@ -2,11 +2,8 @@
 #define rrRoadRunnerH
 
 #include "rr-libstruct/lsMatrix.h"
-#include "rrVariableType.h"
-#include "rrParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
-#include "rrConstants.h"
 #include "rrRoadRunnerOptions.h"
 #include "Configurable.h"
 
@@ -140,8 +137,16 @@ public:
 
     /**
      * Carry out a single integration step using a stepsize as indicated
-     * in the method call. Arguments: double CurrentTime, double StepSize,
-     * bool: reset integrator if true, Return Value: new CurrentTime.
+     * in the method call.
+     *
+     * @param t0 starting time
+     * @param tf final time
+     * @param options override current options.
+     */
+    double integrate(double t0, double tf, const SimulateOptions* options = 0);
+
+    /**
+     * @deprecated, use integrate instead.
      */
     double oneStep(double currentTime, double stepSize, bool reset = true);
 
@@ -765,9 +770,13 @@ private:
 
     double getNthSelectedOutput(const int& index, const double& dCurrentTime);
 
-    double getVariableValue(const VariableType::VariableType variableType,
-            const int variableIndex);
+    enum VariableType
+    {
+        vtSpecies = 0, vtFlux
+    };
 
+    double getVariableValue(const VariableType variableType,
+            const int variableIndex);
 
     /**
      * the LibStruct is normally null, only created on demand here.
@@ -785,20 +794,35 @@ private:
     int createTimeCourseSelectionList();
 
     /**
+     * The type of sbml element that the RoadRunner::setParameterValue
+     * and RoadRunner::getParameterValue method operate on.
+     *
+     * @deprecated use the ExecutableModel methods directly.
+     */
+    enum ParameterType
+    {
+        ptGlobalParameter = 0,
+        ptLocalParameter,
+        ptBoundaryParameter,
+        ptConservationParameter,
+        ptFloatingSpecies
+    };
+
+    /**
      * Set a sbml model variable to a value.
      *
      * @parameterType the type of sbml element
      */
-    void setParameterValue(const ParameterType::ParameterType parameterType,
+    void setParameterValue(const ParameterType parameterType,
             const int parameterIndex, const double value);
 
-    double getParameterValue(const ParameterType::ParameterType parameterType,
+    double getParameterValue(const ParameterType parameterType,
             const int parameterIndex);
 
     /**
      * Changes a given parameter type by the given increment
      */
-    void changeParameter(ParameterType::ParameterType parameterType,
+    void changeParameter(ParameterType parameterType,
             int reactionIndex, int parameterIndex, double originalValue,
             double increment);
 

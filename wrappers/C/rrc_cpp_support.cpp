@@ -212,7 +212,7 @@ bool copyVector(const RRVector* src, vector<double>& dest)
     return true;
 }
 
-RRStringArrayPtr createList(const StringList& sList)
+RRStringArrayPtr createList(const rrc::StringList& sList)
 {
     if(!sList.Count())
     {

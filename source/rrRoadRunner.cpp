@@ -18,7 +18,8 @@
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "rrSBMLReader.h"
-#include "c/rrNOMSupport.h"
+
+#include <sbml/conversion/SBMLLocalParameterConverter.h>
 
 #include <iostream>
 #include <math.h>
@@ -350,9 +351,25 @@ ModelGenerator* RoadRunner::getModelGenerator()
     return mModelGenerator;
 }
 
-string RoadRunner::getParamPromotedSBML(const string& sArg)
+string RoadRunner::getParamPromotedSBML(const string& sbml)
 {
-    return NOMSupport::getParamPromotedSBML(sArg);
+    libsbml::SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
+    // converts in-place
+    libsbml::SBMLLocalParameterConverter converter;
+
+    converter.setDocument(doc);
+
+    converter.convert();
+
+    libsbml::SBMLWriter writer;
+
+    std::stringstream stream;
+
+    writer.writeSBML(doc, stream);
+
+    delete doc;
+
+    return stream.str();
 }
 
 bool RoadRunner::initializeModel()
@@ -707,45 +724,45 @@ double RoadRunner::steadyState()
     return ss;
 }
 
-void RoadRunner::setParameterValue(const ParameterType::ParameterType parameterType,
+void RoadRunner::setParameterValue(const ParameterType parameterType,
         const int parameterIndex, const double value)
 {
     switch (parameterType)
     {
-        case ParameterType::ptBoundaryParameter:
+        case ptBoundaryParameter:
             mModel->setBoundarySpeciesConcentrations(1, &parameterIndex, &value);
         break;
 
-        case ParameterType::ptGlobalParameter:
+        case ptGlobalParameter:
             mModel->setGlobalParameterValues(1, &parameterIndex, &value);
         break;
 
-        case ParameterType::ptFloatingSpecies:
+        case ptFloatingSpecies:
             mModel->setFloatingSpeciesConcentrations(1, &parameterIndex, &value);
         break;
 
-        case ParameterType::ptConservationParameter:
+        case ptConservationParameter:
             mModel->setConservedMoietyValues(1, &parameterIndex, &value);
         break;
 
-        case ParameterType::ptLocalParameter:
+        case ptLocalParameter:
             throw Exception("Local parameters not permitted in setParameterValue (getCC, getEE)");
     }
 }
 
-double RoadRunner::getParameterValue(const ParameterType::ParameterType parameterType,
+double RoadRunner::getParameterValue(const ParameterType parameterType,
         const int parameterIndex)
 {
     switch (parameterType)
     {
-    case ParameterType::ptBoundaryParameter:
+    case ptBoundaryParameter:
     {
         double result = 0;
         mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &result);
         return result;
     }
     break;
-    case ParameterType::ptGlobalParameter:
+    case ptGlobalParameter:
     {
         double result = 0;
         mModel->getGlobalParameterValues(1, &parameterIndex, &result);
@@ -754,7 +771,7 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
     break;
 
     // Used when calculating elasticities
-    case ParameterType::ptFloatingSpecies:
+    case ptFloatingSpecies:
     {
         double result = 0;
         mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &result);
@@ -762,7 +779,7 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
     }
     break;
 
-    case ParameterType::ptConservationParameter:
+    case ptConservationParameter:
     {
         double result = 0;
         mModel->getConservedMoietyValues(1, &parameterIndex, &result);
@@ -770,7 +787,7 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
     }
     break;
 
-    case ParameterType::ptLocalParameter:
+    case ptLocalParameter:
         throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
         break;
 
@@ -819,7 +836,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
 
 double RoadRunner::getEE(const string& reactionName, const string& parameterName, bool computeSteadyState)
 {
-    ParameterType::ParameterType parameterType;
+    ParameterType parameterType;
     int reactionIndex;
     int parameterIndex;
 
@@ -837,19 +854,19 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     // Find out what kind of parameter we are dealing with
     if (( parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptFloatingSpecies;
+        parameterType = ptFloatingSpecies;
     }
     else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptBoundaryParameter;
+        parameterType = ptBoundaryParameter;
     }
     else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptGlobalParameter;
+        parameterType = ptGlobalParameter;
     }
     else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptConservationParameter;
+        parameterType = ptConservationParameter;
     }
     else
     {
@@ -877,14 +894,14 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 class aFinalizer
 {
 private:
-    ParameterType::ParameterType    mParameterType;
+    RoadRunner::ParameterType    mParameterType;
     int    mParameterIndex;
     double    mOriginalParameterValue;
     bool    mComputeSteadyState;
     RoadRunner*    mRR;
 
 public:
-    aFinalizer(ParameterType::ParameterType& pType, const int& pIndex,
+    aFinalizer(RoadRunner::ParameterType& pType, const int& pIndex,
             const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
 :
     mParameterType(pType),
@@ -916,7 +933,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             throw CoreException(gEmptyModelMessage);
         }
 
-        ParameterType::ParameterType parameterType;
+        ParameterType parameterType;
         double originalParameterValue;
         int reactionIndex;
         int parameterIndex;
@@ -933,25 +950,25 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         // Find out what kind of parameter we are dealing with
         if ((parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptFloatingSpecies;
+            parameterType = ptFloatingSpecies;
             originalParameterValue = 0;
             mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptBoundaryParameter;
+            parameterType = ptBoundaryParameter;
             originalParameterValue = 0;
             mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptGlobalParameter;
+            parameterType = ptGlobalParameter;
             originalParameterValue = 0;
             mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptConservationParameter;
+            parameterType = ptConservationParameter;
             originalParameterValue = 0;
             mModel->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
         }
@@ -1011,6 +1028,136 @@ void RoadRunner::evalModel()
     }
     mModel->convertToAmounts();
     mModel->getStateVectorRate(mModel->getTime(), 0);
+}
+
+
+const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
+{
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    if (_options)
+    {
+        this->simulateOptions = *_options;
+        dirtySimulateOptions = true;
+    }
+
+    //This one creates the list of what we will look at in the result
+    createTimeCourseSelectionList();
+
+    if (dirtySimulateOptions)
+    {
+        mCVode->setSimulateOptions(&simulateOptions);
+        dirtySimulateOptions = false;
+    }
+
+    if (simulateOptions.flags & SimulateOptions::RESET_MODEL)
+    {
+        reset(); // reset back to initial conditions
+    }
+
+    if (simulateOptions.duration < 0 || simulateOptions.start < 0
+            || simulateOptions.steps <= 0 )
+    {
+        throw CoreException("Illegal input to simulate");
+    }
+
+    // set how the result should be returned to python
+    mRoadRunnerData.structuredResult = simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
+
+    double timeEnd = simulateOptions.duration + simulateOptions.start;
+    double timeStart = simulateOptions.start;
+    int numPoints = simulateOptions.steps + 1;
+
+    if (numPoints <= 1)
+    {
+        numPoints = 2;
+    }
+
+    double hstep = (timeEnd - timeStart) / (numPoints - 1);
+    int nrCols = mSelectionList.size();
+
+    Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+
+    // ignored if same
+    mRawRoadRunnerData.resize(simulateOptions.steps + 1, nrCols);
+
+    // evalute the model with its current state
+    mModel->getStateVectorRate(timeStart, 0, 0);
+
+    addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
+
+    // if we have a state vector, copy into integrator vector.
+    if (mCVode->haveVariables())
+    {
+        mCVode->reStart(timeStart);
+    }
+
+    double tout = timeStart;
+
+    //The simulation is executed right here..
+    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< simulateOptions.steps + 1 <<" times";
+
+    try
+    {
+        for (int i = 1; i < simulateOptions.steps + 1; i++)
+        {
+            Log(Logger::LOG_DEBUG)<<"Step "<<i;
+            mCVode->integrate(tout, hstep);
+            tout = timeStart + i * hstep;
+            addNthOutputToResult(mRawRoadRunnerData, i, tout);
+        }
+    }
+    catch (EventListenerException& e)
+    {
+        Log(Logger::LOG_NOTICE) << e.what();
+    }
+
+    Log(Logger::LOG_DEBUG)<<"Simulation done..";
+
+    // set the data into the RoadRunnerData struct
+    populateResult();
+
+    return &mRoadRunnerData;
+}
+
+
+double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
+{
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    if (o)
+    {
+        simulateOptions = *o;
+        dirtySimulateOptions = true;
+    }
+
+    if(dirtySimulateOptions)
+    {
+        mCVode->setSimulateOptions(&simulateOptions);
+        dirtySimulateOptions = false;
+    }
+
+    if (simulateOptions.flags && SimulateOptions::RESET_MODEL)
+    {
+        mCVode->reStart(t0);
+    }
+
+    try
+    {
+        mModel->setTime(t0);
+        return mCVode->integrate(t0, tf);
+    }
+    catch (EventListenerException& e)
+    {
+        Log(Logger::LOG_NOTICE) << e.what();
+        return mModel->getTime();
+    }
 }
 
 
@@ -1297,19 +1444,19 @@ int RoadRunner::getNumberOfIndependentSpecies()
     }
 }
 
-double RoadRunner::getVariableValue(const VariableType::VariableType variableType,
+double RoadRunner::getVariableValue(const VariableType variableType,
         const int variableIndex)
 {
     switch (variableType)
     {
-    case VariableType::vtFlux:
+    case vtFlux:
     {
         double result = 0;
         mModel->getReactionRates(1, &variableIndex, &result);
     }
     break;
 
-    case VariableType::vtSpecies:
+    case vtSpecies:
     {
         double result = 0;
         mModel->getFloatingSpeciesConcentrations(1, &variableIndex, &result);
@@ -1372,47 +1519,120 @@ string RoadRunner::getModelName()
     return mModel ? mModel->getModelName() : string("");
 }
 
-// TODO Looks like major problems here, this
-// apears to modify the AFTER a model has been created from it.
+/**
+ * find an symbol id in the model and set its value.
+ */
+static void setSBMLValue(libsbml::Model* model, const string& id, double value)
+{
+    if (model == NULL)
+    {
+        throw Exception("You need to load the model first");
+    }
+
+    libsbml::Species* oSpecies = model->getSpecies(id);
+    if (oSpecies != NULL)
+    {
+        if (oSpecies->isSetInitialAmount())
+            oSpecies->setInitialAmount(value);
+        else
+            oSpecies->setInitialConcentration(value);
+        return;
+    }
+
+    libsbml::Compartment* oCompartment = model->getCompartment(id);
+    if (oCompartment != NULL)
+    {
+        oCompartment->setVolume(value); return;
+    }
+
+    libsbml::Parameter* oParameter = model->getParameter(id);
+    if (oParameter != NULL)
+    {
+        oParameter->setValue(value);
+        return;
+    }
+
+    for (int i = 0; i < model->getNumReactions(); i++)
+    {
+        libsbml::Reaction* reaction = model->getReaction(i);
+        for (int j = 0; j < reaction->getNumReactants(); j++)
+        {
+            libsbml::SpeciesReference* reference = reaction->getReactant(j);
+            if (reference->isSetId() && reference->getId() == id)
+            {
+                reference->setStoichiometry(value);
+                return;
+            }
+        }
+        for (int j = 0; j < reaction->getNumProducts(); j++)
+        {
+            libsbml::SpeciesReference* reference = reaction->getProduct(j);
+            if (reference->isSetId() && reference->getId() == id)
+            {
+                reference->setStoichiometry(value);
+                return;
+            }
+        }
+    }
+
+    throw Exception("Invalid string name. The id '" + id + "' does not exist in the model");
+}
+
+
 string RoadRunner::getCurrentSBML()
 {
-    NOMSupport NOM;
+    libsbml::SBMLReader reader;
+    std::stringstream stream;
+    libsbml::SBMLDocument *doc = 0;
+    libsbml::Model *model = 0;
 
-    NOM.loadSBML(NOMSupport::getParamPromotedSBML(mCurrentSBML));
+    try {
+        doc = reader.readSBMLFromString(this->mCurrentSBML); // new doc
+        model = doc->getModel(); // owned by doc
 
-    vector<string> array = getFloatingSpeciesIds();
-    for (int i = 0; i < array.size(); i++)
-    {
-        double value = 0;
-        mModel->getFloatingSpeciesAmounts(1, &i, &value);
-        NOM.setValue((string)array[i], value);
+        vector<string> array = getFloatingSpeciesIds();
+        for (int i = 0; i < array.size(); i++)
+        {
+            double value = 0;
+            mModel->getFloatingSpeciesAmounts(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        array = getBoundarySpeciesIds();
+        for (int i = 0; i < array.size(); i++)
+        {
+            double value = 0;
+            mModel->getBoundarySpeciesConcentrations(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        array = getCompartmentIds();
+        for (int i = 0; i < array.size(); i++)
+        {
+            double value = 0;
+            mModel->getCompartmentVolumes(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        array = getGlobalParameterIds();
+        for (int i = 0; i < mModel->getNumGlobalParameters(); i++)
+        {
+            double value = 0;
+            mModel->getGlobalParameterValues(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        libsbml::SBMLWriter writer;
+        writer.writeSBML(doc, stream);
+    }
+    catch(std::exception& e) {
+        delete doc;
+        doc = 0;
+        throw(e);
     }
 
-    array = getBoundarySpeciesIds();
-    for (int i = 0; i < array.size(); i++)
-    {
-        double value = 0;
-        mModel->getBoundarySpeciesConcentrations(1, &i, &value);
-        NOM.setValue((string)array[i], value);
-    }
-
-    array = getCompartmentIds();
-    for (int i = 0; i < array.size(); i++)
-    {
-        double value = 0;
-        mModel->getCompartmentVolumes(1, &i, &value);
-        NOM.setValue((string)array[i], value);
-    }
-
-    array = getGlobalParameterIds();
-    for (int i = 0; i < mModel->getNumGlobalParameters(); i++)
-    {
-        double value = 0;
-        mModel->getGlobalParameterValues(1, &i, &value);
-        NOM.setValue((string)array[i], value);
-    }
-
-    return NOM.getSBML();
+    delete doc;
+    return stream.str();
 }
 
 
@@ -1821,8 +2041,8 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             throw CoreException(gEmptyModelMessage);
         }
 
-        ParameterType::ParameterType parameterType;
-        VariableType::VariableType variableType;
+        ParameterType parameterType;
+        VariableType variableType;
         double originalParameterValue;
         int variableIndex;
         int parameterIndex;
@@ -1833,11 +2053,11 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         // Check the variable name
         if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
         {
-            variableType = VariableType::vtFlux;
+            variableType = vtFlux;
         }
         else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
         {
-            variableType = VariableType::vtSpecies;
+            variableType = vtSpecies;
         }
         else
         {
@@ -1847,19 +2067,19 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         // Check for the parameter name
         if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptGlobalParameter;
+            parameterType = ptGlobalParameter;
             originalParameterValue = 0;
             mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptBoundaryParameter;
+            parameterType = ptBoundaryParameter;
             originalParameterValue = 0;
             mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
         {
-            parameterType = ParameterType::ptConservationParameter;
+            parameterType = ptConservationParameter;
             originalParameterValue = 0;
             mModel->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
         }
@@ -1929,8 +2149,8 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 //        [Help("Get scaled control coefficient with respect to a global parameter")]
 double RoadRunner::getCC(const string& variableName, const string& parameterName)
 {
-    VariableType::VariableType variableType;
-    ParameterType::ParameterType parameterType;
+    VariableType variableType;
+    ParameterType parameterType;
     int variableIndex;
     int parameterIndex;
 
@@ -1942,11 +2162,11 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     // Check the variable name
     if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
     {
-        variableType = VariableType::vtFlux;
+        variableType = vtFlux;
     }
     else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
     {
-        variableType = VariableType::vtSpecies;
+        variableType = vtSpecies;
     }
     else
     {
@@ -1956,15 +2176,15 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     // Check for the parameter name
     if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptGlobalParameter;
+        parameterType = ptGlobalParameter;
     }
     else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptBoundaryParameter;
+        parameterType = ptBoundaryParameter;
     }
     else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
     {
-        parameterType = ParameterType::ptConservationParameter;
+        parameterType = ptConservationParameter;
     }
     else
     {
@@ -2440,98 +2660,6 @@ vector<double> RoadRunner::getSelectedValues()
     return result;
 }
 
-const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if (_options)
-    {
-        this->simulateOptions = *_options;
-        dirtySimulateOptions = true;
-    }
-
-    //This one creates the list of what we will look at in the result
-    createTimeCourseSelectionList();
-
-    if (dirtySimulateOptions)
-    {
-        mCVode->setSimulateOptions(&simulateOptions);
-        dirtySimulateOptions = false;
-    }
-
-    if (simulateOptions.flags & SimulateOptions::RESET_MODEL)
-    {
-        reset(); // reset back to initial conditions
-    }
-
-    if (simulateOptions.duration < 0 || simulateOptions.start < 0
-            || simulateOptions.steps <= 0 )
-    {
-        throw CoreException("Illegal input to simulate");
-    }
-
-    // set how the result should be returned to python
-    mRoadRunnerData.structuredResult = simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
-
-    double timeEnd = simulateOptions.duration + simulateOptions.start;
-    double timeStart = simulateOptions.start;
-    int numPoints = simulateOptions.steps + 1;
-
-    if (numPoints <= 1)
-    {
-        numPoints = 2;
-    }
-
-    double hstep = (timeEnd - timeStart) / (numPoints - 1);
-    int nrCols = mSelectionList.size();
-
-    Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
-
-    // ignored if same
-    mRawRoadRunnerData.resize(simulateOptions.steps + 1, nrCols);
-
-    // evalute the model with its current state
-    mModel->getStateVectorRate(timeStart, 0, 0);
-
-    addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
-
-    // if we have a state vector, copy into integrator vector.
-    if (mCVode->haveVariables())
-    {
-        mCVode->reStart(timeStart);
-    }
-
-    double tout = timeStart;
-
-    //The simulation is executed right here..
-    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< simulateOptions.steps + 1 <<" times";
-
-    try
-    {
-        for (int i = 1; i < simulateOptions.steps + 1; i++)
-        {
-            Log(Logger::LOG_DEBUG)<<"Step "<<i;
-            mCVode->integrate(tout, hstep);
-            tout = timeStart + i * hstep;
-            addNthOutputToResult(mRawRoadRunnerData, i, tout);
-        }
-    }
-    catch (EventListenerException& e)
-    {
-        Log(Logger::LOG_NOTICE) << e.what();
-    }
-
-    Log(Logger::LOG_DEBUG)<<"Simulation done..";
-
-    // set the data into the RoadRunnerData struct
-    populateResult();
-
-    return &mRoadRunnerData;
-}
-
 
 static std::vector<std::string> createSelectionList(const SimulateOptions& o)
 {
@@ -2971,26 +3099,22 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
         }
 
         // Look for the parameter name, check local parameters first, then global
-        ParameterType::ParameterType parameterType;
+        ParameterType parameterType;
 
-//        if (1==2)//(ModelGenerator.Instance.localParameterList[reactionIndex].find(reactionName, parameterName, out parameterIndex))
-//        {
-//    //        parameterType = TParameterType.ptLocalParameter;
-//        }
         if(mModel->getGlobalParameterIndex(parameterName) != -1)
         {
             parameterIndex = mModel->getGlobalParameterIndex(parameterName);
-            parameterType  = ParameterType::ptGlobalParameter;
+            parameterType  = ptGlobalParameter;
         }
         else if(mModel->getBoundarySpeciesIndex(parameterName) != -1)
         {
             parameterIndex = mModel->getBoundarySpeciesIndex(parameterName);
-            parameterType  = ParameterType::ptBoundaryParameter;
+            parameterType  = ptBoundaryParameter;
         }
         else if(mModel->getConservedMoietyIndex(parameterName) != -1)
         {
             parameterIndex = mModel->getConservedMoietyIndex(parameterName);
-            parameterType = ParameterType::ptConservationParameter;
+            parameterType = ptConservationParameter;
         }
         else
         {
@@ -3001,13 +3125,13 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
         double result = 0;
         switch (parameterType)
         {
-            case ParameterType::ptGlobalParameter:
+            case ptGlobalParameter:
                 originalParameterValue = getGlobalParameterByIndex(parameterIndex);
             break;
-            case ParameterType::ptBoundaryParameter:
+            case ptBoundaryParameter:
                 originalParameterValue = getBoundarySpeciesByIndex(parameterIndex);
             break;
-            case ParameterType::ptConservationParameter:
+            case ptConservationParameter:
                 //originalParameterValue = mModel->getC ;//model.ct[parameterIndex];
                 mModel->getConservedMoietyValues(1, &parameterIndex, &result);
                 originalParameterValue = result;
@@ -3056,7 +3180,7 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
 }
 
 // Changes a given parameter type by the given increment
-void RoadRunner::changeParameter(ParameterType::ParameterType parameterType, int reactionIndex, int parameterIndex,
+void RoadRunner::changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
                                     double originalValue, double increment)
 {
     setParameterValue(parameterType, parameterIndex, originalValue + increment);

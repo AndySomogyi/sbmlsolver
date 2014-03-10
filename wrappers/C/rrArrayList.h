@@ -6,15 +6,12 @@
 #include <ostream>
 #include "rrArrayListItem.h"
 #include "rrc_exporter.h"
+#include "rrcStringList.h"
 
-namespace rr
-{
-class StringList;
-}
 
 namespace rrc
 {
-using rr::StringList;
+class StringList;
 using std::vector;
 using std::string;
 

@@ -236,7 +236,7 @@ double CvodeInterface::integrate(double timeStart, double hstep)
     double tout = timeStart + hstep;
     int strikes = 3;
 
-    const int itask = options.integratorFlags & SimulateOptions::ONE_STEP
+    const int itask = options.integratorFlags & SimulateOptions::MULTI_STEP
             ? CV_ONE_STEP : CV_NORMAL;
 
     // get the original event status

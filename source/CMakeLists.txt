@@ -25,7 +25,6 @@ set(rrSources
     rrExecutableModel
     rrRoadRunner
     rrRoadRunnerOptions
-    rrStringList
     rrStringUtils
     rrUtils
     rrCVODEInterface
@@ -42,30 +41,6 @@ set(rrSources
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
-    c/mtrand
-    c/rrStringBuilder
-    c/rrStringListContainer
-    c/rrSBMLSymbolDependencies
-    c/rrSBMLSymbol
-    c/rrHashTable
-    c/rrRule
-    c/rrModelSymbols
-    c/rrSymbol
-    c/rrSymbolList
-    c/rrCompiledModelState
-    c/rrNOMSupport
-    c/rrPendingAssignment
-    c/rrCompiledModelGenerator
-    c/rrCModelGenerator
-    c/rrCodeBuilder
-    c/rrCCompiler
-    c/rrScanner
-    c/rrToken
-    c/rrEvent
-    c/rrModelSharedLibrary
-    c/rrCModelDataUtil
-    c/rrCompiledExecutableModel
-    c/rrRandom
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
@@ -112,6 +87,38 @@ if(BUILD_LLVM)
         llvm/SBMLInitialValueSymbolResolver
         )
 endif(BUILD_LLVM)
+
+if(BUILD_LEGACY_C)
+    set(rrSources
+        ${rrSources}
+        c/rrStringList
+        c/mtrand
+        c/rrStringBuilder
+        c/rrStringListContainer
+        c/rrSBMLSymbolDependencies
+        c/rrSBMLSymbol
+        c/rrHashTable
+        c/rrRule
+        c/rrModelSymbols
+        c/rrSymbol
+        c/rrSymbolList
+        c/rrCompiledModelState
+        c/rrNOMSupport
+        c/rrPendingAssignment
+        c/rrCompiledModelGenerator
+        c/rrCModelGenerator
+        c/rrCodeBuilder
+        c/rrCCompiler
+        c/rrScanner
+        c/rrToken
+        c/rrEvent
+        c/rrModelSharedLibrary
+        c/rrCModelDataUtil
+        c/rrCompiledExecutableModel
+        c/rrRandom
+        )
+endif(BUILD_LEGACY_C)
+
 
 # set up linking libs
 if(RR_BUILD_SHARED_CORE)
