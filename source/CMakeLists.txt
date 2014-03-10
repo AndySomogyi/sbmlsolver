@@ -235,6 +235,13 @@ set_property(TARGET ${target}-static
 #libraries to link with static lib
 #======== We need to split up this one to satisfy linking in both windows and posix.
 #=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
+if(BUILD_LLVM)
+    target_link_libraries(${target}-static
+        ${LLVM_LIBRARIES}
+        )
+endif(BUILD_LLVM)
+
+
 target_link_libraries (${target}-static
     sundials_cvode
     sundials_nvecserial
@@ -272,12 +279,6 @@ if(UNIX)
         pthread
         )
 endif(UNIX)
-
-if(BUILD_LLVM)
-    target_link_libraries(${target}-static
-        ${LLVM_LIBRARIES}
-        )
-endif(BUILD_LLVM)
 
 #Libxml we can't build right now
 if(${BORLAND})
