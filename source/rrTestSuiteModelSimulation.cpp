@@ -6,7 +6,6 @@
 #include "rrLogger.h"
 #include "rrTestSuiteModelSimulation.h"
 #include "rrUtils.h"
-#include "rrStringList.h"
 #include "rrRoadRunner.h"
 //---------------------------------------------------------------------------
 
@@ -18,7 +17,8 @@ TestSuiteModelSimulation::TestSuiteModelSimulation(const string& dataOutputFolde
 :
 SBMLModelSimulation(dataOutputFolder, dataOutputFolder),
 mCurrentCaseNumber(-1),
-mNrOfFailingPoints(0)
+mNrOfFailingPoints(0),
+mLargestError(0)
 {
     //make sure the output folder exists..
     mResultData.setName("ResultData");
