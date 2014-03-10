@@ -1752,6 +1752,15 @@ namespace std { class ostream{}; }
 
         return ptr;
     }
+
+    // we want to get the listener back as a PyIntegratorListener, however
+    // swig won't let us ignore by return value and if we ignore getListener, 
+    // it ignores any extended version. So, we have to make an extended
+    // _getListener() above, and call it from python like this.
+    %pythoncode %{
+        def getListener(self):
+            return self._getListener()
+    %}
 }
 
 %pythoncode %{
