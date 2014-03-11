@@ -648,6 +648,10 @@ public:
     virtual void evalReactionRates() = 0;
 
 
+	/**
+	 * Gets the index for an event id. 
+	 * If there is no event with this id, returns -1.
+	 */
     virtual int getEventIndex(const std::string& eid) = 0;
     virtual std::string getEventId(int index) = 0;
     virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;
