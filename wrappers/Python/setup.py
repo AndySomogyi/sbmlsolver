@@ -3,6 +3,7 @@
 from distutils.core import setup
 import platform
 import shutil
+import sys
 
 # the source root directory
 _src = "site-packages/"
@@ -70,11 +71,11 @@ def _copyWindowsDLLs():
     if platform.system().lower().startswith("win"):
         print("copying windows dlls...")
         
-        syutil.copyfile("bin/iconv.dll",      "site-packages/roadrunner/iconv.dll")
-        syutil.copyfile("bin/msvcp100.dll",   "site-packages/roadrunner/msvcp100.dll")
-        syutil.copyfile("bin/msvcr100.dll",   "site-packages/roadrunner/msvcr100.dll")
-        syutil.copyfile("bin/libxml2.DLL",    "site-packages/roadrunner/libxml2.dll")
-        syutil.copyfile("bin/zlib1.dll",      "site-packages/roadrunner/zlib1.dll")
+        shutil.copyfile("bin/iconv.dll",      "site-packages/roadrunner/iconv.dll")
+        shutil.copyfile("bin/msvcp100.dll",   "site-packages/roadrunner/msvcp100.dll")
+        shutil.copyfile("bin/msvcr100.dll",   "site-packages/roadrunner/msvcr100.dll")
+        shutil.copyfile("bin/libxml2.DLL",    "site-packages/roadrunner/libxml2.dll")
+        shutil.copyfile("bin/zlib1.dll",      "site-packages/roadrunner/zlib1.dll")
     
     
 _version = _version + "-" + _getOSString()
@@ -82,7 +83,12 @@ _version = _version + "-" + _getOSString()
 print("version: " + _version)
 
 _checkRequirements()
-        
+  
+# copy stuff if we are building
+if len(sys.argv) > 1 and sys.argv[1].lower().find('dist') >= 0:
+    print ("we're building...")
+    _copyWindowsDLLs()
+
 setup(name='pylibroadrunner',
       version=_version,
       description='libRoadRunner SBML JIT compiler and simulation library',

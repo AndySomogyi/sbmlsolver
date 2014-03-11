@@ -1,0 +1,11 @@
+The libRoadRunner is a completly self-contained python package 
+for SBML simulation.
+
+To install the libroadrunner python package, just run
+
+# to install system wide:
+python setup.py install 
+
+# to install to a user directory:
+python setup.py install --user
+
