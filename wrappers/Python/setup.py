@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
+import platform
+import shutil
 
 # the source root directory
 _src = "site-packages/"
-_version = "1.1.0"
+_version = "1.1.0-alpha1"
 
 def _sharedLibExt():
     import platform
@@ -32,10 +34,56 @@ def _checkRequirements():
         raise SystemExit("libRoadRunner requires numpy 1.2.1 or better, detected numpy version {0}"
                          .format(nver))
 
+# get the os string
+def _getOSString():
+    
+    
+    s = platform.system().lower()
+    unix = False
+
+    if s.startswith('darwin'):
+        s='macosx'
+        unix = True
+    elif s.startswith('linux'):
+        s='linux'
+        unix = True
+    elif s.startswith('win'):
+        s='win'
+    else:
+        raise SystemExit("I don't know how to install on {}, only know OSX(x86_64), Linux(i386,x86_64) and Win(32)"
+                         .format(s))
+
+    arch = platform.architecture()
+    
+    if unix and arch[0].startswith('64'):
+        arch = 'x86_64'
+    elif unix and arch[0].startswith('32'):
+        arch = 'i386'
+    else:
+        arch = '32' #win 32
+
+    return s + "_" + arch
+    
+# copy depdency dlls into same dir as _roadrunner.pyd on 
+# windows
+def _copyWindowsDLLs():
+    if platform.system().lower().startswith("win"):
+        print("copying windows dlls...")
+        
+        syutil.copyfile("bin/iconv.dll",      "site-packages/roadrunner/iconv.dll")
+        syutil.copyfile("bin/msvcp100.dll",   "site-packages/roadrunner/msvcp100.dll")
+        syutil.copyfile("bin/msvcr100.dll",   "site-packages/roadrunner/msvcr100.dll")
+        syutil.copyfile("bin/libxml2.DLL",    "site-packages/roadrunner/libxml2.dll")
+        syutil.copyfile("bin/zlib1.dll",      "site-packages/roadrunner/zlib1.dll")
+    
+    
+_version = _version + "-" + _getOSString()
+
+print("version: " + _version)
 
 _checkRequirements()
         
-setup(name='libRoadRunner',
+setup(name='pylibroadrunner',
       version=_version,
       description='libRoadRunner SBML JIT compiler and simulation library',
       url='http://libroadrunner.org',
@@ -45,7 +93,8 @@ setup(name='libRoadRunner',
            "roadrunner.testing" : _src + "roadrunner/testing"
       },
       package_data={
-          "roadrunner" : ["_roadrunner." + _sharedLibExt() ],
+          # add dll, won't hurt unix, not there anyway
+          "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll" ],  
           "roadrunner.testing" : ["*.xml", "*.txt", "*.dat"]
       }
      )
