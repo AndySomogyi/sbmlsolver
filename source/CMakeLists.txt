@@ -151,7 +151,8 @@ if(RR_BUILD_SHARED_CORE)
         lapack
         nleq-static
         rr-libstruct-static
-        poco_foundation-static
+        PocoNet
+        PocoFoundation
         )
 
     
@@ -165,16 +166,6 @@ if(RR_BUILD_SHARED_CORE)
     elseif(${BORLAND})
         target_link_libraries (${target} libxml2_xe)
     endif()
-
-
-    if (USE_POCO_NET)
-    target_link_libraries (${target}
-        poco_net-static
-    )
-    add_definitions(
-        -DWITH_POCO_NET
-    )
-    endif(USE_POCO_NET)
 
     if(UNIX)
         target_link_libraries (${target}
@@ -249,18 +240,9 @@ target_link_libraries (${target}-static
     lapack
     nleq-static
     rr-libstruct-static
-    poco_foundation-static
+    PocoNet
+    PocoFoundation
     )
-
-if (USE_POCO_NET)
-target_link_libraries (${target}-static
-        poco_net-static
-    )
-    add_definitions(
-        -DWITH_POCO_NET
-    )
-endif()
-
 
 if(WIN32)
     target_link_libraries (${target}-static

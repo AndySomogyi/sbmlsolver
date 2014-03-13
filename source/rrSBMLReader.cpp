@@ -4,10 +4,8 @@
 #pragma hdrstop
 #include <Poco/URI.h>
 #include <Poco/URIStreamOpener.h>
-
-#if defined(WITH_POCO_NET)
 #include <Poco/Net/HTTPStreamFactory.h>
-#endif
+
 
 #include <Poco/Mutex.h>
 #include <Poco/Path.h>
@@ -86,13 +84,13 @@ std::string SBMLReader::read(const std::string& str)
     httpFactoryMutex.lock();
 
     // not working on windows yet.
-#if defined(__APPLE__)
+
     if (!httpFactoryRegistered)
     {
         Poco::Net::HTTPStreamFactory::registerFactory();
         httpFactoryRegistered = true;
     }
-#endif
+
 
     httpFactoryMutex.unlock();
 

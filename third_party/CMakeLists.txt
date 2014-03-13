@@ -33,8 +33,6 @@ LIBXML_LIBRARY
 MPI_ENABLE
 NLEQ_BUILD_SHARED_LIBS
 NLEQ_BUILD_STATIC_LIBS
-POCO_BUILD_SHARED_LIBS
-POCO_BUILD_STATIC_LIBS
 SUNDIALS_PRECISION
 WITH_CHECK
 WITH_CSHARP
@@ -153,7 +151,7 @@ add_subdirectory(sundials)
 add_subdirectory(nleq)
 add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
-add_subdirectory(poco)
+add_subdirectory(poco_1.5.3)
 add_subdirectory(rr_support)
 
 if(WIN32)

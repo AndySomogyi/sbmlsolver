@@ -37,7 +37,7 @@ endif()
 target_link_libraries (${target}
     roadrunner_c_api
     unit_test-static
-    poco_xml-static
+    PocoXML
     )
 
 link_directories(
