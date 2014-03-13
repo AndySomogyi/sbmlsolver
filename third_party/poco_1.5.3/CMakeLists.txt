@@ -53,13 +53,13 @@ endif ()
 #    * MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
 # For Debug build types, append a "d" to the library names.
-set(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Set debug library postfix" FORCE)
+set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Set debug library postfix" FORCE)
 
-option(ENABLE_TESTS
+option(POCO_ENABLE_TESTS
   "Set to OFF|ON (default is OFF) to control build of POCO tests & samples" OFF)
 
 option(POCO_STATIC
-  "Set to OFF|ON (default is OFF) to control build of POCO as STATIC library" OFF)
+  "Set to OFF|ON (default is OFF) to control build of POCO as STATIC library" ON)
 
 option(POCO_UNBUNDLED
   "Set to OFF|ON (default is OFF) to control linking dependencies as external" OFF)
@@ -149,33 +149,57 @@ if (IOS)
   add_definitions( -DPOCO_HAVE_IPv6 -DPOCO_NO_FPENVIRONMENT -DPOCO_NO_STAT64 -DPOCO_NO_SHAREDLIBS -DPOCO_NO_NET_IFTYPES )
 endif(IOS)
 
-IF (ENABLE_TESTS)
+IF (POCO_ENABLE_TESTS)
    add_subdirectory(CppUnit)
 ENDIF ()
 
+option(POCO_ENABLE_XML "Set to OFF|ON (default is OFF) build POCO xml " OFF)
+option(POCO_ENABLE_JSON "Set to OFF|ON (default is OFF) build POCO JSON " OFF)
+option(POCO_ENABLE_MONGODB "Set to OFF|ON (default is OFF) build POCO MongoDB " OFF)
+option(POCO_ENABLE_PDF "Set to OFF|ON (default is OFF) build POCO PDF " OFF)
+option(POCO_ENABLE_CRYPTO "Set to OFF|ON (default is OFF) build POCO Crypto " OFF)
+option(POCO_ENABLE_DATA "Set to OFF|ON (default is OFF) build POCO Data " OFF)
+option(POCO_ENABLE_APACHE_CONNECTOR "Set to OFF|ON (default is OFF) build POCO Apache Connector" OFF)
+
 add_subdirectory(Foundation)
-add_subdirectory(XML)
-add_subdirectory(JSON)
-add_subdirectory(MongoDB)
-add_subdirectory(PDF)
+
+if(POCO_ENABLE_XML)
+    add_subdirectory(XML)
+endif()
+
+if(POCO_ENABLE_JSON)
+    add_subdirectory(JSON)
+endif()
+
+if(POCO_ENABLE_MONGODB)
+    add_subdirectory(MongoDB)
+endif()
+
+if(POCO_ENABLE_PDF)
+    add_subdirectory(PDF)
+endif()
+
 add_subdirectory(Util)
 add_subdirectory(Net)
 #add_subdirectory(Web)
 
 # OPENSSL_SSL_LIBRARY
-if(OPENSSL_FOUND)
+if(ENABLE_POCO_CRYPTO AND OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
     add_subdirectory(NetSSL_OpenSSL)
     add_subdirectory(Crypto)
-endif(OPENSSL_FOUND)
+endif()
 
-add_subdirectory(Data)
+if(ENABLE_POCO_DATA)
+    add_subdirectory(Data)
+endif()
+
 #add_subdirectory(WebWidgets)
 add_subdirectory(Zip)
 
-if(APRUTIL_FOUND AND APACHE_FOUND)
+if(ENABLE_POCO_APACHE_CONNECTOR AND APRUTIL_FOUND AND APACHE_FOUND)
     add_subdirectory(ApacheConnector)
-endif(APRUTIL_FOUND AND APACHE_FOUND)
+endif()
 
 #############################################################
 # Uninstall stuff see: http://www.vtk.org/Wiki/CMake_FAQ
