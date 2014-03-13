@@ -206,16 +206,16 @@ set(WIN_SRCS
 )
 
 if (WIN32)
-  set(RES_SRCS ${CMAKE_SOURCE_DIR}/Foundation/include/Poco/pocomsg.h)
+  set(RES_SRCS ${PROJECT_SOURCE_DIR}/Foundation/include/Poco/pocomsg.h)
   set_source_files_properties(${RES_SRCS} PROPERTIES GENERATED true)
   add_custom_command(
     OUTPUT ${RES_SRCS}
-    DEPENDS ${CMAKE_SOURCE_DIR}/Foundation/src/pocomsg.mc
+    DEPENDS ${PROJECT_SOURCE_DIR}/Foundation/src/pocomsg.mc
     COMMAND ${CMAKE_MC_COMPILER}
     ARGS 
-         -h ${CMAKE_SOURCE_DIR}/Foundation/src
-         -r ${CMAKE_SOURCE_DIR}/Foundation/src
-         ${CMAKE_SOURCE_DIR}/Foundation/src/pocomsg.mc
+         -h ${PROJECT_SOURCE_DIR}/Foundation/src
+         -r ${PROJECT_SOURCE_DIR}/Foundation/src
+         ${PROJECT_SOURCE_DIR}/Foundation/src/pocomsg.mc
     VERBATIM # recommended: p260
   )
   list(APPEND WIN_SRCS ${RES_SRCS})
