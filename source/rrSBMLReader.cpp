@@ -91,15 +91,17 @@ std::string SBMLReader::read(const std::string& str)
         httpFactoryRegistered = true;
     }
 
-
+    // only the first thread creats the factory
     httpFactoryMutex.unlock();
 
-    // default opener accepts local file system paths only.
+    // opener figures out if we have local or remote path
+    // and creates appropriate stream
     Poco::URIStreamOpener &opener = Poco::URIStreamOpener::defaultOpener();
 
     std::istream* stream = opener.open(str);
     if (stream)
     {
+        // read the entire http stream into a string and return it. 
         std::istreambuf_iterator<char> eos;
         std::string s(std::istreambuf_iterator<char>(*stream), eos);
         delete stream;

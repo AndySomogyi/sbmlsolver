@@ -68,7 +68,7 @@ if(BUILD_LLVM)
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
-		llvm/GetInitialValuesCodeGen
+	llvm/GetInitialValuesCodeGen
         llvm/GetEventValuesCodeGen
         llvm/KineticLawParameterResolver
         llvm/LLVMModelData
@@ -178,6 +178,8 @@ if(RR_BUILD_SHARED_CORE)
         target_link_libraries (${target}
             libf2c
             libsbml
+	    ws2_32
+	    iphlpapi
             )
     endif(UNIX)
 
@@ -248,6 +250,8 @@ if(WIN32)
     target_link_libraries (${target}-static
         libsbml-static
         libf2c
+	ws2_32
+	iphlpapi
         )
 endif(WIN32)
 
