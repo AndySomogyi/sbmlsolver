@@ -153,7 +153,7 @@ IF (POCO_ENABLE_TESTS)
    add_subdirectory(CppUnit)
 ENDIF ()
 
-option(POCO_ENABLE_XML "Set to OFF|ON (default is OFF) build POCO xml " OFF)
+option(POCO_ENABLE_XML "Set to OFF|ON (default is OFF) build POCO xml " ON)
 option(POCO_ENABLE_JSON "Set to OFF|ON (default is OFF) build POCO JSON " OFF)
 option(POCO_ENABLE_MONGODB "Set to OFF|ON (default is OFF) build POCO MongoDB " OFF)
 option(POCO_ENABLE_PDF "Set to OFF|ON (default is OFF) build POCO PDF " OFF)

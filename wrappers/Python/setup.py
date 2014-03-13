@@ -7,7 +7,9 @@ import sys
 
 # the source root directory
 _src = "site-packages/"
-_version = "1.1.0-alpha1"
+_version = open("VERSION.txt").readline().strip()
+
+print("packaging / installing pylibroadrunner version:{}".format(_version))
 
 def _sharedLibExt():
     import platform
