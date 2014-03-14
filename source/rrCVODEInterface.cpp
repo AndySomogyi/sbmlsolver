@@ -38,9 +38,32 @@ const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
 const int CvodeInterface::mDefaultMaxBDFOrder = 5;
 
 /**
+ * Purpose
+ * This function processes error and warning messages from CVODE and its
+ * sub-modules.
+ *
+ * Arguments:
+ * error_code: is the error code.
+ * module: is the name of the CVODE module reporting the error.
+ * function: is the name of the function in which the error occurred.
+ * msg: is the error message.
+ * eh_data: is a pointer to user data, the same as the eh_data parameter
+ * passed to CVodeSetErrHandlerFn.
+ * Return value: A CVErrHandlerFn function has no return value.
+ *
+ * Notes:
+ * error_code is negative for errors and positive (CV_WARNING) for warnings.
+ * If a function that returns a pointer to memory encounters an error,
+ * it sets error_code to 0.
+ */
+static void cvodeErrHandler(int error_code, const char *module, const char *function,
+        char *msg, void *eh_data);
+
+
+/**
  * decode the cvode error code to a string
  */
-static std::string cvodeDecodeError(int cvodeError);
+static std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
 
 /**
  * macro to throw a (hopefully) usefull error message
@@ -76,6 +99,8 @@ void* CvodeInterface::createCvode(const SimulateOptions* options)
     }
 
     assert(result && "could not create Cvode, CVodeCreate failed");
+
+    CVodeSetErrHandlerFn(result, cvodeErrHandler, NULL);
 
     //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
 
@@ -651,41 +676,70 @@ void CvodeInterface::loadConfig(const _xmlDoc* doc)
 }
 
 
-static std::string cvodeDecodeError(int cvodeError)
+static std::string cvodeDecodeError(int cvodeError, bool exInfo)
 {
-    const char* result;
+    std::string result;
 
-    switch (cvodeError) {
+    switch (cvodeError)
+    {
     case CV_TOO_MUCH_WORK:
-        result = "CV_TOO_MUCH_WORK: The solver took mxstep internal steps but "
-            "could not reach tout. The default value for "
-            "mxstep is MXSTEP_DEFAULT = 500.";
+        result = "CV_TOO_MUCH_WORK";
+        if (exInfo)
+        {
+            result += ": The solver took mxstep internal steps but "
+                    "could not reach tout. The default value for "
+                    "mxstep is MXSTEP_DEFAULT = 500.";
+        }
         break;
     case CV_TOO_MUCH_ACC:
-        result = "CV_TOO_MUCH_ACC: The solver could not satisfy the accuracy "
-            "demanded by the user for some internal step.";
+        result = "CV_TOO_MUCH_ACC";
+        if (exInfo)
+        {
+            result += ": The solver could not satisfy the accuracy "
+                    "demanded by the user for some internal step.";
+        }
         break;
     case CV_ERR_FAILURE:
-        result = "CV_ERR_FAILURE: Error test failures occurred too many times "
-            "(= MXNEF = 7) during one internal time step or"
-            "occurred with |h| = hmin.";
-            break;
+        result = "CV_ERR_FAILURE";
+        if (exInfo)
+        {
+            result += ": Error test failures occurred too many times "
+                    "(= MXNEF = 7) during one internal time step or"
+                    "occurred with |h| = hmin.";
+        }
+        break;
     case CV_CONV_FAILURE:
-        result = "CV_CONV_FAILURE: Convergence test failures occurred too many "
-            "times (= MXNCF = 10) during one internal time"
-            "step or occurred with |h| = hmin.";
-            break;
+        result = "CV_CONV_FAILURE";
+        if (exInfo)
+        {
+            result += ": Convergence test failures occurred too many "
+                    "times (= MXNCF = 10) during one internal time"
+                    "step or occurred with |h| = hmin.";
+        }
+        break;
     case CV_LINIT_FAIL:
-        result = "CV_LINIT_FAIL: The linear solver's initialization function "
-            "failed.";
-            break;
+        result = "CV_LINIT_FAIL";
+        if (exInfo)
+        {
+            result += ": The linear solver's initialization function "
+                    "failed.";
+        }
+        break;
     case CV_LSETUP_FAIL:
-        result = "CV_LSETUP_FAIL: The linear solver's setup routine failed in an "
-            "unrecoverable manner.";
+        result = "CV_LSETUP_FAIL";
+        if (exInfo)
+        {
+            result += ": The linear solver's setup routine failed in an "
+                    "unrecoverable manner.";
+        }
         break;
     case CV_LSOLVE_FAIL:
-        result = "CV_LSOLVE_FAIL: The linear solver's solve routine failed in an "
-            "unrecoverable manner.";
+        result = "CV_LSOLVE_FAIL";
+        if (exInfo)
+        {
+            result += ": The linear solver's solve routine failed in an "
+                    "unrecoverable manner.";
+        }
         break;
     case CV_RHSFUNC_FAIL:
         result = "CV_RHSFUNC_FAIL";
@@ -706,45 +760,107 @@ static std::string cvodeDecodeError(int cvodeError)
         result = "CV_MEM_FAIL";
         break;
     case CV_MEM_NULL:
-        result = "CV_MEM_NULL: The cvode_mem argument was NULL.";
+        result = "CV_MEM_NULL";
+        if (exInfo)
+        {
+            result += ": The cvode_mem argument was NULL.";
+        }
         break;
     case CV_ILL_INPUT:
-        result =  "CV_ILL_INPUT: One of the inputs to CVode is illegal. This "
-            "includes the situation when a component of the "
-            "error weight vectors becomes < 0 during "
-            "internal time-stepping.  It also includes the "
-            "situation where a root of one of the root "
-            "functions was found both at t0 and very near t0. "
-            "The ILL_INPUT flag will also be returned if the "
-            "linear solver routine CV--- (called by the user "
-            "after calling CVodeCreate) failed to set one of "
-            "the linear solver-related fields in cvode_mem or "
-            "if the linear solver's init routine failed. In "
-            "any case, the user should see the printed "
-            "error message for more details.";
-            break;
+        result = "CV_ILL_INPUT";
+        if (exInfo)
+        {
+            result += ": One of the inputs to CVode is illegal. This "
+                    "includes the situation when a component of the "
+                    "error weight vectors becomes < 0 during "
+                    "internal time-stepping.  It also includes the "
+                    "situation where a root of one of the root "
+                    "functions was found both at t0 and very near t0. "
+                    "The ILL_INPUT flag will also be returned if the "
+                    "linear solver routine CV--- (called by the user "
+                    "after calling CVodeCreate) failed to set one of "
+                    "the linear solver-related fields in cvode_mem or "
+                    "if the linear solver's init routine failed. In "
+                    "any case, the user should see the printed "
+                    "error message for more details.";
+        }
+        break;
     case CV_NO_MALLOC:
-        result = "CV_NO_MALLOC: indicating that cvode_mem has not been "
-            "allocated (i.e., CVodeInit has not been "
-            "called).";
+        result = "CV_NO_MALLOC";
+        if (exInfo)
+        {
+            result += ": indicating that cvode_mem has not been "
+                    "allocated (i.e., CVodeInit has not been "
+                    "called).";
+        }
         break;
     case CV_BAD_K:
-        result = "CV_BAD_K: k is not in the range 0, 1, ..., qu.";
+        result = "CV_BAD_K";
+        if (exInfo)
+        {
+            result += ": k is not in the range 0, 1, ..., qu.";
+        }
         break;
     case CV_BAD_T:
-        result = "CV_BAD_T: t is not in the interval [tn-hu,tn].";
+        result = "CV_BAD_T";
+        if (exInfo)
+        {
+            result += ": t is not in the interval [tn-hu,tn].";
+        }
         break;
     case CV_BAD_DKY:
-        result = "CV_BAD_DKY: The dky argument was NULL.";
+        result = "CV_BAD_DKY";
+        if (exInfo)
+        {
+            result += ": The dky argument was NULL.";
+        }
         break;
     case CV_TOO_CLOSE:
         result = "CV_TOO_CLOSE:";
         break;
     default:
-        result = "Unknown Error Code";
+        result = "UNKNOWN_CODE";
         break;
     }
     return result;
 }
+
+
+
+/**
+ * Purpose
+ * This function processes error and warning messages from CVODE and its
+ * sub-modules.
+ *
+ * Arguments:
+ * error_code: is the error code.
+ * module: is the name of the CVODE module reporting the error.
+ * function: is the name of the function in which the error occurred.
+ * msg: is the error message.
+ * eh_data: is a pointer to user data, the same as the eh_data parameter
+ * passed to CVodeSetErrHandlerFn.
+ * Return value: A CVErrHandlerFn function has no return value.
+ *
+ * Notes:
+ * error_code is negative for errors and positive (CV_WARNING) for warnings.
+ * If a function that returns a pointer to memory encounters an error,
+ * it sets error_code to 0.
+ */
+void cvodeErrHandler(int error_code, const char *module, const char *function,
+        char *msg, void *eh_data)
+{
+    if (error_code < 0) {
+        Log(Logger::LOG_ERROR) << "CVODE Error: " << cvodeDecodeError(error_code, false)
+                               << ", Module: " << module << ", Function: " << function
+                               << ", Message: " << msg;
+
+    }
+    else if(error_code == CV_WARNING) {
+        Log(Logger::LOG_WARNING) << "CVODE Warning: "
+                                 << ", Module: " << module << ", Function: " << function
+                                 << ", Message: " << msg;
+    }
+}
+
 }
 
