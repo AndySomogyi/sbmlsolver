@@ -29,6 +29,12 @@ public:
 
     void setOnTimeStep(PyObject *py)
     {
+		if (py == Py_None) {
+			Py_XDECREF(pyOnTimeStep);  /* Dispose of previous callback */
+			pyOnTimeStep = NULL;
+			return;
+		}
+
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
         }
@@ -40,11 +46,21 @@ public:
 
     PyObject* getOnTimeStep()
     {
-        return pyOnTimeStep;
+        if (pyOnTimeStep) {
+			return pyOnTimeStep;
+		} else {
+			Py_RETURN_NONE;
+		}
     }
 
     void setOnEvent(PyObject* py)
     {
+		if (py == Py_None) {
+			Py_XDECREF(pyOnEvent);  /* Dispose of previous callback */
+			pyOnEvent = NULL;
+			return;
+		}
+			
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
         }
@@ -57,7 +73,11 @@ public:
 
     PyObject *getOnEvent()
     {
-        return pyOnEvent;
+        if (pyOnEvent) {
+			return pyOnEvent;
+		} else {
+			Py_RETURN_NONE;
+		}
     }
 
 
@@ -94,7 +114,7 @@ private:
             if (PyErr_Occurred()) {
 
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
-                err = std::string("Python error occured in onTrigger: ") + PyString_AsString(pystr);
+                err = std::string("Error calling Python onTimeStep method: ") + PyString_AsString(pystr);
 
                 Log(Logger::LOG_ERROR) << err;
 
@@ -153,7 +173,7 @@ private:
             if (PyErr_Occurred()) {
 
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
-                err = std::string("Python error occured in onAssignment: ") + PyString_AsString(pystr);
+                err = std::string("Error calling Python onEvent method: ") + PyString_AsString(pystr);
 
                 Log(Logger::LOG_ERROR) << err;
 

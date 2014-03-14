@@ -29,6 +29,12 @@ public:
 
     void setOnTrigger(PyObject *py)
     {
+		if (py == Py_None) {
+			Py_XDECREF(pyOnTrigger);  /* Dispose of previous callback */
+			pyOnTrigger = NULL;
+			return;
+		}
+
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
         }
@@ -40,11 +46,21 @@ public:
 
     PyObject* getOnTrigger()
     {
-        return pyOnTrigger;
+		if (pyOnTrigger) {
+			return pyOnTrigger;
+		} else {
+			Py_RETURN_NONE;
+		}
     }
 
     void setOnAssignment(PyObject* py)
     {
+		if (py == Py_None) {
+			Py_XDECREF(pyOnAssignment);  /* Dispose of previous callback */
+			pyOnAssignment = NULL;
+			return;
+		}
+
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
         }
@@ -57,7 +73,11 @@ public:
 
     PyObject *getOnAssignment()
     {
-        return pyOnAssignment;
+		if (pyOnAssignment) {
+			return pyOnAssignment;
+		} else {
+			Py_RETURN_NONE;
+		}
     }
 
     void fireOnTrigger(ExecutableModel* model, int index, const std::string& eventId)
@@ -103,7 +123,7 @@ private:
             if (PyErr_Occurred()) {
 
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
-                err = std::string("Python error occured in onTrigger: ") + PyString_AsString(pystr);
+                err = std::string("Error calling Python onTrigger method: ") + PyString_AsString(pystr);
 
                 Log(Logger::LOG_ERROR) << err;
 
@@ -155,7 +175,7 @@ private:
             if (PyErr_Occurred()) {
 
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
-                err = std::string("Python error occured in onAssignment: ") + PyString_AsString(pystr);
+                err = std::string("Error calling Python onAssignment method: ") + PyString_AsString(pystr);
 
                 Log(Logger::LOG_ERROR) << err;
 

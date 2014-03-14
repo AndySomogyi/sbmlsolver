@@ -24,6 +24,7 @@ namespace rr
 using namespace std;
 using Poco::AsyncChannel;
 using Poco::ConsoleChannel;
+using Poco::Channel;
 using Poco::AutoPtr;
 using Poco::Message;
 using Poco::SimpleFileChannel;
@@ -32,6 +33,8 @@ using Poco::Formatter;
 using Poco::FormattingChannel;
 using Poco::PatternFormatter;
 using Poco::Mutex;
+
+static bool coloredOutput = true;
 
 // owned by poco, it takes care of clearing in static dtor.
 static Poco::Logger *pocoLogger = 0;
@@ -51,7 +54,7 @@ static std::string logFileName;
 // owned by the poco splitter channel which in turn is owned by the
 // poco logger.
 static SimpleFileChannel *simpleFileChannel = 0;
-static ConsoleChannel *consoleChannel = 0;
+static Channel *consoleChannel = 0;
 
 static Mutex loggerMutex;
 
@@ -64,6 +67,15 @@ static SplitterChannel* getSplitterChannel();
  * get the pattern formatter that is in our logging chain.
  */
 static PatternFormatter *getPatternFormatter();
+
+static Channel *createConsoleChannel()
+{
+    if (coloredOutput) {
+        return new Poco::ColorConsoleChannel();
+    } else {
+        return new Poco::ConsoleChannel();
+    }
+}
 
 Poco::Logger& getLogger()
 {
@@ -82,7 +94,7 @@ Poco::Logger& getLogger()
 
         // default is console channel,
         // one of two possible terminal channels
-        consoleChannel = new ConsoleChannel();
+        consoleChannel = createConsoleChannel();
 
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
@@ -159,7 +171,7 @@ void Logger::enableConsoleLogging(int level)
         SplitterChannel *splitter = getSplitterChannel();
 
         // default is console channel
-        consoleChannel = new ConsoleChannel();
+        consoleChannel = createConsoleChannel();
 
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
@@ -321,6 +333,18 @@ std::string Logger::levelToString(int level)
     return "LOG_CURRENT";
 }
 
+void Logger::setProperty(const std::string& name, const std::string& value)
+{
+    Mutex::ScopedLock lock(loggerMutex);
+
+    Poco::ColorConsoleChannel *colorChannel =
+            dynamic_cast<Poco::ColorConsoleChannel*>(consoleChannel);
+
+    if(colorChannel) {
+        colorChannel->setProperty(name, value);
+    }
+}
+
 std::string Logger::getCurrentLevelAsString()
 {
     return Logger::levelToString(logLevel);
@@ -340,6 +364,16 @@ void Logger::disableConsoleLogging()
     }
 }
 
+bool Logger::getColoredOutput()
+{
+    return coloredOutput;
+}
+
+void Logger::setColoredOutput(bool bool1)
+{
+}
+
+
 std::string Logger::getFileName()
 {
     return logFileName;
@@ -348,6 +382,41 @@ std::string Logger::getFileName()
 void LoggingBufferCtor()
 {
     cout << __FUNC__ << endl;
+}
+
+void Logger::log(Level level, const std::string& msg)
+{
+    Poco::Logger &logger = getLogger();
+    switch (level)
+    {
+    case Message::PRIO_FATAL:
+        logger.fatal(msg);
+        break;
+    case Message::PRIO_CRITICAL:
+        logger.critical(msg);
+        break;
+    case Message::PRIO_ERROR:
+        logger.error(msg);
+        break;
+    case Message::PRIO_WARNING:
+        logger.warning(msg);
+        break;
+    case Message::PRIO_NOTICE:
+        logger.notice(msg);
+        break;
+    case Message::PRIO_INFORMATION:
+        logger.information(msg);
+        break;
+    case Message::PRIO_DEBUG:
+        logger.debug(msg);
+        break;
+    case Message::PRIO_TRACE:
+        logger.trace(msg);
+        break;
+    default:
+        logger.error(msg);
+        break;
+    }
 }
 
 LoggingBuffer::LoggingBuffer(int level, const char* file, int line) :
@@ -405,5 +474,4 @@ std::ostream& LoggingBuffer::stream()
 }
 
 }
-
 

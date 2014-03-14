@@ -788,8 +788,11 @@ namespace std { class ostream{}; }
 %extend rr::RoadRunner
 {
     // attributes
-
-    const rr::SimulateOptions *simulateOptions;
+	
+	/**
+	 * make some of these const so SWIG would not allow setting.
+	 */
+	const rr::SimulateOptions *simulateOptions;
 
     rr::RoadRunnerOptions *options;
 
@@ -858,12 +861,14 @@ namespace std { class ostream{}; }
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
         __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
         __swig_getmethods__["model"] = _getModel
+        __swig_getmethods__["integrator"] = getIntegrator
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
             model = property(getModel)
+            integrator = property(getIntegrator)
 
 
         def keys(self, types=_roadrunner.SelectionRecord_ALL):
@@ -916,7 +921,6 @@ namespace std { class ostream{}; }
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
-
 %}
 
 
@@ -936,6 +940,7 @@ namespace std { class ostream{}; }
     double end;
     bool resetModel;
     bool stiff;
+	bool multiStep;
     bool structuredResult;
 
     std::string __repr__() {
@@ -1006,6 +1011,19 @@ namespace std { class ostream{}; }
             opt->integratorFlags &= ~SimulateOptions::STIFF;
         }
     }
+
+    bool rr_SimulateOptions_multiStep_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::MULTI_STEP;
+    }
+
+    void rr_SimulateOptions_multiStep_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->integratorFlags |= SimulateOptions::MULTI_STEP;
+        } else {
+            opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+        }
+    }
+
 %}
 
 
@@ -1797,8 +1815,38 @@ namespace std { class ostream{}; }
                 self._clearListener()
             else:
                 self._setListener(listener)
+
+        __swig_getmethods__["listener"] = getListener
+        __swig_setmethods__["listener"] = setListener
+        if _newclass: listener = property(getListener, setListener) 	
     %}
 }
+
+%extend rr::PyIntegratorListener {
+    %pythoncode %{
+        __swig_getmethods__["onTimeStep"] = getOnTimeStep
+        __swig_setmethods__["onTimeStep"] = setOnTimeStep
+        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep) 	
+
+        __swig_getmethods__["onEvent"] = getOnEvent
+        __swig_setmethods__["onEvent"] = setOnEvent
+        if _newclass: onEvent = property(getOnEvent, setOnEvent)
+     %}
+}
+
+%extend rr::PyEventListener {
+    %pythoncode %{
+        __swig_getmethods__["onTrigger"] = getOnTrigger
+        __swig_setmethods__["onTrigger"] = setOnTrigger
+        if _newclass: onTrigger = property(getOnTrigger, setOnTrigger)
+
+        __swig_getmethods__["onAssignment"] = getOnAssignment
+        __swig_setmethods__["onAssignment"] = setOnAssignment
+        if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
+     %}
+}
+
+
 
 %pythoncode %{
 def plot(result, show=True):

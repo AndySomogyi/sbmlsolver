@@ -191,6 +191,65 @@ public:
      * parses a string and returns a Logger::Level
      */
     static Level stringToLevel(const std::string& str);
+
+    /**
+     * check if we have colored logging enabled.
+     */
+    static bool getColoredOutput();
+
+    /**
+     * enable / disable colored output
+     */
+    static void setColoredOutput(bool);
+
+
+    /**
+     * Set the color of the output logging messages.
+     *
+     * In the future, we may add additional properties her.
+     *
+     * The following properties are supported:
+     * enableColors:      Enable or disable colors.
+     * traceColor:        Specify color for trace messages.
+     * debugColor:        Specify color for debug messages.
+     * informationColor:  Specify color for information messages.
+     * noticeColor:       Specify color for notice messages.
+     * warningColor:      Specify color for warning messages.
+     * errorColor:        Specify color for error messages.
+     * criticalColor:     Specify color for critical messages.
+     * fatalColor:        Specify color for fatal messages.
+     *
+     *
+     * The following color values are supported:
+     *
+     * default
+     * black
+     * red
+     * green
+     * brown
+     * blue
+     * magenta
+     * cyan
+     * gray
+     * darkgray
+     * lightRed
+     * lightGreen
+     * yellow
+     * lightBlue
+     * lightMagenta
+     * lightCyan
+     * white
+     */
+    static void setProperty(const std::string& name, const std::string& value);
+
+
+    /**
+     * logs a message to the log.
+     *
+     * This is most useful from Python as C++ code will typically call the
+     * LoggingBuffer via the Log macro.
+     */
+    static void log(Level level, const std::string& msg);
 };
 
 /**
