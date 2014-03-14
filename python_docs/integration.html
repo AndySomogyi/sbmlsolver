@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Simulation and Integration &mdash; libRoadRunner 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="libRoadRunner 1.0.1 documentation" href="index.html" />
+    <link rel="next" title="Utility Functions" href="utility_functions.html" />
+    <link rel="prev" title="Accessing the SBML Model Variables" href="accessing_model.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utility_functions.html" title="Utility Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">libRoadRunner 1.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="simulation-and-integration">
+<h1>Simulation and Integration<a class="headerlink" href="#simulation-and-integration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>At the highest level, RoadRunner generates and solves ODE (ordinary differential equation) problem
+of the form</p>
+<div class="math">
+<p><img src="_images/math/41c566fc5dd8b5e4ec4e7ca9241ba5ab26a51c80.png" alt="y(t) = \int_0^t f(t, y) dt"/></p>
+</div><p>where the function :math: f(t) is generated from the SBML document.</p>
+<p>As this is numerically integrated, it is impossible to specify a time step and other integration
+parameters that are ideal for all functions. As a general rule for numeric stability, if you have a
+periodic function, you need a time step that is approximately 1/12 the period.</p>
+<p>There are a number of tuning parameters that allows one to fine tune the numeric integration to
+their function at hand. We have chosen a set of precision values that we feel are a good balance
+between performance and numeric stability for most systems. However, one may frequently encounter
+stiffer systems which require tighter tolerances . Note that specifying very tight tolerances will
+drastically decrease performance.</p>
+<p>Another parameter which is a significant role in numeric stability and performance is the initial
+time step. If no initial time step is provided (SimulateOptions.initialTimeStep &lt; 0, the default
+value), the internal integrator (defaults to CVODE) will estimate an initial time step based on
+total time span and and other numeric attributes calculated from the system. If the estimated
+initial time step is too large, then a significant amount of time will be spent by the integrator
+adjusting it down to a stable value. If the initial time step is too small, the integrator will
+waste needless steps re-evaluating the system function. As we use variable time step integrators,
+the time step will increase if the function is relatively smooth, however, by the time the time step
+has been increased, the simulation time may be over.</p>
+<p>If one encounters exceptions from the integrator, the first thing that one should try is specifying
+an initial time step and tighter absolute and relative tolerances.</p>
+<p>All of the parameters to tune the integration are on the SimulateOptions object. This object may
+either be accessed directly off the RoadRunner object, or be passed into RoadRunner.simulate or
+RoadRunner.integrate as optional parameter. Setting the values may be performed as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">=</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;mymodel.xml&quot;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">absolute</span> <span class="o">=</span> <span class="mf">5e-10</span>
+<span class="n">r</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">initialTimeStep</span> <span class="o">=</span> <span class="mf">0.00001</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will specify the absolute precision and initial time step, and will integrate the system from
+time 0 to 10. The internal integrator will take many time steps before it reaches time 10.</p>
+<p>The same SimulateOptions values control the integrator in all three of the integration RoadRunner
+methods, RoadRunner.simulate, RoadRunner.integrate and its&#8217; synonym, RoadRunner.oneStep.</p>
+<p>The integration tuning parameters are</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.STIFF</span></tt></td>
+<td>int(x[, base]) -&gt; integer</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.MULTI_STEP</span></tt></td>
+<td>int(x[, base]) -&gt; integer</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.integratorFlags</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.steps" title="roadrunner.SimulateOptions.steps"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.steps</span></tt></a></td>
+<td>The number of steps at which the output is sampled.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.start" title="roadrunner.SimulateOptions.start"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.start</span></tt></a></td>
+<td>The start time of the simulation time-series data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.duration" title="roadrunner.SimulateOptions.duration"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.duration</span></tt></a></td>
+<td>The duration of the simulation run, in the model&#8217;s units of time.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.absolute" title="roadrunner.SimulateOptions.absolute"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.absolute</span></tt></a></td>
+<td>A number representing the absolute difference permitted for the integrator</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.relative" title="roadrunner.SimulateOptions.relative"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.relative</span></tt></a></td>
+<td>A float-point number representing the relative difference permitted.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.initialTimeStep" title="roadrunner.SimulateOptions.initialTimeStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.initialTimeStep</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.minimumTimeStep" title="roadrunner.SimulateOptions.minimumTimeStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.minimumTimeStep</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.maximumTimeStep" title="roadrunner.SimulateOptions.maximumTimeStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.maximumTimeStep</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.maximumNumSteps" title="roadrunner.SimulateOptions.maximumNumSteps"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.maximumNumSteps</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Simulation and Integration</a><ul>
+<li><a class="reference internal" href="#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="accessing_model.html"
+                        title="previous chapter">Accessing the SBML Model Variables</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utility_functions.html"
+                        title="next chapter">Utility Functions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/integration.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utility_functions.html" title="Utility Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
+             >previous</a> |</li>
+        <li><a href="index.html">libRoadRunner 1.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+</html>

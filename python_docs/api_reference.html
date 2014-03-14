@@ -949,6 +949,39 @@ Hierarchical Model Composition package, in the format submodelID__variableID.
 If the model is flattened, the variable will appear automatically.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.initialTimeStep">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">initialTimeStep</tt><a class="headerlink" href="#roadrunner.SimulateOptions.initialTimeStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user specified initial time step. If this is &lt;=  0, the integrator
+will attempt to determine a safe initial time stpe.</p>
+<p>Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+the internal integrator may take many many steps to reach one of the external time
+steps. This value specifies an initial value for the internal integrator
+time step.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.minimumTimeStep">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">minimumTimeStep</tt><a class="headerlink" href="#roadrunner.SimulateOptions.minimumTimeStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specfify the minimum time step that the internal integrator
+will use. Uses integrator estimated value if &lt;= 0.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.maximumTimeStep">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">maximumTimeStep</tt><a class="headerlink" href="#roadrunner.SimulateOptions.maximumTimeStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify the maximum time step size that the internaal integrator
+will use. Uses integrator estimated value if &lt;= 0.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.maximumNumSteps">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">maximumNumSteps</tt><a class="headerlink" href="#roadrunner.SimulateOptions.maximumNumSteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify the maximum number of steps the internal integrator will use
+before reaching the user specified time span. Uses the integrator
+default value if &lt;= 0.</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="roadrunner.ExecutableModel">
 <em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">ExecutableModel</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel" title="Permalink to this definition">¶</a></dt>
