@@ -130,3 +130,35 @@
    is actually present only in a submodel of the main model, from the
    Hierarchical Model Composition package, in the format submodelID__variableID.
    If the model is flattened, the variable will appear automatically.
+
+.. attribute:: SimulateOptions.initialTimeStep
+   :module: roadrunner
+
+   A user specified initial time step. If this is <=  0, the integrator
+   will attempt to determine a safe initial time stpe.
+
+   Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+   the internal integrator may take many many steps to reach one of the external time
+   steps. This value specifies an initial value for the internal integrator
+   time step.
+     
+.. attribute:: SimulateOptions.minimumTimeStep
+   :module: roadrunner
+
+   Specfify the minimum time step that the internal integrator
+   will use. Uses integrator estimated value if <= 0.
+     
+.. attribute:: SimulateOptions.maximumTimeStep
+   :module: roadrunner
+
+   Specify the maximum time step size that the internaal integrator
+   will use. Uses integrator estimated value if <= 0.
+
+
+.. attribute:: SimulateOptions.maximumNumSteps
+   :module: roadrunner
+
+   Specify the maximum number of steps the internal integrator will use
+   before reaching the user specified time span. Uses the integrator
+   default value if <= 0.
+
