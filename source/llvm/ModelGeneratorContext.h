@@ -151,6 +151,8 @@ public:
         return options;
     }
 
+    bool useMCJIT() const;
+
 private:
 
     /**

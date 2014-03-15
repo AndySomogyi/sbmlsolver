@@ -28,6 +28,7 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-s"                           <<" Select Suites, e.g. -sABDE selects suite ABD and E\n";
     usage<<setw(25)<<"-v"                           <<" Enable Logging\n";
     usage<<setw(25)<<"-c"                           <<" Compiler: gcc or llvm\n";
+    usage<<setw(25)<<"-j"                           <<" JIT Engine, jit or mcjit\n";
     usage<<setw(25)<<"-?"                           <<" Shows the help screen.\n\n";
 
     usage<<"\nSystems Biology, UW 2012\n";

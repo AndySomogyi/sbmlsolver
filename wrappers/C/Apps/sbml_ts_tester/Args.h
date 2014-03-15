@@ -16,6 +16,7 @@ class Args
         int                             ModelNumber;              // option i:
         ModelVersions                   ModelVersion;             // option a:
         string                          compiler;                 // option c:
+        string                          jit;                      // option j:
 };
 
 #endif

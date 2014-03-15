@@ -16,7 +16,7 @@ namespace rrllvm
 {
 
 ModelResources::ModelResources() :
-    symbols(0), executionEngine(0), context(0), errStr(0),
+    symbols(0), executionEngine(0), context(0), errStr(0), useMCJIT(false),
 
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
@@ -66,7 +66,11 @@ ModelResources::~ModelResources()
 
     delete symbols;
     // the exe engine owns all the functions
-    delete executionEngine;
+
+    if (!useMCJIT) {
+        delete executionEngine;
+    }
+
     delete context;
     delete errStr;
 }

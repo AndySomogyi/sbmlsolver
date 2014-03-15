@@ -15,6 +15,7 @@ class Args
         bool                            EnableLogging;                                //option v:
         string                          Suites;                                       //option s:
         string                          compiler;                                     //option c:
+        string                          jit;                                          //option j:
 };
 
 #endif

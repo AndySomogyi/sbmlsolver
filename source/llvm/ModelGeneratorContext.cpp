@@ -27,8 +27,6 @@ using namespace libsbml;
 using rr::Logger;
 using rr::ModelGenerator;
 
-#define RR_USE_MCJIT 1
-
 namespace rrllvm
 {
 
@@ -123,11 +121,16 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     // TODO check result
     InitializeNativeTarget();
 
-#ifdef RR_USE_MCJIT
-    Log(Logger::LOG_NOTICE) << "Using MCJIT";
-    InitializeNativeTargetAsmPrinter();
-    InitializeNativeTargetAsmParser();
-#endif
+    if (useMCJIT())
+    {
+        Log(Logger::LOG_NOTICE) << "Using MCJIT";
+        InitializeNativeTargetAsmPrinter();
+        InitializeNativeTargetAsmParser();
+    }
+    else
+    {
+        Log(Logger::LOG_NOTICE) << "Using JIT";
+    }
 
     context = new LLVMContext();
     // Make the module, which holds all the code.
@@ -138,9 +141,9 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     // engine take ownership of module
     EngineBuilder engineBuilder(module);
 
-#ifdef RR_USE_MCJIT
-    engineBuilder.setUseMCJIT(true);
-#endif
+    if (useMCJIT()) {
+        engineBuilder.setUseMCJIT(true);
+    }
 
     engineBuilder.setErrorStr(errString);
 
@@ -205,11 +208,14 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
     // TODO check result
     InitializeNativeTarget();
 
-#ifdef RR_USE_MCJIT
-    Log(Logger::LOG_NOTICE) << "Using MCJIT";
-    InitializeNativeTargetAsmPrinter();
-    InitializeNativeTargetAsmParser();
-#endif
+    if (useMCJIT()) {
+        Log(Logger::LOG_NOTICE) << "Using MCJIT";
+        InitializeNativeTargetAsmPrinter();
+        InitializeNativeTargetAsmParser();
+    }
+    else {
+        Log(Logger::LOG_NOTICE) << "Using JIT";
+    }
 
     context = new LLVMContext();
     // Make the module, which holds all the code.
@@ -220,9 +226,9 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
     // engine take ownership of module
     EngineBuilder engineBuilder(module);
 
-#ifdef RR_USE_MCJIT
-    engineBuilder.setUseMCJIT(true);
-#endif
+    if (useMCJIT()) {
+        engineBuilder.setUseMCJIT(true);
+    }
 
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
@@ -345,6 +351,11 @@ const LLVMModelSymbols& ModelGeneratorContext::getModelSymbols() const
 bool ModelGeneratorContext::getConservedMoietyAnalysis() const
 {
     return options & rr::ModelGenerator::CONSERVED_MOIETIES;
+}
+
+bool ModelGeneratorContext::useMCJIT() const
+{
+    return options &  rr::ModelGenerator::USE_MCJIT;
 }
 
 llvm::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const

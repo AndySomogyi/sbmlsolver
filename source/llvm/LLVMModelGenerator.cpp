@@ -160,8 +160,6 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     SharedModelPtr rc(new ModelResources());
 
-
-
     ModelGeneratorContext context(sbml, options);
 
     Function* evalInitialConditions = 0;
@@ -407,6 +405,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     // * MOVE * the bits over from the context to the exe model.
     context.stealThePeach(&rc->symbols, &rc->context,
             &rc->executionEngine, &rc->errStr);
+
+    rc->useMCJIT = context.useMCJIT();
 
     if (!forceReCompile)
     {
