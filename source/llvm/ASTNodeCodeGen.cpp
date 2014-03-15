@@ -451,7 +451,7 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         // lame hack, need to check for negative zero to pass test...
         if (isNegative(ast))
         {
-            func = module->getFunction("rr::arccot_negzero");
+            func = module->getFunction("rr_arccot_negzero");
         }
         else
         {
@@ -516,7 +516,7 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_FACTORIAL:
-        func = module->getFunction("rr::factoriald");
+        func = module->getFunction("rr_factoriald");
         break;
     case AST_FUNCTION_FLOOR:
         funcId = LibFunc::floor;
@@ -527,10 +527,10 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_LOG:
-        func = module->getFunction("rr::logd");
+        func = module->getFunction("rr_logd");
         break;
     case AST_FUNCTION_ROOT:
-        func = module->getFunction("rr::rootd");
+        func = module->getFunction("rr_rootd");
         break;
     case AST_FUNCTION_SEC:
         func = module->getFunction("sec");

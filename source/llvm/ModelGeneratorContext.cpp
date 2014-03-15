@@ -429,7 +429,7 @@ void ModelGeneratorContext::addGlobalMappings()
                         (void*) sbmlsupport::arccot);
 
     executionEngine->addGlobalMapping(
-            createGlobalMappingFunction("rr::arccot_negzero",
+            createGlobalMappingFunction("rr_arccot_negzero",
                     FunctionType::get(double_type, args_d1, false), module),
                         (void*) sbmlsupport::arccot_negzero);
 
@@ -489,24 +489,24 @@ void ModelGeneratorContext::addGlobalMappings()
 
     // AST_FUNCTION_FACTORIAL:
     executionEngine->addGlobalMapping(
-            createGlobalMappingFunction("rr::factoriali",
+            createGlobalMappingFunction("rr_factoriali",
                     FunctionType::get(int_type, args_i1, false), module),
                         (void*) sbmlsupport::factoriali);
 
     executionEngine->addGlobalMapping(
-            createGlobalMappingFunction("rr::factoriald",
+            createGlobalMappingFunction("rr_factoriald",
                     FunctionType::get(double_type, args_d1, false), module),
                         (void*) sbmlsupport::factoriald);
 
     // case AST_FUNCTION_LOG:
     executionEngine->addGlobalMapping(
-            createGlobalMappingFunction("rr::logd",
+            createGlobalMappingFunction("rr_logd",
                     FunctionType::get(double_type, args_d2, false), module),
                         (void*) sbmlsupport::logd);
 
     // AST_FUNCTION_ROOT:
     executionEngine->addGlobalMapping(
-            createGlobalMappingFunction("rr::rootd",
+            createGlobalMappingFunction("rr_rootd",
                     FunctionType::get(double_type, args_d2, false), module),
                         (void*) sbmlsupport::rootd);
 
