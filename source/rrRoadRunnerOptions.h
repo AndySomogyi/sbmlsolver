@@ -180,7 +180,7 @@ struct RR_DECLSPEC SimulateOptions
     /**
      * the list of ODE solvers RoadRunner currently supports.
      */
-    enum Integrator
+    enum IntegratorType
     {
         CVODE
     };
@@ -192,7 +192,24 @@ struct RR_DECLSPEC SimulateOptions
          * RoadRunner to load a stiff solver which could potentially be
          * extremly slow
          */
-        STIFF = (0x1 << 0), // => 0x00000001
+        STIFF                   = (0x1 << 0), // => 0x00000001
+
+        /**
+         * The MULTI_STEP option tells the solver to take a series of internal steps
+         * and then return the solution at the point reached by that step.
+         *
+         * In simulate, this option will likely be slower than normal mode,
+         * but may be useful to monitor solutions as they are integrated.
+         *
+         * This is intended to be used in combination with the
+         * IntegratorListener. It this option is set, and there is a
+         * IntegratorListener set, RoadRunner::integrate will run the
+         * integrator in a series of internal steps, and the listner
+         * will by notified at each step.
+         *
+         * Highly Experimental!!!
+         */
+        MULTI_STEP                = (0x1 << 1), // => 0x00000010
     };
 
     /**
@@ -214,7 +231,7 @@ struct RR_DECLSPEC SimulateOptions
     /**
      * which integrator to use
      */
-    Integrator integrator;
+    IntegratorType integrator;
 
     /**
      * Set of options to use when configuring the integrator.
@@ -281,6 +298,36 @@ struct RR_DECLSPEC SimulateOptions
      * listed in variables.
      */
     std::vector<std::string> concentrations;
+
+    /**
+     * A useer specified initial time step. If this is <=  0, the integrator
+     * will attempt to determine a safe initial time stpe.
+     *
+     * Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
+     * the internal integrator may take many many steps to reach one of the external time
+     * steps. This value specifies an initial value for the internal integrator
+     * time step.
+     */
+    double initialTimeStep;
+
+    /**
+     * Specfify the minimum time step that the internal integrator
+     * will use. Uses integrator estimated value if <= 0.
+     */
+    double minimumTimeStep;
+
+    /**
+     * Specify the maximum time step size that the internaal integrator
+     * will use. Uses integrator estimated value if <= 0.
+     */
+    double maximumTimeStep;
+
+    /**
+     * Specify the maximum number of steps the internal integrator will use
+     * before reaching the user specified time span. Uses the integrator
+     * default value if <= 0.
+     */
+    int maximumNumSteps;
 
     /**
      * The minumum relative error that the CVODE integrator supports

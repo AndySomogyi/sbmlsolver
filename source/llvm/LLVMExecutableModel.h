@@ -473,10 +473,26 @@ public:
      */
     inline void assignEvent(uint eventId, double* data)
     {
+        // apply the sbml JITed event assignments
         eventAssignPtr(modelData, eventId, data);
+
+        const rr::EventListenerPtr &handler = eventListeners[eventId];
+        if(handler)
+        {
+            uint result = handler->onAssignment(this, eventId, symbols->getEventId(eventId));
+
+            if(result & rr::EventListener::HALT_SIMULATION) {
+                throw rr::EventListenerException(result);
+            }
+        }
     }
 
     bool getEventTieBreak(uint eventA, uint eventB);
+
+    virtual int getEventIndex(const std::string& eid);
+    virtual std::string getEventId(int index);
+    virtual void setEventListener(int index, rr::EventListenerPtr eventHandler);
+    virtual rr::EventListenerPtr getEventListener(int index);
 
 private:
 
@@ -564,6 +580,13 @@ private:
      */
     typedef std::tr1::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
     SelectionMap selectionRecordCache;
+
+    /**
+     * event handlers, we don't own these, just borrow them
+     *
+     * array of modelData.numEvents length.
+     */
+    std::vector<rr::EventListenerPtr> eventListeners;
 
     /**
      * get the values from the model struct and populate the given values array.

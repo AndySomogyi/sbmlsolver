@@ -45,7 +45,7 @@
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
 #include "rrRoadRunnerData.h"
-#include "rrStringList.h"
+#include "rrcStringList.h"
 #include "rrArrayList.h"
 #include "rrc_types.h"
 #include "rrc_exporter.h"
@@ -152,7 +152,7 @@ C_DECL_SPEC RRComplexMatrixPtr             createMatrix(const ls::ComplexMatrix*
  \return A handle to a RRStringArray. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC RRStringArrayPtr               createList(const rr::StringList& list);
+C_DECL_SPEC RRStringArrayPtr               createList(const rrc::StringList& list);
 
 /*!
  \brief Creates a heterogenoeus RRList from a rr::ArrayList

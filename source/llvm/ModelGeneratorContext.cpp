@@ -106,7 +106,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         Log(Logger::LOG_NOTICE) << convertedStr;
         Log(Logger::LOG_NOTICE) << "*********************************************************************";
 
-        delete convertedStr;
+        free(convertedStr);
     }
     else
     {

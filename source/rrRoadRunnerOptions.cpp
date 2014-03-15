@@ -39,7 +39,11 @@ absolute(MIN_ABSOLUTE),
 relative(MIN_RELATIVE),
 flags(STRUCTURED_RESULT),
 integrator(CVODE),
-integratorFlags(0)
+integratorFlags(0),
+initialTimeStep(-1),
+minimumTimeStep(-1),
+maximumTimeStep(-1),
+maximumNumSteps(-1)
 {
 }
 
@@ -52,7 +56,11 @@ absolute(MIN_ABSOLUTE),
 relative(MIN_RELATIVE),
 flags(STRUCTURED_RESULT),
 integrator(CVODE),
-integratorFlags(0)
+integratorFlags(0),
+initialTimeStep(-1),
+minimumTimeStep(-1),
+maximumTimeStep(-1),
+maximumNumSteps(-1)
 {
 
     if(!fname.size())

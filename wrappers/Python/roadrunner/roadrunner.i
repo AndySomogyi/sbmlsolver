@@ -1,14 +1,14 @@
 
 // Module Name
-%module(docstring="The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "
-        ""threads"=1) roadrunner
+%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
+        "threads"=1 /*, directors="1"*/) roadrunner
 
 // most methods should leave the GIL locked, no point to extra overhead
 // for fast methods. Only Roadrunner with long methods like simulate
 // and load release the GIL.
 %nothread;
 
+//%feature("director") PyEventListener;
 
 // ************************************************************
 // Module Includes
@@ -42,6 +42,15 @@
     #include <assert.h>
     #include <math.h>
     #include <cmath>
+
+    // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
+    // class. This function is defined later in this compilation unit.
+    PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
+    PyObject *Integrator_NewPythonObj(rr::Integrator*);
+
+
+    #include "PyEventListener.h"
+    #include "PyIntegratorListener.h"
 
 // Windows is just so special...
 #ifdef _WIN32
@@ -78,6 +87,13 @@
 
 // all the documentation goes here.
 %include "rr_docstrings.i"
+
+ // the integrator listener is a shared ptr
+#define SWIG_SHARED_PTR_SUBNAMESPACE tr1
+%include "std_shared_ptr.i"
+
+%shared_ptr(rr::PyIntegratorListener)
+
 
 
 %template(IntVector) std::vector<int>;
@@ -336,8 +352,8 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
                 PyObject *type = PyString_FromString("f8");
                 PyObject *tup = PyTuple_Pack(2, col, type);
 
-				Py_DECREF(col);
-				Py_DECREF(type);
+                Py_DECREF(col);
+                Py_DECREF(type);
 
                 void PyList_SET_ITEM(list, i, tup);
             }
@@ -384,6 +400,19 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
         return pArray;
     }
 };
+
+
+// make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
+// class. This function is defined later in this compilation unit.
+
+PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel* e) {
+    return SWIG_NewPointerObj(SWIG_as_voidptr(e), SWIGTYPE_p_rr__ExecutableModel, 0 |  0 );
+}
+
+PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
+    return SWIG_NewPointerObj(SWIG_as_voidptr(i), SWIGTYPE_p_rr__Integrator, 0 |  0 );
+}
+
 
 
 %}
@@ -620,7 +649,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getStateVectorRate(double time, const double *y);
 %ignore rr::ExecutableModel::testConstraints;
 %ignore rr::ExecutableModel::print;
-%ignore rr::ExecutableModel::getNumEvents;
+//%ignore rr::ExecutableModel::getNumEvents;
 %ignore rr::ExecutableModel::getEventTriggers;
 %ignore rr::ExecutableModel::evalEvents;
 %ignore rr::ExecutableModel::applyPendingEvents;
@@ -658,31 +687,24 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
+// map the events to python using the PyEventListener class
+%ignore rr::ExecutableModel::setEventListener(int, rr::EventListenerPtr);
+%ignore rr::ExecutableModel::getEventListener(int);
+%ignore rr::EventListenerPtr;
+%ignore rr::EventListenerException;
 
-// ignore Plugin methods that will be deprecated
-%ignore rr::Plugin::assignCallbacks;
-//%ignore rr::Plugin::getCopyright;
-%ignore rr::Plugin::getParameters;
-%ignore rr::Plugin::setInputData;
-//%ignore rr::Plugin::execute;
-//%ignore rr::Plugin::getImplementationLanguage;
-//%ignore rr::Plugin::getResult;
-//%ignore rr::Plugin::setLibraryName;
-//%ignore rr::Plugin::getAuthor;
-//%ignore rr::Plugin::getInfo;
-//%ignore rr::Plugin::getStatus;
-%ignore rr::Plugin::setParameter;
-%ignore rr::Plugin::getCapabilities;
-//%ignore rr::Plugin::getLibraryName;
-//%ignore rr::Plugin::getVersion;
-//%ignore rr::Plugin::this
-%ignore rr::Plugin::getCapability;
-//%ignore rr::Plugin::getName;
-//%ignore rr::Plugin::isWorking;
-//%ignore rr::Plugin::getCategory;
-%ignore rr::Plugin::getParameter;
-//%ignore rr::Plugin::resetPlugin;
+// ignore the EventListener virtuals, but leave the enum
+%ignore rr::EventListener::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
+%ignore rr::EventListener::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
 
+// ignore the C++ class, only deal with the python version
+%ignore rr::IntegratorListener;
+
+%ignore rr::Integrator::setListener(rr::IntegratorListenerPtr);
+%ignore rr::Integrator::getListener();
+
+//%ignore rr::Integrator::addIntegratorListener;
+//%ignore rr::Integrator::removeIntegratorListener;
 
 
 %ignore rr::ostream;
@@ -731,7 +753,11 @@ namespace std { class ostream{}; }
 %nothread;
 
 %include <rrSelectionRecord.h>
-%include "conservation/ConservedMoietyConverter.h"
+%include <conservation/ConservedMoietyConverter.h>
+%include <Integrator.h>
+
+%include "PyEventListener.h"
+%include "PyIntegratorListener.h"
 
 %extend std::vector<rr::SelectionRecord>
 {
@@ -762,8 +788,11 @@ namespace std { class ostream{}; }
 %extend rr::RoadRunner
 {
     // attributes
-
-    const rr::SimulateOptions *simulateOptions;
+	
+	/**
+	 * make some of these const so SWIG would not allow setting.
+	 */
+	const rr::SimulateOptions *simulateOptions;
 
     rr::RoadRunnerOptions *options;
 
@@ -832,12 +861,14 @@ namespace std { class ostream{}; }
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
         __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
         __swig_getmethods__["model"] = _getModel
+        __swig_getmethods__["integrator"] = getIntegrator
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
             model = property(getModel)
+            integrator = property(getIntegrator)
 
 
         def keys(self, types=_roadrunner.SelectionRecord_ALL):
@@ -890,7 +921,6 @@ namespace std { class ostream{}; }
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
-
 %}
 
 
@@ -910,6 +940,7 @@ namespace std { class ostream{}; }
     double end;
     bool resetModel;
     bool stiff;
+	bool multiStep;
     bool structuredResult;
 
     std::string __repr__() {
@@ -980,6 +1011,19 @@ namespace std { class ostream{}; }
             opt->integratorFlags &= ~SimulateOptions::STIFF;
         }
     }
+
+    bool rr_SimulateOptions_multiStep_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::MULTI_STEP;
+    }
+
+    void rr_SimulateOptions_multiStep_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->integratorFlags |= SimulateOptions::MULTI_STEP;
+        } else {
+            opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+        }
+    }
+
 %}
 
 
@@ -1197,7 +1241,7 @@ namespace std { class ostream{}; }
 
         if (isnan(time)) {
             time = ($self)->getTime();
-        } 
+        }
 
         double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
@@ -1208,25 +1252,25 @@ namespace std { class ostream{}; }
 
 
     PyObject *getStateVectorRate(double time, PyObject *arg) {
-        
+
         // length of state vector
         int len = ($self)->getStateVector(0);
 
         if (isnan(time)) {
             time = ($self)->getTime();
-        } 
+        }
 
         // check if the pyobj is an npy double array
         PyArrayObject *array  = obj_to_array_no_conversion(arg, NPY_DOUBLE);
 
         // need contigous and native
         // these set py error if they fail
-        if (array && require_contiguous(array) && require_native(array)) 
+        if (array && require_contiguous(array) && require_native(array))
         {
             // The number of dimensions in the array.
             int ndim = PyArray_NDIM(array);
 
-            // pointer to the dimensions/shape of the array. 
+            // pointer to the dimensions/shape of the array.
             npy_intp *pdims = PyArray_DIMS(array);
 
             if (ndim > 0 && pdims[ndim-1] == len) {
@@ -1246,8 +1290,8 @@ namespace std { class ostream{}; }
                 PyArray_Descr *dtype = PyArray_DESCR(array);
                 Py_INCREF(dtype);
 
-                // If strides is NULL, then the array strides are computed as 
-                // C-style contiguous (default) 
+                // If strides is NULL, then the array strides are computed as
+                // C-style contiguous (default)
                 PyObject *result = PyArray_NewFromDescr(&PyArray_Type,
                                                         dtype,
                                                         ndim,
@@ -1261,7 +1305,7 @@ namespace std { class ostream{}; }
                 double* stateVecRate = (double*)PyArray_DATA(result);
 
                 // get the state vector rates, bump the data pointers
-                // to the next state vec 
+                // to the next state vec
                 for (int i = 0; i < nvec; ++i) {
                     ($self)->getStateVectorRate(time, stateVec, stateVecRate);
                     stateVec += len;
@@ -1273,10 +1317,10 @@ namespace std { class ostream{}; }
 
             PyErr_Format(PyExc_TypeError,
                          "Require an N dimensional array where N must be at least 1 and "
-                         "the trailing dimension must be the same as the state vector size. " 
+                         "the trailing dimension must be the same as the state vector size. "
                          "require trailing dimension of %i but recieved %d", len, (int)pdims[ndim-1]);
-            
-           
+
+
         }
 
         // error case, PyErr is set if we get here.
@@ -1291,7 +1335,7 @@ namespace std { class ostream{}; }
 
         if (isnan(time)) {
             time = ($self)->getTime();
-        } 
+        }
 
         // check if the pyobj is an npy double array
         PyArrayObject *array1  = obj_to_array_no_conversion(arg1, NPY_DOUBLE);
@@ -1306,7 +1350,7 @@ namespace std { class ostream{}; }
             int ndim1 = PyArray_NDIM(array1);
             int ndim2 = PyArray_NDIM(array2);
 
-            // pointer to the dimensions/shape of the array. 
+            // pointer to the dimensions/shape of the array.
             npy_intp *pdims1 = PyArray_DIMS(array1);
             npy_intp *pdims2 = PyArray_DIMS(array2);
 
@@ -1322,21 +1366,21 @@ namespace std { class ostream{}; }
 
                     // how many state vectors we have in given array
                     int nvec = size / len;
-                    
+
                     // pointer to start of data block
                     double* stateVec = (double*)PyArray_DATA(array1);
-                    
+
                     // out data
                     double* stateVecRate = (double*)PyArray_DATA(array2);
 
                     // get the state vector rates, bump the data pointers
-                    // to the next state vec 
+                    // to the next state vec
                     for (int i = 0; i < nvec; ++i) {
                         ($self)->getStateVectorRate(time, stateVec, stateVecRate);
                         stateVec += len;
                         stateVecRate += len;
                     }
-                    
+
                     // only error free result case
                     // caller should decref the array so we need incrref it.
                     Py_INCREF(arg2);
@@ -1350,7 +1394,7 @@ namespace std { class ostream{}; }
             } else {
                 PyErr_Format(PyExc_TypeError,
                              "Require an N dimensional array where N must be at least 1 and "
-                             "the trailing dimension must be the same as the state vector size. " 
+                             "the trailing dimension must be the same as the state vector size. "
                              "require trailing dimension of %i but recieved %d", len, (int)pdims1[ndim1-1]);
             }
         }
@@ -1405,6 +1449,10 @@ namespace std { class ostream{}; }
 
     PyObject *getStateVectorIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::STATE_VECTOR);
+    }
+
+    PyObject *getEventIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::EVENT);
     }
 
 
@@ -1612,6 +1660,47 @@ namespace std { class ostream{}; }
         return s.str();
     }
 
+    /**
+     * events section
+     *
+     * TODO, the returned event is not valid after the model object is freed.
+     * is this OK???
+     */
+    rr::PyEventListener *getEvent(int index) {
+        ExecutableModel *p = $self;
+        EventListenerPtr e = p->getEventListener(index);
+
+        if(e) {
+            PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
+            return impl;
+        } else {
+            PyEventListener *impl = new PyEventListener();
+            p->setEventListener(index, EventListenerPtr(impl));
+            return impl;
+        }
+    }
+
+    rr::PyEventListener *getEvent(const std::string& eventId) {
+		int index = ($self)->getEventIndex(eventId);
+
+		if (index >= 0) {
+			ExecutableModel *p = $self;
+			EventListenerPtr e = p->getEventListener(index);
+			
+			if(e) {
+				PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
+				return impl;
+			} else {
+				PyEventListener *impl = new PyEventListener();
+				p->setEventListener(index, EventListenerPtr(impl));
+				return impl;
+			}
+
+		} else {
+			throw std::out_of_range(std::string("could not find index for event ") + eventId);
+		}
+	}
+
     %pythoncode %{
         def _makeProperties(self) :
 
@@ -1672,9 +1761,92 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values(types).__iter__()
-
     %}
 }
+
+%extend rr::Integrator {
+
+    void _setListener(const rr::PyIntegratorListenerPtr &listener) {
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
+
+        std::tr1::shared_ptr<rr::IntegratorListener> i = 
+            std::tr1::dynamic_pointer_cast<rr::IntegratorListener>(listener);
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
+
+        ($self)->setListener(i);
+    }
+
+    rr::PyIntegratorListenerPtr _getListener() {
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__;
+
+        rr::IntegratorListenerPtr l = ($self)->getListener();
+
+        rr::PyIntegratorListenerPtr ptr = 
+            std::tr1::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
+
+        return ptr;
+    }
+
+	void _clearListener() {
+		rr::IntegratorListenerPtr current = ($self)->getListener();
+		
+		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+
+		($self)->setListener(rr::IntegratorListenerPtr());
+
+		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+	}
+
+    // we want to get the listener back as a PyIntegratorListener, however
+    // swig won't let us ignore by return value and if we ignore getListener, 
+    // it ignores any extended version. So, we have to make an extended
+    // _getListener() above, and call it from python like this.
+    %pythoncode %{
+        def getListener(self):
+            return self._getListener()
+
+        def setListener(self, listener):
+            if listener is None:
+                self._clearListener()
+            else:
+                self._setListener(listener)
+
+        __swig_getmethods__["listener"] = getListener
+        __swig_setmethods__["listener"] = setListener
+        if _newclass: listener = property(getListener, setListener) 	
+    %}
+}
+
+%extend rr::PyIntegratorListener {
+    %pythoncode %{
+        __swig_getmethods__["onTimeStep"] = getOnTimeStep
+        __swig_setmethods__["onTimeStep"] = setOnTimeStep
+        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep) 	
+
+        __swig_getmethods__["onEvent"] = getOnEvent
+        __swig_setmethods__["onEvent"] = setOnEvent
+        if _newclass: onEvent = property(getOnEvent, setOnEvent)
+     %}
+}
+
+%extend rr::PyEventListener {
+    %pythoncode %{
+        __swig_getmethods__["onTrigger"] = getOnTrigger
+        __swig_setmethods__["onTrigger"] = setOnTrigger
+        if _newclass: onTrigger = property(getOnTrigger, setOnTrigger)
+
+        __swig_getmethods__["onAssignment"] = getOnAssignment
+        __swig_setmethods__["onAssignment"] = setOnAssignment
+        if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
+     %}
+}
+
+
 
 %pythoncode %{
 def plot(result, show=True):

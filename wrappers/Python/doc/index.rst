@@ -42,6 +42,7 @@ Contents:
    metabolic
    stability
    accessing_model
+   integration
    utility_functions
    api_reference
 

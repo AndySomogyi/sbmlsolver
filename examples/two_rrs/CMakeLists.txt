@@ -39,7 +39,6 @@ libxml2.so
 sundials_nvecserial.a
 sundials_cvode.a
 pthread
-poco_foundation-static.a
 dl
 )
 endif()

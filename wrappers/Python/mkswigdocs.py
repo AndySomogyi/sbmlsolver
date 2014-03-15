@@ -1,5 +1,12 @@
 #! /usr/bin/env python
 
+"""
+This program parses the rst documents in this directory, extracts the docstrings
+and writes these docstrings into the roadrunner/rr_docstrings.i file which is
+compiled into the roadrunner python module.
+"""
+
+
 # src format:
 # .. method:: ExecutableModel.getModelName()
 # .. py:method:: ???????????

@@ -18,7 +18,6 @@ namespace rr
 
 using std::string;
 
-class Event;
 class ExecutableModel;
 class RoadRunner;
 
@@ -29,10 +28,6 @@ class RoadRunner;
 class CvodeInterface : public Integrator, public Configurable
 {
 public:
-    double                      mMaxStep;
-    int                         mRootCount;
-    int                         mCount;
-
     CvodeInterface(ExecutableModel* oModel, const SimulateOptions* options);
 
     virtual ~CvodeInterface();
@@ -50,82 +45,123 @@ public:
      */
     virtual void loadConfig(const _xmlDoc* doc);
 
+    double integrate(double t0, double tf);
 
-    virtual unsigned setTolerances(double relative, double absolute);
-    virtual unsigned getTolerances(double *relative, double *absolute);
+    /**
+     * copies the state vector out of the model and into cvode vector,
+     * re-initializes cvode.
+     */
+    void reStart(double timeStart);
 
-    void                        assignResultsToModel();
+    /**
+     * set the options the integrator will use.
+     */
+    virtual void setSimulateOptions(const SimulateOptions* options);
 
-    void                        testRootsAtInitialTime();
-    bool                        haveVariables();
+    /**
+     * the integrator can hold a single listener. If clients require multicast,
+     * they can create a multi-cast listener.
+     */
+    virtual void setListener(IntegratorListenerPtr);
 
-    double                      oneStep(const double& timeStart, const double& hstep);
-    void                        assignNewVector(ExecutableModel *model);
-    void                        assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
+    /**
+     * get the integrator listener
+     */
+    virtual IntegratorListenerPtr getListener();
 
-    // Restart the simulation using a different initial condition
-    void                        reStart(double timeStart, ExecutableModel* model);
+    // TODO: these need to made private.
+    void testRootsAtInitialTime();
+    bool haveVariables();
 
 private:
+    int mRootCount;
+    int mCount;
 
-    const double                mDefaultReltol;
-    const double                mDefaultAbsTol;
-    static const int            mDefaultMaxNumSteps;
-
-    string                      mTempPathstring;
-    int                         mErrorFileCounter;
-
-    int                         mStateVectorSize;
-    N_Vector                    mStateVector;
-
-    N_Vector                    mAbstolArray;
-
-    void*                       mCVODE_Memory;
-
-    static const int            mDefaultMaxAdamsOrder;
-    static const int            mDefaultMaxBDFOrder;
-    double                      mLastTimeValue;
-    double                      mLastEvent;
-    ExecutableModel*            mModel;
-    int                         mOneStepCount;
-    bool                        mFollowEvents;
-
-    void                        handleCVODEError(const int& errCode);
-    void                        assignPendingEvents(const double& timeEnd, const double& tout);
+    static const int mDefaultMaxNumSteps;
 
 
-    void                        handleRootsForTime(double timeEnd,
-                                    std::vector<unsigned char> &previousEventStatus);
+    int mStateVectorSize;
+    N_Vector mStateVector;
 
-    int                         rootInit (const int& numRoots);
-    int                         reInit (const double& t0);
-    int                         allocateCvodeMem ();
-    void                        initializeCVODEInterface(ExecutableModel *oModel);
-    void                        setAbsTolerance(int index, double dValue);
+    N_Vector mAbstolArray;
 
-    int                         mMaxAdamsOrder;
-    int                         mMaxBDFOrder;
-    double                      mInitStep;
-    double                      mMinStep;
+    void* mCVODE_Memory;
 
-    int                         mMaxNumSteps;
+    static const int mDefaultMaxAdamsOrder;
+    static const int mDefaultMaxBDFOrder;
+    double mLastTimeValue;
+    double mLastEvent;
+
+    /**
+     * the shared model object, owned by RoadRunner.
+     */
+    ExecutableModel* mModel;
+
+    int mOneStepCount;
+
+    bool mFollowEvents;
+
+    /**
+     * the listener
+     */
+    IntegratorListenerPtr listener;
+
+    /**
+     * copy the values from the cvode state vector into the executable model.
+     */
+    void assignResultsToModel();
+
+    /**
+     * Update the abl tolerance vector using the abs tol in the options.
+     *
+     * Play some games if the value of the state vector is small, adjust the
+     * tolerance accordingly.
+     *
+     * Side effect is model state is copied into cvode state vector.
+     */
+    void updateAbsTolVector();
 
 
-    double                      mRelTol;
-    double                      mAbsTol;
+    void assignPendingEvents(double timeEnd, double tout);
 
+
+    void handleRootsForTime(double timeEnd,
+            std::vector<unsigned char> &previousEventStatus);
+
+    int rootInit(int numRoots);
+    int reInit (double t0);
+    int allocateCvodeMem();
+
+    /**
+     * Set up the cvode state vector size and various other cvode
+     * init tasks. Specific to the model.
+     *
+     * Only called once
+     */
+    void initializeCVODEInterface(ExecutableModel *oModel);
+
+    void setAbsTolerance(int index, double dValue);
+
+    int mMaxAdamsOrder;
+    int mMaxBDFOrder;
 
     /**
      * pointer to an options struct, this is typically
      * owned by the RoadRunner object.
      */
-    const SimulateOptions* options;
+    SimulateOptions options;
 
+    /**
+     * get state vector rate function called by cvode.
+     */
     friend void ModelFcn(int n, double time, double* y, double* ydot, void* userData);
+
+    /**
+     * event status function called by cvode.
+     */
     friend void EventFcn(double time, double* y, double* gdot, void* userData);
 
     static void* createCvode(const SimulateOptions *options);
-
 };
 }
 

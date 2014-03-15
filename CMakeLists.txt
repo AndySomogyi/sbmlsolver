@@ -69,6 +69,9 @@ option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
 # should we use LLVM ?
 option (BUILD_LLVM "Build the LLVM back end" ON)
 
+
+option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
+
 # should we build the swig python wrapper?
 option (BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
 
@@ -77,6 +80,7 @@ if(BUILD_LLVM AND NOT LLVM_FOUND)
 endif()
 
 mark_as_advanced(
+    BUILD_LEGACY_C
     INSTALL_APPS
     INSTALL_CXX_API
     INSTALL_C_API
@@ -231,6 +235,13 @@ if(BUILD_LLVM)
 else()
     message(STATUS "NOT using LLVM")
 endif(BUILD_LLVM)
+
+if(BUILD_LEGACY_C)
+    message(STATUS "building legacy C backend")
+    add_definitions(-DBUILD_LEGACY_C)
+else()
+    message(STATUS "not building legacy C backend")
+endif(BUILD_LEGACY_C)
 
 
 # We alway have to build the roadrunner core, everything depends on this

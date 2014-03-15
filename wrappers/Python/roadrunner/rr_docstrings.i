@@ -122,7 +122,7 @@ ExecutableModel.getCompartmentIds([index])
 
 Returns a vector of compartment identifier symbols.
 
-:param index: A array of compartment indices indicating which comparment ids to return.
+:param index: A array of compartment indices indicating which compartment ids to return.
 :type index: None or numpy.ndarray
 :returns: a list of compartment ids.
 ";
@@ -363,7 +363,7 @@ ExecutableModel.getStoichiometry(speciesIndex, reactionIndex)
 Returns the stochiometric coefficient for the given species index and reaction index.
 
 Frequently one does not need the full stochiometrix matrix, particularly if the system is
-large and only a single coefficent is needed.
+large and only a single coefficient is needed.
 
 
 :param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
@@ -375,18 +375,18 @@ large and only a single coefficent is needed.
 %feature("docstring") rr::ExecutableModel::getStoichiometryMatrix "
 ExecutableModel.getStoichiometryMatrix()
 
-Returns the current stoichiomentry matrix, a :math:`n \\\\times m` matrix where :math:`n` is the
+Returns the current stoichiometry matrix, a :math:`n \\\\times m` matrix where :math:`n` is the
 number of species which take place in reactions (floating species) and :math:`m` is the number of
 reactions.
 
 this is a line with \"quotes\"
 
 When the LLVM back end is used (default) this always returns the current state of the
-stochiometric coeffecients, so if any of these are determined by any rule, this will return the
-currect value.
+stochiometric coefficients, so if any of these are determined by any rule, this will return the
+current value.
 
 
-:returns: an n by m numpy ndarray of the stoichiometrix coeffecients.
+:returns: an n by m numpy ndarray of the stoichiometric coefficients.
 :rtype: numpy.ndarray
 ";
 
@@ -406,7 +406,7 @@ In performance critical applications, the optional stateVector array should be p
 output variables will be written to.
 
 
-:param numpy.ndarray stateVector: an optional numpy array where the state vector variables will be writen. If
+:param numpy.ndarray stateVector: an optional numpy array where the state vector variables will be written. If
                     no state vector array is given, a new one will be constructed and returned.
 
                     This should be the same length as the model state vector.
@@ -418,7 +418,7 @@ output variables will be written to.
 %feature("docstring") rr::ExecutableModel::getStateVectorId "
 ExecutableModel.getStateVectorId(index)
 
-Get the id (symbolc name) of a state vector item.
+Get the id (symbolic name) of a state vector item.
 
 :param int index: the index of the desired state vector item
 :rtype: str
@@ -439,7 +439,7 @@ Returns a list of all state vector ids
 %feature("docstring") rr::ExecutableModel::getStateVectorRate "
 ExecutableModel.getStateVectorRate(time, [stateVector], [stateVectorRate])
 
-Calculates the rate of change of all state vector varibles.
+Calculates the rate of change of all state vector variables.
 
 Note, the rate of change of species returned by this method is always in units of amount /
 time.
@@ -473,7 +473,7 @@ ExecutableModel.getConservedMoietyIds([index])
 Returns a vector of conserved moiety identifier symbols.
 
 
-:param index: A array of compartment indices indicating which comparment ids to return.
+:param index: A array of compartment indices indicating which compartment ids to return.
 :type index: None or numpy.ndarray
 :returns: a list of compartment ids.
 ";
@@ -498,7 +498,7 @@ ExecutableModel.setConservedMoietyValues([index], values)
 
 Sets a vector of conserved moiety values.
 
-*Note* This method currently only updates the conserved moeity values, it does
+*Note* This method currently only updates the conserved moiety values, it does
 not update the initial species condition from which the values were calculated.
 
 If the index vector is not given, then the values vector treated as a vector of all
@@ -1481,10 +1481,35 @@ modifer to distinguish it.
 
 
 
+%feature("docstring") rr::SimulateOptions::integratorFlags "
+
+A bitfield which may contain the following options. In python these options are
+also available as separate properties which set the integratorFlags bitfield.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::STIFF "
+
+Use the stiff (implicit) integrator. Defaults to off.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::MULTI_STEP "
+
+* Experimental *
+
+Perform a multi-step simulation. In multi-step simulation, one may monitor
+the variable time stepping via the IntegratorListener events system.
+";
+
+
+
 %feature("docstring") rr::SimulateOptions::absolute "
 
 A number representing the absolute difference permitted for the integrator
-tolerence.
+tolerance.
 ";
 
 
@@ -1522,7 +1547,7 @@ setting the duration automatically sets the end time and visa versa.
 
 
 The simulation end time. Note, setting the end time automatically sets the
-duration accoringly and visa versa.
+duration accordingly and visa versa.
 ";
 
 
@@ -1530,7 +1555,7 @@ duration accoringly and visa versa.
 %feature("docstring") rr::SimulateOptions::flags "
 
 
-can be set to ResetModel so that the model is reset to its intial state
+can be set to ResetModel so that the model is reset to its initial state
 when the simulation is run.
 ";
 
@@ -1549,7 +1574,7 @@ Defaults 0.0001
 
 
 Causes the model to be reset to the original conditions specified
-in the sbml when the simulation is run.
+in the SBML when the simulation is run.
 ";
 
 
@@ -1594,14 +1619,52 @@ then that symbol should also be listed in either the amount or concentration
 lists below. If a species symbol is listed in variables, but is not listed
 in either amounts or concentrations, then it defaults to an amount value.
 
-The ordering of the symbols in variabls is what determines the output
-ordering. The order of symbols in either amounts or concetrations do not
+The ordering of the symbols in variable is what determines the output
+ordering. The order of symbols in either amounts or concentrations do not
 effect the output ordering.
 
 NOTE:If a listed variable has two underscores in it ('__'), that variable
 is actually present only in a submodel of the main model, from the
 Hierarchical Model Composition package, in the format submodelID__variableID.
 If the model is flattened, the variable will appear automatically.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::initialTimeStep "
+
+A user specified initial time step. If this is <=  0, the integrator
+will attempt to determine a safe initial time step.
+
+Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+the internal integrator may take many many steps to reach one of the external time
+steps. This value specifies an initial value for the internal integrator
+time step.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::minimumTimeStep "
+
+Specify the minimum time step that the internal integrator
+will use. Uses integrator estimated value if <= 0.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::maximumTimeStep "
+
+Specify the maximum time step size that the internal integrator
+will use. Uses integrator estimated value if <= 0.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::maximumNumSteps "
+
+Specify the maximum number of steps the internal integrator will use
+before reaching the user specified time span. Uses the integrator
+default value if <= 0.
 ";
 
 

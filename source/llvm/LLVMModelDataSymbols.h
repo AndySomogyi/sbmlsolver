@@ -428,6 +428,12 @@ public:
     uint getInitBoundarySpeciesSize() const;
     uint getInitGlobalParameterSize() const;
 
+    std::vector<std::string> getEventIds() const;
+
+    std::string getEventId(uint indx) const;
+
+    uint getEventIndex(const std::string& id) const;
+
 private:
 
     std::set<std::string> initAssignmentRules;
@@ -554,6 +560,11 @@ private:
     std::vector<uint> eventAssignmentsSize;
 
     std::vector<unsigned char> eventAttributes;
+
+    /**
+     * map of event ids
+     */
+    StringUIntMap eventIds;
 
     void initBoundarySpecies(const libsbml::Model *);
 

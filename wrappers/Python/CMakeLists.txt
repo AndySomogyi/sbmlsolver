@@ -34,7 +34,12 @@ ELSE(SWIG_FOUND)
 ENDIF(SWIG_FOUND)
 
 if(WIN32)
-    install(FILES install_roadrunner_win.py
+    install(FILES INSTALL.txt setup.py MANIFEST.in install_roadrunner_win.py
+        DESTINATION .    
+        )
+else()
+    install(FILES INSTALL.txt setup.py MANIFEST.in 
         DESTINATION .    
         )
 endif(WIN32)
+

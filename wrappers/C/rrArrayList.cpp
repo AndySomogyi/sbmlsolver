@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include <sstream>
 #include <ostream>
-#include "rrStringList.h"
+#include "rrcStringList.h"
 #include "rrArrayList.h"
 #include "rrLogger.h"
 //---------------------------------------------------------------------------

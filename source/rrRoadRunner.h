@@ -2,11 +2,8 @@
 #define rrRoadRunnerH
 
 #include "rr-libstruct/lsMatrix.h"
-#include "rrVariableType.h"
-#include "rrParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
-#include "rrConstants.h"
 #include "rrRoadRunnerOptions.h"
 #include "Configurable.h"
 
@@ -140,8 +137,16 @@ public:
 
     /**
      * Carry out a single integration step using a stepsize as indicated
-     * in the method call. Arguments: double CurrentTime, double StepSize,
-     * bool: reset integrator if true, Return Value: new CurrentTime.
+     * in the method call.
+     *
+     * @param t0 starting time
+     * @param tf final time
+     * @param options override current options.
+     */
+    double integrate(double t0, double tf, const SimulateOptions* options = 0);
+
+    /**
+     * @deprecated, use integrate instead.
      */
     double oneStep(double currentTime, double stepSize, bool reset = true);
 
@@ -232,12 +237,6 @@ public:
 
     /**
      * @internal
-     * @deprecated, use ExecutableModel::getFloatingSpeciesAmountRates
-     */
-    std::vector<double> getRatesOfChange();
-
-    /**
-     * @internal
      * @deprecated
      * returns a list of reaction ids obtained from
      * ExecutableModel::getReactionId
@@ -275,12 +274,6 @@ public:
      */
     void setConfigurationXML(const std::string& xml);
 
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void correctMaxStep();
 
 /************************ Selection Ids Species Section ***********************/
 #if (1) /**********************************************************************/
@@ -718,7 +711,6 @@ private:
     ls::DoubleMatrix mRawRoadRunnerData;
     RoadRunnerData mRoadRunnerData;
 
-    std::string mCurrentSBMLFileName;
 
     /**
      * The Cvode object get created just after a model is created, it then
@@ -754,6 +746,15 @@ private:
     SimulateOptions simulateOptions;
 
     /**
+     * The sim options may be requested via getSimulateOptions. In this
+     * case, the caller may modify it, so we assume its dirty.
+     *
+     * These options are re-loaded into the integrator in simulate and
+     * oneStep.
+     */
+    bool dirtySimulateOptions;
+
+    /**
      * various general options that can be modified by external callers.
      */
     RoadRunnerOptions options;
@@ -769,12 +770,13 @@ private:
 
     double getNthSelectedOutput(const int& index, const double& dCurrentTime);
 
-    double getVariableValue(const VariableType::VariableType variableType,
+    enum VariableType
+    {
+        vtSpecies = 0, vtFlux
+    };
+
+    double getVariableValue(const VariableType variableType,
             const int variableIndex);
-
-
-
-    std::string createModelName(const std::string& mCurrentSBMLFileName);
 
     /**
      * the LibStruct is normally null, only created on demand here.
@@ -792,20 +794,35 @@ private:
     int createTimeCourseSelectionList();
 
     /**
+     * The type of sbml element that the RoadRunner::setParameterValue
+     * and RoadRunner::getParameterValue method operate on.
+     *
+     * @deprecated use the ExecutableModel methods directly.
+     */
+    enum ParameterType
+    {
+        ptGlobalParameter = 0,
+        ptLocalParameter,
+        ptBoundaryParameter,
+        ptConservationParameter,
+        ptFloatingSpecies
+    };
+
+    /**
      * Set a sbml model variable to a value.
      *
      * @parameterType the type of sbml element
      */
-    void setParameterValue(const ParameterType::ParameterType parameterType,
+    void setParameterValue(const ParameterType parameterType,
             const int parameterIndex, const double value);
 
-    double getParameterValue(const ParameterType::ParameterType parameterType,
+    double getParameterValue(const ParameterType parameterType,
             const int parameterIndex);
 
     /**
      * Changes a given parameter type by the given increment
      */
-    void changeParameter(ParameterType::ParameterType parameterType,
+    void changeParameter(ParameterType parameterType,
             int reactionIndex, int parameterIndex, double originalValue,
             double increment);
 

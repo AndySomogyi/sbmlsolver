@@ -1744,7 +1744,27 @@ int CompiledExecutableModel::getFloatingSpeciesConcentrationRates(int len, int c
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
-std::string CompiledExecutableModel::getStateVectorId(int index)
+std::string CompiledExecutableModel::getStateVectorId(int)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int CompiledExecutableModel::getEventIndex(const std::string&)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+std::string CompiledExecutableModel::getEventId(int)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+void CompiledExecutableModel::setEventListener(int, EventListenerPtr)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+EventListenerPtr CompiledExecutableModel::getEventListener(int)
 {
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }

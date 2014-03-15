@@ -7,8 +7,89 @@
 #include <list>
 #include <ostream>
 
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 namespace rr
 {
+
+class ExecutableModel;
+
+/**
+ * RoadRunner has the capatiblity to notify user objects of any sbml event.
+ *
+ * In order to listen to sbml events, one simply implements the EventHandler
+ * interface and resgisters it with the ExecutableModel::setEventHandler method.
+ *
+ * To remove it, just pass in a 0.
+ *
+ * EventHanders are free to change any model parameters.
+ *
+ * They may return a result value specified by the Result enum. Currently, we
+ * we only have the HALT_SIMULATION which will result in RoadRunner::oneStep
+ * or RoadRunner::simulate to stop at the current time and return. This may be usefull
+ * if someone wants to run a simulation up until some threshold or state is reached.
+ */
+class EventListener
+{
+public:
+    enum Result
+    {
+        HALT_SIMULATION               = (0x1 << 0),  // => 0x00000001
+    };
+
+    virtual uint onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+    virtual uint onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+
+protected:
+    ~EventListener() {};
+};
+
+/**
+ * listeners are shared objects, so use std smart pointers
+ * to manage them.
+ */
+typedef std::tr1::shared_ptr<EventListener> EventListenerPtr;
+
+class EventListenerException: public std::exception
+{
+public:
+    explicit EventListenerException(uint resultCode) :
+            resultCode(resultCode)
+    {
+        msg = "EventHandlerException, resultCode: ";
+
+        switch (resultCode)
+        {
+        case EventListener::HALT_SIMULATION:
+            msg += "HALT_SIMULATION";
+            break;
+        }
+    }
+
+    virtual ~EventListenerException() throw()
+    {
+    };
+
+    virtual const char* what() const throw()
+    {
+        return msg.c_str();
+    }
+
+    uint getResultCode() const
+    {
+        return resultCode;
+    }
+
+private:
+    uint resultCode;
+    std::string msg;
+};
+
+
 
 /**
  * The ExecutableModel interface provides a way to access an
@@ -565,7 +646,21 @@ public:
      * @deprecated
      */
     virtual void evalReactionRates() = 0;
+
+
+	/**
+	 * Gets the index for an event id. 
+	 * If there is no event with this id, returns -1.
+	 */
+    virtual int getEventIndex(const std::string& eid) = 0;
+    virtual std::string getEventId(int index) = 0;
+    virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;
+    virtual EventListenerPtr getEventListener(int index) = 0;
 };
+
+
+
+
 
 /**
  * dump the model to a stream convenience func

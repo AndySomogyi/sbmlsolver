@@ -56,8 +56,6 @@ if(WIN32)
     target_link_libraries (${target}
         roadrunner-static
         unit_test-static${staticLibPrefix}
-        poco_net-static
-        
         )
 endif()
 
@@ -70,7 +68,6 @@ if(UNIX)
         blas
         f2c
         dl
-        poco_net-static
         )
 endif()
 

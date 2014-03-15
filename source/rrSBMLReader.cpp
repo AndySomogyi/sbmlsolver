@@ -4,10 +4,8 @@
 #pragma hdrstop
 #include <Poco/URI.h>
 #include <Poco/URIStreamOpener.h>
-
-#if defined(WITH_POCO_NET)
 #include <Poco/Net/HTTPStreamFactory.h>
-#endif
+
 
 #include <Poco/Mutex.h>
 #include <Poco/Path.h>
@@ -86,22 +84,24 @@ std::string SBMLReader::read(const std::string& str)
     httpFactoryMutex.lock();
 
     // not working on windows yet.
-#if defined(__APPLE__)
+
     if (!httpFactoryRegistered)
     {
         Poco::Net::HTTPStreamFactory::registerFactory();
         httpFactoryRegistered = true;
     }
-#endif
 
+    // only the first thread creats the factory
     httpFactoryMutex.unlock();
 
-    // default opener accepts local file system paths only.
+    // opener figures out if we have local or remote path
+    // and creates appropriate stream
     Poco::URIStreamOpener &opener = Poco::URIStreamOpener::defaultOpener();
 
     std::istream* stream = opener.open(str);
     if (stream)
     {
+        // read the entire http stream into a string and return it. 
         std::istreambuf_iterator<char> eos;
         std::string s(std::istreambuf_iterator<char>(*stream), eos);
         delete stream;

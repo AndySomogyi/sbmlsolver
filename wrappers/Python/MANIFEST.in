@@ -1,0 +1,3 @@
+include *.txt 
+include site-packages/roadrunner/_roadrunner.*
+recursive-include site-packages/roadrunner/testing *.txt *.dat *.xml

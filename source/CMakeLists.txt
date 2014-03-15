@@ -25,7 +25,6 @@ set(rrSources
     rrExecutableModel
     rrRoadRunner
     rrRoadRunnerOptions
-    rrStringList
     rrStringUtils
     rrUtils
     rrCVODEInterface
@@ -42,30 +41,6 @@ set(rrSources
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
-    c/mtrand
-    c/rrStringBuilder
-    c/rrStringListContainer
-    c/rrSBMLSymbolDependencies
-    c/rrSBMLSymbol
-    c/rrHashTable
-    c/rrRule
-    c/rrModelSymbols
-    c/rrSymbol
-    c/rrSymbolList
-    c/rrCompiledModelState
-    c/rrNOMSupport
-    c/rrPendingAssignment
-    c/rrCompiledModelGenerator
-    c/rrCModelGenerator
-    c/rrCodeBuilder
-    c/rrCCompiler
-    c/rrScanner
-    c/rrToken
-    c/rrEvent
-    c/rrModelSharedLibrary
-    c/rrCModelDataUtil
-    c/rrCompiledExecutableModel
-    c/rrRandom
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
@@ -93,7 +68,7 @@ if(BUILD_LLVM)
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
-		llvm/GetInitialValuesCodeGen
+	llvm/GetInitialValuesCodeGen
         llvm/GetEventValuesCodeGen
         llvm/KineticLawParameterResolver
         llvm/LLVMModelData
@@ -112,6 +87,38 @@ if(BUILD_LLVM)
         llvm/SBMLInitialValueSymbolResolver
         )
 endif(BUILD_LLVM)
+
+if(BUILD_LEGACY_C)
+    set(rrSources
+        ${rrSources}
+        c/rrStringList
+        c/mtrand
+        c/rrStringBuilder
+        c/rrStringListContainer
+        c/rrSBMLSymbolDependencies
+        c/rrSBMLSymbol
+        c/rrHashTable
+        c/rrRule
+        c/rrModelSymbols
+        c/rrSymbol
+        c/rrSymbolList
+        c/rrCompiledModelState
+        c/rrNOMSupport
+        c/rrPendingAssignment
+        c/rrCompiledModelGenerator
+        c/rrCModelGenerator
+        c/rrCodeBuilder
+        c/rrCCompiler
+        c/rrScanner
+        c/rrToken
+        c/rrEvent
+        c/rrModelSharedLibrary
+        c/rrCModelDataUtil
+        c/rrCompiledExecutableModel
+        c/rrRandom
+        )
+endif(BUILD_LEGACY_C)
+
 
 # set up linking libs
 if(RR_BUILD_SHARED_CORE)
@@ -144,7 +151,8 @@ if(RR_BUILD_SHARED_CORE)
         lapack
         nleq-static
         rr-libstruct-static
-        poco_foundation-static
+        PocoNet
+        PocoFoundation
         )
 
     
@@ -159,16 +167,6 @@ if(RR_BUILD_SHARED_CORE)
         target_link_libraries (${target} libxml2_xe)
     endif()
 
-
-    if (USE_POCO_NET)
-    target_link_libraries (${target}
-        poco_net-static
-    )
-    add_definitions(
-        -DWITH_POCO_NET
-    )
-    endif(USE_POCO_NET)
-
     if(UNIX)
         target_link_libraries (${target}
             pthread
@@ -180,6 +178,8 @@ if(RR_BUILD_SHARED_CORE)
         target_link_libraries (${target}
             libf2c
             libsbml
+	    ws2_32
+	    iphlpapi
             )
     endif(UNIX)
 
@@ -228,6 +228,13 @@ set_property(TARGET ${target}-static
 #libraries to link with static lib
 #======== We need to split up this one to satisfy linking in both windows and posix.
 #=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
+if(BUILD_LLVM)
+    target_link_libraries(${target}-static
+        ${LLVM_LIBRARIES}
+        )
+endif(BUILD_LLVM)
+
+
 target_link_libraries (${target}-static
     sundials_cvode
     sundials_nvecserial
@@ -235,23 +242,16 @@ target_link_libraries (${target}-static
     lapack
     nleq-static
     rr-libstruct-static
-    poco_foundation-static
+    PocoNet
+    PocoFoundation
     )
-
-if (USE_POCO_NET)
-target_link_libraries (${target}-static
-        poco_net-static
-    )
-    add_definitions(
-        -DWITH_POCO_NET
-    )
-endif()
-
 
 if(WIN32)
     target_link_libraries (${target}-static
         libsbml-static
         libf2c
+	ws2_32
+	iphlpapi
         )
 endif(WIN32)
 
@@ -265,12 +265,6 @@ if(UNIX)
         pthread
         )
 endif(UNIX)
-
-if(BUILD_LLVM)
-    target_link_libraries(${target}-static
-        ${LLVM_LIBRARIES}
-        )
-endif(BUILD_LLVM)
 
 #Libxml we can't build right now
 if(${BORLAND})
