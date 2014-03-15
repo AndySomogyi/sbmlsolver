@@ -76,13 +76,35 @@ static Channel *createConsoleChannel()
 {
 #if defined(WIN32)
     if (coloredOutput) {
-        return new Poco::WindowsColorConsoleChannel();
+        WindowsColorConsoleChannel *c = new Poco::WindowsColorConsoleChannel();
+
+        c->setProperty("traceColor", "gray");
+        c->setProperty("debugColor", "brown");
+        c->setProperty("informationColor", "green");
+        c->setProperty("noticeColor", "blue");
+        c->setProperty("warningColor", "yellow");
+        c->setProperty("errorColor", "magenta");
+        c->setProperty("criticalColor", "lightRed");
+        c->setProperty("fatalColor", "red");
+
+        return c;
     } else {
         return new Poco::WindowsConsoleChannel();
     }
 #else
     if (coloredOutput) {
-        return new Poco::ColorConsoleChannel();
+        Poco::ColorConsoleChannel *c = new Poco::ColorConsoleChannel();
+
+        c->setProperty("traceColor", "gray");
+        c->setProperty("debugColor", "brown");
+        c->setProperty("informationColor", "green");
+        c->setProperty("noticeColor", "blue");
+        c->setProperty("warningColor", "yellow");
+        c->setProperty("errorColor", "magenta");
+        c->setProperty("criticalColor", "lightRed");
+        c->setProperty("fatalColor", "red");
+
+        return c;
     } else {
         return new Poco::ConsoleChannel();
     }
