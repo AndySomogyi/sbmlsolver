@@ -16,6 +16,7 @@
 #include "rrUtils.h"
 #include <rrLogger.h>
 #include <Poco/Mutex.h>
+#include <algorithm>
 
 using rr::Logger;
 using rr::getLogger;
@@ -73,8 +74,10 @@ void copyCachedModel(a_type* src, b_type* dst)
 }
 
 
-LLVMModelGenerator::LLVMModelGenerator()
+LLVMModelGenerator::LLVMModelGenerator(const std::string &str)
+: compilerStr(str)
 {
+    std::transform(compilerStr.begin(), compilerStr.end(), compilerStr.begin(), toupper);
     Log(Logger::LOG_TRACE) << __FUNC__;
 }
 
@@ -94,27 +97,6 @@ string LLVMModelGenerator::getTemporaryDirectory()
     return "not used";
 }
 
-class test
-{
-public:
-    const int* p;
-};
-
-void testt(const int** p)
-{
-    *p = 0;
-}
-
-void testtt()
-{
-    test *t = new test();
-
-    testt(&t->p);
-}
-
-
-
-
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         uint options)
 {
@@ -122,6 +104,11 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
             options & ModelGenerator::CONSERVED_MOIETIES;
 
     bool forceReCompile = options & ModelGenerator::RECOMPILE;
+
+    if (compilerStr.find("USE_MCJIT") != compilerStr.npos) {
+        Log(Logger::LOG_NOTICE) << "Found USE_MCJIT in compilerStr";
+        options |= ModelGenerator::USE_MCJIT;
+    }
 
     string md5;
 

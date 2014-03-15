@@ -8,6 +8,7 @@
 #include "ModelResources.h"
 
 #include <rrLogger.h>
+#include <list>
 
 using rr::Logger;
 using rr::getLogger;
@@ -69,6 +70,8 @@ ModelResources::~ModelResources()
 
     if (!useMCJIT) {
         delete executionEngine;
+    } else {
+        Log(Logger::LOG_NOTICE) << "Leaking LLVM ExecutionEngine " << (const void*)executionEngine;
     }
 
     delete context;

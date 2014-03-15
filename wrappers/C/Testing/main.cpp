@@ -191,7 +191,7 @@ bool setup(Args& args)
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:j:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:"))) != -1)
     {
         switch (c)
         {
@@ -201,7 +201,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('v'): args.EnableLogging      = true;     break;
             case ('s'): args.Suites             = rrOptArg; break;
             case ('c'): args.compiler           = rrOptArg; break;
-            case ('j'): args.jit                = rrOptArg; break;
             case ('?'): cout << Usage(argv[0]) << endl;     break;
             default:
             {

@@ -29,7 +29,7 @@ ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compil
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
 
     Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
-    return new rrllvm::LLVMModelGenerator();
+    return new rrllvm::LLVMModelGenerator(compiler);
 
 #endif
 
@@ -37,10 +37,10 @@ ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compil
     string ucomp = compiler;
     std::transform(ucomp.begin(), ucomp.end(),ucomp.begin(), ::toupper);
 
-    if (ucomp == "LLVM")
+    if (ucomp.find("LLVM") != ucomp.npos)
     {
         Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
-        return new rrllvm::LLVMModelGenerator();
+        return new rrllvm::LLVMModelGenerator(ucomp);
     }
 
     Log(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";

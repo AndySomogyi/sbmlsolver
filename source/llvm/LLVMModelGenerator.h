@@ -35,7 +35,7 @@ namespace rrllvm
 class RR_DECLSPEC LLVMModelGenerator: public rr::ModelGenerator
 {
 public:
-    LLVMModelGenerator();
+    LLVMModelGenerator(const std::string &compilerStr);
     virtual ~LLVMModelGenerator();
 
     /**
@@ -74,6 +74,11 @@ public:
 
 private:
     LLVMCompiler compiler;
+
+    /**
+     * hack so that C API could pass in options choose between jit and mcjit.
+     */
+    std::string compilerStr;
 };
 
 } /* namespace rr */
