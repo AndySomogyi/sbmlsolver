@@ -4,7 +4,12 @@
 
 #include <Poco/Logger.h>
 #include <Poco/AsyncChannel.h>
+
+#if defined(WIN32)
+#include <Poco/WindowsConsoleChannel.h>
+#else
 #include <Poco/ConsoleChannel.h>
+#endif
 #include <Poco/SimpleFileChannel.h>
 #include <Poco/SplitterChannel.h>
 #include <Poco/FormattingChannel.h>
@@ -23,7 +28,6 @@ namespace rr
 
 using namespace std;
 using Poco::AsyncChannel;
-using Poco::ConsoleChannel;
 using Poco::Channel;
 using Poco::AutoPtr;
 using Poco::Message;
@@ -70,11 +74,19 @@ static PatternFormatter *getPatternFormatter();
 
 static Channel *createConsoleChannel()
 {
+#if defined(WIN32)
+    if (coloredOutput) {
+        return new Poco::WindowsColorConsoleChannel();
+    } else {
+        return new Poco::WindowsConsoleChannel();
+    }
+#else
     if (coloredOutput) {
         return new Poco::ColorConsoleChannel();
     } else {
         return new Poco::ConsoleChannel();
     }
+#endif
 }
 
 Poco::Logger& getLogger()
@@ -337,12 +349,21 @@ void Logger::setProperty(const std::string& name, const std::string& value)
 {
     Mutex::ScopedLock lock(loggerMutex);
 
+#if defined(WIN32)
+    Poco::WindowsColorConsoleChannel *colorChannel =
+            dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel);
+
+    if(colorChannel) {
+        colorChannel->setProperty(name, value);
+    }
+#else
     Poco::ColorConsoleChannel *colorChannel =
             dynamic_cast<Poco::ColorConsoleChannel*>(consoleChannel);
 
     if(colorChannel) {
         colorChannel->setProperty(name, value);
     }
+#endif
 }
 
 std::string Logger::getCurrentLevelAsString()
