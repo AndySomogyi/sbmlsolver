@@ -1915,11 +1915,30 @@ to a user specified function.</p>
 of the logging messages.</p>
 <p>All methods of the Logger are static, they are available immediately upon loading the RoadRunner
 package.</p>
-<dl class="class">
-<dt id="roadrunner.Logger">
-<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">Logger</tt><a class="headerlink" href="#roadrunner.Logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>If one wants to display logging at the lowest level (LOG_TRACE), where every logging message is
+displayed, one would run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logging</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logging</span><span class="o">.</span><span class="n">LOG_TRACE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Logging the following messages:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_FATAL</span><span class="p">,</span> <span class="s">&quot;A fatal message&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_CRITICAL</span><span class="p">,</span> <span class="s">&quot;A critical message&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_ERROR</span><span class="p">,</span> <span class="s">&quot;An error message&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="s">&quot;A warning message&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_NOTICE</span><span class="p">,</span> <span class="s">&quot;A notice message&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_INFORMATION</span><span class="p">,</span> <span class="s">&quot;An informational message&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_DEBUG</span><span class="p">,</span> <span class="s">&quot;A debugging message.&quot;</span><span class="p">)</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_TRACE</span><span class="p">,</span>  <span class="s">&quot;A tracing message. This is the lowest priority.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will produce the following output:</p>
+<img alt="_images/logging.png" src="_images/logging.png" />
+<p>If one wants different colors on the log, these can be set via:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">&quot;traceColor&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">&quot;debugColor&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The available color property names and values are listed below at the Logger.setProperty method.</p>
 <div class="section" id="logging-levels">
 <h3>Logging Levels<a class="headerlink" href="#logging-levels" title="Permalink to this headline">¶</a></h3>
 <p>The Logger has the following logging levels:</p>
@@ -1971,6 +1990,9 @@ package.</p>
 <dd><p>A tracing message. This is the lowest priority.</p>
 </dd></dl>
 
+</div>
+<div class="section" id="logging-methods">
+<h3>Logging Methods<a class="headerlink" href="#logging-methods" title="Permalink to this headline">¶</a></h3>
 <dl class="staticmethod">
 <dt id="roadrunner.Logger.setLevel">
 <em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">setLevel</tt><big>(</big><span class="optional">[</span><em>level</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.Logger.setLevel" title="Permalink to this definition">¶</a></dt>
@@ -1985,9 +2007,6 @@ package.</p>
 </table>
 </dd></dl>
 
-</div>
-<div class="section" id="logging-methods">
-<h3>Logging Methods<a class="headerlink" href="#logging-methods" title="Permalink to this headline">¶</a></h3>
 <dl class="staticmethod">
 <dt id="roadrunner.Logger.getLevel">
 <em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">getLevel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getLevel" title="Permalink to this definition">¶</a></dt>
@@ -2065,14 +2084,12 @@ string.</p>
 <p>The format pattern is used as a template to format the message and
 is copied character by character except for the following special characters,
 which are replaced by the corresponding value.</p>
-<p>An example pattern of &#8220;%Y-%m-%d %H:%M:%S %p: %t&#8221;</p>
-<p>would produce the following output:</p>
-<div class="highlight-python"><pre>2013-10-25 14:12:45 Fatal: console and file: A fatal error
-2013-10-25 14:12:45 Critical: console and file: A critical error
-2013-10-25 14:12:45 Error: console and file: An error
-2013-10-25 14:12:45 Warning: console and file: A warning.
-2013-10-25 14:12:45 Notice: console and file: A notice.</pre>
+<p>An example pattern of &#8220;%Y-%m-%d %H:%M:%S %p: %t&#8221; set via:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setFormattingPattern</span><span class="p">(</span><span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S %p: %t&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>would produce the following output:</p>
+<img alt="_images/logging2.png" src="_images/logging2.png" />
 <p>The following formatting pattern descriptions is copied from the
 Poco documentation:</p>
 <ul class="simple">
