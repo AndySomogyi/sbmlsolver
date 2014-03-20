@@ -780,6 +780,8 @@ It does <em>not</em> carry out an integration step.</p>
 </table>
 </dd></dl>
 
+<div class="section" id="steady-state-section">
+<h2>Steady State Section<a class="headerlink" href="#steady-state-section" title="Permalink to this headline">¶</a></h2>
 <dl class="attribute">
 <dt id="roadrunner.RoadRunner.steadyStateSelections">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">steadyStateSelections</tt><a class="headerlink" href="#roadrunner.RoadRunner.steadyStateSelections" title="Permalink to this definition">¶</a></dt>
@@ -828,16 +830,20 @@ the steady state selections.</p>
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="controlling-simulation-settings">
+<h2>Controlling Simulation Settings<a class="headerlink" href="#controlling-simulation-settings" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="roadrunner.SimulateOptions">
 <em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SimulateOptions</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SimulateOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>RoadRunner simulation options.</p>
+<dd><p>The SimulateOptions object allows tuning a variety of simulation and integration
+options such as tolerances and time step size.</p>
 <p>This is the full set of options that determines how RoadRunner performs
-a simulation of an sbml model.</p>
-<p>This is a superset of the values stored in a sbml test suite settings file, the
-documentation of the fields which correspond to an sbml test suite settings was
+a simulation of an SBML model.</p>
+<p>This is a superset of the values stored in a SBML test suite settings file, the
+documentation of the fields which correspond to an SBML test suite settings was
 taken from <a class="reference external" href="http://sbml.org">http://sbml.org</a></p>
-<p>This object can be read from a sbml test suite options file by using a file
+<p>This object can be read from a SBML test suite options file by using a file
 name in the constructor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -851,10 +857,33 @@ from this settings file, if not, the default values are set.</td>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="roadrunner.SimulateOptions.integratorFlags">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">integratorFlags</tt><a class="headerlink" href="#roadrunner.SimulateOptions.integratorFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>A bitfield which may contain the following options. In python these options are
+also available as separate properties which set the integratorFlags bitfield.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.STIFF">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">STIFF</tt><a class="headerlink" href="#roadrunner.SimulateOptions.STIFF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the stiff (implicit) integrator. Defaults to off.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.MULTI_STEP">
+<tt class="descclassname">SimulateOptions.</tt><tt class="descname">MULTI_STEP</tt><a class="headerlink" href="#roadrunner.SimulateOptions.MULTI_STEP" title="Permalink to this definition">¶</a></dt>
+<dd><ul class="simple">
+<li>Experimental *</li>
+</ul>
+<p>Perform a multi-step simulation. In multi-step simulation, one may monitor
+the variable time stepping via the IntegratorListener events system.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="roadrunner.SimulateOptions.absolute">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">absolute</tt><a class="headerlink" href="#roadrunner.SimulateOptions.absolute" title="Permalink to this definition">¶</a></dt>
 <dd><p>A number representing the absolute difference permitted for the integrator
-tolerence.</p>
+tolerance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -884,13 +913,13 @@ setting the duration automatically sets the end time and visa versa.</p>
 <dt id="roadrunner.SimulateOptions.end">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">end</tt><a class="headerlink" href="#roadrunner.SimulateOptions.end" title="Permalink to this definition">¶</a></dt>
 <dd><p>The simulation end time. Note, setting the end time automatically sets the
-duration accoringly and visa versa.</p>
+duration accordingly and visa versa.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.SimulateOptions.flags">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">flags</tt><a class="headerlink" href="#roadrunner.SimulateOptions.flags" title="Permalink to this definition">¶</a></dt>
-<dd><p>can be set to ResetModel so that the model is reset to its intial state
+<dd><p>can be set to ResetModel so that the model is reset to its initial state
 when the simulation is run.</p>
 </dd></dl>
 
@@ -905,7 +934,7 @@ Defaults 0.0001</p>
 <dt id="roadrunner.SimulateOptions.resetModel">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">resetModel</tt><a class="headerlink" href="#roadrunner.SimulateOptions.resetModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Causes the model to be reset to the original conditions specified
-in the sbml when the simulation is run.</p>
+in the SBML when the simulation is run.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -940,8 +969,8 @@ of the columns in the result matrix.</p>
 then that symbol should also be listed in either the amount or concentration
 lists below. If a species symbol is listed in variables, but is not listed
 in either amounts or concentrations, then it defaults to an amount value.</p>
-<p>The ordering of the symbols in variabls is what determines the output
-ordering. The order of symbols in either amounts or concetrations do not
+<p>The ordering of the symbols in variable is what determines the output
+ordering. The order of symbols in either amounts or concentrations do not
 effect the output ordering.</p>
 <p>NOTE:If a listed variable has two underscores in it (&#8216;__&#8217;), that variable
 is actually present only in a submodel of the main model, from the
@@ -953,7 +982,7 @@ If the model is flattened, the variable will appear automatically.</p>
 <dt id="roadrunner.SimulateOptions.initialTimeStep">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">initialTimeStep</tt><a class="headerlink" href="#roadrunner.SimulateOptions.initialTimeStep" title="Permalink to this definition">¶</a></dt>
 <dd><p>A user specified initial time step. If this is &lt;=  0, the integrator
-will attempt to determine a safe initial time stpe.</p>
+will attempt to determine a safe initial time step.</p>
 <p>Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
 the internal integrator may take many many steps to reach one of the external time
 steps. This value specifies an initial value for the internal integrator
@@ -963,14 +992,14 @@ time step.</p>
 <dl class="attribute">
 <dt id="roadrunner.SimulateOptions.minimumTimeStep">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">minimumTimeStep</tt><a class="headerlink" href="#roadrunner.SimulateOptions.minimumTimeStep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specfify the minimum time step that the internal integrator
+<dd><p>Specify the minimum time step that the internal integrator
 will use. Uses integrator estimated value if &lt;= 0.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.SimulateOptions.maximumTimeStep">
 <tt class="descclassname">SimulateOptions.</tt><tt class="descname">maximumTimeStep</tt><a class="headerlink" href="#roadrunner.SimulateOptions.maximumTimeStep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specify the maximum time step size that the internaal integrator
+<dd><p>Specify the maximum time step size that the internal integrator
 will use. Uses integrator estimated value if &lt;= 0.</p>
 </dd></dl>
 
@@ -1875,6 +1904,343 @@ modifer to distinguish it.</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<p>RoadRunner has extensive logging system. Many internal methods will log extensive details to
+either the clog (typically stderr) or a user specified file path. Internally, the RoadRunner
+logging system is currently implemented by the Poco (<a class="reference external" href="http://pocoproject">http://pocoproject</a>) logging system.</p>
+<p>Future versions will include a Logging Listener, so that the RoadRunner log will log messages
+to a user specified function.</p>
+<p>All methods of the Logger are static, they are available immediately upon loading the RoadRunner
+package.</p>
+<dl class="class">
+<dt id="roadrunner.Logger">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">Logger</tt><a class="headerlink" href="#roadrunner.Logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_FATAL">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_FATAL</tt><a class="headerlink" href="#roadrunner.Logger.LOG_FATAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>A fatal error. The application will most likely terminate. This is the highest priority.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_CRITICAL">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_CRITICAL</tt><a class="headerlink" href="#roadrunner.Logger.LOG_CRITICAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>A critical error. The application might not be able to continue running successfully.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_ERROR">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_ERROR</tt><a class="headerlink" href="#roadrunner.Logger.LOG_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd><p>An error. An operation did not complete successfully, but the application as a whole is not affected.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_WARNING">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_WARNING</tt><a class="headerlink" href="#roadrunner.Logger.LOG_WARNING" title="Permalink to this definition">¶</a></dt>
+<dd><p>A warning. An operation completed with an unexpected result.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_NOTICE">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_NOTICE</tt><a class="headerlink" href="#roadrunner.Logger.LOG_NOTICE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A notice, which is an information with just a higher priority.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_INFORMATION">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_INFORMATION</tt><a class="headerlink" href="#roadrunner.Logger.LOG_INFORMATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>An informational message, usually denoting the successful completion of an operation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_DEBUG">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_DEBUG</tt><a class="headerlink" href="#roadrunner.Logger.LOG_DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>A debugging message.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.LOG_TRACE">
+<tt class="descclassname">Logger.</tt><tt class="descname">LOG_TRACE</tt><a class="headerlink" href="#roadrunner.Logger.LOG_TRACE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tracing message. This is the lowest priority.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.setLevel">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">setLevel</tt><big>(</big><span class="optional">[</span><em>level</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.Logger.setLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets the logging level to one a value from Logger::Level</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<em>int</em>) &#8211; the level to set, defaults to LOG_CURRENT if none is specified.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.getLevel">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">getLevel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the current logging level.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.disableLogging">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">disableLogging</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.disableLogging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suppresses all logging output</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.disableConsoleLogging">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">disableConsoleLogging</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.disableConsoleLogging" title="Permalink to this definition">¶</a></dt>
+<dd><p>stops logging to the console, but file logging may continue.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.enableConsoleLogging">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">enableConsoleLogging</tt><big>(</big><em>level</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.enableConsoleLogging" title="Permalink to this definition">¶</a></dt>
+<dd><p>turns on console logging (stderr) at the given level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> &#8211; A logging level, one of the above listed LOG_* levels.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.enableFileLogging">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">enableFileLogging</tt><big>(</big><em>fileName</em><span class="optional">[</span>, <em>level</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.Logger.enableFileLogging" title="Permalink to this definition">¶</a></dt>
+<dd><p>turns on file logging to the given file as the given level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fileName</strong> (<em>str</em>) &#8211; the path of a file to log to.</li>
+<li><strong>level</strong> &#8211; (optional) the logging level, defaults to LOG_CURRENT.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.disableFileLogging">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">disableFileLogging</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.disableFileLogging" title="Permalink to this definition">¶</a></dt>
+<dd><p>turns off file logging, but has no effect on console logging.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.getCurrentLevelAsString">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">getCurrentLevelAsString</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getCurrentLevelAsString" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the textural form of the current logging level.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.getFileName">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">getFileName</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the name of the currently used log file.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.setFormattingPattern">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">setFormattingPattern</tt><big>(</big><em>format</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.setFormattingPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internally, RoadRunner uses the Poco logging framework, so we
+can custom format logging output based on a formatting pattern
+string.</p>
+<p>The format pattern is used as a template to format the message and
+is copied character by character except for the following special characters,
+which are replaced by the corresponding value.</p>
+<p>An example pattern of &#8220;%Y-%m-%d %H:%M:%S %p: %t&#8221;</p>
+<p>would produce the following output:</p>
+<div class="highlight-python"><pre>2013-10-25 14:12:45 Fatal: console and file: A fatal error
+2013-10-25 14:12:45 Critical: console and file: A critical error
+2013-10-25 14:12:45 Error: console and file: An error
+2013-10-25 14:12:45 Warning: console and file: A warning.
+2013-10-25 14:12:45 Notice: console and file: A notice.</pre>
+</div>
+<p>The following formatting pattern descriptions is copied from the
+Poco documentation:</p>
+<ul class="simple">
+<li>%s - message source</li>
+<li>%t - message text</li>
+<li>%l - message priority level (1 .. 7)</li>
+<li>%p - message priority (Fatal, Critical, Error, Warning, Notice, Information, Debug, Trace)</li>
+<li>%q - abbreviated message priority (F, C, E, W, N, I, D, T)</li>
+<li>%P - message process identifier</li>
+<li>%T - message thread name</li>
+<li>%I - message thread identifier (numeric)</li>
+<li>%N - node or host name</li>
+<li>%U - message source file path (empty string if not set)</li>
+<li>%u - message source line number (0 if not set)</li>
+<li>%w - message date/time abbreviated weekday (Mon, Tue, ...)</li>
+<li>%W - message date/time full weekday (Monday, Tuesday, ...)</li>
+<li>%b - message date/time abbreviated month (Jan, Feb, ...)</li>
+<li>%B - message date/time full month (January, February, ...)</li>
+<li>%d - message date/time zero-padded day of month (01 .. 31)</li>
+<li>%e - message date/time day of month (1 .. 31)</li>
+<li>%f - message date/time space-padded day of month ( 1 .. 31)</li>
+<li>%m - message date/time zero-padded month (01 .. 12)</li>
+<li>%n - message date/time month (1 .. 12)</li>
+<li>%o - message date/time space-padded month ( 1 .. 12)</li>
+<li>%y - message date/time year without century (70)</li>
+<li>%Y - message date/time year with century (1970)</li>
+<li>%H - message date/time hour (00 .. 23)</li>
+<li>%h - message date/time hour (00 .. 12)</li>
+<li>%a - message date/time am/pm</li>
+<li>%A - message date/time AM/PM</li>
+<li>%M - message date/time minute (00 .. 59)</li>
+<li>%S - message date/time second (00 .. 59)</li>
+<li>%i - message date/time millisecond (000 .. 999)</li>
+<li>%c - message date/time centisecond (0 .. 9)</li>
+<li>%F - message date/time fractional seconds/microseconds (000000 - 999999)</li>
+<li>%z - time zone differential in ISO 8601 format (Z or +NN.NN)</li>
+<li>%Z - time zone differential in RFC format (GMT or +NNNN)</li>
+<li>%E - epoch time (UTC, seconds since midnight, January 1, 1970)</li>
+<li>%[name] - the value of the message parameter with the given name</li>
+<li>%% - percent sign</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format</strong> (<em>str</em>) &#8211; the logging format string. Must be formatted using the above specifiers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.getFormattingPattern">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">getFormattingPattern</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getFormattingPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the currently set formatting pattern.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.levelToString">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">levelToString</tt><big>(</big><em>level</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.levelToString" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets the textual form of a logging level Enum for a given value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<em>int</em>) &#8211; One of the above listed logging levels.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.stringToLevel">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">stringToLevel</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.stringToLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>parses a string and returns a Logger::Level</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>str</em>) &#8211; the string to parse.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.getColoredOutput">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">getColoredOutput</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getColoredOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>check if we have colored logging enabled.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.setColoredOutput">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">setColoredOutput</tt><big>(</big><em>b</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.setColoredOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>enable / disable colored output</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>b</strong> (<em>boolean</em>) &#8211; turn colored logging on or off</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.setProperty">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">setProperty</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.setProperty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the color of the output logging messages.</p>
+<p>In the future, we may add additional properties here.</p>
+<p>The following properties are supported:</p>
+<ul class="simple">
+<li>enableColors:      Enable or disable colors.</li>
+<li>traceColor:        Specify color for trace messages.</li>
+<li>debugColor:        Specify color for debug messages.</li>
+<li>informationColor:  Specify color for information messages.</li>
+<li>noticeColor:       Specify color for notice messages.</li>
+<li>warningColor:      Specify color for warning messages.</li>
+<li>errorColor:        Specify color for error messages.</li>
+<li>criticalColor:     Specify color for critical messages.</li>
+<li>fatalColor:        Specify color for fatal messages.</li>
+</ul>
+<p>The following color values are supported:</p>
+<ul class="simple">
+<li>default</li>
+<li>black</li>
+<li>red</li>
+<li>green</li>
+<li>brown</li>
+<li>blue</li>
+<li>magenta</li>
+<li>cyan</li>
+<li>gray</li>
+<li>darkgray</li>
+<li>lightRed</li>
+<li>lightGreen</li>
+<li>yellow</li>
+<li>lightBlue</li>
+<li>lightMagenta</li>
+<li>lightCyan</li>
+<li>white</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; the name of the value to set.</li>
+<li><strong>value</strong> (<em>str</em>) &#8211; the value to set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Logger.log">
+<em class="property">static </em><tt class="descclassname">Logger.</tt><tt class="descname">log</tt><big>(</big><em>level</em>, <em>msg</em><big>)</big><a class="headerlink" href="#roadrunner.Logger.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>logs a message to the log.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>level</strong> (<em>int</em>) &#8211; the level to log at.</li>
+<li><strong>msg</strong> (<em>str</em>) &#8211; the message to log.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
 
 
           </div>
@@ -1882,6 +2248,16 @@ modifer to distinguish it.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">RoadRunner API Reference</a><ul>
+<li><a class="reference internal" href="#steady-state-section">Steady State Section</a></li>
+<li><a class="reference internal" href="#controlling-simulation-settings">Controlling Simulation Settings</a></li>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="utility_functions.html"
                         title="previous chapter">Utility Functions</a></p>
