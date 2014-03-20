@@ -1,12 +1,15 @@
 Logging 
 ________
 
-RoadRunner has extensive logging system. Many internal methods will log extensive details to 
-either the clog (typically stderr) or a user specified file path. Internally, the RoadRunner
-logging system is currently implemented by the Poco (http://pocoproject) logging system. 
+RoadRunner has extensive logging system. Many internal methods will log extensive details (in full
+color) to either the clog (typically stderr) or a user specified file path. Internally, the
+RoadRunner logging system is currently implemented by the Poco (http://pocoproject) logging system.
 
 Future versions will include a Logging Listener, so that the RoadRunner log will log messages
 to a user specified function. 
+
+The logging system is highly configurable, users have complete control over the color and format
+of the logging messages. 
 
 All methods of the Logger are static, they are available immediately upon loading the RoadRunner
 package. 
