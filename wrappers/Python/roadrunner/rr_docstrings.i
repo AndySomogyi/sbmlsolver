@@ -1732,6 +1732,9 @@ Logger.setLevel([level])
 sets the logging level to one a value from Logger::Level
 
 :param int level: the level to set, defaults to LOG_CURRENT if none is specified.
+
+Logging Methods
+---------------
 ";
 
 
