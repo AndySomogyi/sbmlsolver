@@ -14,9 +14,33 @@ of the logging messages.
 All methods of the Logger are static, they are available immediately upon loading the RoadRunner
 package. 
 
-.. class:: Logger()
-   :module: roadrunner
+If one wants to display logging at the lowest level (LOG_TRACE), where every logging message is
+displayed, one would run::
 
+  roadrunner.Logging.setLevel(roadrunner.Logging.LOG_TRACE)
+
+Logging the following messages::
+
+  roadrunner.Logger.log(roadrunner.Logger.LOG_FATAL, "A fatal message")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_CRITICAL, "A critical message")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_ERROR, "An error message")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, "A warning message")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_NOTICE, "A notice message")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_INFORMATION, "An informational message")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_DEBUG, "A debugging message.")
+  roadrunner.Logger.log(roadrunner.Logger.LOG_TRACE,  "A tracing message. This is the lowest priority.")
+
+will produce the following output:
+
+.. image:: logging.png
+
+
+If one wants different colors on the log, these can be set via::
+
+  rr.Logger.setProperty("traceColor", "red")
+  rr.Logger.setProperty("debugColor", "green")
+
+The available color property names and values are listed below at the Logger.setProperty method.
 
 Logging Levels
 --------------
@@ -67,15 +91,15 @@ The Logger has the following logging levels:
 
    A tracing message. This is the lowest priority.
 
+Logging Methods
+---------------
+
 .. staticmethod:: Logger.setLevel([level])
    :module: roadrunner
 
    sets the logging level to one a value from Logger::Level
 
    :param int level: the level to set, defaults to LOG_CURRENT if none is specified. 
-
-Logging Methods
----------------
 
 
 .. staticmethod:: Logger.getLevel()
@@ -148,18 +172,18 @@ Logging Methods
    is copied character by character except for the following special characters,
    which are replaced by the corresponding value.
    
-   An example pattern of "%Y-%m-%d %H:%M:%S %p: %t"
+   An example pattern of "%Y-%m-%d %H:%M:%S %p: %t" set via::
+
+     roadrunner.Logger.setFormattingPattern("%Y-%m-%d %H:%M:%S %p: %t")
       
    would produce the following output:
 
-   ::
-            
-      2013-10-25 14:12:45 Fatal: console and file: A fatal error
-      2013-10-25 14:12:45 Critical: console and file: A critical error
-      2013-10-25 14:12:45 Error: console and file: An error
-      2013-10-25 14:12:45 Warning: console and file: A warning.
-      2013-10-25 14:12:45 Notice: console and file: A notice.
-      
+
+   .. image:: logging2.png
+   
+
+
+
    The following formatting pattern descriptions is copied from the
    Poco documentation:
    
