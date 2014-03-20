@@ -178,14 +178,10 @@ Logging Methods
       
    would produce the following output:
 
-
    .. image:: logging2.png
-   
-
-
-
-   The following formatting pattern descriptions is copied from the
-   Poco documentation:
+ 
+   |
+   RoadRunner supports the following format specifiers. These were copied from the Poco documentation:
    
    * %s - message source
    * %t - message text
