@@ -100,6 +100,7 @@ public:
          */
         OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9),
 
+
         /**
          * all optimizations, use to check if bit mask has
          * any optimizations.
@@ -107,7 +108,18 @@ public:
         OPTIMIZE = OPTIMIZE_GVN | OPTIMIZE_CFG_SIMPLIFICATION |
             OPTIMIZE_INSTRUCTION_COMBINING |
             OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION |
-            OPTIMIZE_INSTRUCTION_SIMPLIFIER
+            OPTIMIZE_INSTRUCTION_SIMPLIFIER,
+
+
+        /**
+         * Use the LLVM MCJIT JIT engine.
+         *
+         * Defaults to false.
+         *
+         * The MCJIT is the new LLVM JIT engine, it is not as well tested as the
+         * original JIT engine. Does NOT work on LLVM 3.1
+         */
+        USE_MCJIT =                       (0x1 << 10)
     };
 
     /**

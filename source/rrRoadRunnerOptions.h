@@ -109,7 +109,17 @@ struct RR_DECLSPEC LoadSBMLOptions
         /**
          * InstructionSimplifier - Remove redundant instructions.
          */
-        OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9)
+        OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9),
+
+        /**
+         * Use the LLVM MCJIT JIT engine.
+         *
+         * Defaults to false.
+         *
+         * The MCJIT is the new LLVM JIT engine, it is not as well tested as the
+         * original JIT engine. Does NOT work on LLVM 3.1
+         */
+        USE_MCJIT =                       (0x1 << 10)
     };
 
     enum LoadOpt
