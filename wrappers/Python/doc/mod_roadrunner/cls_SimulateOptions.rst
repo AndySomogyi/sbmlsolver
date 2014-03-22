@@ -1,5 +1,5 @@
 Controlling Simulation Settings
-______________________________
+_______________________________
 
 .. class:: SimulateOptions(*args)
    :module: roadrunner

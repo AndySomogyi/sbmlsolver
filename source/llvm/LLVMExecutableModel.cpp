@@ -1493,6 +1493,8 @@ void LLVMExecutableModel::evalEvents(double timeEnd,
     modelData->time = timeEnd;
     setStateVector(initialState);
 
+    // copy event status into local vars, these
+    // are modified via applyEvents
     vector<unsigned char> prevEventState(previousEventStatus,
             previousEventStatus + modelData->numEvents);
 
@@ -1501,7 +1503,6 @@ void LLVMExecutableModel::evalEvents(double timeEnd,
     unsigned char *p1 = &prevEventState[0];
     unsigned char *p2 = &currEventStatus[0];
 
-    pendingEvents.make_heap();
     pendingEvents.eraseExpiredEvents();
 
     while(applyEvents(p1, p2))
@@ -1533,7 +1534,6 @@ int LLVMExecutableModel::applyPendingEvents(const double *stateVector,
     unsigned char *p1 = &prevEventState[0];
     unsigned char *p2 = &currEventStatus[0];
 
-    pendingEvents.make_heap();
     pendingEvents.eraseExpiredEvents();
 
     while (applyEvents(p1, p2))
@@ -1622,7 +1622,7 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
 
     // fire the highest priority event, this causes state change
     // return true if we incured a state change
-    return pendingEvents.applyEvent();
+    return pendingEvents.applyEvents();
 }
 
 bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)

@@ -565,7 +565,8 @@
    :returns: Returns true if successful
 
 
-.. Steady State Section
+Steady State Section
+____________________
 
 .. attribute:: RoadRunner.steadyStateSelections
 
