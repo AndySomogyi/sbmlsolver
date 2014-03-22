@@ -397,6 +397,10 @@ public:
 
     virtual int getEventTriggers(int len, const int *indx, unsigned char *eventState);
 
+    /**
+     * erases expired events, and applies ripe events as long as we have ripe
+     * events.
+     */
     virtual void evalEvents(double timeEnd, const unsigned char* previousEventState,
             const double *initialState, double* finalState);
 
