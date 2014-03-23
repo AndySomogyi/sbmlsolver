@@ -1047,7 +1047,7 @@ int CompiledExecutableModel::applyPendingEvents(const double *stateVector,
     return handled;
 }
 
-void CompiledExecutableModel::evalEvents(double timeEnd,
+void CompiledExecutableModel::applyEvents(double timeEnd,
         const unsigned char* previousEventStatus, const double *initialState,
         double* finalState)
 {
@@ -1243,7 +1243,7 @@ void CompiledExecutableModel::sortEventsByPriority(vector<int>& firedEvents)
     }
 }
 
-void CompiledExecutableModel::evalEventRoots(double time,
+void CompiledExecutableModel::getEventRoots(double time,
         const double *stateVector, double* gdot)
 {
 

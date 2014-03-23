@@ -23,11 +23,8 @@ using namespace std;
 namespace rr
 {
 
-int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
-int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
-
-void ModelFcn(int n,     double time, double* y, double* ydot, void* userData);
-void EventFcn(            double time, double* y, double* gdot, void* userData);
+int cvodeDyDtFcn(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *userData);
+int cvodeRootFcn (realtype t, N_Vector y, realtype *gout, void *userData);
 
 // N_Vector is a point to an N_Vector structure
 RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
@@ -211,7 +208,7 @@ int CvodeInterface::allocateCvodeMem()
         Log(Logger::LOG_ERROR)<<"Problem in setting CVODE User data";
     }
 
-    int result =  CVodeInit(mCVODE_Memory, InternalFunctionCall, t0, mStateVector);
+    int result =  CVodeInit(mCVODE_Memory, cvodeDyDtFcn, t0, mStateVector);
 
     if (result != CV_SUCCESS)
     {
@@ -227,7 +224,7 @@ int CvodeInterface::rootInit(int numRoots)
          return CV_SUCCESS;
     }
 
-    return CVodeRootInit (mCVODE_Memory, numRoots, InternalRootCall);
+    return CVodeRootInit (mCVODE_Memory, numRoots, cvodeRootFcn);
 }
 
 // Initialize cvode with a new set of initial conditions
@@ -255,7 +252,6 @@ double CvodeInterface::integrate(double timeStart, double hstep)
     Log(lDebug3)<<"---------------------------------------------------";
 
     mOneStepCount++;
-    mCount = 0;
 
     double timeEnd = 0.0;
     double tout = timeStart + hstep;
@@ -486,7 +482,7 @@ void CvodeInterface::testRootsAtInitialTime()
 void CvodeInterface::handleRootsForTime(double timeEnd, vector<unsigned char> &previousEventStatus)
 {
     double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
-    mModel->evalEvents(timeEnd, &previousEventStatus[0], stateVector, stateVector);
+    mModel->applyEvents(timeEnd, &previousEventStatus[0], stateVector, stateVector);
     reInit(timeEnd);
 }
 
@@ -578,14 +574,16 @@ double GetVector (N_Vector v, int Index)
     return data[Index];
 }
 
-void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
+
+// Cvode calls this to compute the dy/dts. This routine in turn calls the
+// model function which is located in the host application.
+int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
 {
+    double* y = NV_DATA_S (cv_y);
+    double* ydot = NV_DATA_S(cv_ydot);
     CvodeInterface* cvInstance = (CvodeInterface*) userData;
-    if(!cvInstance)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function!";
-        return;
-    }
+
+    assert(cvInstance && "userData pointer is NULL in cvode dydt callback");
 
     ExecutableModel *model = cvInstance->mModel;
 
@@ -597,42 +595,25 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
         ydot[0] = 0.0;
     }
 
-    Log(Logger::LOG_TRACE) << __FUNC__ << endl;
-    Log(Logger::LOG_TRACE) << model << endl;
+    Log(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
 
-    cvInstance->mCount++;
-}
-
-void EventFcn(double time, double* y, double* gdot, void* userData)
-{
-    CvodeInterface* cvInstance = (CvodeInterface*) userData;
-    if(!cvInstance)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function";
-        return;
-    }
-
-    ExecutableModel *model = cvInstance->mModel;
-
-    model->evalEventRoots(time, y, gdot);
-
-    cvInstance->mRootCount++;
-}
-
-// Cvode calls this to compute the dy/dts. This routine in turn calls the
-// model function which is located in the host application.
-int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data)
-{
-    // Calls the callBackModel here
-    ModelFcn(NV_LENGTH_S(cv_y), t, NV_DATA_S (cv_y), NV_DATA_S(cv_ydot), f_data);
     return CV_SUCCESS;
 }
 
-//int (*CVRootFn)(realtype t, N_Vector y, realtype *gout, void *user_data)
+// int (*CVRootFn)(realtype t, N_Vector y, realtype *gout, void *user_data)
 // Cvode calls this to check for event changes
-int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data)
+int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_data)
 {
-    EventFcn(t, NV_DATA_S (y), gout, g_data);
+    CvodeInterface* cvInstance = (CvodeInterface*) user_data;
+
+    assert(cvInstance && "user data pointer is NULL on CVODE root callback");
+
+    ExecutableModel *model = cvInstance->mModel;
+
+    double* y = NV_DATA_S (y_vector);
+
+    model->getEventRoots(time, y, gout);
+
     return CV_SUCCESS;
 }
 

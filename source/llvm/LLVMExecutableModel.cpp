@@ -1486,7 +1486,7 @@ int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned cha
     }
 }
 
-void LLVMExecutableModel::evalEvents(double timeEnd,
+void LLVMExecutableModel::applyEvents(double timeEnd,
         const unsigned char* previousEventStatus, const double *initialState,
         double* finalState)
 {
@@ -1545,7 +1545,7 @@ int LLVMExecutableModel::applyPendingEvents(const double *stateVector,
     return assignedEvents;
 }
 
-void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
+void  LLVMExecutableModel::getEventRoots(double time, const double* y, double* gdot)
 {
     modelData->time = time;
 
