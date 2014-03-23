@@ -555,14 +555,15 @@ public:
      *
      * The reason this returns an unsigned char instead of a bool array is this
      * array is typically stuffed into an std::vector, and std::vector<bool> is
-     * seriously broken and can not be used as a C array.
+     * well, weird as it's actually implemented as a bitfield, and can not be
+     * used as a C array.
      *
      * So, on every modern system I'm aware of, bool is an unsigned char, so
      * use that data type here.
      */
     virtual int getEventTriggers(int len, const int *indx, unsigned char *values) = 0;
 
-    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+    virtual void applyEvents(double timeEnd, const unsigned char* previousEventStatus,
                 const double *initialState, double* finalState) = 0;
 
     virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout) = 0;
@@ -578,7 +579,7 @@ public:
      * @param y[in] the state vector
      * @param gdot[out] result event roots, this is of length numEvents.
      */
-    virtual void evalEventRoots(double time, const double* y, double* gdot) = 0;
+    virtual void getEventRoots(double time, const double* y, double* gdot) = 0;
 
     virtual double getNextPendingEventTime(bool pop) = 0;
 
@@ -648,10 +649,10 @@ public:
     virtual void evalReactionRates() = 0;
 
 
-	/**
-	 * Gets the index for an event id. 
-	 * If there is no event with this id, returns -1.
-	 */
+    /**
+     * Gets the index for an event id.
+     * If there is no event with this id, returns -1.
+     */
     virtual int getEventIndex(const std::string& eid) = 0;
     virtual std::string getEventId(int index) = 0;
     virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;

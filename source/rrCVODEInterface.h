@@ -74,8 +74,6 @@ public:
     bool haveVariables();
 
 private:
-    int mRootCount;
-    int mCount;
 
     static const int mDefaultMaxNumSteps;
 
@@ -152,14 +150,14 @@ private:
     SimulateOptions options;
 
     /**
-     * get state vector rate function called by cvode.
+     * cvode dydt callback
      */
-    friend void ModelFcn(int n, double time, double* y, double* ydot, void* userData);
+    friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
 
     /**
-     * event status function called by cvode.
+     * cvode event root finding callback.
      */
-    friend void EventFcn(double time, double* y, double* gdot, void* userData);
+    friend int cvodeRootFcn (double t, N_Vector y, double *gout, void *g_data);
 
     static void* createCvode(const SimulateOptions *options);
 };
