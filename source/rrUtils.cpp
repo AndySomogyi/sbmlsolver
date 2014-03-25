@@ -171,7 +171,7 @@ std::string getCurrentSharedLibDir()
     }
 
 #else
-    char path[MAX_PARAM];
+    char path[MAX_PATH] = {0};
     HMODULE hm = NULL;
 
     if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
@@ -180,9 +180,10 @@ std::string getCurrentSharedLibDir()
             &hm))
     {
         int ret = GetLastError();
-        fprintf(stderr, "GetModuleHandle returned %d\n", ret);
     }
+
     GetModuleFileNameA(hm, path, sizeof(path));
+
     return path;
 #endif
 }

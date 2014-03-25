@@ -254,33 +254,35 @@ std::string Config::getConfigFilePath()
     const char* env = std::getenv("ROADRUNNER_CONFIG");
     std::string path;
     Poco::Path ppath;
-    Log(rr::Logger::LOG_DEBUG) << "trying config file " << env;
+
+    Poco::Path::home();
+
+    Log(rr::Logger::LOG_DEBUG) << "trying config file from ROADRUNNER_CONFIG " 
+        << (env ? env : "NULL");
+
     if (env && rr::fileExists(env, 4))
     {
         return env;
     }
 
     // check home dir
-    env = std::getenv("HOME");
-    if (env)
+    ppath.assign(Poco::Path::home());
+    ppath.setFileName("roadrunner.conf");
+    path = ppath.toString();
+    Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+    if (rr::fileExists(path, 4))
     {
-        ppath.assign(env);
-        ppath.setFileName("roadrunner.conf");
-        path = ppath.toString();
-        Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-        if (rr::fileExists(path, 4))
-        {
-            return path;
-        }
-
-        ppath.setFileName(".roadrunner.conf");
-        path = ppath.toString();
-        Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-        if (rr::fileExists(path, 4))
-        {
-            return path;
-        }
+        return path;
     }
+
+    ppath.setFileName(".roadrunner.conf");
+    path = ppath.toString();
+    Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+    if (rr::fileExists(path, 4))
+    {
+        return path;
+    }
+    
 
     // check in library dir
     ppath.assign(rr::getCurrentSharedLibDir());

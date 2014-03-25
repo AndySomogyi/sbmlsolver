@@ -1,5 +1,6 @@
 install(
-    FILES_MATCHING PATTERN "*.*"
+    DIRECTORY .
     DESTINATION installer/windows    
+    FILES_MATCHING PATTERN "*.*"
     )
 

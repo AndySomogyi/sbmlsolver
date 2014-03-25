@@ -9,6 +9,7 @@
 #define RRCONFIG_H_
 
 #include <string>
+#include "rrExporter.h"
 
 namespace rr
 {
@@ -16,7 +17,7 @@ namespace rr
 /**
  * read or store default values.
  */
-class Config
+class RR_DECLSPEC Config
 {
 public:
 
