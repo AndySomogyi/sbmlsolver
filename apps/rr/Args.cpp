@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Args.h"
 #include "rrVersionInfo.h"
+#include "rrConfig.h"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-? "                          <<" Shows the help screen.\n\n";
 
     usage << "Version: " << rr::getVersionStr() << std::endl;
+    usage << "config file: " << rr::Config::getConfigFilePath() << endl;
     return usage.str();
 }
 

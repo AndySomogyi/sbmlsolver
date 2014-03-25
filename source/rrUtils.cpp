@@ -45,6 +45,7 @@
 #if defined (__unix__) || defined(__APPLE__)
 #include <stdlib.h>
 #include <termios.h>
+#include <dlfcn.h>
 #endif
 
 #if defined(__APPLE__)
@@ -155,6 +156,34 @@ string getUsersTempDataFolder()
     return string(lpTempPathBuffer);
 #else
 return ".";
+#endif
+}
+
+std::string getCurrentSharedLibDir()
+{
+#if !defined(_WIN32)
+    Dl_info dl_info;
+    if (dladdr((void *)getCurrentSharedLibDir, &dl_info) != 0) {
+        string path(dl_info.dli_fname);
+        return path.substr( 0, path.find_last_of( '/' ) +1 );
+    } else {
+        return "";
+    }
+
+#else
+    char path[MAX_PARAM];
+    HMODULE hm = NULL;
+
+    if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+            (LPCSTR) &getCurrentSharedLibDir,
+            &hm))
+    {
+        int ret = GetLastError();
+        fprintf(stderr, "GetModuleHandle returned %d\n", ret);
+    }
+    GetModuleFileNameA(hm, path, sizeof(path));
+    return path;
 #endif
 }
 
@@ -296,7 +325,7 @@ int indexOf(const std::vector<std::string>& vec, const std::string& elem )
 {
     if(!vec.size())
     {
-        return -1;  
+        return -1;
     }
     else
     {
@@ -357,14 +386,23 @@ void pause(bool doIt, const string& msg)
 
 }
 
-bool fileExists(const string& fName)
+/**
+ * check file access, just calls access, but on windows, access is _access,
+ *
+ * file modes:
+ * 00 Existence only
+ * 02 Write permission
+ * 04 Read permission
+ * 06 Read and write permission
+*/
+bool fileExists(const string& fname, int fileMode)
 {
-    if (!fName.size())
-    {
-        return false;
-    }
+#if !defined (WIN32)
+    bool res = (access(fname.c_str(), fileMode) == 0);
+#else
+    bool res = (_access(fname.c_str(), fileMode) == 0);
+#endif
 
-    bool res = (access(fName.c_str(), 0) == 0);
     return res;
 }
 

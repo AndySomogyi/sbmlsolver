@@ -33,6 +33,7 @@
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
+    #include <rrConfig.h>
     #include <conservation/ConservationExtension.h>
     #include "conservation/ConservedMoietyConverter.h"
     #include <cstddef>
@@ -758,6 +759,7 @@ namespace std { class ostream{}; }
 
 %include "PyEventListener.h"
 %include "PyIntegratorListener.h"
+%include <rrConfig.h>
 
 %extend std::vector<rr::SelectionRecord>
 {
