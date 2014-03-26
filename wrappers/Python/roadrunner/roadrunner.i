@@ -1015,7 +1015,7 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_multiStep_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::MULTI_STEP;
+        return opt->integratorFlags & SimulateOptions::MULTI_STEP;
     }
 
     void rr_SimulateOptions_multiStep_set(SimulateOptions* opt, bool value) {

@@ -67,12 +67,12 @@ const double SimulateOptions::MIN_ABSOLUTE = 1.e-10;
 
 SimulateOptions::SimulateOptions()
 :
-steps(50),
+steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
 start(0),
-duration(5),
-absolute(MIN_ABSOLUTE),
-relative(MIN_RELATIVE),
-flags(STRUCTURED_RESULT),
+duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
+absolute(Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE)),
+relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
+flags(0),
 integrator(CVODE),
 integratorFlags(0),
 initialTimeStep(-1),
@@ -80,16 +80,24 @@ minimumTimeStep(-1),
 maximumTimeStep(-1),
 maximumNumSteps(-1)
 {
+    if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+        flags |= SimulateOptions::STRUCTURED_RESULT;
+
+    if (Config::getInt(Config::SIMULATEOPTIONS_STIFF))
+        integratorFlags |= SimulateOptions::STIFF;
+
+    if (Config::getInt(Config::SIMULATEOPTIONS_MULTI_STEP))
+        integratorFlags |= SimulateOptions::MULTI_STEP;
 }
 
 SimulateOptions::SimulateOptions(const std::string &fname)
 :
-steps(50),
+steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
 start(0),
-duration(5),
-absolute(MIN_ABSOLUTE),
-relative(MIN_RELATIVE),
-flags(STRUCTURED_RESULT),
+duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
+absolute(Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE)),
+relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
+flags(0),
 integrator(CVODE),
 integratorFlags(0),
 initialTimeStep(-1),
@@ -97,6 +105,16 @@ minimumTimeStep(-1),
 maximumTimeStep(-1),
 maximumNumSteps(-1)
 {
+
+    if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+        flags |= SimulateOptions::STRUCTURED_RESULT;
+
+    if (Config::getInt(Config::SIMULATEOPTIONS_STIFF))
+        integratorFlags |= SimulateOptions::STIFF;
+
+    if (Config::getInt(Config::SIMULATEOPTIONS_MULTI_STEP))
+        integratorFlags |= SimulateOptions::MULTI_STEP;
+
 
     if(!fname.size())
     {
