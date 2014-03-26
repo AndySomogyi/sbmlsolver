@@ -9,6 +9,7 @@
 #include "TestSuiteSimulation.h"
 #include "rrException.h"
 #include "rrRoadRunner.h"
+#include "rrConfig.h"
 
 using namespace std;
 using namespace rr;
@@ -17,6 +18,23 @@ string     gTempFolder              = "";
 string     gRRInstallFolder         = "";
 string     gTSModelsPath            = "";
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
+
+static void dispConfigFile()
+{
+    std::string conf = rr::Config::getConfigFilePath();
+    if(conf.length())
+    {
+        cout << "config file: " << conf << endl;
+    }
+    else
+    {
+        cout << "could not find default config file, tried locations: " << endl;
+        int llevel = rr::Logger::getLevel();
+        rr::Logger::setLevel(rr::Logger::LOG_DEBUG);
+        rr::Config::getConfigFilePath();
+        rr::Logger::setLevel(llevel);
+    }
+}
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
@@ -30,9 +48,10 @@ int main(int argc, char* argv[])
         cout << RoadRunner::getExtendedVersionInfo() << endl;
 
         Logger::enableConsoleLogging();
-        Logger::setLevel(Logger::LOG_NOTICE);
 
-        Log(lDebug) << "hello";
+        dispConfigFile();
+
+        Logger::setLevel(Logger::LOG_NOTICE);
 
         Args args;
         ProcessCommandLineArguments(argc, argv, args);
@@ -113,7 +132,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-           rr::pause();
         cout<<"\n";
         exit(0);
     }

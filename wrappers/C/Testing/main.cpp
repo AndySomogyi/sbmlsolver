@@ -9,6 +9,7 @@
 #include "rrGetOptions.h"
 #include "src/Args.h"
 #include "rrRoadRunner.h"
+#include "rrConfig.h"
 
 using namespace std;
 using namespace rr;
@@ -27,6 +28,23 @@ unsigned   gLoadSBMLOptions         = 0;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
 
+static void dispConfigFile()
+{
+    std::string conf = rr::Config::getConfigFilePath();
+    if(conf.length())
+    {
+        cout << "config file: " << conf << endl;
+    }
+    else
+    {
+        cout << "could not find default config file, tried locations: " << endl;
+        int llevel = rr::Logger::getLevel();
+        rr::Logger::setLevel(rr::Logger::LOG_DEBUG);
+        rr::Config::getConfigFilePath();
+        rr::Logger::setLevel(llevel);
+    }
+}
+
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
@@ -37,6 +55,8 @@ int main(int argc, char* argv[])
     cout << RoadRunner::getExtendedVersionInfo() << endl;
 
     Logger::enableConsoleLogging();
+
+    dispConfigFile();
 
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
@@ -218,7 +238,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-           rr::pause();
         cout<<"\n";
         exit(0);
     }

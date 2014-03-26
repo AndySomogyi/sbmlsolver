@@ -284,6 +284,9 @@ install(FILES README.txt LICENSE.txt AUTHORS.txt FUNDING.txt
         COMPONENT info
         )
 
+# make or copy installers into root directory
+add_subdirectory(installer)
+
 #=== ThirdParties
 if(${BORLAND})
     set(CG_RUNTIMES        cc32110MT.dll)

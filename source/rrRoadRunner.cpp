@@ -18,6 +18,7 @@
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "rrSBMLReader.h"
+#include "rrConfig.h"
 
 #include <sbml/conversion/SBMLLocalParameterConverter.h>
 
@@ -110,7 +111,7 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     mCVode(0),
     mSelectionList(),
     mModelGenerator(0),
-    mComputeAndAssignConservationLaws(false),
+    conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
     mSteadyStateSelection(),
     mModel(0),
     mCurrentSBML(),
@@ -155,7 +156,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mCVode(0),
         mSelectionList(),
         mModelGenerator(0),
-        mComputeAndAssignConservationLaws(false),
+        conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
         mSteadyStateSelection(),
         mModel(0),
         mCurrentSBML(),
@@ -218,7 +219,7 @@ string RoadRunner::getInfo()
     {
         info<<"ModelName: "            <<  mModel->getModelName()<<endl;
     }
-    info<<"ConservationAnalysis: "    <<    mComputeAndAssignConservationLaws << endl;
+    info<<"ConservationAnalysis: "    <<    conservedMoietyAnalysis << endl;
     info<<"libSBML version: "         <<    getVersionStr(VERSIONSTR_LIBSBML) << endl;
     info<<"Temporary folder: "        <<    getTempFolder()<<endl;
     info<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
@@ -289,7 +290,7 @@ SimulateOptions& RoadRunner::getSimulateOptions()
 
 bool RoadRunner::getConservedMoietyAnalysis()
 {
-    return mComputeAndAssignConservationLaws;
+    return conservedMoietyAnalysis;
 }
 
 bool RoadRunner::setTempFileFolder(const string& folder)
@@ -482,7 +483,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
         int index = mModel->getFloatingSpeciesIndex(species);
 
         DoubleMatrix mat;
-        if (mComputeAndAssignConservationLaws)
+        if (conservedMoietyAnalysis)
         {
             mat = getReducedJacobian();
         }
@@ -570,7 +571,7 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 
     if (options)
     {
-        mComputeAndAssignConservationLaws = options->modelGeneratorOpt
+        conservedMoietyAnalysis = options->modelGeneratorOpt
                 & LoadSBMLOptions::CONSERVED_MOIETIES;
         mModel = mModelGenerator->createModel(mCurrentSBML, options->modelGeneratorOpt);
     }
@@ -646,7 +647,7 @@ void RoadRunner::reset()
     {
         mModel->reset();
 
-        if (mComputeAndAssignConservationLaws && !mModel->getConservedSumChanged())
+        if (conservedMoietyAnalysis && !mModel->getConservedSumChanged())
         {
             mModel->computeConservedTotals();
         }
@@ -696,11 +697,18 @@ double RoadRunner::steadyState()
         throw CoreException(gEmptyModelMessage);
     }
 
+    if (!this->conservedMoietyAnalysis)
+    {
+        Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
+        Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
+                "via the configuration file or the Config class setValue, see roadrunner documentation";
+    }
+
     if (mUseKinsol)
     {
-            //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
-            Log(Logger::LOG_ERROR)<<"Kinsol solver is not enabled...";
-            return -1;
+        //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
+        Log(Logger::LOG_ERROR)<<"Kinsol solver is not enabled...";
+        return -1;
     }
 
     NLEQInterface steadyStateSolver(mModel);
@@ -801,12 +809,12 @@ double RoadRunner::getParameterValue(const ParameterType parameterType,
 
 void RoadRunner::setConservedMoietyAnalysis(bool bValue)
 {
-    if(bValue == mComputeAndAssignConservationLaws)
+    if(bValue == conservedMoietyAnalysis)
     {
         Log(lDebug)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 
-    mComputeAndAssignConservationLaws = bValue;
+    conservedMoietyAnalysis = bValue;
 
     if(mModel != NULL)
     {
@@ -1229,7 +1237,7 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
         }
 
         DoubleMatrix mat;
-        if (mComputeAndAssignConservationLaws)
+        if (conservedMoietyAnalysis)
         {
            mat = getReducedJacobian();
         }
@@ -1256,7 +1264,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
         DoubleMatrix *rsm;
         LibStructural *ls = getLibStruct();
-        if (mComputeAndAssignConservationLaws)
+        if (conservedMoietyAnalysis)
         {
             rsm = ls->getReorderedStoichiometryMatrix();
         }
@@ -1301,7 +1309,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
             throw CoreException(gEmptyModelMessage);
         }
 
-        if(mComputeAndAssignConservationLaws == false)
+        if(conservedMoietyAnalysis == false)
         {
             throw CoreException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
         }
@@ -2712,7 +2720,7 @@ _xmlNode *RoadRunner::createConfigNode()
 
     Configurable::addChild(caps, Configurable::createParameterNode("Conservation",
                     "enables (=true) or disables (=false) the conservation analysis of models for timecourse simulations.",
-                    (int) mComputeAndAssignConservationLaws));
+                    (int) conservedMoietyAnalysis));
 
     Configurable::addChild(capies, caps);
 

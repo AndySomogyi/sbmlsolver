@@ -188,7 +188,12 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
     /*************************************************************************/
     // can not store anything with an assigment rule, these are determined
     // by other independent elements.
-    assert(!modelDataSymbols.hasAssignmentRule(symbol));
+    if (modelDataSymbols.hasAssignmentRule(symbol))
+    {
+        throw_llvm_exception("Attempt to store a value in symbol \""
+                + symbol + "\" which is defined by an assignemnt rule");
+    }
+
 
     /*************************************************************************/
     /* Species */

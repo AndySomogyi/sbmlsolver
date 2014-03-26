@@ -76,7 +76,7 @@ static Channel *createConsoleChannel()
 {
 #if defined(WIN32)
     if (coloredOutput) {
-        WindowsColorConsoleChannel *c = new Poco::WindowsColorConsoleChannel();
+        Poco::WindowsColorConsoleChannel *c = new Poco::WindowsColorConsoleChannel();
 
         c->setProperty("traceColor", "gray");
         c->setProperty("debugColor", "brown");
