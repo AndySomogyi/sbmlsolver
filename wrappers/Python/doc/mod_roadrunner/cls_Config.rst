@@ -262,8 +262,8 @@ here. The variable type of the parameter is listed after the key name.
 
    The number of steps at which the output is sampled. The samples are evenly spaced.
    When a simulation system calculates the data points to record, it will typically
-   divide the duration by the number of time steps. Thus, for X steps, the output
-   will have X+1 data rows.
+   divide the duration by the number of time steps. Thus, for N steps, the output
+   will have N+1 data rows.
 
 
 .. attribute:: Config.SIMULATEOPTIONS_DURATION
