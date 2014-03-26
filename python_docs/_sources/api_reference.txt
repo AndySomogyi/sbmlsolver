@@ -20,6 +20,8 @@ The RoadRunner SBML Simulation Engine,
 (c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlson
 
    
+.. include:: mod_roadrunner/cls_Config.rst
+
 .. include:: mod_roadrunner/cls_RoadRunner.rst   
 
 .. include:: mod_roadrunner/cls_SimulateOptions.rst      
