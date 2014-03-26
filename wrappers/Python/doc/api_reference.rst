@@ -13,11 +13,11 @@ This is the API Reference page for the module: :mod:`roadrunner`
    :platform: OSX, Unix, Windows
    :synopsis: Simulate and Analyze Systems Biology Models
 
-.. moduleauthor:: Andy Somogyi <somogyie@indiana.edu>
+.. moduleauthor:: Endre (Andy)  Somogyi <somogyie@indiana.edu>
 .. moduleauthor:: Herbert Suaro <hsauro@u.washington.edu>
 
-The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlson
+The RoadRunner SBML Simulation Engine Python API,
+(c) 2009-2014 Endre Somogyi and Herbert Sauro
 
    
 .. include:: mod_roadrunner/cls_Config.rst
