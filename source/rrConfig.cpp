@@ -150,6 +150,9 @@ struct Value {
     }
 };
 
+
+
+
 static Value values[] =  {
     Value(false),    // LOADSBMLOPTIONS_CONSERVED_MOIETIES
     Value(false),    // LOADSBMLOPTIONS_RECOMPILE
@@ -168,7 +171,11 @@ static Value values[] =  {
     Value(1.e-5),    // SIMULATEOPTIONS_RELATIVE,
     Value(true),     // SIMULATEOPTIONS_STRUCTURED_RESULT,
     Value(false),    // SIMULATEOPTIONS_STIFF,
-    Value(false)     // SIMULATEOPTIONS_MULTI_STEP,
+    Value(false),    // SIMULATEOPTIONS_MULTI_STEP,
+    Value(-1),       // SIMULATEOPTIONS_INITIAL_TIMESTEP,
+    Value(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
+    Value(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
+    Value(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
 };
 
 static bool initialized = false;
@@ -219,6 +226,11 @@ static void getKeyNames(StringIntMap& keys)
     keys["SIMULATEOPTIONS_STRUCTURED_RESULT"] = rr::Config::SIMULATEOPTIONS_STRUCTURED_RESULT;
     keys["SIMULATEOPTIONS_STIFF"] = rr::Config::SIMULATEOPTIONS_STIFF;
     keys["SIMULATEOPTIONS_MULTI_STEP"] = rr::Config::SIMULATEOPTIONS_MULTI_STEP;
+    keys["SIMULATEOPTIONS_INITIAL_TIMESTEP"] = rr::Config::SIMULATEOPTIONS_INITIAL_TIMESTEP;
+    keys["SIMULATEOPTIONS_MINIMUM_TIMESTEP"] = rr::Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP;
+    keys["SIMULATEOPTIONS_MAXIMUM_TIMESTEP"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP;
+    keys["SIMULATEOPTIONS_MAXIMUM_NUM_STEPS"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
+
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Value) &&
             "values array size different than CONFIG_END");

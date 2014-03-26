@@ -113,16 +113,42 @@ public:
         LOADSBMLOPTIONS_USE_MCJIT,
 
 
+        /**
+         * The number of steps at which the output is sampled. The samples are evenly spaced.
+         * When a simulation system calculates the data points to record, it will typically
+         * divide the duration by the number of time steps. Thus, for X steps, the output
+         * will have X+1 data rows.
+         * see SimulateOptions::steps
+
+         */
+
         SIMULATEOPTIONS_STEPS,
+
+        /**
+         * see SimulateOptions::duration
+         */
         SIMULATEOPTIONS_DURATION,
+
+        /**
+         * see SimulateOptions::absolute
+         */
         SIMULATEOPTIONS_ABSOLUTE,
+
+        /**
+         * see SimulateOptions::relative
+         */
         SIMULATEOPTIONS_RELATIVE,
+
+        /**
+         * see SimulateOptions::STRUCTURED_RESULT
+         */
         SIMULATEOPTIONS_STRUCTURED_RESULT,
 
         /**
          * Is the model a stiff system? setting this to stiff causes
          * RoadRunner to load a stiff solver which could potentially be
          * extremly slow
+         * see SimulateOptions::STIFF
          */
         SIMULATEOPTIONS_STIFF,
 
@@ -140,10 +166,44 @@ public:
          * will by notified at each step.
          *
          * Highly Experimental!!!
+         * see SimulateOptions::MULTI_STEP
          */
         SIMULATEOPTIONS_MULTI_STEP,
 
-
+        /**
+         * A useer specified initial time step. If this is <=  0, the integrator
+         * will attempt to determine a safe initial time stpe.
+         *
+         * Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
+         * the internal integrator may take many many steps to reach one of the external time
+         * steps. This value specifies an initial value for the internal integrator
+         * time step.
+         * see SimulateOptions::initialTimeStep
+         */
+        SIMULATEOPTIONS_INITIAL_TIMESTEP,
+        
+        /**
+         * Specfify The Minimum Time Step That The Internal Integrator
+         * Will Use. Uses Integrator Estimated Value If <= 0.
+         * see SimulateOptions::minumumTimeStep
+         */
+        SIMULATEOPTIONS_MINIMUM_TIMESTEP,
+        
+        /**
+         * Specify The Maximum Time Step Size That The Internaal Integrator
+         * Will Use. Uses Integrator Estimated Value If <= 0.
+         * see SimulateOptions::maximumTimeStep
+         */
+        SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
+        
+        /**
+         * Specify The Maximum Number Of Steps The Internal Integrator Will Use
+         * Before Reaching The User Specified Time Span. Uses The Integrator
+         * Default Value If <= 0.
+         * see SimulateOptions::maximumNumSteps
+         */
+        SIMULATEOPTIONS_MAXIMUM_NUM_STEPS,
+              
         /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create

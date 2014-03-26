@@ -75,10 +75,10 @@ relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
 flags(0),
 integrator(CVODE),
 integratorFlags(0),
-initialTimeStep(-1),
-minimumTimeStep(-1),
-maximumTimeStep(-1),
-maximumNumSteps(-1)
+initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
+minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
+maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
+maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
     if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
         flags |= SimulateOptions::STRUCTURED_RESULT;
@@ -100,10 +100,10 @@ relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
 flags(0),
 integrator(CVODE),
 integratorFlags(0),
-initialTimeStep(-1),
-minimumTimeStep(-1),
-maximumTimeStep(-1),
-maximumNumSteps(-1)
+initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
+minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
+maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
+maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
 
     if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
