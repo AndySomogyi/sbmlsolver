@@ -34,7 +34,6 @@ static Poco::Mutex cachedModelsMutex;
 static ModelPtrMap cachedModels;
 
 
-
 /**
  * copy the cached model fields between a cached model, and a
  * executable model.
@@ -115,9 +114,6 @@ void testtt()
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         uint options)
 {
-    bool computeAndAssignConsevationLaws =
-            options & ModelGenerator::CONSERVED_MOIETIES;
-
     bool forceReCompile = options & ModelGenerator::RECOMPILE;
 
     string md5;
@@ -126,6 +122,11 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     {
         // check for a chached copy
         md5 = rr::getMD5(sbml);
+
+        if (options & ModelGenerator::CONSERVED_MOIETIES)
+        {
+            md5 += "_conserved";
+        }
 
         ModelPtrMap::const_iterator i;
 

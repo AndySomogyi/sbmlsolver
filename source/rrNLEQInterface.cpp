@@ -23,7 +23,20 @@ static ThreadLocal<ExecutableModel*> threadModel;
 // the NLEQ callback, we use same data types as f2c here.
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
-string ErrorForStatus(const int& error);
+static string ErrorForStatus(int error);
+
+static bool isError(int e)
+{
+    return e != 4 && e != 5;
+}
+
+static bool isWarning(int e)
+{
+    //case 4:     return ("Warning: Superlinear or quadratic convergence slowed down near the solution");
+    //case 5:     return ("Warning: Error Tolerance reached but solution is suspect");
+
+    return e == 4 || e == 5;
+}
 
 NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     SteadyStateSolver("NLEQ2", "NLEQ2 Steady State Solver"),
@@ -200,9 +213,13 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     if(ierr > 0 )
     {
-        string err = ErrorForStatus(ierr);
-        Log(Logger::LOG_ERROR)<<"Error :"<<err;
-        throw NLEQException(err);
+        if (isWarning(ierr)) {
+            Log(Logger::LOG_WARNING) << ErrorForStatus(ierr);
+        } else {
+            string err = ErrorForStatus(ierr);
+            Log(Logger::LOG_ERROR)<<"Error :"<<err;
+            throw NLEQException(err);
+        }
     }
 
     return computeSumsOfSquares();
@@ -358,7 +375,7 @@ int NLEQInterface::getNumberOfModelEvaluationsForJacobian()
     return IWK[7];
 }
 
-string ErrorForStatus(const int& error)
+string ErrorForStatus(int error)
 {
     switch (error)
     {

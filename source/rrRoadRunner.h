@@ -725,9 +725,11 @@ private:
     ModelGenerator *mModelGenerator;
 
     /**
-     * RoadRunner, not sbml parameters
+     * read from the Config, duplicates loadsbmloptions
+     *
+     * TODO: this needs to be cleaned up.
      */
-    bool mComputeAndAssignConservationLaws;
+    bool conservedMoietyAnalysis;
 
     std::vector<SelectionRecord> mSteadyStateSelection;
 

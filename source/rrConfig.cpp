@@ -257,7 +257,7 @@ std::string Config::getConfigFilePath()
 
     Poco::Path::home();
 
-    Log(rr::Logger::LOG_DEBUG) << "trying config file from ROADRUNNER_CONFIG " 
+    Log(rr::Logger::LOG_DEBUG) << "trying config file from ROADRUNNER_CONFIG "
         << (env ? env : "NULL");
 
     if (env && rr::fileExists(env, 4))
@@ -282,7 +282,7 @@ std::string Config::getConfigFilePath()
     {
         return path;
     }
-    
+
 
     // check in library dir
     ppath.assign(rr::getCurrentSharedLibDir());
@@ -310,26 +310,32 @@ std::string Config::getConfigFilePath()
 
 void Config::setValue(Keys key, const std::string& str)
 {
+    readDefaultConfig();
     values[key] = Value(str);
 }
 
 void Config::setValue(Keys key, int i)
 {
+    readDefaultConfig();
     values[key] = Value(i);
 }
 
 void Config::setValue(Keys key, double d)
 {
+    readDefaultConfig();
     values[key] = Value(d);
 }
 
 void Config::setValue(Keys key, bool b)
 {
+    readDefaultConfig();
     values[key] = Value(b);
 }
 
 void Config::readConfigFile(const std::string& path)
 {
+    Mutex::ScopedLock lock(configMutex);
+
     const Poco::RegularExpression re("^\\s*(\\w*)\\s*:\\s*(.*)\\s*$", RegularExpression::RE_CASELESS);
     StringIntMap keys;
     std::ifstream in(path.c_str());
@@ -358,10 +364,14 @@ void Config::readConfigFile(const std::string& path)
             }
         }
     }
+
+    initialized = true;
 }
 
 void Config::writeConfigFile(const std::string& path)
 {
+    Mutex::ScopedLock lock(configMutex);
+
     std::ofstream out(path.c_str());
 
     if(!out) {

@@ -165,13 +165,13 @@ std::string getCurrentSharedLibDir()
     Dl_info dl_info;
     if (dladdr((void *)getCurrentSharedLibDir, &dl_info) != 0) {
         string path(dl_info.dli_fname);
-        return path.substr( 0, path.find_last_of( '/' ) +1 );
+        return path.substr( 0, path.find_last_of( '/' ) + 1 );
     } else {
         return "";
     }
 
 #else
-    char path[MAX_PATH] = {0};
+    char buffer[MAX_PATH] = {0};
     HMODULE hm = NULL;
 
     if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
@@ -180,11 +180,13 @@ std::string getCurrentSharedLibDir()
             &hm))
     {
         int ret = GetLastError();
+        throw rr::Exception(string("error in GetModuleHandleExA: " + rr::toString(ret));
     }
 
-    GetModuleFileNameA(hm, path, sizeof(path));
+    GetModuleFileNameA(hm, buffer, sizeof(buffer));
 
-    return path;
+    string path(buffer);
+    return path.substr( 0, path.find_last_of( '\\' ) + 1 );
 #endif
 }
 
