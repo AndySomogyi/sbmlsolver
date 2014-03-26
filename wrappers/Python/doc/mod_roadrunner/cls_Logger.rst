@@ -46,7 +46,7 @@ Logging Levels
 --------------
 The Logger has the following logging levels:  
 
-.. staticattribute:: Logger.LOG_CURRENT
+.. attribute:: Logger.LOG_CURRENT
    :module: roadrunner
 
    Use the current level -- don't change the level from what it is.
