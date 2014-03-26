@@ -180,7 +180,7 @@ std::string getCurrentSharedLibDir()
             &hm))
     {
         int ret = GetLastError();
-        throw rr::Exception(string("error in GetModuleHandleExA: " + rr::toString(ret));
+        throw rr::Exception(string("error in GetModuleHandleExA: " + rr::toString(ret)));
     }
 
     GetModuleFileNameA(hm, buffer, sizeof(buffer));
