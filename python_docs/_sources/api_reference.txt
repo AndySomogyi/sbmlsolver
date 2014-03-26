@@ -10,7 +10,7 @@ This is the API Reference page for the module: :mod:`roadrunner`
 
 
 .. module:: roadrunner
-   :platform: OSX, Unix, Windows
+   :platform: OSX (64 bit) , Linux (x86, 64, 32 bit) , Windows (32 bit)
    :synopsis: Simulate and Analyze Systems Biology Models
 
 .. moduleauthor:: Endre (Andy)  Somogyi <somogyie@indiana.edu>

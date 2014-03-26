@@ -50,7 +50,7 @@
             
   <div class="section" id="roadrunner-api-reference">
 <h1>RoadRunner API Reference<a class="headerlink" href="#roadrunner-api-reference" title="Permalink to this headline">¶</a></h1>
-<p>This is the API Reference page for the module: <a class="reference internal" href="#module-roadrunner" title="roadrunner: Simulate and Analyze Systems Biology Models (OSX, Unix, Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">roadrunner</span></tt></a></p>
+<p>This is the API Reference page for the module: <a class="reference internal" href="#module-roadrunner" title="roadrunner: Simulate and Analyze Systems Biology Models (OSX (64 bit) , Linux (x86, 64, 32 bit) , Windows (32 bit))"><tt class="xref py py-mod docutils literal"><span class="pre">roadrunner</span></tt></a></p>
 <span class="target" id="module-roadrunner"></span><p>The RoadRunner SBML Simulation Engine Python API,
 (c) 2009-2014 Endre Somogyi and Herbert Sauro</p>
 <div class="section" id="configuration">
@@ -274,8 +274,8 @@ original JIT engine. Does NOT work on LLVM 3.1</p>
 <tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STEPS</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STEPS" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of steps at which the output is sampled. The samples are evenly spaced.
 When a simulation system calculates the data points to record, it will typically
-divide the duration by the number of time steps. Thus, for X steps, the output
-will have X+1 data rows.</p>
+divide the duration by the number of time steps. Thus, for N steps, the output
+will have N+1 data rows.</p>
 </dd></dl>
 
 <dl class="attribute">
