@@ -56,8 +56,23 @@
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <p>Many of RoadRunner classes use a number of configration parameters. Most of these can be set using
-the Config class.</p>
-<p>The Config class will look in the following locations for the config file:</p>
+the Config class. The values stored in the Config class only determine the <em>defaut</em> values of
+parameters. Most methods let specify explicit values for parameters. For example, if one ran a time
+series simulation, they could specify various parameter via the optional SimulateOptions object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">SimulateOptions</span><span class="p">()</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">relative</span> <span class="o">=</span> <span class="mf">1.3e-5</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">absolute</span> <span class="o">=</span> <span class="mf">3e-12</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">1.1</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&#39;/Users/andy/test.xml&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If no SimulateOptions object is given, then the default configuration parameters are used. The
+Config class will look in the following locations for the config file, and will load the values from
+the first config file it finds. If it does not find a config file in one of the following locations,
+a default set of configuration parameters are used. The search locations of the config file are:</p>
 <p>#1: the ROADRUNNER_CONFIG environment variable</p>
 <p>#2: try the users&#8217;s home directory for roadrunner.conf, i.e.:</p>
 <div class="highlight-python"><pre>/Users/andy/roadrunner.conf</pre>
@@ -69,7 +84,7 @@ the Config class.</p>
 python extension module, i.e.:</p>
 <div class="highlight-python"><pre>/Users/andy/local/lib/roadrunner.conf</pre>
 </div>
-<p>#4: try one directory up from the where the shared library or program is at, i.e.:</p>
+<p>#5: try one directory up from the where the shared library or program is at, i.e.:</p>
 <div class="highlight-python"><pre>/Users/andy/local/roadrunner.conf</pre>
 </div>
 <p>The conf file is just a plain text file of where each line may be key / value pair separated by a
@@ -78,16 +93,88 @@ python extension module, i.e.:</p>
 </div>
 <p>Any line that does not match this format is ignored, and keys that are not found are also
 ignored. Therefore, any line that does not start with a word character is considered a comment.</p>
-<dl class="class">
-<dt id="roadrunner.Config">
-<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">Config</tt><a class="headerlink" href="#roadrunner.Config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<p>All of the configuration managment functions are static method of the Config class, and
+all of the configuration keys are static attributes of the Config class, these are documented in the
+Configuration Functions section.</p>
+<p>As all of the Config class methods are static, one never instantiates the Config class.</p>
+<div class="section" id="configuration-functions">
+<h3>Configuration Functions<a class="headerlink" href="#configuration-functions" title="Permalink to this headline">¶</a></h3>
+<dl class="staticmethod">
+<dt id="roadrunner.Config.setValue">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">setValue</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#roadrunner.Config.setValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of a configuration key. The value must be either a string, integer, double or
+boolean. If one wanted to change the value of the default integrator tolerances, one would:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">SIMULATEOPTIONS_ABSOLUTE</span><span class="p">,</span> <span class="mf">3.14e-12</span><span class="p">)</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">SIMULATEOPTIONS_RELATIVE</span><span class="p">,</span> <span class="mf">2.78e-5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or, other options may be set to Boolean or integer values. To enable an optimization features,
+or to set default simulation time steps:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">SIMULATEOPTIONS_STEPS</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
 
+<dl class="staticmethod">
+<dt id="roadrunner.Config.getConfigFilePath">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getConfigFilePath</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Config.getConfigFilePath" title="Permalink to this definition">¶</a></dt>
+<dd><p>If roadrunner was able to find a configuration file on the file system, its full path is returned
+here. If no file was found, this returns a empty string.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Config.readConfigFile">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">readConfigFile</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#roadrunner.Config.readConfigFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read all of the values from a configuration file at the given path. This overrides any previously
+stored configuration. This allows users to have any number of configuration files and load them
+at any time. Say someone had to use Windows, and they had a file in thier C: drive, this would be
+loaded via:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Config</span><span class="o">.</span><span class="n">readConfigFile</span><span class="p">(</span><span class="s">&quot;C:/my_config_file.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note, the forward slash works on both Unix and Windows, using the forward slash eliminates the
+need to use a double back slash, &#8220;\\&#8221;.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Config.writeConfigFile">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">writeConfigFile</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#roadrunner.Config.writeConfigFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write all of the current configuration values to a file. This could be written to one of the
+default locations, or to any other location, and re-loaded at a later time.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Config.getString">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getString</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#roadrunner.Config.getString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of the key as a string. This is mostly used internally in RoadRunner. As RoadRunner
+is written in C++ which is a statically rather than a dynamically typed language, it requires
+values to be returned with a concrete type, i.e. string, integer, double, etc...</p>
+<p>The getString, getInt, getDouble methods may be useful in python to see what the current value of
+a parameter is.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Config.getInt">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getInt</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#roadrunner.Config.getInt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of a key as an integer.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="roadrunner.Config.getDouble">
+<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getDouble</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#roadrunner.Config.getDouble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of the key as a double.</p>
+</dd></dl>
+
+</div>
 <div class="section" id="available-configuration-parameters">
 <h3>Available Configuration Parameters<a class="headerlink" href="#available-configuration-parameters" title="Permalink to this headline">¶</a></h3>
+<p>All of the configuration parameter keys are static attributes of the Config class and are listed
+here. The variable type of the parameter is listed after the key name.</p>
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_CONSERVED_MOIETIES</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_CONSERVED_MOIETIES</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES" title="Permalink to this definition">¶</a></dt>
 <dd><p>perform conservation analysis.</p>
 <p>This causes a re-ordering of the species, so results generated
 with this flag enabled can not be compared index wise to results
@@ -98,7 +185,7 @@ which define or alter any floating species, and which have simple constant stioc
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_RECOMPILE">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_RECOMPILE</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_RECOMPILE" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_RECOMPILE</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_RECOMPILE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Should the model be recompiled?
 The LLVM ModelGenerator maintins a hash table of currently running
 models. If this flag is NOT set, then the generator will look to see
@@ -111,7 +198,7 @@ realizing some performance gains.</p>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_READ_ONLY">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_READ_ONLY</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_READ_ONLY" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_READ_ONLY</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_READ_ONLY" title="Permalink to this definition">¶</a></dt>
 <dd><p>If this is set, then a read-only model is generated. A read-only
 model can be simulated, but no code is generated to set model
 values, i.e. parameters, amounts, values, etc...</p>
@@ -122,28 +209,28 @@ gains, especially in very large models.</p>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate accessor functions to allow changing of initial
 conditions.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_GVN">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_GVN</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_GVN" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_GVN</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_GVN" title="Permalink to this definition">¶</a></dt>
 <dd><p>GVN - This pass performs global value numbering and redundant load
 elimination cotemporaneously.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION" title="Permalink to this definition">¶</a></dt>
 <dd><p>CFGSimplification - Merge basic blocks, eliminate unreachable blocks,
 simplify terminator instructions, etc...</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING" title="Permalink to this definition">¶</a></dt>
 <dd><p>InstructionCombining - Combine instructions to form fewer, simple
 instructions. This pass does not modify the CFG, and has a tendency to make
 instructions dead, so a subsequent DCE pass is useful.</p>
@@ -151,7 +238,7 @@ instructions dead, so a subsequent DCE pass is useful.</p>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION" title="Permalink to this definition">¶</a></dt>
 <dd><p>DeadInstElimination - This pass quickly removes trivially dead instructions
 without modifying the CFG of the function.  It is a BasicBlockPass, so it
 runs efficiently when queued next to other BasicBlockPass&#8217;s.</p>
@@ -159,7 +246,7 @@ runs efficiently when queued next to other BasicBlockPass&#8217;s.</p>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION" title="Permalink to this definition">¶</a></dt>
 <dd><p>DeadCodeElimination - This pass is more powerful than DeadInstElimination,
 because it is worklist driven that can potentially revisit instructions when
 their other instructions become dead, to eliminate chains of dead
@@ -168,13 +255,13 @@ computations.</p>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER" title="Permalink to this definition">¶</a></dt>
 <dd><p>InstructionSimplifier - Remove redundant instructions.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_USE_MCJIT">
-<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_USE_MCJIT</tt><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_USE_MCJIT" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_USE_MCJIT</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_USE_MCJIT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Currently disabled.</p>
 <p>Use the LLVM MCJIT JIT engine.</p>
 <p>Defaults to false.</p>
@@ -184,50 +271,55 @@ original JIT engine. Does NOT work on LLVM 3.1</p>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_STEPS">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STEPS</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STEPS" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STEPS</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STEPS" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of steps at which the output is sampled. The samples are evenly spaced.
 When a simulation system calculates the data points to record, it will typically
 divide the duration by the number of time steps. Thus, for X steps, the output
-will have X+1 data rows.
-see SimulateOptions::steps</p>
+will have X+1 data rows.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_DURATION">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_DURATION</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_DURATION" title="Permalink to this definition">¶</a></dt>
-<dd><p>see SimulateOptions::duration</p>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_DURATION</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_DURATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>The duration of the simulation run, in the model&#8217;s units of time. Note,
+setting the duration automatically sets the end time and visa versa.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_ABSOLUTE">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_ABSOLUTE</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_ABSOLUTE" title="Permalink to this definition">¶</a></dt>
-<dd><p>see SimulateOptions::absolute</p>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_ABSOLUTE</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_ABSOLUTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The absolute error tolerance used by the integrator.</p>
+<p>A number representing the absolute difference permitted for the integrator
+tolerance. Defaults to 1.000000e-10.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_RELATIVE">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_RELATIVE</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_RELATIVE" title="Permalink to this definition">¶</a></dt>
-<dd><p>see SimulateOptions::relative</p>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_RELATIVE</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_RELATIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The relative error tolerance used by the integrator.</p>
+<p>A float-point number representing the relative difference permitted.
+Defaults to 1.000000e-05.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_STRUCTURED_RESULT">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STRUCTURED_RESULT</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STRUCTURED_RESULT" title="Permalink to this definition">¶</a></dt>
-<dd><p>see SimulateOptions::STRUCTURED_RESULT</p>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STRUCTURED_RESULT</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STRUCTURED_RESULT" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean option to return a structured array from the RoadRunner.simulate method. Structured
+arrays contain column names and other data. A structured array needs to be converted into regular
+arrays before they can be used in numpy functions.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_STIFF">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STIFF</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STIFF" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_STIFF</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_STIFF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is the model a stiff system? setting this to stiff causes
 RoadRunner to load a stiff solver which could potentially be
-extremly slow
-see SimulateOptions::STIFF</p>
+extremly slow</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_MULTI_STEP">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MULTI_STEP</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MULTI_STEP" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MULTI_STEP</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MULTI_STEP" title="Permalink to this definition">¶</a></dt>
 <dd><p>The MULTI_STEP option tells the solver to take a series of internal steps
 and then return the solution at the point reached by that step.</p>
 <p>In simulate, this option will likely be slower than normal mode,
@@ -237,90 +329,40 @@ IntegratorListener. It this option is set, and there is a
 IntegratorListener set, RoadRunner::integrate will run the
 integrator in a series of internal steps, and the listner
 will by notified at each step.</p>
-<p>Highly Experimental!!!
-see SimulateOptions::MULTI_STEP</p>
+<p>Highly Experimental!!!</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_INITIAL_TIMESTEP">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_INITIAL_TIMESTEP</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_INITIAL_TIMESTEP" title="Permalink to this definition">¶</a></dt>
-<dd><p>A useer specified initial time step. If this is &lt;=  0, the integrator
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_INITIAL_TIMESTEP</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_INITIAL_TIMESTEP" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user specified initial time step. If this is &lt;=  0, the integrator
 will attempt to determine a safe initial time stpe.</p>
 <p>Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
 the internal integrator may take many many steps to reach one of the external time
 steps. This value specifies an initial value for the internal integrator
-time step.
-see SimulateOptions::initialTimeStep</p>
+time step.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MINIMUM_TIMESTEP</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MINIMUM_TIMESTEP</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specfify The Minimum Time Step That The Internal Integrator
-Will Use. Uses Integrator Estimated Value If &lt;= 0.
-see SimulateOptions::minumumTimeStep</p>
+Will Use. Uses Integrator Estimated Value If &lt;= 0.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_TIMESTEP">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MAXIMUM_TIMESTEP</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_TIMESTEP" title="Permalink to this definition">¶</a></dt>
+<dt id="roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_TIMSETEP">
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MAXIMUM_TIMSETEP</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_TIMSETEP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specify The Maximum Time Step Size That The Internaal Integrator
-Will Use. Uses Integrator Estimated Value If &lt;= 0.
-see SimulateOptions::maximumTimeStep</p>
+Will Use. Uses Integrator Estimated Value If &lt;= 0.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_NUM_STEPS">
-<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MAXIMUM_NUM_STEPS</tt><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_NUM_STEPS" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MAXIMUM_NUM_STEPS</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_NUM_STEPS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specify The Maximum Number Of Steps The Internal Integrator Will Use
 Before Reaching The User Specified Time Span. Uses The Integrator
-Default Value If &lt;= 0.
-see SimulateOptions::maximumNumSteps</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.getString">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getString</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#roadrunner.Config.getString" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the value of the key as a string</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.getInt">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getInt</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#roadrunner.Config.getInt" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the value of a key as an integer</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.getDouble">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getDouble</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#roadrunner.Config.getDouble" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the value of the key as a double</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.getConfigFilePath">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">getConfigFilePath</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Config.getConfigFilePath" title="Permalink to this definition">¶</a></dt>
-<dd><p>If roadrunner was able to find a configuration file on the file system, its full path is returned
-here. If no file was found, this returns a empty string.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.setValue">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">setValue</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#roadrunner.Config.setValue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the value of a configuration key. The value must be either a string, integer, double or
-boolean.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.readConfigFile">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">readConfigFile</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#roadrunner.Config.readConfigFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read all of the values from a configuration file at the given path. This overrides any previously
-stored configuration.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="roadrunner.Config.writeConfigFile">
-<em class="property">static </em><tt class="descclassname">Config.</tt><tt class="descname">writeConfigFile</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#roadrunner.Config.writeConfigFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write all of the current configuration values to a file.</p>
+Default Value If &lt;= 0.</p>
 </dd></dl>
 
 </div>
@@ -2561,6 +2603,7 @@ which are replaced by the corresponding value.</p>
   <ul>
 <li><a class="reference internal" href="#">RoadRunner API Reference</a><ul>
 <li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#configuration-functions">Configuration Functions</a></li>
 <li><a class="reference internal" href="#available-configuration-parameters">Available Configuration Parameters</a></li>
 </ul>
 </li>
