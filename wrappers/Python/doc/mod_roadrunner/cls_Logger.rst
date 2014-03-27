@@ -181,6 +181,7 @@ Logging Methods
    .. image:: logging2.png
  
    |
+
    RoadRunner supports the following format specifiers. These were copied from the Poco documentation:
    
    * %s - message source

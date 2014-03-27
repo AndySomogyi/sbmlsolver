@@ -20,13 +20,24 @@ a number of selection strings described in the Selections section.
 
    Get a list of key / value pairs of all the selections / values in this model. 
 
-.. method:: ExecutableModle.__getitem__
+.. method:: ExecutableModel.__getitem__
    :module: roadrunner
 
    Implements the python ``[]`` indexing operator, so the model values can be accessed like::
 
      >>> r.model["S1"]
      0.0
+
+.. method:: ExecutableModel.__setitem__
+   :module: roadrunner
+
+   Implements the python ``[]`` indexing operator for setting values::
+
+     >>> r.model["S1"] = 12.3
+
+   Note, some keys are read only such as values defined by rules, or calculated values such as
+   species amount rates or reaction rates.
+
 
 
 Floating Species

@@ -12,12 +12,22 @@ ExecutableModel.items()
 
 Get a list of key / value pairs of all the selections / values in this model.
 
-.. method:: ExecutableModle.__getitem__
+.. method:: ExecutableModel.__getitem__
 
 Implements the python ``[]`` indexing operator, so the model values can be accessed like::
 
   >>> r.model[\"S1\"]
   0.0
+
+.. method:: ExecutableModel.__setitem__
+
+Implements the python ``[]`` indexing operator for setting values::
+
+  >>> r.model[\"S1\"] = 12.3
+
+Note, some keys are read only such as values defined by rules, or calculated values such as
+species amount rates or reaction rates.
+
 
 
 Floating Species
@@ -1899,6 +1909,7 @@ would produce the following output:
 .. image:: logging2.png
 
 |
+
 RoadRunner supports the following format specifiers. These were copied from the Poco documentation:
 
 * %s - message source
