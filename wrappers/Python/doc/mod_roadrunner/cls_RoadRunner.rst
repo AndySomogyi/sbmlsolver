@@ -578,7 +578,7 @@ Steady State Sections
    a steady state calculation. This list may be set by assigning a list
    of valid selection symbols::
 
-     r.steadyStateSelections = \['S1', '\[S2]', 'P1']
+     r.steadyStateSelections = ['S1', '[S2]', 'P1']
 
 
 .. method:: RoadRunner.steadyState()
