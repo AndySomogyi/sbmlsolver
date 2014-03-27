@@ -1668,8 +1668,8 @@ Often this is 0, but not necessarily.
 
 The number of steps at which the output is sampled. The samples are evenly spaced.
 When a simulation system calculates the data points to record, it will typically
-divide the duration by the number of time steps. Thus, for X steps, the output
-will have X+1 data rows.
+divide the duration by the number of time steps. Thus, for N steps, the output
+will have N+1 data rows.
 ";
 
 
@@ -1677,7 +1677,20 @@ will have X+1 data rows.
 %feature("docstring") rr::SimulateOptions::stiff "
 
 
-Use the stiff integrator.
+Use the stiff integrator. Only use this if the model is stiff and causes issues with the regular
+integrator. The stiff integrator is slower than the conventional integrator.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::multiStep "
+
+Perform a multi step integration.
+
+* Experimental *
+
+Perform a multi-step simulation. In multi-step simulation, one may monitor
+the variable time stepping via the IntegratorListener events system.
 ";
 
 
