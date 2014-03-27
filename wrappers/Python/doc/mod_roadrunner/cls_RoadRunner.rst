@@ -2,6 +2,7 @@ The Main RoadRunner Class
 _________________________
 
 .. class:: RoadRunner
+
    The main RoadRunner class. Its objects, i.e. ``rr = RoadRunner()`` perform 
    the libRoaRunner functions, i.e. ``rr.simulate()``.
 
