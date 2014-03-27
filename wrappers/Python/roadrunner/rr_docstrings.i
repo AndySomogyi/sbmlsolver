@@ -1,3 +1,41 @@
+%feature("docstring") rr::ExecutableModel::keys "
+ExecutableModel.keys()
+
+Get a list of all the keys that this model has. This is a very good way of looking at all the
+available symbols and selection strings.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::items "
+ExecutableModel.items()
+
+Get a list of key / value pairs of all the selections / values in this model.
+
+.. method:: ExecutableModel.__getitem__
+
+Implements the python ``[]`` indexing operator, so the model values can be accessed like::
+
+  >>> r.model[\"S1\"]
+  0.0
+
+.. method:: ExecutableModel.__setitem__
+
+Implements the python ``[]`` indexing operator for setting values::
+
+  >>> r.model[\"S1\"] = 12.3
+
+Note, some keys are read only such as values defined by rules, or calculated values such as
+species amount rates or reaction rates.
+
+
+
+Floating Species
+----------------
+";
+
+
+
 %feature("docstring") rr::ExecutableModel::getNumFloatingSpecies "
 ExecutableModel.getNumFloatingSpecies()
 
@@ -16,7 +54,10 @@ Return a list of floating species sbml ids.
 
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmountRates "
 ExecutableModel.getFloatingSpeciesAmountRates([index])
-Return a vector of floating species amount rates.
+
+Return a vector of the amount rate of change of the floating species.
+
+The units of amount rates is amount / time.
 
 :param numpy.ndarray index: (optional) an index array indicating which items to return.
 :returns: an array of the rates of change of the floating species amounts.
@@ -49,6 +90,35 @@ get amounts 3 and 0::
 
 
 
+%feature("docstring") rr::ExecutableModel::setFloatingSpeciesAmounts "
+ExecutableModel.setFloatingSpeciesAmounts([index], values)
+
+Use this to set the entire set of floating species amounts in one call.
+The order of species is given by the order of Ids returned by getFloatingSpeciesIds()
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set,
+                            or if no index array is given, the first param should be
+                            an array of all the values to set.
+:param numpy.ndarray values: the values to set.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::setFloatingSpeciesConcentrations "
+ExecutableModel.setFloatingSpeciesConcentrations([index], values)
+
+Use this to set the entire set of floating species concentrations in one call.
+The order of species is given by the order of Ids returned by getFloatingSpeciesIds()
+
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set,
+                            or if no index array is given, the first param should be an
+                            array of all the  values to set.
+:param numpy.ndarray values: the values to set.
+";
+
+
+
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesConcentrations "
 ExecutableModel.getFloatingSpeciesConcentrations([index])
 
@@ -58,12 +128,9 @@ given by the order of Ids returned by getFloatingSpeciesIds()
 :param numpy.ndarray index: (optional) an index array indicating which items to return.
 :returns: an array of floating species concentrations.
 :rtype: numpy.ndarray
-";
 
-
-
-%feature("docstring") rr::ExecutableModel::evalInitialConditions "
-ExecutableModel.evalInitialConditions()
+Boundary Species
+----------------
 ";
 
 
@@ -117,6 +184,32 @@ Returns a vector of boundary species Ids.
 
 
 
+%feature("docstring") rr::ExecutableModel::getNumBoundarySpecies "
+ExecutableModel.getNumBoundarySpecies()
+
+Returns the number of boundary species in the model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::setBoundarySpeciesConcentrations "
+ExecutableModel.setBoundarySpeciesConcentrations([index], values)
+
+Use this to set the entire set of boundary species concentrations in one call.
+The order of species is given by the order of Ids returned by getBoundarySpeciesIds()
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set,
+                            or if no index array is given, the first param should be an
+                            array of all the  values to set.
+
+:param numpy.ndarray values: the values to set.
+
+Compartments
+------------
+";
+
+
+
 %feature("docstring") rr::ExecutableModel::getCompartmentIds "
 ExecutableModel.getCompartmentIds([index])
 
@@ -142,143 +235,12 @@ given by the order of Ids returned by getCompartmentIds()
 
 
 
-%feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
-ExecutableModel.getGlobalParameterValues([index])
-
-Return a vector of global parameter values. The order of species is
-given by the order of Ids returned by getGlobalParameterIds()
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of global parameter values.
-:rtype: numpy.ndarray.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getInfo "
-ExecutableModel.getInfo()
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getModelName "
-ExecutableModel.getModelName()
-
-Get the model name specified in the SBML.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumBoundarySpecies "
-ExecutableModel.getNumBoundarySpecies()
-
-Returns the number of boundary species in the model.
-";
-
-
-
 %feature("docstring") rr::ExecutableModel::getNumCompartments "
 ExecutableModel.getNumCompartments()
 
 Returns the number of compartments in the model.
 
 :rtype: int
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumDependentSpecies "
-ExecutableModel.getNumDependentSpecies()
-
-Returns the number of dependent floating species in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumGlobalParameters "
-ExecutableModel.getNumGlobalParameters()
-
-
-Returns the number of global parameters in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumIndependentSpecies "
-ExecutableModel.getNumIndependentSpecies()
-
-Returns the number of independent floating species in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumReactions "
-ExecutableModel.getNumReactions()
-
-Returns the number of reactions in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumRules "
-ExecutableModel.getNumRules()
-
-Returns the number of rules in the SBML model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getReactionIds "
-ExecutableModel.getReactionIds()
-
-Returns a vector of reaction Ids.
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: a list of reaction ids.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getReactionRates "
-ExecutableModel.getReactionRates([index])
-
-Returns a vector of reaction rates for the current state of the model. The order of
-reaction rates is given by the order of Ids returned by getReactionIds()
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of reaction rates.
-:rtype: numpy.ndarray
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getTime "
-ExecutableModel.getTime()
-
-Not sure what this does
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::reset "
-ExecutableModel.reset()
-
-Reset the floating species concentration to their initial conditions.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::setBoundarySpeciesConcentrations "
-ExecutableModel.setBoundarySpeciesConcentrations([index], values)
-
-Use this to set the entire set of boundary species concentrations in one call.
-The order of species is given by the order of Ids returned by getBoundarySpeciesIds()
-
-:param numpy.ndarray index: (optional) an index array indicating which items to set,
-                            or if no index array is given, the first param should be an
-                            array of all the  values to set.
-
-:param numpy.ndarray values: the values to set.
 ";
 
 
@@ -297,35 +259,33 @@ length as index.
                             array of all the  values to set.
 
 :param numpy.ndarray values: the values to set.
+
+
+
+Global Parameters
+-----------------
 ";
 
 
 
-%feature("docstring") rr::ExecutableModel::setFloatingSpeciesAmounts "
-ExecutableModel.setFloatingSpeciesAmounts([index], values)
+%feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
+ExecutableModel.getGlobalParameterValues([index])
 
-Use this to set the entire set of floating species amounts in one call.
-The order of species is given by the order of Ids returned by getFloatingSpeciesIds()
+Return a vector of global parameter values. The order of species is
+given by the order of Ids returned by getGlobalParameterIds()
 
-:param numpy.ndarray index: (optional) an index array indicating which items to set,
-                            or if no index array is given, the first param should be
-                            an array of all the values to set.
-:param numpy.ndarray values: the values to set.
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of global parameter values.
+:rtype: numpy.ndarray.
 ";
 
 
 
-%feature("docstring") rr::ExecutableModel::setFloatingSpeciesConcentrations "
-ExecutableModel.setFloatingSpeciesConcentrations([index], values)
-
-Use this to set the entire set of floating species concentrations in one call.
-The order of species is given by the order of Ids returned by getFloatingSpeciesIds()
+%feature("docstring") rr::ExecutableModel::getNumGlobalParameters "
+ExecutableModel.getNumGlobalParameters()
 
 
-:param numpy.ndarray index: (optional) an index array indicating which items to set,
-                            or if no index array is given, the first param should be an
-                            array of all the  values to set.
-:param numpy.ndarray values: the values to set.
+Returns the number of global parameters in the model.
 ";
 
 
@@ -341,18 +301,46 @@ The order of parameters is given by the order of Ids returned by getGlobalParame
                             or if no index array is given, the first param should be an
                             array of all the values to set.
 :param numpy.ndarray values: the values to set.
+
+Reactions
+---------
 ";
 
 
 
-%feature("docstring") rr::ExecutableModel::setTime "
-ExecutableModel.setTime(time)
+%feature("docstring") rr::ExecutableModel::getNumReactions "
+ExecutableModel.getNumReactions()
 
-Set the model time variable.
+Returns the number of reactions in the model.
+";
 
 
-:param time: time the time value to set.
-:returns: None
+
+%feature("docstring") rr::ExecutableModel::getReactionIds "
+ExecutableModel.getReactionIds()
+
+Returns a vector of reaction Ids.
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: a list of reaction ids.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getReactionRates "
+ExecutableModel.getReactionRates([index])
+
+Returns a vector of reaction rates (reaction velocity) for the current state of the model. The
+order of reaction rates is given by the order of Ids returned by getReactionIds()
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of reaction rates.
+:rtype: numpy.ndarray
+
+
+
+Stoichiometry
+-------------
 ";
 
 
@@ -379,7 +367,6 @@ Returns the current stoichiometry matrix, a :math:`n \\\\times m` matrix where :
 number of species which take place in reactions (floating species) and :math:`m` is the number of
 reactions.
 
-this is a line with \"quotes\"
 
 When the LLVM back end is used (default) this always returns the current state of the
 stochiometric coefficients, so if any of these are determined by any rule, this will return the
@@ -388,6 +375,9 @@ current value.
 
 :returns: an n by m numpy ndarray of the stoichiometric coefficients.
 :rtype: numpy.ndarray
+
+State Vector
+------------
 ";
 
 
@@ -453,6 +443,10 @@ time.
 
 :returns: an array of the rates of change of all state vector variables.
 :rtype: numpy.ndarray
+
+
+Conserved Moieties
+------------------
 ";
 
 
@@ -509,6 +503,86 @@ length as index.
                             or if no index array is given, the first param should be an
                             array of all the  values to set.
 :param numpy.ndarray values: the values to set.
+
+
+Misc
+----
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::evalInitialConditions "
+ExecutableModel.evalInitialConditions()
+
+calculate and apply the initial conditions specified in the model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getInfo "
+ExecutableModel.getInfo()
+
+get various info about the model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getModelName "
+ExecutableModel.getModelName()
+
+Get the model name specified in the SBML.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getNumDependentSpecies "
+ExecutableModel.getNumDependentSpecies()
+
+Returns the number of dependent floating species in the model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getNumIndependentSpecies "
+ExecutableModel.getNumIndependentSpecies()
+
+Returns the number of independent floating species in the model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getNumRules "
+ExecutableModel.getNumRules()
+
+Returns the number of rules in the SBML model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getTime "
+ExecutableModel.getTime()
+
+Get the model time. The model originally start at time t=0 and is advaced forward in time by the
+integrator. So, if one ran a simulation from time = 0 to time = 10, the model will then have it's
+time = 10.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::reset "
+ExecutableModel.reset()
+
+Reset the floating species concentration to their initial conditions.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::setTime "
+ExecutableModel.setTime(time)
+
+Set the model time variable.
+
+:param time: time the time value to set.
 ";
 
 
@@ -1155,8 +1229,8 @@ It does *not* carry out an integration step.
 :returns: Returns true if successful
 
 
-Steady State Section
-____________________
+Steady State Sections
+---------------------
 ";
 
 
@@ -1167,7 +1241,7 @@ A list of SelectionRecords which determine what values are used for
 a steady state calculation. This list may be set by assigning a list
 of valid selection symbols::
 
-  r.steadyStateSelections = \\\\['S1', '\\\\[S2]', 'P1']
+  r.steadyStateSelections = ['S1', '[S2]', 'P1']
 ";
 
 
@@ -1594,8 +1668,8 @@ Often this is 0, but not necessarily.
 
 The number of steps at which the output is sampled. The samples are evenly spaced.
 When a simulation system calculates the data points to record, it will typically
-divide the duration by the number of time steps. Thus, for X steps, the output
-will have X+1 data rows.
+divide the duration by the number of time steps. Thus, for N steps, the output
+will have N+1 data rows.
 ";
 
 
@@ -1603,7 +1677,20 @@ will have X+1 data rows.
 %feature("docstring") rr::SimulateOptions::stiff "
 
 
-Use the stiff integrator.
+Use the stiff integrator. Only use this if the model is stiff and causes issues with the regular
+integrator. The stiff integrator is slower than the conventional integrator.
+";
+
+
+
+%feature("docstring") rr::SimulateOptions::multiStep "
+
+Perform a multi step integration.
+
+* Experimental *
+
+Perform a multi-step simulation. In multi-step simulation, one may monitor
+the variable time stepping via the IntegratorListener events system.
 ";
 
 
@@ -1670,6 +1757,13 @@ default value if <= 0.
 
 
 
+%feature("docstring") rr::Logger::LOG_CURRENT "
+
+Use the current level -- don't change the level from what it is.
+";
+
+
+
 %feature("docstring") rr::Logger::LOG_FATAL "
 
 A fatal error. The application will most likely terminate. This is the highest priority.
@@ -1722,6 +1816,9 @@ A debugging message.
 %feature("docstring") rr::Logger::LOG_TRACE "
 
 A tracing message. This is the lowest priority.
+
+Logging Methods
+---------------
 ";
 
 
@@ -1732,9 +1829,6 @@ Logger.setLevel([level])
 sets the logging level to one a value from Logger::Level
 
 :param int level: the level to set, defaults to LOG_CURRENT if none is specified.
-
-Logging Methods
----------------
 ";
 
 
@@ -1819,20 +1913,17 @@ The format pattern is used as a template to format the message and
 is copied character by character except for the following special characters,
 which are replaced by the corresponding value.
 
-An example pattern of \"%Y-%m-%d %H:%M:%S %p: %t\"
+An example pattern of \"%Y-%m-%d %H:%M:%S %p: %t\" set via::
+
+  roadrunner.Logger.setFormattingPattern(\"%Y-%m-%d %H:%M:%S %p: %t\")
 
 would produce the following output:
 
-::
+.. image:: logging2.png
 
-   2013-10-25 14:12:45 Fatal: console and file: A fatal error
-   2013-10-25 14:12:45 Critical: console and file: A critical error
-   2013-10-25 14:12:45 Error: console and file: An error
-   2013-10-25 14:12:45 Warning: console and file: A warning.
-   2013-10-25 14:12:45 Notice: console and file: A notice.
+|
 
-The following formatting pattern descriptions is copied from the
-Poco documentation:
+RoadRunner supports the following format specifiers. These were copied from the Poco documentation:
 
 * %s - message source
 * %t - message text
@@ -1976,6 +2067,346 @@ logs a message to the log.
 
 :param int level: the level to log at.
 :param str msg: the message to log.
+";
+
+
+
+%feature("docstring") rr::Config::setValue "
+Config.setValue(key, value)
+
+Set the value of a configuration key. The value must be either a string, integer, double or
+boolean. If one wanted to change the value of the default integrator tolerances, one would::
+
+  from roadrunner import Config
+  Config.setValue(Config.SIMULATEOPTIONS_ABSOLUTE, 3.14e-12)
+  Config.setValue(Config.SIMULATEOPTIONS_RELATIVE, 2.78e-5)
+
+
+Or, other options may be set to Boolean or integer values. To enable an optimization features,
+or to set default simulation time steps::
+
+  Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, True)
+  Config.setValue(Config.SIMULATEOPTIONS_STEPS, 100)
+";
+
+
+
+%feature("docstring") rr::Config::getConfigFilePath "
+Config.getConfigFilePath()
+
+If roadrunner was able to find a configuration file on the file system, its full path is returned
+here. If no file was found, this returns a empty string.
+";
+
+
+
+%feature("docstring") rr::Config::readConfigFile "
+Config.readConfigFile(path)
+
+Read all of the values from a configuration file at the given path. This overrides any previously
+stored configuration. This allows users to have any number of configuration files and load them
+at any time. Say someone had to use Windows, and they had a file in thier C: drive, this would be
+loaded via::
+
+  Config.readConfigFile(\"C:/my_config_file.txt\")
+
+Note, the forward slash works on both Unix and Windows, using the forward slash eliminates the
+need to use a double back slash, \"\\\\\\\\\\\\\\\\\".
+";
+
+
+
+%feature("docstring") rr::Config::writeConfigFile "
+Config.writeConfigFile(path)
+
+Write all of the current configuration values to a file. This could be written to one of the
+default locations, or to any other location, and re-loaded at a later time.
+";
+
+
+
+%feature("docstring") rr::Config::getString "
+Config.getString(key)
+
+Get the value of the key as a string. This is mostly used internally in RoadRunner. As RoadRunner
+is written in C++ which is a statically rather than a dynamically typed language, it requires
+values to be returned with a concrete type, i.e. string, integer, double, etc...
+
+The getString, getInt, getDouble methods may be useful in python to see what the current value of
+a parameter is.
+";
+
+
+
+%feature("docstring") rr::Config::getInt "
+Config.getInt(key)
+
+Get the value of a key as an integer.
+";
+
+
+
+%feature("docstring") rr::Config::getDouble "
+Config.getDouble(key)
+
+Get the value of the key as a double.
+
+
+Available Configuration Parameters
+----------------------------------
+All of the configuration parameter keys are static attributes of the Config class and are listed
+here. The variable type of the parameter is listed after the key name.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES "
+:annotation: bool
+
+perform conservation analysis.
+
+This causes a re-ordering of the species, so results generated
+with this flag enabled can not be compared index wise to results
+generated otherwise.
+
+Moiety conservation is only compatable with simple models which do NOT have any events or rules
+which define or alter any floating species, and which have simple constant stiochiometries.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_RECOMPILE "
+:annotation: bool
+
+Should the model be recompiled?
+The LLVM ModelGenerator maintins a hash table of currently running
+models. If this flag is NOT set, then the generator will look to see
+if there is already a running instance of the given model and
+use the generated code from that one.
+
+If only a single instance of a model is run, there is no
+need to cache the models, and this can safetly be enabled,
+realizing some performance gains.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_READ_ONLY "
+:annotation: bool
+
+If this is set, then a read-only model is generated. A read-only
+model can be simulated, but no code is generated to set model
+values, i.e. parameters, amounts, values, etc...
+
+It takes a finite amount of time to generate the model value setting
+functions, and if they are not needed, one may see some performance
+gains, especially in very large models.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS "
+:annotation: bool
+
+Generate accessor functions to allow changing of initial
+conditions.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_OPTIMIZE_GVN "
+:annotation: bool
+
+GVN - This pass performs global value numbering and redundant load
+elimination cotemporaneously.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION "
+:annotation: bool
+
+CFGSimplification - Merge basic blocks, eliminate unreachable blocks,
+simplify terminator instructions, etc...
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING "
+:annotation: bool
+
+InstructionCombining - Combine instructions to form fewer, simple
+instructions. This pass does not modify the CFG, and has a tendency to make
+instructions dead, so a subsequent DCE pass is useful.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION "
+:annotation: bool
+
+DeadInstElimination - This pass quickly removes trivially dead instructions
+without modifying the CFG of the function.  It is a BasicBlockPass, so it
+runs efficiently when queued next to other BasicBlockPass's.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION "
+:annotation: bool
+
+DeadCodeElimination - This pass is more powerful than DeadInstElimination,
+because it is worklist driven that can potentially revisit instructions when
+their other instructions become dead, to eliminate chains of dead
+computations.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER "
+:annotation: bool
+
+
+InstructionSimplifier - Remove redundant instructions.
+";
+
+
+
+%feature("docstring") rr::Config::LOADSBMLOPTIONS_USE_MCJIT "
+:annotation: bool
+
+Currently disabled.
+
+Use the LLVM MCJIT JIT engine.
+
+Defaults to false.
+
+The MCJIT is the new LLVM JIT engine, it is not as well tested as the
+original JIT engine. Does NOT work on LLVM 3.1
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_STEPS "
+:annotation: int
+
+The number of steps at which the output is sampled. The samples are evenly spaced.
+When a simulation system calculates the data points to record, it will typically
+divide the duration by the number of time steps. Thus, for N steps, the output
+will have N+1 data rows.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_DURATION "
+:annotation: double
+
+The duration of the simulation run, in the model's units of time. Note,
+setting the duration automatically sets the end time and visa versa.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_ABSOLUTE "
+:annotation: double
+
+The absolute error tolerance used by the integrator.
+
+A number representing the absolute difference permitted for the integrator
+tolerance. Defaults to 1.000000e-10.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_RELATIVE "
+:annotation: double
+
+The relative error tolerance used by the integrator.
+
+A float-point number representing the relative difference permitted.
+Defaults to 1.000000e-05.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_STRUCTURED_RESULT "
+:annotation: bool
+
+A boolean option to return a structured array from the RoadRunner.simulate method. Structured
+arrays contain column names and other data. A structured array needs to be converted into regular
+arrays before they can be used in numpy functions.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_STIFF "
+:annotation: bool
+
+Is the model a stiff system? setting this to stiff causes
+RoadRunner to load a stiff solver which could potentially be
+extremly slow
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_MULTI_STEP "
+:annotation: bool
+
+The MULTI_STEP option tells the solver to take a series of internal steps
+and then return the solution at the point reached by that step.
+
+In simulate, this option will likely be slower than normal mode,
+but may be useful to monitor solutions as they are integrated.
+
+This is intended to be used in combination with the
+IntegratorListener. It this option is set, and there is a
+IntegratorListener set, RoadRunner::integrate will run the
+integrator in a series of internal steps, and the listner
+will by notified at each step.
+
+Highly Experimental!!!
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_INITIAL_TIMESTEP "
+:annotation: double
+
+A user specified initial time step. If this is <=  0, the integrator
+will attempt to determine a safe initial time stpe.
+
+Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
+the internal integrator may take many many steps to reach one of the external time
+steps. This value specifies an initial value for the internal integrator
+time step.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP "
+:annotation: double
+
+Specfify The Minimum Time Step That The Internal Integrator
+Will Use. Uses Integrator Estimated Value If <= 0.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMSETEP "
+:annotation: double
+
+Specify The Maximum Time Step Size That The Internaal Integrator
+Will Use. Uses Integrator Estimated Value If <= 0.
+";
+
+
+
+%feature("docstring") rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS "
+:annotation: int
+
+Specify The Maximum Number Of Steps The Internal Integrator Will Use
+Before Reaching The User Specified Time Span. Uses The Integrator
+Default Value If <= 0.
 ";
 
 

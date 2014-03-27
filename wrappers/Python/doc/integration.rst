@@ -58,8 +58,8 @@ The integration tuning parameters are
 
 .. Autosummary::
 
-   SimulateOptions.STIFF 
-   SimulateOptions.MULTI_STEP
+   SimulateOptions.stiff 
+   SimulateOptions.multiStep
    SimulateOptions.integratorFlags
    SimulateOptions.steps
    SimulateOptions.start

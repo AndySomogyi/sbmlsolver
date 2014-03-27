@@ -1,11 +1,44 @@
 Accessing the SBML Model Variables
 __________________________________
 
-All of the SBML model variables are accessed via the RoadRunner.model object. This is an instance of
-the ExecutableModel class described here. 
+All of the SBML model variables are accessed via the ``RoadRunner.model`` object. This is an instance of
+the ExecutableModel class described here. One always access the model object that belongs to the top
+RoadRunner object, i.e. ``r.model``, where ``r`` is an instance of the ``RoadRunner`` class. 
 
-.. py:class:: ExecutableModel(*args, **kwargs)
+The ExecutableModel class also implements the Python dictionary protocol, so that it can be used as
+a dictionary. The dictionary keys are all of the symbols specified in the original model as well as
+a number of selection strings described in the Selections section. 
+
+.. method:: ExecutableModel.keys()
    :module: roadrunner
+
+   Get a list of all the keys that this model has. This is a very good way of looking at all the
+   available symbols and selection strings. 
+
+.. method:: ExecutableModel.items()
+   :module: roadrunner
+
+   Get a list of key / value pairs of all the selections / values in this model. 
+
+.. method:: ExecutableModel.__getitem__
+   :module: roadrunner
+
+   Implements the python ``[]`` indexing operator, so the model values can be accessed like::
+
+     >>> r.model["S1"]
+     0.0
+
+.. method:: ExecutableModel.__setitem__
+   :module: roadrunner
+
+   Implements the python ``[]`` indexing operator for setting values::
+
+     >>> r.model["S1"] = 12.3
+
+   Note, some keys are read only such as values defined by rules, or calculated values such as
+   species amount rates or reaction rates.
+
+
 
 Floating Species
 ----------------
@@ -392,29 +425,25 @@ Conserved Moieties
                                array of all the  values to set.
    :param numpy.ndarray values: the values to set.
 
+
+Misc
+----
+
 .. method:: ExecutableModel.evalInitialConditions()
    :module: roadrunner
 
    calculate and apply the initial conditions specified in the model. 
 
 
-Misc
-----
-
-
-
 .. method:: ExecutableModel.getInfo()
    :module: roadrunner
 
-
-
+   get various info about the model.
 
 .. method:: ExecutableModel.getModelName()
    :module: roadrunner
 
    Get the model name specified in the SBML.
-
-
 
 
 
@@ -424,12 +453,10 @@ Misc
    Returns the number of dependent floating species in the model.
 
 
-
 .. method:: ExecutableModel.getNumIndependentSpecies()
    :module: roadrunner
 
    Returns the number of independent floating species in the model.
-
 
 
 .. method:: ExecutableModel.getNumRules()
@@ -441,7 +468,9 @@ Misc
 .. method:: ExecutableModel.getTime()
    :module: roadrunner
 
-   Not sure what this does
+   Get the model time. The model originally start at time t=0 and is advaced forward in time by the
+   integrator. So, if one ran a simulation from time = 0 to time = 10, the model will then have it's
+   time = 10. 
 
 
 .. method:: ExecutableModel.reset()
@@ -452,9 +481,9 @@ Misc
 
 
 .. method:: ExecutableModel.setTime(time)
+   :module: roadrunner
 
    Set the model time variable. 
 
-
    :param time: time the time value to set.
-   :returns: None
+

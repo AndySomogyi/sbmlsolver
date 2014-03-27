@@ -83,7 +83,7 @@ libxml2
 
 libiconv
     Copyright (C) 2007 Free Software Foundation, Inc.
-    GNU GENERAL PUBLIC LICENSE Version 3
+    GNU Lesser General Public License version 3
     http://www.gnu.org/software/libiconv/
 
 zlib
