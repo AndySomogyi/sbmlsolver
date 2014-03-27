@@ -1102,7 +1102,8 @@ It does <em>not</em> carry out an integration step.</p>
 <dd><p>A list of SelectionRecords which determine what values are used for
 a steady state calculation. This list may be set by assigning a list
 of valid selection symbols:</p>
-<div class="highlight-python"><pre>r.steadyStateSelections = \['S1', '\[S2]', 'P1']</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;[S2]&#39;</span><span class="p">,</span> <span class="s">&#39;P1&#39;</span><span class="p">]</span>
+</pre></div>
 </div>
 </dd></dl>
 
@@ -1329,12 +1330,45 @@ default value if &lt;= 0.</p>
 </div>
 <div class="section" id="accessing-the-sbml-model-variables">
 <h2>Accessing the SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline">¶</a></h2>
-<p>All of the SBML model variables are accessed via the RoadRunner.model object. This is an instance of
-the ExecutableModel class described here.</p>
-<dl class="class">
-<dt id="roadrunner.ExecutableModel">
-<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">ExecutableModel</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<p>All of the SBML model variables are accessed via the <tt class="docutils literal"><span class="pre">RoadRunner.model</span></tt> object. This is an instance of
+the ExecutableModel class described here. One always access the model object that belongs to the top
+RoadRunner object, i.e. <tt class="docutils literal"><span class="pre">r.model</span></tt>, where <tt class="docutils literal"><span class="pre">r</span></tt> is an instance of the <tt class="docutils literal"><span class="pre">RoadRunner</span></tt> class.</p>
+<p>The ExecutableModel class also implements the Python dictionary protocol, so that it can be used as
+a dictionary. The dictionary keys are all of the symbols specified in the original model as well as
+a number of selection strings described in the Selections section.</p>
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.keys">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all the keys that this model has. This is a very good way of looking at all the
+available symbols and selection strings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.items">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">items</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of key / value pairs of all the selections / values in this model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.__getitem__">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">__getitem__</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the python <tt class="docutils literal"><span class="pre">[]</span></tt> indexing operator, so the model values can be accessed like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&quot;S1&quot;</span><span class="p">]</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.__setitem__">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">__setitem__</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the python <tt class="docutils literal"><span class="pre">[]</span></tt> indexing operator for setting values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&quot;S1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">12.3</span>
+</pre></div>
+</div>
+<p>Note, some keys are read only such as values defined by rules, or calculated values such as
+species amount rates or reaction rates.</p>
+</dd></dl>
 
 <div class="section" id="floating-species">
 <h3>Floating Species<a class="headerlink" href="#floating-species" title="Permalink to this headline">¶</a></h3>
@@ -1943,19 +1977,20 @@ array of all the  values to set.</li>
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="misc">
+<h3>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.evalInitialConditions">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">evalInitialConditions</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.evalInitialConditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate and apply the initial conditions specified in the model.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="misc">
-<h3>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getInfo">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getInfo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>get various info about the model.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getModelName">
@@ -1984,7 +2019,9 @@ array of all the  values to set.</li>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getTime">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getTime</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getTime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Not sure what this does</p>
+<dd><p>Get the model time. The model originally start at time t=0 and is advaced forward in time by the
+integrator. So, if one ran a simulation from time = 0 to time = 10, the model will then have it&#8217;s
+time = 10.</p>
 </dd></dl>
 
 <dl class="method">
@@ -2002,8 +2039,6 @@ array of all the  values to set.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> &#8211; time the time value to set.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
 </tbody>
 </table>

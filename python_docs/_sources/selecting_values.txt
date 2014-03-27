@@ -133,7 +133,7 @@ ______________________________________________
 
 .. autosummary::
 
-   ExecutableModel[]
+   ExecutableModel.__getitem__
    ExecutableModel.__setitem__
 
 
