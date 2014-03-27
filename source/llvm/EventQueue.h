@@ -32,6 +32,9 @@ public:
 
     bool isExpired() const;
 
+    /**
+     * delay is zero and either persistent or triggered.
+     */
     bool isCurrent() const;
 
     double getPriority() const;
@@ -47,11 +50,22 @@ public:
      */
     bool isRipe() const;
 
+
     LLVMExecutableModel& model;
     uint id;
     double delay;
     double assignTime;
     uint dataSize;
+
+    /**
+     * data block where assignment rules evaluations are stored
+     * if useValuesFromTriggerTime is set.
+     *
+     * TODO: this should probably be allocated with the
+     * ModelData structure. Original idea was that more than one
+     * event of a type may be queued, but I don't think this is
+     * possible.
+     */
     double* data;
 
 
@@ -71,24 +85,44 @@ public:
     typedef _Sequence::iterator iterator;
     typedef _Sequence::const_reference const_reference;
 
-    _Sequence  c;
-    _Compare   comp;
-
-
-    void make_heap();
-
+    /**
+     * remove expired events from the queue.
+     */
     bool eraseExpiredEvents();
 
+    /**
+     * are any events current (delay == 0 and triggered or persistant)
+     */
     bool hasCurrentEvents();
 
-    bool applyEvent();
+    /**
+     * assign all of the top most events with the same priority
+     * and remove them from the queue.
+     *
+     * @returns true if any events were assigned, false otherwise.
+     */
+    bool applyEvents();
 
+    /**
+     * number of events in the queue
+     */
     uint size() const;
 
+    /**
+     * event with lowest time to assignment and highest priority.
+     */
     const_reference top();
 
+    /**
+     * insert a new event into the queue.
+     *
+     * The queue is re-sorted.
+     */
     void push(const Event& e);
 
+    /**
+     * the time the next event is sceduled to be assigned.
+     */
     double getNextPendingEventTime();
 
 
@@ -96,11 +130,13 @@ public:
 
 private:
 
-
-    void pop();
-
-    uint packTop();
-
+    /**
+     * the data structure that holds the collection of events.
+     *
+     * Currently use a list, sortable and constant time insertion.
+     */
+    _Sequence  c;
+    _Compare   comp;
 };
 
 std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);

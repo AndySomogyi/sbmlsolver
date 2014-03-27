@@ -74,7 +74,7 @@ def write_docstring(file, category, cls, name, args, lines):
 
 # method re
 method = re.compile(r"\.\.\s*[py:]*(class|function|staticmethod|method)::\s*(\w+)\.(\w+)(\(.*\))")
-attr = re.compile(r"\.\.\s*[py:]*(attribute)::\s*(\w+)\.(\w+)")
+attr = re.compile(r"\.\.\s*[py:]*(staticattribue|attribute)::\s*(\w+)\.(\w+)")
 
 def read_docs(outFile, srcName):
     src = open(srcName, "r")
@@ -123,7 +123,8 @@ out = open(result, "w")
 srcFiles = ["doc/mod_roadrunner/cls_ExecutableModel.rst",
             "doc/mod_roadrunner/cls_RoadRunner.rst",
             "doc/mod_roadrunner/cls_SelectionRecord.rst",
-            "doc/mod_roadrunner/cls_SimulateOptions.rst"]
+            "doc/mod_roadrunner/cls_SimulateOptions.rst", 
+            "doc/mod_roadrunner/cls_Logger.rst"]
 
 for f in srcFiles:
     read_docs(out, f)

@@ -449,10 +449,10 @@ public:
     virtual int applyPendingEvents(const double *stateVector, double timeEnd,
             double tout);
 
-    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+    virtual void applyEvents(double timeEnd, const unsigned char* previousEventStatus,
             const double *initialState, double* finalState);
 
-    virtual void evalEventRoots(double time, const double* y,  double* gdot);
+    virtual void getEventRoots(double time, const double* y,  double* gdot);
 
     virtual double getNextPendingEventTime(bool pop);
 

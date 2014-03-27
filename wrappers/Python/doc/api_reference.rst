@@ -10,20 +10,22 @@ This is the API Reference page for the module: :mod:`roadrunner`
 
 
 .. module:: roadrunner
-   :platform: OSX, Unix, Windows
+   :platform: OSX (64 bit) , Linux (x86, 64, 32 bit) , Windows (32 bit)
    :synopsis: Simulate and Analyze Systems Biology Models
 
-.. moduleauthor:: Andy Somogyi <somogyie@indiana.edu>
+.. moduleauthor:: Endre (Andy)  Somogyi <somogyie@indiana.edu>
 .. moduleauthor:: Herbert Suaro <hsauro@u.washington.edu>
 
-The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlson
+The RoadRunner SBML Simulation Engine Python API,
+(c) 2009-2014 Endre Somogyi and Herbert Sauro
 
    
+.. include:: mod_roadrunner/cls_Config.rst
+
 .. include:: mod_roadrunner/cls_RoadRunner.rst   
 
 .. include:: mod_roadrunner/cls_SimulateOptions.rst      
 
 .. include:: mod_roadrunner/cls_ExecutableModel.rst
 
-.. include:: mod_roadrunner/cls_SelectionRecord.rst
+.. include:: mod_roadrunner/cls_Logger.rst

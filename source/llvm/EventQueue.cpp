@@ -138,15 +138,9 @@ bool operator<(const Event& a, const Event& b)
     }
     else
     {
-        double ap = a.getPriority(); double bp = b.getPriority();
-        //if (ap != bp)
-        //{
-            return ap > bp;
-        //}
-        //else
-        //{
-        //    return a.model.getEventTieBreak(a.id, b.id);
-        //}
+        double ap = a.getPriority();
+        double bp = b.getPriority();
+        return ap > bp;
     }
 }
 
@@ -184,13 +178,6 @@ struct EventPredicate
     uint eventId;
 };
 
-
-
-void EventQueue::make_heap()
-{
-}
-
-
 bool EventQueue::eraseExpiredEvents()
 {
     bool erased = false;
@@ -218,7 +205,7 @@ bool EventQueue::hasCurrentEvents()
 
 
 
-bool EventQueue::applyEvent()
+bool EventQueue::applyEvents()
 {
     bool applied = false;
     if (c.size())
@@ -290,37 +277,6 @@ EventQueue::const_reference EventQueue::top()
 {
     c.sort();
     return c.front();
-}
-
-void EventQueue::pop()
-{
-
-}
-
-uint EventQueue::packTop()
-{
-    /*
-    Log(Logger::LOG_PRIO_DEBUG) << "before pack top " << *this;
-    uint topSize = 0;
-    if (c.size())
-    {
-        _Sequence::iterator i = c.begin() + 1;
-
-        while(i != c.end())
-        {
-            std::make_heap(i, c.end(), comp);
-            ++topSize;
-            ++i;
-            if (*i < c.front())
-            {
-                break;
-            }
-        }
-    }
-    Log(Logger::LOG_PRIO_DEBUG) << "after pack top " << *this;
-    return topSize;
-    */
-    return 0;
 }
 
 double EventQueue::getNextPendingEventTime()

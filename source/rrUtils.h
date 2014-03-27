@@ -42,12 +42,33 @@ RR_DECLSPEC string          removeTrailingSeparator(const string& fldr, const ch
 
 //File  Utilities
 RR_DECLSPEC int             populateFileSet(const string& modelsFolder, set<string>& models);
-RR_DECLSPEC bool            fileExists(const string& fileN);
+
+
+/**
+ * check file access, just calls access, but on windows, access is _access,
+ *
+ * file modes:
+ * 00 Existence only
+ * 02 Write permission
+ * 04 Read permission
+ * 06 Read and write permission
+*/
+RR_DECLSPEC bool fileExists(const string& fileN, int fileMode=0);
+
 RR_DECLSPEC bool            folderExists(const string& folderN);
 RR_DECLSPEC bool            createFolder(const string& path);
 
 RR_DECLSPEC string          getParentFolder(const string& path);
 RR_DECLSPEC string          getCurrentExeFolder();
+
+/**
+ * If roadrunner is build and running as shared library,
+ * either using the C++ shared library, or using the
+ * _roadrunner.so (or .pyd on Win).
+ */
+RR_DECLSPEC std::string getCurrentSharedLibDir();
+
+
 RR_DECLSPEC string          getUsersTempDataFolder();
 RR_DECLSPEC string          getCWD();
 RR_DECLSPEC const char      getPathSeparator();

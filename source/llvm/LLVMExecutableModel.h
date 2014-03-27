@@ -397,13 +397,17 @@ public:
 
     virtual int getEventTriggers(int len, const int *indx, unsigned char *eventState);
 
-    virtual void evalEvents(double timeEnd, const unsigned char* previousEventState,
+    /**
+     * erases expired events, and applies ripe events as long as we have ripe
+     * events.
+     */
+    virtual void applyEvents(double timeEnd, const unsigned char* previousEventState,
             const double *initialState, double* finalState);
 
     virtual int applyPendingEvents(const double *stateVector, double timeEnd,
             double tout);
 
-    virtual void evalEventRoots(double time, const double* y, double* gdot);
+    virtual void getEventRoots(double time, const double* y, double* gdot);
 
     virtual double getNextPendingEventTime(bool pop);
 
