@@ -132,7 +132,7 @@ setup(name='pylibroadrunner',
       },
       package_data={
           # add dll, won't hurt unix, not there anyway
-          "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll" ],  
+          "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll", "*.txt" ],  
           "roadrunner.testing" : ["*.xml", "*.txt", "*.dat"]
       },
       cmdclass={'sdist' : RoadRunnerSDist}
