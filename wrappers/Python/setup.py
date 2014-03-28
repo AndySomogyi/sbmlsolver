@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
+from distutils.command.sdist import sdist as sdist
+
 import platform
 import shutil
 import sys
@@ -67,9 +69,13 @@ def _getOSString():
 
     return s + "_" + arch
     
-# copy depdency dlls into same dir as _roadrunner.pyd on 
-# windows
-def _copyWindowsDLLs():
+
+def copyDistFiles():
+    """
+    copy files from the CMake build into the site packages so they get packages
+    up and put in the distribution.
+    """
+
     if platform.system().lower().startswith("win"):
         print("copying windows dlls...")
         
@@ -78,6 +84,10 @@ def _copyWindowsDLLs():
         shutil.copyfile("bin/msvcr100.dll",   "site-packages/roadrunner/msvcr100.dll")
         shutil.copyfile("bin/libxml2.DLL",    "site-packages/roadrunner/libxml2.dll")
         shutil.copyfile("bin/zlib1.dll",      "site-packages/roadrunner/zlib1.dll")
+
+    import glob
+    for f in glob.glob("*.txt"):
+        shutil.copyfile(f, "site-packages/roadrunner/" + f)
     
     
 _version = _version + "-" + _getOSString()
@@ -89,7 +99,27 @@ _checkRequirements()
 # copy stuff if we are building
 if len(sys.argv) > 1 and sys.argv[1].lower().find('dist') >= 0:
     print ("we're building...")
-    _copyWindowsDLLs()
+    copyDistFiles()
+
+
+# custom sdist command to copy different bits
+class RoadRunnerSDist(sdist):
+
+    def get_file_list (self):
+        """Figure out the list of files to include in the source
+        distribution, and put it in 'self.filelist'.  This might involve
+        reading the manifest template (and writing the manifest), or just
+        reading the manifest, or just using the default file set -- it all
+        depend
+        """
+
+        print("get_file_list...")
+
+        sdist.get_file_list(self)
+
+        print("files: {}".format(self.filelist.files))
+
+
 
 setup(name='pylibroadrunner',
       version=_version,
@@ -104,6 +134,7 @@ setup(name='pylibroadrunner',
           # add dll, won't hurt unix, not there anyway
           "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll" ],  
           "roadrunner.testing" : ["*.xml", "*.txt", "*.dat"]
-      }
+      },
+      cmdclass={'sdist' : RoadRunnerSDist}
      )
       
