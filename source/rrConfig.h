@@ -181,21 +181,21 @@ public:
          * see SimulateOptions::initialTimeStep
          */
         SIMULATEOPTIONS_INITIAL_TIMESTEP,
-        
+
         /**
          * Specfify The Minimum Time Step That The Internal Integrator
          * Will Use. Uses Integrator Estimated Value If <= 0.
          * see SimulateOptions::minumumTimeStep
          */
         SIMULATEOPTIONS_MINIMUM_TIMESTEP,
-        
+
         /**
          * Specify The Maximum Time Step Size That The Internaal Integrator
          * Will Use. Uses Integrator Estimated Value If <= 0.
          * see SimulateOptions::maximumTimeStep
          */
         SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
-        
+
         /**
          * Specify The Maximum Number Of Steps The Internal Integrator Will Use
          * Before Reaching The User Specified Time Span. Uses The Integrator
@@ -203,7 +203,13 @@ public:
          * see SimulateOptions::maximumNumSteps
          */
         SIMULATEOPTIONS_MAXIMUM_NUM_STEPS,
-              
+
+
+        /**
+         * disable SBML conserved moiety warnings.
+         */
+        ROADRUNNER_DISABLE_WARNINGS,
+
         /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create

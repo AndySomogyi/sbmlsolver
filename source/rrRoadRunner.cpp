@@ -697,7 +697,7 @@ double RoadRunner::steadyState()
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (!this->conservedMoietyAnalysis)
+    if (!this->conservedMoietyAnalysis && !Config::getInt(Config::ROADRUNNER_DISABLE_WARNINGS))
     {
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
