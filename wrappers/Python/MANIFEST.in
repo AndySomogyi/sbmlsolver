@@ -1,3 +1,5 @@
 include *.txt 
 include site-packages/roadrunner/_roadrunner.*
+include site-packages/roadrunner/*.txt
 recursive-include site-packages/roadrunner/testing *.txt *.dat *.xml
+recursive-include installer *
