@@ -124,6 +124,7 @@ srcFiles = ["doc/mod_roadrunner/cls_ExecutableModel.rst",
             "doc/mod_roadrunner/cls_RoadRunner.rst",
             "doc/mod_roadrunner/cls_SelectionRecord.rst",
             "doc/mod_roadrunner/cls_SimulateOptions.rst", 
+            "doc/mod_roadrunner/cls_LoadSBMLOptions.rst", 
             "doc/mod_roadrunner/cls_Logger.rst",
             "doc/mod_roadrunner/cls_Config.rst"]
 

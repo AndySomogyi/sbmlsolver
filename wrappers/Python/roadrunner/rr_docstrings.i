@@ -1757,6 +1757,68 @@ default value if <= 0.
 
 
 
+%feature("docstring") rr::LoadSBMLOptions::conservedMoieties "
+:annotation: bool
+
+perform conservation analysis.
+
+This causes a re-ordering of the species, so results generated
+with this flag enabled can not be compared index wise to results
+generated otherwise.
+
+Moiety conservation is only compatable with simple models which do NOT have any events or rules
+which define or alter any floating species, and which have simple constant stiochiometries.
+";
+
+
+
+%feature("docstring") rr::LoadSBMLOptions::mutableInitialConditions "
+:annotation: bool
+
+Generate accessor functions to allow changing of initial
+conditions.
+";
+
+
+
+%feature("docstring") rr::LoadSBMLOptions::noDefaultSelections "
+:annotation: bool
+
+Do not create a default selection list when the model is loaded.
+";
+
+
+
+%feature("docstring") rr::LoadSBMLOptions::readOnly "
+:annotation: bool
+
+Should the model be recompiled?
+The LLVM ModelGenerator maintins a hash table of currently running
+models. If this flag is NOT set, then the generator will look to see
+if there is already a running instance of the given model and
+use the generated code from that one.
+
+If only a single instance of a model is run, there is no
+need to cache the models, and this can safetly be enabled,
+realizing some performance gains.
+";
+
+
+
+%feature("docstring") rr::LoadSBMLOptions::recompile "
+:annotation: bool
+
+If this is set, then a read-only model is generated. A read-only
+model can be simulated, but no code is generated to set model
+values, i.e. parameters, amounts, values, etc...
+
+It takes a finite amount of time to generate the model value setting
+functions, and if they are not needed, one may see some performance
+gains, especially in very large models.
+";
+
+
+
 %feature("docstring") rr::Logger::LOG_CURRENT "
 
 Use the current level -- don't change the level from what it is.
