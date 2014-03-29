@@ -11,7 +11,7 @@ import sys
 _src = "site-packages/"
 _version = open("VERSION.txt").readline().strip()
 
-print("packaging / installing pylibroadrunner version:{}".format(_version))
+print("packaging / installing pylibroadrunner version:{0}".format(_version))
 
 def _sharedLibExt():
     import platform
