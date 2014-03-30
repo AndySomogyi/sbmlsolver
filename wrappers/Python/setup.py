@@ -117,7 +117,7 @@ class RoadRunnerSDist(sdist):
 
         sdist.get_file_list(self)
 
-        print("files: {}".format(self.filelist.files))
+        print("files: {0}".format(self.filelist.files))
 
 
 
