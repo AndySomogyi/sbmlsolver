@@ -1053,6 +1053,85 @@ namespace std { class ostream{}; }
 
 %}
 
+%extend rr::LoadSBMLOptions
+{
+    bool conservedMoieties;
+    bool mutableInitialConditions;
+    bool noDefaultSelections;
+    bool readOnly;
+    bool recompile;
+}
+
+
+%{
+    bool rr_LoadSBMLOptions_conservedMoieties_get(rr::LoadSBMLOptions* opt) {
+        return opt->modelGeneratorOpt & rr::LoadSBMLOptions::CONSERVED_MOIETIES;
+    }
+    
+
+    void rr_LoadSBMLOptions_conservedMoieties_set(rr::LoadSBMLOptions* opt, bool value) {
+        if (value) {
+            opt->modelGeneratorOpt |= rr::LoadSBMLOptions::CONSERVED_MOIETIES;
+        } else {
+            opt->modelGeneratorOpt &= ~rr::LoadSBMLOptions::CONSERVED_MOIETIES;
+        }
+    }
+
+
+    bool rr_LoadSBMLOptions_noDefaultSelections_get(rr::LoadSBMLOptions* opt) {
+        return opt->loadFlags & rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
+    }
+    
+    void rr_LoadSBMLOptions_noDefaultSelections_set(rr::LoadSBMLOptions* opt, bool value) {
+        if (value) {
+            opt->loadFlags |= rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
+        } else {
+            opt->loadFlags &= ~rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
+        }
+    }
+
+    bool rr_LoadSBMLOptions_mutableInitialConditions_get(rr::LoadSBMLOptions* opt) {
+        return opt->modelGeneratorOpt & rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+    }
+    
+
+    void rr_LoadSBMLOptions_mutableInitialConditions_set(rr::LoadSBMLOptions* opt, bool value) {
+        if (value) {
+            opt->modelGeneratorOpt |= rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+        } else {
+            opt->modelGeneratorOpt &= ~rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+        }
+    }
+
+    bool rr_LoadSBMLOptions_recompile_get(rr::LoadSBMLOptions* opt) {
+        return opt->modelGeneratorOpt & rr::LoadSBMLOptions::RECOMPILE;
+    }
+    
+
+    void rr_LoadSBMLOptions_recompile_set(rr::LoadSBMLOptions* opt, bool value) {
+        if (value) {
+            opt->modelGeneratorOpt |= rr::LoadSBMLOptions::RECOMPILE;
+        } else {
+            opt->modelGeneratorOpt &= ~rr::LoadSBMLOptions::RECOMPILE;
+        }
+    }
+
+    bool rr_LoadSBMLOptions_readOnly_get(rr::LoadSBMLOptions* opt) {
+        return opt->modelGeneratorOpt & rr::LoadSBMLOptions::READ_ONLY;
+    }
+    
+
+    void rr_LoadSBMLOptions_readOnly_set(rr::LoadSBMLOptions* opt, bool value) {
+        if (value) {
+            opt->modelGeneratorOpt |= rr::LoadSBMLOptions::READ_ONLY;
+        } else {
+            opt->modelGeneratorOpt &= ~rr::LoadSBMLOptions::READ_ONLY;
+        }
+
+    }
+%}
+
+
 
 
 %extend rr::ExecutableModel

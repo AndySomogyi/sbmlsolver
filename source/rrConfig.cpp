@@ -17,6 +17,7 @@
 #include <tr1/unordered_map>
 #endif
 
+#include <stdexcept>
 #include <cctype>
 #include <cstdlib>
 #include <algorithm>
@@ -36,6 +37,15 @@ using Poco::RegularExpression;
 using std::string;
 
 typedef std::tr1::unordered_map<std::string, int> StringIntMap;
+
+/**
+ * check range of key
+ */
+#define CHECK_RANGE(key) {                                 \
+        if (key < 0 || key >= rr::Config::CONFIG_END) {    \
+            throw std::out_of_range("invalid Config key"); \
+        }                                                  \
+    }
 
 /**
  * strip any leading or trailing whitespace
@@ -95,7 +105,7 @@ struct Value {
         type = BOOL;
         doubleVal = (double)val;
         intVal = (int)val;
-        strVal = rr::toString(val);
+        strVal = val ? "True" : "False";
     }
 
     Value(const std::string& str) {
@@ -129,7 +139,7 @@ struct Value {
         std::transform(bstr.begin(), bstr.end(),bstr.begin(), ::toupper);
 
         if (bstr == "TRUE") {
-            strVal = "TRUE";
+            strVal = "True";
             intVal = 1;
             doubleVal = 1;
             type = BOOL;
@@ -137,7 +147,7 @@ struct Value {
         }
 
         if (bstr == "FALSE") {
-            strVal = "FALSE";
+            strVal = "False";
             intVal = 0;
             doubleVal = 0;
             type = BOOL;
@@ -176,6 +186,7 @@ static Value values[] =  {
     Value(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
+    Value(false)     // ROADRUNNER_DISABLE_WARNINGS
 };
 
 static bool initialized = false;
@@ -230,6 +241,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["SIMULATEOPTIONS_MINIMUM_TIMESTEP"] = rr::Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP;
     keys["SIMULATEOPTIONS_MAXIMUM_TIMESTEP"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP;
     keys["SIMULATEOPTIONS_MAXIMUM_NUM_STEPS"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
+    keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
 
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Value) &&
@@ -245,18 +257,21 @@ namespace rr
 std::string Config::getString(Keys key)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     return values[key].strVal;
 }
 
 int Config::getInt(Keys key)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     return values[key].intVal;
 }
 
 double Config::getDouble(Keys key)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     return values[key].doubleVal;
 }
 
@@ -323,24 +338,28 @@ std::string Config::getConfigFilePath()
 void Config::setValue(Keys key, const std::string& str)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     values[key] = Value(str);
 }
 
 void Config::setValue(Keys key, int i)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     values[key] = Value(i);
 }
 
 void Config::setValue(Keys key, double d)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     values[key] = Value(d);
 }
 
 void Config::setValue(Keys key, bool b)
 {
     readDefaultConfig();
+    CHECK_RANGE(key);
     values[key] = Value(b);
 }
 

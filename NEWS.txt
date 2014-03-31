@@ -1,3 +1,46 @@
+-- Version 1.1.0
+
+*   Config system. RoadRunner can now read and write most default configuration parameters 
+    from / to a config file
+
+*   fixed memory leak in moiety conservation converter
+
+*   new colored logging
+
+*   Can read sbml files through http on all platforms. The RoadRunner constructor 
+    or load methods are smart in that accept a string which can be either:
+    a: the contents of a sbml document
+    b: a local file path, i.e. /home/andy/feedback.xml
+    c: a full URI identifier that can be either a local file or a remote file, 
+       this can even be a biomodels identifier, i.e. 
+       r=roadrunner.RoadRunner("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000275")
+
+*   upgraded to standard Poco 1.5 distribution. RoadRunner's Poco is now linked 
+    directly to the official Poco git repository. 
+
+*   lots of integrator tuning parameters are now accessible via the SimulateOptions object. 
+
+*   Can run the integrator in new MULTI_STEP mode where the integrator determines 
+    time step size. 
+
+*   New SBML events -- users can register listeners for any sbml event. Whenever a 
+    SBML event is triggered or assigned, the user can be notified. 
+
+*   New integrator events -- users can register listeners for integrator events 
+    such as when a time step completes or an event was detected. 
+
+*   Significantly improved integrator error handling. Whenever CVODE encounters any
+    error such as numeric instability, the error is written directly to the Roadrunner
+    logging system with exact details about the error. Descriptive exceptions are 
+    now raised detailing the exact source of the error. 
+
+*   cleanup of integrator code. 
+
+*   new distutils based python installation system. We now provide binaries for 
+    32/64 bit Linux (intel), 64 bit Mac OSX and 32 bit Windows. 
+
+
+
 -- Version 1.0.1
 *   Fixed bug where nested sbml functions were not handled properly. Now
     it correctly reports when sbml functions are called with invalid 

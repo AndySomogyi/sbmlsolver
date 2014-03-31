@@ -702,6 +702,7 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
             // fatal error
             SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : " NULL SBML Error Log";
+            delete doc;
             throw_llvm_exception("Fatal SBML error, no model, errors in sbml document: " + errors);
         }
         else if (doc->getNumErrors() > 0)
@@ -713,11 +714,28 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
     }
     else
     {
+        delete doc;
         throw_llvm_exception("readSBMLFromString returned NULL, no further information available");
     }
     return doc;
 }
 
+
+static inline void conservedMoietyException(const std::string& what)
+{
+    Log(rr::Logger::LOG_INFORMATION) << what;
+
+    static const char* help = "\n To disable conserved moeity conversion, either \n"
+            "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"
+            "\t before calling the load(\'myfile.xml\') method, or\n"
+            "\t b: create a LoadSBMLOptions object, set the conservedMoieties property \n"
+            "\t to False and use this as the second argument to the RoadRunner \n"
+            "\t constructor or load() method, i.e. \n"
+            "\t o = roadrunner.LoadSBMLOptions()\n"
+            "\t o.conservedMoieties = False\n"
+            "\t r = roadrunner.RoadRunner(\'myfile.xml\', o)\n";
+    throw LLVMException(what + help);
+}
 
 static void conservedMoietyCheck(const SBMLDocument *doc)
 {
@@ -738,8 +756,9 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
         {
             string msg = "Cannot perform moeity conversion when floating "
                     "species are defined by rules. The floating species, "
-                    + species->getId() + " is defined by rule " + rule->getId();
-            throw_llvm_exception(msg);
+                    + species->getId() + " is defined by rule " + rule->getId()
+                    + ".";
+            conservedMoietyException(msg);
         }
 
         const SpeciesReference *ref =
@@ -749,8 +768,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             string msg = "Cannot perform moeity conversion with non-constant "
                     "stoichiometry. The species reference " + ref->getId() +
                     " which refers to species " + ref->getSpecies() + " has "
-                    "stoichiometry defined by rule " + rule->getId();
-            throw_llvm_exception(msg);
+                    "stoichiometry defined by rule " + rule->getId() + ".";
+            conservedMoietyException(msg);
         }
     }
 
@@ -772,8 +791,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 string msg = "Cannot perform moeity conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() +
-                        " does not have the constant attribute set";
-                throw_llvm_exception(msg);
+                        " does not have the constant attribute set.";
+                conservedMoietyException(msg);
             }
 
             else if(ref->isSetStoichiometryMath())
@@ -781,8 +800,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 string msg = "Cannot perform moeity conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() +
-                        " has stochiometryMath set";
-                throw_llvm_exception(msg);
+                        " has stochiometryMath set.";
+                conservedMoietyException(msg);
             }
         }
     }
@@ -805,8 +824,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             {
                 string msg = "Cannot perform moeity conversion when floating "
                         "species are have events. The floating species, "
-                        + species->getId() + " has event " + event->getId();
-                throw_llvm_exception(msg);
+                        + species->getId() + " has event " + event->getId() + ".";
+                conservedMoietyException(msg);
             }
 
             const SpeciesReference *ref =
@@ -816,8 +835,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 string msg = "Cannot perform moeity conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() + " has "
-                        "event " + event->getId();
-                throw_llvm_exception(msg);
+                        "event " + event->getId() + ".";
+                conservedMoietyException(msg);
             }
         }
     }

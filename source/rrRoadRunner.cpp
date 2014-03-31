@@ -645,17 +645,22 @@ void RoadRunner::reset()
 {
     if (mModel)
     {
+        // model gets set to before time = 0
         mModel->reset();
+
+        // pull state from model into integrator
+        mCVode->reStart(0.0);
 
         if (conservedMoietyAnalysis && !mModel->getConservedSumChanged())
         {
             mModel->computeConservedTotals();
         }
 
-
         mCVode->testRootsAtInitialTime();
 
         mModel->setTime(0.0);
+
+        // TODO: this is proably not required, test if it can be removed...
         mCVode->reStart(0.0);
 
         try
@@ -697,7 +702,7 @@ double RoadRunner::steadyState()
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (!this->conservedMoietyAnalysis)
+    if (!this->conservedMoietyAnalysis && !Config::getInt(Config::ROADRUNNER_DISABLE_WARNINGS))
     {
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
