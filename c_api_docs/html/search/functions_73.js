@@ -28,6 +28,7 @@ var searchData=
   ['setvectorelement',['setVectorElement',['../group__helper_routines.html#gaca70bc807a455ec497b7d8e8a2affe45',1,'rrc::setVectorElement()'],['../group__helper_routines.html#gaca70bc807a455ec497b7d8e8a2affe45',1,'setVectorElement():&#160;rrc_utilities.cpp']]],
   ['simulate',['simulate',['../group__simulation.html#ga7631952c1a80ac25724bf67f7a7ddf7a',1,'rrc::simulate()'],['../group__simulation.html#ga7631952c1a80ac25724bf67f7a7ddf7a',1,'simulate():&#160;rrc_api.cpp']]],
   ['simulateex',['simulateEx',['../group__simulation.html#gac3646c86d4a058ec4d43b1a66bf127cc',1,'rrc::simulateEx()'],['../group__simulation.html#gac3646c86d4a058ec4d43b1a66bf127cc',1,'simulateEx():&#160;rrc_api.cpp']]],
+  ['size',['size',['../classrrc_1_1_string_list.html#a90ca964ebcc1b02bbcde225edd49e812',1,'rrc::StringList']]],
   ['steadystate',['steadyState',['../group__steadystate.html#ga6585d37a9c56840e1acbb38e9df07262',1,'rrc::steadyState()'],['../group__steadystate.html#ga6585d37a9c56840e1acbb38e9df07262',1,'steadyState():&#160;rrc_api.cpp']]],
   ['stringarraytostring',['stringArrayToString',['../group__to_string.html#ga404f239a08ca9e328087a488b500cef6',1,'rrc::stringArrayToString()'],['../group__to_string.html#ga404f239a08ca9e328087a488b500cef6',1,'stringArrayToString():&#160;rrc_utilities.cpp']]]
 ];

@@ -28,11 +28,13 @@ var searchData=
   ['setvectorelement',['setVectorElement',['../group__helper_routines.html#gaca70bc807a455ec497b7d8e8a2affe45',1,'rrc::setVectorElement()'],['../group__helper_routines.html#gaca70bc807a455ec497b7d8e8a2affe45',1,'setVectorElement():&#160;rrc_utilities.cpp']]],
   ['simulate',['simulate',['../group__simulation.html#ga7631952c1a80ac25724bf67f7a7ddf7a',1,'rrc::simulate()'],['../group__simulation.html#ga7631952c1a80ac25724bf67f7a7ddf7a',1,'simulate():&#160;rrc_api.cpp']]],
   ['simulateex',['simulateEx',['../group__simulation.html#gac3646c86d4a058ec4d43b1a66bf127cc',1,'rrc::simulateEx()'],['../group__simulation.html#gac3646c86d4a058ec4d43b1a66bf127cc',1,'simulateEx():&#160;rrc_api.cpp']]],
+  ['size',['size',['../classrrc_1_1_string_list.html#a90ca964ebcc1b02bbcde225edd49e812',1,'rrc::StringList']]],
   ['start_5ftry',['start_try',['../rrc__macros_8h.html#af21ae6629abfdec1764f2d56b2e11b6c',1,'rrc_macros.h']]],
   ['steadystate',['steadyState',['../group__steadystate.html#ga6585d37a9c56840e1acbb38e9df07262',1,'rrc::steadyState()'],['../group__steadystate.html#ga6585d37a9c56840e1acbb38e9df07262',1,'steadyState(RRHandle handle, double *value):&#160;rrc_api.cpp'],['../group__steadystate.html',1,'(Global Namespace)']]],
   ['stoichiometry_20analysis',['Stoichiometry analysis',['../group___stoich.html',1,'']]],
   ['string',['String',['../struct_r_r_string_array.html#acdbc34377baf3e52d9044aada0f2f511',1,'RRStringArray']]],
   ['stringarray_20routines',['StringArray routines',['../group__string_array.html',1,'']]],
   ['stringarraytostring',['stringArrayToString',['../group__to_string.html#ga404f239a08ca9e328087a488b500cef6',1,'rrc::stringArrayToString()'],['../group__to_string.html#ga404f239a08ca9e328087a488b500cef6',1,'stringArrayToString():&#160;rrc_utilities.cpp']]],
+  ['stringlist',['StringList',['../classrrc_1_1_string_list.html',1,'rrc']]],
   ['svalue',['sValue',['../struct_r_r_list_item.html#a80e5abe988376805a91503e24e8d1efd',1,'RRListItem']]]
 ];

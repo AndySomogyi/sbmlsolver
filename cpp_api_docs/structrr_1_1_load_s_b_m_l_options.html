@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner C++ API
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -113,7 +113,8 @@ Public Types</h2></td></tr>
 <a class="el" href="structrr_1_1_load_s_b_m_l_options.html#a7b6ca6fc32892dbe782f3eb718762ad6aeb5debe90dbf97e493c575344d400f1d">OPTIMIZE_DEAD_INST_ELIMINATION</a> = (0x1 &lt;&lt; 7), 
 <br/>
 &#160;&#160;<a class="el" href="structrr_1_1_load_s_b_m_l_options.html#a7b6ca6fc32892dbe782f3eb718762ad6ad2af9d75e3a874196cead78d2b77e4ef">OPTIMIZE_DEAD_CODE_ELIMINATION</a> = (0x1 &lt;&lt; 8), 
-<a class="el" href="structrr_1_1_load_s_b_m_l_options.html#a7b6ca6fc32892dbe782f3eb718762ad6ad7277e17a05d1916c93fd12ba5ec7bf2">OPTIMIZE_INSTRUCTION_SIMPLIFIER</a> = (0x1 &lt;&lt; 9)
+<a class="el" href="structrr_1_1_load_s_b_m_l_options.html#a7b6ca6fc32892dbe782f3eb718762ad6ad7277e17a05d1916c93fd12ba5ec7bf2">OPTIMIZE_INSTRUCTION_SIMPLIFIER</a> = (0x1 &lt;&lt; 9), 
+<a class="el" href="structrr_1_1_load_s_b_m_l_options.html#a7b6ca6fc32892dbe782f3eb718762ad6a9d06cd74f97fe87123e9fd1733438b87">USE_MCJIT</a> = (0x1 &lt;&lt; 10)
 <br/>
  }</td></tr>
 <tr class="separator:a7b6ca6fc32892dbe782f3eb718762ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,6 +199,11 @@ Public Attributes</h2></td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a7b6ca6fc32892dbe782f3eb718762ad6ad7277e17a05d1916c93fd12ba5ec7bf2"></a>OPTIMIZE_INSTRUCTION_SIMPLIFIER</em>&nbsp;</td><td class="fielddoc">
 <p>InstructionSimplifier - Remove redundant instructions. </p>
 </td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a7b6ca6fc32892dbe782f3eb718762ad6a9d06cd74f97fe87123e9fd1733438b87"></a>USE_MCJIT</em>&nbsp;</td><td class="fielddoc">
+<p>Use the LLVM MCJIT JIT engine.</p>
+<p>Defaults to false.</p>
+<p>The MCJIT is the new LLVM JIT engine, it is not as well tested as the original JIT engine. Does NOT work on LLVM 3.1 </p>
+</td></tr>
 </table>
 
 </div>
@@ -253,7 +259,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 3 2014 10:44:16 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

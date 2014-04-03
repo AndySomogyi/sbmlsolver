@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner C++ API
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -125,10 +125,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a329f2009c2688bbedc906c21c4b8b3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ce7d696fb39f5db0d9e4fa9f8f1192c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a4ce7d696fb39f5db0d9e4fa9f8f1192c">setCompiler</a> (const std::string &amp;compiler)</td></tr>
 <tr class="separator:a4ce7d696fb39f5db0d9e4fa9f8f1192c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7ed0222daee67405616805b1bd02125"><td class="memItemLeft" align="right" valign="top">Integrator *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ac7ed0222daee67405616805b1bd02125">getIntegrator</a> ()</td></tr>
+<tr class="memitem:ac7ed0222daee67405616805b1bd02125"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1_integrator.html">Integrator</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ac7ed0222daee67405616805b1bd02125">getIntegrator</a> ()</td></tr>
 <tr class="separator:ac7ed0222daee67405616805b1bd02125"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9519f489ada956e35bd0b65e44e96cdd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a9519f489ada956e35bd0b65e44e96cdd">getModelName</a> ()</td></tr>
 <tr class="separator:a9519f489ada956e35bd0b65e44e96cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64be64be76fd37d8b0dd8beddafb8bb4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a64be64be76fd37d8b0dd8beddafb8bb4">integrate</a> (double t0, double tf, const <a class="el" href="structrr_1_1_simulate_options.html">SimulateOptions</a> *options=0)</td></tr>
+<tr class="separator:a64be64be76fd37d8b0dd8beddafb8bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27aedd28b2a2d5453200ca4a4a2bf4c0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#a27aedd28b2a2d5453200ca4a4a2bf4c0">oneStep</a> (double currentTime, double stepSize, bool <a class="el" href="classrr_1_1_road_runner.html#ae4b0eaa39fd37737e5f5fd7f7741e06c">reset</a>=true)</td></tr>
 <tr class="separator:a27aedd28b2a2d5453200ca4a4a2bf4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae380c9a35cca24a7c35633bcd4c6836c"><td class="memItemLeft" align="right" valign="top">const RoadRunnerData *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_road_runner.html#ae380c9a35cca24a7c35633bcd4c6836c">simulate</a> (const <a class="el" href="structrr_1_1_simulate_options.html">SimulateOptions</a> *options=0)</td></tr>
@@ -725,7 +727,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Integrator * rr::RoadRunner::getIntegrator </td>
+          <td class="memname"><a class="el" href="classrr_1_1_integrator.html">Integrator</a> * rr::RoadRunner::getIntegrator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1191,6 +1193,47 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a64be64be76fd37d8b0dd8beddafb8bb4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rr::RoadRunner::integrate </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>tf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrr_1_1_simulate_options.html">SimulateOptions</a> *&#160;</td>
+          <td class="paramname"><em>options</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Carry out a single integration step using a stepsize as indicated in the method call.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t0</td><td>starting time </td></tr>
+    <tr><td class="paramname">tf</td><td>final time </td></tr>
+    <tr><td class="paramname">options</td><td>override current options. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a6758b1ed1a2aa056f8dcf68e6fd796ba"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1282,7 +1325,7 @@ Static Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Carry out a single integration step using a stepsize as indicated in the method call. Arguments: double CurrentTime, double StepSize, bool: reset integrator if true, Return Value: new CurrentTime. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Deprecated:</a></b></dt><dd>, use integrate instead. </dd></dl>
 
 </div>
 </div>
@@ -1456,7 +1499,7 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 3 2014 10:44:16 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

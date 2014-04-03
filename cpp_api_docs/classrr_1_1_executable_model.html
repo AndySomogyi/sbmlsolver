@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner C++ API
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -177,8 +177,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0495c2ece9edad29d61849b2443d4274"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dfbc74b5662469e050b8df80644e31a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a4dfbc74b5662469e050b8df80644e31a">getEventTriggers</a> (int len, const int *indx, unsigned char *values)=0</td></tr>
 <tr class="separator:a4dfbc74b5662469e050b8df80644e31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b6f43b8a273ac54aa5c8776c75bf1e2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a7b6f43b8a273ac54aa5c8776c75bf1e2">evalEventRoots</a> (double time, const double *y, double *gdot)=0</td></tr>
-<tr class="separator:a7b6f43b8a273ac54aa5c8776c75bf1e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c4d631f32873d4d98d613add078d9b3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a2c4d631f32873d4d98d613add078d9b3">getEventRoots</a> (double time, const double *y, double *gdot)=0</td></tr>
+<tr class="separator:a2c4d631f32873d4d98d613add078d9b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d670c92b720d7dcf3ab70fa9d1b14d0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a7d670c92b720d7dcf3ab70fa9d1b14d0">~ExecutableModel</a> ()</td></tr>
 <tr class="separator:a7d670c92b720d7dcf3ab70fa9d1b14d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d7c7496f2452280933a50057d2cda4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a78d7c7496f2452280933a50057d2cda4">getConservedSumChanged</a> ()=0</td></tr>
@@ -197,6 +197,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4e53afd18d5ce83c41176ffec519092c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e0e14f373b101b044559ec2c06a2a39"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#a5e0e14f373b101b044559ec2c06a2a39">evalReactionRates</a> ()=0</td></tr>
 <tr class="separator:a5e0e14f373b101b044559ec2c06a2a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b3e5baef45072822f9ccaf9d13ffa8"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1_executable_model.html#ae9b3e5baef45072822f9ccaf9d13ffa8">getEventIndex</a> (const std::string &amp;eid)=0</td></tr>
+<tr class="separator:ae9b3e5baef45072822f9ccaf9d13ffa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classrr_1_1_executable_model.html">ExecutableModel</a> interface provides a way to access an sbml model that was compiled, JIT'd or interpreted as executable (runnable) module.</p>
@@ -322,56 +324,6 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7b6f43b8a273ac54aa5c8776c75bf1e2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void rr::ExecutableModel::evalEventRoots </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double *&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>gdot</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>evaluate the event 'roots' &ndash; when events transition form triggered - non-triggered or triggered to non-triggered state.</p>
-<p>Simplest method is to return 1 for triggered, -1 for not-triggered, so long as there is a zero crossing.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">time[in]</td><td>current time </td></tr>
-    <tr><td class="paramname">y[in]</td><td>the state vector </td></tr>
-    <tr><td class="paramname">gdot[out]</td><td>result event roots, this is of length numEvents. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -638,6 +590,81 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae9b3e5baef45072822f9ccaf9d13ffa8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int rr::ExecutableModel::getEventIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>eid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the index for an event id. If there is no event with this id, returns -1. </p>
+
+</div>
+</div>
+<a class="anchor" id="a2c4d631f32873d4d98d613add078d9b3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void rr::ExecutableModel::getEventRoots </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>gdot</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>evaluate the event 'roots' &ndash; when events transition form triggered - non-triggered or triggered to non-triggered state.</p>
+<p>Simplest method is to return 1 for triggered, -1 for not-triggered, so long as there is a zero crossing.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time[in]</td><td>current time </td></tr>
+    <tr><td class="paramname">y[in]</td><td>the state vector </td></tr>
+    <tr><td class="paramname">gdot[out]</td><td>result event roots, this is of length numEvents. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a4dfbc74b5662469e050b8df80644e31a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -676,7 +703,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>get the event status, false if the even is not triggered, true if it is.</p>
-<p>The reason this returns an unsigned char instead of a bool array is this array is typically stuffed into an std::vector, and std::vector&lt;bool&gt; is seriously broken and can not be used as a C array.</p>
+<p>The reason this returns an unsigned char instead of a bool array is this array is typically stuffed into an std::vector, and std::vector&lt;bool&gt; is well, weird as it's actually implemented as a bitfield, and can not be used as a C array.</p>
 <p>So, on every modern system I'm aware of, bool is an unsigned char, so use that data type here. </p>
 
 </div>
@@ -1865,7 +1892,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 3 2014 10:44:16 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

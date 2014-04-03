@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner C++ API
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -113,7 +113,8 @@ Public Types</h2></td></tr>
 <br/>
 &#160;&#160;<a class="el" href="classrr_1_1_model_generator.html#a4f280529e0531ec3132c80ffda967767a6313aa1579aadbd4a3040b80550d1dca">OPTIMIZE_DEAD_CODE_ELIMINATION</a> = (0x1 &lt;&lt; 8), 
 <a class="el" href="classrr_1_1_model_generator.html#a4f280529e0531ec3132c80ffda967767ad095bbb0cb9f65944ca137500c645d55">OPTIMIZE_INSTRUCTION_SIMPLIFIER</a> = (0x1 &lt;&lt; 9), 
-<a class="el" href="classrr_1_1_model_generator.html#a4f280529e0531ec3132c80ffda967767a1a02f1752a6caf368534064de4c420cb">OPTIMIZE</a>
+<a class="el" href="classrr_1_1_model_generator.html#a4f280529e0531ec3132c80ffda967767a1a02f1752a6caf368534064de4c420cb">OPTIMIZE</a>, 
+<a class="el" href="classrr_1_1_model_generator.html#a4f280529e0531ec3132c80ffda967767aec0074bcc36803d84c281950fe9f60be">USE_MCJIT</a> = (0x1 &lt;&lt; 10)
 <br/>
  }</td></tr>
 <tr class="separator:a4f280529e0531ec3132c80ffda967767"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,6 +183,11 @@ Public Member Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a4f280529e0531ec3132c80ffda967767a1a02f1752a6caf368534064de4c420cb"></a>OPTIMIZE</em>&nbsp;</td><td class="fielddoc">
 <p>all optimizations, use to check if bit mask has any optimizations. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a4f280529e0531ec3132c80ffda967767aec0074bcc36803d84c281950fe9f60be"></a>USE_MCJIT</em>&nbsp;</td><td class="fielddoc">
+<p>Use the LLVM MCJIT JIT engine.</p>
+<p>Defaults to false.</p>
+<p>The MCJIT is the new LLVM JIT engine, it is not as well tested as the original JIT engine. Does NOT work on LLVM 3.1 </p>
 </td></tr>
 </table>
 
@@ -359,7 +365,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 3 2014 10:44:16 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

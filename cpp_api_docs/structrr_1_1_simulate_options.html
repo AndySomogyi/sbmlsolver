@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libRoadRunner C++ API
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -106,9 +106,10 @@ Public Types</h2></td></tr>
 <a class="el" href="structrr_1_1_simulate_options.html#a4bc2a6d4d8f9da649e8e2a507192c8faa7b968bcaea07518eb5b2bd1cfbbaa4bf">STRUCTURED_RESULT</a> = (0x1 &lt;&lt; 1)
  }</td></tr>
 <tr class="separator:a4bc2a6d4d8f9da649e8e2a507192c8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9161fd2b138ff28e97491611dce61a52"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a9161fd2b138ff28e97491611dce61a52">Integrator</a> </td></tr>
-<tr class="separator:a9161fd2b138ff28e97491611dce61a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab099177903df12af015dc3890e82a11b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#ab099177903df12af015dc3890e82a11b">IntegratorFlags</a> { <a class="el" href="structrr_1_1_simulate_options.html#ab099177903df12af015dc3890e82a11ba53c1b2cf78d611a4de81c1fdce77e6f2">STIFF</a> = (0x1 &lt;&lt; 0)
+<tr class="memitem:a090f37fd0a44d94ff6d0289b2efef8dd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a090f37fd0a44d94ff6d0289b2efef8dd">IntegratorType</a> </td></tr>
+<tr class="separator:a090f37fd0a44d94ff6d0289b2efef8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab099177903df12af015dc3890e82a11b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#ab099177903df12af015dc3890e82a11b">IntegratorFlags</a> { <a class="el" href="structrr_1_1_simulate_options.html#ab099177903df12af015dc3890e82a11ba53c1b2cf78d611a4de81c1fdce77e6f2">STIFF</a> = (0x1 &lt;&lt; 0), 
+<a class="el" href="structrr_1_1_simulate_options.html#ab099177903df12af015dc3890e82a11ba8f9435697dafbc826fe487e9a459aef5">MULTI_STEP</a> = (0x1 &lt;&lt; 1)
  }</td></tr>
 <tr class="separator:ab099177903df12af015dc3890e82a11b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -123,8 +124,8 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a3dfd51256f939804a2c8d7f2c72b1bbb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a3dfd51256f939804a2c8d7f2c72b1bbb">flags</a></td></tr>
 <tr class="separator:a3dfd51256f939804a2c8d7f2c72b1bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21700122b4ef3ef310eed72c39a4804c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrr_1_1_simulate_options.html#a9161fd2b138ff28e97491611dce61a52">Integrator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a21700122b4ef3ef310eed72c39a4804c">integrator</a></td></tr>
-<tr class="separator:a21700122b4ef3ef310eed72c39a4804c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33f4ce5cc3375351b18c425c93ecc7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrr_1_1_simulate_options.html#a090f37fd0a44d94ff6d0289b2efef8dd">IntegratorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#ac33f4ce5cc3375351b18c425c93ecc7e">integrator</a></td></tr>
+<tr class="separator:ac33f4ce5cc3375351b18c425c93ecc7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c405766e5d91026b9c503f88893570a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a5c405766e5d91026b9c503f88893570a">integratorFlags</a></td></tr>
 <tr class="separator:a5c405766e5d91026b9c503f88893570a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20008b16d84ef52a564648671d0c544b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a20008b16d84ef52a564648671d0c544b">steps</a></td></tr>
@@ -143,6 +144,14 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a13c457ced6a6396d9cb8dcecf42f0dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fb8836610f52922ee371fdf06331e97"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a3fb8836610f52922ee371fdf06331e97">concentrations</a></td></tr>
 <tr class="separator:a3fb8836610f52922ee371fdf06331e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa269a18afe19e11db774f502459b4505"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#aa269a18afe19e11db774f502459b4505">initialTimeStep</a></td></tr>
+<tr class="separator:aa269a18afe19e11db774f502459b4505"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10035ca6c5f3809919d210598ba64ef0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a10035ca6c5f3809919d210598ba64ef0">minimumTimeStep</a></td></tr>
+<tr class="separator:a10035ca6c5f3809919d210598ba64ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07532f75be8a568bb05769a4bf54a214"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#a07532f75be8a568bb05769a4bf54a214">maximumTimeStep</a></td></tr>
+<tr class="separator:a07532f75be8a568bb05769a4bf54a214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9320003945bcfeaa6c4b2b5124fb481"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrr_1_1_simulate_options.html#ae9320003945bcfeaa6c4b2b5124fb481">maximumNumSteps</a></td></tr>
+<tr class="separator:ae9320003945bcfeaa6c4b2b5124fb481"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -156,19 +165,6 @@ Static Public Attributes</h2></td></tr>
 <p>This is the full set of options that determines how <a class="el" href="classrr_1_1_road_runner.html">RoadRunner</a> performs a simulation of an sbml model.</p>
 <p>This is a superset of the values stored in a sbml test suite settings file, the documentation of the fields which correspond to an sbml test suite settings was taken from <a href="http://sbml.org">http://sbml.org</a> </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="a9161fd2b138ff28e97491611dce61a52"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="structrr_1_1_simulate_options.html#a9161fd2b138ff28e97491611dce61a52">rr::SimulateOptions::Integrator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>the list of ODE solvers <a class="el" href="classrr_1_1_road_runner.html">RoadRunner</a> currently supports. </p>
-
-</div>
-</div>
 <a class="anchor" id="ab099177903df12af015dc3890e82a11b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +178,26 @@ Static Public Attributes</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ab099177903df12af015dc3890e82a11ba53c1b2cf78d611a4de81c1fdce77e6f2"></a>STIFF</em>&nbsp;</td><td class="fielddoc">
 <p>Is the model a stiff system? setting this to stiff causes <a class="el" href="classrr_1_1_road_runner.html">RoadRunner</a> to load a stiff solver which could potentially be extremly slow </p>
 </td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ab099177903df12af015dc3890e82a11ba8f9435697dafbc826fe487e9a459aef5"></a>MULTI_STEP</em>&nbsp;</td><td class="fielddoc">
+<p>The MULTI_STEP option tells the solver to take a series of internal steps and then return the solution at the point reached by that step.</p>
+<p>In simulate, this option will likely be slower than normal mode, but may be useful to monitor solutions as they are integrated.</p>
+<p>This is intended to be used in combination with the <a class="el" href="classrr_1_1_integrator_listener.html">IntegratorListener</a>. It this option is set, and there is a <a class="el" href="classrr_1_1_integrator_listener.html">IntegratorListener</a> set, <a class="el" href="classrr_1_1_road_runner.html#a64be64be76fd37d8b0dd8beddafb8bb4">RoadRunner::integrate</a> will run the integrator in a series of internal steps, and the listner will by notified at each step.</p>
+<p>Highly Experimental!!! </p>
+</td></tr>
 </table>
+
+</div>
+</div>
+<a class="anchor" id="a090f37fd0a44d94ff6d0289b2efef8dd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="structrr_1_1_simulate_options.html#a090f37fd0a44d94ff6d0289b2efef8dd">rr::SimulateOptions::IntegratorType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>the list of ODE solvers <a class="el" href="classrr_1_1_road_runner.html">RoadRunner</a> currently supports. </p>
 
 </div>
 </div>
@@ -306,12 +321,26 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a21700122b4ef3ef310eed72c39a4804c"></a>
+<a class="anchor" id="aa269a18afe19e11db774f502459b4505"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structrr_1_1_simulate_options.html#a9161fd2b138ff28e97491611dce61a52">Integrator</a> rr::SimulateOptions::integrator</td>
+          <td class="memname">double rr::SimulateOptions::initialTimeStep</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A useer specified initial time step. If this is &lt;= 0, the integrator will attempt to determine a safe initial time stpe.</p>
+<p>Note, for each number of steps given to <a class="el" href="classrr_1_1_road_runner.html#ae380c9a35cca24a7c35633bcd4c6836c">RoadRunner::simulate</a> or <a class="el" href="classrr_1_1_road_runner.html#a27aedd28b2a2d5453200ca4a4a2bf4c0">RoadRunner::oneStep</a>, the internal integrator may take many many steps to reach one of the external time steps. This value specifies an initial value for the internal integrator time step. </p>
+
+</div>
+</div>
+<a class="anchor" id="ac33f4ce5cc3375351b18c425c93ecc7e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structrr_1_1_simulate_options.html#a090f37fd0a44d94ff6d0289b2efef8dd">IntegratorType</a> rr::SimulateOptions::integrator</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -329,6 +358,32 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set of options to use when configuring the integrator. This is a bitfield composed of options from the IntegratorOpt enum. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae9320003945bcfeaa6c4b2b5124fb481"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rr::SimulateOptions::maximumNumSteps</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Specify the maximum number of steps the internal integrator will use before reaching the user specified time span. Uses the integrator default value if &lt;= 0. </p>
+
+</div>
+</div>
+<a class="anchor" id="a07532f75be8a568bb05769a4bf54a214"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rr::SimulateOptions::maximumTimeStep</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Specify the maximum time step size that the internaal integrator will use. Uses integrator estimated value if &lt;= 0. </p>
 
 </div>
 </div>
@@ -373,6 +428,19 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The minumum relative error that the CVODE integrator supports in order to to pass the sbml test suite using the default integtator.</p>
 <p>If a test suite config file is loaded, and the relative error is higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE. </p>
+
+</div>
+</div>
+<a class="anchor" id="a10035ca6c5f3809919d210598ba64ef0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rr::SimulateOptions::minimumTimeStep</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Specfify the minimum time step that the internal integrator will use. Uses integrator estimated value if &lt;= 0. </p>
 
 </div>
 </div>
@@ -437,7 +505,7 @@ Static Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 14 2014 13:31:26 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 3 2014 10:44:16 for libRoadRunner C++ API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
