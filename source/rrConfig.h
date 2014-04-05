@@ -252,6 +252,15 @@ public:
         ROADRUNNER_DISABLE_WARNINGS,
 
         /**
+         * RoadRunner by default dynamically generates accessor properties
+         * for all sbml symbol names on the model object when it is retrieved
+         * in Python. This feature is very nice for interactive use, but
+         * can slow things down. If this feature is not needed, it
+         * can be disabled here.
+         */
+        ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.

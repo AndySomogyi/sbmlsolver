@@ -3385,7 +3385,7 @@ vector<string> RoadRunner::getEigenvalueIds()
 
 RoadRunnerOptions& RoadRunner::getOptions()
 {
-    return options;
+    return roadRunnerOptions;
 }
 
 }//namespace

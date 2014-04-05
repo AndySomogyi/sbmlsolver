@@ -213,4 +213,15 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
     }
 }
 
+
+RoadRunnerOptions::RoadRunnerOptions() : 
+    flags(0)
+{
+    if (Config::getInt(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES)) 
+    {
+        flags |= RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+    }
+}
+
+
 } /* namespace rr */
