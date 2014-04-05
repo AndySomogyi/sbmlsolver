@@ -372,7 +372,25 @@ here. The variable type of the parameter is listed after the key name.
    Before Reaching The User Specified Time Span. Uses The Integrator
    Default Value If <= 0.
 
-              
+
+
+.. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
+   :module: roadrunner
+   :annotation: int
+
+   RoadRunner by default dynamically generates accessor properties
+   for all sbml symbol names on the model object when it is retrieved
+   in Python. This feature is very nice for interactive use, but
+   can slow things down. If this feature is not needed, it
+   can be disabled here.
+         
+
+.. attribute:: Config.ROADRUNNER_DISABLE_WARNINGS,
+   :module: roadrunner
+   :annotation: int
+
+   disable SBML conserved moiety warnings.
+   
 
 
 

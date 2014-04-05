@@ -186,7 +186,8 @@ static Value values[] =  {
     Value(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-    Value(false)     // ROADRUNNER_DISABLE_WARNINGS
+    Value(false),    // ROADRUNNER_DISABLE_WARNINGS
+    Value(false)     // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
 };
 
 static bool initialized = false;
@@ -242,6 +243,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["SIMULATEOPTIONS_MAXIMUM_TIMESTEP"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP;
     keys["SIMULATEOPTIONS_MAXIMUM_NUM_STEPS"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
     keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
+    keys["ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES"] = rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
 
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Value) &&

@@ -373,9 +373,11 @@ struct RR_DECLSPEC RoadRunnerOptions
      */
     uint32_t flags;
 
-    RoadRunnerOptions() : flags(0)
-    {
-    }
+    /**
+     * load default valued from config.
+     */
+    RoadRunnerOptions();
+
 };
 
 

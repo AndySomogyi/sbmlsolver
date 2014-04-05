@@ -16,6 +16,47 @@ namespace rr
 
 /**
  * read or store default values.
+ * 
+ * Many of RoadRunner classes use a number of configration parameters. Most of these can be set
+ * using the Config class. The values stored in the Config class only determine the defaut values of
+ * parameters. 
+ *
+ * The Config class will look in the following locations for the config file, and will load the
+ * values from the first config file it finds. If it does not find a config file in one of the
+ * following locations, a default set of configuration parameters are used. The search locations of
+ * the config file are: 
+ * 
+ * #1: the ROADRUNNER_CONFIG environment variable
+ * 
+ * #2: try the users’s home directory for roadrunner.conf, i.e.:
+ * 
+ * /Users/andy/roadrunner.conf
+ * 
+ * #3: try the users’s home directory for .roadrunner.conf, i.e.:
+ * 
+ * /Users/andy/.roadrunner.conf 
+ *
+ * #4: try the same directory as the roadrunner shared library, this
+ * will be the same directory as the python _roadrunner.pyd python extension module, i.e.:
+ * 
+ * /Users/andy/local/lib/roadrunner.conf
+ * 
+ * #5: try one directory up from the where the shared library or program is at, i.e.:
+ * 
+ * /Users/andy/local/roadrunner.conf 
+ * 
+ * The conf file is just a plain text file of where each line may
+ * be key / value pair separated by a ”:”, i.e.
+ * 
+ * KEY_NAME : Value Any line that does not match this format is ignored, and keys that are not found
+ * are also ignored. Therefore, any line that does not start w* ith a word character is considered a
+ * comment.
+ * 
+ * All of the configuration managment functions are static method of the Config class, and all of
+ * the configuration keys are static attributes * of the Config class, these are documented in the
+ * Configuration Functions section.
+ * 
+ * As all of the Config class methods are static, one never instantiates the Config class.
  */
 class RR_DECLSPEC Config
 {
@@ -211,6 +252,15 @@ public:
         ROADRUNNER_DISABLE_WARNINGS,
 
         /**
+         * RoadRunner by default dynamically generates accessor properties
+         * for all sbml symbol names on the model object when it is retrieved
+         * in Python. This feature is very nice for interactive use, but
+         * can slow things down. If this feature is not needed, it
+         * can be disabled here.
+         */
+        ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.
@@ -218,24 +268,64 @@ public:
         CONFIG_END
     };
 
+    /**
+     * read the config value as a string.
+     */
     static std::string getString(Keys);
 
+    /**
+     * read the config value as an integer.
+     */
     static int getInt(Keys);
-
+    
+    /**
+     * read the config value as a double.
+     */
     static double getDouble(Keys);
 
+    /**
+     * If a config file was found in one of the above locations, its full path is returned here.
+     * Otherwise, if no file was found, an empty string is returned. 
+     */
     static std::string getConfigFilePath();
 
+    /**
+     * set the value of a config key. 
+     * note, this value is only used in any new objects created after it has been set.
+     */
     static void setValue(Keys, const std::string& value);
+
+    /**
+     * set the value of a config key. 
+     * note, this value is only used in any new objects created after it has been set.
+     */
 
     static void setValue(Keys, int);
 
+    /**
+     * set the value of a config key. 
+     * note, this value is only used in any new objects created after it has been set.
+     */
+
     static void setValue(Keys, double);
+
+    /**
+     * set the value of a config key. 
+     * note, this value is only used in any new objects created after it has been set.
+     */
 
     static void setValue(Keys, bool);
 
+    /**
+     * Read all of the values stored in a configuration file and set all the keys 
+     * to these values.
+     */
     static void readConfigFile(const std::string& path);
 
+    /**
+     * write the currently set configuration values to a config file. The contents of the 
+     * file are cleared and the new values written. 
+     */
     static void writeConfigFile(const std::string& path);
 };
 

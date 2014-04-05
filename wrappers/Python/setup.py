@@ -1,15 +1,21 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
-from distutils.command.sdist import sdist as sdist
+from distutils.core import setup as _setup
+from distutils.command.sdist import sdist as _sdist
 
 import platform
 import shutil
 import sys
+import os.path
 
-# the source root directory
-_src = "site-packages/"
-_version = open("VERSION.txt").readline().strip()
+# base directory of file
+_basedir = os.path.abspath(os.path.dirname(__file__))
+
+print("file: " + __file__)
+
+_version_fname = os.path.join(_basedir, "VERSION.txt")
+
+_version = open(_version_fname).readline().strip()
 
 print("packaging / installing pylibroadrunner version:{0}".format(_version))
 
@@ -69,8 +75,10 @@ def _getOSString():
 
     return s + "_" + arch
     
+_version = _version + "-" + _getOSString()
 
-def copyDistFiles():
+
+def _copyDistFiles():
     """
     copy files from the CMake build into the site packages so they get packages
     up and put in the distribution.
@@ -90,20 +98,11 @@ def copyDistFiles():
         shutil.copyfile(f, "site-packages/roadrunner/" + f)
     
     
-_version = _version + "-" + _getOSString()
-
-print("version: " + _version)
-
-_checkRequirements()
   
-# copy stuff if we are building
-if len(sys.argv) > 1 and sys.argv[1].lower().find('dist') >= 0:
-    print ("we're building...")
-    copyDistFiles()
 
 
 # custom sdist command to copy different bits
-class RoadRunnerSDist(sdist):
+class _RoadRunnerSDist(_sdist):
 
     def get_file_list (self):
         """Figure out the list of files to include in the source
@@ -115,26 +114,75 @@ class RoadRunnerSDist(sdist):
 
         print("get_file_list...")
 
-        sdist.get_file_list(self)
+        _sdist.get_file_list(self)
 
         print("files: {0}".format(self.filelist.files))
 
 
 
-setup(name='pylibroadrunner',
-      version=_version,
-      description='libRoadRunner SBML JIT compiler and simulation library',
-      url='http://libroadrunner.org',
-      packages=['roadrunner', 'roadrunner.testing'],
-      package_dir={
-           "roadrunner" : _src + "roadrunner", 
-           "roadrunner.testing" : _src + "roadrunner/testing"
-      },
-      package_data={
-          # add dll, won't hurt unix, not there anyway
-          "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll", "*.txt" ],  
-          "roadrunner.testing" : ["*.xml", "*.txt", "*.dat"]
-      },
-      cmdclass={'sdist' : RoadRunnerSDist}
-     )
+def setup(*args):
+
+    args = list(args)
+
+    print("version: " + _version)
+
+    _checkRequirements()
+
+    # may be running in a different dir, temp change dir into 
+    # dir of setup file
+    curdir = os.path.abspath(os.getcwd())
+
+    print("changing dir to " + _basedir)
+    os.chdir(_basedir)
+
+
+    # copy stuff if we are building
+    if len(args) > 0 and args[0].lower().find('dist') >= 0:
+        print ("we're building...")
+        _copyDistFiles()
+
+    # check if we are running in Mac Spyder, and /Users/andy/local/dist/pylibroadrunner-1.1.1-macosx_x86_64/setup.py
+    # called with no args
+    if sys.exec_prefix.find("Spyder.app") >= 0 and len(args) == 0:
+        args.append("install")
+        args.append("--prefix=" + sys.exec_prefix)
+
+        print("installing into Spyder using args: " + str(args))
+
+
+    _setup(name='pylibroadrunner',
+           author='Andy Somogyi, Herbert Sauro',
+           author_email='somogyie@indiana.edu',
+          version=_version,
+          description='libRoadRunner SBML JIT compiler and simulation library',
+          url='http://libroadrunner.org',
+          packages=['roadrunner', 'roadrunner.testing'],
+          package_dir={
+              "roadrunner" : "site-packages/roadrunner",
+              "roadrunner.testing" : "site-packages/roadrunner/testing"
+          },
+          package_data={
+              # add dll, won't hurt unix, not there anyway
+              "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll", "*.txt" ],  
+              "roadrunner.testing" : ["*.xml", "*.txt", "*.dat"]
+          },
+          cmdclass={'sdist' : _RoadRunnerSDist},
+
+          # fake out the command line args
+          script_name = 'setup.py',
+          script_args = args
+    )
+
+    #change dir back
+    print("changeing back to " + curdir)
+    os.chdir(curdir)
+
+    
+    
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    setup(*args)
+
+
       

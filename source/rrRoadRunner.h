@@ -759,7 +759,7 @@ private:
     /**
      * various general options that can be modified by external callers.
      */
-    RoadRunnerOptions options;
+    RoadRunnerOptions roadRunnerOptions;
 
 
     int createDefaultSteadyStateSelectionList();
