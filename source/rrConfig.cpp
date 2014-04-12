@@ -180,7 +180,7 @@ static Value values[] =  {
     Value(5),        // SIMULATEOPTIONS_DURATION,
     Value(1.e-10),   // SIMULATEOPTIONS_ABSOLUTE,
     Value(1.e-5),    // SIMULATEOPTIONS_RELATIVE,
-    Value(true),     // SIMULATEOPTIONS_STRUCTURED_RESULT,
+    Value(false),    // SIMULATEOPTIONS_STRUCTURED_RESULT,
     Value(false),    // SIMULATEOPTIONS_STIFF,
     Value(false),    // SIMULATEOPTIONS_MULTI_STEP,
     Value(-1),       // SIMULATEOPTIONS_INITIAL_TIMESTEP,
