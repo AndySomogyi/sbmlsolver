@@ -32,6 +32,9 @@
 // there is an issue, so lock it.
 #include <Poco/Mutex.h>
 
+// default values of sbml consistency check
+#include <sbml/SBMLDocument.h>
+
 using Poco::Mutex;
 using Poco::RegularExpression;
 using std::string;
@@ -161,8 +164,6 @@ struct Value {
 };
 
 
-
-
 static Value values[] =  {
     Value(false),    // LOADSBMLOPTIONS_CONSERVED_MOIETIES
     Value(false),    // LOADSBMLOPTIONS_RECOMPILE
@@ -187,7 +188,8 @@ static Value values[] =  {
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
     Value(false),    // ROADRUNNER_DISABLE_WARNINGS
-    Value(false)     // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+    Value(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+    Value(int(AllChecksON & UnitsCheckOFF))          //SBML_APPLICABLEVALIDATORS
 };
 
 static bool initialized = false;
@@ -244,6 +246,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["SIMULATEOPTIONS_MAXIMUM_NUM_STEPS"] = rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
     keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
     keys["ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES"] = rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+    keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
 
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Value) &&

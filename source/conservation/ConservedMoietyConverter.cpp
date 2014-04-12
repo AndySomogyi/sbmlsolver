@@ -15,6 +15,7 @@
 #include "ConservationExtension.h"
 #include "rrSBMLReader.h"
 #include "rrLogger.h"
+#include "rrConfig.h"
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/AlgebraicRule.h>
@@ -161,25 +162,8 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
 
 
-    /* check consistency of model */
-    /* since this function will write to the error log we should
-     * clear anything in the log first
-     */
-    mDocument->getErrorLog()->clearLog();
-    unsigned char origValidators = mDocument->getApplicableValidators();
+    /* The document was checked for consistency in setDocument */
 
-    mDocument->setApplicableValidators(AllChecksON);
-
-    mDocument->checkConsistency();
-
-    /* replace original consistency checks */
-    mDocument->setApplicableValidators(origValidators);
-
-    if (mDocument->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR)
-            != 0)
-    {
-        return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
-    }
 
     ConservationPkgNamespaces ns(3,1,1);
     resultDoc = new SBMLDocument(&ns);
@@ -250,11 +234,13 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         return LIBSBML_INVALID_OBJECT;
     }
 
+    // The version converter checks consistency, if we are already
+    // at L3V1, need to check consistency ourselves.
     if (doc->getLevel() != ConservationExtension::getDefaultLevel()
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
         Log(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
-                << ", version " << doc->getVersion() << ", converting to"
+                << ", version " << doc->getVersion() << ", converting to "
                 << "level " << ConservationExtension::getDefaultLevel()
                 << ", version " << ConservationExtension::getDefaultVersion()
                 << " for Moiety Conservation Conversion";
@@ -266,6 +252,12 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
         versionConverter.setProperties(&versionProps);
 
+        // need to set what checks the converter does. The const doc arg is fixed in 5.10, but
+        // we work with 5.9 for now.
+        libsbml::SBMLDocument* pdoc = const_cast<libsbml::SBMLDocument*>(doc);
+        pdoc->setApplicableValidators((unsigned char)Config::getInt(
+                Config::SBML_APPLICABLEVALIDATORS));
+
         versionConverter.setDocument(doc);
 
         if ((result = versionConverter.convert()) != LIBSBML_OPERATION_SUCCESS)
@@ -276,7 +268,6 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
             string errors = log ? log->toString() : string(" NULL SBML Error Log");
             Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
-
             return result;
         }
 
@@ -284,7 +275,51 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         // need to update ownership logic.
         doc = versionConverter.getDocument();
     }
+    else
+    {
+        // need to set what checks the converter does. The const doc arg is fixed in 5.10, but
+        // we work with 5.9 for now.
 
+        libsbml::SBMLDocument* pdoc = const_cast<libsbml::SBMLDocument*>(doc);
+        pdoc->setApplicableValidators((unsigned char)Config::getInt(
+                Config::SBML_APPLICABLEVALIDATORS));
+
+
+        /* use validators that the user has selected
+         */
+        /* hack to catch errors caught at read time */
+        char* docStr = writeSBMLToString(pdoc);
+        SBMLDocument *d = readSBMLFromString(docStr);
+        util_free(docStr);
+        unsigned int errors = d->getNumErrors();
+
+        for (unsigned int i = 0; i < errors; i++)
+        {
+            pdoc->getErrorLog()->add(*(d->getError(i)));
+        }
+        delete d;
+
+        errors += pdoc->checkConsistency();
+        errors = pdoc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR);
+
+        /* if the current model is not valid dont convert and dont set
+         */
+        if (errors > 0)
+        {
+            Log(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
+
+            const SBMLErrorLog *log = pdoc->getErrorLog();
+            string errors = log ? log->toString() : string(" NULL SBML Error Log");
+            Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+
+            return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
+        }
+
+        pdoc->getErrorLog()->clearLog();
+
+    }
+
+    // sets mDocument
     if ((result = SBMLConverter::setDocument(doc)) != LIBSBML_OPERATION_SUCCESS)
     {
         return result;
