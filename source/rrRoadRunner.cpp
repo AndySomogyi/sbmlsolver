@@ -707,6 +707,7 @@ double RoadRunner::steadyState()
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
                 "via the configuration file or the Config class setValue, see roadrunner documentation";
+        Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS : True in the config file";
     }
 
     if (mUseKinsol)
@@ -2614,29 +2615,10 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 {
     if (!mModel)
     {
-        Log(Logger::LOG_ERROR)<<gEmptyModelMessage;
-        return false;
+        throw CoreException(gEmptyModelMessage);
     }
 
-    try
-    {
-        mModel->setValue(sId, dValue);
-    }
-    catch (std::exception& ex)
-    {
-        Log(Logger::LOG_ERROR) << "setValue(" << sId << ", " << dValue << ") failed, "
-                << ex.what();
-    }
-
-    int nIndex = 0;
-
-    if ((nIndex = mModel->getConservedMoietyIndex(sId)) >= 0)
-    {
-        mModel->setConservedMoietyValues(1, &nIndex, &dValue);
-        mModel->updateDependentSpeciesValues();
-        mModel->setConservedSumChanged(true);
-        return true;
-    }
+    mModel->setValue(sId, dValue);
 
     SelectionRecord sel(sId);
 

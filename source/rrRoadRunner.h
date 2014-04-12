@@ -98,6 +98,10 @@ public:
     /**
      * Set the name of the externa compiler to use. Some ModelGenerators may have no use
      * for this value.
+     *
+     * An exception is raised if the string is invalid.
+     *
+     * WARNING, will no longer return a value in next version.
      */
     bool setCompiler(const std::string& compiler);
 
@@ -223,6 +227,8 @@ public:
      * If options is not null, then the RoadRunner::computeAndAssignConservationLaws
      * flag is set to whatever value is specified in the options struct.
      *
+     * WARNING, will no longer return a value in next version.
+     *
      * @param uriOrSBML: a URI, local path or sbml document contents.
      * @param options: an options struct, if null, default values are used.
      */
@@ -322,6 +328,10 @@ public:
 
     /**
      * sets the value coresponding to the given selection string
+     *
+     * raises an exception in the selection string is invalid.
+     *
+     * WARNING, will no longer return a value in next version.
      */
     bool setValue(const std::string& id, double value);
 
