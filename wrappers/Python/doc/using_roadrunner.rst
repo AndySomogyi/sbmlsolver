@@ -157,6 +157,15 @@ type the following::
 
    rr.selections = ['S1', 'S2']
    result = rr.simulate(0, 10, 100)
+   
+Some additional examples inlcude:
+  
+  # Select time and two rates of change (dS1/dt and dS2/dt)
+  rr.selections = ['time, 'S1''', 'S2''']
+  
+  # By default speciesnames yield amounts, concentrations can be obtained
+  # using square brackets, eg
+  rr.selections = ['time', '[S1]', '[S2]']
 
 .. seealso:: More details on :doc:`selecting_values`   
 
