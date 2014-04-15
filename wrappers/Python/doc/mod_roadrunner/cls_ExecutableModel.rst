@@ -123,6 +123,55 @@ Floating Species
    :returns: an array of floating species concentrations.
    :rtype: numpy.ndarray
 
+
+.. method:: ExecutableModel.getFloatingSpeciesInitAmountIds()
+   :module: roadrunner
+
+   get a list of the floating species amount initial amount selection symbols.
+
+.. method:: ExecutableModel.getFloatingSpeciesInitConcentrationIds()
+   :module: roadrunner
+
+   get a list of the floating species amount initial concentration selection symbols.
+
+
+.. method:: ExecutableModel.getFloatingSpeciesInitConcentrations([index])    
+   :module: roadrunner
+
+   Returns a vector of floating species initial concentrations. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of floating species initial concentrations.
+   :rtype: numpy.ndarray
+
+
+
+.. method:: ExecutableModel.setFloatingSpeciesInitAmounts([index], values)
+   :module: roadrunner
+
+   Returns a vector of floating species initial amounts. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of floating species initial amounts.
+   :rtype: numpy.ndarray
+
+
+.. method:: ExecutableModel.setFloatingSpeciesInitConcentrations([index], values)
+   :module: roadrunner
+
+   Set the entire set of floating species initial concentrations in one call. The order of species
+   is given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()
+
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to set,
+                               or if no index array is given, the first param should be an
+                               array of all the  values to set.
+   :param numpy.ndarray values: the values to set.
+
+
+
 Boundary Species
 ----------------
 
@@ -486,4 +535,7 @@ Misc
    Set the model time variable. 
 
    :param time: time the time value to set.
+
+
+
 

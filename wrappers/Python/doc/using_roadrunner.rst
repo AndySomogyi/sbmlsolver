@@ -232,7 +232,49 @@ Copy the code below into your own python script and use it::
 Changing Initial Conditions
 ---------------------------
 
-To be completed
+
+There are a number of methods to get and set the initial conditions of a loaded model. In order to
+specify a given initial conditions we use the notation, ``init(X)``.  The values stored in the
+initial conditions are applied to the model whenever it is reset. The list of all initial condition
+symbols can be obtained by the methods, :meth:`ExecutableModel.getFloatingSpeciesInitAmountIds()`
+and :meth:`ExecutableModel.getFloatingSpeciesInitConcentrationIds()`.  As with all other selection
+symbols, the :meth:`ExecutableModel.keys()` returns all available selection symbols. For example,
+for a model that contains two species, S1 and S2, the following code will yield the output:
+
+  >>> r.model.getFloatingSpeciesInitAmountIds()
+  ['init(S1)', 'init(S2)']
+
+Likewise the call yields the symbols for the initial concentrations:
+
+  >>> r.model.getFloatingSpeciesInitConcentrationIds()
+  ['init([S1])', 'init([S2])']
+
+Getting or setting initial values is easily accomplished using the array operator and the selection
+symbols:
+
+  >>> r.model["init(S1)"]
+  0.00015
+
+  >>> r.model["init([S1])"]
+  2.9999999999999997e-05
+  
+  >>> r.model["init([S1])"] = 2
+
+  >>> r.model["init(S1)"]
+  10.0
+
+The values for the initial conditions for all floating species can be obtained using the calls:
+
+  >>> r.model.getFloatingSpeciesInitConcentrations()
+  array([ 0.7,  5.6])
+
+Initial conditions can be set using the two methods for all species in one call:
+
+  >>> r.model.setFloatingSpeciesInitAmounts ([3.4, 5.6])
+
+
+  >>> r.model.setFloatingSpeciesInitConcentrations ([6.7, 0.1])
+
 
 
 .. highlight:: python
