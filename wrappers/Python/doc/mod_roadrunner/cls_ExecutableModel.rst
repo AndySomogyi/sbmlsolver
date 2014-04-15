@@ -13,7 +13,13 @@ a number of selection strings described in the Selections section.
    :module: roadrunner
 
    Get a list of all the keys that this model has. This is a very good way of looking at all the
-   available symbols and selection strings. 
+   available symbols and selection strings:
+
+   >>>  r.model.keys()
+   [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',  
+     'reaction1',  'init([S1])',  'init([S2])', 'init(S1)',  
+     'init(S2)',  "S1'"]
+
 
 .. method:: ExecutableModel.items()
    :module: roadrunner
@@ -36,7 +42,8 @@ a number of selection strings described in the Selections section.
      >>> r.model["S1"] = 12.3
 
    Note, some keys are read only such as values defined by rules, or calculated values such as
-   species amount rates or reaction rates.
+   species amount rates or reaction rates. If one attempts to set the value of a read-only symbol,
+   an exception is raised indicating the error, and no harm done. 
 
 
 

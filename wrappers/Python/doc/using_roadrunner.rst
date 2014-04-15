@@ -7,7 +7,7 @@ Basic Tutorial
 Import RoadRunner
 -----------------
 
-To startup roadRunner use the commands at the Python prompt::
+To startup RoadRunner use the commands at the Python prompt::
 
    import roadrunner
    rr = roadrunner.RoadRunner()
@@ -44,7 +44,7 @@ On the **Mac or Linux** we might use one of these two commands::
    rr = roadrunner.RoadRunner("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010") 
 
 If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will 
-be raised that contains extendend information detailing exactly what failed. If any warnings are
+be raised that contains extended information detailing exactly what failed. If any warnings are
 found in the SBML document, these will be displayed in the console error log. 
 
 Additionally, there are a couple models **included with libRoadRunner**. The models  ``feedback.xml`` 
@@ -62,12 +62,12 @@ There are a few additional models in the ``models/`` directory of the distributi
 Running Simulations
 -------------------
 
-Once a model is successfuly loaded we can next run a time course simulation. To do this we use the
+Once a model is successfully loaded we can next run a time course simulation. To do this we use the
 simulate method::
    
    result = rr.simulate()
 
-The variable result will be a Python numpy array. The first column will contain time and the reminaing columns will include
+The variable result will be a Python numpy array. The first column will contain time and the remaining columns will include
 all the floating species. In the simulate method we didn't specify how long to do the simulation for or how many 
 points to generate.  By default the time start is set to zero, time end to 40 time units and the number of points to 500.
 There are two ways to set these values to different values. The easiest is to add them to the called in the following
@@ -75,11 +75,11 @@ way::
    
    result = rr.simulate (0, 10, 100)
   
-This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simualation points
+This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simulation points
 will be output in intervals of 0.1.
 
 The alternative is to set the options record in simulateOptions. The advantage here is that the simulateOptions record
-holds many other options that might be of interest. To set the time start using the simulationOptions record we
+holds many other options that might be of interest. To set the time start using the simulateOptions record we
 would type::
    
    rr.simulateOptions.start = 0
@@ -92,7 +92,7 @@ And to set the time end for the simulation we would type::
    
    rr.simulateOptions.end = 10
 
-Typing somethng like::
+Typing something like::
    
    print rr.simulateOptions.steps
   
@@ -108,7 +108,7 @@ steps             Number of steps to generate
 absolute          Absolute tolerance for the CVODE integrator
 relative          Relative tolerance for the CVODE integrator
 stiff             Tells the integrator to use the fully implicit backward difference stiff solver
-resetModel        Resets the sbml state to the original values specified in the sbml. 
+resetModel        Resets the SBML state to the original values specified in the SBML. 
 structuredResult  If set (default is True), the result from simulate is a numpy structured array 
                   with the column names set to the selections. This is required for plotting and 
                   displaying a legend for each time series. 
@@ -141,7 +141,7 @@ detailed information on selections, see the :ref:`selecting-values` section.
 
 The simulate method, by default returns an `structured array
 <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_,
-which are arrays that also contain column names. These can be ploted directly using the
+which are arrays that also contain column names. These can be plotted directly using the
 ``roadrunner.plot`` function. 
 
 The output selections default to time and the set of floating species. 
@@ -158,13 +158,13 @@ type the following::
    rr.selections = ['S1', 'S2']
    result = rr.simulate(0, 10, 100)
    
-Some additional examples inlcude:
+Some additional examples include:
   
   # Select time and two rates of change (dS1/dt and dS2/dt)
   rr.selections = ['time, 'S1''', 'S2''']
   
-  # By default speciesnames yield amounts, concentrations can be obtained
-  # using square brackets, eg
+  # By default species names yield amounts, concentrations can be obtained
+  # using square brackets, e.g.
   rr.selections = ['time', '[S1]', '[S2]']
 
 .. seealso:: More details on :doc:`selecting_values`   
@@ -236,15 +236,20 @@ Changing Initial Conditions
 There are a number of methods to get and set the initial conditions of a loaded model. In order to
 specify a given initial conditions we use the notation, ``init(X)``.  The values stored in the
 initial conditions are applied to the model whenever it is reset. The list of all initial condition
-symbols can be obtained by the methods, :meth:`ExecutableModel.getFloatingSpeciesInitAmountIds()`
-and :meth:`ExecutableModel.getFloatingSpeciesInitConcentrationIds()`.  As with all other selection
-symbols, the :meth:`ExecutableModel.keys()` returns all available selection symbols. For example,
-for a model that contains two species, S1 and S2, the following code will yield the output:
+symbols can be obtained by the methods, :meth:`~ExecutableModel.getFloatingSpeciesInitAmountIds()`
+and :meth:`~ExecutableModel.getFloatingSpeciesInitConcentrationIds()`.  As with all other selection
+symbols, the :meth:`~ExecutableModel.keys()` returns all available selection symbols:
+
+  >>>  r.model.keys()
+  [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',  
+    'reaction1',  'init([S1])',  'init([S2])', 'init(S1)',  
+    'init(S2)',  "S1'"]
+
+Symbols for selecting initial values specifically for amounts and concentrations can be obtained
+via:
 
   >>> r.model.getFloatingSpeciesInitAmountIds()
   ['init(S1)', 'init(S2)']
-
-Likewise the call yields the symbols for the initial concentrations:
 
   >>> r.model.getFloatingSpeciesInitConcentrationIds()
   ['init([S1])', 'init([S2])']
