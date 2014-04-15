@@ -288,10 +288,10 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
 <div class="section" id="changing-initial-conditions">
 <h2>Changing Initial Conditions<a class="headerlink" href="#changing-initial-conditions" title="Permalink to this headline">¶</a></h2>
 <p>There are a number of methods to get and set the initial conditions of a loaded model. In order to
-specify a given initial conditions we use the notation, <tt class="docutils literal"><span class="pre">init(X)</span></tt>.  The list of all initial
-condition symbols can be obtained by the methods,
-<a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitAmountIds()</span></tt></a> and
-<a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitConcentrationIds()</span></tt></a>.  As with all other selection
+specify a given initial conditions we use the notation, <tt class="docutils literal"><span class="pre">init(X)</span></tt>.  The values stored in the
+initial conditions are applied to the model whenever it is reset. The list of all initial condition
+symbols can be obtained by the methods, <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitAmountIds()</span></tt></a>
+and <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitConcentrationIds()</span></tt></a>.  As with all other selection
 symbols, the <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.keys" title="roadrunner.ExecutableModel.keys"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.keys()</span></tt></a> returns all available selection symbols. For example,
 for a model that contains two species, S1 and S2, the following code will yield the output:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitAmountIds</span><span class="p">()</span>
