@@ -219,6 +219,14 @@ type the following:</p>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Some additional examples inlcude:</p>
+<blockquote>
+<div><p># Select time and two rates of change (dS1/dt and dS2/dt)
+rr.selections = [&#8216;time, &#8216;S1&#8217;&#8216;&#8217;, &#8216;S2&#8217;&#8216;&#8217;]</p>
+<p># By default speciesnames yield amounts, concentrations can be obtained
+# using square brackets, eg
+rr.selections = [&#8216;time&#8217;, &#8216;[S1]&#8217;, &#8216;[S2]&#8217;]</p>
+</div></blockquote>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last">More details on <a class="reference internal" href="selecting_values.html"><em>Selecting Values</em></a></p>
@@ -279,7 +287,51 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
 </div>
 <div class="section" id="changing-initial-conditions">
 <h2>Changing Initial Conditions<a class="headerlink" href="#changing-initial-conditions" title="Permalink to this headline">¶</a></h2>
-<p>To be completed</p>
+<p>There are a number of methods to get and set the initial conditions of a loaded model. In order to
+specify a given initial conditions we use the notation, <tt class="docutils literal"><span class="pre">init(X)</span></tt>.  The list of all initial
+condition symbols can be obtained by the methods,
+<a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitAmountIds()</span></tt></a> and
+<a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitConcentrationIds()</span></tt></a>.  As with all other selection
+symbols, the <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.keys" title="roadrunner.ExecutableModel.keys"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.keys()</span></tt></a> returns all available selection symbols. For example,
+for a model that contains two species, S1 and S2, the following code will yield the output:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitAmountIds</span><span class="p">()</span>
+<span class="go">[&#39;init(S1)&#39;, &#39;init(S2)&#39;]</span>
+</pre></div>
+</div>
+<p>Likewise the call yields the symbols for the initial concentrations:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrationIds</span><span class="p">()</span>
+<span class="go">[&#39;init([S1])&#39;, &#39;init([S2])&#39;]</span>
+</pre></div>
+</div>
+<p>Getting or setting initial values is easily accomplished using the array operator and the selection
+symbols:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&quot;init(S1)&quot;</span><span class="p">]</span>
+<span class="go">0.00015</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&quot;init([S1])&quot;</span><span class="p">]</span>
+<span class="go">2.9999999999999997e-05</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&quot;init([S1])&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s">&quot;init(S1)&quot;</span><span class="p">]</span>
+<span class="go">10.0</span>
+</pre></div>
+</div>
+<p>The values for the initial conditions for all floating species can be obtained using the calls:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrations</span><span class="p">()</span>
+<span class="go">array([ 0.7,  5.6])</span>
+</pre></div>
+</div>
+<p>Initial conditions can be set using the two methods for all species in one call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setFloatingSpeciesInitAmounts</span> <span class="p">([</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setFloatingSpeciesInitConcentrations</span> <span class="p">([</span><span class="mf">6.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+</pre></div>
+</div>
 </div>
 </div>
 

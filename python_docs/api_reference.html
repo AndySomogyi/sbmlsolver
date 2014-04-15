@@ -1578,6 +1578,77 @@ given by the order of Ids returned by getFloatingSpeciesIds()</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesInitAmountIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>get a list of the floating species amount initial amount selection symbols.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesInitConcentrationIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>get a list of the floating species amount initial concentration selection symbols.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrations">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesInitConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of floating species initial concentrations. The order of species is
+given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of floating species initial concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setFloatingSpeciesInitAmounts">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesInitAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesInitAmounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of floating species initial amounts. The order of species is
+given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of floating species initial amounts.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setFloatingSpeciesInitConcentrations">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesInitConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesInitConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the entire set of floating species initial concentrations in one call. The order of species
+is given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to set,
+or if no index array is given, the first param should be an
+array of all the  values to set.</li>
+<li><strong>values</strong> (<em>numpy.ndarray</em>) &#8211; the values to set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="boundary-species">
 <h3>Boundary Species<a class="headerlink" href="#boundary-species" title="Permalink to this headline">¶</a></h3>
@@ -2131,6 +2202,7 @@ time = 10.</p>
 </table>
 </dd></dl>
 
+<p>r.model.evalInitialConditions</p>
 </div>
 </div>
 <div class="section" id="logging">
