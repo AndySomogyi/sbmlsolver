@@ -46,7 +46,6 @@ enum ModelDataFields {
     NumInitGlobalParameters,                  // 13
 
     Stoichiometry,                            // 14
-
     NumEvents,                                // 15
     StateVectorSize,                          // 16
     StateVector,                              // 17

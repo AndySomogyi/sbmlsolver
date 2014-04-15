@@ -48,7 +48,7 @@ static const char* modelDataFieldsNames[] =  {
 
         "NumInitCompartments",                  // 10
         "NumInitFloatingSpecies",               // 11
-        "NumInitBoundarySpecies"                // 12
+        "NumInitBoundarySpecies",               // 12
         "NumInitGlobalParameters",              // 13
 
         "Stoichiometry",                        // 14
@@ -70,7 +70,7 @@ static const char* modelDataFieldsNames[] =  {
         "ReactionRatesAlias",                   // 29
 
         "RateRuleValuesAlias",                  // 30
-        "FloatingSpeciesAmountsAlias"           // 31
+        "FloatingSpeciesAmountsAlias",          // 31
 
         "CompartmentVolumes",                   // 32
         "InitCompartmentVolumes",               // 33
@@ -112,6 +112,9 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
     independentInitGlobalParameterSize(0),
     independentInitCompartmentSize(0)
 {
+    assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
+            == NotSafe_FloatingSpeciesAmounts + 1
+            && "wrong number of items in modelDataFieldsNames");
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
@@ -125,6 +128,10 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
     independentInitGlobalParameterSize(0),
     independentInitCompartmentSize(0)
 {
+    assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
+            == NotSafe_FloatingSpeciesAmounts + 1
+            && "wrong number of items in modelDataFieldsNames");
+
     modelName = model->getName();
 
     // first go through the rules, see if they determine other stuff
