@@ -58,7 +58,7 @@
 <h1>Basic Tutorial<a class="headerlink" href="#basic-tutorial" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="import-roadrunner">
 <h2>Import RoadRunner<a class="headerlink" href="#import-roadrunner" title="Permalink to this headline">¶</a></h2>
-<p>To startup roadRunner use the commands at the Python prompt:</p>
+<p>To startup RoadRunner use the commands at the Python prompt:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
 <span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
 </pre></div>
@@ -91,7 +91,7 @@ these must be typed twice, i.e. <tt class="docutils literal"><span class="pre">'
 </pre></div>
 </div>
 <p>If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will
-be raised that contains extendend information detailing exactly what failed. If any warnings are
+be raised that contains extended information detailing exactly what failed. If any warnings are
 found in the SBML document, these will be displayed in the console error log.</p>
 <p>Additionally, there are a couple models <strong>included with libRoadRunner</strong>. The models  <tt class="docutils literal"><span class="pre">feedback.xml</span></tt>
 and <tt class="docutils literal"><span class="pre">Test_1.xml</span></tt> are available in the <tt class="docutils literal"><span class="pre">roadrunner.testing</span></tt> module. To access these use:</p>
@@ -104,12 +104,12 @@ and <tt class="docutils literal"><span class="pre">Test_1.xml</span></tt> are av
 </div>
 <div class="section" id="running-simulations">
 <h2>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this headline">¶</a></h2>
-<p>Once a model is successfuly loaded we can next run a time course simulation. To do this we use the
+<p>Once a model is successfully loaded we can next run a time course simulation. To do this we use the
 simulate method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The variable result will be a Python numpy array. The first column will contain time and the reminaing columns will include
+<p>The variable result will be a Python numpy array. The first column will contain time and the remaining columns will include
 all the floating species. In the simulate method we didn&#8217;t specify how long to do the simulation for or how many
 points to generate.  By default the time start is set to zero, time end to 40 time units and the number of points to 500.
 There are two ways to set these values to different values. The easiest is to add them to the called in the following
@@ -117,10 +117,10 @@ way:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simualation points
+<p>This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simulation points
 will be output in intervals of 0.1.</p>
 <p>The alternative is to set the options record in simulateOptions. The advantage here is that the simulateOptions record
-holds many other options that might be of interest. To set the time start using the simulationOptions record we
+holds many other options that might be of interest. To set the time start using the simulateOptions record we
 would type:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
@@ -133,7 +133,7 @@ would type:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="mi">10</span>
 </pre></div>
 </div>
-<p>Typing somethng like:</p>
+<p>Typing something like:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">steps</span>
 </pre></div>
 </div>
@@ -171,7 +171,7 @@ would type:</p>
 <td>Tells the integrator to use the fully implicit backward difference stiff solver</td>
 </tr>
 <tr class="row-odd"><td>resetModel</td>
-<td>Resets the sbml state to the original values specified in the sbml.</td>
+<td>Resets the SBML state to the original values specified in the SBML.</td>
 </tr>
 <tr class="row-even"><td>structuredResult</td>
 <td>If set (default is True), the result from simulate is a numpy structured array
@@ -204,7 +204,7 @@ the following syntax:</p>
 <p>RoadRunner supports a range of options for selecting what data a simulation should return. For more
 detailed information on selections, see the <a class="reference internal" href="selecting_values.html#selecting-values"><em>Selecting Values</em></a> section.</p>
 <p>The simulate method, by default returns an <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.rec.html">structured array</a>,
-which are arrays that also contain column names. These can be ploted directly using the
+which are arrays that also contain column names. These can be plotted directly using the
 <tt class="docutils literal"><span class="pre">roadrunner.plot</span></tt> function.</p>
 <p>The output selections default to time and the set of floating species.
 It is possible to change the simulation result values by changing the selection list.
@@ -219,12 +219,12 @@ type the following:</p>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Some additional examples inlcude:</p>
+<p>Some additional examples include:</p>
 <blockquote>
 <div><p># Select time and two rates of change (dS1/dt and dS2/dt)
 rr.selections = [&#8216;time, &#8216;S1&#8217;&#8216;&#8217;, &#8216;S2&#8217;&#8216;&#8217;]</p>
-<p># By default speciesnames yield amounts, concentrations can be obtained
-# using square brackets, eg
+<p># By default species names yield amounts, concentrations can be obtained
+# using square brackets, e.g.
 rr.selections = [&#8216;time&#8217;, &#8216;[S1]&#8217;, &#8216;[S2]&#8217;]</p>
 </div></blockquote>
 <div class="admonition seealso">
@@ -290,15 +290,21 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
 <p>There are a number of methods to get and set the initial conditions of a loaded model. In order to
 specify a given initial conditions we use the notation, <tt class="docutils literal"><span class="pre">init(X)</span></tt>.  The values stored in the
 initial conditions are applied to the model whenever it is reset. The list of all initial condition
-symbols can be obtained by the methods, <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitAmountIds()</span></tt></a>
-and <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitConcentrationIds()</span></tt></a>.  As with all other selection
-symbols, the <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.keys" title="roadrunner.ExecutableModel.keys"><tt class="xref py py-meth docutils literal"><span class="pre">ExecutableModel.keys()</span></tt></a> returns all available selection symbols. For example,
-for a model that contains two species, S1 and S2, the following code will yield the output:</p>
+symbols can be obtained by the methods, <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-meth docutils literal"><span class="pre">getFloatingSpeciesInitAmountIds()</span></tt></a>
+and <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">getFloatingSpeciesInitConcentrationIds()</span></tt></a>.  As with all other selection
+symbols, the <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.keys" title="roadrunner.ExecutableModel.keys"><tt class="xref py py-meth docutils literal"><span class="pre">keys()</span></tt></a> returns all available selection symbols:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[ &#39;S1&#39;, &#39;S2&#39;, &#39;[S1]&#39;, &#39;[S2]&#39;, &#39;compartment&#39;, &#39;k1&#39;, &#39;cm0&#39;,</span>
+<span class="go">  &#39;reaction1&#39;,  &#39;init([S1])&#39;,  &#39;init([S2])&#39;, &#39;init(S1)&#39;,</span>
+<span class="go">  &#39;init(S2)&#39;,  &quot;S1&#39;&quot;]</span>
+</pre></div>
+</div>
+<p>Symbols for selecting initial values specifically for amounts and concentrations can be obtained
+via:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitAmountIds</span><span class="p">()</span>
 <span class="go">[&#39;init(S1)&#39;, &#39;init(S2)&#39;]</span>
 </pre></div>
 </div>
-<p>Likewise the call yields the symbols for the initial concentrations:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrationIds</span><span class="p">()</span>
 <span class="go">[&#39;init([S1])&#39;, &#39;init([S2])&#39;]</span>
 </pre></div>

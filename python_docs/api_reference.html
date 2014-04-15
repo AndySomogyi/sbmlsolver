@@ -1427,7 +1427,13 @@ a number of selection strings described in the Selections section.</p>
 <dt id="roadrunner.ExecutableModel.keys">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of all the keys that this model has. This is a very good way of looking at all the
-available symbols and selection strings.</p>
+available symbols and selection strings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[ &#39;S1&#39;, &#39;S2&#39;, &#39;[S1]&#39;, &#39;[S2]&#39;, &#39;compartment&#39;, &#39;k1&#39;, &#39;cm0&#39;,</span>
+<span class="go">  &#39;reaction1&#39;,  &#39;init([S1])&#39;,  &#39;init([S2])&#39;, &#39;init(S1)&#39;,</span>
+<span class="go">  &#39;init(S2)&#39;,  &quot;S1&#39;&quot;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -1454,7 +1460,8 @@ available symbols and selection strings.</p>
 </pre></div>
 </div>
 <p>Note, some keys are read only such as values defined by rules, or calculated values such as
-species amount rates or reaction rates.</p>
+species amount rates or reaction rates. If one attempts to set the value of a read-only symbol,
+an exception is raised indicating the error, and no harm done.</p>
 </dd></dl>
 
 <div class="section" id="floating-species">
