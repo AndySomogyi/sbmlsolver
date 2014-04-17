@@ -55,8 +55,8 @@
   <div class="section" id="accessing-the-sbml-model-variables">
 <h1>Accessing the SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline">¶</a></h1>
 <p>The following methods allow users to obtain information on the model</p>
-<div class="section" id="compartment-group">
-<h2>Compartment Group<a class="headerlink" href="#compartment-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="compartments">
+<h2>Compartments<a class="headerlink" href="#compartments" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -78,8 +78,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="boundary-species-group">
-<h2>Boundary Species Group<a class="headerlink" href="#boundary-species-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boundary-species">
+<h2>Boundary Species<a class="headerlink" href="#boundary-species" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -101,8 +101,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="floating-species-group">
-<h2>Floating Species Group<a class="headerlink" href="#floating-species-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="floating-species">
+<h2>Floating Species<a class="headerlink" href="#floating-species" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -124,19 +124,37 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="initial-conditions-group">
-<h2>Initial Conditions Group<a class="headerlink" href="#initial-conditions-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initial-conditions">
+<h2>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitAmountIds</span></tt></a>()</td>
+<td>get a list of the floating species amount initial amount selection symbols.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitConcentrationIds</span></tt></a>()</td>
+<td>get a list of the floating species amount initial concentration selection symbols.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmounts" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmounts"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitAmounts</span></tt></a>([index])</td>
+<td>Returns a vector of floating species initial amounts.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setFloatingSpeciesInitAmounts" title="roadrunner.ExecutableModel.setFloatingSpeciesInitAmounts"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setFloatingSpeciesInitAmounts</span></tt></a>(...)</td>
+<td>Set a vector of floating species initial amounts.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrations" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrations"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesInitConcentrations</span></tt></a>([index])</td>
+<td>Returns a vector of floating species initial concentrations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setFloatingSpeciesInitConcentrations" title="roadrunner.ExecutableModel.setFloatingSpeciesInitConcentrations"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setFloatingSpeciesInitConcentrations</span></tt></a>(...)</td>
+<td>Set a vector of floating species initial concentrations.</td>
+</tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="reaction-group">
-<h2>Reaction Group<a class="headerlink" href="#reaction-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reactions">
+<h2>Reactions<a class="headerlink" href="#reactions" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -155,8 +173,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="rates-of-change-group">
-<h2>Rates Of Change Group<a class="headerlink" href="#rates-of-change-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rates-of-change">
+<h2>Rates Of Change<a class="headerlink" href="#rates-of-change" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -178,8 +196,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="parameters-group">
-<h2>Parameters Group<a class="headerlink" href="#parameters-group" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="global-parameters">
+<h2>Global Parameters<a class="headerlink" href="#global-parameters" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -215,13 +233,13 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Accessing the SBML Model Variables</a><ul>
-<li><a class="reference internal" href="#compartment-group">Compartment Group</a></li>
-<li><a class="reference internal" href="#boundary-species-group">Boundary Species Group</a></li>
-<li><a class="reference internal" href="#floating-species-group">Floating Species Group</a></li>
-<li><a class="reference internal" href="#initial-conditions-group">Initial Conditions Group</a></li>
-<li><a class="reference internal" href="#reaction-group">Reaction Group</a></li>
-<li><a class="reference internal" href="#rates-of-change-group">Rates Of Change Group</a></li>
-<li><a class="reference internal" href="#parameters-group">Parameters Group</a></li>
+<li><a class="reference internal" href="#compartments">Compartments</a></li>
+<li><a class="reference internal" href="#boundary-species">Boundary Species</a></li>
+<li><a class="reference internal" href="#floating-species">Floating Species</a></li>
+<li><a class="reference internal" href="#initial-conditions">Initial Conditions</a></li>
+<li><a class="reference internal" href="#reactions">Reactions</a></li>
+<li><a class="reference internal" href="#rates-of-change">Rates Of Change</a></li>
+<li><a class="reference internal" href="#global-parameters">Global Parameters</a></li>
 </ul>
 </li>
 </ul>
