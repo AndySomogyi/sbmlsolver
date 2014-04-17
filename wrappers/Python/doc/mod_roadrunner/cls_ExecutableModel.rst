@@ -130,6 +130,14 @@ Floating Species
    :returns: an array of floating species concentrations.
    :rtype: numpy.ndarray
 
+Floating Species Initial Conditions
+-----------------------------------
+RoadRunner stores all initial conditions separately from the model state variables. This means that
+you can update the initial conditions at any time, and it does not affect the current state of the
+model. To reset the model, that is, reset it to its original state, or a new original state where
+what has changed the initial conditions use the :meth:`~ExecutableModel.reset()` method. 
+
+The following methods allow access to the floating species initial condition values:
 
 .. method:: ExecutableModel.getFloatingSpeciesInitAmountIds()
    :module: roadrunner
@@ -152,30 +160,34 @@ Floating Species
    :returns: an array of floating species initial concentrations.
    :rtype: numpy.ndarray
 
+.. method:: ExecutableModel.setFloatingSpeciesInitConcentrations([index], values)
+   :module: roadrunner
+
+   Set a vector of floating species initial concentrations. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
 
 
-.. method:: ExecutableModel.setFloatingSpeciesInitAmounts([index], values)
+.. method:: ExecutableModel.getFloatingSpeciesInitAmounts([index])    
    :module: roadrunner
 
    Returns a vector of floating species initial amounts. The order of species is
-   given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
+   given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of floating species initial amounts.
    :rtype: numpy.ndarray
 
 
-.. method:: ExecutableModel.setFloatingSpeciesInitConcentrations([index], values)
+.. method:: ExecutableModel.setFloatingSpeciesInitAmounts([index], values)
    :module: roadrunner
 
-   Set the entire set of floating species initial concentrations in one call. The order of species
-   is given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()
+   Set a vector of floating species initial amounts. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
 
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
 
-   :param numpy.ndarray index: (optional) an index array indicating which items to set,
-                               or if no index array is given, the first param should be an
-                               array of all the  values to set.
-   :param numpy.ndarray values: the values to set.
 
 
 

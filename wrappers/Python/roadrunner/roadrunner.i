@@ -1260,6 +1260,11 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
+    PyObject *getFloatingSpeciesInitAmounts() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitAmounts,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+    }
+
     PyObject *getCompartmentInitVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
                                           &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
