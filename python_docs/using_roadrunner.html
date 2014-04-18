@@ -86,7 +86,6 @@ these must be typed twice, i.e. <tt class="docutils literal"><span class="pre">'
 <p>On the <strong>Mac or Linux</strong> we might use one of these two commands:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
 
-<span class="c">#Note: Not available on Windows</span>
 <span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -180,11 +179,12 @@ displaying a legend for each time series.</td>
 </tr>
 </tbody>
 </table>
-<p>One important point to note about simulate(). When simulate() is run, the concentration of the floating species
-will naturally change. If simulate() is called a second time, the simulation will use as the initial conditions the last
-values from the previous simulation. This can be used to easily to follow on simulations. However there will be times
-when we wish to run the same simulation again but perhaps with a slightly different parameters value. To do
-this we must reset the initial conditions back to the original values. To do that we run the command reset:</p>
+<p>One important point to note about simulate(). When simulate() is run, the concentration of
+the floating species will naturally change. If simulate() is called a second time, the simulation
+will start the simulation from the previous simulated values. This can be used to easily follow on
+simulations. However there will be times when we wish to run the same simulation again but perhaps
+with slightly different parameters values. To do this we must reset the initial conditions back to
+the original values. To do that we run the command reset:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -210,8 +210,9 @@ which are arrays that also contain column names. These can be plotted directly u
 It is possible to change the simulation result values by changing the selection list.
 For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type:</p>
-<div class="highlight-python"><pre>rr.selections = ['time', 'S2']
- result = rr.simulate (0, 10, 100)</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we
 type the following:</p>
@@ -291,8 +292,9 @@ x-axis and remaining columns the y-axis. Returns a handle to the plotting object
 specify a given initial conditions we use the notation, <tt class="docutils literal"><span class="pre">init(X)</span></tt>.  The values stored in the
 initial conditions are applied to the model whenever it is reset. The list of all initial condition
 symbols can be obtained by the methods, <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitAmountIds"><tt class="xref py py-meth docutils literal"><span class="pre">getFloatingSpeciesInitAmountIds()</span></tt></a>
-and <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">getFloatingSpeciesInitConcentrationIds()</span></tt></a>.  As with all other selection
-symbols, the <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.keys" title="roadrunner.ExecutableModel.keys"><tt class="xref py py-meth docutils literal"><span class="pre">keys()</span></tt></a> returns all available selection symbols:</p>
+and <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds" title="roadrunner.ExecutableModel.getFloatingSpeciesInitConcentrationIds"><tt class="xref py py-meth docutils literal"><span class="pre">getFloatingSpeciesInitConcentrationIds()</span></tt></a> assuming <tt class="docutils literal"><span class="pre">r</span></tt> is a roadunner
+variable. As with all other selection symbols, the <a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.keys" title="roadrunner.ExecutableModel.keys"><tt class="xref py py-meth docutils literal"><span class="pre">keys()</span></tt></a> returns all
+available selection symbols:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">[ &#39;S1&#39;, &#39;S2&#39;, &#39;[S1]&#39;, &#39;[S2]&#39;, &#39;compartment&#39;, &#39;k1&#39;, &#39;cm0&#39;,</span>
 <span class="go">  &#39;reaction1&#39;,  &#39;init([S1])&#39;,  &#39;init([S2])&#39;, &#39;init(S1)&#39;,</span>
