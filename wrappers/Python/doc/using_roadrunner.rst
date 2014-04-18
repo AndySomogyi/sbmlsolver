@@ -236,9 +236,10 @@ Changing Initial Conditions
 There are a number of methods to get and set the initial conditions of a loaded model. In order to
 specify a given initial conditions we use the notation, ``init(X)``.  The values stored in the
 initial conditions are applied to the model whenever it is reset. The list of all initial condition
-symbols can be obtained by the methods, :meth:`r.model.getFloatingSpeciesInitAmountIds()`
-and :meth:`r.model.getFloatingSpeciesInitConcentrationIds()` assuming `r` is a roadunner variable. As 
-with all other selection symbols, the :meth:`~r.model.keys()` returns all available selection symbols:
+symbols can be obtained by the methods, :meth:`~ExecutableModel.getFloatingSpeciesInitAmountIds()`
+and :meth:`~ExecutableModel.getFloatingSpeciesInitConcentrationIds()` assuming ``r`` is a roadunner
+variable. As with all other selection symbols, the :meth:`~ExecutableModel.keys()` returns all
+available selection symbols:
 
   >>>  r.model.keys()
   [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',
