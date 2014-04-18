@@ -55,8 +55,8 @@
 (c) 2009-2014 Endre Somogyi and Herbert Sauro</p>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>Many of RoadRunner classes use a number of configration parameters. Most of these can be set using
-the Config class. The values stored in the Config class only determine the <em>defaut</em> values of
+<p>Many of RoadRunner classes use a number of configuration parameters. Most of these can be set using
+the Config class. The values stored in the Config class only determine the <em>default</em> values of
 parameters. Most methods let specify explicit values for parameters. For example, if one ran a time
 series simulation, they could specify various parameter via the optional SimulateOptions object:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
@@ -74,10 +74,10 @@ Config class will look in the following locations for the config file, and will 
 the first config file it finds. If it does not find a config file in one of the following locations,
 a default set of configuration parameters are used. The search locations of the config file are:</p>
 <p>#1: the ROADRUNNER_CONFIG environment variable</p>
-<p>#2: try the users&#8217;s home directory for roadrunner.conf, i.e.:</p>
+<p>#2: try the user&#8217;s home directory for roadrunner.conf, i.e.:</p>
 <div class="highlight-python"><pre>/Users/andy/roadrunner.conf</pre>
 </div>
-<p>#3: try the users&#8217;s home directory for .roadrunner.conf, i.e.:</p>
+<p>#3: try the user&#8217;s home directory for .roadrunner.conf, i.e.:</p>
 <div class="highlight-python"><pre>/Users/andy/.roadrunner.conf</pre>
 </div>
 <p>#4: try the same directory as the roadrunner shared library, this will be the same directory as the python _roadrunner.pyd
@@ -93,7 +93,7 @@ python extension module, i.e.:</p>
 </div>
 <p>Any line that does not match this format is ignored, and keys that are not found are also
 ignored. Therefore, any line that does not start with a word character is considered a comment.</p>
-<p>All of the configuration managment functions are static method of the Config class, and
+<p>All of the configuration management functions are static method of the Config class, and
 all of the configuration keys are static attributes of the Config class, these are documented in the
 Configuration Functions section.</p>
 <p>As all of the Config class methods are static, one never instantiates the Config class.</p>
@@ -180,19 +180,21 @@ here. The variable type of the parameter is listed after the key name.</p>
 with this flag enabled can not be compared index wise to results
 generated otherwise.</p>
 <p>Moiety conservation is only compatable with simple models which do NOT have any events or rules
-which define or alter any floating species, and which have simple constant stiochiometries.</p>
+which define or alter any floating species, and which have simple constant stoichiometries.</p>
+<p>Moiety conservation may cause unexpected results, be aware of what it is before enableing.</p>
+<p>Not recommended for time series simulations.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_RECOMPILE">
 <tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_RECOMPILE</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_RECOMPILE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Should the model be recompiled?
-The LLVM ModelGenerator maintins a hash table of currently running
+The LLVM ModelGenerator maintains a hash table of currently running
 models. If this flag is NOT set, then the generator will look to see
 if there is already a running instance of the given model and
 use the generated code from that one.</p>
 <p>If only a single instance of a model is run, there is no
-need to cache the models, and this can safetly be enabled,
+need to cache the models, and this can safely be enabled,
 realizing some performance gains.</p>
 </dd></dl>
 
@@ -210,7 +212,7 @@ gains, especially in very large models.</p>
 <dl class="attribute">
 <dt id="roadrunner.Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS">
 <tt class="descclassname">Config.</tt><tt class="descname">LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS</tt><em class="property"> bool</em><a class="headerlink" href="#roadrunner.Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate accessor functions to allow changing of initial
+<dd><p>Generate accessors functions to allow changing of initial
 conditions.</p>
 </dd></dl>
 
@@ -336,7 +338,7 @@ will by notified at each step.</p>
 <dt id="roadrunner.Config.SIMULATEOPTIONS_INITIAL_TIMESTEP">
 <tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_INITIAL_TIMESTEP</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_INITIAL_TIMESTEP" title="Permalink to this definition">¶</a></dt>
 <dd><p>A user specified initial time step. If this is &lt;=  0, the integrator
-will attempt to determine a safe initial time stpe.</p>
+will attempt to determine a safe initial time step.</p>
 <p>Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
 the internal integrator may take many many steps to reach one of the external time
 steps. This value specifies an initial value for the internal integrator
@@ -346,14 +348,14 @@ time step.</p>
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP">
 <tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MINIMUM_TIMESTEP</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specfify The Minimum Time Step That The Internal Integrator
+<dd><p>Specify The Minimum Time Step That The Internal Integrator
 Will Use. Uses Integrator Estimated Value If &lt;= 0.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_TIMSETEP">
 <tt class="descclassname">Config.</tt><tt class="descname">SIMULATEOPTIONS_MAXIMUM_TIMSETEP</tt><em class="property"> double</em><a class="headerlink" href="#roadrunner.Config.SIMULATEOPTIONS_MAXIMUM_TIMSETEP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specify The Maximum Time Step Size That The Internaal Integrator
+<dd><p>Specify The Maximum Time Step Size That The Internal Integrator
 Will Use. Uses Integrator Estimated Value If &lt;= 0.</p>
 </dd></dl>
 
@@ -368,8 +370,8 @@ Default Value If &lt;= 0.</p>
 <dl class="attribute">
 <dt>
 <tt class="descname">Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,</tt></dt>
-<dd><p>RoadRunner by default dynamically generates accessor properties
-for all sbml symbol names on the model object when it is retrieved
+<dd><p>RoadRunner by default dynamically generates accessors properties
+for all SBML symbol names on the model object when it is retrieved
 in Python. This feature is very nice for interactive use, but
 can slow things down. If this feature is not needed, it
 can be disabled here.</p>
@@ -379,6 +381,17 @@ can be disabled here.</p>
 <dt>
 <tt class="descname">Config.ROADRUNNER_DISABLE_WARNINGS,</tt></dt>
 <dd><p>disable SBML conserved moiety warnings.</p>
+<p>Conserved Moiety Conversion may cause unexpected behavior, be aware of what it
+is before enabling.</p>
+<p>RoadRunner will issue a warning in steadyState if conservedMoieties are NOT
+enabled because of a potential singular Jacobian. To disable this warning,
+set this value to 1</p>
+<p>A notice will be issued whenever a document is loaded and conserved moieties
+are enabled. To disable this notice, set this value to 2.</p>
+<p>To disable both the warning and notice, set this value to 3</p>
+<p>Rationale for these numbers: This is actual a bit field, disabling the steady state
+warning value is actually 0b01 &lt;&lt; 0 which is 1, and the loading warning is 0b01 &lt;&lt; 1
+which is 2 and 0b01 &amp; 0b10 is 0b11 which is 3 in decimal.</p>
 </dd></dl>
 
 </div>
