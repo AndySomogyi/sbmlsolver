@@ -1,8 +1,8 @@
 Configuration
 _____________
 
-Many of RoadRunner classes use a number of configration parameters. Most of these can be set using
-the Config class. The values stored in the Config class only determine the *defaut* values of
+Many of RoadRunner classes use a number of configuration parameters. Most of these can be set using
+the Config class. The values stored in the Config class only determine the *default* values of
 parameters. Most methods let specify explicit values for parameters. For example, if one ran a time
 series simulation, they could specify various parameter via the optional SimulateOptions object::
 
@@ -22,11 +22,11 @@ a default set of configuration parameters are used. The search locations of the 
 
 #1: the ROADRUNNER_CONFIG environment variable
 
-#2: try the users's home directory for roadrunner.conf, i.e.::
+#2: try the user's home directory for roadrunner.conf, i.e.::
   
   /Users/andy/roadrunner.conf
 
-#3: try the users's home directory for .roadrunner.conf, i.e.::
+#3: try the user's home directory for .roadrunner.conf, i.e.::
   
   /Users/andy/.roadrunner.conf
 
@@ -47,7 +47,7 @@ The conf file is just a plain text file of where each line may be key / value pa
 Any line that does not match this format is ignored, and keys that are not found are also
 ignored. Therefore, any line that does not start with a word character is considered a comment.
 
-All of the configuration managment functions are static method of the Config class, and 
+All of the configuration management functions are static method of the Config class, and 
 all of the configuration keys are static attributes of the Config class, these are documented in the 
 Configuration Functions section. 
 
@@ -140,7 +140,11 @@ here. The variable type of the parameter is listed after the key name.
    generated otherwise.
 
    Moiety conservation is only compatable with simple models which do NOT have any events or rules
-   which define or alter any floating species, and which have simple constant stiochiometries. 
+   which define or alter any floating species, and which have simple constant stoichiometries. 
+
+   Moiety conservation may cause unexpected results, be aware of what it is before enableing. 
+
+   Not recommended for time series simulations.
   
 
 
@@ -149,13 +153,13 @@ here. The variable type of the parameter is listed after the key name.
    :annotation: bool
 
    Should the model be recompiled?
-   The LLVM ModelGenerator maintins a hash table of currently running
+   The LLVM ModelGenerator maintains a hash table of currently running
    models. If this flag is NOT set, then the generator will look to see
    if there is already a running instance of the given model and
    use the generated code from that one.
   
    If only a single instance of a model is run, there is no
-   need to cache the models, and this can safetly be enabled,
+   need to cache the models, and this can safely be enabled,
    realizing some performance gains.
 
 
@@ -176,7 +180,7 @@ here. The variable type of the parameter is listed after the key name.
    :module: roadrunner
    :annotation: bool
 
-   Generate accessor functions to allow changing of initial
+   Generate accessors functions to allow changing of initial
    conditions.
 
 
@@ -338,7 +342,7 @@ here. The variable type of the parameter is listed after the key name.
    :annotation: double
 
    A user specified initial time step. If this is <=  0, the integrator
-   will attempt to determine a safe initial time stpe.
+   will attempt to determine a safe initial time step.
   
    Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
    the internal integrator may take many many steps to reach one of the external time
@@ -350,7 +354,7 @@ here. The variable type of the parameter is listed after the key name.
    :module: roadrunner
    :annotation: double
 
-   Specfify The Minimum Time Step That The Internal Integrator
+   Specify The Minimum Time Step That The Internal Integrator
    Will Use. Uses Integrator Estimated Value If <= 0.
 
 
@@ -359,7 +363,7 @@ here. The variable type of the parameter is listed after the key name.
    :module: roadrunner
    :annotation: double
 
-   Specify The Maximum Time Step Size That The Internaal Integrator
+   Specify The Maximum Time Step Size That The Internal Integrator
    Will Use. Uses Integrator Estimated Value If <= 0.
 
 
@@ -378,8 +382,8 @@ here. The variable type of the parameter is listed after the key name.
    :module: roadrunner
    :annotation: int
 
-   RoadRunner by default dynamically generates accessor properties
-   for all sbml symbol names on the model object when it is retrieved
+   RoadRunner by default dynamically generates accessors properties
+   for all SBML symbol names on the model object when it is retrieved
    in Python. This feature is very nice for interactive use, but
    can slow things down. If this feature is not needed, it
    can be disabled here.
@@ -390,7 +394,23 @@ here. The variable type of the parameter is listed after the key name.
    :annotation: int
 
    disable SBML conserved moiety warnings.
-   
+
+   Conserved Moiety Conversion may cause unexpected behavior, be aware of what it
+   is before enabling. 
+
+   RoadRunner will issue a warning in steadyState if conservedMoieties are NOT 
+   enabled because of a potential singular Jacobian. To disable this warning, 
+   set this value to 1
+
+   A notice will be issued whenever a document is loaded and conserved moieties 
+   are enabled. To disable this notice, set this value to 2.
+
+   To disable both the warning and notice, set this value to 3
+
+   Rationale for these numbers: This is actual a bit field, disabling the steady state 
+   warning value is actually 0b01 << 0 which is 1, and the loading warning is 0b01 << 1 
+   which is 2 and 0b01 & 0b10 is 0b11 which is 3 in decimal. 
+
 
 
 

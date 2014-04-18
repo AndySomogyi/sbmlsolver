@@ -245,9 +245,16 @@ public:
          */
         SIMULATEOPTIONS_MAXIMUM_NUM_STEPS,
 
-
         /**
-         * disable SBML conserved moiety warnings.
+         * Disable SBML conserved moiety warnings.
+         *
+         * this disables warnings based on the following bitfields:
+         *
+         * ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE: disable the warning in
+         * RoadRunner::steadyState about possible singular jacobian.
+         *
+         * ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY: disable the
+         * conserved moieties warning if enabled when loading a sbml document.
          */
         ROADRUNNER_DISABLE_WARNINGS,
 
@@ -291,6 +298,13 @@ public:
          */
         CONFIG_END
     };
+
+    enum ROADRUNNER_DISABLE_WARNINGS_VALUES
+    {
+        ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE          =  (0x1 << 0),  // => 0x00000001
+        ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY     =  (0x1 << 1)   // => 0x00000010
+    };
+
 
     /**
      * read the config value as a string.

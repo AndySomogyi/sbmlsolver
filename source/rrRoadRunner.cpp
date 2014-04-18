@@ -702,19 +702,20 @@ double RoadRunner::steadyState()
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (!this->conservedMoietyAnalysis && !Config::getInt(Config::ROADRUNNER_DISABLE_WARNINGS))
+    if (!this->conservedMoietyAnalysis &&
+            (Config::getInt(Config::ROADRUNNER_DISABLE_WARNINGS)
+                & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
     {
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
-                "via the configuration file or the Config class setValue, see roadrunner documentation";
-        Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS : True in the config file";
+                                    "via the configuration file or the Config class setValue, see roadrunner documentation";
+        Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
     if (mUseKinsol)
     {
-        //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
-        Log(Logger::LOG_ERROR)<<"Kinsol solver is not enabled...";
-        return -1;
+        Log(Logger::LOG_ERROR) << "Kinsol solver is not enabled...";
+        throw Exception("Kinsol solver is not enabled");
     }
 
     NLEQInterface steadyStateSolver(mModel);

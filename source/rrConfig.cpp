@@ -187,7 +187,7 @@ static Value values[] =  {
     Value(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
     Value(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-    Value(false),    // ROADRUNNER_DISABLE_WARNINGS
+    Value(0),        // ROADRUNNER_DISABLE_WARNINGS
     Value(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
     Value(int(AllChecksON & UnitsCheckOFF))          //SBML_APPLICABLEVALIDATORS
 };

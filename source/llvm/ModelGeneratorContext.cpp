@@ -13,6 +13,7 @@
 #include "SBMLSupportFunctions.h"
 #include "rrModelGenerator.h"
 #include "conservation/ConservedMoietyConverter.h"
+#include "rrConfig.h"
 
 #include <sbml/SBMLReader.h>
 #include <string>
@@ -87,7 +88,11 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
 {
     if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
     {
-        Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
+        {
+            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+        }
 
         moietyConverter = new rr::conservation::ConservedMoietyConverter();
         ownedDoc = checkedReadSBMLFromString(sbml.c_str());

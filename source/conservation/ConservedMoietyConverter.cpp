@@ -239,11 +239,15 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     if (doc->getLevel() != ConservationExtension::getDefaultLevel()
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
-        Log(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
-                << ", version " << doc->getVersion() << ", converting to "
-                << "level " << ConservationExtension::getDefaultLevel()
-                << ", version " << ConservationExtension::getDefaultVersion()
-                << " for Moiety Conservation Conversion";
+        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
+        {
+            Log(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
+                        << ", version " << doc->getVersion() << ", converting to "
+                        << "level " << ConservationExtension::getDefaultLevel()
+                        << ", version " << ConservationExtension::getDefaultVersion()
+                        << " for Moiety Conservation Conversion";
+        }
 
         // this does an in-place conversion, at least for the time being
         SBMLLevelVersionConverter versionConverter;
