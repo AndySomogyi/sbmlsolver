@@ -83,10 +83,12 @@ mymodel.xml in <tt class="docutils literal"><span class="pre">C:\MyModels</span>
 most languages including python, this is the escape character, therefore one can also enter Windows
 paths using the forward slash &#8216;/&#8217; which does not cause issues. If one want to use the backslash,
 these must be typed twice, i.e. <tt class="docutils literal"><span class="pre">'C:\\MyModels\\mymodel.xml'</span></tt>.</p>
-<p>On the <strong>Mac or Linux</strong> we might use one of these two commands:</p>
+<p>On the <strong>Mac or Linux</strong> we might use:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
-
-<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>RoadRunner can also load models directly from a URL via:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will
@@ -95,9 +97,9 @@ found in the SBML document, these will be displayed in the console error log.</p
 <p>Additionally, there are a couple models <strong>included with libRoadRunner</strong>. The models  <tt class="docutils literal"><span class="pre">feedback.xml</span></tt>
 and <tt class="docutils literal"><span class="pre">Test_1.xml</span></tt> are available in the <tt class="docutils literal"><span class="pre">roadrunner.testing</span></tt> module. To access these use:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
-<span class="hll"><span class="kn">import</span> <span class="nn">roadrunner.testing</span>
-</span><span class="hll"><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&#39;feedback.xml&#39;</span><span class="p">))</span>
-</span></pre></div>
+<span class="kn">import</span> <span class="nn">roadrunner.testing</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s">&#39;feedback.xml&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>There are a few additional models in the <tt class="docutils literal"><span class="pre">models/</span></tt> directory of the distribution, where you installed libRoadRunner.</p>
 </div>

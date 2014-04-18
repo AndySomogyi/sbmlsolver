@@ -36,9 +36,11 @@ most languages including python, this is the escape character, therefore one can
 paths using the forward slash '/' which does not cause issues. If one want to use the backslash,
 these must be typed twice, i.e. ``'C:\\MyModels\\mymodel.xml'``.
 
-On the **Mac or Linux** we might use one of these two commands::
+On the **Mac or Linux** we might use::
 
    rr = roadrunner.RoadRunner("/home/MyModels/mymodel.xml")
+
+RoadRunner can also load models directly from a URL via::
 
    rr = roadrunner.RoadRunner("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010")
 
@@ -47,14 +49,12 @@ be raised that contains extended information detailing exactly what failed. If a
 found in the SBML document, these will be displayed in the console error log.
 
 Additionally, there are a couple models **included with libRoadRunner**. The models  ``feedback.xml``
-and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access these use:
+and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access these use::
 
-.. code-block:: python
-   :emphasize-lines: 2,3
 
    import roadrunner
    import roadrunner.testing
-   rr.load(roadrunner.testing.getData('feedback.xml'))
+   r = roadrunner.testing.getRoadRunner('feedback.xml')
 
 There are a few additional models in the ``models/`` directory of the distribution, where you installed libRoadRunner.
 
