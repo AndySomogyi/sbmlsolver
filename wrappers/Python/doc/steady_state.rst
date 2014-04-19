@@ -12,7 +12,7 @@ The dynamics of a biochemical network is described by the system equation
 
 where :math:`\mathbf{s}` is the vector of species concentrations, :math:`\mathbf{p}` 
 is a vector of time independent parameters, and :math:`t` is time. The steady state is the solution to
-the network equation when all the rates of change zero. That is the concentrations of the floating
+the network equations when all the rates of change are zero. That is the concentrations of the floating
 species, :math:`\mathbf{s}` that satisfy:
 
 .. math::
