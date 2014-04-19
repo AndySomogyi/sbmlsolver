@@ -11,19 +11,19 @@ _________________________
 .. method:: RoadRunner.__init__(uriOrSBML = "", options = None)
 
    Creates a new RoadRunner object. If the first argument is specified, 
-   it should be a string containing either the contents of an sbml document, 
-   or a formated URI specifying the path or location of a sbml document. 
+   it should be a string containing either the contents of an SBML document, 
+   or a formatted URI specifying the path or location of a SBML document. 
 
-   If options is given, it shhould be a LoadSBMLOptions object. 
+   If options is given, it should be a LoadSBMLOptions object. 
 
    If no arguments are given, a document may be loaded at any future time
    using the load method. 
 
-   :param uriOrSBML: a URI, local path or sbml document contents.
+   :param uriOrSBML: a URI, local path or SBML document contents.
    :type name: str (optional)
 
    :param options: (LoadSBMLOptions) an options object specifying how the 
-                   sbml document should be loaded
+                   SBML document should be loaded
    :type name: str (optional)
 
 
@@ -32,46 +32,6 @@ _________________________
 
    Creates a new SelectionRecord for the given selection string.
 
-
-.. method:: RoadRunner.getSteadyStateValues(*args)
-
-   Returns a vector of steady state values for the floating species. The order of
-   species in the vector is indicated by the order of species Ids in a call to
-   getFloatingSpeciesIds()
-
-
-.. method:: RoadRunner.getCC(variable, parameter)
-
-   Returns a scaled control coefficient with respect to a global parameter.
-   
-   For example::
-
-     rr.getCC ('J1', 'Vmax')
-     rr.getCC ('S1', 'Xo')
-     rr.getCC ('S2', 'Km')
-
-   The first returns a flux control coefficient with respect to flux J1. The second and third
-   return concentration control coefficients with respect to speies S1 and S2.
-
-   :param variable: The id of a dependent variable of the coefficient, for example a
-                    flux or species concentration.
-
-   :param parameter: The id of the independent parameter, for example a kinetic constant
-                     or boundary species
-
-   :returns: the value of the control coefficeint returned to the caller.
-
-   :rtype: double
-
-
-.. method:: RoadRunner.getuCC(variableId, parameterId)
-
-   Get unscaled control coefficient with respect to a global parameter.
-
-   :param variableId: must be either a reaction or floating species.
-
-   :param parameterId: must be eithe a global parameter, boundary species, or
-                       conserved sum.
 
 
 .. method:: RoadRunner.getCompiler()
@@ -84,7 +44,7 @@ _________________________
    :module: roadrunner
 
    recurse through all of the child configurable objects that this
-   class ownes and build an assemble all of thier configuration parameters
+   class ones and build an assemble all of their configuration parameters
    into a single xml document which is returned as a string.
 
    The value of this result depends on what child objects are presently loaded.
@@ -92,57 +52,10 @@ _________________________
 
 
 
-
-
-.. method:: RoadRunner.getConservationMatrix()
-   :module: roadrunner
-
-   Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m` matrix
-   where :math:`c` is the number of conservation laws and :math:`m` the number of species.
-
-
 .. staticmethod:: RoadRunner.getCopyright()
    :module: roadrunner
 
    Returns the copyright string
-
-
-.. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
-   :module: roadrunner
-
-   Retrieve a single elasticity coefficient with respect to a global parameter.
-   
-   For example::
-
-     x = rr.getEE ('J1', 'Vmax')
-
-   :param str variable: The dependent variable of the coefficient, for example a flux or
-                        species concentration.
-   :param str parameter: The independent parameter, for example a kinetic constant or boundary
-                         species
-   :param Boolean steadyState: should the steady state value be computed.
-
-
-.. method:: RoadRunner.getuEE(reactionId, parameterId)
-
-   Get unscaled elasticity coefficient with respect to a global parameter or species.
-
-
-.. method:: RoadRunner.getEigenvalueIds()
-   :module: roadrunner
-
-   returns a list of floating species ids with thier names
-   prefixed with ``eigen_``. For example, if the model contained
-   the floating species ``S1`` and ``S2``, this would return a list
-   containing \["eigen_S1", "eigen_S2"].
-
-
-.. method:: RoadRunner.getEigenvalues(m)
-   :module: roadrunner
-
-   Returns eigenvalues, first column real part, second column imaginary part.
-
-   :rtype: numpy.ndarray
 
 
 
@@ -156,24 +69,10 @@ _________________________
 .. method:: RoadRunner.getFloatingSpeciesAmountIds()
    :module: roadrunner
 
-   Returns a list of the floating species Ids, but with theIids surrounded
+   Returns a list of the floating species Ids, but with the Ids surrounded
    by square brackets, i.e. 'S1' -> '\[S1]'
 
 
-.. method:: RoadRunner.getFullJacobian()
-   :module: roadrunner
-
-   Compute the full Jacobian at the current operating point.
-
-   This is the Jacobian of ONLY the floating species.
-
-
-.. method:: RoadRunner.getFullyReorderedStoichiometryMatrix()
-   :module: roadrunner
-
-   Returns the full reordered stoichiometry matrix for the currently loaded model.
-   The rows will coresponds to the order of species in the call to getFloatinSpeciesIds(),
-   the colunms will corresponds to the order of reactions in the call to getReactionIds().
 
 
 
@@ -208,71 +107,26 @@ _________________________
 
 
 
-.. method:: RoadRunner.getL0Matrix()
-   :module: roadrunner
-
-   Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses
-   the dependent reaction rates in terms of the indepdent rates. m is the number of floating species
-   and r is the rank of the stoichiometry matrix.
-
-   :rtype: numpy.ndarray
-
-
-
-.. method:: RoadRunner.getLinkMatrix()
-   :module: roadrunner
-
-   Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
-   is the number of floating species and r the rank of the stichiometric matrix, N.
-
-   :rtype: numpy.ndarray
-
-.. method:: RoadRunner.getNrMatrix()
-   :module: roadrunner
-
-   Returns the reduced stoichiometry matrix, :math:`N_R`, which wil have only r rows where r is the rank of
-   the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
-
-   :rtype: numpy.ndarray
-
 
 .. staticmethod:: RoadRunner.getParamPromotedSBML(*args)
    :module: roadrunner
 
-   Takes an sbml document (in textual form) and changes all of the local parameters
+   Takes an SBML document (in textual form) and changes all of the local parameters
    to be global parameters.
 
-   :param str sbml: the contents of an sbml document
+   :param str SBML: the contents of an SBML document
    :rtype: str
 
-
-.. method:: RoadRunner.getReducedJacobian()
-   :module: roadrunner
-
-   Returns the *reduced* Jacobian for the independent species. This matrix will be non-singular
-   for models that include moiety-concerved cycles.
-
-   :rtype: numpy.ndarray
-
-
-
-.. method:: RoadRunner.getReorderedStoichiometryMatrix()
-   :module: roadrunner
-
-   Returns the reordered stoichiometry matrix where the tops rows represent the independent species of
-   which there will be rank (N) and the bottom rows the dependent species.
-
-   :rtype: numpy.ndarray
 
 
 
 .. method:: RoadRunner.getCurrentSBML()
    :module: roadrunner
 
-   Returns the current state of the model in the form of an sbml string. 
+   Returns the current state of the model in the form of an SBML string. 
    
    That is the SBML will reflect the current state of the model and not the 
-   orginal SBML that was loaded into roadRunner.
+   original SBML that was loaded into RoadRunner.
 
    :rtype: str
 
@@ -280,47 +134,10 @@ _________________________
 .. method:: RoadRunner.getSBML()
    :module: roadrunner
 
-   Returns the original sbml model that was loaded into roadrunner.
+   Returns the original SBML model that was loaded into roadrunner.
 
    :rtype: str
 
-
-
-.. method:: RoadRunner.getScaledConcentrationControlCoefficientMatrix()
-   :module: roadrunner
-
-   Returns the m by n matrix of scaled conentration control coefficients where m is the number
-   of floating species and n the number of reactiohs.
-
-   :rtype: numpy.ndarray
-
-
-.. method:: RoadRunner.getScaledFloatingSpeciesElasticity(reactionId, speciesId)
-   :module: roadrunner
-
-   Returns the scaled elasticity for a given reaction and given species.
-
-   :param str reactionId: the sbml id of a reaction.
-   :param str speciesId: the sbml id of a species.
-   :rtype: double
-
-
-
-.. method:: RoadRunner.getScaledFluxControlCoefficientMatrix()
-   :module: roadrunner
-
-   Returns the n by n matrix of scaled flux control coefficients where n is the number of reactions.
-
-   :rtype: numpy.ndarray
-
-
-
-.. method:: RoadRunner.getScaledElasticityMatrix()
-   :module: roadrunner
-
-   Returns the scaled elasticity matrix at the current operating point.
-
-   :rtype: numpy.ndarray
 
 
 .. method:: RoadRunner.getValue(sel)
@@ -363,46 +180,18 @@ _________________________
    :rtype: roadrunner.SelectionRecord
 
 
-.. method:: RoadRunner.getUnscaledConcentrationControlCoefficientMatrix()
-   :module: roadrunner
-
-   Returns the unscaled concentration control coefficent matrix.
-
-
-.. method:: RoadRunner.getUnscaledElasticityMatrix()
-   :module: roadrunner
-
-   Returns the unscaled species elasticity matrix at the current operating point.
-
-
-.. method:: RoadRunner.getUnscaledFluxControlCoefficientMatrix()
-   :module: roadrunner
-
-   Returns the unscaled flux control coefficient matrix.
-
-
-.. method:: RoadRunner.getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
-   :module: roadrunner
-
-   Get a single species elasticity value.
-   IMPORTANT:
-   Assumes that the reaction rates have been precomputed at the operating point !!
-
-   :param int reactionIndx: index of reactionl
-   :param int speciesIndx: index of species.
-
 
 
 .. staticmethod:: RoadRunner.__version__()
    :module: roadrunner
 
-   Returns the current version of the roadRunner library.
+   Returns the current version of the RoadRunner library.
 
 
 .. staticmethod:: RoadRunner.getlibSBMLVersion()
    :module: roadrunner
 
-   Returns theversion of the libSBML library that is currently being used.
+   Returns the version of the libSBML library that is currently being used.
 
 
 
@@ -416,30 +205,31 @@ _________________________
 .. method:: RoadRunner.load(uriOrDocument)
    :module: roadrunner
 
-   Loads an sbml document, given a string for file path, uri, or contents. 
+   Loads an SBML document, given a string for file path, URI, or contents. 
 
-   This method also accepts http uri for remote files, however this feature is currently limited 
-   to the Mac version, plan on enabling http loading of SBML documents on Windows and Linux 
+   This method also accepts HTTP URI for remote files, however this feature is currently limited 
+   to the Mac version, plan on enabling HTTP loading of SBML documents on Windows and Linux 
    shortly. 
 
    Some examples of loading files on Mac or Linux::
    
-       >>> r.load("myfile.xml")                               # load a file from the current dirctory
+       >>> r.load("myfile.xml")                               # load a file from the current directory
        >>> r.load("/Users/Fred/myfile.xml")                   # absolute path
        >>> r.load("http://sbml.org/example_system.xml")       # remote file
 
 
    Or on Windows:
 
-       >>> r.load("myfile.xml")                                  # load a file from the current dirctory
-       >>> r.load("file://localhost/c:/Users/Fred/myfile.xml")   # using a uri
+       >>> r.load("myfile.xml")                                  # load a file from the current directory
+       >>> r.load("file://localhost/c:/Users/Fred/myfile.xml")   # using a URI
 
    One may also load the contents of a document::
+
        >>> myfile = open("myfile.xml, "r")
        >>> contents = file.read()
        >>> r.load(contents)
 
-   In future version, we will also support loading directly from a libSBML Dcoument object. 
+   In future version, we will also support loading directly from a libSBML Document object. 
 
    :param uriOrDocument: A string which may be a local path, URI or contents of an SBML document. 
    :type name: str
@@ -450,7 +240,7 @@ _________________________
    :module: roadrunner
    :annotation: None
 
-   Get the currently loaded model. The model object contains the enite state of the SBML model.
+   Get the currently loaded model. The model object contains the entire state of the SBML model.
 
 
 .. method:: RoadRunner.oneStep(startTime, stepSize)
@@ -474,7 +264,7 @@ _________________________
    :module: roadrunner
 
    given a xml document, which should have been returned from getConfigurationXML,
-   this method recurses though all the child configurable elements and sets thier
+   this method recurses though all the child configurable elements and sets their
    configuration to the values specified in the document.
 
    :param str xml: the contents of an xml document.
@@ -486,9 +276,9 @@ _________________________
 
    Enables / Disables conserved moiety analysis (boolean). 
 
-   If this is enabled, the sbml document (either current, or one about to be loaded) 
+   If this is enabled, the SBML document (either current, or one about to be loaded) 
    is converted using the ConservedMoietyConverter. All of the linearly dependent 
-   species are replaced with assignment rules and a new set of conserved moeity 
+   species are replaced with assignment rules and a new set of conserved moiety 
    parameters are introduced. 
 
 
@@ -523,7 +313,7 @@ _________________________
 
    This simulation will use the previous values.
 
-   :returns: a numpy array with each selected output timeseries being a
+   :returns: a numpy array with each selected output time series being a
              column vector, and the 0'th column is the simulation time.
    :rtype: numpy.ndarray
 
@@ -554,10 +344,10 @@ _________________________
 .. py:function:: RoadRunner_getParamPromotedSBML(*args)
    :module: roadrunner
 
-   Takes an sbml document (in textual form) and changes all of the local parameters
+   Takes an SBML document (in textual form) and changes all of the local parameters
    to be global parameters.
 
-   :param str sbml: the contents of an sbml document
+   :param str SBML: the contents of an SBML document
    :rtype: str
 
 .. method:: RoadRunner.evalModel()
@@ -599,7 +389,7 @@ Steady State Sections
    :module: roadrunner
     
    Performs a steady state calculation (evolves the system to a steady
-   state), then calculates and returns the set of values specifed by
+   state), then calculates and returns the set of values specified by
    the steady state selections.
 
    :returns: a numpy array corresponding to the values specified by steadyStateSelections
@@ -608,5 +398,224 @@ Steady State Sections
 
 
 
+Metabolic control analysis
+--------------------------
 
-      
+In the special case when an SBML model is a purely reaction kinetics model -- no rate rules, no
+assignment rules for chemical species, and time invariant stoichiometry, specialized analysis methods
+related to metabolic control analysis are applicable. These methods are described in this section. 
+
+
+.. method:: RoadRunner.getCC(variable, parameter)
+
+   Returns a scaled control coefficient with respect to a global parameter.
+   
+   For example::
+
+     rr.getCC ('J1', 'Vmax')
+     rr.getCC ('S1', 'Xo')
+     rr.getCC ('S2', 'Km')
+
+   The first returns a flux control coefficient with respect to flux J1. The second and third
+   return concentration control coefficients with respect to species S1 and S2.
+
+   :param variable: The id of a dependent variable of the coefficient, for example a
+                    flux or species concentration.
+
+   :param parameter: The id of the independent parameter, for example a kinetic constant
+                     or boundary species
+
+   :returns: the value of the control coefficient returned to the caller.
+
+   :rtype: double
+
+
+.. method:: RoadRunner.getuCC(variableId, parameterId)
+
+   Get unscaled control coefficient with respect to a global parameter.
+
+   :param variableId: must be either a reaction or floating species.
+
+   :param parameterId: must be either a global parameter, boundary species, or
+                       conserved sum.
+
+.. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
+   :module: roadrunner
+
+   Retrieve a single elasticity coefficient with respect to a global parameter.
+   
+   For example::
+
+     x = rr.getEE ('J1', 'Vmax')
+
+   :param str variable: The dependent variable of the coefficient, for example a flux or
+                        species concentration.
+   :param str parameter: The independent parameter, for example a kinetic constant or boundary
+                         species
+   :param Boolean steadyState: should the steady state value be computed.
+
+
+.. method:: RoadRunner.getuEE(reactionId, parameterId)
+
+   Get unscaled elasticity coefficient with respect to a global parameter or species.
+
+
+.. method:: RoadRunner.getEigenvalueIds()
+   :module: roadrunner
+
+   returns a list of selection symbols for the eigenvalues of the floating species. The eigen value
+   selection symbol is ``eigen(XX)``, where ``XX`` is the floating species name. 
+
+.. method:: RoadRunner.getEigenvalues()
+   :module: roadrunner
+
+
+   Calculates the eigen values of the Jacobian as a real matrix, first column real part, second
+   column imaginary part.
+
+   If moiety conservation is enables, the reduced Jacobian is used, otherwise the full Jacobian is
+   used. 
+
+   Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
+   time invariant stoichiometry). 
+
+   :rtype: numpy.ndarray
+
+
+.. method:: RoadRunner.getFullJacobian()
+   :module: roadrunner
+
+   Compute the full Jacobian at the current operating point.
+
+   This is the Jacobian of ONLY the floating species.
+
+
+.. method:: RoadRunner.getFullyReorderedStoichiometryMatrix()
+   :module: roadrunner
+
+   Returns the full reordered stoichiometry matrix for the currently loaded model.
+   The rows will corresponds to the order of species in the call to getFloatinSpeciesIds(),
+   the columns will corresponds to the order of reactions in the call to getReactionIds().
+
+
+
+.. method:: RoadRunner.getReducedJacobian()
+   :module: roadrunner
+
+   Returns the *reduced* Jacobian for the independent species. This matrix will be non-singular
+   for models that include moiety-conserved cycles.
+
+   :rtype: numpy.ndarray
+
+
+
+
+.. method:: RoadRunner.getScaledConcentrationControlCoefficientMatrix()
+   :module: roadrunner
+
+   Returns the m by n matrix of scaled concentration control coefficients where m is the number
+   of floating species and n the number of reactions.
+
+   :rtype: numpy.ndarray
+
+
+.. method:: RoadRunner.getScaledFloatingSpeciesElasticity(reactionId, speciesId)
+   :module: roadrunner
+
+   Returns the scaled elasticity for a given reaction and given species.
+
+   :param str reactionId: the SBML id of a reaction.
+   :param str speciesId: the SBML id of a species.
+   :rtype: double
+
+
+.. method:: RoadRunner.getUnscaledConcentrationControlCoefficientMatrix()
+   :module: roadrunner
+
+   Returns the unscaled concentration control coefficient matrix.
+
+
+.. method:: RoadRunner.getUnscaledElasticityMatrix()
+   :module: roadrunner
+
+   Returns the unscaled species elasticity matrix at the current operating point.
+
+
+.. method:: RoadRunner.getUnscaledFluxControlCoefficientMatrix()
+   :module: roadrunner
+
+   Returns the unscaled flux control coefficient matrix.
+
+
+.. method:: RoadRunner.getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
+   :module: roadrunner
+
+   Get a single species elasticity value. 
+
+
+   :param int reactionIndx: index of reaction
+   :param int speciesIndx: index of species.
+
+
+.. method:: RoadRunner.getScaledFluxControlCoefficientMatrix()
+   :module: roadrunner
+
+   Returns the n by n matrix of scaled flux control coefficients where n is the number of reactions.
+
+   :rtype: numpy.ndarray
+
+
+
+.. method:: RoadRunner.getScaledElasticityMatrix()
+   :module: roadrunner
+
+   Returns the scaled elasticity matrix at the current operating point.
+
+   :rtype: numpy.ndarray
+
+
+
+.. method:: RoadRunner.getReorderedStoichiometryMatrix()
+   :module: roadrunner
+
+   Returns the reordered stoichiometry matrix where the tops rows represent the independent species of
+   which there will be rank (N) and the bottom rows the dependent species.
+
+   :rtype: numpy.ndarray
+
+
+.. method:: RoadRunner.getConservationMatrix()
+   :module: roadrunner
+
+   Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m` matrix
+   where :math:`c` is the number of conservation laws and :math:`m` the number of species.
+
+
+
+.. method:: RoadRunner.getL0Matrix()
+   :module: roadrunner
+
+   Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses
+   the dependent reaction rates in terms of the independent rates. m is the number of floating species
+   and r is the rank of the stoichiometry matrix.
+
+   :rtype: numpy.ndarray
+
+
+
+.. method:: RoadRunner.getLinkMatrix()
+   :module: roadrunner
+
+   Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
+   is the number of floating species and r the rank of the stoichiometric matrix, N.
+
+   :rtype: numpy.ndarray
+
+.. method:: RoadRunner.getNrMatrix()
+   :module: roadrunner
+
+   Returns the reduced stoichiometry matrix, :math:`N_R`, which will have only r rows where r is the rank of
+   the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
+
+   :rtype: numpy.ndarray
+
