@@ -59,11 +59,20 @@
 <p><img src="_images/math/6026d7c1a3382e81d6e295f7cb80bd00cfadcf14.png" alt="\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),"/></p>
 </div><p>where <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> is the vector of species concentrations, <img class="math" src="_images/math/0a1c35be9c8d28ff85f7effb2c07f511e6720169.png" alt="\mathbf{p}"/>
 is a vector of time independent parameters, and <img class="math" src="_images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is time. The steady state is the solution to
-the network equation when all the rates of change zero. That is the concentrations of the floating
+the network equations when all the rates of change are zero. That is the concentrations of the floating
 species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> that satisfy:</p>
 <div class="math">
 <p><img src="_images/math/d073099dd6b77c6c1933f9e9b4eee7ba5310dff7.png" alt="\mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t) = 0"/></p>
-</div><p>For example you can use <tt class="docutils literal"><span class="pre">steadyStateSelections</span></tt> to select which value <tt class="docutils literal"><span class="pre">getSteadyStateValues</span></tt> should retrieve:</p>
+</div><p>The steady state is easily calculated using the steady state method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">steadyState</span><span class="p">()</span>
+<span class="go">1.234567E-9</span>
+</pre></div>
+</div>
+<p>The call to <tt class="docutils literal"><span class="pre">steadyState</span></tt> returns a value that represents the sum of squares of the rates of change. Therefore the
+smaller this value the more likely the steady state solution has been found. Often a value less that 10E-6 indicates
+a steady state has been found. After a successful call all the species levels will be at their steady state values.</p>
+<p>Steady state values can be obtained using <tt class="docutils literal"><span class="pre">rr.getSteadyStateValues()</span></tt> and <tt class="docutils literal"><span class="pre">steadyStateSelections</span></tt> can be used to
+decide what values to return. For example the following would retrieve a single value:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getSteadyStateValues</span> <span class="p">()</span>
 <span class="go">array([ 0.54314239])</span>
