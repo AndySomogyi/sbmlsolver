@@ -133,10 +133,10 @@ int main(int argc, char** argv)
     std::cout << "relative: " << settings.relative << std::endl;
 
 
-    //settings.integratorFlags |= SimulateOptions::STIFF;
+    settings.integratorFlags |= SimulateOptions::STIFF;
 
-
-
+    
+    
     roadRunner.setSimulateOptions(settings);
 
     const RoadRunnerData& data = *roadRunner.simulate(0);
