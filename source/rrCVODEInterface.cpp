@@ -80,38 +80,6 @@ IntegratorListenerPtr CvodeInterface::getListener()
     return listener;
 }
 
-void* CvodeInterface::createCvode(const SimulateOptions* options)
-{
-    void* result = 0;
-
-    if (options && (options->integratorFlags & SimulateOptions::STIFF))
-    {
-        Log(Logger::LOG_INFORMATION) << "using stiff integrator";
-        result = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-    }
-    else
-    {
-        Log(Logger::LOG_INFORMATION) << "using non-stiff integrator";
-        result = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
-    }
-
-    assert(result && "could not create Cvode, CVodeCreate failed");
-
-    CVodeSetErrHandlerFn(result, cvodeErrHandler, NULL);
-
-    //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
-
-    //CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
-    //CVodeSetInitStep(mCVODE_Memory, mInitStep);
-    //CVodeSetMinStep(mCVODE_Memory, mMinStep);
-    //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
-    CVodeSetMaxNumSteps(result, mDefaultMaxNumSteps);
-
-    return result;
-}
-
-
-
 CvodeInterface::CvodeInterface(ExecutableModel *aModel, const SimulateOptions* options)
 :
 mStateVector(NULL),
@@ -123,11 +91,13 @@ mOneStepCount(0),
 mFollowEvents(true),
 mMaxAdamsOrder(mDefaultMaxAdamsOrder),
 mMaxBDFOrder(mDefaultMaxBDFOrder),
+mModel(aModel),
+stateVectorVariables(false),
 options(*options)
 {
     if(aModel)
     {
-        initializeCVODEInterface(aModel);
+        createCVode();
     }
 
     // if we pass a 0, we re-load all the values from our options.
@@ -137,28 +107,30 @@ options(*options)
 
 CvodeInterface::~CvodeInterface()
 {
-    // cvode does not check for null values.
-    if(mCVODE_Memory)
-    {
-        CVodeFree( &mCVODE_Memory);
-    }
-
-    if(mStateVector)
-    {
-        N_VDestroy_Serial(mStateVector);
-    }
-
-    if(mAbstolArray)
-    {
-        N_VDestroy_Serial(mAbstolArray);
-    }
+    freeCVode();
 }
 
 void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
 {
+    if (o && (o->integratorFlags & SimulateOptions::STIFF) !=
+            (options.integratorFlags & SimulateOptions::STIFF))
+    {
+        // if the integrator is changed from stiff to standard, this
+        // requires re-creating the CVode objects.
+        Log(Logger::LOG_INFORMATION) << "re-creating CVode, interator stiffness has changed";
+        options = *o;
+        freeCVode();
+        createCVode();
+    }
     if(o)
     {
+        // don't need to re-create, can just set params.
         options = *o;
+    }
+
+    if (mCVODE_Memory == 0)
+    {
+        return;
     }
 
     if (options.initialTimeStep > 0)
@@ -180,6 +152,10 @@ void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
     {
         CVodeSetMaxNumSteps(mCVODE_Memory, options.maximumNumSteps);
     }
+    else
+    {
+        CVodeSetMaxNumSteps(mCVODE_Memory, mDefaultMaxNumSteps);
+    }
 
     // if mAbstolArray, also have mStateVector
     if (mAbstolArray)
@@ -195,39 +171,6 @@ void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
     }
 }
 
-int CvodeInterface::allocateCvodeMem()
-{
-    if (mCVODE_Memory == NULL)
-    {
-        return CV_SUCCESS;
-    }
-
-    double t0 = 0.0;
-    if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in setting CVODE User data";
-    }
-
-    int result =  CVodeInit(mCVODE_Memory, cvodeDyDtFcn, t0, mStateVector);
-
-    if (result != CV_SUCCESS)
-    {
-        return result;
-    }
-    return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
-}
-
-int CvodeInterface::rootInit(int numRoots)
-{
-    if (mCVODE_Memory == NULL)
-    {
-         return CV_SUCCESS;
-    }
-
-    return CVodeRootInit (mCVODE_Memory, numRoots, cvodeRootFcn);
-}
-
-// Initialize cvode with a new set of initial conditions
 int CvodeInterface::reInit(double t0)
 {
     if (mCVODE_Memory == NULL)
@@ -371,94 +314,108 @@ double CvodeInterface::integrate(double timeStart, double hstep)
 
 bool CvodeInterface::haveVariables()
 {
-    return (mStateVectorSize > 0) ? true : false;
+    return stateVectorVariables;
 }
 
-void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
+void CvodeInterface::createCVode()
 {
-    if(!oModel)
+    if(!mModel)
     {
-        throw CVODEException("Fatal Error while initializing CVODE");
+        return;
     }
 
-    try
-    {
-        mModel = oModel;
-        mStateVectorSize = oModel->getStateVector(0);
+    assert(mStateVector == 0 &&  mAbstolArray == 0 && mCVODE_Memory == 0 &&
+            "calling cvodeCreate, but cvode objects already exist");
 
-        if (mStateVectorSize > 0)
+    // still need cvode state vector size if we have no vars, but have
+    // events, needed so root finder works.
+    int allocStateVectorSize = 0;
+    int realStateVectorSize = mModel->getStateVector(0);
+
+    // cvode return code
+    int err;
+
+    if(realStateVectorSize > 0)
+    {
+        stateVectorVariables = true;
+        allocStateVectorSize = realStateVectorSize;
+    }
+    else if (mModel->getNumEvents() > 0)
+    {
+        allocStateVectorSize = 1;
+        stateVectorVariables = false;
+    }
+    else
+    {
+        stateVectorVariables = false;
+        return;
+    }
+
+    // allocate and init the cvode arrays
+    mStateVector = N_VNew_Serial(allocStateVectorSize);
+    mAbstolArray = N_VNew_Serial(allocStateVectorSize);
+    for (int i = 0; i < allocStateVectorSize; i++)
+    {
+        SetVector((N_Vector) mAbstolArray, i, options.absolute);
+    }
+
+    updateAbsTolVector();
+
+    if (options.integratorFlags & SimulateOptions::STIFF)
+    {
+        Log(Logger::LOG_INFORMATION) << "using stiff integrator";
+        mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+    }
+    else
+    {
+        Log(Logger::LOG_INFORMATION) << "using non-stiff integrator";
+        mCVODE_Memory = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
+    }
+
+    assert(mCVODE_Memory && "could not create Cvode, CVodeCreate failed");
+
+    if ((err = CVodeSetErrHandlerFn(mCVODE_Memory, cvodeErrHandler, NULL)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    // use non default CVODE value here, default is too short
+    // for some sbml tests.
+    CVodeSetMaxNumSteps(mCVODE_Memory, mDefaultMaxNumSteps);
+
+    double t0 = 0.0;
+
+    if ((err = CVodeSetUserData(mCVODE_Memory, (void*) this)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    if ((err = CVodeInit(mCVODE_Memory, cvodeDyDtFcn, t0, mStateVector)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    if ((err = CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    if (mModel->getNumEvents() > 0)
+    {
+        if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(),
+                cvodeRootFcn)) != CV_SUCCESS)
         {
-            mStateVector = N_VNew_Serial(mStateVectorSize);
-            mAbstolArray = N_VNew_Serial(mStateVectorSize);
-            for (int i = 0; i < mStateVectorSize; i++)
-            {
-                SetVector((N_Vector) mAbstolArray, i, options.absolute);
-            }
-
-            updateAbsTolVector();
-
-            mCVODE_Memory = createCvode(&options);
-
-            int errCode = allocateCvodeMem();
-
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            if (oModel->getNumEvents() > 0)
-            {
-                errCode = rootInit(oModel->getNumEvents());//, EventFcn, gdata);
-                Log(lDebug2)<<"CVRootInit executed.....";
-            }
-
-               errCode = CVDense(mCVODE_Memory, mStateVectorSize); // int = size of systems
-
-
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            oModel->resetEvents();
+            handleCVODEError(err);
         }
-        else if (mModel->getNumEvents() > 0)
-        {
-            int allocated = 1;
-            mStateVector = N_VNew_Serial(allocated);
-            mAbstolArray = N_VNew_Serial(allocated);
-
-            SetVector(mStateVector, 0, 0);
-            SetVector(mAbstolArray, 0, options.absolute);
-
-            mCVODE_Memory = createCvode(&options);
-
-            int errCode = allocateCvodeMem();
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            if (oModel->getNumEvents() > 0)
-            {
-                errCode = rootInit(oModel->getNumEvents());
-                Log(lDebug2)<<"CVRootInit executed.....";
-            }
-
-            errCode = CVDense(mCVODE_Memory, allocated);
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            oModel->resetEvents();
-        }
+        Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
     }
-    catch (const Exception& ex)
+
+    if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
     {
-        Log(Logger::LOG_ERROR)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
-        throw CVODEException("Fatal Error while initializing CVODE");
+        handleCVODEError(err);
     }
+
+    mModel->resetEvents();
 }
 
 void CvodeInterface::assignPendingEvents(double timeEnd, double tout)
@@ -493,8 +450,6 @@ void CvodeInterface::assignResultsToModel()
         mModel->setStateVector(NV_DATA_S(mStateVector));
     }
 }
-
-
 
 void CvodeInterface::updateAbsTolVector()
 {
@@ -589,7 +544,7 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
 
     model->getStateVectorRate(time, y, ydot);
 
-    if (cvInstance->mStateVectorSize == 0 && cvInstance->mStateVector &&
+    if (!cvInstance->stateVectorVariables && cvInstance->mStateVector &&
             NV_LENGTH_S(cvInstance->mStateVector) == 1)
     {
         ydot[0] = 0.0;
@@ -598,6 +553,29 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
     Log(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
 
     return CV_SUCCESS;
+}
+
+void CvodeInterface::freeCVode()
+{
+    // cvode does not check for null values.
+    if(mCVODE_Memory)
+    {
+        CVodeFree( &mCVODE_Memory);
+    }
+
+    if(mStateVector)
+    {
+        N_VDestroy_Serial(mStateVector);
+    }
+
+    if(mAbstolArray)
+    {
+        N_VDestroy_Serial(mAbstolArray);
+    }
+
+    mCVODE_Memory = 0;
+    mStateVector = 0;
+    mAbstolArray = 0;
 }
 
 // int (*CVRootFn)(realtype t, N_Vector y, realtype *gout, void *user_data)

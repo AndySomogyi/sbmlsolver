@@ -77,8 +77,6 @@ private:
 
     static const int mDefaultMaxNumSteps;
 
-
-    int mStateVectorSize;
     N_Vector mStateVector;
 
     N_Vector mAbstolArray;
@@ -119,29 +117,43 @@ private:
      */
     void updateAbsTolVector();
 
-
     void assignPendingEvents(double timeEnd, double tout);
-
 
     void handleRootsForTime(double timeEnd,
             std::vector<unsigned char> &previousEventStatus);
 
-    int rootInit(int numRoots);
+    /**
+     * re-initialize cvode with a new set of initial conditions
+     */
     int reInit (double t0);
-    int allocateCvodeMem();
 
     /**
      * Set up the cvode state vector size and various other cvode
      * init tasks. Specific to the model.
      *
-     * Only called once
+     * The existing cvode vars: mStateVector, mAbstolArray, mCVODE_Memory
+     * must be 0 before calling.
      */
-    void initializeCVODEInterface(ExecutableModel *oModel);
+    void createCVode();
+
+    /**
+     * free and nullify the cvode objects.
+     */
+    void freeCVode();
 
     void setAbsTolerance(int index, double dValue);
 
     int mMaxAdamsOrder;
     int mMaxBDFOrder;
+
+    /**
+     * models may have no state vector variables, but in this case,
+     * we still need a cvode state vector of len 1 for the integrator to
+     * work.
+     *
+     * true if model has state vector, false otherwise
+     */
+    bool stateVectorVariables;
 
     /**
      * pointer to an options struct, this is typically
@@ -158,8 +170,6 @@ private:
      * cvode event root finding callback.
      */
     friend int cvodeRootFcn (double t, N_Vector y, double *gout, void *g_data);
-
-    static void* createCvode(const SimulateOptions *options);
 };
 }
 

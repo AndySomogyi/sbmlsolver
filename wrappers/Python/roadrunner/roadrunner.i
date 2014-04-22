@@ -1003,7 +1003,7 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::STIFF;
+        return opt->integratorFlags & SimulateOptions::STIFF;
     }
 
     void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {

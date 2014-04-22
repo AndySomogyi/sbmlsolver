@@ -129,9 +129,6 @@ int main(int argc, char** argv)
 
     std::cout << "running for " << settings.steps << ", duration " << settings.duration << std::endl;
 
-    settings.relative = 1.e-5;
-    settings.absolute = 1.e-10;
-
     std::cout << "absolute: " << settings.absolute << std::endl;
     std::cout << "relative: " << settings.relative << std::endl;
 
