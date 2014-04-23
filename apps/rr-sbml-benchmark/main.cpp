@@ -35,7 +35,6 @@ int main(int argc, char** argv)
     unsigned int version = 0;
     double start_time = 0.0;
     double duration = 0.0;
-    unsigned int steps = 0;
     std::list<std::string> variables;
     std::set<std::string> amounts;
     std::set<std::string> concentrations;
@@ -45,7 +44,7 @@ int main(int argc, char** argv)
 
     if (argc < 6)
     {
-        std::cerr << "Usage: rr-sbml-benchmrk INPUT_DIRECTORY TESTNAME OUTPUTDIRECTORY SBMLLEVEL SBMLVERSION [steps override] [durration] [compiler]" << std::endl;
+        std::cerr << "Usage: rr-sbml-benchmrk INPUT_DIRECTORY TESTNAME OUTPUTDIRECTORY SBMLLEVEL SBMLVERSION [steps override] [durration] [compiler] [-stiff]" << std::endl;
         exit(1);
     }
 
@@ -118,13 +117,24 @@ int main(int argc, char** argv)
     // override steps
     if (argc > 6)
     {
-        steps = strtol(argv[6], NULL, 0);
-        settings.steps = steps;
+        int steps = strtol(argv[6], NULL, 0);
+        if (steps > 0) {
+            settings.steps = steps;
+        }
     }
 
     if (argc > 7)
     {
-        settings.duration = atof(argv[7]);
+        float dur = atof(argv[7]);
+        if (dur > 0) {
+            settings.duration = dur;
+        }
+    }
+
+    for (int i = 0; i < argc; ++i) {
+        if (string(argv[i]).find("stiff") != string::npos) {
+            settings.integratorFlags |= SimulateOptions::STIFF;
+        }
     }
 
     std::cout << "running for " << settings.steps << ", duration " << settings.duration << std::endl;
@@ -132,8 +142,8 @@ int main(int argc, char** argv)
     std::cout << "absolute: " << settings.absolute << std::endl;
     std::cout << "relative: " << settings.relative << std::endl;
 
+    std::cout << "stiff: " << (settings.integratorFlags & SimulateOptions::STIFF ? "True" : "False") << std::endl;
 
-    settings.integratorFlags |= SimulateOptions::STIFF;
 
     
     
