@@ -15,7 +15,8 @@
 #include "rr-libstruct/lsLibla.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
-#include "rrCVODEInterface.h"
+#include "CVODEIntegrator.h"
+#include "GillespieIntegrator.h"
 #include "rrNLEQInterface.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
@@ -108,7 +109,7 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     mSteadyStateThreshold(1.E-2),
     mRawRoadRunnerData(),
     mRoadRunnerData(),
-    mCVode(0),
+    integrator(0),
     mSelectionList(),
     mModelGenerator(0),
     conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
@@ -153,7 +154,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mSteadyStateThreshold(1.E-2),
         mRawRoadRunnerData(),
         mRoadRunnerData(),
-        mCVode(0),
+        integrator(0),
         mSelectionList(),
         mModelGenerator(0),
         conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
@@ -196,7 +197,7 @@ RoadRunner::~RoadRunner()
 
     delete mModelGenerator;
     delete mModel;
-    delete mCVode;
+    delete integrator;
     delete mLS;
     mInstanceCount--;
 }
@@ -380,12 +381,19 @@ bool RoadRunner::initializeModel()
         mModel->setConservedSumChanged(false);
         mModel->evalInitialConditions();
 
-        if(mCVode)
+        if(integrator)
         {
-            delete mCVode;
+            delete integrator;
         }
 
-        mCVode = new CvodeInterface(mModel, &simulateOptions);
+        if (simulateOptions.integrator == SimulateOptions::GILLESPIE)
+        {
+            integrator = new GillespieIntegrator(mModel, &simulateOptions);
+        }
+        else
+        {
+            integrator = new CVODEIntegrator(mModel, &simulateOptions);
+        }
 
         // reset the simulation state
         reset();
@@ -648,20 +656,7 @@ void RoadRunner::reset()
         // model gets set to before time = 0
         mModel->reset();
 
-        // pull state from model into integrator
-        mCVode->reStart(0.0);
-
-        if (conservedMoietyAnalysis && !mModel->getConservedSumChanged())
-        {
-            mModel->computeConservedTotals();
-        }
-
-        mCVode->testRootsAtInitialTime();
-
-        mModel->setTime(0.0);
-
-        // TODO: this is proably not required, test if it can be removed...
-        mCVode->reStart(0.0);
+        integrator->restart(0.0);
 
         try
         {
@@ -1064,7 +1059,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     if (dirtySimulateOptions)
     {
-        mCVode->setSimulateOptions(&simulateOptions);
+        integrator->setSimulateOptions(&simulateOptions);
         dirtySimulateOptions = false;
     }
 
@@ -1104,11 +1099,8 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 
     addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
 
-    // if we have a state vector, copy into integrator vector.
-    if (mCVode->haveVariables())
-    {
-        mCVode->reStart(timeStart);
-    }
+    integrator->restart(timeStart);
+
 
     double tout = timeStart;
 
@@ -1120,7 +1112,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
         for (int i = 1; i < simulateOptions.steps + 1; i++)
         {
             Log(Logger::LOG_DEBUG)<<"Step "<<i;
-            mCVode->integrate(tout, hstep);
+            integrator->integrate(tout, hstep);
             tout = timeStart + i * hstep;
             addNthOutputToResult(mRawRoadRunnerData, i, tout);
         }
@@ -1154,19 +1146,19 @@ double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 
     if(dirtySimulateOptions)
     {
-        mCVode->setSimulateOptions(&simulateOptions);
+        integrator->setSimulateOptions(&simulateOptions);
         dirtySimulateOptions = false;
     }
 
     if (simulateOptions.flags && SimulateOptions::RESET_MODEL)
     {
-        mCVode->reStart(t0);
+        integrator->restart(t0);
     }
 
     try
     {
         mModel->setTime(t0);
-        return mCVode->integrate(t0, tf);
+        return integrator->integrate(t0, tf);
     }
     catch (EventListenerException& e)
     {
@@ -1185,18 +1177,18 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 
     if(dirtySimulateOptions)
     {
-        mCVode->setSimulateOptions(&simulateOptions);
+        integrator->setSimulateOptions(&simulateOptions);
         dirtySimulateOptions = false;
     }
 
     if (reset)
     {
-        mCVode->reStart(currentTime);
+        integrator->restart(currentTime);
     }
 
     try
     {
-        return mCVode->integrate(currentTime, stepSize);
+        return integrator->integrate(currentTime, stepSize);
     }
     catch (EventListenerException& e)
     {
@@ -2608,7 +2600,7 @@ vector<double> RoadRunner::getReactionRates()
 
 Integrator* RoadRunner::getIntegrator()
 {
-    return mCVode;
+    return integrator;
 }
 
 
@@ -2713,13 +2705,14 @@ _xmlNode *RoadRunner::createConfigNode()
     Configurable::addChild(capies, caps);
 
     // capability for child objects
-    if (mCVode)
+    Configurable *intConf = dynamic_cast<Configurable*>(integrator);
+    if (intConf)
     {
-        Configurable::addChild(capies, mCVode->createConfigNode());
+        Configurable::addChild(capies, intConf->createConfigNode());
     }
     else
     {
-        CvodeInterface tmp(0, &simulateOptions);
+        CVODEIntegrator tmp(0, &simulateOptions);
         Configurable::addChild(capies, tmp.createConfigNode());
     }
 
@@ -2739,9 +2732,10 @@ _xmlNode *RoadRunner::createConfigNode()
 
 void RoadRunner::loadConfig(const _xmlDoc* doc)
 {
-    if (mCVode)
+    Configurable *intConf = dynamic_cast<Configurable*>(integrator);
+    if (intConf)
     {
-        mCVode->loadConfig(doc);
+        intConf->loadConfig(doc);
     }
 }
 

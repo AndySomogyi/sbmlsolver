@@ -84,7 +84,7 @@ public:
      * copies the state vector out of the model and into cvode vector,
      * re-initializes cvode.
      */
-    virtual void reStart(double t0) = 0;
+    virtual void restart(double t0) = 0;
 
     /**
      * the integrator can hold a single listener. If clients require multicast,

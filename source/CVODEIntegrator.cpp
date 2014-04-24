@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "rrCVODEInterface.h"
+#include "CVODEIntegrator.h"
 #include "rrExecutableModel.h"
 #include "rrException.h"
 #include "rrLogger.h"
@@ -30,9 +30,9 @@ int cvodeRootFcn (realtype t, N_Vector y, realtype *gout, void *userData);
 RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
 RR_DECLSPEC double      GetVector (N_Vector v, int Index);
 
-const int CvodeInterface::mDefaultMaxNumSteps = 10000;
-const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
-const int CvodeInterface::mDefaultMaxBDFOrder = 5;
+const int CVODEIntegrator::mDefaultMaxNumSteps = 10000;
+const int CVODEIntegrator::mDefaultMaxAdamsOrder = 12;
+const int CVODEIntegrator::mDefaultMaxBDFOrder = 5;
 
 /**
  * Purpose
@@ -70,17 +70,17 @@ static std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
           cvodeDecodeError(errCode); \
           throw IntegratorException(_err_what, std::string(__FUNC__)); }
 
-void CvodeInterface::setListener(IntegratorListenerPtr p)
+void CVODEIntegrator::setListener(IntegratorListenerPtr p)
 {
     listener = p;
 }
 
-IntegratorListenerPtr CvodeInterface::getListener()
+IntegratorListenerPtr CVODEIntegrator::getListener()
 {
     return listener;
 }
 
-CvodeInterface::CvodeInterface(ExecutableModel *aModel, const SimulateOptions* options)
+CVODEIntegrator::CVODEIntegrator(ExecutableModel *aModel, const SimulateOptions* options)
 :
 mStateVector(NULL),
 mAbstolArray(NULL),
@@ -105,12 +105,12 @@ options(*options)
     setSimulateOptions(0);
 }
 
-CvodeInterface::~CvodeInterface()
+CVODEIntegrator::~CVODEIntegrator()
 {
     freeCVode();
 }
 
-void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
+void CVODEIntegrator::setSimulateOptions(const SimulateOptions* o)
 {
     if (o && (o->integratorFlags & SimulateOptions::STIFF) !=
             (options.integratorFlags & SimulateOptions::STIFF))
@@ -171,7 +171,7 @@ void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
     }
 }
 
-int CvodeInterface::reInit(double t0)
+int CVODEIntegrator::reInit(double t0)
 {
     if (mCVODE_Memory == NULL)
     {
@@ -188,7 +188,7 @@ int CvodeInterface::reInit(double t0)
     return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
 }
 
-double CvodeInterface::integrate(double timeStart, double hstep)
+double CVODEIntegrator::integrate(double timeStart, double hstep)
 {
     Log(lDebug3)<<"---------------------------------------------------";
     Log(lDebug3)<<"--- O N E     S T E P      ( "<<mOneStepCount<< " ) ";
@@ -226,7 +226,7 @@ double CvodeInterface::integrate(double timeStart, double hstep)
 
         if (mLastTimeValue > timeStart)
         {
-            reStart(timeStart);
+            restart(timeStart);
         }
 
         double nextTargetEndTime = tout;
@@ -265,7 +265,7 @@ double CvodeInterface::integrate(double timeStart, double hstep)
             {
                 // evaluate events
                 handleRootsForTime(timeEnd, eventStatus);
-                reStart(timeEnd);
+                restart(timeEnd);
                 mLastEvent = timeEnd;
 
                 if (listener)
@@ -312,12 +312,12 @@ double CvodeInterface::integrate(double timeStart, double hstep)
 
 }
 
-bool CvodeInterface::haveVariables()
+bool CVODEIntegrator::haveVariables()
 {
     return stateVectorVariables;
 }
 
-void CvodeInterface::createCVode()
+void CVODEIntegrator::createCVode()
 {
     if(!mModel)
     {
@@ -418,17 +418,17 @@ void CvodeInterface::createCVode()
     mModel->resetEvents();
 }
 
-void CvodeInterface::assignPendingEvents(double timeEnd, double tout)
+void CVODEIntegrator::assignPendingEvents(double timeEnd, double tout)
 {
     double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
     int handled = mModel->applyPendingEvents(stateVector, timeEnd, tout);
     if (handled > 0)
     {
-        reStart(timeEnd);
+        restart(timeEnd);
     }
 }
 
-void CvodeInterface::testRootsAtInitialTime()
+void CVODEIntegrator::testRootsAtInitialTime()
 {
     vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
     mModel->getEventTriggers(initialEventStatus.size(), 0, &initialEventStatus[0]);
@@ -436,14 +436,14 @@ void CvodeInterface::testRootsAtInitialTime()
 }
 
 
-void CvodeInterface::handleRootsForTime(double timeEnd, vector<unsigned char> &previousEventStatus)
+void CVODEIntegrator::handleRootsForTime(double timeEnd, vector<unsigned char> &previousEventStatus)
 {
     double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
     mModel->applyEvents(timeEnd, &previousEventStatus[0], stateVector, stateVector);
     reInit(timeEnd);
 }
 
-void CvodeInterface::assignResultsToModel()
+void CVODEIntegrator::assignResultsToModel()
 {
     if (mStateVector)
     {
@@ -451,7 +451,7 @@ void CvodeInterface::assignResultsToModel()
     }
 }
 
-void CvodeInterface::updateAbsTolVector()
+void CVODEIntegrator::updateAbsTolVector()
 {
     if (mStateVector == 0 || mModel == 0)
     {
@@ -487,7 +487,7 @@ void CvodeInterface::updateAbsTolVector()
 
 }
 
-void CvodeInterface::setAbsTolerance(int index, double dValue)
+void CVODEIntegrator::setAbsTolerance(int index, double dValue)
 {
     double dTolerance = dValue;
     if (dValue > 0 && options.absolute > dValue)
@@ -502,16 +502,41 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
     SetVector(mAbstolArray, index, dTolerance);
 }
 
-void CvodeInterface::reStart(double timeStart)
+
+void CVODEIntegrator::restart(double time)
 {
+    if (!mModel) {
+        return;
+    }
+
+    // apply any events that trigger before or at time 0.
+    // important NOT to set model time before we check get
+    // the initial event state, initially time is < 0.
+    if (time <= 0.0) {
+
+        // copy state vector into cvode memory, need to do this before evaluating
+        // roots because the applyEvents method copies the cvode state vector
+        // into the model
+        if (mStateVector)
+        {
+            mModel->getStateVector(NV_DATA_S(mStateVector));
+        }
+
+        testRootsAtInitialTime();
+    }
+
+    mModel->setTime(time);
+
+    // copy state vector into cvode memory
     if (mStateVector && mCVODE_Memory)
     {
         mModel->getStateVector(NV_DATA_S(mStateVector));
     }
 
+    // set tolerances and so forth.
     if(mCVODE_Memory)
     {
-        reInit(timeStart);
+        reInit(time);
     }
 }
 
@@ -536,7 +561,7 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
 {
     double* y = NV_DATA_S (cv_y);
     double* ydot = NV_DATA_S(cv_ydot);
-    CvodeInterface* cvInstance = (CvodeInterface*) userData;
+    CVODEIntegrator* cvInstance = (CVODEIntegrator*) userData;
 
     assert(cvInstance && "userData pointer is NULL in cvode dydt callback");
 
@@ -555,7 +580,7 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
     return CV_SUCCESS;
 }
 
-void CvodeInterface::freeCVode()
+void CVODEIntegrator::freeCVode()
 {
     // cvode does not check for null values.
     if(mCVODE_Memory)
@@ -582,7 +607,7 @@ void CvodeInterface::freeCVode()
 // Cvode calls this to check for event changes
 int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_data)
 {
-    CvodeInterface* cvInstance = (CvodeInterface*) user_data;
+    CVODEIntegrator* cvInstance = (CVODEIntegrator*) user_data;
 
     assert(cvInstance && "user data pointer is NULL on CVODE root callback");
 
@@ -597,7 +622,7 @@ int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_d
 
 
 
-_xmlNode* CvodeInterface::createConfigNode()
+_xmlNode* CVODEIntegrator::createConfigNode()
 {
     _xmlNode *cap = Configurable::createCapabilityNode("Integration", "CVODE",
             "CVODE Integrator");
@@ -622,7 +647,7 @@ _xmlNode* CvodeInterface::createConfigNode()
     return cap;
 }
 
-void CvodeInterface::loadConfig(const _xmlDoc* doc)
+void CVODEIntegrator::loadConfig(const _xmlDoc* doc)
 {
     mMaxBDFOrder = Configurable::getParameterIntValue(doc, "Integration", "BDFOrder");
     mMaxAdamsOrder = Configurable::getParameterIntValue(doc, "Integration", "AdamsOrder");

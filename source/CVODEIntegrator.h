@@ -25,12 +25,12 @@ class RoadRunner;
  * @internal
  * The integrator implemented by CVODE.
  */
-class CvodeInterface : public Integrator, public Configurable
+class CVODEIntegrator : public Integrator, public Configurable
 {
 public:
-    CvodeInterface(ExecutableModel* oModel, const SimulateOptions* options);
+    CVODEIntegrator(ExecutableModel* oModel, const SimulateOptions* options);
 
-    virtual ~CvodeInterface();
+    virtual ~CVODEIntegrator();
 
     /**
      * creates a new xml element that represent the current state of this
@@ -51,7 +51,7 @@ public:
      * copies the state vector out of the model and into cvode vector,
      * re-initializes cvode.
      */
-    void reStart(double timeStart);
+    void restart(double timeStart);
 
     /**
      * set the options the integrator will use.
@@ -68,11 +68,6 @@ public:
      * get the integrator listener
      */
     virtual IntegratorListenerPtr getListener();
-
-    // TODO: these need to made private.
-    void testRootsAtInitialTime();
-    bool haveVariables();
-
 private:
 
     static const int mDefaultMaxNumSteps;
@@ -101,6 +96,19 @@ private:
      * the listener
      */
     IntegratorListenerPtr listener;
+
+    /**
+     * apply any events before time = 0.
+     *
+     * Note side effect of setting the current cvode state into the model.
+     */
+    void testRootsAtInitialTime();
+
+    /**
+     * does the model have any state variables.
+     */
+    bool haveVariables();
+
 
     /**
      * copy the values from the cvode state vector into the executable model.

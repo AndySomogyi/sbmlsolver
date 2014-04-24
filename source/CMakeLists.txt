@@ -28,7 +28,8 @@ set(rrSources
     rrRoadRunnerOptions
     rrStringUtils
     rrUtils
-    rrCVODEInterface
+    CVODEIntegrator
+    GillespieIntegrator
     rrNLEQInterface
     rrTestSuiteModelSimulation
     rrIniKey

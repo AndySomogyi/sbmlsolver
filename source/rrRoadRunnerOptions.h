@@ -182,7 +182,7 @@ struct RR_DECLSPEC SimulateOptions
      */
     enum IntegratorType
     {
-        CVODE
+        CVODE,  GILLESPIE
     };
 
     enum IntegratorFlags

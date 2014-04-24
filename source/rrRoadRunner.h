@@ -726,7 +726,7 @@ private:
      * The Cvode object get created just after a model is created, it then
      * gets a reference to the model and holds on to it.
      */
-    class CvodeInterface *mCVode;
+    class Integrator *integrator;
     std::vector<SelectionRecord> mSelectionList;
 
     /**
