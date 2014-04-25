@@ -27,7 +27,7 @@
     #include <lsLUResult.h>
     #include <lsUtils.h>
     #include <rrCompiler.h>
-    #include <rrModelGenerator.h>
+    #include <ModelGenerator.h>
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerData.h>
     #include <rrRoadRunnerOptions.h>
@@ -746,7 +746,7 @@ namespace std { class ostream{}; }
 %include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
-%include <rrModelGenerator.h>
+%include <ModelGenerator.h>
 %include <rrVersionInfo.h>
 
 %thread;
@@ -790,11 +790,11 @@ namespace std { class ostream{}; }
 %extend rr::RoadRunner
 {
     // attributes
-	
-	/**
-	 * make some of these const so SWIG would not allow setting.
-	 */
-	const rr::SimulateOptions *simulateOptions;
+
+    /**
+     * make some of these const so SWIG would not allow setting.
+     */
+    const rr::SimulateOptions *simulateOptions;
 
     rr::RoadRunnerOptions *options;
 
@@ -942,7 +942,7 @@ namespace std { class ostream{}; }
     double end;
     bool resetModel;
     bool stiff;
-	bool multiStep;
+    bool multiStep;
     bool structuredResult;
 
     std::string __repr__() {
@@ -1067,7 +1067,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_conservedMoieties_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::CONSERVED_MOIETIES;
     }
-    
+
 
     void rr_LoadSBMLOptions_conservedMoieties_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1081,7 +1081,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_noDefaultSelections_get(rr::LoadSBMLOptions* opt) {
         return opt->loadFlags & rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
-    
+
     void rr_LoadSBMLOptions_noDefaultSelections_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
             opt->loadFlags |= rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
@@ -1093,7 +1093,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_mutableInitialConditions_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
     }
-    
+
 
     void rr_LoadSBMLOptions_mutableInitialConditions_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1106,7 +1106,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_recompile_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::RECOMPILE;
     }
-    
+
 
     void rr_LoadSBMLOptions_recompile_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1119,7 +1119,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_readOnly_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::READ_ONLY;
     }
-    
+
 
     void rr_LoadSBMLOptions_readOnly_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1767,25 +1767,25 @@ namespace std { class ostream{}; }
     }
 
     rr::PyEventListener *getEvent(const std::string& eventId) {
-		int index = ($self)->getEventIndex(eventId);
+        int index = ($self)->getEventIndex(eventId);
 
-		if (index >= 0) {
-			ExecutableModel *p = $self;
-			EventListenerPtr e = p->getEventListener(index);
-			
-			if(e) {
-				PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
-				return impl;
-			} else {
-				PyEventListener *impl = new PyEventListener();
-				p->setEventListener(index, EventListenerPtr(impl));
-				return impl;
-			}
+        if (index >= 0) {
+            ExecutableModel *p = $self;
+            EventListenerPtr e = p->getEventListener(index);
 
-		} else {
-			throw std::out_of_range(std::string("could not find index for event ") + eventId);
-		}
-	}
+            if(e) {
+                PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
+                return impl;
+            } else {
+                PyEventListener *impl = new PyEventListener();
+                p->setEventListener(index, EventListenerPtr(impl));
+                return impl;
+            }
+
+        } else {
+            throw std::out_of_range(std::string("could not find index for event ") + eventId);
+        }
+    }
 
     %pythoncode %{
         def _makeProperties(self) :
@@ -1856,7 +1856,7 @@ namespace std { class ostream{}; }
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
-        std::tr1::shared_ptr<rr::IntegratorListener> i = 
+        std::tr1::shared_ptr<rr::IntegratorListener> i =
             std::tr1::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
@@ -1870,7 +1870,7 @@ namespace std { class ostream{}; }
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
-        rr::PyIntegratorListenerPtr ptr = 
+        rr::PyIntegratorListenerPtr ptr =
             std::tr1::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
@@ -1878,18 +1878,18 @@ namespace std { class ostream{}; }
         return ptr;
     }
 
-	void _clearListener() {
-		rr::IntegratorListenerPtr current = ($self)->getListener();
-		
-		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+    void _clearListener() {
+        rr::IntegratorListenerPtr current = ($self)->getListener();
 
-		($self)->setListener(rr::IntegratorListenerPtr());
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
-		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
-	}
+        ($self)->setListener(rr::IntegratorListenerPtr());
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+    }
 
     // we want to get the listener back as a PyIntegratorListener, however
-    // swig won't let us ignore by return value and if we ignore getListener, 
+    // swig won't let us ignore by return value and if we ignore getListener,
     // it ignores any extended version. So, we have to make an extended
     // _getListener() above, and call it from python like this.
     %pythoncode %{
@@ -1904,7 +1904,7 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
-        if _newclass: listener = property(getListener, setListener) 	
+        if _newclass: listener = property(getListener, setListener)
     %}
 }
 
@@ -1912,7 +1912,7 @@ namespace std { class ostream{}; }
     %pythoncode %{
         __swig_getmethods__["onTimeStep"] = getOnTimeStep
         __swig_setmethods__["onTimeStep"] = setOnTimeStep
-        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep) 	
+        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep)
 
         __swig_getmethods__["onEvent"] = getOnEvent
         __swig_setmethods__["onEvent"] = setOnEvent
