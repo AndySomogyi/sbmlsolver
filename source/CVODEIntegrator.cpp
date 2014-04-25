@@ -95,6 +95,8 @@ mModel(aModel),
 stateVectorVariables(false),
 options(*options)
 {
+    Log(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
+
     if(aModel)
     {
         createCVode();

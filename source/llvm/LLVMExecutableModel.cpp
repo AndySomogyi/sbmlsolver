@@ -156,6 +156,7 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
     modelData(0),
+    conversionFactor(1.0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
     getBoundarySpeciesAmountPtr(0),
@@ -193,6 +194,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     resources(rc),
     symbols(rc->symbols),
     modelData(modelData),
+    conversionFactor(1.0),
     evalInitialConditionsPtr(rc->evalInitialConditionsPtr),
     evalReactionRatesPtr(rc->evalReactionRatesPtr),
     getBoundarySpeciesAmountPtr(rc->getBoundarySpeciesAmountPtr),
@@ -348,7 +350,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
         evalVolatileStoichPtr(modelData);
 
-        double conversionFactor = evalReactionRatesPtr(modelData);
+        conversionFactor = evalReactionRatesPtr(modelData);
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
@@ -381,7 +383,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
 
         evalVolatileStoichPtr(modelData);
 
-        double conversionFactor = evalReactionRatesPtr(modelData);
+        conversionFactor = evalReactionRatesPtr(modelData);
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
@@ -422,6 +424,17 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         log.stream() << endl << "Model: " << endl << this;
     }
     */
+}
+
+double LLVMExecutableModel::getFloatingSpeciesAmountRate(int index,
+           const double *reactionRates)
+{
+    if (index >= modelData->stoichiometry->m)
+    {
+        throw_llvm_exception("index out of range");
+    }
+
+    return csr_matrix_ddot(index, modelData->stoichiometry, reactionRates);
 }
 
 void LLVMExecutableModel::testConstraints()
@@ -657,8 +670,6 @@ void LLVMExecutableModel::reset()
     {
         evalInitialConditions();
     }
-
-    evalReactionRates();
 
     // this sets up the event system to pull the initial value
     // before the simulation starts.
@@ -1239,7 +1250,6 @@ LLVMExecutableModel* LLVMExecutableModel::dummy()
 
 void LLVMExecutableModel::evalReactionRates()
 {
-    evalReactionRatesPtr(modelData);
 }
 
 int LLVMExecutableModel::getNumRules()
@@ -1318,19 +1328,30 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
 {
     // the reaction rates are a function of the model state, so someone
     // could have changed some parameter, so we need to re-evaluate.
-    evalReactionRates();
+    conversionFactor = evalReactionRatesPtr(modelData);
 
-    for (int i = 0; i < len; ++i)
+    if (indx)
     {
-        int j = indx ? indx[i] : i;
-        if (j < modelData->numReactions)
+        for (int i = 0; i < len; ++i)
         {
-            values[i] = modelData->reactionRatesAlias[j];
+            int j = indx ? indx[i] : i;
+            if (j < modelData->numReactions)
+            {
+                values[i] = modelData->reactionRatesAlias[j];
+            }
+            else
+            {
+                throw LLVMException("index out of range");
+            }
         }
-        else
+    }
+    else
+    {
+        if (len > modelData->numReactions)
         {
-            throw LLVMException("index out of range");
+            throw_llvm_exception("invalid length, length must be <= numReactions");
         }
+        std::memcpy(values, modelData->reactionRatesAlias, len * sizeof(double));
     }
     return len;
 }

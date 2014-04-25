@@ -498,6 +498,10 @@ public:
     virtual void setEventListener(int index, rr::EventListenerPtr eventHandler);
     virtual rr::EventListenerPtr getEventListener(int index);
 
+
+    virtual double getFloatingSpeciesAmountRate(int index,
+            const double *reactionRates);
+
 private:
 
     /**
@@ -610,6 +614,15 @@ private:
 
     template <typename a_type, typename b_type>
     friend void copyCachedModel(a_type* src, b_type* dst);
+
+    /**
+     * the sbml conversion factor.
+     *
+     * TODO: this has issues in that its possible for the conversion factor to change.
+     * This needs to be moved into an LLVM generated function instead of a
+     * class variable.
+     */
+    double conversionFactor;
 };
 
 } /* namespace rr */

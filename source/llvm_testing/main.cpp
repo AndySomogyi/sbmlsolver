@@ -23,6 +23,7 @@
 #include "TestEvalInitialConditions.h"
 #include "TestGetSetValues.h"
 #include "TestCapabilities.h"
+#include "TestEvalReactionRates.h"
 
 #include "ConfigurableTest.h"
 
@@ -221,26 +222,15 @@ using namespace rr;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 3)
+    if (argc != 2)
     {
-        cout << "usage llvm_tester path_to_model log_level" << std::endl;
+        cout << "usage llvm_tester path_to_model" << std::endl;
         return 0;
     }
 
     try
     {
-        Logger::Level level = Logger::stringToLevel(argv[2]);
-
-        cout << "setting log level to " << Logger::levelToString(level) << std::endl;
-        cout << "loading file " << argv[1] << std::endl;
-
-        Logger::setLevel(level);
-
-        RoadRunner r(argv[1]);
-
-        cout << r.getModel()->getInfo();
-
-        cout << "all done" << std::endl;
+        testAmountRates(argv[1]);
     }
     catch(std::exception &e)
     {

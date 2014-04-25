@@ -474,6 +474,14 @@ public:
      */
     virtual std::string getReactionId(int index) = 0;
 
+    /**
+     * get the vector of reaction rates.
+     *
+     * @param len: the length of the suplied buffer, must be >= reaction rates size.
+     * @param indx: pointer to index array. If NULL, then it is ignored and the
+     * reaction rates are copied directly into the suplied buffer.
+     * @param values: pointer to user suplied buffer where rates will be stored.
+     */
     virtual int getReactionRates(int len, int const *indx,
                 double *values) = 0;
 
@@ -657,6 +665,22 @@ public:
     virtual std::string getEventId(int index) = 0;
     virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;
     virtual EventListenerPtr getEventListener(int index) = 0;
+
+    /**
+     * Get the amount rate of change for the i'th floating species
+     * given a reaction rates vector.
+     *
+     * TODO: This should be merged with getFloatingSpeciesAmountRates, but that will
+     * break inteface, will do in next point release.
+     *
+     * TODO: If the conversion factor changes in between getting the
+     * reaction rates vector via getReactionRates
+     *
+     * @param index: index of the desired floating speceis rate.
+     * @param reactionRates: pointer to buffer of reaction rates.
+     */
+    virtual double getFloatingSpeciesAmountRate(int index,
+            const double *reactionRates) = 0;
 };
 
 

@@ -374,7 +374,7 @@ string RoadRunner::getParamPromotedSBML(const string& sbml)
     return stream.str();
 }
 
-bool RoadRunner::initializeModel()
+void RoadRunner::createIntegrator()
 {
     if(mModel)
     {
@@ -397,11 +397,6 @@ bool RoadRunner::initializeModel()
 
         // reset the simulation state
         reset();
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 
@@ -593,11 +588,7 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     }
 
     //Finally intitilaize the model..
-    if(!initializeModel())
-    {
-        Log(Logger::LOG_ERROR)<<"Failed Initializing ExecutableModel";
-        return false;
-    }
+    createIntegrator();
 
     if (!options || !(options->loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS))
     {
@@ -1041,21 +1032,32 @@ void RoadRunner::evalModel()
 }
 
 
-const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
+const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* opt)
 {
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (_options)
+    // reload integrator if different
+    bool reloadIntegrator = false;
+
+    if (opt)
     {
-        this->simulateOptions = *_options;
+        this->simulateOptions.integrator != opt->integrator;
+        this->simulateOptions = *opt;
         dirtySimulateOptions = true;
     }
 
-    //This one creates the list of what we will look at in the result
+    // This one creates the list of what we will look at in the result
+    // uses values (potentially) from simulate options.
     createTimeCourseSelectionList();
+
+    if (reloadIntegrator)
+    {
+        createIntegrator();
+        dirtySimulateOptions = false;
+    }
 
     if (dirtySimulateOptions)
     {
@@ -1071,7 +1073,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     if (simulateOptions.duration < 0 || simulateOptions.start < 0
             || simulateOptions.steps <= 0 )
     {
-        throw CoreException("Illegal input to simulate");
+        throw CoreException("duration, startTime and steps must be positive");
     }
 
     // set how the result should be returned to python

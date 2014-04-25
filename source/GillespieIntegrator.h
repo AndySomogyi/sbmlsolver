@@ -15,7 +15,6 @@ namespace rr
 {
 
 class ExecutableModel;
-class SimulateOptions;
 
 class GillespieIntegrator: public Integrator
 {
@@ -50,6 +49,10 @@ public:
      * get the integrator listener
      */
     virtual IntegratorListenerPtr getListener();
+
+private:
+    ExecutableModel *model;
+    SimulateOptions options;
 };
 
 } /* namespace rr */

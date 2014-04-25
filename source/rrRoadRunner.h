@@ -795,7 +795,11 @@ private:
      */
     LibStructural* getLibStruct();
 
-    bool initializeModel();
+    /**
+     * create and initialize the integrator based on the value specified
+     * in the simulateOptions struct.
+     */
+    void createIntegrator();
 
     bool createDefaultSelectionLists();
 
