@@ -10,7 +10,7 @@
 #ifndef rrLLVMModelGeneratorH
 #define rrLLVMModelGeneratorH
 
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "LLVMCompiler.h"
 
 #if __cplusplus >= 201103L || defined(_MSC_VER)

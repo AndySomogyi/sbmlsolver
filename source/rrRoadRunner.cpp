@@ -4,10 +4,9 @@
 
 #include "rrRoadRunner.h"
 #include "rrException.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrCompiler.h"
 #include "rrLogger.h"
-#include "rrModelGeneratorFactory.h"
 #include "rrUtils.h"
 #include "rrExecutableModel.h"
 #include "rrSBMLModelSimulation.h"
@@ -15,8 +14,7 @@
 #include "rr-libstruct/lsLibla.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
-#include "CVODEIntegrator.h"
-#include "GillespieIntegrator.h"
+#include "Integrator.h"
 #include "rrNLEQInterface.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
@@ -132,7 +130,7 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
             ", tempDir:" << gDefaultTempFolder << ", supportCodeDir: " <<
             gDefaultSupportCodeFolder;
 
-    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+    mModelGenerator = ModelGenerator::New(compiler,
             gDefaultTempFolder, gDefaultSupportCodeFolder);
 
     setTempFileFolder(gDefaultTempFolder);
@@ -181,7 +179,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
             ", tempDir:" << tempDir << ", supportCodeDir: " <<
             supportCodeDir;
 
-    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+    mModelGenerator = ModelGenerator::New(compiler,
             tempDir, supportCodeDir);
 
     setTempFileFolder(tempDir);
@@ -386,14 +384,7 @@ void RoadRunner::createIntegrator()
             delete integrator;
         }
 
-        if (simulateOptions.integrator == SimulateOptions::GILLESPIE)
-        {
-            integrator = new GillespieIntegrator(mModel, &simulateOptions);
-        }
-        else
-        {
-            integrator = new CVODEIntegrator(mModel, &simulateOptions);
-        }
+        integrator = Integrator::New(&simulateOptions, mModel);
 
         // reset the simulation state
         reset();
@@ -1044,7 +1035,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* opt)
 
     if (opt)
     {
-        this->simulateOptions.integrator != opt->integrator;
+        reloadIntegrator = simulateOptions.integrator != opt->integrator;
         this->simulateOptions = *opt;
         dirtySimulateOptions = true;
     }
@@ -2712,11 +2703,7 @@ _xmlNode *RoadRunner::createConfigNode()
     {
         Configurable::addChild(capies, intConf->createConfigNode());
     }
-    else
-    {
-        CVODEIntegrator tmp(0, &simulateOptions);
-        Configurable::addChild(capies, tmp.createConfigNode());
-    }
+
 
     // nleq only exists during steadyState, so we need to create a tmp
     // one and load it with the xml if we given.

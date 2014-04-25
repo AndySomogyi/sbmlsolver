@@ -6,8 +6,7 @@
  */
 #pragma hdrstop
 #include "test_compiler.h"
-#include "rrModelGeneratorFactory.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrCompiler.h"
 
 #include "rrOSSpecifics.h"
@@ -22,7 +21,7 @@ void test_compiler()
 {
     cout << __FUNC__ << "\n";
 
-    ModelGenerator *mg = ModelGeneratorFactory::createModelGenerator("LLVM");
+    ModelGenerator *mg = ModelGenerator::New("LLVM");
 
     cout << "temporary directory: " << mg->getTemporaryDirectory() << "\n";
 

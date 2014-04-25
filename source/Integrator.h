@@ -66,7 +66,7 @@ typedef std::tr1::shared_ptr<IntegratorListener> IntegratorListenerPtr;
  *
  * The Integrator is only valid if attached to a model.
  */
-class Integrator
+class RR_DECLSPEC Integrator
 {
 public:
 
@@ -98,6 +98,14 @@ public:
     virtual IntegratorListenerPtr getListener() = 0;
 
     virtual ~Integrator() {};
+
+    /**
+     * create a new integrator based on the settings in the
+     * options class.
+     *
+     * The new integrator borrows a reference to an ExecutableModel object.
+     */
+    static Integrator* New(const SimulateOptions *o, ExecutableModel *m);
 };
 
 

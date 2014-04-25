@@ -10,7 +10,7 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrStringUtils.h"
 #include "conservation/ConservationExtension.h"
 

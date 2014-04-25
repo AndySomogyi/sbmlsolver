@@ -11,7 +11,7 @@
 #include "ModelDataIRBuilder.h"
 #include "LLVMException.h"
 #include "SBMLSupportFunctions.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "conservation/ConservedMoietyConverter.h"
 #include "rrConfig.h"
 
@@ -19,7 +19,6 @@
 #include <string>
 #include <vector>
 #include <math.h>
-
 
 using namespace llvm;
 using namespace std;
