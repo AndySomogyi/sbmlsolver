@@ -112,6 +112,14 @@ void  csr_matrix_dgemv(double alpha, const csr_matrix *A,
         double const *x, double beta, double *y);
 
 /**
+ * perform a dot product between the a row in the matrix and a vector y.
+ *
+ * The given vector y must obviously be the same length as the
+ * number of rows in matrix x.
+ */
+double csr_matrix_ddot(int row, const csr_matrix *x, const double *y);
+
+/**
  * dump the matrix to an output stream.
  */
 std::ostream& operator<< (std::ostream& os, const csr_matrix* mat);

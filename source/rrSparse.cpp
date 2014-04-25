@@ -197,6 +197,22 @@ void csr_matrix_dgemv(double alpha, const csr_matrix* A, const double* x,
 }
 
 
+double csr_matrix_ddot(int row, const csr_matrix *A, const double *x)
+{
+    assert(row < A->m && "invalid row");
+    unsigned *rowptr = A->rowptr;
+    unsigned *colidx = A->colidx;
+    double *values = A->values;
+
+    double sum = 0.0;
+    for (unsigned k = rowptr[row]; k < rowptr[row + 1]; k++)
+    {
+        sum = sum + values[k] * x[colidx[k]];
+    }
+    return sum;
+}
+
+
 
 std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
 {
