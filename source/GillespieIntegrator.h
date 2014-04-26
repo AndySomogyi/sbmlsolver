@@ -9,6 +9,15 @@
 #define GILLESPIEINTEGRATOR_H_
 
 #include "Integrator.h"
+#include "rrExecutableModel.h"
+
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <random>
+#define random_ns std
+#else
+#include <tr1/random>
+#define random_ns std::tr1
+#endif
 
 
 namespace rr
@@ -29,9 +38,9 @@ public:
     virtual void setSimulateOptions(const SimulateOptions* options);
 
     /**
-     * integrates the model from t0 to tf.
+     * integrates the model from t0 to t0 + hstep
      */
-    virtual double integrate(double t0, double tf);
+    virtual double integrate(double t0, double hstep);
 
     /**
      * copies the state vector out of the model and into cvode vector,
@@ -53,6 +62,37 @@ public:
 private:
     ExecutableModel *model;
     SimulateOptions options;
+
+    random_ns::mt19937 engine;
+
+
+
+    int nReactions;
+
+    // starting index of floating species
+    int floatingSpeciesStart;
+
+    double* reactionRates;
+    double* reactionRatesBuffer;
+
+    int stateVectorSize;
+    double* stateVector;
+    double* stateVectorRate;
+
+    // m rows x n cols
+    // offset = row*NUMCOLS + column
+
+    int stoichRows;
+    int stoichCols;
+    double* stoichData;
+
+    double urand();
+
+    inline double getStoich(uint species, uint reaction) {
+        return stoichData[species * stoichCols + reaction];
+    }
+
+
 };
 
 } /* namespace rr */

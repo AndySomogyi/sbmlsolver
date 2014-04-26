@@ -6,28 +6,55 @@
  */
 
 #include "GillespieIntegrator.h"
+#include "rrUtils.h"
+#include "rrLogger.h"
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
-#include <random>
-#else
-#include <tr1/random>
-#endif
+#include <cstring>
+#include <assert.h>
+#include <iostream>
+#include <exception>
+#include <ctime>
+
+
+using namespace std;
+
+
 
 namespace rr
 {
 
 GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
-        const SimulateOptions* o)
-: model(m)
+    const SimulateOptions* o) :
+        model(m)
 {
     if (o)
     {
         this->options = *o;
     }
+
+    nReactions = model->getNumReactions();
+    reactionRates = new double[nReactions];
+    reactionRatesBuffer = new double[nReactions];
+    stateVectorSize = model->getStateVector(0);
+    stateVector = new double[stateVectorSize];
+    stateVectorRate = new double[stateVectorSize];
+
+    floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
+
+    assert(floatingSpeciesStart >= 0);
+
+    model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
+
+    engine.seed(std::time(0));
+
 }
 
 GillespieIntegrator::~GillespieIntegrator()
 {
+    delete[] reactionRates;
+    delete[] reactionRatesBuffer;
+    delete[] stateVector;
+    delete[] stateVectorRate;
 }
 
 void GillespieIntegrator::setSimulateOptions(const SimulateOptions* o)
@@ -70,35 +97,77 @@ void GridSection::ssa(int i, int j, double tf, pfunc *a, int* nu, int r) {
 }
 */
 
-double GillespieIntegrator::integrate(double t, double tf)
+// TODO Major TODO: find out why we need fudge parameters!!!
+const double sscale = 1;
+const double tscale = 4;
+
+double GillespieIntegrator::integrate(double t, double hstep)
 {
-    /*
-    double ddt = 0;
+    std::memset(reactionRatesBuffer, 0, nReactions * sizeof(double));
+
+    double tf = t + hstep;
+
+    Log(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
+
+    model->setTime(t);
+    model->getStateVector(stateVector);
+
     while(t < tf) {
-        double p1 = drand();
-        double p2 = drand();
+        double p1 = urand();
+        double p2 = urand();
+
+        assert(p1 >= 0 && p1 <= 1 && p2 >= 0 && p2 <= 1);
+
         double s = 0;
-        for(int k = 0; k < r; k++) {
-            s += ((*this).*(a[k]))(i,j);
+
+        // get the 'propensity' -- reaction rates
+        model->getReactionRates(nReactions, 0, reactionRates);
+
+        // sum the propensity
+        for(int k = 0; k < nReactions; k++) {
+
+            Log(Logger::LOG_DEBUG) << "reac rate: " << k << ": " << reactionRates[k];
+
+            if (reactionRates[k] < 0) {
+                string msg = "reaction rate " + rr::toString(k)
+                + " is negative: " + rr::toString(reactionRates[k]);
+                throw (domain_error(msg));
+            }
+
+            s += reactionRates[k];
         }
-        double h = -log(p1) / s;
+        double h = (-log(p1) / s) * tscale;
         t = t+h;
         double ctr = 0;
-        for(int k = 0; k < r; k++) {
-            double next = ((*this).*(a[k]))(i,j) / s;
+
+        // find index of next reaction
+        for(int k = 0; k < nReactions; k++) {
+            double next = reactionRates[k] / s;
             if((ctr < p2) && (p2 < (ctr + next))) {
-                z += nu[k];
+
+                Log(Logger::LOG_DEBUG) << "time: " << t << ", reaction: " << k;
+
+                for(int i = floatingSpeciesStart; i < stateVectorSize; ++i) {
+                    stateVector[i] = stateVector[i] + getStoich(i - floatingSpeciesStart, k) * sscale;
+                }
+
+                model->setStateVector(stateVector);
+
+
                 break;
             }
             ctr += next;
         }
     }
-    */
-    return 0;
+
+
+
+    return t;
 }
 
 void GillespieIntegrator::restart(double t0)
 {
+    engine.seed(std::time(0));
 }
 
 void GillespieIntegrator::setListener(IntegratorListenerPtr)
@@ -108,6 +177,11 @@ void GillespieIntegrator::setListener(IntegratorListenerPtr)
 IntegratorListenerPtr GillespieIntegrator::getListener()
 {
     return IntegratorListenerPtr();
+}
+
+double GillespieIntegrator::urand()
+{
+    return (double)engine() / (double)engine.max();
 }
 
 } /* namespace rr */

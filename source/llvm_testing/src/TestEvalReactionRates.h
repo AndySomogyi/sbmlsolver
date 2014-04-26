@@ -25,6 +25,8 @@ namespace rr
 
     void testAmountRates(const char* fname);
 
+    void testStoch(const char* fname);
+
 } /* namespace rr */
 
 

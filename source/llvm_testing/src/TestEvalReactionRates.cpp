@@ -74,6 +74,21 @@ void testAmountRates(const char* fname)
     }
 }
 
+void testStoch(const char* fname)
+{
+    RoadRunner r(fname);
+
+    ExecutableModel *model = r.getModel();
+
+    SimulateOptions o = SimulateOptions();
+
+    o.integrator = SimulateOptions::GILLESPIE;
+
+    r.simulate(&o);
+
+
+}
+
 
 
 } /* namespace rr */

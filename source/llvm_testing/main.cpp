@@ -230,7 +230,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        testAmountRates(argv[1]);
+        testStoch(argv[1]);
     }
     catch(std::exception &e)
     {
