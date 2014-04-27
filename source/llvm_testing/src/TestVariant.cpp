@@ -7,6 +7,11 @@
 
 #include <TestVariant.h>
 #include <Variant.h>
+#include <rrConfig.h>
+
+#include "rrLogger.h"
+
+#include "rrRoadRunner.h"
 
 #ifdef RR_BUILD_PYTHON
 #include <Python.h>
@@ -72,4 +77,30 @@ int testPythonVariant(int argc, char* argv[])
 
 }
 
-} /* namespace rr */
+
+int TestVariant::testPythonVariant(int argc, char* argv[])
+{
+    return 0;
+}
+
+void TestVariant::test(int argc, char* argv[])
+{
+    Logger::setLevel(Logger::LOG_TRACE);
+    rr::Config::getString(rr::Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES);
+
+    Config::writeConfigFile("/Users/andy/test.conf");
+
+    Config::readConfigFile("/Users/andy/test.conf");
+
+    RoadRunner r("/Users/andy/ex.xml");
+
+    r.simulate();
+
+
+}
+
+void TestVariant::testConfig(int argc, char* argv[])
+{
+}
+
+}

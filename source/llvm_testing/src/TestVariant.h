@@ -11,7 +11,17 @@
 namespace rr
 {
 
-int testPythonVariant(int argc, char* argv[]);
+class TestVariant
+{
+public:
+    static int testPythonVariant(int argc, char* argv[]);
+
+    static void test(int argc, char* argv[]);
+
+    static void testConfig(int argc, char* argv[]);
+};
+
+
 
 } /* namespace rr */
 

@@ -39,6 +39,11 @@ using Poco::Mutex;
 using Poco::RegularExpression;
 using std::string;
 
+
+namespace rr
+{
+
+
 typedef std::tr1::unordered_map<std::string, int> StringIntMap;
 
 /**
@@ -75,121 +80,34 @@ static std::string strip(const std::string& in)
     return out;
 }
 
-/**
- * basically a simplified variant. The Poco DynamicAny is fairly
- * complicated this needs to be set when loaded, not at a later time
- * in order to be effecient.
- */
-struct Value {
-    std::string strVal;
-
-    enum Type {STRING, DOUBLE, INT, BOOL};
-
-    Type type;
-
-    double doubleVal;
-    int intVal;
-
-    Value(int val) {
-        type = INT;
-        intVal = val;
-        doubleVal = (double)val;
-        strVal = rr::toString(val);
-    }
-
-    Value(double val) {
-        type = DOUBLE;
-        doubleVal = val;
-        intVal = (int)val;
-        strVal = rr::toString(val, "%e");
-    }
-
-    Value(bool val) {
-        type = BOOL;
-        doubleVal = (double)val;
-        intVal = (int)val;
-        strVal = val ? "True" : "False";
-    }
-
-    Value(const std::string& str) {
-
-        strVal = strip(str);
-        type = STRING;
-
-        const char* input = strVal.c_str();
-        char* end;
-
-        // check for double
-        doubleVal = strtod(input, &end);
-        if (*input != '\0' && end != input && *end == '\0')
-        {
-            intVal = (int)doubleVal;
-            type = DOUBLE;
-            return;
-        }
-
-        // check for int
-        intVal = strtol(input, &end, 10);
-        if (*input != '\0' && end != input && *end == '\0')
-        {
-            doubleVal = (double)intVal;
-            type = INT;
-            return;
-        }
-
-        // check for bool
-        std::string bstr = strVal;
-        std::transform(bstr.begin(), bstr.end(),bstr.begin(), ::toupper);
-
-        if (bstr == "TRUE") {
-            strVal = "True";
-            intVal = 1;
-            doubleVal = 1;
-            type = BOOL;
-            return;
-        }
-
-        if (bstr == "FALSE") {
-            strVal = "False";
-            intVal = 0;
-            doubleVal = 0;
-            type = BOOL;
-            return;
-        }
-
-        // its a string, zero out the numeric types
-        intVal = 0;
-        doubleVal = 0;
-    }
-};
 
 
-static Value values[] =  {
-    Value(false),    // LOADSBMLOPTIONS_CONSERVED_MOIETIES
-    Value(false),    // LOADSBMLOPTIONS_RECOMPILE
-    Value(false),    // LOADSBMLOPTIONS_READ_ONLY
-    Value(true),     // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
-    Value(false),    // LOADSBMLOPTIONS_OPTIMIZE_GVN
-    Value(false),    // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
-    Value(false),    // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
-    Value(false),    // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
-    Value(false),    // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
-    Value(false),    // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
-    Value(false),    // LOADSBMLOPTIONS_USE_MCJIT
-    Value(50),       // SIMULATEOPTIONS_STEPS,
-    Value(5),        // SIMULATEOPTIONS_DURATION,
-    Value(1.e-10),   // SIMULATEOPTIONS_ABSOLUTE,
-    Value(1.e-5),    // SIMULATEOPTIONS_RELATIVE,
-    Value(false),    // SIMULATEOPTIONS_STRUCTURED_RESULT,
-    Value(false),    // SIMULATEOPTIONS_STIFF,
-    Value(false),    // SIMULATEOPTIONS_MULTI_STEP,
-    Value(-1),       // SIMULATEOPTIONS_INITIAL_TIMESTEP,
-    Value(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
-    Value(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
-    Value(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-    Value(0),        // ROADRUNNER_DISABLE_WARNINGS
-    Value(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
-    Value(int(AllChecksON & UnitsCheckOFF))          //SBML_APPLICABLEVALIDATORS
+static Variant values[] =  {
+    Variant(false),    // LOADSBMLOPTIONS_CONSERVED_MOIETIES
+    Variant(false),    // LOADSBMLOPTIONS_RECOMPILE
+    Variant(false),    // LOADSBMLOPTIONS_READ_ONLY
+    Variant(true),     // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
+    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_GVN
+    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
+    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
+    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
+    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
+    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
+    Variant(false),    // LOADSBMLOPTIONS_USE_MCJIT
+    Variant(50),       // SIMULATEOPTIONS_STEPS,
+    Variant(5),        // SIMULATEOPTIONS_DURATION,
+    Variant(1.e-10),   // SIMULATEOPTIONS_ABSOLUTE,
+    Variant(1.e-5),    // SIMULATEOPTIONS_RELATIVE,
+    Variant(false),    // SIMULATEOPTIONS_STRUCTURED_RESULT,
+    Variant(false),    // SIMULATEOPTIONS_STIFF,
+    Variant(false),    // SIMULATEOPTIONS_MULTI_STEP,
+    Variant(-1),       // SIMULATEOPTIONS_INITIAL_TIMESTEP,
+    Variant(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
+    Variant(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
+    Variant(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
+    Variant(0),        // ROADRUNNER_DISABLE_WARNINGS
+    Variant(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+    Variant(int(AllChecksON & UnitsCheckOFF))          //SBML_APPLICABLEVALIDATORS
 };
 
 static bool initialized = false;
@@ -199,7 +117,7 @@ static void readDefaultConfig() {
     Mutex::ScopedLock lock(configMutex);
 
     if(!initialized) {
-        assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Value) &&
+        assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
                 "values array size different than CONFIG_END");
 
         string confPath = rr::Config::getConfigFilePath();
@@ -249,35 +167,32 @@ static void getKeyNames(StringIntMap& keys)
     keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
 
 
-    assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Value) &&
+    assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");
     assert(rr::Config::CONFIG_END == keys.size()  &&
             "number of keys in map does not match static values");
 }
 
 
-namespace rr
-{
-
 std::string Config::getString(Keys key)
 {
     readDefaultConfig();
     CHECK_RANGE(key);
-    return values[key].strVal;
+    return values[key].convert<std::string>();
 }
 
 int Config::getInt(Keys key)
 {
     readDefaultConfig();
     CHECK_RANGE(key);
-    return values[key].intVal;
+    return values[key].convert<int>();
 }
 
 double Config::getDouble(Keys key)
 {
     readDefaultConfig();
     CHECK_RANGE(key);
-    return values[key].doubleVal;
+    return values[key].convert<double>();
 }
 
 std::string Config::getConfigFilePath()
@@ -340,32 +255,11 @@ std::string Config::getConfigFilePath()
     return "";
 }
 
-void Config::setValue(Keys key, const std::string& str)
+void Config::setValue(Keys key, const Variant& value)
 {
     readDefaultConfig();
     CHECK_RANGE(key);
-    values[key] = Value(str);
-}
-
-void Config::setValue(Keys key, int i)
-{
-    readDefaultConfig();
-    CHECK_RANGE(key);
-    values[key] = Value(i);
-}
-
-void Config::setValue(Keys key, double d)
-{
-    readDefaultConfig();
-    CHECK_RANGE(key);
-    values[key] = Value(d);
-}
-
-void Config::setValue(Keys key, bool b)
-{
-    readDefaultConfig();
-    CHECK_RANGE(key);
-    values[key] = Value(b);
+    values[key] = value;
 }
 
 void Config::readConfigFile(const std::string& path)
@@ -393,8 +287,8 @@ void Config::readConfigFile(const std::string& path)
         {
             StringIntMap::const_iterator i = keys.find(matches[1]);
             if(i != keys.end()) {
-                values[i->second] = Value(matches[2]);
-                Log(Logger::LOG_INFORMATION) << "read key " << i->first << " with value: " << values[i->second].strVal;
+                values[i->second] = Variant::parse((matches[2]));
+                Log(Logger::LOG_INFORMATION) << "read key " << i->first << " with value: " << values[i->second].toString();
             } else {
                 Log(Logger::LOG_WARNING) << "invalid key: \"" << matches[1] << "\" in " << path;
             }
@@ -402,6 +296,20 @@ void Config::readConfigFile(const std::string& path)
     }
 
     initialized = true;
+}
+
+const Variant& Config::getValue(Keys key)
+{
+    readDefaultConfig();
+    CHECK_RANGE(key);
+    return values[key];
+}
+
+bool Config::getBool(Keys key)
+{
+    readDefaultConfig();
+    CHECK_RANGE(key);
+    return values[key].convert<bool>();
 }
 
 void Config::writeConfigFile(const std::string& path)
@@ -420,7 +328,7 @@ void Config::writeConfigFile(const std::string& path)
     getKeyNames(keys);
 
     for (StringIntMap::const_iterator i = keys.begin(); i != keys.end(); ++i) {
-        out << i->first << ": " << values[i->second].strVal << std::endl;
+        out << i->first << ": " << values[i->second].toString() << std::endl;
     }
 }
 

@@ -10,6 +10,7 @@
 
 #include <string>
 #include "rrExporter.h"
+#include "Variant.h"
 
 namespace rr
 {
@@ -28,11 +29,11 @@ namespace rr
  *
  * #1: the ROADRUNNER_CONFIG environment variable
  *
- * #2: try the users’s home directory for roadrunner.conf, i.e.:
+ * #2: try the user's home directory for roadrunner.conf, i.e.:
  *
  * /Users/andy/roadrunner.conf
  *
- * #3: try the users’s home directory for .roadrunner.conf, i.e.:
+ * #3: try the user's home directory for .roadrunner.conf, i.e.:
  *
  * /Users/andy/.roadrunner.conf
  *
@@ -46,7 +47,7 @@ namespace rr
  * /Users/andy/local/roadrunner.conf
  *
  * The conf file is just a plain text file of where each line may
- * be key / value pair separated by a ”:”, i.e.
+ * be key / value pair separated by a �":", i.e.
  *
  * KEY_NAME : Value Any line that does not match this format is ignored, and keys that are not found
  * are also ignored. Therefore, any line that does not start w* ith a word character is considered a
@@ -316,6 +317,8 @@ public:
      */
     static int getInt(Keys);
 
+    static bool getBool(Keys);
+
     /**
      * read the config value as a double.
      */
@@ -331,28 +334,10 @@ public:
      * set the value of a config key.
      * note, this value is only used in any new objects created after it has been set.
      */
-    static void setValue(Keys, const std::string& value);
 
-    /**
-     * set the value of a config key.
-     * note, this value is only used in any new objects created after it has been set.
-     */
+    static void setValue(Keys, const Variant& value);
 
-    static void setValue(Keys, int);
-
-    /**
-     * set the value of a config key.
-     * note, this value is only used in any new objects created after it has been set.
-     */
-
-    static void setValue(Keys, double);
-
-    /**
-     * set the value of a config key.
-     * note, this value is only used in any new objects created after it has been set.
-     */
-
-    static void setValue(Keys, bool);
+    static const Variant& getValue(Keys);
 
     /**
      * Read all of the values stored in a configuration file and set all the keys

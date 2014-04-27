@@ -224,7 +224,9 @@ using namespace rr;
 
 int main(int argc, char* argv[])
 {
-    return testPythonVariant( argc, argv);
+    rr::TestVariant::test( argc, argv);
+
+    return 0;
 }
 
 

@@ -27,37 +27,37 @@ LoadSBMLOptions::LoadSBMLOptions()
     size = sizeof(LoadSBMLOptions);
     modelGeneratorOpt = 0;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES))
         modelGeneratorOpt |= LoadSBMLOptions::CONSERVED_MOIETIES;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_RECOMPILE))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_RECOMPILE))
         modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_READ_ONLY))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_READ_ONLY))
         modelGeneratorOpt |= LoadSBMLOptions::READ_ONLY;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS))
         modelGeneratorOpt |= LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_GVN;
 
     if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_USE_MCJIT))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
         modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
 
     loadFlags = 0;
@@ -98,13 +98,13 @@ minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
 maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
-    if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
         flags |= SimulateOptions::STRUCTURED_RESULT;
 
-    if (Config::getInt(Config::SIMULATEOPTIONS_STIFF))
+    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
         integratorFlags |= SimulateOptions::STIFF;
 
-    if (Config::getInt(Config::SIMULATEOPTIONS_MULTI_STEP))
+    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
         integratorFlags |= SimulateOptions::MULTI_STEP;
 }
 
@@ -124,13 +124,13 @@ maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
 
-    if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
         flags |= SimulateOptions::STRUCTURED_RESULT;
 
-    if (Config::getInt(Config::SIMULATEOPTIONS_STIFF))
+    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
         integratorFlags |= SimulateOptions::STIFF;
 
-    if (Config::getInt(Config::SIMULATEOPTIONS_MULTI_STEP))
+    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
         integratorFlags |= SimulateOptions::MULTI_STEP;
 
 
@@ -252,7 +252,7 @@ const Variant& SimulateOptions::getValue(const std::string& name) const
 RoadRunnerOptions::RoadRunnerOptions() :
     flags(0)
 {
-    if (Config::getInt(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES))
+    if (Config::getBool(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES))
     {
         flags |= RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     }

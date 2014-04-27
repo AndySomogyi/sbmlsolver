@@ -126,17 +126,45 @@ bool Variant::isBool() const
 
 void Variant::convert_to(const std::type_info& info, void* p) const
 {
-    TRY_CONVERT_TO(std::string);
+    try
+    {
+        TRY_CONVERT_TO(std::string);
 
-    TRY_CONVERT_TO(long);
+        TRY_CONVERT_TO(long);
 
-    TRY_CONVERT_TO(int);
+        TRY_CONVERT_TO(bool);
 
-    TRY_CONVERT_TO(bool);
+        TRY_CONVERT_TO(float);
 
-    TRY_CONVERT_TO(float);
+        TRY_CONVERT_TO(double);
 
-    TRY_CONVERT_TO(double);
+        // make int conversion a bit more flexible, allow conversion of
+        // bool to int
+        if (info == typeid(int)) {
+            int* out = static_cast<int*>(p);
+            try {
+                *out = self->var.convert<int>();
+                return;
+            } catch (Poco::SyntaxException&) {
+                // try as bool
+                int bval = self->var.convert<bool>();
+                *out = bval;
+                return;
+            }
+        }
+    }
+    catch(Poco::SyntaxException& ex)
+    {
+        string msg = "Could not convert variant with typeid ";
+        msg += self->var.type().name();
+        msg += " to type";
+        msg += info.name();
+        msg += "error: ";
+        msg += ex.what();
+        msg += ", string value: " + self->var.toString();
+
+        throw std::logic_error(msg);
+    }
 
 
     string msg = "Could not convert variant with typeid ";

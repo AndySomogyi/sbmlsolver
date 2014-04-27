@@ -25,6 +25,11 @@ PyObject* Variant_to_py(const Variant& var)
         return PyString_FromString(var.convert<string>().c_str());
     }
 
+    else if (var.type() == typeid(bool))
+    {
+        return PyBool_FromLong(var.convert<bool>());
+    }
+
     else if (var.isInteger())
     {
         return PyInt_FromLong(var.convert<long>());
@@ -35,10 +40,7 @@ PyObject* Variant_to_py(const Variant& var)
         return PyFloat_FromDouble(var.convert<double>());
     }
 
-    else if (var.type() == typeid(bool))
-    {
-        return PyBool_FromLong(var.convert<bool>());
-    }
+
 
     throw invalid_argument("could not convert " + var.toString() + "to Python object");
 }
@@ -53,15 +55,15 @@ Variant Variant_from_py(PyObject* py)
         return var;
     }
 
-    else if (PyInt_Check(py))
-    {
-        var = PyInt_AsLong(py);
-        return var;
-    }
-
     else if (PyBool_Check(py))
     {
         var = (bool)(py == Py_True);
+        return var;
+    }
+
+    else if (PyInt_Check(py))
+    {
+        var = PyInt_AsLong(py);
         return var;
     }
 
