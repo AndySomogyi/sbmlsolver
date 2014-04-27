@@ -10,6 +10,11 @@
 
 #include <exception>
 #include <iostream>
+#include <stdexcept>
+#include <cctype>
+#include <cstdlib>
+#include <algorithm>
+#include <assert.h>
 #include <Poco/Dynamic/Var.h>
 
 using namespace std;
@@ -64,8 +69,6 @@ void Variant::alloc()
 
 void Variant::assign(const std::type_info& info, const void* p)
 {
-    std::cout << "name: " << info.name() << std::endl;
-
     TRY_ASSIGN(std::string);
 
     TRY_ASSIGN(int);
@@ -85,11 +88,71 @@ void Variant::assign(const std::type_info& info, const void* p)
     throw invalid_argument(msg);
 }
 
-Variant Variant::parse(const std::string& val)
+/**
+ * strip any leading or trailing whitespace
+ */
+static std::string strip(const std::string& in)
 {
-    Variant var;
-    var.self->var = Var::parse(val);
-    return var;
+    std::string out;
+    std::string::const_iterator b = in.begin(), e = in.end();
+
+    // skipping leading spaces
+    while (std::isspace(*b)){
+        ++b;
+    }
+
+    if (b != e){
+        // skipping trailing spaces
+        while (std::isspace(*(e-1))){
+            --e;
+        }
+    }
+
+    out.assign(b, e);
+
+    return out;
+}
+
+
+Variant Variant::parse(const std::string& s)
+{
+    string str = strip(s);
+
+    const char* input = str.c_str();
+    char* end = 0;
+
+    // check for int
+    int i = strtol(input, &end, 0);
+    if (*input != '\0' && end != input && *end == '\0')
+    {
+        return Variant(i);
+    }
+
+    // check for double
+    double d = strtod(input, &end);
+    if (*input != '\0' && end != input && *end == '\0')
+    {
+        return Variant(d);
+    }
+
+
+
+    // check for bool
+    std::string bstr = str;
+    std::transform(bstr.begin(), bstr.end(),bstr.begin(), ::toupper);
+
+    if (bstr == "TRUE") {
+        return Variant(true);
+    }
+
+    if (bstr == "FALSE") {
+        return Variant(false);
+    }
+
+    // its a string
+    Variant result;
+    result.self->var = str;
+    return result;
 }
 
 std::string Variant::toString() const
@@ -138,20 +201,9 @@ void Variant::convert_to(const std::type_info& info, void* p) const
 
         TRY_CONVERT_TO(double);
 
-        // make int conversion a bit more flexible, allow conversion of
-        // bool to int
-        if (info == typeid(int)) {
-            int* out = static_cast<int*>(p);
-            try {
-                *out = self->var.convert<int>();
-                return;
-            } catch (Poco::SyntaxException&) {
-                // try as bool
-                int bval = self->var.convert<bool>();
-                *out = bval;
-                return;
-            }
-        }
+        TRY_CONVERT_TO(int);
+
+
     }
     catch(Poco::SyntaxException& ex)
     {

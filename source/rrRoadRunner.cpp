@@ -110,7 +110,7 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     integrator(0),
     mSelectionList(),
     mModelGenerator(0),
-    conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
+    conservedMoietyAnalysis(Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
     mSteadyStateSelection(),
     mModel(0),
     mCurrentSBML(),
@@ -155,7 +155,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         integrator(0),
         mSelectionList(),
         mModelGenerator(0),
-        conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
+        conservedMoietyAnalysis(Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
         mSteadyStateSelection(),
         mModel(0),
         mCurrentSBML(),
@@ -680,7 +680,7 @@ double RoadRunner::steadyState()
     }
 
     if (!this->conservedMoietyAnalysis &&
-            (Config::getInt(Config::ROADRUNNER_DISABLE_WARNINGS)
+            (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
                 & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
     {
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";

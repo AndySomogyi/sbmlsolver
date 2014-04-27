@@ -343,9 +343,13 @@ public:
     /**
      * set an arbitrary key
      */
-    void setValue(const std::string& name, const rr::Variant& value);
+    void setValue(const std::string& key, const rr::Variant& value);
 
-    const Variant& getValue(const std::string& name) const;
+    const Variant& getValue(const std::string& key) const;
+
+    bool hasKey(const std::string& key) const;
+
+    std::vector<std::string> getKeys() const;
 
 private:
 
@@ -354,7 +358,6 @@ private:
      */
     typedef std::tr1::unordered_map<std::string, rr::Variant> VariantMap;
     VariantMap values;
-
 };
 
 

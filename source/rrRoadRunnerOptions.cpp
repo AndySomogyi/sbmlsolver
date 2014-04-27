@@ -258,6 +258,23 @@ RoadRunnerOptions::RoadRunnerOptions() :
     }
 }
 
+bool SimulateOptions::hasKey(const std::string& key) const
+{
+    VariantMap::const_iterator i = values.find(key);
+    return i != values.end();
+}
+
+std::vector<std::string> SimulateOptions::getKeys() const
+{
+    std::vector<std::string> keys(values.size());
+    int j = 0;
+
+    for (VariantMap::const_iterator i = values.begin(); i != values.end(); ++i) {
+        keys[j++] = i->first;
+    }
+
+    return keys;
+}
 
 } /* namespace rr */
 
