@@ -18,6 +18,10 @@
 
 using namespace std;
 
+// min and max macros on windows interfer with max method of engine.
+#undef max
+#undef min
+
 
 
 namespace rr
