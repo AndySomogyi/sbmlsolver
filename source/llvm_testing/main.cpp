@@ -31,6 +31,8 @@
 
 #include "rrLogger.h"
 
+#include "TestVariant.h"
+
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
@@ -222,22 +224,7 @@ using namespace rr;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 2)
-    {
-        cout << "usage llvm_tester path_to_model" << std::endl;
-        return 0;
-    }
-
-    try
-    {
-        testStoch(argv[1]);
-    }
-    catch(std::exception &e)
-    {
-        cout << "error: " << e.what();
-    }
-
-    return 0;
+    return testPythonVariant( argc, argv);
 }
 
 

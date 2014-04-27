@@ -20,7 +20,7 @@ include_directories(
 SET_SOURCE_FILES_PROPERTIES(roadrunner.i PROPERTIES CPLUSPLUS ON)
 SET_SOURCE_FILES_PROPERTIES(roadrunner.i PROPERTIES SWIG_FLAGS "-threads")
 
-SWIG_ADD_MODULE(roadrunner python roadrunner.i)
+SWIG_ADD_MODULE(roadrunner python roadrunner.i PyUtils)
 
 
 
@@ -54,7 +54,7 @@ else(WIN32)
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         # Linux specific code
         #SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
-        
+
     else()
         # OSX section.
         # we do not link directly with python at at link time, so that at run time,
@@ -118,14 +118,14 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
 #INSTALL(FILES ${python_files_path}/roadrunner.py
 #    DESTINATION site-packages/roadrunner )
 
-install(    
-    FILES ${python_files_path}/roadrunner.py    
-    DESTINATION ${RR_PACKAGE_DIR}   
+install(
+    FILES ${python_files_path}/roadrunner.py
+    DESTINATION ${RR_PACKAGE_DIR}
 )
 
 install(
-    FILES __init__.py 
-    DESTINATION ${RR_PACKAGE_DIR}   
+    FILES __init__.py
+    DESTINATION ${RR_PACKAGE_DIR}
 )
 
 install(
@@ -133,5 +133,5 @@ install(
     DESTINATION ${RR_PACKAGE_DIR}
     FILES_MATCHING PATTERN "*.*"
 )
-    
+
 

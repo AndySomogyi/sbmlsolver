@@ -9,8 +9,18 @@
 #define RRROADRUNNEROPTIONS_H_
 
 #include "rrExporter.h"
+#include "Variant.h"
+
 #include <string>
 #include <vector>
+
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#endif
 
 #if defined(_MSC_VER)
 #include "msc_stdint.h"
@@ -161,8 +171,9 @@ struct RR_DECLSPEC LoadSBMLOptions
  * documentation of the fields which correspond to an sbml test suite settings was
  * taken from http://sbml.org
  */
-struct RR_DECLSPEC SimulateOptions
+class RR_DECLSPEC SimulateOptions
 {
+public:
     enum Options
     {
         /**
@@ -330,22 +341,20 @@ struct RR_DECLSPEC SimulateOptions
     int maximumNumSteps;
 
     /**
-     * The minumum relative error that the CVODE integrator supports
-     * in order to to pass the sbml test suite using the default integtator.
-     *
-     * If a test suite config file is loaded, and the relative error is
-     * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
+     * set an arbitrary key
      */
-    static const double MIN_RELATIVE;
+    void setValue(const std::string& name, const rr::Variant& value);
+
+    const Variant& getValue(const std::string& name) const;
+
+private:
 
     /**
-     * The minumum absolute error that the CVODE integrator supports
-     * in order to to pass the sbml test suite using the default integtator.
-     *
-     * If a test suite config file is loaded, and the relative error is
-     * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
+     * map of string to arbitrary values
      */
-    static const double MIN_ABSOLUTE;
+    typedef std::tr1::unordered_map<std::string, rr::Variant> VariantMap;
+    VariantMap values;
+
 };
 
 

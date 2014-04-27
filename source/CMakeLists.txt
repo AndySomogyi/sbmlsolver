@@ -44,6 +44,7 @@ set(rrSources
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
+    Variant
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin

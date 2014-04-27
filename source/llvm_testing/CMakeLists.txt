@@ -3,6 +3,14 @@ PROJECT(RR_CXX_API_TESTS)
 
 set(target llvm_testing)
 
+if (BUILD_PYTHON)
+
+    MESSAGE ("THIS IS PYTHON_INCLUDE_PATH " ${PYTHON_INCLUDE_PATH})
+
+    INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+
+endif(BUILD_PYTHON)
+
 
 add_executable( ${target}
     main
@@ -20,6 +28,7 @@ add_executable( ${target}
     src/GetBoundarySpeciesAmountTest
     src/TestCapabilities
     src/ConfigurableTest
+    src/TestVariant
     )
 
 set_property(TARGET ${target}
@@ -42,6 +51,10 @@ include_directories(
     ${RR_ROOT}/wrappers/C
     ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
     )
+
+if (BUILD_PYTHON)
+    target_link_libraries (${target} ${PYTHON_LIBRARIES})
+endif(BUILD_PYTHON)
 
 if(UNIX)
     set(staticLibPrefix ".a")

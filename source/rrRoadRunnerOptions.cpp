@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <stdexcept>
 
 using namespace std;
 
@@ -62,8 +63,25 @@ LoadSBMLOptions::LoadSBMLOptions()
     loadFlags = 0;
 }
 
-const double SimulateOptions::MIN_RELATIVE = 1.e-5;
-const double SimulateOptions::MIN_ABSOLUTE = 1.e-10;
+/**
+ * The minumum relative error that the CVODE integrator supports
+ * in order to to pass the sbml test suite using the default integtator.
+ *
+ * If a test suite config file is loaded, and the relative error is
+ * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
+ */
+static const double MIN_RELATIVE = 1.e-5;
+
+/**
+ * The minumum absolute error that the CVODE integrator supports
+ * in order to to pass the sbml test suite using the default integtator.
+ *
+ * If a test suite config file is loaded, and the relative error is
+ * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
+ */
+static const double MIN_ABSOLUTE = 1.e-10;
+
+
 
 SimulateOptions::SimulateOptions()
 :
@@ -213,11 +231,28 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
     }
 }
 
+void SimulateOptions::setValue(const std::string& name,
+        const rr::Variant& value)
+{
+    values[name] = value;
+}
 
-RoadRunnerOptions::RoadRunnerOptions() : 
+const Variant& SimulateOptions::getValue(const std::string& name) const
+{
+    VariantMap::const_iterator i = values.find(name);
+    if (i != values.end())
+    {
+        return i->second;
+    }
+
+    throw std::invalid_argument("key not found: " + name);
+}
+
+
+RoadRunnerOptions::RoadRunnerOptions() :
     flags(0)
 {
-    if (Config::getInt(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES)) 
+    if (Config::getInt(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES))
     {
         flags |= RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     }
@@ -225,3 +260,5 @@ RoadRunnerOptions::RoadRunnerOptions() :
 
 
 } /* namespace rr */
+
+
