@@ -2,6 +2,12 @@
 // on Windows, this needs to go first to get M_PI
 #define _USE_MATH_DEFINES
 
+#include "rrOSSpecifics.h"
+
+// TODO will clean these up in the future
+#undef RR_DEPRECATED
+#define RR_DEPRECATED(func) func
+
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "ModelGenerator.h"
@@ -27,6 +33,9 @@
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
+
+
+
 
 
 namespace rr

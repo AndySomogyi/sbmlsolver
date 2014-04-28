@@ -1,6 +1,7 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
 
+#include "rrOSSpecifics.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
@@ -100,8 +101,6 @@ public:
      * for this value.
      *
      * An exception is raised if the string is invalid.
-     *
-     * WARNING, will no longer return a value in next version.
      */
     void setCompiler(const std::string& compiler);
 
@@ -120,24 +119,6 @@ public:
 
     bool unLoadModel();
 
-    /**
-     * @internal
-     * @deprecated
-     *
-     * C backend only
-     * set the location where the ModelGenerator creates temporary files, such
-     * as shared libraries.
-     */
-    void setTempDir(const std::string& folder);
-
-    /**
-     * @internal
-     * @deprecated
-     *
-     * legacy C backend only
-     * get the ModelGenerator's temporary file directory.
-     */
-    std::string getTempDir();
 
     /**
      * Carry out a single integration step using a stepsize as indicated
@@ -236,20 +217,6 @@ public:
             const LoadSBMLOptions* options = 0);
 
     /**
-     * @internal
-     * @deprecated, use ExecutableModel::getReactionRates
-     */
-    std::vector<double> getReactionRates();
-
-    /**
-     * @internal
-     * @deprecated
-     * returns a list of reaction ids obtained from
-     * ExecutableModel::getReactionId
-     */
-    std::vector<std::string> getReactionIds();
-
-    /**
      * creates a new xml element that represent the current state of this
      * Configurable object and all if its child objects.
      *
@@ -330,8 +297,6 @@ public:
      * sets the value coresponding to the given selection string
      *
      * raises an exception in the selection string is invalid.
-     *
-     * WARNING, will no longer return a value in next version.
      */
     void setValue(const std::string& id, double value);
 
@@ -368,8 +333,6 @@ public:
     ls::DoubleMatrix getScaledConcentrationControlCoefficientMatrix();
     ls::DoubleMatrix getUnscaledFluxControlCoefficientMatrix();
     ls::DoubleMatrix getScaledFluxControlCoefficientMatrix();
-    int getNumberOfDependentSpecies();
-    int getNumberOfIndependentSpecies();
 
 
     /**
@@ -406,196 +369,6 @@ public:
      */
     std::string getCurrentSBML();
 
-    /**
-     * @internal
-     * @deprecated
-     */
-    int getNumberOfReactions();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    double getReactionRate(const int& index);
-
-    /*! \cond PRIVATE */
-
-
-    /**
-     * @deprecated
-     * @internal
-     * Returns the rate of changes of a species by its index
-     */
-    double getRateOfChange(const int& index);
-
-    /*! \endcond */
-
-
-    std::vector<std::string> getRateOfChangeIds();
-
-
-    std::vector<std::string> getConservedMoietyIds();
-
-    std::vector<double> getConservedMoietyValues();
-
-    int getNumberOfCompartments();
-
-    /**
-     * @internal
-     * @deprecated
-     * Sets the value of a compartment by its index
-     */
-    void setCompartmentByIndex(const int& index, const double& value);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getCompartmentVolumes
-     * Returns the value of a compartment by its index
-     */
-    double getCompartmentByIndex(const int& index);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getCompartmentId
-     */
-    std::vector<std::string> getCompartmentIds();
-
-    /**
-     * @internal
-     * Get the number of boundary species,
-     * @deprecated, use ExecutableModel::getNumBoundarySpecies
-     */
-    int getNumberOfBoundarySpecies();
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
-     */
-    void setBoundarySpeciesByIndex(const int& index, const double& value);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getBoundarySpeciesConcentrations
-     */
-    double getBoundarySpeciesByIndex(const int& index);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
-     */
-    std::vector<double> getBoundarySpeciesConcentrations();
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
-     */
-    void setBoundarySpeciesConcentrations(const std::vector<double>& values);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getBoundarySpeciesId
-     */
-    std::vector<std::string> getBoundarySpeciesIds();
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getNumFloatingSpecies
-     */
-    int getNumberOfFloatingSpecies();
-
-    /**
-     * @internal
-     * @deprecated
-     * get / set conc.
-     */
-    double getFloatingSpeciesByIndex(int index);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesByIndex(int index, double value);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<double> getFloatingSpeciesConcentrations();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<double> getFloatingSpeciesInitialConcentrations();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesConcentrations(const std::vector<double>& values);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
-            const double& value);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<std::string> getFloatingSpeciesIds();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<std::string> getFloatingSpeciesInitialConditionIds();
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getNumGlobalParameters
-     */
-    int getNumberOfGlobalParameters();
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::setGlobalParameterValues
-     */
-    void setGlobalParameterByIndex(const int index, const double value);
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterValues
-     */
-    double getGlobalParameterByIndex(const int& index);
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterValues
-     */
-    std::vector<double> getGlobalParameterValues();
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterIds
-     */
-    std::vector<std::string> getGlobalParameterIds();
-
-    /**
-     * The C back end requires this to be called to update
-     * model variables if anyting is changes. Does nothing
-     * in LLVM back end as everything is automatically handled
-     * with lazy evaluation.
-     */
-    void evalModel();
 
     /**
      * getVersion plus info about dependent libs versions..
@@ -709,6 +482,262 @@ public:
 
     /******************************* End Steady State Section *********************/
     #endif /***********************************************************************/
+    /******************************************************************************/
+
+
+
+    /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfReactions());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getReactionRate(const int& index));
+
+    /**
+     * @deprecated
+     * @internal
+     * Returns the rate of changes of a species by its index
+     */
+    RR_DEPRECATED(double getRateOfChange(const int& index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getRateOfChangeIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getConservedMoietyIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getConservedMoietyValues());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfCompartments());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setCompartmentByIndex(const int& index, const double& value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getCompartmentByIndex(const int& index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getCompartmentIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfBoundarySpecies());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setBoundarySpeciesByIndex(const int& index, const double& value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getBoundarySpeciesByIndex(const int& index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrations());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double>& values));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getBoundarySpeciesIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfFloatingSpecies());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getFloatingSpeciesByIndex(int index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesByIndex(int index, double value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrations());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesInitialConcentrations());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesConcentrations(const std::vector<double>& values));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
+            const double& value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesInitialConditionIds());
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getNumGlobalParameters
+     */
+    RR_DEPRECATED(int getNumberOfGlobalParameters());
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::setGlobalParameterValues
+     */
+    RR_DEPRECATED(void setGlobalParameterByIndex(const int index, const double value));
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
+    RR_DEPRECATED(double getGlobalParameterByIndex(const int& index));
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
+    RR_DEPRECATED(std::vector<double> getGlobalParameterValues());
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterIds
+     */
+    RR_DEPRECATED(std::vector<std::string> getGlobalParameterIds());
+
+    /**
+     * The C back end requires this to be called to update
+     * model variables if anyting is changes. Does nothing
+     * in LLVM back end as everything is automatically handled
+     * with lazy evaluation.
+     *
+     * @internal
+     * @deprecated
+     */
+    void evalModel();
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfDependentSpecies());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfIndependentSpecies());
+
+
+    /**
+     * @internal
+     * @deprecated, use ExecutableModel::getReactionRates
+     */
+    RR_DEPRECATED(std::vector<double> getReactionRates());
+
+    /**
+     * @internal
+     * @deprecated
+     * returns a list of reaction ids obtained from
+     * ExecutableModel::getReactionId
+     */
+    RR_DEPRECATED(std::vector<std::string> getReactionIds());
+
+    /**
+     * @internal
+     * @deprecated
+     *
+     * C backend only
+     * set the location where the ModelGenerator creates temporary files, such
+     * as shared libraries.
+     */
+    void setTempDir(const std::string& folder);
+
+    /**
+     * @internal
+     * @deprecated
+     *
+     * legacy C backend only
+     * get the ModelGenerator's temporary file directory.
+     */
+    std::string getTempDir();
+
+
+    /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
+#endif  /**********************************************************************/
     /******************************************************************************/
 
 private:
