@@ -1,6 +1,6 @@
 -- Version 1.2.0
 
-*   Fixed memory leaks related to how cvode is used. With the mem leaks fixed, we leak a total of 16
+*   Fixed memory leaks related to how CVODE is used. With the mem leaks fixed, we leak a total of 16
     bytes ONCE, in a 3rd party library  in the beginning for running the entire test suite. 
 
 *   Fixed bugs with stiff solver not being selected
@@ -10,7 +10,7 @@
 
 *   Prototype Gillespie stochastic integrator
 
-*   Added missing init amount method to python api
+*   Added missing init amount method to python API
 
 *   Clean up IL code generation
 
@@ -28,10 +28,10 @@
     can now add and remove instance variables and never break binary compatibility. Relevant to C++ 
     users.
 
-*   Future versions may accept more complex types for configuration settings, api is set up so we
+*   Future versions may accept more complex types for configuration settings, API is set up so we
     never break binary compatibility as we add new features like this.
 
-*   Continuous documentation updates and enhancments.
+*   Continuous documentation updates and enhancements.
 
 
 -- Version 1.1.0
@@ -43,12 +43,12 @@
 
 *   new colored logging
 
-*   Can read sbml files through http on all platforms. The RoadRunner constructor 
+*   Can read SBML files through HTTP on all platforms. The RoadRunner constructor 
     or load methods are smart in that accept a string which can be either:
-    a: the contents of a sbml document
+    a: the contents of a SBML document
     b: a local file path, i.e. /home/andy/feedback.xml
     c: a full URI identifier that can be either a local file or a remote file, 
-       this can even be a biomodels identifier, i.e. 
+       this can even be a BioModels identifier, i.e. 
        r=roadrunner.RoadRunner("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000275")
 
 *   upgraded to standard Poco 1.5 distribution. RoadRunner's Poco is now linked 
@@ -59,7 +59,7 @@
 *   Can run the integrator in new MULTI_STEP mode where the integrator determines 
     time step size. 
 
-*   New SBML events -- users can register listeners for any sbml event. Whenever a 
+*   New SBML events -- users can register listeners for any SBML event. Whenever a 
     SBML event is triggered or assigned, the user can be notified. 
 
 *   New integrator events -- users can register listeners for integrator events 
@@ -73,21 +73,21 @@
 *   cleanup of integrator code. 
 
 *   new distutils based python installation system. We now provide binaries for 
-    32/64 bit Linux (intel), 64 bit Mac OSX and 32 bit Windows. 
+    32/64 bit Linux (Intel), 64 bit Mac OSX and 32 bit Windows. 
 
 
 
 -- Version 1.0.1
-*   Fixed bug where nested sbml functions were not handled properly. Now
-    it correctly reports when sbml functions are called with invalid 
+*   Fixed bug where nested SBML functions were not handled properly. Now
+    it correctly reports when SBML functions are called with invalid 
     number of args. 
 
-*   Fixed bug where where a log trace message incorectly created. 
+*   Fixed bug where where a log trace message incorrectly created. 
 
 *   Display version info correctly in the command line rr program. 
 
 *   Cache selection types and indices in model.getValue / setValue, 
-    significant improvement in sbml symbol access times. 
+    significant improvement in SBML symbol access times. 
 
 *   Fixed memory leaks in Python API, performance improvements in 
     selections. 
