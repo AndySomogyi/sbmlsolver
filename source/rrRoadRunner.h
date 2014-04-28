@@ -712,65 +712,7 @@ public:
     /******************************************************************************/
 
 private:
-    static int mInstanceCount;
-    int mInstanceID;
-    bool mUseKinsol;
-    const double mDiffStepSize;
-
-    const double mSteadyStateThreshold;
-    ls::DoubleMatrix mRawRoadRunnerData;
-    RoadRunnerData mRoadRunnerData;
-
-
-    /**
-     * The Cvode object get created just after a model is created, it then
-     * gets a reference to the model and holds on to it.
-     */
-    class Integrator *integrator;
-    std::vector<SelectionRecord> mSelectionList;
-
-    /**
-     * ModelGenerator obtained from the factory
-     */
-    ModelGenerator *mModelGenerator;
-
-    /**
-     * read from the Config, duplicates loadsbmloptions
-     *
-     * TODO: this needs to be cleaned up.
-     */
-    bool conservedMoietyAnalysis;
-
-    std::vector<SelectionRecord> mSteadyStateSelection;
-
-    ExecutableModel* mModel;
-
-    std::string mCurrentSBML;
-
-    /**
-     * structural analysis library.
-     */
-    LibStructural* mLS;
-
-    /**
-     * options that are specific to the simulation
-     */
-    SimulateOptions simulateOptions;
-
-    /**
-     * The sim options may be requested via getSimulateOptions. In this
-     * case, the caller may modify it, so we assume its dirty.
-     *
-     * These options are re-loaded into the integrator in simulate and
-     * oneStep.
-     */
-    bool dirtySimulateOptions;
-
-    /**
-     * various general options that can be modified by external callers.
-     */
-    RoadRunnerOptions roadRunnerOptions;
-
+    class RoadRunnerImpl* impl;
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();
@@ -844,14 +786,6 @@ private:
 
 
     std::vector<SelectionRecord> getSelectionList();
-
-    /**
-     * the xml string that is given in setConfigurationXML.
-     *
-     * Needed because the NLEQ is only created in the steadyState method.
-     */
-    std::string configurationXML;
-
 
     friend class aFinalizer;
 };

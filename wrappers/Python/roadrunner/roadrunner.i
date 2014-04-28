@@ -608,6 +608,12 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getOptions;
 
 
+%ignore rr::Config::getInt;
+%ignore rr::Config::getString;
+%ignore rr::Config::getBool;
+%ignore rr::Config::getDouble;
+
+
 
 // rename these, the injected python code will take care of
 // making these properties.
