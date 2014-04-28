@@ -1,3 +1,39 @@
+-- Version 1.2.0
+
+*   Fixed memory leaks related to how cvode is used. With the mem leaks fixed, we leak a total of 16
+    bytes ONCE, in a 3rd party library  in the beginning for running the entire test suite. 
+
+*   Fixed bugs with stiff solver not being selected
+
+*   New getValue / setValue methods on SimulationOptions to set arbitrary settings, will be used by
+    future integrators. 
+
+*   Prototype Gillespie stochastic integrator
+
+*   Added missing init amount method to python api
+
+*   Clean up IL code generation
+
+*   Structured result disabled by default
+
+*   New parameters in simulate and plot methods (Herbert has these, waiting on feedback), 
+    simulate now accepts all SimulateOptions field names as keywords and has plot option,
+    i.e. simulate(plot=True)
+
+*   Raise exception on invalid selection strings
+
+*   Removed pointless bool return value on exception raising methods.
+
+*   All instance variables in public classes moved to private internal struct -- result is that we
+    can now add and remove instance variables and never break binary compatibility. Relevant to C++ 
+    users.
+
+*   Future versions may accept more complex types for configuration settings, api is set up so we
+    never break binary compatibility as we add new features like this.
+
+*   Continuous documentation updates and enhancments.
+
+
 -- Version 1.1.0
 
 *   Config system. RoadRunner can now read and write most default configuration parameters 
