@@ -412,9 +412,14 @@ void CVODEIntegrator::createCVode()
         Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
     }
 
-    if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
+    // only allocate this if we are using stiff solver.
+    // otherwise, CVode will NOT free it if using standard solver.
+    if (options.integratorFlags & SimulateOptions::STIFF)
     {
-        handleCVODEError(err);
+        if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
+        {
+            handleCVODEError(err);
+        }
     }
 
     mModel->resetEvents();

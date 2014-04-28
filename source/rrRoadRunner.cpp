@@ -247,7 +247,7 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     impl->mModelGenerator = ModelGenerator::New(compiler,
             gDefaultTempFolder, gDefaultSupportCodeFolder);
 
-    setTempFileFolder(gDefaultTempFolder);
+    setTempDir(gDefaultTempFolder);
 
     if (!uriOrSBML.empty()) {
         load(uriOrSBML, options);
@@ -283,7 +283,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     impl->mModelGenerator = ModelGenerator::New(compiler,
             tempDir, supportCodeDir);
 
-    setTempFileFolder(tempDir);
+    setTempDir(tempDir);
 
     //Increase instance count..
     mInstanceCount++;
@@ -315,7 +315,7 @@ string RoadRunner::getInfo()
     }
     info<<"ConservationAnalysis: "    <<    impl->conservedMoietyAnalysis << endl;
     info<<"libSBML version: "         <<    getVersionStr(VERSIONSTR_LIBSBML) << endl;
-    info<<"Temporary folder: "        <<    getTempFolder()<<endl;
+    info<<"Temporary folder: "        <<    getTempDir()<<endl;
     info<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
     info<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
     info<<"Working Directory: "       <<    getCWD() << endl;
@@ -360,9 +360,9 @@ Compiler* RoadRunner::getCompiler()
 }
 
 
-bool RoadRunner::setCompiler(const string& compiler)
+void RoadRunner::setCompiler(const string& compiler)
 {
-    return impl->mModelGenerator ? impl->mModelGenerator->setCompiler(compiler) : false;
+    impl->mModelGenerator ? impl->mModelGenerator->setCompiler(compiler) : false;
 }
 
 bool RoadRunner::isModelLoaded()
@@ -387,12 +387,12 @@ bool RoadRunner::getConservedMoietyAnalysis()
     return impl->conservedMoietyAnalysis;
 }
 
-bool RoadRunner::setTempFileFolder(const string& folder)
+void RoadRunner::setTempDir(const string& folder)
 {
-    return impl->mModelGenerator ? impl->mModelGenerator->setTemporaryDirectory(folder) : false;
+    impl->mModelGenerator ? impl->mModelGenerator->setTemporaryDirectory(folder) : false;
 }
 
-string RoadRunner::getTempFolder()
+string RoadRunner::getTempDir()
 {
     return impl->mModelGenerator ? impl->mModelGenerator->getTemporaryDirectory() : string("");
 }
@@ -642,7 +642,7 @@ vector<double> RoadRunner::getConservedMoietyValues()
     return getLibStruct()->getConservedSums();
 }
 
-bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
+void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
@@ -680,8 +680,6 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     {
         createDefaultSelectionLists();
     }
-
-    return true;
 }
 
 bool RoadRunner::createDefaultSelectionLists()
@@ -907,10 +905,7 @@ void RoadRunner::setConservedMoietyAnalysis(bool bValue)
         // have to reload
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
 
-        if(!load(impl->mCurrentSBML, &opt))
-        {
-            throw( CoreException("Failed re-Loading model when setting computeAndAssignConservationLaws"));
-        }
+        load(impl->mCurrentSBML, &opt);
     }
 }
 
@@ -1418,7 +1413,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
     }
 }
 
-DoubleMatrix* RoadRunner::getLinkMatrix()
+DoubleMatrix RoadRunner::getLinkMatrix()
 {
     try
     {
@@ -1427,7 +1422,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
            throw CoreException(gEmptyModelMessage);
        }
        //return _L;
-        return getLibStruct()->getLinkMatrix();
+        return *getLibStruct()->getLinkMatrix();
     }
     catch (const Exception& e)
     {
@@ -1435,7 +1430,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
     }
 }
 
-DoubleMatrix* RoadRunner::getNrMatrix()
+DoubleMatrix RoadRunner::getNrMatrix()
 {
     try
     {
@@ -1444,7 +1439,7 @@ DoubleMatrix* RoadRunner::getNrMatrix()
             throw CoreException(gEmptyModelMessage);
        }
         //return _Nr;
-        return getLibStruct()->getNrMatrix();
+        return *getLibStruct()->getNrMatrix();
     }
     catch (const Exception& e)
     {
@@ -1452,21 +1447,19 @@ DoubleMatrix* RoadRunner::getNrMatrix()
     }
 }
 
-DoubleMatrix* RoadRunner::getL0Matrix()
+DoubleMatrix RoadRunner::getL0Matrix()
 {
-    try
+    if (!impl->mModel)
     {
-       if (!impl->mModel)
-       {
-            throw CoreException(gEmptyModelMessage);
-       }
-          //return _L0;
-       return getLibStruct()->getL0Matrix();
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
-    {
-         throw CoreException("Unexpected error from getL0Matrix()", e.Message());
-    }
+    //return _L0;
+    // returns a NEW matrix,
+    // nice consistent API yes?!?!?
+    DoubleMatrix *tmp = getLibStruct()->getL0Matrix();
+    DoubleMatrix result = *tmp;
+    delete tmp;
+    return result;
 }
 
 
@@ -2507,10 +2500,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
         // Compute the Jacobian first
         DoubleMatrix uelast     = getUnscaledElasticityMatrix();
-        DoubleMatrix *Nr         = getNrMatrix();
-        DoubleMatrix T1 = mult(*Nr, uelast);
-        DoubleMatrix *LinkMatrix = getLinkMatrix();
-        DoubleMatrix Jac = mult(T1, *LinkMatrix);
+        DoubleMatrix Nr         = getNrMatrix();
+        DoubleMatrix T1 = mult(Nr, uelast);
+        DoubleMatrix LinkMatrix = getLinkMatrix();
+        DoubleMatrix Jac = mult(T1, LinkMatrix);
 
         // Compute -Jac
         DoubleMatrix T2 = Jac * (-1.0);
@@ -2520,10 +2513,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
         // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         // Sauro: mult which takes complex matrix need to be implemented
-        DoubleMatrix T3 = mult(Inv, *Nr); // Compute ( - Jac)^-1 . Nr
+        DoubleMatrix T3 = mult(Inv, Nr); // Compute ( - Jac)^-1 . Nr
 
         // Finally include the dependent set as well.
-        DoubleMatrix T4 = mult(*LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
+        DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
         return T4;
     }
     catch (const Exception& e)
@@ -2692,7 +2685,7 @@ Integrator* RoadRunner::getIntegrator()
 }
 
 
-bool RoadRunner::setValue(const string& sId, double dValue)
+void RoadRunner::setValue(const string& sId, double dValue)
 {
     if (!impl->mModel)
     {
@@ -2708,8 +2701,6 @@ bool RoadRunner::setValue(const string& sId, double dValue)
     {
         reset();
     }
-
-    return true;
 }
 
 
@@ -3055,8 +3046,8 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         }
 
         ComplexMatrix uelast(getUnscaledElasticityMatrix());
-        ComplexMatrix Nr( *(getNrMatrix()));
-        ComplexMatrix LinkMatrix( *(getLinkMatrix()));
+        ComplexMatrix Nr = getNrMatrix();
+        ComplexMatrix LinkMatrix = getLinkMatrix();
 
         // Compute dv/dp
         for (int j = 0; j < reactionNames.size(); j++)

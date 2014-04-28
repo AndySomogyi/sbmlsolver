@@ -253,8 +253,8 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
             opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
             opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-    bool val = mEngine->load(GetModelsFullFilePath(), &opt);
-    return val;
+    mEngine->load(GetModelsFullFilePath(), &opt);
+    return true;
 }
 
 bool SBMLModelSimulation::SaveModelAsXML(const string& folder)

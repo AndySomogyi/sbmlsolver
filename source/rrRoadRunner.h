@@ -103,7 +103,7 @@ public:
      *
      * WARNING, will no longer return a value in next version.
      */
-    bool setCompiler(const std::string& compiler);
+    void setCompiler(const std::string& compiler);
 
     /**
      * get a pointer to the integrator which is currently being used to
@@ -128,7 +128,7 @@ public:
      * set the location where the ModelGenerator creates temporary files, such
      * as shared libraries.
      */
-    bool setTempFileFolder(const std::string& folder);
+    void setTempDir(const std::string& folder);
 
     /**
      * @internal
@@ -137,7 +137,7 @@ public:
      * legacy C backend only
      * get the ModelGenerator's temporary file directory.
      */
-    std::string getTempFolder();
+    std::string getTempDir();
 
     /**
      * Carry out a single integration step using a stepsize as indicated
@@ -232,7 +232,7 @@ public:
      * @param uriOrSBML: a URI, local path or sbml document contents.
      * @param options: an options struct, if null, default values are used.
      */
-    bool load(const std::string& uriOrSBML,
+    void load(const std::string& uriOrSBML,
             const LoadSBMLOptions* options = 0);
 
     /**
@@ -333,7 +333,7 @@ public:
      *
      * WARNING, will no longer return a value in next version.
      */
-    bool setValue(const std::string& id, double value);
+    void setValue(const std::string& id, double value);
 
 /************************ End Selection Ids Species Section *******************/
 #endif /***********************************************************************/
@@ -358,9 +358,9 @@ public:
 
     std::vector<Complex> getEigenvaluesCpx();
 
-    ls::DoubleMatrix* getLinkMatrix();
-    ls::DoubleMatrix* getNrMatrix();
-    ls::DoubleMatrix* getL0Matrix();
+    ls::DoubleMatrix getLinkMatrix();
+    ls::DoubleMatrix getNrMatrix();
+    ls::DoubleMatrix getL0Matrix();
 
 
     ls::DoubleMatrix getConservationMatrix();

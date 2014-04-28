@@ -261,7 +261,8 @@ bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->setTempFileFolder(folder);
+        rri->setTempDir(folder);
+        return true;
     catch_bool_macro
 }
 
@@ -269,7 +270,7 @@ char* rrcCallConv getTempFolder(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rr::createText(rri->getTempFolder());
+        return rr::createText(rri->getTempDir());
     catch_ptr_macro
 }
 
@@ -363,11 +364,7 @@ bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
         }
 
         RoadRunner* rri = castToRoadRunner(_handle);
-        if(!rri->load(fileName))
-        {
-            setError("Failed to load SBML semantics");    //There are many ways loading a model can fail, look at logFile to know more
-            return false;
-        }
+        rri->load(fileName);
         return true;
     catch_bool_macro
 }
@@ -391,11 +388,7 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
                 opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
                 opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-        if(!rri->load(fileName, &opt))
-        {
-            setError("Failed to load SBML semantics");    //There are many ways loading a model can fail, look at logFile to know more
-            return false;
-        }
+        rri->load(fileName, &opt);
         return true;
     catch_bool_macro
 }
@@ -404,7 +397,8 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->load(sbml);
+        rri->load(sbml);
+        return true;
     catch_bool_macro
 }
 
@@ -418,11 +412,7 @@ bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompi
                         opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
                         opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-        if(!rri->load(sbml, &opt))
-        {
-            setError("Failed to load SBML semantics");
-            return false;
-        }
+        rri->load(sbml, &opt);
         return true;
     catch_bool_macro
 }
@@ -678,7 +668,8 @@ bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double va
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->setValue(symbolId, value);
+        rri->setValue(symbolId, value);
+        return true;
     catch_bool_macro
 }
 
@@ -741,8 +732,8 @@ RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix *tempMat = rri->getLinkMatrix();
-        return createMatrix(tempMat);
+        DoubleMatrix tempMat = rri->getLinkMatrix();
+        return createMatrix(&tempMat);
     catch_ptr_macro
 }
 
@@ -750,8 +741,8 @@ RRDoubleMatrixPtr rrcCallConv getNrMatrix(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix *tempMat = rri->getNrMatrix();
-        return createMatrix(tempMat);
+        DoubleMatrix tempMat = rri->getNrMatrix();
+        return createMatrix(&tempMat);
     catch_ptr_macro
 }
 
