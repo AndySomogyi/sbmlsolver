@@ -225,11 +225,13 @@ namespace ls
 /// <param name="oMatrix">a square complex matrix</param>
 ComplexMatrix GetInverse(const ComplexMatrix& oMatrix)
 {
-    ComplexMatrix *result = ls::Zinverse(oMatrix);
-    return *result;
-//    DoubleMatrix oReal, oImag;
-//    SplitComplexMatrix(oMatrix, oReal, oImag);
-//    return GetInverse(oReal, oImag);
+    // this is a newly allocated matrix
+    ComplexMatrix *tmp = ls::Zinverse(oMatrix);
+    ComplexMatrix result = *tmp;
+    delete tmp;
+
+
+    return result;
 }
 
 ////        /// <summary>
