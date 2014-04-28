@@ -49,7 +49,7 @@ GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
 
     model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
-    engine.seed(std::time(0));
+    engine.seed((unsigned long)std::time(0));
 
 }
 
@@ -171,7 +171,7 @@ double GillespieIntegrator::integrate(double t, double hstep)
 
 void GillespieIntegrator::restart(double t0)
 {
-    engine.seed(std::time(0));
+    engine.seed((unsigned long)std::time(0));
 }
 
 void GillespieIntegrator::setListener(IntegratorListenerPtr)

@@ -125,7 +125,7 @@ int main(int argc, char** argv)
 
     if (argc > 7)
     {
-        float dur = atof(argv[7]);
+        double dur = atof(argv[7]);
         if (dur > 0) {
             settings.duration = dur;
         }

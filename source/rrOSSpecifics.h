@@ -37,7 +37,7 @@
 #endif // _MSC_VER
 
 
-#if defined ( __GNUC__) or defined(__clang__)
+#if defined (__GNUC__) || defined(__clang__)
     #define RR_DEPRECATED(func) func __attribute__ ((deprecated))
 #elif defined(_MSC_VER)
     #define RR_DEPRECATED(func) __declspec(deprecated) func

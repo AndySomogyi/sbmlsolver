@@ -186,7 +186,7 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getCompartmentInitVolumesPtr(0),
     setCompartmentInitVolumesPtr(0)
 {
-    std::srand(std::time(0));
+    std::srand((unsigned)std::time(0));
 }
 
 LLVMExecutableModel::LLVMExecutableModel(
@@ -228,7 +228,7 @@ LLVMExecutableModel::LLVMExecutableModel(
 
     modelData->time = -1.0; // time is initially before simulation starts
 
-    std::srand(std::time(0));
+    std::srand((unsigned)std::time(0));
 
     eventAssignTimes.resize(modelData->numEvents);
 

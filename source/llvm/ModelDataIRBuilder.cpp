@@ -163,10 +163,10 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
         {
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
             const DataLayout *dl = engine->getDataLayout();
-            size_t llvm_size = dl->getTypeStoreSize(structType);
+            uint64_t llvm_size = dl->getTypeStoreSize(structType);
 #else
             const TargetData* td = engine->getTargetData();
-            size_t llvm_size = td->getTypeStoreSize(structType);
+            uint64_t llvm_size = td->getTypeStoreSize(structType);
 #endif
 
             if (sizeof(csr_matrix) != llvm_size)
@@ -648,13 +648,14 @@ unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, llvm::Execut
 
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
     const DataLayout *dl = engine->getDataLayout();
-    size_t llvm_size = dl->getTypeStoreSize(structType);
+    uint64_t llvm_size = dl->getTypeStoreSize(structType);
 #else
     const TargetData* td = engine->getTargetData();
-    size_t llvm_size = td->getTypeStoreSize(structType);
+    uint64_t llvm_size = td->getTypeStoreSize(structType);
 #endif
 
-    return llvm_size;
+    // the model data struct will NEVER be bigger than a 32 bit pointer!
+    return (unsigned)llvm_size;
 
     /*
      printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
