@@ -191,10 +191,24 @@ public:
     /**
      * the list of ODE solvers RoadRunner currently supports.
      */
-    enum IntegratorType
+    enum Integrator
     {
         CVODE,  GILLESPIE
     };
+
+    /**
+     * the kind of integrator
+     */
+    enum IntegratorType
+    {
+        DETERMINISTIC, STOCHASTIC
+    };
+
+    /**
+     * get the type of integrator.
+     */
+    static IntegratorType getIntegratorType(Integrator i);
+
 
     enum IntegratorFlags
     {
@@ -221,6 +235,13 @@ public:
          * Highly Experimental!!!
          */
         MULTI_STEP                = (0x1 << 1), // => 0x00000010
+
+        /**
+         * Perform a variable time step simulation. This will allow the
+         * integrator to best choose an adaptive time step and the resulting
+         * matrix will have a non-uniform time column
+         */
+        VARIABLE_STEP             = (0x1 << 2) // => 0b00000100
     };
 
     /**
@@ -240,9 +261,15 @@ public:
     uint32_t flags;
 
     /**
-     * which integrator to use
+     * which integrator to use.
+     *
+     * This is exposed in python via a set of custom properties
+     * which automatically change the VARIABLE_STEP bitfield to
+     * corespond with the appropriate integrator.
      */
-    IntegratorType integrator;
+    #ifndef SWIG
+    Integrator integrator;
+    #endif
 
     /**
      * Set of options to use when configuring the integrator.

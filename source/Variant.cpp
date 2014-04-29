@@ -135,8 +135,6 @@ Variant Variant::parse(const std::string& s)
         return Variant(d);
     }
 
-
-
     // check for bool
     std::string bstr = str;
     std::transform(bstr.begin(), bstr.end(),bstr.begin(), ::toupper);
@@ -151,7 +149,7 @@ Variant Variant::parse(const std::string& s)
 
     // its a string
     Variant result;
-    result.self->var = str;
+    result.self->var = Var::parse(str);
     return result;
 }
 

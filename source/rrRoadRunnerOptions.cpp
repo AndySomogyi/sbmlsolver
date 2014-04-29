@@ -81,6 +81,49 @@ static const double MIN_RELATIVE = 1.e-5;
  */
 static const double MIN_ABSOLUTE = 1.e-10;
 
+static void getConfigValues(SimulateOptions *s)
+{
+    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+        s->flags |= SimulateOptions::STRUCTURED_RESULT;
+
+    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
+        s->integratorFlags |= SimulateOptions::STIFF;
+
+    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
+        s->integratorFlags |= SimulateOptions::MULTI_STEP;
+
+    // set the variable step based on if we are using a stochastic or deterministic
+    // integrator
+    if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "CVODE") {
+        s->integrator = SimulateOptions::CVODE;
+    }
+    else if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "GILLESPIE") {
+        s->integrator = SimulateOptions::GILLESPIE;
+    }
+    else {
+        Log(Logger::LOG_WARNING) << "Invalid integrator specified in configuration: "
+                << Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR)
+        << std::endl << "Defaulting to CVODE";
+        s->integrator = SimulateOptions::CVODE;
+    }
+
+    bool vs = false;
+
+    if (SimulateOptions::getIntegratorType(s->integrator) == SimulateOptions::STOCHASTIC) {
+        vs = Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+    }
+
+    else if (SimulateOptions::getIntegratorType(s->integrator) == SimulateOptions::DETERMINISTIC) {
+        vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+    }
+
+    if (vs) {
+        s->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+    } else {
+        s->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
+    }
+}
+
 
 
 SimulateOptions::SimulateOptions()
@@ -98,14 +141,8 @@ minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
 maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
-    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
-        flags |= SimulateOptions::STRUCTURED_RESULT;
+    getConfigValues(this);
 
-    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
-        integratorFlags |= SimulateOptions::STIFF;
-
-    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
-        integratorFlags |= SimulateOptions::MULTI_STEP;
 }
 
 SimulateOptions::SimulateOptions(const std::string &fname)
@@ -123,16 +160,7 @@ minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
 maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
-
-    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
-        flags |= SimulateOptions::STRUCTURED_RESULT;
-
-    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
-        integratorFlags |= SimulateOptions::STIFF;
-
-    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
-        integratorFlags |= SimulateOptions::MULTI_STEP;
-
+    getConfigValues(this);
 
     if(!fname.size())
     {
@@ -262,6 +290,15 @@ bool SimulateOptions::hasKey(const std::string& key) const
 {
     VariantMap::const_iterator i = values.find(key);
     return i != values.end();
+}
+
+SimulateOptions::IntegratorType SimulateOptions::getIntegratorType(Integrator i)
+{
+    if (i == CVODE) {
+        return DETERMINISTIC;
+    } else {
+        return STOCHASTIC;
+    }
 }
 
 std::vector<std::string> SimulateOptions::getKeys() const

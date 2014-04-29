@@ -751,7 +751,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore *::createConfigNode;
 %ignore *::loadConfig;
 
-
 // Warning 389: operator[] ignored (consider using %extend)
 // Warning 401: Nothing known about base class 'Configurable'. Ignored.
 
@@ -977,11 +976,19 @@ namespace std { class ostream{}; }
     bool stiff;
     bool multiStep;
     bool structuredResult;
+    bool variableStep;
+    rr::SimulateOptions::Integrator integrator;
 
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.SimulateOptions() { this = " << (void*)$self << " }>";
         return s.str();
+    }
+
+    int test() {
+        std::cout << "sizeof: " << sizeof(rr::SimulateOptions) << std::endl;
+        std::cout << "integrator: " << $self->integrator;
+        return 0;
     }
 
     std::string __str__() {
@@ -1056,6 +1063,46 @@ namespace std { class ostream{}; }
             opt->integratorFlags |= SimulateOptions::MULTI_STEP;
         } else {
             opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+        }
+    }
+
+    bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
+        return opt->integratorFlags & SimulateOptions::VARIABLE_STEP;
+    }
+
+    void rr_SimulateOptions_variableStep_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->integratorFlags |= SimulateOptions::VARIABLE_STEP;
+        } else {
+            opt->integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
+        }
+    }
+
+    rr::SimulateOptions::Integrator rr_SimulateOptions_integrator_get(SimulateOptions* opt) {
+        return opt->integrator;
+    }
+
+    void rr_SimulateOptions_integrator_set(SimulateOptions* opt, rr::SimulateOptions::Integrator value) {
+
+        // set the value
+        opt->integrator = value;
+
+        // adjust the value of the VARIABLE_STEP based on wether we are choosing
+        // stochastic or deterministic integrator.
+        bool vs = false;
+
+        if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
+            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+        }
+
+        else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
+            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+        }
+
+        if (vs) {
+            opt->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+        } else {
+            opt->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
         }
     }
 

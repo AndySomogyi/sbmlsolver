@@ -213,6 +213,24 @@ public:
         SIMULATEOPTIONS_MULTI_STEP,
 
         /**
+         * Do variable time step integration when using a deterministic
+         * integrator
+         */
+        SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
+
+
+        /**
+         * Do variable time step integration when using stochastic
+         * integrators.
+         */
+        SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
+
+        /**
+         * Default integrator to use
+         */
+        SIMULATEOPTIONS_INTEGRATOR,
+
+        /**
          * A useer specified initial time step. If this is <=  0, the integrator
          * will attempt to determine a safe initial time stpe.
          *
