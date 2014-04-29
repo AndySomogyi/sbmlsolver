@@ -1,17 +1,3 @@
-#pragma hdrstop
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <iomanip>
-
-#if defined(__CODEGEARC__)
-#include <dir.h>
-#endif
-
-#if defined(_MSVER)
-#include <direct.h>
-#endif
-
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
@@ -20,6 +6,20 @@
 #include "rrGetOptions.h"
 #include "Args.h"
 #include "rrVersionInfo.h"
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+#include <stdexcept>
+
+
+
+#if defined(_MSVER)
+#include <direct.h>
+#endif
+
+
 
 using namespace std;
 using namespace rr;
@@ -157,16 +157,13 @@ int main(int argc, char * argv[])
 
         delete rr;
     }
-    catch(rr::Exception& ex)
+    catch(std::exception& ex)
     {
-        Log(lError)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
-    }
-    catch(...)
-    {
-        Log(lError)<<"There was a unknown problem.."<<endl;
+        Log(Logger::LOG_ERROR) << ex.what() << endl;
     }
 
-    Log(lInfo)<<"RoadRunner is exiting...";
+
+    Log(Logger::LOG_INFORMATION) << "RoadRunner is exiting...";
     if(args.Pause)
     {
         rr::pause();
