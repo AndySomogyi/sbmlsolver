@@ -207,8 +207,6 @@ std::string Config::getConfigFilePath()
     std::string path;
     Poco::Path ppath;
 
-    Poco::Path::home();
-
     Log(rr::Logger::LOG_DEBUG) << "trying config file from ROADRUNNER_CONFIG "
         << (env ? env : "NULL");
 
@@ -235,9 +233,18 @@ std::string Config::getConfigFilePath()
         return path;
     }
 
+    // this could be an empty string if we are in a statically
+    // linked executable, if so, Poco::Path will puke if popDir is called
+    string chkDir = rr::getCurrentSharedLibDir();
+    if (chkDir.empty())
+    {
+        chkDir = rr::getCurrentExeFolder();
+    }
+
+    assert(!chkDir.empty() && "could not get either shared lib or exe dir");
 
     // check in library dir
-    ppath.assign(rr::getCurrentSharedLibDir());
+    ppath.assign(chkDir);
     ppath.setFileName("roadrunner.conf");
     path = ppath.toString();
     Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
@@ -247,7 +254,7 @@ std::string Config::getConfigFilePath()
     }
 
     // check one level up
-    ppath.assign(rr::getCurrentSharedLibDir());
+    ppath.assign(chkDir);
     ppath.popDirectory();
     ppath.setFileName("roadrunner.conf");
     path = ppath.toString();
@@ -257,6 +264,7 @@ std::string Config::getConfigFilePath()
         return path;
     }
 
+    Log(rr::Logger::LOG_DEBUG) << "no config file found, returning empty string";
     return "";
 }
 
