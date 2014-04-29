@@ -119,6 +119,11 @@ if (LLVM_CONFIG_EXECUTABLE)
     # this causes problems as most other libs compiled without this.
     # should be OK linking to LLVM as this just results in a slightly larger lib (I think, I hope...)
     string(REPLACE "-fvisibility-inlines-hidden" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+
+    # remove extra warnings that the llvm-config added
+    STRING(REPLACE "-Wcast-qual" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Woverloaded-virtual" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+ 
     MESSAGE(STATUS "LLVM_DEFINITIONS: " ${LLVM_DEFINITIONS})
 
 
