@@ -2600,3 +2600,38 @@ which is 2 and 0b01 & 0b10 is 0b11 which is 3 in decimal.
 
 
 
+%feature("docstring") rr::PyConservedMoietyConverter::setDocument "
+PyConservedMoietyConverter.setDocument(sbmlOrURI)
+
+Sets the source document. This may be either the contents of an sbml docment
+as a string, or the path the the file.
+
+:param str sbmlOrURI: contents or path of source document
+:returns: an integer indicating success or failure, 0 means success.
+:rtype: int
+";
+
+
+
+%feature("docstring") rr::PyConservedMoietyConverter::convert "
+PyConservedMoietyConverter.convert()
+
+Perform the document conversion.
+
+:returns: an integer indicating success or failure, 0 means success.
+:rtype: int
+";
+
+
+
+%feature("docstring") rr::PyConservedMoietyConverter::getDocument "
+PyConservedMoietyConverter.getDocument()
+
+Get the converted document contents.
+
+:returns: The contents of the converted document, or empty string
+          if there is no source document.
+";
+
+
+

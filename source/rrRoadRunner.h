@@ -740,7 +740,7 @@ public:
     #endif // #ifndef SWIG
 
 
-    /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/  
+    /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
     #endif  /**********************************************************************/
     /******************************************************************************/
 
@@ -755,7 +755,7 @@ private:
     bool populateResult();
 
 
-    double getNthSelectedOutput(const int& index, const double& dCurrentTime);
+    double getNthSelectedOutput(int index, double currentTime);
 
     enum VariableType
     {

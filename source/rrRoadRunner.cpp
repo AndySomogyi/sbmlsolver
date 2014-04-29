@@ -622,13 +622,13 @@ double RoadRunner::getValue(const SelectionRecord& record)
     return dResult;
 }
 
-double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrentTime)
+double RoadRunner::getNthSelectedOutput(int index, double currentTime)
 {
-    SelectionRecord record = impl->mSelectionList[index];
+    const SelectionRecord &record = impl->mSelectionList[index];
 
     if (record.selectionType == SelectionRecord::TIME)
     {
-        return dCurrentTime;
+        return currentTime;
     }
     else
     {
@@ -636,11 +636,11 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
     }
 }
 
-void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime)
+void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double currentTime)
 {
     for (u_int j = 0; j < impl->mSelectionList.size(); j++)
     {
-        double out =  getNthSelectedOutput(j, dCurrentTime);
+        double out =  getNthSelectedOutput(j, currentTime);
         results(nRow,j) = out;
     }
 }
