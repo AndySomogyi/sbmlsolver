@@ -152,7 +152,7 @@ add_subdirectory(nleq)
 add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
 add_subdirectory(poco_1.5.3)
-add_subdirectory(rr_support)
+
 
 if(WIN32)
     add_subdirectory(compilers)
