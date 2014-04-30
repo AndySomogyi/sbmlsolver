@@ -99,6 +99,47 @@ static vector<string>    sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
 
 static vector<double> rr_getRatesOfChange(RoadRunner* rr);
 
+
+// TODO: move all the depracated method here:
+/*
+static int rr_getNumberOfReactions(RoadRunner* r);
+static double rr_getReactionRate(RoadRunner* r, const int& index);
+static double getRateOfChange(const int& index);
+static std::vector<std::string> rr_getRateOfChangeIds(RoadRunner* r);
+static std::vector<std::string> rr_getConservedMoietyIds(RoadRunner* r);
+static std::vector<double> rr_getConservedMoietyValues(RoadRunner* r);
+static int rr_getNumberOfCompartments(RoadRunner* r);
+static void rr_setCompartmentByIndex(RoadRunner* r, const int& index, const double& value);
+static double rr_getCompartmentByIndex(RoadRunner* r, const int& index);
+static std::vector<std::string> rr_getCompartmentIds(RoadRunner* r, RoadRunner* r);
+static int rr_getNumberOfBoundarySpecies(RoadRunner* r);
+static void rr_setBoundarySpeciesByIndex(RoadRunner* r, const int& index, const double& value);
+static double rr_getBoundarySpeciesByIndex(RoadRunner* r, const int& index);
+static std::vector<double> rr_getBoundarySpeciesConcentrations(RoadRunner* r);
+static void rr_setBoundarySpeciesConcentrations(RoadRunner* r, const std::vector<double>& values);
+static std::vector<std::string> rr_getBoundarySpeciesIds(RoadRunner* r);
+static int rr_getNumberOfFloatingSpecies(RoadRunner* r);
+static double rr_getFloatingSpeciesByIndex(RoadRunner* r, int index);
+static void rr_setFloatingSpeciesByIndex(RoadRunner* r, int index, double value);
+static std::vector<double> rr_getFloatingSpeciesConcentrations(RoadRunner* r);
+static std::vector<double> rr_getFloatingSpeciesInitialConcentrations(RoadRunner* r);
+static void rr_setFloatingSpeciesConcentrations(RoadRunner* r, const std::vector<double>& values);
+static void rr_setFloatingSpeciesInitialConcentrationByIndex(RoadRunner* r, const int& index,
+        const double& value);
+static void rr_setFloatingSpeciesInitialConcentrations(RoadRunner* r, const std::vector<double>& values);
+static std::vector<std::string> rr_getFloatingSpeciesIds(RoadRunner* r);
+static std::vector<std::string> rr_getFloatingSpeciesInitialConditionIds(RoadRunner* r);
+static int rr_getNumberOfGlobalParameters(RoadRunner* r);
+static void rr_setGlobalParameterByIndex(RoadRunner* r, const int index, const double value);
+static double rr_getGlobalParameterByIndex(RoadRunner* r, const int& index);
+static std::vector<double> rr_getGlobalParameterValues(RoadRunner* r);
+static std::vector<std::string> rr_getGlobalParameterIds(RoadRunner* r);
+static int rr_getNumberOfDependentSpecies(RoadRunner* r);
+static int rr_getNumberOfIndependentSpecies(RoadRunner* r);
+static std::vector<double> rr_getReactionRates(RoadRunner* r);
+static std::vector<std::string> rr_getReactionIds(RoadRunner* r);
+ */
+
 RRHandle rrcCallConv createRRInstance()
 {
     start_try
