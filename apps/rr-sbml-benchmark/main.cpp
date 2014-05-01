@@ -144,13 +144,9 @@ int main(int argc, char** argv)
 
     std::cout << "stiff: " << (settings.integratorFlags & SimulateOptions::STIFF ? "True" : "False") << std::endl;
 
-
-    
-    
     roadRunner.setSimulateOptions(settings);
 
-    const RoadRunnerData& data = *roadRunner.simulate(0);
-    const DoubleMatrix& result = data.getData();
+    const DoubleMatrix& result = *roadRunner.simulate(0);
 
     if (!output_filename.empty())
     {

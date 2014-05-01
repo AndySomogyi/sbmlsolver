@@ -140,7 +140,7 @@
  * Convert from C --> Python
  * reference roadrunner owned data.
  */
-%typemap(out) ls::DoubleMatrix* {
+%typemap(out) const ls::DoubleMatrix* {
 
     int rows = ($1)->numRows();
     int cols = ($1)->numCols();
@@ -152,6 +152,8 @@
             NPY_CARRAY, NULL);
     $result  = pArray;
 }
+
+%apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
 
 /* Convert from C --> Python */
@@ -832,7 +834,7 @@ namespace std { class ostream{}; }
     rr::RoadRunnerOptions *options;
 
 
-    const rr::RoadRunnerData *simulate(double startTime, double endTime, int steps) {
+    const ls::DoubleMatrix *simulate(double startTime, double endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
         s.start = startTime;
         s.duration = endTime - startTime;

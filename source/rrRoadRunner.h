@@ -146,7 +146,7 @@ public:
      * @returns a RoadRunnerData object which is owned by the the RoadRunner
      * object if successfull, 0 on failure.
      */
-    const RoadRunnerData *simulate(const SimulateOptions* options = 0);
+    const DoubleMatrix *simulate(const SimulateOptions* options = 0);
 
     /**
      * obtain a pointer to the simulation result.
@@ -745,17 +745,27 @@ public:
     /******************************************************************************/
 
 private:
-    class RoadRunnerImpl* impl;
+
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();
 
-    void addNthOutputToResult(ls::DoubleMatrix& results, int nRow,
-            double dCurrentTime);
+    /**
+     * copies the current selection values into the n'th row of the
+     * given matrix
+     */
+    void getSelectedValues(ls::DoubleMatrix& results, int nRow,
+            double currentTime);
+
+    /**
+     * copies the current selection values into the given vector.
+     */
+    void getSelectedValues(std::vector<double> &results, double currentTime);
+
     bool populateResult();
 
 
-    double getNthSelectedOutput(int index, double currentTime);
+    double getNthSelectedOutput(unsigned index, double currentTime);
 
     enum VariableType
     {
@@ -784,6 +794,7 @@ private:
      */
     int createTimeCourseSelectionList();
 
+#if 0
     /**
      * The type of sbml element that the RoadRunner::setParameterValue
      * and RoadRunner::getParameterValue method operate on.
@@ -816,11 +827,18 @@ private:
     void changeParameter(ParameterType parameterType,
             int reactionIndex, int parameterIndex, double originalValue,
             double increment);
+#endif
 
 
     std::vector<SelectionRecord> getSelectionList();
 
-    friend class aFinalizer;
+    /**
+     * private implementation class, can only access if inside
+     * the implementation file.
+     */
+
+
+    class RoadRunnerImpl* impl;
 };
 
 }

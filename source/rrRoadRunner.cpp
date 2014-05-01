@@ -33,9 +33,7 @@
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
-
-
-
+#include <list>
 
 
 namespace rr
@@ -93,11 +91,40 @@ static vector<double>  logspace(const double& startW, const double& d2, const in
 static double          phase(Complex& val);
 static double          getAdjustment(Complex& z);
 
+/**
+ * variable time step integration data struct
+ */
+typedef std::list<std::vector<double> > DoubleVectorList;
+
 
 
 //The instance count increases/decreases as instances are created/destroyed.
 static int mInstanceCount = 0;
 
+/**
+ * The type of sbml element that the RoadRunner::setParameterValue
+ * and RoadRunner::getParameterValue method operate on.
+ *
+ * @deprecated use the ExecutableModel methods directly.
+ */
+enum ParameterType
+{
+    ptGlobalParameter = 0,
+    ptLocalParameter,
+    ptBoundaryParameter,
+    ptConservationParameter,
+    ptFloatingSpecies
+};
+
+
+/**
+ * nicer way to look at the impl object.
+ */
+#define get_self() RoadRunnerImpl& self = *(this->impl);
+
+/**
+ * implemention class, hide all details here.
+ */
 class RoadRunnerImpl {
 public:
 
@@ -106,7 +133,7 @@ public:
     const double mDiffStepSize;
 
     const double mSteadyStateThreshold;
-    ls::DoubleMatrix mRawRoadRunnerData;
+    ls::DoubleMatrix simulationResult;
     RoadRunnerData mRoadRunnerData;
 
 
@@ -175,7 +202,7 @@ public:
                 mUseKinsol(false),
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
-                mRawRoadRunnerData(),
+                simulationResult(),
                 mRoadRunnerData(),
                 integrator(0),
                 mSelectionList(),
@@ -197,7 +224,7 @@ public:
                 mUseKinsol(false),
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
-                mRawRoadRunnerData(),
+                simulationResult(),
                 mRoadRunnerData(),
                 integrator(0),
                 mSelectionList(),
@@ -223,6 +250,90 @@ public:
         delete mLS;
         mInstanceCount--;
     }
+
+
+
+    void setParameterValue(const ParameterType parameterType,
+            const int parameterIndex, const double value)
+    {
+        switch (parameterType)
+        {
+            case ptBoundaryParameter:
+                mModel->setBoundarySpeciesConcentrations(1, &parameterIndex, &value);
+            break;
+
+            case ptGlobalParameter:
+                mModel->setGlobalParameterValues(1, &parameterIndex, &value);
+            break;
+
+            case ptFloatingSpecies:
+                mModel->setFloatingSpeciesConcentrations(1, &parameterIndex, &value);
+            break;
+
+            case ptConservationParameter:
+                mModel->setConservedMoietyValues(1, &parameterIndex, &value);
+            break;
+
+            case ptLocalParameter:
+                throw Exception("Local parameters not permitted in setParameterValue (getCC, getEE)");
+        }
+    }
+
+    double getParameterValue(const ParameterType parameterType,
+            const int parameterIndex)
+    {
+        switch (parameterType)
+        {
+        case ptBoundaryParameter:
+        {
+            double result = 0;
+            mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+        case ptGlobalParameter:
+        {
+            double result = 0;
+            mModel->getGlobalParameterValues(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+
+        // Used when calculating elasticities
+        case ptFloatingSpecies:
+        {
+            double result = 0;
+            mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+
+        case ptConservationParameter:
+        {
+            double result = 0;
+            mModel->getConservedMoietyValues(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+
+        case ptLocalParameter:
+            throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
+            break;
+
+        default:
+            return 0.0;
+            break;
+        }
+        return 0;
+    }
+
+    // Changes a given parameter type by the given increment
+    void changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
+                                        double originalValue, double increment)
+    {
+        setParameterValue(parameterType, parameterIndex, originalValue + increment);
+    }
+
 };
 
 
@@ -308,6 +419,8 @@ ExecutableModel* RoadRunner::getModel()
 {
     return impl->mModel;
 }
+
+
 
 vector<SelectionRecord> RoadRunner::getSelectionList()
 {
@@ -497,6 +610,9 @@ void RoadRunner::createIntegrator()
 
 RoadRunnerData *RoadRunner::getSimulationResult()
 {
+    // set the data into the RoadRunnerData struct
+    populateResult();
+
     return &impl->mRoadRunnerData;
 }
 
@@ -622,7 +738,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
     return dResult;
 }
 
-double RoadRunner::getNthSelectedOutput(int index, double currentTime)
+double RoadRunner::getNthSelectedOutput(unsigned index, double currentTime)
 {
     const SelectionRecord &record = impl->mSelectionList[index];
 
@@ -636,12 +752,25 @@ double RoadRunner::getNthSelectedOutput(int index, double currentTime)
     }
 }
 
-void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double currentTime)
+void RoadRunner::getSelectedValues(DoubleMatrix& results, int nRow, double currentTime)
 {
     for (u_int j = 0; j < impl->mSelectionList.size(); j++)
     {
         double out =  getNthSelectedOutput(j, currentTime);
         results(nRow,j) = out;
+    }
+}
+
+void RoadRunner::getSelectedValues(std::vector<double>& results,
+        double currentTime)
+{
+    assert(results.size() == impl->mSelectionList.size()
+            && "given vector and selection list different size");
+
+    u_int size = results.size();
+    for (u_int i = 0; i < size; ++i)
+    {
+        results[i] = getNthSelectedOutput(i, currentTime);
     }
 }
 
@@ -763,7 +892,7 @@ bool RoadRunner::populateResult()
     }
 
     impl->mRoadRunnerData.setColumnNames(list);
-    impl->mRoadRunnerData.setData(impl->mRawRoadRunnerData);
+    impl->mRoadRunnerData.setData(impl->simulationResult);
     return true;
 }
 
@@ -818,79 +947,7 @@ double RoadRunner::steadyState()
     return ss;
 }
 
-void RoadRunner::setParameterValue(const ParameterType parameterType,
-        const int parameterIndex, const double value)
-{
-    switch (parameterType)
-    {
-        case ptBoundaryParameter:
-            impl->mModel->setBoundarySpeciesConcentrations(1, &parameterIndex, &value);
-        break;
 
-        case ptGlobalParameter:
-            impl->mModel->setGlobalParameterValues(1, &parameterIndex, &value);
-        break;
-
-        case ptFloatingSpecies:
-            impl->mModel->setFloatingSpeciesConcentrations(1, &parameterIndex, &value);
-        break;
-
-        case ptConservationParameter:
-            impl->mModel->setConservedMoietyValues(1, &parameterIndex, &value);
-        break;
-
-        case ptLocalParameter:
-            throw Exception("Local parameters not permitted in setParameterValue (getCC, getEE)");
-    }
-}
-
-double RoadRunner::getParameterValue(const ParameterType parameterType,
-        const int parameterIndex)
-{
-    switch (parameterType)
-    {
-    case ptBoundaryParameter:
-    {
-        double result = 0;
-        impl->mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-    case ptGlobalParameter:
-    {
-        double result = 0;
-        impl->mModel->getGlobalParameterValues(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-
-    // Used when calculating elasticities
-    case ptFloatingSpecies:
-    {
-        double result = 0;
-        impl->mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-
-    case ptConservationParameter:
-    {
-        double result = 0;
-        impl->mModel->getConservedMoietyValues(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-
-    case ptLocalParameter:
-        throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
-        break;
-
-    default:
-        return 0.0;
-        break;
-    }
-    return 0;
-}
 
 
 void RoadRunner::setConservedMoietyAnalysis(bool bValue)
@@ -968,7 +1025,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
 
     double variableValue = 0;
     impl->mModel->getReactionRates(1, &reactionIndex, &variableValue);
-    double parameterValue = getParameterValue(parameterType, parameterIndex);
+    double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
     if (variableValue == 0)
     {
         variableValue = 1e-12;
@@ -981,39 +1038,6 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 {
     return getuEE(reactionName, parameterName, true);
 }
-
-class aFinalizer
-{
-private:
-    RoadRunner::ParameterType    mParameterType;
-    int    mParameterIndex;
-    double    mOriginalParameterValue;
-    bool    mComputeSteadyState;
-    RoadRunner*    mRR;
-
-public:
-    aFinalizer(RoadRunner::ParameterType& pType, const int& pIndex,
-            const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
-:
-    mParameterType(pType),
-    mParameterIndex(pIndex),
-    mOriginalParameterValue(origValue),
-    mComputeSteadyState(doWhat),
-    mRR(aRoadRunner)
-{}
-
-    ~aFinalizer()
-    {
-        //this is a finally{} code block
-        // What ever happens, make sure we restore the parameter level
-        mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
-        mRR->getModel()->evalReactionRates();
-        if (mComputeSteadyState)
-        {
-            mRR->steadyState();
-        }
-    }
-};
 
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
 {
@@ -1074,28 +1098,30 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             hstep = impl->mDiffStepSize;
         }
 
-        aFinalizer a(parameterType, parameterIndex, originalParameterValue, impl->mModel, this);
         impl->mModel->convertToConcentrations();
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
         impl->mModel->evalReactionRates();
         double fi = 0;
         impl->mModel->getReactionRates(1, &reactionIndex, &fi);
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
         impl->mModel->evalReactionRates();
         double fi2 = 0;
         impl->mModel->getReactionRates(1, &reactionIndex, &fi2);
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
         impl->mModel->evalReactionRates();
         double fd = 0;
         impl->mModel->getReactionRates(1, &reactionIndex, &fd);
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
         impl->mModel->evalReactionRates();
         double fd2 = 0;
         impl->mModel->getReactionRates(1, &reactionIndex, &fd2);
+
+        // restore original value
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -1122,21 +1148,23 @@ void RoadRunner::evalModel()
 }
 
 
-const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* opt)
+const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 {
-    if (!impl->mModel)
+    get_self();
+
+    if (!self.mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    // reload impl->integrator if different
+    // reload self.integrator if different
     bool reloadIntegrator = false;
 
     if (opt)
     {
-        reloadIntegrator = impl->simulateOptions.integrator != opt->integrator;
-        impl->simulateOptions = *opt;
-        impl->dirtySimulateOptions = true;
+        reloadIntegrator = self.simulateOptions.integrator != opt->integrator;
+        self.simulateOptions = *opt;
+        self.dirtySimulateOptions = true;
     }
 
     // This one creates the list of what we will look at in the result
@@ -1146,32 +1174,32 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* opt)
     if (reloadIntegrator)
     {
         createIntegrator();
-        impl->dirtySimulateOptions = false;
+        self.dirtySimulateOptions = false;
     }
 
-    if (impl->dirtySimulateOptions)
+    if (self.dirtySimulateOptions)
     {
-        impl->integrator->setSimulateOptions(&impl->simulateOptions);
-        impl->dirtySimulateOptions = false;
+        self.integrator->setSimulateOptions(&self.simulateOptions);
+        self.dirtySimulateOptions = false;
     }
 
-    if (impl->simulateOptions.flags & SimulateOptions::RESET_MODEL)
+    if (self.simulateOptions.flags & SimulateOptions::RESET_MODEL)
     {
         reset(); // reset back to initial conditions
     }
 
-    if (impl->simulateOptions.duration < 0 || impl->simulateOptions.start < 0
-            || impl->simulateOptions.steps <= 0 )
+    if (self.simulateOptions.duration < 0 || self.simulateOptions.start < 0
+            || self.simulateOptions.steps <= 0 )
     {
         throw CoreException("duration, startTime and steps must be positive");
     }
 
     // set how the result should be returned to python
-    impl->mRoadRunnerData.structuredResult = impl->simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
+    self.mRoadRunnerData.structuredResult = self.simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
 
-    double timeEnd = impl->simulateOptions.duration + impl->simulateOptions.start;
-    double timeStart = impl->simulateOptions.start;
-    int numPoints = impl->simulateOptions.steps + 1;
+    double timeEnd = self.simulateOptions.duration + self.simulateOptions.start;
+    double timeStart = self.simulateOptions.start;
+    int numPoints = self.simulateOptions.steps + 1;
 
     if (numPoints <= 1)
     {
@@ -1179,47 +1207,98 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* opt)
     }
 
     double hstep = (timeEnd - timeStart) / (numPoints - 1);
-    int nrCols = impl->mSelectionList.size();
+    int nrCols = self.mSelectionList.size();
 
     Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
     // ignored if same
-    impl->mRawRoadRunnerData.resize(impl->simulateOptions.steps + 1, nrCols);
+    self.simulationResult.resize(self.simulateOptions.steps + 1, nrCols);
 
     // evalute the model with its current state
-    impl->mModel->getStateVectorRate(timeStart, 0, 0);
+    self.mModel->getStateVectorRate(timeStart, 0, 0);
 
-    addNthOutputToResult(impl->mRawRoadRunnerData, 0, timeStart);
+    // integration starts here
 
-    impl->integrator->restart(timeStart);
-
-
-    double tout = timeStart;
-
-    //The simulation is executed right here..
-    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< impl->simulateOptions.steps + 1 <<" times";
-
-    try
+    if (self.simulateOptions.integratorFlags & SimulateOptions::VARIABLE_STEP )
     {
-        for (int i = 1; i < impl->simulateOptions.steps + 1; i++)
+        Log(Logger::LOG_NOTICE) << "Performing variable step integration";
+
+        DoubleVectorList results;
+        std::vector<double> row(self.mSelectionList.size());
+
+        try
         {
-            Log(Logger::LOG_DEBUG)<<"Step "<<i;
-            impl->integrator->integrate(tout, hstep);
-            tout = timeStart + i * hstep;
-            addNthOutputToResult(impl->mRawRoadRunnerData, i, tout);
+            // add current state as first row
+            getSelectedValues(row, timeStart);
+            results.push_back(row);
+
+            self.integrator->restart(timeStart);
+
+            double tout = timeStart;
+
+            for (int i = 1; i < self.simulateOptions.steps + 1; i++)
+            {
+                Log(Logger::LOG_DEBUG)<<"Step "<<i;
+                self.integrator->integrate(tout, hstep);
+                tout = timeStart + i * hstep;
+                getSelectedValues(row, tout);
+                results.push_back(row);
+            }
+        }
+        catch (EventListenerException& e)
+        {
+            Log(Logger::LOG_NOTICE) << e.what();
+        }
+
+        // stuff list values into result matrix
+        self.simulationResult.resize(results.size(), row.size());
+        uint rowi = 0;
+        for (DoubleVectorList::const_iterator i = results.begin(); i != results.end(); ++i, ++rowi)
+        {
+            // evidently [] operator gets row, go figure...
+            double* prow = self.simulationResult[rowi];
+            std::copy(i->begin(), i->end(), prow);
         }
     }
-    catch (EventListenerException& e)
+    else
     {
-        Log(Logger::LOG_NOTICE) << e.what();
+        Log(Logger::LOG_DEBUG) << "Perfroming fixed step integration for  "
+                << self.simulateOptions.steps + 1 <<" times";
+
+        try
+        {
+            // add current state as first row
+            getSelectedValues(self.simulationResult, 0, timeStart);
+
+            self.integrator->restart(timeStart);
+
+            double tout = timeStart;
+
+            for (int i = 1; i < self.simulateOptions.steps + 1; i++)
+            {
+                Log(Logger::LOG_DEBUG)<<"Step "<<i;
+                double itime = self.integrator->integrate(tout, hstep);
+
+                // the test suite is extremly sensetive to time differences,
+                // so need to use the *exact* time here. occasionally the integrator
+                // will return a value just slightly off from the exact time
+                // value.
+                tout = timeStart + i * hstep;
+                getSelectedValues(self.simulationResult, i, tout);
+            }
+        }
+        catch (EventListenerException& e)
+        {
+            Log(Logger::LOG_NOTICE) << e.what();
+        }
     }
+
+    // done with integration
+
 
     Log(Logger::LOG_DEBUG)<<"Simulation done..";
 
-    // set the data into the RoadRunnerData struct
-    populateResult();
-
-    return &impl->mRoadRunnerData;
+    return &self.simulationResult;
 }
 
 
@@ -2186,7 +2265,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         }
 
         // Get the original parameter value
-        originalParameterValue = getParameterValue(parameterType, parameterIndex);
+        originalParameterValue = impl->getParameterValue(parameterType, parameterIndex);
 
         double hstep = impl->mDiffStepSize*originalParameterValue;
         if (fabs(hstep) < 1E-12)
@@ -2198,22 +2277,22 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         {
             impl->mModel->convertToConcentrations();
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
             steadyState();
             impl->mModel->evalReactionRates();
             double fi = getVariableValue(variableType, variableIndex);
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
             steadyState();
             impl->mModel->evalReactionRates();
             double fi2 = getVariableValue(variableType, variableIndex);
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
             steadyState();
             impl->mModel->evalReactionRates();
             double fd = getVariableValue(variableType, variableIndex);
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
             steadyState();
             impl->mModel->evalReactionRates();
             double fd2 = getVariableValue(variableType, variableIndex);
@@ -2224,7 +2303,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             double f2 = -(8*fd + fi2);
 
             // What ever happens, make sure we restore the parameter level
-            setParameterValue(parameterType, parameterIndex, originalParameterValue);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
             steadyState();
 
             return 1/(12*hstep)*(f1 + f2);
@@ -2232,7 +2311,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         catch(...) //Catch anything... and do 'finalize'
         {
             // What ever happens, make sure we restore the parameter level
-            setParameterValue(parameterType, parameterIndex, originalParameterValue);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
             steadyState();
             throw;
         }
@@ -2291,7 +2370,7 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     steadyState();
 
     double variableValue = getVariableValue(variableType, variableIndex);
-    double parameterValue = getParameterValue(parameterType, parameterIndex);
+    double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
     return getuCC(variableName, parameterName)*parameterValue/variableValue;
 }
 
@@ -3221,20 +3300,20 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
         }
 
         double f1, f2, fi, fi2, fd, fd2;
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
         impl->mModel->convertToConcentrations();
         impl->mModel->evalReactionRates();
         impl->mModel->getReactionRates(1, &reactionIndex, &fi);
 
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2.0*hstep);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2.0*hstep);
         impl->mModel->evalReactionRates();
         impl->mModel->getReactionRates(1, &reactionIndex, &fi2);
 
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
         impl->mModel->evalReactionRates();
         impl->mModel->getReactionRates(1, &reactionIndex, &fd);
 
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2.0*hstep);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2.0*hstep);
         impl->mModel->evalReactionRates();
         impl->mModel->getReactionRates(1, &reactionIndex, &fd2);
 
@@ -3244,7 +3323,7 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
         f2 = -(8.0*fd + fi2);
 
         // What ever happens, make sure we restore the species level
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 0);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 0);
         return 1.0/(12.0*hstep)*(f1 + f2);
     }
     catch(const Exception& ex)
@@ -3253,12 +3332,6 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
     }
 }
 
-// Changes a given parameter type by the given increment
-void RoadRunner::changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
-                                    double originalValue, double increment)
-{
-    setParameterValue(parameterType, parameterIndex, originalValue + increment);
-}
 
 
 vector<double> logspace(const double& startW, const double& d2, const int& n)
