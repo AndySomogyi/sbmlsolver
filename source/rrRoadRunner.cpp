@@ -35,6 +35,10 @@
 #include <Poco/Mutex.h>
 #include <list>
 
+#ifdef _MSC_VER
+#define isfinite(x) _finite(x)
+#endif
+
 
 namespace rr
 {
@@ -1228,7 +1232,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
                 Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
                 tout = self.integrator->integrate(tout, timeEnd);
-                if (!std::isfinite(tout))
+                if (!isfinite(tout))
                 {
                     // time step is at infinity so bail
                     break;
