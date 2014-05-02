@@ -142,7 +142,6 @@ maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
     getConfigValues(this);
-
 }
 
 SimulateOptions::SimulateOptions(const std::string &fname)

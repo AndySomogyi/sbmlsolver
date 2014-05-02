@@ -202,7 +202,8 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
     double tout = timeStart + hstep;
     int strikes = 3;
 
-    const int itask = options.integratorFlags & SimulateOptions::MULTI_STEP
+    const int itask = ((options.integratorFlags & SimulateOptions::MULTI_STEP)
+            || (options.integratorFlags & SimulateOptions::VARIABLE_STEP))
             ? CV_ONE_STEP : CV_NORMAL;
 
     // get the original event status
@@ -210,13 +211,8 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
 
 
     // here we stop for a too small timestep ... this seems troublesome to me ...
-    while (tout - timeEnd > 1E-16)
+    while (tout - timeEnd >= 1E-16)
     {
-        if (hstep < 1E-16)
-        {
-            return tout;
-        }
-
         // here we bail in case we have no ODEs set up with CVODE ... though we should
         // still at least evaluate the model function
         if (!haveVariables() && mModel->getNumEvents() == 0)
@@ -297,9 +293,9 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
         {
             mModel->testConstraints();
         }
-        catch (const Exception& e)
+        catch (const std::exception& e)
         {
-            Log(lWarning)<<"Constraint Violated at time = " + toString(timeEnd)<<": " + e.Message();
+            Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
         }
 
         assignPendingEvents(timeEnd, tout);
@@ -308,7 +304,12 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
         {
             timeStart = timeEnd;
         }
-        Log(lDebug3)<<"tout: "<<tout<<gTab<<"timeEnd: "<<timeEnd;
+        Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
+
+        if (options.integratorFlags & SimulateOptions::VARIABLE_STEP)
+        {
+            return timeEnd;
+        }
     }
     return timeEnd;
 

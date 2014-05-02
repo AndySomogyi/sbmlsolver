@@ -1197,22 +1197,8 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     // set how the result should be returned to python
     self.mRoadRunnerData.structuredResult = self.simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
 
-    double timeEnd = self.simulateOptions.duration + self.simulateOptions.start;
-    double timeStart = self.simulateOptions.start;
-    int numPoints = self.simulateOptions.steps + 1;
-
-    if (numPoints <= 1)
-    {
-        numPoints = 2;
-    }
-
-    double hstep = (timeEnd - timeStart) / (numPoints - 1);
-    int nrCols = self.mSelectionList.size();
-
-    Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
-
-    // ignored if same
-    self.simulationResult.resize(self.simulateOptions.steps + 1, nrCols);
+    const double timeEnd = self.simulateOptions.duration + self.simulateOptions.start;
+    const double timeStart = self.simulateOptions.start;
 
     // evalute the model with its current state
     self.mModel->getStateVectorRate(timeStart, 0, 0);
@@ -1236,11 +1222,17 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 
             double tout = timeStart;
 
-            for (int i = 1; i < self.simulateOptions.steps + 1; i++)
+
+            while(tout < timeEnd)
             {
-                Log(Logger::LOG_DEBUG)<<"Step "<<i;
-                self.integrator->integrate(tout, hstep);
-                tout = timeStart + i * hstep;
+                Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
+                        << ", end: " << timeEnd;
+                tout = self.integrator->integrate(tout, timeEnd);
+                if (!std::isfinite(tout))
+                {
+                    // time step is at infinity so bail
+                    break;
+                }
                 getSelectedValues(row, tout);
                 results.push_back(row);
             }
@@ -1253,7 +1245,8 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
         // stuff list values into result matrix
         self.simulationResult.resize(results.size(), row.size());
         uint rowi = 0;
-        for (DoubleVectorList::const_iterator i = results.begin(); i != results.end(); ++i, ++rowi)
+        for (DoubleVectorList::const_iterator i = results.begin();
+                i != results.end(); ++i, ++rowi)
         {
             // evidently [] operator gets row, go figure...
             double* prow = self.simulationResult[rowi];
@@ -1264,6 +1257,21 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     {
         Log(Logger::LOG_DEBUG) << "Perfroming fixed step integration for  "
                 << self.simulateOptions.steps + 1 <<" times";
+
+        int numPoints = self.simulateOptions.steps + 1;
+
+        if (numPoints <= 1)
+        {
+            numPoints = 2;
+        }
+
+        double hstep = (timeEnd - timeStart) / (numPoints - 1);
+        int nrCols = self.mSelectionList.size();
+
+        Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+
+        // ignored if same
+        self.simulationResult.resize(self.simulateOptions.steps + 1, nrCols);
 
         try
         {

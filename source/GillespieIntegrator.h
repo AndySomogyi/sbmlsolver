@@ -65,6 +65,9 @@ private:
 
     random_ns::mt19937 engine;
 
+    double timeScale;
+    double stoichScale;
+
 
 
     int nReactions;
