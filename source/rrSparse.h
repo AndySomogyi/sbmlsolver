@@ -120,6 +120,11 @@ void  csr_matrix_dgemv(double alpha, const csr_matrix *A,
 double csr_matrix_ddot(int row, const csr_matrix *x, const double *y);
 
 /**
+ * fill dense matrix
+ */
+void csr_matrix_fill_dense(const csr_matrix *x, double *dense);
+
+/**
  * dump the matrix to an output stream.
  */
 std::ostream& operator<< (std::ostream& os, const csr_matrix* mat);

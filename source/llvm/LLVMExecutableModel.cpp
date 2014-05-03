@@ -1444,34 +1444,41 @@ double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex
 int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,
         double** pData)
 {
-    // m rows x n cols
-    // offset = row*NUMCOLS + column
-    const unsigned m = modelData->stoichiometry->m;
-    const unsigned n = modelData->stoichiometry->n;
-    unsigned *rowptr = modelData->stoichiometry->rowptr;
-    unsigned *colidx = modelData->stoichiometry->colidx;
-    double *values = modelData->stoichiometry->values;
-
-    double *data = (double*)calloc(m*n, sizeof(double));
-
-    for (unsigned i = 0; i < m; i++)
+    // asking for matrix size
+    if (pRows && pCols && pData == 0)
     {
-        double yi = 0.0;
-        for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
-        {
-            int col = colidx[k];
-            data[i*n + col] = values[k];
-
-            //yi = yi + alpha * values[k] * x[colidx[k]];
-        }
+        *pRows = modelData->stoichiometry->m;
+        *pCols = modelData->stoichiometry->n;
+        return modelData->stoichiometry->m * modelData->stoichiometry->n;
     }
 
-    *pRows = m;
-    *pCols = n;
-    *pData = data;
+    // allocate data
+    if (pRows && pCols && pData && *pData == 0)
+    {
+        double* data = (double*)malloc(modelData->stoichiometry->m *
+                modelData->stoichiometry->n * sizeof(double));
+        *pRows = modelData->stoichiometry->m;
+        *pCols = modelData->stoichiometry->n;
+        *pData = data;
+        csr_matrix_fill_dense(modelData->stoichiometry, data);
 
-    return m*n;
+        return modelData->stoichiometry->m * modelData->stoichiometry->n;
+    }
+
+    // use user data
+    if (pRows && *pRows == modelData->stoichiometry->m &&
+            pCols && *pCols == modelData->stoichiometry->n && pData && *pData)
+    {
+        double* data = *pData;
+        csr_matrix_fill_dense(modelData->stoichiometry, data);
+
+        return modelData->stoichiometry->m * modelData->stoichiometry->n;
+    }
+
+
+    throw_llvm_exception("invalid args");
 }
+
 
 
 /******************************* Events Section *******************************/

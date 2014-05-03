@@ -609,6 +609,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::getOptions;
 
+%rename (_simulate) rr::RoadRunner::simulate;
+
 
 %ignore rr::Config::getInt;
 %ignore rr::Config::getString;
@@ -833,15 +835,6 @@ namespace std { class ostream{}; }
 
     rr::RoadRunnerOptions *options;
 
-
-    const ls::DoubleMatrix *simulate(double startTime, double endTime, int steps) {
-        rr::SimulateOptions s = $self->getSimulateOptions();
-        s.start = startTime;
-        s.duration = endTime - startTime;
-        s.steps = steps;
-        return $self->simulate(&s);
-    }
-
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
@@ -937,6 +930,123 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values(types).__iter__()
+
+
+        def simulate(self, *args, **kwargs):
+            """
+            Simulate the optionally plot current SBML model.
+
+            There are a number of ways to call simulate.
+
+            1. With no arguments. In this case, the current set of `SimulateOptions` will
+            be used for the simulation. The current set may be changed either directly
+            via setSimulateOptions() or with one of the two alternate ways of calling
+            simulate.
+
+            2: With single `SimulateOptions` argument. In this case, all of the settings
+            in the given options are copied and will be used for the current and future
+            simulations.
+
+            3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
+            these three values are copied and will be used for the current and future simulations.
+
+            4: With keyword arguments where keywords are the property names of the SimulateOptions
+            class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
+
+                rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
+
+            The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+            one calls::
+
+                rr.simulate (0, 3, 100)
+
+            The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
+            is followed by a call to::
+
+                rr.simulate()
+
+            This simulation will use the previous values.
+
+            :returns: a numpy array with each selected output time series being a
+             column vector, and the 0'th column is the simulation time.
+            :rtype: numpy.ndarray
+            """
+
+
+            doPlot = False
+            show = True
+            o = self.simulateOptions;
+
+            if len(args) >= 1:
+                o.start = args[0]
+
+            if len(args) >= 2:
+                o.end = args[1]
+
+            if len(args) >= 3:
+                o.steps = args[2]
+
+            for k,v in kwargs.iteritems():
+                if SimulateOptions.__dict__.has_key(k):
+                    setattr(o, k, v)
+                    continue
+
+                if k == "plot":
+                    doPlot = v
+                    continue
+
+                if k == "show":
+                    show = v
+                    continue
+
+                raise Exception("{0} is not a valid keyword argument".format(k))
+
+            result = self._simulate(o)
+
+            if doPlot:
+                self.plot(show)
+
+            return result
+
+        def plot(self, show=True):
+            import pylab as p
+
+            result = self.getSimulationResult()
+
+            if result is None:
+                raise Exception("no simulation result")
+
+            # check if standard numpy array
+            if result.dtype.names is None:
+
+                selections = self.selections
+
+                if len(result.shape) != 2 or result.shape[1] != len(selections):
+                    raise Exception("simulation result columns not equal to number of selections, likely a simulation has not been run")
+
+                times = result[:,0]
+
+                for i in range(1, len(selections)):
+                    series = result[:,i]
+                    name = selections[i]
+                    p.plot(times, series, label='$' + str(name) + '$')
+
+            # result is structured array
+            else:
+                if len(result.dtype.names) < 1:
+                    raise Exception('no columns to plot')
+
+                time = result.dtype.names[0]
+
+                for name in result.dtype.names[1:]:
+                    p.plot(result[time], result[name], label='$' + name + '$')
+
+            p.legend()
+
+            if show:
+                p.show()
+
+
     %}
 }
 

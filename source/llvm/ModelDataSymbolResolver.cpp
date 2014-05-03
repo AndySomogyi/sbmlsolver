@@ -153,6 +153,15 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
 
         Value *value = mdbuilder.createStoichiometryLoad(info.row, info.column, symbol);
 
+        if (info.type == LLVMModelDataSymbols::MultiReactantProduct)
+        {
+            string msg = "mutable stochiometry for species which appear "
+                    "multiple times in a single reaction is not currently "
+                    "supported, species reference id: ";
+            msg += symbol;
+            throw_llvm_exception(msg);
+        }
+
         if (info.type == LLVMModelDataSymbols::Reactant)
         {
             // its consumed in the reaction, so has a negative in the stoich
@@ -261,6 +270,15 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
     {
         const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
                 modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
+
+        if (info.type == LLVMModelDataSymbols::MultiReactantProduct)
+        {
+            string msg = "mutable stochiometry for species which appear "
+                    "multiple times in a single reaction is not currently "
+                    "supported, species reference id: ";
+            msg += symbol;
+            throw_llvm_exception(msg);
+        }
 
         if (info.type == LLVMModelDataSymbols::Reactant)
         {

@@ -26,9 +26,18 @@ namespace rr
 int cvodeDyDtFcn(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *userData);
 int cvodeRootFcn (realtype t, N_Vector y, realtype *gout, void *userData);
 
-// N_Vector is a point to an N_Vector structure
-RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
-RR_DECLSPEC double      GetVector (N_Vector v, int Index);
+// Sets the value of an element in a N_Vector object
+inline void SetVector (N_Vector v, int Index, double Value)
+{
+    double *data = NV_DATA_S(v);
+    data[Index] = Value;
+}
+
+inline double GetVector (N_Vector v, int Index)
+{
+    double *data = NV_DATA_S(v);
+    return data[Index];
+}
 
 const int CVODEIntegrator::mDefaultMaxNumSteps = 10000;
 const int CVODEIntegrator::mDefaultMaxAdamsOrder = 12;
@@ -359,7 +368,8 @@ void CVODEIntegrator::createCVode()
     mAbstolArray = N_VNew_Serial(allocStateVectorSize);
     for (int i = 0; i < allocStateVectorSize; i++)
     {
-        SetVector((N_Vector) mAbstolArray, i, options.absolute);
+        SetVector(mStateVector, i, 0.);
+        SetVector(mAbstolArray, i, options.absolute);
     }
 
     updateAbsTolVector();
@@ -549,18 +559,7 @@ void CVODEIntegrator::restart(double time)
 }
 
 
-// Sets the value of an element in a N_Vector object
-void SetVector (N_Vector v, int Index, double Value)
-{
-    double *data = NV_DATA_S(v);
-    data[Index] = Value;
-}
 
-double GetVector (N_Vector v, int Index)
-{
-    double *data = NV_DATA_S(v);
-    return data[Index];
-}
 
 
 // Cvode calls this to compute the dy/dts. This routine in turn calls the

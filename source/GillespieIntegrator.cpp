@@ -29,7 +29,10 @@ GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
         const SimulateOptions* o) :
         model(m),
         timeScale(1.0),
-        stoichScale(1.0)
+        stoichScale(1.0),
+        stoichRows(0),
+        stoichCols(0),
+        stoichData(0)
 {
     if (o)
     {
@@ -47,6 +50,11 @@ GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
 
     assert(floatingSpeciesStart >= 0);
 
+    // get rows and columns
+    model->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
+    stoichData = new double[stoichRows * stoichCols];
+
+    // fill stoichData
     model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
     engine.seed((unsigned long) std::time(0));
@@ -59,6 +67,7 @@ GillespieIntegrator::~GillespieIntegrator()
     delete[] reactionRatesBuffer;
     delete[] stateVector;
     delete[] stateVectorRate;
+    delete[] stoichData;
 }
 
 void GillespieIntegrator::setSimulateOptions(const SimulateOptions* o)
@@ -84,60 +93,12 @@ void GillespieIntegrator::setSimulateOptions(const SimulateOptions* o)
     }
 }
 
-/*
- void GridSection::ssa(int i, int j, double tf, pfunc *a, int* nu, int r) {
- printf("B: %f, P: %f, R: %f, init: %i, tf: %f, dt: %f\n", B, P, R, z, tf, dt);
- double t = 0;
- double ddt = 0;
- while(t < tf) {
- if(t >= ddt) {
- fprintf(file, "%f, %i\n", t, z);
- fprintf(f2, "%f, %f, %i\n", B, t, z);
- ddt += dt;
- }
- double p1 = drand();
- double p2 = drand();
- double s = 0;
- for(int k = 0; k < r; k++) {
- s += ((*this).*(a[k]))(i,j);
- }
- double h = -log(p1) / s;
- t = t+h;
- double ctr = 0;
- for(int k = 0; k < r; k++) {
- double next = ((*this).*(a[k]))(i,j) / s;
- if((ctr < p2) && (p2 < (ctr + next))) {
- z += nu[k];
- break;
- }
- ctr += next;
- }
- }
- }
- */
 
-/*
-static double rmin = std::numeric_limits<double>::max();
-static double rmax = std::numeric_limits<double>::min();
-static double sum = 0;
-static uint count = 0;
-
-static void add_stats(double p)
-{
-    rmin = p < rmin ? p : rmin;
-    rmax = p > rmax ? p : rmax;
-    sum += p;
-    count++;
-    std::cout << "avg: " << sum / count << ", p: " << p << ", min: " << rmin << ", max: " << rmax << std::endl;
-}
-*/
 
 double GillespieIntegrator::integrate(double t, double hstep)
 {
     double tf = 0;
     bool singleStep;
-
-    std::memset(reactionRatesBuffer, 0, nReactions * sizeof(double));
 
     if (options.integratorFlags && SimulateOptions::VARIABLE_STEP)
     {
@@ -160,17 +121,30 @@ double GillespieIntegrator::integrate(double t, double hstep)
 
     Log(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
 
+    // get the initial state vector
     model->setTime(t);
     model->getStateVector(stateVector);
 
     while (t < tf)
     {
-        double p1 = urand();
-        double p2 = urand();
+        // random uniform numbers
+        double r1 = urand();
+        double r2 = urand();
 
-        assert(p1 >= 0 && p1 <= 1 && p2 >= 0 && p2 <= 1);
+        assert(r1 > 0 && r1 <= 1 && r2 >= 0 && r2 <= 1);
 
+        // output
+        // output(out, t, x, M);
+
+        // get propensity
+        // update_p(p, c, x);
+        // sum_propencity = sum(p, N);
+
+        // sum of propensities
         double s = 0;
+
+        // next time
+        double tau = 0;
 
         // get the 'propensity' -- reaction rates
         model->getReactionRates(nReactions, 0, reactionRates);
@@ -187,41 +161,57 @@ double GillespieIntegrator::integrate(double t, double hstep)
             // to get tau.
             s += std::abs(reactionRates[k]);
         }
-        double h = (-log(p1) / s) * timeScale;
-        t = t + h;
-        double ctr = 0;
 
-        // find index of next reaction
-        for (int k = 0; k < nReactions; k++)
+        // sample tau
+        if (s > 0)
         {
-            double next = std::abs(reactionRates[k]) / s;
-            if ((ctr < p2) && (p2 < (ctr + next)))
-            {
-                Log(Logger::LOG_DEBUG) << "time: " << t << ", reaction: "
-                        << k;
-
-                // if rate is negative, means reaction goes in reverse, so
-                // multiply by sign
-                double sign = (reactionRates[k] > 0) - (reactionRates[k] < 0);
-
-                for (int i = floatingSpeciesStart; i < stateVectorSize; ++i)
-                {
-                    stateVector[i] = stateVector[i]
-                            + getStoich(i - floatingSpeciesStart, k)
-                            * stoichScale
-                            * sign;
-                }
-
-                model->setStateVector(stateVector);
-                break;
-            }
-            ctr += next;
+            tau = -log(r1) / s;
+        }
+        else
+        {
+            // no reaction occurs
+            return std::numeric_limits<double>::infinity();
         }
 
-        // break out of loop and return if we are doing variable step
+        t = t + tau;
+
+        // select reaction
+        int reaction = -1;
+        double sp = 0.0;
+
+        r2 = r2 * s;
+        for (int i = 0; i < nReactions; ++i)
+        {
+            sp += std::abs(reactionRates[i]);
+            if (r2 < sp)
+            {
+                reaction = i;
+                break;
+            }
+        }
+
+        assert(reaction >= 0 && reaction < nReactions);
+
+        // update chemical species
+        // if rate is negative, means reaction goes in reverse, so
+        // multiply by sign
+        double sign = (reactionRates[reaction] > 0)
+                - (reactionRates[reaction] < 0);
+
+        for (int i = floatingSpeciesStart; i < stateVectorSize; ++i)
+        {
+            stateVector[i] = stateVector[i]
+                    + getStoich(i - floatingSpeciesStart, reaction)
+                            * stoichScale * sign;
+        }
+
+        // rates could be time dependent
+        model->setTime(t);
+        model->setStateVector(stateVector);
+
         if (singleStep)
         {
-            break;
+            return t;
         }
     }
 

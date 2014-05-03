@@ -22,6 +22,15 @@
 #include <vector>
 #include <sstream>
 
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#endif
+
+
 using namespace libsbml;
 using namespace std;
 
@@ -266,10 +275,9 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
     }
     else
     {
-        throw LLVMException("could not find floating species with id " + id);
+        string msg = "could not find floating species with id "  + id;
+        throw LLVMException(msg);
     }
-    // never get here, just silence eclipse warnings
-    return 0;
 }
 
 uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
@@ -890,6 +898,27 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     independentInitCompartmentSize = indInitCompartments.size();
 }
 
+/**
+ * row is species, column is reaction
+ */
+void  LLVMModelDataSymbols::setNamedSpeciesReferenceInfo(uint row, uint column,
+        SpeciesReferenceType type)
+{
+    for (StringRefInfoMap::iterator i = namedSpeciesReferenceInfo.begin();
+            i != namedSpeciesReferenceInfo.end(); ++i)
+    {
+        SpeciesReferenceInfo& sr = i->second;
+        if (sr.row == row && sr.column == column)
+        {
+            sr.type = type;
+        }
+    }
+}
+
+typedef std::vector<LLVMModelDataSymbols::SpeciesReferenceType>::size_type ssize_type;
+typedef std::tr1::unordered_map<uint, ssize_type> UIntUMap;
+
+
 
 void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
 {
@@ -899,6 +928,9 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
     {
         const Reaction *reaction = reactions->get(i);
         reactionsMap.insert(StringUIntPair(reaction->getId(), i));
+
+        // keep track of species in this reaction.
+        UIntUMap speciesMap;
 
         // go through the reaction reactants and products to know how much to
         // allocate space for the stochiometry matrix.
@@ -912,26 +944,65 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
             {
                 // at this point, we'd better have a floating species
                 uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
-                stoichColIndx.push_back(i);
-                stoichRowIndx.push_back(speciesIdx);
-                stoichIds.push_back(r->isSetId() ? r->getId() : "");
-                stoichTypes.push_back(Reactant);
 
-                if(r->isSetId() && r->getId().length() > 0)
+                UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
+
+                if (si == speciesMap.end())
                 {
-                    if (namedSpeciesReferenceInfo.find(r->getId()) ==
-                            namedSpeciesReferenceInfo.end())
+                    stoichColIndx.push_back(i);
+                    stoichRowIndx.push_back(speciesIdx);
+                    stoichIds.push_back(r->isSetId() ? r->getId() : "");
+                    stoichTypes.push_back(Reactant);
+
+                    // in case this species is both a product and reactant, can look up
+                    // index of the just added Reactant
+                    speciesMap[speciesIdx] = stoichTypes.size() - 1;
+
+                    if(r->isSetId() && r->getId().length() > 0)
                     {
-                        SpeciesReferenceInfo info =
+                        if (namedSpeciesReferenceInfo.find(r->getId()) ==
+                                namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
                             {speciesIdx, i, Reactant, r->getId()};
-                        namedSpeciesReferenceInfo[r->getId()] = info;
+                            namedSpeciesReferenceInfo[r->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += r->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    Log(Logger::LOG_WARNING)
+                            << "Experimental multi product-reactant stochiometry code";
+
+                    // species is listed multiple times as reactant
+                    stoichTypes[si->second] = MultiReactantProduct;
+
+                    // set all the other ones to Multi...
+                    setNamedSpeciesReferenceInfo(speciesIdx, i, MultiReactantProduct);
+
+                    if(r->isSetId() && r->getId().length() > 0)
                     {
-                        string msg = "Species Reference with id ";
-                        msg += r->getId();
-                        msg += " appears more than once in the model";
-                        throw_llvm_exception(msg);
+                        if (namedSpeciesReferenceInfo.find(r->getId()) ==
+                                namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
+                            {speciesIdx, i, MultiReactantProduct, r->getId()};
+                            namedSpeciesReferenceInfo[r->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += r->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
                 }
             }
@@ -946,26 +1017,63 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
             if (isValidSpeciesReference(p, "product"))
             {
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
-                stoichColIndx.push_back(i);
-                stoichRowIndx.push_back(speciesIdx);
-                stoichIds.push_back(p->isSetId() ? p->getId() : "");
-                stoichTypes.push_back(Product);
 
-                if (p->isSetId() && p->getId().length() > 0)
+                UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
+
+                if (si == speciesMap.end())
                 {
-                    if (namedSpeciesReferenceInfo.find(p->getId())
-                            == namedSpeciesReferenceInfo.end())
+                    // its not already a reactant, can add another
+                    // non-zero stoich entry
+                    stoichColIndx.push_back(i);
+                    stoichRowIndx.push_back(speciesIdx);
+                    stoichIds.push_back(p->isSetId() ? p->getId() : "");
+                    stoichTypes.push_back(Product);
+
+                    if (p->isSetId() && p->getId().length() > 0)
                     {
-                        SpeciesReferenceInfo info =
+                        if (namedSpeciesReferenceInfo.find(p->getId())
+                                == namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
                             { speciesIdx, i, Product, p->getId()};
-                        namedSpeciesReferenceInfo[p->getId()] = info;
+                            namedSpeciesReferenceInfo[p->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += p->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    Log(Logger::LOG_WARNING)
+                            << "Experimental multi product-reactant stochiometry code";
+
+                    // species is listed multiple times as reactant
+                    stoichTypes[si->second] = MultiReactantProduct;
+
+                    // set all the other ones to Multi...
+                    setNamedSpeciesReferenceInfo(speciesIdx, i, MultiReactantProduct);
+
+                    if(p->isSetId() && p->getId().length() > 0)
                     {
-                        string msg = "Species Reference with id ";
-                        msg += p->getId();
-                        msg += " appears more than once in the model";
-                        throw_llvm_exception(msg);
+                        if (namedSpeciesReferenceInfo.find(p->getId()) ==
+                                namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
+                            {speciesIdx, i, MultiReactantProduct, p->getId()};
+                            namedSpeciesReferenceInfo[p->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += p->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
                 }
             }

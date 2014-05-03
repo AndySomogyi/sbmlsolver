@@ -224,7 +224,26 @@ using namespace rr;
 
 int main(int argc, char* argv[])
 {
-    rr::TestVariant::test( argc, argv);
+    if (argc < 2)
+    {
+        return -1;
+    }
+
+    rr::RoadRunner r(argv[1]);
+
+    rr::SimulateOptions o;
+
+    o.integrator = SimulateOptions::GILLESPIE;
+    o.integratorFlags |= SimulateOptions::VARIABLE_STEP;
+    o.duration = atof(argv[2]);
+
+    r.simulate(&o);
+
+    rr::RoadRunnerData *d = r.getSimulationResult();
+
+    std::cout << *d << std::endl;
+
+
 
     return 0;
 }
