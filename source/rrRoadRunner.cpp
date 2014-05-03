@@ -174,7 +174,14 @@ public:
     /**
      * options that are specific to the simulation
      */
-    SimulateOptions simulateOptions;
+    SimulateOptions simulateOpt;
+
+    /**
+     * copy of simualte opt which is returned to clients.
+     *
+     * used so we can determine if the options have changed.
+     */
+    SimulateOptions copySimulateOpt;
 
     /**
      * The sim options may be requested via getSimulateOptions. In this
@@ -189,6 +196,7 @@ public:
      * various general options that can be modified by external callers.
      */
     RoadRunnerOptions roadRunnerOptions;
+
 
     /**
      * the xml string that is given in setConfigurationXML.
@@ -216,7 +224,7 @@ public:
                 mModel(0),
                 mCurrentSBML(),
                 mLS(0),
-                simulateOptions(),
+                simulateOpt(),
                 mInstanceID(0),
                 dirtySimulateOptions(true)
     {
@@ -238,7 +246,7 @@ public:
                 mModel(0),
                 mCurrentSBML(),
                 mLS(0),
-                simulateOptions(),
+                simulateOpt(),
                 mInstanceID(0),
                 dirtySimulateOptions(true)
     {
@@ -337,7 +345,6 @@ public:
     {
         setParameterValue(parameterType, parameterIndex, originalValue + increment);
     }
-
 };
 
 
@@ -424,7 +431,10 @@ ExecutableModel* RoadRunner::getModel()
     return impl->mModel;
 }
 
-
+void RoadRunner::setOptions(const RoadRunnerOptions& opt)
+{
+    impl->roadRunnerOptions = opt;
+}
 
 vector<SelectionRecord> RoadRunner::getSelectionList()
 {
@@ -498,14 +508,12 @@ bool RoadRunner::isModelLoaded()
 
 void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
-    impl->dirtySimulateOptions = true;
-    impl->simulateOptions = settings;
+    impl->copySimulateOpt = settings;
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
 {
-    impl->dirtySimulateOptions = true;
-    return impl->simulateOptions;
+    return impl->copySimulateOpt;
 }
 
 bool RoadRunner::getConservedMoietyAnalysis()
@@ -548,7 +556,7 @@ int RoadRunner::createTimeCourseSelectionList()
 {
     // make a list out of the values in the settings,
     // will always have at least a "time" at the first item.
-    vector<string> settingsList = createSelectionList(impl->simulateOptions);
+    vector<string> settingsList = createSelectionList(impl->simulateOpt);
 
     assert(settingsList.size() >= 1 && "selection list from SimulateOptions does does not have time");
 
@@ -605,7 +613,7 @@ void RoadRunner::createIntegrator()
             delete impl->integrator;
         }
 
-        impl->integrator = Integrator::New(&impl->simulateOptions, impl->mModel);
+        impl->integrator = Integrator::New(&impl->simulateOpt, impl->mModel);
 
         // reset the simulation state
         reset();
@@ -1156,60 +1164,17 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 {
     get_self();
 
-    if (!self.mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    _setSimulateOptions(opt);
 
-    // reload self.integrator if different
-    bool reloadIntegrator = false;
-
-    if (opt)
-    {
-        reloadIntegrator = self.simulateOptions.integrator != opt->integrator;
-        self.simulateOptions = *opt;
-        self.dirtySimulateOptions = true;
-    }
-
-    // This one creates the list of what we will look at in the result
-    // uses values (potentially) from simulate options.
-    createTimeCourseSelectionList();
-
-    if (reloadIntegrator)
-    {
-        createIntegrator();
-        self.dirtySimulateOptions = false;
-    }
-
-    if (self.dirtySimulateOptions)
-    {
-        self.integrator->setSimulateOptions(&self.simulateOptions);
-        self.dirtySimulateOptions = false;
-    }
-
-    if (self.simulateOptions.flags & SimulateOptions::RESET_MODEL)
-    {
-        reset(); // reset back to initial conditions
-    }
-
-    if (self.simulateOptions.duration < 0 || self.simulateOptions.start < 0
-            || self.simulateOptions.steps <= 0 )
-    {
-        throw CoreException("duration, startTime and steps must be positive");
-    }
-
-    // set how the result should be returned to python
-    self.mRoadRunnerData.structuredResult = self.simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
-
-    const double timeEnd = self.simulateOptions.duration + self.simulateOptions.start;
-    const double timeStart = self.simulateOptions.start;
+    const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
+    const double timeStart = self.simulateOpt.start;
 
     // evalute the model with its current state
     self.mModel->getStateVectorRate(timeStart, 0, 0);
 
     // integration starts here
 
-    if (self.simulateOptions.integratorFlags & SimulateOptions::VARIABLE_STEP )
+    if (self.simulateOpt.integratorFlags & SimulateOptions::VARIABLE_STEP )
     {
         Log(Logger::LOG_NOTICE) << "Performing variable step integration";
 
@@ -1260,9 +1225,9 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     else
     {
         Log(Logger::LOG_DEBUG) << "Perfroming fixed step integration for  "
-                << self.simulateOptions.steps + 1 <<" times";
+                << self.simulateOpt.steps + 1 <<" times";
 
-        int numPoints = self.simulateOptions.steps + 1;
+        int numPoints = self.simulateOpt.steps + 1;
 
         if (numPoints <= 1)
         {
@@ -1275,7 +1240,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
         // ignored if same
-        self.simulationResult.resize(self.simulateOptions.steps + 1, nrCols);
+        self.simulationResult.resize(self.simulateOpt.steps + 1, nrCols);
 
         try
         {
@@ -1286,7 +1251,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 
             double tout = timeStart;
 
-            for (int i = 1; i < self.simulateOptions.steps + 1; i++)
+            for (int i = 1; i < self.simulateOpt.steps + 1; i++)
             {
                 Log(Logger::LOG_DEBUG)<<"Step "<<i;
                 double itime = self.integrator->integrate(tout, hstep);
@@ -1307,7 +1272,6 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 
     // done with integration
 
-
     Log(Logger::LOG_DEBUG)<<"Simulation done..";
 
     return &self.simulationResult;
@@ -1321,22 +1285,7 @@ double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (o)
-    {
-        impl->simulateOptions = *o;
-        impl->dirtySimulateOptions = true;
-    }
-
-    if(impl->dirtySimulateOptions)
-    {
-        impl->integrator->setSimulateOptions(&impl->simulateOptions);
-        impl->dirtySimulateOptions = false;
-    }
-
-    if (impl->simulateOptions.flags && SimulateOptions::RESET_MODEL)
-    {
-        impl->integrator->restart(t0);
-    }
+    _setSimulateOptions(o);
 
     try
     {
@@ -1353,30 +1302,27 @@ double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 
 double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset)
 {
-    if (!impl->mModel)
+    get_self();
+
+    if (!self.mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if(impl->dirtySimulateOptions)
-    {
-        impl->integrator->setSimulateOptions(&impl->simulateOptions);
-        impl->dirtySimulateOptions = false;
-    }
+    self.copySimulateOpt.flags = reset ?
+            self.copySimulateOpt.flags | SimulateOptions::RESET_MODEL :
+            self.copySimulateOpt.flags & ~SimulateOptions::RESET_MODEL;
 
-    if (reset)
-    {
-        impl->integrator->restart(currentTime);
-    }
+    _setSimulateOptions(0);
 
     try
     {
-        return impl->integrator->integrate(currentTime, stepSize);
+        return self.integrator->integrate(currentTime, stepSize);
     }
     catch (EventListenerException& e)
     {
         Log(Logger::LOG_NOTICE) << e.what();
-        return impl->mModel->getTime();
+        return self.mModel->getTime();
     }
 }
 
@@ -2585,9 +2531,9 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
             throw CoreException(gEmptyModelMessage);
         }
 
-        impl->simulateOptions.start = 0;
-        impl->simulateOptions.duration = 50.0;
-        impl->simulateOptions.steps = 1;
+        impl->simulateOpt.start = 0;
+        impl->simulateOpt.duration = 50.0;
+        impl->simulateOpt.steps = 1;
 
         simulate(); //This will crash, because numpoints == 1, not anymore, numPoints = 2 if numPoints <= 1
         if (steadyState() > impl->mSteadyStateThreshold)
@@ -3532,6 +3478,51 @@ vector<string> RoadRunner::getEigenvalueIds()
 RoadRunnerOptions& RoadRunner::getOptions()
 {
     return impl->roadRunnerOptions;
+}
+
+void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
+{
+    get_self();
+
+    if (opt && opt != &self.copySimulateOpt)
+    {
+        self.copySimulateOpt = *opt;
+    }
+
+    if (self.copySimulateOpt.duration < 0 || self.copySimulateOpt.start < 0
+            || self.copySimulateOpt.steps <= 0 )
+    {
+        throw CoreException("duration, startTime and steps must be positive");
+    }
+
+    // reload self.integrator if different
+    bool reloadIntegrator = self.simulateOpt.integrator
+            != self.copySimulateOpt.integrator;
+
+    self.simulateOpt = self.copySimulateOpt;
+
+    // This one creates the list of what we will look at in the result
+    // uses values (potentially) from simulate options.
+    createTimeCourseSelectionList();
+
+    if (reloadIntegrator)
+    {
+        // this sets integrator options, uses self.simulateOpt
+        createIntegrator();
+    }
+    else
+    {
+        self.integrator->setSimulateOptions(&self.simulateOpt);
+    }
+
+    if (self.simulateOpt.flags & SimulateOptions::RESET_MODEL)
+    {
+        reset(); // reset back to initial conditions
+    }
+
+    // set how the result should be returned to python
+    self.mRoadRunnerData.structuredResult =
+            self.simulateOpt.flags & SimulateOptions::STRUCTURED_RESULT;
 }
 
 }//namespace

@@ -171,6 +171,9 @@ public:
      */
     RoadRunnerOptions& getOptions();
 
+
+    void setOptions(const RoadRunnerOptions&);
+
     /**
      * get the currently loaded sbml document as a string.
      */
@@ -794,50 +797,21 @@ private:
      */
     int createTimeCourseSelectionList();
 
-#if 0
-    /**
-     * The type of sbml element that the RoadRunner::setParameterValue
-     * and RoadRunner::getParameterValue method operate on.
-     *
-     * @deprecated use the ExecutableModel methods directly.
-     */
-    enum ParameterType
-    {
-        ptGlobalParameter = 0,
-        ptLocalParameter,
-        ptBoundaryParameter,
-        ptConservationParameter,
-        ptFloatingSpecies
-    };
 
-    /**
-     * Set a sbml model variable to a value.
-     *
-     * @parameterType the type of sbml element
-     */
-    void setParameterValue(const ParameterType parameterType,
-            const int parameterIndex, const double value);
-
-    double getParameterValue(const ParameterType parameterType,
-            const int parameterIndex);
-
-    /**
-     * Changes a given parameter type by the given increment
-     */
-    void changeParameter(ParameterType parameterType,
-            int reactionIndex, int parameterIndex, double originalValue,
-            double increment);
-#endif
 
 
     std::vector<SelectionRecord> getSelectionList();
 
     /**
+     * sets the options and updates the integrator an any
+     * other depedent bits.
+     */
+    void _setSimulateOptions(const SimulateOptions* opt);
+
+    /**
      * private implementation class, can only access if inside
      * the implementation file.
      */
-
-
     class RoadRunnerImpl* impl;
 };
 
