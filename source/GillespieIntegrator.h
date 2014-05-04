@@ -11,12 +11,14 @@
 #include "Integrator.h"
 #include "rrExecutableModel.h"
 
+// bugs in gcc 44 c++ random generator
 #if __cplusplus >= 201103L || defined(_MSC_VER)
 #include <random>
 #define random_ns std
+#define CCP_RANDOM
 #else
-#include <tr1/random>
-#define random_ns std::tr1
+#include <stdlib.h>
+#include <sys/time.h>
 #endif
 
 
@@ -63,7 +65,9 @@ private:
     ExecutableModel *model;
     SimulateOptions options;
 
+#ifdef CPP_RANDOM
     random_ns::mt19937 engine;
+#endif
 
     double timeScale;
     double stoichScale;

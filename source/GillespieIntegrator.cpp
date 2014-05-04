@@ -57,7 +57,6 @@ GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
     // fill stoichData
     model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
-    engine.seed((unsigned long) std::time(0));
 
 }
 
@@ -220,7 +219,13 @@ double GillespieIntegrator::integrate(double t, double hstep)
 
 void GillespieIntegrator::restart(double t0)
 {
+#ifdef CPP_RANDOM
     engine.seed((unsigned long) std::time(0));
+#else
+    timeval tv = {0, 0};
+    gettimeofday(&tv, 0);
+    srand48((long)(tv.tv_sec * tv.tv_usec));
+#endif
 }
 
 void GillespieIntegrator::setListener(IntegratorListenerPtr)
@@ -234,7 +239,11 @@ IntegratorListenerPtr GillespieIntegrator::getListener()
 
 double GillespieIntegrator::urand()
 {
+#ifdef CPP_RANDOM
     return (double) engine() / (double) engine.max();
+#else
+    return drand48();
+#endif
 }
 
 } /* namespace rr */

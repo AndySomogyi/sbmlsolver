@@ -55,22 +55,6 @@ SUITE(CORE_TESTS)
         rr::Logger::setLevel(logLevel);
     }
 
-    TEST(COMPILER)
-    {
-
-        //Copy test model sources to temp folder, and compile there
-
-        Poco::File headerFile(joinPath(gTestDataFolder, "ModelSourceTest.h"));
-        Poco::File sourceFile(joinPath(gTestDataFolder, "ModelSourceTest.c"));
-        headerFile.copyTo(gTempFolder);
-        sourceFile.copyTo(gTempFolder);
-
-        string testSource = joinPath(gTempFolder, "ModelSourceTest.c");
-
-        RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
-        compileSource(aRR, testSource.c_str());
-        freeRRInstance(aRR);
-    }
 
     TEST(RELOADING_MODEL_MODEL_RECOMPILIATION)
     {
