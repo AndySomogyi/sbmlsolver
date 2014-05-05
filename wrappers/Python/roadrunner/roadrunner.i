@@ -975,14 +975,20 @@ namespace std { class ostream{}; }
 
             doPlot = False
             show = True
-            o = self.simulateOptions;
+            o = self.simulateOptions
 
+            # check if we have just a sim options
             if len(args) >= 1:
-                o.start = args[0]
+                if type(args[0]) == type(self.simulateOptions):
+                    o = args[0]
+                else:
+                    o.start = args[0]
 
+            # second arg is treated as sim end time
             if len(args) >= 2:
                 o.end = args[1]
-
+            
+            # third arg is steps
             if len(args) >= 3:
                 o.steps = args[2]
 
@@ -1009,6 +1015,18 @@ namespace std { class ostream{}; }
             return result
 
         def plot(self, show=True):
+            """
+            RoadRunner.plot([show])
+            
+            Plot the previously run simulation result using Matplotlib. 
+
+            This takes the contents of the simulation result and builds a 
+            legend from the selection list. 
+
+            If the optional prameter 'show' [default is True] is given, the pylab 
+            show() method is called. 
+            """
+
             import pylab as p
 
             result = self.getSimulationResult()
