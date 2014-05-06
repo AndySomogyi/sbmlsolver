@@ -110,7 +110,8 @@ static Variant values[] =  {
     Variant(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
     Variant(0),        // ROADRUNNER_DISABLE_WARNINGS
     Variant(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
-    Variant(int(AllChecksON & UnitsCheckOFF))          //SBML_APPLICABLEVALIDATORS
+    Variant(int(AllChecksON & UnitsCheckOFF)),          //SBML_APPLICABLEVALIDATORS
+    Variant(0.00001)   // ROADRUNNER_JACOBIAN_STEP_SIZE
 };
 
 static bool initialized = false;
@@ -171,6 +172,9 @@ static void getKeyNames(StringIntMap& keys)
     keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
     keys["ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES"] = rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
+
+    keys["ROADRUNNER_JACOBIAN_STEP_SIZE"] = rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
+
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");

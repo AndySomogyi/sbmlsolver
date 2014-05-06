@@ -316,8 +316,10 @@ public:
 
     /**
      * Compute the reduced Jacobian at the current operating point.
+     * @param h The step sized used for central difference method.
+     *          If negative, the default value from the config file is used.
      */
-    ls::DoubleMatrix getReducedJacobian();
+    ls::DoubleMatrix getReducedJacobian(double h = -1.0);
 
     /**
      * Returns eigenvalues, first column real part, second column imaginary part

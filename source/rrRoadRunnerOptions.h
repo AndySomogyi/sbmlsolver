@@ -413,6 +413,11 @@ struct RR_DECLSPEC RoadRunnerOptions
     uint32_t flags;
 
     /**
+     * step size used for numeric Jacobian calculations.
+     */
+    double jacobianStepSize;
+
+    /**
      * load default valued from config.
      */
     RoadRunnerOptions();
