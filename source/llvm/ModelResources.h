@@ -57,6 +57,8 @@ public:
 
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
+
+    GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;
 };
 
 } /* namespace rrllvm */

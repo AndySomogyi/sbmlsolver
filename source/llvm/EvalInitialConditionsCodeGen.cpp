@@ -234,7 +234,7 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
         {
             const string& id = *i;
 
-            if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+            if (dataSymbols.isIndependentInitFloatingSpecies(id))
             {
                 modelDataResolver.storeSymbolValue(id,
                         initialValueResolver.loadSymbolValue(id));

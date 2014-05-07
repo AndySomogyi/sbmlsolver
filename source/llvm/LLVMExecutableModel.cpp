@@ -184,7 +184,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesInitAmountsPtr(0),
     setFloatingSpeciesInitAmountsPtr(0),
     getCompartmentInitVolumesPtr(0),
-    setCompartmentInitVolumesPtr(0)
+    setCompartmentInitVolumesPtr(0),
+    getGlobalParameterInitValuePtr(0)
 {
     std::srand((unsigned)std::time(0));
 }
@@ -223,6 +224,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     setFloatingSpeciesInitAmountsPtr(rc->setFloatingSpeciesInitAmountsPtr),
     getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
     setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
+    getGlobalParameterInitValuePtr(rc->getGlobalParameterInitValuePtr),
     eventListeners(modelData->numEvents, EventListenerPtr()) // init eventHandlers vector
 {
 
@@ -650,12 +652,15 @@ void LLVMExecutableModel::reset()
     // eval the initial conditions and rates
     setTime(0.0);
 
-    if (getCompartmentInitVolumesPtr && getFloatingSpeciesInitAmountsPtr)
+    if (getCompartmentInitVolumesPtr && getFloatingSpeciesInitAmountsPtr
+            && getGlobalParameterInitValuePtr)
     {
         // have to set compartments first, these are used to
         // convert between concentrations and amounts.
         unsigned size = max(modelData->numIndCompartments,
                 modelData->numIndFloatingSpecies);
+
+        size = max(size, modelData->numIndGlobalParameters);
 
         double *buffer = new double[size];
         getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
@@ -663,6 +668,12 @@ void LLVMExecutableModel::reset()
 
         getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
         setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+
+        // needed because conserved moiety global parameters depend on
+        // float species init conditions.
+        getGlobalParameterInitValues(modelData->numIndGlobalParameters, 0, buffer);
+        setGlobalParameterValues(modelData->numIndGlobalParameters, 0, buffer);
+
 
         delete[] buffer;
     }
@@ -1727,6 +1738,10 @@ int LLVMExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
         result = setValues(setFloatingSpeciesInitAmountsPtr,
                 &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
+
+    // as a convienice to users, this resets the amounts and whatever depends
+    // on them.
+    reset();
     return result;
 }
 
@@ -1760,6 +1775,17 @@ int LLVMExecutableModel::getCompartmentInitVolumes(int len, const int *indx,
     if (getCompartmentInitVolumesPtr)
     {
         result = getValues(getCompartmentInitVolumesPtr, len, indx, values);
+    }
+    return result;
+}
+
+int LLVMExecutableModel::getGlobalParameterInitValues(int len, const int *indx,
+                double *values)
+{
+    int result = -1;
+    if (getGlobalParameterInitValuePtr)
+    {
+        result = getValues(getGlobalParameterInitValuePtr, len, indx, values);
     }
     return result;
 }

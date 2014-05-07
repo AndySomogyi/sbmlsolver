@@ -50,6 +50,16 @@ GetCompartmentInitVolumeCodeGen::GetCompartmentInitVolumeCodeGen(
 }
 
 
+const char* GetGlobalParameterInitValueCodeGen::FunctionName = "getGlobalParmeterInitValue";
+const char* GetGlobalParameterInitValueCodeGen::IndexArgName = "globalParameterIndex";
+
+GetGlobalParameterInitValueCodeGen::GetGlobalParameterInitValueCodeGen(
+        const ModelGeneratorContext &mgc) :
+        GetInitialValueCodeGenBase<GetGlobalParameterInitValueCodeGen, false>(mgc)
+{
+}
+
+
 
 
 

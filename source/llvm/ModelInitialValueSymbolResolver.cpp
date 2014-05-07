@@ -160,13 +160,6 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
             builder);
 
-    /*************************************************************************/
-    /* AssignmentRule */
-    /*************************************************************************/
-    // can not store anything with an assigment rule, these are determined
-    // by other independent elements.
-    assert(!modelDataSymbols.hasAssignmentRule(symbol));
-
 
     if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
     {

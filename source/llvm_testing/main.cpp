@@ -229,7 +229,11 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    rr::RoadRunner r(argv[1]);
+    rr::LoadSBMLOptions lo;
+
+    lo.modelGeneratorOpt |= rr::LoadSBMLOptions::CONSERVED_MOIETIES;
+
+    rr::RoadRunner r(argv[1], &lo);
 
     rr::SimulateOptions o;
 

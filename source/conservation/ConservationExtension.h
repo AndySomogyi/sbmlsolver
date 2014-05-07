@@ -89,6 +89,12 @@ public:
   static bool getConservedMoiety(const libsbml::Parameter& p);
 
 
+  /**
+   * check if the document is already a conserved moeity document
+   */
+  static bool isConservedMoietyDocument(const libsbml::SBMLDocument*);
+
+
 
   /**
    * Constructor
