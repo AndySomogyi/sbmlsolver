@@ -33,13 +33,7 @@ ELSE(SWIG_FOUND)
     message("could not find SWIG in your system")
 ENDIF(SWIG_FOUND)
 
-if(WIN32)
-    install(FILES INSTALL.txt setup.py MANIFEST.in install_roadrunner_win.py
+install(FILES INSTALL.txt setup.py MANIFEST.in 
         DESTINATION .    
-        )
-else()
-    install(FILES INSTALL.txt setup.py MANIFEST.in 
-        DESTINATION .    
-        )
-endif(WIN32)
+       )
 

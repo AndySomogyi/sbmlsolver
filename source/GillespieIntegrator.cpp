@@ -219,7 +219,7 @@ double GillespieIntegrator::integrate(double t, double hstep)
 
 void GillespieIntegrator::restart(double t0)
 {
-#ifdef CPP_RANDOM
+#ifdef RR_CXX_RANDOM
     engine.seed((unsigned long) std::time(0));
 #else
     timeval tv = {0, 0};
@@ -239,7 +239,7 @@ IntegratorListenerPtr GillespieIntegrator::getListener()
 
 double GillespieIntegrator::urand()
 {
-#ifdef CPP_RANDOM
+#ifdef RR_CXX_RANDOM
     return (double) engine() / (double) engine.max();
 #else
     return drand48();
