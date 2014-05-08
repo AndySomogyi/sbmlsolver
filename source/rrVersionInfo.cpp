@@ -49,7 +49,7 @@ std::string getVersionStr(unsigned options)
 
 std::string getCopyrightStr()
 {
-    return "(C) 2009-2013  Andy Somogyi, Totte Karlsson, HM. Sauro, Apache License, Version 2.0";
+    return "(C) 2009-2014  Andy Somogyi, Totte Karlsson, HM. Sauro, Apache License, Version 2.0";
 }
 
 

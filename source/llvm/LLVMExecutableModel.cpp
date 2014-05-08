@@ -1715,6 +1715,10 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
         result = setValues(setFloatingSpeciesInitConcentrationsPtr,
                 &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
+
+    // as a convienice to users, this resets the amounts and whatever depends
+    // on them.
+    reset();
     return result;
 }
 

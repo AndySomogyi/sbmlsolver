@@ -1391,6 +1391,8 @@ DoubleMatrix RoadRunner::getFullJacobian()
             throw CoreException(gEmptyModelMessage);
         }
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
+
+        // ptr to libstruct owned obj.
         DoubleMatrix *rsm;
         LibStructural *ls = getLibStruct();
         if (impl->conservedMoietyAnalysis)
@@ -1401,7 +1403,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
         {
             rsm = ls->getStoichiometryMatrix();
         }
-       return mult(*rsm, uelast);
+       return ls::mult(*rsm, uelast);
 
     }
     catch (const Exception& e)
@@ -2372,101 +2374,128 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     return getuCC(variableName, parameterName)*parameterValue/variableValue;
 }
 
-//[Ignore]
-// Get a single species elasticity value
-// IMPORTANT:
-// Assumes that the reaction rates have been precomputed at the operating point !!
+
 double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex)
 {
+    // TODO this will not work corrrectly where there are rate rules
+    get_self();
     double value;
-    double originalParameterValue = 0;
-    impl->model->getFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
+    double originalConc = 0;
+    double result = std::numeric_limits<double>::quiet_NaN();
 
-    double hstep = impl->mDiffStepSize*originalParameterValue;
-    if (fabs(hstep) < 1E-12)
-    {
-        hstep = impl->mDiffStepSize;
-    }
+    // note setting init values auotmatically sets the current values to the
+    // init values
 
-    impl->model->convertToConcentrations();
+    // this causes a reset, so need to save the current amounts to set them back
+    // as init conditions.
+    std::vector<double> conc(self.model->getNumFloatingSpecies());
+    self.model->getFloatingSpeciesConcentrations(conc.size(), 0, &conc[0]);
 
-    value = originalParameterValue + hstep;
-    impl->model->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
+    // save the original init values
+    std::vector<double> initConc(self.model->getNumFloatingSpecies());
+    self.model->getFloatingSpeciesInitConcentrations(initConc.size(), 0, &initConc[0]);
 
+    // get the original value
+    self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &originalConc);
+
+    // now we start changing things
     try
     {
-        impl->model->evalReactionRates();
+        // set init amounts to current amounts, restore them later.
+        // have to do this as this is only way to set conserved moiety values
+        self.model->setFloatingSpeciesInitConcentrations(conc.size(), 0, &conc[0]);
+
+        // sanity check
+        assert(originalConc == conc[speciesIndex]);
+        double tmp = 0;
+        self.model->getFloatingSpeciesInitConcentrations(1, &speciesIndex, &tmp);
+        assert(originalConc == tmp);
+        self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &tmp);
+        assert(originalConc == tmp);
+
+        // things check out, start fiddling...
+
+        double hstep = self.mDiffStepSize*originalConc;
+        if (fabs(hstep) < 1E-12)
+        {
+            hstep = self.mDiffStepSize;
+        }
+
+        value = originalConc + hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
+
         double fi = 0;
-        impl->model->getReactionRates(1, &reactionId, &fi);
+        self.model->getReactionRates(1, &reactionId, &fi);
 
-        value = originalParameterValue + 2*hstep;
-        impl->model->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
-        impl->model->evalReactionRates();
+        value = originalConc + 2*hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
         double fi2 = 0;
-        impl->model->getReactionRates(1, &reactionId, &fi2);
+        self.model->getReactionRates(1, &reactionId, &fi2);
 
-        value = originalParameterValue - hstep;
-        impl->model->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
-        impl->model->evalReactionRates();
+        value = originalConc - hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
         double fd = 0;
-        impl->model->getReactionRates(1, &reactionId, &fd);
+        self.model->getReactionRates(1, &reactionId, &fd);
 
-        value = originalParameterValue - 2*hstep;
-        impl->model->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
-        impl->model->evalReactionRates();
+        value = originalConc - 2*hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
         double fd2 = 0;
-        impl->model->getReactionRates(1, &reactionId, &fd2);
+        self.model->getReactionRates(1, &reactionId, &fd2);
 
-        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
+        // Use instead the 5th order approximation
+        // double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
         double f1 = fd2 + 8*fi;
         double f2 = -(8*fd + fi2);
 
-        // What ever happens, make sure we restore the species level
-        impl->model->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
-        return 1/(12*hstep)*(f1 + f2);
+        result = 1/(12*hstep)*(f1 + f2);
     }
-    catch(const Exception& e)
+    catch(const std::exception& e)
     {
-        Log(Logger::LOG_ERROR)<<"Something went wrong in "<<__FUNCTION__;
-        Log(Logger::LOG_ERROR)<<"Exception "<<e.what()<< " thrown";
-                // What ever happens, make sure we restore the species level
-        impl->model->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
-        return gDoubleNaN;
+        // What ever happens, make sure we restore the species level
+        self.model->setFloatingSpeciesInitConcentrations(
+                initConc.size(), 0, &initConc[0]);
+
+        // only set the indep species, setting dep species is not permitted.
+        self.model->setFloatingSpeciesConcentrations(
+                self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+
+        throw e;
     }
+
+    // What ever happens, make sure we restore the species level
+    self.model->setFloatingSpeciesInitConcentrations(
+            initConc.size(), 0, &initConc[0]);
+
+    // only set the indep species, setting dep species is not permitted.
+    self.model->setFloatingSpeciesConcentrations(
+            self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+
+    return result;
 }
 
 
-//        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
+
 DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 {
-    try
+    get_self();
+
+    if (!self.model)
     {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        DoubleMatrix uElastMatrix(impl->model->getNumReactions(), impl->model->getNumFloatingSpecies());
-        impl->model->convertToConcentrations();
-
-        // Compute reaction velocities at the current operating point
-        impl->model->evalReactionRates();
-
-        for (int i = 0; i < impl->model->getNumReactions(); i++)
-        {
-            for (int j = 0; j < impl->model->getNumFloatingSpecies(); j++)
-            {
-                uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
-            }
-        }
-
-        return uElastMatrix;
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
+
+    DoubleMatrix uElastMatrix(self.model->getNumReactions(), self.model->getNumFloatingSpecies());
+
+    for (int i = 0; i < self.model->getNumReactions(); i++)
     {
-        throw CoreException("Unexpected error from unscaledElasticityMatrix()", e.Message());
+        for (int j = 0; j < self.model->getNumFloatingSpecies(); j++)
+        {
+            uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
+        }
     }
+
+    return uElastMatrix;
 }
 
 DoubleMatrix RoadRunner::getScaledElasticityMatrix()

@@ -248,6 +248,16 @@ int main(int argc, char* argv[])
     std::cout << *d << std::endl;
 
 
+    std::cout << "getting full jacobian" << std::endl;
+
+
+    ls::DoubleMatrix fj = r.getFullJacobian();
+
+
+
+
+
+
 
     return 0;
 }

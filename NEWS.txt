@@ -1,5 +1,8 @@
 -- Version 1.2.0
 
+*   Enabled mutable initial conditions when conserved moities are used, implemented Jacobian 
+    calculation when conserved moieties are used. 
+
 *   Fixed memory leaks related to how CVODE is used. With the mem leaks fixed, we leak a total of 16
     bytes ONCE, in a 3rd party library  in the beginning for running the entire test suite. 
 
