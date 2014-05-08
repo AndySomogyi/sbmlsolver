@@ -379,7 +379,7 @@ string format(const string& src, const int& arg)
     return substitute(src, "{0}", toString(arg));
 }
 
-string format(const string& str1, const int& arg1, const double& arg2)
+string format(const string& str1, const int& arg1, const int& arg2)
 {
     string token1("{0}");
     string token2("{1}");
