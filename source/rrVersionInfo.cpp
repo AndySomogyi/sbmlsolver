@@ -1,4 +1,5 @@
 #include "rrVersionInfo.h"
+#include "rrStringUtils.h"
 #include <sbml/common/libsbml-version.h>
 
 
@@ -22,6 +23,8 @@ std::string getVersionStr(unsigned options)
     if (options & VERSIONSTR_COMPILER)
     {
         result += std::string("Compiler: ") + std::string(RR_COMPILER);
+
+        result += ", C++ version: " + rr::toString((long)__cplusplus);
 
         if (options & VERSIONSTR_DATE)
         {
