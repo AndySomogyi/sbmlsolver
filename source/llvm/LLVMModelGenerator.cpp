@@ -26,9 +26,9 @@ using rr::Compiler;
 namespace rrllvm
 {
 
-typedef std::tr1::weak_ptr<ModelResources> WeakModelPtr;
-typedef std::tr1::shared_ptr<ModelResources> SharedModelPtr;
-typedef std::tr1::unordered_map<std::string, WeakModelPtr> ModelPtrMap;
+typedef cxx11_ns::weak_ptr<ModelResources> WeakModelPtr;
+typedef cxx11_ns::shared_ptr<ModelResources> SharedModelPtr;
+typedef cxx11_ns::unordered_map<std::string, WeakModelPtr> ModelPtrMap;
 
 static Poco::Mutex cachedModelsMutex;
 static ModelPtrMap cachedModels;

@@ -29,11 +29,11 @@ public:
 
     void setOnTimeStep(PyObject *py)
     {
-		if (py == Py_None) {
-			Py_XDECREF(pyOnTimeStep);  /* Dispose of previous callback */
-			pyOnTimeStep = NULL;
-			return;
-		}
+        if (py == Py_None) {
+            Py_XDECREF(pyOnTimeStep);  /* Dispose of previous callback */
+            pyOnTimeStep = NULL;
+            return;
+        }
 
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
@@ -47,20 +47,20 @@ public:
     PyObject* getOnTimeStep()
     {
         if (pyOnTimeStep) {
-			return pyOnTimeStep;
-		} else {
-			Py_RETURN_NONE;
-		}
+            return pyOnTimeStep;
+        } else {
+            Py_RETURN_NONE;
+        }
     }
 
     void setOnEvent(PyObject* py)
     {
-		if (py == Py_None) {
-			Py_XDECREF(pyOnEvent);  /* Dispose of previous callback */
-			pyOnEvent = NULL;
-			return;
-		}
-			
+        if (py == Py_None) {
+            Py_XDECREF(pyOnEvent);  /* Dispose of previous callback */
+            pyOnEvent = NULL;
+            return;
+        }
+
         if (!PyCallable_Check(py)) {
             throw std::invalid_argument("argument must be callable");
         }
@@ -74,10 +74,10 @@ public:
     PyObject *getOnEvent()
     {
         if (pyOnEvent) {
-			return pyOnEvent;
-		} else {
-			Py_RETURN_NONE;
-		}
+            return pyOnEvent;
+        } else {
+            Py_RETURN_NONE;
+        }
     }
 
 
@@ -211,7 +211,7 @@ private:
  * listeners are shared objects, so use std smart pointers
  * to manage them.
  */
-typedef std::tr1::shared_ptr<rr::PyIntegratorListener> PyIntegratorListenerPtr;
+typedef cxx11_ns::shared_ptr<rr::PyIntegratorListener> PyIntegratorListenerPtr;
 
 
 }

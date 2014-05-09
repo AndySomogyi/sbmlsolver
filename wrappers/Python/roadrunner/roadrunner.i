@@ -987,7 +987,7 @@ namespace std { class ostream{}; }
             # second arg is treated as sim end time
             if len(args) >= 2:
                 o.end = args[1]
-            
+
             # third arg is steps
             if len(args) >= 3:
                 o.steps = args[2]
@@ -1017,14 +1017,14 @@ namespace std { class ostream{}; }
         def plot(self, show=True):
             """
             RoadRunner.plot([show])
-            
-            Plot the previously run simulation result using Matplotlib. 
 
-            This takes the contents of the simulation result and builds a 
-            legend from the selection list. 
+            Plot the previously run simulation result using Matplotlib.
 
-            If the optional prameter 'show' [default is True] is given, the pylab 
-            show() method is called. 
+            This takes the contents of the simulation result and builds a
+            legend from the selection list.
+
+            If the optional prameter 'show' [default is True] is given, the pylab
+            show() method is called.
             """
 
             import pylab as p
@@ -2067,8 +2067,8 @@ namespace std { class ostream{}; }
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
-        std::tr1::shared_ptr<rr::IntegratorListener> i =
-            std::tr1::dynamic_pointer_cast<rr::IntegratorListener>(listener);
+        cxx11_ns::shared_ptr<rr::IntegratorListener> i =
+            cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
@@ -2082,7 +2082,7 @@ namespace std { class ostream{}; }
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
         rr::PyIntegratorListenerPtr ptr =
-            std::tr1::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
+            cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 

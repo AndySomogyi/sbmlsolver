@@ -13,10 +13,12 @@
 #include "rrRoadRunnerOptions.h"
 #include <stdexcept>
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
+#define cxx11_ns std::tr1
 #endif
 
 namespace rr
@@ -59,7 +61,7 @@ public:
  * listeners are shared objects, so use std smart pointers
  * to manage them.
  */
-typedef std::tr1::shared_ptr<IntegratorListener> IntegratorListenerPtr;
+typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
 
 /**
  * Interface to a class which advances a model forward in time.

@@ -14,7 +14,7 @@
 // bugs in gcc 44 c++ random generator
 #if (__cplusplus >= 201103L) || defined(_MSC_VER)
     #include <random>
-    #define random_ns std
+    #define cxx11_ns std
     #define RR_CXX_RANDOM 1
 #else
     #include <stdlib.h>
