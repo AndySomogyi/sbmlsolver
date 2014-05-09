@@ -23,12 +23,15 @@
 #include "TestEvalInitialConditions.h"
 #include "TestGetSetValues.h"
 #include "TestCapabilities.h"
+#include "TestEvalReactionRates.h"
 
 #include "ConfigurableTest.h"
 
 #include "rrRoadRunner.h"
 
 #include "rrLogger.h"
+
+#include "TestVariant.h"
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
@@ -221,31 +224,40 @@ using namespace rr;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 3)
+    if (argc < 2)
     {
-        cout << "usage llvm_tester path_to_model log_level" << std::endl;
-        return 0;
+        return -1;
     }
 
-    try
-    {
-        Logger::Level level = Logger::stringToLevel(argv[2]);
+    rr::LoadSBMLOptions lo;
 
-        cout << "setting log level to " << Logger::levelToString(level) << std::endl;
-        cout << "loading file " << argv[1] << std::endl;
+    lo.modelGeneratorOpt |= rr::LoadSBMLOptions::CONSERVED_MOIETIES;
 
-        Logger::setLevel(level);
+    rr::RoadRunner r(argv[1], &lo);
 
-        RoadRunner r(argv[1]);
+    rr::SimulateOptions o;
 
-        cout << r.getModel()->getInfo();
+    o.integrator = SimulateOptions::GILLESPIE;
+    o.integratorFlags |= SimulateOptions::VARIABLE_STEP;
+    o.duration = atof(argv[2]);
 
-        cout << "all done" << std::endl;
-    }
-    catch(std::exception &e)
-    {
-        cout << "error: " << e.what();
-    }
+    r.simulate(&o);
+
+    rr::RoadRunnerData *d = r.getSimulationResult();
+
+    std::cout << *d << std::endl;
+
+
+    std::cout << "getting full jacobian" << std::endl;
+
+
+    ls::DoubleMatrix fj = r.getFullJacobian();
+
+
+
+
+
+
 
     return 0;
 }

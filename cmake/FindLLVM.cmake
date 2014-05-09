@@ -119,6 +119,27 @@ if (LLVM_CONFIG_EXECUTABLE)
     # this causes problems as most other libs compiled without this.
     # should be OK linking to LLVM as this just results in a slightly larger lib (I think, I hope...)
     string(REPLACE "-fvisibility-inlines-hidden" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+
+    # remove extra warnings that the llvm-config added
+    STRING(REPLACE "-Wcast-qual" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Woverloaded-virtual" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+ 
+    # some LLVMs add these options
+    # -Wall -W -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic 
+    # -Wno-long-long -Wno-uninitialized -Wnon-virtual-dtor
+
+
+    STRING(REPLACE "-Wall" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-W " "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-unused-parameter" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wwrite-strings" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-missing-field-initializers" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-pedantic" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-long-long" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-uninitialized" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wnon-virtual-dtor" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+
+
     MESSAGE(STATUS "LLVM_DEFINITIONS: " ${LLVM_DEFINITIONS})
 
 

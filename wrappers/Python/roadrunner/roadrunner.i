@@ -27,7 +27,7 @@
     #include <lsLUResult.h>
     #include <lsUtils.h>
     #include <rrCompiler.h>
-    #include <rrModelGenerator.h>
+    #include <ModelGenerator.h>
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerData.h>
     #include <rrRoadRunnerOptions.h>
@@ -43,6 +43,7 @@
     #include <assert.h>
     #include <math.h>
     #include <cmath>
+    #include <PyUtils.h>
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -139,7 +140,7 @@
  * Convert from C --> Python
  * reference roadrunner owned data.
  */
-%typemap(out) ls::DoubleMatrix* {
+%typemap(out) const ls::DoubleMatrix* {
 
     int rows = ($1)->numRows();
     int cols = ($1)->numCols();
@@ -151,6 +152,8 @@
             NPY_CARRAY, NULL);
     $result  = pArray;
 }
+
+%apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
 
 /* Convert from C --> Python */
@@ -201,6 +204,32 @@
 
     $result  = array;
 }
+
+%typemap(out) const rr::Variant& {
+    try {
+        const rr::Variant& temp = *($1);
+        $result = Variant_to_py(temp);
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+
+
+%typemap(in) const rr::Variant& (rr::Variant temp) {
+
+    try {
+        temp = Variant_from_py($input);
+        $1 = &temp;
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
+
+
+
 
 
 /*
@@ -580,6 +609,14 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::getOptions;
 
+%rename (_simulate) rr::RoadRunner::simulate;
+
+
+%ignore rr::Config::getInt;
+%ignore rr::Config::getString;
+%ignore rr::Config::getBool;
+%ignore rr::Config::getDouble;
+
 
 
 // rename these, the injected python code will take care of
@@ -707,6 +744,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::Integrator::addIntegratorListener;
 //%ignore rr::Integrator::removeIntegratorListener;
 
+%rename rr::conversion::ConservedMoietyConverter PyConservedMoietyConverter;
 
 %ignore rr::ostream;
 %ignore ostream;
@@ -717,7 +755,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 // ignore all instances of the Configurable methods.
 %ignore *::createConfigNode;
 %ignore *::loadConfig;
-
 
 // Warning 389: operator[] ignored (consider using %extend)
 // Warning 401: Nothing known about base class 'Configurable'. Ignored.
@@ -746,7 +783,7 @@ namespace std { class ostream{}; }
 %include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
-%include <rrModelGenerator.h>
+%include <ModelGenerator.h>
 %include <rrVersionInfo.h>
 
 %thread;
@@ -790,22 +827,13 @@ namespace std { class ostream{}; }
 %extend rr::RoadRunner
 {
     // attributes
-	
-	/**
-	 * make some of these const so SWIG would not allow setting.
-	 */
-	const rr::SimulateOptions *simulateOptions;
+
+    /**
+     * make some of these const so SWIG would not allow setting.
+     */
+    const rr::SimulateOptions *simulateOptions;
 
     rr::RoadRunnerOptions *options;
-
-
-    const rr::RoadRunnerData *simulate(double startTime, double endTime, int steps) {
-        rr::SimulateOptions s = $self->getSimulateOptions();
-        s.start = startTime;
-        s.duration = endTime - startTime;
-        s.steps = steps;
-        return $self->simulate(&s);
-    }
 
     std::string __repr__() {
         std::stringstream s;
@@ -902,6 +930,141 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values(types).__iter__()
+
+
+        def simulate(self, *args, **kwargs):
+            """
+            Simulate the optionally plot current SBML model.
+
+            There are a number of ways to call simulate.
+
+            1. With no arguments. In this case, the current set of `SimulateOptions` will
+            be used for the simulation. The current set may be changed either directly
+            via setSimulateOptions() or with one of the two alternate ways of calling
+            simulate.
+
+            2: With single `SimulateOptions` argument. In this case, all of the settings
+            in the given options are copied and will be used for the current and future
+            simulations.
+
+            3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
+            these three values are copied and will be used for the current and future simulations.
+
+            4: With keyword arguments where keywords are the property names of the SimulateOptions
+            class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
+
+                rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
+
+            The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+            one calls::
+
+                rr.simulate (0, 3, 100)
+
+            The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
+            is followed by a call to::
+
+                rr.simulate()
+
+            This simulation will use the previous values.
+
+            :returns: a numpy array with each selected output time series being a
+             column vector, and the 0'th column is the simulation time.
+            :rtype: numpy.ndarray
+            """
+
+
+            doPlot = False
+            show = True
+            o = self.simulateOptions
+
+            # check if we have just a sim options
+            if len(args) >= 1:
+                if type(args[0]) == type(self.simulateOptions):
+                    o = args[0]
+                else:
+                    o.start = args[0]
+
+            # second arg is treated as sim end time
+            if len(args) >= 2:
+                o.end = args[1]
+
+            # third arg is steps
+            if len(args) >= 3:
+                o.steps = args[2]
+
+            for k,v in kwargs.iteritems():
+                if SimulateOptions.__dict__.has_key(k):
+                    setattr(o, k, v)
+                    continue
+
+                if k == "plot":
+                    doPlot = v
+                    continue
+
+                if k == "show":
+                    show = v
+                    continue
+
+                raise Exception("{0} is not a valid keyword argument".format(k))
+
+            result = self._simulate(o)
+
+            if doPlot:
+                self.plot(show)
+
+            return result
+
+        def plot(self, show=True):
+            """
+            RoadRunner.plot([show])
+
+            Plot the previously run simulation result using Matplotlib.
+
+            This takes the contents of the simulation result and builds a
+            legend from the selection list.
+
+            If the optional prameter 'show' [default is True] is given, the pylab
+            show() method is called.
+            """
+
+            import pylab as p
+
+            result = self.getSimulationResult()
+
+            if result is None:
+                raise Exception("no simulation result")
+
+            # check if standard numpy array
+            if result.dtype.names is None:
+
+                selections = self.selections
+
+                if len(result.shape) != 2 or result.shape[1] != len(selections):
+                    raise Exception("simulation result columns not equal to number of selections, likely a simulation has not been run")
+
+                times = result[:,0]
+
+                for i in range(1, len(selections)):
+                    series = result[:,i]
+                    name = selections[i]
+                    p.plot(times, series, label='$' + str(name) + '$')
+
+            # result is structured array
+            else:
+                if len(result.dtype.names) < 1:
+                    raise Exception('no columns to plot')
+
+                time = result.dtype.names[0]
+
+                for name in result.dtype.names[1:]:
+                    p.plot(result[time], result[name], label='$' + name + '$')
+
+            p.legend()
+
+            if show:
+                p.show()
+
+
     %}
 }
 
@@ -942,13 +1105,21 @@ namespace std { class ostream{}; }
     double end;
     bool resetModel;
     bool stiff;
-	bool multiStep;
+    bool multiStep;
     bool structuredResult;
+    bool variableStep;
+    rr::SimulateOptions::Integrator integrator;
 
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.SimulateOptions() { this = " << (void*)$self << " }>";
         return s.str();
+    }
+
+    int test() {
+        std::cout << "sizeof: " << sizeof(rr::SimulateOptions) << std::endl;
+        std::cout << "integrator: " << $self->integrator;
+        return 0;
     }
 
     std::string __str__() {
@@ -1003,7 +1174,7 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::STIFF;
+        return opt->integratorFlags & SimulateOptions::STIFF;
     }
 
     void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
@@ -1023,6 +1194,46 @@ namespace std { class ostream{}; }
             opt->integratorFlags |= SimulateOptions::MULTI_STEP;
         } else {
             opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+        }
+    }
+
+    bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
+        return opt->integratorFlags & SimulateOptions::VARIABLE_STEP;
+    }
+
+    void rr_SimulateOptions_variableStep_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->integratorFlags |= SimulateOptions::VARIABLE_STEP;
+        } else {
+            opt->integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
+        }
+    }
+
+    rr::SimulateOptions::Integrator rr_SimulateOptions_integrator_get(SimulateOptions* opt) {
+        return opt->integrator;
+    }
+
+    void rr_SimulateOptions_integrator_set(SimulateOptions* opt, rr::SimulateOptions::Integrator value) {
+
+        // set the value
+        opt->integrator = value;
+
+        // adjust the value of the VARIABLE_STEP based on wether we are choosing
+        // stochastic or deterministic integrator.
+        bool vs = false;
+
+        if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
+            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+        }
+
+        else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
+            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+        }
+
+        if (vs) {
+            opt->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+        } else {
+            opt->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
         }
     }
 
@@ -1067,7 +1278,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_conservedMoieties_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::CONSERVED_MOIETIES;
     }
-    
+
 
     void rr_LoadSBMLOptions_conservedMoieties_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1081,7 +1292,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_noDefaultSelections_get(rr::LoadSBMLOptions* opt) {
         return opt->loadFlags & rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
-    
+
     void rr_LoadSBMLOptions_noDefaultSelections_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
             opt->loadFlags |= rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
@@ -1093,7 +1304,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_mutableInitialConditions_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
     }
-    
+
 
     void rr_LoadSBMLOptions_mutableInitialConditions_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1106,7 +1317,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_recompile_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::RECOMPILE;
     }
-    
+
 
     void rr_LoadSBMLOptions_recompile_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1119,7 +1330,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_readOnly_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::READ_ONLY;
     }
-    
+
 
     void rr_LoadSBMLOptions_readOnly_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1257,6 +1468,11 @@ namespace std { class ostream{}; }
 
     PyObject *getFloatingSpeciesInitConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitConcentrations,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+    }
+
+    PyObject *getFloatingSpeciesInitAmounts() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitAmounts,
                                           &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
@@ -1762,25 +1978,25 @@ namespace std { class ostream{}; }
     }
 
     rr::PyEventListener *getEvent(const std::string& eventId) {
-		int index = ($self)->getEventIndex(eventId);
+        int index = ($self)->getEventIndex(eventId);
 
-		if (index >= 0) {
-			ExecutableModel *p = $self;
-			EventListenerPtr e = p->getEventListener(index);
-			
-			if(e) {
-				PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
-				return impl;
-			} else {
-				PyEventListener *impl = new PyEventListener();
-				p->setEventListener(index, EventListenerPtr(impl));
-				return impl;
-			}
+        if (index >= 0) {
+            ExecutableModel *p = $self;
+            EventListenerPtr e = p->getEventListener(index);
 
-		} else {
-			throw std::out_of_range(std::string("could not find index for event ") + eventId);
-		}
-	}
+            if(e) {
+                PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
+                return impl;
+            } else {
+                PyEventListener *impl = new PyEventListener();
+                p->setEventListener(index, EventListenerPtr(impl));
+                return impl;
+            }
+
+        } else {
+            throw std::out_of_range(std::string("could not find index for event ") + eventId);
+        }
+    }
 
     %pythoncode %{
         def _makeProperties(self) :
@@ -1851,8 +2067,8 @@ namespace std { class ostream{}; }
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
-        std::tr1::shared_ptr<rr::IntegratorListener> i = 
-            std::tr1::dynamic_pointer_cast<rr::IntegratorListener>(listener);
+        cxx11_ns::shared_ptr<rr::IntegratorListener> i =
+            cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
@@ -1865,26 +2081,26 @@ namespace std { class ostream{}; }
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
-        rr::PyIntegratorListenerPtr ptr = 
-            std::tr1::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
+        rr::PyIntegratorListenerPtr ptr =
+            cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 
         return ptr;
     }
 
-	void _clearListener() {
-		rr::IntegratorListenerPtr current = ($self)->getListener();
-		
-		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+    void _clearListener() {
+        rr::IntegratorListenerPtr current = ($self)->getListener();
 
-		($self)->setListener(rr::IntegratorListenerPtr());
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
-		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
-	}
+        ($self)->setListener(rr::IntegratorListenerPtr());
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+    }
 
     // we want to get the listener back as a PyIntegratorListener, however
-    // swig won't let us ignore by return value and if we ignore getListener, 
+    // swig won't let us ignore by return value and if we ignore getListener,
     // it ignores any extended version. So, we have to make an extended
     // _getListener() above, and call it from python like this.
     %pythoncode %{
@@ -1899,7 +2115,7 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
-        if _newclass: listener = property(getListener, setListener) 	
+        if _newclass: listener = property(getListener, setListener)
     %}
 }
 
@@ -1907,7 +2123,7 @@ namespace std { class ostream{}; }
     %pythoncode %{
         __swig_getmethods__["onTimeStep"] = getOnTimeStep
         __swig_setmethods__["onTimeStep"] = setOnTimeStep
-        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep) 	
+        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep)
 
         __swig_getmethods__["onEvent"] = getOnEvent
         __swig_setmethods__["onEvent"] = setOnEvent

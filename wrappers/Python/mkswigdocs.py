@@ -126,7 +126,8 @@ srcFiles = ["doc/mod_roadrunner/cls_ExecutableModel.rst",
             "doc/mod_roadrunner/cls_SimulateOptions.rst", 
             "doc/mod_roadrunner/cls_LoadSBMLOptions.rst", 
             "doc/mod_roadrunner/cls_Logger.rst",
-            "doc/mod_roadrunner/cls_Config.rst"]
+            "doc/mod_roadrunner/cls_Config.rst",
+            "doc/mod_roadrunner/cls_PyConservedMoietyConverter.rst"]
 
 for f in srcFiles:
     read_docs(out, f)

@@ -36,24 +36,22 @@
 
 #endif // _MSC_VER
 
-#ifndef DEPRECATED
-    #ifdef __GNUC__
-        #define DEPRECATED(func) func __attribute__ ((deprecated))
-    #elif defined(_MSC_VER)
-        #define DEPRECATED(func) __declspec(deprecated) func
-    #elif defined(__BORLANDC__)
-        #define DEPRECATED(func) __declspec(deprecated) func
-    #else
-        #pragma message("WARNING: You need to implement DEPRECATED for this compiler")
-        #define DEPRECATED(func) func
-    #endif
+
+#if defined (__GNUC__) || defined(__clang__)
+    #define RR_DEPRECATED(func) func __attribute__ ((deprecated))
+#elif defined(_MSC_VER)
+    #define RR_DEPRECATED(func) __declspec(deprecated) func
+#else
+#pragma message("WARNING: You need to implement DEPRECATED for this compiler")
+    #define RR_DEPRECATED(func) func
 #endif
 
-#if defined(_MSC_VER) 
+
+#if defined(_MSC_VER)
     #define rrCallConv __cdecl
 #elif defined(__BORLANDC__)
     #define rrCallConv __cdecl
-#else	
+#else
     #define rrCallConv
 #endif
 

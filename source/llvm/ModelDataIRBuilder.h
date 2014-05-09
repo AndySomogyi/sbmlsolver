@@ -65,8 +65,7 @@ public:
     /**
      * the GEP for a compartment
      */
-    llvm::Value* createCompGEP(const std::string& id,
-            const llvm::Twine &name = "");
+    llvm::Value* createCompGEP(const std::string& id);
 
     /**
      * load the compartment value

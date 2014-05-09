@@ -34,7 +34,7 @@ static std::vector<std::pair<uint, std::string> > independentElements(const LLVM
     for(std::vector<string>::const_iterator i = elements.begin();
             i != elements.end(); ++i)
     {
-        if (dataSymbols.isIndependentInitElement(*i))
+        if (dataSymbols.isIndependentInitFloatingSpecies(*i))
         {
             pair<uint, string> value(i - elements.begin(), *i);
             result.push_back(value);

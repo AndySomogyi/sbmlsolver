@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "rrCVODEInterface.h"
+#include "CVODEIntegrator.h"
 #include "rrExecutableModel.h"
 #include "rrException.h"
 #include "rrLogger.h"
@@ -26,13 +26,22 @@ namespace rr
 int cvodeDyDtFcn(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *userData);
 int cvodeRootFcn (realtype t, N_Vector y, realtype *gout, void *userData);
 
-// N_Vector is a point to an N_Vector structure
-RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
-RR_DECLSPEC double      GetVector (N_Vector v, int Index);
+// Sets the value of an element in a N_Vector object
+inline void SetVector (N_Vector v, int Index, double Value)
+{
+    double *data = NV_DATA_S(v);
+    data[Index] = Value;
+}
 
-const int CvodeInterface::mDefaultMaxNumSteps = 10000;
-const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
-const int CvodeInterface::mDefaultMaxBDFOrder = 5;
+inline double GetVector (N_Vector v, int Index)
+{
+    double *data = NV_DATA_S(v);
+    return data[Index];
+}
+
+const int CVODEIntegrator::mDefaultMaxNumSteps = 10000;
+const int CVODEIntegrator::mDefaultMaxAdamsOrder = 12;
+const int CVODEIntegrator::mDefaultMaxBDFOrder = 5;
 
 /**
  * Purpose
@@ -70,49 +79,17 @@ static std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
           cvodeDecodeError(errCode); \
           throw IntegratorException(_err_what, std::string(__FUNC__)); }
 
-void CvodeInterface::setListener(IntegratorListenerPtr p)
+void CVODEIntegrator::setListener(IntegratorListenerPtr p)
 {
     listener = p;
 }
 
-IntegratorListenerPtr CvodeInterface::getListener()
+IntegratorListenerPtr CVODEIntegrator::getListener()
 {
     return listener;
 }
 
-void* CvodeInterface::createCvode(const SimulateOptions* options)
-{
-    void* result = 0;
-
-    if (options && (options->integratorFlags & SimulateOptions::STIFF))
-    {
-        Log(Logger::LOG_INFORMATION) << "using stiff integrator";
-        result = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-    }
-    else
-    {
-        Log(Logger::LOG_INFORMATION) << "using non-stiff integrator";
-        result = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
-    }
-
-    assert(result && "could not create Cvode, CVodeCreate failed");
-
-    CVodeSetErrHandlerFn(result, cvodeErrHandler, NULL);
-
-    //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
-
-    //CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
-    //CVodeSetInitStep(mCVODE_Memory, mInitStep);
-    //CVodeSetMinStep(mCVODE_Memory, mMinStep);
-    //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
-    CVodeSetMaxNumSteps(result, mDefaultMaxNumSteps);
-
-    return result;
-}
-
-
-
-CvodeInterface::CvodeInterface(ExecutableModel *aModel, const SimulateOptions* options)
+CVODEIntegrator::CVODEIntegrator(ExecutableModel *aModel, const SimulateOptions* options)
 :
 mStateVector(NULL),
 mAbstolArray(NULL),
@@ -123,11 +100,15 @@ mOneStepCount(0),
 mFollowEvents(true),
 mMaxAdamsOrder(mDefaultMaxAdamsOrder),
 mMaxBDFOrder(mDefaultMaxBDFOrder),
+mModel(aModel),
+stateVectorVariables(false),
 options(*options)
 {
+    Log(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
+
     if(aModel)
     {
-        initializeCVODEInterface(aModel);
+        createCVode();
     }
 
     // if we pass a 0, we re-load all the values from our options.
@@ -135,30 +116,32 @@ options(*options)
     setSimulateOptions(0);
 }
 
-CvodeInterface::~CvodeInterface()
+CVODEIntegrator::~CVODEIntegrator()
 {
-    // cvode does not check for null values.
-    if(mCVODE_Memory)
-    {
-        CVodeFree( &mCVODE_Memory);
-    }
-
-    if(mStateVector)
-    {
-        N_VDestroy_Serial(mStateVector);
-    }
-
-    if(mAbstolArray)
-    {
-        N_VDestroy_Serial(mAbstolArray);
-    }
+    freeCVode();
 }
 
-void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
+void CVODEIntegrator::setSimulateOptions(const SimulateOptions* o)
 {
+    if (o && (o->integratorFlags & SimulateOptions::STIFF) !=
+            (options.integratorFlags & SimulateOptions::STIFF))
+    {
+        // if the integrator is changed from stiff to standard, this
+        // requires re-creating the CVode objects.
+        Log(Logger::LOG_INFORMATION) << "re-creating CVode, interator stiffness has changed";
+        options = *o;
+        freeCVode();
+        createCVode();
+    }
     if(o)
     {
+        // don't need to re-create, can just set params.
         options = *o;
+    }
+
+    if (mCVODE_Memory == 0)
+    {
+        return;
     }
 
     if (options.initialTimeStep > 0)
@@ -180,6 +163,10 @@ void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
     {
         CVodeSetMaxNumSteps(mCVODE_Memory, options.maximumNumSteps);
     }
+    else
+    {
+        CVodeSetMaxNumSteps(mCVODE_Memory, mDefaultMaxNumSteps);
+    }
 
     // if mAbstolArray, also have mStateVector
     if (mAbstolArray)
@@ -195,40 +182,7 @@ void CvodeInterface::setSimulateOptions(const SimulateOptions* o)
     }
 }
 
-int CvodeInterface::allocateCvodeMem()
-{
-    if (mCVODE_Memory == NULL)
-    {
-        return CV_SUCCESS;
-    }
-
-    double t0 = 0.0;
-    if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
-    {
-        Log(Logger::LOG_ERROR)<<"Problem in setting CVODE User data";
-    }
-
-    int result =  CVodeInit(mCVODE_Memory, cvodeDyDtFcn, t0, mStateVector);
-
-    if (result != CV_SUCCESS)
-    {
-        return result;
-    }
-    return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
-}
-
-int CvodeInterface::rootInit(int numRoots)
-{
-    if (mCVODE_Memory == NULL)
-    {
-         return CV_SUCCESS;
-    }
-
-    return CVodeRootInit (mCVODE_Memory, numRoots, cvodeRootFcn);
-}
-
-// Initialize cvode with a new set of initial conditions
-int CvodeInterface::reInit(double t0)
+int CVODEIntegrator::reInit(double t0)
 {
     if (mCVODE_Memory == NULL)
     {
@@ -245,7 +199,7 @@ int CvodeInterface::reInit(double t0)
     return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
 }
 
-double CvodeInterface::integrate(double timeStart, double hstep)
+double CVODEIntegrator::integrate(double timeStart, double hstep)
 {
     Log(lDebug3)<<"---------------------------------------------------";
     Log(lDebug3)<<"--- O N E     S T E P      ( "<<mOneStepCount<< " ) ";
@@ -257,7 +211,8 @@ double CvodeInterface::integrate(double timeStart, double hstep)
     double tout = timeStart + hstep;
     int strikes = 3;
 
-    const int itask = options.integratorFlags & SimulateOptions::MULTI_STEP
+    const int itask = ((options.integratorFlags & SimulateOptions::MULTI_STEP)
+            || (options.integratorFlags & SimulateOptions::VARIABLE_STEP))
             ? CV_ONE_STEP : CV_NORMAL;
 
     // get the original event status
@@ -265,13 +220,8 @@ double CvodeInterface::integrate(double timeStart, double hstep)
 
 
     // here we stop for a too small timestep ... this seems troublesome to me ...
-    while (tout - timeEnd > 1E-16)
+    while (tout - timeEnd >= 1E-16)
     {
-        if (hstep < 1E-16)
-        {
-            return tout;
-        }
-
         // here we bail in case we have no ODEs set up with CVODE ... though we should
         // still at least evaluate the model function
         if (!haveVariables() && mModel->getNumEvents() == 0)
@@ -283,7 +233,7 @@ double CvodeInterface::integrate(double timeStart, double hstep)
 
         if (mLastTimeValue > timeStart)
         {
-            reStart(timeStart);
+            restart(timeStart);
         }
 
         double nextTargetEndTime = tout;
@@ -322,7 +272,7 @@ double CvodeInterface::integrate(double timeStart, double hstep)
             {
                 // evaluate events
                 handleRootsForTime(timeEnd, eventStatus);
-                reStart(timeEnd);
+                restart(timeEnd);
                 mLastEvent = timeEnd;
 
                 if (listener)
@@ -352,9 +302,9 @@ double CvodeInterface::integrate(double timeStart, double hstep)
         {
             mModel->testConstraints();
         }
-        catch (const Exception& e)
+        catch (const std::exception& e)
         {
-            Log(lWarning)<<"Constraint Violated at time = " + toString(timeEnd)<<": " + e.Message();
+            Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
         }
 
         assignPendingEvents(timeEnd, tout);
@@ -363,115 +313,140 @@ double CvodeInterface::integrate(double timeStart, double hstep)
         {
             timeStart = timeEnd;
         }
-        Log(lDebug3)<<"tout: "<<tout<<gTab<<"timeEnd: "<<timeEnd;
+        Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
+
+        if (options.integratorFlags & SimulateOptions::VARIABLE_STEP)
+        {
+            return timeEnd;
+        }
     }
     return timeEnd;
 
 }
 
-bool CvodeInterface::haveVariables()
+bool CVODEIntegrator::haveVariables()
 {
-    return (mStateVectorSize > 0) ? true : false;
+    return stateVectorVariables;
 }
 
-void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
+void CVODEIntegrator::createCVode()
 {
-    if(!oModel)
+    if(!mModel)
     {
-        throw CVODEException("Fatal Error while initializing CVODE");
+        return;
     }
 
-    try
-    {
-        mModel = oModel;
-        mStateVectorSize = oModel->getStateVector(0);
+    assert(mStateVector == 0 &&  mAbstolArray == 0 && mCVODE_Memory == 0 &&
+            "calling cvodeCreate, but cvode objects already exist");
 
-        if (mStateVectorSize > 0)
+    // still need cvode state vector size if we have no vars, but have
+    // events, needed so root finder works.
+    int allocStateVectorSize = 0;
+    int realStateVectorSize = mModel->getStateVector(0);
+
+    // cvode return code
+    int err;
+
+    if(realStateVectorSize > 0)
+    {
+        stateVectorVariables = true;
+        allocStateVectorSize = realStateVectorSize;
+    }
+    else if (mModel->getNumEvents() > 0)
+    {
+        allocStateVectorSize = 1;
+        stateVectorVariables = false;
+    }
+    else
+    {
+        stateVectorVariables = false;
+        return;
+    }
+
+    // allocate and init the cvode arrays
+    mStateVector = N_VNew_Serial(allocStateVectorSize);
+    mAbstolArray = N_VNew_Serial(allocStateVectorSize);
+    for (int i = 0; i < allocStateVectorSize; i++)
+    {
+        SetVector(mStateVector, i, 0.);
+        SetVector(mAbstolArray, i, options.absolute);
+    }
+
+    updateAbsTolVector();
+
+    if (options.integratorFlags & SimulateOptions::STIFF)
+    {
+        Log(Logger::LOG_INFORMATION) << "using stiff integrator";
+        mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+    }
+    else
+    {
+        Log(Logger::LOG_INFORMATION) << "using non-stiff integrator";
+        mCVODE_Memory = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
+    }
+
+    assert(mCVODE_Memory && "could not create Cvode, CVodeCreate failed");
+
+    if ((err = CVodeSetErrHandlerFn(mCVODE_Memory, cvodeErrHandler, NULL)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    // use non default CVODE value here, default is too short
+    // for some sbml tests.
+    CVodeSetMaxNumSteps(mCVODE_Memory, mDefaultMaxNumSteps);
+
+    double t0 = 0.0;
+
+    if ((err = CVodeSetUserData(mCVODE_Memory, (void*) this)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    if ((err = CVodeInit(mCVODE_Memory, cvodeDyDtFcn, t0, mStateVector)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    if ((err = CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray)) != CV_SUCCESS)
+    {
+        handleCVODEError(err);
+    }
+
+    if (mModel->getNumEvents() > 0)
+    {
+        if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(),
+                cvodeRootFcn)) != CV_SUCCESS)
         {
-            mStateVector = N_VNew_Serial(mStateVectorSize);
-            mAbstolArray = N_VNew_Serial(mStateVectorSize);
-            for (int i = 0; i < mStateVectorSize; i++)
-            {
-                SetVector((N_Vector) mAbstolArray, i, options.absolute);
-            }
-
-            updateAbsTolVector();
-
-            mCVODE_Memory = createCvode(&options);
-
-            int errCode = allocateCvodeMem();
-
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            if (oModel->getNumEvents() > 0)
-            {
-                errCode = rootInit(oModel->getNumEvents());//, EventFcn, gdata);
-                Log(lDebug2)<<"CVRootInit executed.....";
-            }
-
-               errCode = CVDense(mCVODE_Memory, mStateVectorSize); // int = size of systems
-
-
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            oModel->resetEvents();
+            handleCVODEError(err);
         }
-        else if (mModel->getNumEvents() > 0)
-        {
-            int allocated = 1;
-            mStateVector = N_VNew_Serial(allocated);
-            mAbstolArray = N_VNew_Serial(allocated);
-
-            SetVector(mStateVector, 0, 0);
-            SetVector(mAbstolArray, 0, options.absolute);
-
-            mCVODE_Memory = createCvode(&options);
-
-            int errCode = allocateCvodeMem();
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            if (oModel->getNumEvents() > 0)
-            {
-                errCode = rootInit(oModel->getNumEvents());
-                Log(lDebug2)<<"CVRootInit executed.....";
-            }
-
-            errCode = CVDense(mCVODE_Memory, allocated);
-            if (errCode < 0)
-            {
-                handleCVODEError(errCode);
-            }
-
-            oModel->resetEvents();
-        }
+        Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
     }
-    catch (const Exception& ex)
+
+    // only allocate this if we are using stiff solver.
+    // otherwise, CVode will NOT free it if using standard solver.
+    if (options.integratorFlags & SimulateOptions::STIFF)
     {
-        Log(Logger::LOG_ERROR)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
-        throw CVODEException("Fatal Error while initializing CVODE");
+        if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
+        {
+            handleCVODEError(err);
+        }
     }
+
+    mModel->resetEvents();
 }
 
-void CvodeInterface::assignPendingEvents(double timeEnd, double tout)
+void CVODEIntegrator::assignPendingEvents(double timeEnd, double tout)
 {
     double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
     int handled = mModel->applyPendingEvents(stateVector, timeEnd, tout);
     if (handled > 0)
     {
-        reStart(timeEnd);
+        restart(timeEnd);
     }
 }
 
-void CvodeInterface::testRootsAtInitialTime()
+void CVODEIntegrator::testRootsAtInitialTime()
 {
     vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
     mModel->getEventTriggers(initialEventStatus.size(), 0, &initialEventStatus[0]);
@@ -479,14 +454,14 @@ void CvodeInterface::testRootsAtInitialTime()
 }
 
 
-void CvodeInterface::handleRootsForTime(double timeEnd, vector<unsigned char> &previousEventStatus)
+void CVODEIntegrator::handleRootsForTime(double timeEnd, vector<unsigned char> &previousEventStatus)
 {
     double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
     mModel->applyEvents(timeEnd, &previousEventStatus[0], stateVector, stateVector);
     reInit(timeEnd);
 }
 
-void CvodeInterface::assignResultsToModel()
+void CVODEIntegrator::assignResultsToModel()
 {
     if (mStateVector)
     {
@@ -494,9 +469,7 @@ void CvodeInterface::assignResultsToModel()
     }
 }
 
-
-
-void CvodeInterface::updateAbsTolVector()
+void CVODEIntegrator::updateAbsTolVector()
 {
     if (mStateVector == 0 || mModel == 0)
     {
@@ -532,7 +505,7 @@ void CvodeInterface::updateAbsTolVector()
 
 }
 
-void CvodeInterface::setAbsTolerance(int index, double dValue)
+void CVODEIntegrator::setAbsTolerance(int index, double dValue)
 {
     double dTolerance = dValue;
     if (dValue > 0 && options.absolute > dValue)
@@ -547,32 +520,46 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
     SetVector(mAbstolArray, index, dTolerance);
 }
 
-void CvodeInterface::reStart(double timeStart)
+
+void CVODEIntegrator::restart(double time)
 {
+    if (!mModel) {
+        return;
+    }
+
+    // apply any events that trigger before or at time 0.
+    // important NOT to set model time before we check get
+    // the initial event state, initially time is < 0.
+    if (time <= 0.0) {
+
+        // copy state vector into cvode memory, need to do this before evaluating
+        // roots because the applyEvents method copies the cvode state vector
+        // into the model
+        if (mStateVector)
+        {
+            mModel->getStateVector(NV_DATA_S(mStateVector));
+        }
+
+        testRootsAtInitialTime();
+    }
+
+    mModel->setTime(time);
+
+    // copy state vector into cvode memory
     if (mStateVector && mCVODE_Memory)
     {
         mModel->getStateVector(NV_DATA_S(mStateVector));
     }
 
+    // set tolerances and so forth.
     if(mCVODE_Memory)
     {
-        reInit(timeStart);
+        reInit(time);
     }
 }
 
 
-// Sets the value of an element in a N_Vector object
-void SetVector (N_Vector v, int Index, double Value)
-{
-    double *data = NV_DATA_S(v);
-    data[Index] = Value;
-}
 
-double GetVector (N_Vector v, int Index)
-{
-    double *data = NV_DATA_S(v);
-    return data[Index];
-}
 
 
 // Cvode calls this to compute the dy/dts. This routine in turn calls the
@@ -581,7 +568,7 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
 {
     double* y = NV_DATA_S (cv_y);
     double* ydot = NV_DATA_S(cv_ydot);
-    CvodeInterface* cvInstance = (CvodeInterface*) userData;
+    CVODEIntegrator* cvInstance = (CVODEIntegrator*) userData;
 
     assert(cvInstance && "userData pointer is NULL in cvode dydt callback");
 
@@ -589,7 +576,7 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
 
     model->getStateVectorRate(time, y, ydot);
 
-    if (cvInstance->mStateVectorSize == 0 && cvInstance->mStateVector &&
+    if (!cvInstance->stateVectorVariables && cvInstance->mStateVector &&
             NV_LENGTH_S(cvInstance->mStateVector) == 1)
     {
         ydot[0] = 0.0;
@@ -600,11 +587,34 @@ int cvodeDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)
     return CV_SUCCESS;
 }
 
+void CVODEIntegrator::freeCVode()
+{
+    // cvode does not check for null values.
+    if(mCVODE_Memory)
+    {
+        CVodeFree( &mCVODE_Memory);
+    }
+
+    if(mStateVector)
+    {
+        N_VDestroy_Serial(mStateVector);
+    }
+
+    if(mAbstolArray)
+    {
+        N_VDestroy_Serial(mAbstolArray);
+    }
+
+    mCVODE_Memory = 0;
+    mStateVector = 0;
+    mAbstolArray = 0;
+}
+
 // int (*CVRootFn)(realtype t, N_Vector y, realtype *gout, void *user_data)
 // Cvode calls this to check for event changes
 int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_data)
 {
-    CvodeInterface* cvInstance = (CvodeInterface*) user_data;
+    CVODEIntegrator* cvInstance = (CVODEIntegrator*) user_data;
 
     assert(cvInstance && "user data pointer is NULL on CVODE root callback");
 
@@ -619,7 +629,7 @@ int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_d
 
 
 
-_xmlNode* CvodeInterface::createConfigNode()
+_xmlNode* CVODEIntegrator::createConfigNode()
 {
     _xmlNode *cap = Configurable::createCapabilityNode("Integration", "CVODE",
             "CVODE Integrator");
@@ -644,7 +654,7 @@ _xmlNode* CvodeInterface::createConfigNode()
     return cap;
 }
 
-void CvodeInterface::loadConfig(const _xmlDoc* doc)
+void CVODEIntegrator::loadConfig(const _xmlDoc* doc)
 {
     mMaxBDFOrder = Configurable::getParameterIntValue(doc, "Integration", "BDFOrder");
     mMaxAdamsOrder = Configurable::getParameterIntValue(doc, "Integration", "AdamsOrder");

@@ -6,7 +6,7 @@
  */
 #pragma hdrstop
 #include "rrCompiledModelGenerator.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"

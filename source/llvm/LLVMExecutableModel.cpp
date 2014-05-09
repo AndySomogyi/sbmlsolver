@@ -156,6 +156,7 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
     modelData(0),
+    conversionFactor(1.0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
     getBoundarySpeciesAmountPtr(0),
@@ -183,16 +184,18 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesInitAmountsPtr(0),
     setFloatingSpeciesInitAmountsPtr(0),
     getCompartmentInitVolumesPtr(0),
-    setCompartmentInitVolumesPtr(0)
+    setCompartmentInitVolumesPtr(0),
+    getGlobalParameterInitValuePtr(0)
 {
-    std::srand(std::time(0));
+    std::srand((unsigned)std::time(0));
 }
 
 LLVMExecutableModel::LLVMExecutableModel(
-    const std::tr1::shared_ptr<ModelResources>& rc, LLVMModelData* modelData) :
+    const cxx11_ns::shared_ptr<ModelResources>& rc, LLVMModelData* modelData) :
     resources(rc),
     symbols(rc->symbols),
     modelData(modelData),
+    conversionFactor(1.0),
     evalInitialConditionsPtr(rc->evalInitialConditionsPtr),
     evalReactionRatesPtr(rc->evalReactionRatesPtr),
     getBoundarySpeciesAmountPtr(rc->getBoundarySpeciesAmountPtr),
@@ -221,12 +224,13 @@ LLVMExecutableModel::LLVMExecutableModel(
     setFloatingSpeciesInitAmountsPtr(rc->setFloatingSpeciesInitAmountsPtr),
     getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
     setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
+    getGlobalParameterInitValuePtr(rc->getGlobalParameterInitValuePtr),
     eventListeners(modelData->numEvents, EventListenerPtr()) // init eventHandlers vector
 {
 
     modelData->time = -1.0; // time is initially before simulation starts
 
-    std::srand(std::time(0));
+    std::srand((unsigned)std::time(0));
 
     eventAssignTimes.resize(modelData->numEvents);
 
@@ -348,7 +352,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
         evalVolatileStoichPtr(modelData);
 
-        double conversionFactor = evalReactionRatesPtr(modelData);
+        conversionFactor = evalReactionRatesPtr(modelData);
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
@@ -381,7 +385,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
 
         evalVolatileStoichPtr(modelData);
 
-        double conversionFactor = evalReactionRatesPtr(modelData);
+        conversionFactor = evalReactionRatesPtr(modelData);
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
@@ -422,6 +426,17 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         log.stream() << endl << "Model: " << endl << this;
     }
     */
+}
+
+double LLVMExecutableModel::getFloatingSpeciesAmountRate(int index,
+           const double *reactionRates)
+{
+    if (index >= modelData->stoichiometry->m)
+    {
+        throw_llvm_exception("index out of range");
+    }
+
+    return csr_matrix_ddot(index, modelData->stoichiometry, reactionRates);
 }
 
 void LLVMExecutableModel::testConstraints()
@@ -637,12 +652,15 @@ void LLVMExecutableModel::reset()
     // eval the initial conditions and rates
     setTime(0.0);
 
-    if (getCompartmentInitVolumesPtr && getFloatingSpeciesInitAmountsPtr)
+    if (getCompartmentInitVolumesPtr && getFloatingSpeciesInitAmountsPtr
+            && getGlobalParameterInitValuePtr)
     {
         // have to set compartments first, these are used to
         // convert between concentrations and amounts.
         unsigned size = max(modelData->numIndCompartments,
                 modelData->numIndFloatingSpecies);
+
+        size = max(size, modelData->numIndGlobalParameters);
 
         double *buffer = new double[size];
         getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
@@ -651,14 +669,18 @@ void LLVMExecutableModel::reset()
         getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
         setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
 
+        // needed because conserved moiety global parameters depend on
+        // float species init conditions.
+        getGlobalParameterInitValues(modelData->numIndGlobalParameters, 0, buffer);
+        setGlobalParameterValues(modelData->numIndGlobalParameters, 0, buffer);
+
+
         delete[] buffer;
     }
     else
     {
         evalInitialConditions();
     }
-
-    evalReactionRates();
 
     // this sets up the event system to pull the initial value
     // before the simulation starts.
@@ -1239,7 +1261,6 @@ LLVMExecutableModel* LLVMExecutableModel::dummy()
 
 void LLVMExecutableModel::evalReactionRates()
 {
-    evalReactionRatesPtr(modelData);
 }
 
 int LLVMExecutableModel::getNumRules()
@@ -1318,19 +1339,30 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
 {
     // the reaction rates are a function of the model state, so someone
     // could have changed some parameter, so we need to re-evaluate.
-    evalReactionRates();
+    conversionFactor = evalReactionRatesPtr(modelData);
 
-    for (int i = 0; i < len; ++i)
+    if (indx)
     {
-        int j = indx ? indx[i] : i;
-        if (j < modelData->numReactions)
+        for (int i = 0; i < len; ++i)
         {
-            values[i] = modelData->reactionRatesAlias[j];
+            int j = indx ? indx[i] : i;
+            if (j < modelData->numReactions)
+            {
+                values[i] = modelData->reactionRatesAlias[j];
+            }
+            else
+            {
+                throw LLVMException("index out of range");
+            }
         }
-        else
+    }
+    else
+    {
+        if (len > modelData->numReactions)
         {
-            throw LLVMException("index out of range");
+            throw_llvm_exception("invalid length, length must be <= numReactions");
         }
+        std::memcpy(values, modelData->reactionRatesAlias, len * sizeof(double));
     }
     return len;
 }
@@ -1423,34 +1455,41 @@ double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex
 int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,
         double** pData)
 {
-    // m rows x n cols
-    // offset = row*NUMCOLS + column
-    const unsigned m = modelData->stoichiometry->m;
-    const unsigned n = modelData->stoichiometry->n;
-    unsigned *rowptr = modelData->stoichiometry->rowptr;
-    unsigned *colidx = modelData->stoichiometry->colidx;
-    double *values = modelData->stoichiometry->values;
-
-    double *data = (double*)calloc(m*n, sizeof(double));
-
-    for (unsigned i = 0; i < m; i++)
+    // asking for matrix size
+    if (pRows && pCols && pData == 0)
     {
-        double yi = 0.0;
-        for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
-        {
-            int col = colidx[k];
-            data[i*n + col] = values[k];
-
-            //yi = yi + alpha * values[k] * x[colidx[k]];
-        }
+        *pRows = modelData->stoichiometry->m;
+        *pCols = modelData->stoichiometry->n;
+        return modelData->stoichiometry->m * modelData->stoichiometry->n;
     }
 
-    *pRows = m;
-    *pCols = n;
-    *pData = data;
+    // allocate data
+    if (pRows && pCols && pData && *pData == 0)
+    {
+        double* data = (double*)malloc(modelData->stoichiometry->m *
+                modelData->stoichiometry->n * sizeof(double));
+        *pRows = modelData->stoichiometry->m;
+        *pCols = modelData->stoichiometry->n;
+        *pData = data;
+        csr_matrix_fill_dense(modelData->stoichiometry, data);
 
-    return m*n;
+        return modelData->stoichiometry->m * modelData->stoichiometry->n;
+    }
+
+    // use user data
+    if (pRows && *pRows == modelData->stoichiometry->m &&
+            pCols && *pCols == modelData->stoichiometry->n && pData && *pData)
+    {
+        double* data = *pData;
+        csr_matrix_fill_dense(modelData->stoichiometry, data);
+
+        return modelData->stoichiometry->m * modelData->stoichiometry->n;
+    }
+
+
+    throw_llvm_exception("invalid args");
 }
+
 
 
 /******************************* Events Section *******************************/
@@ -1676,6 +1715,10 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
         result = setValues(setFloatingSpeciesInitConcentrationsPtr,
                 &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
+
+    // as a convienice to users, this resets the amounts and whatever depends
+    // on them.
+    reset();
     return result;
 }
 
@@ -1699,6 +1742,10 @@ int LLVMExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
         result = setValues(setFloatingSpeciesInitAmountsPtr,
                 &LLVMExecutableModel::getFloatingSpeciesId, len, indx, values);
     }
+
+    // as a convienice to users, this resets the amounts and whatever depends
+    // on them.
+    reset();
     return result;
 }
 
@@ -1732,6 +1779,17 @@ int LLVMExecutableModel::getCompartmentInitVolumes(int len, const int *indx,
     if (getCompartmentInitVolumesPtr)
     {
         result = getValues(getCompartmentInitVolumesPtr, len, indx, values);
+    }
+    return result;
+}
+
+int LLVMExecutableModel::getGlobalParameterInitValues(int len, const int *indx,
+                double *values)
+{
+    int result = -1;
+    if (getGlobalParameterInitValuePtr)
+    {
+        result = getValues(getGlobalParameterInitValuePtr, len, indx, values);
     }
     return result;
 }

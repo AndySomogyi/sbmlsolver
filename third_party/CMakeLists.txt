@@ -119,7 +119,7 @@ endif()
 # Only matches Linux, Linux has some system headers that conflict with std::isnan
 # when building libsbml
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-  SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=gnu++0x")
+  SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
 
 
@@ -152,7 +152,7 @@ add_subdirectory(nleq)
 add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
 add_subdirectory(poco_1.5.3)
-add_subdirectory(rr_support)
+
 
 if(WIN32)
     add_subdirectory(compilers)

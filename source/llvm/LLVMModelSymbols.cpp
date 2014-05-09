@@ -76,7 +76,15 @@ LLVMModelSymbols::~LLVMModelSymbols()
 bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
 {
     ASTNode *node = nodes.create(AST_REAL);
-    node->setValue(x.getVolume());
+    if (x.isSetVolume())
+    {
+        node->setValue(x.getVolume());
+    } else
+    {
+        Log(Logger::LOG_WARNING) << "volume not set for compartment "
+                << x.getId() << ", defaulting to 1.0";
+        node->setValue(1.0);
+    }
     initialValues.compartments[x.getId()] = node;
     return true;
 }

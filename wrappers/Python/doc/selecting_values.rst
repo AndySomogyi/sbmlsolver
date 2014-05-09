@@ -70,7 +70,7 @@ Eigenvalue
     The form of ``eigen(identifier)``. The eigenvalue of a floating species.
 
 Initial Concentration
-    An initial concentration specified in the sbml document
+    An initial concentration specified in the sbml document, for example ``init(S1)``
 
 Stoichiometry
     The stoichiometric coefficient for a given species and reaction.

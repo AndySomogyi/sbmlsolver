@@ -13,10 +13,12 @@
 #include "rrRoadRunnerOptions.h"
 #include <stdexcept>
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
+#define cxx11_ns std::tr1
 #endif
 
 namespace rr
@@ -59,14 +61,14 @@ public:
  * listeners are shared objects, so use std smart pointers
  * to manage them.
  */
-typedef std::tr1::shared_ptr<IntegratorListener> IntegratorListenerPtr;
+typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
 
 /**
  * Interface to a class which advances a model forward in time.
  *
  * The Integrator is only valid if attached to a model.
  */
-class Integrator
+class RR_DECLSPEC Integrator
 {
 public:
 
@@ -84,7 +86,7 @@ public:
      * copies the state vector out of the model and into cvode vector,
      * re-initializes cvode.
      */
-    virtual void reStart(double t0) = 0;
+    virtual void restart(double t0) = 0;
 
     /**
      * the integrator can hold a single listener. If clients require multicast,
@@ -98,6 +100,14 @@ public:
     virtual IntegratorListenerPtr getListener() = 0;
 
     virtual ~Integrator() {};
+
+    /**
+     * create a new integrator based on the settings in the
+     * options class.
+     *
+     * The new integrator borrows a reference to an ExecutableModel object.
+     */
+    static Integrator* New(const SimulateOptions *o, ExecutableModel *m);
 };
 
 

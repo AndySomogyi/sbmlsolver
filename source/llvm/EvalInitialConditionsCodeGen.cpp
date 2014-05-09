@@ -11,7 +11,7 @@
 #include "SBMLInitialValueSymbolResolver.h"
 #include "ModelInitialValueSymbolResolver.h"
 #include "rrLogger.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <Poco/Logger.h>
@@ -234,7 +234,7 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
         {
             const string& id = *i;
 
-            if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+            if (dataSymbols.isIndependentInitFloatingSpecies(id))
             {
                 modelDataResolver.storeSymbolValue(id,
                         initialValueResolver.loadSymbolValue(id));

@@ -21,8 +21,8 @@ RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle)
 {
     start_try
         rr::RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix*     tempMat     = rri->getL0Matrix();
-        return createMatrix(tempMat);
+        DoubleMatrix     tempMat     = rri->getL0Matrix();
+        return createMatrix(&tempMat);
 
     catch_ptr_macro;
 }

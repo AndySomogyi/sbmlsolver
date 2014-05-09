@@ -10,6 +10,13 @@ ${RR_ROOT}/source
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 
+# TODO: remove all the deprecated definition when we have time...
+#if(CMAKE_COMPILER_IS_GNUCXX)
+if(UNIX)
+    # should work with either gcc or clang
+    add_definitions(-Wno-deprecated-declarations)
+endif(UNIX)
+
 #The C-api is built as a shared library..
 add_library(${target} SHARED
     rrcStringList

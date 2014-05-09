@@ -46,7 +46,6 @@ enum ModelDataFields {
     NumInitGlobalParameters,                  // 13
 
     Stoichiometry,                            // 14
-
     NumEvents,                                // 15
     StateVectorSize,                          // 16
     StateVector,                              // 17
@@ -129,7 +128,7 @@ public:
 
     enum SpeciesReferenceType
     {
-        Reactant, Product, Modifier
+        Reactant, Product, Modifier, MultiReactantProduct
     };
 
     /**
@@ -143,6 +142,11 @@ public:
         FLOATING_SPECIES, BOUNDARY_SPECIES, COMPARTMENT, GLOBAL_PARAMETER, REACTION, INVALID_SYMBOL
     };
 
+    /**
+     * info about an entry in the stoich matrix.
+     *
+     * there is exactly one of these for each entry.
+     */
     struct SpeciesReferenceInfo
     {
         uint row;
@@ -595,6 +599,13 @@ private:
      */
     bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
             const std::string& reacOrProd);
+
+    /**
+     * set the type of all species references.
+     * row is species, column is reaction
+     */
+    void setNamedSpeciesReferenceInfo(uint row, uint column,
+            SpeciesReferenceType type);
 };
 
 } /* namespace rr */

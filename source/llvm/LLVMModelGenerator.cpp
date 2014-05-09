@@ -30,9 +30,9 @@ using llvm::ExecutionEngine;
 namespace rrllvm
 {
 
-typedef std::tr1::weak_ptr<ModelResources> WeakModelPtr;
-typedef std::tr1::shared_ptr<ModelResources> SharedModelPtr;
-typedef std::tr1::unordered_map<std::string, WeakModelPtr> ModelPtrMap;
+typedef cxx11_ns::weak_ptr<ModelResources> WeakModelPtr;
+typedef cxx11_ns::shared_ptr<ModelResources> SharedModelPtr;
+typedef cxx11_ns::unordered_map<std::string, WeakModelPtr> ModelPtrMap;
 
 static Poco::Mutex cachedModelsMutex;
 static ModelPtrMap cachedModels;
@@ -178,6 +178,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     Function* setFloatingSpeciesInitAmounts = 0;
     Function* getCompartmentInitVolumes = 0;
     Function* setCompartmentInitVolumes = 0;
+    Function* getGlobalParameterInitValuePtr = 0;
 
     evalInitialConditions =
         EvalInitialConditionsCodeGen(context).createFunction();
@@ -267,6 +268,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         setCompartmentInitVolumes =
             SetCompartmentInitVolumeCodeGen(context).createFunction();
+
+        getGlobalParameterInitValuePtr =
+            GetGlobalParameterInitValueCodeGen(context).createFunction();
     }
 
     ExecutionEngine& engine = context.getExecutionEngine();
@@ -362,6 +366,22 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         rc->setCompartmentInitVolumesPtr =
             SetCompartmentInitVolumeCodeGen::getPointerToFunction(engine, setCompartmentInitVolumes);
+
+        rc->getGlobalParameterInitValuePtr =
+            GetGlobalParameterInitValueCodeGen::getPointerToFunction(engine, getGlobalParameterInitValuePtr);
+    }
+    else
+    {
+        rc->getFloatingSpeciesInitConcentrationsPtr = 0;
+        rc->setFloatingSpeciesInitConcentrationsPtr = 0;
+
+        rc->getFloatingSpeciesInitAmountsPtr = 0;
+        rc->setFloatingSpeciesInitAmountsPtr = 0;
+
+        rc->getCompartmentInitVolumesPtr = 0;
+        rc->setCompartmentInitVolumesPtr = 0;
+
+        rc->getGlobalParameterInitValuePtr = 0;
     }
 
 

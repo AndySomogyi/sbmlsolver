@@ -57,7 +57,7 @@ string TestModelFileName;
 
         //Load the model
         aRR->setConservedMoietyAnalysis(true);
-        CHECK(aRR->load(TestModelFileName));
+        aRR->load(TestModelFileName);
     }
 
     TEST(COMPUTE_STEADY_STATE)
@@ -265,8 +265,8 @@ string TestModelFileName;
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix matrix     = *(aRR->getLinkMatrix());
-        DoubleMatrix ref          = ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix     = aRR->getLinkMatrix();
+        DoubleMatrix ref        = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
@@ -368,6 +368,11 @@ string TestModelFileName;
         }
 
         CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+    }
+
+    TEST(FREE_ROADRUNNER)
+    {
+        delete aRR;
     }
 }
 

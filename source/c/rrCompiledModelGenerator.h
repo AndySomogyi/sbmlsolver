@@ -8,7 +8,7 @@
 #ifndef RRCOMPILEDMODELGENERATOR_H_
 #define RRCOMPILEDMODELGENERATOR_H_
 
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
 #include "rrScanner.h"

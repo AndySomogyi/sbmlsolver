@@ -7,8 +7,8 @@ Accessing the SBML Model Variables
 The following methods allow users to obtain information on the model
 
 
-Compartment Group
------------------
+Compartments
+------------
 
 .. autosummary::
 
@@ -18,8 +18,8 @@ Compartment Group
    ExecutableModel.setCompartmentVolumes
 
    
-Boundary Species Group
-----------------------
+Boundary Species
+----------------
 
 .. autosummary::
 
@@ -29,8 +29,8 @@ Boundary Species Group
    ExecutableModel.getBoundarySpeciesIds
 
 
-Floating Species Group
-----------------------
+Floating Species
+----------------
 
 .. autosummary::
 
@@ -40,13 +40,20 @@ Floating Species Group
    ExecutableModel.getFloatingSpeciesIds
 
 
-Initial Conditions Group
-------------------------
+Initial Conditions
+------------------
 
 .. autosummary::
 
-Reaction Group
---------------
+   ExecutableModel.getFloatingSpeciesInitAmountIds
+   ExecutableModel.getFloatingSpeciesInitConcentrationIds
+   ExecutableModel.getFloatingSpeciesInitAmounts
+   ExecutableModel.setFloatingSpeciesInitAmounts
+   ExecutableModel.getFloatingSpeciesInitConcentrations
+   ExecutableModel.setFloatingSpeciesInitConcentrations
+
+Reactions
+---------
 
 .. autosummary::
 
@@ -55,8 +62,8 @@ Reaction Group
    ExecutableModel.getReactionIds
 
 
-Rates Of Change Group
----------------------
+Rates Of Change
+---------------
 
 .. autosummary::
 
@@ -66,8 +73,8 @@ Rates Of Change Group
    ExecutableModel.getReactionIds
 
 
-Parameters Group
-----------------
+Global Parameters
+-----------------
 
 .. autosummary::
    ExecutableModel.setGlobalParameterValues

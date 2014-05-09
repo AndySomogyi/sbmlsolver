@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <stdexcept>
 
 using namespace std;
 
@@ -26,44 +27,104 @@ LoadSBMLOptions::LoadSBMLOptions()
     size = sizeof(LoadSBMLOptions);
     modelGeneratorOpt = 0;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES))
         modelGeneratorOpt |= LoadSBMLOptions::CONSERVED_MOIETIES;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_RECOMPILE))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_RECOMPILE))
         modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_READ_ONLY))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_READ_ONLY))
         modelGeneratorOpt |= LoadSBMLOptions::READ_ONLY;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS))
         modelGeneratorOpt |= LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_GVN;
 
     if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
         modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER;
 
-    if (Config::getInt(Config::LOADSBMLOPTIONS_USE_MCJIT))
+    if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
         modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
 
     loadFlags = 0;
 }
 
-const double SimulateOptions::MIN_RELATIVE = 1.e-5;
-const double SimulateOptions::MIN_ABSOLUTE = 1.e-10;
+/**
+ * The minumum relative error that the CVODE integrator supports
+ * in order to to pass the sbml test suite using the default integtator.
+ *
+ * If a test suite config file is loaded, and the relative error is
+ * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
+ */
+static const double MIN_RELATIVE = 1.e-5;
+
+/**
+ * The minumum absolute error that the CVODE integrator supports
+ * in order to to pass the sbml test suite using the default integtator.
+ *
+ * If a test suite config file is loaded, and the relative error is
+ * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
+ */
+static const double MIN_ABSOLUTE = 1.e-10;
+
+static void getConfigValues(SimulateOptions *s)
+{
+    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+        s->flags |= SimulateOptions::STRUCTURED_RESULT;
+
+    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
+        s->integratorFlags |= SimulateOptions::STIFF;
+
+    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
+        s->integratorFlags |= SimulateOptions::MULTI_STEP;
+
+    // set the variable step based on if we are using a stochastic or deterministic
+    // integrator
+    if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "CVODE") {
+        s->integrator = SimulateOptions::CVODE;
+    }
+    else if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "GILLESPIE") {
+        s->integrator = SimulateOptions::GILLESPIE;
+    }
+    else {
+        Log(Logger::LOG_WARNING) << "Invalid integrator specified in configuration: "
+                << Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR)
+        << std::endl << "Defaulting to CVODE";
+        s->integrator = SimulateOptions::CVODE;
+    }
+
+    bool vs = false;
+
+    if (SimulateOptions::getIntegratorType(s->integrator) == SimulateOptions::STOCHASTIC) {
+        vs = Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+    }
+
+    else if (SimulateOptions::getIntegratorType(s->integrator) == SimulateOptions::DETERMINISTIC) {
+        vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+    }
+
+    if (vs) {
+        s->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+    } else {
+        s->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
+    }
+}
+
+
 
 SimulateOptions::SimulateOptions()
 :
@@ -80,14 +141,7 @@ minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
 maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
-    if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
-        flags |= SimulateOptions::STRUCTURED_RESULT;
-
-    if (Config::getInt(Config::SIMULATEOPTIONS_STIFF))
-        integratorFlags |= SimulateOptions::STIFF;
-
-    if (Config::getInt(Config::SIMULATEOPTIONS_MULTI_STEP))
-        integratorFlags |= SimulateOptions::MULTI_STEP;
+    getConfigValues(this);
 }
 
 SimulateOptions::SimulateOptions(const std::string &fname)
@@ -105,16 +159,7 @@ minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
 maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
 maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 {
-
-    if (Config::getInt(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
-        flags |= SimulateOptions::STRUCTURED_RESULT;
-
-    if (Config::getInt(Config::SIMULATEOPTIONS_STIFF))
-        integratorFlags |= SimulateOptions::STIFF;
-
-    if (Config::getInt(Config::SIMULATEOPTIONS_MULTI_STEP))
-        integratorFlags |= SimulateOptions::MULTI_STEP;
-
+    getConfigValues(this);
 
     if(!fname.size())
     {
@@ -213,15 +258,60 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
     }
 }
 
+void SimulateOptions::setValue(const std::string& name,
+        const rr::Variant& value)
+{
+    values[name] = value;
+}
 
-RoadRunnerOptions::RoadRunnerOptions() : 
+const Variant& SimulateOptions::getValue(const std::string& name) const
+{
+    VariantMap::const_iterator i = values.find(name);
+    if (i != values.end())
+    {
+        return i->second;
+    }
+
+    throw std::invalid_argument("key not found: " + name);
+}
+
+
+RoadRunnerOptions::RoadRunnerOptions() :
     flags(0)
 {
-    if (Config::getInt(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES)) 
+    if (Config::getBool(Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES))
     {
         flags |= RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     }
 }
 
+bool SimulateOptions::hasKey(const std::string& key) const
+{
+    VariantMap::const_iterator i = values.find(key);
+    return i != values.end();
+}
+
+SimulateOptions::IntegratorType SimulateOptions::getIntegratorType(Integrator i)
+{
+    if (i == CVODE) {
+        return DETERMINISTIC;
+    } else {
+        return STOCHASTIC;
+    }
+}
+
+std::vector<std::string> SimulateOptions::getKeys() const
+{
+    std::vector<std::string> keys(values.size());
+    int j = 0;
+
+    for (VariantMap::const_iterator i = values.begin(); i != values.end(); ++i) {
+        keys[j++] = i->first;
+    }
+
+    return keys;
+}
 
 } /* namespace rr */
+
+

@@ -483,6 +483,11 @@ public:
     virtual rr::EventListenerPtr getEventListener(int);
 
     friend class CompiledModelState;
+
+
+
+    virtual double getFloatingSpeciesAmountRate(int index,
+            const double *reactionRates);
 };
 }
 #endif

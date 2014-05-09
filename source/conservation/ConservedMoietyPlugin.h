@@ -67,6 +67,11 @@ public:
      */
     virtual void writeAttributes (libsbml::XMLOutputStream& stream) const;
 
+    virtual libsbml::List* getAllElements(libsbml::ElementFilter* filter=NULL)
+    {
+        return NULL;
+    }
+
 private:
     bool conservedMoiety;
 

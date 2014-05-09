@@ -10,52 +10,53 @@
 
 #include <string>
 #include "rrExporter.h"
+#include "Variant.h"
 
 namespace rr
 {
 
 /**
  * read or store default values.
- * 
+ *
  * Many of RoadRunner classes use a number of configration parameters. Most of these can be set
  * using the Config class. The values stored in the Config class only determine the defaut values of
- * parameters. 
+ * parameters.
  *
  * The Config class will look in the following locations for the config file, and will load the
  * values from the first config file it finds. If it does not find a config file in one of the
  * following locations, a default set of configuration parameters are used. The search locations of
- * the config file are: 
- * 
+ * the config file are:
+ *
  * #1: the ROADRUNNER_CONFIG environment variable
- * 
- * #2: try the users’s home directory for roadrunner.conf, i.e.:
- * 
+ *
+ * #2: try the user's home directory for roadrunner.conf, i.e.:
+ *
  * /Users/andy/roadrunner.conf
- * 
- * #3: try the users’s home directory for .roadrunner.conf, i.e.:
- * 
- * /Users/andy/.roadrunner.conf 
+ *
+ * #3: try the user's home directory for .roadrunner.conf, i.e.:
+ *
+ * /Users/andy/.roadrunner.conf
  *
  * #4: try the same directory as the roadrunner shared library, this
  * will be the same directory as the python _roadrunner.pyd python extension module, i.e.:
- * 
+ *
  * /Users/andy/local/lib/roadrunner.conf
- * 
+ *
  * #5: try one directory up from the where the shared library or program is at, i.e.:
- * 
- * /Users/andy/local/roadrunner.conf 
- * 
+ *
+ * /Users/andy/local/roadrunner.conf
+ *
  * The conf file is just a plain text file of where each line may
- * be key / value pair separated by a ”:”, i.e.
- * 
+ * be key / value pair separated by a �":", i.e.
+ *
  * KEY_NAME : Value Any line that does not match this format is ignored, and keys that are not found
  * are also ignored. Therefore, any line that does not start w* ith a word character is considered a
  * comment.
- * 
+ *
  * All of the configuration managment functions are static method of the Config class, and all of
  * the configuration keys are static attributes * of the Config class, these are documented in the
  * Configuration Functions section.
- * 
+ *
  * As all of the Config class methods are static, one never instantiates the Config class.
  */
 class RR_DECLSPEC Config
@@ -212,6 +213,24 @@ public:
         SIMULATEOPTIONS_MULTI_STEP,
 
         /**
+         * Do variable time step integration when using a deterministic
+         * integrator
+         */
+        SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
+
+
+        /**
+         * Do variable time step integration when using stochastic
+         * integrators.
+         */
+        SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
+
+        /**
+         * Default integrator to use
+         */
+        SIMULATEOPTIONS_INTEGRATOR,
+
+        /**
          * A useer specified initial time step. If this is <=  0, the integrator
          * will attempt to determine a safe initial time stpe.
          *
@@ -245,9 +264,16 @@ public:
          */
         SIMULATEOPTIONS_MAXIMUM_NUM_STEPS,
 
-
         /**
-         * disable SBML conserved moiety warnings.
+         * Disable SBML conserved moiety warnings.
+         *
+         * this disables warnings based on the following bitfields:
+         *
+         * ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE: disable the warning in
+         * RoadRunner::steadyState about possible singular jacobian.
+         *
+         * ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY: disable the
+         * conserved moieties warning if enabled when loading a sbml document.
          */
         ROADRUNNER_DISABLE_WARNINGS,
 
@@ -260,6 +286,35 @@ public:
          */
         ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
 
+
+        /**
+         * a hex value consisting of a combination of the following values:
+         *
+         * IdCheckON         0x01
+         * IdCheckOFF        0xfe
+         * SBMLCheckON       0x02
+         * SBMLCheckOFF      0xfd
+         * SBOCheckON        0x04
+         * SBOCheckOFF       0xfb
+         * MathCheckON       0x08
+         * MathCheckOFF      0xf7
+         * UnitsCheckON      0x10
+         * UnitsCheckOFF     0xef
+         * OverdeterCheckON  0x20
+         * OverdeterCheckOFF 0xdf
+         * PracticeCheckON   0x40
+         * PracticeCheckOFF  0xbf
+         * AllChecksON       0x7f
+         *
+         * The default value is AllChecksON & UnitsCheckOFF
+         */
+        SBML_APPLICABLEVALIDATORS,
+
+        /**
+         * default step size for Jabobian finite differece calculations
+         */
+        ROADRUNNER_JACOBIAN_STEP_SIZE,
+
         /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
@@ -267,6 +322,13 @@ public:
          */
         CONFIG_END
     };
+
+    enum ROADRUNNER_DISABLE_WARNINGS_VALUES
+    {
+        ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE          =  (0x1 << 0),  // => 0x00000001
+        ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY     =  (0x1 << 1)   // => 0x00000010
+    };
+
 
     /**
      * read the config value as a string.
@@ -277,7 +339,9 @@ public:
      * read the config value as an integer.
      */
     static int getInt(Keys);
-    
+
+    static bool getBool(Keys);
+
     /**
      * read the config value as a double.
      */
@@ -285,46 +349,28 @@ public:
 
     /**
      * If a config file was found in one of the above locations, its full path is returned here.
-     * Otherwise, if no file was found, an empty string is returned. 
+     * Otherwise, if no file was found, an empty string is returned.
      */
     static std::string getConfigFilePath();
 
     /**
-     * set the value of a config key. 
-     * note, this value is only used in any new objects created after it has been set.
-     */
-    static void setValue(Keys, const std::string& value);
-
-    /**
-     * set the value of a config key. 
+     * set the value of a config key.
      * note, this value is only used in any new objects created after it has been set.
      */
 
-    static void setValue(Keys, int);
+    static void setValue(Keys, const Variant& value);
+
+    static const Variant& getValue(Keys);
 
     /**
-     * set the value of a config key. 
-     * note, this value is only used in any new objects created after it has been set.
-     */
-
-    static void setValue(Keys, double);
-
-    /**
-     * set the value of a config key. 
-     * note, this value is only used in any new objects created after it has been set.
-     */
-
-    static void setValue(Keys, bool);
-
-    /**
-     * Read all of the values stored in a configuration file and set all the keys 
+     * Read all of the values stored in a configuration file and set all the keys
      * to these values.
      */
     static void readConfigFile(const std::string& path);
 
     /**
-     * write the currently set configuration values to a config file. The contents of the 
-     * file are cleared and the new values written. 
+     * write the currently set configuration values to a config file. The contents of the
+     * file are cleared and the new values written.
      */
     static void writeConfigFile(const std::string& path);
 };

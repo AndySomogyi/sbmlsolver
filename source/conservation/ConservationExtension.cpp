@@ -298,6 +298,15 @@ bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
 }
 
 
+bool ConservationExtension::isConservedMoietyDocument(
+        const libsbml::SBMLDocument* doc)
+{
+    const SBasePlugin* p = doc->getPlugin("conservation");
+
+    return dynamic_cast<const ConservationDocumentPlugin*>(p) != 0;
+}
+
+
 /*
  *
  * Initialization function of groups extension module which is automatically invoked

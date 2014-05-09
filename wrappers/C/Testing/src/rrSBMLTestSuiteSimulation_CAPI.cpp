@@ -80,11 +80,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
 
 
-        if(!rri->load(fileName, &opt))
-        {
-            Log(Logger::LOG_ERROR) << "Failed to load SBML";
-            return false;
-        }
+        rri->load(fileName, &opt);
         return true;
     }
     catch(std::exception& e)

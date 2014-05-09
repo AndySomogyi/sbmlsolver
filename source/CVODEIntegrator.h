@@ -25,12 +25,12 @@ class RoadRunner;
  * @internal
  * The integrator implemented by CVODE.
  */
-class CvodeInterface : public Integrator, public Configurable
+class CVODEIntegrator : public Integrator, public Configurable
 {
 public:
-    CvodeInterface(ExecutableModel* oModel, const SimulateOptions* options);
+    CVODEIntegrator(ExecutableModel* oModel, const SimulateOptions* options);
 
-    virtual ~CvodeInterface();
+    virtual ~CVODEIntegrator();
 
     /**
      * creates a new xml element that represent the current state of this
@@ -51,7 +51,7 @@ public:
      * copies the state vector out of the model and into cvode vector,
      * re-initializes cvode.
      */
-    void reStart(double timeStart);
+    void restart(double timeStart);
 
     /**
      * set the options the integrator will use.
@@ -68,17 +68,10 @@ public:
      * get the integrator listener
      */
     virtual IntegratorListenerPtr getListener();
-
-    // TODO: these need to made private.
-    void testRootsAtInitialTime();
-    bool haveVariables();
-
 private:
 
     static const int mDefaultMaxNumSteps;
 
-
-    int mStateVectorSize;
     N_Vector mStateVector;
 
     N_Vector mAbstolArray;
@@ -105,6 +98,19 @@ private:
     IntegratorListenerPtr listener;
 
     /**
+     * apply any events before time = 0.
+     *
+     * Note side effect of setting the current cvode state into the model.
+     */
+    void testRootsAtInitialTime();
+
+    /**
+     * does the model have any state variables.
+     */
+    bool haveVariables();
+
+
+    /**
      * copy the values from the cvode state vector into the executable model.
      */
     void assignResultsToModel();
@@ -119,29 +125,43 @@ private:
      */
     void updateAbsTolVector();
 
-
     void assignPendingEvents(double timeEnd, double tout);
-
 
     void handleRootsForTime(double timeEnd,
             std::vector<unsigned char> &previousEventStatus);
 
-    int rootInit(int numRoots);
+    /**
+     * re-initialize cvode with a new set of initial conditions
+     */
     int reInit (double t0);
-    int allocateCvodeMem();
 
     /**
      * Set up the cvode state vector size and various other cvode
      * init tasks. Specific to the model.
      *
-     * Only called once
+     * The existing cvode vars: mStateVector, mAbstolArray, mCVODE_Memory
+     * must be 0 before calling.
      */
-    void initializeCVODEInterface(ExecutableModel *oModel);
+    void createCVode();
+
+    /**
+     * free and nullify the cvode objects.
+     */
+    void freeCVode();
 
     void setAbsTolerance(int index, double dValue);
 
     int mMaxAdamsOrder;
     int mMaxBDFOrder;
+
+    /**
+     * models may have no state vector variables, but in this case,
+     * we still need a cvode state vector of len 1 for the integrator to
+     * work.
+     *
+     * true if model has state vector, false otherwise
+     */
+    bool stateVectorVariables;
 
     /**
      * pointer to an options struct, this is typically
@@ -158,8 +178,6 @@ private:
      * cvode event root finding callback.
      */
     friend int cvodeRootFcn (double t, N_Vector y, double *gout, void *g_data);
-
-    static void* createCvode(const SimulateOptions *options);
 };
 }
 

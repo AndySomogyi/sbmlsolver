@@ -33,6 +33,7 @@
 #include "Poco/Thread.h"
 #include "Poco/Glob.h"
 #include "Poco/File.h"
+#include <Poco/Path.h>
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -163,12 +164,22 @@ std::string getCurrentSharedLibDir()
 {
 #if !defined(_WIN32)
     Dl_info dl_info;
+
     if (dladdr((void *)getCurrentSharedLibDir, &dl_info) != 0) {
-        string path(dl_info.dli_fname);
-        return path.substr( 0, path.find_last_of( '/' ) + 1 );
-    } else {
-        return "";
+
+        // on Linux, either returns
+        // 1: absolute path if actually a shared library
+        // 2: "./" if run from current directory   - if statically linked
+        // 3: "exename" if run from path           - if statically linked
+        Poco::Path p(dl_info.dli_fname);
+
+        if (Poco::File(p).exists()) {
+            return p.parent().toString();
+        }
     }
+
+    return "";
+
 
 #else
     char buffer[MAX_PATH] = {0};

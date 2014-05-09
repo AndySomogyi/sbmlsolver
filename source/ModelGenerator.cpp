@@ -1,11 +1,11 @@
 /*
- * rrModelGeneratorFactory.cpp
+ * ModelGenerator.cpp
  *
  *  Created on: May 20, 2013
  *      Author: andy
  */
 #pragma hdrstop
-#include "rrModelGeneratorFactory.h"
+#include "ModelGenerator.h"
 
 
 #if defined(BUILD_LLVM)
@@ -23,7 +23,7 @@
 using namespace std;
 namespace rr {
 
-ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compiler, const string& tempFolder,
+ModelGenerator* ModelGenerator::New(const string& compiler, const string& tempFolder,
             const string& supportCodeFolder)
 {
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)

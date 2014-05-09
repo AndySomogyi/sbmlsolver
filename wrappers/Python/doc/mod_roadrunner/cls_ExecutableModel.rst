@@ -13,7 +13,13 @@ a number of selection strings described in the Selections section.
    :module: roadrunner
 
    Get a list of all the keys that this model has. This is a very good way of looking at all the
-   available symbols and selection strings. 
+   available symbols and selection strings:
+
+   >>>  r.model.keys()
+   [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',  
+     'reaction1',  'init([S1])',  'init([S2])', 'init(S1)',  
+     'init(S2)',  "S1'"]
+
 
 .. method:: ExecutableModel.items()
    :module: roadrunner
@@ -36,7 +42,8 @@ a number of selection strings described in the Selections section.
      >>> r.model["S1"] = 12.3
 
    Note, some keys are read only such as values defined by rules, or calculated values such as
-   species amount rates or reaction rates.
+   species amount rates or reaction rates. If one attempts to set the value of a read-only symbol,
+   an exception is raised indicating the error, and no harm done. 
 
 
 
@@ -122,6 +129,67 @@ Floating Species
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of floating species concentrations.
    :rtype: numpy.ndarray
+
+Floating Species Initial Conditions
+-----------------------------------
+RoadRunner stores all initial conditions separately from the model state variables. This means that
+you can update the initial conditions at any time, and it does not affect the current state of the
+model. To reset the model, that is, reset it to its original state, or a new original state where
+what has changed the initial conditions use the :meth:`~ExecutableModel.reset()` method. 
+
+The following methods allow access to the floating species initial condition values:
+
+.. method:: ExecutableModel.getFloatingSpeciesInitAmountIds()
+   :module: roadrunner
+
+   get a list of the floating species amount initial amount selection symbols.
+
+.. method:: ExecutableModel.getFloatingSpeciesInitConcentrationIds()
+   :module: roadrunner
+
+   get a list of the floating species amount initial concentration selection symbols.
+
+
+.. method:: ExecutableModel.getFloatingSpeciesInitConcentrations([index])    
+   :module: roadrunner
+
+   Returns a vector of floating species initial concentrations. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of floating species initial concentrations.
+   :rtype: numpy.ndarray
+
+.. method:: ExecutableModel.setFloatingSpeciesInitConcentrations([index], values)
+   :module: roadrunner
+
+   Set a vector of floating species initial concentrations. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+
+
+.. method:: ExecutableModel.getFloatingSpeciesInitAmounts([index])    
+   :module: roadrunner
+
+   Returns a vector of floating species initial amounts. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of floating species initial amounts.
+   :rtype: numpy.ndarray
+
+
+.. method:: ExecutableModel.setFloatingSpeciesInitAmounts([index], values)
+   :module: roadrunner
+
+   Set a vector of floating species initial amounts. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+
+
+
 
 Boundary Species
 ----------------
@@ -486,4 +554,7 @@ Misc
    Set the model time variable. 
 
    :param time: time the time value to set.
+
+
+
 

@@ -91,7 +91,7 @@ double powerf(double base, double exponent)
 
     if ((x == 0.0) && (fabs(exponent) <= 2147483647))
     {
-        result = (sign*poweri(base, trunc (exponent)));
+        result = (sign*poweri(base, (int)trunc(exponent)));
     }
     else
     {
