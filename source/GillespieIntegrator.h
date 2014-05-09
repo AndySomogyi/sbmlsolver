@@ -66,7 +66,7 @@ private:
     SimulateOptions options;
 
 #ifdef RR_CXX_RANDOM
-    random_ns::mt19937 engine;
+    cxx11_ns::mt19937 engine;
 #endif
 
     double timeScale;
