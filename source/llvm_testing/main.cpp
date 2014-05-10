@@ -234,7 +234,7 @@ int main(int argc, char* argv[])
     rr::SimulateOptions o;
 
     o.integrator = SimulateOptions::GILLESPIE;
-    o.integratorFlags |= SimulateOptions::VARIABLE_STEP;
+    o.integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
     o.duration = atof(argv[2]);
 
     r.simulate(&o);
