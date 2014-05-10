@@ -987,12 +987,22 @@ namespace std { class ostream{}; }
             # second arg is treated as sim end time
             if len(args) >= 2:
                 o.end = args[1]
-            
+
             # third arg is steps
             if len(args) >= 3:
                 o.steps = args[2]
 
             for k,v in kwargs.iteritems():
+
+                if k == "integrator" and type(v) == str:
+                    if v.lower() == "gillespie":
+                        o.integrator = SimulateOptions.GILLESPIE
+                    elif v.lower() == "cvode":
+                        o.integrator = SimulateOptions.CVODE
+                    else:
+                        raise Exception("{0} is invalid argument for integrator".format(v))
+                    continue
+
                 if SimulateOptions.__dict__.has_key(k):
                     setattr(o, k, v)
                     continue
@@ -1017,14 +1027,14 @@ namespace std { class ostream{}; }
         def plot(self, show=True):
             """
             RoadRunner.plot([show])
-            
-            Plot the previously run simulation result using Matplotlib. 
 
-            This takes the contents of the simulation result and builds a 
-            legend from the selection list. 
+            Plot the previously run simulation result using Matplotlib.
 
-            If the optional prameter 'show' [default is True] is given, the pylab 
-            show() method is called. 
+            This takes the contents of the simulation result and builds a
+            legend from the selection list.
+
+            If the optional prameter 'show' [default is True] is given, the pylab
+            show() method is called.
             """
 
             import pylab as p
