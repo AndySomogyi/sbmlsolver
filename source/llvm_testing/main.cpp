@@ -229,11 +229,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    rr::LoadSBMLOptions lo;
-
-    lo.modelGeneratorOpt |= rr::LoadSBMLOptions::CONSERVED_MOIETIES;
-
-    rr::RoadRunner r(argv[1], &lo);
+    rr::RoadRunner r(argv[1]);
 
     rr::SimulateOptions o;
 
@@ -246,13 +242,6 @@ int main(int argc, char* argv[])
     rr::RoadRunnerData *d = r.getSimulationResult();
 
     std::cout << *d << std::endl;
-
-
-    std::cout << "getting full jacobian" << std::endl;
-
-
-    ls::DoubleMatrix fj = r.getFullJacobian();
-
 
 
 

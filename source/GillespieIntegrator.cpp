@@ -99,7 +99,7 @@ double GillespieIntegrator::integrate(double t, double hstep)
     double tf = 0;
     bool singleStep;
 
-    if (options.integratorFlags && SimulateOptions::VARIABLE_STEP)
+    if (options.integratorFlags & SimulateOptions::VARIABLE_STEP)
     {
         if (options.minimumTimeStep > 0.0)
         {
