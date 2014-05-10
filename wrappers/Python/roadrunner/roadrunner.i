@@ -2145,27 +2145,4 @@ namespace std { class ostream{}; }
 
 
 
-%pythoncode %{
-def plot(result, show=True):
-    import pylab as p
-
-    if result.dtype.names is None:
-        # treat as a regular array
-        p.plot(result[:,0], result[:,1:])
-
-    else:
-        if len(result.dtype.names) < 1:
-            raise Exception('no columns to plot')
-
-        time = result.dtype.names[0]
-
-        for name in result.dtype.names[1:]:
-            p.plot(result[time], result[name], label='$' + name + '$')
-
-        p.legend()
-
-    if show:
-        p.show()
-
-%}
 
