@@ -14,9 +14,9 @@ using std::list;
 using std::vector;
 using std::complex;
 
-RR_DECLSPEC char*   			createText(const string& str);
-RR_DECLSPEC char*   			createText(const int& count);
-RR_DECLSPEC bool   				freeText(char* str);
+RR_DECLSPEC char*               createText(const string& str);
+RR_DECLSPEC char*               createText(const int& count);
+RR_DECLSPEC bool                   freeText(char* str);
 RR_DECLSPEC string              replaceWord(const string& str1, const string& str2, const string& theString);
 RR_DECLSPEC bool                convertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expression);
 RR_DECLSPEC string              removeChars(const string& str, const string& chars);
@@ -26,9 +26,9 @@ RR_DECLSPEC int                 getNumberOfFunctionArguments(const string& expre
 RR_DECLSPEC string              tabs(const int& nr);
 RR_DECLSPEC string              NL();
 
-RR_DECLSPEC string				toUpperOrLowerCase(const string& inStr, int (*func)(int));
-RR_DECLSPEC string 				toUpper(const string& str);
-RR_DECLSPEC string 				toLower(const string& str);
+RR_DECLSPEC string                toUpperOrLowerCase(const string& inStr, int (*func)(int));
+RR_DECLSPEC string                 toUpper(const string& str);
+RR_DECLSPEC string                 toLower(const string& str);
 
 RR_DECLSPEC string              getFilePath(const string& fileN);
 RR_DECLSPEC string              getFileName(const string& fileN);
@@ -37,7 +37,7 @@ RR_DECLSPEC string              getFileExtension(const string& fileN);
 
 RR_DECLSPEC string              changeFileExtensionTo(const string& theFileName, const string& newExtension);
 
-RR_DECLSPEC int 				compareNoCase(const string& str1, const string& str2);
+RR_DECLSPEC int                 compareNoCase(const string& str1, const string& str2);
 RR_DECLSPEC string              trim(const string& str, const char& toTrim = ' ');
 RR_DECLSPEC bool                startsWith(const string& src, const string& sub);
 RR_DECLSPEC bool                endsWith(const string& src, const string& sub);
@@ -76,7 +76,7 @@ RR_DECLSPEC string              toString(const vector<string>& vec, const string
 
 RR_DECLSPEC string              format(const string& src, const int& arg);
 RR_DECLSPEC string              format(const string& str, const int& arg1);
-RR_DECLSPEC string              format(const string& str1, const int& arg1, const double& arg2);
+
 
 RR_DECLSPEC string              format(const string& src, const string& arg);
 RR_DECLSPEC string              format(const string& src, const string& arg1, const string& arg2, const string& arg3);

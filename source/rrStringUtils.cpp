@@ -15,32 +15,32 @@ namespace rr
 
 char* createText(const string& str)
 {
-	if(str.size() == 0)
+    if(str.size() == 0)
     {
-    	return NULL;
+        return NULL;
     }
 
-	char* text = new char[str.size() + 1];
-	std::copy(str.begin(), str.end(), text);
-	text[str.size()] = '\0'; //terminating NULL!
-	return text;
+    char* text = new char[str.size() + 1];
+    std::copy(str.begin(), str.end(), text);
+    text[str.size()] = '\0'; //terminating NULL!
+    return text;
 }
 
 char* createText(const int& count)
 {
-	if(count == 0)
+    if(count == 0)
     {
-    	return NULL;
+        return NULL;
     }
 
-	char* text = new char[count + 1];
-	text[count] = '\0'; //terminating NULL!
-	return text;
+    char* text = new char[count + 1];
+    text[count] = '\0'; //terminating NULL!
+    return text;
 }
 
 bool freeText(char* str)
 {
-	delete [] str;
+    delete [] str;
     return true;
 }
 
@@ -184,7 +184,7 @@ string joinPath(const string& aPath, const string& aFile, const char pathSeparat
     {
         if(aPath[aPath.size() - 1] == pathSeparator)
         {
-	        return aPath + aFile;
+            return aPath + aFile;
         }
         else
         {
@@ -197,19 +197,19 @@ string joinPath(const string& aPath, const string& aFile, const char pathSeparat
 
 string joinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator)
 {
-	string tmp(joinPath(p1, p2, gPathSeparator));
+    string tmp(joinPath(p1, p2, gPathSeparator));
     return joinPath(tmp, p3, gPathSeparator);
 }
 
 string joinPath(const string& p1, const string& p2, const string& p3, const string& p4, const char pathSeparator)
 {
-	string tmp(joinPath(p1, p2, p3, gPathSeparator));
+    string tmp(joinPath(p1, p2, p3, gPathSeparator));
     return joinPath(tmp, p4, gPathSeparator);
 }
 
 string joinPath(const string& p1, const string& p2, const string& p3, const string& p4, const string& p5, const char pathSeparator)
 {
-	string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
+    string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
     return joinPath(tmp, p5, gPathSeparator);
 }
 
@@ -261,10 +261,10 @@ string getFileNameNoExtension(const string& fileN)
     }
     else
     {
-    	fName = fileN;
+        fName = fileN;
     }
 
-	return changeFileExtensionTo(fName, "");
+    return changeFileExtensionTo(fName, "");
 }
 
 string getFileExtension(const string& fileN)
@@ -320,9 +320,9 @@ string changeFileExtensionTo(const string& _fName, const string& newExtension)
     {
         fName = fName + newExtension;
     }
-    else if(newExtension.size() == 0)	//No extension
+    else if(newExtension.size() == 0)    //No extension
     {
-    	return fName;
+        return fName;
     }
     else
     {
@@ -377,17 +377,6 @@ string format(const string& src, const string& arg)
 string format(const string& src, const int& arg)
 {
     return substitute(src, "{0}", toString(arg));
-}
-
-string format(const string& str1, const int& arg1, const int& arg2)
-{
-    string token1("{0}");
-    string token2("{1}");
-    string newString(str1);
-
-    newString = substitute(newString, token1, arg1);
-    newString = substitute(newString, token2, arg2);
-    return newString;
 }
 
 string format(const string& src, const string& arg1, const string& arg2)
@@ -648,7 +637,7 @@ bool toBool(const string& str)
     }
     else
     {
-    	//Could have a case insensitive comparison..
+        //Could have a case insensitive comparison..
         return (str == "true") || (str == "True") || (str == "TRUE") ? true : false;
     }
 }
@@ -658,9 +647,9 @@ double toDouble(const string& str)
     if(!str.size())
         return 0;
 
-	if(str == "-")
+    if(str == "-")
     {
-    	return gDoubleNaN;
+        return gDoubleNaN;
     }
     char *endptr = NULL;
     return strtod(str.c_str(), &endptr);
@@ -668,17 +657,17 @@ double toDouble(const string& str)
 
 complex<double> toComplex(const string& str)
 {
-	vector<string> parts(splitString(str,"(,)"));
+    vector<string> parts(splitString(str,"(,)"));
 
     if(parts.size() != 2)
     {
-    	//should throw...
+        //should throw...
         return complex<double>(0,0);
     }
 
     char *endptr = NULL;
     complex<double> num;
-	if(parts[0] == "-")
+    if(parts[0] == "-")
     {
         if(parts[1] == "-")
         {
@@ -688,13 +677,13 @@ complex<double> toComplex(const string& str)
         return complex<double>(gDoubleNaN,im);
     }
 
-	if(parts[1] == "-")
+    if(parts[1] == "-")
     {
         double re = strtod(parts[0].c_str(), &endptr);
         return complex<double>(re,gDoubleNaN);
     }
 
-	double re = strtod(parts[0].c_str(), &endptr);
+    double re = strtod(parts[0].c_str(), &endptr);
     double im = strtod(parts[1].c_str(), &endptr);
 
     return complex<double>(re,im);
@@ -886,12 +875,12 @@ string toString(const unsigned char n)
 
 string toString(const string& str)
 {
-	return str;
+    return str;
 }
 
 string toString(const vector<string>& vec, const string& sep)
 {
-	stringstream text;
+    stringstream text;
     text<<"{";
     for(int i = 0; i < vec.size(); i++)
     {
