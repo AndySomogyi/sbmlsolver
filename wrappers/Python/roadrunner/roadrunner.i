@@ -993,6 +993,16 @@ namespace std { class ostream{}; }
                 o.steps = args[2]
 
             for k,v in kwargs.iteritems():
+
+                if k == "integrator" and type(v) == str:
+                    if v.lower() == "gillespie":
+                        o.integrator = SimulateOptions.GILLESPIE
+                    elif v.lower() == "cvode":
+                        o.integrator = SimulateOptions.CVODE
+                    else:
+                        raise Exception("{0} is invalid argument for integrator".format(v))
+                    continue
+
                 if SimulateOptions.__dict__.has_key(k):
                     setattr(o, k, v)
                     continue
@@ -1022,6 +1032,7 @@ namespace std { class ostream{}; }
 
             This takes the contents of the simulation result and builds a
             legend from the selection list.
+
 
             If the optional prameter 'show' [default is True] is given, the pylab
             show() method is called.
@@ -2145,27 +2156,4 @@ namespace std { class ostream{}; }
 
 
 
-%pythoncode %{
-def plot(result, show=True):
-    import pylab as p
-
-    if result.dtype.names is None:
-        # treat as a regular array
-        p.plot(result[:,0], result[:,1:])
-
-    else:
-        if len(result.dtype.names) < 1:
-            raise Exception('no columns to plot')
-
-        time = result.dtype.names[0]
-
-        for name in result.dtype.names[1:]:
-            p.plot(result[time], result[name], label='$' + name + '$')
-
-        p.legend()
-
-    if show:
-        p.show()
-
-%}
 

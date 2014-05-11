@@ -99,7 +99,9 @@ double GillespieIntegrator::integrate(double t, double hstep)
     double tf = 0;
     bool singleStep;
 
-    if (options.integratorFlags && SimulateOptions::VARIABLE_STEP)
+    assert(hstep > 0 && "hstep must be > 0");
+
+    if (options.integratorFlags & SimulateOptions::VARIABLE_STEP)
     {
         if (options.minimumTimeStep > 0.0)
         {
@@ -131,13 +133,6 @@ double GillespieIntegrator::integrate(double t, double hstep)
         double r2 = urand();
 
         assert(r1 > 0 && r1 <= 1 && r2 >= 0 && r2 <= 1);
-
-        // output
-        // output(out, t, x, M);
-
-        // get propensity
-        // update_p(p, c, x);
-        // sum_propencity = sum(p, N);
 
         // sum of propensities
         double s = 0;

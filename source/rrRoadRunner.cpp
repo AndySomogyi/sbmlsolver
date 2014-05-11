@@ -1173,8 +1173,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     // evalute the model with its current state
     self.model->getStateVectorRate(timeStart, 0, 0);
 
-    // integration starts here
-
+    // Variable Time Step Integration
     if (self.simulateOpt.integratorFlags & SimulateOptions::VARIABLE_STEP )
     {
         Log(Logger::LOG_NOTICE) << "Performing variable step integration";
@@ -1200,7 +1199,9 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
                 tout = self.integrator->integrate(tout, timeEnd);
                 if (!isfinite(tout))
                 {
-                    // time step is at infinity so bail
+                    // time step is at infinity so bail, but get the last value
+                    getSelectedValues(row, timeEnd);
+                    results.push_back(row);
                     break;
                 }
                 getSelectedValues(row, tout);
@@ -1223,10 +1224,77 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
             std::copy(i->begin(), i->end(), prow);
         }
     }
+
+    // Stochastic Fixed Step Integration
+    // do fixed time step simulation, these are different for deterministic
+    // and stochastic.
+    else if(SimulateOptions::getIntegratorType(self.simulateOpt.integrator) ==
+            SimulateOptions::STOCHASTIC)
+    {
+        Log(Logger::LOG_NOTICE)
+                << "Performing stochastic fixed step integration for "
+                << self.simulateOpt.steps + 1 << " steps";
+
+        int numPoints = self.simulateOpt.steps + 1;
+
+        if (numPoints <= 1)
+        {
+            numPoints = 2;
+        }
+
+        const double hstep = (timeEnd - timeStart) / (numPoints - 1);
+        int nrCols = self.mSelectionList.size();
+
+        Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+
+        // ignored if same
+        self.simulationResult.resize(self.simulateOpt.steps + 1, nrCols);
+
+        try
+        {
+            // add current state as first row
+            getSelectedValues(self.simulationResult, 0, timeStart);
+
+            self.integrator->restart(timeStart);
+
+            double tout = timeStart;           // the exact times the integrator returns
+            double next = timeStart + hstep;   // because of fixed steps, the times when the
+                                               // value is recorded.
+
+            // index gets bumped in do-while loop.
+            for (int i = 1; i < self.simulateOpt.steps + 1;)
+            {
+                Log(Logger::LOG_DEBUG) << "step: " << i << "t0: " << tout << "hstep: " << next - tout;
+
+                // stochastic frequently overshoots time end
+                // may also be infinite
+                tout = self.integrator->integrate(tout, next - tout);
+
+                assert((tout >= next)
+                        && "stochastic integrator did not integrate to end time");
+
+                // get the output, always get at least one output
+                do
+                {
+                    getSelectedValues(self.simulationResult, i, next);
+                    i++;
+                    next = timeStart + i * hstep;
+                }
+                while((i < self.simulateOpt.steps + 1) && tout > next);
+            }
+        }
+        catch (EventListenerException& e)
+        {
+            Log(Logger::LOG_NOTICE) << e.what();
+        }
+    }
+
+    // Deterministic Fixed Step Integration
     else
     {
-        Log(Logger::LOG_DEBUG) << "Perfroming fixed step integration for  "
-                << self.simulateOpt.steps + 1 <<" times";
+        Log(Logger::LOG_INFORMATION)
+                << "Perfroming deterministic fixed step integration for  "
+                << self.simulateOpt.steps + 1 << " steps";
 
         int numPoints = self.simulateOpt.steps + 1;
 
@@ -1273,7 +1341,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 
     // done with integration
 
-    Log(Logger::LOG_DEBUG)<<"Simulation done..";
+    Log(Logger::LOG_DEBUG) << "Simulation done..";
 
     return &self.simulationResult;
 }
