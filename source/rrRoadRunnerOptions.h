@@ -14,12 +14,14 @@
 #include <string>
 #include <vector>
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
 #include <unordered_map>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
 #include <tr1/unordered_map>
+#define cxx11_ns std::tr1
 #endif
 
 #if defined(_MSC_VER)
@@ -383,7 +385,7 @@ private:
     /**
      * map of string to arbitrary values
      */
-    typedef std::tr1::unordered_map<std::string, rr::Variant> VariantMap;
+    typedef cxx11_ns::unordered_map<std::string, rr::Variant> VariantMap;
     VariantMap values;
 };
 

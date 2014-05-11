@@ -14,7 +14,7 @@
 // bugs in gcc 44 c++ random generator
 #if (__cplusplus >= 201103L) || defined(_MSC_VER)
     #include <random>
-    #define random_ns std
+    #define cxx11_ns std
     #define RR_CXX_RANDOM 1
 #else
     #include <stdlib.h>
@@ -66,7 +66,7 @@ private:
     SimulateOptions options;
 
 #ifdef RR_CXX_RANDOM
-    random_ns::mt19937 engine;
+    cxx11_ns::mt19937 engine;
 #endif
 
     double timeScale;

@@ -31,12 +31,14 @@
 #include "rrSelectionRecord.h"
 
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
 #include <unordered_map>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
 #include <tr1/unordered_map>
+#define cxx11_ns std::tr1
 #endif
 
 #include <map>
@@ -59,7 +61,7 @@ public:
     /**
      * takes ownership of the LLVMModelData pointer.
      */
-    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources,
+    LLVMExecutableModel(const cxx11_ns::shared_ptr<ModelResources> &resources,
             LLVMModelData* modelData);
 
 
@@ -544,7 +546,7 @@ private:
     /**
      * the model generator maintians a cached of generated models.
      */
-    std::tr1::shared_ptr<const ModelResources> resources;
+    cxx11_ns::shared_ptr<const ModelResources> resources;
 
     LLVMModelData *modelData;
     const LLVMModelDataSymbols *symbols;
@@ -590,7 +592,7 @@ private:
     /**
      * cache the selection records
      */
-    typedef std::tr1::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
+    typedef cxx11_ns::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
     SelectionMap selectionRecordCache;
 
     /**

@@ -7,10 +7,12 @@
 #include <list>
 #include <ostream>
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
+#define cxx11_ns std::tr1
 #endif
 
 namespace rr
@@ -52,7 +54,7 @@ protected:
  * listeners are shared objects, so use std smart pointers
  * to manage them.
  */
-typedef std::tr1::shared_ptr<EventListener> EventListenerPtr;
+typedef cxx11_ns::shared_ptr<EventListener> EventListenerPtr;
 
 class EventListenerException: public std::exception
 {

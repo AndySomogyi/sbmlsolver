@@ -13,12 +13,14 @@
 #include "ModelGenerator.h"
 #include "LLVMCompiler.h"
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
 #include <unordered_map>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
 #include <tr1/unordered_map>
+#define cxx11_ns std::tr1
 #endif
 
 namespace rrllvm
