@@ -104,8 +104,8 @@
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
-%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
-%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+//%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
+//%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
 
 %apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
@@ -621,13 +621,16 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 // rename these, the injected python code will take care of
 // making these properties.
-%rename (_getSelections) rr::RoadRunner::getSelections();
-%rename (_setSelections) setSelections(const std::vector<rr::SelectionRecord>&);
+%ignore rr::RoadRunner::getSelections();
+%ignore rr::RoadRunner::setSelections(const std::vector<rr::SelectionRecord>&);
 %rename (_setSelections) setSelections(const std::vector<std::string>&);
 %rename (_getModel) getModel();
 
-%rename (_getSteadyStateSelections) rr::RoadRunner::getSteadyStateSelections();
-%rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
+// hide SelectionRecord details from python api, 
+// only deal with strings here.
+%ignore rr::RoadRunner::getSteadyStateSelections();
+%ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
+
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
 %rename (_getConservedMoietyAnalysis) getConservedMoietyAnalysis();
 %rename (_setConservedMoietyAnalysis) setConservedMoietyAnalysis(bool);
@@ -798,6 +801,7 @@ namespace std { class ostream{}; }
 %include "PyIntegratorListener.h"
 %include <rrConfig.h>
 
+ /*
 %extend std::vector<rr::SelectionRecord>
 {
     std::string __repr__() {
@@ -821,7 +825,7 @@ namespace std { class ostream{}; }
         return s.str();
     }
 }
-
+ */
 
 
 %extend rr::RoadRunner
@@ -873,6 +877,53 @@ namespace std { class ostream{}; }
 
         return pyList;
     }
+
+    /**
+     * returns the SelectionRecord vector python list of strings.
+     */
+    PyObject *_getSelections() {
+
+        const std::vector<rr::SelectionRecord>& selections = ($self)->getSelections();
+
+        unsigned size = selections.size();
+
+        PyObject *pysel = PyList_New(size);
+
+        unsigned j = 0;
+        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin(); 
+             i != selections.end(); ++i) {
+            std::string str = i->to_string();
+
+            PyObject *pystr = PyString_FromString(str.c_str());
+            PyList_SET_ITEM(pysel, j++, pystr);
+        }
+
+        return pysel;
+    }
+
+    /**
+     * returns the SelectionRecord vector python list of strings.
+     */
+    PyObject *_getSteadyStateSelections() {
+
+        const std::vector<rr::SelectionRecord>& selections = ($self)->getSteadyStateSelections();
+
+        unsigned size = selections.size();
+
+        PyObject *pysel = PyList_New(size);
+
+        unsigned j = 0;
+        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin(); 
+             i != selections.end(); ++i) {
+            std::string str = i->to_string();
+
+            PyObject *pystr = PyString_FromString(str.c_str());
+            PyList_SET_ITEM(pysel, j++, pystr);
+        }
+
+        return pysel;
+    }
+
 
 
    %pythoncode %{
@@ -994,6 +1045,7 @@ namespace std { class ostream{}; }
 
             for k,v in kwargs.iteritems():
 
+                # changing integrators.
                 if k == "integrator" and type(v) == str:
                     if v.lower() == "gillespie":
                         o.integrator = SimulateOptions.GILLESPIE
@@ -1003,6 +1055,13 @@ namespace std { class ostream{}; }
                         raise Exception("{0} is invalid argument for integrator".format(v))
                     continue
 
+                # specifying selections:
+                if k == "selections" or k == "sel":
+                    self.selections = v
+                    continue 
+
+                # look through all the attributes of the SimulateOptions class, 
+                # if its one of these, set it.  
                 if SimulateOptions.__dict__.has_key(k):
                     setattr(o, k, v)
                     continue
@@ -1016,6 +1075,8 @@ namespace std { class ostream{}; }
                     continue
 
                 raise Exception("{0} is not a valid keyword argument".format(k))
+
+             
 
             result = self._simulate(o)
 
@@ -1040,7 +1101,7 @@ namespace std { class ostream{}; }
 
             import pylab as p
 
-            result = self.getSimulationResult()
+            result = self.getSimulationData()
 
             if result is None:
                 raise Exception("no simulation result")

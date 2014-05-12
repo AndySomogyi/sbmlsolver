@@ -239,9 +239,9 @@ int main(int argc, char* argv[])
 
     r.simulate(&o);
 
-    rr::RoadRunnerData *d = r.getSimulationResult();
+    rr::RoadRunnerData d(&r);
 
-    std::cout << *d << std::endl;
+    std::cout << d << std::endl;
 
 
 

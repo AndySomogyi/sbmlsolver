@@ -149,11 +149,16 @@ public:
     const DoubleMatrix *simulate(const SimulateOptions* options = 0);
 
     /**
-     * obtain a pointer to the simulation result.
-     *
-     * This is owned by the RoadRunner object.
+     * RoadRunner keeps a copy of the simulation data around until the
+     * next call to simulate. This matrix can be obtained here.
      */
-    RoadRunnerData *getSimulationResult();
+    const DoubleMatrix* getSimulationData() const;
+
+    /**
+     * Use getSimulationData() instead.
+     * Also, can use the RoadRunnerData::RoadRunnerData(const RoadRunner*) ctor
+     */
+    RR_DEPRECATED(rr::RoadRunnerData *getSimulationResult());
 
     void setSimulateOptions(const SimulateOptions& settings);
 

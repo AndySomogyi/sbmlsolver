@@ -16,19 +16,21 @@ using namespace ls;
 using std::ofstream;
 using std::stringstream;
 
+class RoadRunner;
+
 /**
  * \brief RoadRunnerData is a general purpose container for numerical data, e.g. simulation output.
  \section rrData RoadRunnerData
  * The class provide the ability to read and write data from file (see Format specification below).
- * For certain problems, weights can be specified as a property of the object as well. Weights are not allocated automatically, but can 
+ * For certain problems, weights can be specified as a property of the object as well. Weights are not allocated automatically, but can
  * be allocated using the allocateWeights() member function.
- * In addition to the data (internally stored as a matrix), a column header property is available. 
- * The column header store information on the content in data columns, e.g time, S1, S2, etc.. 
+ * In addition to the data (internally stored as a matrix), a column header property is available.
+ * The column header store information on the content in data columns, e.g time, S1, S2, etc..
 
  * \subsection dataFormat DataFormat
  * When RoadRunnerData is written or read from file, a pre defined data format is used. This format
- * is defined here. 
- * 
+ * is defined here.
+ *
  * The following shows the format of a RoadRunnerData object as written to file
     \code
         [INFO]
@@ -58,7 +60,7 @@ using std::stringstream;
     The [DATA] section hold the actual numerical data. It is written row by row as comma seperated values.
 
     \subsubsection weights Weights
-    The data file can optionally store data weights. Weights are numbers used to 'weigh' individual data numbers, which is 
+    The data file can optionally store data weights. Weights are numbers used to 'weigh' individual data numbers, which is
     useful in various problems.
     In the case of using weighted data, an additional section named [WEIGHTS] would be found in the data file, i.e.
 
@@ -70,21 +72,21 @@ using std::stringstream;
 
         [DATA]
         0,0.0001593016905797244,-7.559109749054044e-006
-        . 
+        .
         .
 
         [WEIGHTS]
-        1,1,1 
-        1,1,0.34 
-        1,1.23,1 
-        1,1,0.45 
-        1,1,1 
+        1,1,1
+        1,1,0.34
+        1,1.23,1
+        1,1,0.45
+        1,1,1
     \endcode
 
-    The [WEIGHTS] section is required to have the same dimension as the [DATA] section. 
-    Weigts are read into the internal data container, named mWeights, and accessed trough the 
+    The [WEIGHTS] section is required to have the same dimension as the [DATA] section.
+    Weigts are read into the internal data container, named mWeights, and accessed trough the
     member functions getWeights(), weight(row, col) and setWeight(row,col).
-    
+
     As an example of how weights can be used is shown below:
 
    \code
@@ -105,7 +107,7 @@ using std::stringstream;
  *
  * If data is read from file, and the size of the COLUMNM_HEADERS don't match the underlying data, reading will fail
  * and an exception will be thrown.
- * 
+ *
  */
 class RR_DECLSPEC RoadRunnerData
 {
@@ -113,12 +115,12 @@ class RR_DECLSPEC RoadRunnerData
 public:
     /**
      * \brief Constructor Create a RoadRunner data object with dimension rSize x cSize.
-     * 
+     *
      * \param rSize: number of rows
      * \param cSize: number of columns.
      */
     RoadRunnerData(const int& rSize = 0, const int& cSize = 0);
-    
+
     /**
      * \brief Constructor -- copy the names and data from the given
      * parameters.
@@ -129,18 +131,25 @@ public:
     RoadRunnerData(const std::vector<std::string>& colNames,
             const DoubleMatrix& data);
 
+
     /**
-     *   \brief Destructor. De allocate any memory allocated in the class.    
+     * copies the simulation result out of a RoadRunner object.
+     */
+    RoadRunnerData(const RoadRunner* rr);
+
+
+    /**
+     *   \brief Destructor. De allocate any memory allocated in the class.
      */
     ~RoadRunnerData();
 
     /**
-     *   \brief allocate. Allocate an underlying data matrix of size cSize x rSize. 
+     *   \brief allocate. Allocate an underlying data matrix of size cSize x rSize.
      */
     void allocate(const int& cSize, const int& rSize);
-    
+
     /**
-     *   \brief allocate. Allocate an underlying data (weights) matrix of size cSize x rSize. 
+     *   \brief allocate. Allocate an underlying data (weights) matrix of size cSize x rSize.
      */
     void allocateWeights();
 
@@ -189,18 +198,18 @@ public:
      *
      * First line, comma separated values defining the column header, e.g. "time, S1, S2" etc
      *
-     * Second line to end of file: Numeric values in comma (and/or space) separated columns, corresponding to the 
+     * Second line to end of file: Numeric values in comma (and/or space) separated columns, corresponding to the
      * column header
      * \code
-           time,S1,S2 
+           time,S1,S2
            0,0.00015,0
            0.1,0.0001357256127053939,1.427438729460607e-005
            0.2,0.0001228096129616973,2.719038703830272e-005
            0.3,0.0001111227331022577,3.887726689774233e-005
            .......
-       \endcode            
-     * 
-     * \todo Rename this function to readCSV() 
+       \endcode
+     *
+     * \todo Rename this function to readCSV()
      */
     bool loadSimpleFormat(const std::string& fileName);
 
@@ -209,7 +218,7 @@ public:
         \param fileName Name, including path, for the output file.
         \todo Rename to writeToFile
     */
-    bool writeTo(const std::string& fileName) const;    
+    bool writeTo(const std::string& fileName) const;
 
     /**
         \brief Read data from file. See required format in the RoadRunnerData general description.
@@ -223,7 +232,7 @@ public:
      * correspond to the size of the actual data.
      * \todo Rename to validateFormat()
      */
-    bool check() const;    
+    bool check() const;
 
     /**
      * When this is converted to a numpy array, should this be converted to a structured
@@ -231,19 +240,19 @@ public:
      */
     bool structuredResult;
 
-    /** 
+    /**
     * \brief Stream friend function, allowing RoadRunner data to be streamed to a std::ostream.
     */
     RR_DECLSPEC
     friend std::ostream& operator <<(std::ostream& ss, const RoadRunnerData& data);
 
-    /** 
+    /**
     * \brief Stream friend function, allowing RoadRunner data to be streamed from a std::istream.
     */
     RR_DECLSPEC
     friend std::istream& operator >>(std::istream& ss, RoadRunnerData& data);
 
-    /** 
+    /**
     * \brief Access data element operator.
     *
     * The following code will assign 45 to data at row 3 and column 4
@@ -257,7 +266,7 @@ public:
 
     double& operator()(const unsigned& row, const unsigned& col);
 
-    /** 
+    /**
     * \brief Access data element operator used in constant expression.
     *
     * The following code will print the element at row 3 and column 4
@@ -270,7 +279,7 @@ public:
     */
     double operator()(const unsigned& row, const unsigned& col) const;
 
-    /** 
+    /**
     * \brief Return data element at (row, col)
 
     * \param row Index of row
@@ -278,7 +287,7 @@ public:
     */
     double getDataElement(int row, int col);
 
-    /** 
+    /**
     * \brief Set data element at (row, col)
 
     * \param row Index of row
@@ -287,14 +296,14 @@ public:
     */
     void   setDataElement(int row, int col, double value);
 
-    /** 
+    /**
     * \brief Assignment operator. Deep copy of data in an assignment expression.
     *
     * \param rhs RoadRunnerdata object on the right side of the assignment ().
     */
     RoadRunnerData& operator=(const RoadRunnerData& rhs);
 
-    /** 
+    /**
     * \brief Access a weight element.
     *
     * The following code will print the weight element at row 3 and column 4
@@ -306,7 +315,7 @@ public:
     */
     double getWeight(int row, int col) const;
 
-    /** 
+    /**
     * \brief Set data weight at number at row,col index.
     * \param row Index of row
     * \param col Index of col
@@ -314,26 +323,26 @@ public:
     */
     void setWeight(int row, int col, double val);
 
-    /** 
+    /**
     * \brief Set data object name.
     * \param name The name as a string
-    * \deprecated Left over function from debugging session ?? 
+    * \deprecated Left over function from debugging session ??
     */
     void setName(const std::string& name);
 
-    /** 
+    /**
     * \brief Get data object name.
-    * \deprecated Left over function from debugging session ?? 
+    * \deprecated Left over function from debugging session ??
     */
     std::string getName() const;
 
-    /** 
+    /**
     * \brief Return the dimension of underlying data.
     */
     std::pair<int, int> dimension() const;
 
-    /** 
-    * \brief Append data columns. In certain circumstances the client 
+    /**
+    * \brief Append data columns. In certain circumstances the client
     * modify some initial data, say S1, S2 etc. and obtain a new set of data, S1', S2' etc.
     * The append function creates a new data set, containing the data columns in the argument
     * data as appended columns, e.g. if the original data contain
@@ -346,25 +355,25 @@ public:
     */
     bool append(const RoadRunnerData& data);
 
-    /** 
+    /**
     * \brief If the data has a column named 'time', the function will return the first time element.
     * If no time column exists, then a DoubleNaN is returned
     */
     double getTimeStart() const;
 
-    /** 
+    /**
     * \brief If the data has a column named 'time', the function will return the last time element.
     * If no time column exists, then a DoubleNaN is returned
-    */    
+    */
     double getTimeEnd() const;
 
-    /** 
+    /**
     * \brief Return a const reference to the underlying data matrix.
     *
-    */    
+    */
     const DoubleMatrix& getData() const;
-    
-    /** 
+
+    /**
     * \brief Return a const reference to the underlying data matrix hodling Weights.
     */
     const DoubleMatrix& getWeights() const;
@@ -372,32 +381,32 @@ public:
 
 protected:
 
-    /** 
+    /**
     * \brief Container holding column names.
     */
     std::vector<std::string> mColumnNames;
-    
-    /** 
+
+    /**
     * \brief Container holding the actual data.
     */
     DoubleMatrix mTheData;
-    
-    /** 
+
+    /**
     * \brief Container holding the data weights.
     */
     DoubleMatrix mWeights;
 
-    /** 
+    /**
     * \brief Integer setting the precision of 'time' double numbers when writing to file
     */
-    int mTimePrecision;           
+    int mTimePrecision;
 
-    /** 
+    /**
     * \brief Integer setting the precision of 'data' double numbers when writing to file
     */
     int mDataPrecision;            //The precision when saved to file
 
-    /** 
+    /**
     * \brief String holding the 'name' of the object.
     * \todo Remove
     */

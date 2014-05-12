@@ -3617,6 +3617,11 @@ RoadRunnerOptions& RoadRunner::getOptions()
     return impl->roadRunnerOptions;
 }
 
+const DoubleMatrix* RoadRunner::getSimulationData() const
+{
+    return &impl->simulationResult;
+}
+
 void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
 {
     get_self();

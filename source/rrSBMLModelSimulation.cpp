@@ -48,7 +48,7 @@ RoadRunnerData SBMLModelSimulation::GetResult()
 {
     if(mEngine)
     {
-        return *mEngine->getSimulationResult();
+        return RoadRunnerData(mEngine);
     }
     else
     {
@@ -309,7 +309,7 @@ bool SBMLModelSimulation::SaveResult()
     string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = changeFileExtensionTo(resultFileName, ".csv");
     Log(lInfo)<<"Saving result to file: "<<resultFileName;
-    RoadRunnerData& resultData = *mEngine->getSimulationResult();
+    RoadRunnerData resultData(mEngine);
 
     ofstream fs(resultFileName.c_str());
     fs << resultData;
