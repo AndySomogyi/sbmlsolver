@@ -985,8 +985,25 @@ namespace std { class ostream{}; }
 
         def simulate(self, *args, **kwargs):
             """
-            Simulate the optionally plot current SBML model.
+            Simulate the optionally plot current SBML model. This is the one stop shopping method
+            for simulation and ploting. 
 
+            simulate accepts a up to four positional arguments and a large number of keyword args. 
+
+            The first four (optional) arguments are treated as:
+            
+            1: Start Time, if this is a number. 
+
+            2: End Time, if this is a number.
+
+            3: Number of Steps, if this is a number.
+            
+            4: List of Selections. 
+
+            All four of the positional arguments are optional. If any of the positional arguments are
+            a list of string instead of a number, then they are interpreted as a list of selections. 
+
+            
             There are a number of ways to call simulate.
 
             1. With no arguments. In this case, the current set of `SimulateOptions` will
@@ -1018,31 +1035,140 @@ namespace std { class ostream{}; }
 
             This simulation will use the previous values.
 
+            simulate accepts the following list of keyword arguments:
+
+            integrator
+                A text string specifying which integrator to use. Currently supports "cvode"
+                for deterministic simulation (default) and "gillespie" for stochastic 
+                simulation.
+
+            sel or selections
+                A list of strings specifying what values to display in the output. 
+
+            plot
+                True or False
+                If True, RoadRunner will create a basic plot of the simulation result using
+                the built in plot routine which uses MatPlotLib. 
+
+            absolute
+                A number representing the absolute difference permitted for the integrator 
+                tolerance.
+
+            duration
+                The duration of the simulation run, in the model's units of time.
+                Note, setting the duration automatically sets the end time and visa versa.
+
+            end
+                The simulation end time. Note, setting the end time automatically sets 
+                the duration accordingly and visa versa.
+
+            relative
+                A float-point number representing the relative difference permitted. 
+                Defaults 0.0001
+
+            resetModel (or just "reset"???)
+                True or False
+                Causes the model to be reset to the original conditions specified in 
+                the SBML when the simulation is run.
+
+            start
+                The start time of the simulation time-series data. Often this is 0, 
+                but not necessarily.
+
+            steps
+                The number of steps at which the output is sampled. The samples are evenly spaced. 
+                When a simulation system calculates the data points to record, it will typically 
+                divide the duration by the number of time steps. Thus, for N steps, the output 
+                will have N+1 data rows.
+
+            stiff
+                True or False
+                Use the stiff integrator. Only use this if the model is stiff and causes issues 
+                with the regular integrator. The stiff integrator is slower than the conventional 
+                integrator.
+
+            multiStep
+                True or False
+                Perform a multi step integration.
+                * Experimental *
+                Perform a multi-step simulation. In multi-step simulation, one may monitor the 
+                variable time stepping via the IntegratorListener events system.
+
+            initialTimeStep
+                A user specified initial time step. If this is <= 0, the integrator will attempt 
+                to determine a safe initial time step.
+
+                Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate 
+                the internal integrator may take many many steps to reach one of the external time steps. 
+                This value specifies an initial value for the internal integrator time step.
+
+            minimumTimeStep
+                Specify the minimum time step that the internal integrator will use. 
+                Uses integrator estimated value if <= 0.
+
+            maximumTimeStep
+                Specify the maximum time step size that the internal integrator will use. 
+                Uses integrator estimated value if <= 0.
+
+            maximumNumSteps
+                Specify the maximum number of steps the internal integrator will use before 
+                reaching the user specified time span. Uses the integrator default value if <= 0.
+
+
             :returns: a numpy array with each selected output time series being a
              column vector, and the 0'th column is the simulation time.
             :rtype: numpy.ndarray
             """
 
-
             doPlot = False
             show = True
+            haveSteps = False
+            haveVariableStep = False
             o = self.simulateOptions
 
             # check if we have just a sim options
             if len(args) >= 1:
                 if type(args[0]) == type(self.simulateOptions):
                     o = args[0]
-                else:
+                elif type(args[0]) == list:
+                    # its a selection list
+                    self.selections = args[0]
+                elif isinstance(args[0], (int, float)):
+                    # treat it as a number
                     o.start = args[0]
+                else:
+                    raise ValueError("argument 1 must be either a number, list or "
+                                     "SimulateOptions object, recieved: {0}".format(str(args[0]))) 
 
             # second arg is treated as sim end time
             if len(args) >= 2:
-                o.end = args[1]
+                if type(args[1]) == list:
+                    # its a selection list
+                    self.selections = args[1]
+                elif isinstance(args[1], (int, float)):
+                    # treat it as a number
+                    o.end = args[1]
+                else:
+                    raise ValueError("argument 2 must be either a number, list or "
+                                     "SimulateOptions object, recieved: {0}".format(str(args[1]))) 
 
-            # third arg is steps
+
+
+            # third arg is treated as number of steps
             if len(args) >= 3:
-                o.steps = args[2]
+                if type(args[2]) == list:
+                    # its a selection list
+                    self.selections = args[2]
+                elif isinstance(args[2], (int, float)):
+                    # treat it as a number
+                    o.steps = args[2]
+                    haveSteps = True
+                else:
+                    raise ValueError("argument 3 must be either a number, list or "
+                                     "SimulateOptions object, recieved: {0}".format(str(args[2]))) 
 
+       
+            # go through the list of keyword args
             for k,v in kwargs.iteritems():
 
                 # changing integrators.
@@ -1053,11 +1179,19 @@ namespace std { class ostream{}; }
                         o.integrator = SimulateOptions.CVODE
                     else:
                         raise Exception("{0} is invalid argument for integrator".format(v))
+
                     continue
 
                 # specifying selections:
                 if k == "selections" or k == "sel":
                     self.selections = v
+                    continue
+
+                # check if variableStep was explicitly specified, this overrides the steps 
+                # positional arg
+                if k == "variableStep":
+                    haveVariableStep = True 
+                    o.variableStep = v
                     continue 
 
                 # look through all the attributes of the SimulateOptions class, 
@@ -1076,8 +1210,13 @@ namespace std { class ostream{}; }
 
                 raise Exception("{0} is not a valid keyword argument".format(k))
 
-             
 
+            # if we are doing a stochastic sim, 
+            if SimulateOptions.getIntegratorType(o.integrator) == \
+                SimulateOptions.STOCHASTIC and not haveVariableStep:
+                o.variableStep = not haveSteps
+                
+            # the options are set up, now actually run the simuation... 
             result = self._simulate(o)
 
             if doPlot:
