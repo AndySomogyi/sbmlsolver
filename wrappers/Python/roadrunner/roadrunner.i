@@ -1186,6 +1186,11 @@ namespace std { class ostream{}; }
                 if k == "selections" or k == "sel":
                     self.selections = v
                     continue
+                
+                # reset model, also accept 'reset'
+                if k == "reset" or k == "resetModel":
+                    o.resetModel = v
+                    continue   
 
                 # check if variableStep was explicitly specified, this overrides the steps 
                 # positional arg
