@@ -713,35 +713,116 @@ species are replaced with assignment rules and a new set of conserved moiety
 parameters are introduced.</p>
 </dd></dl>
 
+<div class="section" id="simulation">
+<h3>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h3>
+<p>Fast and easy time series simulations is one of the main objectives of the RoadRunner project.</p>
+<p>All simulation related tasks can be accomplished with the single <tt class="docutils literal"><span class="pre">simulate</span></tt> method.</p>
 <dl class="method">
-<dt id="roadrunner.RoadRunner.simulate">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">simulate</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.simulate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Simulate the current SBML model.</p>
+<dt>
+<tt class="descname">RoadRunner.simulate(*args, **kwargs):</tt></dt>
+<dd><p>Simulate the optionally plot current SBML model. This is the one stop shopping method
+for simulation and ploting.</p>
+<p>simulate accepts a up to four positional arguments and a large number of keyword args.</p>
+<p>The first four (optional) arguments are treated as:</p>
+<blockquote>
+<div><p>1: Start Time, if this is a number.</p>
+<p>2: End Time, if this is a number.</p>
+<p>3: Number of Steps, if this is a number.</p>
+<p>4: List of Selections.</p>
+</div></blockquote>
+<p>All four of the positional arguments are optional. If any of the positional arguments are
+a list of string instead of a number, then they are interpreted as a list of selections.</p>
 <p>There are a number of ways to call simulate.</p>
-<ol class="arabic simple">
-<li>With no arguments. In this case, the current set of <cite>SimulateOptions</cite> will
-be used for the simulation. The current set may be changed either directly
-via setSimulateOptions() or with one of the two alternate ways of calling
-simulate.</li>
-</ol>
 <dl class="docutils">
-<dt>2: With single <cite>SimulateOptions</cite> argument. In this case, all of the settings</dt>
-<dd>in the given options are copied and will be used for the current and future
-simulations.</dd>
-<dt>3: With the three positions arguments, <cite>timeStart</cite>, <cite>timeEnd</cite>, <cite>steps</cite>. In this case</dt>
-<dd>these three values are copied and will be used for the current and future simulations.</dd>
+<dt>1: With no arguments. In this case, the current set of options from the previous</dt>
+<dd><tt class="docutils literal"><span class="pre">simulate</span></tt> call will be used. If this is the first time <tt class="docutils literal"><span class="pre">simulate</span></tt> is called,
+then a default set of values is used.</dd>
 </dl>
-<p>The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-one calls:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<p>2: With up to three positions arguments, described above.</p>
+<p>3: With optional keyword arguments where keywords are listed below.</p>
+<p>For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">end</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
-is followed by a call to:</p>
+<p>All of the options given to <tt class="docutils literal"><span class="pre">simulate</span></tt> are remembered and used as default arguments for
+subsequent calls, i.e. if one calls:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;time&quot;</span><span class="p">,</span> <span class="s">&quot;[S1]&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
+so that if this is followed by a call to:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>This simulation will use the previous values.</p>
+<p>This simulation will use the previous values. Note, that if the <tt class="docutils literal"><span class="pre">reset=True</span></tt> options was not
+given, this will continue the simulation using the previous model state, but time here will
+start at 0 and continue to 3.</p>
+<p>simulate accepts the following list of keyword arguments:</p>
+<dl class="docutils">
+<dt>integrator</dt>
+<dd>A text string specifying which integrator to use. Currently supports &#8220;cvode&#8221;
+for deterministic simulation (default) and &#8220;gillespie&#8221; for stochastic
+simulation.</dd>
+<dt>sel or selections</dt>
+<dd>A list of strings specifying what values to display in the output.</dd>
+<dt>plot</dt>
+<dd>True or False
+If True, RoadRunner will create a basic plot of the simulation result using
+the built in plot routine which uses MatPlotLib.</dd>
+<dt>absolute</dt>
+<dd>A number representing the absolute difference permitted for the integrator
+tolerance.</dd>
+<dt>duration</dt>
+<dd>The duration of the simulation run, in the model&#8217;s units of time.
+Note, setting the duration automatically sets the end time and visa versa.</dd>
+<dt>end</dt>
+<dd>The simulation end time. Note, setting the end time automatically sets
+the duration accordingly and visa versa.</dd>
+<dt>relative</dt>
+<dd>A float-point number representing the relative difference permitted.
+Defaults 0.0001</dd>
+<dt>resetModel (or just &#8220;reset&#8221;???)</dt>
+<dd>True or False
+Causes the model to be reset to the original conditions specified in
+the SBML when the simulation is run.</dd>
+<dt>start</dt>
+<dd>The start time of the simulation time-series data. Often this is 0,
+but not necessarily.</dd>
+<dt>steps</dt>
+<dd>The number of steps at which the output is sampled. The samples are evenly spaced.
+When a simulation system calculates the data points to record, it will typically
+divide the duration by the number of time steps. Thus, for N steps, the output
+will have N+1 data rows.</dd>
+<dt>stiff</dt>
+<dd>True or False
+Use the stiff integrator. Only use this if the model is stiff and causes issues
+with the regular integrator. The stiff integrator is slower than the conventional
+integrator.</dd>
+<dt>multiStep</dt>
+<dd><p class="first">True or False
+Perform a multi step integration.
+* Experimental *</p>
+<blockquote class="last">
+<div>Perform a multi-step simulation. In multi-step simulation, one may monitor the
+variable time stepping via the IntegratorListener events system.</div></blockquote>
+</dd>
+<dt>initialTimeStep</dt>
+<dd><p class="first">A user specified initial time step. If this is &lt;= 0, the integrator will attempt
+to determine a safe initial time step.</p>
+<p class="last">Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+the internal integrator may take many many steps to reach one of the external time steps.
+This value specifies an initial value for the internal integrator time step.</p>
+</dd>
+<dt>minimumTimeStep</dt>
+<dd>Specify the minimum time step that the internal integrator will use.
+Uses integrator estimated value if &lt;= 0.</dd>
+<dt>maximumTimeStep</dt>
+<dd>Specify the maximum time step size that the internal integrator will use.
+Uses integrator estimated value if &lt;= 0.</dd>
+<dt>maximumNumSteps</dt>
+<dd>Specify the maximum number of steps the internal integrator will use before
+reaching the user specified time span. Uses the integrator default value if &lt;= 0.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -805,6 +886,7 @@ It does <em>not</em> carry out an integration step.</p>
 </table>
 </dd></dl>
 
+</div>
 <div class="section" id="steady-state-sections">
 <h3>Steady State Sections<a class="headerlink" href="#steady-state-sections" title="Permalink to this headline">¶</a></h3>
 <dl class="attribute">
@@ -2627,6 +2709,7 @@ which are replaced by the corresponding value.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#the-main-roadrunner-class">The Main RoadRunner Class</a><ul>
+<li><a class="reference internal" href="#simulation">Simulation</a></li>
 <li><a class="reference internal" href="#steady-state-sections">Steady State Sections</a></li>
 <li><a class="reference internal" href="#metabolic-control-analysis">Metabolic control analysis</a></li>
 </ul>
