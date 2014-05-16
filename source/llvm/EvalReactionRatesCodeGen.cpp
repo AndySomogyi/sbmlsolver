@@ -70,26 +70,7 @@ Value* EvalReactionRatesCodeGen::codeGen()
     for (int i = 0; i < reactions->size(); ++i)
     {
         const Reaction *r = reactions->get(i);
-        const KineticLaw *kinetic = r->getKineticLaw();
-        const ASTNode *math = 0;
-        Value *value = 0;
-        if (kinetic)
-        {
-            math = kinetic->getMath();
-        }
-        else
-        {
-            poco_warning(getLogger(), "Reaction " + r->getId() + " has no KineticLaw, it will be set to zero");
-            ASTNode *m = nodes.create(AST_REAL);
-            m->setValue(0);
-            math = m;
-        }
-
-
-        KineticLawParameterResolver lpResolver(resolver, *kinetic, builder);
-        ASTNodeCodeGen astCodeGen(builder, lpResolver);
-
-        value = astCodeGen.codeGen(math);
+        Value *value = resolver.loadReactionRate(r);
         mdbuilder.createReactionRateStore(r->getId(), value);
     }
 

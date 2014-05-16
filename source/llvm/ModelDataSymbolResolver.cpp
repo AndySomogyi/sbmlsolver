@@ -9,11 +9,15 @@
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
 #include "FunctionResolver.h"
+#include "KineticLawParameterResolver.h"
+#include "rrLogger.h"
 #include <sbml/Model.h>
 
 using namespace std;
 using namespace libsbml;
 using namespace llvm;
+
+using rr::Logger;
 
 namespace rrllvm
 {
@@ -23,11 +27,8 @@ ModelDataLoadSymbolResolver::ModelDataLoadSymbolResolver(llvm::Value *modelData,
         const LLVMModelSymbols &modelSymbols,
         const LLVMModelDataSymbols &modelDataSymbols,
         llvm::IRBuilder<> &builder) :
-            modelData(modelData),
-            model(model),
-            modelSymbols(modelSymbols),
-            modelDataSymbols(modelDataSymbols),
-            builder(builder)
+            LoadSymbolResolverBase(model, modelSymbols, modelDataSymbols, builder),
+            modelData(modelData)
 {
 }
 
@@ -47,7 +48,8 @@ ModelDataStoreSymbolResolver::ModelDataStoreSymbolResolver(llvm::Value *modelDat
 }
 
 
-llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& symbol,
+llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
+        const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
@@ -56,10 +58,10 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
     /*************************************************************************/
     /* time */
     /*************************************************************************/
-    if (symbol.compare("\time") == 0)
+    if (symbol.compare(SBML_TIME_SYMBOL) == 0)
     {
         Value *timeEP = mdbuilder.createGEP(Time);
-        Value *time = builder.CreateLoad(timeEP, "time");
+        Value *time = builder.CreateLoad(timeEP, SBML_TIME_SYMBOL);
         return time;
     }
 
@@ -83,7 +85,10 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
                 symbol);
         if (i != modelSymbols.getAssigmentRules().end())
         {
-            return ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPush(symbol);
+            Value* result = ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPop();
+            return result;
         }
     }
 
@@ -130,23 +135,23 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
         }
     }
 
-    else if (modelDataSymbols.isIndependentCompartment(symbol))
+    if (modelDataSymbols.isIndependentCompartment(symbol))
     {
         return mdbuilder.createCompLoad(symbol);
     }
 
-    else if (modelDataSymbols.isIndependentGlobalParameter(symbol))
+    if (modelDataSymbols.isIndependentGlobalParameter(symbol))
     {
         return mdbuilder.createGlobalParamLoad(symbol);
     }
 
-    else if (modelDataSymbols.hasRateRule(symbol))
+    if (modelDataSymbols.hasRateRule(symbol))
     {
         // species conc / amt has already been taken care of at this point
         return mdbuilder.createRateRuleValueLoad(symbol);
     }
 
-    else if (modelDataSymbols.isNamedSpeciesReference(symbol))
+    if (modelDataSymbols.isNamedSpeciesReference(symbol))
     {
         const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
                 modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
@@ -174,6 +179,16 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
         return value;
     }
 
+    /*************************************************************************/
+    /* Reaction Rate */
+    /*************************************************************************/
+    const Reaction* reaction = model->getReaction(symbol);
+    if (reaction)
+    {
+        return loadReactionRate(reaction);
+    }
+
+
     string msg = "the symbol \'";
     msg += symbol;
     msg += "\' is not physically stored in the ModelData structure, "
@@ -183,6 +198,8 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
     throw_llvm_exception(msg);
     return 0;
 }
+
+
 
 llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
         const std::string& symbol, llvm::Value *value)

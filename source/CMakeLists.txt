@@ -72,7 +72,8 @@ if(BUILD_LLVM)
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
-    llvm/GetInitialValuesCodeGen
+        llvm/LoadSymbolResolverBase
+        llvm/GetInitialValuesCodeGen
         llvm/GetEventValuesCodeGen
         llvm/KineticLawParameterResolver
         llvm/LLVMModelData

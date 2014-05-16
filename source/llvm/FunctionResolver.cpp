@@ -29,9 +29,6 @@ FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
 {
 }
 
-FunctionResolver::~FunctionResolver()
-{
-}
 
 llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
@@ -51,6 +48,8 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
     }
     else if ((funcDef = model->getListOfFunctionDefinitions()->get(symbol)))
     {
+        recursiveSymbolPush(symbol);
+
         const ASTNode *math = funcDef->getMath();
         const unsigned nchild = math->getNumChildren();
 
@@ -93,10 +92,23 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
 
         delete symbols;
         symbols = 0;
+
+        recursiveSymbolPop();
+
         return result;
     }
 
     return 0;
+}
+
+void FunctionResolver::recursiveSymbolPush(const std::string& symbol)
+{
+    parentResolver.recursiveSymbolPush(symbol);
+}
+
+void FunctionResolver::recursiveSymbolPop()
+{
+    parentResolver.recursiveSymbolPop();
 }
 
 } /* namespace rr */

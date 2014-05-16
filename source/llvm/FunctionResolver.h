@@ -24,11 +24,15 @@ public:
     FunctionResolver(LoadSymbolResolver& parentResolver,
             const libsbml::Model *model, llvm::IRBuilder<> &builder);
 
-    ~FunctionResolver();
+    virtual ~FunctionResolver() {};
 
     virtual llvm::Value *loadSymbolValue(const std::string& symbol,
-                const llvm::ArrayRef<llvm::Value*>& args =
-                        llvm::ArrayRef<llvm::Value*>());
+            const llvm::ArrayRef<llvm::Value*>& args =
+                    llvm::ArrayRef<llvm::Value*>());
+
+    virtual void recursiveSymbolPush(const std::string& symbol);
+
+    virtual void recursiveSymbolPop();
 
 private:
     LoadSymbolResolver& parentResolver;

@@ -237,7 +237,7 @@ llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
         // TODO: correct this for different units
         return ConstantFP::get(builder.getContext(), APFloat(6.02214179e23));
     case AST_NAME_TIME:
-        return resolver.loadSymbolValue("\time");
+        return resolver.loadSymbolValue(SBML_TIME_SYMBOL);
     default:
         throw_llvm_exception(string(ast->getName()) +
                 " is not a valid name name");

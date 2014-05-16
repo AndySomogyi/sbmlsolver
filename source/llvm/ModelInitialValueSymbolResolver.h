@@ -8,7 +8,7 @@
 #ifndef ModelInitialValueSymbolResolver_H_
 #define ModelInitialValueSymbolResolver_H_
 
-#include "CodeGen.h"
+#include "LoadSymbolResolverBase.h"
 #include "LLVMIncludes.h"
 #include "LLVMModelDataSymbols.h"
 #include "LLVMModelSymbols.h"
@@ -24,7 +24,7 @@ namespace rrllvm
 /**
  * pulls values from the initial conditions data blocks
  */
-class ModelInitialValueSymbolResolver: public LoadSymbolResolver
+class ModelInitialValueSymbolResolver: public LoadSymbolResolverBase
 {
 public:
 
@@ -33,19 +33,14 @@ public:
             const LLVMModelDataSymbols &modelDataSymbols,
             llvm::IRBuilder<> &builder);
 
-
-    virtual ~ModelInitialValueSymbolResolver();
+    virtual ~ModelInitialValueSymbolResolver() {};
 
     virtual llvm::Value *loadSymbolValue(const std::string& symbol,
             const llvm::ArrayRef<llvm::Value*>& args =
                     llvm::ArrayRef<llvm::Value*>());
 
-protected:
+private:
     llvm::Value *modelData;
-    const libsbml::Model *model;
-    const LLVMModelDataSymbols &modelDataSymbols;
-    const LLVMModelSymbols &modelSymbols;
-    llvm::IRBuilder<> &builder;
 };
 
 

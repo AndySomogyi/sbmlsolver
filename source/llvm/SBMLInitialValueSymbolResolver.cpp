@@ -23,24 +23,18 @@ SBMLInitialValueSymbolResolver::SBMLInitialValueSymbolResolver(
         const LLVMModelDataSymbols& modelDataSymbols,
         const LLVMModelSymbols& modelSymbols,
         llvm::IRBuilder<>& builder) :
-        model(model),
-        modelDataSymbols(modelDataSymbols),
-        modelSymbols(modelSymbols),
-        builder(builder)
+        LoadSymbolResolverBase(model, modelSymbols, modelDataSymbols, builder)
 {
 }
 
-SBMLInitialValueSymbolResolver::~SBMLInitialValueSymbolResolver()
-{
-}
-
-llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(const std::string& symbol,
+llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(
+        const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
     /*************************************************************************/
     /* time */
     /*************************************************************************/
-    if (symbol.compare("\time") == 0)
+    if (symbol.compare(SBML_TIME_SYMBOL) == 0)
     {
         return ConstantFP::get(builder.getContext(), APFloat(0.0));
     }
@@ -51,6 +45,7 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(const std::string& 
     {
         Value *funcVal =
             FunctionResolver(*this, model, builder).loadSymbolValue(symbol, args);
+
         if (funcVal)
         {
             return funcVal;
@@ -66,7 +61,10 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(const std::string& 
                 modelSymbols.getAssigmentRules().find(symbol);
         if (i != modelSymbols.getAssigmentRules().end())
         {
-            return ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPush(symbol);
+            Value* result = ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPop();
+            return result;
         }
     }
 
@@ -81,6 +79,15 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(const std::string& 
         {
             return ASTNodeCodeGen(builder, *this).codeGen(i->second);
         }
+    }
+
+    /*************************************************************************/
+    /* Reaction Rate */
+    /*************************************************************************/
+    const Reaction* reaction = model->getReaction(symbol);
+    if (reaction)
+    {
+        return loadReactionRate(reaction);
     }
 
     string msg = "Could not find requested symbol \'";
