@@ -609,7 +609,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::getOptions;
 
-%rename (_simulate) rr::RoadRunner::simulate;
+//%rename (_simulate) rr::RoadRunner::simulate;
+%ignore rr::RoadRunner::simulate;
 
 
 %ignore rr::Config::getInt;
@@ -847,6 +848,85 @@ namespace std { class ostream{}; }
 
 	std::string __str__() {
 		return $self->getInfo();
+	}
+
+	PyObject* _simulate(const rr::SimulateOptions* opt) {
+		// its not const correct...
+		ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
+
+		// a valid array descriptor:
+		// In [87]: b = array(array([0,1,2,3]),
+		//      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
+
+		
+		// are we returning a structured array?
+		if (opt->flags & SimulateOptions::STRUCTURED_RESULT) {
+
+			// get the column names
+			const std::vector<SelectionRecord>& sel = ($self)->getSelections();
+			std::vector<string> names(sel.size());
+
+			for(int i = 0; i < sel.size(); ++i) {
+				names[i] = sel[i].to_string();
+			}
+
+
+			int rows = result->numRows();
+			int cols = result->numCols();
+
+			if (cols == 0) {
+				Py_RETURN_NONE;
+			}
+
+			double* mData = result->getArray();
+
+			PyObject* list = PyList_New(names.size());
+
+			for(int i = 0; i < names.size(); ++i)
+            {
+                PyObject *col = PyString_FromString(names[i].c_str());
+                PyObject *type = PyString_FromString("f8");
+                PyObject *tup = PyTuple_Pack(2, col, type);
+
+                Py_DECREF(col);
+                Py_DECREF(type);
+
+                void PyList_SET_ITEM(list, i, tup);
+            }
+
+			PyArray_Descr* descr = 0;
+			PyArray_DescrConverter(list, &descr);
+
+			// done with list
+			Py_CLEAR(list);
+			npy_intp dims[] = {rows};
+
+			// steals a reference to descr
+			PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
+
+			if (pyres) {
+
+				assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
+				
+				double* data = (double*)PyArray_BYTES(pyres);
+
+				memcpy(data, mData, rows*cols*sizeof(double));
+			}
+
+			return pyres;
+		}		
+		else {
+
+			int rows = result->numRows();
+			int cols = result->numCols();
+			int nd = 2;
+			npy_intp dims[2] = {rows, cols};
+			double *data = result->getArray();
+
+			PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+										   NPY_CARRAY, NULL);
+			return pArray;
+		}
 	}
 
     double getValue(const rr::SelectionRecord* pRecord) {
