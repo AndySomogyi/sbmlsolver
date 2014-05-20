@@ -845,6 +845,10 @@ namespace std { class ostream{}; }
         return s.str();
     }
 
+	std::string __str__() {
+		return $self->getInfo();
+	}
+
     double getValue(const rr::SelectionRecord* pRecord) {
         return $self->getValue(*pRecord);
     }

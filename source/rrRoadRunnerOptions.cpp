@@ -15,6 +15,7 @@
 #include <vector>
 #include <map>
 #include <stdexcept>
+#include <sstream>
 
 using namespace std;
 
@@ -283,6 +284,8 @@ RoadRunnerOptions::RoadRunnerOptions() :
     {
         flags |= RoadRunnerOptions::DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     }
+
+    jacobianStepSize = Config::getDouble(Config::ROADRUNNER_JACOBIAN_STEP_SIZE);
 }
 
 bool SimulateOptions::hasKey(const std::string& key) const
@@ -312,6 +315,54 @@ std::vector<std::string> SimulateOptions::getKeys() const
     return keys;
 }
 
+
+std::string SimulateOptions::toString() const
+{
+    std::stringstream ss;
+
+    ss << "integrator: ";
+    if (integrator == CVODE) {
+        ss << "cvode" << std::endl;
+    }
+
+    else if (integrator == GILLESPIE ) {
+        ss << "gillespie" << std::endl;
+    }
+
+    else {
+        ss << "unknown" << std::endl;
+    }
+
+    ss << "stiff: " << rr::toString((bool)(integratorFlags & STIFF)) << std::endl;
+
+    ss << "multiStep: " << rr::toString((bool)(integratorFlags & MULTI_STEP)) << std::endl;
+
+    ss << "variableStep: " << rr::toString((bool)(integratorFlags & VARIABLE_STEP)) << std::endl;
+
+    ss << "reset: " << rr::toString((bool)(flags & RESET_MODEL)) << std::endl;
+
+    ss << "structuredResult: " << rr::toString((bool)(flags & STRUCTURED_RESULT)) << std::endl;
+
+    ss << "steps: " << steps << std::endl;
+
+    ss << "start: " << start << std::endl;
+
+    ss << "duration: " << duration << std::endl;
+
+    ss << "relative: " << relative << std::endl;
+
+    ss << "absolute: " << absolute << std::endl;
+
+    ss << "initialTimeStep: " << initialTimeStep << std::endl;
+
+    ss << "minimumTimeStep: " << minimumTimeStep << std::endl;
+
+    ss << "maximumTimeStep: " << maximumTimeStep << std::endl;
+
+    ss << "maximumNumSteps: " << maximumNumSteps << std::endl;
+
+    return ss.str();
+}
+
+
 } /* namespace rr */
-
-

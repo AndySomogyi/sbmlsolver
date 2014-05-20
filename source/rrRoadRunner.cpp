@@ -444,19 +444,31 @@ vector<SelectionRecord> RoadRunner::getSelectionList()
 
 string RoadRunner::getInfo()
 {
-    stringstream info;
-    info<<"Model Loaded: "<<(impl->model == NULL ? "false" : "true")<<endl;
+    stringstream ss;
+    ss << "<roadrunner.RoadRunner() { " << std::endl;
+    ss << "this: " << (void*)(this) << std::endl;
+    ss << "modelLoaded : " << (impl->model == NULL ? "false" : "true") << std::endl;
     if(impl->model)
     {
-        info<<"ModelName: "            <<  impl->model->getModelName()<<endl;
+        ss << "modelName: " <<  impl->model->getModelName() << std::endl;
     }
-    info<<"ConservationAnalysis: "    <<    impl->conservedMoietyAnalysis << endl;
-    info<<"libSBML version: "         <<    getVersionStr(VERSIONSTR_LIBSBML) << endl;
-    info<<"Temporary folder: "        <<    getTempDir()<<endl;
-    info<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
-    info<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
-    info<<"Working Directory: "       <<    getCWD() << endl;
-    return info.str();
+
+    ss << impl->simulateOpt.toString();
+
+    ss << "libSBMLVersion: " << getVersionStr(VERSIONSTR_LIBSBML) << std::endl;
+    ss << "jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
+    ss << "conservedMoietyAnalysis: " << rr::toString(impl->conservedMoietyAnalysis) << std::endl;
+
+#if defined(BUILD_LEGACY_C)
+    ss<<"Temporary folder: "        <<    getTempDir()<<endl;
+    ss<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
+    ss<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
+    ss<<"Working Directory: "       <<    getCWD() << endl;
+#endif
+
+    ss << "}>";
+
+    return ss.str();
 }
 
 string RoadRunner::getExtendedVersionInfo()
@@ -1510,7 +1522,7 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
     if (h <= 0)
     {
-        h = 0.01;
+        h = self.roadRunnerOptions.jacobianStepSize;
     }
 
     // need 2h for for central difference

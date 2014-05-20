@@ -380,6 +380,11 @@ public:
 
     std::vector<std::string> getKeys() const;
 
+    /**
+     * get the textual form of this object.
+     */
+    std::string toString() const;
+
 private:
 
     /**
