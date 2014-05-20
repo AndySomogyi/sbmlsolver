@@ -29,7 +29,6 @@
     #include <rrCompiler.h>
     #include <ModelGenerator.h>
     #include <rrExecutableModel.h>
-    #include <rrRoadRunnerData.h>
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
@@ -156,32 +155,6 @@
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
 
-/* Convert from C --> Python */
-%typemap(out) const rr::RoadRunnerData* {
-
-    /* int rows = 0; */
-    /* int cols = 0; */
-    /* int nd = 2; */
-    /* double *data = 0; */
-
-    /* if ($1) */
-    /* { */
-    /*     ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(($1)->getData()); */
-    /*     rows = mat.numRows(); */
-    /*     cols = mat.numCols(); */
-    /*     data = mat.getArray(); */
-    /* } */
-
-    /* npy_intp dims[2] = {rows, cols}; */
-
-    /* PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0, */
-    /*         NPY_CARRAY, NULL); */
-
-
-    $result  = RoadRunnerData_to_py($1);
-}
-
-%apply const rr::RoadRunnerData* {rr::RoadRunnerData*, RoadRunnerData*, const RoadRunnerData* };
 
 /* Convert from C --> Python */
 %typemap(out) std::vector<double> {
@@ -345,91 +318,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
     return s.str();
 }
 
-/**
- * create a numpy structured array with the column names set from
- * the column names of the RoadRunnerData object.
- */
-static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
-
-    // a valid array descriptor:
-    // In [87]: b = array(array([0,1,2,3]),
-    //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
-
-    // could be Null
-    if (pData == 0) {
-        Py_RETURN_NONE;
-    }
-
-    if (pData->structuredResult) {
-
-        const std::vector<std::string> &names = pData->getColumnNames();
-        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
-
-        int rows = mat.numRows();
-        int cols = mat.numCols();
-
-        if (cols == 0) {
-            Py_RETURN_NONE;
-        }
-
-        double* mData = mat.getArray();
-
-        PyObject* list = PyList_New(names.size());
-
-        for(int i = 0; i < names.size(); ++i)
-            {
-                PyObject *col = PyString_FromString(names[i].c_str());
-                PyObject *type = PyString_FromString("f8");
-                PyObject *tup = PyTuple_Pack(2, col, type);
-
-                Py_DECREF(col);
-                Py_DECREF(type);
-
-                void PyList_SET_ITEM(list, i, tup);
-            }
-
-        PyArray_Descr* descr = 0;
-        PyArray_DescrConverter(list, &descr);
-
-        // done with list
-        Py_CLEAR(list);
-
-        npy_intp dims[] = {rows};
-
-        // steals a reference to descr
-        PyObject *result = PyArray_SimpleNewFromDescr(1, dims,  descr);
-
-        if (result) {
-
-            assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
-
-            double* data = (double*)PyArray_BYTES(result);
-
-            memcpy(data, mData, rows*cols*sizeof(double));
-        }
-
-        return result;
-    }
-    else {
-
-        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
-        int rows = mat.numRows();
-        int cols = mat.numCols();
-        int nd = 2;
-
-        if (cols == 0) {
-            Py_RETURN_NONE;
-        }
-
-        npy_intp dims[2] = {rows, cols};
-        double *data = (double*)malloc(sizeof(double)*rows*cols);
-        memcpy(data, mat.getArray(), sizeof(double)*rows*cols);
-
-        PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                       NPY_CARRAY | NPY_OWNDATA, NULL);
-        return pArray;
-    }
-};
 
 
 // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
@@ -891,6 +779,7 @@ namespace std { class ostream{}; }
                 Py_DECREF(col);
                 Py_DECREF(type);
 
+				// list takes ownershipt of tuple
                 void PyList_SET_ITEM(list, i, tup);
             }
 
@@ -915,6 +804,8 @@ namespace std { class ostream{}; }
 
 			return pyres;
 		}		
+		// standard array result.
+		// this version just wraps the roadrunner owned data.
 		else {
 
 			int rows = result->numRows();

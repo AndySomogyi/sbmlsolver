@@ -154,11 +154,15 @@ public:
      */
     const DoubleMatrix* getSimulationData() const;
 
+    #ifndef SWIG // deprecated methods not SWIG'ed
+
     /**
      * Use getSimulationData() instead.
      * Also, can use the RoadRunnerData::RoadRunnerData(const RoadRunner*) ctor
      */
     RR_DEPRECATED(rr::RoadRunnerData *getSimulationResult());
+
+    #endif
 
     void setSimulateOptions(const SimulateOptions& settings);
 
