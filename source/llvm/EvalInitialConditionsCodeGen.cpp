@@ -51,8 +51,10 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     if (Logger::LOG_DEBUG <= rr::Logger::getLevel())
     {
         Log(Logger::LOG_DEBUG) << "boundarySpecies: \n";
-        for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
-                i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
+        const SymbolForest::Map&  initValues = modelSymbols.getInitialValues().boundarySpecies;
+
+        for (SymbolForest::Map::const_iterator i = initValues.begin();
+                i != initValues.end(); i++)
         {
             char* formula = SBML_formulaToString(i->second);
             Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";

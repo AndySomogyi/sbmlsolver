@@ -35,10 +35,56 @@ using std::map;
 class SymbolForest
 {
 public:
-    //typedef map<string, const ASTNode*> Map;
-    typedef std::pair<string, const libsbml::ASTNode*> Pair;
-    typedef map<string, const libsbml::ASTNode*>::iterator Iterator;
-    typedef map<string, const libsbml::ASTNode*>::const_iterator ConstIterator;
+    typedef map<string, const libsbml::ASTNode*> Map;
+    typedef map<string, const libsbml::ASTNode*>::const_iterator _const_iterator;
+
+    /**
+     * syntatically the same as a map<string, const libsbml::ASTNode*>::const_iterator
+     *
+     * Designed so that the SymbolForest can behave like a std::map.
+     */
+    class ConstIterator
+    {
+    public:
+
+        const libsbml::ASTNode* second;
+
+        ConstIterator(_const_iterator i) : second(i->second), p(this)
+        {
+        }
+
+        ConstIterator() : second(0), p(this)
+        {
+        }
+
+        const ConstIterator* operator->() const
+        {
+            return this;
+        }
+
+        bool operator !=(const ConstIterator& other) const
+        {
+            return p != other.p;
+        }
+
+        ConstIterator & operator= (const ConstIterator & o)
+        {
+            this->second = o.second;
+            this->p = o.p;
+            // by convention, always return *this
+            return *this;
+        }
+
+        ConstIterator(const ConstIterator &o) : second(o.second), p(o.p)
+        {
+        }
+
+
+    private:
+        // address of where it was created.
+        const ConstIterator* p;
+
+    };
 
     map<string, const libsbml::ASTNode*> floatingSpecies;
     map<string, const libsbml::ASTNode*> boundarySpecies;
@@ -52,36 +98,44 @@ public:
      * Note that the resulting iterator is not iteratable, it is only suitable for
      * comparing with end() and getting the value out of it.
      */
-    ConstIterator find(const map<string, const libsbml::ASTNode*>::key_type& x) const
+    const ConstIterator find(const map<string, const libsbml::ASTNode*>::key_type& x) const
     {
-        ConstIterator result;
+        _const_iterator result;
 
         if ((result = floatingSpecies.find(x)) != floatingSpecies.end())
         {
-            return result;
+            return ConstIterator(result);
         }
         else if ((result = boundarySpecies.find(x)) != boundarySpecies.end())
         {
-            return result;
+            return ConstIterator(result);
         }
         else if ((result = compartments.find(x)) != compartments.end())
         {
-            return result;
+            return ConstIterator(result);
         }
         else if ((result = globalParameters.find(x)) != globalParameters.end())
         {
-            return result;
+            return ConstIterator(result);
+        }
+        else if ((result = speciesReferences.find(x)) != speciesReferences.end())
+        {
+            return ConstIterator(result);
         }
         else
         {
-            return speciesReferences.find(x);
+            return _end;
         }
     }
 
-    ConstIterator end() const
+    const ConstIterator& end() const
     {
-        return speciesReferences.end();
+        return _end;
     }
+
+private:
+    ConstIterator _end;
+
 };
 
 
