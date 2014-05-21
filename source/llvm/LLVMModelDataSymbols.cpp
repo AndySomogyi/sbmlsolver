@@ -243,6 +243,11 @@ LLVMModelDataSymbols::SymbolIndexType LLVMModelDataSymbols::getSymbolIndex(
         result = i->second;
         return REACTION;
     }
+    else if ((i = eventIds.find(name)) != eventIds.end())
+    {
+        result = i->second;
+        return EVENT;
+    }
 
     result = -1;
     return INVALID_SYMBOL;
