@@ -118,12 +118,9 @@ private:
     /**
      * Update the abl tolerance vector using the abs tol in the options.
      *
-     * Play some games if the value of the state vector is small, adjust the
-     * tolerance accordingly.
-     *
-     * Side effect is model state is copied into cvode state vector.
+     * sets these values in the cvode object.
      */
-    void updateAbsTolVector();
+    void setCVODETolerances();
 
     void assignPendingEvents(double timeEnd, double tout);
 
@@ -148,8 +145,6 @@ private:
      * free and nullify the cvode objects.
      */
     void freeCVode();
-
-    void setAbsTolerance(int index, double dValue);
 
     int mMaxAdamsOrder;
     int mMaxBDFOrder;
