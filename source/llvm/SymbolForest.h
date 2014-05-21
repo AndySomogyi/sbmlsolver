@@ -10,6 +10,7 @@
 
 #include <sbml/math/ASTNode.h>
 #include <map>
+#include <cassert>
 
 namespace rrllvm
 {
@@ -49,14 +50,6 @@ public:
 
         const libsbml::ASTNode* second;
 
-        ConstIterator(_const_iterator i) : second(i->second), p(this)
-        {
-        }
-
-        ConstIterator() : second(0), p(this)
-        {
-        }
-
         const ConstIterator* operator->() const
         {
             return this;
@@ -64,26 +57,46 @@ public:
 
         bool operator !=(const ConstIterator& other) const
         {
-            return p != other.p;
+            return end != other.end;
         }
 
         ConstIterator & operator= (const ConstIterator & o)
         {
             this->second = o.second;
-            this->p = o.p;
+            this->end = o.end;
             // by convention, always return *this
             return *this;
         }
 
-        ConstIterator(const ConstIterator &o) : second(o.second), p(o.p)
+        ConstIterator(const ConstIterator &o) : second(o.second), end(o.end)
         {
         }
 
 
     private:
-        // address of where it was created.
-        const ConstIterator* p;
 
+        /**
+         * only SymbolForest can make one of these.
+         */
+        friend class SymbolForest;
+
+        /**
+         * not end, created from a valid iterator.
+         */
+        ConstIterator(_const_iterator i) : second(i->second), end(false)
+        {
+            assert(second && "must have valid ASTNode pointer");
+        }
+
+        /**
+         * the end
+         */
+        ConstIterator() : second(0), end(true)
+        {
+        }
+
+        // is the the end iterator.
+        bool end;
     };
 
     map<string, const libsbml::ASTNode*> floatingSpecies;
