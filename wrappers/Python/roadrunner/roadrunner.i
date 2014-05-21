@@ -1238,7 +1238,7 @@ namespace std { class ostream{}; }
                 for i in range(1, len(selections)):
                     series = result[:,i]
                     name = selections[i]
-                    p.plot(times, series, label='$' + str(name) + '$')
+                    p.plot(times, series, label=str(name))
 
             # result is structured array
             else:
@@ -1248,7 +1248,7 @@ namespace std { class ostream{}; }
                 time = result.dtype.names[0]
 
                 for name in result.dtype.names[1:]:
-                    p.plot(result[time], result[name], label='$' + name + '$')
+                    p.plot(result[time], result[name], label=name)
 
             p.legend()
 
