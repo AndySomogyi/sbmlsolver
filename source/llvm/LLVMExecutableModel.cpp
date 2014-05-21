@@ -982,6 +982,12 @@ double LLVMExecutableModel::getValue(const std::string& id)
     case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         getFloatingSpeciesInitConcentrations(1, &index, &result);
         break;
+    case SelectionRecord::EVENT:
+        {
+            bool trigger = getEventTrigger(index);
+            result = trigger ? 1.0 : -1.0;
+        }
+        break;
     default:
         Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
         << sel.to_repr();
@@ -1035,6 +1041,10 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 break;
             case LLVMModelDataSymbols::REACTION:
                 sel.selectionType = SelectionRecord::REACTION_RATE;
+                sel.index = index;
+                break;
+            case LLVMModelDataSymbols::EVENT:
+                sel.selectionType = SelectionRecord::EVENT;
                 sel.index = index;
                 break;
             default:
