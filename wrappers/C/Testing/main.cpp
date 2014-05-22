@@ -178,7 +178,10 @@ bool setup(Args& args)
     gDebug               = args.EnableLogging;
     gTSModelsPath        = args.ModelsFilePath;
     gTempFolder          = args.TempDataFolder;
-    gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+    gTestDataFolder      = args.TestDataFolder;
+    if (gTestDataFolder == "") {
+      gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+    }
 
     gCompiler = args.compiler;
     Log(Logger::LOG_NOTICE) << "Using compiler " << gCompiler;
@@ -187,7 +190,7 @@ bool setup(Args& args)
     if(args.Suites.size() == 0)
     {
         //Run all
-        args.Suites = "ABCDE";
+        args.Suites = "ABCDEFGHIJKL";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
@@ -210,7 +213,7 @@ bool setup(Args& args)
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:i:"))) != -1)
     {
         switch (c)
         {
@@ -220,6 +223,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('v'): args.EnableLogging      = true;     break;
             case ('s'): args.Suites             = rrOptArg; break;
             case ('c'): args.compiler           = rrOptArg; break;
+            case ('i'): args.TestDataFolder     = rrOptArg; break;
             case ('?'): cout << Usage(argv[0]) << endl;     break;
             default:
             {

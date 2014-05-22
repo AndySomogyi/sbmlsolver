@@ -18,6 +18,8 @@
 #include "rrStringUtils.h"
 
 #include <sbml/math/ASTNode.h>
+#include <sbml/math/FormulaFormatter.h>
+#include <sbml/SBase.h>
 #include <Poco/Logger.h>
 #include <cmath>
 
