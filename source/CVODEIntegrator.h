@@ -74,8 +74,9 @@ private:
 
     N_Vector mStateVector;
 
-    N_Vector mAbstolArray;
-
+    /**
+     * the CVODE object.
+     */
     void* mCVODE_Memory;
 
     static const int mDefaultMaxAdamsOrder;
@@ -130,7 +131,7 @@ private:
     /**
      * re-initialize cvode with a new set of initial conditions
      */
-    int reInit (double t0);
+    void reInit (double t0);
 
     /**
      * Set up the cvode state vector size and various other cvode
