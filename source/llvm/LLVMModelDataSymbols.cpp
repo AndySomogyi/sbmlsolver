@@ -937,6 +937,11 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
     for (uint i = 0; i < reactions->size(); i++)
     {
         const Reaction *reaction = reactions->get(i);
+        if (reaction->isSetFast() && reaction->getFast()==true) {
+          Log(Logger::LOG_WARNING)
+            << "Unable to handle SBML fast reactions. Reaction '"
+            << reaction->getId() << "' treated as a slow reaction.";
+        }
         reactionsMap.insert(StringUIntPair(reaction->getId(), i));
 
         // keep track of species in this reaction.

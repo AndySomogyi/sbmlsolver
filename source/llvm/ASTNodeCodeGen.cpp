@@ -200,9 +200,11 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_CONSTANT_TRUE:
         result = ConstantInt::getTrue(builder.getContext());
         break;
+    case AST_FUNCTION_DELAY:
+        result = delayExprCodeGen(ast);
+        break;
 
     case AST_LAMBDA:
-    case AST_FUNCTION_DELAY:
         result = notImplemented(ast);
         break;
     default:
@@ -227,6 +229,23 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
     throw_llvm_exception("AST type not implemented yet: " + str);
 
     return 0;
+}
+
+llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
+{
+    char* formula = SBML_formulaToString(ast);
+    string str = formula;
+    free(formula);
+
+    if (ast->getNumChildren() == 0) {
+        throw_llvm_exception("AST type 'delay' requires two children.");
+    }
+
+    Log(Logger::LOG_WARNING)
+      << "Unable to handle SBML csymbol 'delay'. Delay ignored in expression '"
+      << str << "'.";
+
+    return codeGen(ast->getChild(0));
 }
 
 llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
