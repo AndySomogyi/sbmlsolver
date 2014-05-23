@@ -81,8 +81,15 @@ bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
         node->setValue(x.getVolume());
     } else
     {
-        Log(Logger::LOG_WARNING) << "volume not set for compartment "
-                << x.getId() << ", defaulting to 1.0";
+        string compid = x.getId();
+        const Model* model = x.getSBMLDocument()->getModel();
+        if (model->getInitialAssignment(compid) == NULL &&
+            model->getAssignmentRule(compid) == NULL &&
+            x.getSpatialDimensions() != 0) {
+            Log(Logger::LOG_WARNING) << "volume not set for compartment '"
+              << compid << "'.  Defaulting to 1.0";
+        }
+        //We still need to set up a fake initial value if we need one, even though it'll be overwritten or is unneeded.
         node->setValue(1.0);
     }
     initialValues.compartments[x.getId()] = node;
@@ -208,7 +215,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
         }
         catch (LLVMException&)
         {
-            // we get here if the getFloatingSpeciesIndex throws an exception, thats OK
+            // we get here if the getFloatingSpeciesIndex throws an exception, that's OK
             // because the species is most likely a boundary species, which is OK
             // to be used as a reactant (it just won't get consumed like a floating species).
             // TODO this is normal, should not throw an exception!
@@ -299,10 +306,16 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
             }
             else
             {
-                string msg = string("species ") + species->getId() +
-                    string(" has neither initial amount nor concentration set, "
-                            " setting initial amount to 0.0");
-                poco_warning(getLogger(), msg);
+                string spid = species->getId();
+                const Model* model = species->getSBMLDocument()->getModel();
+                if (model->getInitialAssignment(spid) == NULL &&
+                  model->getAssignmentRule(spid) == NULL) {
+                    string msg = string("species '") + spid +
+                      string("' has neither initial amount nor concentration set. "
+                      " Setting initial amount to 0.0");
+                    poco_warning(getLogger(), msg);
+                }
+                //We still need to set up a fake initial value if we need one, even though it'll be overwritten:
                 ASTNode *amt = nodes.create(AST_REAL);
                 amt->setValue(0.0);
                 math = amt;
@@ -334,10 +347,16 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
             }
             else
             {
-                string msg = string("species ") + species->getId() +
-                    string(" has neither initial amount nor concentration set, "
-                            " setting initial concentration to 0.0");
-                poco_warning(getLogger(), msg);
+                string spid = species->getId();
+                const Model* model = species->getSBMLDocument()->getModel();
+                if (model->getInitialAssignment(spid) == NULL &&
+                  model->getAssignmentRule(spid) == NULL) {
+                    string msg = string("species '") + spid +
+                      string("' has neither initial amount nor concentration set. "
+                      " Setting initial concentration to 0.0");
+                    poco_warning(getLogger(), msg);
+                }
+                //We still need to set up a fake initial value if we need one, even though it'll be overwritten:
                 ASTNode *conc = nodes.create(AST_REAL);
                 conc->setValue(0.0);
                 math = conc;

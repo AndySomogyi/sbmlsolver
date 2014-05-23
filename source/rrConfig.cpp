@@ -270,7 +270,7 @@ std::string Config::getConfigFilePath()
         return path;
     }
 
-    Log(rr::Logger::LOG_DEBUG) << "no config file found, returning empty string";
+    Log(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
     return "";
 }
 
