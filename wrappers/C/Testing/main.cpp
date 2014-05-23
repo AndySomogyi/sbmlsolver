@@ -189,8 +189,8 @@ bool setup(Args& args)
 
     if(args.Suites.size() == 0)
     {
-        //Run all
-        args.Suites = "ABCDEFGHIJKL";
+        //Run all the non-duplicated tests.
+        args.Suites = "ABCDEJL";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
