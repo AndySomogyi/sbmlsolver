@@ -167,6 +167,8 @@ public:
 
     std::string mCurrentSBML;
 
+    std::string mFilename;
+
     /**
      * structural analysis library.
      */
@@ -224,6 +226,7 @@ public:
                 mSteadyStateSelection(),
                 model(0),
                 mCurrentSBML(),
+                mFilename(),
                 mLS(0),
                 simulateOpt(),
                 mInstanceID(0),
@@ -810,6 +813,9 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     Mutex::ScopedLock lock(roadRunnerMutex);
 
     impl->mCurrentSBML = SBMLReader::read(uriOrSbml);
+    if (!SBMLReader::is_sbml(uriOrSbml)) {
+        impl->mFilename = uriOrSbml;
+    }
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
     Log(lDebug)<<"Loading SBML into simulator";
@@ -825,7 +831,7 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     {
         impl->conservedMoietyAnalysis = options->modelGeneratorOpt
                 & LoadSBMLOptions::CONSERVED_MOIETIES;
-        impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, options->modelGeneratorOpt);
+        impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, options->modelGeneratorOpt, impl->mFilename);
     }
     else
     {
@@ -833,10 +839,10 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
         opt.modelGeneratorOpt = getConservedMoietyAnalysis() ?
                 opt.modelGeneratorOpt | LoadSBMLOptions::CONSERVED_MOIETIES :
                 opt.modelGeneratorOpt & ~LoadSBMLOptions::CONSERVED_MOIETIES;
-        impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, opt.modelGeneratorOpt);
+        impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, opt.modelGeneratorOpt, impl->mFilename);
     }
 
-    //Finally intitilaize the model..
+    //Finally intitialize the model..
     createIntegrator();
 
     if (!options || !(options->loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS))

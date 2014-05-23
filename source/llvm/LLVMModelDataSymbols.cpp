@@ -163,8 +163,8 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             }
             else if (dynamic_cast<const AlgebraicRule*>(rule))
             {
-                poco_warning(getLogger(), string("encountered algegraic rule: ")
-                        + rule->getId() + string(", currently not handled"));
+                poco_warning(getLogger(), string("Unable to handle algebraic rules. Formula '0 = ")
+                        + SBML_formulaToString(rule->getMath()) + string("' ignored."));
             }
         }
     }

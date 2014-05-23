@@ -224,7 +224,7 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
     string str = formula;
     free(formula);
 
-    throw_llvm_exception("AST type Not Implemented Yet: " + str);
+    throw_llvm_exception("AST type not implemented yet: " + str);
 
     return 0;
 }
@@ -268,18 +268,32 @@ llvm::Value* ASTNodeCodeGen::applyArithmeticCodeGen(
 
     if (numChildren < 1)
     {
+        //'plus' and 'times' both might have zero children.  This is legal MathML!
+        if (type == AST_PLUS) {
+            ASTNode zero(AST_INTEGER);
+            zero.setValue(0);
+            acc = integerCodeGen(&zero);
+            return acc;
+        }
+        if (type==AST_TIMES) {
+            ASTNode one(AST_INTEGER);
+            one.setValue(1);
+            acc = integerCodeGen(&one);
+            return acc;
+        }
+
         stringstream err;
 
         libsbml::SBase *parent = ast->getParentSBMLObject();
         char *sbml = parent ? parent->toSBML() : 0;
         err << "MathML apply node from " << (sbml ? sbml : "no parent sbml")
-                << " must have at least one child nodes";
+                << " must have at least one child node.";
         delete sbml;
         throw_llvm_exception(err.str());
     }
-    else if (numChildren == 1)
+    else if (numChildren == 1 && type == AST_MINUS)
     {
-        // treat it as a unary operator, only really makes sense for minus
+        // treat it as a unary operator
         acc = ConstantFP::get(builder.getContext(), APFloat(0.0));
     }
     else
@@ -353,7 +367,9 @@ llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
 {
-    if (ast->getType() == AST_LOGICAL_NOT)
+    const ASTNodeType_t type = ast->getType();
+    Value* acc = NULL;
+    if (type == AST_LOGICAL_NOT)
     {
         if (ast->getNumChildren() != 1)
         {
@@ -368,19 +384,27 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
     }
 
     const int numChildren = ast->getNumChildren();
-    const ASTNodeType_t type = ast->getType();
 
-    if (numChildren < 2)
+    if (numChildren == 0)
     {
-        string msg = "logical operators and, or, xor require at least two "
-                "arguments, MathML node: ";
-        msg += to_string(ast);
-        throw_llvm_exception(msg);
+        if (type == AST_LOGICAL_AND)
+        {
+            ASTNode t(AST_CONSTANT_TRUE);
+            acc = toBoolean(codeGen(&t));
+            return acc;
+        }
+        if (type == AST_LOGICAL_OR ||
+            type == AST_LOGICAL_XOR)
+        {
+            ASTNode f(AST_CONSTANT_FALSE);
+            acc = toBoolean(codeGen(&f));
+            return acc;
+        }
     }
 
     // start at the head of the list and evaluate each subsequent term.
     // accumulator
-    Value *acc = toBoolean(codeGen(ast->getChild(0)));
+    acc = toBoolean(codeGen(ast->getChild(0)));
 
     for (int i = 1; i < numChildren; ++i)
     {

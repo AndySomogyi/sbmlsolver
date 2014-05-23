@@ -1060,7 +1060,7 @@ TEST(1040) { CHECK(RunTest("l3v1", 1040 )); }
 TEST(1041) { CHECK(RunTest("l3v1", 1041 )); }
 TEST(1042) { CHECK(RunTest("l3v1", 1042 )); }
 TEST(1043) { CHECK(RunTest("l3v1", 1043 )); }
-//TEST(1044) { CHECK(RunTest("l3v1", 1044 )); } // algegraic
+//TEST(1044) { CHECK(RunTest("l3v1", 1044 )); } // algebraic
 TEST(1045) { CHECK(RunTest("l3v1", 1045 )); }
 TEST(1046) { CHECK(RunTest("l3v1", 1046 )); }
 TEST(1047) { CHECK(RunTest("l3v1", 1047 )); }
