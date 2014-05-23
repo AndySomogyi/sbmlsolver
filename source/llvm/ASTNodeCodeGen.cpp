@@ -233,13 +233,13 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
 {
-    char* formula = SBML_formulaToString(ast);
-    string str = formula;
-    free(formula);
-
     if (ast->getNumChildren() == 0) {
         throw_llvm_exception("AST type 'delay' requires two children.");
     }
+
+    char* formula = SBML_formulaToString(ast);
+    string str = formula;
+    free(formula);
 
     Log(Logger::LOG_WARNING)
       << "Unable to handle SBML csymbol 'delay'. Delay ignored in expression '"
