@@ -92,7 +92,6 @@ IntegratorListenerPtr CVODEIntegrator::getListener()
 CVODEIntegrator::CVODEIntegrator(ExecutableModel *aModel, const SimulateOptions* options)
 :
 mStateVector(NULL),
-mAbstolArray(NULL),
 mCVODE_Memory(NULL),
 mLastTimeValue(0),
 mLastEvent(0),
@@ -168,35 +167,26 @@ void CVODEIntegrator::setSimulateOptions(const SimulateOptions* o)
         CVodeSetMaxNumSteps(mCVODE_Memory, mDefaultMaxNumSteps);
     }
 
-    // if mAbstolArray, also have mStateVector
-    if (mAbstolArray)
-    {
-        assert(mStateVector && "mStateVector shold not be NULL");
-
-        for (unsigned i = 0; i < NV_LENGTH_S(mAbstolArray); ++i)
-        {
-            NV_DATA_S(mAbstolArray)[i] = options.absolute;
-        }
-
-        updateAbsTolVector();
-    }
+    setCVODETolerances();
 }
 
-int CVODEIntegrator::reInit(double t0)
+void CVODEIntegrator::reInit(double t0)
 {
-    if (mCVODE_Memory == NULL)
+    // if we have no state vector variables and no events, we never
+    // create an integrator.
+    if (mCVODE_Memory == 0)
     {
-        return CV_SUCCESS;
+        return;
     }
 
     int result = CVodeReInit(mCVODE_Memory,  t0, mStateVector);
 
     if (result != CV_SUCCESS)
     {
-        return result;
+        handleCVODEError(result);
     }
 
-    return CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray);
+    setCVODETolerances();
 }
 
 double CVODEIntegrator::integrate(double timeStart, double hstep)
@@ -336,7 +326,7 @@ void CVODEIntegrator::createCVode()
         return;
     }
 
-    assert(mStateVector == 0 &&  mAbstolArray == 0 && mCVODE_Memory == 0 &&
+    assert(mStateVector == 0 && mCVODE_Memory == 0 &&
             "calling cvodeCreate, but cvode objects already exist");
 
     // still need cvode state vector size if we have no vars, but have
@@ -365,14 +355,10 @@ void CVODEIntegrator::createCVode()
 
     // allocate and init the cvode arrays
     mStateVector = N_VNew_Serial(allocStateVectorSize);
-    mAbstolArray = N_VNew_Serial(allocStateVectorSize);
     for (int i = 0; i < allocStateVectorSize; i++)
     {
         SetVector(mStateVector, i, 0.);
-        SetVector(mAbstolArray, i, options.absolute);
     }
-
-    updateAbsTolVector();
 
     if (options.integratorFlags & SimulateOptions::STIFF)
     {
@@ -408,11 +394,6 @@ void CVODEIntegrator::createCVode()
         handleCVODEError(err);
     }
 
-    if ((err = CVodeSVtolerances(mCVODE_Memory, options.relative, mAbstolArray)) != CV_SUCCESS)
-    {
-        handleCVODEError(err);
-    }
-
     if (mModel->getNumEvents() > 0)
     {
         if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(),
@@ -432,6 +413,8 @@ void CVODEIntegrator::createCVode()
             handleCVODEError(err);
         }
     }
+
+    setCVODETolerances();
 
     mModel->resetEvents();
 }
@@ -469,55 +452,29 @@ void CVODEIntegrator::assignResultsToModel()
     }
 }
 
-void CVODEIntegrator::updateAbsTolVector()
+void CVODEIntegrator::setCVODETolerances()
 {
     if (mStateVector == 0 || mModel == 0)
     {
         return;
     }
 
-    mModel->getStateVector(NV_DATA_S(mStateVector));
-
-    double dMin = options.absolute;
-
-    for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
-    {
-        double tmp = NV_DATA_S(mStateVector)[i] / 1000.;
-        if (tmp < dMin)
-        {
-            dMin = tmp;
-        }
-    }
-
-    for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
-    {
-        setAbsTolerance(i, dMin);
-    }
-
-    // TODO: events are bizarre, need to clean them up eventually
+    // If we have a model with only events, cvode still needs a state vector
+    // of length 1 to integrate.
     if (!haveVariables() && mModel->getNumEvents() > 0)
     {
-        setAbsTolerance(0, dMin);
         SetVector(mStateVector, 0, 1.0);
     }
 
-    Log(Logger::LOG_TRACE) << "Set tolerance to: "<<setprecision(16)<< dMin;
-
-}
-
-void CVODEIntegrator::setAbsTolerance(int index, double dValue)
-{
-    double dTolerance = dValue;
-    if (dValue > 0 && options.absolute > dValue)
+    int err;
+    if ((err = CVodeSStolerances(mCVODE_Memory, options.relative, options.absolute)) != CV_SUCCESS)
     {
-        dTolerance = dValue;
-    }
-    else
-    {
-        dTolerance = options.absolute;
+        handleCVODEError(err);
     }
 
-    SetVector(mAbstolArray, index, dTolerance);
+    Log(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16)
+            << options.absolute << ", rel: " << options.relative;
+
 }
 
 
@@ -600,14 +557,8 @@ void CVODEIntegrator::freeCVode()
         N_VDestroy_Serial(mStateVector);
     }
 
-    if(mAbstolArray)
-    {
-        N_VDestroy_Serial(mAbstolArray);
-    }
-
     mCVODE_Memory = 0;
     mStateVector = 0;
-    mAbstolArray = 0;
 }
 
 // int (*CVRootFn)(realtype t, N_Vector y, realtype *gout, void *user_data)
