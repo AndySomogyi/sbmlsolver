@@ -70,12 +70,13 @@ bool SBMLReader::is_sbml(const std::string& str)
 }
 
 
-std::string SBMLReader::read(const std::string& str)
+std::string SBMLReader::read(const std::string& str, std::string& filename)
 {
     if (is_sbml(str))
     {
         return str;
     }
+    filename = str;
 
     // at this point, we have to assume that the string is to be interpreted as a
     // path or uri

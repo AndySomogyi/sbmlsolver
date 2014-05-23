@@ -812,10 +812,7 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
-    impl->mCurrentSBML = SBMLReader::read(uriOrSbml);
-    if (!SBMLReader::is_sbml(uriOrSbml)) {
-        impl->mFilename = uriOrSbml;
-    }
+    impl->mCurrentSBML = SBMLReader::read(uriOrSbml, impl->mFilename);
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
     Log(lDebug)<<"Loading SBML into simulator";

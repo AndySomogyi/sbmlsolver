@@ -694,12 +694,12 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml, const char* file
             Log(rr::Logger::LOG_WARNING) << "The following errors were found in this SBML document:  " << endl << errmsg.str();
         }
         if (doc->getPlugin("comp") != NULL) {
-            libsbml::ConversionProperties* props = new ConversionProperties();
+            libsbml::ConversionProperties props;
             doc->setLocationURI(filename); //<-- Need to set the filename in case there are external model definitions.
-            props->addOption("flatten comp");
-            props->addOption("performValidation", false);
+            props.addOption("flatten comp");
+            props.addOption("performValidation", false);
 
-            libsbml::SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+            libsbml::SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
             if (converter != NULL) {
                 //We can flatten the model!  When we can't, we fall through below and warn the user about the 'comp' package still being present.
                 converter->setDocument(doc);

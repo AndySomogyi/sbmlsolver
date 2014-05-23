@@ -302,10 +302,10 @@ SelectionRecord TestRoadRunner::testsel(const std::string& str)
     return SelectionRecord(str);
 }
 
-std::string TestRoadRunner::read_uri(const std::string& uri)
+std::string TestRoadRunner::read_uri(const std::string& uri, std::string& filename)
 {
 
-    return SBMLReader::read(uri);
+    return SBMLReader::read(uri, filename);
 
     /*
 

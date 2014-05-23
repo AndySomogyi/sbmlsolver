@@ -33,9 +33,10 @@ namespace rr
 class RR_DECLSPEC SBMLReader
 {
 public:
+    static std::string read(const std::string& sbml_or_uri, std::string& filename);
 
+private:
     static bool is_sbml(const std::string& str);
-    static std::string read(const std::string& sbml_or_uri);
 };
 
 }
