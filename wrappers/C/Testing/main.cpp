@@ -142,7 +142,8 @@ int main(int argc, char* argv[])
     if (args.Suites.find('J') != std::string::npos)
     {
         clog << "Running Suite SBML_TEST_SUITE_C_FAILS\n";
-        clog << "ModelPath " << gTSModelsPath;
+        clog << "ModelPath " << gTSModelsPath << endl;
+        clog << "NOTE:  all of the following tests *should* fail!" << endl;
         runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL", True(),
                 0);
     }
@@ -173,13 +174,13 @@ bool setup(Args& args)
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
-    //Assume(!) this is the bin folder of roadrunner install
     gRRInstallFolder     = getParentFolder(thisExeFolder);
     gDebug               = args.EnableLogging;
     gTSModelsPath        = args.ModelsFilePath;
     gTempFolder          = args.TempDataFolder;
     gTestDataFolder      = args.TestDataFolder;
     if (gTestDataFolder == "") {
+      //If not set by the user, assume this is the bin folder of roadrunner install
       gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
     }
 
