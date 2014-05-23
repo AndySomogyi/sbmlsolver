@@ -985,8 +985,9 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 }
                 else
                 {
-                    Log(Logger::LOG_WARNING)
-                            << "Experimental multi product-reactant stochiometry code";
+                    Log(Logger::LOG_INFORMATION)
+                        << "Experimental multi product-reactant stochiometry code"
+						<< "with reactant " << r->getSpecies();
 
                     // species is listed multiple times as reactant
                     stoichTypes[si->second] = MultiReactantProduct;
@@ -1056,10 +1057,11 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 }
                 else
                 {
-                    Log(Logger::LOG_WARNING)
-                            << "Experimental multi product-reactant stochiometry code";
+                    Log(Logger::LOG_INFORMATION)
+                        << "Experimental multi product stochiometry code "
+						<< "with product " << p->getSpecies();
 
-                    // species is listed multiple times as reactant
+                    // species is listed multiple times as product
                     stoichTypes[si->second] = MultiReactantProduct;
 
                     // set all the other ones to Multi...
