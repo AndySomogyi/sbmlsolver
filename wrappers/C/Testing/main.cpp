@@ -142,7 +142,8 @@ int main(int argc, char* argv[])
     if (args.Suites.find('J') != std::string::npos)
     {
         clog << "Running Suite SBML_TEST_SUITE_C_FAILS\n";
-        clog << "ModelPath " << gTSModelsPath;
+        clog << "ModelPath " << gTSModelsPath << endl;
+        clog << "NOTE:  all of the following tests *should* fail!" << endl;
         runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL", True(),
                 0);
     }
@@ -173,12 +174,15 @@ bool setup(Args& args)
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
-    //Assume(!) this is the bin folder of roadrunner install
     gRRInstallFolder     = getParentFolder(thisExeFolder);
     gDebug               = args.EnableLogging;
     gTSModelsPath        = args.ModelsFilePath;
     gTempFolder          = args.TempDataFolder;
-    gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+    gTestDataFolder      = args.TestDataFolder;
+    if (gTestDataFolder == "") {
+      //If not set by the user, assume this is the bin folder of roadrunner install
+      gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+    }
 
     gCompiler = args.compiler;
     Log(Logger::LOG_NOTICE) << "Using compiler " << gCompiler;
@@ -186,8 +190,8 @@ bool setup(Args& args)
 
     if(args.Suites.size() == 0)
     {
-        //Run all
-        args.Suites = "ABCDE";
+        //Run all the non-duplicated tests.
+        args.Suites = "ABCDEJL";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
@@ -210,7 +214,7 @@ bool setup(Args& args)
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:i:"))) != -1)
     {
         switch (c)
         {
@@ -220,6 +224,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('v'): args.EnableLogging      = true;     break;
             case ('s'): args.Suites             = rrOptArg; break;
             case ('c'): args.compiler           = rrOptArg; break;
+            case ('i'): args.TestDataFolder     = rrOptArg; break;
             case ('?'): cout << Usage(argv[0]) << endl;     break;
             default:
             {
