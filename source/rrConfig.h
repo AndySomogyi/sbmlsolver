@@ -47,7 +47,7 @@ namespace rr
  * /Users/andy/local/roadrunner.conf
  *
  * The conf file is just a plain text file of where each line may
- * be key / value pair separated by a â":", i.e.
+ * be key / value pair separated by a :", i.e.
  *
  * KEY_NAME : Value Any line that does not match this format is ignored, and keys that are not found
  * are also ignored. Therefore, any line that does not start w* ith a word character is considered a
