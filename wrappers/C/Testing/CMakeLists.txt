@@ -9,7 +9,6 @@ set(tests
     Suite_SBML_Tests
     Suite_NOM_Tests
     Suite_LibStruct_Tests
-    Suite_PluginManager
     )
 
 add_executable( ${target}
