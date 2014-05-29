@@ -16,8 +16,6 @@
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <sbml/SBMLDocument.h>
-#include <Poco/Logger.h>
-
 
 using namespace libsbml;
 using namespace llvm;
@@ -104,7 +102,7 @@ bool LLVMModelSymbols::visit(const libsbml::Species& x)
 
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
-    poco_trace(getLogger(), "processing AssignmentRule, id: " + x.getId());
+    Log(Logger::LOG_TRACE) << "processing AssignmentRule, id: " << x.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
 
     if (element)
@@ -123,7 +121,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
-    poco_trace(getLogger(), "processing InitialAssignment, id: " +  x.getId());
+    Log(Logger::LOG_TRACE) << "processing InitialAssignment, id: " +  x.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
     processElement(initialValues, element, x.getMath());
     processElement(initialAssignmentRules, element, x.getMath());
@@ -132,7 +130,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 
 bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
 {
-    poco_trace(getLogger(), "processing RateRule, id: " +  rule.getId());
+    Log(Logger::LOG_TRACE) << "processing RateRule, id: " +  rule.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(rule.getVariable());
     processElement(rateRules, element, rule.getMath());
     return true;
@@ -171,14 +169,16 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
     }
     else
     {
-        poco_warning(getLogger(), "Unknown element whilst processing symbols: " +
-                string(const_cast<SBase*>(element)->toSBML()));
+        char* sbml = const_cast<SBase*>(element)->toSBML();
+        Log(Logger::LOG_WARNING) << "Unknown element whilst processing symbols: "
+                << sbml;
+        free(sbml);
     }
 }
 
 bool LLVMModelSymbols::visit(const libsbml::Rule& x)
 {
-    poco_trace(getLogger(), "Rule, id: " + x.getId());
+    Log(Logger::LOG_TRACE) << "Rule, id: " << x.getId();
     return true;
 }
 
@@ -309,13 +309,14 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
                 string spid = species->getId();
                 const Model* model = species->getSBMLDocument()->getModel();
                 if (model->getInitialAssignment(spid) == NULL &&
-                  model->getAssignmentRule(spid) == NULL) {
-                    string msg = string("species '") + spid +
-                      string("' has neither initial amount nor concentration set. "
-                      " Setting initial amount to 0.0");
-                    poco_warning(getLogger(), msg);
+                        model->getAssignmentRule(spid) == NULL)
+                {
+                    Log(Logger::LOG_WARNING) << "species '" << spid
+                            << "' has neither initial amount nor concentration set. "
+                            << " Setting initial amount to 0.0";
                 }
-                //We still need to set up a fake initial value if we need one, even though it'll be overwritten:
+                // We still need to set up a fake initial value if we need one,
+                // even though it'll be overwritten:
                 ASTNode *amt = nodes.create(AST_REAL);
                 amt->setValue(0.0);
                 math = amt;
@@ -350,11 +351,11 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
                 string spid = species->getId();
                 const Model* model = species->getSBMLDocument()->getModel();
                 if (model->getInitialAssignment(spid) == NULL &&
-                  model->getAssignmentRule(spid) == NULL) {
-                    string msg = string("species '") + spid +
-                      string("' has neither initial amount nor concentration set. "
-                      " Setting initial concentration to 0.0");
-                    poco_warning(getLogger(), msg);
+                        model->getAssignmentRule(spid) == NULL)
+                {
+                    Log(Logger::LOG_WARNING) << "species '" << spid
+                            << "' has neither initial amount nor concentration set. "
+                            << " Setting initial concentration to 0.0";
                 }
                 //We still need to set up a fake initial value if we need one, even though it'll be overwritten:
                 ASTNode *conc = nodes.create(AST_REAL);
@@ -522,9 +523,9 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
-    poco_trace(rr::getLogger(), "\t{" + rr::toString(row) + ", " + rr::toString(col) +
+    Log(Logger::LOG_TRACE) << "\t{" + rr::toString(row) + ", " + rr::toString(col) +
             "}, #reactants: " + rr::toString(reactantList.size()) + " #products: " +
-            rr::toString(productList.size()));
+            rr::toString(productList.size());
 
     if (reactantList.size())
     {
