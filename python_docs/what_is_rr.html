@@ -186,64 +186,35 @@ floating species amounts</strong>, its a single statement, since we use native t
 </dd>
 </dl>
 <p>Finally, you can of course <strong>simulate over time</strong>. The first column in result is time,
-the rest are whatever is selected. The easies way to plot is to use <tt class="docutils literal"><span class="pre">roadrunner.plot</span></tt>:</p>
+the rest are whatever is selected. The easies way to plot is to use <tt class="xref py py-meth docutils literal"><span class="pre">RoadRunner.plot()</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
-<span class="n">roadrunner</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last">To get numpy unstructured array, see: <a class="reference internal" href="using_roadrunner.html#plotting-data"><em>Plotting Data</em></a></p>
+<p class="last"><a class="reference internal" href="using_roadrunner.html#plotting-data"><em>Plotting Data</em></a></p>
 </div>
 <p>Using libRoadRunner in <a class="reference external" href="http://ipython.org/">IPython</a> you can <strong>get documentation</strong>
 easily using a <tt class="docutils literal"><span class="pre">?</span></tt> after the object or method:</p>
-<div class="highlight-python"><pre>rr.simulate?</pre>
-</div>
-<dl class="docutils">
-<dt></dt>
-<dd><div class="first last highlight-python"><pre>Type:       instancemethod
-String Form:&lt;bound method RoadRunner.simulate of &lt;roadrunner.RoadRunner() { this = 03D2E6F0 }&gt;&gt;
-File:       c:\python27\lib\site-packages\roadrunner\roadrunner.py
+<div class="highlight-python"><pre>&gt;&gt;&gt; r.plot?
 
-
-Definition: rr.simulate(self, *args)
+Type:        instancemethod
+String form: &lt;bound method RoadRunner.plot of &lt;roadrunner.RoadRunner() { this = 0x101c70a00 }&gt;&gt;
+File:        /Users/andy/Library/Python/2.7/lib/python/site-packages/roadrunner/roadrunner.py
+Definition:  r.plot(self, show=True)
 Docstring:
-RoadRunner.simulate(*args)
+RoadRunner.plot([show])
 
-Simulate the current SBML model.
+Plot the previously run simulation result using Matplotlib.
 
-There are a number of ways to call simulate.
+This takes the contents of the simulation result and builds a
+legend from the selection list.
 
-1. With no arguments. In this case, the current set of `SimulateOptions` will
-   be used for the simulation. The current set may be changed either directly
-   via setSimulateOptions() or with one of the two alternate ways of calling
-   simulate.
 
-2: With single `SimulateOptions` argument. In this case, all of the settings
-   in the given options are copied and will be used for the current and future
-   simulations.
-
-3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
-   these three values are copied and will be used for the current and future simulations.
-
-The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-one calls::
-
-  rr.simulate (0, 3.14, 100)
-
-The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
-is followed by a call to::
-
-  rr.simulate()
-
-This simulation will use the previous values.
-
-:returns: a numpy array with each selected output timeseries being a
-          column vector, and the 0'th column is the simulation time.
-:rtype: numpy.ndarray</pre>
+If the optional prameter 'show' [default is True] is given, the pylab
+show() method is called.</pre>
 </div>
-</dd>
-</dl>
 </div>
 <div class="section" id="technical-footnotes">
 <h2>Technical Footnotes<a class="headerlink" href="#technical-footnotes" title="Permalink to this headline">¶</a></h2>

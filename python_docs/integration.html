@@ -70,7 +70,7 @@ between performance and numeric stability for most systems. However, one may fre
 stiffer systems which require tighter tolerances . Note that specifying very tight tolerances will
 drastically decrease performance.</p>
 <p>Another parameter which is a significant role in numeric stability and performance is the initial
-time step. If no initial time step is provided (SimulateOptions.initialTimeStep &lt; 0, the default
+time step. If no initial time step is provided (initialTimeStep &lt; 0, the default
 value), the internal integrator (defaults to CVODE) will estimate an initial time step based on
 total time span and and other numeric attributes calculated from the system. If the estimated
 initial time step is too large, then a significant amount of time will be spent by the integrator
@@ -80,64 +80,14 @@ the time step will increase if the function is relatively smooth, however, by th
 has been increased, the simulation time may be over.</p>
 <p>If one encounters exceptions from the integrator, the first thing that one should try is specifying
 an initial time step and tighter absolute and relative tolerances.</p>
-<p>All of the parameters to tune the integration are on the SimulateOptions object. This object may
-either be accessed directly off the RoadRunner object, or be passed into RoadRunner.simulate or
-RoadRunner.integrate as optional parameter. Setting the values may be performed as:</p>
+<p>All of the parameters to tune the integration are optional keyword arguments to
+<a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.simulate" title="roadrunner.RoadRunner.simulate"><tt class="xref py py-meth docutils literal"><span class="pre">RoadRunner.simulate()</span></tt></a>. Setting these values may be performed as:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">=</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s">&quot;mymodel.xml&quot;</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">absolute</span> <span class="o">=</span> <span class="mf">5e-10</span>
-<span class="n">r</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">initialTimeStep</span> <span class="o">=</span> <span class="mf">0.00001</span>
-<span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">absolute</span> <span class="o">=</span> <span class="mf">5e-10</span><span class="p">,</span> <span class="n">initialTimeStep</span> <span class="o">=</span> <span class="mf">0.00001</span> <span class="p">)</span>
 </pre></div>
 </div>
 <p>This will specify the absolute precision and initial time step, and will integrate the system from
 time 0 to 10. The internal integrator will take many time steps before it reaches time 10.</p>
-<p>The same SimulateOptions values control the integrator in all three of the integration RoadRunner
-methods, RoadRunner.simulate, RoadRunner.integrate and its&#8217; synonym, RoadRunner.oneStep.</p>
-<p>The integration tuning parameters are</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.stiff" title="roadrunner.SimulateOptions.stiff"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.stiff</span></tt></a></td>
-<td>Use the stiff integrator.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.multiStep" title="roadrunner.SimulateOptions.multiStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.multiStep</span></tt></a></td>
-<td>Perform a multi step integration.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.integratorFlags" title="roadrunner.SimulateOptions.integratorFlags"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.integratorFlags</span></tt></a></td>
-<td>A bitfield which may contain the following options.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.steps" title="roadrunner.SimulateOptions.steps"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.steps</span></tt></a></td>
-<td>The number of steps at which the output is sampled.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.start" title="roadrunner.SimulateOptions.start"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.start</span></tt></a></td>
-<td>The start time of the simulation time-series data.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.duration" title="roadrunner.SimulateOptions.duration"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.duration</span></tt></a></td>
-<td>The duration of the simulation run, in the model&#8217;s units of time.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.absolute" title="roadrunner.SimulateOptions.absolute"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.absolute</span></tt></a></td>
-<td>A number representing the absolute difference permitted for the integrator</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.relative" title="roadrunner.SimulateOptions.relative"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.relative</span></tt></a></td>
-<td>A float-point number representing the relative difference permitted.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.initialTimeStep" title="roadrunner.SimulateOptions.initialTimeStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.initialTimeStep</span></tt></a></td>
-<td>A user specified initial time step.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.minimumTimeStep" title="roadrunner.SimulateOptions.minimumTimeStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.minimumTimeStep</span></tt></a></td>
-<td>Specify the minimum time step that the internal integrator will use.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.maximumTimeStep" title="roadrunner.SimulateOptions.maximumTimeStep"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.maximumTimeStep</span></tt></a></td>
-<td>Specify the maximum time step size that the internal integrator will use.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.SimulateOptions.maximumNumSteps" title="roadrunner.SimulateOptions.maximumNumSteps"><tt class="xref py py-obj docutils literal"><span class="pre">SimulateOptions.maximumNumSteps</span></tt></a></td>
-<td>Specify the maximum number of steps the internal integrator will use before reaching the user specified time span.</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 
