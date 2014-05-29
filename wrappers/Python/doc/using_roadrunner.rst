@@ -26,7 +26,7 @@ Loading Models
 
 RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is
 possible to load that model either by giving he document contents or path to the Roadrunner
-constructor, or later by using the method, ``load()``. Let's assume you have a model called
+constructor, or later by using the method, :meth:`~RoadRunner.load()`. Let's assume you have a model called
 mymodel.xml in ``C:\MyModels``. To load this model in **Windows** we would use the command::
 
    rr = roadrunner.RoadRunner("C:/MyModels/mymodel.xml")
@@ -51,10 +51,8 @@ found in the SBML document, these will be displayed in the console error log.
 Additionally, there are a couple models **included with libRoadRunner**. The models  ``feedback.xml``
 and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access these use::
 
-
-   import roadrunner
-   import roadrunner.testing
-   r = roadrunner.testing.getRoadRunner('feedback.xml')
+   import roadrunner.testing as test
+   r = test.getRoadRunner('feedback.xml')
 
 There are a few additional models in the ``models/`` directory of the distribution, where you installed libRoadRunner.
 
@@ -77,25 +75,12 @@ way::
 This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simulation points
 will be output in intervals of 0.1.
 
-The alternative is to set the options record in simulateOptions. The advantage here is that the simulateOptions record
-holds many other options that might be of interest. To set the time start using the simulateOptions record we
-would type::
+The simulate method also accepts a number of keyword arguments. These may be uses like::
 
-   rr.simulateOptions.start = 0
+  result = rr.simulate(0, 10, 100, reset=True, stiff=True)
 
-Or to set the many points to use we would use::
-
-   rr.simulateOptions.steps = 100
-
-And to set the time end for the simulation we would type::
-
-   rr.simulateOptions.end = 10
-
-Typing something like::
-
-   print rr.simulateOptions.steps
-
-will printout the current value for steps. The follow table summarizes the various options.
+For more details of the simulate method see :meth:`RoadRunner.simulate()`
+The follow table summarizes the various options.
 
 ================  =============
  Option           Description
@@ -107,10 +92,15 @@ steps             Number of steps to generate
 absolute          Absolute tolerance for the CVODE integrator
 relative          Relative tolerance for the CVODE integrator
 stiff             Tells the integrator to use the fully implicit backward difference stiff solver
-resetModel        Resets the SBML state to the original values specified in the SBML.
+reset             Resets the SBML state to the original values specified in the SBML.
 structuredResult  If set (default is True), the result from simulate is a numpy structured array
                   with the column names set to the selections. This is required for plotting and
                   displaying a legend for each time series.
+variableStep      Perform a variable step simulation. This lets the integrator choose the 
+                  appropriate time step.
+integrator        a string of either "cvode" for deterministic simulations, or "gillespie" for
+                  stochastic simulations. 
+plot              True or False, plot the results of the simulation. 
 ================  =============
 
 One important point to note about simulate(). When simulate() is run, the concentration of
@@ -142,7 +132,7 @@ detailed information on selections, see the :ref:`selecting-values` section.
 The simulate method, by default returns an `structured array
 <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_,
 which are arrays that also contain column names. These can be plotted directly using the
-``roadrunner.plot`` function.
+built in ``RoadRunner.plot()`` function, or by adding the ``plot=True`` keyword argument to ``simulate()``.
 
 The output selections default to time and the set of floating species.
 It is possible to change the simulation result values by changing the selection list.
@@ -174,20 +164,19 @@ Some additional examples include:
 Plotting Data
 -------------
 
-The built in roadrunner.plot function displays the simulation result and a legend using
-matplotlib. Simply pass it a simulation result::
+RoadRunner has a built in ``RoadRunner.plot()`` method which can perform basic plotting. 
+Simply call::
 
    result = rr.simulate(0, 10, 100)
-   roadrunner.plot(result)
+   rr.plot()
 
-If one wants more control over the data plots, or if one wished to pass the simulation result to
-other ``numpy`` functions that expect a **unstructured (conventional) array**, disable the structured array
-result with::
+or::
 
-   rr.simulateOptions.structuredResult = False
+  rr.simulate(0, 10, 100, plot=True)
 
-This will return a unstructured array. Assuming the simulate returns an array called result, and that the first column represents
-the x axis and the remaining columns the y axis, we type::
+If one wants more control over the data plots, one may use matplotlib directly.  Assuming the
+simulate returns an array called result, and that the first column represents the x axis and the
+remaining columns the y axis, we type::
 
    import pylab
    pylab.plot (result[:,0],result[:,1:])
@@ -197,37 +186,54 @@ This will bring up a new window showing the plot. To clear the plot for next tim
 
    pylab.clf()
 
-Plot a graph using normal numpy arrays and will use the selections from roadrunner to add a legend.
+One may also override the built in ``plot`` method with a more more capable plotting routine
 
-Below is a convenient function to plot with a legend. The first argument must be a roadrunner variable.
-The second argument must be an array containing data to plot. The first column of the array will be the
-x-axis and remaining columns the y-axis. Returns a handle to the plotting object.
+Below is a simplified version of the ``RoadRunner.plot()`` method. You may copy and write a
+customized version and even attach it to the RoadRunner object. The first argument is a RoadRunner
+object instance, and the second is a flag which tells the method to show the plot or not::
 
-Copy the code below into your own python script and use it::
+  def plot(r, show=True):
 
-   def plotWithLegend (r, result):
-       """
-       Plot an array and include a legend. The first argument must be a roadrunner variable.
-       The second argument must be an array containing data to plot. The first column of the array will
-       be the x-axis and remaining columns the y-axis. Returns
-       a handle to the plotting object.
+      import pylab as p
 
-       plotWithLegend (r, result)
-       """
-       if not isinstance (r, roadrunner.RoadRunner):
-           raise Exception ('First argument must be a roadrunner variable')
-       columns = result.shape[1]
-       legendItems = r.selections[1:]
-       if columns-1 != len (legendItems):
-           raise Exception ('Legend list must match result array')
-       for i in range(columns-1):
-           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])
-       plt.legend (loc='upper left')
-       plt.show()
-       return plt
+      result = self.getSimulationData()
+
+      if result is None:
+          raise Exception("no simulation result")
+
+      # assume result is a standard numpy array
+
+      selections = r.selections
+
+      if len(result.shape) != 2 or result.shape[1] != len(selections):
+          raise Exception("simulation result columns not equal to number of selections,"
+                          "likely a simulation has not been run")
+
+      times = result[:,0]
+
+      for i in range(1, len(selections)):
+          series = result[:,i]
+          name = selections[i]
+          p.plot(times, series, label=str(name))
+
+          p.legend()
+
+      if show:
+          p.show()
 
 
-.. todo:: add the section
+You can attach your plotting function to the RoadRunner object by simply setting the plot
+method::
+
+  def my_plot(r, show):
+      pass
+
+  import roadrunner
+  roadrunner.RoadRunner.plot = my_plot
+
+Now, whenever the ``RoadRunner.plot`` method is called, your plot function will be the one that is
+invoked.
+
 
 Changing Initial Conditions
 ---------------------------
