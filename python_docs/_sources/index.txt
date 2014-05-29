@@ -22,11 +22,14 @@ simulation and plot the results::
    import roadrunner
    rr = roadrunner.RoadRunner("mymodel.xml")
    result = rr.simulate()
-   roadrunner.plot(result)
+   rr.plot()
+
 
 Looking for a model to start with? We included a couple with libRoadRunner, see :ref:`loading-models`.   
 
-.. note:: The result is a structured numpy array which cannot be plotted using `matplotlib <http://matplotlib.org/>`_ directly. See :ref:`plotting-data` for help in plotting. 
+.. note:: The result is a standard numpy array which may be used with any numpy or scipy functions
+          or may be plotted using `matplotlib <http://matplotlib.org/>`_ 
+          directly. See :ref:`plotting-data` for help in plotting. 
 
 Now read the tutorials to learn more about the capabilities of RoadRunner.  
 
