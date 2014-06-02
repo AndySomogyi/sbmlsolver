@@ -2344,7 +2344,7 @@ bool CModelGenerator::setTemporaryDirectory(const string& _path)
 }
 
 
-ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
+ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options, const string& filename)
 {
     bool computeAndAssignConsevationLaws =
                 options & ModelGenerator::CONSERVED_MOIETIES;
@@ -2354,16 +2354,16 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
     LibStructural libStruct(sbml);
 
     ExecutableModel *model = createModel(sbml, &libStruct, forceReCompile,
-            computeAndAssignConsevationLaws);
+            computeAndAssignConsevationLaws, filename);
 
     return model;
 }
 
 ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural *ls,
-        bool forceReCompile, bool computeAndAssignConsevationLaws)
+        bool forceReCompile, bool computeAndAssignConsevationLaws, const std::string& filename)
 {
     NOMSupport nom;
-    CModelGenerator::loadSBMLIntoNOM(nom, sbml);
+    CModelGenerator::loadSBMLIntoNOM(nom, sbml, filename);
     mLibStruct = ls;
     mNOM = &nom;
     mCurrentSBML = sbml;
@@ -2513,7 +2513,7 @@ string CModelGenerator::getTemporaryDirectory()
     return mTempFileFolder;
 }
 
-bool CModelGenerator::loadSBMLIntoNOM(NOMSupport &nom, const string& sbml)
+bool CModelGenerator::loadSBMLIntoNOM(NOMSupport &nom, const string& sbml, const std::string& filename)
 {
     string sASCII = NOMSupport::convertTime(sbml, "time");
 

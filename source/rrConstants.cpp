@@ -29,9 +29,9 @@ const string		gEmptyModelMessage 			= "A model needs to be loaded before one can
 
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
-    const string		gDefaultCompiler 			= joinPath("..", "compilers", "tcc", "tcc.exe");
     const char       	gPathSeparator      = '\\';
     const string		gExeSuffix          = ".exe";
+    const string		gDefaultCompiler 	= joinPath("..", "compilers", "tcc", "tcc.exe", '\\');
 #elif defined(__unix__) || defined(__APPLE__)
     // the default compiler on Unix systems is 'cc', the standard enviornment
     // for the default compiler is 'CC'.

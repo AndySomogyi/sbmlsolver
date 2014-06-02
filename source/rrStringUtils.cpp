@@ -197,20 +197,20 @@ string joinPath(const string& aPath, const string& aFile, const char pathSeparat
 
 string joinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator)
 {
-    string tmp(joinPath(p1, p2, gPathSeparator));
-    return joinPath(tmp, p3, gPathSeparator);
+    string tmp(joinPath(p1, p2, pathSeparator));
+    return joinPath(tmp, p3, pathSeparator);
 }
 
 string joinPath(const string& p1, const string& p2, const string& p3, const string& p4, const char pathSeparator)
 {
-    string tmp(joinPath(p1, p2, p3, gPathSeparator));
-    return joinPath(tmp, p4, gPathSeparator);
+    string tmp(joinPath(p1, p2, p3, pathSeparator));
+    return joinPath(tmp, p4, pathSeparator);
 }
 
 string joinPath(const string& p1, const string& p2, const string& p3, const string& p4, const string& p5, const char pathSeparator)
 {
-    string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
-    return joinPath(tmp, p5, gPathSeparator);
+    string tmp(joinPath(p1, p2, p3, p4, pathSeparator));
+    return joinPath(tmp, p5, pathSeparator);
 }
 
 string tabs(const int& nr)
