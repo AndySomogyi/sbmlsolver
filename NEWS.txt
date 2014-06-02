@@ -1,3 +1,33 @@
+-- Version 1.2.1
+*   Added models and data files from the Discrete Stochastic Models Test Suite,
+    https://code.google.com/p/dsmts/
+    to the roadrunner.testing package.
+
+*   New function in the roadrunner.testing package to enumerate testing data files.
+
+*   Clean up of SBML warning messages (thanks Lucian)
+
+*   Fixed major bug with how absolute and relative tolerances are handled (major thanks to Matthias
+    Koenig)
+
+*   Added support for reading values of reaction rates inside the model (identified by Matthias)
+
+*   Event status is not available as a selection, i.e. r.model["my_event_id"] will return 1 or -1
+    depending on whether or not the event is triggered.
+
+*   The plot method no longer tries to parse labels from SBML ids as LaTeX.
+
+*   made structuredResult behavior backward compatible (some users like the structured result).
+
+*   major revamp of the Python simulate method, it now accepts a variety of positional and named
+    arguments.
+
+*   fix bug when compiling with clang3.4 in c++ 11 mode (identified by Andrew Millspaugh)
+
+*   Gillespie integrator now supports fixed and variable time step mode.
+
+*   Variable time step mode fixes with deterministic solver.
+
 -- Version 1.2.0
 
 *   Enabled mutable initial conditions when conserved moities are used, implemented Jacobian 

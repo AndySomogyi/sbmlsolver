@@ -27,7 +27,7 @@ stiffer systems which require tighter tolerances . Note that specifying very tig
 drastically decrease performance. 
 
 Another parameter which is a significant role in numeric stability and performance is the initial
-time step. If no initial time step is provided (SimulateOptions.initialTimeStep < 0, the default
+time step. If no initial time step is provided (initialTimeStep < 0, the default
 value), the internal integrator (defaults to CVODE) will estimate an initial time step based on
 total time span and and other numeric attributes calculated from the system. If the estimated
 initial time step is too large, then a significant amount of time will be spent by the integrator
@@ -39,34 +39,13 @@ has been increased, the simulation time may be over.
 If one encounters exceptions from the integrator, the first thing that one should try is specifying
 an initial time step and tighter absolute and relative tolerances. 
 
-All of the parameters to tune the integration are on the SimulateOptions object. This object may
-either be accessed directly off the RoadRunner object, or be passed into RoadRunner.simulate or
-RoadRunner.integrate as optional parameter. Setting the values may be performed as::
+All of the parameters to tune the integration are optional keyword arguments to
+:meth:`RoadRunner.simulate()`. Setting these values may be performed as::
 
   r=roadrunner.RoadRunner("mymodel.xml")
-  r.simulateOptions.absolute = 5e-10
-  r.simulateOptions.initialTimeStep = 0.00001
-  r.integrate(0,10)
+  r.integrate(0, 10, absolute = 5e-10, initialTimeStep = 0.00001 )
 
 This will specify the absolute precision and initial time step, and will integrate the system from
 time 0 to 10. The internal integrator will take many time steps before it reaches time 10. 
 
-The same SimulateOptions values control the integrator in all three of the integration RoadRunner
-methods, RoadRunner.simulate, RoadRunner.integrate and its' synonym, RoadRunner.oneStep.
 
-The integration tuning parameters are
-
-.. Autosummary::
-
-   SimulateOptions.stiff 
-   SimulateOptions.multiStep
-   SimulateOptions.integratorFlags
-   SimulateOptions.steps
-   SimulateOptions.start
-   SimulateOptions.duration
-   SimulateOptions.absolute
-   SimulateOptions.relative
-   SimulateOptions.initialTimeStep
-   SimulateOptions.minimumTimeStep
-   SimulateOptions.maximumTimeStep
-   SimulateOptions.maximumNumSteps

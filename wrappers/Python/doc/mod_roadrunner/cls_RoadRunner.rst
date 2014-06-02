@@ -73,9 +73,6 @@ _________________________
    by square brackets, i.e. 'S1' -> '\[S1]'
 
 
-
-
-
 .. method:: RoadRunner.getInfo()
    :module: roadrunner
 
@@ -289,8 +286,11 @@ Fast and easy time series simulations is one of the main objectives of the RoadR
 
 All simulation related tasks can be accomplished with the single ``simulate`` method. 
  
-.. method:: RoadRunner.simulate(*args, **kwargs):
+
+.. method:: RoadRunner.simulate(*args, **kwargs)
    :module: roadrunner
+
+
 
    Simulate the optionally plot current SBML model. This is the one stop shopping method
    for simulation and ploting. 
