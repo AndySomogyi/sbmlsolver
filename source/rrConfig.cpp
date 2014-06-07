@@ -85,35 +85,40 @@ static std::string strip(const std::string& in)
 
 
 static Variant values[] =  {
-    Variant(false),    // LOADSBMLOPTIONS_CONSERVED_MOIETIES
-    Variant(false),    // LOADSBMLOPTIONS_RECOMPILE
-    Variant(false),    // LOADSBMLOPTIONS_READ_ONLY
-    Variant(true),     // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
-    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_GVN
-    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
-    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
-    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
-    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
-    Variant(false),    // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
-    Variant(false),    // LOADSBMLOPTIONS_USE_MCJIT
-    Variant(50),       // SIMULATEOPTIONS_STEPS,
-    Variant(5),        // SIMULATEOPTIONS_DURATION,
-    Variant(1.e-10),   // SIMULATEOPTIONS_ABSOLUTE,
-    Variant(1.e-5),    // SIMULATEOPTIONS_RELATIVE,
-    Variant(false),    // SIMULATEOPTIONS_STRUCTURED_RESULT,
-    Variant(false),    // SIMULATEOPTIONS_STIFF,
-    Variant(false),    // SIMULATEOPTIONS_MULTI_STEP,
-    Variant(false),    // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
-    Variant(true),     // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
-    Variant(std::string("CVODE")), // SIMULATEOPTIONS_INTEGRATOR
-    Variant(-1),       // SIMULATEOPTIONS_INITIAL_TIMESTEP,
-    Variant(-1),       // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
-    Variant(-1),       // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
-    Variant(-1),       // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-    Variant(0),        // ROADRUNNER_DISABLE_WARNINGS
-    Variant(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
-    Variant(int(AllChecksON & UnitsCheckOFF)),          //SBML_APPLICABLEVALIDATORS
-    Variant(0.00001)   // ROADRUNNER_JACOBIAN_STEP_SIZE
+    Variant(false),                              // LOADSBMLOPTIONS_CONSERVED_MOIETIES
+    Variant(false),                              // LOADSBMLOPTIONS_RECOMPILE
+    Variant(false),                              // LOADSBMLOPTIONS_READ_ONLY
+    Variant(true),                               // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
+    Variant(false),                              // LOADSBMLOPTIONS_OPTIMIZE_GVN
+    Variant(false),                              // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
+    Variant(false),                              // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
+    Variant(false),                              // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
+    Variant(false),                              // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
+    Variant(false),                              // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
+    Variant(false),                              // LOADSBMLOPTIONS_USE_MCJIT
+    Variant(50),                                 // SIMULATEOPTIONS_STEPS,
+    Variant(5),                                  // SIMULATEOPTIONS_DURATION,
+    Variant(1.e-10),                             // SIMULATEOPTIONS_ABSOLUTE,
+    Variant(1.e-5),                              // SIMULATEOPTIONS_RELATIVE,
+    Variant(false),                              // SIMULATEOPTIONS_STRUCTURED_RESULT,
+    Variant(false),                              // SIMULATEOPTIONS_STIFF,
+    Variant(false),                              // SIMULATEOPTIONS_MULTI_STEP,
+    Variant(false),                              // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
+    Variant(true),                               // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
+    Variant(std::string("CVODE")),               // SIMULATEOPTIONS_INTEGRATOR
+    Variant(-1),                                 // SIMULATEOPTIONS_INITIAL_TIMESTEP,
+    Variant(-1),                                 // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
+    Variant(-1),                                 // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
+    Variant(-1),                                 // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
+    Variant(0),                                  // ROADRUNNER_DISABLE_WARNINGS
+    Variant(false),                              // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+    Variant(int(AllChecksON & UnitsCheckOFF)),   // SBML_APPLICABLEVALIDATORS
+    Variant(0.00001),                            // ROADRUNNER_JACOBIAN_STEP_SIZE
+    Variant(std::string("rateOf")),              // SBML_RATE_FUNCTION_NAME
+                                                 // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION
+    Variant(std::string("http://en.wikipedia.org/wiki/Derivative")),
+                                                 // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS
+    Variant(std::string("http://sbml.org/annotations/symbols"))
 };
 
 static bool initialized = false;
@@ -174,9 +179,10 @@ static void getKeyNames(StringIntMap& keys)
     keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
     keys["ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES"] = rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
-
     keys["ROADRUNNER_JACOBIAN_STEP_SIZE"] = rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
-
+    keys["SBML_RATE_FUNCTION_NAME"] = rr::Config::SBML_RATE_FUNCTION_NAME;
+    keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION;
+    keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS;
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");

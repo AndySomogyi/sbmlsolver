@@ -316,6 +316,23 @@ public:
         ROADRUNNER_JACOBIAN_STEP_SIZE,
 
         /**
+         * name to use for the extension sbml rate of change function.
+         */
+        SBML_RATE_FUNCTION_NAME,
+
+        /**
+         * definition string to check for in the sbml rate of change function
+         * annotation
+         */
+        SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION,
+
+        /**
+         * symbol string to check for in the sbml rate of change function
+         * annotation
+         */
+        SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.

@@ -158,15 +158,17 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     SharedModelPtr rc(new ModelResources());
 
-
-
     ModelGeneratorContext context(sbml, options);
+
+    // TODO because of the hackish rateOf function, this has to
+    // be the first generated functions as other functiions
+    // may have a call to rateOf which requires this
+    // function to exist.
+    rc->evalReactionRatesPtr =
+            EvalReactionRatesCodeGen(context).createFunction();
 
     rc->evalInitialConditionsPtr =
             EvalInitialConditionsCodeGen(context).createFunction();
-
-    rc->evalReactionRatesPtr =
-            EvalReactionRatesCodeGen(context).createFunction();
 
     rc->getBoundarySpeciesAmountPtr =
             GetBoundarySpeciesAmountCodeGen(context).createFunction();
