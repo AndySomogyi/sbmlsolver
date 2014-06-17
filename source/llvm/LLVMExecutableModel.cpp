@@ -110,9 +110,8 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, int),
 
         if (isnan(value))
         {
-            std::stringstream s;
-            s << "error getting value for index " << j << ", probably out of range";
-            throw_llvm_exception(s.str());
+            Log(Logger::LOG_WARNING) << "error getting value for index " << j 
+                                   << ", probably out of range";
         }
 
         values[i] = value;
