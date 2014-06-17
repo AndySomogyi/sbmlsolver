@@ -10,6 +10,8 @@
 #pragma hdrstop
 #include "LLVMCompiler.h"
 #include "rrUtils.h"
+#include "LLVMIncludes.h"
+#include <sstream>
 #include <ctime>
 
 using namespace rr;
@@ -55,3 +57,25 @@ bool LLVMCompiler::setSupportCodeFolder(const std::string& path)
 }
 
 } /* namespace rr */
+
+std::string rrllvm::LLVMCompiler::getDefaultTargetTriple()
+{
+    return llvm::sys::getDefaultTargetTriple();
+}
+
+std::string rrllvm::LLVMCompiler::getProcessTriple()
+{
+    return llvm::sys::getProcessTriple();
+}
+
+std::string rrllvm::LLVMCompiler::getHostCPUName()
+{
+    return llvm::sys::getHostCPUName();
+}
+
+std::string rrllvm::LLVMCompiler::getVersion()
+{
+    std::stringstream ss;
+    ss << LLVM_VERSION_MAJOR << "." << LLVM_VERSION_MINOR;
+    return ss.str();
+}

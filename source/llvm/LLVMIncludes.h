@@ -68,9 +68,10 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Target/TargetLibraryInfo.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/Host.h>
 
 #ifdef _MSC_VER
-#pragma warning( pop ) 
+#pragma warning( pop )
 #endif
 
 #pragma pop_macro("min")

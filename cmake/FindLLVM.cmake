@@ -155,6 +155,30 @@ if (LLVM_CONFIG_EXECUTABLE)
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
     message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
+    # starting with LLVM 3.4 (at least on Ubuntu) it requres functions in
+    # ncurses for console IO formatting. So, we find ncurses here.
+
+    if (((LLVM_VERSION_MAJOR GREATER 3) OR (LLVM_VERSION_MAJOR EQUAL 3)) AND
+            (LLVM_VERSION_MINOR GREATER 4) OR (LLVM_VERSION_MINOR EQUAL 4))
+        if (UNIX)
+            #message("UNIX true")
+            message("LLVM VERSION >= 3.4, looking for curses library")
+            find_package(Curses REQUIRED)
+            #message("curses: ${CURSES_FOUND}")
+            #message("curdir: ${CURSES_INCLUDE_DIR}")
+            #message("curlib: ${CURSES_LIBRARIES}")
+            #message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+
+            set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
+            message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+
+        else()
+            #message("NOT UNIX")
+        endif()    
+
+    else()
+        #message("LLVM VERSION < 3.4")
+    endif()
 
     if(LLVM_INCLUDE_DIRS)
         set(LLVM_FOUND TRUE)

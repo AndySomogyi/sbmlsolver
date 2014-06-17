@@ -73,7 +73,9 @@ enum VersionStrOptions
     /**
      * the version of libSBML we're using
      */
-    VERSIONSTR_LIBSBML                = (0x1 << 3)
+    VERSIONSTR_LIBSBML                = (0x1 << 3),
+
+    VERSIONSTR_JITCOMPILER            = (0x1 << 4)
 };
 
 /**
@@ -84,7 +86,8 @@ enum VersionStrOptions
  * Each one of these options are concatenated into the output string and there
  * are ';' separators between each of them.
  */
-RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE);
+RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC
+        | VERSIONSTR_COMPILER | VERSIONSTR_JITCOMPILER | VERSIONSTR_DATE);
 
 
 /**
