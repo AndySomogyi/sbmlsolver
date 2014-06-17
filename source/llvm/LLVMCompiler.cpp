@@ -11,7 +11,7 @@
 #include "LLVMCompiler.h"
 #include "rrUtils.h"
 #include "LLVMIncludes.h"
-#include <cstring>
+#include <sstream>
 #include <ctime>
 
 using namespace rr;
@@ -75,7 +75,7 @@ std::string rrllvm::LLVMCompiler::getHostCPUName()
 
 std::string rrllvm::LLVMCompiler::getVersion()
 {
-    char buffer[256];
-    snprintf(buffer, sizeof(buffer)/sizeof(char), "%d.%d", LLVM_VERSION_MAJOR, LLVM_VERSION_MINOR);
-    return buffer;
+    std::stringstream ss;
+    ss << LLVM_VERSION_MAJOR << "." << LLVM_VERSION_MINOR;
+    return ss.str();
 }
