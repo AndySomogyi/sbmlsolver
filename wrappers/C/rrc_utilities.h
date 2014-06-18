@@ -343,7 +343,7 @@ C_DECL_SPEC bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix);
 If your program is running in a console, pause() will stop execution and wait for one keybord stroke in order to continue.
  \return void
 */
-C_DECL_SPEC void rrcCallConv pause(void);
+C_DECL_SPEC void rrcCallConv rrPause(void);
 
 // --------------------------------------------------------------------------------
 // Helper Methods
