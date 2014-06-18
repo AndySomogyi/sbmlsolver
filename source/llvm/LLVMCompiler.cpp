@@ -56,14 +56,12 @@ bool LLVMCompiler::setSupportCodeFolder(const std::string& path)
     return true;
 }
 
-} /* namespace rr */
-
-std::string rrllvm::LLVMCompiler::getDefaultTargetTriple()
+std::string LLVMCompiler::getDefaultTargetTriple()
 {
     return llvm::sys::getDefaultTargetTriple();
 }
 
-std::string rrllvm::LLVMCompiler::getProcessTriple()
+std::string LLVMCompiler::getProcessTriple()
 {
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
     return llvm::sys::getProcessTriple();
@@ -72,14 +70,18 @@ std::string rrllvm::LLVMCompiler::getProcessTriple()
 #endif
 }
 
-std::string rrllvm::LLVMCompiler::getHostCPUName()
+std::string LLVMCompiler::getHostCPUName()
 {
     return llvm::sys::getHostCPUName();
 }
 
-std::string rrllvm::LLVMCompiler::getVersion()
+std::string LLVMCompiler::getVersion()
 {
     std::stringstream ss;
     ss << LLVM_VERSION_MAJOR << "." << LLVM_VERSION_MINOR;
     return ss.str();
 }
+
+} /* namespace rr */
+
+

@@ -382,6 +382,27 @@ bool CCompiler::compile(const string& cmdLine)
 }
 
 #endif //WIN32
+
+std::string CCompiler::getDefaultTargetTriple()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+std::string CCompiler::getProcessTriple()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+std::string CCompiler::getHostCPUName()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+std::string CCompiler::getVersion()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
 string getCompilerMessages()
 {
     return "No messages yet";
