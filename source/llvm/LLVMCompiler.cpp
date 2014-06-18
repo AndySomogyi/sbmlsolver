@@ -65,7 +65,11 @@ std::string rrllvm::LLVMCompiler::getDefaultTargetTriple()
 
 std::string rrllvm::LLVMCompiler::getProcessTriple()
 {
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
     return llvm::sys::getProcessTriple();
+#else
+    return "getProcessTriple() is not support on LLVM < 3.2";
+#endif
 }
 
 std::string rrllvm::LLVMCompiler::getHostCPUName()

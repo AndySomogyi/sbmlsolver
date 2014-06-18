@@ -36,7 +36,7 @@
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Intrinsics.h>
 #include <llvm/IR/Verifier.h>
-#elif (LLVM_VERSION_MAJOR == 3) && ((LLVM_VERSION_MINOR == 3) || (LLVM_VERSION_MINOR == 4)))
+#elif (LLVM_VERSION_MAJOR == 3) && ((LLVM_VERSION_MINOR == 3) || (LLVM_VERSION_MINOR == 4))
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>
 #include <llvm/IR/IRBuilder.h>
@@ -52,8 +52,7 @@
 #include <llvm/Module.h>
 #include <llvm/Intrinsics.h>
 #include <llvm/Analysis/Verifier.h>
-//#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
-#else
+#elif (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
 #include <llvm/DerivedTypes.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/JIT.h>
@@ -65,6 +64,8 @@
 #include <llvm/Support/IRBuilder.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Analysis/Verifier.h>
+#else
+#error "Unsupported LLVM Version, require LLVM >= 3.1"
 #endif
 
 #include <llvm/Analysis/Passes.h>
