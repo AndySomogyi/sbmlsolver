@@ -359,7 +359,7 @@ bool rrcCallConv freeVector(RRVectorPtr vector)
 }
 
 /////////////////////////////////////////////////////////////
-void rrcCallConv pause()
+void rrcCallConv rrPause()
 {
     rr::pause(true, "Hit any key to continue..\n");
 }
