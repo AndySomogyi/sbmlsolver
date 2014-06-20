@@ -1,0 +1,14 @@
+start: 0
+duration: 300
+steps: 300
+variables: MAPKP, MEKP, RAFK, RAFP, K_1_0, K_1_1, K_1_2, K_2_0, K_2_1, K_2_2, K_3_0, K_3_1, K_K_1_0_2_2, K_K_1_1_2_2, K_K_2_0_3_1, K_K_2_1_3_1, K_MAPKP_1_1, K_MAPKP_1_2, K_MEKP_2_1, K_MEKP_2_2, K_RAFK_3_0, K_RAFP_3_1, S_m1_m1_m1, S_m1_m1_0, S_m1_m1_1, S_m1_0_m1, S_m1_0_0, S_m1_0_1, S_m1_1_m1, S_m1_1_0, S_m1_1_1, S_m1_2_m1, S_m1_2_0, S_m1_2_1, S_0_m1_m1, S_0_m1_0, S_0_m1_1, S_0_0_m1, S_0_0_0, S_0_0_1, S_0_1_m1, S_0_1_0, S_0_1_1, S_0_2_m1, S_0_2_0, S_0_2_1, S_1_m1_m1, S_1_m1_0, S_1_m1_1, S_1_0_m1, S_1_0_0, S_1_0_1, S_1_1_m1, S_1_1_0, S_1_1_1, S_1_2_m1, S_1_2_0, S_1_2_1, S_2_m1_m1, S_2_m1_0, S_2_m1_1, S_2_0_m1, S_2_0_0, S_2_0_1, S_2_1_m1, S_2_1_0, S_2_1_1, S_2_2_m1, S_2_2_0, S_2_2_1, S_RAFK_m1_m1_0, S_RAFK_m1_0_0, S_RAFK_m1_1_0, S_RAFK_m1_2_0, S_RAFK_0_m1_0, S_RAFK_0_0_0, S_RAFK_0_1_0, S_RAFK_0_2_0, S_RAFK_1_m1_0, S_RAFK_1_0_0, S_RAFK_1_1_0, S_RAFK_1_2_0, S_RAFK_2_m1_0, S_RAFK_2_0_0, S_RAFK_2_1_0, S_RAFK_2_2_0
+absolute: 1.0e-4
+relative: 1.0e-9
+amount: 
+concentration: MAPKP, MEKP, RAFK, RAFP, K_1_0, K_1_1, K_1_2, K_2_0, K_2_1, K_2_2, K_3_0, K_3_1, K_K_1_0_2_2, K_K_1_1_2_2, K_K_2_0_3_1, K_K_2_1_3_1, K_MAPKP_1_1, K_MAPKP_1_2, K_MEKP_2_1, K_MEKP_2_2, K_RAFK_3_0, K_RAFP_3_1, S_m1_m1_m1, S_m1_m1_0, S_m1_m1_1, S_m1_0_m1, S_m1_0_0, S_m1_0_1, S_m1_1_m1, S_m1_1_0, S_m1_1_1, S_m1_2_m1, S_m1_2_0, S_m1_2_1, S_0_m1_m1, S_0_m1_0, S_0_m1_1, S_0_0_m1, S_0_0_0, S_0_0_1, S_0_1_m1, S_0_1_0, S_0_1_1, S_0_2_m1, S_0_2_0, S_0_2_1, S_1_m1_m1, S_1_m1_0, S_1_m1_1, S_1_0_m1, S_1_0_0, S_1_0_1, S_1_1_m1, S_1_1_0, S_1_1_1, S_1_2_m1, S_1_2_0, S_1_2_1, S_2_m1_m1, S_2_m1_0, S_2_m1_1, S_2_0_m1, S_2_0_0, S_2_0_1, S_2_1_m1, S_2_1_0, S_2_1_1, S_2_2_m1, S_2_2_0, S_2_2_1, S_RAFK_m1_m1_0, S_RAFK_m1_0_0, S_RAFK_m1_1_0, S_RAFK_m1_2_0, S_RAFK_0_m1_0, S_RAFK_0_0_0, S_RAFK_0_1_0, S_RAFK_0_2_0, S_RAFK_1_m1_0, S_RAFK_1_0_0, S_RAFK_1_1_0, S_RAFK_1_2_0, S_RAFK_2_m1_0, S_RAFK_2_0_0, S_RAFK_2_1_0, S_RAFK_2_2_0
+
+
+
+
+
+

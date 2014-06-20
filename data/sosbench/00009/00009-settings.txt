@@ -1,0 +1,9 @@
+start: 0
+duration: 150
+steps: 150
+variables: E1, E2, KKK, P_KKK, KK, P_KK, PP_KK, K, P_K, PP_K, KPase, KKPase, E1_KKK, E2_P_KKK, P_KKK_KK, P_KKK_P_KK, PP_KK_K, PP_KK_P_K, KKPase_PP_KK, KKPase_P_KK, KPase_PP_K, KPase_P_K, K_PP_norm, KK_PP_norm, KKK_P_norm, rel_K_PP_max
+absolute: 1.0e-15
+relative: 1.0e-9
+amount: 
+concentration: E1, E2, KKK, P_KKK, KK, P_KK, PP_KK, K, P_K, PP_K, KPase, KKPase, E1_KKK, E2_P_KKK, P_KKK_KK, P_KKK_P_KK, PP_KK_K, PP_KK_P_K, KKPase_PP_KK, KKPase_P_KK, KPase_PP_K, KPase_P_K, K_PP_norm, KK_PP_norm, KKK_P_norm, rel_K_PP_max
+

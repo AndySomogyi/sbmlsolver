@@ -1,0 +1,8 @@
+# RR and COPASI test programs have the same command line args:
+time rr-sbml-benchmark /Users/andy/src/sbml_test/cases/semantic/ 00966 /dev/null 3 1 -stiff
+
+# LibSBMLSim is run like this:
+time simulateSBML -t 1000 -s 1000 -m 13 ~/src/sbml_test/cases/semantic/00966/00966-sbml-l3v1.xml
+
+# The Java one is run like:
+time java -cp SimulationCoreLibrary_v1.3_incl-libs.jar org.simulator.SBMLTestSuiteRunner /Users/andy/sosbench/ 10001 10001
