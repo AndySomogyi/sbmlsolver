@@ -36,7 +36,8 @@ _________________________
 
 .. method:: RoadRunner.getCompiler()
 
-   Return the compiler used to build the ExecutableModel.
+   Return the JIT :class:`Compiler` object currently being used. 
+   This object provides various information about the current processor and system.
 
 
 
@@ -321,23 +322,23 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
    3: With optional keyword arguments where keywords are listed below. 
 
-   For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
+      For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
         
-     rr.simulate(end=10, start=0, steps=1000, reset=True, plot=True)
+        rr.simulate(end=10, start=0, steps=1000, reset=True, plot=True)
 
-   All of the options given to ``simulate`` are remembered and used as default arguments for
-   subsequent calls, i.e. if one calls::
+      All of the options given to ``simulate`` are remembered and used as default arguments for
+      subsequent calls, i.e. if one calls::
 
-     rr.simulate (0, 3, 100, ["time", "[S1]"])
+        rr.simulate (0, 3, 100, ["time", "[S1]"])
 
-   The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
-   so that if this is followed by a call to::
+      The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
+      so that if this is followed by a call to::
 
-     rr.simulate()
+        rr.simulate()
 
-   This simulation will use the previous values. Note, that if the ``reset=True`` options was not
-   given, this will continue the simulation using the previous model state, but time here will
-   start at 0 and continue to 3. 
+      This simulation will use the previous values. Note, that if the ``reset=True`` options was not
+      given, this will continue the simulation using the previous model state, but time here will
+      start at 0 and continue to 3. 
 
    simulate accepts the following list of keyword arguments:
 
@@ -394,9 +395,10 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    multiStep
      True or False
      Perform a multi step integration.
-     * Experimental *
-       Perform a multi-step simulation. In multi-step simulation, one may monitor the 
-       variable time stepping via the IntegratorListener events system.
+     
+     \* Experimental \*
+     Perform a multi-step simulation. In multi-step simulation, one may monitor the 
+     variable time stepping via the IntegratorListener events system.
 
    initialTimeStep
      A user specified initial time step. If this is <= 0, the integrator will attempt 
