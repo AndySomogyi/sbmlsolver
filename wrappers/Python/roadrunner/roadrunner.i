@@ -1128,7 +1128,6 @@ namespace std { class ostream{}; }
                                      "SimulateOptions object, recieved: {0}".format(str(args[1]))) 
 
 
-
             # third arg is treated as number of steps
             if len(args) >= 3:
                 if type(args[2]) == list:
@@ -1141,6 +1140,15 @@ namespace std { class ostream{}; }
                 else:
                     raise ValueError("argument 3 must be either a number, list or "
                                      "SimulateOptions object, recieved: {0}".format(str(args[2]))) 
+
+            # forth arg may be a list (currently)
+            if len(args) >= 4:
+                if type(args[3]) == list:
+                    # its a selection list
+                    self.selections = args[3]
+                else:
+                    raise ValueError("argument 4 (if given) must be a list of selections "
+                                     ", recieved: {0}".format(str(args[3]))) 
 
        
             # go through the list of keyword args
