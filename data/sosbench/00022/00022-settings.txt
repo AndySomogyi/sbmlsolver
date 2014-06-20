@@ -1,0 +1,9 @@
+start: 0
+duration: 2000
+steps: 2000
+variables:  CCc, CCn, Clkc, Clkm, Perc, Perm, PTc, PTn, Timc, Timm
+absolute: 1.0e-4
+relative: 1.0e-9
+amount: 
+concentration: CCc, CCn, Clkc, Clkm, Perc, Perm, PTc, PTn, Timc, Timm
+
