@@ -37,6 +37,9 @@
 // default values of sbml consistency check
 #include <sbml/SBMLDocument.h>
 
+// default values of model reset
+#include <rrSelectionRecord.h>
+
 using Poco::Mutex;
 using Poco::RegularExpression;
 using std::string;
@@ -113,7 +116,11 @@ static Variant values[] =  {
     Variant(0),        // ROADRUNNER_DISABLE_WARNINGS
     Variant(false),    // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
     Variant(int(AllChecksON & UnitsCheckOFF)),          //SBML_APPLICABLEVALIDATORS
-    Variant(0.00001)   // ROADRUNNER_JACOBIAN_STEP_SIZE
+    Variant(0.00001),   // ROADRUNNER_JACOBIAN_STEP_SIZE
+    Variant((int)(SelectionRecord::TIME
+            | SelectionRecord::RATE
+            | SelectionRecord::FLOATING
+            | SelectionRecord::CONSREVED_MOIETY))       // MODEL_RESET
 };
 
 static bool initialized = false;
@@ -174,9 +181,8 @@ static void getKeyNames(StringIntMap& keys)
     keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
     keys["ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES"] = rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
     keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
-
     keys["ROADRUNNER_JACOBIAN_STEP_SIZE"] = rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
-
+    keys["MODEL_RESET"] = rr::Config::MODEL_RESET;
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");

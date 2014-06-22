@@ -26,17 +26,38 @@ namespace rrllvm
  * C++ 11 has the copy_if template, but for the time being, we need to be
  * compatible with older C++, so use our own filtering here.
  */
-static std::vector<string> independentElements(const LLVMModelDataSymbols &dataSymbols,
+static StringIntVector independentElements(const LLVMModelDataSymbols &dataSymbols,
         const std::vector<string> elements)
 {
-    std::vector<string> result;
+    StringIntVector result;
 
     for(std::vector<string>::const_iterator i = elements.begin();
             i != elements.end(); ++i)
     {
         if (dataSymbols.isIndependentElement(*i))
         {
-            result.push_back(*i);
+            result.push_back(make_pair(*i, distance(elements.begin(), i)));
+        }
+    }
+
+    return result;
+}
+
+/**
+ * C++ 11 has the copy_if template, but for the time being, we need to be
+ * compatible with older C++, so use our own filtering here.
+ */
+static StringIntVector nonRateElements(const LLVMModelDataSymbols &dataSymbols,
+        const std::vector<string> elements)
+{
+    StringIntVector result;
+
+    for(std::vector<string>::const_iterator i = elements.begin();
+            i != elements.end(); ++i)
+    {
+        if (!dataSymbols.hasAssignmentRule(*i))
+        {
+            result.push_back(make_pair(*i, distance(elements.begin(), i)));
         }
     }
 
@@ -52,7 +73,7 @@ SetBoundarySpeciesAmountCodeGen::SetBoundarySpeciesAmountCodeGen(
 {
 }
 
-std::vector<string> SetBoundarySpeciesAmountCodeGen::getIds()
+StringIntVector SetBoundarySpeciesAmountCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
 }
@@ -67,7 +88,7 @@ SetFloatingSpeciesAmountCodeGen::SetFloatingSpeciesAmountCodeGen(
 {
 }
 
-std::vector<string> SetFloatingSpeciesAmountCodeGen::getIds()
+StringIntVector SetFloatingSpeciesAmountCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
 }
@@ -82,7 +103,7 @@ SetBoundarySpeciesConcentrationCodeGen::SetBoundarySpeciesConcentrationCodeGen(
 {
 }
 
-std::vector<string> SetBoundarySpeciesConcentrationCodeGen::getIds()
+StringIntVector SetBoundarySpeciesConcentrationCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
 }
@@ -97,7 +118,7 @@ SetFloatingSpeciesConcentrationCodeGen::SetFloatingSpeciesConcentrationCodeGen(
 {
 }
 
-std::vector<string> SetFloatingSpeciesConcentrationCodeGen::getIds()
+StringIntVector SetFloatingSpeciesConcentrationCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
 }
@@ -112,7 +133,7 @@ SetCompartmentVolumeCodeGen::SetCompartmentVolumeCodeGen(
 {
 }
 
-std::vector<string> SetCompartmentVolumeCodeGen::getIds()
+StringIntVector SetCompartmentVolumeCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
 }
@@ -127,9 +148,9 @@ SetGlobalParameterCodeGen::SetGlobalParameterCodeGen(
 {
 }
 
-std::vector<string> SetGlobalParameterCodeGen::getIds()
+StringIntVector SetGlobalParameterCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getGlobalParameterIds());
+    return nonRateElements(dataSymbols, dataSymbols.getGlobalParameterIds());
 }
 
 } /* namespace rr */

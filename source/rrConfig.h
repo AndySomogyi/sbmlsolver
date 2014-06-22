@@ -316,6 +316,32 @@ public:
         ROADRUNNER_JACOBIAN_STEP_SIZE,
 
         /**
+         * A bitfield (unsigned integer) consisting of the values in
+         * SelectionRecord::SelectionType.
+         *
+         * This value determines which values of the model are reset
+         * to their origin SBML specified values.
+         *
+         * Current valid values can be a combination of:
+         *
+         * SelectionRecord::SelectionType::TIME,
+         * SelectionRecord::SelectionType::RATE,
+         * SelectionRecord::SelectionType::BOUNDARY,
+         * SelectionRecord::SelectionType::FLOATING,
+         * SelectionRecord::SelectionType::GLOBAL_PARAMETER,
+         * SelectionRecord::SelectionType::CONSREVED_MOIETY,
+         * SelectionRecord::SelectionType::COMPARTMENT,
+         * SelectionRecord::SelectionType::ALL.
+         *
+         * Note, if RATE is specified, this will cause all global parameters
+         * defined by rate rules to be reset, even if GLOBAL_PARAMETER is NOT
+         * specified.
+         *
+         * The default value is TIME | RATE | FLOATING | CONSREVED_MOIETY
+         */
+        MODEL_RESET,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.
@@ -328,7 +354,6 @@ public:
         ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE          =  (0x1 << 0),  // => 0x00000001
         ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY     =  (0x1 << 1)   // => 0x00000010
     };
-
 
     /**
      * read the config value as a string.

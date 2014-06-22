@@ -26,7 +26,7 @@ public:
     SetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
     ~SetBoundarySpeciesAmountCodeGen() {};
 
-    std::vector<string> getIds();
+    StringIntVector getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -39,7 +39,7 @@ public:
     SetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
     ~SetFloatingSpeciesAmountCodeGen() {};
 
-    std::vector<string> getIds();
+    StringIntVector getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -52,7 +52,7 @@ public:
     SetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~SetBoundarySpeciesConcentrationCodeGen() {};
 
-    std::vector<string> getIds();
+    StringIntVector getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -65,7 +65,7 @@ public:
     SetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~SetFloatingSpeciesConcentrationCodeGen() {};
 
-    std::vector<string> getIds();
+    StringIntVector getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -78,7 +78,7 @@ public:
     SetCompartmentVolumeCodeGen(const ModelGeneratorContext &mgc);
     ~SetCompartmentVolumeCodeGen() {};
 
-    std::vector<string> getIds();
+    StringIntVector getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -91,7 +91,7 @@ public:
     SetGlobalParameterCodeGen(const ModelGeneratorContext &mgc);
     ~SetGlobalParameterCodeGen() {};
 
-    std::vector<string> getIds();
+    StringIntVector getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;

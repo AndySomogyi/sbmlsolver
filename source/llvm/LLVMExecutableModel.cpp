@@ -14,6 +14,7 @@
 #include "rrException.h"
 #include "LLVMException.h"
 #include "rrStringUtils.h"
+#include "rrConfig.h"
 #include <iomanip>
 #include <cstdlib>
 
@@ -24,6 +25,7 @@ using rr::SelectionRecord;
 using rr::EventListener;
 using rr::EventListenerPtr;
 using rr::EventListenerException;
+using rr::Config;
 
 #if defined (_WIN32)
 #define isnan _isnan
@@ -110,7 +112,7 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, int),
 
         if (isnan(value))
         {
-            Log(Logger::LOG_WARNING) << "error getting value for index " << j 
+            Log(Logger::LOG_WARNING) << "error getting value for index " << j
                                    << ", probably out of range";
         }
 
@@ -648,6 +650,11 @@ void LLVMExecutableModel::evalInitialConditions()
 
 void LLVMExecutableModel::reset()
 {
+    uint opt = rr::Config::getInt(rr::Config::MODEL_RESET);
+
+    // for now, always reset time, screws up events if not reset
+    Log(Logger::LOG_INFORMATION) << "resetting time";
+
     // eval the initial conditions and rates
     setTime(0.0);
 
@@ -659,19 +666,62 @@ void LLVMExecutableModel::reset()
         unsigned size = max(modelData->numIndCompartments,
                 modelData->numIndFloatingSpecies);
 
-        size = max(size, modelData->numIndGlobalParameters);
+        // need at least 1 for global params
+        size = max(size, 1u);
 
         double *buffer = new double[size];
-        getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
-        setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
 
-        getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-        setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+        if (opt & SelectionRecord::COMPARTMENT)
+        {
+            Log(Logger::LOG_INFORMATION) << "resetting compartment volumes";
+            getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
+            setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
+        }
+
+        if(opt & SelectionRecord::FLOATING)
+        {
+            Log(Logger::LOG_INFORMATION) << "resetting floating species";
+            getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+            setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+        }
+
+
+        if(opt & SelectionRecord::CONSREVED_MOIETY)
+        {
+            Log(Logger::LOG_INFORMATION) << "opt & SelectionRecord::CONSREVED_MOIETY)";
+        }
 
         // needed because conserved moiety global parameters depend on
         // float species init conditions.
-        getGlobalParameterInitValues(modelData->numIndGlobalParameters, 0, buffer);
-        setGlobalParameterValues(modelData->numIndGlobalParameters, 0, buffer);
+        for (int gid = 0; gid < modelData->numIndGlobalParameters; ++gid)
+        {
+            if ((opt & SelectionRecord::GLOBAL_PARAMETER) ||
+                    ((opt & SelectionRecord::CONSREVED_MOIETY) &&
+                            symbols->isConservedMoietyParameter(gid)))
+            {
+                getGlobalParameterInitValues(1, &gid, buffer);
+                setGlobalParameterValues(1, &gid, buffer);
+            }
+        }
+
+        if(opt & SelectionRecord::RATE)
+        {
+            Log(Logger::LOG_INFORMATION) << "resetting rate rule values";
+
+            //if (opt & SelectionRecord::GLOBAL_PARAMETER)
+            //{
+                for (int gid = modelData->numIndGlobalParameters;
+                        gid < symbols->getGlobalParametersSize(); ++gid)
+                {
+                    if(symbols->isRateRuleGlobalParameter(gid))
+                    {
+                        getGlobalParameterInitValues(1, &gid, buffer);
+                        setGlobalParameterValues(1, &gid, buffer);
+                    }
+                }
+
+            //}
+        }
 
 
         delete[] buffer;
