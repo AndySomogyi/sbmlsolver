@@ -200,7 +200,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
     initBoundarySpecies(model);
 
-    initGlobalParameters(model);
+    initGlobalParameters(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
 
     initReactions(model);
 
@@ -620,11 +620,15 @@ uint LLVMModelDataSymbols::getGlobalParametersSize() const
     return globalParametersMap.size();
 }
 
-void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
+void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
+        bool conservedMoieties)
 {
     list<string> indParam;
     list<string> depParam;
     const ListOfParameters *parameters = model->getListOfParameters();
+
+    globalParameterRateRules.resize(parameters->size(), false);
+
     for (uint i = 0; i < parameters->size(); i++)
     {
         const Parameter *p = parameters->get(i);
@@ -638,11 +642,27 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
             depParam.push_back(id);
         }
     }
+
+    // when this is used, we check the size, so works even
+    // when consv moieity is not enabled.
+    if (conservedMoieties)
+    {
+        conservedMoietyGlobalParameter.resize(indParam.size(), false);
+    }
+
     for (list<string>::const_iterator i = indParam.begin();
             i != indParam.end(); ++i)
     {
         uint pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
+
+        // CM parameters can only be independent.
+        if (conservedMoieties)
+        {
+            const Parameter* p = parameters->get(*i);
+            conservedMoietyGlobalParameter[pi] =
+                    ConservationExtension::getConservedMoiety(*p);
+        }
     }
 
     for (list<string>::const_iterator i = depParam.begin();
@@ -650,6 +670,9 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
     {
         uint pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
+
+        // all the independent ones by def have no rate rules.
+        globalParameterRateRules[pi] = hasRateRule(*i);
     }
 
     // finally set how many ind compartments we have
@@ -908,6 +931,18 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     independentInitCompartmentSize = indInitCompartments.size();
 }
 
+bool LLVMModelDataSymbols::isConservedMoietyParameter(uint id) const
+{
+    return id < conservedMoietyGlobalParameter.size() ?
+            conservedMoietyGlobalParameter[id] : false;
+}
+
+bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
+{
+    return gid < globalParameterRateRules.size()
+            ? globalParameterRateRules[gid] : false;
+}
+
 /**
  * row is species, column is reaction
  */
@@ -995,7 +1030,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 {
                     Log(Logger::LOG_INFORMATION)
                         << "Experimental multi product-reactant stochiometry code"
-						<< "with reactant " << r->getSpecies();
+                        << "with reactant " << r->getSpecies();
 
                     // species is listed multiple times as reactant
                     stoichTypes[si->second] = MultiReactantProduct;
@@ -1067,7 +1102,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 {
                     Log(Logger::LOG_INFORMATION)
                         << "Experimental multi product stochiometry code "
-						<< "with product " << p->getSpecies();
+                        << "with product " << p->getSpecies();
 
                     // species is listed multiple times as product
                     stoichTypes[si->second] = MultiReactantProduct;

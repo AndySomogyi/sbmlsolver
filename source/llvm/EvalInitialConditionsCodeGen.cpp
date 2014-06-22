@@ -73,10 +73,10 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     // initializes the values stored in the model
     // to the values specified in the sbml.
-    if (this->options & ModelGenerator::READ_ONLY)
-    {
-        codeGenCompartments(modelDataResolver);
-    }
+
+    // always generate code for compartment init values so they are initialized the
+    // in the exe model ctor. compartments are not usually reset.
+    codeGenCompartments(modelDataResolver);
 
     // generates code to set the *initial* values in the model to
     // the values specified in the sbml.
