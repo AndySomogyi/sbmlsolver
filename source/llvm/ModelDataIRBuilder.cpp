@@ -532,6 +532,29 @@ llvm::Value* ModelDataIRBuilder::createInitCompStore(const std::string& id,
     return builder.CreateStore(value, gep);
 }
 
+llvm::Value* ModelDataIRBuilder::createInitGlobalParamGEP(const std::string& id,
+        const llvm::Twine& name)
+{
+    uint index = symbols.getGlobalParameterInitIndex(id);
+        assert(index < symbols.getInitGlobalParameterSize());
+        return createGEP(InitGlobalParameters, index,
+                name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* ModelDataIRBuilder::createInitGlobalParamLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createInitGlobalParamGEP(id, name);
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createInitGlobalParamStore(
+        const std::string& id, llvm::Value* value)
+{
+    Value *gep = createInitGlobalParamGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
 llvm::Value* ModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getReactionIndex(id);

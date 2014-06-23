@@ -23,8 +23,6 @@ namespace rrllvm
 {
 
 typedef bool (*SetValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t, double);
-typedef std::pair<std::string, int> StringIntPair;
-typedef std::vector<StringIntPair> StringIntVector;
 
 template <typename Derived, bool substanceUnits>
 class SetValueCodeGenBase :

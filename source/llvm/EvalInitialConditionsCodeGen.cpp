@@ -68,7 +68,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     // generate model code for both floating and boundary species
     codeGenSpecies(modelDataResolver);
 
-    codeGenParameters(modelDataResolver);
+    codeGenGlobalParameters(modelDataResolver);
 
 
     // initializes the values stored in the model
@@ -88,6 +88,8 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         codeGenInitSpecies(initValueStoreResolver);
 
         codeGenInitCompartments(initValueStoreResolver);
+
+        codeGenInitGlobalParameters(initValueStoreResolver);
     }
 
     codeGenStoichiometry(modelData, modelDataResolver);
@@ -246,7 +248,7 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
 }
 
 
-void EvalInitialConditionsCodeGen::codeGenParameters(
+void EvalInitialConditionsCodeGen::codeGenGlobalParameters(
         StoreSymbolResolver& modelDataResolver)
 {
     vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
@@ -264,5 +266,22 @@ void EvalInitialConditionsCodeGen::codeGenParameters(
     }
 }
 
+void EvalInitialConditionsCodeGen::codeGenInitGlobalParameters(
+        StoreSymbolResolver& modelDataResolver)
+{
+    vector<string> parameters = dataSymbols.getGlobalParameterIds();
+
+    for (vector<string>::const_iterator i = parameters.begin();
+            i != parameters.end(); i++)
+    {
+        const string& id = *i;
+
+        if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+        {
+            modelDataResolver.storeSymbolValue(id,
+                    initialValueResolver.loadSymbolValue(id));
+        }
+    }
+}
 
 } /* namespace rr */

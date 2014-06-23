@@ -390,6 +390,9 @@ std::string rr::SelectionRecord::to_string() const
     case UNKNOWN:
         result = "UNKNOWN";
         break;
+    case INITIAL_GLOBAL_PARAMETER:
+        result = "init(" + p1 + ")";
+        break;
     default:
         result = "ERROR";
         break;
