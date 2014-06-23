@@ -53,9 +53,10 @@ bool TestSuiteSimulation::LoadSettings(const string& settingsFName)
     {
         mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
+
     SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
-    return loadSimulationSettings(mRRHandle, mModelSettingsFileName.c_str());
+    return true;
 }
 
 //Todo: bisarre to copy stuff back and forth..!

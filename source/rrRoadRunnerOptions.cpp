@@ -208,16 +208,7 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
         it = settings.find("relative");
         relative = (it != settings.end())    ? std::abs(toDouble((*it).second)) : MIN_RELATIVE;
 
-        // adjust values to min that will pass test suite
-        if (relative > MIN_RELATIVE)
-        {
-            relative = MIN_RELATIVE;
-        }
 
-        if (absolute > MIN_ABSOLUTE)
-        {
-            absolute = MIN_ABSOLUTE;
-        }
 
         it = settings.find("variables");
         if(it != settings.end())
@@ -364,5 +355,21 @@ std::string SimulateOptions::toString() const
     return ss.str();
 }
 
+void SimulateOptions::tweakTolerances()
+{
+    if (integrator == CVODE)
+    {
+        double minAbs = Config::getDouble(Config::CVODE_MIN_ABSOLUTE);
+        double minRel = Config::getDouble(Config::CVODE_MIN_RELATIVE);
+
+        absolute = std::min(absolute, minAbs);
+        relative = std::min(relative, minRel);
+
+        Log(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs=" << absolute
+                << ", rel=" << relative;
+    }
+}
 
 } /* namespace rr */
+
+

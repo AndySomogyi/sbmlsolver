@@ -515,7 +515,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %rename (_setSelections) setSelections(const std::vector<std::string>&);
 %rename (_getModel) getModel();
 
-// hide SelectionRecord details from python api, 
+// hide SelectionRecord details from python api,
 // only deal with strings here.
 %ignore rr::RoadRunner::getSteadyStateSelections();
 %ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
@@ -734,43 +734,43 @@ namespace std { class ostream{}; }
         return s.str();
     }
 
-	std::string __str__() {
-		return $self->getInfo();
-	}
+    std::string __str__() {
+        return $self->getInfo();
+    }
 
-	PyObject* _simulate(const rr::SimulateOptions* opt) {
-		// its not const correct...
-		ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
+    PyObject* _simulate(const rr::SimulateOptions* opt) {
+        // its not const correct...
+        ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
 
-		// a valid array descriptor:
-		// In [87]: b = array(array([0,1,2,3]),
-		//      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
-
-		
-		// are we returning a structured array?
-		if (opt->flags & SimulateOptions::STRUCTURED_RESULT) {
-
-			// get the column names
-			const std::vector<SelectionRecord>& sel = ($self)->getSelections();
-			std::vector<string> names(sel.size());
-
-			for(int i = 0; i < sel.size(); ++i) {
-				names[i] = sel[i].to_string();
-			}
+        // a valid array descriptor:
+        // In [87]: b = array(array([0,1,2,3]),
+        //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
 
 
-			int rows = result->numRows();
-			int cols = result->numCols();
+        // are we returning a structured array?
+        if (opt->flags & SimulateOptions::STRUCTURED_RESULT) {
 
-			if (cols == 0) {
-				Py_RETURN_NONE;
-			}
+            // get the column names
+            const std::vector<SelectionRecord>& sel = ($self)->getSelections();
+            std::vector<string> names(sel.size());
 
-			double* mData = result->getArray();
+            for(int i = 0; i < sel.size(); ++i) {
+                names[i] = sel[i].to_string();
+            }
 
-			PyObject* list = PyList_New(names.size());
 
-			for(int i = 0; i < names.size(); ++i)
+            int rows = result->numRows();
+            int cols = result->numCols();
+
+            if (cols == 0) {
+                Py_RETURN_NONE;
+            }
+
+            double* mData = result->getArray();
+
+            PyObject* list = PyList_New(names.size());
+
+            for(int i = 0; i < names.size(); ++i)
             {
                 PyObject *col = PyString_FromString(names[i].c_str());
                 PyObject *type = PyString_FromString("f8");
@@ -779,46 +779,46 @@ namespace std { class ostream{}; }
                 Py_DECREF(col);
                 Py_DECREF(type);
 
-				// list takes ownershipt of tuple
+                // list takes ownershipt of tuple
                 void PyList_SET_ITEM(list, i, tup);
             }
 
-			PyArray_Descr* descr = 0;
-			PyArray_DescrConverter(list, &descr);
+            PyArray_Descr* descr = 0;
+            PyArray_DescrConverter(list, &descr);
 
-			// done with list
-			Py_CLEAR(list);
-			npy_intp dims[] = {rows};
+            // done with list
+            Py_CLEAR(list);
+            npy_intp dims[] = {rows};
 
-			// steals a reference to descr
-			PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
+            // steals a reference to descr
+            PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
 
-			if (pyres) {
+            if (pyres) {
 
-				assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
-				
-				double* data = (double*)PyArray_BYTES(pyres);
+                assert(PyArray_NBYTES(pyres) == rows*cols*sizeof(double) && "invalid array size");
 
-				memcpy(data, mData, rows*cols*sizeof(double));
-			}
+                double* data = (double*)PyArray_BYTES(pyres);
 
-			return pyres;
-		}		
-		// standard array result.
-		// this version just wraps the roadrunner owned data.
-		else {
+                memcpy(data, mData, rows*cols*sizeof(double));
+            }
 
-			int rows = result->numRows();
-			int cols = result->numCols();
-			int nd = 2;
-			npy_intp dims[2] = {rows, cols};
-			double *data = result->getArray();
+            return pyres;
+        }
+        // standard array result.
+        // this version just wraps the roadrunner owned data.
+        else {
 
-			PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-										   NPY_CARRAY, NULL);
-			return pArray;
-		}
-	}
+            int rows = result->numRows();
+            int cols = result->numCols();
+            int nd = 2;
+            npy_intp dims[2] = {rows, cols};
+            double *data = result->getArray();
+
+            PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                           NPY_CARRAY, NULL);
+            return pArray;
+        }
+    }
 
     double getValue(const rr::SelectionRecord* pRecord) {
         return $self->getValue(*pRecord);
@@ -865,7 +865,7 @@ namespace std { class ostream{}; }
         PyObject *pysel = PyList_New(size);
 
         unsigned j = 0;
-        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin(); 
+        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin();
              i != selections.end(); ++i) {
             std::string str = i->to_string();
 
@@ -888,7 +888,7 @@ namespace std { class ostream{}; }
         PyObject *pysel = PyList_New(size);
 
         unsigned j = 0;
-        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin(); 
+        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin();
              i != selections.end(); ++i) {
             std::string str = i->to_string();
 
@@ -961,24 +961,24 @@ namespace std { class ostream{}; }
         def simulate(self, *args, **kwargs):
             """
             Simulate the optionally plot current SBML model. This is the one stop shopping method
-            for simulation and ploting. 
+            for simulation and ploting.
 
-            simulate accepts a up to four positional arguments and a large number of keyword args. 
+            simulate accepts a up to four positional arguments and a large number of keyword args.
 
             The first four (optional) arguments are treated as:
-            
-            1: Start Time, if this is a number. 
+
+            1: Start Time, if this is a number.
 
             2: End Time, if this is a number.
 
             3: Number of Steps, if this is a number.
-            
-            4: List of Selections. 
+
+            4: List of Selections.
 
             All four of the positional arguments are optional. If any of the positional arguments are
-            a list of string instead of a number, then they are interpreted as a list of selections. 
+            a list of string instead of a number, then they are interpreted as a list of selections.
 
-            
+
             There are a number of ways to call simulate.
 
             1. With no arguments. In this case, the current set of `SimulateOptions` will
@@ -1014,19 +1014,19 @@ namespace std { class ostream{}; }
 
             integrator
                 A text string specifying which integrator to use. Currently supports "cvode"
-                for deterministic simulation (default) and "gillespie" for stochastic 
+                for deterministic simulation (default) and "gillespie" for stochastic
                 simulation.
 
             sel or selections
-                A list of strings specifying what values to display in the output. 
+                A list of strings specifying what values to display in the output.
 
             plot
                 True or False
                 If True, RoadRunner will create a basic plot of the simulation result using
-                the built in plot routine which uses MatPlotLib. 
+                the built in plot routine which uses MatPlotLib.
 
             absolute
-                A number representing the absolute difference permitted for the integrator 
+                A number representing the absolute difference permitted for the integrator
                 tolerance.
 
             duration
@@ -1034,59 +1034,59 @@ namespace std { class ostream{}; }
                 Note, setting the duration automatically sets the end time and visa versa.
 
             end
-                The simulation end time. Note, setting the end time automatically sets 
+                The simulation end time. Note, setting the end time automatically sets
                 the duration accordingly and visa versa.
 
             relative
-                A float-point number representing the relative difference permitted. 
+                A float-point number representing the relative difference permitted.
                 Defaults 0.0001
 
             resetModel (or just "reset"???)
                 True or False
-                Causes the model to be reset to the original conditions specified in 
+                Causes the model to be reset to the original conditions specified in
                 the SBML when the simulation is run.
 
             start
-                The start time of the simulation time-series data. Often this is 0, 
+                The start time of the simulation time-series data. Often this is 0,
                 but not necessarily.
 
             steps
-                The number of steps at which the output is sampled. The samples are evenly spaced. 
-                When a simulation system calculates the data points to record, it will typically 
-                divide the duration by the number of time steps. Thus, for N steps, the output 
+                The number of steps at which the output is sampled. The samples are evenly spaced.
+                When a simulation system calculates the data points to record, it will typically
+                divide the duration by the number of time steps. Thus, for N steps, the output
                 will have N+1 data rows.
 
             stiff
                 True or False
-                Use the stiff integrator. Only use this if the model is stiff and causes issues 
-                with the regular integrator. The stiff integrator is slower than the conventional 
+                Use the stiff integrator. Only use this if the model is stiff and causes issues
+                with the regular integrator. The stiff integrator is slower than the conventional
                 integrator.
 
             multiStep
                 True or False
                 Perform a multi step integration.
                 * Experimental *
-                Perform a multi-step simulation. In multi-step simulation, one may monitor the 
+                Perform a multi-step simulation. In multi-step simulation, one may monitor the
                 variable time stepping via the IntegratorListener events system.
 
             initialTimeStep
-                A user specified initial time step. If this is <= 0, the integrator will attempt 
+                A user specified initial time step. If this is <= 0, the integrator will attempt
                 to determine a safe initial time step.
 
-                Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate 
-                the internal integrator may take many many steps to reach one of the external time steps. 
+                Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+                the internal integrator may take many many steps to reach one of the external time steps.
                 This value specifies an initial value for the internal integrator time step.
 
             minimumTimeStep
-                Specify the minimum time step that the internal integrator will use. 
+                Specify the minimum time step that the internal integrator will use.
                 Uses integrator estimated value if <= 0.
 
             maximumTimeStep
-                Specify the maximum time step size that the internal integrator will use. 
+                Specify the maximum time step size that the internal integrator will use.
                 Uses integrator estimated value if <= 0.
 
             maximumNumSteps
-                Specify the maximum number of steps the internal integrator will use before 
+                Specify the maximum number of steps the internal integrator will use before
                 reaching the user specified time span. Uses the integrator default value if <= 0.
 
 
@@ -1113,7 +1113,7 @@ namespace std { class ostream{}; }
                     o.start = args[0]
                 else:
                     raise ValueError("argument 1 must be either a number, list or "
-                                     "SimulateOptions object, recieved: {0}".format(str(args[0]))) 
+                                     "SimulateOptions object, recieved: {0}".format(str(args[0])))
 
             # second arg is treated as sim end time
             if len(args) >= 2:
@@ -1125,7 +1125,7 @@ namespace std { class ostream{}; }
                     o.end = args[1]
                 else:
                     raise ValueError("argument 2 must be either a number, list or "
-                                     "SimulateOptions object, recieved: {0}".format(str(args[1]))) 
+                                     "SimulateOptions object, recieved: {0}".format(str(args[1])))
 
 
             # third arg is treated as number of steps
@@ -1139,7 +1139,7 @@ namespace std { class ostream{}; }
                     haveSteps = True
                 else:
                     raise ValueError("argument 3 must be either a number, list or "
-                                     "SimulateOptions object, recieved: {0}".format(str(args[2]))) 
+                                     "SimulateOptions object, recieved: {0}".format(str(args[2])))
 
             # forth arg may be a list (currently)
             if len(args) >= 4:
@@ -1148,9 +1148,9 @@ namespace std { class ostream{}; }
                     self.selections = args[3]
                 else:
                     raise ValueError("argument 4 (if given) must be a list of selections "
-                                     ", recieved: {0}".format(str(args[3]))) 
+                                     ", recieved: {0}".format(str(args[3])))
 
-       
+
             # go through the list of keyword args
             for k,v in kwargs.iteritems():
 
@@ -1169,21 +1169,21 @@ namespace std { class ostream{}; }
                 if k == "selections" or k == "sel":
                     self.selections = v
                     continue
-                
+
                 # reset model, also accept 'reset'
                 if k == "reset" or k == "resetModel":
                     o.resetModel = v
-                    continue   
+                    continue
 
-                # check if variableStep was explicitly specified, this overrides the steps 
+                # check if variableStep was explicitly specified, this overrides the steps
                 # positional arg
                 if k == "variableStep":
-                    haveVariableStep = True 
+                    haveVariableStep = True
                     o.variableStep = v
-                    continue 
+                    continue
 
-                # look through all the attributes of the SimulateOptions class, 
-                # if its one of these, set it.  
+                # look through all the attributes of the SimulateOptions class,
+                # if its one of these, set it.
                 if SimulateOptions.__dict__.has_key(k):
                     setattr(o, k, v)
                     continue
@@ -1199,12 +1199,12 @@ namespace std { class ostream{}; }
                 raise Exception("{0} is not a valid keyword argument".format(k))
 
 
-            # if we are doing a stochastic sim, 
+            # if we are doing a stochastic sim,
             if SimulateOptions.getIntegratorType(o.integrator) == \
                 SimulateOptions.STOCHASTIC and not haveVariableStep:
                 o.variableStep = not haveSteps
-                
-            # the options are set up, now actually run the simuation... 
+
+            # the options are set up, now actually run the simuation...
             result = self._simulate(o)
 
             if doPlot:
@@ -1337,6 +1337,20 @@ namespace std { class ostream{}; }
         s << "}";
         return s.str();
     }
+
+    /**
+     * makes a copy of this object. 
+     * Python normally just keeps references to objects, and this forces a true
+     * copy. Note, we heed to add the SWIG_POINTER_OWN to the function below
+     * so that when the returned object is destroyed (by Python), the C++
+     * object will also be deleted. 
+     */
+    PyObject *copy() {
+        SimulateOptions *pThis = $self;
+        SimulateOptions *other = new SimulateOptions(*pThis);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
+    }
+
 }
 
 %{

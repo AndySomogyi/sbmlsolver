@@ -226,7 +226,8 @@ public:
         SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
 
         /**
-         * Default integrator to use
+         * Default integrator to use, currently supports a string of "CVODE" or "Gillespie",
+         * default is "CVODE"
          */
         SIMULATEOPTIONS_INTEGRATOR,
 
@@ -340,6 +341,24 @@ public:
          * The default value is TIME | RATE | FLOATING | CONSREVED_MOIETY
          */
         MODEL_RESET,
+
+        /**
+         * The minumum absolute error that the CVODE integrator supports
+         * in order to to pass the sbml test suite using the default integtator.
+         *
+         * If a test suite config file is loaded, and the relative error is
+         * higher than CVODE_MIN_ABSOLUTE, it should be lowered to CVODE_MIN_ABSOLUTE.
+         */
+        CVODE_MIN_ABSOLUTE,
+
+        /**
+         * The minumum relative error that the CVODE integrator supports
+         * in order to to pass the sbml test suite using the default integtator.
+         *
+         * If a test suite config file is loaded, and the relative error is
+         * higher than CVODE_MIN_RELATIVE, it should be lowered to CVODE_MIN_RELATIVE.
+         */
+        CVODE_MIN_RELATIVE,
 
         /**
          * Needs to be the last item in the enum, no mater how many

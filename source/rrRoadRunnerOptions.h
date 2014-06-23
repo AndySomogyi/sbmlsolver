@@ -385,6 +385,14 @@ public:
      */
     std::string toString() const;
 
+    /**
+     * Integration tolerance is very integrator specific.
+     *
+     * This method tweaks the tolerances so that they are tight enough for the
+     * current integrator to meed the SBML test suite requirements.
+     */
+    void tweakTolerances();
+
 private:
 
     /**

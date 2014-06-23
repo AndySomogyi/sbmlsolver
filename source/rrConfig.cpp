@@ -120,7 +120,9 @@ static Variant values[] =  {
     Variant((int)(SelectionRecord::TIME
             | SelectionRecord::RATE
             | SelectionRecord::FLOATING
-            | SelectionRecord::CONSREVED_MOIETY))       // MODEL_RESET
+            | SelectionRecord::CONSREVED_MOIETY)),       // MODEL_RESET
+    Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
+    Variant(1.e-5),    // CVODE_MIN_RELATIVE
 };
 
 static bool initialized = false;
@@ -183,6 +185,8 @@ static void getKeyNames(StringIntMap& keys)
     keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
     keys["ROADRUNNER_JACOBIAN_STEP_SIZE"] = rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
     keys["MODEL_RESET"] = rr::Config::MODEL_RESET;
+    keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
+    keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");
