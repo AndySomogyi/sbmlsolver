@@ -169,7 +169,7 @@ def runSBMLTests(sbmlTestDir):
     Run the sbml tests in the given test directory, 
     this uses the list of tests from `getSupportedSBMLTests()`.
     """
-
+    import time
     if not path.isdir(sbmlTestDir):
         raise Exception(sbmlTestDir + " does not appear to exist")
 
@@ -177,8 +177,13 @@ def runSBMLTests(sbmlTestDir):
 
     cases = getSupportedSBMLTests()
 
+    start = time.clock() 
     for case in cases:
         runSBMLTest(sbmlTestDir, case)
+    
+    elapsed = time.clock()
+    elapsed = elapsed - start
+    print("Completed " + str(len(cases)) + " tests in " + str(elapsed) + " seconds.")
 
     
 def runSBMLTest(sbmlTestDir, case):
