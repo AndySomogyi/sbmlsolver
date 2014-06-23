@@ -187,7 +187,14 @@ public:
          * Simulate should return a raw result matrix without
          * adding any column names.
          */
-        STRUCTURED_RESULT       = (0x1 << 1)  // => 0x00000010
+        STRUCTURED_RESULT       = (0x1 << 1), // => 0x00000010
+
+        /**
+         * Make a copy of the simulation result in Python.
+         *
+         * Large simulations should have this disabled.
+         */
+        COPY_RESULT             = (0x1 << 2), // => 0x00000100
     };
 
     /**

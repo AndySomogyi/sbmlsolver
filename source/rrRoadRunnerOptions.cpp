@@ -64,34 +64,27 @@ LoadSBMLOptions::LoadSBMLOptions()
     loadFlags = 0;
 }
 
-/**
- * The minumum relative error that the CVODE integrator supports
- * in order to to pass the sbml test suite using the default integtator.
- *
- * If a test suite config file is loaded, and the relative error is
- * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
- */
-static const double MIN_RELATIVE = 1.e-5;
-
-/**
- * The minumum absolute error that the CVODE integrator supports
- * in order to to pass the sbml test suite using the default integtator.
- *
- * If a test suite config file is loaded, and the relative error is
- * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
- */
-static const double MIN_ABSOLUTE = 1.e-10;
 
 static void getConfigValues(SimulateOptions *s)
 {
-    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
-        s->flags |= SimulateOptions::STRUCTURED_RESULT;
+    if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT)) {
+        s->flags |=  SimulateOptions::STRUCTURED_RESULT;
+    } else {
+        s->flags &= ~SimulateOptions::STRUCTURED_RESULT;
+    }
 
-    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF))
-        s->integratorFlags |= SimulateOptions::STIFF;
 
-    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP))
+    if (Config::getBool(Config::SIMULATEOPTIONS_STIFF)) {
+        s->integratorFlags |=  SimulateOptions::STIFF;
+    } else {
+        s->integratorFlags &= ~SimulateOptions::STIFF;
+    }
+
+    if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP)) {
         s->integratorFlags |= SimulateOptions::MULTI_STEP;
+    } else {
+        s->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+    }
 
     // set the variable step based on if we are using a stochastic or deterministic
     // integrator
@@ -122,6 +115,12 @@ static void getConfigValues(SimulateOptions *s)
         s->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
     } else {
         s->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
+    }
+
+    if (rr::Config::getBool(rr::Config::SIMULATEOPTIONS_COPY_RESULT)) {
+        s->flags |= SimulateOptions::COPY_RESULT;
+    } else {
+        s->flags &= ~SimulateOptions::COPY_RESULT;
     }
 }
 
@@ -168,6 +167,10 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
     }
     else
     {
+        double minAbs = Config::getDouble(Config::CVODE_MIN_ABSOLUTE);
+        double minRel = Config::getDouble(Config::CVODE_MIN_RELATIVE);
+
+
         map<string, string> settings;
         map<string, string>::iterator it;
         //Read each line in the settings file
@@ -192,6 +195,8 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
         }
         Log(lDebug)<<"===========================";
 
+
+
         //Assign values
         it = settings.find("start");
         start = (it != settings.end())       ? std::abs(toDouble((*it).second)): 0;
@@ -203,10 +208,10 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
         steps = (it != settings.end())       ? std::abs(toInt((*it).second)) : 50;
 
         it = settings.find("absolute");
-        absolute = (it != settings.end())    ? std::abs(toDouble((*it).second)) : MIN_ABSOLUTE;
+        absolute = (it != settings.end())    ? std::abs(toDouble((*it).second)) : minAbs;
 
         it = settings.find("relative");
-        relative = (it != settings.end())    ? std::abs(toDouble((*it).second)) : MIN_RELATIVE;
+        relative = (it != settings.end())    ? std::abs(toDouble((*it).second)) : minRel;
 
 
 

@@ -361,6 +361,11 @@ public:
         CVODE_MIN_RELATIVE,
 
         /**
+         * make a copy of the simulation result in Python.
+         */
+        SIMULATEOPTIONS_COPY_RESULT,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.

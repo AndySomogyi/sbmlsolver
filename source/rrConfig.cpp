@@ -123,6 +123,7 @@ static Variant values[] =  {
             | SelectionRecord::CONSREVED_MOIETY)),       // MODEL_RESET
     Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
     Variant(1.e-5),    // CVODE_MIN_RELATIVE
+    Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
 };
 
 static bool initialized = false;
@@ -187,6 +188,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["MODEL_RESET"] = rr::Config::MODEL_RESET;
     keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
     keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
+    keys["SIMULATEOPTIONS_COPY_RESULT"] = rr::Config::SIMULATEOPTIONS_COPY_RESULT;
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");

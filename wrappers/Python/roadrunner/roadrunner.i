@@ -812,10 +812,31 @@ namespace std { class ostream{}; }
             int cols = result->numCols();
             int nd = 2;
             npy_intp dims[2] = {rows, cols};
-            double *data = result->getArray();
+            PyObject *pArray = NULL;
 
-            PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                           NPY_CARRAY, NULL);
+            if (opt->flags & SimulateOptions::COPY_RESULT) {
+
+                Log(rr::Logger::LOG_NOTICE) << "copying result data";
+
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, NULL, 0,
+                                     NPY_CARRAY, NULL);
+
+                assert(PyArray_NBYTES(pArray) == rows*cols*sizeof(double) && "invalid array size");
+
+                double *pyData = (double*)PyArray_BYTES(pArray);
+                double *mData = result->getArray();
+
+                memcpy(pyData, mData, rows*cols*sizeof(double));
+            } 
+            else { 
+
+                Log(rr::Logger::LOG_NOTICE) << "wraping existing data";
+
+                double *data = result->getArray();
+
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY, NULL);
+            }
             return pArray;
         }
     }
@@ -1307,6 +1328,7 @@ namespace std { class ostream{}; }
     bool multiStep;
     bool structuredResult;
     bool variableStep;
+    bool copyResult;
     rr::SimulateOptions::Integrator integrator;
 
     std::string __repr__() {
@@ -1409,6 +1431,19 @@ namespace std { class ostream{}; }
             opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
         }
     }
+
+    bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::COPY_RESULT;
+    }
+
+    void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->flags |= SimulateOptions::COPY_RESULT;
+        } else {
+            opt->flags &= ~SimulateOptions::COPY_RESULT;
+        }
+    }
+
 
     bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
         return opt->integratorFlags & SimulateOptions::VARIABLE_STEP;

@@ -196,10 +196,6 @@ def runSBMLTest(sbmlTestDir, case):
                 path.isdir(path.join(sbmlTestDir, "semantic")):
                     sbmlTestDir = path.join(sbmlTestDir, "semantic")
 
-
-    print(sbmlTestDir)
-
-
     test = SBMLTest(path.join(sbmlTestDir, case))
     ok = test.run()
 
