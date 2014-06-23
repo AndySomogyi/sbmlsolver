@@ -25,7 +25,7 @@ public:
     SetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~SetFloatingSpeciesInitConcentrationCodeGen() {};
 
-    std::vector<std::pair<uint, std::string> > getIds();
+    StringIntVector getIds();
 
     bool isInitialValue() {
         return true;
@@ -44,7 +44,7 @@ public:
     SetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
     ~SetFloatingSpeciesInitAmountCodeGen() {};
 
-    std::vector<std::pair<uint, std::string> > getIds();
+    StringIntVector getIds();
 
     bool isInitialValue() {
         return true;
@@ -63,7 +63,24 @@ public:
     SetCompartmentInitVolumeCodeGen(const ModelGeneratorContext &mgc);
     ~SetCompartmentInitVolumeCodeGen() {};
 
-    std::vector<std::pair<uint, std::string> > getIds();
+    StringIntVector getIds();
+
+    bool isInitialValue() {
+        return true;
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
+class SetGlobalParameterInitValueCodeGen: public
+    SetInitialValueCodeGenBase<SetGlobalParameterInitValueCodeGen, false>
+{
+public:
+    SetGlobalParameterInitValueCodeGen(const ModelGeneratorContext &mgc);
+    ~SetGlobalParameterInitValueCodeGen() {};
+
+    StringIntVector getIds();
 
     bool isInitialValue() {
         return true;

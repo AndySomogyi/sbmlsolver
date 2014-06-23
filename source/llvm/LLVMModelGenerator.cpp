@@ -259,6 +259,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         rc->getGlobalParameterInitValuePtr =
                 GetGlobalParameterInitValueCodeGen(context).createFunction();
+        rc->setGlobalParameterInitValuePtr =
+                SetGlobalParameterInitValueCodeGen(context).createFunction();
     }
     else
     {
@@ -272,6 +274,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         rc->setCompartmentInitVolumesPtr = 0;
 
         rc->getGlobalParameterInitValuePtr = 0;
+        rc->setGlobalParameterInitValuePtr = 0;
     }
 
 

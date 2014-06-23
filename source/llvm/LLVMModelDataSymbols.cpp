@@ -625,6 +625,9 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
 {
     list<string> indParam;
     list<string> depParam;
+    list<string> indInitParam;
+    list<string> depInitParam;
+
     const ListOfParameters *parameters = model->getListOfParameters();
 
     globalParameterRateRules.resize(parameters->size(), false);
@@ -640,6 +643,15 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
         else
         {
             depParam.push_back(id);
+        }
+
+        if (isIndependentInitElement(id))
+        {
+            indInitParam.push_back(id);
+        }
+        else
+        {
+            depInitParam.push_back(id);
         }
     }
 
@@ -675,8 +687,24 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
         globalParameterRateRules[pi] = hasRateRule(*i);
     }
 
+
+    for (list<string>::const_iterator i = indInitParam.begin();
+            i != indInitParam.end(); ++i)
+    {
+        uint ci = initGlobalParametersMap.size();
+        initGlobalParametersMap[*i] = ci;
+    }
+
+    for (list<string>::const_iterator i = depInitParam.begin();
+            i != depInitParam.end(); ++i)
+    {
+        uint ci = initGlobalParametersMap.size();
+        initGlobalParametersMap[*i] = ci;
+    }
+
     // finally set how many ind compartments we have
     independentGlobalParameterSize = indParam.size();
+    independentInitGlobalParameterSize = indInitParam.size();
 
     if (Logger::LOG_INFORMATION <= getLogger().getLevel())
     {
@@ -941,6 +969,20 @@ bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
 {
     return gid < globalParameterRateRules.size()
             ? globalParameterRateRules[gid] : false;
+}
+
+std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
+{
+    for (StringUIntMap::const_iterator i = globalParametersMap.begin();
+            i != globalParametersMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
 }
 
 /**
@@ -1312,8 +1354,21 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
     {
         throw LLVMException("could not find init compartment with id " + symbol);
     }
-    // never get here, just silence eclipse warnings
-    return 0;
+}
+
+
+uint LLVMModelDataSymbols::getGlobalParameterInitIndex(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
+    if(i != initGlobalParametersMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init global parameter with id " + symbol);
+    }
 }
 
 
@@ -1336,6 +1391,14 @@ bool LLVMModelDataSymbols::isIndependentInitCompartment(
     StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
     return i != initCompartmentsMap.end() &&
             i->second < independentInitCompartmentSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
+    return i != initGlobalParametersMap.end() &&
+            i->second < independentInitGlobalParameterSize;
 }
 
 bool LLVMModelDataSymbols::isIndependentInitElement(

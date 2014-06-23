@@ -20,6 +20,10 @@ using rr::getLogger;
 namespace rrllvm
 {
 
+typedef std::vector<std::string> StringVector;
+typedef std::pair<std::string, int> StringIntPair;
+typedef std::vector<StringIntPair> StringIntVector;
+
 /**
  * a convenience class to pull the vars out of a context, and
  * store them as ivars. It can get tedious alwasy typing mgc.getThis

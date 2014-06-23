@@ -246,6 +246,11 @@ public:
 
 
     /**
+     * find the id of the given global parameter index.
+     */
+    std::string getGlobalParameterId(uint indx) const;
+
+    /**
      * total size of all floating species.
      */
     uint getFloatingSpeciesSize() const;
@@ -427,6 +432,12 @@ public:
     bool isIndependentInitCompartment(const std::string& symbol) const;
 
     /**
+     * has this string been found to be an independent init global param--
+     * is a global param and not having an assignment or init assignment rule.
+     */
+    bool isIndependentInitGlobalParameter(const std::string& symbol) const;
+
+    /**
      * get the index of a floating species initial value.
      *
      * has the same index as the run time floating species.
@@ -440,6 +451,12 @@ public:
      */
     uint getCompartmentInitIndex(const std::string& symbol) const;
 
+    /**
+     * get the index of a global parameter initial value
+     *
+     * has the same index as the run time global parameter.
+     */
+    uint getGlobalParameterInitIndex(const std::string& symbol) const;
 
     uint getInitCompartmentSize() const;
     uint getInitFloatingSpeciesSize() const;

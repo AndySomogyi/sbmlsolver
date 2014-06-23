@@ -231,17 +231,31 @@ int main(int argc, char* argv[])
 
     rr::RoadRunner r(argv[1]);
 
-    rr::SimulateOptions o;
+    rr::ExecutableModel *m = r.getModel();
 
-    o.integrator = SimulateOptions::GILLESPIE;
-    o.integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
-    o.duration = atof(argv[2]);
+    std::list<std::string> ids;
 
-    r.simulate(&o);
+    m->getIds(rr::SelectionRecord::ALL, ids);
 
-    rr::RoadRunnerData d(&r);
 
-    std::cout << d << std::endl;
+    for(std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        double val = m->getValue(*i);
+
+        cout << "id: " << *i << ", val: " << val << std::endl;
+
+        try {
+            m->setValue(*i, val + 1);
+
+        } catch (std::exception& e) {
+            cout << e.what() << std::endl;
+        }
+    }
+
+
+
+
+
 
 
 

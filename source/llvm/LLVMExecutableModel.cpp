@@ -186,7 +186,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     setFloatingSpeciesInitAmountsPtr(0),
     getCompartmentInitVolumesPtr(0),
     setCompartmentInitVolumesPtr(0),
-    getGlobalParameterInitValuePtr(0)
+    getGlobalParameterInitValuePtr(0),
+    setGlobalParameterInitValuePtr(0)
 {
     std::srand((unsigned)std::time(0));
 }
@@ -226,6 +227,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
     setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
     getGlobalParameterInitValuePtr(rc->getGlobalParameterInitValuePtr),
+    setGlobalParameterInitValuePtr(rc->setGlobalParameterInitValuePtr),
     eventListeners(modelData->numEvents, EventListenerPtr()) // init eventHandlers vector
 {
 
@@ -579,16 +581,7 @@ int LLVMExecutableModel::getGlobalParameterIndex(const string& id)
 
 string LLVMExecutableModel::getGlobalParameterId(int id)
 {
-    vector<string> ids = symbols->getGlobalParameterIds();
-    if (id < ids.size())
-    {
-        return ids[id];
-    }
-    else
-    {
-        throw_llvm_exception("index out of range");
-        return "";
-    }
+    return symbols->getGlobalParameterId(id);
 }
 
 int LLVMExecutableModel::getCompartmentIndex(const string& id)
@@ -909,6 +902,27 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
+    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
+            && (SelectionRecord::INDEPENDENT & types)) {
+        for(int i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
+            std::string gs = symbols->getGlobalParameterId(i);
+            if (symbols->isIndependentInitGlobalParameter(gs)) {
+                ids.push_back("init(" + gs + ")");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
+            && (SelectionRecord::DEPENDENT & types)) {
+        for(int i = symbols->getIndependentGlobalParameterSize();
+                i < symbols->getGlobalParametersSize(); ++i) {
+            std::string gs = symbols->getGlobalParameterId(i);
+            if (symbols->isIndependentInitGlobalParameter(gs)) {
+                ids.push_back("init(" + gs + ")");
+            }
+        }
+    }
+
     if (checkExact(SelectionRecord::REACTION_RATE, types)) {
         addIds(this, 0, symbols->getReactionSize(),
                 &rr::ExecutableModel::getReactionId, ids);
@@ -1031,8 +1045,11 @@ double LLVMExecutableModel::getValue(const std::string& id)
     case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         getFloatingSpeciesInitConcentrations(1, &index, &result);
         break;
+    case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
+        getGlobalParameterInitValues(1, &index, &result);
+        break;
     case SelectionRecord::EVENT:
-        {
+    {
             bool trigger = getEventTrigger(index);
             result = trigger ? 1.0 : -1.0;
         }
@@ -1142,10 +1159,15 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 sel.selectionType = SelectionRecord::INITIAL_COMPARTMENT;
                 sel.index = index;
                 break;
+            case LLVMModelDataSymbols::GLOBAL_PARAMETER:
+                sel.selectionType = SelectionRecord::INITIAL_GLOBAL_PARAMETER;
+                sel.index = index;
+                break;
             default:
                 string msg = "Invalid Id for initial value: '" + str + "'";
                 throw LLVMException(msg);
             }
+            assert(sel.index >= 0);
             break;
 
         case SelectionRecord::INITIAL_CONCENTRATION:
@@ -1222,6 +1244,9 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
         break;
     case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
         setFloatingSpeciesInitConcentrations(1, &index, &value);
+        break;
+    case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
+        setGlobalParameterInitValues(1, &index, &value);
         break;
     default:
         throw LLVMException("Invalid selection '" + sel.to_string() + "' for setting value");
@@ -1838,6 +1863,18 @@ int LLVMExecutableModel::getCompartmentInitVolumes(int len, const int *indx,
     if (getCompartmentInitVolumesPtr)
     {
         result = getValues(getCompartmentInitVolumesPtr, len, indx, values);
+    }
+    return result;
+}
+
+int LLVMExecutableModel::setGlobalParameterInitValues(int len, const int* indx,
+        const double* values)
+{
+    int result = -1;
+    if (setGlobalParameterInitValuePtr)
+    {
+        result = setValues(setGlobalParameterInitValuePtr,
+                &LLVMExecutableModel::getGlobalParameterId, len, indx, values);
     }
     return result;
 }

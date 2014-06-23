@@ -115,6 +115,25 @@ public:
     llvm::Value *createInitCompStore(const std::string &id,
             llvm::Value *value);
 
+
+    /**
+     * the GEP for a init global params
+     */
+    llvm::Value* createInitGlobalParamGEP(const std::string& id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the init global param value
+     */
+    llvm::Value *createInitGlobalParamLoad(const std::string& id,
+            const llvm::Twine& name ="");
+
+    /**
+     * store the init global param value
+     */
+    llvm::Value *createInitGlobalParamStore(const std::string &id,
+            llvm::Value *value);
+
     /**
      * load the global param value
      */

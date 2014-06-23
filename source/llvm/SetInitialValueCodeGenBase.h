@@ -69,7 +69,7 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
     llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, llvm::Type::getInt8Ty(this->context),
             argTypes, argNames, args);
 
-    std::vector<std::pair<uint, std::string> > ids = static_cast<Derived*>(this)->getIds();
+    StringIntVector ids = static_cast<Derived*>(this)->getIds();
 
     // are we doing init symbols or regular symbols.
     bool isInit = static_cast<Derived*>(this)->isInitialValue();
@@ -95,14 +95,14 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
     for (int i = 0; i < ids.size(); ++i)
     {
-        llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i].second + "_block", this->function);
+        llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i].first + "_block", this->function);
         this->builder.SetInsertPoint(block);
 
         // the value we are attempting to store, make a copy in loop scope
         // because we can modify the copy.
         llvm::Value *value = args[2];
 
-        std::string element = ids[i].second;
+        std::string element = ids[i].first;
 
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
@@ -122,7 +122,7 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 if (!substanceUnits)
                 {
                     // given a conc, convert to amount
-                    value = this->builder.CreateFMul(value, comp, ids[i].second + "_amt");
+                    value = this->builder.CreateFMul(value, comp, ids[i].first + "_amt");
                 }
             }
             else
@@ -131,17 +131,17 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 if (substanceUnits)
                 {
                     // given an amount, need to convert to conc
-                    value = this->builder.CreateFDiv(value, comp, ids[i].second + "_value_conc");
+                    value = this->builder.CreateFDiv(value, comp, ids[i].first + "_value_conc");
                 }
             }
         }
 
         // load after we've figured the species bits out
-        storeResolver.storeSymbolValue(ids[i].second, value);
+        storeResolver.storeSymbolValue(ids[i].first, value);
 
         // true retval
         this->builder.CreateRet(llvm::ConstantInt::get(llvm::Type::getInt8Ty(this->context), 1));
-        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), ids[i].first), block);
+        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), ids[i].second), block);
     }
 
     return this->verifyFunction();
