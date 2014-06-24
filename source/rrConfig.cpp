@@ -120,8 +120,11 @@ static Variant values[] =  {
     Variant((int)(SelectionRecord::TIME
             | SelectionRecord::RATE
             | SelectionRecord::FLOATING
-            | SelectionRecord::CONSREVED_MOIETY)),     // MODEL_RESET
-    Variant(std::string("rateOf")),              // SBML_RATE_FUNCTION_NAME
+            | SelectionRecord::CONSREVED_MOIETY)),       // MODEL_RESET
+    Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
+    Variant(1.e-5),    // CVODE_MIN_RELATIVE
+    Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
+    Variant(std::string("rateOf")),                     // SBML_RATE_FUNCTION_NAME
     // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION
     Variant(std::string("http://en.wikipedia.org/wiki/Derivative")),
     // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS
@@ -188,6 +191,9 @@ static void getKeyNames(StringIntMap& keys)
     keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
     keys["ROADRUNNER_JACOBIAN_STEP_SIZE"] = rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
     keys["MODEL_RESET"] = rr::Config::MODEL_RESET;
+    keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
+    keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
+    keys["SIMULATEOPTIONS_COPY_RESULT"] = rr::Config::SIMULATEOPTIONS_COPY_RESULT;
     keys["SBML_RATE_FUNCTION_NAME"] = rr::Config::SBML_RATE_FUNCTION_NAME;
     keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION;
     keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS;

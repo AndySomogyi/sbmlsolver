@@ -14,3 +14,4 @@ This runs the built in unit tests..
 
 from tester import *
 from testfiles import *
+from SBMLTest import *
