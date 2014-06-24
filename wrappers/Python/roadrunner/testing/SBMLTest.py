@@ -135,7 +135,7 @@ class SBMLTest(object):
         try:
             # run the simulation
 
-            r = rr.RoadRunner(self.sbmlFileName)
+            r = rr.RoadRunner(self.sbmlFileName, _getLoadOptions())
 
             # need to tweak the tolerances for the current integrator
             opt = self.settings.copy()
@@ -162,6 +162,31 @@ class SBMLTest(object):
 
     def _addError(self, err):
         self.errors += [err]
+
+
+def _getLoadOptions():
+    """
+    Performance is heavily depdent on the options given, this set of options generates
+    essentially generates a model without mutable init conditions and other costly 
+    features which are not used in pure time series simulations.
+    """
+    
+    opt = rr.LoadSBMLOptions()
+    
+    # don't generate cache for models
+    opt.modelGeneratorOpt |= rr.LoadSBMLOptions.RECOMPILE
+    
+    # no mutable initial conditions
+    opt.modelGeneratorOpt &= ~rr.LoadSBMLOptions.MUTABLE_INITIAL_CONDITIONS
+    
+    # read only model
+    opt.modelGeneratorOpt |= rr.LoadSBMLOptions.READ_ONLY
+    
+    opt.modelGeneratorOpt |= rr.LoadSBMLOptions.OPTIMIZE_CFG_SIMPLIFICATION
+    
+    opt.modelGeneratorOpt |= rr.LoadSBMLOptions.OPTIMIZE_GVN
+    
+    return opt
 
 
 def runSBMLTests(sbmlTestDir):
