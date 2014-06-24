@@ -2,6 +2,7 @@
 #define rrUtilsH
 
 #if defined(_WIN32) || defined(__WIN32__)
+#define NOMINMAX
 #include <windows.h>
 #endif
 

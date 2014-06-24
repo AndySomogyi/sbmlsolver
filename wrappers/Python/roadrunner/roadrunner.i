@@ -816,7 +816,7 @@ namespace std { class ostream{}; }
 
             if (opt->flags & SimulateOptions::COPY_RESULT) {
 
-                Log(rr::Logger::LOG_NOTICE) << "copying result data";
+	        Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
                 pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, NULL, 0,
                                      NPY_CARRAY, NULL);
@@ -830,7 +830,7 @@ namespace std { class ostream{}; }
             } 
             else { 
 
-                Log(rr::Logger::LOG_NOTICE) << "wraping existing data";
+                Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
 
                 double *data = result->getArray();
 

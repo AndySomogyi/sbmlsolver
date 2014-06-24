@@ -16,6 +16,7 @@
 #include <map>
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 

@@ -69,7 +69,7 @@ class SBMLTest(object):
 
         # get the results file
         resultsName = path.join(dirName, path.basename(dirName) + "-results.csv")
-        self.expectedResult = npy.genfromtxt(resultsName, delimiter=',',  dtype=None, names=True)
+        self.expectedResult = npy.genfromtxt(resultsName, delimiter=',',  dtype=npy.float64, names=True)
 
         # its a structured array, column names in csv.dtype.names
 
