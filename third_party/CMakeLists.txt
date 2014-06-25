@@ -55,6 +55,9 @@ set(WITH_BZIP2          OFF CACHE BOOL "test")
 set(WITH_SWIG           OFF CACHE BOOL "test")
 set(WITH_ZLIB           OFF CACHE BOOL "test")
 set(WITH_CPP_NAMESPACE  ON  CACHE BOOL "test")
+set(ENABLE_COMP         ON  CACHE BOOL "test")
+set(LIBSBML_USE_LEGACY_MATH ON CACHE BOOL "test")
+
 
 set(BUILD_CVODES        OFF CACHE BOOL "")
 set(BUILD_IDA           OFF CACHE BOOL "")
