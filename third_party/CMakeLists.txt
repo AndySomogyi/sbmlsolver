@@ -55,7 +55,14 @@ set(WITH_BZIP2          OFF CACHE BOOL "test")
 set(WITH_SWIG           OFF CACHE BOOL "test")
 set(WITH_ZLIB           OFF CACHE BOOL "test")
 set(WITH_CPP_NAMESPACE  ON  CACHE BOOL "test")
+
+# memory leaks here, disable until fixed.
 set(ENABLE_COMP         ON  CACHE BOOL "test")
+
+# performance issues with new math, keep
+# old math for the time being. 
+# sometime in the near future, we will re-write
+# the AST traversal to use the new API. 
 set(LIBSBML_USE_LEGACY_MATH ON CACHE BOOL "test")
 
 
