@@ -312,6 +312,8 @@ std::vector<std::string> SimulateOptions::getKeys() const
     return keys;
 }
 
+#define BITFIELD2STR(bf) rr::toString((bool)((bf) ? true : false))
+
 
 std::string SimulateOptions::toString() const
 {
@@ -330,15 +332,17 @@ std::string SimulateOptions::toString() const
         ss << "unknown" << std::endl;
     }
 
-    ss << "stiff: " << rr::toString((bool)(integratorFlags & STIFF)) << std::endl;
+    ss << "stiff: " << BITFIELD2STR(integratorFlags & STIFF) << std::endl;
 
-    ss << "multiStep: " << rr::toString((bool)(integratorFlags & MULTI_STEP)) << std::endl;
+    ss << "multiStep: " << BITFIELD2STR(integratorFlags & MULTI_STEP) << std::endl;
 
-    ss << "variableStep: " << rr::toString((bool)(integratorFlags & VARIABLE_STEP)) << std::endl;
+    ss << "variableStep: " << BITFIELD2STR(integratorFlags & VARIABLE_STEP) << std::endl;
 
-    ss << "reset: " << rr::toString((bool)(flags & RESET_MODEL)) << std::endl;
+    ss << "reset: " << BITFIELD2STR(flags & RESET_MODEL) << std::endl;
 
-    ss << "structuredResult: " << rr::toString((bool)(flags & STRUCTURED_RESULT)) << std::endl;
+    ss << "structuredResult: " << BITFIELD2STR(flags & STRUCTURED_RESULT) << std::endl;
+
+    ss << "copyResult: " << BITFIELD2STR(flags & COPY_RESULT) << std::endl;
 
     ss << "steps: " << steps << std::endl;
 
