@@ -9,6 +9,7 @@
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
 #include "rrStringUtils.h"
+#include <sbml/common/libsbml-version.h>
 
 namespace rrllvm
 {
@@ -80,7 +81,11 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         for (uint i = 0; i < nchild - 1; ++i)
         {
             const ASTNode *c = math->getChild(i);
+#if (LIBSBML_VERSION >= 51000)
+            // assert(c && c->getType() == AST_QUALIFIER_BVAR);
+#else
             assert(c->isBvar());
+#endif
             (*symbols)[c->getName()] = args[i];
         }
 
