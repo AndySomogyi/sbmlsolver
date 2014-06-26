@@ -65,6 +65,13 @@
 
 
     using namespace rr;
+
+#define VERIFY_PYARRAY(p) { \
+	assert(p && "PyArray is NULL"); \
+	assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+}
+
+
 %}
 
 %naturalvar;
@@ -116,6 +123,7 @@
   }
 }
 
+
 /**
  *  Convert from C --> Python
  *  copy data
@@ -131,7 +139,7 @@
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
             NPY_CARRAY | NPY_OWNDATA, NULL);
-    assert(PyArray_ISCARRAY(pArray) && "PyArray must be C format");
+    VERIFY_PYARRAY(pArray);
     $result  = pArray;
 }
 
@@ -150,7 +158,7 @@
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
             NPY_CARRAY, NULL);
-    assert(PyArray_ISCARRAY(pArray) && "PyArray must be C format");
+    VERIFY_PYARRAY(pArray);
     $result  = pArray;
 }
 
@@ -165,7 +173,7 @@
     npy_intp dims[1] = {len};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    assert(PyArray_ISCARRAY(array) && "PyArray must be C format");
+    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -289,7 +297,7 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
 
     npy_intp dims[1] = {len};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    assert(PyArray_ISCARRAY(array) && "PyArray must be C format");
+    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -796,7 +804,7 @@ namespace std { class ostream{}; }
 
             // steals a reference to descr
             PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
-            assert(PyArray_ISCARRAY(pyres) && "PyArray must be C format");
+            VERIFY_PYARRAY(pyres);
 
             if (pyres) {
 
@@ -825,7 +833,7 @@ namespace std { class ostream{}; }
 
                 pArray = PyArray_SimpleNew(2, dims, NPY_DOUBLE);
 
-                assert(PyArray_ISCARRAY(pArray) && "PyArray must be C format");
+                VERIFY_PYARRAY(pArray);
                 assert(PyArray_NBYTES(pArray) == rows*cols*sizeof(double) && "invalid array size");
 
                 double *pyData = (double*)PyArray_BYTES(pArray);
@@ -841,7 +849,7 @@ namespace std { class ostream{}; }
 
                 pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                      NPY_CARRAY, NULL);
-                assert(PyArray_ISCARRAY(pArray) && "PyArray must be C format");
+                VERIFY_PYARRAY(pArray);
 
             }
             return pArray;
@@ -1750,7 +1758,7 @@ namespace std { class ostream{}; }
 
         npy_intp dims[1] = {len};
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-        assert(PyArray_ISCARRAY(array) && "PyArray must be C format");
+        VERIFY_PYARRAY(array);
 
         if (!array) {
             // TODO error handling.
@@ -1786,7 +1794,7 @@ namespace std { class ostream{}; }
 
         npy_intp dims[1] = {len};
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-        assert(PyArray_ISCARRAY(array) && "PyArray must be C format");
+        VERIFY_PYARRAY(array);
 
         if (!array) {
             // TODO error handling.
@@ -2190,7 +2198,7 @@ namespace std { class ostream{}; }
 
         PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                 NPY_CARRAY | NPY_OWNDATA, NULL);
-        assert(PyArray_ISCARRAY(pArray) && "PyArray must be C format");
+        VERIFY_PYARRAY(pArray);
 
         return pArray;
     }
