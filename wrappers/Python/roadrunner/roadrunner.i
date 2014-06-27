@@ -67,8 +67,8 @@
     using namespace rr;
 
 #define VERIFY_PYARRAY(p) { \
-	assert(p && "PyArray is NULL"); \
-	assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+    assert(p && "PyArray is NULL"); \
+    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
 
 
@@ -629,6 +629,9 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
+// deprecated, model knows how to reset itself with reset.
+%ignore rr::ExecutableModel::evalInitialConditions;
+
 // map the events to python using the PyEventListener class
 %ignore rr::ExecutableModel::setEventListener(int, rr::EventListenerPtr);
 %ignore rr::ExecutableModel::getEventListener(int);
@@ -829,7 +832,7 @@ namespace std { class ostream{}; }
 
             if (opt->flags & SimulateOptions::COPY_RESULT) {
 
-	            Log(rr::Logger::LOG_DEBUG) << "copying result data";
+                Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
                 pArray = PyArray_SimpleNew(2, dims, NPY_DOUBLE);
 
@@ -840,8 +843,8 @@ namespace std { class ostream{}; }
                 double *mData = result->getArray();
 
                 memcpy(pyData, mData, rows*cols*sizeof(double));
-            } 
-            else { 
+            }
+            else {
 
                 Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
 
@@ -1376,11 +1379,11 @@ namespace std { class ostream{}; }
     }
 
     /**
-     * makes a copy of this object. 
+     * makes a copy of this object.
      * Python normally just keeps references to objects, and this forces a true
      * copy. Note, we heed to add the SWIG_POINTER_OWN to the function below
      * so that when the returned object is destroyed (by Python), the C++
-     * object will also be deleted. 
+     * object will also be deleted.
      */
     PyObject *copy() {
         SimulateOptions *pThis = $self;
