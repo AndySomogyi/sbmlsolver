@@ -237,6 +237,8 @@ LLVMExecutableModel::LLVMExecutableModel(
 
     eventAssignTimes.resize(modelData->numEvents);
 
+    // initializes the initial initial conditions (not a typo),
+    // sets the 'init(...)' values to the sbml specified init values.
     evalInitialConditions();
 
     reset();
