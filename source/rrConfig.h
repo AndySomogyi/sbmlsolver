@@ -226,7 +226,8 @@ public:
         SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
 
         /**
-         * Default integrator to use
+         * Default integrator to use, currently supports a string of "CVODE" or "Gillespie",
+         * default is "CVODE"
          */
         SIMULATEOPTIONS_INTEGRATOR,
 
@@ -316,6 +317,55 @@ public:
         ROADRUNNER_JACOBIAN_STEP_SIZE,
 
         /**
+         * A bitfield (unsigned integer) consisting of the values in
+         * SelectionRecord::SelectionType.
+         *
+         * This value determines which values of the model are reset
+         * to their origin SBML specified values.
+         *
+         * Current valid values can be a combination of:
+         *
+         * SelectionRecord::SelectionType::TIME,
+         * SelectionRecord::SelectionType::RATE,
+         * SelectionRecord::SelectionType::BOUNDARY,
+         * SelectionRecord::SelectionType::FLOATING,
+         * SelectionRecord::SelectionType::GLOBAL_PARAMETER,
+         * SelectionRecord::SelectionType::CONSREVED_MOIETY,
+         * SelectionRecord::SelectionType::COMPARTMENT,
+         * SelectionRecord::SelectionType::ALL.
+         *
+         * Note, if RATE is specified, this will cause all global parameters
+         * defined by rate rules to be reset, even if GLOBAL_PARAMETER is NOT
+         * specified.
+         *
+         * The default value is TIME | RATE | FLOATING | CONSREVED_MOIETY
+         */
+        MODEL_RESET,
+
+        /**
+         * The minumum absolute error that the CVODE integrator supports
+         * in order to to pass the sbml test suite using the default integtator.
+         *
+         * If a test suite config file is loaded, and the relative error is
+         * higher than CVODE_MIN_ABSOLUTE, it should be lowered to CVODE_MIN_ABSOLUTE.
+         */
+        CVODE_MIN_ABSOLUTE,
+
+        /**
+         * The minumum relative error that the CVODE integrator supports
+         * in order to to pass the sbml test suite using the default integtator.
+         *
+         * If a test suite config file is loaded, and the relative error is
+         * higher than CVODE_MIN_RELATIVE, it should be lowered to CVODE_MIN_RELATIVE.
+         */
+        CVODE_MIN_RELATIVE,
+
+        /**
+         * make a copy of the simulation result in Python.
+         */
+        SIMULATEOPTIONS_COPY_RESULT,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.
@@ -328,7 +378,6 @@ public:
         ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE          =  (0x1 << 0),  // => 0x00000001
         ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY     =  (0x1 << 1)   // => 0x00000010
     };
-
 
     /**
      * read the config value as a string.

@@ -187,7 +187,14 @@ public:
          * Simulate should return a raw result matrix without
          * adding any column names.
          */
-        STRUCTURED_RESULT       = (0x1 << 1)  // => 0x00000010
+        STRUCTURED_RESULT       = (0x1 << 1), // => 0x00000010
+
+        /**
+         * Make a copy of the simulation result in Python.
+         *
+         * Large simulations should have this disabled.
+         */
+        COPY_RESULT             = (0x1 << 2), // => 0x00000100
     };
 
     /**
@@ -384,6 +391,14 @@ public:
      * get the textual form of this object.
      */
     std::string toString() const;
+
+    /**
+     * Integration tolerance is very integrator specific.
+     *
+     * This method tweaks the tolerances so that they are tight enough for the
+     * current integrator to meed the SBML test suite requirements.
+     */
+    void tweakTolerances();
 
 private:
 

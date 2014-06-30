@@ -200,7 +200,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
     initBoundarySpecies(model);
 
-    initGlobalParameters(model);
+    initGlobalParameters(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
 
     initReactions(model);
 
@@ -620,11 +620,18 @@ uint LLVMModelDataSymbols::getGlobalParametersSize() const
     return globalParametersMap.size();
 }
 
-void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
+void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
+        bool conservedMoieties)
 {
     list<string> indParam;
     list<string> depParam;
+    list<string> indInitParam;
+    list<string> depInitParam;
+
     const ListOfParameters *parameters = model->getListOfParameters();
+
+    globalParameterRateRules.resize(parameters->size(), false);
+
     for (uint i = 0; i < parameters->size(); i++)
     {
         const Parameter *p = parameters->get(i);
@@ -637,12 +644,37 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
         {
             depParam.push_back(id);
         }
+
+        if (isIndependentInitElement(id))
+        {
+            indInitParam.push_back(id);
+        }
+        else
+        {
+            depInitParam.push_back(id);
+        }
     }
+
+    // when this is used, we check the size, so works even
+    // when consv moieity is not enabled.
+    if (conservedMoieties)
+    {
+        conservedMoietyGlobalParameter.resize(indParam.size(), false);
+    }
+
     for (list<string>::const_iterator i = indParam.begin();
             i != indParam.end(); ++i)
     {
         uint pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
+
+        // CM parameters can only be independent.
+        if (conservedMoieties)
+        {
+            const Parameter* p = parameters->get(*i);
+            conservedMoietyGlobalParameter[pi] =
+                    ConservationExtension::getConservedMoiety(*p);
+        }
     }
 
     for (list<string>::const_iterator i = depParam.begin();
@@ -650,10 +682,29 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
     {
         uint pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
+
+        // all the independent ones by def have no rate rules.
+        globalParameterRateRules[pi] = hasRateRule(*i);
+    }
+
+
+    for (list<string>::const_iterator i = indInitParam.begin();
+            i != indInitParam.end(); ++i)
+    {
+        uint ci = initGlobalParametersMap.size();
+        initGlobalParametersMap[*i] = ci;
+    }
+
+    for (list<string>::const_iterator i = depInitParam.begin();
+            i != depInitParam.end(); ++i)
+    {
+        uint ci = initGlobalParametersMap.size();
+        initGlobalParametersMap[*i] = ci;
     }
 
     // finally set how many ind compartments we have
     independentGlobalParameterSize = indParam.size();
+    independentInitGlobalParameterSize = indInitParam.size();
 
     if (Logger::LOG_INFORMATION <= getLogger().getLevel())
     {
@@ -908,6 +959,32 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     independentInitCompartmentSize = indInitCompartments.size();
 }
 
+bool LLVMModelDataSymbols::isConservedMoietyParameter(uint id) const
+{
+    return id < conservedMoietyGlobalParameter.size() ?
+            conservedMoietyGlobalParameter[id] : false;
+}
+
+bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
+{
+    return gid < globalParameterRateRules.size()
+            ? globalParameterRateRules[gid] : false;
+}
+
+std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
+{
+    for (StringUIntMap::const_iterator i = globalParametersMap.begin();
+            i != globalParametersMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
+}
+
 /**
  * row is species, column is reaction
  */
@@ -995,7 +1072,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 {
                     Log(Logger::LOG_INFORMATION)
                         << "Experimental multi product-reactant stochiometry code"
-						<< "with reactant " << r->getSpecies();
+                        << "with reactant " << r->getSpecies();
 
                     // species is listed multiple times as reactant
                     stoichTypes[si->second] = MultiReactantProduct;
@@ -1067,7 +1144,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 {
                     Log(Logger::LOG_INFORMATION)
                         << "Experimental multi product stochiometry code "
-						<< "with product " << p->getSpecies();
+                        << "with product " << p->getSpecies();
 
                     // species is listed multiple times as product
                     stoichTypes[si->second] = MultiReactantProduct;
@@ -1277,8 +1354,21 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
     {
         throw LLVMException("could not find init compartment with id " + symbol);
     }
-    // never get here, just silence eclipse warnings
-    return 0;
+}
+
+
+uint LLVMModelDataSymbols::getGlobalParameterInitIndex(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
+    if(i != initGlobalParametersMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init global parameter with id " + symbol);
+    }
 }
 
 
@@ -1301,6 +1391,14 @@ bool LLVMModelDataSymbols::isIndependentInitCompartment(
     StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
     return i != initCompartmentsMap.end() &&
             i->second < independentInitCompartmentSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
+    return i != initGlobalParametersMap.end() &&
+            i->second < independentInitGlobalParameterSize;
 }
 
 bool LLVMModelDataSymbols::isIndependentInitElement(

@@ -338,13 +338,6 @@ C_DECL_SPEC bool rrcCallConv freeVector(RRVectorPtr vector);
 */
 C_DECL_SPEC bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix);
 
-/*!
- \brief pause
-If your program is running in a console, pause() will stop execution and wait for one keybord stroke in order to continue.
- \return void
-*/
-C_DECL_SPEC void rrcCallConv pause(void);
-
 // --------------------------------------------------------------------------------
 // Helper Methods
 // --------------------------------------------------------------------------------
@@ -662,8 +655,8 @@ C_DECL_SPEC char* rrcCallConv listToString(const RRListPtr list);
 /*!
  \brief Writes RoadRunner data to file
  \param handle Handle to a Roadrunner Instance
- \param fileNameAndPath Pointer to string holding the file(with path) to write data to 
- \return Returna a boolean indicating the result 
+ \param fileNameAndPath Pointer to string holding the file(with path) to write data to
+ \return Returna a boolean indicating the result
  \ingroup helperRoutines
 */
 C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle handle, const char* fileNameAndPath);
@@ -674,8 +667,8 @@ C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle handle, const char* fileNameAn
 /*!
  \brief Compiles source code
  \param handle Handle to a RRInstance
- \param sourceFileNameAndPath Pointer to string holding the file(with path) to compile 
- \return Returna a boolean indicating the result 
+ \param sourceFileNameAndPath Pointer to string holding the file(with path) to compile
+ \return Returna a boolean indicating the result
  \ingroup helperRoutines
 */
 C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileNameAndPath);

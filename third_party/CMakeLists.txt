@@ -55,6 +55,9 @@ set(WITH_BZIP2          OFF CACHE BOOL "test")
 set(WITH_SWIG           OFF CACHE BOOL "test")
 set(WITH_ZLIB           OFF CACHE BOOL "test")
 set(WITH_CPP_NAMESPACE  ON  CACHE BOOL "test")
+set(ENABLE_COMP         ON  CACHE BOOL "test")
+set(LIBSBML_USE_LEGACY_MATH ON CACHE BOOL "test")
+
 
 set(BUILD_CVODES        OFF CACHE BOOL "")
 set(BUILD_IDA           OFF CACHE BOOL "")
@@ -144,8 +147,25 @@ add_definitions(
 )
 endif()
 
+
+
 #Add Third Party Folders
-add_subdirectory(libSBML-5.9.0-Source)
+
+# libsbml looks for some .cmake files to build packages, 
+# need to add thier root dir so that it can find them.
+#set(CMAKE_MODULE_PATH libSBML-5.10.0-Source ${CMAKE_MODULE_PATH})
+#add_subdirectory(libSBML-5.10.0-Source)
+
+set(RR_LIBSBML "libSBML-5.10.0-Source")
+set(LIBSBML_ROOT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/${RR_LIBSBML}" CACHE PATH
+    "Path to the libsbml root source directory")
+set(LIBSBML_ROOT_BINARY_DIR "${CMAKE_BINARY_DIR}" CACHE PATH
+    "Path to the libsbml root build directory")
+add_subdirectory(${RR_LIBSBML})
+
+message("RR_LIBSBML: ${RR_LIBSBML}")
+message("LIBSBML_ROOT_SOURCE_DIR: ${LIBSBML_ROOT_SOURCE_DIR}")
+
 add_subdirectory(clapack/3.2.1)
 add_subdirectory(sundials)
 add_subdirectory(nleq)

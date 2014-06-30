@@ -123,9 +123,15 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
         }
     }
 
-    else if (modelDataSymbols.isIndependentCompartment(symbol))
+    else if (modelDataSymbols.isIndependentInitCompartment(symbol))
     {
         return mdbuilder.createInitCompLoad(symbol);
+    }
+
+
+    else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
+    {
+        return mdbuilder.createInitGlobalParamLoad(symbol);
     }
 
     /*************************************************************************/
@@ -194,6 +200,11 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
     else if (modelDataSymbols.isIndependentInitCompartment(symbol))
     {
         return mdbuilder.createInitCompStore(symbol, value);
+    }
+
+    else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
+    {
+        return mdbuilder.createInitGlobalParamStore(symbol, value);
     }
 
 

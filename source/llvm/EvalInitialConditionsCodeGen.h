@@ -53,12 +53,13 @@ private:
 
     void codeGenCompartments(StoreSymbolResolver& modelDataResolver);
 
-    void codeGenParameters(StoreSymbolResolver& modelDataResolver);
-
+    void codeGenGlobalParameters(StoreSymbolResolver& modelDataResolver);
 
     void codeGenInitSpecies(StoreSymbolResolver& modelDataResolver);
 
     void codeGenInitCompartments(StoreSymbolResolver& modelDataResolver);
+
+    void codeGenInitGlobalParameters(StoreSymbolResolver& modelDataResolver);
 
     SBMLInitialValueSymbolResolver initialValueResolver;
 };

@@ -1,0 +1,8 @@
+start: 0
+duration: 60
+steps: 60
+variables:  EGF, NGF, freeEGFReceptor, boundEGFReceptor, freeNGFReceptor, boundNGFReceptor, SosInactive, SosActive, P90RskInactive, P90RskActive, RasInactive, RasActive, RasGapActive, Raf1Inactive, Raf1Active, BRafInactive, BRafActive, MekInactive, MekActive, ErkInactive, ErkActive, PI3KInactive, PI3KActive, AktInactive, AktActive, C3GInactive, C3GActive, Rap1Inactive, Rap1Active, RapGapActive, PP2AActive, Raf1PPtase
+absolute: 1.0e-4
+relative: 1.0e-9
+amount: 
+concentration: EGF, NGF, freeEGFReceptor, boundEGFReceptor, freeNGFReceptor, boundNGFReceptor, SosInactive, SosActive, P90RskInactive, P90RskActive, RasInactive, RasActive, RasGapActive, Raf1Inactive, Raf1Active, BRafInactive, BRafActive, MekInactive, MekActive, ErkInactive, ErkActive, PI3KInactive, PI3KActive, AktInactive, AktActive, C3GInactive, C3GActive, Rap1Inactive, Rap1Active, RapGapActive, PP2AActive, Raf1PPtase

@@ -1,0 +1,9 @@
+start: 0
+duration: 0.001
+steps: 1
+variables:  Glucose, fructose_1_6_bisphosphate, glyceraldehyde_3_phosphate, glycerate_3_phosphate, pyruvate, Acetyladehyde, External_acetaldehyde, ATP, ADP, NAD, NADH
+absolute: 1.0e-4
+relative: 1.0e-9
+amount: 
+concentration: Glucose, fructose_1_6_bisphosphate, glyceraldehyde_3_phosphate, glycerate_3_phosphate, pyruvate, Acetyladehyde, External_acetaldehyde, ATP, ADP, NAD, NADH
+

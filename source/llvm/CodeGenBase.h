@@ -20,6 +20,10 @@ using rr::getLogger;
 namespace rrllvm
 {
 
+typedef std::vector<std::string> StringVector;
+typedef std::pair<std::string, int> StringIntPair;
+typedef std::vector<StringIntPair> StringIntVector;
+
 /**
  * a convenience class to pull the vars out of a context, and
  * store them as ivars. It can get tedious alwasy typing mgc.getThis
@@ -150,7 +154,11 @@ protected:
 
         /// verifyFunction - Check a function for errors, printing messages on stderr.
         /// Return true if the function is corrupt.
+#if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR >= 5)
+        if (llvm::verifyFunction(*function))
+#else
         if (llvm::verifyFunction(*function, llvm::AbortProcessAction))
+#endif
         {
             poco_error(getLogger(),
                     "Corrupt Generated Function, "  + to_string(function));

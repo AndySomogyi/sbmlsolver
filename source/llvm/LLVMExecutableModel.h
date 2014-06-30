@@ -356,6 +356,9 @@ public:
     virtual int getCompartmentInitVolumes(int len, const int *indx,
                     double *values);
 
+    virtual int setGlobalParameterInitValues(int len, const int *indx,
+                double const *values);
+
     virtual int getGlobalParameterInitValues(int len, const int *indx,
                     double *values);
 
@@ -585,6 +588,7 @@ private:
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
     GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;
+    SetGlobalParameterInitValueCodeGen::FunctionPtr setGlobalParameterInitValuePtr;
 
 
     typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);

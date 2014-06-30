@@ -39,6 +39,15 @@ public:
     string                      getCompilerMessages();
     bool                        setOutputPath(const string& path);
 
+
+    virtual std::string getDefaultTargetTriple();
+
+    virtual std::string getProcessTriple();
+
+    virtual std::string getHostCPUName();
+
+    virtual std::string getVersion();
+
 private:
     string                      mDLLFileName;
     string                      mSupportCodeFolder;

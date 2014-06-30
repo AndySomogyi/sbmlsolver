@@ -10,7 +10,7 @@ namespace rr {
 #define RR_VERSION_MAJOR 1
 #define RR_VERSION_MINOR 2
 #define RR_VERSION_PATCH 1
-#define RR_VERSION_STR "1.2.1"
+#define RR_VERSION_STR "1.2.3_beta3"
 
 #define RR_STRINGIZE2(s) #s
 #define RR_STRINGIZE(s) RR_STRINGIZE2(s)
@@ -73,7 +73,9 @@ enum VersionStrOptions
     /**
      * the version of libSBML we're using
      */
-    VERSIONSTR_LIBSBML                = (0x1 << 3)
+    VERSIONSTR_LIBSBML                = (0x1 << 3),
+
+    VERSIONSTR_JITCOMPILER            = (0x1 << 4)
 };
 
 /**
@@ -84,7 +86,8 @@ enum VersionStrOptions
  * Each one of these options are concatenated into the output string and there
  * are ';' separators between each of them.
  */
-RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE);
+RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC
+        | VERSIONSTR_COMPILER | VERSIONSTR_JITCOMPILER | VERSIONSTR_DATE);
 
 
 /**

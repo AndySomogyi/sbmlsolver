@@ -621,9 +621,6 @@ void RoadRunner::createIntegrator()
 {
     if(impl->model)
     {
-        impl->model->setConservedSumChanged(false);
-        impl->model->evalInitialConditions();
-
         if(impl->integrator)
         {
             delete impl->integrator;
