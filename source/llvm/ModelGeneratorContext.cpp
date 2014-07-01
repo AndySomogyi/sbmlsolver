@@ -70,7 +70,7 @@ static double acosh(double value)
 
 double atanh(double value)
 {
-    return log((1. / value + 1.) / (1. / value - 1.)) / 2.;
+    return (std::log(1.0 + value) - std::log(1.0 - value)) / 2.0;
 }
 
 #endif
