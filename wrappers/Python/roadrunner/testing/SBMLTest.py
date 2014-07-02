@@ -212,10 +212,24 @@ def runSBMLTests(sbmlTestDir):
 
     
 def runSBMLTest(sbmlTestDir, case):
+    """
+    Run a single sbml test case. 
+
+    :param sbmlTestDir: the directory where the sbml tests are located, this would
+    be the directory where you unziped the sbml test suite to.
+
+    :param case: the sbml test case. This may be a number, or it may be a 
+    text string to use as the exact test case directory, i.e. 1, or "00001".
+    """
+
     import roadrunner as rr
 
-    rr.Logger.log(rr.Logger.LOG_NOTICE, "running test " + case)
+    # if case is a number, we convert to the correct textual form
+    # padd the with the correct number of zeros.
+    if type(case) == int:
+        case = str(case).zfill(5)
 
+    rr.Logger.log(rr.Logger.LOG_NOTICE, "running test " + case)
 
     # the test dir may have /cases/semantic/ sub directories
     if not path.isdir(path.join(sbmlTestDir, case)) and \
