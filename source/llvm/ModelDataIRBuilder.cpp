@@ -18,6 +18,9 @@
 
 #include "llvm/ADT/APInt.h"
 
+// TODO incredibly ugly way of calculating rates of change.
+#include "EvalReactionRatesCodeGen.h"
+
 
 using namespace libsbml;
 using namespace llvm;
@@ -34,6 +37,7 @@ const char* ModelDataIRBuilder::LLVMModelDataName = "rr_LLVMModelData";
 const char* ModelDataIRBuilder::csr_matrixName = "rr_csr_matrix";
 const char* ModelDataIRBuilder::csr_matrix_set_nzName = "rr_csr_matrix_set_nz";
 const char* ModelDataIRBuilder::csr_matrix_get_nzName = "rr_csr_matrix_get_nz";
+const char* ModelDataIRBuilder::csr_matrix_ddotName = "rr_csr_matrix_ddot";
 
 
 static bool isAliasOrPointer(ModelDataFields f)
@@ -232,6 +236,62 @@ llvm::CallInst* ModelDataIRBuilder::createCSRMatrixSetNZ(IRBuilder<> &builder,
 {
     Function *func = ModelDataIRBuilder::getCSRMatrixSetNZDecl(getModule(builder, __FUNC__));
     Value *args[] = {csrPtr, row, col, value};
+    return builder.CreateCall(func, args, name);
+}
+
+llvm::Function* ModelDataIRBuilder::getCSRMatrixDDotDecl(Module *module)
+{
+    Function *f = module->getFunction(
+            ModelDataIRBuilder::csr_matrix_ddotName);
+
+    if (f == 0)
+    {
+        // double csr_matrix_ddot(int row, const csr_matrix *x, const double *y);
+        Type *args[] = {
+                Type::getInt32Ty(module->getContext()),
+                getCSRSparseStructType(module)->getPointerTo(),
+                Type::getDoubleTy(module->getContext())->getPointerTo()
+        };
+        FunctionType *funcType = FunctionType::get(
+                Type::getDoubleTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage,
+                ModelDataIRBuilder::csr_matrix_ddotName, module);
+    }
+    return f;
+}
+
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateComputeLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+    llvm::Module *module = getModule(builder, __FUNC__);
+    uint index = symbols.getFloatingSpeciesIndex(id);
+    assert(index < symbols.getIndependentFloatingSpeciesSize());
+
+    // call the reaction rates function to set the rates
+    Function *evalReactionRates = module->getFunction(
+            EvalReactionRatesCodeGen::FunctionName);
+
+    Value *evalReactionRatesArgs[] = {modelData};
+    builder.CreateCall(evalReactionRates, evalReactionRatesArgs, "evalReactionRates");
+
+    // now call the matrix vector product to get rates of change.
+
+    LLVMContext &context = builder.getContext();
+
+    // address of the stoich pointer
+    Value *stoichEP = createGEP(Stoichiometry);
+
+    // the stoich pointer.
+    Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
+
+    // element pointer, address of 0'th element of array.
+    Value* reactionRateEP = createGEP(ReactionRates, 0);
+    Value *rowVal = ConstantInt::get(Type::getInt32Ty(context), index, true);
+
+    Function *func = ModelDataIRBuilder::getCSRMatrixDDotDecl(module);
+
+    // double csr_matrix_ddot(int row, const csr_matrix *x, const double *y);
+    Value *args[] = {rowVal, stoich, reactionRateEP};
     return builder.CreateCall(func, args, name);
 }
 

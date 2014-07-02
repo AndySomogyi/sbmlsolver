@@ -275,6 +275,24 @@ public:
     static llvm::Function *getCSRMatrixGetNZDecl(llvm::Module *module);
 
     /**
+     * function declaration for the csr_matrix_ddot function.
+     */
+    static llvm::Function* getCSRMatrixDDotDecl(llvm::Module *module);
+
+    /**
+     * Calculate the floating species amount rate and return a
+     * load instruction with this value.
+     *
+     * Very different from the createFloatSpeciesAmtRateLoad as the
+     * createFloatSpeciesAmtRateComputeLoad can be called any time
+     * and uses the values in the reaction rates buffer to compute the
+     * floating species amount rate using a sparse multiply with the
+     * matrix row and the reaction rate vector.
+     */
+    llvm::Value *createFloatSpeciesAmtRateComputeLoad(const std::string& id,
+            const llvm::Twine& name = "");
+
+    /**
      * get the struct type for the CSR sparse storage struct.
      *
      * create if not found
@@ -306,6 +324,7 @@ public:
     static const char* csr_matrixName;
     static const char* csr_matrix_set_nzName;
     static const char* csr_matrix_get_nzName;
+    static const char* csr_matrix_ddotName;
 
 private:
     /**

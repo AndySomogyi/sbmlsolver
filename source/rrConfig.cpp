@@ -124,6 +124,11 @@ static Variant values[] =  {
     Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
     Variant(1.e-5),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
+    Variant(std::string("rateOf")),                     // SBML_RATE_FUNCTION_NAME
+    // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION
+    Variant(std::string("http://en.wikipedia.org/wiki/Derivative")),
+    // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS
+    Variant(std::string("http://sbml.org/annotations/symbols"))
 };
 
 static bool initialized = false;
@@ -189,6 +194,9 @@ static void getKeyNames(StringIntMap& keys)
     keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
     keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
     keys["SIMULATEOPTIONS_COPY_RESULT"] = rr::Config::SIMULATEOPTIONS_COPY_RESULT;
+    keys["SBML_RATE_FUNCTION_NAME"] = rr::Config::SBML_RATE_FUNCTION_NAME;
+    keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION;
+    keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS;
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");

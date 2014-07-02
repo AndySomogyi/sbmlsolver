@@ -340,6 +340,7 @@ public:
          *
          * The default value is TIME | RATE | FLOATING | CONSREVED_MOIETY
          */
+
         MODEL_RESET,
 
         /**
@@ -364,6 +365,23 @@ public:
          * make a copy of the simulation result in Python.
          */
         SIMULATEOPTIONS_COPY_RESULT,
+
+        /**
+         * name to use for the extension sbml rate of change function.
+         */
+        SBML_RATE_FUNCTION_NAME,
+
+        /**
+         * definition string to check for in the sbml rate of change function
+         * annotation
+         */
+        SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION,
+
+        /**
+         * symbol string to check for in the sbml rate of change function
+         * annotation
+         */
+        SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS,
 
         /**
          * Needs to be the last item in the enum, no mater how many

@@ -156,6 +156,58 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
         return loadReactionRate(reaction);
     }
 
+    /*************************************************************************/
+    /* rate of change */
+    /*************************************************************************/
+    {
+        std::string::size_type tick = symbol.find("'");
+        if (tick != symbol.npos)
+        {
+            std::string rateSymbol = symbol.substr(0, tick);
+
+            const Species *species = model->getSpecies(rateSymbol);
+            if (species)
+            {
+                Value *amtRate = 0;
+                if (modelDataSymbols.isIndependentFloatingSpecies(rateSymbol))
+                {
+                    amtRate = mdbuilder.createFloatSpeciesAmtRateComputeLoad(
+                            rateSymbol, rateSymbol + "_amt");
+                }
+                else
+                {
+                    string msg = string("the rate symbol ") + rateSymbol + string(" appeared to "
+                            "be a species, but it could not be found as an independent "
+                            "species or rate rule");
+                    throw_llvm_exception(msg);
+                }
+                assert(amtRate);
+
+                // now we have an amount, check to see if we need to convert to conc
+                if (species->getHasOnlySubstanceUnits())
+                {
+                    return amtRate;
+                }
+                else
+                {
+                    // expect a concentration, need to convert amt to conc,
+                    // so we need to get the compartment its in, but these
+                    // can vary also...
+                    Value *comp = loadSymbolValue(species->getCompartment());
+                    return builder.CreateFDiv(amtRate, comp, rateSymbol + "_conc");
+                }
+            }
+            else
+            {
+                std::string msg = "rate of change function currently only implemented for floating species, ";
+                msg += "the symbol " + rateSymbol + " is not a floating species";
+                throw_llvm_exception(msg);
+            }
+        }
+    }
+
+
+
     string msg = "Could not find requested symbol \'";
     msg += symbol;
     msg += "\' in the model";

@@ -15,6 +15,7 @@
 #include "rrOSSpecifics.h"
 #include "LLVMIncludes.h"
 #include "rrLogger.h"
+#include "rrConfig.h"
 #include "rrStringUtils.h"
 
 #include <sbml/math/ASTNode.h>
@@ -449,7 +450,35 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
 {
+    const char* name = ast->getName();
     const uint nargs = ast->getNumChildren();
+
+    // TODO temporary code to get rateOf function working,
+    // limited to rate of change of species used inside rate rule.
+    // TODO this needs to either be re-thought or at least check if
+    // if used inside a rate rule.
+
+    // name of the rateOf function
+    std::string rate_name = rr::Config::getString(rr::Config::SBML_RATE_FUNCTION_NAME);
+
+    if (rate_name.compare(name) == 0)
+    {
+        if (nargs != 1)
+        {
+            throw_llvm_exception("rate of change fuction needs to have 1 argument");
+        }
+
+        ASTNode *arg = ast->getChild(0);
+
+        if (arg->getType() != AST_NAME)
+        {
+            throw_llvm_exception("rate of change function argument must be a symbol name");
+        }
+
+        // TODO is the the best way to deal with rates of change,
+        // add a "'" to the symbol name and have the resolver figure it out???
+        return resolver.loadSymbolValue(std::string(arg->getName()) + std::string("'"));
+    }
 
     Value** args = (Value**) alloca(nargs*sizeof(Value*));
 
@@ -462,7 +491,7 @@ llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
     Log(Logger::LOG_TRACE) << "ASTNodeCodeGen::functionCallCodeGen, name: "
             << ast->getName() << ", numChild: " << nargs;
 
-    return resolver.loadSymbolValue(ast->getName(), ArrayRef<Value*>(args, nargs));
+    return resolver.loadSymbolValue(name, ArrayRef<Value*>(args, nargs));
 }
 
 llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
