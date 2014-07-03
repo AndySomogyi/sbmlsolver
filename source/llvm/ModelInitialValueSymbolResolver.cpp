@@ -197,6 +197,15 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
                     return builder.CreateFDiv(amtRate, comp, rateSymbol + "_conc");
                 }
             }
+            else if(modelDataSymbols.hasRateRule(rateSymbol))
+            {
+                const RateRule* rateRule = model->getRateRule(rateSymbol);
+                assert(rateRule && "RateRule for rateSymbol is NULL");
+                recursiveSymbolPush(rateSymbol);
+                Value* result = ASTNodeCodeGen(builder, *this).codeGen(rateRule->getMath());
+                recursiveSymbolPop();
+                return result;
+            }
             else
             {
                 std::string msg = "rate of change function currently only implemented for floating species, ";
