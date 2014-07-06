@@ -21,7 +21,7 @@
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 #include "Integrator.h"
-#include "rrNLEQInterface.h"
+#include "rrSteadyStateSolver.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 
@@ -948,23 +948,25 @@ double RoadRunner::steadyState()
         throw Exception("Kinsol solver is not enabled");
     }
 
-    NLEQInterface steadyStateSolver(impl->model);
+    SteadyStateSolver *steadyStateSolver = SteadyStateSolver::New(0, impl->model);
 
     if (impl->configurationXML.length() > 0)
     {
-        Configurable::loadXmlConfig(impl->configurationXML, &steadyStateSolver);
+        Configurable::loadXmlConfig(impl->configurationXML, steadyStateSolver);
     }
 
     //Get a std vector for the solver
     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
-    double ss = steadyStateSolver.solve(someAmounts);
+    double ss = steadyStateSolver->solve(someAmounts);
     if(ss < 0)
     {
         Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
     }
-    impl->model->convertToConcentrations();
+
+
+    delete steadyStateSolver;
 
     return ss;
 }
@@ -2985,14 +2987,16 @@ _xmlNode *RoadRunner::createConfigNode()
 
     // nleq only exists during steadyState, so we need to create a tmp
     // one and load it with the xml if we given.
-    NLEQInterface nleq(0);
+    SteadyStateSolver *ss = SteadyStateSolver::New(0, 0);
 
     if (impl->configurationXML.length() > 0)
     {
-        Configurable::loadXmlConfig(impl->configurationXML, &nleq);
+        Configurable::loadXmlConfig(impl->configurationXML, ss);
     }
 
-    Configurable::addChild(capies, nleq.createConfigNode());
+    Configurable::addChild(capies, ss->createConfigNode());
+
+    delete ss;
 
     return capies;
 }
