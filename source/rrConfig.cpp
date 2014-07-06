@@ -124,11 +124,17 @@ static Variant values[] =  {
     Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
     Variant(1.e-5),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
+    Variant(1.e-4),    // STEADYSTATE_RELATIVE
+    Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
+    Variant(1.e-16),   // STEADYSTATE_MINIMUM_DAMPING
+
+
     Variant(std::string("rateOf")),                     // SBML_RATE_FUNCTION_NAME
     // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION
     Variant(std::string("http://en.wikipedia.org/wiki/Derivative")),
     // SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS
     Variant(std::string("http://sbml.org/annotations/symbols"))
+
 };
 
 static bool initialized = false;
@@ -194,6 +200,19 @@ static void getKeyNames(StringIntMap& keys)
     keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
     keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
     keys["SIMULATEOPTIONS_COPY_RESULT"] = rr::Config::SIMULATEOPTIONS_COPY_RESULT;
+    keys["STEADYSTATE_RELATIVE"] = rr::Config::STEADYSTATE_RELATIVE;
+    keys["STEADYSTATE_MAXIMUM_NUM_STEPS"] = rr::Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
+    keys["STEADYSTATE_MINIMUM_DAMPING"] = rr::Config::STEADYSTATE_MINIMUM_DAMPING;
+
+
+
+
+
+
+
+
+
+
     keys["SBML_RATE_FUNCTION_NAME"] = rr::Config::SBML_RATE_FUNCTION_NAME;
     keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_DEFINITION;
     keys["SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS"] = rr::Config::SBML_RATE_FUNCTION_ANNOTATION_SYMBOLS_XMLNS;

@@ -366,6 +366,30 @@ public:
          */
         SIMULATEOPTIONS_COPY_RESULT,
 
+        STEADYSTATE_RELATIVE,
+
+        STEADYSTATE_MAXIMUM_NUM_STEPS,
+
+        STEADYSTATE_MINIMUM_DAMPING,
+
+        // space so we can add options in develop without merge problems.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /**
          * name to use for the extension sbml rate of change function.
          */
