@@ -26,6 +26,8 @@ namespace rr {
 ModelGenerator* ModelGenerator::New(const string& compiler, const string& tempFolder,
             const string& supportCodeFolder)
 {
+    Log(Logger::LOG_INFORMATION) << "createing model generator, compiler: \"" << compiler << "\"";
+
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
 
     Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";

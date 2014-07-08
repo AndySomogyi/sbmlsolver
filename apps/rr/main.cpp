@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
 
         //Creating roadrunner
         Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder, "");
+        RoadRunner *rr  = new RoadRunner(args.compilerStr, args.TempDataFolder, "");
         rr->reset();
 
         Log(lDebug)<<"....."<<endl;
@@ -175,7 +175,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
 
-    while ((c = GetOptions(argc, argv, (const char*) ("cpuo:v:n:d:t:l:m:s:e:z:"))) != -1)
+    while ((c = GetOptions(argc, argv, (const char*) ("puo:c:v:n:d:t:l:m:s:e:z:"))) != -1)
     {
         switch (c)
         {
@@ -190,7 +190,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                     args.CurrentLogLevel                = Logger::stringToLevel(rrOptArg);
                 }
                 break;
-            case ('c'): args.OnlyCompile                    = true;                                break;
+            case ('c'): args.compilerStr                    = std::string(rrOptArg);               break;
             case ('p'): args.Pause                          = true;                                break;
             case ('t'): args.TempDataFolder                 = rrOptArg;                            break;
             case ('d'): args.DataOutputFolder               = rrOptArg;                            break;
