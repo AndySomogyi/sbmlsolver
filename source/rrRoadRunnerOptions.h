@@ -9,8 +9,20 @@
 #define RRROADRUNNEROPTIONS_H_
 
 #include "rrExporter.h"
+#include "Variant.h"
+
 #include <string>
 #include <vector>
+
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#define cxx11_ns std
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#define cxx11_ns std::tr1
+#endif
 
 #if defined(_MSC_VER)
 #include "msc_stdint.h"
@@ -161,8 +173,9 @@ struct RR_DECLSPEC LoadSBMLOptions
  * documentation of the fields which correspond to an sbml test suite settings was
  * taken from http://sbml.org
  */
-struct RR_DECLSPEC SimulateOptions
+class RR_DECLSPEC SimulateOptions
 {
+public:
     enum Options
     {
         /**
@@ -174,16 +187,37 @@ struct RR_DECLSPEC SimulateOptions
          * Simulate should return a raw result matrix without
          * adding any column names.
          */
-        STRUCTURED_RESULT       = (0x1 << 1)  // => 0x00000010
+        STRUCTURED_RESULT       = (0x1 << 1), // => 0x00000010
+
+        /**
+         * Make a copy of the simulation result in Python.
+         *
+         * Large simulations should have this disabled.
+         */
+        COPY_RESULT             = (0x1 << 2), // => 0x00000100
     };
 
     /**
      * the list of ODE solvers RoadRunner currently supports.
      */
+    enum Integrator
+    {
+        CVODE,  GILLESPIE
+    };
+
+    /**
+     * the kind of integrator
+     */
     enum IntegratorType
     {
-        CVODE
+        DETERMINISTIC, STOCHASTIC
     };
+
+    /**
+     * get the type of integrator.
+     */
+    static IntegratorType getIntegratorType(Integrator i);
+
 
     enum IntegratorFlags
     {
@@ -210,6 +244,13 @@ struct RR_DECLSPEC SimulateOptions
          * Highly Experimental!!!
          */
         MULTI_STEP                = (0x1 << 1), // => 0x00000010
+
+        /**
+         * Perform a variable time step simulation. This will allow the
+         * integrator to best choose an adaptive time step and the resulting
+         * matrix will have a non-uniform time column
+         */
+        VARIABLE_STEP             = (0x1 << 2) // => 0b00000100
     };
 
     /**
@@ -229,9 +270,15 @@ struct RR_DECLSPEC SimulateOptions
     uint32_t flags;
 
     /**
-     * which integrator to use
+     * which integrator to use.
+     *
+     * This is exposed in python via a set of custom properties
+     * which automatically change the VARIABLE_STEP bitfield to
+     * corespond with the appropriate integrator.
      */
-    IntegratorType integrator;
+    #ifndef SWIG
+    Integrator integrator;
+    #endif
 
     /**
      * Set of options to use when configuring the integrator.
@@ -330,22 +377,36 @@ struct RR_DECLSPEC SimulateOptions
     int maximumNumSteps;
 
     /**
-     * The minumum relative error that the CVODE integrator supports
-     * in order to to pass the sbml test suite using the default integtator.
-     *
-     * If a test suite config file is loaded, and the relative error is
-     * higher than MIN_RELATIVE, it will be lowered to MIN_RELATIVE.
+     * set an arbitrary key
      */
-    static const double MIN_RELATIVE;
+    void setValue(const std::string& key, const rr::Variant& value);
+
+    const Variant& getValue(const std::string& key) const;
+
+    bool hasKey(const std::string& key) const;
+
+    std::vector<std::string> getKeys() const;
 
     /**
-     * The minumum absolute error that the CVODE integrator supports
-     * in order to to pass the sbml test suite using the default integtator.
-     *
-     * If a test suite config file is loaded, and the relative error is
-     * higher than MIN_ABSOLUTE, it will be lowered to MIN_ABSOLUTE.
+     * get the textual form of this object.
      */
-    static const double MIN_ABSOLUTE;
+    std::string toString() const;
+
+    /**
+     * Integration tolerance is very integrator specific.
+     *
+     * This method tweaks the tolerances so that they are tight enough for the
+     * current integrator to meed the SBML test suite requirements.
+     */
+    void tweakTolerances();
+
+private:
+
+    /**
+     * map of string to arbitrary values
+     */
+    typedef cxx11_ns::unordered_map<std::string, rr::Variant> VariantMap;
+    VariantMap values;
 };
 
 
@@ -372,6 +433,11 @@ struct RR_DECLSPEC RoadRunnerOptions
      * a bitmask of the options specified in the Options enumeration.
      */
     uint32_t flags;
+
+    /**
+     * step size used for numeric Jacobian calculations.
+     */
+    double jacobianStepSize;
 
     /**
      * load default valued from config.

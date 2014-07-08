@@ -31,12 +31,14 @@
 #include "rrSelectionRecord.h"
 
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
 #include <unordered_map>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
 #include <tr1/unordered_map>
+#define cxx11_ns std::tr1
 #endif
 
 #include <map>
@@ -59,7 +61,7 @@ public:
     /**
      * takes ownership of the LLVMModelData pointer.
      */
-    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources,
+    LLVMExecutableModel(const cxx11_ns::shared_ptr<ModelResources> &resources,
             LLVMModelData* modelData);
 
 
@@ -141,6 +143,10 @@ public:
     virtual void computeConservedTotals();
 
 
+    /**
+     * copy (but do not evaluate) existing rate rules values into
+     * a buffer.
+     */
     virtual void getRateRuleValues(double *rateRuleValues);
 
 
@@ -354,6 +360,12 @@ public:
     virtual int getCompartmentInitVolumes(int len, const int *indx,
                     double *values);
 
+    virtual int setGlobalParameterInitValues(int len, const int *indx,
+                double const *values);
+
+    virtual int getGlobalParameterInitValues(int len, const int *indx,
+                    double *values);
+
     /******************************* End Initial Conditions Section ***************/
     #endif /***********************************************************************/
     /******************************************************************************/
@@ -498,6 +510,16 @@ public:
     virtual void setEventListener(int index, rr::EventListenerPtr eventHandler);
     virtual rr::EventListenerPtr getEventListener(int index);
 
+
+    virtual double getFloatingSpeciesAmountRate(int index,
+            const double *reactionRates);
+
+    /**
+     * calculate rate rule values.
+     * TODO redo this function, not very effecient.
+     */
+    int getRateRueRates(int len, int const *indx, double *values);
+
 private:
 
     /**
@@ -537,7 +559,7 @@ private:
     /**
      * the model generator maintians a cached of generated models.
      */
-    std::tr1::shared_ptr<const ModelResources> resources;
+    cxx11_ns::shared_ptr<const ModelResources> resources;
 
     LLVMModelData *modelData;
     const LLVMModelDataSymbols *symbols;
@@ -575,6 +597,8 @@ private:
     GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
+    GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;
+    SetGlobalParameterInitValueCodeGen::FunctionPtr setGlobalParameterInitValuePtr;
 
 
     typedef string (LLVMExecutableModel::*GetNameFuncPtr)(int);
@@ -582,7 +606,7 @@ private:
     /**
      * cache the selection records
      */
-    typedef std::tr1::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
+    typedef cxx11_ns::unordered_map<std::string, rr::SelectionRecord> SelectionMap;
     SelectionMap selectionRecordCache;
 
     /**
@@ -610,6 +634,15 @@ private:
 
     template <typename a_type, typename b_type>
     friend void copyCachedModel(a_type* src, b_type* dst);
+
+    /**
+     * the sbml conversion factor.
+     *
+     * TODO: this has issues in that its possible for the conversion factor to change.
+     * This needs to be moved into an LLVM generated function instead of a
+     * class variable.
+     */
+    double conversionFactor;
 };
 
 } /* namespace rr */

@@ -76,7 +76,7 @@ SUITE(Base)
         for(int i = 0 ; i < gModels.size(); i++)
         {
             string model =  joinPath(gSBMLModelsPath, gModels[i]);
-            CHECK(gRR->load(model));
+            gRR->load(model);
         }
     }
 }

@@ -22,29 +22,6 @@ using namespace std;
 namespace rrllvm
 {
 
-/**
- * C++ 11 has the copy_if template, but for the time being, we need to be
- * compatible with older C++, so use our own filtering here.
- */
-static std::vector<std::pair<uint, std::string> > independentElements(const LLVMModelDataSymbols &dataSymbols,
-        const std::vector<string> elements)
-{
-    std::vector<std::pair<uint, std::string> > result;
-
-    for(std::vector<string>::const_iterator i = elements.begin();
-            i != elements.end(); ++i)
-    {
-        if (dataSymbols.isIndependentInitElement(*i))
-        {
-            pair<uint, string> value(i - elements.begin(), *i);
-            result.push_back(value);
-        }
-    }
-
-    return result;
-}
-
-
 
 const char* SetFloatingSpeciesInitConcentrationCodeGen::FunctionName = "setFloatingSpeciesInitConcentrations";
 const char* SetFloatingSpeciesInitConcentrationCodeGen::IndexArgName = "floatingSpeciesIndex";
@@ -55,9 +32,19 @@ SetFloatingSpeciesInitConcentrationCodeGen::SetFloatingSpeciesInitConcentrationC
 {
 }
 
-std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitConcentrationCodeGen::getIds()
+StringIntVector SetFloatingSpeciesInitConcentrationCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
+    std::vector<string> ids = dataSymbols.getFloatingSpeciesIds();
+    StringIntVector result;
+
+    for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        if (dataSymbols.isIndependentInitFloatingSpecies(*i))
+        {
+            result.push_back(make_pair(*i, distance(ids.begin(), i)));
+        }
+    }
+    return result;
 }
 
 
@@ -70,9 +57,19 @@ SetFloatingSpeciesInitAmountCodeGen::SetFloatingSpeciesInitAmountCodeGen(
 {
 }
 
-std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitAmountCodeGen::getIds()
+StringIntVector SetFloatingSpeciesInitAmountCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
+    std::vector<string> ids = dataSymbols.getFloatingSpeciesIds();
+    StringIntVector result;
+
+    for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        if (dataSymbols.isIndependentInitFloatingSpecies(*i))
+        {
+            result.push_back(make_pair(*i, distance(ids.begin(), i)));
+        }
+    }
+    return result;
 }
 
 const char* SetCompartmentInitVolumeCodeGen::FunctionName = "setCompartmentInitVolumes";
@@ -84,11 +81,45 @@ SetCompartmentInitVolumeCodeGen::SetCompartmentInitVolumeCodeGen(
 {
 }
 
-std::vector<std::pair<uint, std::string> > SetCompartmentInitVolumeCodeGen::getIds()
+StringIntVector SetCompartmentInitVolumeCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
+    std::vector<string> ids = dataSymbols.getCompartmentIds();
+    StringIntVector result;
+
+    for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        if (dataSymbols.isIndependentInitCompartment(*i))
+        {
+            result.push_back(make_pair(*i, distance(ids.begin(), i)));
+        }
+    }
+    return result;
 }
 
+
+const char* SetGlobalParameterInitValueCodeGen::FunctionName = "setGlobalParameterInitValues";
+const char* SetGlobalParameterInitValueCodeGen::IndexArgName = "globalParameterIndex";
+
+SetGlobalParameterInitValueCodeGen::SetGlobalParameterInitValueCodeGen(
+        const ModelGeneratorContext &mgc) :
+        SetInitialValueCodeGenBase<SetGlobalParameterInitValueCodeGen, false>(mgc)
+{
+}
+
+StringIntVector SetGlobalParameterInitValueCodeGen::getIds()
+{
+    std::vector<string> ids = dataSymbols.getGlobalParameterIds();
+    StringIntVector result;
+
+    for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        if (dataSymbols.isIndependentInitGlobalParameter(*i))
+        {
+            result.push_back(make_pair(*i, distance(ids.begin(), i)));
+        }
+    }
+    return result;
+}
 
 
 } /* namespace rr */

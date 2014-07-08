@@ -48,7 +48,7 @@ RoadRunnerData SBMLModelSimulation::GetResult()
 {
     if(mEngine)
     {
-        return *mEngine->getSimulationResult();
+        return RoadRunnerData(mEngine);
     }
     else
     {
@@ -120,90 +120,15 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         Log(Logger::LOG_ERROR)<<"Empty file name for setings file";
         return false;
     }
-    else
-    {
-        map<string, string> settings;
-        map<string, string>::iterator it;
-        //Read each line in the settings file
-        vector<string> lines = getLinesInFile(fName);
-        for(u_int i = 0; i < lines.size(); i++)
-        {
-            vector<string> line = splitString(lines[i], ":");
-            if(line.size() == 2)
-            {
-                settings.insert( pair<string, string>(line[0], line[1]));
-            }
-            else
-            {
-                Log(lDebug2)<<"Empty line in settings file: "<<lines[i];
-            }
-        }
 
-        Log(lDebug3)<<"Settings File =============";
-        for (it = settings.begin() ; it != settings.end(); it++ )
-        {
-            Log(lDebug) << (*it).first << " => " << (*it).second;
-        }
-        Log(lDebug)<<"===========================";
-
-        //Assign values
-        it = settings.find("start");
-        mSettings.start = (it != settings.end())   ? toDouble((*it).second) : 0;
-
-        it = settings.find("duration");
-        mSettings.duration = (it != settings.end())    ? toDouble((*it).second) : 0;
-
-        it = settings.find("steps");
-        mSettings.steps = (it != settings.end())       ? toInt((*it).second) : 50;
-
-        it = settings.find("absolute");
-        mSettings.absolute = (it != settings.end())    ? toDouble((*it).second) : 1.e-7;
-
-        it = settings.find("relative");
-        mSettings.relative = (it != settings.end())    ? toDouble((*it).second) : 1.e-4;
-
-        it = settings.find("variables");
-        if(it != settings.end())
-        {
-            vector<string> vars = splitString((*it).second, ",");
-            for(u_int i = 0; i < vars.size(); i++)
-            {
-                mSettings.variables.push_back(trim(vars[i]));
-            }
-        }
-
-        it = settings.find("amount");
-        if(it != settings.end())
-        {
-            vector<string> vars = splitString((*it).second, ",");
-            for(u_int i = 0; i < vars.size(); i++)
-            {
-                string rec = trim(vars[i]);
-                if(rec.size())
-                {
-                    mSettings.amounts.push_back(rec);
-                }
-            }
-        }
-
-        it = settings.find("concentration");
-        if(it != settings.end())
-        {
-            vector<string> vars = splitString((*it).second, ",");
-            for(u_int i=0; i < vars.size(); i++)
-            {
-                string rec = trim(vars[i]);
-                if(rec.size())
-                {
-                    mSettings.concentrations.push_back(rec);
-                }
-            }
-        }
-    }
+    mSettings = SimulateOptions(fName);
 
     if(mEngine)
     {
-        mEngine->setSimulateOptions(mSettings);
+        // make a copy and tweak tolerances for integrator
+        SimulateOptions opt = mSettings;
+        opt.tweakTolerances();
+        mEngine->setSimulateOptions(opt);
     }
 
     return true;
@@ -253,8 +178,8 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
             opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
             opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-    bool val = mEngine->load(GetModelsFullFilePath(), &opt);
-    return val;
+    mEngine->load(GetModelsFullFilePath(), &opt);
+    return true;
 }
 
 bool SBMLModelSimulation::SaveModelAsXML(const string& folder)
@@ -309,7 +234,7 @@ bool SBMLModelSimulation::SaveResult()
     string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = changeFileExtensionTo(resultFileName, ".csv");
     Log(lInfo)<<"Saving result to file: "<<resultFileName;
-    RoadRunnerData& resultData = *mEngine->getSimulationResult();
+    RoadRunnerData resultData(mEngine);
 
     ofstream fs(resultFileName.c_str());
     fs << resultData;

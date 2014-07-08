@@ -97,6 +97,8 @@ public:
         FLOATING_AMOUNT_RATE =              FLOATING | RATE | DEPENDENT,
         FLOATING_CONCENTRATION_RATE =       FLOATING | CONCENTRATION | RATE | DEPENDENT,
 
+        GLOBAL_PARAMETER_RATE =             _GLOBAL_PARAMETER | RATE,
+
         /**
          * reaction rate, always current
          */
@@ -114,6 +116,8 @@ public:
 
 
         INITIAL_COMPARTMENT =               INITIAL | _COMPARTMENT | INDEPENDENT | DEPENDENT,
+
+        INITIAL_GLOBAL_PARAMETER =          INITIAL | _GLOBAL_PARAMETER | INDEPENDENT | DEPENDENT,
 
 
         UNSCALED_ELASTICITY =               UNSCALED | ELASTICITY,

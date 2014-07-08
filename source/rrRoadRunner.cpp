@@ -2,12 +2,17 @@
 // on Windows, this needs to go first to get M_PI
 #define _USE_MATH_DEFINES
 
+#include "rrOSSpecifics.h"
+
+// TODO will clean these up in the future
+#undef RR_DEPRECATED
+#define RR_DEPRECATED(func) func
+
 #include "rrRoadRunner.h"
 #include "rrException.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrCompiler.h"
 #include "rrLogger.h"
-#include "rrModelGeneratorFactory.h"
 #include "rrUtils.h"
 #include "rrExecutableModel.h"
 #include "rrSBMLModelSimulation.h"
@@ -15,8 +20,8 @@
 #include "rr-libstruct/lsLibla.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
-#include "rrCVODEInterface.h"
-#include "rrNLEQInterface.h"
+#include "Integrator.h"
+#include "rrSteadyStateSolver.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 
@@ -28,6 +33,12 @@
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
+#include <list>
+
+
+#ifdef _MSC_VER
+#define isfinite(x) _finite(x)
+#endif
 
 
 namespace rr
@@ -85,10 +96,258 @@ static vector<double>  logspace(const double& startW, const double& d2, const in
 static double          phase(Complex& val);
 static double          getAdjustment(Complex& z);
 
+/**
+ * variable time step integration data struct
+ */
+typedef std::list<std::vector<double> > DoubleVectorList;
+
 
 
 //The instance count increases/decreases as instances are created/destroyed.
-int                   RoadRunner::mInstanceCount = 0;
+static int mInstanceCount = 0;
+
+/**
+ * The type of sbml element that the RoadRunner::setParameterValue
+ * and RoadRunner::getParameterValue method operate on.
+ *
+ * @deprecated use the ExecutableModel methods directly.
+ */
+enum ParameterType
+{
+    ptGlobalParameter = 0,
+    ptLocalParameter,
+    ptBoundaryParameter,
+    ptConservationParameter,
+    ptFloatingSpecies
+};
+
+
+/**
+ * nicer way to look at the impl object.
+ */
+#define get_self() RoadRunnerImpl& self = *(this->impl);
+
+/**
+ * implemention class, hide all details here.
+ */
+class RoadRunnerImpl {
+public:
+
+    int mInstanceID;
+    bool mUseKinsol;
+    const double mDiffStepSize;
+
+    const double mSteadyStateThreshold;
+    ls::DoubleMatrix simulationResult;
+    RoadRunnerData mRoadRunnerData;
+
+
+    /**
+     * The Cvode object get created just after a model is created, it then
+     * gets a reference to the model and holds on to it.
+     */
+    class Integrator *integrator;
+    std::vector<SelectionRecord> mSelectionList;
+
+    /**
+     * ModelGenerator obtained from the factory
+     */
+    ModelGenerator *mModelGenerator;
+
+    /**
+     * read from the Config, duplicates loadsbmloptions
+     *
+     * TODO: this needs to be cleaned up.
+     */
+    bool conservedMoietyAnalysis;
+
+    std::vector<SelectionRecord> mSteadyStateSelection;
+
+    ExecutableModel* model;
+
+    std::string mCurrentSBML;
+
+    /**
+     * structural analysis library.
+     */
+    LibStructural* mLS;
+
+    /**
+     * options that are specific to the simulation
+     */
+    SimulateOptions simulateOpt;
+
+    /**
+     * copy of simualte opt which is returned to clients.
+     *
+     * used so we can determine if the options have changed.
+     */
+    SimulateOptions copySimulateOpt;
+
+    /**
+     * The sim options may be requested via getSimulateOptions. In this
+     * case, the caller may modify it, so we assume its dirty.
+     *
+     * These options are re-loaded into the integrator in simulate and
+     * oneStep.
+     */
+    bool dirtySimulateOptions;
+
+    /**
+     * various general options that can be modified by external callers.
+     */
+    RoadRunnerOptions roadRunnerOptions;
+
+
+    /**
+     * the xml string that is given in setConfigurationXML.
+     *
+     * Needed because the NLEQ is only created in the steadyState method.
+     */
+    std::string configurationXML;
+
+
+    friend class aFinalizer;
+
+
+    RoadRunnerImpl(const std::string& uriOrSBML,
+            const LoadSBMLOptions* options) :
+                mUseKinsol(false),
+                mDiffStepSize(0.05),
+                mSteadyStateThreshold(1.E-2),
+                simulationResult(),
+                mRoadRunnerData(),
+                integrator(0),
+                mSelectionList(),
+                mModelGenerator(0),
+                conservedMoietyAnalysis(Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
+                mSteadyStateSelection(),
+                model(0),
+                mCurrentSBML(),
+                mLS(0),
+                simulateOpt(),
+                mInstanceID(0),
+                dirtySimulateOptions(true)
+    {
+    }
+
+
+    RoadRunnerImpl(const string& _compiler, const string& _tempDir,
+            const string& _supportCodeDir) :
+                mUseKinsol(false),
+                mDiffStepSize(0.05),
+                mSteadyStateThreshold(1.E-2),
+                simulationResult(),
+                mRoadRunnerData(),
+                integrator(0),
+                mSelectionList(),
+                mModelGenerator(0),
+                conservedMoietyAnalysis(Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
+                mSteadyStateSelection(),
+                model(0),
+                mCurrentSBML(),
+                mLS(0),
+                simulateOpt(),
+                mInstanceID(0),
+                dirtySimulateOptions(true)
+    {
+    }
+
+    ~RoadRunnerImpl()
+    {
+        Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
+
+        delete mModelGenerator;
+        delete model;
+        delete integrator;
+        delete mLS;
+        mInstanceCount--;
+    }
+
+
+
+    void setParameterValue(const ParameterType parameterType,
+            const int parameterIndex, const double value)
+    {
+        switch (parameterType)
+        {
+            case ptBoundaryParameter:
+                model->setBoundarySpeciesConcentrations(1, &parameterIndex, &value);
+            break;
+
+            case ptGlobalParameter:
+                model->setGlobalParameterValues(1, &parameterIndex, &value);
+            break;
+
+            case ptFloatingSpecies:
+                model->setFloatingSpeciesConcentrations(1, &parameterIndex, &value);
+            break;
+
+            case ptConservationParameter:
+                model->setConservedMoietyValues(1, &parameterIndex, &value);
+            break;
+
+            case ptLocalParameter:
+                throw Exception("Local parameters not permitted in setParameterValue (getCC, getEE)");
+        }
+    }
+
+    double getParameterValue(const ParameterType parameterType,
+            const int parameterIndex)
+    {
+        switch (parameterType)
+        {
+        case ptBoundaryParameter:
+        {
+            double result = 0;
+            model->getBoundarySpeciesConcentrations(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+        case ptGlobalParameter:
+        {
+            double result = 0;
+            model->getGlobalParameterValues(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+
+        // Used when calculating elasticities
+        case ptFloatingSpecies:
+        {
+            double result = 0;
+            model->getFloatingSpeciesConcentrations(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+
+        case ptConservationParameter:
+        {
+            double result = 0;
+            model->getConservedMoietyValues(1, &parameterIndex, &result);
+            return result;
+        }
+        break;
+
+        case ptLocalParameter:
+            throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
+            break;
+
+        default:
+            return 0.0;
+            break;
+        }
+        return 0;
+    }
+
+    // Changes a given parameter type by the given increment
+    void changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
+                                        double originalValue, double increment)
+    {
+        setParameterValue(parameterType, parameterIndex, originalValue + increment);
+    }
+};
+
 
 
 int RoadRunner::getInstanceCount()
@@ -98,26 +357,12 @@ int RoadRunner::getInstanceCount()
 
 int RoadRunner::getInstanceID()
 {
-    return mInstanceID;
+    return impl->mInstanceID;
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
         const LoadSBMLOptions* options) :
-    mUseKinsol(false),
-    mDiffStepSize(0.05),
-    mSteadyStateThreshold(1.E-2),
-    mRawRoadRunnerData(),
-    mRoadRunnerData(),
-    mCVode(0),
-    mSelectionList(),
-    mModelGenerator(0),
-    conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
-    mSteadyStateSelection(),
-    mModel(0),
-    mCurrentSBML(),
-    mLS(0),
-    simulateOptions(),
-    dirtySimulateOptions(true)
+            impl(new RoadRunnerImpl(uriOrSBML, options))
 {
 
 #if defined(BUILD_LLVM)
@@ -131,10 +376,10 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
             ", tempDir:" << gDefaultTempFolder << ", supportCodeDir: " <<
             gDefaultSupportCodeFolder;
 
-    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+    impl->mModelGenerator = ModelGenerator::New(compiler,
             gDefaultTempFolder, gDefaultSupportCodeFolder);
 
-    setTempFileFolder(gDefaultTempFolder);
+    setTempDir(gDefaultTempFolder);
 
     if (!uriOrSBML.empty()) {
         load(uriOrSBML, options);
@@ -142,26 +387,13 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 
     //Increase instance count..
     mInstanceCount++;
-    mInstanceID = mInstanceCount;
+    impl->mInstanceID = mInstanceCount;
 }
 
 
 RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& _supportCodeDir) :
-        mUseKinsol(false),
-        mDiffStepSize(0.05),
-        mSteadyStateThreshold(1.E-2),
-        mRawRoadRunnerData(),
-        mRoadRunnerData(),
-        mCVode(0),
-        mSelectionList(),
-        mModelGenerator(0),
-        conservedMoietyAnalysis(Config::getInt(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
-        mSteadyStateSelection(),
-        mModel(0),
-        mCurrentSBML(),
-        mLS(0),
-        simulateOptions()
+        impl(new RoadRunnerImpl(_compiler, _tempDir, _supportCodeDir))
 {
 
 
@@ -180,52 +412,63 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
             ", tempDir:" << tempDir << ", supportCodeDir: " <<
             supportCodeDir;
 
-    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+    impl->mModelGenerator = ModelGenerator::New(compiler,
             tempDir, supportCodeDir);
 
-    setTempFileFolder(tempDir);
+    setTempDir(tempDir);
 
     //Increase instance count..
     mInstanceCount++;
-    mInstanceID = mInstanceCount;
+    impl->mInstanceID = mInstanceCount;
 }
 
 RoadRunner::~RoadRunner()
 {
-    Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
-
-    delete mModelGenerator;
-    delete mModel;
-    delete mCVode;
-    delete mLS;
-    mInstanceCount--;
+    delete impl;
 }
 
 ExecutableModel* RoadRunner::getModel()
 {
-    return mModel;
+    return impl->model;
+}
+
+void RoadRunner::setOptions(const RoadRunnerOptions& opt)
+{
+    impl->roadRunnerOptions = opt;
 }
 
 vector<SelectionRecord> RoadRunner::getSelectionList()
 {
-    return mSelectionList;
+    return impl->mSelectionList;
 }
 
 string RoadRunner::getInfo()
 {
-    stringstream info;
-    info<<"Model Loaded: "<<(mModel == NULL ? "false" : "true")<<endl;
-    if(mModel)
+    stringstream ss;
+    ss << "<roadrunner.RoadRunner() { " << std::endl;
+    ss << "this: " << (void*)(this) << std::endl;
+    ss << "modelLoaded : " << (impl->model == NULL ? "false" : "true") << std::endl;
+    if(impl->model)
     {
-        info<<"ModelName: "            <<  mModel->getModelName()<<endl;
+        ss << "modelName: " <<  impl->model->getModelName() << std::endl;
     }
-    info<<"ConservationAnalysis: "    <<    conservedMoietyAnalysis << endl;
-    info<<"libSBML version: "         <<    getVersionStr(VERSIONSTR_LIBSBML) << endl;
-    info<<"Temporary folder: "        <<    getTempFolder()<<endl;
-    info<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
-    info<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
-    info<<"Working Directory: "       <<    getCWD() << endl;
-    return info.str();
+
+    ss << impl->simulateOpt.toString();
+
+    ss << "libSBMLVersion: " << getVersionStr(VERSIONSTR_LIBSBML) << std::endl;
+    ss << "jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
+    ss << "conservedMoietyAnalysis: " << rr::toString(impl->conservedMoietyAnalysis) << std::endl;
+
+#if defined(BUILD_LEGACY_C)
+    ss<<"Temporary folder: "        <<    getTempDir()<<endl;
+    ss<<"Compiler location: "       <<    getCompiler()->getCompilerLocation() << endl;
+    ss<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
+    ss<<"Working Directory: "       <<    getCWD() << endl;
+#endif
+
+    ss << "}>";
+
+    return ss.str();
 }
 
 string RoadRunner::getExtendedVersionInfo()
@@ -242,16 +485,16 @@ LibStructural* RoadRunner::getLibStruct()
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
-    if (mLS)
+    if (impl->mLS)
     {
-        return mLS;
+        return impl->mLS;
     }
-    else if (!mCurrentSBML.empty())
+    else if (!impl->mCurrentSBML.empty())
     {
-        mLS = new ls::LibStructural(mCurrentSBML);
+        impl->mLS = new ls::LibStructural(impl->mCurrentSBML);
         Log(Logger::LOG_INFORMATION) << "created structural analysis, messages: "
-                << mLS->getAnalysisMsg();
-        return mLS;
+                << impl->mLS->getAnalysisMsg();
+        return impl->mLS;
     }
     else
     {
@@ -262,45 +505,43 @@ LibStructural* RoadRunner::getLibStruct()
 
 Compiler* RoadRunner::getCompiler()
 {
-    return mModelGenerator ? mModelGenerator->getCompiler() : 0;
+    return impl->mModelGenerator ? impl->mModelGenerator->getCompiler() : 0;
 }
 
 
-bool RoadRunner::setCompiler(const string& compiler)
+void RoadRunner::setCompiler(const string& compiler)
 {
-    return mModelGenerator ? mModelGenerator->setCompiler(compiler) : false;
+    impl->mModelGenerator ? impl->mModelGenerator->setCompiler(compiler) : false;
 }
 
 bool RoadRunner::isModelLoaded()
 {
-    return mModel ? true : false;
+    return impl->model ? true : false;
 }
 
 void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
-    dirtySimulateOptions = true;
-    simulateOptions = settings;
+    impl->copySimulateOpt = settings;
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
 {
-    dirtySimulateOptions = true;
-    return simulateOptions;
+    return impl->copySimulateOpt;
 }
 
 bool RoadRunner::getConservedMoietyAnalysis()
 {
-    return conservedMoietyAnalysis;
+    return impl->conservedMoietyAnalysis;
 }
 
-bool RoadRunner::setTempFileFolder(const string& folder)
+void RoadRunner::setTempDir(const string& folder)
 {
-    return mModelGenerator ? mModelGenerator->setTemporaryDirectory(folder) : false;
+    impl->mModelGenerator ? impl->mModelGenerator->setTemporaryDirectory(folder) : false;
 }
 
-string RoadRunner::getTempFolder()
+string RoadRunner::getTempDir()
 {
-    return mModelGenerator ? mModelGenerator->getTemporaryDirectory() : string("");
+    return impl->mModelGenerator ? impl->mModelGenerator->getTemporaryDirectory() : string("");
 }
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
@@ -317,18 +558,18 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
     setSelections(theList);
 
     Log(lDebug)<<"The following is selected:";
-    for(int i = 0; i < mSelectionList.size(); i++)
+    for(int i = 0; i < impl->mSelectionList.size(); i++)
     {
-        Log(lDebug)<<mSelectionList[i];
+        Log(lDebug)<<impl->mSelectionList[i];
     }
-    return mSelectionList.size();
+    return impl->mSelectionList.size();
 }
 
 int RoadRunner::createTimeCourseSelectionList()
 {
     // make a list out of the values in the settings,
     // will always have at least a "time" at the first item.
-    vector<string> settingsList = createSelectionList(simulateOptions);
+    vector<string> settingsList = createSelectionList(impl->simulateOpt);
 
     assert(settingsList.size() >= 1 && "selection list from SimulateOptions does does not have time");
 
@@ -339,17 +580,17 @@ int RoadRunner::createTimeCourseSelectionList()
         setSelections(settingsList);
     }
 
-    for(int i = 0; i < mSelectionList.size(); i++)
+    for(int i = 0; i < impl->mSelectionList.size(); i++)
     {
-        Log(Logger::LOG_DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
+        Log(Logger::LOG_DEBUG) << "Selection Value [" << i << "]: " << impl->mSelectionList[i].to_repr();
     }
 
-    return mSelectionList.size();
+    return impl->mSelectionList.size();
 }
 
 ModelGenerator* RoadRunner::getModelGenerator()
 {
-    return mModelGenerator;
+    return impl->mModelGenerator;
 }
 
 string RoadRunner::getParamPromotedSBML(const string& sbml)
@@ -373,39 +614,34 @@ string RoadRunner::getParamPromotedSBML(const string& sbml)
     return stream.str();
 }
 
-bool RoadRunner::initializeModel()
+void RoadRunner::createIntegrator()
 {
-    if(mModel)
+    if(impl->model)
     {
-        mModel->setConservedSumChanged(false);
-        mModel->evalInitialConditions();
-
-        if(mCVode)
+        if(impl->integrator)
         {
-            delete mCVode;
+            delete impl->integrator;
         }
 
-        mCVode = new CvodeInterface(mModel, &simulateOptions);
+        impl->integrator = Integrator::New(&impl->simulateOpt, impl->model);
 
         // reset the simulation state
         reset();
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 
 RoadRunnerData *RoadRunner::getSimulationResult()
 {
-    return &mRoadRunnerData;
+    // set the data into the RoadRunnerData struct
+    populateResult();
+
+    return &impl->mRoadRunnerData;
 }
 
 
 double RoadRunner::getValue(const SelectionRecord& record)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
@@ -417,48 +653,48 @@ double RoadRunner::getValue(const SelectionRecord& record)
     case SelectionRecord::FLOATING_CONCENTRATION:
 
         dResult = 0;
-        mModel->getFloatingSpeciesConcentrations(1, &record.index, &dResult);
+        impl->model->getFloatingSpeciesConcentrations(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::BOUNDARY_CONCENTRATION:
-        mModel->getBoundarySpeciesConcentrations(1, &record.index, &dResult);
+        impl->model->getBoundarySpeciesConcentrations(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::REACTION_RATE:
         dResult = 0;
-        mModel->getReactionRates(1, &record.index, &dResult);
+        impl->model->getReactionRates(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::FLOATING_AMOUNT_RATE:
         dResult = 0;
-        mModel->computeAllRatesOfChange();
-        mModel->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
+        impl->model->computeAllRatesOfChange();
+        impl->model->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::COMPARTMENT:
-        mModel->getCompartmentVolumes(1, &record.index, &dResult);
+        impl->model->getCompartmentVolumes(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::GLOBAL_PARAMETER:
     {
-        if (record.index > ((mModel->getNumGlobalParameters()) - 1))
+        if (record.index > ((impl->model->getNumGlobalParameters()) - 1))
         {
-            int index = record.index - mModel->getNumGlobalParameters();
-            mModel->getConservedMoietyValues(1, &index, &dResult);
+            int index = record.index - impl->model->getNumGlobalParameters();
+            impl->model->getConservedMoietyValues(1, &index, &dResult);
         }
         else
         {
-            mModel->getGlobalParameterValues(1, &record.index, &dResult);
+            impl->model->getGlobalParameterValues(1, &record.index, &dResult);
         }
     }
     break;
 
     case SelectionRecord::FLOATING_AMOUNT:
-        mModel->getFloatingSpeciesAmounts(1, &record.index, &dResult);
+        impl->model->getFloatingSpeciesAmounts(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::BOUNDARY_AMOUNT:
-        mModel->getBoundarySpeciesAmounts(1, &record.index, &dResult);
+        impl->model->getBoundarySpeciesAmounts(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::ELASTICITY:
@@ -470,20 +706,20 @@ double RoadRunner::getValue(const SelectionRecord& record)
         break;
 
     case SelectionRecord::CONTROL:
-        dResult = this->getCC(record.p1, record.p2);
+        dResult = getCC(record.p1, record.p2);
         break;
 
     case SelectionRecord::UNSCALED_CONTROL:
-        dResult = this->getuCC(record.p1, record.p2);
+        dResult = getuCC(record.p1, record.p2);
         break;
 
     case SelectionRecord::EIGENVALUE:
     {
         string species = record.p1;
-        int index = mModel->getFloatingSpeciesIndex(species);
+        int index = impl->model->getFloatingSpeciesIndex(species);
 
         DoubleMatrix mat;
-        if (conservedMoietyAnalysis)
+        if (impl->conservedMoietyAnalysis)
         {
             mat = getReducedJacobian();
         }
@@ -494,9 +730,9 @@ double RoadRunner::getValue(const SelectionRecord& record)
 
         vector<Complex> oComplex = ls::getEigenValues(mat);
 
-        if(mSelectionList.size() == 0)
+        if(impl->mSelectionList.size() == 0)
         {
-            throw("Tried to access record in empty mSelectionList in getValue function: eigen");
+            throw("Tried to access record in empty impl->mSelectionList in getValue function: eigen");
         }
 
         if (oComplex.size() > index) //Becuase first one is time !?
@@ -507,13 +743,13 @@ double RoadRunner::getValue(const SelectionRecord& record)
     }
     break;
     case SelectionRecord::INITIAL_CONCENTRATION:
-        mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
+        impl->model->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
         break;
     case SelectionRecord::STOICHIOMETRY:
     {
-        int speciesIndex = mModel->getFloatingSpeciesIndex(record.p1);
-        int reactionIndex = mModel->getReactionIndex(record.p2);
-        return mModel->getStoichiometry(speciesIndex, reactionIndex);
+        int speciesIndex = impl->model->getFloatingSpeciesIndex(record.p1);
+        int reactionIndex = impl->model->getReactionIndex(record.p2);
+        return impl->model->getStoichiometry(speciesIndex, reactionIndex);
     }
         break;
 
@@ -524,13 +760,13 @@ double RoadRunner::getValue(const SelectionRecord& record)
     return dResult;
 }
 
-double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrentTime)
+double RoadRunner::getNthSelectedOutput(unsigned index, double currentTime)
 {
-    SelectionRecord record = mSelectionList[index];
+    const SelectionRecord &record = impl->mSelectionList[index];
 
     if (record.selectionType == SelectionRecord::TIME)
     {
-        return dCurrentTime;
+        return currentTime;
     }
     else
     {
@@ -538,12 +774,25 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
     }
 }
 
-void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime)
+void RoadRunner::getSelectedValues(DoubleMatrix& results, int nRow, double currentTime)
 {
-    for (u_int j = 0; j < mSelectionList.size(); j++)
+    for (u_int j = 0; j < impl->mSelectionList.size(); j++)
     {
-        double out =  getNthSelectedOutput(j, dCurrentTime);
+        double out =  getNthSelectedOutput(j, currentTime);
         results(nRow,j) = out;
+    }
+}
+
+void RoadRunner::getSelectedValues(std::vector<double>& results,
+        double currentTime)
+{
+    assert(results.size() == impl->mSelectionList.size()
+            && "given vector and selection list different size");
+
+    u_int size = results.size();
+    for (u_int i = 0; i < size; ++i)
+    {
+        results[i] = getNthSelectedOutput(i, currentTime);
     }
 }
 
@@ -553,27 +802,27 @@ vector<double> RoadRunner::getConservedMoietyValues()
     return getLibStruct()->getConservedSums();
 }
 
-bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
+void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
-    mCurrentSBML = SBMLReader::read(uriOrSbml);
+    impl->mCurrentSBML = SBMLReader::read(uriOrSbml);
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
     Log(lDebug)<<"Loading SBML into simulator";
-    if (!mCurrentSBML.size())
+    if (!impl->mCurrentSBML.size())
     {
         throw(CoreException("SBML string is empty!"));
     }
 
-    delete mModel;
-    mModel = 0;
+    delete impl->model;
+    impl->model = 0;
 
     if (options)
     {
-        conservedMoietyAnalysis = options->modelGeneratorOpt
+        impl->conservedMoietyAnalysis = options->modelGeneratorOpt
                 & LoadSBMLOptions::CONSERVED_MOIETIES;
-        mModel = mModelGenerator->createModel(mCurrentSBML, options->modelGeneratorOpt);
+        impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, options->modelGeneratorOpt);
     }
     else
     {
@@ -581,22 +830,16 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
         opt.modelGeneratorOpt = getConservedMoietyAnalysis() ?
                 opt.modelGeneratorOpt | LoadSBMLOptions::CONSERVED_MOIETIES :
                 opt.modelGeneratorOpt & ~LoadSBMLOptions::CONSERVED_MOIETIES;
-        mModel = mModelGenerator->createModel(mCurrentSBML, opt.modelGeneratorOpt);
+        impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, opt.modelGeneratorOpt);
     }
 
     //Finally intitilaize the model..
-    if(!initializeModel())
-    {
-        Log(Logger::LOG_ERROR)<<"Failed Initializing ExecutableModel";
-        return false;
-    }
+    createIntegrator();
 
     if (!options || !(options->loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS))
     {
         createDefaultSelectionLists();
     }
-
-    return true;
 }
 
 bool RoadRunner::createDefaultSelectionLists()
@@ -631,10 +874,10 @@ bool RoadRunner::unLoadModel()
 {
     // The model owns the shared library (if it exists), when the model is deleted,
     // its dtor unloads the shared lib.
-    if(mModel)
+    if(impl->model)
     {
-        delete mModel;
-        mModel = NULL;
+        delete impl->model;
+        impl->model = NULL;
         return true;
     }
     return false;
@@ -643,29 +886,16 @@ bool RoadRunner::unLoadModel()
 //Reset the simulator back to the initial conditions specified in the SBML model
 void RoadRunner::reset()
 {
-    if (mModel)
+    if (impl->model)
     {
         // model gets set to before time = 0
-        mModel->reset();
+        impl->model->reset();
 
-        // pull state from model into integrator
-        mCVode->reStart(0.0);
-
-        if (conservedMoietyAnalysis && !mModel->getConservedSumChanged())
-        {
-            mModel->computeConservedTotals();
-        }
-
-        mCVode->testRootsAtInitialTime();
-
-        mModel->setTime(0.0);
-
-        // TODO: this is proably not required, test if it can be removed...
-        mCVode->reStart(0.0);
+        impl->integrator->restart(0.0);
 
         try
         {
-            mModel->testConstraints();
+            impl->model->testConstraints();
         }
         catch (const Exception& e)
         {
@@ -676,152 +906,84 @@ void RoadRunner::reset()
 
 bool RoadRunner::populateResult()
 {
-    vector<string> list(mSelectionList.size());
+    vector<string> list(impl->mSelectionList.size());
 
-    for(int i = 0; i < mSelectionList.size(); ++i)
+    for(int i = 0; i < impl->mSelectionList.size(); ++i)
     {
-        list[i] = mSelectionList[i].to_string();
+        list[i] = impl->mSelectionList[i].to_string();
     }
 
-    mRoadRunnerData.setColumnNames(list);
-    mRoadRunnerData.setData(mRawRoadRunnerData);
+    impl->mRoadRunnerData.setColumnNames(list);
+    impl->mRoadRunnerData.setData(impl->simulationResult);
     return true;
 }
 
 
 std::vector<rr::SelectionRecord>& RoadRunner::getSelections()
 {
-    return mSelectionList;
+    return impl->mSelectionList;
 }
 
 
 double RoadRunner::steadyState()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (!this->conservedMoietyAnalysis && !Config::getInt(Config::ROADRUNNER_DISABLE_WARNINGS))
+    if (!impl->conservedMoietyAnalysis &&
+            (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
+                & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
     {
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
-                "via the configuration file or the Config class setValue, see roadrunner documentation";
+                                    "via the configuration file or the Config class setValue, see roadrunner documentation";
+        Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
-    if (mUseKinsol)
+    if (impl->mUseKinsol)
     {
-        //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
-        Log(Logger::LOG_ERROR)<<"Kinsol solver is not enabled...";
-        return -1;
+        Log(Logger::LOG_ERROR) << "Kinsol solver is not enabled...";
+        throw Exception("Kinsol solver is not enabled");
     }
 
-    NLEQInterface steadyStateSolver(mModel);
+    SteadyStateSolver *steadyStateSolver = SteadyStateSolver::New(0, impl->model);
 
-    if (configurationXML.length() > 0)
+    if (impl->configurationXML.length() > 0)
     {
-        Configurable::loadXmlConfig(configurationXML, &steadyStateSolver);
+        Configurable::loadXmlConfig(impl->configurationXML, steadyStateSolver);
     }
 
     //Get a std vector for the solver
-    vector<double> someAmounts(mModel->getNumIndFloatingSpecies(), 0);
-    mModel->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
+    vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
+    impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
-    double ss = steadyStateSolver.solve(someAmounts);
+    double ss = steadyStateSolver->solve(someAmounts);
     if(ss < 0)
     {
         Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
     }
-    mModel->convertToConcentrations();
+
+
+    delete steadyStateSolver;
 
     return ss;
 }
 
-void RoadRunner::setParameterValue(const ParameterType parameterType,
-        const int parameterIndex, const double value)
-{
-    switch (parameterType)
-    {
-        case ptBoundaryParameter:
-            mModel->setBoundarySpeciesConcentrations(1, &parameterIndex, &value);
-        break;
 
-        case ptGlobalParameter:
-            mModel->setGlobalParameterValues(1, &parameterIndex, &value);
-        break;
-
-        case ptFloatingSpecies:
-            mModel->setFloatingSpeciesConcentrations(1, &parameterIndex, &value);
-        break;
-
-        case ptConservationParameter:
-            mModel->setConservedMoietyValues(1, &parameterIndex, &value);
-        break;
-
-        case ptLocalParameter:
-            throw Exception("Local parameters not permitted in setParameterValue (getCC, getEE)");
-    }
-}
-
-double RoadRunner::getParameterValue(const ParameterType parameterType,
-        const int parameterIndex)
-{
-    switch (parameterType)
-    {
-    case ptBoundaryParameter:
-    {
-        double result = 0;
-        mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-    case ptGlobalParameter:
-    {
-        double result = 0;
-        mModel->getGlobalParameterValues(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-
-    // Used when calculating elasticities
-    case ptFloatingSpecies:
-    {
-        double result = 0;
-        mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-
-    case ptConservationParameter:
-    {
-        double result = 0;
-        mModel->getConservedMoietyValues(1, &parameterIndex, &result);
-        return result;
-    }
-    break;
-
-    case ptLocalParameter:
-        throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
-        break;
-
-    default:
-        return 0.0;
-        break;
-    }
-    return 0;
-}
 
 
 void RoadRunner::setConservedMoietyAnalysis(bool bValue)
 {
-    if(bValue == conservedMoietyAnalysis)
+    if(bValue == impl->conservedMoietyAnalysis)
     {
         Log(lDebug)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 
-    conservedMoietyAnalysis = bValue;
+    impl->conservedMoietyAnalysis = bValue;
 
-    if(mModel != NULL)
+    if(impl->model != NULL)
     {
         LoadSBMLOptions opt;
 
@@ -833,10 +995,7 @@ void RoadRunner::setConservedMoietyAnalysis(bool bValue)
         // have to reload
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
 
-        if(!load(mCurrentSBML, &opt))
-        {
-            throw( CoreException("Failed re-Loading model when setting computeAndAssignConservationLaws"));
-        }
+        load(impl->mCurrentSBML, &opt);
     }
 }
 
@@ -853,31 +1012,31 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     int reactionIndex;
     int parameterIndex;
 
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
     // Check the reaction name
-    if ((reactionIndex = mModel->getReactionIndex(reactionName)) < 0)
+    if ((reactionIndex = impl->model->getReactionIndex(reactionName)) < 0)
     {
         throw CoreException(format("Unable to locate reaction name: [{0}]", reactionName));
     }
 
     // Find out what kind of parameter we are dealing with
-    if (( parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
+    if (( parameterIndex = impl->model->getFloatingSpeciesIndex(parameterName)) >= 0)
     {
         parameterType = ptFloatingSpecies;
     }
-    else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
+    else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
         parameterType = ptBoundaryParameter;
     }
-    else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
+    else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0)
     {
         parameterType = ptGlobalParameter;
     }
-    else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
+    else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0)
     {
         parameterType = ptConservationParameter;
     }
@@ -886,11 +1045,11 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
         throw CoreException(format("Unable to locate variable: [{0}]", parameterName));
     }
 
-    mModel->evalReactionRates();
+    impl->model->evalReactionRates();
 
     double variableValue = 0;
-    mModel->getReactionRates(1, &reactionIndex, &variableValue);
-    double parameterValue = getParameterValue(parameterType, parameterIndex);
+    impl->model->getReactionRates(1, &reactionIndex, &variableValue);
+    double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
     if (variableValue == 0)
     {
         variableValue = 1e-12;
@@ -904,44 +1063,11 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
     return getuEE(reactionName, parameterName, true);
 }
 
-class aFinalizer
-{
-private:
-    RoadRunner::ParameterType    mParameterType;
-    int    mParameterIndex;
-    double    mOriginalParameterValue;
-    bool    mComputeSteadyState;
-    RoadRunner*    mRR;
-
-public:
-    aFinalizer(RoadRunner::ParameterType& pType, const int& pIndex,
-            const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
-:
-    mParameterType(pType),
-    mParameterIndex(pIndex),
-    mOriginalParameterValue(origValue),
-    mComputeSteadyState(doWhat),
-    mRR(aRoadRunner)
-{}
-
-    ~aFinalizer()
-    {
-        //this is a finally{} code block
-        // What ever happens, make sure we restore the parameter level
-        mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
-        mRR->getModel()->evalReactionRates();
-        if (mComputeSteadyState)
-        {
-            mRR->steadyState();
-        }
-    }
-};
-
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
@@ -951,73 +1077,75 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         int reactionIndex;
         int parameterIndex;
 
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
 
         // Check the reaction name
-        if ((reactionIndex = mModel->getReactionIndex(reactionName)) < 0)
+        if ((reactionIndex = impl->model->getReactionIndex(reactionName)) < 0)
         {
             throw CoreException("Unable to locate reaction name: [" + reactionName + "]");
         }
 
         // Find out what kind of parameter we are dealing with
-        if ((parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
+        if ((parameterIndex = impl->model->getFloatingSpeciesIndex(parameterName)) >= 0)
         {
             parameterType = ptFloatingSpecies;
             originalParameterValue = 0;
-            mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
+            impl->model->getFloatingSpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
+        else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
             parameterType = ptBoundaryParameter;
             originalParameterValue = 0;
-            mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
+            impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
+        else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0)
         {
             parameterType = ptGlobalParameter;
             originalParameterValue = 0;
-            mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
+            impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
+        else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0)
         {
             parameterType = ptConservationParameter;
             originalParameterValue = 0;
-            mModel->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
+            impl->model->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
         }
         else
         {
             throw CoreException("Unable to locate variable: [" + parameterName + "]");
         }
 
-        double hstep = mDiffStepSize*originalParameterValue;
+        double hstep = impl->mDiffStepSize*originalParameterValue;
         if (fabs(hstep) < 1E-12)
         {
-            hstep = mDiffStepSize;
+            hstep = impl->mDiffStepSize;
         }
 
-        aFinalizer a(parameterType, parameterIndex, originalParameterValue, mModel, this);
-        mModel->convertToConcentrations();
+        impl->model->convertToConcentrations();
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-        mModel->evalReactionRates();
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+        impl->model->evalReactionRates();
         double fi = 0;
-        mModel->getReactionRates(1, &reactionIndex, &fi);
+        impl->model->getReactionRates(1, &reactionIndex, &fi);
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-        mModel->evalReactionRates();
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+        impl->model->evalReactionRates();
         double fi2 = 0;
-        mModel->getReactionRates(1, &reactionIndex, &fi2);
+        impl->model->getReactionRates(1, &reactionIndex, &fi2);
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-        mModel->evalReactionRates();
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+        impl->model->evalReactionRates();
         double fd = 0;
-        mModel->getReactionRates(1, &reactionIndex, &fd);
+        impl->model->getReactionRates(1, &reactionIndex, &fd);
 
-        setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-        mModel->evalReactionRates();
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+        impl->model->evalReactionRates();
         double fd2 = 0;
-        mModel->getReactionRates(1, &reactionIndex, &fd2);
+        impl->model->getReactionRates(1, &reactionIndex, &fd2);
+
+        // restore original value
+        impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -1035,171 +1163,246 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 // Help("Updates the model based on all recent changes")
 void RoadRunner::evalModel()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    mModel->convertToAmounts();
-    mModel->getStateVectorRate(mModel->getTime(), 0);
+    impl->model->convertToAmounts();
+    impl->model->getStateVectorRate(impl->model->getTime(), 0);
 }
 
 
-const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
+const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    get_self();
 
-    if (_options)
-    {
-        this->simulateOptions = *_options;
-        dirtySimulateOptions = true;
-    }
+    _setSimulateOptions(opt);
 
-    //This one creates the list of what we will look at in the result
-    createTimeCourseSelectionList();
-
-    if (dirtySimulateOptions)
-    {
-        mCVode->setSimulateOptions(&simulateOptions);
-        dirtySimulateOptions = false;
-    }
-
-    if (simulateOptions.flags & SimulateOptions::RESET_MODEL)
-    {
-        reset(); // reset back to initial conditions
-    }
-
-    if (simulateOptions.duration < 0 || simulateOptions.start < 0
-            || simulateOptions.steps <= 0 )
-    {
-        throw CoreException("Illegal input to simulate");
-    }
-
-    // set how the result should be returned to python
-    mRoadRunnerData.structuredResult = simulateOptions.flags & SimulateOptions::STRUCTURED_RESULT;
-
-    double timeEnd = simulateOptions.duration + simulateOptions.start;
-    double timeStart = simulateOptions.start;
-    int numPoints = simulateOptions.steps + 1;
-
-    if (numPoints <= 1)
-    {
-        numPoints = 2;
-    }
-
-    double hstep = (timeEnd - timeStart) / (numPoints - 1);
-    int nrCols = mSelectionList.size();
-
-    Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
-
-    // ignored if same
-    mRawRoadRunnerData.resize(simulateOptions.steps + 1, nrCols);
+    const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
+    const double timeStart = self.simulateOpt.start;
 
     // evalute the model with its current state
-    mModel->getStateVectorRate(timeStart, 0, 0);
+    self.model->getStateVectorRate(timeStart, 0, 0);
 
-    addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
-
-    // if we have a state vector, copy into integrator vector.
-    if (mCVode->haveVariables())
+    // Variable Time Step Integration
+    if (self.simulateOpt.integratorFlags & SimulateOptions::VARIABLE_STEP )
     {
-        mCVode->reStart(timeStart);
-    }
+        Log(Logger::LOG_NOTICE) << "Performing variable step integration";
 
-    double tout = timeStart;
+        DoubleVectorList results;
+        std::vector<double> row(self.mSelectionList.size());
 
-    //The simulation is executed right here..
-    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< simulateOptions.steps + 1 <<" times";
-
-    try
-    {
-        for (int i = 1; i < simulateOptions.steps + 1; i++)
+        try
         {
-            Log(Logger::LOG_DEBUG)<<"Step "<<i;
-            mCVode->integrate(tout, hstep);
-            tout = timeStart + i * hstep;
-            addNthOutputToResult(mRawRoadRunnerData, i, tout);
+            // add current state as first row
+            getSelectedValues(row, timeStart);
+            results.push_back(row);
+
+            self.integrator->restart(timeStart);
+
+            double tout = timeStart;
+
+
+            while(tout < timeEnd)
+            {
+                Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
+                        << ", end: " << timeEnd;
+                tout = self.integrator->integrate(tout, timeEnd);
+                if (!isfinite(tout))
+                {
+                    // time step is at infinity so bail, but get the last value
+                    getSelectedValues(row, timeEnd);
+                    results.push_back(row);
+                    break;
+                }
+                getSelectedValues(row, tout);
+                results.push_back(row);
+            }
+        }
+        catch (EventListenerException& e)
+        {
+            Log(Logger::LOG_NOTICE) << e.what();
+        }
+
+        // stuff list values into result matrix
+        self.simulationResult.resize(results.size(), row.size());
+        uint rowi = 0;
+        for (DoubleVectorList::const_iterator i = results.begin();
+                i != results.end(); ++i, ++rowi)
+        {
+            // evidently [] operator gets row, go figure...
+            double* prow = self.simulationResult[rowi];
+            std::copy(i->begin(), i->end(), prow);
         }
     }
-    catch (EventListenerException& e)
+
+    // Stochastic Fixed Step Integration
+    // do fixed time step simulation, these are different for deterministic
+    // and stochastic.
+    else if(SimulateOptions::getIntegratorType(self.simulateOpt.integrator) ==
+            SimulateOptions::STOCHASTIC)
     {
-        Log(Logger::LOG_NOTICE) << e.what();
+        Log(Logger::LOG_NOTICE)
+                << "Performing stochastic fixed step integration for "
+                << self.simulateOpt.steps + 1 << " steps";
+
+        int numPoints = self.simulateOpt.steps + 1;
+
+        if (numPoints <= 1)
+        {
+            numPoints = 2;
+        }
+
+        const double hstep = (timeEnd - timeStart) / (numPoints - 1);
+        int nrCols = self.mSelectionList.size();
+
+        Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+
+        // ignored if same
+        self.simulationResult.resize(self.simulateOpt.steps + 1, nrCols);
+
+        try
+        {
+            // add current state as first row
+            getSelectedValues(self.simulationResult, 0, timeStart);
+
+            self.integrator->restart(timeStart);
+
+            double tout = timeStart;           // the exact times the integrator returns
+            double next = timeStart + hstep;   // because of fixed steps, the times when the
+                                               // value is recorded.
+
+            // index gets bumped in do-while loop.
+            for (int i = 1; i < self.simulateOpt.steps + 1;)
+            {
+                Log(Logger::LOG_DEBUG) << "step: " << i << "t0: " << tout << "hstep: " << next - tout;
+
+                // stochastic frequently overshoots time end
+                // may also be infinite
+                tout = self.integrator->integrate(tout, next - tout);
+
+                assert((tout >= next)
+                        && "stochastic integrator did not integrate to end time");
+
+                // get the output, always get at least one output
+                do
+                {
+                    getSelectedValues(self.simulationResult, i, next);
+                    i++;
+                    next = timeStart + i * hstep;
+                }
+                while((i < self.simulateOpt.steps + 1) && tout > next);
+            }
+        }
+        catch (EventListenerException& e)
+        {
+            Log(Logger::LOG_NOTICE) << e.what();
+        }
     }
 
-    Log(Logger::LOG_DEBUG)<<"Simulation done..";
+    // Deterministic Fixed Step Integration
+    else
+    {
+        Log(Logger::LOG_INFORMATION)
+                << "Perfroming deterministic fixed step integration for  "
+                << self.simulateOpt.steps + 1 << " steps";
 
-    // set the data into the RoadRunnerData struct
-    populateResult();
+        int numPoints = self.simulateOpt.steps + 1;
 
-    return &mRoadRunnerData;
+        if (numPoints <= 1)
+        {
+            numPoints = 2;
+        }
+
+        double hstep = (timeEnd - timeStart) / (numPoints - 1);
+        int nrCols = self.mSelectionList.size();
+
+        Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+
+        // ignored if same
+        self.simulationResult.resize(self.simulateOpt.steps + 1, nrCols);
+
+        try
+        {
+            // add current state as first row
+            getSelectedValues(self.simulationResult, 0, timeStart);
+
+            self.integrator->restart(timeStart);
+
+            double tout = timeStart;
+
+            for (int i = 1; i < self.simulateOpt.steps + 1; i++)
+            {
+                Log(Logger::LOG_DEBUG)<<"Step "<<i;
+                double itime = self.integrator->integrate(tout, hstep);
+
+                // the test suite is extremly sensetive to time differences,
+                // so need to use the *exact* time here. occasionally the integrator
+                // will return a value just slightly off from the exact time
+                // value.
+                tout = timeStart + i * hstep;
+                getSelectedValues(self.simulationResult, i, tout);
+            }
+        }
+        catch (EventListenerException& e)
+        {
+            Log(Logger::LOG_NOTICE) << e.what();
+        }
+    }
+
+    // done with integration
+
+    Log(Logger::LOG_DEBUG) << "Simulation done..";
+
+    return &self.simulationResult;
 }
 
 
 double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (o)
-    {
-        simulateOptions = *o;
-        dirtySimulateOptions = true;
-    }
-
-    if(dirtySimulateOptions)
-    {
-        mCVode->setSimulateOptions(&simulateOptions);
-        dirtySimulateOptions = false;
-    }
-
-    if (simulateOptions.flags && SimulateOptions::RESET_MODEL)
-    {
-        mCVode->reStart(t0);
-    }
+    _setSimulateOptions(o);
 
     try
     {
-        mModel->setTime(t0);
-        return mCVode->integrate(t0, tf);
+        impl->model->setTime(t0);
+        return impl->integrator->integrate(t0, tf);
     }
     catch (EventListenerException& e)
     {
         Log(Logger::LOG_NOTICE) << e.what();
-        return mModel->getTime();
+        return impl->model->getTime();
     }
 }
 
 
 double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset)
 {
-    if (!mModel)
+    get_self();
+
+    if (!self.model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if(dirtySimulateOptions)
-    {
-        mCVode->setSimulateOptions(&simulateOptions);
-        dirtySimulateOptions = false;
-    }
+    self.copySimulateOpt.flags = reset ?
+            self.copySimulateOpt.flags | SimulateOptions::RESET_MODEL :
+            self.copySimulateOpt.flags & ~SimulateOptions::RESET_MODEL;
 
-    if (reset)
-    {
-        mCVode->reStart(currentTime);
-    }
+    _setSimulateOptions(0);
 
     try
     {
-        return mCVode->integrate(currentTime, stepSize);
+        return self.integrator->integrate(currentTime, stepSize);
     }
     catch (EventListenerException& e)
     {
         Log(Logger::LOG_NOTICE) << e.what();
-        return mModel->getTime();
+        return self.model->getTime();
     }
 }
 
@@ -1208,7 +1411,7 @@ DoubleMatrix RoadRunner::getEigenvalues()
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
@@ -1219,7 +1422,7 @@ DoubleMatrix RoadRunner::getEigenvalues()
 
         for (int i = 0; i < vals.size(); i++)
         {
-            result[i][0] = real(vals[i]);
+            result[i][0] = std::real(vals[i]);
             result[i][1] = imag(vals[i]);
         }
         return result;
@@ -1236,13 +1439,13 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
 
         DoubleMatrix mat;
-        if (conservedMoietyAnalysis)
+        if (impl->conservedMoietyAnalysis)
         {
            mat = getReducedJacobian();
         }
@@ -1262,14 +1465,16 @@ DoubleMatrix RoadRunner::getFullJacobian()
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
+
+        // ptr to libstruct owned obj.
         DoubleMatrix *rsm;
         LibStructural *ls = getLibStruct();
-        if (conservedMoietyAnalysis)
+        if (impl->conservedMoietyAnalysis)
         {
             rsm = ls->getReorderedStoichiometryMatrix();
         }
@@ -1277,7 +1482,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
         {
             rsm = ls->getStoichiometryMatrix();
         }
-       return mult(*rsm, uelast);
+       return ls::mult(*rsm, uelast);
 
     }
     catch (const Exception& e)
@@ -1290,7 +1495,7 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
 {
     try
     {
-        if (mModel)
+        if (impl->model)
         {
             LibStructural *ls = getLibStruct();
             DoubleMatrix uelast = getUnscaledElasticityMatrix();
@@ -1305,47 +1510,86 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
     }
 }
 
-DoubleMatrix RoadRunner::getReducedJacobian()
+DoubleMatrix RoadRunner::getReducedJacobian(double h)
 {
-    try
+    get_self();
+
+    if (!self.model)
     {
-        if (!mModel)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        if(conservedMoietyAnalysis == false)
-        {
-            throw CoreException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
-        }
-
-        ls::LibStructural &ls = *getLibStruct();
-
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        if(!ls.getNrMatrix())
-        {
-            return DoubleMatrix(0,0);
-        }
-        DoubleMatrix I1 = mult(*(ls.getNrMatrix()), uelast);
-        DoubleMatrix *linkMat = ls.getLinkMatrix();
-        return mult(I1, (*linkMat));
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
+
+    if (h <= 0)
     {
-        throw CoreException("Unexpected error from getReducedJacobian(): ", e.Message());
+        h = self.roadRunnerOptions.jacobianStepSize;
     }
+
+    // need 2h for for central difference
+    double inv2h = 1.0 / (2.0 * h);
+
+    int svSize = self.model->getStateVector(0);
+    int nIndSpecies = self.model->getNumIndFloatingSpecies();
+    int nRates = self.model->getNumRules();
+
+    // need 3 buffers, state vector and 2 for state vector
+    // rate for central difference.
+    std::vector<double> yv(svSize);
+    std::vector<double> dy0v(svSize);
+    std::vector<double> dy1v(svSize);
+
+    double* y = &yv[0];
+    double* dy0 = &dy0v[0];
+    double* dy1 = &dy1v[0];
+
+
+
+    // grab the current state vector
+    self.model->getStateVector(y);
+
+    // state vector is packed such that first elements are
+    // rate rules, final elements are species.
+    const int speciesZero = svSize - nIndSpecies;
+
+    DoubleMatrix jac(nIndSpecies, nIndSpecies);
+
+    double time = self.model->getTime();
+
+    for (int i = speciesZero; i < nIndSpecies; ++i)
+    {
+        double savedVal = y[i];
+
+        y[i] = savedVal + h;
+
+        self.model->getStateVectorRate(time, y, dy0);
+
+        y[i] = savedVal - h;
+
+        self.model->getStateVectorRate(time, y, dy1);
+
+        y[i] = savedVal;
+
+        // matrix is row-major, so have to copy by elements
+       for (int j = 0; j < nIndSpecies; ++j)
+       {
+           jac(j, i - speciesZero) =
+                   (dy0[speciesZero + j] - dy1[speciesZero + j]) / (2.0*h) ;
+       }
+    }
+
+
+    return jac;
 }
 
-DoubleMatrix* RoadRunner::getLinkMatrix()
+DoubleMatrix RoadRunner::getLinkMatrix()
 {
     try
     {
-       if (!mModel)
+       if (!impl->model)
        {
            throw CoreException(gEmptyModelMessage);
        }
        //return _L;
-        return getLibStruct()->getLinkMatrix();
+        return *getLibStruct()->getLinkMatrix();
     }
     catch (const Exception& e)
     {
@@ -1353,16 +1597,16 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
     }
 }
 
-DoubleMatrix* RoadRunner::getNrMatrix()
+DoubleMatrix RoadRunner::getNrMatrix()
 {
     try
     {
-       if (!mModel)
+       if (!impl->model)
        {
             throw CoreException(gEmptyModelMessage);
        }
         //return _Nr;
-        return getLibStruct()->getNrMatrix();
+        return *getLibStruct()->getNrMatrix();
     }
     catch (const Exception& e)
     {
@@ -1370,21 +1614,19 @@ DoubleMatrix* RoadRunner::getNrMatrix()
     }
 }
 
-DoubleMatrix* RoadRunner::getL0Matrix()
+DoubleMatrix RoadRunner::getL0Matrix()
 {
-    try
+    if (!impl->model)
     {
-       if (!mModel)
-       {
-            throw CoreException(gEmptyModelMessage);
-       }
-          //return _L0;
-       return getLibStruct()->getL0Matrix();
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
-    {
-         throw CoreException("Unexpected error from getL0Matrix()", e.Message());
-    }
+    //return _L0;
+    // returns a NEW matrix,
+    // nice consistent API yes?!?!?
+    DoubleMatrix *tmp = getLibStruct()->getL0Matrix();
+    DoubleMatrix result = *tmp;
+    delete tmp;
+    return result;
 }
 
 
@@ -1394,7 +1636,7 @@ DoubleMatrix RoadRunner::getConservationMatrix()
 
     try
     {
-       if (mModel)
+       if (impl->model)
        {
            DoubleMatrix* aMat = getLibStruct()->getGammaMatrix();
             if (aMat)
@@ -1424,7 +1666,7 @@ int RoadRunner::getNumberOfDependentSpecies()
 {
     try
     {
-        if (mModel)
+        if (impl->model)
         {
             //return mStructAnalysis.GetInstance()->getNumDepSpecies();
             return getLibStruct()->getNumDepSpecies();
@@ -1444,7 +1686,7 @@ int RoadRunner::getNumberOfIndependentSpecies()
 {
     try
     {
-        if (mModel)
+        if (impl->model)
         {
             return getLibStruct()->getNumIndSpecies();
         }
@@ -1465,14 +1707,14 @@ double RoadRunner::getVariableValue(const VariableType variableType,
     case vtFlux:
     {
         double result = 0;
-        mModel->getReactionRates(1, &variableIndex, &result);
+        impl->model->getReactionRates(1, &variableIndex, &result);
     }
     break;
 
     case vtSpecies:
     {
         double result = 0;
-        mModel->getFloatingSpeciesConcentrations(1, &variableIndex, &result);
+        impl->model->getFloatingSpeciesConcentrations(1, &variableIndex, &result);
         return result;
     }
     break;
@@ -1486,33 +1728,33 @@ double RoadRunner::getVariableValue(const VariableType variableType,
 
 int RoadRunner::createDefaultSteadyStateSelectionList()
 {
-    mSteadyStateSelection.clear();
+    impl->mSteadyStateSelection.clear();
     // default should be species only ...
     vector<string> floatingSpecies = getFloatingSpeciesIds();
-    mSteadyStateSelection.resize(floatingSpecies.size());
+    impl->mSteadyStateSelection.resize(floatingSpecies.size());
     for (int i = 0; i < floatingSpecies.size(); i++)
     {
         SelectionRecord aRec;
         aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
         aRec.p1 = floatingSpecies[i];
         aRec.index = i;
-        mSteadyStateSelection[i] = aRec;
+        impl->mSteadyStateSelection[i] = aRec;
     }
-    return mSteadyStateSelection.size();
+    return impl->mSteadyStateSelection.size();
 }
 
 vector<SelectionRecord>& RoadRunner::getSteadyStateSelections()
 {
-    return mSteadyStateSelection;
+    return impl->mSteadyStateSelection;
 }
 
 vector<double> RoadRunner::getSteadyStateValues()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    if(mSteadyStateSelection.size() == 0)
+    if(impl->mSteadyStateSelection.size() == 0)
     {
         createDefaultSteadyStateSelectionList();
     }
@@ -1520,16 +1762,16 @@ vector<double> RoadRunner::getSteadyStateValues()
     steadyState();
 
     vector<double> result; //= new double[oSelection.Length];
-    for (int i = 0; i < mSteadyStateSelection.size(); i++)
+    for (int i = 0; i < impl->mSteadyStateSelection.size(); i++)
     {
-        result.push_back(getValue(mSteadyStateSelection[i]));
+        result.push_back(getValue(impl->mSteadyStateSelection[i]));
     }
     return result;
 }
 
 string RoadRunner::getModelName()
 {
-    return mModel ? mModel->getModelName() : string("");
+    return impl->model ? impl->model->getModelName() : string("");
 }
 
 /**
@@ -1600,14 +1842,14 @@ string RoadRunner::getCurrentSBML()
     libsbml::Model *model = 0;
 
     try {
-        doc = reader.readSBMLFromString(this->mCurrentSBML); // new doc
+        doc = reader.readSBMLFromString(impl->mCurrentSBML); // new doc
         model = doc->getModel(); // owned by doc
 
         vector<string> array = getFloatingSpeciesIds();
         for (int i = 0; i < array.size(); i++)
         {
             double value = 0;
-            mModel->getFloatingSpeciesAmounts(1, &i, &value);
+            impl->model->getFloatingSpeciesAmounts(1, &i, &value);
             setSBMLValue(model, array[i], value);
         }
 
@@ -1615,7 +1857,7 @@ string RoadRunner::getCurrentSBML()
         for (int i = 0; i < array.size(); i++)
         {
             double value = 0;
-            mModel->getBoundarySpeciesConcentrations(1, &i, &value);
+            impl->model->getBoundarySpeciesConcentrations(1, &i, &value);
             setSBMLValue(model, array[i], value);
         }
 
@@ -1623,15 +1865,15 @@ string RoadRunner::getCurrentSBML()
         for (int i = 0; i < array.size(); i++)
         {
             double value = 0;
-            mModel->getCompartmentVolumes(1, &i, &value);
+            impl->model->getCompartmentVolumes(1, &i, &value);
             setSBMLValue(model, array[i], value);
         }
 
         array = getGlobalParameterIds();
-        for (int i = 0; i < mModel->getNumGlobalParameters(); i++)
+        for (int i = 0; i < impl->model->getNumGlobalParameters(); i++)
         {
             double value = 0;
-            mModel->getGlobalParameterValues(1, &i, &value);
+            impl->model->getGlobalParameterValues(1, &i, &value);
             setSBMLValue(model, array[i], value);
         }
 
@@ -1652,27 +1894,27 @@ string RoadRunner::getCurrentSBML()
 // Help("Get the number of reactions")
 int RoadRunner::getNumberOfReactions()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getNumReactions();
+    return impl->model->getNumReactions();
 }
 
 // Help("Returns the rate of a reaction by its index")
 double RoadRunner::getReactionRate(const int& index)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumReactions()))
+    if ((index >= 0) && (index < impl->model->getNumReactions()))
     {
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
         double result = 0;
-        mModel->getReactionRates(1, &index, &result);
+        impl->model->getReactionRates(1, &index, &result);
         return result;
     }
     else
@@ -1684,16 +1926,16 @@ double RoadRunner::getReactionRate(const int& index)
 
 double RoadRunner::getRateOfChange(const int& index)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
+    if ((index >= 0) && (index < impl->model->getNumFloatingSpecies()))
     {
-        mModel->computeAllRatesOfChange();
+        impl->model->computeAllRatesOfChange();
         double value = 0;
-        mModel->getFloatingSpeciesAmountRates(1, &index, &value);
+        impl->model->getFloatingSpeciesAmountRates(1, &index, &value);
         return value;
     }
 
@@ -1704,24 +1946,24 @@ double RoadRunner::getRateOfChange(const int& index)
 // Help("Get the number of compartments")
 int RoadRunner::getNumberOfCompartments()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getNumCompartments();
+    return impl->model->getNumCompartments();
 }
 
 
 void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 {
-    if (!mModel)
+    if (!impl->model)
     {
          throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumCompartments()))
+    if ((index >= 0) && (index < impl->model->getNumCompartments()))
     {
-        mModel->setCompartmentVolumes(1, &index, &value);
+        impl->model->setCompartmentVolumes(1, &index, &value);
     }
     else
     {
@@ -1731,15 +1973,15 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 
 double RoadRunner::getCompartmentByIndex(const int& index)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumCompartments()))
+    if ((index >= 0) && (index < impl->model->getNumCompartments()))
     {
         double result = 0;
-        mModel->getCompartmentVolumes(1, &index, &result);
+        impl->model->getCompartmentVolumes(1, &index, &result);
         return result;
     }
 
@@ -1748,24 +1990,24 @@ double RoadRunner::getCompartmentByIndex(const int& index)
 
 int RoadRunner::getNumberOfBoundarySpecies()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw Exception(gEmptyModelMessage);
     }
-    return mModel->getNumBoundarySpecies();
+    return impl->model->getNumBoundarySpecies();
 }
 
 // Help("Sets the value of a boundary species by its index")
 void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw Exception(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
+    if ((index >= 0) && (index < impl->model->getNumBoundarySpecies()))
     {
-        mModel->setBoundarySpeciesConcentrations(1, &index, &value);
+        impl->model->setBoundarySpeciesConcentrations(1, &index, &value);
     }
     else
     {
@@ -1776,14 +2018,14 @@ void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value
 // Help("Returns the value of a boundary species by its index")
 double RoadRunner::getBoundarySpeciesByIndex(const int& index)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw Exception(gEmptyModelMessage);
     }
-    if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
+    if ((index >= 0) && (index < impl->model->getNumBoundarySpecies()))
     {
         double result = 0;
-        mModel->getBoundarySpeciesConcentrations(1, &index, &result);
+        impl->model->getBoundarySpeciesConcentrations(1, &index, &result);
         return result;
     }
     throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
@@ -1792,14 +2034,14 @@ double RoadRunner::getBoundarySpeciesByIndex(const int& index)
 // Help("Returns an array of boundary species concentrations")
 vector<double> RoadRunner::getBoundarySpeciesConcentrations()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    mModel->convertToConcentrations();
-    vector<double> result(mModel->getNumBoundarySpecies(), 0);
-    mModel->getBoundarySpeciesConcentrations(result.size(), 0, &result[0]);
+    impl->model->convertToConcentrations();
+    vector<double> result(impl->model->getNumBoundarySpecies(), 0);
+    impl->model->getBoundarySpeciesConcentrations(result.size(), 0, &result[0]);
     return result;
 }
 
@@ -1811,25 +2053,25 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
 // Help("Get the number of floating species")
 int RoadRunner::getNumberOfFloatingSpecies()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getNumFloatingSpecies();
+    return impl->model->getNumFloatingSpecies();
 }
 
 
 // Help("Sets the value of a floating species by its index")
 void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
+    if ((index >= 0) && (index < impl->model->getNumFloatingSpecies()))
     {
-        mModel->setFloatingSpeciesInitConcentrations(1, &index, &value);
+        impl->model->setFloatingSpeciesInitConcentrations(1, &index, &value);
         reset();
     }
     else
@@ -1841,17 +2083,17 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
 // Help("Sets the value of a floating species by its index")
 void RoadRunner::setFloatingSpeciesByIndex(int index, double value)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
+    if ((index >= 0) && (index < impl->model->getNumFloatingSpecies()))
     {
-        mModel->setFloatingSpeciesConcentrations(1, &index, &value); // This updates the amount vector aswell
-        if (!mModel->getConservedSumChanged())
+        impl->model->setFloatingSpeciesConcentrations(1, &index, &value); // This updates the amount vector aswell
+        if (!impl->model->getConservedSumChanged())
         {
-            mModel->computeConservedTotals();
+            impl->model->computeConservedTotals();
         }
     }
     else
@@ -1863,15 +2105,15 @@ void RoadRunner::setFloatingSpeciesByIndex(int index, double value)
 // Help("Returns the value of a floating species by its index")
 double RoadRunner::getFloatingSpeciesByIndex(const int index)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
+    if ((index >= 0) && (index < impl->model->getNumFloatingSpecies()))
     {
         double result = 0;
-        mModel->getFloatingSpeciesConcentrations(1, &index, &result);
+        impl->model->getFloatingSpeciesConcentrations(1, &index, &result);
         return result;
     }
     throw CoreException(format("Index in getFloatingSpeciesByIndex out of range: [{0}]", index));
@@ -1880,41 +2122,41 @@ double RoadRunner::getFloatingSpeciesByIndex(const int index)
 // Help("Returns an array of floating species concentrations")
 vector<double> RoadRunner::getFloatingSpeciesConcentrations()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
 
-    vector<double> result(mModel->getNumFloatingSpecies(), 0);
+    vector<double> result(impl->model->getNumFloatingSpecies(), 0);
 
-    mModel->convertToConcentrations();
-    mModel->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+    impl->model->convertToConcentrations();
+    impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
     return result;
 }
 
 // Help("returns an array of floating species initial conditions")
 vector<double> RoadRunner::getFloatingSpeciesInitialConcentrations()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    vector<double> initYs(mModel->getNumFloatingSpecies());
-    mModel->getFloatingSpeciesInitConcentrations(initYs.size(), 0, &initYs[0]);
+    vector<double> initYs(impl->model->getNumFloatingSpecies());
+    impl->model->getFloatingSpeciesInitConcentrations(initYs.size(), 0, &initYs[0]);
     return initYs;
 }
 
 // Help("Sets the initial conditions for all floating species in the model")
 void RoadRunner::setFloatingSpeciesInitialConcentrations(const vector<double>& values)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    mModel->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
-    mModel->setFloatingSpeciesInitConcentrations(values.size(), 0, &values[0]);
+    impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
+    impl->model->setFloatingSpeciesInitConcentrations(values.size(), 0, &values[0]);
 
     reset();
 }
@@ -1922,39 +2164,39 @@ void RoadRunner::setFloatingSpeciesInitialConcentrations(const vector<double>& v
 // Help("Set the concentrations for all floating species in the model")
 void RoadRunner::setFloatingSpeciesConcentrations(const vector<double>& values)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    mModel->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
-    mModel->convertToAmounts();
+    impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
+    impl->model->convertToAmounts();
 
-    if (!mModel->getConservedSumChanged()) mModel->computeConservedTotals();
+    if (!impl->model->getConservedSumChanged()) impl->model->computeConservedTotals();
 }
 
 // Help("Set the concentrations for all floating species in the model")
 void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    mModel->setBoundarySpeciesConcentrations(values.size(), 0, &values[0]);
+    impl->model->setBoundarySpeciesConcentrations(values.size(), 0, &values[0]);
 
     // TODO: No idea whatsoever why boundary species concentrations was also
     // setting the floating species concentrations???
     //
     //    for (int i = 0; i < values.size(); i++)
     //    {
-    //        mModel->setConcentration(i, values[i]);
-    //        if ((mModel->getModelData().numBoundarySpecies) > i)
+    //        impl->mModel->setConcentration(i, values[i]);
+    //        if ((impl->mModel->getModelData().numBoundarySpecies) > i)
     //        {
-    //            mModel->getModelData().boundarySpeciesConcentrations[i] = values[i];
+    //            impl->mModel->getModelData().boundarySpeciesConcentrations[i] = values[i];
     //        }
     //    }
-    mModel->convertToAmounts();
+    impl->model->convertToAmounts();
 }
 
 
@@ -1963,7 +2205,7 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 // Help("Get the number of global parameters")
 int RoadRunner::getNumberOfGlobalParameters()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
@@ -1972,37 +2214,37 @@ int RoadRunner::getNumberOfGlobalParameters()
 
 void RoadRunner::setGlobalParameterByIndex(const int index, const double value)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    mModel->setGlobalParameterValues(1, &index, &value);
+    impl->model->setGlobalParameterValues(1, &index, &value);
 
-    if ((mModel->getNumGlobalParameters()) &&
-            (index < mModel->getNumGlobalParameters() +
-                    mModel->getNumDepFloatingSpecies()))
+    if ((impl->model->getNumGlobalParameters()) &&
+            (index < impl->model->getNumGlobalParameters() +
+                    impl->model->getNumDepFloatingSpecies()))
     {
-        mModel->setConservedSumChanged(true);
+        impl->model->setConservedSumChanged(true);
     }
 }
 
 // Help("Returns the value of a global parameter by its index")
 double RoadRunner::getGlobalParameterByIndex(const int& index)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getNumDepFloatingSpecies())))
+    if ((index >= 0) && (index < (impl->model->getNumGlobalParameters() + impl->model->getNumDepFloatingSpecies())))
     {
-        int arraySize = mModel->getNumGlobalParameters() + mModel->getNumDepFloatingSpecies();
+        int arraySize = impl->model->getNumGlobalParameters() + impl->model->getNumDepFloatingSpecies();
         double* data = new double[arraySize];
 
-        mModel->getGlobalParameterValues(mModel->getNumGlobalParameters(), 0, data);
+        impl->model->getGlobalParameterValues(impl->model->getNumGlobalParameters(), 0, data);
 
-        mModel->getConservedMoietyValues(mModel->getNumDepFloatingSpecies(), 0, data + mModel->getNumGlobalParameters());
+        impl->model->getConservedMoietyValues(impl->model->getNumDepFloatingSpecies(), 0, data + impl->model->getNumGlobalParameters());
 
         double result = data[index];
         delete[] data;
@@ -2015,28 +2257,28 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
 // Help("Get the values for all global parameters in the model")
 vector<double> RoadRunner::getGlobalParameterValues()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (mModel->getNumDepFloatingSpecies() > 0)
+    if (impl->model->getNumDepFloatingSpecies() > 0)
     {
-        vector<double> result(mModel->getNumGlobalParameters() +
-                mModel->getNumDepFloatingSpecies());
+        vector<double> result(impl->model->getNumGlobalParameters() +
+                impl->model->getNumDepFloatingSpecies());
 
-        mModel->getGlobalParameterValues(
-                mModel->getNumGlobalParameters(), 0, &result[0]);
+        impl->model->getGlobalParameterValues(
+                impl->model->getNumGlobalParameters(), 0, &result[0]);
 
-        mModel->getConservedMoietyValues(
-                mModel->getNumDepFloatingSpecies(), 0,
-                &result[mModel->getNumGlobalParameters()]);
+        impl->model->getConservedMoietyValues(
+                impl->model->getNumDepFloatingSpecies(), 0,
+                &result[impl->model->getNumGlobalParameters()]);
 
         return result;
     }
 
-    vector<double> result(mModel->getNumGlobalParameters());
-    mModel->getGlobalParameterValues(result.size(), 0, &result[0]);
+    vector<double> result(impl->model->getNumGlobalParameters());
+    impl->model->getGlobalParameterValues(result.size(), 0, &result[0]);
     return result;
 }
 
@@ -2049,7 +2291,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
@@ -2060,15 +2302,15 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         int variableIndex;
         int parameterIndex;
 
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
 
         // Check the variable name
-        if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
+        if ((variableIndex = impl->model->getReactionIndex(variableName)) >= 0)
         {
             variableType = vtFlux;
         }
-        else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
+        else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableName)) >= 0)
         {
             variableType = vtSpecies;
         }
@@ -2078,23 +2320,23 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         }
 
         // Check for the parameter name
-        if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
+        if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0)
         {
             parameterType = ptGlobalParameter;
             originalParameterValue = 0;
-            mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
+            impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
+        else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
             parameterType = ptBoundaryParameter;
             originalParameterValue = 0;
-            mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
+            impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
-        else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
+        else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0)
         {
             parameterType = ptConservationParameter;
             originalParameterValue = 0;
-            mModel->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
+            impl->model->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
         }
         else
         {
@@ -2102,36 +2344,36 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         }
 
         // Get the original parameter value
-        originalParameterValue = getParameterValue(parameterType, parameterIndex);
+        originalParameterValue = impl->getParameterValue(parameterType, parameterIndex);
 
-        double hstep = mDiffStepSize*originalParameterValue;
+        double hstep = impl->mDiffStepSize*originalParameterValue;
         if (fabs(hstep) < 1E-12)
         {
-            hstep = mDiffStepSize;
+            hstep = impl->mDiffStepSize;
         }
 
         try
         {
-            mModel->convertToConcentrations();
+            impl->model->convertToConcentrations();
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
             steadyState();
-            mModel->evalReactionRates();
+            impl->model->evalReactionRates();
             double fi = getVariableValue(variableType, variableIndex);
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
             steadyState();
-            mModel->evalReactionRates();
+            impl->model->evalReactionRates();
             double fi2 = getVariableValue(variableType, variableIndex);
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
             steadyState();
-            mModel->evalReactionRates();
+            impl->model->evalReactionRates();
             double fd = getVariableValue(variableType, variableIndex);
 
-            setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
             steadyState();
-            mModel->evalReactionRates();
+            impl->model->evalReactionRates();
             double fd2 = getVariableValue(variableType, variableIndex);
 
             // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
@@ -2140,7 +2382,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             double f2 = -(8*fd + fi2);
 
             // What ever happens, make sure we restore the parameter level
-            setParameterValue(parameterType, parameterIndex, originalParameterValue);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
             steadyState();
 
             return 1/(12*hstep)*(f1 + f2);
@@ -2148,7 +2390,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         catch(...) //Catch anything... and do 'finalize'
         {
             // What ever happens, make sure we restore the parameter level
-            setParameterValue(parameterType, parameterIndex, originalParameterValue);
+           impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
             steadyState();
             throw;
         }
@@ -2167,17 +2409,17 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     int variableIndex;
     int parameterIndex;
 
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
     // Check the variable name
-    if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
+    if ((variableIndex = impl->model->getReactionIndex(variableName)) >= 0)
     {
         variableType = vtFlux;
     }
-    else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
+    else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableName)) >= 0)
     {
         variableType = vtSpecies;
     }
@@ -2187,15 +2429,15 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     }
 
     // Check for the parameter name
-    if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
+    if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0)
     {
         parameterType = ptGlobalParameter;
     }
-    else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
+    else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
         parameterType = ptBoundaryParameter;
     }
-    else if ((parameterIndex = mModel->getConservedMoietyIndex(parameterName)) >= 0)
+    else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0)
     {
         parameterType = ptConservationParameter;
     }
@@ -2207,112 +2449,139 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     steadyState();
 
     double variableValue = getVariableValue(variableType, variableIndex);
-    double parameterValue = getParameterValue(parameterType, parameterIndex);
+    double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
     return getuCC(variableName, parameterName)*parameterValue/variableValue;
 }
 
-//[Ignore]
-// Get a single species elasticity value
-// IMPORTANT:
-// Assumes that the reaction rates have been precomputed at the operating point !!
+
 double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex)
 {
+    // TODO this will not work corrrectly where there are rate rules
+    get_self();
     double value;
-    double originalParameterValue = 0;
-    mModel->getFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
+    double originalConc = 0;
+    double result = std::numeric_limits<double>::quiet_NaN();
 
-    double hstep = mDiffStepSize*originalParameterValue;
-    if (fabs(hstep) < 1E-12)
-    {
-        hstep = mDiffStepSize;
-    }
+    // note setting init values auotmatically sets the current values to the
+    // init values
 
-    mModel->convertToConcentrations();
+    // this causes a reset, so need to save the current amounts to set them back
+    // as init conditions.
+    std::vector<double> conc(self.model->getNumFloatingSpecies());
+    self.model->getFloatingSpeciesConcentrations(conc.size(), 0, &conc[0]);
 
-    value = originalParameterValue + hstep;
-    mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
+    // save the original init values
+    std::vector<double> initConc(self.model->getNumFloatingSpecies());
+    self.model->getFloatingSpeciesInitConcentrations(initConc.size(), 0, &initConc[0]);
 
+    // get the original value
+    self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &originalConc);
+
+    // now we start changing things
     try
     {
-        mModel->evalReactionRates();
+        // set init amounts to current amounts, restore them later.
+        // have to do this as this is only way to set conserved moiety values
+        self.model->setFloatingSpeciesInitConcentrations(conc.size(), 0, &conc[0]);
+
+        // sanity check
+        assert(originalConc == conc[speciesIndex]);
+        double tmp = 0;
+        self.model->getFloatingSpeciesInitConcentrations(1, &speciesIndex, &tmp);
+        assert(originalConc == tmp);
+        self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &tmp);
+        assert(originalConc == tmp);
+
+        // things check out, start fiddling...
+
+        double hstep = self.mDiffStepSize*originalConc;
+        if (fabs(hstep) < 1E-12)
+        {
+            hstep = self.mDiffStepSize;
+        }
+
+        value = originalConc + hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
+
         double fi = 0;
-        mModel->getReactionRates(1, &reactionId, &fi);
+        self.model->getReactionRates(1, &reactionId, &fi);
 
-        value = originalParameterValue + 2*hstep;
-        mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
-        mModel->evalReactionRates();
+        value = originalConc + 2*hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
         double fi2 = 0;
-        mModel->getReactionRates(1, &reactionId, &fi2);
+        self.model->getReactionRates(1, &reactionId, &fi2);
 
-        value = originalParameterValue - hstep;
-        mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
-        mModel->evalReactionRates();
+        value = originalConc - hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
         double fd = 0;
-        mModel->getReactionRates(1, &reactionId, &fd);
+        self.model->getReactionRates(1, &reactionId, &fd);
 
-        value = originalParameterValue - 2*hstep;
-        mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
-        mModel->evalReactionRates();
+        value = originalConc - 2*hstep;
+        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
         double fd2 = 0;
-        mModel->getReactionRates(1, &reactionId, &fd2);
+        self.model->getReactionRates(1, &reactionId, &fd2);
 
-        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
+        // Use instead the 5th order approximation
+        // double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
         double f1 = fd2 + 8*fi;
         double f2 = -(8*fd + fi2);
 
-        // What ever happens, make sure we restore the species level
-        mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
-        return 1/(12*hstep)*(f1 + f2);
+        result = 1/(12*hstep)*(f1 + f2);
     }
-    catch(const Exception& e)
+    catch(const std::exception& e)
     {
-        Log(Logger::LOG_ERROR)<<"Something went wrong in "<<__FUNCTION__;
-        Log(Logger::LOG_ERROR)<<"Exception "<<e.what()<< " thrown";
-                // What ever happens, make sure we restore the species level
-        mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
-        return gDoubleNaN;
+        // What ever happens, make sure we restore the species level
+        self.model->setFloatingSpeciesInitConcentrations(
+                initConc.size(), 0, &initConc[0]);
+
+        // only set the indep species, setting dep species is not permitted.
+        self.model->setFloatingSpeciesConcentrations(
+                self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+
+        throw e;
     }
+
+    // What ever happens, make sure we restore the species level
+    self.model->setFloatingSpeciesInitConcentrations(
+            initConc.size(), 0, &initConc[0]);
+
+    // only set the indep species, setting dep species is not permitted.
+    self.model->setFloatingSpeciesConcentrations(
+            self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+
+    return result;
 }
 
 
-//        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
+
 DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 {
-    try
+    get_self();
+
+    if (!self.model)
     {
-        if (!mModel)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumFloatingSpecies());
-        mModel->convertToConcentrations();
-
-        // Compute reaction velocities at the current operating point
-        mModel->evalReactionRates();
-
-        for (int i = 0; i < mModel->getNumReactions(); i++)
-        {
-            for (int j = 0; j < mModel->getNumFloatingSpecies(); j++)
-            {
-                uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
-            }
-        }
-
-        return uElastMatrix;
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
+
+    DoubleMatrix uElastMatrix(self.model->getNumReactions(), self.model->getNumFloatingSpecies());
+
+    for (int i = 0; i < self.model->getNumReactions(); i++)
     {
-        throw CoreException("Unexpected error from unscaledElasticityMatrix()", e.Message());
+        for (int j = 0; j < self.model->getNumFloatingSpecies(); j++)
+        {
+            uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
+        }
     }
+
+    return uElastMatrix;
 }
 
 DoubleMatrix RoadRunner::getScaledElasticityMatrix()
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
@@ -2320,20 +2589,20 @@ DoubleMatrix RoadRunner::getScaledElasticityMatrix()
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
 
         DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
-        vector<double> rates(mModel->getNumReactions());
-        mModel->getReactionRates(rates.size(), 0, &rates[0]);
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
+        vector<double> rates(impl->model->getNumReactions());
+        impl->model->getReactionRates(rates.size(), 0, &rates[0]);
 
         for (int i = 0; i < uelast.RSize(); i++)
         {
             // Rows are rates
-            if (mModel->getNumReactions() == 0 || rates[i] == 0)
+            if (impl->model->getNumReactions() == 0 || rates[i] == 0)
             {
                 string name;
-                if(mModelGenerator && mModel->getNumReactions())
+                if(impl->mModelGenerator && impl->model->getNumReactions())
                 {
-                    name = mModel->getReactionId(i);
+                    name = impl->model->getReactionId(i);
                 }
                 else
                 {
@@ -2346,7 +2615,7 @@ DoubleMatrix RoadRunner::getScaledElasticityMatrix()
             for (int j = 0; j < uelast.CSize(); j++) // Columns are species
             {
                 double concentration = 0;
-                mModel->getFloatingSpeciesConcentrations(1, &j, &concentration);
+                impl->model->getFloatingSpeciesConcentrations(1, &j, &concentration);
 
                 result[i][j] = uelast[i][j]*concentration/rates[i];
             }
@@ -2364,30 +2633,30 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
         int speciesIndex = 0;
         int reactionIndex = 0;
 
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
 
-        if ((speciesIndex = mModel->getFloatingSpeciesIndex(speciesName)) < 0)
+        if ((speciesIndex = impl->model->getFloatingSpeciesIndex(speciesName)) < 0)
         {
             throw CoreException("Internal Error: unable to locate species name while computing unscaled elasticity");
         }
-        if ((reactionIndex = mModel->getReactionIndex(reactionName)) < 0)
+        if ((reactionIndex = impl->model->getReactionIndex(reactionName)) < 0)
         {
             throw CoreException("Internal Error: unable to locate reaction name while computing unscaled elasticity");
         }
 
         double concentration = 0;
-        mModel->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
+        impl->model->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
 
         double reactionRate = 0;
-        mModel->getReactionRates(1, &reactionIndex, &reactionRate);
+        impl->model->getReactionRates(1, &reactionIndex, &reactionRate);
         return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex) *
             concentration / reactionRate;
 
@@ -2405,17 +2674,17 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
 
-        simulateOptions.start = 0;
-        simulateOptions.duration = 50.0;
-        simulateOptions.steps = 1;
+        impl->simulateOpt.start = 0;
+        impl->simulateOpt.duration = 50.0;
+        impl->simulateOpt.steps = 1;
 
         simulate(); //This will crash, because numpoints == 1, not anymore, numPoints = 2 if numPoints <= 1
-        if (steadyState() > mSteadyStateThreshold)
+        if (steadyState() > impl->mSteadyStateThreshold)
         {
             if (steadyState() > 1E-2)
             {
@@ -2425,10 +2694,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
         // Compute the Jacobian first
         DoubleMatrix uelast     = getUnscaledElasticityMatrix();
-        DoubleMatrix *Nr         = getNrMatrix();
-        DoubleMatrix T1 = mult(*Nr, uelast);
-        DoubleMatrix *LinkMatrix = getLinkMatrix();
-        DoubleMatrix Jac = mult(T1, *LinkMatrix);
+        DoubleMatrix Nr         = getNrMatrix();
+        DoubleMatrix T1 = mult(Nr, uelast);
+        DoubleMatrix LinkMatrix = getLinkMatrix();
+        DoubleMatrix Jac = mult(T1, LinkMatrix);
 
         // Compute -Jac
         DoubleMatrix T2 = Jac * (-1.0);
@@ -2438,10 +2707,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
         // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         // Sauro: mult which takes complex matrix need to be implemented
-        DoubleMatrix T3 = mult(Inv, *Nr); // Compute ( - Jac)^-1 . Nr
+        DoubleMatrix T3 = mult(Inv, Nr); // Compute ( - Jac)^-1 . Nr
 
         // Finally include the dependent set as well.
-        DoubleMatrix T4 = mult(*LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
+        DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
         return T4;
     }
     catch (const Exception& e)
@@ -2455,24 +2724,24 @@ DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
 {
     try
     {
-        if (mModel)
+        if (impl->model)
         {
             DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
 
             if (ucc.size() > 0 )
             {
-                mModel->convertToConcentrations();
-                mModel->evalReactionRates();
+                impl->model->convertToConcentrations();
+                impl->model->evalReactionRates();
                 for (int i = 0; i < ucc.RSize(); i++)
                 {
                     for (int j = 0; j < ucc.CSize(); j++)
                     {
                         double conc = 0;
-                        mModel->getFloatingSpeciesConcentrations(1, &i, &conc);
+                        impl->model->getFloatingSpeciesConcentrations(1, &i, &conc);
                         if(conc != 0.0)
                         {
                             double rate = 0;
-                            mModel->getReactionRates(1, &j, &rate);
+                            impl->model->getReactionRates(1, &j, &rate);
                             ucc[i][j] = ucc[i][j] * rate / conc;
                         }
                         else
@@ -2501,7 +2770,7 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 {
     try
     {
-        if (mModel)
+        if (impl->model)
         {
             DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
             DoubleMatrix uee = getUnscaledElasticityMatrix();
@@ -2530,7 +2799,7 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 {
     try
     {
-        if (!mModel)
+        if (!impl->model)
         {
             throw CoreException(gEmptyModelMessage);
         }
@@ -2539,18 +2808,18 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 
         if (ufcc.RSize() > 0)
         {
-            mModel->convertToConcentrations();
-            mModel->evalReactionRates();
+            impl->model->convertToConcentrations();
+            impl->model->evalReactionRates();
             for (int i = 0; i < ufcc.RSize(); i++)
             {
                 for (int j = 0; j < ufcc.CSize(); j++)
                 {
                     double irate = 0;
-                    mModel->getReactionRates(1, &i, &irate);
+                    impl->model->getReactionRates(1, &i, &irate);
                     if(irate !=0)
                     {
                         double jrate = 0;
-                        mModel->getReactionRates(1, &j, &jrate);
+                        impl->model->getReactionRates(1, &j, &jrate);
                         ufcc[i][j] = ufcc[i][j] * jrate / irate;
                     }
                     else
@@ -2571,72 +2840,53 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 // Help("Returns the initially loaded model as SBML")
 string RoadRunner::getSBML()
 {
-    return mCurrentSBML;
+    return impl->mCurrentSBML;
 }
 
 // Help(
 //            "Change the initial conditions to another concentration vector (changes only initial conditions for floating Species)")
 void RoadRunner::changeInitialConditions(const vector<double>& ic)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    mModel->setFloatingSpeciesConcentrations(ic.size(), 0, &ic[0]);
-    mModel->setFloatingSpeciesInitConcentrations(ic.size(), 0, &ic[0]);
-    mModel->convertToAmounts();
-    mModel->computeConservedTotals();
+    impl->model->setFloatingSpeciesConcentrations(ic.size(), 0, &ic[0]);
+    impl->model->setFloatingSpeciesInitConcentrations(ic.size(), 0, &ic[0]);
+    impl->model->convertToAmounts();
+    impl->model->computeConservedTotals();
 }
 
 // Help("Returns the current vector of reactions rates")
 vector<double> RoadRunner::getReactionRates()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    mModel->convertToConcentrations();
-    mModel->evalReactionRates();
+    impl->model->convertToConcentrations();
+    impl->model->evalReactionRates();
 
-    vector<double> rates(mModel->getNumReactions());
-    mModel->getReactionRates(rates.size(), 0, &rates[0]);
+    vector<double> rates(impl->model->getNumReactions());
+    impl->model->getReactionRates(rates.size(), 0, &rates[0]);
     return rates;
 }
 
 Integrator* RoadRunner::getIntegrator()
 {
-    return mCVode;
+    return impl->integrator;
 }
 
 
-bool RoadRunner::setValue(const string& sId, double dValue)
+void RoadRunner::setValue(const string& sId, double dValue)
 {
-    if (!mModel)
+    if (!impl->model)
     {
-        Log(Logger::LOG_ERROR)<<gEmptyModelMessage;
-        return false;
+        throw CoreException(gEmptyModelMessage);
     }
 
-    try
-    {
-        mModel->setValue(sId, dValue);
-    }
-    catch (std::exception& ex)
-    {
-        Log(Logger::LOG_ERROR) << "setValue(" << sId << ", " << dValue << ") failed, "
-                << ex.what();
-    }
-
-    int nIndex = 0;
-
-    if ((nIndex = mModel->getConservedMoietyIndex(sId)) >= 0)
-    {
-        mModel->setConservedMoietyValues(1, &nIndex, &dValue);
-        mModel->updateDependentSpeciesValues();
-        mModel->setConservedSumChanged(true);
-        return true;
-    }
+    impl->model->setValue(sId, dValue);
 
     SelectionRecord sel(sId);
 
@@ -2645,8 +2895,6 @@ bool RoadRunner::setValue(const string& sId, double dValue)
     {
         reset();
     }
-
-    return true;
 }
 
 
@@ -2658,17 +2906,17 @@ double RoadRunner::getValue(const std::string& sel)
 
 vector<double> RoadRunner::getSelectedValues()
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
     vector<double> result;
-    result.resize(mSelectionList.size());
+    result.resize(impl->mSelectionList.size());
 
-    for (int i = 0; i < mSelectionList.size(); i++)
+    for (int i = 0; i < impl->mSelectionList.size(); i++)
     {
-        result[i] = getNthSelectedOutput(i, mModel->getTime());
+        result[i] = getNthSelectedOutput(i, impl->model->getTime());
     }
     return result;
 }
@@ -2725,40 +2973,40 @@ _xmlNode *RoadRunner::createConfigNode()
 
     Configurable::addChild(caps, Configurable::createParameterNode("Conservation",
                     "enables (=true) or disables (=false) the conservation analysis of models for timecourse simulations.",
-                    (int) conservedMoietyAnalysis));
+                    (int) impl->conservedMoietyAnalysis));
 
     Configurable::addChild(capies, caps);
 
     // capability for child objects
-    if (mCVode)
+    Configurable *intConf = dynamic_cast<Configurable*>(impl->integrator);
+    if (intConf)
     {
-        Configurable::addChild(capies, mCVode->createConfigNode());
+        Configurable::addChild(capies, intConf->createConfigNode());
     }
-    else
-    {
-        CvodeInterface tmp(0, &simulateOptions);
-        Configurable::addChild(capies, tmp.createConfigNode());
-    }
+
 
     // nleq only exists during steadyState, so we need to create a tmp
     // one and load it with the xml if we given.
-    NLEQInterface nleq(0);
+    SteadyStateSolver *ss = SteadyStateSolver::New(0, 0);
 
-    if (configurationXML.length() > 0)
+    if (impl->configurationXML.length() > 0)
     {
-        Configurable::loadXmlConfig(configurationXML, &nleq);
+        Configurable::loadXmlConfig(impl->configurationXML, ss);
     }
 
-    Configurable::addChild(capies, nleq.createConfigNode());
+    Configurable::addChild(capies, ss->createConfigNode());
+
+    delete ss;
 
     return capies;
 }
 
 void RoadRunner::loadConfig(const _xmlDoc* doc)
 {
-    if (mCVode)
+    Configurable *intConf = dynamic_cast<Configurable*>(impl->integrator);
+    if (intConf)
     {
-        mCVode->loadConfig(doc);
+        intConf->loadConfig(doc);
     }
 }
 
@@ -2769,13 +3017,13 @@ std::string RoadRunner::getConfigurationXML()
 
 void RoadRunner::setConfigurationXML(const std::string& xml)
 {
-    this->configurationXML = xml;
+    impl->configurationXML = xml;
     Configurable::loadXmlConfig(xml, this);
 }
 
 SelectionRecord RoadRunner::createSelection(const std::string& str)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw Exception("Can not create selection without a model");
     }
@@ -2796,27 +3044,27 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
     case SelectionRecord::UNKNOWN_ELEMENT:
         // check for sbml element types
 
-        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::FLOATING_AMOUNT;
             break;
         }
-        else if ((sel.index = mModel->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::BOUNDARY_AMOUNT;
             break;
         }
-        else if ((sel.index = mModel->getCompartmentIndex(sel.p1)) >= 0)
+        else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::COMPARTMENT;
             break;
         }
-        else if ((sel.index = mModel->getGlobalParameterIndex(sel.p1)) >= 0)
+        else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::GLOBAL_PARAMETER;
             break;
         }
-        else if ((sel.index = mModel->getReactionIndex(sel.p1)) >= 0)
+        else if ((sel.index = impl->model->getReactionIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::REACTION_RATE;
             break;
@@ -2827,12 +3075,12 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             break;
         }
     case SelectionRecord::UNKNOWN_CONCENTRATION:
-        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
             break;
         }
-        else if ((sel.index = mModel->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0)
         {
             sel.selectionType = SelectionRecord::BOUNDARY_CONCENTRATION;
             break;
@@ -2845,7 +3093,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             break;
         }
     case SelectionRecord::FLOATING_AMOUNT_RATE:
-        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
         }
@@ -2859,13 +3107,13 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
     case SelectionRecord::CONTROL:
     case SelectionRecord::UNSCALED_CONTROL:
         // check that the control coef args are valid
-        if (mModel->getReactionIndex(sel.p1) >= 0 ||
-                mModel->getFloatingSpeciesIndex(sel.p1) >= 0)
+        if (impl->model->getReactionIndex(sel.p1) >= 0 ||
+                impl->model->getFloatingSpeciesIndex(sel.p1) >= 0)
 
         {
-            if (mModel->getGlobalParameterIndex(sel.p2) >= 0 ||
-                    mModel->getBoundarySpeciesIndex(sel.p2) >= 0 ||
-                    mModel->getConservedMoietyIndex(sel.p2) >= 0)
+            if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
+                    impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
+                    impl->model->getConservedMoietyIndex(sel.p2) >= 0)
             {
                 Log(Logger::LOG_INFORMATION) <<
                         "Valid metabolic control selection: " << sel.to_repr();
@@ -2886,7 +3134,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
 
         break;
     case SelectionRecord::EIGENVALUE:
-        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
         }
@@ -2896,9 +3144,9 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         }
         break;
     case SelectionRecord::STOICHIOMETRY:
-        if (mModel->getFloatingSpeciesIndex(sel.p1) >= 0)
+        if (impl->model->getFloatingSpeciesIndex(sel.p1) >= 0)
         {
-            if (mModel->getReactionIndex(sel.p2) >= 0)
+            if (impl->model->getReactionIndex(sel.p2) >= 0)
             {
                 break;
             }
@@ -2913,7 +3161,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         }
         break;
     case SelectionRecord::INITIAL_CONCENTRATION:
-        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
         }
@@ -2933,32 +3181,32 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
 
 void RoadRunner::setSelections(const vector<string>& _selList)
 {
-    mSelectionList.clear();
+    impl->mSelectionList.clear();
 
     for(int i = 0; i < _selList.size(); ++i)
     {
-        mSelectionList.push_back(createSelection(_selList[i]));
+        impl->mSelectionList.push_back(createSelection(_selList[i]));
     }
 }
 
 void RoadRunner::setSelections(const std::vector<rr::SelectionRecord>& ss)
 {
-    mSelectionList = ss;
+    impl->mSelectionList = ss;
 }
 
 void RoadRunner::setSteadyStateSelections(const vector<string>& ss)
 {
-    mSteadyStateSelection.clear();
+    impl->mSteadyStateSelection.clear();
 
     for(int i = 0; i < ss.size(); ++i)
     {
-        mSteadyStateSelection.push_back(createSelection(ss[i]));
+        impl->mSteadyStateSelection.push_back(createSelection(ss[i]));
     }
 }
 
 void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>& ss)
 {
-    mSteadyStateSelection = ss;
+    impl->mSteadyStateSelection = ss;
 }
 
 
@@ -2969,7 +3217,7 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         const string& parameterName, const string& variableName,
         bool useDB, bool useHz)
 {
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
@@ -2994,8 +3242,8 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         }
 
         ComplexMatrix uelast(getUnscaledElasticityMatrix());
-        ComplexMatrix Nr( *(getNrMatrix()));
-        ComplexMatrix LinkMatrix( *(getLinkMatrix()));
+        ComplexMatrix Nr = getNrMatrix();
+        ComplexMatrix LinkMatrix = getLinkMatrix();
 
         // Compute dv/dp
         for (int j = 0; j < reactionNames.size(); j++)
@@ -3095,16 +3343,16 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
 {
     int parameterIndex;
 
-    if (!mModel)
+    if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
     try
     {
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
 
-        int reactionIndex = mModel->getReactionIndex(reactionName);
+        int reactionIndex = impl->model->getReactionIndex(reactionName);
 
         if(reactionIndex == -1)
         {
@@ -3114,19 +3362,19 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
         // Look for the parameter name, check local parameters first, then global
         ParameterType parameterType;
 
-        if(mModel->getGlobalParameterIndex(parameterName) != -1)
+        if(impl->model->getGlobalParameterIndex(parameterName) != -1)
         {
-            parameterIndex = mModel->getGlobalParameterIndex(parameterName);
+            parameterIndex = impl->model->getGlobalParameterIndex(parameterName);
             parameterType  = ptGlobalParameter;
         }
-        else if(mModel->getBoundarySpeciesIndex(parameterName) != -1)
+        else if(impl->model->getBoundarySpeciesIndex(parameterName) != -1)
         {
-            parameterIndex = mModel->getBoundarySpeciesIndex(parameterName);
+            parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName);
             parameterType  = ptBoundaryParameter;
         }
-        else if(mModel->getConservedMoietyIndex(parameterName) != -1)
+        else if(impl->model->getConservedMoietyIndex(parameterName) != -1)
         {
-            parameterIndex = mModel->getConservedMoietyIndex(parameterName);
+            parameterIndex = impl->model->getConservedMoietyIndex(parameterName);
             parameterType = ptConservationParameter;
         }
         else
@@ -3145,37 +3393,37 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
                 originalParameterValue = getBoundarySpeciesByIndex(parameterIndex);
             break;
             case ptConservationParameter:
-                //originalParameterValue = mModel->getC ;//model.ct[parameterIndex];
-                mModel->getConservedMoietyValues(1, &parameterIndex, &result);
+                //originalParameterValue = impl->mModel->getC ;//model.ct[parameterIndex];
+                impl->model->getConservedMoietyValues(1, &parameterIndex, &result);
                 originalParameterValue = result;
             break;
             default:
                 throw(Exception("This parameterType is not supported in getUnscaledParameterElasticity"));
         }
 
-        double hstep = mDiffStepSize*originalParameterValue;
+        double hstep = impl->mDiffStepSize*originalParameterValue;
         if (fabs(hstep) < 1E-12)
         {
-            hstep = mDiffStepSize;
+            hstep = impl->mDiffStepSize;
         }
 
         double f1, f2, fi, fi2, fd, fd2;
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
-        mModel->convertToConcentrations();
-        mModel->evalReactionRates();
-        mModel->getReactionRates(1, &reactionIndex, &fi);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
+        impl->model->convertToConcentrations();
+        impl->model->evalReactionRates();
+        impl->model->getReactionRates(1, &reactionIndex, &fi);
 
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2.0*hstep);
-        mModel->evalReactionRates();
-        mModel->getReactionRates(1, &reactionIndex, &fi2);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2.0*hstep);
+        impl->model->evalReactionRates();
+        impl->model->getReactionRates(1, &reactionIndex, &fi2);
 
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
-        mModel->evalReactionRates();
-        mModel->getReactionRates(1, &reactionIndex, &fd);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
+        impl->model->evalReactionRates();
+        impl->model->getReactionRates(1, &reactionIndex, &fd);
 
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2.0*hstep);
-        mModel->evalReactionRates();
-        mModel->getReactionRates(1, &reactionIndex, &fd2);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2.0*hstep);
+        impl->model->evalReactionRates();
+        impl->model->getReactionRates(1, &reactionIndex, &fd2);
 
         // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -3183,7 +3431,7 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
         f2 = -(8.0*fd + fi2);
 
         // What ever happens, make sure we restore the species level
-        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 0);
+        impl->changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 0);
         return 1.0/(12.0*hstep)*(f1 + f2);
     }
     catch(const Exception& ex)
@@ -3192,12 +3440,6 @@ double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, co
     }
 }
 
-// Changes a given parameter type by the given increment
-void RoadRunner::changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
-                                    double originalValue, double increment)
-{
-    setParameterValue(parameterType, parameterIndex, originalValue + increment);
-}
 
 
 vector<double> logspace(const double& startW, const double& d2, const int& n)
@@ -3217,13 +3459,13 @@ vector<double> logspace(const double& startW, const double& d2, const int& n)
 
 double phase(Complex& val)
 {
-    if ((real(val) == 0.0) && (imag(val) == 0.0))
+    if ((std::real(val) == 0.0) && (imag(val) == 0.0))
     {
         return 0.0;
     }
     else
     {
-        return atan2(imag(val), real(val));
+        return atan2(imag(val), std::real(val));
     }
 }
 
@@ -3231,15 +3473,15 @@ double phase(Complex& val)
 double getAdjustment(Complex& z)
 {
     double adjustment;
-    if (real(z) >= 0 && imag(z) >= 0)
+    if (std::real(z) >= 0 && imag(z) >= 0)
     {
         adjustment = 0;
     }
-    else if (real(z) >= 0 && imag(z) < 0)
+    else if (std::real(z) >= 0 && imag(z) < 0)
     {
         adjustment = 360;
     }
-    else if (real(z) < 0 && imag(z) >= 0)
+    else if (std::real(z) < 0 && imag(z) >= 0)
     {
         adjustment = 0;
     }
@@ -3257,14 +3499,14 @@ double getAdjustment(Complex& z)
 
 void RoadRunner::getIds(int types, std::list<std::string>& ids)
 {
-    if (mModel)
+    if (impl->model)
     {
-        mModel->getIds(types, ids);
+        impl->model->getIds(types, ids);
 
         if (types & SelectionRecord::EIGENVALUE)
         {
             std::list<std::string> eigen;
-            mModel->getIds(SelectionRecord::FLOATING_AMOUNT, eigen);
+            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT, eigen);
 
             for (std::list<std::string>::const_iterator i =
                     eigen.begin(); i != eigen.end(); ++i)
@@ -3277,7 +3519,7 @@ void RoadRunner::getIds(int types, std::list<std::string>& ids)
 
 int RoadRunner::getSupportedIdTypes()
 {
-    int types = mModel ? mModel->getSupportedIdTypes() : 0;
+    int types = impl->model ? impl->model->getSupportedIdTypes() : 0;
 
     return types | SelectionRecord::ELASTICITY |
             SelectionRecord::UNSCALED_ELASTICITY |
@@ -3290,8 +3532,8 @@ vector<string> RoadRunner::getRateOfChangeIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3301,8 +3543,8 @@ vector<string> RoadRunner::getCompartmentIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::COMPARTMENT, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::COMPARTMENT, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3312,8 +3554,8 @@ vector<string> RoadRunner::getGlobalParameterIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::GLOBAL_PARAMETER, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::GLOBAL_PARAMETER, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3323,8 +3565,8 @@ vector<string> RoadRunner::getBoundarySpeciesIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::BOUNDARY_AMOUNT, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::BOUNDARY_AMOUNT, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3332,7 +3574,7 @@ vector<string> RoadRunner::getBoundarySpeciesIds()
 
 vector<string> RoadRunner::getConservedMoietyIds()
 {
-    return createModelStringList(mModel, &ExecutableModel::getNumConservedMoieties,
+    return createModelStringList(impl->model, &ExecutableModel::getNumConservedMoieties,
             &ExecutableModel::getConservedMoietyId);
 }
 
@@ -3340,8 +3582,8 @@ vector<string> RoadRunner::getFloatingSpeciesIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::FLOATING_AMOUNT, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::FLOATING_AMOUNT, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3351,8 +3593,8 @@ vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::INITIAL_FLOATING_CONCENTRATION, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::INITIAL_FLOATING_CONCENTRATION, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3362,8 +3604,8 @@ vector<string> RoadRunner::getReactionIds()
 {
     std::list<std::string> list;
 
-    if (mModel) {
-        mModel->getIds(SelectionRecord::REACTION_RATE, list);
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::REACTION_RATE, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());
@@ -3385,7 +3627,57 @@ vector<string> RoadRunner::getEigenvalueIds()
 
 RoadRunnerOptions& RoadRunner::getOptions()
 {
-    return roadRunnerOptions;
+    return impl->roadRunnerOptions;
+}
+
+const DoubleMatrix* RoadRunner::getSimulationData() const
+{
+    return &impl->simulationResult;
+}
+
+void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
+{
+    get_self();
+
+    if (opt && opt != &self.copySimulateOpt)
+    {
+        self.copySimulateOpt = *opt;
+    }
+
+    if (self.copySimulateOpt.duration < 0 || self.copySimulateOpt.start < 0
+            || self.copySimulateOpt.steps <= 0 )
+    {
+        throw CoreException("duration, startTime and steps must be positive");
+    }
+
+    // reload self.integrator if different
+    bool reloadIntegrator = self.simulateOpt.integrator
+            != self.copySimulateOpt.integrator;
+
+    self.simulateOpt = self.copySimulateOpt;
+
+    // This one creates the list of what we will look at in the result
+    // uses values (potentially) from simulate options.
+    createTimeCourseSelectionList();
+
+    if (reloadIntegrator)
+    {
+        // this sets integrator options, uses self.simulateOpt
+        createIntegrator();
+    }
+    else
+    {
+        self.integrator->setSimulateOptions(&self.simulateOpt);
+    }
+
+    if (self.simulateOpt.flags & SimulateOptions::RESET_MODEL)
+    {
+        reset(); // reset back to initial conditions
+    }
+
+    // set how the result should be returned to python
+    self.mRoadRunnerData.structuredResult =
+            self.simulateOpt.flags & SimulateOptions::STRUCTURED_RESULT;
 }
 
 }//namespace

@@ -9,6 +9,7 @@
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
 #include "rrStringUtils.h"
+#include <sbml/common/libsbml-version.h>
 
 namespace rrllvm
 {
@@ -29,9 +30,6 @@ FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
 {
 }
 
-FunctionResolver::~FunctionResolver()
-{
-}
 
 llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
@@ -51,6 +49,8 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
     }
     else if ((funcDef = model->getListOfFunctionDefinitions()->get(symbol)))
     {
+        recursiveSymbolPush(symbol);
+
         const ASTNode *math = funcDef->getMath();
         const unsigned nchild = math->getNumChildren();
 
@@ -81,7 +81,11 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         for (uint i = 0; i < nchild - 1; ++i)
         {
             const ASTNode *c = math->getChild(i);
+#if (LIBSBML_VERSION >= 51000)
+            // assert(c && c->getType() == AST_QUALIFIER_BVAR);
+#else
             assert(c->isBvar());
+#endif
             (*symbols)[c->getName()] = args[i];
         }
 
@@ -93,10 +97,23 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
 
         delete symbols;
         symbols = 0;
+
+        recursiveSymbolPop();
+
         return result;
     }
 
     return 0;
+}
+
+void FunctionResolver::recursiveSymbolPush(const std::string& symbol)
+{
+    parentResolver.recursiveSymbolPush(symbol);
+}
+
+void FunctionResolver::recursiveSymbolPop()
+{
+    parentResolver.recursiveSymbolPop();
 }
 
 } /* namespace rr */

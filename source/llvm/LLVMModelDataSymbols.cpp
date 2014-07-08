@@ -10,7 +10,7 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "rrStringUtils.h"
 #include "conservation/ConservationExtension.h"
 
@@ -21,6 +21,17 @@
 #include <string>
 #include <vector>
 #include <sstream>
+
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#define cxx11_ns std
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#define cxx11_ns std::tr1
+#endif
+
 
 using namespace libsbml;
 using namespace std;
@@ -48,7 +59,7 @@ static const char* modelDataFieldsNames[] =  {
 
         "NumInitCompartments",                  // 10
         "NumInitFloatingSpecies",               // 11
-        "NumInitBoundarySpecies"                // 12
+        "NumInitBoundarySpecies",               // 12
         "NumInitGlobalParameters",              // 13
 
         "Stoichiometry",                        // 14
@@ -70,7 +81,7 @@ static const char* modelDataFieldsNames[] =  {
         "ReactionRatesAlias",                   // 29
 
         "RateRuleValuesAlias",                  // 30
-        "FloatingSpeciesAmountsAlias"           // 31
+        "FloatingSpeciesAmountsAlias",          // 31
 
         "CompartmentVolumes",                   // 32
         "InitCompartmentVolumes",               // 33
@@ -112,6 +123,9 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
     independentInitGlobalParameterSize(0),
     independentInitCompartmentSize(0)
 {
+    assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
+            == NotSafe_FloatingSpeciesAmounts + 1
+            && "wrong number of items in modelDataFieldsNames");
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
@@ -125,6 +139,10 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
     independentInitGlobalParameterSize(0),
     independentInitCompartmentSize(0)
 {
+    assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
+            == NotSafe_FloatingSpeciesAmounts + 1
+            && "wrong number of items in modelDataFieldsNames");
+
     modelName = model->getName();
 
     // first go through the rules, see if they determine other stuff
@@ -145,8 +163,11 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             }
             else if (dynamic_cast<const AlgebraicRule*>(rule))
             {
-                poco_warning(getLogger(), string("encountered algegraic rule: ")
-                        + rule->getId() + string(", currently not handled"));
+                char* formula = SBML_formulaToString(rule->getMath());
+                Log(Logger::LOG_WARNING)
+                    << "Unable to handle algebraic rules. Formula '0 = "
+                    << formula << "' ignored.";
+                free(formula);
             }
         }
     }
@@ -179,7 +200,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
     initBoundarySpecies(model);
 
-    initGlobalParameters(model);
+    initGlobalParameters(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
 
     initReactions(model);
 
@@ -225,6 +246,11 @@ LLVMModelDataSymbols::SymbolIndexType LLVMModelDataSymbols::getSymbolIndex(
         result = i->second;
         return REACTION;
     }
+    else if ((i = eventIds.find(name)) != eventIds.end())
+    {
+        result = i->second;
+        return EVENT;
+    }
 
     result = -1;
     return INVALID_SYMBOL;
@@ -259,10 +285,9 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
     }
     else
     {
-        throw LLVMException("could not find floating species with id " + id);
+        string msg = "could not find floating species with id "  + id;
+        throw LLVMException(msg);
     }
-    // never get here, just silence eclipse warnings
-    return 0;
 }
 
 uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
@@ -494,6 +519,13 @@ bool LLVMModelDataSymbols::isIndependentBoundarySpecies(
             i->second < independentBoundarySpeciesSize;
 }
 
+bool LLVMModelDataSymbols::isBoundarySpecies(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = boundarySpeciesMap.find(id);
+    return i != boundarySpeciesMap.end();
+}
+
 bool LLVMModelDataSymbols::isIndependentGlobalParameter(
         const std::string& id) const
 {
@@ -595,11 +627,18 @@ uint LLVMModelDataSymbols::getGlobalParametersSize() const
     return globalParametersMap.size();
 }
 
-void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
+void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
+        bool conservedMoieties)
 {
     list<string> indParam;
     list<string> depParam;
+    list<string> indInitParam;
+    list<string> depInitParam;
+
     const ListOfParameters *parameters = model->getListOfParameters();
+
+    globalParameterRateRules.resize(parameters->size(), false);
+
     for (uint i = 0; i < parameters->size(); i++)
     {
         const Parameter *p = parameters->get(i);
@@ -612,12 +651,37 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
         {
             depParam.push_back(id);
         }
+
+        if (isIndependentInitElement(id))
+        {
+            indInitParam.push_back(id);
+        }
+        else
+        {
+            depInitParam.push_back(id);
+        }
     }
+
+    // when this is used, we check the size, so works even
+    // when consv moieity is not enabled.
+    if (conservedMoieties)
+    {
+        conservedMoietyGlobalParameter.resize(indParam.size(), false);
+    }
+
     for (list<string>::const_iterator i = indParam.begin();
             i != indParam.end(); ++i)
     {
         uint pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
+
+        // CM parameters can only be independent.
+        if (conservedMoieties)
+        {
+            const Parameter* p = parameters->get(*i);
+            conservedMoietyGlobalParameter[pi] =
+                    ConservationExtension::getConservedMoiety(*p);
+        }
     }
 
     for (list<string>::const_iterator i = depParam.begin();
@@ -625,10 +689,29 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
     {
         uint pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
+
+        // all the independent ones by def have no rate rules.
+        globalParameterRateRules[pi] = hasRateRule(*i);
+    }
+
+
+    for (list<string>::const_iterator i = indInitParam.begin();
+            i != indInitParam.end(); ++i)
+    {
+        uint ci = initGlobalParametersMap.size();
+        initGlobalParametersMap[*i] = ci;
+    }
+
+    for (list<string>::const_iterator i = depInitParam.begin();
+            i != depInitParam.end(); ++i)
+    {
+        uint ci = initGlobalParametersMap.size();
+        initGlobalParametersMap[*i] = ci;
     }
 
     // finally set how many ind compartments we have
     independentGlobalParameterSize = indParam.size();
+    independentInitGlobalParameterSize = indInitParam.size();
 
     if (Logger::LOG_INFORMATION <= getLogger().getLevel())
     {
@@ -883,6 +966,53 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     independentInitCompartmentSize = indInitCompartments.size();
 }
 
+bool LLVMModelDataSymbols::isConservedMoietyParameter(uint id) const
+{
+    return id < conservedMoietyGlobalParameter.size() ?
+            conservedMoietyGlobalParameter[id] : false;
+}
+
+bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
+{
+    return gid < globalParameterRateRules.size()
+            ? globalParameterRateRules[gid] : false;
+}
+
+std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
+{
+    for (StringUIntMap::const_iterator i = globalParametersMap.begin();
+            i != globalParametersMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
+}
+
+/**
+ * row is species, column is reaction
+ */
+void  LLVMModelDataSymbols::setNamedSpeciesReferenceInfo(uint row, uint column,
+        SpeciesReferenceType type)
+{
+    for (StringRefInfoMap::iterator i = namedSpeciesReferenceInfo.begin();
+            i != namedSpeciesReferenceInfo.end(); ++i)
+    {
+        SpeciesReferenceInfo& sr = i->second;
+        if (sr.row == row && sr.column == column)
+        {
+            sr.type = type;
+        }
+    }
+}
+
+typedef std::vector<LLVMModelDataSymbols::SpeciesReferenceType>::size_type ssize_type;
+typedef cxx11_ns::unordered_map<uint, ssize_type> UIntUMap;
+
+
 
 void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
 {
@@ -891,7 +1021,15 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
     for (uint i = 0; i < reactions->size(); i++)
     {
         const Reaction *reaction = reactions->get(i);
+        if (reaction->isSetFast() && reaction->getFast()==true) {
+          Log(Logger::LOG_WARNING)
+            << "Unable to handle SBML fast reactions. Reaction '"
+            << reaction->getId() << "' treated as a slow reaction.";
+        }
         reactionsMap.insert(StringUIntPair(reaction->getId(), i));
+
+        // keep track of species in this reaction.
+        UIntUMap speciesMap;
 
         // go through the reaction reactants and products to know how much to
         // allocate space for the stochiometry matrix.
@@ -901,30 +1039,70 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
 
-            if (isValidSpeciesReference(r, "reactant"))
+            if (isValidFloatingSpeciesReference(r, "reactant"))
             {
                 // at this point, we'd better have a floating species
                 uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
-                stoichColIndx.push_back(i);
-                stoichRowIndx.push_back(speciesIdx);
-                stoichIds.push_back(r->isSetId() ? r->getId() : "");
-                stoichTypes.push_back(Reactant);
 
-                if(r->isSetId() && r->getId().length() > 0)
+                UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
+
+                if (si == speciesMap.end())
                 {
-                    if (namedSpeciesReferenceInfo.find(r->getId()) ==
-                            namedSpeciesReferenceInfo.end())
+                    stoichColIndx.push_back(i);
+                    stoichRowIndx.push_back(speciesIdx);
+                    stoichIds.push_back(r->isSetId() ? r->getId() : "");
+                    stoichTypes.push_back(Reactant);
+
+                    // in case this species is both a product and reactant, can look up
+                    // index of the just added Reactant
+                    speciesMap[speciesIdx] = stoichTypes.size() - 1;
+
+                    if(r->isSetId() && r->getId().length() > 0)
                     {
-                        SpeciesReferenceInfo info =
+                        if (namedSpeciesReferenceInfo.find(r->getId()) ==
+                                namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
                             {speciesIdx, i, Reactant, r->getId()};
-                        namedSpeciesReferenceInfo[r->getId()] = info;
+                            namedSpeciesReferenceInfo[r->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += r->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    Log(Logger::LOG_INFORMATION)
+                        << "Experimental multi product-reactant stochiometry code"
+                        << "with reactant " << r->getSpecies();
+
+                    // species is listed multiple times as reactant
+                    stoichTypes[si->second] = MultiReactantProduct;
+
+                    // set all the other ones to Multi...
+                    setNamedSpeciesReferenceInfo(speciesIdx, i, MultiReactantProduct);
+
+                    if(r->isSetId() && r->getId().length() > 0)
                     {
-                        string msg = "Species Reference with id ";
-                        msg += r->getId();
-                        msg += " appears more than once in the model";
-                        throw_llvm_exception(msg);
+                        if (namedSpeciesReferenceInfo.find(r->getId()) ==
+                                namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
+                            {speciesIdx, i, MultiReactantProduct, r->getId()};
+                            namedSpeciesReferenceInfo[r->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += r->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
                 }
             }
@@ -936,29 +1114,67 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
             const SimpleSpeciesReference *p = products->get(j);
             // products had better be in the stoich matrix.
 
-            if (isValidSpeciesReference(p, "product"))
+            if (isValidFloatingSpeciesReference(p, "product"))
             {
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
-                stoichColIndx.push_back(i);
-                stoichRowIndx.push_back(speciesIdx);
-                stoichIds.push_back(p->isSetId() ? p->getId() : "");
-                stoichTypes.push_back(Product);
 
-                if (p->isSetId() && p->getId().length() > 0)
+                UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
+
+                if (si == speciesMap.end())
                 {
-                    if (namedSpeciesReferenceInfo.find(p->getId())
-                            == namedSpeciesReferenceInfo.end())
+                    // its not already a reactant, can add another
+                    // non-zero stoich entry
+                    stoichColIndx.push_back(i);
+                    stoichRowIndx.push_back(speciesIdx);
+                    stoichIds.push_back(p->isSetId() ? p->getId() : "");
+                    stoichTypes.push_back(Product);
+
+                    if (p->isSetId() && p->getId().length() > 0)
                     {
-                        SpeciesReferenceInfo info =
+                        if (namedSpeciesReferenceInfo.find(p->getId())
+                                == namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
                             { speciesIdx, i, Product, p->getId()};
-                        namedSpeciesReferenceInfo[p->getId()] = info;
+                            namedSpeciesReferenceInfo[p->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += p->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    Log(Logger::LOG_INFORMATION)
+                        << "Experimental multi product stochiometry code "
+                        << "with product " << p->getSpecies();
+
+                    // species is listed multiple times as product
+                    stoichTypes[si->second] = MultiReactantProduct;
+
+                    // set all the other ones to Multi...
+                    setNamedSpeciesReferenceInfo(speciesIdx, i, MultiReactantProduct);
+
+                    if(p->isSetId() && p->getId().length() > 0)
                     {
-                        string msg = "Species Reference with id ";
-                        msg += p->getId();
-                        msg += " appears more than once in the model";
-                        throw_llvm_exception(msg);
+                        if (namedSpeciesReferenceInfo.find(p->getId()) ==
+                                namedSpeciesReferenceInfo.end())
+                        {
+                            SpeciesReferenceInfo info =
+                            {speciesIdx, i, MultiReactantProduct, p->getId()};
+                            namedSpeciesReferenceInfo[p->getId()] = info;
+                        }
+                        else
+                        {
+                            string msg = "Species Reference with id ";
+                            msg += p->getId();
+                            msg += " appears more than once in the model";
+                            throw_llvm_exception(msg);
+                        }
                     }
                 }
             }
@@ -968,7 +1184,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
 
 
 
-bool LLVMModelDataSymbols::isValidSpeciesReference(
+bool LLVMModelDataSymbols::isValidFloatingSpeciesReference(
         const libsbml::SimpleSpeciesReference* ref, const std::string& reacOrProd)
 {
     string id = ref->getSpecies();
@@ -978,46 +1194,34 @@ bool LLVMModelDataSymbols::isValidSpeciesReference(
     {
         return true;
     }
-    else
+
+    if (isBoundarySpecies(id))
     {
-        string id = ref->getSpecies();
-        string err = "the species reference with id ";
-        err += string("\'" + ref->getId() + "\', ");
-        err += "which references species ";
-        string("\'" + id + "\', ");
-        err += "is NOT a valid " + reacOrProd + " reference, ";
-        // figure out what kind of thing we have and give a warning
-        if (hasAssignmentRule(id))
-        {
-            err += "it is defined by an assignment rule";
-        }
-        else if (hasRateRule(id))
-        {
-            err += "it is defined by rate rule";
-        }
-        else if (isIndependentBoundarySpecies(id))
-        {
-            err += "it is a boundary species";
-        }
-        else
-        {
-            err += "it is not a species";
-        }
-
-        err += ", it will be ignored.";
-
-        if  (isIndependentBoundarySpecies(id))
-        {
-            // fairly common
-            Log(Logger::LOG_DEBUG) << err;
-        }
-        else
-        {
-            // serious error
-            Log(Logger::LOG_WARNING) << err;
-        }
         return false;
     }
+
+    string err = "the species reference with id ";
+    err += string("\'" + ref->getId() + "\', ");
+    err += "which references species ";
+    string("\'" + id + "\', ");
+    err += "is NOT a valid " + reacOrProd + " reference, ";
+    // figure out what kind of thing we have and give a warning
+    if (hasAssignmentRule(id))
+    {
+        err += "it is defined by an assignment rule";
+    }
+    else if (hasRateRule(id))
+    {
+        err += "it is defined by rate rule";
+    }
+    else
+    {
+        err += "it is not a species";
+    }
+
+    Log(Logger::LOG_WARNING) << err;
+
+    return false;
 }
 
 void LLVMModelDataSymbols::displayCompartmentInfo()
@@ -1145,8 +1349,21 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
     {
         throw LLVMException("could not find init compartment with id " + symbol);
     }
-    // never get here, just silence eclipse warnings
-    return 0;
+}
+
+
+uint LLVMModelDataSymbols::getGlobalParameterInitIndex(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
+    if(i != initGlobalParametersMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find init global parameter with id " + symbol);
+    }
 }
 
 
@@ -1169,6 +1386,14 @@ bool LLVMModelDataSymbols::isIndependentInitCompartment(
     StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
     return i != initCompartmentsMap.end() &&
             i->second < independentInitCompartmentSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
+        const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
+    return i != initGlobalParametersMap.end() &&
+            i->second < independentInitGlobalParameterSize;
 }
 
 bool LLVMModelDataSymbols::isIndependentInitElement(

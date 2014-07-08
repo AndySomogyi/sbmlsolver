@@ -353,6 +353,7 @@ std::string rr::SelectionRecord::to_string() const
         result = "[" + p1 + "]";
         break;
     case FLOATING_AMOUNT_RATE:
+    case GLOBAL_PARAMETER_RATE:
         result = p1 + "'";
         break;
     case COMPARTMENT:
@@ -389,6 +390,9 @@ std::string rr::SelectionRecord::to_string() const
         break;
     case UNKNOWN:
         result = "UNKNOWN";
+        break;
+    case INITIAL_GLOBAL_PARAMETER:
+        result = "init(" + p1 + ")";
         break;
     default:
         result = "ERROR";

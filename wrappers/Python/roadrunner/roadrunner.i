@@ -27,9 +27,8 @@
     #include <lsLUResult.h>
     #include <lsUtils.h>
     #include <rrCompiler.h>
-    #include <rrModelGenerator.h>
+    #include <ModelGenerator.h>
     #include <rrExecutableModel.h>
-    #include <rrRoadRunnerData.h>
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
@@ -43,6 +42,7 @@
     #include <assert.h>
     #include <math.h>
     #include <cmath>
+    #include <PyUtils.h>
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -65,6 +65,13 @@
 
 
     using namespace rr;
+
+#define VERIFY_PYARRAY(p) { \
+    assert(p && "PyArray is NULL"); \
+    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+}
+
+
 %}
 
 %naturalvar;
@@ -103,8 +110,8 @@
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
-%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
-%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+//%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
+//%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
 
 %apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
@@ -115,6 +122,7 @@
     SWIG_exception(SWIG_RuntimeError, e.what());
   }
 }
+
 
 /**
  *  Convert from C --> Python
@@ -131,6 +139,7 @@
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
             NPY_CARRAY | NPY_OWNDATA, NULL);
+    VERIFY_PYARRAY(pArray);
     $result  = pArray;
 }
 
@@ -139,7 +148,7 @@
  * Convert from C --> Python
  * reference roadrunner owned data.
  */
-%typemap(out) ls::DoubleMatrix* {
+%typemap(out) const ls::DoubleMatrix* {
 
     int rows = ($1)->numRows();
     int cols = ($1)->numCols();
@@ -149,36 +158,13 @@
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
             NPY_CARRAY, NULL);
+    VERIFY_PYARRAY(pArray);
     $result  = pArray;
 }
 
-
-/* Convert from C --> Python */
-%typemap(out) const rr::RoadRunnerData* {
-
-    /* int rows = 0; */
-    /* int cols = 0; */
-    /* int nd = 2; */
-    /* double *data = 0; */
-
-    /* if ($1) */
-    /* { */
-    /*     ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(($1)->getData()); */
-    /*     rows = mat.numRows(); */
-    /*     cols = mat.numCols(); */
-    /*     data = mat.getArray(); */
-    /* } */
-
-    /* npy_intp dims[2] = {rows, cols}; */
-
-    /* PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0, */
-    /*         NPY_CARRAY, NULL); */
+%apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
 
-    $result  = RoadRunnerData_to_py($1);
-}
-
-%apply const rr::RoadRunnerData* {rr::RoadRunnerData*, RoadRunnerData*, const RoadRunnerData* };
 
 /* Convert from C --> Python */
 %typemap(out) std::vector<double> {
@@ -187,6 +173,7 @@
     npy_intp dims[1] = {len};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -201,6 +188,32 @@
 
     $result  = array;
 }
+
+%typemap(out) const rr::Variant& {
+    try {
+        const rr::Variant& temp = *($1);
+        $result = Variant_to_py(temp);
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+
+
+%typemap(in) const rr::Variant& (rr::Variant temp) {
+
+    try {
+        temp = Variant_from_py($input);
+        $1 = &temp;
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
+
+
+
 
 
 /*
@@ -284,6 +297,7 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
 
     npy_intp dims[1] = {len};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -316,91 +330,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
     return s.str();
 }
 
-/**
- * create a numpy structured array with the column names set from
- * the column names of the RoadRunnerData object.
- */
-static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
-
-    // a valid array descriptor:
-    // In [87]: b = array(array([0,1,2,3]),
-    //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
-
-    // could be Null
-    if (pData == 0) {
-        Py_RETURN_NONE;
-    }
-
-    if (pData->structuredResult) {
-
-        const std::vector<std::string> &names = pData->getColumnNames();
-        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
-
-        int rows = mat.numRows();
-        int cols = mat.numCols();
-
-        if (cols == 0) {
-            Py_RETURN_NONE;
-        }
-
-        double* mData = mat.getArray();
-
-        PyObject* list = PyList_New(names.size());
-
-        for(int i = 0; i < names.size(); ++i)
-            {
-                PyObject *col = PyString_FromString(names[i].c_str());
-                PyObject *type = PyString_FromString("f8");
-                PyObject *tup = PyTuple_Pack(2, col, type);
-
-                Py_DECREF(col);
-                Py_DECREF(type);
-
-                void PyList_SET_ITEM(list, i, tup);
-            }
-
-        PyArray_Descr* descr = 0;
-        PyArray_DescrConverter(list, &descr);
-
-        // done with list
-        Py_CLEAR(list);
-
-        npy_intp dims[] = {rows};
-
-        // steals a reference to descr
-        PyObject *result = PyArray_SimpleNewFromDescr(1, dims,  descr);
-
-        if (result) {
-
-            assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
-
-            double* data = (double*)PyArray_BYTES(result);
-
-            memcpy(data, mData, rows*cols*sizeof(double));
-        }
-
-        return result;
-    }
-    else {
-
-        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
-        int rows = mat.numRows();
-        int cols = mat.numCols();
-        int nd = 2;
-
-        if (cols == 0) {
-            Py_RETURN_NONE;
-        }
-
-        npy_intp dims[2] = {rows, cols};
-        double *data = (double*)malloc(sizeof(double)*rows*cols);
-        memcpy(data, mat.getArray(), sizeof(double)*rows*cols);
-
-        PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                       NPY_CARRAY | NPY_OWNDATA, NULL);
-        return pArray;
-    }
-};
 
 
 // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
@@ -580,17 +509,29 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::getOptions;
 
+//%rename (_simulate) rr::RoadRunner::simulate;
+%ignore rr::RoadRunner::simulate;
+
+
+%ignore rr::Config::getInt;
+%ignore rr::Config::getString;
+%ignore rr::Config::getBool;
+%ignore rr::Config::getDouble;
+
 
 
 // rename these, the injected python code will take care of
 // making these properties.
-%rename (_getSelections) rr::RoadRunner::getSelections();
-%rename (_setSelections) setSelections(const std::vector<rr::SelectionRecord>&);
+%ignore rr::RoadRunner::getSelections();
+%ignore rr::RoadRunner::setSelections(const std::vector<rr::SelectionRecord>&);
 %rename (_setSelections) setSelections(const std::vector<std::string>&);
 %rename (_getModel) getModel();
 
-%rename (_getSteadyStateSelections) rr::RoadRunner::getSteadyStateSelections();
-%rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
+// hide SelectionRecord details from python api,
+// only deal with strings here.
+%ignore rr::RoadRunner::getSteadyStateSelections();
+%ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
+
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
 %rename (_getConservedMoietyAnalysis) getConservedMoietyAnalysis();
 %rename (_setConservedMoietyAnalysis) setConservedMoietyAnalysis(bool);
@@ -688,6 +629,9 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
+// deprecated, model knows how to reset itself with reset.
+%ignore rr::ExecutableModel::evalInitialConditions;
+
 // map the events to python using the PyEventListener class
 %ignore rr::ExecutableModel::setEventListener(int, rr::EventListenerPtr);
 %ignore rr::ExecutableModel::getEventListener(int);
@@ -707,6 +651,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::Integrator::addIntegratorListener;
 //%ignore rr::Integrator::removeIntegratorListener;
 
+%rename rr::conversion::ConservedMoietyConverter PyConservedMoietyConverter;
 
 %ignore rr::ostream;
 %ignore ostream;
@@ -717,7 +662,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 // ignore all instances of the Configurable methods.
 %ignore *::createConfigNode;
 %ignore *::loadConfig;
-
 
 // Warning 389: operator[] ignored (consider using %extend)
 // Warning 401: Nothing known about base class 'Configurable'. Ignored.
@@ -746,7 +690,7 @@ namespace std { class ostream{}; }
 %include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
-%include <rrModelGenerator.h>
+%include <ModelGenerator.h>
 %include <rrVersionInfo.h>
 
 %thread;
@@ -761,6 +705,7 @@ namespace std { class ostream{}; }
 %include "PyIntegratorListener.h"
 %include <rrConfig.h>
 
+ /*
 %extend std::vector<rr::SelectionRecord>
 {
     std::string __repr__() {
@@ -784,33 +729,134 @@ namespace std { class ostream{}; }
         return s.str();
     }
 }
-
+ */
 
 
 %extend rr::RoadRunner
 {
     // attributes
-	
-	/**
-	 * make some of these const so SWIG would not allow setting.
-	 */
-	const rr::SimulateOptions *simulateOptions;
+
+    /**
+     * make some of these const so SWIG would not allow setting.
+     */
+    const rr::SimulateOptions *simulateOptions;
 
     rr::RoadRunnerOptions *options;
-
-
-    const rr::RoadRunnerData *simulate(double startTime, double endTime, int steps) {
-        rr::SimulateOptions s = $self->getSimulateOptions();
-        s.start = startTime;
-        s.duration = endTime - startTime;
-        s.steps = steps;
-        return $self->simulate(&s);
-    }
 
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
         return s.str();
+    }
+
+    std::string __str__() {
+        return $self->getInfo();
+    }
+
+    PyObject* _simulate(const rr::SimulateOptions* opt) {
+        // its not const correct...
+        ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
+
+        // a valid array descriptor:
+        // In [87]: b = array(array([0,1,2,3]),
+        //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
+
+
+        // are we returning a structured array?
+        if (opt->flags & SimulateOptions::STRUCTURED_RESULT) {
+
+            // get the column names
+            const std::vector<SelectionRecord>& sel = ($self)->getSelections();
+            std::vector<string> names(sel.size());
+
+            for(int i = 0; i < sel.size(); ++i) {
+                names[i] = sel[i].to_string();
+            }
+
+
+            int rows = result->numRows();
+            int cols = result->numCols();
+
+            if (cols == 0) {
+                Py_RETURN_NONE;
+            }
+
+            double* mData = result->getArray();
+
+            PyObject* list = PyList_New(names.size());
+
+            for(int i = 0; i < names.size(); ++i)
+            {
+                PyObject *col = PyString_FromString(names[i].c_str());
+                PyObject *type = PyString_FromString("f8");
+                PyObject *tup = PyTuple_Pack(2, col, type);
+
+                Py_DECREF(col);
+                Py_DECREF(type);
+
+                // list takes ownershipt of tuple
+                void PyList_SET_ITEM(list, i, tup);
+            }
+
+            PyArray_Descr* descr = 0;
+            PyArray_DescrConverter(list, &descr);
+
+            // done with list
+            Py_CLEAR(list);
+            npy_intp dims[] = {rows};
+
+            // steals a reference to descr
+            PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
+            VERIFY_PYARRAY(pyres);
+
+            if (pyres) {
+
+                assert(PyArray_NBYTES(pyres) == rows*cols*sizeof(double) && "invalid array size");
+
+                double* data = (double*)PyArray_BYTES(pyres);
+
+                memcpy(data, mData, rows*cols*sizeof(double));
+            }
+
+            return pyres;
+        }
+        // standard array result.
+        // this version just wraps the roadrunner owned data.
+        else {
+
+            int rows = result->numRows();
+            int cols = result->numCols();
+            int nd = 2;
+            npy_intp dims[2] = {rows, cols};
+            PyObject *pArray = NULL;
+
+            if (opt->flags & SimulateOptions::COPY_RESULT) {
+
+                Log(rr::Logger::LOG_DEBUG) << "copying result data";
+
+                pArray = PyArray_SimpleNew(2, dims, NPY_DOUBLE);
+
+                VERIFY_PYARRAY(pArray);
+                assert(PyArray_NBYTES(pArray) == rows*cols*sizeof(double) && "invalid array size");
+
+                double *pyData = (double*)PyArray_BYTES(pArray);
+                double *mData = result->getArray();
+
+                memcpy(pyData, mData, rows*cols*sizeof(double));
+            }
+            else {
+
+                Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
+
+                double *data = result->getArray();
+
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY, NULL);
+                VERIFY_PYARRAY(pArray);
+
+            }
+            return pArray;
+        }
     }
 
     double getValue(const rr::SelectionRecord* pRecord) {
@@ -845,6 +891,53 @@ namespace std { class ostream{}; }
 
         return pyList;
     }
+
+    /**
+     * returns the SelectionRecord vector python list of strings.
+     */
+    PyObject *_getSelections() {
+
+        const std::vector<rr::SelectionRecord>& selections = ($self)->getSelections();
+
+        unsigned size = selections.size();
+
+        PyObject *pysel = PyList_New(size);
+
+        unsigned j = 0;
+        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin();
+             i != selections.end(); ++i) {
+            std::string str = i->to_string();
+
+            PyObject *pystr = PyString_FromString(str.c_str());
+            PyList_SET_ITEM(pysel, j++, pystr);
+        }
+
+        return pysel;
+    }
+
+    /**
+     * returns the SelectionRecord vector python list of strings.
+     */
+    PyObject *_getSteadyStateSelections() {
+
+        const std::vector<rr::SelectionRecord>& selections = ($self)->getSteadyStateSelections();
+
+        unsigned size = selections.size();
+
+        PyObject *pysel = PyList_New(size);
+
+        unsigned j = 0;
+        for (std::vector<rr::SelectionRecord>::const_iterator i = selections.begin();
+             i != selections.end(); ++i) {
+            std::string str = i->to_string();
+
+            PyObject *pystr = PyString_FromString(str.c_str());
+            PyList_SET_ITEM(pysel, j++, pystr);
+        }
+
+        return pysel;
+    }
+
 
 
    %pythoncode %{
@@ -902,6 +995,314 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values(types).__iter__()
+
+
+        def simulate(self, *args, **kwargs):
+            """
+            Simulate the optionally plot current SBML model. This is the one stop shopping method
+            for simulation and ploting.
+
+            simulate accepts a up to four positional arguments and a large number of keyword args.
+
+            The first four (optional) arguments are treated as:
+
+            1: Start Time, if this is a number.
+
+            2: End Time, if this is a number.
+
+            3: Number of Steps, if this is a number.
+
+            4: List of Selections.
+
+            All four of the positional arguments are optional. If any of the positional arguments are
+            a list of string instead of a number, then they are interpreted as a list of selections.
+
+
+            There are a number of ways to call simulate.
+
+            1. With no arguments. In this case, the current set of `SimulateOptions` will
+            be used for the simulation. The current set may be changed either directly
+            via setSimulateOptions() or with one of the two alternate ways of calling
+            simulate.
+
+            2: With single `SimulateOptions` argument. In this case, all of the settings
+            in the given options are copied and will be used for the current and future
+            simulations.
+
+            3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
+            these three values are copied and will be used for the current and future simulations.
+
+            4: With keyword arguments where keywords are the property names of the SimulateOptions
+            class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
+
+                rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
+
+            The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+            one calls::
+
+                rr.simulate (0, 3, 100)
+
+            The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
+            is followed by a call to::
+
+                rr.simulate()
+
+            This simulation will use the previous values.
+
+            simulate accepts the following list of keyword arguments:
+
+            integrator
+                A text string specifying which integrator to use. Currently supports "cvode"
+                for deterministic simulation (default) and "gillespie" for stochastic
+                simulation.
+
+            sel or selections
+                A list of strings specifying what values to display in the output.
+
+            plot
+                True or False
+                If True, RoadRunner will create a basic plot of the simulation result using
+                the built in plot routine which uses MatPlotLib.
+
+            absolute
+                A number representing the absolute difference permitted for the integrator
+                tolerance.
+
+            duration
+                The duration of the simulation run, in the model's units of time.
+                Note, setting the duration automatically sets the end time and visa versa.
+
+            end
+                The simulation end time. Note, setting the end time automatically sets
+                the duration accordingly and visa versa.
+
+            relative
+                A float-point number representing the relative difference permitted.
+                Defaults 0.0001
+
+            resetModel (or just "reset"???)
+                True or False
+                Causes the model to be reset to the original conditions specified in
+                the SBML when the simulation is run.
+
+            start
+                The start time of the simulation time-series data. Often this is 0,
+                but not necessarily.
+
+            steps
+                The number of steps at which the output is sampled. The samples are evenly spaced.
+                When a simulation system calculates the data points to record, it will typically
+                divide the duration by the number of time steps. Thus, for N steps, the output
+                will have N+1 data rows.
+
+            stiff
+                True or False
+                Use the stiff integrator. Only use this if the model is stiff and causes issues
+                with the regular integrator. The stiff integrator is slower than the conventional
+                integrator.
+
+            multiStep
+                True or False
+                Perform a multi step integration.
+                * Experimental *
+                Perform a multi-step simulation. In multi-step simulation, one may monitor the
+                variable time stepping via the IntegratorListener events system.
+
+            initialTimeStep
+                A user specified initial time step. If this is <= 0, the integrator will attempt
+                to determine a safe initial time step.
+
+                Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+                the internal integrator may take many many steps to reach one of the external time steps.
+                This value specifies an initial value for the internal integrator time step.
+
+            minimumTimeStep
+                Specify the minimum time step that the internal integrator will use.
+                Uses integrator estimated value if <= 0.
+
+            maximumTimeStep
+                Specify the maximum time step size that the internal integrator will use.
+                Uses integrator estimated value if <= 0.
+
+            maximumNumSteps
+                Specify the maximum number of steps the internal integrator will use before
+                reaching the user specified time span. Uses the integrator default value if <= 0.
+
+
+            :returns: a numpy array with each selected output time series being a
+             column vector, and the 0'th column is the simulation time.
+            :rtype: numpy.ndarray
+            """
+
+            doPlot = False
+            show = True
+            haveSteps = False
+            haveVariableStep = False
+            o = self.simulateOptions
+
+            # check if we have just a sim options
+            if len(args) >= 1:
+                if type(args[0]) == type(self.simulateOptions):
+                    o = args[0]
+                elif type(args[0]) == list:
+                    # its a selection list
+                    self.selections = args[0]
+                elif isinstance(args[0], (int, float)):
+                    # treat it as a number
+                    o.start = args[0]
+                else:
+                    raise ValueError("argument 1 must be either a number, list or "
+                                     "SimulateOptions object, recieved: {0}".format(str(args[0])))
+
+            # second arg is treated as sim end time
+            if len(args) >= 2:
+                if type(args[1]) == list:
+                    # its a selection list
+                    self.selections = args[1]
+                elif isinstance(args[1], (int, float)):
+                    # treat it as a number
+                    o.end = args[1]
+                else:
+                    raise ValueError("argument 2 must be either a number, list or "
+                                     "SimulateOptions object, recieved: {0}".format(str(args[1])))
+
+
+            # third arg is treated as number of steps
+            if len(args) >= 3:
+                if type(args[2]) == list:
+                    # its a selection list
+                    self.selections = args[2]
+                elif isinstance(args[2], (int, float)):
+                    # treat it as a number
+                    o.steps = args[2]
+                    haveSteps = True
+                else:
+                    raise ValueError("argument 3 must be either a number, list or "
+                                     "SimulateOptions object, recieved: {0}".format(str(args[2])))
+
+            # forth arg may be a list (currently)
+            if len(args) >= 4:
+                if type(args[3]) == list:
+                    # its a selection list
+                    self.selections = args[3]
+                else:
+                    raise ValueError("argument 4 (if given) must be a list of selections "
+                                     ", recieved: {0}".format(str(args[3])))
+
+
+            # go through the list of keyword args
+            for k,v in kwargs.iteritems():
+
+                # changing integrators.
+                if k == "integrator" and type(v) == str:
+                    if v.lower() == "gillespie":
+                        o.integrator = SimulateOptions.GILLESPIE
+                    elif v.lower() == "cvode":
+                        o.integrator = SimulateOptions.CVODE
+                    else:
+                        raise Exception("{0} is invalid argument for integrator".format(v))
+
+                    continue
+
+                # specifying selections:
+                if k == "selections" or k == "sel":
+                    self.selections = v
+                    continue
+
+                # reset model, also accept 'reset'
+                if k == "reset" or k == "resetModel":
+                    o.resetModel = v
+                    continue
+
+                # check if variableStep was explicitly specified, this overrides the steps
+                # positional arg
+                if k == "variableStep":
+                    haveVariableStep = True
+                    o.variableStep = v
+                    continue
+
+                # look through all the attributes of the SimulateOptions class,
+                # if its one of these, set it.
+                if SimulateOptions.__dict__.has_key(k):
+                    setattr(o, k, v)
+                    continue
+
+                if k == "plot":
+                    doPlot = v
+                    continue
+
+                if k == "show":
+                    show = v
+                    continue
+
+                raise Exception("{0} is not a valid keyword argument".format(k))
+
+
+            # if we are doing a stochastic sim,
+            if SimulateOptions.getIntegratorType(o.integrator) == \
+                SimulateOptions.STOCHASTIC and not haveVariableStep:
+                o.variableStep = not haveSteps
+
+            # the options are set up, now actually run the simuation...
+            result = self._simulate(o)
+
+            if doPlot:
+                self.plot(show)
+
+            return result
+
+        def plot(self, show=True):
+            """
+            RoadRunner.plot([show])
+
+            Plot the previously run simulation result using Matplotlib.
+
+            This takes the contents of the simulation result and builds a
+            legend from the selection list.
+
+
+            If the optional prameter 'show' [default is True] is given, the pylab
+            show() method is called.
+            """
+
+            import pylab as p
+
+            result = self.getSimulationData()
+
+            if result is None:
+                raise Exception("no simulation result")
+
+            # check if standard numpy array
+            if result.dtype.names is None:
+
+                selections = self.selections
+
+                if len(result.shape) != 2 or result.shape[1] != len(selections):
+                    raise Exception("simulation result columns not equal to number of selections, likely a simulation has not been run")
+
+                times = result[:,0]
+
+                for i in range(1, len(selections)):
+                    series = result[:,i]
+                    name = selections[i]
+                    p.plot(times, series, label=str(name))
+
+            # result is structured array
+            else:
+                if len(result.dtype.names) < 1:
+                    raise Exception('no columns to plot')
+
+                time = result.dtype.names[0]
+
+                for name in result.dtype.names[1:]:
+                    p.plot(result[time], result[name], label=name)
+
+            p.legend()
+
+            if show:
+                p.show()
+
+
     %}
 }
 
@@ -942,13 +1343,22 @@ namespace std { class ostream{}; }
     double end;
     bool resetModel;
     bool stiff;
-	bool multiStep;
+    bool multiStep;
     bool structuredResult;
+    bool variableStep;
+    bool copyResult;
+    rr::SimulateOptions::Integrator integrator;
 
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.SimulateOptions() { this = " << (void*)$self << " }>";
         return s.str();
+    }
+
+    int test() {
+        std::cout << "sizeof: " << sizeof(rr::SimulateOptions) << std::endl;
+        std::cout << "integrator: " << $self->integrator;
+        return 0;
     }
 
     std::string __str__() {
@@ -967,6 +1377,20 @@ namespace std { class ostream{}; }
         s << "}";
         return s.str();
     }
+
+    /**
+     * makes a copy of this object.
+     * Python normally just keeps references to objects, and this forces a true
+     * copy. Note, we heed to add the SWIG_POINTER_OWN to the function below
+     * so that when the returned object is destroyed (by Python), the C++
+     * object will also be deleted.
+     */
+    PyObject *copy() {
+        SimulateOptions *pThis = $self;
+        SimulateOptions *other = new SimulateOptions(*pThis);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
+    }
+
 }
 
 %{
@@ -1003,7 +1427,7 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::STIFF;
+        return opt->integratorFlags & SimulateOptions::STIFF;
     }
 
     void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
@@ -1023,6 +1447,59 @@ namespace std { class ostream{}; }
             opt->integratorFlags |= SimulateOptions::MULTI_STEP;
         } else {
             opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+        }
+    }
+
+    bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::COPY_RESULT;
+    }
+
+    void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->flags |= SimulateOptions::COPY_RESULT;
+        } else {
+            opt->flags &= ~SimulateOptions::COPY_RESULT;
+        }
+    }
+
+
+    bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
+        return opt->integratorFlags & SimulateOptions::VARIABLE_STEP;
+    }
+
+    void rr_SimulateOptions_variableStep_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->integratorFlags |= SimulateOptions::VARIABLE_STEP;
+        } else {
+            opt->integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
+        }
+    }
+
+    rr::SimulateOptions::Integrator rr_SimulateOptions_integrator_get(SimulateOptions* opt) {
+        return opt->integrator;
+    }
+
+    void rr_SimulateOptions_integrator_set(SimulateOptions* opt, rr::SimulateOptions::Integrator value) {
+
+        // set the value
+        opt->integrator = value;
+
+        // adjust the value of the VARIABLE_STEP based on wether we are choosing
+        // stochastic or deterministic integrator.
+        bool vs = false;
+
+        if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
+            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+        }
+
+        else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
+            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+        }
+
+        if (vs) {
+            opt->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+        } else {
+            opt->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
         }
     }
 
@@ -1067,7 +1544,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_conservedMoieties_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::CONSERVED_MOIETIES;
     }
-    
+
 
     void rr_LoadSBMLOptions_conservedMoieties_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1081,7 +1558,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_noDefaultSelections_get(rr::LoadSBMLOptions* opt) {
         return opt->loadFlags & rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
-    
+
     void rr_LoadSBMLOptions_noDefaultSelections_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
             opt->loadFlags |= rr::LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
@@ -1093,7 +1570,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_mutableInitialConditions_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
     }
-    
+
 
     void rr_LoadSBMLOptions_mutableInitialConditions_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1106,7 +1583,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_recompile_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::RECOMPILE;
     }
-    
+
 
     void rr_LoadSBMLOptions_recompile_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1119,7 +1596,7 @@ namespace std { class ostream{}; }
     bool rr_LoadSBMLOptions_readOnly_get(rr::LoadSBMLOptions* opt) {
         return opt->modelGeneratorOpt & rr::LoadSBMLOptions::READ_ONLY;
     }
-    
+
 
     void rr_LoadSBMLOptions_readOnly_set(rr::LoadSBMLOptions* opt, bool value) {
         if (value) {
@@ -1260,6 +1737,11 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
+    PyObject *getFloatingSpeciesInitAmounts() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitAmounts,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+    }
+
     PyObject *getCompartmentInitVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
                                           &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
@@ -1279,6 +1761,7 @@ namespace std { class ostream{}; }
 
         npy_intp dims[1] = {len};
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+        VERIFY_PYARRAY(array);
 
         if (!array) {
             // TODO error handling.
@@ -1314,6 +1797,7 @@ namespace std { class ostream{}; }
 
         npy_intp dims[1] = {len};
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+        VERIFY_PYARRAY(array);
 
         if (!array) {
             // TODO error handling.
@@ -1717,6 +2201,7 @@ namespace std { class ostream{}; }
 
         PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                 NPY_CARRAY | NPY_OWNDATA, NULL);
+        VERIFY_PYARRAY(pArray);
 
         return pArray;
     }
@@ -1762,25 +2247,25 @@ namespace std { class ostream{}; }
     }
 
     rr::PyEventListener *getEvent(const std::string& eventId) {
-		int index = ($self)->getEventIndex(eventId);
+        int index = ($self)->getEventIndex(eventId);
 
-		if (index >= 0) {
-			ExecutableModel *p = $self;
-			EventListenerPtr e = p->getEventListener(index);
-			
-			if(e) {
-				PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
-				return impl;
-			} else {
-				PyEventListener *impl = new PyEventListener();
-				p->setEventListener(index, EventListenerPtr(impl));
-				return impl;
-			}
+        if (index >= 0) {
+            ExecutableModel *p = $self;
+            EventListenerPtr e = p->getEventListener(index);
 
-		} else {
-			throw std::out_of_range(std::string("could not find index for event ") + eventId);
-		}
-	}
+            if(e) {
+                PyEventListener *impl = dynamic_cast<PyEventListener*>(e.get());
+                return impl;
+            } else {
+                PyEventListener *impl = new PyEventListener();
+                p->setEventListener(index, EventListenerPtr(impl));
+                return impl;
+            }
+
+        } else {
+            throw std::out_of_range(std::string("could not find index for event ") + eventId);
+        }
+    }
 
     %pythoncode %{
         def _makeProperties(self) :
@@ -1851,8 +2336,8 @@ namespace std { class ostream{}; }
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
-        std::tr1::shared_ptr<rr::IntegratorListener> i = 
-            std::tr1::dynamic_pointer_cast<rr::IntegratorListener>(listener);
+        cxx11_ns::shared_ptr<rr::IntegratorListener> i =
+            cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
@@ -1865,26 +2350,26 @@ namespace std { class ostream{}; }
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
-        rr::PyIntegratorListenerPtr ptr = 
-            std::tr1::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
+        rr::PyIntegratorListenerPtr ptr =
+            cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 
         return ptr;
     }
 
-	void _clearListener() {
-		rr::IntegratorListenerPtr current = ($self)->getListener();
-		
-		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+    void _clearListener() {
+        rr::IntegratorListenerPtr current = ($self)->getListener();
 
-		($self)->setListener(rr::IntegratorListenerPtr());
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
-		Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
-	}
+        ($self)->setListener(rr::IntegratorListenerPtr());
+
+        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+    }
 
     // we want to get the listener back as a PyIntegratorListener, however
-    // swig won't let us ignore by return value and if we ignore getListener, 
+    // swig won't let us ignore by return value and if we ignore getListener,
     // it ignores any extended version. So, we have to make an extended
     // _getListener() above, and call it from python like this.
     %pythoncode %{
@@ -1899,7 +2384,7 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
-        if _newclass: listener = property(getListener, setListener) 	
+        if _newclass: listener = property(getListener, setListener)
     %}
 }
 
@@ -1907,7 +2392,7 @@ namespace std { class ostream{}; }
     %pythoncode %{
         __swig_getmethods__["onTimeStep"] = getOnTimeStep
         __swig_setmethods__["onTimeStep"] = setOnTimeStep
-        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep) 	
+        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep)
 
         __swig_getmethods__["onEvent"] = getOnEvent
         __swig_setmethods__["onEvent"] = setOnEvent
@@ -1929,27 +2414,4 @@ namespace std { class ostream{}; }
 
 
 
-%pythoncode %{
-def plot(result, show=True):
-    import pylab as p
-
-    if result.dtype.names is None:
-        # treat as a regular array
-        p.plot(result[:,0], result[:,1:])
-
-    else:
-        if len(result.dtype.names) < 1:
-            raise Exception('no columns to plot')
-
-        time = result.dtype.names[0]
-
-        for name in result.dtype.names[1:]:
-            p.plot(result[time], result[name], label='$' + name + '$')
-
-        p.legend()
-
-    if show:
-        p.show()
-
-%}
 

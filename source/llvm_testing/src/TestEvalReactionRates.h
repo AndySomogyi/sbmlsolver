@@ -23,5 +23,13 @@ namespace rr
         bool test();
     };
 
+    void testAmountRates(const char* fname);
+
+    void testStoch(const char* fname);
+
 } /* namespace rr */
+
+
+
+
 #endif /* TESTEVALREACTIONRATES_H_ */

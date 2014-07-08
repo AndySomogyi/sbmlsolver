@@ -8,7 +8,7 @@
 #ifndef ModelDataSymbolResolver_H_
 #define ModelDataSymbolResolver_H_
 
-#include "CodeGen.h"
+#include "LoadSymbolResolverBase.h"
 #include "LLVMIncludes.h"
 #include "LLVMModelDataSymbols.h"
 #include "LLVMModelSymbols.h"
@@ -16,12 +16,13 @@
 namespace libsbml
 {
 class Model;
+class Reaction;
 }
 
 namespace rrllvm
 {
 
-class ModelDataLoadSymbolResolver: public LoadSymbolResolver
+class ModelDataLoadSymbolResolver: public LoadSymbolResolverBase
 {
 public:
     ModelDataLoadSymbolResolver(llvm::Value *modelData,
@@ -31,16 +32,13 @@ public:
 
     virtual ~ModelDataLoadSymbolResolver() {};
 
+
     virtual llvm::Value *loadSymbolValue(const std::string& symbol,
             const llvm::ArrayRef<llvm::Value*>& args =
                     llvm::ArrayRef<llvm::Value*>());
 
 private:
     llvm::Value *modelData;
-    const libsbml::Model *model;
-    const LLVMModelSymbols &modelSymbols;
-    const LLVMModelDataSymbols &modelDataSymbols;
-    llvm::IRBuilder<> &builder;
 };
 
 class ModelDataStoreSymbolResolver: public StoreSymbolResolver

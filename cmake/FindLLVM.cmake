@@ -119,6 +119,27 @@ if (LLVM_CONFIG_EXECUTABLE)
     # this causes problems as most other libs compiled without this.
     # should be OK linking to LLVM as this just results in a slightly larger lib (I think, I hope...)
     string(REPLACE "-fvisibility-inlines-hidden" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+
+    # remove extra warnings that the llvm-config added
+    STRING(REPLACE "-Wcast-qual" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Woverloaded-virtual" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+ 
+    # some LLVMs add these options
+    # -Wall -W -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic 
+    # -Wno-long-long -Wno-uninitialized -Wnon-virtual-dtor
+
+
+    STRING(REPLACE "-Wall" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-W " "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-unused-parameter" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wwrite-strings" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-missing-field-initializers" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-pedantic" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-long-long" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wno-uninitialized" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-Wnon-virtual-dtor" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+
+
     MESSAGE(STATUS "LLVM_DEFINITIONS: " ${LLVM_DEFINITIONS})
 
 
@@ -134,6 +155,30 @@ if (LLVM_CONFIG_EXECUTABLE)
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
     message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
+    # starting with LLVM 3.4 (at least on Ubuntu) it requres functions in
+    # ncurses for console IO formatting. So, we find ncurses here.
+
+    if (((LLVM_VERSION_MAJOR GREATER 3) OR (LLVM_VERSION_MAJOR EQUAL 3)) AND
+            (LLVM_VERSION_MINOR GREATER 4) OR (LLVM_VERSION_MINOR EQUAL 4))
+        if (UNIX)
+            #message("UNIX true")
+            message("LLVM VERSION >= 3.4, looking for curses library")
+            find_package(Curses REQUIRED)
+            #message("curses: ${CURSES_FOUND}")
+            #message("curdir: ${CURSES_INCLUDE_DIR}")
+            #message("curlib: ${CURSES_LIBRARIES}")
+            #message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+
+            set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
+            message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+
+        else()
+            #message("NOT UNIX")
+        endif()    
+
+    else()
+        #message("LLVM VERSION < 3.4")
+    endif()
 
     if(LLVM_INCLUDE_DIRS)
         set(LLVM_FOUND TRUE)

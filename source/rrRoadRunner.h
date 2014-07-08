@@ -1,6 +1,7 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
 
+#include "rrOSSpecifics.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
@@ -98,8 +99,10 @@ public:
     /**
      * Set the name of the externa compiler to use. Some ModelGenerators may have no use
      * for this value.
+     *
+     * An exception is raised if the string is invalid.
      */
-    bool setCompiler(const std::string& compiler);
+    void setCompiler(const std::string& compiler);
 
     /**
      * get a pointer to the integrator which is currently being used to
@@ -116,24 +119,6 @@ public:
 
     bool unLoadModel();
 
-    /**
-     * @internal
-     * @deprecated
-     *
-     * C backend only
-     * set the location where the ModelGenerator creates temporary files, such
-     * as shared libraries.
-     */
-    bool setTempFileFolder(const std::string& folder);
-
-    /**
-     * @internal
-     * @deprecated
-     *
-     * legacy C backend only
-     * get the ModelGenerator's temporary file directory.
-     */
-    std::string getTempFolder();
 
     /**
      * Carry out a single integration step using a stepsize as indicated
@@ -161,14 +146,23 @@ public:
      * @returns a RoadRunnerData object which is owned by the the RoadRunner
      * object if successfull, 0 on failure.
      */
-    const RoadRunnerData *simulate(const SimulateOptions* options = 0);
+    const DoubleMatrix *simulate(const SimulateOptions* options = 0);
 
     /**
-     * obtain a pointer to the simulation result.
-     *
-     * This is owned by the RoadRunner object.
+     * RoadRunner keeps a copy of the simulation data around until the
+     * next call to simulate. This matrix can be obtained here.
      */
-    RoadRunnerData *getSimulationResult();
+    const DoubleMatrix* getSimulationData() const;
+
+    #ifndef SWIG // deprecated methods not SWIG'ed
+
+    /**
+     * Use getSimulationData() instead.
+     * Also, can use the RoadRunnerData::RoadRunnerData(const RoadRunner*) ctor
+     */
+    RR_DEPRECATED(rr::RoadRunnerData *getSimulationResult());
+
+    #endif
 
     void setSimulateOptions(const SimulateOptions& settings);
 
@@ -185,6 +179,9 @@ public:
      * @see getSimulateOptions.
      */
     RoadRunnerOptions& getOptions();
+
+
+    void setOptions(const RoadRunnerOptions&);
 
     /**
      * get the currently loaded sbml document as a string.
@@ -223,25 +220,13 @@ public:
      * If options is not null, then the RoadRunner::computeAndAssignConservationLaws
      * flag is set to whatever value is specified in the options struct.
      *
+     * WARNING, will no longer return a value in next version.
+     *
      * @param uriOrSBML: a URI, local path or sbml document contents.
      * @param options: an options struct, if null, default values are used.
      */
-    bool load(const std::string& uriOrSBML,
+    void load(const std::string& uriOrSBML,
             const LoadSBMLOptions* options = 0);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getReactionRates
-     */
-    std::vector<double> getReactionRates();
-
-    /**
-     * @internal
-     * @deprecated
-     * returns a list of reaction ids obtained from
-     * ExecutableModel::getReactionId
-     */
-    std::vector<std::string> getReactionIds();
 
     /**
      * creates a new xml element that represent the current state of this
@@ -322,8 +307,10 @@ public:
 
     /**
      * sets the value coresponding to the given selection string
+     *
+     * raises an exception in the selection string is invalid.
      */
-    bool setValue(const std::string& id, double value);
+    void setValue(const std::string& id, double value);
 
 /************************ End Selection Ids Species Section *******************/
 #endif /***********************************************************************/
@@ -338,8 +325,10 @@ public:
 
     /**
      * Compute the reduced Jacobian at the current operating point.
+     * @param h The step sized used for central difference method.
+     *          If negative, the default value from the config file is used.
      */
-    ls::DoubleMatrix getReducedJacobian();
+    ls::DoubleMatrix getReducedJacobian(double h = -1.0);
 
     /**
      * Returns eigenvalues, first column real part, second column imaginary part
@@ -348,9 +337,9 @@ public:
 
     std::vector<Complex> getEigenvaluesCpx();
 
-    ls::DoubleMatrix* getLinkMatrix();
-    ls::DoubleMatrix* getNrMatrix();
-    ls::DoubleMatrix* getL0Matrix();
+    ls::DoubleMatrix getLinkMatrix();
+    ls::DoubleMatrix getNrMatrix();
+    ls::DoubleMatrix getL0Matrix();
 
 
     ls::DoubleMatrix getConservationMatrix();
@@ -358,8 +347,6 @@ public:
     ls::DoubleMatrix getScaledConcentrationControlCoefficientMatrix();
     ls::DoubleMatrix getUnscaledFluxControlCoefficientMatrix();
     ls::DoubleMatrix getScaledFluxControlCoefficientMatrix();
-    int getNumberOfDependentSpecies();
-    int getNumberOfIndependentSpecies();
 
 
     /**
@@ -396,196 +383,6 @@ public:
      */
     std::string getCurrentSBML();
 
-    /**
-     * @internal
-     * @deprecated
-     */
-    int getNumberOfReactions();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    double getReactionRate(const int& index);
-
-    /*! \cond PRIVATE */
-
-
-    /**
-     * @deprecated
-     * @internal
-     * Returns the rate of changes of a species by its index
-     */
-    double getRateOfChange(const int& index);
-
-    /*! \endcond */
-
-
-    std::vector<std::string> getRateOfChangeIds();
-
-
-    std::vector<std::string> getConservedMoietyIds();
-
-    std::vector<double> getConservedMoietyValues();
-
-    int getNumberOfCompartments();
-
-    /**
-     * @internal
-     * @deprecated
-     * Sets the value of a compartment by its index
-     */
-    void setCompartmentByIndex(const int& index, const double& value);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getCompartmentVolumes
-     * Returns the value of a compartment by its index
-     */
-    double getCompartmentByIndex(const int& index);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getCompartmentId
-     */
-    std::vector<std::string> getCompartmentIds();
-
-    /**
-     * @internal
-     * Get the number of boundary species,
-     * @deprecated, use ExecutableModel::getNumBoundarySpecies
-     */
-    int getNumberOfBoundarySpecies();
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
-     */
-    void setBoundarySpeciesByIndex(const int& index, const double& value);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getBoundarySpeciesConcentrations
-     */
-    double getBoundarySpeciesByIndex(const int& index);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
-     */
-    std::vector<double> getBoundarySpeciesConcentrations();
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
-     */
-    void setBoundarySpeciesConcentrations(const std::vector<double>& values);
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getBoundarySpeciesId
-     */
-    std::vector<std::string> getBoundarySpeciesIds();
-
-    /**
-     * @internal
-     * @deprecated, use ExecutableModel::getNumFloatingSpecies
-     */
-    int getNumberOfFloatingSpecies();
-
-    /**
-     * @internal
-     * @deprecated
-     * get / set conc.
-     */
-    double getFloatingSpeciesByIndex(int index);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesByIndex(int index, double value);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<double> getFloatingSpeciesConcentrations();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<double> getFloatingSpeciesInitialConcentrations();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesConcentrations(const std::vector<double>& values);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
-            const double& value);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values);
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<std::string> getFloatingSpeciesIds();
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    std::vector<std::string> getFloatingSpeciesInitialConditionIds();
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getNumGlobalParameters
-     */
-    int getNumberOfGlobalParameters();
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::setGlobalParameterValues
-     */
-    void setGlobalParameterByIndex(const int index, const double value);
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterValues
-     */
-    double getGlobalParameterByIndex(const int& index);
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterValues
-     */
-    std::vector<double> getGlobalParameterValues();
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterIds
-     */
-    std::vector<std::string> getGlobalParameterIds();
-
-    /**
-     * The C back end requires this to be called to update
-     * model variables if anyting is changes. Does nothing
-     * in LLVM back end as everything is automatically handled
-     * with lazy evaluation.
-     */
-    void evalModel();
 
     /**
      * getVersion plus info about dependent libs versions..
@@ -701,76 +498,288 @@ public:
     #endif /***********************************************************************/
     /******************************************************************************/
 
+
+
+    /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    #ifndef SWIG // deprecated methods not SWIG'ed
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfReactions());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getReactionRate(const int& index));
+
+    /**
+     * @deprecated
+     * @internal
+     * Returns the rate of changes of a species by its index
+     */
+    RR_DEPRECATED(double getRateOfChange(const int& index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getRateOfChangeIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getConservedMoietyIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getConservedMoietyValues());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfCompartments());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setCompartmentByIndex(const int& index, const double& value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getCompartmentByIndex(const int& index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getCompartmentIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfBoundarySpecies());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setBoundarySpeciesByIndex(const int& index, const double& value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getBoundarySpeciesByIndex(const int& index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrations());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double>& values));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getBoundarySpeciesIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfFloatingSpecies());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(double getFloatingSpeciesByIndex(int index));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesByIndex(int index, double value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrations());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesInitialConcentrations());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesConcentrations(const std::vector<double>& values));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
+            const double& value));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values));
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesInitialConditionIds());
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getNumGlobalParameters
+     */
+    RR_DEPRECATED(int getNumberOfGlobalParameters());
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::setGlobalParameterValues
+     */
+    RR_DEPRECATED(void setGlobalParameterByIndex(const int index, const double value));
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
+    RR_DEPRECATED(double getGlobalParameterByIndex(const int& index));
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
+    RR_DEPRECATED(std::vector<double> getGlobalParameterValues());
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterIds
+     */
+    RR_DEPRECATED(std::vector<std::string> getGlobalParameterIds());
+
+    /**
+     * The C back end requires this to be called to update
+     * model variables if anyting is changes. Does nothing
+     * in LLVM back end as everything is automatically handled
+     * with lazy evaluation.
+     *
+     * @internal
+     * @deprecated
+     */
+    void evalModel();
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfDependentSpecies());
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    RR_DEPRECATED(int getNumberOfIndependentSpecies());
+
+
+    /**
+     * @internal
+     * @deprecated, use ExecutableModel::getReactionRates
+     */
+    RR_DEPRECATED(std::vector<double> getReactionRates());
+
+    /**
+     * @internal
+     * @deprecated
+     * returns a list of reaction ids obtained from
+     * ExecutableModel::getReactionId
+     */
+    RR_DEPRECATED(std::vector<std::string> getReactionIds());
+
+    /**
+     * @internal
+     * @deprecated
+     *
+     * C backend only
+     * set the location where the ModelGenerator creates temporary files, such
+     * as shared libraries.
+     */
+    void setTempDir(const std::string& folder);
+
+    /**
+     * @internal
+     * @deprecated
+     *
+     * legacy C backend only
+     * get the ModelGenerator's temporary file directory.
+     */
+    std::string getTempDir();
+
+    #endif // #ifndef SWIG
+
+
+    /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
+    #endif  /**********************************************************************/
+    /******************************************************************************/
+
 private:
-    static int mInstanceCount;
-    int mInstanceID;
-    bool mUseKinsol;
-    const double mDiffStepSize;
-
-    const double mSteadyStateThreshold;
-    ls::DoubleMatrix mRawRoadRunnerData;
-    RoadRunnerData mRoadRunnerData;
-
-
-    /**
-     * The Cvode object get created just after a model is created, it then
-     * gets a reference to the model and holds on to it.
-     */
-    class CvodeInterface *mCVode;
-    std::vector<SelectionRecord> mSelectionList;
-
-    /**
-     * ModelGenerator obtained from the factory
-     */
-    ModelGenerator *mModelGenerator;
-
-    /**
-     * read from the Config, duplicates loadsbmloptions
-     *
-     * TODO: this needs to be cleaned up.
-     */
-    bool conservedMoietyAnalysis;
-
-    std::vector<SelectionRecord> mSteadyStateSelection;
-
-    ExecutableModel* mModel;
-
-    std::string mCurrentSBML;
-
-    /**
-     * structural analysis library.
-     */
-    LibStructural* mLS;
-
-    /**
-     * options that are specific to the simulation
-     */
-    SimulateOptions simulateOptions;
-
-    /**
-     * The sim options may be requested via getSimulateOptions. In this
-     * case, the caller may modify it, so we assume its dirty.
-     *
-     * These options are re-loaded into the integrator in simulate and
-     * oneStep.
-     */
-    bool dirtySimulateOptions;
-
-    /**
-     * various general options that can be modified by external callers.
-     */
-    RoadRunnerOptions roadRunnerOptions;
 
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();
 
-    void addNthOutputToResult(ls::DoubleMatrix& results, int nRow,
-            double dCurrentTime);
+    /**
+     * copies the current selection values into the n'th row of the
+     * given matrix
+     */
+    void getSelectedValues(ls::DoubleMatrix& results, int nRow,
+            double currentTime);
+
+    /**
+     * copies the current selection values into the given vector.
+     */
+    void getSelectedValues(std::vector<double> &results, double currentTime);
+
     bool populateResult();
 
 
-    double getNthSelectedOutput(const int& index, const double& dCurrentTime);
+    double getNthSelectedOutput(unsigned index, double currentTime);
 
     enum VariableType
     {
@@ -785,7 +794,11 @@ private:
      */
     LibStructural* getLibStruct();
 
-    bool initializeModel();
+    /**
+     * create and initialize the integrator based on the value specified
+     * in the simulateOptions struct.
+     */
+    void createIntegrator();
 
     bool createDefaultSelectionLists();
 
@@ -795,51 +808,22 @@ private:
      */
     int createTimeCourseSelectionList();
 
-    /**
-     * The type of sbml element that the RoadRunner::setParameterValue
-     * and RoadRunner::getParameterValue method operate on.
-     *
-     * @deprecated use the ExecutableModel methods directly.
-     */
-    enum ParameterType
-    {
-        ptGlobalParameter = 0,
-        ptLocalParameter,
-        ptBoundaryParameter,
-        ptConservationParameter,
-        ptFloatingSpecies
-    };
 
-    /**
-     * Set a sbml model variable to a value.
-     *
-     * @parameterType the type of sbml element
-     */
-    void setParameterValue(const ParameterType parameterType,
-            const int parameterIndex, const double value);
-
-    double getParameterValue(const ParameterType parameterType,
-            const int parameterIndex);
-
-    /**
-     * Changes a given parameter type by the given increment
-     */
-    void changeParameter(ParameterType parameterType,
-            int reactionIndex, int parameterIndex, double originalValue,
-            double increment);
 
 
     std::vector<SelectionRecord> getSelectionList();
 
     /**
-     * the xml string that is given in setConfigurationXML.
-     *
-     * Needed because the NLEQ is only created in the steadyState method.
+     * sets the options and updates the integrator an any
+     * other depedent bits.
      */
-    std::string configurationXML;
+    void _setSimulateOptions(const SimulateOptions* opt);
 
-
-    friend class aFinalizer;
+    /**
+     * private implementation class, can only access if inside
+     * the implementation file.
+     */
+    class RoadRunnerImpl* impl;
 };
 
 }

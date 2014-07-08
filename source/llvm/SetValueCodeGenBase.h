@@ -35,7 +35,6 @@ public:
     llvm::Value *codeGen();
 
     typedef SetValueCodeGenBase_FunctionPtr FunctionPtr;
-
 };
 
 template <typename Derived, bool substanceUnits>
@@ -69,7 +68,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, llvm::Type::getInt8Ty(this->context),
             argTypes, argNames, args);
 
-    std::vector<string> ids = static_cast<Derived*>(this)->getIds();
+    StringIntVector ids = static_cast<Derived*>(this)->getIds();
 
     ModelDataLoadSymbolResolver loadResolver(args[0], this->model, this->modelSymbols,
             this->dataSymbols, this->builder);
@@ -92,7 +91,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
     for (int i = 0; i < ids.size(); ++i)
     {
-        llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i] + "_block", this->function);
+        llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i].first + "_block", this->function);
         this->builder.SetInsertPoint(block);
 
         // the value we are attempting to store, make a copy in loop scope
@@ -102,7 +101,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
         const libsbml::Species *species = dynamic_cast<const libsbml::Species*>(
-                const_cast<libsbml::Model*>(this->model)->getElementBySId(ids[i]));
+                const_cast<libsbml::Model*>(this->model)->getElementBySId(ids[i].first));
 
         if(species)
         {
@@ -113,7 +112,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 {
                     // given a conc, convert to amount
                     llvm::Value *comp = loadResolver.loadSymbolValue(species->getCompartment());
-                    value = this->builder.CreateFMul(value, comp, ids[i] + "_amt");
+                    value = this->builder.CreateFMul(value, comp, ids[i].first + "_amt");
                 }
             }
             else
@@ -123,17 +122,17 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 {
                     // given an amount, need to convert to conc
                     llvm::Value *comp = loadResolver.loadSymbolValue(species->getCompartment());
-                    value = this->builder.CreateFDiv(value, comp, ids[i] + "_value_conc");
+                    value = this->builder.CreateFDiv(value, comp, ids[i].first + "_value_conc");
                 }
             }
         }
 
         // load after we've figured the species bits out
-        storeResolver.storeSymbolValue(ids[i], value);
+        storeResolver.storeSymbolValue(ids[i].first, value);
 
         // true retval
         this->builder.CreateRet(llvm::ConstantInt::get(llvm::Type::getInt8Ty(this->context), 1));
-        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);
+        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), ids[i].second), block);
     }
 
     return this->verifyFunction();

@@ -24,11 +24,8 @@ ModelInitialValueSymbolResolver::ModelInitialValueSymbolResolver(
         const LLVMModelSymbols &modelSymbols,
         const LLVMModelDataSymbols &modelDataSymbols,
         llvm::IRBuilder<> &builder) :
-            modelData(modelData),
-            model(model),
-            modelSymbols(modelSymbols),
-            modelDataSymbols(modelDataSymbols),
-            builder(builder)
+            LoadSymbolResolverBase(model, modelSymbols, modelDataSymbols, builder),
+            modelData(modelData)
 {
 }
 
@@ -48,11 +45,9 @@ ModelInitialValueStoreSymbolResolver::ModelInitialValueStoreSymbolResolver(llvm:
 {
 }
 
-ModelInitialValueSymbolResolver::~ModelInitialValueSymbolResolver()
-{
-}
 
-llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string& symbol,
+llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
+        const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
@@ -60,7 +55,7 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
     /*************************************************************************/
     /* time */
     /*************************************************************************/
-    if (symbol.compare("\time") == 0)
+    if (symbol.compare(SBML_TIME_SYMBOL) == 0)
     {
         return ConstantFP::get(builder.getContext(), APFloat(0.0));
     }
@@ -85,7 +80,10 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
                 modelSymbols.getInitialAssignmentRules().find(symbol);
         if (i != modelSymbols.getInitialAssignmentRules().end())
         {
-            return ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPush(symbol);
+            Value* result =  ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPop();
+            return result;
         }
     }
 
@@ -98,7 +96,10 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
                 modelSymbols.getAssigmentRules().find(symbol);
         if (i != modelSymbols.getAssigmentRules().end())
         {
-            return ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPush(symbol);
+            Value* result = ASTNodeCodeGen(builder, *this).codeGen(i->second);
+            recursiveSymbolPop();
+            return result;
         }
     }
 
@@ -125,9 +126,35 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
         }
     }
 
-    else if (modelDataSymbols.isIndependentCompartment(symbol))
+
+    else if (modelDataSymbols.isIndependentInitCompartment(symbol))
     {
-        return mdbuilder.createInitCompLoad(symbol);
+        if (symbolStack.size())
+        {
+            return mdbuilder.createCompLoad(symbol);
+        }
+        else
+        {
+            return mdbuilder.createInitCompLoad(symbol);
+        }
+    }
+
+    // if we are in a rule, (symbolStack.size > 0), then we want to
+    // get the current values of compartments or symbols,
+    // so we can modify a parameters, and have any assigment rules
+    // used for init values pick up this value.
+    // if we're not in a rule, then the init resolver
+    // returns the init value.
+    else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
+    {
+        if (symbolStack.size())
+        {
+            return mdbuilder.createGlobalParamLoad(symbol);
+        }
+        else
+        {
+            return mdbuilder.createInitGlobalParamLoad(symbol);
+        }
     }
 
     /*************************************************************************/
@@ -141,6 +168,15 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(const std::string&
         {
             return ASTNodeCodeGen(builder, *this).codeGen(i->second);
         }
+    }
+
+    /*************************************************************************/
+    /* Reaction Rate */
+    /*************************************************************************/
+    const Reaction* reaction = model->getReaction(symbol);
+    if (reaction)
+    {
+        return loadReactionRate(reaction);
     }
 
     string msg = "Could not find requested symbol \'";
@@ -159,13 +195,6 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
 
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
             builder);
-
-    /*************************************************************************/
-    /* AssignmentRule */
-    /*************************************************************************/
-    // can not store anything with an assigment rule, these are determined
-    // by other independent elements.
-    assert(!modelDataSymbols.hasAssignmentRule(symbol));
 
 
     if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
@@ -194,6 +223,11 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
     else if (modelDataSymbols.isIndependentInitCompartment(symbol))
     {
         return mdbuilder.createInitCompStore(symbol, value);
+    }
+
+    else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
+    {
+        return mdbuilder.createInitGlobalParamStore(symbol, value);
     }
 
 

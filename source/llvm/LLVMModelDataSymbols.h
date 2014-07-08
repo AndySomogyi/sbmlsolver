@@ -46,7 +46,6 @@ enum ModelDataFields {
     NumInitGlobalParameters,                  // 13
 
     Stoichiometry,                            // 14
-
     NumEvents,                                // 15
     StateVectorSize,                          // 16
     StateVector,                              // 17
@@ -129,7 +128,7 @@ public:
 
     enum SpeciesReferenceType
     {
-        Reactant, Product, Modifier
+        Reactant, Product, Modifier, MultiReactantProduct
     };
 
     /**
@@ -140,9 +139,14 @@ public:
      */
     enum SymbolIndexType
     {
-        FLOATING_SPECIES, BOUNDARY_SPECIES, COMPARTMENT, GLOBAL_PARAMETER, REACTION, INVALID_SYMBOL
+        FLOATING_SPECIES, BOUNDARY_SPECIES, COMPARTMENT, GLOBAL_PARAMETER, REACTION, EVENT, INVALID_SYMBOL
     };
 
+    /**
+     * info about an entry in the stoich matrix.
+     *
+     * there is exactly one of these for each entry.
+     */
     struct SpeciesReferenceInfo
     {
         uint row;
@@ -222,6 +226,11 @@ public:
     std::vector<std::string> getGlobalParameterIds() const;
 
     /**
+     * is the global parameter index defined by a rate rule.
+     */
+    bool isRateRuleGlobalParameter(uint gid) const;
+
+    /**
      * the list that is returned by ExecutableModel, so order must
      * remain constant.
      *
@@ -235,6 +244,11 @@ public:
      */
     std::string getFloatingSpeciesId(uint indx) const;
 
+
+    /**
+     * find the id of the given global parameter index.
+     */
+    std::string getGlobalParameterId(uint indx) const;
 
     /**
      * total size of all floating species.
@@ -300,6 +314,8 @@ public:
 
     bool isIndependentBoundarySpecies(const std::string& id) const;
 
+    bool isBoundarySpecies(const std::string& id) const;
+
     bool isIndependentGlobalParameter(const std::string& id) const;
 
     bool isIndependentCompartment(const std::string& id) const;
@@ -336,7 +352,11 @@ public:
      */
     bool isConservedMoietySpecies(const std::string& symbol) const;
 
-    bool isConservedMoietyParameter(const std::string& symbol) const;
+    /**
+     * check if the global parameter with the given id is a
+     * conserved moiety.
+     */
+    bool isConservedMoietyParameter(uint id) const;
 
     /**
      * The number of conserved species. Thes are species which are defined
@@ -350,6 +370,11 @@ private:
      * initialized in initFloatingSpecies.
      */
     std::set<std::string> conservedMoietySpeciesSet;
+
+    /**
+     * global parameter id conserved moiety status.
+     */
+    std::vector<bool> conservedMoietyGlobalParameter;
 
 
 /*****************************************************************************/
@@ -409,6 +434,12 @@ public:
     bool isIndependentInitCompartment(const std::string& symbol) const;
 
     /**
+     * has this string been found to be an independent init global param--
+     * is a global param and not having an assignment or init assignment rule.
+     */
+    bool isIndependentInitGlobalParameter(const std::string& symbol) const;
+
+    /**
      * get the index of a floating species initial value.
      *
      * has the same index as the run time floating species.
@@ -422,6 +453,12 @@ public:
      */
     uint getCompartmentInitIndex(const std::string& symbol) const;
 
+    /**
+     * get the index of a global parameter initial value
+     *
+     * has the same index as the run time global parameter.
+     */
+    uint getGlobalParameterInitIndex(const std::string& symbol) const;
 
     uint getInitCompartmentSize() const;
     uint getInitFloatingSpeciesSize() const;
@@ -532,27 +569,27 @@ private:
 
     std::vector<SpeciesReferenceType> stoichTypes;
 
-
     /**
      * the set of rule, these contain the variable name of the rule so that
      * we can quickly see if a symbol has an associated rule.
      */
     std::set<std::string> assigmentRules;
 
-
-
-
     /**
      * rate rules, index by variable name.
      */
     StringUIntMap rateRules;
 
+    /**
+     * are global params defined by rate rules,
+     * set in initGlobalParam
+     */
+    std::vector<bool> globalParameterRateRules;
+
     uint independentFloatingSpeciesSize;
     uint independentBoundarySpeciesSize;
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
-
-
 
     /**
      * the number of assignments each event has
@@ -568,9 +605,13 @@ private:
 
     void initBoundarySpecies(const libsbml::Model *);
 
+    /**
+     * init the floating species symbols.
+     *
+     * @param conservedMoieties: are conserved moieties enabled?
+     */
     void initFloatingSpecies(const libsbml::Model *,
-            bool computeAndAssignConsevationLaws);
-
+            bool conservedMoieties);
 
     /**
      *
@@ -580,8 +621,11 @@ private:
     /**
      * get the global parameters, need to reorder them to set the independent
      * ones first
+     *
+     * @param conservedMoieties: are conserved moieties enabled?
      */
-    void initGlobalParameters(const libsbml::Model *model);
+    void initGlobalParameters(const libsbml::Model *model,
+            bool conservedMoieties);
 
     void initReactions(const libsbml::Model *model);
 
@@ -591,10 +635,22 @@ private:
 
     /**
      * determine is this species can be used as a species reference,
-     * if not, logs the reason why its not valid.
+     * in the sense that it will add a column to the stochiometry
+     * matrix.
+     *
+     * Boundary species are not consumed or produced in reactions.
+     * If this is invalid float species, such as its defined by a rule
+     * this will log the reason.
      */
-    bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
+    bool isValidFloatingSpeciesReference(const libsbml::SimpleSpeciesReference*,
             const std::string& reacOrProd);
+
+    /**
+     * set the type of all species references.
+     * row is species, column is reaction
+     */
+    void setNamedSpeciesReferenceInfo(uint row, uint column,
+            SpeciesReferenceType type);
 };
 
 } /* namespace rr */

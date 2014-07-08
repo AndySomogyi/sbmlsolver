@@ -10,6 +10,7 @@
 
 #include <sbml/math/ASTNode.h>
 #include <map>
+#include <cassert>
 
 namespace rrllvm
 {
@@ -35,10 +36,68 @@ using std::map;
 class SymbolForest
 {
 public:
-    //typedef map<string, const ASTNode*> Map;
-    typedef std::pair<string, const libsbml::ASTNode*> Pair;
-    typedef map<string, const libsbml::ASTNode*>::iterator Iterator;
-    typedef map<string, const libsbml::ASTNode*>::const_iterator ConstIterator;
+    typedef map<string, const libsbml::ASTNode*> Map;
+    typedef map<string, const libsbml::ASTNode*>::const_iterator _const_iterator;
+
+    /**
+     * syntatically the same as a map<string, const libsbml::ASTNode*>::const_iterator
+     *
+     * Designed so that the SymbolForest can behave like a std::map.
+     */
+    class ConstIterator
+    {
+    public:
+
+        const libsbml::ASTNode* second;
+
+        const ConstIterator* operator->() const
+        {
+            return this;
+        }
+
+        bool operator !=(const ConstIterator& other) const
+        {
+            return end != other.end;
+        }
+
+        ConstIterator & operator= (const ConstIterator & o)
+        {
+            this->second = o.second;
+            this->end = o.end;
+            // by convention, always return *this
+            return *this;
+        }
+
+        ConstIterator(const ConstIterator &o) : second(o.second), end(o.end)
+        {
+        }
+
+
+    private:
+
+        /**
+         * only SymbolForest can make one of these.
+         */
+        friend class SymbolForest;
+
+        /**
+         * not end, created from a valid iterator.
+         */
+        ConstIterator(_const_iterator i) : second(i->second), end(false)
+        {
+            assert(second && "must have valid ASTNode pointer");
+        }
+
+        /**
+         * the end
+         */
+        ConstIterator() : second(0), end(true)
+        {
+        }
+
+        // is the the end iterator.
+        bool end;
+    };
 
     map<string, const libsbml::ASTNode*> floatingSpecies;
     map<string, const libsbml::ASTNode*> boundarySpecies;
@@ -52,36 +111,44 @@ public:
      * Note that the resulting iterator is not iteratable, it is only suitable for
      * comparing with end() and getting the value out of it.
      */
-    ConstIterator find(const map<string, const libsbml::ASTNode*>::key_type& x) const
+    const ConstIterator find(const map<string, const libsbml::ASTNode*>::key_type& x) const
     {
-        ConstIterator result;
+        _const_iterator result;
 
         if ((result = floatingSpecies.find(x)) != floatingSpecies.end())
         {
-            return result;
+            return ConstIterator(result);
         }
         else if ((result = boundarySpecies.find(x)) != boundarySpecies.end())
         {
-            return result;
+            return ConstIterator(result);
         }
         else if ((result = compartments.find(x)) != compartments.end())
         {
-            return result;
+            return ConstIterator(result);
         }
         else if ((result = globalParameters.find(x)) != globalParameters.end())
         {
-            return result;
+            return ConstIterator(result);
+        }
+        else if ((result = speciesReferences.find(x)) != speciesReferences.end())
+        {
+            return ConstIterator(result);
         }
         else
         {
-            return speciesReferences.find(x);
+            return _end;
         }
     }
 
-    ConstIterator end() const
+    const ConstIterator& end() const
     {
-        return speciesReferences.end();
+        return _end;
     }
+
+private:
+    ConstIterator _end;
+
 };
 
 

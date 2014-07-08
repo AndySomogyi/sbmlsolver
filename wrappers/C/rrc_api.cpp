@@ -99,6 +99,47 @@ static vector<string>    sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
 
 static vector<double> rr_getRatesOfChange(RoadRunner* rr);
 
+
+// TODO: move all the depracated method here:
+/*
+static int rr_getNumberOfReactions(RoadRunner* r);
+static double rr_getReactionRate(RoadRunner* r, const int& index);
+static double getRateOfChange(const int& index);
+static std::vector<std::string> rr_getRateOfChangeIds(RoadRunner* r);
+static std::vector<std::string> rr_getConservedMoietyIds(RoadRunner* r);
+static std::vector<double> rr_getConservedMoietyValues(RoadRunner* r);
+static int rr_getNumberOfCompartments(RoadRunner* r);
+static void rr_setCompartmentByIndex(RoadRunner* r, const int& index, const double& value);
+static double rr_getCompartmentByIndex(RoadRunner* r, const int& index);
+static std::vector<std::string> rr_getCompartmentIds(RoadRunner* r, RoadRunner* r);
+static int rr_getNumberOfBoundarySpecies(RoadRunner* r);
+static void rr_setBoundarySpeciesByIndex(RoadRunner* r, const int& index, const double& value);
+static double rr_getBoundarySpeciesByIndex(RoadRunner* r, const int& index);
+static std::vector<double> rr_getBoundarySpeciesConcentrations(RoadRunner* r);
+static void rr_setBoundarySpeciesConcentrations(RoadRunner* r, const std::vector<double>& values);
+static std::vector<std::string> rr_getBoundarySpeciesIds(RoadRunner* r);
+static int rr_getNumberOfFloatingSpecies(RoadRunner* r);
+static double rr_getFloatingSpeciesByIndex(RoadRunner* r, int index);
+static void rr_setFloatingSpeciesByIndex(RoadRunner* r, int index, double value);
+static std::vector<double> rr_getFloatingSpeciesConcentrations(RoadRunner* r);
+static std::vector<double> rr_getFloatingSpeciesInitialConcentrations(RoadRunner* r);
+static void rr_setFloatingSpeciesConcentrations(RoadRunner* r, const std::vector<double>& values);
+static void rr_setFloatingSpeciesInitialConcentrationByIndex(RoadRunner* r, const int& index,
+        const double& value);
+static void rr_setFloatingSpeciesInitialConcentrations(RoadRunner* r, const std::vector<double>& values);
+static std::vector<std::string> rr_getFloatingSpeciesIds(RoadRunner* r);
+static std::vector<std::string> rr_getFloatingSpeciesInitialConditionIds(RoadRunner* r);
+static int rr_getNumberOfGlobalParameters(RoadRunner* r);
+static void rr_setGlobalParameterByIndex(RoadRunner* r, const int index, const double value);
+static double rr_getGlobalParameterByIndex(RoadRunner* r, const int& index);
+static std::vector<double> rr_getGlobalParameterValues(RoadRunner* r);
+static std::vector<std::string> rr_getGlobalParameterIds(RoadRunner* r);
+static int rr_getNumberOfDependentSpecies(RoadRunner* r);
+static int rr_getNumberOfIndependentSpecies(RoadRunner* r);
+static std::vector<double> rr_getReactionRates(RoadRunner* r);
+static std::vector<std::string> rr_getReactionIds(RoadRunner* r);
+ */
+
 RRHandle rrcCallConv createRRInstance()
 {
     start_try
@@ -261,7 +302,8 @@ bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->setTempFileFolder(folder);
+        rri->setTempDir(folder);
+        return true;
     catch_bool_macro
 }
 
@@ -269,7 +311,7 @@ char* rrcCallConv getTempFolder(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rr::createText(rri->getTempFolder());
+        return rr::createText(rri->getTempDir());
     catch_ptr_macro
 }
 
@@ -363,11 +405,7 @@ bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
         }
 
         RoadRunner* rri = castToRoadRunner(_handle);
-        if(!rri->load(fileName))
-        {
-            setError("Failed to load SBML semantics");    //There are many ways loading a model can fail, look at logFile to know more
-            return false;
-        }
+        rri->load(fileName);
         return true;
     catch_bool_macro
 }
@@ -391,11 +429,7 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
                 opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
                 opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-        if(!rri->load(fileName, &opt))
-        {
-            setError("Failed to load SBML semantics");    //There are many ways loading a model can fail, look at logFile to know more
-            return false;
-        }
+        rri->load(fileName, &opt);
         return true;
     catch_bool_macro
 }
@@ -404,7 +438,8 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->load(sbml);
+        rri->load(sbml);
+        return true;
     catch_bool_macro
 }
 
@@ -418,11 +453,7 @@ bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompi
                         opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
                         opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-        if(!rri->load(sbml, &opt))
-        {
-            setError("Failed to load SBML semantics");
-            return false;
-        }
+        rri->load(sbml, &opt);
         return true;
     catch_bool_macro
 }
@@ -567,7 +598,8 @@ RRDataHandle rrcCallConv simulate(RRHandle handle)
         RoadRunner* rri = castToRoadRunner(handle);
 
         rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
-        return (RRDataHandle) rri->simulate();
+        rri->simulate();
+        return (RRDataHandle) rri->getSimulationResult();
 
     catch_ptr_macro
 }
@@ -678,7 +710,8 @@ bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double va
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->setValue(symbolId, value);
+        rri->setValue(symbolId, value);
+        return true;
     catch_bool_macro
 }
 
@@ -741,8 +774,8 @@ RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix *tempMat = rri->getLinkMatrix();
-        return createMatrix(tempMat);
+        DoubleMatrix tempMat = rri->getLinkMatrix();
+        return createMatrix(&tempMat);
     catch_ptr_macro
 }
 
@@ -750,8 +783,8 @@ RRDoubleMatrixPtr rrcCallConv getNrMatrix(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix *tempMat = rri->getNrMatrix();
-        return createMatrix(tempMat);
+        DoubleMatrix tempMat = rri->getNrMatrix();
+        return createMatrix(&tempMat);
     catch_ptr_macro
 }
 

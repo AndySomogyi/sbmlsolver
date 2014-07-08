@@ -69,6 +69,22 @@ public:
     static const char* IndexArgName;
 };
 
+class GetGlobalParameterInitValueCodeGen: public
+    GetInitialValueCodeGenBase<GetGlobalParameterInitValueCodeGen, false>
+{
+public:
+    GetGlobalParameterInitValueCodeGen(const ModelGeneratorContext &mgc);
+    ~GetGlobalParameterInitValueCodeGen() {};
+
+    std::vector<string> getIds()
+    {
+        return dataSymbols.getGlobalParameterIds();
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
 
 
 } /* namespace rr */

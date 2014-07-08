@@ -42,6 +42,8 @@ private:
 
     llvm::Value *notImplemented(const libsbml::ASTNode *ast);
 
+    llvm::Value *delayExprCodeGen(const libsbml::ASTNode *ast);
+
     llvm::Value *nameExprCodeGen(const libsbml::ASTNode *ast);
 
     llvm::Value *realExprCodeGen(const libsbml::ASTNode *ast);

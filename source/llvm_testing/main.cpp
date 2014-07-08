@@ -23,12 +23,15 @@
 #include "TestEvalInitialConditions.h"
 #include "TestGetSetValues.h"
 #include "TestCapabilities.h"
+#include "TestEvalReactionRates.h"
 
 #include "ConfigurableTest.h"
 
 #include "rrRoadRunner.h"
 
 #include "rrLogger.h"
+
+#include "TestVariant.h"
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
@@ -221,31 +224,43 @@ using namespace rr;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 3)
+    if (argc < 2)
     {
-        cout << "usage llvm_tester path_to_model log_level" << std::endl;
-        return 0;
+        return -1;
     }
 
-    try
+    rr::RoadRunner r(argv[1]);
+
+    rr::ExecutableModel *m = r.getModel();
+
+    std::list<std::string> ids;
+
+    m->getIds(rr::SelectionRecord::ALL, ids);
+
+
+    for(std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
     {
-        Logger::Level level = Logger::stringToLevel(argv[2]);
+        double val = m->getValue(*i);
 
-        cout << "setting log level to " << Logger::levelToString(level) << std::endl;
-        cout << "loading file " << argv[1] << std::endl;
+        cout << "id: " << *i << ", val: " << val << std::endl;
 
-        Logger::setLevel(level);
+        try {
+            m->setValue(*i, val + 1);
 
-        RoadRunner r(argv[1]);
-
-        cout << r.getModel()->getInfo();
-
-        cout << "all done" << std::endl;
+        } catch (std::exception& e) {
+            cout << e.what() << std::endl;
+        }
     }
-    catch(std::exception &e)
-    {
-        cout << "error: " << e.what();
-    }
+
+
+
+
+
+
+
+
+
+
 
     return 0;
 }

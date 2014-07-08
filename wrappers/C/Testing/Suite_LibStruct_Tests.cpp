@@ -136,4 +136,10 @@ RRHandle gRR = NULL;
         }
     }
 
+    TEST(FREE_RR_INSTANCE)
+    {
+        CHECK(freeRRInstance(gRR));
+        gRR = NULL;
+    }
+
 }

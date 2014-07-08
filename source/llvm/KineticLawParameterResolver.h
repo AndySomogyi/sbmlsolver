@@ -20,9 +20,16 @@ public:
     KineticLawParameterResolver(LoadSymbolResolver& parentResolver,
             const libsbml::KineticLaw &kineticLaw, llvm::IRBuilder<> &builder);
 
+    virtual ~KineticLawParameterResolver() {};
+
     virtual llvm::Value *loadSymbolValue(const std::string& symbol,
-                const llvm::ArrayRef<llvm::Value*>& args =
-                        llvm::ArrayRef<llvm::Value*>());
+            const llvm::ArrayRef<llvm::Value*>& args =
+                    llvm::ArrayRef<llvm::Value*>());
+
+    virtual void recursiveSymbolPush(const std::string& symbol);
+
+    virtual void recursiveSymbolPop();
+
 private:
     LoadSymbolResolver& parentResolver;
     const libsbml::KineticLaw &kineticLaw;

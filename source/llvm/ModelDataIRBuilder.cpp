@@ -163,10 +163,10 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
         {
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
             const DataLayout *dl = engine->getDataLayout();
-            size_t llvm_size = dl->getTypeStoreSize(structType);
+            uint64_t llvm_size = dl->getTypeStoreSize(structType);
 #else
             const TargetData* td = engine->getTargetData();
-            size_t llvm_size = td->getTypeStoreSize(structType);
+            uint64_t llvm_size = td->getTypeStoreSize(structType);
 #endif
 
             if (sizeof(csr_matrix) != llvm_size)
@@ -373,8 +373,8 @@ llvm::Value* ModelDataIRBuilder::createStore(ModelDataFields field,
 llvm::Value* ModelDataIRBuilder::createCompLoad(const std::string& id,
         const llvm::Twine& name)
 {
-    Value *gep = createCompGEP(id, name + "_gep");
-    return builder.CreateLoad(gep, name);
+    Value *gep = createCompGEP(id);
+    return builder.CreateLoad(gep, name.isTriviallyEmpty() ? id : name);
 }
 
 llvm::Value* ModelDataIRBuilder::createCompStore(const std::string& id,
@@ -384,13 +384,11 @@ llvm::Value* ModelDataIRBuilder::createCompStore(const std::string& id,
     return builder.CreateStore(value, gep);
 }
 
-llvm::Value* ModelDataIRBuilder::createCompGEP(const std::string& id,
-        const llvm::Twine& name)
+llvm::Value* ModelDataIRBuilder::createCompGEP(const std::string& id)
 {
     uint index = symbols.getCompartmentIndex(id);
     assert(index < symbols.getIndependentCompartmentSize());
-    return createGEP(CompartmentVolumes, index,
-            name.isTriviallyEmpty() ? id : name);
+    return createGEP(CompartmentVolumes, index, id);
 }
 
 llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtLoad(
@@ -476,6 +474,29 @@ llvm::Value* ModelDataIRBuilder::createInitCompStore(const std::string& id,
     return builder.CreateStore(value, gep);
 }
 
+llvm::Value* ModelDataIRBuilder::createInitGlobalParamGEP(const std::string& id,
+        const llvm::Twine& name)
+{
+    uint index = symbols.getGlobalParameterInitIndex(id);
+        assert(index < symbols.getInitGlobalParameterSize());
+        return createGEP(InitGlobalParameters, index,
+                name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* ModelDataIRBuilder::createInitGlobalParamLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createInitGlobalParamGEP(id, name);
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createInitGlobalParamStore(
+        const std::string& id, llvm::Value* value)
+{
+    Value *gep = createInitGlobalParamGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
 llvm::Value* ModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getReactionIndex(id);
@@ -509,6 +530,8 @@ llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
     Value *colVal = ConstantInt::get(Type::getInt32Ty(context), col, true);
     return createCSRMatrixGetNZ(builder, stoich, rowVal, colVal, name);
 }
+
+
 
 void ModelDataIRBuilder::validateStruct(llvm::Value* s,
         const char* funcName)
@@ -585,8 +608,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         elements.push_back(int32Type);        // 12     int                      numInitBoundarySpecies;
         elements.push_back(int32Type);        // 13     int                      numInitGlobalParameters;
 
-
-        elements.push_back(csrSparsePtrType); // 14      dcsr_matrix             stoichiometry;
+        elements.push_back(csrSparsePtrType); // 14     dcsr_matrix             stoichiometry;
         elements.push_back(int32Type);        // 15     int                      numEvents;
         elements.push_back(int32Type);        // 16     int                      stateVectorSize;
         elements.push_back(doublePtrType);    // 17     double*                  stateVector;
@@ -604,25 +626,18 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         elements.push_back(doublePtrType);    // 28     double*                  globalParametersInitAlias
         elements.push_back(doublePtrType);    // 29     double*                  reactionRatesAlias
 
-
         elements.push_back(doublePtrType);    // 30     double*                  rateRuleValuesAlias
         elements.push_back(doublePtrType);    // 31     double*                  floatingSpeciesAmountsAlias
 
         elements.push_back(ArrayType::get(doubleType, numIndCompartments));     // 32 CompartmentVolumes
         elements.push_back(ArrayType::get(doubleType, numInitCompartments));    // 33 initCompartmentVolumes
-
-
         elements.push_back(ArrayType::get(doubleType, numInitFloatingSpecies)); // 34 initFloatingSpeciesAmounts
         elements.push_back(ArrayType::get(doubleType, numConservedSpecies));    // 35 initConservedSpeciesAmounts
-
         elements.push_back(ArrayType::get(doubleType, numIndBoundarySpecies));  // 36 boundarySpeciesAmounts
         elements.push_back(ArrayType::get(doubleType, numInitBoundarySpecies)); // 37 initBoundarySpeciesAmounts
-
         elements.push_back(ArrayType::get(doubleType, numIndGlobalParameters)); // 38 globalParameters
         elements.push_back(ArrayType::get(doubleType, numInitGlobalParameters));// 39 initGlobalParameters
-
         elements.push_back(ArrayType::get(doubleType, numReactions));           // 40 reactionRates
-
         elements.push_back(ArrayType::get(doubleType, numRateRules));           // 41 rateRuleValues
         elements.push_back(ArrayType::get(doubleType, numIndFloatingSpecies));  // 42 floatingSpeciesAmounts
 
@@ -660,13 +675,14 @@ unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, llvm::Execut
 
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
     const DataLayout *dl = engine->getDataLayout();
-    size_t llvm_size = dl->getTypeStoreSize(structType);
+    uint64_t llvm_size = dl->getTypeStoreSize(structType);
 #else
     const TargetData* td = engine->getTargetData();
-    size_t llvm_size = td->getTypeStoreSize(structType);
+    uint64_t llvm_size = td->getTypeStoreSize(structType);
 #endif
 
-    return llvm_size;
+    // the model data struct will NEVER be bigger than a 32 bit pointer!
+    return (unsigned)llvm_size;
 
     /*
      printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);

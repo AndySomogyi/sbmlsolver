@@ -7,6 +7,7 @@
 #pragma hdrstop
 #include "TestEvalReactionRates.h"
 #include "rrLogger.h"
+#include "rrRoadRunner.h"
 
 namespace rr
 {
@@ -38,6 +39,54 @@ bool TestEvalReactionRates::test()
     Log(Logger::LOG_INFORMATION) << model << endl;
 
     return true;
+}
+
+
+void testAmountRates(const char* fname)
+{
+    RoadRunner r(fname);
+
+    ExecutableModel *model = r.getModel();
+
+    r.simulate();
+
+    int reactions = model->getNumReactions();
+    int species = model->getNumFloatingSpecies();
+
+    vector<double> reactionRates(reactions);
+
+    vector<double> amountRates(species);
+
+    model->getReactionRates(reactions, NULL, &reactionRates[0]);
+
+    for (int i = 0; i < reactionRates.size(); ++i)
+    {
+        cout << "reaction rate " << i << ": " << reactionRates[i] << std::endl;
+    }
+
+    for (int i = 0; i < species; ++i)
+    {
+        double amtRate1;
+        model->getFloatingSpeciesAmountRates(1, &i, &amtRate1);
+        double amtRate2 = model->getFloatingSpeciesAmountRate(i, &reactionRates[0]);
+
+        cout << "amount rate " << i << ": " << amtRate1 << ", " << amtRate2 << std::endl;
+    }
+}
+
+void testStoch(const char* fname)
+{
+    RoadRunner r(fname);
+
+    ExecutableModel *model = r.getModel();
+
+    SimulateOptions o = SimulateOptions();
+
+    o.integrator = SimulateOptions::GILLESPIE;
+
+    r.simulate(&o);
+
+
 }
 
 

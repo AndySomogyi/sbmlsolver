@@ -7,7 +7,7 @@
 #pragma hdrstop
 #include "TestBase.h"
 #include "tests.h"
-#include "rrModelGeneratorFactory.h"
+#include "ModelGenerator.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -59,7 +59,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     string home = getenv("HOME");
     string tmp = home + string("/tmp");
     string support = home + "/local/rr_support/";
-    ModelGenerator *generator = ModelGeneratorFactory::createModelGenerator(compiler, tmp, support);
+    ModelGenerator *generator = ModelGenerator::New(compiler, tmp, support);
 
     LoadSBMLOptions opt;
 

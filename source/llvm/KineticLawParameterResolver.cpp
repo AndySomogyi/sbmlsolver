@@ -30,7 +30,8 @@ KineticLawParameterResolver::KineticLawParameterResolver(
 
 
 llvm::Value* KineticLawParameterResolver::loadSymbolValue(
-        const std::string& symbol, const llvm::ArrayRef<llvm::Value*>& args)
+        const std::string& symbol,
+        const llvm::ArrayRef<llvm::Value*>& args)
 {
     const libsbml::Parameter *parameter =
             kineticLaw.getLocalParameter(symbol);
@@ -54,6 +55,16 @@ llvm::Value* KineticLawParameterResolver::loadSymbolValue(
     }
 
     return parentResolver.loadSymbolValue(symbol, args);
+}
+
+void KineticLawParameterResolver::recursiveSymbolPush(const std::string& symbol)
+{
+    parentResolver.recursiveSymbolPush(symbol);
+}
+
+void KineticLawParameterResolver::recursiveSymbolPop()
+{
+    parentResolver.recursiveSymbolPop();
 }
 
 } /* namespace rr */

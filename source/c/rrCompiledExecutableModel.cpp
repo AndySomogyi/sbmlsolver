@@ -1769,6 +1769,14 @@ EventListenerPtr CompiledExecutableModel::getEventListener(int)
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
+double CompiledExecutableModel::getFloatingSpeciesAmountRate(int index,
+           const double *reactionRates)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+
+
 } //Namespace rr
 
 

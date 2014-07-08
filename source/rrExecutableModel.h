@@ -7,10 +7,12 @@
 #include <list>
 #include <ostream>
 
-#if __cplusplus >= 201103L || defined(_MSC_VER)
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
 #include <memory>
+#define cxx11_ns std
 #else
 #include <tr1/memory>
+#define cxx11_ns std::tr1
 #endif
 
 namespace rr
@@ -52,7 +54,7 @@ protected:
  * listeners are shared objects, so use std smart pointers
  * to manage them.
  */
-typedef std::tr1::shared_ptr<EventListener> EventListenerPtr;
+typedef cxx11_ns::shared_ptr<EventListener> EventListenerPtr;
 
 class EventListenerException: public std::exception
 {
@@ -116,20 +118,9 @@ public:
     virtual double getTime() = 0;
 
     /**
-     * evaluate the initial conditions specified in the sbml, this entails
-     * evaluating all InitialAssigments, AssigmentRules, initial values, etc...
+     * @deprecated
      *
-     * Sets the the concentrations and ammounts to the values specified
-     * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::floatingSpeciesAmounts[:]
-     * are set to ModelData::floatingSpeciesInitConcentrations[:] * compartment volume, and ModelData::y[:] is
-     * set to ModelData::floatingSpeciesInitConcentrations[:].
-     *
-     * This sets the concentrations and ammounts to either initialAmount or
-     * initialConcentration (which ever exists) or 0 if they are missing. A
-     * later call to evalInitialAssignments will apply any initialAssigments to
-     * update the concentations and ammounts.
-     *
-     * The the model state is fully set.
+     * The model object knows how to reset itself with reset().
      */
     virtual void evalInitialConditions() = 0;
 
@@ -474,6 +465,14 @@ public:
      */
     virtual std::string getReactionId(int index) = 0;
 
+    /**
+     * get the vector of reaction rates.
+     *
+     * @param len: the length of the suplied buffer, must be >= reaction rates size.
+     * @param indx: pointer to index array. If NULL, then it is ignored and the
+     * reaction rates are copied directly into the suplied buffer.
+     * @param values: pointer to user suplied buffer where rates will be stored.
+     */
     virtual int getReactionRates(int len, int const *indx,
                 double *values) = 0;
 
@@ -657,6 +656,22 @@ public:
     virtual std::string getEventId(int index) = 0;
     virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;
     virtual EventListenerPtr getEventListener(int index) = 0;
+
+    /**
+     * Get the amount rate of change for the i'th floating species
+     * given a reaction rates vector.
+     *
+     * TODO: This should be merged with getFloatingSpeciesAmountRates, but that will
+     * break inteface, will do in next point release.
+     *
+     * TODO: If the conversion factor changes in between getting the
+     * reaction rates vector via getReactionRates
+     *
+     * @param index: index of the desired floating speceis rate.
+     * @param reactionRates: pointer to buffer of reaction rates.
+     */
+    virtual double getFloatingSpeciesAmountRate(int index,
+            const double *reactionRates) = 0;
 };
 
 

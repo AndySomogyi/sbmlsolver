@@ -80,11 +80,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
 
 
-        if(!rri->load(fileName, &opt))
-        {
-            Log(Logger::LOG_ERROR) << "Failed to load SBML";
-            return false;
-        }
+        rri->load(fileName, &opt);
         return true;
     }
     catch(std::exception& e)
@@ -102,15 +98,8 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)
     {
         mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
-    SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
-    RoadRunner* rri = (RoadRunner*) mRRHandle;
-
-    SimulateOptions options(mModelSettingsFileName.c_str());
-
-    rri->setSimulateOptions(options);
-
-    return true;
+    return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 }
 
 bool SBMLTestSuiteSimulation_CAPI::Simulate()

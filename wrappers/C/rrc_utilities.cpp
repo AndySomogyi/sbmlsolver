@@ -358,11 +358,6 @@ bool rrcCallConv freeVector(RRVectorPtr vector)
     catch_bool_macro
 }
 
-/////////////////////////////////////////////////////////////
-void rrcCallConv pause()
-{
-    rr::pause(true, "Hit any key to continue..\n");
-}
 
 RRVectorPtr rrcCallConv createVector (int size)
 {

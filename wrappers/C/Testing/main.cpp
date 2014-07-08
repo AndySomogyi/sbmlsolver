@@ -23,7 +23,6 @@ string     gTestDataFolder          = "";
 bool       gDebug                   = false;
 string     gTSModelsPath;
 string     gCompiler                = "";
-unsigned   gLoadSBMLOptions         = 0;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
@@ -156,13 +155,6 @@ int main(int argc, char* argv[])
                            0);
     }
 
-    if (args.Suites.find('L') != std::string::npos)
-    {
-        clog << "Running Suite PLUGINMANAGER_TESTS\n";
-        clog << "ModelPath " << gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "PLUGINMANAGER_TESTS", True(),
-                           0);
-    }
 
     //Finish outputs result to xml file
     runner1.Finish();

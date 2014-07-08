@@ -8,6 +8,8 @@
 #include "rrUtils.h"
 #include "Poco/TemporaryFile.h"
 #include "rrRoadRunnerData.h"
+#include "rrRoadRunner.h"
+
 
 //---------------------------------------------------------------------------
 using namespace std;
@@ -34,6 +36,29 @@ RoadRunnerData::RoadRunnerData(const std::vector<std::string>& colNames,
         mColumnNames(colNames),
         mTheData(theData)
 {}
+
+RoadRunnerData::RoadRunnerData(const RoadRunner* rr) :
+                structuredResult(false),
+                mTimePrecision(6),
+                mDataPrecision(16),
+                mTheData(*rr->getSimulationData())
+{
+    // need const correctness here,
+    // nest release, getSelections will return const vec
+    RoadRunner *r = const_cast<RoadRunner*>(rr);
+
+    const std::vector<SelectionRecord> sel = r->getSelections();
+
+    vector<string> list(sel.size());
+
+    for(int i = 0; i < sel.size(); ++i)
+    {
+        list[i] = sel[i].to_string();
+    }
+
+    setColumnNames(list);
+}
+
 
 RoadRunnerData::~RoadRunnerData()
 {}
@@ -227,7 +252,7 @@ bool RoadRunnerData::hasWeights() const
 
 double RoadRunnerData::getDataElement(int row, int col)
 {
-    return mTheData(row,col);    
+    return mTheData(row,col);
 }
 
 void   RoadRunnerData::setDataElement(int row, int col, double value)
@@ -320,7 +345,7 @@ bool RoadRunnerData::writeTo(const string& fileName) const
         Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
         return false;
     }
- 
+
     if(!check())
     {
         Log(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
@@ -340,8 +365,8 @@ bool RoadRunnerData::readFrom(const string& fileName)
         Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
         return false;
     }
-    
-    aFile >> (*this); 
+
+    aFile >> (*this);
     aFile.close();
     return true;
 }
@@ -537,4 +562,4 @@ const DoubleMatrix& RoadRunnerData::getWeights() const
     return mWeights;
 }
 
-}//namespace
+}    //namespace

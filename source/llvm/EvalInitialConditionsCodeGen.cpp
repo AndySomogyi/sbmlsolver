@@ -11,7 +11,7 @@
 #include "SBMLInitialValueSymbolResolver.h"
 #include "ModelInitialValueSymbolResolver.h"
 #include "rrLogger.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <Poco/Logger.h>
@@ -51,8 +51,10 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     if (Logger::LOG_DEBUG <= rr::Logger::getLevel())
     {
         Log(Logger::LOG_DEBUG) << "boundarySpecies: \n";
-        for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
-                i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
+        const SymbolForest::Map&  initValues = modelSymbols.getInitialValues().boundarySpecies;
+
+        for (SymbolForest::Map::const_iterator i = initValues.begin();
+                i != initValues.end(); i++)
         {
             char* formula = SBML_formulaToString(i->second);
             Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
@@ -66,15 +68,15 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     // generate model code for both floating and boundary species
     codeGenSpecies(modelDataResolver);
 
-    codeGenParameters(modelDataResolver);
+    codeGenGlobalParameters(modelDataResolver);
 
 
     // initializes the values stored in the model
     // to the values specified in the sbml.
-    if (this->options & ModelGenerator::READ_ONLY)
-    {
-        codeGenCompartments(modelDataResolver);
-    }
+
+    // always generate code for compartment init values so they are initialized the
+    // in the exe model ctor. compartments are not usually reset.
+    codeGenCompartments(modelDataResolver);
 
     // generates code to set the *initial* values in the model to
     // the values specified in the sbml.
@@ -86,6 +88,8 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         codeGenInitSpecies(initValueStoreResolver);
 
         codeGenInitCompartments(initValueStoreResolver);
+
+        codeGenInitGlobalParameters(initValueStoreResolver);
     }
 
     codeGenStoichiometry(modelData, modelDataResolver);
@@ -234,7 +238,7 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
         {
             const string& id = *i;
 
-            if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+            if (dataSymbols.isIndependentInitFloatingSpecies(id))
             {
                 modelDataResolver.storeSymbolValue(id,
                         initialValueResolver.loadSymbolValue(id));
@@ -244,7 +248,7 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
 }
 
 
-void EvalInitialConditionsCodeGen::codeGenParameters(
+void EvalInitialConditionsCodeGen::codeGenGlobalParameters(
         StoreSymbolResolver& modelDataResolver)
 {
     vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
@@ -262,5 +266,22 @@ void EvalInitialConditionsCodeGen::codeGenParameters(
     }
 }
 
+void EvalInitialConditionsCodeGen::codeGenInitGlobalParameters(
+        StoreSymbolResolver& modelDataResolver)
+{
+    vector<string> parameters = dataSymbols.getGlobalParameterIds();
+
+    for (vector<string>::const_iterator i = parameters.begin();
+            i != parameters.end(); i++)
+    {
+        const string& id = *i;
+
+        if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
+        {
+            modelDataResolver.storeSymbolValue(id,
+                    initialValueResolver.loadSymbolValue(id));
+        }
+    }
+}
 
 } /* namespace rr */

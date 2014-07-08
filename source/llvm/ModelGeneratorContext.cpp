@@ -11,14 +11,15 @@
 #include "ModelDataIRBuilder.h"
 #include "LLVMException.h"
 #include "SBMLSupportFunctions.h"
-#include "rrModelGenerator.h"
+#include "ModelGenerator.h"
 #include "conservation/ConservedMoietyConverter.h"
+#include "conservation/ConservationExtension.h"
+#include "rrConfig.h"
 
 #include <sbml/SBMLReader.h>
 #include <string>
 #include <vector>
 #include <math.h>
-
 
 using namespace llvm;
 using namespace std;
@@ -69,7 +70,7 @@ static double acosh(double value)
 
 double atanh(double value)
 {
-    return log((1. / value + 1.) / (1. / value - 1.)) / 2.;
+    return (std::log(1.0 + value) - std::log(1.0 - value)) / 2.0;
 }
 
 #endif
@@ -85,39 +86,51 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         moietyConverter(0),
         functionPassManager(0)
 {
+    ownedDoc = checkedReadSBMLFromString(sbml.c_str());
+
     if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
     {
-        Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-
-        moietyConverter = new rr::conservation::ConservedMoietyConverter();
-        ownedDoc = checkedReadSBMLFromString(sbml.c_str());
-
-        conservedMoietyCheck(ownedDoc);
-
-        if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
+        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
         {
-            throw_llvm_exception("error setting conserved moiety converter document");
+            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
         }
 
-        if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
+        // check if already conserved doc
+        if (rr::conservation::ConservationExtension::isConservedMoietyDocument(ownedDoc))
         {
-            throw_llvm_exception("error converting document to conserved moieties");
+            doc = ownedDoc;
         }
+        else
+        {
+            moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
-        doc = moietyConverter->getDocument();
+            conservedMoietyCheck(ownedDoc);
 
-        SBMLWriter sw;
-        char* convertedStr = sw.writeToString(doc);
+            if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
+            {
+                throw_llvm_exception("error setting conserved moiety converter document");
+            }
 
-        Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-        Log(Logger::LOG_INFORMATION) << convertedStr;
-        Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+            if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
+            {
+                throw_llvm_exception("error converting document to conserved moieties");
+            }
 
-        free(convertedStr);
+            doc = moietyConverter->getDocument();
+
+            SBMLWriter sw;
+            char* convertedStr = sw.writeToString(doc);
+
+            Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+            Log(Logger::LOG_INFORMATION) << convertedStr;
+            Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+
+            free(convertedStr);
+        }
     }
     else
     {
-        ownedDoc = checkedReadSBMLFromString(sbml.c_str());
         doc = ownedDoc;
     }
 
@@ -739,6 +752,7 @@ static inline void conservedMoietyException(const std::string& what)
 
 static void conservedMoietyCheck(const SBMLDocument *doc)
 {
+
     const Model *model = doc->getModel();
 
     // check if any species are defined by assignment rules

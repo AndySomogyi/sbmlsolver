@@ -28,7 +28,9 @@ set(rrSources
     rrRoadRunnerOptions
     rrStringUtils
     rrUtils
-    rrCVODEInterface
+    Integrator
+    CVODEIntegrator
+    GillespieIntegrator
     rrNLEQInterface
     rrTestSuiteModelSimulation
     rrIniKey
@@ -37,11 +39,12 @@ set(rrSources
     rrFileName
     rrRoadRunnerData
     rrSelectionRecord
-    rrModelGeneratorFactory
+    ModelGenerator
     rrVersionInfo
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
+    Variant
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
@@ -69,7 +72,8 @@ if(BUILD_LLVM)
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
-	llvm/GetInitialValuesCodeGen
+        llvm/LoadSymbolResolverBase
+        llvm/GetInitialValuesCodeGen
         llvm/GetEventValuesCodeGen
         llvm/KineticLawParameterResolver
         llvm/LLVMModelData
@@ -156,14 +160,14 @@ if(RR_BUILD_SHARED_CORE)
         PocoFoundation
         )
 
-    
-    # link with libxml, aperently borland can't link with a 
+
+    # link with libxml, aperently borland can't link with a
     # conventional C library, need to be specially converted for borland
 
     if(UNIX)
-	target_link_libraries(${target} xml2)       	 
+    target_link_libraries(${target} xml2)
     elseif(${MSVC})
-	target_link_libraries (${target} libxml2)
+    target_link_libraries (${target} libxml2)
     elseif(${BORLAND})
         target_link_libraries (${target} libxml2_xe)
     endif()
@@ -179,8 +183,8 @@ if(RR_BUILD_SHARED_CORE)
         target_link_libraries (${target}
             libf2c
             libsbml
-	    ws2_32
-	    iphlpapi
+        ws2_32
+        iphlpapi
             )
     endif(UNIX)
 
@@ -251,8 +255,8 @@ if(WIN32)
     target_link_libraries (${target}-static
         libsbml-static
         libf2c
-	ws2_32
-	iphlpapi
+    ws2_32
+    iphlpapi
         )
 endif(WIN32)
 

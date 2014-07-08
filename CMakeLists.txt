@@ -216,10 +216,8 @@ add_definitions(
 endif()
 
 if(UNIX)
-    if(CMAKE_COMPILER_IS_GNUCXX)
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-        set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-    endif()
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif()
 
 if(BUILD_LLVM)
@@ -246,6 +244,11 @@ endif(BUILD_LEGACY_C)
 
 # We alway have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
+
+# install the rr_support if building legacy c
+if(BUILD_LEGACY_C)
+    add_subdirectory(rr_support)
+endif(BUILD_LEGACY_C)
 
 if(INSTALL_CXX_API)
     if(INSTALL_APPS)

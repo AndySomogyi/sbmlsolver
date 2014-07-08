@@ -15,56 +15,6 @@
 #include <sbml/conversion/SBMLConverterRegister.h>
 
 
-#ifdef SWIG
-
-%feature("docstring") rr::PyConservedMoietyConverter "
-ConservedMoietyConverter.__init__()
-
-
-Sets the source document. This may be either the contents of an sbml docment
-as a string, or the path the the file.
-
-:param str sbmlOrURI: contents or path of source document
-:returns: an integer indicating success or failure, 0 means success.
-:rtype: int
-";
-
-%feature("docstring") rr::PyConservedMoietyConverter::setDocument "
-ConservedMoietyConverter.setDocument(sbmlOrURI)
-
-
-Sets the source document. This may be either the contents of an sbml docment
-as a string, or the path the the file.
-
-:param str sbmlOrURI: contents or path of source document
-:returns: an integer indicating success or failure, 0 means success.
-:rtype: int
-";
-
-%feature("docstring") rr::PyConservedMoietyConverter::convert "
-ConservedMoietyConverter.convert()
-
-Perform the document conversion.
-
-:returns: an integer indicating success or failure, 0 means success.
-:rtype: int
-";
-
-%feature("docstring") rr::PyConservedMoietyConverter::getDocument "
-ConservedMoietyConverter.getDocument()
-
-Get the converted document contents.
-
-:returns: The contents of the converted document, or empty string
-          if there is no source document.
-";
-
-
-%rename (ConservedMoietyConverter) PyConservedMoietyConverter;
-
-#endif
-
-
 namespace ls {
     class LibStructural;
 }

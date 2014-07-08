@@ -124,61 +124,34 @@ floating species amounts**, its a single statement, since we use native types.::
          array([-0.00325, -0.09275,  0.036  ])
 
 Finally, you can of course **simulate over time**. The first column in result is time, 
-the rest are whatever is selected. The easies way to plot is to use ``roadrunner.plot``::
+the rest are whatever is selected. The easies way to plot is to use :meth:`RoadRunner.plot`::
    
    results = rr.simulate()
-   roadrunner.plot(results)
+   rr.plot(results)
    
-.. seealso::  To get numpy unstructured array, see: :ref:`plotting-data`
+.. seealso:: :ref:`plotting-data`
    
 Using libRoadRunner in `IPython <http://ipython.org/>`_ you can **get documentation** 
 easily using a ``?`` after the object or method::
 
-   rr.simulate?
+  >>> r.plot?
 
-\
-     ::
+  Type:        instancemethod
+  String form: <bound method RoadRunner.plot of <roadrunner.RoadRunner() { this = 0x101c70a00 }>>
+  File:        /Users/andy/Library/Python/2.7/lib/python/site-packages/roadrunner/roadrunner.py
+  Definition:  r.plot(self, show=True)
+  Docstring:
+  RoadRunner.plot([show])
+  
+  Plot the previously run simulation result using Matplotlib.
+  
+  This takes the contents of the simulation result and builds a
+  legend from the selection list.
+  
+  
+  If the optional prameter 'show' [default is True] is given, the pylab
+  show() method is called.
 
-      Type:       instancemethod
-      String Form:<bound method RoadRunner.simulate of <roadrunner.RoadRunner() { this = 03D2E6F0 }>>
-      File:       c:\python27\lib\site-packages\roadrunner\roadrunner.py
-
-
-      Definition: rr.simulate(self, *args)
-      Docstring:
-      RoadRunner.simulate(*args)
-      
-      Simulate the current SBML model.
-      
-      There are a number of ways to call simulate.
-      
-      1. With no arguments. In this case, the current set of `SimulateOptions` will
-         be used for the simulation. The current set may be changed either directly
-         via setSimulateOptions() or with one of the two alternate ways of calling
-         simulate.
-      
-      2: With single `SimulateOptions` argument. In this case, all of the settings
-         in the given options are copied and will be used for the current and future
-         simulations.
-      
-      3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
-         these three values are copied and will be used for the current and future simulations.
-      
-      The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-      one calls::
-      
-        rr.simulate (0, 3.14, 100)
-      
-      The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
-      is followed by a call to::
-      
-        rr.simulate()
-      
-      This simulation will use the previous values.
-      
-      :returns: a numpy array with each selected output timeseries being a
-                column vector, and the 0'th column is the simulation time.
-      :rtype: numpy.ndarray
 
 Technical Footnotes
 -------------------
