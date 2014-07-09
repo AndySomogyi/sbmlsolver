@@ -218,6 +218,7 @@ void GillespieIntegrator::restart(double t0)
 #ifdef RR_CXX_RANDOM
     if (options.hasKey("seed"))
     {
+        // variant at the moment can only do signed numbers.
         seed = options.getValue("seed").convert<long>();
         Log(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
     }
@@ -226,7 +227,8 @@ void GillespieIntegrator::restart(double t0)
         seed = (long)std::time(0);
         Log(Logger::LOG_INFORMATION) << "Using system time for seed value: " << seed;
     }
-    engine.seed(seed);
+    // MSVC needs an explicit cast, fail to compile otherwise.
+    engine.seed((unsigned long)seed);
 #else
     if (options.hasKey("seed"))
     {
