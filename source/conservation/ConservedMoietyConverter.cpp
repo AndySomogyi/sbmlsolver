@@ -30,6 +30,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <stdexcept>
 
 #include "rrStringUtils.h"
 
@@ -97,6 +98,12 @@ static void createDependentSpeciesRules(Model* newModel,
 static void updateReactions(Model* newModel,
         const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies);
+
+/**
+ * creates an ast node for a species, and this value will alwasy be an
+ * amount.
+ */
+static ASTNode *createSpeciesAmountNode(const Model* model, const std::string& name);
 
 static void insertAsModifier(Reaction* reaction, SimpleSpeciesReference *s);
 
@@ -432,8 +439,7 @@ static std::vector<std::string> createConservedMoietyParameters(
 
         ASTNode sum(AST_PLUS);
 
-        ASTNode *Sd0 = new ASTNode(AST_NAME);
-        Sd0->setName(depSpecies[i].c_str());
+        ASTNode *Sd0 = createSpeciesAmountNode(newModel, depSpecies[i]);
         sum.addChild(Sd0);
 
         ASTNode *mult = new ASTNode(AST_TIMES);
@@ -454,13 +460,11 @@ static std::vector<std::string> createConservedMoietyParameters(
             {
                 ASTNode *times = new ASTNode(AST_TIMES);
                 ASTNode *value = new ASTNode(AST_REAL);
-                ASTNode *name = new ASTNode(AST_NAME);
+                ASTNode *species = createSpeciesAmountNode(newModel, indSpecies[j]);
 
                 value->setValue(stoich);
-                name->setName(indSpecies[j].c_str());
-
                 times->addChild(value);
-                times->addChild(name);
+                times->addChild(species);
 
                 sum2->addChild(times);
             }
@@ -482,16 +486,24 @@ static void createDependentSpeciesRules(Model* newModel,
     {
         const string& id = depSpecies[i];
 
+        const Species *dspecies = newModel->getSpecies(id);
+        if (dspecies == 0)
+        {
+            throw std::invalid_argument("model does not contain dependent species " + id);
+        }
+
+        bool isAmt = dspecies->getHasOnlySubstanceUnits();
 
         AssignmentRule *rule = newModel->createAssignmentRule();
         rule->setVariable(id);
 
-        ASTNode eqn(AST_PLUS);
+        ASTNode *amt = new ASTNode(AST_PLUS);
 
+        // conserved moiety node
         ASTNode *t = new ASTNode(AST_NAME);
         t->setName(conservedMoieties[i].c_str());
 
-        eqn.addChild(t);
+        amt->addChild(t);
 
         for (int j = 0; j < indSpecies.size(); ++j)
         {
@@ -501,19 +513,31 @@ static void createDependentSpeciesRules(Model* newModel,
             {
                 ASTNode *times = new ASTNode(AST_TIMES);
                 ASTNode *value = new ASTNode(AST_REAL);
-                ASTNode *name = new ASTNode(AST_NAME);
+                ASTNode *ispecies = createSpeciesAmountNode(newModel, indSpecies[j]);
 
                 value->setValue(stoich);
-                name->setName(indSpecies[j].c_str());
-
                 times->addChild(value);
-                times->addChild(name);
+                times->addChild(ispecies);
 
-                eqn.addChild(times);
+                amt->addChild(times);
             }
         }
 
-        rule->setMath(&eqn);
+        if (isAmt)
+        {
+            rule->setMath(amt);
+            delete amt;
+            amt = 0;
+        }
+        else
+        {
+            ASTNode conc(AST_DIVIDE);
+            ASTNode *volume = new ASTNode(AST_NAME);
+            volume->setName(dspecies->getCompartment().c_str());
+            conc.addChild(amt);
+            conc.addChild(volume);
+            rule->setMath(&conc);
+        }
     }
 }
 
@@ -575,6 +599,35 @@ static void insertAsModifier(Reaction* reaction, SimpleSpeciesReference *s)
     m->setName(s->getName());
 }
 
+
+static ASTNode *createSpeciesAmountNode(const Model* model, const std::string& name)
+{
+    const Species* species = model->getSpecies(name);
+
+    if(species == 0)
+    {
+        throw std::invalid_argument("model does not have species with name" + name);
+    }
+
+    ASTNode *speciesNode = new ASTNode(AST_NAME);
+    speciesNode->setName(name.c_str());
+
+    if(species->getHasOnlySubstanceUnits())
+    {
+        // its an amount, we're good
+        return speciesNode;
+    }
+    else
+    {
+        ASTNode *mul = new ASTNode(AST_TIMES);
+        ASTNode *volume = new ASTNode(AST_NAME);
+        volume->setName(species->getCompartment().c_str());
+        mul->addChild(volume);
+        mul->addChild(speciesNode);
+        return mul;
+    }
+}
+
 } // namespace conservation }
 
 
@@ -627,8 +680,6 @@ std::string PyConservedMoietyConverter::getDocument()
 
     return result;
 }
-
-
 
 } // namespace rr }
 
