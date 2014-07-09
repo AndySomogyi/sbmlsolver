@@ -1575,43 +1575,47 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
                    (dy0[speciesZero + j] - dy1[speciesZero + j]) / (2.0*h) ;
        }
     }
-
-
     return jac;
 }
 
 DoubleMatrix RoadRunner::getLinkMatrix()
 {
-    try
+    if (!impl->model)
     {
-       if (!impl->model)
-       {
-           throw CoreException(gEmptyModelMessage);
-       }
-       //return _L;
-        return *getLibStruct()->getLinkMatrix();
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
+    // pointer to owned matrix
+    return *getLibStruct()->getLinkMatrix();
+}
+
+DoubleMatrix RoadRunner::getReducedStoichiometryMatrix()
+{
+    if (!impl->model)
     {
-        throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
+        throw CoreException(gEmptyModelMessage);
     }
+    // pointer to owned matrix
+    return *getLibStruct()->getNrMatrix();
 }
 
 DoubleMatrix RoadRunner::getNrMatrix()
 {
-    try
+    if (!impl->model)
     {
-       if (!impl->model)
-       {
-            throw CoreException(gEmptyModelMessage);
-       }
-        //return _Nr;
-        return *getLibStruct()->getNrMatrix();
+        throw CoreException(gEmptyModelMessage);
     }
-    catch (const Exception& e)
+    // pointer to owned matrix
+    return *getLibStruct()->getNrMatrix();
+}
+
+DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
+{
+    if (!impl->model)
     {
-         throw CoreException("Unexpected error from getNrMatrix()", e.Message());
+        throw CoreException(gEmptyModelMessage);
     }
+    // pointer to owned matrix
+    return *getLibStruct()->getStoichiometryMatrix();
 }
 
 DoubleMatrix RoadRunner::getL0Matrix()
@@ -1620,8 +1624,7 @@ DoubleMatrix RoadRunner::getL0Matrix()
     {
         throw CoreException(gEmptyModelMessage);
     }
-    //return _L0;
-    // returns a NEW matrix,
+    // the libstruct getL0Matrix returns a NEW matrix,
     // nice consistent API yes?!?!?
     DoubleMatrix *tmp = getLibStruct()->getL0Matrix();
     DoubleMatrix result = *tmp;
@@ -3680,7 +3683,8 @@ void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
             self.simulateOpt.flags & SimulateOptions::STRUCTURED_RESULT;
 }
 
-}//namespace
+} //namespace
+
 
 
 #if defined(_WIN32)
