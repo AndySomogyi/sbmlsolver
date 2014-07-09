@@ -401,8 +401,11 @@ void ModelGeneratorContext::initFunctionPassManager()
     // we only support LLVM >= 3.1
 #if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
     functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
-#else
+#elif (LLVM_VERSION_MINOR <= 4)
     functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+#else
+    // Change in LLVM 3.5 - JKM
+    module->setDataLayout(new DataLayout(*executionEngine->getDataLayout()));
 #endif
 
          // Provide basic AliasAnalysis support for GVN.
@@ -592,19 +595,19 @@ void ModelGeneratorContext::addGlobalMappings()
     addGlobalMapping(
             createGlobalMappingFunction("arccosh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) acosh);
+                        (void*)static_cast<double (*)(double)>(acosh)); // JKM: resolve overload ambig.
 
     // AST_FUNCTION_ARCSINH:
     addGlobalMapping(
             createGlobalMappingFunction("arcsinh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) asinh);
+                        (void*)static_cast<double (*)(double)>(asinh)); // JKM: resolve overload ambig.
 
     // AST_FUNCTION_ARCTANH:
     addGlobalMapping(
             createGlobalMappingFunction("arctanh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) atanh);
+                        (void*)static_cast<double (*)(double)>(atanh)); // JKM: resolve overload ambig.
 
 }
 
