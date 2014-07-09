@@ -385,6 +385,8 @@ public:
 
     bool hasKey(const std::string& key) const;
 
+    int deleteValue(const std::string& key);
+
     std::vector<std::string> getKeys() const;
 
     /**

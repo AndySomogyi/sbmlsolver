@@ -214,12 +214,33 @@ double GillespieIntegrator::integrate(double t, double hstep)
 
 void GillespieIntegrator::restart(double t0)
 {
+    long seed = 0;
 #ifdef RR_CXX_RANDOM
-    engine.seed((unsigned long) std::time(0));
+    if (options.hasKey("seed"))
+    {
+        seed = options.getValue("seed").convert<long>();
+        Log(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
+    }
+    else
+    {
+        seed = (long)std::time(0);
+        Log(Logger::LOG_INFORMATION) << "Using system time for seed value: " << seed;
+    }
+    engine.seed(seed);
 #else
-    timeval tv = {0, 0};
-    gettimeofday(&tv, 0);
-    srand48((long)(tv.tv_sec * tv.tv_usec));
+    if (options.hasKey("seed"))
+    {
+        seed = options.getValue("seed").convert<long>();
+        Log(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
+    }
+    else
+    {
+        timeval tv = {0, 0};
+        gettimeofday(&tv, 0);
+        seed = (long)(tv.tv_sec * tv.tv_usec);
+        Log(Logger::LOG_INFORMATION) << "Using system time for seed value: " << seed;
+    }
+    srand48(seed);
 #endif
 }
 

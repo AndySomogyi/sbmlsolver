@@ -82,32 +82,134 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         symbols(0),
         modelSymbols(0),
         errString(new string()),
+        context(0),
+        executionEngine(0),
+        module(0),
+        builder(0),
+        functionPassManager(0),
         options(options),
-        moietyConverter(0),
-        functionPassManager(0)
+        moietyConverter(0)
 {
-    ownedDoc = checkedReadSBMLFromString(sbml.c_str());
-
-    if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
+    try
     {
-        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
-                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
-        {
-            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-        }
+        ownedDoc = checkedReadSBMLFromString(sbml.c_str());
 
-        // check if already conserved doc
-        if (rr::conservation::ConservationExtension::isConservedMoietyDocument(ownedDoc))
+        if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
         {
-            doc = ownedDoc;
+            if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                    rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
+            {
+                Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+            }
+
+            // check if already conserved doc
+            if (rr::conservation::ConservationExtension::isConservedMoietyDocument(ownedDoc))
+            {
+                doc = ownedDoc;
+            }
+            else
+            {
+                conservedMoietyCheck(ownedDoc);
+
+                moietyConverter = new rr::conservation::ConservedMoietyConverter();
+
+                if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
+                {
+                    throw_llvm_exception("error setting conserved moiety converter document");
+                }
+
+                if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
+                {
+                    throw_llvm_exception("error converting document to conserved moieties");
+                }
+
+                doc = moietyConverter->getDocument();
+
+                SBMLWriter sw;
+                char* convertedStr = sw.writeToString(doc);
+
+                Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+                Log(Logger::LOG_INFORMATION) << convertedStr;
+                Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+
+                free(convertedStr);
+            }
         }
         else
         {
+            doc = ownedDoc;
+        }
+
+        symbols = new LLVMModelDataSymbols(doc->getModel(), options);
+
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
+
+
+        // initialize LLVM
+        // TODO check result
+        InitializeNativeTarget();
+
+        context = new LLVMContext();
+        // Make the module, which holds all the code.
+        module = new Module("LLVM Module", *context);
+
+        builder = new IRBuilder<>(*context);
+
+        // engine take ownership of module
+        EngineBuilder engineBuilder(module);
+
+        engineBuilder.setErrorStr(errString);
+        executionEngine = engineBuilder.create();
+
+        addGlobalMappings();
+
+        createLibraryFunctions(module);
+
+        ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+        initFunctionPassManager();
+
+    }
+    catch(const std::exception&)
+    {
+        // we might have allocated memory in a failed ctor,
+        // clean it up here.
+        // destructors are not called on *this* class when exception is raised
+        // in the ctor.
+        cleanup();
+        throw;
+    }
+}
+
+
+
+
+ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
+    unsigned options) :
+        ownedDoc(0),
+        doc(0),
+        symbols(new LLVMModelDataSymbols(doc->getModel(), options)),
+        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
+        errString(new string()),
+        context(0),
+        executionEngine(0),
+        module(0),
+        builder(0),
+        functionPassManager(0),
+        options(options),
+        moietyConverter(0)
+{
+    try
+    {
+        if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
+        {
+            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+
+            conservedMoietyCheck(doc);
+
             moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
-            conservedMoietyCheck(ownedDoc);
-
-            if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
+            if (moietyConverter->setDocument(doc) != LIBSBML_OPERATION_SUCCESS)
             {
                 throw_llvm_exception("error setting conserved moiety converter document");
             }
@@ -117,7 +219,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
                 throw_llvm_exception("error converting document to conserved moieties");
             }
 
-            doc = moietyConverter->getDocument();
+            this->doc = moietyConverter->getDocument();
 
             SBMLWriter sw;
             char* convertedStr = sw.writeToString(doc);
@@ -126,118 +228,49 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
             Log(Logger::LOG_INFORMATION) << convertedStr;
             Log(Logger::LOG_INFORMATION) << "*********************************************************************";
 
-            free(convertedStr);
+            delete convertedStr;
         }
-    }
-    else
-    {
-        doc = ownedDoc;
-    }
-
-    symbols = new LLVMModelDataSymbols(doc->getModel(), options);
-
-    modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-
-    // initialize LLVM
-    // TODO check result
-    InitializeNativeTarget();
-
-    context = new LLVMContext();
-    // Make the module, which holds all the code.
-    module = new Module("LLVM Module", *context);
-
-    builder = new IRBuilder<>(*context);
-
-    // engine take ownership of module
-    EngineBuilder engineBuilder(module);
-
-    engineBuilder.setErrorStr(errString);
-    executionEngine = engineBuilder.create();
-
-    addGlobalMappings();
-
-    createLibraryFunctions(module);
-
-    ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
-
-    initFunctionPassManager();
-}
-
-ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
-    unsigned options) :
-        ownedDoc(0),
-        doc(0),
-        symbols(new LLVMModelDataSymbols(doc->getModel(), options)),
-        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string()),
-        options(options),
-        moietyConverter(0),
-        functionPassManager(0)
-{
-    if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
-    {
-        Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-
-        conservedMoietyCheck(doc);
-
-        moietyConverter = new rr::conservation::ConservedMoietyConverter();
-
-        if (moietyConverter->setDocument(doc) != LIBSBML_OPERATION_SUCCESS)
+        else
         {
-            throw_llvm_exception("error setting conserved moiety converter document");
+            this->doc = doc;
         }
 
-        if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
-        {
-            throw_llvm_exception("error converting document to conserved moieties");
-        }
+        symbols = new LLVMModelDataSymbols(doc->getModel(), options);
 
-        this->doc = moietyConverter->getDocument();
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
 
-        SBMLWriter sw;
-        char* convertedStr = sw.writeToString(doc);
 
-        Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-        Log(Logger::LOG_INFORMATION) << convertedStr;
-        Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+        // initialize LLVM
+        // TODO check result
+        InitializeNativeTarget();
 
-        delete convertedStr;
+        context = new LLVMContext();
+        // Make the module, which holds all the code.
+        module = new Module("LLVM Module", *context);
+
+        builder = new IRBuilder<>(*context);
+
+        // engine take ownership of module
+        EngineBuilder engineBuilder(module);
+
+        //engineBuilder.setEngineKind(EngineKind::JIT);
+        engineBuilder.setErrorStr(errString);
+        executionEngine = engineBuilder.create();
+
+        addGlobalMappings();
+
+        createLibraryFunctions(module);
+
+        ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+        initFunctionPassManager();
+
     }
-    else
+    catch(const std::exception&)
     {
-        this->doc = doc;
+        cleanup();
+        throw;
     }
-
-    symbols = new LLVMModelDataSymbols(doc->getModel(), options);
-
-    modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-
-    // initialize LLVM
-    // TODO check result
-    InitializeNativeTarget();
-
-    context = new LLVMContext();
-    // Make the module, which holds all the code.
-    module = new Module("LLVM Module", *context);
-
-    builder = new IRBuilder<>(*context);
-
-    // engine take ownership of module
-    EngineBuilder engineBuilder(module);
-
-    //engineBuilder.setEngineKind(EngineKind::JIT);
-    engineBuilder.setErrorStr(errString);
-    executionEngine = engineBuilder.create();
-
-    addGlobalMappings();
-
-    createLibraryFunctions(module);
-
-    ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
-
-    initFunctionPassManager();
 }
 
 static SBMLDocument *createEmptyDocument()
@@ -276,18 +309,23 @@ ModelGeneratorContext::ModelGeneratorContext() :
     addGlobalMappings();
 }
 
+void ModelGeneratorContext::cleanup()
+{
+    delete functionPassManager; functionPassManager = 0;
+    delete modelSymbols; modelSymbols = 0;
+    delete symbols; symbols = 0;
+    delete builder; builder = 0;
+    delete executionEngine; executionEngine = 0;
+    delete context; context = 0;
+    delete moietyConverter; moietyConverter = 0;
+    delete ownedDoc; ownedDoc = 0;
+    delete errString; errString = 0;
+}
+
 
 ModelGeneratorContext::~ModelGeneratorContext()
 {
-    delete functionPassManager;
-    delete modelSymbols;
-    delete symbols;
-    delete builder;
-    delete executionEngine;
-    delete context;
-    delete moietyConverter;
-    delete ownedDoc;
-    delete errString;
+    cleanup();
 }
 
 llvm::LLVMContext &ModelGeneratorContext::getContext() const
@@ -790,7 +828,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
 
         for(int j = 0; j < assignments->size(); ++j)
         {
-            const EventAssignment *ass = assignments->get(i);
+            const EventAssignment *ass = assignments->get(j);
             const SBase *element = const_cast<Model*>(model)->getElementBySId(
                     ass->getVariable());
 
