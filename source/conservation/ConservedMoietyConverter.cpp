@@ -71,6 +71,12 @@ public:
 typedef std::vector<std::string> StringVector;
 
 /**
+ * check if a document is valid for conversion,
+ * raises std::invalid_argument exception if not.
+ */
+static void conservedMoietyCheck(const SBMLDocument *doc);
+
+/**
  * remove any species from new model and replace with species
  * in
  */
@@ -161,17 +167,24 @@ bool ConservedMoietyConverter::matchesProperties(
 
 int ConservedMoietyConverter::convert()
 {
+    int err = 0;
+
     if (mDocument == NULL)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document as not been set";
         return LIBSBML_INVALID_OBJECT;
+    }
+
 
     Model* mModel = mDocument->getModel();
     if (mModel == NULL)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
         return LIBSBML_INVALID_OBJECT;
+    }
 
 
     /* The document was checked for consistency in setDocument */
-
-
     ConservationPkgNamespaces ns(3,1,1);
     resultDoc = new SBMLDocument(&ns);
 
@@ -180,17 +193,32 @@ int ConservedMoietyConverter::convert()
 
     assert(docPlugin && "ConservationDocumentPlugin is NULL");
 
-    docPlugin->setRequired(true);
+    if ((err = docPlugin->setRequired(true)) != LIBSBML_OPERATION_SUCCESS)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter docPlugin->setRequired(true) failed: "
+                << std::endl
+                << OperationReturnValue_toString(err);
+        return err;
+    }
 
     // makes a clone of the model
-    resultDoc->setModel(mModel);
+    if((err = resultDoc->setModel(mModel)) != LIBSBML_OPERATION_SUCCESS)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->setModel(mModel) failed: "
+                << std::endl
+                << OperationReturnValue_toString(err);
+        return err;
+    }
 
     resultModel = resultDoc->getModel();
+
+    assert(resultModel && "resultModel is NULL");
 
     vector<string> indSpecies = structural->getIndependentSpecies();
 
     vector<string> depSpecies = structural->getDependentSpecies();
 
+    // creates a new matrix
     ls::DoubleMatrix *L0 = structural->getL0Matrix();
 
     if (rr::Logger::getLevel() >= loggingLevel)
@@ -232,14 +260,19 @@ const libsbml::SBMLDocument* ConservedMoietyConverter::getDocument() const
 
 int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 {
-    // TODO clear and delete all memeber vars
+    delete structural; structural = 0;
+    delete resultDoc; resultDoc = 0;
 
     int result = 0;
 
     if (doc == 0)
     {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter::setDocument argument is NULL";
         return LIBSBML_INVALID_OBJECT;
     }
+
+    // throws exception if invalid.
+    conservedMoietyCheck(doc);
 
     // The version converter checks consistency, if we are already
     // at L3V1, need to check consistency ourselves.
@@ -627,6 +660,129 @@ static ASTNode *createSpeciesAmountNode(const Model* model, const std::string& n
         return mul;
     }
 }
+
+static inline void conservedMoietyException(const std::string& what)
+{
+    Log(rr::Logger::LOG_INFORMATION) << what;
+
+    static const char* help = "\n To disable conserved moeity conversion, either \n"
+            "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"
+            "\t before calling the load(\'myfile.xml\') method, or\n"
+            "\t b: create a LoadSBMLOptions object, set the conservedMoieties property \n"
+            "\t to False and use this as the second argument to the RoadRunner \n"
+            "\t constructor or load() method, i.e. \n"
+            "\t o = roadrunner.LoadSBMLOptions()\n"
+            "\t o.conservedMoieties = False\n"
+            "\t r = roadrunner.RoadRunner(\'myfile.xml\', o)\n";
+    throw std::invalid_argument(what + help);
+}
+
+static void conservedMoietyCheck(const SBMLDocument *doc)
+{
+
+    const Model *model = doc->getModel();
+
+    // check if any species are defined by assignment rules
+    const ListOfRules *rules = model->getListOfRules();
+
+    for(int i = 0; i < rules->size(); ++i)
+    {
+        const Rule *rule = rules->get(i);
+
+        const SBase *element = const_cast<Model*>(model)->getElementBySId(
+                rule->getVariable());
+
+        const Species *species = dynamic_cast<const Species*>(element);
+        if(species && !species->getBoundaryCondition())
+        {
+            string msg = "Cannot perform moeity conversion when floating "
+                    "species are defined by rules. The floating species, "
+                    + species->getId() + " is defined by rule " + rule->getId()
+                    + ".";
+            conservedMoietyException(msg);
+        }
+
+        const SpeciesReference *ref =
+                dynamic_cast<const SpeciesReference*>(element);
+        if(ref)
+        {
+            string msg = "Cannot perform moeity conversion with non-constant "
+                    "stoichiometry. The species reference " + ref->getId() +
+                    " which refers to species " + ref->getSpecies() + " has "
+                    "stoichiometry defined by rule " + rule->getId() + ".";
+            conservedMoietyException(msg);
+        }
+    }
+
+    const ListOfReactions *reactions = model->getListOfReactions();
+    for(int i = 0; i < reactions->size(); ++i)
+    {
+        const Reaction *reaction = reactions->get(i);
+
+        const ListOfSpeciesReferences *references = reaction->getListOfProducts();
+
+        for (int i = 0; i < references->size(); ++i)
+        {
+            const SpeciesReference *ref =
+                    dynamic_cast<const SpeciesReference*>(references->get(i));
+
+            // has the constant attribute
+            if (doc->getLevel() >= 3 &&  !ref->getConstant())
+            {
+                string msg = "Cannot perform moeity conversion with non-constant "
+                        "stoichiometry. The species reference " + ref->getId() +
+                        " which refers to species " + ref->getSpecies() +
+                        " does not have the constant attribute set.";
+                conservedMoietyException(msg);
+            }
+
+            else if(ref->isSetStoichiometryMath())
+            {
+                string msg = "Cannot perform moeity conversion with non-constant "
+                        "stoichiometry. The species reference " + ref->getId() +
+                        " which refers to species " + ref->getSpecies() +
+                        " has stochiometryMath set.";
+                conservedMoietyException(msg);
+            }
+        }
+    }
+
+    const ListOfEvents *events = model->getListOfEvents();
+    for(int i = 0; i < events->size(); ++i)
+    {
+        const Event *event = events->get(i);
+        const ListOfEventAssignments *assignments =
+                event->getListOfEventAssignments();
+
+        for(int j = 0; j < assignments->size(); ++j)
+        {
+            const EventAssignment *ass = assignments->get(j);
+            const SBase *element = const_cast<Model*>(model)->getElementBySId(
+                    ass->getVariable());
+
+            const Species *species = dynamic_cast<const Species*>(element);
+            if(species && !species->getBoundaryCondition())
+            {
+                string msg = "Cannot perform moeity conversion when floating "
+                        "species are have events. The floating species, "
+                        + species->getId() + " has event " + event->getId() + ".";
+                conservedMoietyException(msg);
+            }
+
+            const SpeciesReference *ref =
+                    dynamic_cast<const SpeciesReference*>(element);
+            if(ref)
+            {
+                string msg = "Cannot perform moeity conversion with non-constant "
+                        "stoichiometry. The species reference " + ref->getId() +
+                        " which refers to species " + ref->getSpecies() + " has "
+                        "event " + event->getId() + ".";
+                conservedMoietyException(msg);
+            }
+        }
+    }
+}
+
 
 } // namespace conservation }
 

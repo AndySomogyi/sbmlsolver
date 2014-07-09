@@ -39,12 +39,6 @@ static void createLibraryFunction(llvm::LibFunc::Func funcId,
 static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module);
 
-/**
- * check if this model is valid for moiety conservaition.
- *
- * throws exception if not valid.
- */
-static void conservedMoietyCheck(const SBMLDocument *doc);
 
 /**
  * returns a VALID sbml document, if the doc has any error,
@@ -109,8 +103,6 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
             }
             else
             {
-                conservedMoietyCheck(ownedDoc);
-
                 moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
                 if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
@@ -204,8 +196,6 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
         if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
         {
             Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-
-            conservedMoietyCheck(doc);
 
             moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
@@ -733,127 +723,6 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
 }
 
 
-static inline void conservedMoietyException(const std::string& what)
-{
-    Log(rr::Logger::LOG_INFORMATION) << what;
-
-    static const char* help = "\n To disable conserved moeity conversion, either \n"
-            "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"
-            "\t before calling the load(\'myfile.xml\') method, or\n"
-            "\t b: create a LoadSBMLOptions object, set the conservedMoieties property \n"
-            "\t to False and use this as the second argument to the RoadRunner \n"
-            "\t constructor or load() method, i.e. \n"
-            "\t o = roadrunner.LoadSBMLOptions()\n"
-            "\t o.conservedMoieties = False\n"
-            "\t r = roadrunner.RoadRunner(\'myfile.xml\', o)\n";
-    throw LLVMException(what + help);
-}
-
-static void conservedMoietyCheck(const SBMLDocument *doc)
-{
-
-    const Model *model = doc->getModel();
-
-    // check if any species are defined by assignment rules
-    const ListOfRules *rules = model->getListOfRules();
-
-    for(int i = 0; i < rules->size(); ++i)
-    {
-        const Rule *rule = rules->get(i);
-
-        const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                rule->getVariable());
-
-        const Species *species = dynamic_cast<const Species*>(element);
-        if(species && !species->getBoundaryCondition())
-        {
-            string msg = "Cannot perform moeity conversion when floating "
-                    "species are defined by rules. The floating species, "
-                    + species->getId() + " is defined by rule " + rule->getId()
-                    + ".";
-            conservedMoietyException(msg);
-        }
-
-        const SpeciesReference *ref =
-                dynamic_cast<const SpeciesReference*>(element);
-        if(ref)
-        {
-            string msg = "Cannot perform moeity conversion with non-constant "
-                    "stoichiometry. The species reference " + ref->getId() +
-                    " which refers to species " + ref->getSpecies() + " has "
-                    "stoichiometry defined by rule " + rule->getId() + ".";
-            conservedMoietyException(msg);
-        }
-    }
-
-    const ListOfReactions *reactions = model->getListOfReactions();
-    for(int i = 0; i < reactions->size(); ++i)
-    {
-        const Reaction *reaction = reactions->get(i);
-
-        const ListOfSpeciesReferences *references = reaction->getListOfProducts();
-
-        for (int i = 0; i < references->size(); ++i)
-        {
-            const SpeciesReference *ref =
-                    dynamic_cast<const SpeciesReference*>(references->get(i));
-
-            // has the constant attribute
-            if (doc->getLevel() >= 3 &&  !ref->getConstant())
-            {
-                string msg = "Cannot perform moeity conversion with non-constant "
-                        "stoichiometry. The species reference " + ref->getId() +
-                        " which refers to species " + ref->getSpecies() +
-                        " does not have the constant attribute set.";
-                conservedMoietyException(msg);
-            }
-
-            else if(ref->isSetStoichiometryMath())
-            {
-                string msg = "Cannot perform moeity conversion with non-constant "
-                        "stoichiometry. The species reference " + ref->getId() +
-                        " which refers to species " + ref->getSpecies() +
-                        " has stochiometryMath set.";
-                conservedMoietyException(msg);
-            }
-        }
-    }
-
-    const ListOfEvents *events = model->getListOfEvents();
-    for(int i = 0; i < events->size(); ++i)
-    {
-        const Event *event = events->get(i);
-        const ListOfEventAssignments *assignments =
-                event->getListOfEventAssignments();
-
-        for(int j = 0; j < assignments->size(); ++j)
-        {
-            const EventAssignment *ass = assignments->get(j);
-            const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                    ass->getVariable());
-
-            const Species *species = dynamic_cast<const Species*>(element);
-            if(species && !species->getBoundaryCondition())
-            {
-                string msg = "Cannot perform moeity conversion when floating "
-                        "species are have events. The floating species, "
-                        + species->getId() + " has event " + event->getId() + ".";
-                conservedMoietyException(msg);
-            }
-
-            const SpeciesReference *ref =
-                    dynamic_cast<const SpeciesReference*>(element);
-            if(ref)
-            {
-                string msg = "Cannot perform moeity conversion with non-constant "
-                        "stoichiometry. The species reference " + ref->getId() +
-                        " which refers to species " + ref->getSpecies() + " has "
-                        "event " + event->getId() + ".";
-                conservedMoietyException(msg);
-            }
-        }
-    }
-}
 
 
 
