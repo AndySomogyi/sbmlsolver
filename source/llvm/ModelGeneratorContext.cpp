@@ -39,12 +39,6 @@ static void createLibraryFunction(llvm::LibFunc::Func funcId,
 static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module);
 
-/**
- * check if this model is valid for moiety conservaition.
- *
- * throws exception if not valid.
- */
-static void conservedMoietyCheck(const SBMLDocument *doc);
 
 /**
  * returns a VALID sbml document, if the doc has any error,
@@ -82,32 +76,146 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         symbols(0),
         modelSymbols(0),
         errString(new string()),
+        context(0),
+        executionEngine(0),
+        module(0),
+        builder(0),
+        functionPassManager(0),
         options(options),
-        moietyConverter(0),
-        functionPassManager(0)
+        moietyConverter(0)
 {
-    ownedDoc = checkedReadSBMLFromString(sbml.c_str());
-
-    if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
+    try
     {
-        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
-                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
-        {
-            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-        }
+        ownedDoc = checkedReadSBMLFromString(sbml.c_str());
 
-        // check if already conserved doc
-        if (rr::conservation::ConservationExtension::isConservedMoietyDocument(ownedDoc))
+        if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
         {
-            doc = ownedDoc;
+            if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                    rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
+            {
+                Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+            }
+
+            // check if already conserved doc
+            if (rr::conservation::ConservationExtension::isConservedMoietyDocument(ownedDoc))
+            {
+                doc = ownedDoc;
+            }
+            else
+            {
+                moietyConverter = new rr::conservation::ConservedMoietyConverter();
+
+                if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
+                {
+                    throw_llvm_exception("error setting conserved moiety converter document");
+                }
+
+                if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
+                {
+                    throw_llvm_exception("error converting document to conserved moieties");
+                }
+
+                doc = moietyConverter->getDocument();
+
+                SBMLWriter sw;
+                char* convertedStr = sw.writeToString(doc);
+
+                Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+                Log(Logger::LOG_INFORMATION) << convertedStr;
+                Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+
+                free(convertedStr);
+            }
         }
         else
         {
+            doc = ownedDoc;
+        }
+
+        symbols = new LLVMModelDataSymbols(doc->getModel(), options);
+
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
+
+
+        // initialize LLVM
+        // TODO check result
+        InitializeNativeTarget();
+
+        if (useMCJIT())
+        {
+            Log(Logger::LOG_NOTICE) << "Using MCJIT";
+            InitializeNativeTargetAsmPrinter();
+            InitializeNativeTargetAsmParser();
+        }
+        else
+        {
+            Log(Logger::LOG_NOTICE) << "Using JIT";
+        }
+        
+        context = new LLVMContext();
+        // Make the module, which holds all the code.
+        module = new Module("LLVM Module", *context);
+
+        builder = new IRBuilder<>(*context);
+
+        // engine take ownership of module
+        EngineBuilder engineBuilder(module);
+
+        if (useMCJIT()) {
+            engineBuilder.setUseMCJIT(true);
+        }
+
+        engineBuilder.setErrorStr(errString);
+
+        executionEngine = engineBuilder.create();
+
+        addGlobalMappings();
+
+        createLibraryFunctions(module);
+
+        ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+        initFunctionPassManager();
+
+    }
+    catch(const std::exception&)
+    {
+        // we might have allocated memory in a failed ctor,
+        // clean it up here.
+        // destructors are not called on *this* class when exception is raised
+        // in the ctor.
+        cleanup();
+        throw;
+    }
+}
+
+
+
+
+ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
+    unsigned options) :
+        ownedDoc(0),
+        doc(0),
+        symbols(new LLVMModelDataSymbols(doc->getModel(), options)),
+        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
+        errString(new string()),
+        context(0),
+        executionEngine(0),
+        module(0),
+        builder(0),
+        functionPassManager(0),
+        options(options),
+        moietyConverter(0)
+{
+    try
+    {
+        if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
+        {
+            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+
             moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
-            conservedMoietyCheck(ownedDoc);
-
-            if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
+            if (moietyConverter->setDocument(doc) != LIBSBML_OPERATION_SUCCESS)
             {
                 throw_llvm_exception("error setting conserved moiety converter document");
             }
@@ -117,7 +225,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
                 throw_llvm_exception("error converting document to conserved moieties");
             }
 
-            doc = moietyConverter->getDocument();
+            this->doc = moietyConverter->getDocument();
 
             SBMLWriter sw;
             char* convertedStr = sw.writeToString(doc);
@@ -126,147 +234,62 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
             Log(Logger::LOG_INFORMATION) << convertedStr;
             Log(Logger::LOG_INFORMATION) << "*********************************************************************";
 
-            free(convertedStr);
+            delete convertedStr;
         }
-    }
-    else
-    {
-        doc = ownedDoc;
-    }
-
-    symbols = new LLVMModelDataSymbols(doc->getModel(), options);
-
-    modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-
-    // initialize LLVM
-    // TODO check result
-    InitializeNativeTarget();
-
-    if (useMCJIT())
-    {
-        Log(Logger::LOG_NOTICE) << "Using MCJIT";
-        InitializeNativeTargetAsmPrinter();
-        InitializeNativeTargetAsmParser();
-    }
-    else
-    {
-        Log(Logger::LOG_NOTICE) << "Using JIT";
-    }
-
-    context = new LLVMContext();
-    // Make the module, which holds all the code.
-    module = new Module("LLVM Module", *context);
-
-    builder = new IRBuilder<>(*context);
-
-    // engine take ownership of module
-    EngineBuilder engineBuilder(module);
-
-    if (useMCJIT()) {
-        engineBuilder.setUseMCJIT(true);
-    }
-
-    engineBuilder.setErrorStr(errString);
-
-    executionEngine = engineBuilder.create();
-
-    addGlobalMappings();
-
-    createLibraryFunctions(module);
-
-    ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
-
-    initFunctionPassManager();
-}
-
-ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
-    unsigned options) :
-        ownedDoc(0),
-        doc(0),
-        symbols(new LLVMModelDataSymbols(doc->getModel(), options)),
-        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string()),
-        options(options),
-        moietyConverter(0),
-        functionPassManager(0)
-{
-    if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
-    {
-        Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-
-        conservedMoietyCheck(doc);
-
-        moietyConverter = new rr::conservation::ConservedMoietyConverter();
-
-        if (moietyConverter->setDocument(doc) != LIBSBML_OPERATION_SUCCESS)
+        else
         {
-            throw_llvm_exception("error setting conserved moiety converter document");
+            this->doc = doc;
         }
 
-        if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
-        {
-            throw_llvm_exception("error converting document to conserved moieties");
+        symbols = new LLVMModelDataSymbols(doc->getModel(), options);
+
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
+
+
+        // initialize LLVM
+        // TODO check result
+        InitializeNativeTarget();
+
+        context = new LLVMContext();
+        // Make the module, which holds all the code.
+        module = new Module("LLVM Module", *context);
+
+        if (useMCJIT()) {
+            Log(Logger::LOG_NOTICE) << "Using MCJIT";
+            InitializeNativeTargetAsmPrinter();
+            InitializeNativeTargetAsmParser();
+        }
+        else {
+            Log(Logger::LOG_NOTICE) << "Using JIT";
         }
 
-        this->doc = moietyConverter->getDocument();
+        context = new LLVMContext();
+        // Make the module, which holds all the code.
+        module = new Module("LLVM Module", *context);
 
-        SBMLWriter sw;
-        char* convertedStr = sw.writeToString(doc);
+        builder = new IRBuilder<>(*context);
 
-        Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-        Log(Logger::LOG_INFORMATION) << convertedStr;
-        Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+        // engine take ownership of module
+        EngineBuilder engineBuilder(module);
 
-        delete convertedStr;
+        //engineBuilder.setEngineKind(EngineKind::JIT);
+        engineBuilder.setErrorStr(errString);
+        executionEngine = engineBuilder.create();
+
+        addGlobalMappings();
+
+        createLibraryFunctions(module);
+
+        ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+        initFunctionPassManager();
+
     }
-    else
+    catch(const std::exception&)
     {
-        this->doc = doc;
+        cleanup();
+        throw;
     }
-
-    symbols = new LLVMModelDataSymbols(doc->getModel(), options);
-
-    modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-
-    // initialize LLVM
-    // TODO check result
-    InitializeNativeTarget();
-
-    if (useMCJIT()) {
-        Log(Logger::LOG_NOTICE) << "Using MCJIT";
-        InitializeNativeTargetAsmPrinter();
-        InitializeNativeTargetAsmParser();
-    }
-    else {
-        Log(Logger::LOG_NOTICE) << "Using JIT";
-    }
-
-    context = new LLVMContext();
-    // Make the module, which holds all the code.
-    module = new Module("LLVM Module", *context);
-
-    builder = new IRBuilder<>(*context);
-
-    // engine take ownership of module
-    EngineBuilder engineBuilder(module);
-
-    if (useMCJIT()) {
-        engineBuilder.setUseMCJIT(true);
-    }
-
-    //engineBuilder.setEngineKind(EngineKind::JIT);
-    engineBuilder.setErrorStr(errString);
-    executionEngine = engineBuilder.create();
-
-    addGlobalMappings();
-
-    createLibraryFunctions(module);
-
-    ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
-
-    initFunctionPassManager();
 }
 
 static SBMLDocument *createEmptyDocument()
@@ -305,18 +328,23 @@ ModelGeneratorContext::ModelGeneratorContext() :
     addGlobalMappings();
 }
 
+void ModelGeneratorContext::cleanup()
+{
+    delete functionPassManager; functionPassManager = 0;
+    delete modelSymbols; modelSymbols = 0;
+    delete symbols; symbols = 0;
+    delete builder; builder = 0;
+    delete executionEngine; executionEngine = 0;
+    delete context; context = 0;
+    delete moietyConverter; moietyConverter = 0;
+    delete ownedDoc; ownedDoc = 0;
+    delete errString; errString = 0;
+}
+
 
 ModelGeneratorContext::~ModelGeneratorContext()
 {
-    delete functionPassManager;
-    delete modelSymbols;
-    delete symbols;
-    delete builder;
-    delete executionEngine;
-    delete context;
-    delete moietyConverter;
-    delete ownedDoc;
-    delete errString;
+    cleanup();
 }
 
 llvm::LLVMContext &ModelGeneratorContext::getContext() const
@@ -399,13 +427,15 @@ void ModelGeneratorContext::initFunctionPassManager()
     // target lays out data structures.
 
     // we only support LLVM >= 3.1
+
 #if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
-    functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
-#elif (LLVM_VERSION_MINOR <= 4)
-    functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
-#else
-    // Change in LLVM 3.5 - JKM
-    module->setDataLayout(new DataLayout(*executionEngine->getDataLayout()));
+        functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
+#else // LLVM_VERSION_MINOR >= 2
+    #ifdef __arm__
+        functionPassManager->add(new DataLayoutPass(*executionEngine->getDataLayout()));
+    #else
+        functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+    #endif
 #endif
 
          // Provide basic AliasAnalysis support for GVN.
@@ -737,127 +767,6 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
 }
 
 
-static inline void conservedMoietyException(const std::string& what)
-{
-    Log(rr::Logger::LOG_INFORMATION) << what;
-
-    static const char* help = "\n To disable conserved moeity conversion, either \n"
-            "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"
-            "\t before calling the load(\'myfile.xml\') method, or\n"
-            "\t b: create a LoadSBMLOptions object, set the conservedMoieties property \n"
-            "\t to False and use this as the second argument to the RoadRunner \n"
-            "\t constructor or load() method, i.e. \n"
-            "\t o = roadrunner.LoadSBMLOptions()\n"
-            "\t o.conservedMoieties = False\n"
-            "\t r = roadrunner.RoadRunner(\'myfile.xml\', o)\n";
-    throw LLVMException(what + help);
-}
-
-static void conservedMoietyCheck(const SBMLDocument *doc)
-{
-
-    const Model *model = doc->getModel();
-
-    // check if any species are defined by assignment rules
-    const ListOfRules *rules = model->getListOfRules();
-
-    for(int i = 0; i < rules->size(); ++i)
-    {
-        const Rule *rule = rules->get(i);
-
-        const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                rule->getVariable());
-
-        const Species *species = dynamic_cast<const Species*>(element);
-        if(species && !species->getBoundaryCondition())
-        {
-            string msg = "Cannot perform moeity conversion when floating "
-                    "species are defined by rules. The floating species, "
-                    + species->getId() + " is defined by rule " + rule->getId()
-                    + ".";
-            conservedMoietyException(msg);
-        }
-
-        const SpeciesReference *ref =
-                dynamic_cast<const SpeciesReference*>(element);
-        if(ref)
-        {
-            string msg = "Cannot perform moeity conversion with non-constant "
-                    "stoichiometry. The species reference " + ref->getId() +
-                    " which refers to species " + ref->getSpecies() + " has "
-                    "stoichiometry defined by rule " + rule->getId() + ".";
-            conservedMoietyException(msg);
-        }
-    }
-
-    const ListOfReactions *reactions = model->getListOfReactions();
-    for(int i = 0; i < reactions->size(); ++i)
-    {
-        const Reaction *reaction = reactions->get(i);
-
-        const ListOfSpeciesReferences *references = reaction->getListOfProducts();
-
-        for (int i = 0; i < references->size(); ++i)
-        {
-            const SpeciesReference *ref =
-                    dynamic_cast<const SpeciesReference*>(references->get(i));
-
-            // has the constant attribute
-            if (doc->getLevel() >= 3 &&  !ref->getConstant())
-            {
-                string msg = "Cannot perform moeity conversion with non-constant "
-                        "stoichiometry. The species reference " + ref->getId() +
-                        " which refers to species " + ref->getSpecies() +
-                        " does not have the constant attribute set.";
-                conservedMoietyException(msg);
-            }
-
-            else if(ref->isSetStoichiometryMath())
-            {
-                string msg = "Cannot perform moeity conversion with non-constant "
-                        "stoichiometry. The species reference " + ref->getId() +
-                        " which refers to species " + ref->getSpecies() +
-                        " has stochiometryMath set.";
-                conservedMoietyException(msg);
-            }
-        }
-    }
-
-    const ListOfEvents *events = model->getListOfEvents();
-    for(int i = 0; i < events->size(); ++i)
-    {
-        const Event *event = events->get(i);
-        const ListOfEventAssignments *assignments =
-                event->getListOfEventAssignments();
-
-        for(int j = 0; j < assignments->size(); ++j)
-        {
-            const EventAssignment *ass = assignments->get(i);
-            const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                    ass->getVariable());
-
-            const Species *species = dynamic_cast<const Species*>(element);
-            if(species && !species->getBoundaryCondition())
-            {
-                string msg = "Cannot perform moeity conversion when floating "
-                        "species are have events. The floating species, "
-                        + species->getId() + " has event " + event->getId() + ".";
-                conservedMoietyException(msg);
-            }
-
-            const SpeciesReference *ref =
-                    dynamic_cast<const SpeciesReference*>(element);
-            if(ref)
-            {
-                string msg = "Cannot perform moeity conversion with non-constant "
-                        "stoichiometry. The species reference " + ref->getId() +
-                        " which refers to species " + ref->getSpecies() + " has "
-                        "event " + event->getId() + ".";
-                conservedMoietyException(msg);
-            }
-        }
-    }
-}
 
 
 

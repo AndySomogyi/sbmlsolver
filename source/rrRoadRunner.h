@@ -338,7 +338,30 @@ public:
     std::vector<Complex> getEigenvaluesCpx();
 
     ls::DoubleMatrix getLinkMatrix();
+
+    /**
+     * get the reduced stochiometry matrix. If conservation conversion is enabled,
+     * this is the matrix that coresponds to the independent species.
+     *
+     * A synonym for getReducedStoichiometryMatrix().
+     */
     ls::DoubleMatrix getNrMatrix();
+
+    /**
+     * get the reduced stochiometry matrix. If conservation conversion is enabled,
+     * this is the matrix that coresponds to the independent species.
+     *
+     * A synonym for getNrMatrix().
+     */
+    ls::DoubleMatrix getReducedStoichiometryMatrix();
+
+    /**
+     * Get the stoichiometry matrix that coresponds to the full model, even it
+     * it was converted via conservation conversion.
+     */
+    ls::DoubleMatrix getFullStoichiometryMatrix();
+
+
     ls::DoubleMatrix getL0Matrix();
 
 
