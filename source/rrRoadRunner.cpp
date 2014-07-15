@@ -134,7 +134,6 @@ class RoadRunnerImpl {
 public:
 
     int mInstanceID;
-    bool mUseKinsol;
     const double mDiffStepSize;
 
     const double mSteadyStateThreshold;
@@ -143,10 +142,11 @@ public:
 
 
     /**
-     * The Cvode object get created just after a model is created, it then
-     * gets a reference to the model and holds on to it.
+     * Points to the current integrator. This is a pointer into the
+     * integtators array.
      */
-    class Integrator *integrator;
+    Integrator *integrator;
+
     std::vector<SelectionRecord> mSelectionList;
 
     /**
@@ -198,7 +198,6 @@ public:
      */
     RoadRunnerOptions roadRunnerOptions;
 
-
     /**
      * the xml string that is given in setConfigurationXML.
      *
@@ -206,13 +205,25 @@ public:
      */
     std::string configurationXML;
 
+    /**
+     * store the integrators in a map. When the integrator is switched,
+     * this way it saves the previous state. Usefull for correct
+     * stream of random numbers for stochastic integrators.
+     *
+     * This is an array of pointers which are allocated by createIntegrator(),
+     * these are freed in the dtor, but kept around for the lifetime of
+     * this object.
+     */
+    Integrator*  integrators[SimulateOptions::GILLESPIE+1];
 
+    /**
+     * TODO get rid of this garbage
+     */
     friend class aFinalizer;
 
 
     RoadRunnerImpl(const std::string& uriOrSBML,
             const LoadSBMLOptions* options) :
-                mUseKinsol(false),
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
@@ -229,12 +240,13 @@ public:
                 mInstanceID(0),
                 dirtySimulateOptions(true)
     {
+        // have to init integrators the hard way in c++98
+        memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
 
     RoadRunnerImpl(const string& _compiler, const string& _tempDir,
             const string& _supportCodeDir) :
-                mUseKinsol(false),
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
@@ -251,6 +263,8 @@ public:
                 mInstanceID(0),
                 dirtySimulateOptions(true)
     {
+        // have to init integrators the hard way in c++98
+        memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
     ~RoadRunnerImpl()
@@ -259,8 +273,10 @@ public:
 
         delete mModelGenerator;
         delete model;
-        delete integrator;
         delete mLS;
+
+        deleteIntegrators();
+
         mInstanceCount--;
     }
 
@@ -345,6 +361,16 @@ public:
                                         double originalValue, double increment)
     {
         setParameterValue(parameterType, parameterIndex, originalValue + increment);
+    }
+
+
+    void deleteIntegrators()
+    {
+        for (int i = 0; i < SimulateOptions::INTEGRATOR_END; ++i)
+        {
+            delete integrators[i];
+            integrators[i] = 0;
+        }
     }
 };
 
@@ -522,6 +548,9 @@ bool RoadRunner::isModelLoaded()
 void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
     impl->copySimulateOpt = settings;
+
+    // copies the copy over to the actual one.
+    _setSimulateOptions(0);
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
@@ -614,19 +643,34 @@ string RoadRunner::getParamPromotedSBML(const string& sbml)
     return stream.str();
 }
 
-void RoadRunner::createIntegrator()
+/**
+ * RoadRunner keeps all the created integrators around. If the requested integrator
+ * has not been created, this method creates one, and sets self.integrator
+ * to point to it.
+ */
+void RoadRunner::updateIntegrator()
 {
-    if(impl->model)
+    get_self();
+
+    if(self.model)
     {
-        if(impl->integrator)
+        // check if valid range
+        if (self.simulateOpt.integrator >= SimulateOptions::INTEGRATOR_END)
         {
-            delete impl->integrator;
+            std::stringstream ss;
+            ss << "Invalid integrator of " << self.simulateOpt.integrator
+                    << ", integrator must be >= 0 and < "
+                    << SimulateOptions::INTEGRATOR_END;
+            throw std::invalid_argument(ss.str());
         }
 
-        impl->integrator = Integrator::New(&impl->simulateOpt, impl->model);
+        if (self.integrators[self.simulateOpt.integrator] == 0)
+        {
+            self.integrators[self.simulateOpt.integrator]
+                    = Integrator::New(&self.simulateOpt, self.model);
+        }
 
-        // reset the simulation state
-        reset();
+        self.integrator = self.integrators[self.simulateOpt.integrator];
     }
 }
 
@@ -806,6 +850,8 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
+    get_self();
+
     impl->mCurrentSBML = SBMLReader::read(uriOrSbml);
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
@@ -817,6 +863,8 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 
     delete impl->model;
     impl->model = 0;
+
+    self.deleteIntegrators();
 
     if (options)
     {
@@ -833,8 +881,9 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
         impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, opt.modelGeneratorOpt);
     }
 
-    //Finally intitilaize the model..
-    createIntegrator();
+    updateIntegrator();
+
+    reset();
 
     if (!options || !(options->loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS))
     {
@@ -940,12 +989,6 @@ double RoadRunner::steadyState()
         Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
                                     "via the configuration file or the Config class setValue, see roadrunner documentation";
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
-    }
-
-    if (impl->mUseKinsol)
-    {
-        Log(Logger::LOG_ERROR) << "Kinsol solver is not enabled...";
-        throw Exception("Kinsol solver is not enabled");
     }
 
     SteadyStateSolver *steadyStateSolver = SteadyStateSolver::New(0, impl->model);
@@ -1175,6 +1218,10 @@ void RoadRunner::evalModel()
 const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 {
     get_self();
+
+    if (!self.model) {
+        throw std::logic_error(gEmptyModelMessage);
+    }
 
     _setSimulateOptions(opt);
 
@@ -3653,9 +3700,6 @@ void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
         throw CoreException("duration, startTime and steps must be positive");
     }
 
-    // reload self.integrator if different
-    bool reloadIntegrator = self.simulateOpt.integrator
-            != self.copySimulateOpt.integrator;
 
     self.simulateOpt = self.copySimulateOpt;
 
@@ -3663,15 +3707,11 @@ void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
     // uses values (potentially) from simulate options.
     createTimeCourseSelectionList();
 
-    if (reloadIntegrator)
-    {
-        // this sets integrator options, uses self.simulateOpt
-        createIntegrator();
-    }
-    else
-    {
-        self.integrator->setSimulateOptions(&self.simulateOpt);
-    }
+    // updates the integrator to what was specified by simulateOptions,
+    // no effect if already using this integrator.
+    updateIntegrator();
+
+    self.integrator->setSimulateOptions(&self.simulateOpt);
 
     if (self.simulateOpt.flags & SimulateOptions::RESET_MODEL)
     {

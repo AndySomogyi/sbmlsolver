@@ -199,6 +199,15 @@
 }
 
 
+%typemap(out) const rr::Variant {
+    try {
+        $result = Variant_to_py($1);
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+
 
 %typemap(in) const rr::Variant& (rr::Variant temp) {
 
@@ -525,6 +534,15 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::SimulateOptions::hasKey;
 %ignore rr::SimulateOptions::deleteValue;
 %ignore rr::SimulateOptions::getKeys;
+
+
+// ignore SimulateOptions key access methods, 
+// these are replaced by python dictionary protocol. 
+%ignore rr::Integrator::setValue;
+%ignore rr::Integrator::getValue;
+%ignore rr::Integrator::hasKey;
+%ignore rr::Integrator::deleteValue;
+%ignore rr::Integrator::getKeys;
 
 
 // rename these, the injected python code will take care of
@@ -1152,6 +1170,9 @@ namespace std { class ostream{}; }
             haveVariableStep = False
             o = self.simulateOptions
 
+            # did the options originally have a seed, if so, don't delete it when we're done
+            hadSeed = "seed" in o
+
             # check if we have just a sim options
             if len(args) >= 1:
                 if type(args[0]) == type(self.simulateOptions):
@@ -1261,6 +1282,9 @@ namespace std { class ostream{}; }
 
             # the options are set up, now actually run the simuation...
             result = self._simulate(o)
+
+            if not hadSeed:
+                del o["seed"]
 
             if doPlot:
                 self.plot(show)
@@ -2418,6 +2442,42 @@ namespace std { class ostream{}; }
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
     }
+
+    PyObject *keys() {
+        std::vector<std::string> keys = $self->getKeys();
+
+        unsigned size = keys.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
+        {
+            const std::string& key  = *i;
+            PyObject* pyStr = PyString_FromString(key.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+
+    const rr::Variant __getitem__(const std::string& id) {
+        return ($self)->getValue(id);
+    }
+
+    void __setitem__(const std::string& key, const rr::Variant& value) {
+        ($self)->setValue(key, value);
+    }
+
+    void __delitem__(const std::string& key) {
+        ($self)->deleteValue(key);
+    }
+
+    bool __contains__(const std::string& key) {
+        return $self->hasKey(key);
+    }
+
 
     // we want to get the listener back as a PyIntegratorListener, however
     // swig won't let us ignore by return value and if we ignore getListener,

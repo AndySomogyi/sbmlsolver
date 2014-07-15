@@ -65,6 +65,20 @@ public:
      */
     virtual IntegratorListenerPtr getListener();
 
+
+    /**
+     * implement dictionary interface
+     */
+    virtual void setValue(const std::string& key, const rr::Variant& value);
+
+    virtual Variant getValue(const std::string& key) const;
+
+    virtual bool hasKey(const std::string& key) const;
+
+    virtual int deleteValue(const std::string& key);
+
+    virtual std::vector<std::string> getKeys() const;
+
 private:
     ExecutableModel *model;
     SimulateOptions options;
@@ -102,6 +116,10 @@ private:
     inline double getStoich(uint species, uint reaction) {
         return stoichData[species * stoichCols + reaction];
     }
+
+    unsigned long getSeed() const;
+
+    void setSeed(unsigned long);
 
 
 };

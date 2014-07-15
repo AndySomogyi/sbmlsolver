@@ -199,10 +199,14 @@ public:
 
     /**
      * the list of ODE solvers RoadRunner currently supports.
+     *
+     * The last item, INTEGRATOR_END needs to always be the last item
+     * it is not a valid integrator, just used to indicate how many
+     * we have.
      */
     enum Integrator
     {
-        CVODE,  GILLESPIE
+        CVODE = 0,  GILLESPIE, INTEGRATOR_END
     };
 
     /**

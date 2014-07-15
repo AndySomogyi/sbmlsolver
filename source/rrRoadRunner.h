@@ -818,10 +818,10 @@ private:
     LibStructural* getLibStruct();
 
     /**
-     * create and initialize the integrator based on the value specified
-     * in the simulateOptions struct.
+     * If the specified integrator does not exist, create it, and point the
+     * integrator pointer to it.
      */
-    void createIntegrator();
+    void updateIntegrator();
 
     bool createDefaultSelectionLists();
 
