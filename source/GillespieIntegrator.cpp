@@ -89,7 +89,7 @@ void GillespieIntegrator::setSimulateOptions(const SimulateOptions* o)
             Log(Logger::LOG_NOTICE) << "new timeScale: " << timeScale;
         }
 
-        if(options.hasKey("seed"))
+        if(options.hasKey("seed") && !options.getValue("seed").isEmpty())
         {
             // variant at the moment can only do signed numbers.
             unsigned long seed = options.getValue("seed").convert<unsigned long>();
@@ -246,8 +246,16 @@ void GillespieIntegrator::setValue(const std::string& key,
 {
     if (key == "seed")
     {
-        unsigned long seed = value.convert<unsigned long>();
-        setSeed(seed);
+        if (value.isNumeric())
+        {
+            unsigned long seed = value.convert<unsigned long>();
+            setSeed(seed);
+        }
+        else
+        {
+            Log(Logger::LOG_WARNING) << "could not set randon number seed with value: "
+                    << value.toString();
+        }
 
         options.setValue("seed", value);
     }
@@ -290,9 +298,17 @@ std::vector<std::string> GillespieIntegrator::getKeys() const
 
 unsigned long GillespieIntegrator::getSeed() const
 {
-    if (options.hasKey("seed"))
+    try
     {
-        return options.getValue("seed").convert<unsigned long>();
+        if (options.hasKey("seed"))
+        {
+            return options.getValue("seed").convert<unsigned long>();
+        }
+    }
+    catch(std::exception& e)
+    {
+        Log(Logger::LOG_INFORMATION) << "failed to get seed from dict: "
+                << e.what() << ", returning default value";
     }
     // default value for mersene twister
     return 5489UL;

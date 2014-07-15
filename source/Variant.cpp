@@ -193,6 +193,16 @@ bool Variant::isBool() const
             return;                                \
         }
 
+bool Variant::isEmpty() const
+{
+    return self->var.isEmpty();
+}
+
+bool Variant::isSigned() const
+{
+    return self->var.isSigned();
+}
+
 void Variant::convert_to(const std::type_info& info, void* p) const
 {
     try

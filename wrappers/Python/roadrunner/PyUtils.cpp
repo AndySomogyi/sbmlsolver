@@ -21,6 +21,10 @@ PyObject* Variant_to_py(const Variant& var)
 
     const std::type_info &type = var.type();
 
+    if (var.isEmpty()) {
+        Py_RETURN_NONE;
+    }
+
     if (type == typeid(std::string)) {
         return PyString_FromString(var.convert<string>().c_str());
     }
@@ -65,6 +69,11 @@ PyObject* Variant_to_py(const Variant& var)
 Variant Variant_from_py(PyObject* py)
 {
     Variant var;
+
+    if(py == Py_None)
+    {
+        return var;
+    }
 
     if (PyString_Check(py))
     {
