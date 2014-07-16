@@ -472,18 +472,16 @@ string RoadRunner::getInfo()
 {
     stringstream ss;
     ss << "<roadrunner.RoadRunner() { " << std::endl;
-    ss << "this: " << (void*)(this) << std::endl;
-    ss << "modelLoaded : " << (impl->model == NULL ? "false" : "true") << std::endl;
+    ss << "'this' : " << (void*)(this) << std::endl;
+    ss << "'modelLoaded' : " << (impl->model == NULL ? "false" : "true") << std::endl;
     if(impl->model)
     {
-        ss << "modelName: " <<  impl->model->getModelName() << std::endl;
+        ss << "'modelName' : " <<  impl->model->getModelName() << std::endl;
     }
 
-    ss << impl->simulateOpt.toString();
-
-    ss << "libSBMLVersion: " << getVersionStr(VERSIONSTR_LIBSBML) << std::endl;
-    ss << "jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
-    ss << "conservedMoietyAnalysis: " << rr::toString(impl->conservedMoietyAnalysis) << std::endl;
+    ss << "'libSBMLVersion' : " << getVersionStr(VERSIONSTR_LIBSBML) << std::endl;
+    ss << "'jacobianStepSize' : " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
+    ss << "'conservedMoietyAnalysis' : " << rr::toString(impl->conservedMoietyAnalysis) << std::endl;
 
 #if defined(BUILD_LEGACY_C)
     ss<<"Temporary folder: "        <<    getTempDir()<<endl;
@@ -491,6 +489,19 @@ string RoadRunner::getInfo()
     ss<<"Support Code Folder: "     <<    getCompiler()->getSupportCodeFolder() << endl;
     ss<<"Working Directory: "       <<    getCWD() << endl;
 #endif
+
+    ss << "'simulateOptions' : " << endl;
+    ss << impl->simulateOpt.toString();
+    ss << ", " << endl;
+
+    ss << "'integrator' : " << endl;
+    if(impl->integrator) {
+        ss << impl->integrator->toString();
+        ss << endl;
+    }
+    else {
+        ss << "Null" << endl;
+    }
 
     ss << "}>";
 
@@ -1234,7 +1245,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     // Variable Time Step Integration
     if (self.simulateOpt.integratorFlags & SimulateOptions::VARIABLE_STEP )
     {
-        Log(Logger::LOG_NOTICE) << "Performing variable step integration";
+        Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
         DoubleVectorList results;
         std::vector<double> row(self.mSelectionList.size());
@@ -1289,7 +1300,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     else if(SimulateOptions::getIntegratorType(self.simulateOpt.integrator) ==
             SimulateOptions::STOCHASTIC)
     {
-        Log(Logger::LOG_NOTICE)
+        Log(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
                 << self.simulateOpt.steps + 1 << " steps";
 

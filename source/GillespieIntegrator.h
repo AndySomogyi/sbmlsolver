@@ -133,6 +133,8 @@ private:
      */
     void setEngineSeed(unsigned long seed);
 
+    void setSeed(const Variant& var);
+
     unsigned long getSeed() const;
 };
 

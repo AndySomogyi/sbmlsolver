@@ -92,10 +92,7 @@ void GillespieIntegrator::setSimulateOptions(const SimulateOptions* o)
 
         if(options.hasKey("seed") && !options.getValue("seed").isEmpty())
         {
-            // variant at the moment can only do signed numbers.
-            unsigned long seed = options.getValue("seed").convert<unsigned long>();
-            this->seed = seed;
-            setEngineSeed(seed);
+            setSeed(options.getValue("seed"));
         }
     }
 }
@@ -243,22 +240,36 @@ double GillespieIntegrator::urand()
 }
 
 
+void GillespieIntegrator::setSeed(const rr::Variant& value)
+{
+    try
+    {
+        unsigned long seed = value.convert<unsigned long>();
+        this->seed = seed;
+        setEngineSeed(seed);
+    }
+    catch(std::exception& e)
+    {
+        std::stringstream ss;
+        ss << "Could not convert the value \"" << value.toString();
+        ss << "\" to an unsigned long integer. " << endl;
+        ss << "The seed must be a number between 0 and ";
+        ss << std::numeric_limits<unsigned long>::max();
+        ss << ".";
+        throw std::invalid_argument(ss.str());
+    }
+}
+
 void GillespieIntegrator::setValue(const std::string& key,
         const rr::Variant& value)
 {
     if (key == "seed")
     {
-        if (value.isNumeric())
-        {
-            unsigned long seed = value.convert<unsigned long>();
-            this->seed = seed;
-            setEngineSeed(seed);
-        }
-        else
-        {
-            Log(Logger::LOG_WARNING) << "could not set randon number seed with value: "
-                    << value.toString();
-        }
+        setSeed(value);
+    }
+    else if (key == "variableStep")
+    {
+        throw ("variableStep must be set with simulate");
     }
     else
     {
@@ -275,13 +286,17 @@ Variant GillespieIntegrator::getValue(const std::string& key) const
     {
         return Variant(getSeed());
     }
-
     else if(key == "rand")
     {
         // cheating
         GillespieIntegrator *pthis = const_cast<GillespieIntegrator*>(this);
         return Variant(pthis->urand());
     }
+    else if (key == "variableStep")
+    {
+        return (bool)(options.integratorFlags & SimulateOptions::VARIABLE_STEP);
+    }
+
 
     std::string err = "invalid key: \"";
     err += key;
@@ -291,7 +306,7 @@ Variant GillespieIntegrator::getValue(const std::string& key) const
 
 bool GillespieIntegrator::hasKey(const std::string& key) const
 {
-    return key == "seed" || key == "rand";
+    return key == "seed" || key == "rand" || key == "variableStep";
 }
 
 int GillespieIntegrator::deleteValue(const std::string& key)
@@ -304,6 +319,7 @@ std::vector<std::string> GillespieIntegrator::getKeys() const
     std::vector<std::string> result;
     result.push_back("seed");
     result.push_back("rand");
+    result.push_back("variableStep");
     return result;
 }
 
@@ -327,8 +343,8 @@ void GillespieIntegrator::setEngineSeed(unsigned long seed)
 std::string GillespieIntegrator::toString() const
 {
     std::stringstream ss;
-    ss << "< roadrunner.GillespieIntegrator() { "
-            << "this: " << (void*)this << ", " << std::endl;
+    ss << "< roadrunner.GillespieIntegrator() " << endl << "{ "
+            << endl << "'this' : " << (void*)this << ", " << std::endl;
 
     std::vector<std::string> keys = getKeys();
 
@@ -336,10 +352,13 @@ std::string GillespieIntegrator::toString() const
     {
         ss << "'" << *i << "' : ";
         ss << getValue(*i).toString();
-        ss << std::endl;
+
+        if (i + 1 < keys.end()) {
+            ss << ", " << std::endl;
+        }
     }
 
-    ss << "}>";
+    ss << endl << "}>";
 
     return ss.str();
 }

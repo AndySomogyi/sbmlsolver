@@ -1408,34 +1408,14 @@ namespace std { class ostream{}; }
     rr::SimulateOptions::Integrator integrator;
 
     std::string __repr__() {
-        std::stringstream s;
-        s << "<roadrunner.SimulateOptions() { this = " << (void*)$self << " }>";
-        return s.str();
+        return ($self)->toRepr();
     }
 
-    int test() {
-        std::cout << "sizeof: " << sizeof(rr::SimulateOptions) << std::endl;
-        std::cout << "integrator: " << $self->integrator;
-        return 0;
-    }
 
     std::string __str__() {
-        std::stringstream s;
-        s << "{ 'flags' : " << $self->flags;
-        s << ", 'integrator' : " << $self->integrator;
-        s << ", 'integratorFlags' : " << $self->integratorFlags;
-        s << ", 'steps' : " << $self->steps;
-        s << ", 'start' : " << $self->start;
-        s << ", 'duration' : " << $self->duration;
-        s << ", 'absolute' : " << $self->absolute;
-        s << ", 'relative' : " << $self->relative;
-        s << ", 'variables' : " << strvec_to_pystring($self->variables);
-        s << ", 'amounts' : " << strvec_to_pystring($self->amounts);
-        s << ", 'concentrations' : " << strvec_to_pystring($self->concentrations);
-        s << "}";
-        return s.str();
+        return ($self)->toString();
     }
-
+       
     /**
      * makes a copy of this object.
      * Python normally just keeps references to objects, and this forces a true

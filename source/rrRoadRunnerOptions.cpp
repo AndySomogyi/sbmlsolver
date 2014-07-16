@@ -325,49 +325,80 @@ std::string SimulateOptions::toString() const
 {
     std::stringstream ss;
 
+    ss << "< roadrunner.SimulateOptions() " << endl << "{ "
+            << endl << "'this' : " << (void*)this << ", " << std::endl;
+
     ss << "integrator: ";
     if (integrator == CVODE) {
-        ss << "cvode" << std::endl;
+        ss << "\"cvode\"," << std::endl;
     }
 
     else if (integrator == GILLESPIE ) {
-        ss << "gillespie" << std::endl;
+        ss << "\"gillespie\"," << std::endl;
     }
 
     else {
-        ss << "unknown" << std::endl;
+        ss << "\"unknown\"," << std::endl;
     }
 
-    ss << "stiff: " << BITFIELD2STR(integratorFlags & STIFF) << std::endl;
+    ss << "'stiff' : " << BITFIELD2STR(integratorFlags & STIFF) << "," << std::endl;
 
-    ss << "multiStep: " << BITFIELD2STR(integratorFlags & MULTI_STEP) << std::endl;
+    ss << "'multiStep' : " << BITFIELD2STR(integratorFlags & MULTI_STEP) << "," <<  std::endl;
 
-    ss << "variableStep: " << BITFIELD2STR(integratorFlags & VARIABLE_STEP) << std::endl;
+    ss << "'variableStep' : " << BITFIELD2STR(integratorFlags & VARIABLE_STEP) << "," <<  std::endl;
 
-    ss << "reset: " << BITFIELD2STR(flags & RESET_MODEL) << std::endl;
+    ss << "'reset' : " << BITFIELD2STR(flags & RESET_MODEL) << "," <<  std::endl;
 
-    ss << "structuredResult: " << BITFIELD2STR(flags & STRUCTURED_RESULT) << std::endl;
+    ss << "'structuredResult' : " << BITFIELD2STR(flags & STRUCTURED_RESULT) << "," <<  std::endl;
 
-    ss << "copyResult: " << BITFIELD2STR(flags & COPY_RESULT) << std::endl;
+    ss << "'copyResult' : " << BITFIELD2STR(flags & COPY_RESULT) << "," <<  std::endl;
 
-    ss << "steps: " << steps << std::endl;
+    ss << "'steps' : " << steps << "," <<  std::endl;
 
-    ss << "start: " << start << std::endl;
+    ss << "'start' : " << start << "," <<  std::endl;
 
-    ss << "duration: " << duration << std::endl;
+    ss << "'duration' : " << duration << "," <<  std::endl;
 
-    ss << "relative: " << relative << std::endl;
+    ss << "'relative' : " << relative << "," <<  std::endl;
 
-    ss << "absolute: " << absolute << std::endl;
+    ss << "'absolute' : " << absolute << "," <<  std::endl;
 
-    ss << "initialTimeStep: " << initialTimeStep << std::endl;
+    ss << "'initialTimeStep' : " << initialTimeStep << "," <<  std::endl;
 
-    ss << "minimumTimeStep: " << minimumTimeStep << std::endl;
+    ss << "'minimumTimeStep' : " << minimumTimeStep << "," <<  std::endl;
 
-    ss << "maximumTimeStep: " << maximumTimeStep << std::endl;
+    ss << "'maximumTimeStep' : " << maximumTimeStep << "," <<  std::endl;
 
-    ss << "maximumNumSteps: " << maximumNumSteps << std::endl;
+    ss << "'maximumNumSteps' : " << maximumNumSteps;
 
+    std::vector<std::string> keys = getKeys();
+
+    if (keys.size() > 0) {
+        ss << "," << std::endl;
+    }
+
+    for(std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i)
+    {
+        ss << "'" << *i << "' : ";
+        ss << getValue(*i).toString();
+
+        if (std::distance(i, keys.end()) > 1) {
+            ss << ", " << std::endl;
+        }
+    }
+
+    ss << std::endl << "}>";
+
+    return ss.str();
+}
+
+
+
+std::string SimulateOptions::toRepr() const
+{
+    std::stringstream ss;
+    ss << "< roadrunner.SimulateOptions() { 'this' : "
+            << (void*)this << " }>";
     return ss.str();
 }
 
@@ -387,6 +418,7 @@ SimulateOptions::Integrator SimulateOptions::getIntegratorId(const std::string& 
 
     throw std::invalid_argument("invalid integrator name");
 }
+
 
 void SimulateOptions::tweakTolerances()
 {

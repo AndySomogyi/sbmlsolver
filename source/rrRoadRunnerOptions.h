@@ -405,9 +405,14 @@ public:
     std::vector<std::string> getKeys() const;
 
     /**
-     * get the textual form of this object.
+     * get a description of this object, compatable with python __str__
      */
     std::string toString() const;
+
+    /**
+     * get a short descriptions of this object, compatable with python __repr__.
+     */
+    std::string toRepr() const;
 
     /**
      * Integration tolerance is very integrator specific.
