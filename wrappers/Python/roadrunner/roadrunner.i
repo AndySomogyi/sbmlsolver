@@ -535,7 +535,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::SimulateOptions::hasKey;
 %ignore rr::SimulateOptions::deleteValue;
 %ignore rr::SimulateOptions::getKeys;
-
+%rename (setIntegratorId) rr::SimulateOptions::setIntegrator;
 
 // ignore SimulateOptions key access methods, 
 // these are replaced by python dictionary protocol. 
@@ -544,6 +544,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Integrator::hasKey;
 %ignore rr::Integrator::deleteValue;
 %ignore rr::Integrator::getKeys;
+%ignore rr::Integrator::setSimulateOptions;
 %rename (__str__) rr::Integrator::toString;
 %rename (__repr__) rr::Integrator::toRepr;
 
@@ -1024,10 +1025,13 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def getIntegrator(self, iname):
+        def getIntegrator(self, iname=None):
             """
             Get the integrator based on its name. 
             """
+            if iname is None:
+                return self._getCurrentIntegrator()
+ 
             id = SimulateOptions.getIntegratorId(iname)
             return self._getIntegrator(id)
 
@@ -1035,10 +1039,10 @@ namespace std { class ostream{}; }
             """
             set the default integrator.
             """
-            id = SimulateOptions.getIntegratorId(iname)
-            opt = self.simulateOptions
-            opt.integrator = id
-            self.simulateOptions = opt
+            self.simulateOptions.integrator = iname
+
+            if self.model is None:
+                Logger.log(Logger.LOG_WARNING, "Setting integrator without a model, changes will take effect when a model is loaded")
 
         def simulate(self, *args, **kwargs):
             """
@@ -1247,9 +1251,9 @@ namespace std { class ostream{}; }
                 # changing integrators.
                 if k == "integrator" and type(v) == str:
                     if v.lower() == "gillespie":
-                        o.integrator = SimulateOptions.GILLESPIE
+                        o.integrator = "gillespie"
                     elif v.lower() == "cvode":
-                        o.integrator = SimulateOptions.CVODE
+                        o.integrator = "cvode"
                     else:
                         raise Exception("{0} is invalid argument for integrator".format(v))
                     continue
@@ -1294,7 +1298,7 @@ namespace std { class ostream{}; }
 
 
             # if we are doing a stochastic sim,
-            if SimulateOptions.getIntegratorType(o.integrator) == \
+            if SimulateOptions.getIntegratorType(o.getIntegratorId()) == \
                 SimulateOptions.STOCHASTIC and not haveVariableStep:
                 o.variableStep = not haveSteps
 
@@ -1405,8 +1409,7 @@ namespace std { class ostream{}; }
     bool structuredResult;
     bool variableStep;
     bool copyResult;
-    rr::SimulateOptions::Integrator integrator;
-
+    
     std::string __repr__() {
         return ($self)->toRepr();
     }
@@ -1463,6 +1466,41 @@ namespace std { class ostream{}; }
     bool __contains__(const std::string& key) {
         return $self->hasKey(key);
     }
+
+    std::string _getIntegrator() {
+        return SimulateOptions::getIntegratorName(($self)->integrator);
+    }
+
+    void _setIntegrator(const std::string &str) {
+
+        // set the value
+        SimulateOptions::Integrator value = SimulateOptions::getIntegratorId(str);
+
+        ($self)->setIntegrator(value);
+    }
+
+    rr::SimulateOptions::Integrator getIntegratorId() {
+        return ($self)->integrator;
+    }
+
+
+    %pythoncode %{
+        def getListener(self):
+            return self._getListener()
+
+        def setListener(self, listener):
+            if listener is None:
+                self._clearListener()
+            else:
+                self._setListener(listener)
+
+        __swig_getmethods__["integrator"] = _getIntegrator
+        __swig_setmethods__["integrator"] = _setIntegrator
+        if _newclass: 
+            integrator = property(_getIntegrator, _setIntegrator)
+    %}
+
+
 
 }
 
@@ -1547,35 +1585,6 @@ namespace std { class ostream{}; }
             opt->integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
         }
     }
-
-    rr::SimulateOptions::Integrator rr_SimulateOptions_integrator_get(SimulateOptions* opt) {
-        return opt->integrator;
-    }
-
-    void rr_SimulateOptions_integrator_set(SimulateOptions* opt, rr::SimulateOptions::Integrator value) {
-
-        // set the value
-        opt->integrator = value;
-
-        // adjust the value of the VARIABLE_STEP based on wether we are choosing
-        // stochastic or deterministic integrator.
-        bool vs = false;
-
-        if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
-            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
-        }
-
-        else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
-            vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
-        }
-
-        if (vs) {
-            opt->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
-        } else {
-            opt->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
-        }
-    }
-
 %}
 
 
@@ -2493,7 +2502,10 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
-        if _newclass: listener = property(getListener, setListener)
+        __swig_getmethods__["name"] = getName
+        if _newclass: 
+            listener = property(getListener, setListener)
+            name = property(getName) 
     %}
 }
 

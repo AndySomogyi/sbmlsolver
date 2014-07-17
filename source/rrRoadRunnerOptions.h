@@ -422,6 +422,13 @@ public:
      */
     void tweakTolerances();
 
+
+    /**
+     * set the integrator field, and also update the variable step
+     * options to be appropriate for the current values.
+     */
+    void setIntegrator(Integrator value);
+
 private:
 
     /**

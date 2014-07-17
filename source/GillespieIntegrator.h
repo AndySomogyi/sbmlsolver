@@ -88,6 +88,11 @@ public:
      */
     virtual std::string toRepr() const;
 
+    /**
+     * get the name of this integrator
+     */
+    virtual std::string getName() const;
+
 private:
     ExecutableModel *model;
     SimulateOptions options;

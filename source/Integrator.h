@@ -111,6 +111,11 @@ public:
     virtual std::string toRepr() const = 0;
 
     /**
+     * get the name of this integrator
+     */
+    virtual std::string getName() const = 0;
+
+    /**
      * this is an interface, provide virtual dtor as instances are
      * returned from New which must be deleted.
      */

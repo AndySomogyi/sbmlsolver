@@ -267,9 +267,9 @@ void GillespieIntegrator::setValue(const std::string& key,
     {
         setSeed(value);
     }
-    else if (key == "variableStep")
+    else if (key == "rand")
     {
-        throw ("variableStep must be set with simulate");
+        std::invalid_argument("'rand' is a read only value");
     }
     else
     {
@@ -292,11 +292,6 @@ Variant GillespieIntegrator::getValue(const std::string& key) const
         GillespieIntegrator *pthis = const_cast<GillespieIntegrator*>(this);
         return Variant(pthis->urand());
     }
-    else if (key == "variableStep")
-    {
-        return (bool)(options.integratorFlags & SimulateOptions::VARIABLE_STEP);
-    }
-
 
     std::string err = "invalid key: \"";
     err += key;
@@ -306,7 +301,7 @@ Variant GillespieIntegrator::getValue(const std::string& key) const
 
 bool GillespieIntegrator::hasKey(const std::string& key) const
 {
-    return key == "seed" || key == "rand" || key == "variableStep";
+    return key == "seed" || key == "rand";
 }
 
 int GillespieIntegrator::deleteValue(const std::string& key)
@@ -319,7 +314,6 @@ std::vector<std::string> GillespieIntegrator::getKeys() const
     std::vector<std::string> result;
     result.push_back("seed");
     result.push_back("rand");
-    result.push_back("variableStep");
     return result;
 }
 
@@ -371,6 +365,11 @@ std::string GillespieIntegrator::toRepr() const
     return ss.str();
 }
 
-} /* namespace rr */
 
+std::string GillespieIntegrator::getName() const
+{
+    return "gillespie";
+}
+
+} /* namespace rr */
 

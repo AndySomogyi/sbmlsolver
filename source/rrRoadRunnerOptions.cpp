@@ -435,6 +435,30 @@ void SimulateOptions::tweakTolerances()
     }
 }
 
+void SimulateOptions::setIntegrator(Integrator value)
+{
+    // set the value
+    integrator = value;
+    
+    // adjust the value of the VARIABLE_STEP based on wether we are choosing
+    // stochastic or deterministic integrator.
+    bool vs = false;
+
+    if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
+        vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+    }
+    
+    else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
+        vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+    }
+    
+    if (vs) {
+        integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+    } else {
+        integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
+    }   
+}
+
 std::string SimulateOptions::getIntegratorName(Integrator integrator)
 {
     static const char* names[] = {"cvode", "gillespie"};

@@ -844,10 +844,11 @@ private:
     std::vector<SelectionRecord> getSelectionList();
 
     /**
-     * sets the options and updates the integrator an any
-     * other depedent bits.
+     * The simulateOptions may be changed at any time. This updates
+     * the integrators just before they are used with the
+     * potentially changed options.
      */
-    void _setSimulateOptions(const SimulateOptions* opt);
+    void updateSimulateOptions();
 
     /**
      * private implementation class, can only access if inside

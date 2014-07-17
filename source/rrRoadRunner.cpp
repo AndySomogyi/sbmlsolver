@@ -128,6 +128,11 @@ enum ParameterType
 #define get_self() RoadRunnerImpl& self = *(this->impl);
 
 /**
+ * check if a model is loaded.
+ */
+#define check_model() { if (!impl->model) { throw std::logic_error(gEmptyModelMessage); } }
+
+/**
  * implemention class, hide all details here.
  */
 class RoadRunnerImpl {
@@ -178,22 +183,6 @@ public:
     SimulateOptions simulateOpt;
 
     /**
-     * copy of simualte opt which is returned to clients.
-     *
-     * used so we can determine if the options have changed.
-     */
-    SimulateOptions copySimulateOpt;
-
-    /**
-     * The sim options may be requested via getSimulateOptions. In this
-     * case, the caller may modify it, so we assume its dirty.
-     *
-     * These options are re-loaded into the integrator in simulate and
-     * oneStep.
-     */
-    bool dirtySimulateOptions;
-
-    /**
      * various general options that can be modified by external callers.
      */
     RoadRunnerOptions roadRunnerOptions;
@@ -237,8 +226,7 @@ public:
                 mCurrentSBML(),
                 mLS(0),
                 simulateOpt(),
-                mInstanceID(0),
-                dirtySimulateOptions(true)
+                mInstanceID(0)
     {
         // have to init integrators the hard way in c++98
         memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
@@ -260,8 +248,7 @@ public:
                 mCurrentSBML(),
                 mLS(0),
                 simulateOpt(),
-                mInstanceID(0),
-                dirtySimulateOptions(true)
+                mInstanceID(0)
     {
         // have to init integrators the hard way in c++98
         memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
@@ -470,10 +457,13 @@ vector<SelectionRecord> RoadRunner::getSelectionList()
 
 string RoadRunner::getInfo()
 {
+    updateSimulateOptions();
+
     stringstream ss;
     ss << "<roadrunner.RoadRunner() { " << std::endl;
     ss << "'this' : " << (void*)(this) << std::endl;
     ss << "'modelLoaded' : " << (impl->model == NULL ? "false" : "true") << std::endl;
+
     if(impl->model)
     {
         ss << "'modelName' : " <<  impl->model->getModelName() << std::endl;
@@ -558,15 +548,12 @@ bool RoadRunner::isModelLoaded()
 
 void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
-    impl->copySimulateOpt = settings;
-
-    // copies the copy over to the actual one.
-    _setSimulateOptions(0);
+    impl->simulateOpt = settings;
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
 {
-    return impl->copySimulateOpt;
+    return impl->simulateOpt;
 }
 
 bool RoadRunner::getConservedMoietyAnalysis()
@@ -682,6 +669,8 @@ void RoadRunner::updateIntegrator()
         }
 
         self.integrator = self.integrators[self.simulateOpt.integrator];
+
+        self.integrator->setSimulateOptions(&self.simulateOpt);
     }
 }
 
@@ -1229,12 +1218,13 @@ void RoadRunner::evalModel()
 const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 {
     get_self();
+    check_model();
 
-    if (!self.model) {
-        throw std::logic_error(gEmptyModelMessage);
+    if (opt) {
+        self.simulateOpt = *opt;
     }
 
-    _setSimulateOptions(opt);
+    updateSimulateOptions();
 
     const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
     const double timeStart = self.simulateOpt.start;
@@ -1418,12 +1408,8 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
 
 double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    _setSimulateOptions(o);
+    check_model();
+    updateSimulateOptions();
 
     try
     {
@@ -1441,17 +1427,8 @@ double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset)
 {
     get_self();
-
-    if (!self.model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    self.copySimulateOpt.flags = reset ?
-            self.copySimulateOpt.flags | SimulateOptions::RESET_MODEL :
-            self.copySimulateOpt.flags & ~SimulateOptions::RESET_MODEL;
-
-    _setSimulateOptions(0);
+    check_model();
+    updateSimulateOptions();
 
     try
     {
@@ -1467,56 +1444,34 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 
 DoubleMatrix RoadRunner::getEigenvalues()
 {
-    try
+    check_model();
+
+    vector<Complex> vals = getEigenvaluesCpx();
+
+    DoubleMatrix result(vals.size(), 2);
+
+    for (int i = 0; i < vals.size(); i++)
     {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        vector<Complex> vals = getEigenvaluesCpx();
-
-        DoubleMatrix result(vals.size(), 2);
-
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result[i][0] = std::real(vals[i]);
-            result[i][1] = imag(vals[i]);
-        }
-        return result;
+        result[i][0] = std::real(vals[i]);
+        result[i][1] = imag(vals[i]);
     }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
-    }
+    return result;
 }
-
-
 
 vector< Complex > RoadRunner::getEigenvaluesCpx()
 {
-    try
-    {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
+    check_model();
 
-        DoubleMatrix mat;
-        if (impl->conservedMoietyAnalysis)
-        {
-           mat = getReducedJacobian();
-        }
-        else
-        {
-           mat = getFullJacobian();
-        }
-        return ls::getEigenValues(mat);
-    }
-    catch (const Exception& e)
+    DoubleMatrix mat;
+    if (impl->conservedMoietyAnalysis)
     {
-        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
+        mat = getReducedJacobian();
     }
+    else
+    {
+        mat = getFullJacobian();
+    }
+    return ls::getEigenValues(mat);
 }
 
 DoubleMatrix RoadRunner::getFullJacobian()
@@ -1648,40 +1603,32 @@ DoubleMatrix RoadRunner::getLinkMatrix()
 
 DoubleMatrix RoadRunner::getReducedStoichiometryMatrix()
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
+
     // pointer to owned matrix
     return *getLibStruct()->getNrMatrix();
 }
 
 DoubleMatrix RoadRunner::getNrMatrix()
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
+
     // pointer to owned matrix
     return *getLibStruct()->getNrMatrix();
 }
 
 DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
+
     // pointer to owned matrix
     return *getLibStruct()->getStoichiometryMatrix();
 }
 
 DoubleMatrix RoadRunner::getL0Matrix()
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
+
     // the libstruct getL0Matrix returns a NEW matrix,
     // nice consistent API yes?!?!?
     DoubleMatrix *tmp = getLibStruct()->getL0Matrix();
@@ -2936,16 +2883,14 @@ vector<double> RoadRunner::getReactionRates()
 
 Integrator* RoadRunner::getIntegrator()
 {
+    updateSimulateOptions();
     return impl->integrator;
 }
 
 
 void RoadRunner::setValue(const string& sId, double dValue)
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
 
     impl->model->setValue(sId, dValue);
 
@@ -3728,23 +3673,15 @@ Integrator* RoadRunner::getIntegrator(SimulateOptions::Integrator intg)
     return 0;
 }
 
-void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
+void RoadRunner::updateSimulateOptions()
 {
     get_self();
 
-    if (opt && opt != &self.copySimulateOpt)
+    if (self.simulateOpt.duration < 0 || self.simulateOpt.start < 0
+            || self.simulateOpt.steps <= 0 )
     {
-        self.copySimulateOpt = *opt;
+        throw std::invalid_argument("duration, startTime and steps must be positive");
     }
-
-    if (self.copySimulateOpt.duration < 0 || self.copySimulateOpt.start < 0
-            || self.copySimulateOpt.steps <= 0 )
-    {
-        throw CoreException("duration, startTime and steps must be positive");
-    }
-
-
-    self.simulateOpt = self.copySimulateOpt;
 
     // This one creates the list of what we will look at in the result
     // uses values (potentially) from simulate options.
@@ -3753,8 +3690,6 @@ void RoadRunner::_setSimulateOptions(const SimulateOptions* opt)
     // updates the integrator to what was specified by simulateOptions,
     // no effect if already using this integrator.
     updateIntegrator();
-
-    self.integrator->setSimulateOptions(&self.simulateOpt);
 
     if (self.simulateOpt.flags & SimulateOptions::RESET_MODEL)
     {
