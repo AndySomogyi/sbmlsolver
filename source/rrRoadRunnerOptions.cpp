@@ -402,13 +402,13 @@ std::string SimulateOptions::toRepr() const
     return ss.str();
 }
 
-SimulateOptions::Integrator SimulateOptions::getIntegratorId(const std::string& _name)
+SimulateOptions::Integrator SimulateOptions::getIntegratorIdFromName(const std::string& _name)
 {
     std::string name = _name;
     std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 
     for (unsigned i = 0; i < INTEGRATOR_END; ++i) {
-        std::string iname = getIntegratorName((Integrator)i);
+        std::string iname = getIntegratorNameFromId((Integrator)i);
         std::transform(iname.begin(), iname.end(), iname.begin(), ::toupper);
 
         if (iname == name) {
@@ -459,7 +459,7 @@ void SimulateOptions::setIntegrator(Integrator value)
     }   
 }
 
-std::string SimulateOptions::getIntegratorName(Integrator integrator)
+std::string SimulateOptions::getIntegratorNameFromId(Integrator integrator)
 {
     static const char* names[] = {"cvode", "gillespie"};
 

@@ -225,13 +225,13 @@ public:
     /**
      * get the textual name of the integrator.
      */
-    static std::string getIntegratorName(Integrator);
+    static std::string getIntegratorNameFromId(Integrator);
 
     /**
      * mape the textual name of an integrator to its
      * enumerated id.
      */
-    static Integrator getIntegratorId(const std::string& name);
+    static Integrator getIntegratorIdFromName(const std::string& name);
 
 
     enum IntegratorFlags

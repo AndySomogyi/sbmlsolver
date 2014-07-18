@@ -535,7 +535,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::SimulateOptions::hasKey;
 %ignore rr::SimulateOptions::deleteValue;
 %ignore rr::SimulateOptions::getKeys;
-%rename (setIntegratorId) rr::SimulateOptions::setIntegrator;
+
+%rename (_setIntegratorId) rr::SimulateOptions::setIntegrator;
 
 // ignore SimulateOptions key access methods, 
 // these are replaced by python dictionary protocol. 
@@ -1032,7 +1033,7 @@ namespace std { class ostream{}; }
             if iname is None:
                 return self._getCurrentIntegrator()
  
-            id = SimulateOptions.getIntegratorId(iname)
+            id = SimulateOptions.getIntegratorIdFromName(iname)
             return self._getIntegrator(id)
 
         def setIntegrator(self, iname):
@@ -1188,7 +1189,11 @@ namespace std { class ostream{}; }
 
             doPlot = False
             show = True
+
+            # user specified number of steps via 3rd arg or steps=xxx            
             haveSteps = False
+
+            # variableStep = True was specified in args
             haveVariableStep = False
             o = self.simulateOptions
 
@@ -1298,6 +1303,9 @@ namespace std { class ostream{}; }
 
 
             # if we are doing a stochastic sim,
+            # explicit options of variableStep trumps everything, 
+            # if not explicit, variableStep is if number of steps was specified, 
+            # if no steps, varStep = true, false otherwise.
             if SimulateOptions.getIntegratorType(o.getIntegratorId()) == \
                 SimulateOptions.STOCHASTIC and not haveVariableStep:
                 o.variableStep = not haveSteps
@@ -1468,13 +1476,13 @@ namespace std { class ostream{}; }
     }
 
     std::string _getIntegrator() {
-        return SimulateOptions::getIntegratorName(($self)->integrator);
+        return SimulateOptions::getIntegratorNameFromId(($self)->integrator);
     }
 
     void _setIntegrator(const std::string &str) {
 
         // set the value
-        SimulateOptions::Integrator value = SimulateOptions::getIntegratorId(str);
+        SimulateOptions::Integrator value = SimulateOptions::getIntegratorIdFromName(str);
 
         ($self)->setIntegrator(value);
     }
