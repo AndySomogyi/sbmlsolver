@@ -102,6 +102,17 @@ static double          getAdjustment(Complex& z);
 typedef std::list<std::vector<double> > DoubleVectorList;
 
 
+/**
+ * check if metabolic control analysis is valid for the model.
+ *
+ * In effect, this checks that the the model is a pure
+ * reaction-kinetics model with no rate rules, no events.
+ *
+ * Throws an invaid arg exception if not valid.
+ */
+static void metabolicControlCheck(ExecutableModel *model);
+
+
 
 //The instance count increases/decreases as instances are created/destroyed.
 static int mInstanceCount = 0;
@@ -1506,31 +1517,19 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
 DoubleMatrix RoadRunner::getFullReorderedJacobian()
 {
-    try
-    {
-        if (impl->model)
-        {
-            LibStructural *ls = getLibStruct();
-            DoubleMatrix uelast = getUnscaledElasticityMatrix();
-            DoubleMatrix *rsm = ls->getStoichiometryMatrix();
-            return mult(*rsm, uelast);
-        }
-        throw CoreException(gEmptyModelMessage);
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from fullJacobian()", e.Message());
-    }
+    check_model();
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix uelast = getUnscaledElasticityMatrix();
+    DoubleMatrix *rsm = ls->getStoichiometryMatrix();
+    return mult(*rsm, uelast);
 }
 
 DoubleMatrix RoadRunner::getReducedJacobian(double h)
 {
     get_self();
 
-    if (!self.model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
 
     if (h <= 0)
     {
@@ -1542,7 +1541,7 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
     int svSize = self.model->getStateVector(0);
     int nIndSpecies = self.model->getNumIndFloatingSpecies();
-    int nRates = self.model->getNumRules();
+    int nRates = self.model->getNumRateRules();
 
     // need 3 buffers, state vector and 2 for state vector
     // rate for central difference.
@@ -1553,8 +1552,6 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
     double* y = &yv[0];
     double* dy0 = &dy0v[0];
     double* dy1 = &dy1v[0];
-
-
 
     // grab the current state vector
     self.model->getStateVector(y);
@@ -2464,8 +2461,41 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
 
 double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex)
 {
-    // TODO this will not work corrrectly where there are rate rules
     get_self();
+
+    check_model();
+
+    // make sure no rate rules or events
+    metabolicControlCheck(self.model);
+
+    // function pointers to the model get values and get init values based on
+    // if we are doing amounts or concentrations.
+    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+            double *values);
+    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+                    double const *values);
+
+    GetValueFuncPtr getValuePtr = 0;
+    GetValueFuncPtr getInitValuePtr = 0;
+    SetValueFuncPtr setValuePtr = 0;
+    SetValueFuncPtr setInitValuePtr = 0;
+
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+            == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+    {
+        getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
+        getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
+        setValuePtr = &ExecutableModel::setFloatingSpeciesAmounts;
+        setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitAmounts;
+    }
+    else
+    {
+        getValuePtr = &ExecutableModel::getFloatingSpeciesConcentrations;
+        getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitConcentrations;
+        setValuePtr = &ExecutableModel::setFloatingSpeciesConcentrations;
+        setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitConcentrations;
+    }
+
     double value;
     double originalConc = 0;
     double result = std::numeric_limits<double>::quiet_NaN();
@@ -2476,28 +2506,28 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     // this causes a reset, so need to save the current amounts to set them back
     // as init conditions.
     std::vector<double> conc(self.model->getNumFloatingSpecies());
-    self.model->getFloatingSpeciesConcentrations(conc.size(), 0, &conc[0]);
+    (self.model->*getValuePtr)(conc.size(), 0, &conc[0]);
 
     // save the original init values
     std::vector<double> initConc(self.model->getNumFloatingSpecies());
-    self.model->getFloatingSpeciesInitConcentrations(initConc.size(), 0, &initConc[0]);
+    (self.model->*getInitValuePtr)(initConc.size(), 0, &initConc[0]);
 
     // get the original value
-    self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &originalConc);
+    (self.model->*getValuePtr)(1, &speciesIndex, &originalConc);
 
     // now we start changing things
     try
     {
         // set init amounts to current amounts, restore them later.
         // have to do this as this is only way to set conserved moiety values
-        self.model->setFloatingSpeciesInitConcentrations(conc.size(), 0, &conc[0]);
+        (self.model->*setInitValuePtr)(conc.size(), 0, &conc[0]);
 
         // sanity check
         assert(originalConc == conc[speciesIndex]);
         double tmp = 0;
-        self.model->getFloatingSpeciesInitConcentrations(1, &speciesIndex, &tmp);
+        (self.model->*getInitValuePtr)(1, &speciesIndex, &tmp);
         assert(originalConc == tmp);
-        self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &tmp);
+        (self.model->*getValuePtr)(1, &speciesIndex, &tmp);
         assert(originalConc == tmp);
 
         // things check out, start fiddling...
@@ -2509,23 +2539,23 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
         }
 
         value = originalConc + hstep;
-        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
+        (self.model->*setInitValuePtr)(1, &speciesIndex, &value);
 
         double fi = 0;
         self.model->getReactionRates(1, &reactionId, &fi);
 
         value = originalConc + 2*hstep;
-        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
+        (self.model->*setInitValuePtr)(1, &speciesIndex, &value);
         double fi2 = 0;
         self.model->getReactionRates(1, &reactionId, &fi2);
 
         value = originalConc - hstep;
-        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
+        (self.model->*setInitValuePtr)(1, &speciesIndex, &value);
         double fd = 0;
         self.model->getReactionRates(1, &reactionId, &fd);
 
         value = originalConc - 2*hstep;
-        self.model->setFloatingSpeciesInitConcentrations(1, &speciesIndex, &value);
+        (self.model->*setInitValuePtr)(1, &speciesIndex, &value);
         double fd2 = 0;
         self.model->getReactionRates(1, &reactionId, &fd2);
 
@@ -2540,22 +2570,23 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     catch(const std::exception& e)
     {
         // What ever happens, make sure we restore the species level
-        self.model->setFloatingSpeciesInitConcentrations(
+        (self.model->*setInitValuePtr)(
                 initConc.size(), 0, &initConc[0]);
 
         // only set the indep species, setting dep species is not permitted.
-        self.model->setFloatingSpeciesConcentrations(
+        (self.model->*setValuePtr)(
                 self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
 
-        throw e;
+        // re-throw the exception.
+        throw;
     }
 
     // What ever happens, make sure we restore the species level
-    self.model->setFloatingSpeciesInitConcentrations(
+    (self.model->*setInitValuePtr)(
             initConc.size(), 0, &initConc[0]);
 
     // only set the indep species, setting dep species is not permitted.
-    self.model->setFloatingSpeciesConcentrations(
+    (self.model->*setValuePtr)(
             self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
 
     return result;
@@ -3699,6 +3730,22 @@ void RoadRunner::updateSimulateOptions()
     // set how the result should be returned to python
     self.mRoadRunnerData.structuredResult =
             self.simulateOpt.flags & SimulateOptions::STRUCTURED_RESULT;
+}
+
+
+static void metabolicControlCheck(ExecutableModel *model)
+{
+    static const char* e1 = "Metabolic control analysis only valid "
+            "for primitive reaction kinetics models. ";
+    if (model->getNumRateRules() > 0)
+    {
+        throw std::invalid_argument(string(e1) + "This model has rate rules");
+    }
+
+    if (model->getNumEvents() > 0)
+    {
+        throw std::invalid_argument(string(e1) + "This model has events");
+    }
 }
 
 } //namespace

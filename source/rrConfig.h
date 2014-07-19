@@ -372,6 +372,42 @@ public:
         STEADYSTATE_MINIMUM_DAMPING,
 
         /**
+         * Determines the mode that the RoadRunner Jacobian calculations will be
+         * be performed in.  The Jacobian can be calculated either with respect to
+         * amounts or concentrations. Default is concentrations.
+         *
+         * This can be either ROADRUNNER_JACOBIAN_MODE_AMOUNTS or
+         * ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS.
+         */
+        ROADRUNNER_JACOBIAN_MODE,
+
+        // add lots of space so not to conflict with other branches.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.
@@ -383,6 +419,13 @@ public:
     {
         ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE          =  (0x1 << 0),  // => 0x00000001
         ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY     =  (0x1 << 1)   // => 0x00000010
+    };
+
+
+    enum ROADRUNNER_JACOBIAN_MODE_VALUES
+    {
+        ROADRUNNER_JACOBIAN_MODE_AMOUNTS = 0,
+        ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS
     };
 
     /**

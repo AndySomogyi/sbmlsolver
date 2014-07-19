@@ -743,7 +743,7 @@ void CompiledExecutableModel::print(std::ostream &stream)
     stream << mData;
 }
 
-int CompiledExecutableModel::getNumRules()
+int CompiledExecutableModel::getNumRateRules()
 {
     return ms.mNumRules;
 }

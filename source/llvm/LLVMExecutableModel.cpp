@@ -1361,9 +1361,9 @@ void LLVMExecutableModel::evalReactionRates()
 {
 }
 
-int LLVMExecutableModel::getNumRules()
+int LLVMExecutableModel::getNumRateRules()
 {
-    return 0;
+    return modelData->numRateRules;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,

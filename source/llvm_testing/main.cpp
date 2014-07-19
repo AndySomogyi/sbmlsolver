@@ -7,6 +7,7 @@
 #include "TestGetSetValues.h"
 #include "TestCapabilities.h"
 #include "TestEvalReactionRates.h"
+#include "rrConfig.h"
 
 #include "ConfigurableTest.h"
 
@@ -105,17 +106,74 @@ void run_ensemble(const char* fname, unsigned long seed)
     }
 }
 
-int main(int argc, char* argv[])
+int ensemble_test(int argc, char* argv[])
 {
-    if (argc < 3)
+    if (argc < 4)
     {
-        cout << "usage: llvm_testing fname num_ensembles" << endl;
+        cout << "usage: llvm_testing ensemble fname num_ensembles" << endl;
         return -1;
     }
 
-    run_ensemble(argv[1], atol(argv[2]));
+    run_ensemble(argv[2], atol(argv[3]));
 
     return 0;
+}
+
+int jacobian_test(int argc, char* argv[])
+{
+    try
+    {
+        if (argc < 3)
+        {
+            cout << "usage: llvm_testing jacobian fname";
+        }
+
+        RoadRunner r(argv[2]);
+
+        cout << "amount mode" << endl;
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+
+        ls::DoubleMatrix mat = r.getFullJacobian();
+
+        cout << "amount mode full jabobian: " << endl;
+
+        cout << mat << endl;
+
+        cout << "concentration mode" << endl;
+
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+
+        mat = r.getFullJacobian();
+
+        cout << "amount mode full jabobian: " << endl;
+
+        cout << mat << endl;
+
+    }
+    catch(std::exception &e)
+    {
+        cout << e.what() << endl;
+    }
+    return 0;
+}
+
+int main(int argc, char* argv[])
+{
+    if (argc < 2) {
+        cout << "usage: llvm_testing test";
+        return -1;
+    }
+
+    if (strcmp("ensemble", argv[1]) == 0) {
+        return ensemble_test(argc, argv);
+    }
+
+    if (strcmp("jacobian", argv[1]) == 0) {
+        return jacobian_test(argc, argv);
+    }
+
+    cout << "error, invalid test name: " << argv[1] << endl;
+    return -1;
 }
 
 

@@ -447,7 +447,7 @@ public:
     virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values) = 0;
 
-    virtual int getNumRules() = 0;
+    virtual int getNumRateRules() = 0;
 
     /**
      * get the number of reactions the model has

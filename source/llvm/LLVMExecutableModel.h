@@ -132,7 +132,7 @@ public:
     virtual int getCompartmentVolumes(int len, int const *indx,
             double *values);
 
-    virtual int getNumRules();
+    virtual int getNumRateRules();
 
 
 
