@@ -206,7 +206,7 @@ public:
      */
     enum Integrator
     {
-        CVODE = 0,  GILLESPIE, INTEGRATOR_END
+        CVODE = 0,  GILLESPIE, RK4, INTEGRATOR_END
     };
 
     /**

@@ -293,7 +293,7 @@ bool SimulateOptions::hasKey(const std::string& key) const
 
 SimulateOptions::IntegratorType SimulateOptions::getIntegratorType(Integrator i)
 {
-    if (i == CVODE) {
+    if (i == CVODE || i == RK4) {
         return DETERMINISTIC;
     } else {
         return STOCHASTIC;
@@ -439,7 +439,7 @@ void SimulateOptions::setIntegrator(Integrator value)
 {
     // set the value
     integrator = value;
-    
+
     // adjust the value of the VARIABLE_STEP based on wether we are choosing
     // stochastic or deterministic integrator.
     bool vs = false;
@@ -447,21 +447,21 @@ void SimulateOptions::setIntegrator(Integrator value)
     if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
         vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
     }
-    
+
     else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
         vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
     }
-    
+
     if (vs) {
         integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
     } else {
         integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
-    }   
+    }
 }
 
 std::string SimulateOptions::getIntegratorNameFromId(Integrator integrator)
 {
-    static const char* names[] = {"cvode", "gillespie"};
+    static const char* names[] = {"cvode", "gillespie", "rk4"};
 
     if (integrator >= 0 && integrator < INTEGRATOR_END)
     {

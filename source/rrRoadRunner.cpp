@@ -214,7 +214,7 @@ public:
      * these are freed in the dtor, but kept around for the lifetime of
      * this object.
      */
-    Integrator*  integrators[SimulateOptions::GILLESPIE+1];
+    Integrator*  integrators[SimulateOptions::INTEGRATOR_END];
 
     /**
      * TODO get rid of this garbage

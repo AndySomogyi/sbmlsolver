@@ -31,6 +31,7 @@ set(rrSources
     Integrator
     CVODEIntegrator
     GillespieIntegrator
+    RK4Integrator
     rrNLEQInterface
     rrTestSuiteModelSimulation
     rrIniKey

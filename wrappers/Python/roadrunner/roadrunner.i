@@ -1254,13 +1254,14 @@ namespace std { class ostream{}; }
             for k,v in kwargs.iteritems():
 
                 # changing integrators.
-                if k == "integrator" and type(v) == str:
-                    if v.lower() == "gillespie":
-                        o.integrator = "gillespie"
-                    elif v.lower() == "cvode":
-                        o.integrator = "cvode"
+                if k == "integrator":
+                    if type(v) == str:
+                        # this automatically sets the variable / fixed time step
+                        # according to integrator type, raises exception if invalid 
+                        # integrator string. 
+                        o.integrator = v
                     else:
-                        raise Exception("{0} is invalid argument for integrator".format(v))
+                        raise Exception("{0} is invalid argument for integrator, integrator name must be a string.".format(v))
                     continue
                 
                 # specifying selections:
@@ -1320,6 +1321,14 @@ namespace std { class ostream{}; }
                 self.plot(show)
 
             return result
+
+        def getAvailableIntegrators(self):
+            """
+            get a list of available integrator names.
+            """
+            return [SimulateOptions.getIntegratorNameFromId(i) \
+                for i in range(0, SimulateOptions.INTEGRATOR_END)]
+       
 
         def plot(self, show=True):
             """
