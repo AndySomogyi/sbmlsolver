@@ -27,6 +27,32 @@ namespace rr
  * If Python support is enabled, this class can convert to and from a
  * Python object.
  *
+ * Usage:
+ * This class can convert to and from any primitive data type, and
+ * some collections types. More type conversions will be added as needed. 
+ *
+ * To store a value, just assign it, the assignment operator automatically
+ * takes care of everything for you:
+ *
+ * // store an int:
+ * int i = 23;
+ * Variant v = i;
+ * 
+ * // store a double:
+ * Variant v = (double)0.123;
+ *
+ * Extraction:
+ * To retrieve the stored data, uses the convert function, this is templated
+ * so it can convert and extract to any type:
+ *
+ * Variant v = getSomeVariant();
+ *
+ * // to convert to integer:
+ * int i = v.convert<int>();
+ *
+ * // to convert to string:
+ * std::string s = v.convert<std::string>();
+ *
  * Rationale:
  * C++ does not have a built in variant type. Other variant types exist
  * such as boost::any and Poco dynamic var. However including the one of these
@@ -51,6 +77,10 @@ public:
 
     /**
      * create a new variant from an existing supported data type.
+     * This templated constructor can assign any primitive type:
+     *
+     * Variant v = (int)1;
+     * Variant v = std::string("a string");
      */
     template <typename T>
     Variant(const T& val) : self(0)
@@ -67,6 +97,8 @@ public:
 
     /**
      * Assignment operator for assigning POD to Var
+     * same as the constructor, this assigns a value to an existing
+     * Variant. 
      */
     template <typename T>
     Variant& operator = (const T& value)
@@ -77,16 +109,36 @@ public:
     }
 
     /**
-     * Assignment operator
+     * Assignment operator. Assign one variant to another. 
      */
     Variant& operator = (const Variant& other);
 
     virtual ~Variant();
 
+    /**
+     * get the type id of the stored data type. This will let you check what kind
+     * of data is strored in this variant.
+     *
+     * // to check if this is an integer:
+     * Variant v = ...
+     * if (v.type() == typeid(int))
+     *     cout << "its an int";
+     *
+     * // to check if its a string:
+     * if (v.type() == typeid(std::string))
+     *     cout << "ints a string";
+     */
     const std::type_info& type() const;
 
     /**
-     * convert this variant to a supported data type.
+     * Convert this variant to a supported data type.
+     *
+     * This method will try to perform type coercion, i.e. if this variant contains
+     * a string, and it is asked to convert to a int, the string will be parsed as
+     * an int. Similary, doubles will be rounded to int, so forth. 
+     *
+     * // convert to int:
+     * int i = v.convert<int>();
      */
     template <typename T>
     T convert() const
@@ -106,12 +158,24 @@ public:
      */
     std::string toString() const;
 
+    /**
+     * is this variant a string.
+     */
     bool isString() const;
 
+    /**
+     * was an interger stored here.
+     */
     bool isInteger() const;
 
+    /**
+     * is this a numeric type.
+     */
     bool isNumeric() const;
 
+    /**
+     * is this a boolean type.
+     */
     bool isBool() const;
 
     /**
@@ -123,9 +187,6 @@ public:
      * true if this is a signed number.
      */
     bool isSigned() const;
-
-
-
 
 
 private:
