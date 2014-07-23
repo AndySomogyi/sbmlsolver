@@ -33,18 +33,20 @@ namespace rr
  *
  * To store a value, just assign it, the assignment operator automatically
  * takes care of everything for you:
- *
+ * @code
  * // store an int:
  * int i = 23;
  * Variant v = i;
  * 
  * // store a double:
  * Variant v = (double)0.123;
+ * @endcode
  *
  * Extraction:
  * To retrieve the stored data, uses the convert function, this is templated
  * so it can convert and extract to any type:
  *
+ * @code
  * Variant v = getSomeVariant();
  *
  * // to convert to integer:
@@ -52,6 +54,7 @@ namespace rr
  *
  * // to convert to string:
  * std::string s = v.convert<std::string>();
+ * @endcode
  *
  * Rationale:
  * C++ does not have a built in variant type. Other variant types exist
@@ -78,9 +81,10 @@ public:
     /**
      * create a new variant from an existing supported data type.
      * This templated constructor can assign any primitive type:
-     *
+     * @code
      * Variant v = (int)1;
      * Variant v = std::string("a string");
+     * @endcode
      */
     template <typename T>
     Variant(const T& val) : self(0)
@@ -113,12 +117,16 @@ public:
      */
     Variant& operator = (const Variant& other);
 
+    /**
+     * clean up any data owned by this object.
+     */
     virtual ~Variant();
 
     /**
      * get the type id of the stored data type. This will let you check what kind
      * of data is strored in this variant.
      *
+     * @code
      * // to check if this is an integer:
      * Variant v = ...
      * if (v.type() == typeid(int))
@@ -127,6 +135,7 @@ public:
      * // to check if its a string:
      * if (v.type() == typeid(std::string))
      *     cout << "ints a string";
+     * @endcode
      */
     const std::type_info& type() const;
 
@@ -137,8 +146,10 @@ public:
      * a string, and it is asked to convert to a int, the string will be parsed as
      * an int. Similary, doubles will be rounded to int, so forth. 
      *
+     * @code
      * // convert to int:
      * int i = v.convert<int>();
+     * @endcode
      */
     template <typename T>
     T convert() const
@@ -149,7 +160,11 @@ public:
     }
 
     /**
-     * Parses the string which must be in JSON format
+     * Parses the string which must be in JSON format. This is a common
+     * way to read a Variant from a file or create a new one from a string:
+     * @code
+     * Variant v = Variant::parse("0.123");
+     * @endcode
      */
     static Variant parse(const std::string& val);
 
