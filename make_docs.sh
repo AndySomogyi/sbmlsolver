@@ -14,9 +14,9 @@ doxygen doxygen.conf
 cd "$cwd"
 
 
-cd "$cwd/wrappers/C"
-doxygen core_c_api.doxy
-cd "$cwd"
+#cd "$cwd/wrappers/C"
+#doxygen core_c_api.doxy
+#cd "$cwd"
 
 cd  "$cwd/wrappers/Python/doc"
 make html

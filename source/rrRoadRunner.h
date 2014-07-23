@@ -549,9 +549,8 @@ public:
     RR_DEPRECATED(double getReactionRate(const int& index));
 
     /**
-     * @deprecated
      * @internal
-     * Returns the rate of changes of a species by its index
+     * @deprecated
      */
     RR_DEPRECATED(double getRateOfChange(const int& index));
 
@@ -725,11 +724,6 @@ public:
     RR_DEPRECATED(std::vector<std::string> getGlobalParameterIds());
 
     /**
-     * The C back end requires this to be called to update
-     * model variables if anyting is changes. Does nothing
-     * in LLVM back end as everything is automatically handled
-     * with lazy evaluation.
-     *
      * @internal
      * @deprecated
      */
