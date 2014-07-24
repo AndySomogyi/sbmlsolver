@@ -990,7 +990,9 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
     }
 
-    if (checkExact(SelectionRecord::CONSREVED_MOIETY, types))
+    // These are also displayed with global parameters, so
+    // only add them if explicity asked for.
+    if (SelectionRecord::CONSREVED_MOIETY == types)
     {
         for(uint i = 0; i < symbols->getConservedMoietySize(); ++i)
         {
