@@ -31,6 +31,8 @@
 using namespace std;
 using namespace rr;
 
+
+
 /**
  * perform a stochastic ensemble calculation.
  *
@@ -157,6 +159,43 @@ int jacobian_test(int argc, char* argv[])
     return 0;
 }
 
+
+int cm_1_test(int argc, char* argv[])
+{
+    try {
+        if (argc < 3)
+        {
+            cout << "usage: llvm_testing jacobian fname";
+        }
+
+        RoadRunner r(argv[2]);
+
+        r.setConservedMoietyAnalysis(true);
+
+        ExecutableModel *m = r.getModel();
+
+        int ncm = m->getNumConservedMoieties();
+
+        cout << "num conserved moieties: " << ncm << endl;
+
+        double val;
+
+        for (int i = 0; i < ncm; ++i) {
+            std::string name = m->getConservedMoietyId(i);
+            m->getConservedMoietyValues(1, &i, &val);
+
+            cout << "cm name: " << name << ", value: " << val << endl;
+        }
+
+
+    } catch (std::exception& e) {
+        cout << "Error running ensemble: " << e.what() << endl;
+    }
+
+    return 0;
+
+}
+
 int main(int argc, char* argv[])
 {
     if (argc < 2) {
@@ -170,6 +209,10 @@ int main(int argc, char* argv[])
 
     if (strcmp("jacobian", argv[1]) == 0) {
         return jacobian_test(argc, argv);
+    }
+
+    if (strcmp("cm_1", argv[1]) == 0) {
+        return cm_1_test(argc, argv);
     }
 
     cout << "error, invalid test name: " << argv[1] << endl;

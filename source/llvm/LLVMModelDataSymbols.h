@@ -200,9 +200,10 @@ public:
      */
     uint getIndependentFloatingSpeciesSize() const;
 
-
-
-
+    /**
+     * index of a global param given its name.
+     * @throw exception if invalid name.
+     */
     uint getGlobalParameterIndex(std::string const&) const;
 
     uint getRateRuleIndex(std::string const&) const;
@@ -364,6 +365,26 @@ public:
      */
     uint getConservedSpeciesSize() const;
 
+    /**
+     * get the number of conserved moieties.
+     */
+    uint getConservedMoietySize() const;
+
+    /**
+     * get the index of a global parameter given a conserved moiety index.
+     */
+    uint getConservedMoietyGlobalParameterIndex(uint cmIndex) const;
+
+    /**
+     * find the id of the given conserved moiety index.
+     */
+    std::string getConservedMoietyId(uint indx) const;
+
+    /**
+     * get the id of a conserved moiety given its name.
+     */
+    uint getConservedMoietyIndex(const std::string& name) const;
+
 private:
 
     /**
@@ -375,6 +396,15 @@ private:
      * global parameter id conserved moiety status.
      */
     std::vector<bool> conservedMoietyGlobalParameter;
+
+    /**
+     * the index of a global parameter from a conserved moeity
+     * index.
+     *
+     * This array will be the size of the number of CM, each value
+     * of this array will be a global parameter index.
+     */
+    std::vector<uint> conservedMoietyGlobalParameterIndex;
 
 
 /*****************************************************************************/

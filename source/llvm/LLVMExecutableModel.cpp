@@ -990,6 +990,13 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
     }
 
+    if (checkExact(SelectionRecord::CONSREVED_MOIETY, types))
+    {
+        for(uint i = 0; i < symbols->getConservedMoietySize(); ++i)
+        {
+            ids.push_back(symbols->getConservedMoietyId(i));
+        }
+    }
 }
 
 int LLVMExecutableModel::getSupportedIdTypes()
@@ -1467,29 +1474,37 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
 
 int LLVMExecutableModel::getNumConservedMoieties()
 {
-    return 0;
+    return symbols->getConservedMoietySize();
 }
 
 int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
 {
-    return -1;
+    return symbols->getConservedMoietyIndex(name);
 }
 
 string LLVMExecutableModel::getConservedMoietyId(int index)
 {
-    return "";
+    return symbols->getConservedMoietyId(index);
 }
 
 int LLVMExecutableModel::getConservedMoietyValues(int len, const int* indx,
         double* values)
 {
-    return 0;
+    int result = 0;
+    for(int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(j);
+        result += getGlobalParameterValues(1, &gpIndex, &values[i]);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::setConservedMoietyValues(int len, const int* indx,
         const double* values)
 {
-    return 0;
+    throw_llvm_exception("conserved moieties are read only");
+    return -1;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,

@@ -667,6 +667,9 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
     if (conservedMoieties)
     {
         conservedMoietyGlobalParameter.resize(indParam.size(), false);
+
+        // allocate space, could be up this many.
+        conservedMoietyGlobalParameterIndex.reserve(indParam.size());
     }
 
     for (list<string>::const_iterator i = indParam.begin();
@@ -679,8 +682,13 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
         if (conservedMoieties)
         {
             const Parameter* p = parameters->get(*i);
-            conservedMoietyGlobalParameter[pi] =
-                    ConservationExtension::getConservedMoiety(*p);
+            bool isCons = ConservationExtension::getConservedMoiety(*p);
+            conservedMoietyGlobalParameter[pi] = isCons;
+
+            if (isCons)
+            {
+                conservedMoietyGlobalParameterIndex.push_back(pi);
+            }
         }
     }
 
@@ -1461,5 +1469,50 @@ uint LLVMModelDataSymbols::getEventIndex(const std::string& id) const
     }
 }
 
+uint LLVMModelDataSymbols::getConservedMoietySize() const
+{
+    return conservedMoietyGlobalParameterIndex.size();
+}
+
+uint LLVMModelDataSymbols::getConservedMoietyGlobalParameterIndex(
+        uint cmIndex) const
+{
+    if (cmIndex >= conservedMoietyGlobalParameterIndex.size())
+    {
+        throw std::out_of_range("attempt to access conserved moiety to global "
+                "param array at index" + rr::toString(cmIndex));
+    }
+    return conservedMoietyGlobalParameterIndex[cmIndex];
+}
+
+std::string LLVMModelDataSymbols::getConservedMoietyId(uint indx) const
+{
+    return getGlobalParameterId(
+            getConservedMoietyGlobalParameterIndex(indx));
+}
+
+uint LLVMModelDataSymbols::getConservedMoietyIndex(
+        const std::string& name) const
+{
+    // rarely used method, less space than another map...
+
+    uint gp = getGlobalParameterIndex(name);
+
+    for (std::vector<uint>::const_iterator i =
+            conservedMoietyGlobalParameterIndex.begin();
+            i != conservedMoietyGlobalParameterIndex.end(); ++i)
+    {
+        if (*i == gp)
+        {
+            return *i;
+        }
+    }
+
+    // we should never get here
+    assert(0 && "global parameter index should have been found in conserved moiety array");
+    return 0;
+}
+
 } /* namespace rr */
+
 
