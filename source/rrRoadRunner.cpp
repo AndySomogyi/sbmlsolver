@@ -536,8 +536,7 @@ LibStructural* RoadRunner::getLibStruct()
     }
     else
     {
-        throw Exception("could not create structural analysis with no loaded sbml");
-        return 0;
+        throw std::invalid_argument("could not create structural analysis with no loaded sbml");
     }
 }
 
@@ -1617,6 +1616,11 @@ DoubleMatrix RoadRunner::getNrMatrix()
 DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
 {
     check_model();
+
+    if (impl->conservedMoietyAnalysis) {
+        // pointer to mat owned by ls
+        return *getLibStruct()->getReorderedStoichiometryMatrix();
+    }
 
     // pointer to owned matrix
     return *getLibStruct()->getStoichiometryMatrix();
