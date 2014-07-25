@@ -1496,6 +1496,7 @@ uint LLVMModelDataSymbols::getConservedMoietyIndex(
 {
     // rarely used method, less space than another map...
 
+    // throws if not found.
     uint gp = getGlobalParameterIndex(name);
 
     for (std::vector<uint>::const_iterator i =
@@ -1508,9 +1509,7 @@ uint LLVMModelDataSymbols::getConservedMoietyIndex(
         }
     }
 
-    // we should never get here
-    assert(0 && "global parameter index should have been found in conserved moiety array");
-    return 0;
+    throw std::out_of_range("The symbol \"" + name + "\" is not a conserved moeity");
 }
 
 } /* namespace rr */

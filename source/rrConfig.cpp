@@ -130,6 +130,30 @@ static Variant values[] =  {
     Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
     Variant(std::string(".")),                           // TEMP_DIR_PATH,
     Variant(std::string(""))                             // LOGGER_LOG_FILE_PATH,
+    // add space after develop keys to clean up merging
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 static bool initialized = false;
@@ -201,6 +225,32 @@ static void getKeyNames(StringIntMap& keys)
     keys["ROADRUNNER_JACOBIAN_MODE"] = rr::Config::ROADRUNNER_JACOBIAN_MODE;
     keys["TEMP_DIR_PATH"] = rr::Config::TEMP_DIR_PATH;
     keys["LOGGER_LOG_FILE_PATH"] = rr::Config::LOGGER_LOG_FILE_PATH;
+    // add space after develop keys to clean up merging.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");

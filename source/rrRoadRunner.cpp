@@ -1790,13 +1790,6 @@ static void setSBMLValue(libsbml::Model* model, const string& id, double value)
         oCompartment->setVolume(value); return;
     }
 
-    libsbml::Parameter* oParameter = model->getParameter(id);
-    if (oParameter != NULL)
-    {
-        oParameter->setValue(value);
-        return;
-    }
-
     for (int i = 0; i < model->getNumReactions(); i++)
     {
         libsbml::Reaction* reaction = model->getReaction(i);
@@ -1828,13 +1821,15 @@ string RoadRunner::getCurrentSBML()
 {
     check_model();
 
+    get_self();
+
     libsbml::SBMLReader reader;
     std::stringstream stream;
     libsbml::SBMLDocument *doc = 0;
     libsbml::Model *model = 0;
 
     try {
-        doc = reader.readSBMLFromString(impl->mCurrentSBML); // new doc
+        doc = reader.readSBMLFromString(self.mCurrentSBML); // new doc
         model = doc->getModel(); // owned by doc
 
         vector<string> array = getFloatingSpeciesIds();
@@ -1866,13 +1861,28 @@ string RoadRunner::getCurrentSBML()
         {
             double value = 0;
             impl->model->getGlobalParameterValues(1, &i, &value);
-            setSBMLValue(model, array[i], value);
+
+            libsbml::Parameter* param = model->getParameter(array[i]);
+            if (param != NULL)
+            {
+                param->setValue(value);
+            }
+            else
+            {
+                // sanity check, just make sure that this is a conserved moeity
+                if (self.model->getConservedMoietyIndex(array[i]) < 0)
+                {
+                    throw std::logic_error("The global parameter name "
+                            + array[i] + " could not be found in the SBML model, "
+                            " and it is not a conserved moiety");
+                }
+            }
         }
 
         libsbml::SBMLWriter writer;
         writer.writeSBML(doc, stream);
     }
-    catch(std::exception& e) {
+    catch(std::exception&) {
         delete doc;
         doc = 0;
         throw; // re-throw exception.

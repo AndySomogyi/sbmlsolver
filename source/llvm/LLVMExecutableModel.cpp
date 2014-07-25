@@ -1481,7 +1481,15 @@ int LLVMExecutableModel::getNumConservedMoieties()
 
 int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
 {
-    return symbols->getConservedMoietyIndex(name);
+    try
+    {
+        return symbols->getConservedMoietyIndex(name);
+    }
+    catch(std::exception& e)
+    {
+        Log(Logger::LOG_DEBUG) << __FUNC__ << ", " << e.what();
+    }
+    return -1;
 }
 
 string LLVMExecutableModel::getConservedMoietyId(int index)

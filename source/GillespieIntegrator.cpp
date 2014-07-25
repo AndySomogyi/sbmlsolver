@@ -255,7 +255,7 @@ void GillespieIntegrator::setSeed(const rr::Variant& value)
         ss << "\" to an unsigned long integer. " << endl;
         ss << "The seed must be a number between 0 and ";
         ss << std::numeric_limits<unsigned long>::max();
-        ss << ".";
+        ss << "; error message: " << e.what() << ".";
         throw std::invalid_argument(ss.str());
     }
 }
