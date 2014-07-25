@@ -1838,6 +1838,8 @@ static void setSBMLValue(libsbml::Model* model, const string& id, double value)
 
 string RoadRunner::getCurrentSBML()
 {
+    check_model();
+
     libsbml::SBMLReader reader;
     std::stringstream stream;
     libsbml::SBMLDocument *doc = 0;
@@ -1885,7 +1887,7 @@ string RoadRunner::getCurrentSBML()
     catch(std::exception& e) {
         delete doc;
         doc = 0;
-        throw(e);
+        throw; // re-throw exception.
     }
 
     delete doc;

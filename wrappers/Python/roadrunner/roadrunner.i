@@ -2288,7 +2288,7 @@ namespace std { class ostream{}; }
     }
 
 
-    PyObject* getStoichiometryMatrix() {
+    PyObject* getCurrentStoichiometryMatrix() {
         int rows = 0;
         int cols = 0;
         double* data = 0;
