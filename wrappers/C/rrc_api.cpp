@@ -55,6 +55,7 @@
 #include "rrc_api.h"           // Need to include this before the support header..
 #include "rrc_utilities.h"   //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"   //Support functions, not exposed as api functions and or data
+#include "Integrator.h"
 
 
 #if defined(_MSC_VER)
@@ -1828,7 +1829,7 @@ vector<double> rr_getRatesOfChange(RoadRunner* rr)
     mModel->getFloatingSpeciesAmountRates(result.size(), 0, &result[0]);
     return result;
 }
-/* This is where we left off with Sauro/Andy
+/* This is where we left off with Sauro/Andy */
 C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
 
    try {
@@ -1849,7 +1850,7 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
    catch (std::exception& e) {
       return false;
    }
-*/
+
 }
 
 }
