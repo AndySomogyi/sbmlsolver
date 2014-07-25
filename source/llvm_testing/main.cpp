@@ -124,27 +124,40 @@ int ensemble_test(int argc, char* argv[])
 
 int path_test(int argc, char* argv[])
 {
-    std::string cmpTest = joinPath("..", "compilers", "tcc", "tcc.exe");
+    try
+    {
+        std::string cmpTest = joinPath("..", "compilers", "tcc", "tcc.exe");
+        cout << "comp test: " << cmpTest << endl;
 
-    cout << "comp test: " << cmpTest << endl;
+        cout << "default tmp dir: " << getTempDir() << endl;
 
-    if (argc >= 3) {
-        cout << "setting config temp dir to: " << argv[2] << endl;
-        Config::setValue(Config::TEMP_DIR_PATH, std::string(argv[2]));
+        Logger::enableFileLogging();
+        std::string defLogFile = Logger::getFileName();
+
+        cout << "default log file path: " << defLogFile << endl;
+
+        if (argc >= 3) {
+            cout << "setting config temp dir to: " << argv[2] << endl;
+            Config::setValue(Config::TEMP_DIR_PATH, std::string(argv[2]));
+        }
+
+        if (argc >= 4) {
+            cout << "setting config log file path to " << argv[3] << endl;
+            Config::setValue(Config::LOGGER_LOG_FILE_PATH, std::string(argv[3]));
+        }
+
+        cout << "getTempDir: " << getTempDir() << endl;
+
+        Logger::enableFileLogging();
+
+        cout << "log file: " << Logger::getFileName() << endl;
+
+        Log(Logger::LOG_NOTICE) << "log messsage";
     }
-
-    if (argc >= 4) {
-        cout << "setting config log file path to " << argv[3] << endl;
-        Config::setValue(Config::LOGGER_LOG_FILE_PATH, std::string(argv[3]));
+    catch (std::exception& e)
+    {
+        cout << "Fatal error: " << e.what() << endl;
     }
-
-    cout << "getTempDir: " << getTempDir() << endl;
-
-    Logger::enableFileLogging();
-
-    cout << "log file: " << Logger::getFileName() << endl;
-
-    Log(Logger::LOG_NOTICE) << "log messsage";
 
     return 0;
 }

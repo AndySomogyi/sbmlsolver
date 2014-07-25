@@ -239,6 +239,9 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
 
     Logger::setLevel(level);
 
+    // close the current file log and re-create it.
+    disableFileLogging();
+
     if (!simpleFileChannel)
     {
         std::string realName;
@@ -259,6 +262,16 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
             realName = path.makeAbsolute().toString();
         }
 
+        // check if the path is writable
+        Poco::Path p(realName);
+        Poco::File fdir = p.parent();
+        if(!fdir.exists())
+        {
+            realName = joinPath(getTempDir(), "roadrunner.log");
+            Log(Logger::LOG_ERROR) << "The specified log file directory path, "
+                    << fdir.path() << " does not exist, using default log file path: "
+                    << realName;
+        }
 
         SplitterChannel *splitter = getSplitterChannel();
 

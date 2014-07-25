@@ -240,7 +240,7 @@ def checkStoichiometryMatrix(rrInstance, testId):
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     n = rrInstance.model.getNumReactions();
-    st = rrInstance.model.getStoichiometryMatrix()
+    st = rrInstance.model.getCurrentStoichiometryMatrix()
     for i in range(0,m):
         line = readLine ()
         words = line.split()

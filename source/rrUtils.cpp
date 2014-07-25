@@ -254,31 +254,13 @@ string getCurrentExeFolder()
 
 string getParentFolder(const string& path)
 {
-    if(path.size() < 1)
-    {
+    if (path.empty()) {
         return "";
     }
-    vector<string> fldrs = splitString(path, gPathSeparator);
-    string parent("");
-    if(fldrs.size() > 1)
-    {
-        for(int i = 0; i < fldrs.size() -1; i++)
-        {
-            parent = joinPath(parent, fldrs[i]);
-        }
 
-        string pathSep;
-        pathSep.push_back(gPathSeparator);
-        if(path.compare(0,1, pathSep) == 0)
-        {
-            parent = gPathSeparator + parent;
-        }
-        return parent;
-    }
-    else
-    {
-        return path;
-    }
+    Poco::Path p(path);
+    p = p.makeParent();
+    return p.toString();
 }
 
 string getCWD()
@@ -618,6 +600,14 @@ double* createVector(const vector<double>& vec)
 
 string joinPath(const string& base, const string& file, const char pathSeparator)
 {
+    if (base.empty()) {
+        return file;
+    }
+
+    if (file.empty()) {
+        return base;
+    }
+
     Poco::Path basePath(base);
     basePath.append(Poco::Path(file));
     return basePath.toString();

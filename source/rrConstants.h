@@ -17,8 +17,6 @@ RR_DECLSPEC extern const std::string gExeSuffix;
 RR_DECLSPEC extern const char*             gDoubleFormat;
 RR_DECLSPEC extern const char*             gIntFormat;
 RR_DECLSPEC extern const char*             gComma;
-RR_DECLSPEC extern const std::string     gDefaultCompiler;
-RR_DECLSPEC extern const std::string     gDefaultTempFolder;
 RR_DECLSPEC extern const std::string     gNoneString;
 RR_DECLSPEC extern const std::string    gEmptyString;
 

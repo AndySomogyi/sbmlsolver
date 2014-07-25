@@ -389,15 +389,9 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
             impl(new RoadRunnerImpl(uriOrSBML, options))
 {
 
-#if defined(BUILD_LLVM)
-    string compiler =  "LLVM" ;
-#else
-    string compiler = gDefaultCompiler;
-#endif
+    impl->mModelGenerator = ModelGenerator::New(Compiler::getDefaultCompiler(), "", "");
 
-    impl->mModelGenerator = ModelGenerator::New(compiler, "", "");
-
-    setTempDir(gDefaultTempFolder);
+    setTempDir(getTempDir());
 
     if (!uriOrSBML.empty()) {
         load(uriOrSBML, options);
@@ -413,16 +407,10 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& supportCodeDir) :
         impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir))
 {
+    string compiler = _compiler.empty()
+            ? Compiler::getDefaultCompiler() : _compiler;
 
-
-#if defined(BUILD_LLVM)
-    string compiler = _compiler.empty() ? "LLVM" : _compiler;
-#else
-    string compiler = _compiler.empty() ? gDefaultCompiler : _compiler;
-#endif
-
-    string tempDir = _tempDir.empty() ? gDefaultTempFolder : _tempDir;
-
+    string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
     // for now, dump out who we are
     Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
