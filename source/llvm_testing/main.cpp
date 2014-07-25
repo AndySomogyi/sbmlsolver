@@ -8,6 +8,7 @@
 #include "TestCapabilities.h"
 #include "TestEvalReactionRates.h"
 #include "rrConfig.h"
+#include "rrUtils.h"
 
 #include "ConfigurableTest.h"
 
@@ -121,6 +122,33 @@ int ensemble_test(int argc, char* argv[])
     return 0;
 }
 
+int path_test(int argc, char* argv[])
+{
+    std::string cmpTest = joinPath("..", "compilers", "tcc", "tcc.exe");
+
+    cout << "comp test: " << cmpTest << endl;
+
+    if (argc >= 3) {
+        cout << "setting config temp dir to: " << argv[2] << endl;
+        Config::setValue(Config::TEMP_DIR_PATH, std::string(argv[2]));
+    }
+
+    if (argc >= 4) {
+        cout << "setting config log file path to " << argv[3] << endl;
+        Config::setValue(Config::LOGGER_LOG_FILE_PATH, std::string(argv[3]));
+    }
+
+    cout << "getTempDir: " << getTempDir() << endl;
+
+    Logger::enableFileLogging();
+
+    cout << "log file: " << Logger::getFileName() << endl;
+
+    Log(Logger::LOG_NOTICE) << "log messsage";
+
+    return 0;
+}
+
 int jacobian_test(int argc, char* argv[])
 {
     try
@@ -199,7 +227,7 @@ int cm_1_test(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
     if (argc < 2) {
-        cout << "usage: llvm_testing test";
+        cout << "usage: llvm_testing test" << endl;
         return -1;
     }
 
@@ -213,6 +241,10 @@ int main(int argc, char* argv[])
 
     if (strcmp("cm_1", argv[1]) == 0) {
         return cm_1_test(argc, argv);
+    }
+
+    if(strcmp("path", argv[1]) == 0) {
+        return path_test(argc, argv);
     }
 
     cout << "error, invalid test name: " << argv[1] << endl;

@@ -381,6 +381,28 @@ public:
          */
         ROADRUNNER_JACOBIAN_MODE,
 
+        /**
+         * Directory path where roadrunner should store temp files. If empty, the
+         * system specified temp dir is used. Paths may have enviormnent variables, i.e.
+         * ${HOME}/tmp
+         *
+         * May have environment variables contained in the path.
+         * On Unix, a tilde as first character in the path is
+         * replaced with the path to user's home directory.
+         */
+        TEMP_DIR_PATH,
+
+        /**
+         * Path to where the logger should write a roadrunner log file. If no path
+         * is specified, the log file will be written as a "roadrunner.log" in the
+         * temp dir.
+         *
+         * May have environment variables contained in the path.
+         * On Unix, a tilde as first character in the path is
+         * replaced with the path to user's home directory.
+         */
+        LOGGER_LOG_FILE_PATH,
+
         // add lots of space so not to conflict with other branches.
 
 

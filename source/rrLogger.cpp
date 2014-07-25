@@ -1,6 +1,8 @@
 #pragma hdrstop
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
+#include "rrConfig.h"
+#include "rrUtils.h"
 
 #include <Poco/Logger.h>
 #include <Poco/AsyncChannel.h>
@@ -18,6 +20,8 @@
 #include <Poco/AutoPtr.h>
 #include <Poco/LogStream.h>
 #include <Poco/Mutex.h>
+#include <Poco/File.h>
+#include <Poco/Path.h>
 
 #include <iostream>
 #include <map>
@@ -237,10 +241,29 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
 
     if (!simpleFileChannel)
     {
+        std::string realName;
+
+        // figure out what file name to use
+        if (fileName.length() == 0) {
+            // none given, use one from config.
+            realName = Config::getString(Config::LOGGER_LOG_FILE_PATH);
+        }
+
+        if (realName.length() == 0) {
+            // default log name.
+            realName = joinPath(getTempDir(), "roadrunner.log");
+        } else {
+            // expand any env vars and make absolute path.
+            realName = Poco::Path::expand(realName);
+            Poco::Path path(realName);
+            realName = path.makeAbsolute().toString();
+        }
+
+
         SplitterChannel *splitter = getSplitterChannel();
 
         simpleFileChannel = new SimpleFileChannel();
-        simpleFileChannel->setProperty("path", fileName);
+        simpleFileChannel->setProperty("path", realName);
         simpleFileChannel->setProperty("rotation", "never");
 
         logFileName = simpleFileChannel->getProperty("path");

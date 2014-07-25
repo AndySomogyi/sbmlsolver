@@ -395,13 +395,7 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     string compiler = gDefaultCompiler;
 #endif
 
-    // for now, dump out who we are
-    Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
-            ", tempDir:" << gDefaultTempFolder << ", supportCodeDir: " <<
-            gDefaultSupportCodeFolder;
-
-    impl->mModelGenerator = ModelGenerator::New(compiler,
-            gDefaultTempFolder, gDefaultSupportCodeFolder);
+    impl->mModelGenerator = ModelGenerator::New(compiler, "", "");
 
     setTempDir(gDefaultTempFolder);
 
@@ -416,8 +410,8 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 
 
 RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
-        const string& _supportCodeDir) :
-        impl(new RoadRunnerImpl(_compiler, _tempDir, _supportCodeDir))
+        const string& supportCodeDir) :
+        impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir))
 {
 
 
@@ -428,8 +422,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 #endif
 
     string tempDir = _tempDir.empty() ? gDefaultTempFolder : _tempDir;
-    string supportCodeDir = _supportCodeDir.empty() ?
-            gDefaultSupportCodeFolder : _supportCodeDir;
+
 
     // for now, dump out who we are
     Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<

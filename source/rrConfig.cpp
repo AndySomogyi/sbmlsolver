@@ -127,7 +127,9 @@ static Variant values[] =  {
     Variant(1.e-4),    // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
     Variant(1.e-16),   // STEADYSTATE_MINIMUM_DAMPING
-    Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS) // ROADRUNNER_JACOBIAN_MODE
+    Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
+    Variant(std::string(".")),                           // TEMP_DIR_PATH,
+    Variant(std::string(""))                             // LOGGER_LOG_FILE_PATH,
 };
 
 static bool initialized = false;
@@ -197,6 +199,8 @@ static void getKeyNames(StringIntMap& keys)
     keys["STEADYSTATE_MAXIMUM_NUM_STEPS"] = rr::Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
     keys["STEADYSTATE_MINIMUM_DAMPING"] = rr::Config::STEADYSTATE_MINIMUM_DAMPING;
     keys["ROADRUNNER_JACOBIAN_MODE"] = rr::Config::ROADRUNNER_JACOBIAN_MODE;
+    keys["TEMP_DIR_PATH"] = rr::Config::TEMP_DIR_PATH;
+    keys["LOGGER_LOG_FILE_PATH"] = rr::Config::LOGGER_LOG_FILE_PATH;
 
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
             "values array size different than CONFIG_END");
