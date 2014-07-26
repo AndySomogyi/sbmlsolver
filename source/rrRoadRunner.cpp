@@ -1518,10 +1518,10 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
     int nIndSpecies = self.model->getNumIndFloatingSpecies();
 
+    // result matrix
     DoubleMatrix jac(nIndSpecies, nIndSpecies);
 
-    // need 3 buffers, state vector and 2 for state vector
-    // rate for central difference.
+    // need 2 buffers for rate central difference.
     std::vector<double> dy0v(nIndSpecies);
     std::vector<double> dy1v(nIndSpecies);
 
@@ -1551,7 +1551,7 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
     {
         Log(Logger::LOG_DEBUG) << "getReducedJacobian in CONCENTRATION mode";
         getValuePtr =     &ExecutableModel::getFloatingSpeciesConcentrations;
-        getRateValuePtr = &ExecutableModel::getFloatingSpeciesConcentrationRates;
+        getRateValuePtr = &ExecutableModel::getFloatingSpeciesAmountRates;
         setValuePtr =     &ExecutableModel::setFloatingSpeciesConcentrations;
     }
 

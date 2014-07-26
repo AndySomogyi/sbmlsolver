@@ -1338,9 +1338,18 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
             uint j = indx ? indx[i] : i;
             if (j >= modelData->numIndFloatingSpecies)
             {
-                throw std::out_of_range(std::string("index out of range in ") + __FUNC__);
+                throw std::out_of_range(std::string("index out of range in ")
+                                        + __FUNC__);
             }
-            values[i] = amountRates[j] / volumes[symbols->getCompartmentIndexForFloatingSpecies(j)];
+
+            Log(Logger::LOG_DEBUG) << "i: " << i << ", j: " << j
+                    << ", comp index: "
+                    << symbols->getCompartmentIndexForFloatingSpecies(j)
+                    << ", vol: "
+                    << volumes[symbols->getCompartmentIndexForFloatingSpecies(j)]
+                    << endl;
+            values[i] = amountRates[j] /
+                    volumes[symbols->getCompartmentIndexForFloatingSpecies(j)];
         }
     }
     catch(...)
