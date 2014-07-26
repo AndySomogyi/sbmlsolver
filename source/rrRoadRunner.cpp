@@ -1516,53 +1516,73 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
         h = self.roadRunnerOptions.jacobianStepSize;
     }
 
-    // need 2h for for central difference
-    double inv2h = 1.0 / (2.0 * h);
-
-    int svSize = self.model->getStateVector(0);
     int nIndSpecies = self.model->getNumIndFloatingSpecies();
-    int nRates = self.model->getNumRateRules();
-
-    // need 3 buffers, state vector and 2 for state vector
-    // rate for central difference.
-    std::vector<double> yv(svSize);
-    std::vector<double> dy0v(svSize);
-    std::vector<double> dy1v(svSize);
-
-    double* y = &yv[0];
-    double* dy0 = &dy0v[0];
-    double* dy1 = &dy1v[0];
-
-    // grab the current state vector
-    self.model->getStateVector(y);
-
-    // state vector is packed such that first elements are
-    // rate rules, final elements are species.
-    const int speciesZero = svSize - nIndSpecies;
 
     DoubleMatrix jac(nIndSpecies, nIndSpecies);
 
-    double time = self.model->getTime();
+    // need 3 buffers, state vector and 2 for state vector
+    // rate for central difference.
+    std::vector<double> dy0v(nIndSpecies);
+    std::vector<double> dy1v(nIndSpecies);
 
-    for (int i = speciesZero; i < nIndSpecies; ++i)
+    double* dy0 = &dy0v[0];
+    double* dy1 = &dy1v[0];
+
+    // function pointers to the model get values and get init values based on
+    // if we are doing amounts or concentrations.
+    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+            double *values);
+    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+                    double const *values);
+
+    GetValueFuncPtr getValuePtr = 0;
+    GetValueFuncPtr getRateValuePtr = 0;
+    SetValueFuncPtr setValuePtr = 0;
+
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+            == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
-        double savedVal = y[i];
+        Log(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
+        getValuePtr =     &ExecutableModel::getFloatingSpeciesAmounts;
+        getRateValuePtr = &ExecutableModel::getFloatingSpeciesAmountRates;
+        setValuePtr =     &ExecutableModel::setFloatingSpeciesAmounts;
+    }
+    else
+    {
+        Log(Logger::LOG_DEBUG) << "getReducedJacobian in CONCENTRATION mode";
+        getValuePtr =     &ExecutableModel::getFloatingSpeciesConcentrations;
+        getRateValuePtr = &ExecutableModel::getFloatingSpeciesConcentrationRates;
+        setValuePtr =     &ExecutableModel::setFloatingSpeciesConcentrations;
+    }
 
-        y[i] = savedVal + h;
+    for (int i = 0; i < nIndSpecies; ++i)
+    {
+        double savedVal = 0;
+        double y = 0;
 
-        self.model->getStateVectorRate(time, y, dy0);
+        // current value of species i
+        (self.model->*getValuePtr)(1, &i, &savedVal);
 
-        y[i] = savedVal - h;
+        // get the entire rate of change for all the species with
+        // species i being value(i) + h;
+        y = savedVal + h;
+        (self.model->*setValuePtr)(1, &i, &y);
+        (self.model->*getRateValuePtr)(nIndSpecies, 0, dy0);
 
-        self.model->getStateVectorRate(time, y, dy1);
 
-        y[i] = savedVal;
+        // get the entire rate of change for all the species with
+        // species i being value(i) - h;
+        y = savedVal - h;
+        (self.model->*setValuePtr)(1, &i, &y);
+        (self.model->*getRateValuePtr)(nIndSpecies, 0, dy1);
+
+        // restore original value
+        (self.model->*setValuePtr)(1, &i, &savedVal);
 
         // matrix is row-major, so have to copy by elements
        for (int j = 0; j < nIndSpecies; ++j)
        {
-           jac(j, i - speciesZero) =
-                   (dy0[speciesZero + j] - dy1[speciesZero + j]) / (2.0*h) ;
+           jac(j, i) = (dy0[j] - dy1[j]) / (2.0*h) ;
        }
     }
     return jac;

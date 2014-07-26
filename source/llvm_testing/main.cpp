@@ -182,13 +182,25 @@ int jacobian_test(int argc, char* argv[])
 
         cout << mat << endl;
 
+        mat = r.getReducedJacobian();
+
+        cout << "amount mode reduced jabobian: " << endl;
+
+        cout << mat << endl;
+
         cout << "concentration mode" << endl;
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
 
         mat = r.getFullJacobian();
 
-        cout << "amount mode full jabobian: " << endl;
+        cout << "concentration mode full jabobian: " << endl;
+
+        cout << mat << endl;
+
+        mat = r.getReducedJacobian();
+
+        cout << "concentration mode reduced jabobian: " << endl;
 
         cout << mat << endl;
 
