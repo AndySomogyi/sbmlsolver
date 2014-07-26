@@ -484,6 +484,11 @@ public:
     uint getCompartmentInitIndex(const std::string& symbol) const;
 
     /**
+     * get the index of a compartment for a float species.
+     */
+    uint getCompartmentIndexForFloatingSpecies(uint floatIndex) const;
+
+    /**
      * get the index of a global parameter initial value
      *
      * has the same index as the run time global parameter.
@@ -551,6 +556,11 @@ private:
      * compartments not defined by any rules.
      */
     uint independentInitCompartmentSize;
+
+    /**
+     * index of compartments for each float species.
+     */
+    std::vector<uint> floatingSpeciesCompartmentIndices;
 
 /************************ End Initial Conditions Section *********************/
 #endif /**********************************************************************/

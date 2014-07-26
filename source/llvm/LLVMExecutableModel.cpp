@@ -1313,8 +1313,46 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
 int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
         const int* indx, double* values)
 {
-    throw LLVMException(string(__FUNC__) + " not implemented");
-    return 0;
+    double* dydt = 0;
+    // buffer for volumes
+    double* volumes = 0;
+
+    try
+    {
+        uint dydtSize = modelData->numRateRules + modelData->numIndFloatingSpecies;
+        uint ncomp = getNumCompartments();
+
+        dydt = (double*)calloc(dydtSize, sizeof(double));
+        volumes = (double*)calloc(ncomp, sizeof(double));
+
+        getCompartmentVolumes(ncomp, 0, volumes);
+
+        // state vector is packed such that first numRateRules are the rate rule rates,
+        // and the last numIndFloatingSpecies are the number of independent species.
+        getStateVectorRate(this->getTime(), 0, dydt);
+
+        double* amountRates = dydt + modelData->numRateRules;
+
+        for (uint i = 0; i < len; ++i)
+        {
+            uint j = indx ? indx[i] : i;
+            if (j >= modelData->numIndFloatingSpecies)
+            {
+                throw std::out_of_range(std::string("index out of range in ") + __FUNC__);
+            }
+            values[i] = amountRates[j] / volumes[symbols->getCompartmentIndexForFloatingSpecies(j)];
+        }
+    }
+    catch(...)
+    {
+        free(dydt);
+        free(volumes);
+        throw;
+    }
+
+    free(dydt);
+    free(volumes);
+    return len;
 }
 
 int LLVMExecutableModel::setBoundarySpeciesAmounts(int len, const int* indx,
@@ -1581,7 +1619,11 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
     for (uint i = 0; i < len; ++i)
     {
         uint j = indx ? indx[i] : i;
-        assert(j < modelData->numIndFloatingSpecies && "index out of range");
+        if (j >= modelData->numIndFloatingSpecies)
+        {
+            free(dydt);
+            throw std::out_of_range(std::string("index out of range in") + __FUNC__);
+        }
         values[i] = amountRates[j];
     }
 

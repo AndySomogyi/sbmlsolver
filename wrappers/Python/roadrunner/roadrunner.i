@@ -520,7 +520,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::simulate;
 
-%rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator(); 
+%rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
 %rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
 
 %ignore rr::Config::getInt;
@@ -528,8 +528,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Config::getBool;
 %ignore rr::Config::getDouble;
 
-// ignore SimulateOptions key access methods, 
-// these are replaced by python dictionary protocol. 
+// ignore SimulateOptions key access methods,
+// these are replaced by python dictionary protocol.
 %ignore rr::SimulateOptions::setValue;
 %ignore rr::SimulateOptions::getValue;
 %ignore rr::SimulateOptions::hasKey;
@@ -538,8 +538,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %rename (_setIntegratorId) rr::SimulateOptions::setIntegrator;
 
-// ignore SimulateOptions key access methods, 
-// these are replaced by python dictionary protocol. 
+// ignore SimulateOptions key access methods,
+// these are replaced by python dictionary protocol.
 %ignore rr::Integrator::setValue;
 %ignore rr::Integrator::getValue;
 %ignore rr::Integrator::hasKey;
@@ -1028,11 +1028,11 @@ namespace std { class ostream{}; }
 
         def getIntegrator(self, iname=None):
             """
-            Get the integrator based on its name. 
+            Get the integrator based on its name.
             """
             if iname is None:
                 return self._getCurrentIntegrator()
- 
+
             id = SimulateOptions.getIntegratorIdFromName(iname)
             return self._getIntegrator(id)
 
@@ -1179,7 +1179,7 @@ namespace std { class ostream{}; }
             seed
                 Specify a seed to use for the random number generator for stochastic simulations.
                 The seed is used whenever the integrator is reset, i.e. `r.reset()`.
-                If no seed is specified, the current system time is used for seed. 
+                If no seed is specified, the current system time is used for seed.
 
 
             :returns: a numpy array with each selected output time series being a
@@ -1190,7 +1190,7 @@ namespace std { class ostream{}; }
             doPlot = False
             show = True
 
-            # user specified number of steps via 3rd arg or steps=xxx            
+            # user specified number of steps via 3rd arg or steps=xxx
             haveSteps = False
 
             # variableStep = True was specified in args
@@ -1257,13 +1257,13 @@ namespace std { class ostream{}; }
                 if k == "integrator":
                     if type(v) == str:
                         # this automatically sets the variable / fixed time step
-                        # according to integrator type, raises exception if invalid 
-                        # integrator string. 
+                        # according to integrator type, raises exception if invalid
+                        # integrator string.
                         o.integrator = v
                     else:
                         raise Exception("{0} is invalid argument for integrator, integrator name must be a string.".format(v))
                     continue
-                
+
                 # specifying selections:
                 if k == "selections" or k == "sel":
                     self.selections = v
@@ -1281,8 +1281,8 @@ namespace std { class ostream{}; }
                     o.variableStep = v
                     continue
 
-                # check if specifying seed for RNG. 
-                if k == "seed":         
+                # check if specifying seed for RNG.
+                if k == "seed":
                     o["seed"] = v
                     continue
 
@@ -1304,8 +1304,8 @@ namespace std { class ostream{}; }
 
 
             # if we are doing a stochastic sim,
-            # explicit options of variableStep trumps everything, 
-            # if not explicit, variableStep is if number of steps was specified, 
+            # explicit options of variableStep trumps everything,
+            # if not explicit, variableStep is if number of steps was specified,
             # if no steps, varStep = true, false otherwise.
             if SimulateOptions.getIntegratorType(o.getIntegratorId()) == \
                 SimulateOptions.STOCHASTIC and not haveVariableStep:
@@ -1328,7 +1328,7 @@ namespace std { class ostream{}; }
             """
             return [SimulateOptions.getIntegratorNameFromId(i) \
                 for i in range(0, SimulateOptions.INTEGRATOR_END)]
-       
+
 
         def plot(self, show=True):
             """
@@ -1426,7 +1426,7 @@ namespace std { class ostream{}; }
     bool structuredResult;
     bool variableStep;
     bool copyResult;
-    
+
     std::string __repr__() {
         return ($self)->toRepr();
     }
@@ -1435,7 +1435,7 @@ namespace std { class ostream{}; }
     std::string __str__() {
         return ($self)->toString();
     }
-       
+
     /**
      * makes a copy of this object.
      * Python normally just keeps references to objects, and this forces a true
@@ -1513,7 +1513,7 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["integrator"] = _getIntegrator
         __swig_setmethods__["integrator"] = _setIntegrator
-        if _newclass: 
+        if _newclass:
             integrator = property(_getIntegrator, _setIntegrator)
     %}
 
@@ -1759,6 +1759,16 @@ namespace std { class ostream{}; }
 
     PyObject *getFloatingSpeciesAmountRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
+                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (int)0, (int const*)0);
+    }
+
+    PyObject *getFloatingSpeciesConcentrationRates(int len, int const *indx) {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrationRates,
+                                         &rr::ExecutableModel::getNumIndFloatingSpecies,  len, indx);
+    }
+
+    PyObject *getFloatingSpeciesConcentrationRates() {
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrationRates,
                                           &rr::ExecutableModel::getNumIndFloatingSpecies, (int)0, (int const*)0);
     }
 
@@ -2520,9 +2530,9 @@ namespace std { class ostream{}; }
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
         __swig_getmethods__["name"] = getName
-        if _newclass: 
+        if _newclass:
             listener = property(getListener, setListener)
-            name = property(getName) 
+            name = property(getName)
     %}
 }
 

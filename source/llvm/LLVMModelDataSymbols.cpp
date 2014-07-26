@@ -185,7 +185,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
     }
 
     // get the compartments, need to reorder them to set the independent ones
-    // first
+    // first. Make sure compartments is called *before* float species.
     initCompartments(model);
 
 
@@ -885,6 +885,27 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     independentFloatingSpeciesSize = indFltSpecies.size();
     independentInitFloatingSpeciesSize = indInitFltSpecies.size();
 
+    // map the float species to their compartments.
+    floatingSpeciesCompartmentIndices.resize(floatingSpeciesMap.size());
+
+    for(StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
+            i != floatingSpeciesMap.end(); ++i)
+    {
+        const Species* s = model->getSpecies(i->first);
+        assert(s && "known species is NULL");
+        StringUIntMap::const_iterator j =
+                compartmentsMap.find(s->getCompartment());
+        if (j == compartmentsMap.end())
+        {
+            throw_llvm_exception("species " + s->getId() +
+                    " references unknown compartment " + s->getCompartment());
+        }
+
+        assert(i->second < floatingSpeciesCompartmentIndices.size());
+        assert(j->second < compartmentsMap.size());
+        floatingSpeciesCompartmentIndices[i->second] = j->second;
+    }
+
     if (Logger::LOG_DEBUG <= getLogger().getLevel())
     {
         LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
@@ -998,6 +1019,16 @@ std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
     }
 
     throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
+}
+
+uint LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
+        uint floatIndex) const
+{
+    if (floatIndex >= floatingSpeciesCompartmentIndices.size())
+    {
+         throw std::out_of_range(std::string("index out of range in ") + __FUNC__);
+    }
+    return floatingSpeciesCompartmentIndices[floatIndex];
 }
 
 /**
