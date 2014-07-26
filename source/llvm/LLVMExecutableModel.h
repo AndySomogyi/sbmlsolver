@@ -643,6 +643,21 @@ private:
      * class variable.
      */
     double conversionFactor;
+
+
+    /**
+     * what items are dirty
+     */
+    unsigned dirty;
+
+    enum
+    {
+        // init cond for species have changed
+        DIRTY_INIT_SPECIES            = (0x1 << 0),  // => 0x00000001
+
+        // conserved moieties have changes.
+        DIRTY_CONSERVED_MOIETIES      = (0x1 << 1),  // => 0x00000010
+    };
 };
 
 } /* namespace rr */

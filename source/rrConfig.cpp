@@ -119,8 +119,7 @@ static Variant values[] =  {
     Variant(0.00001),   // ROADRUNNER_JACOBIAN_STEP_SIZE
     Variant((int)(SelectionRecord::TIME
             | SelectionRecord::RATE
-            | SelectionRecord::FLOATING
-            | SelectionRecord::CONSREVED_MOIETY)),        // MODEL_RESET
+            | SelectionRecord::FLOATING)),        // MODEL_RESET
     Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
     Variant(1.e-5),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
