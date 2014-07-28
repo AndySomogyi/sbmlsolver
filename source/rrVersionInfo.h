@@ -75,7 +75,17 @@ enum VersionStrOptions
      */
     VERSIONSTR_LIBSBML                = (0x1 << 3),
 
-    VERSIONSTR_JITCOMPILER            = (0x1 << 4)
+    VERSIONSTR_JITCOMPILER            = (0x1 << 4),
+
+    /**
+     * what git branch we are on.
+     */
+    VERSIONSTR_GIT_BRANCH             = (0x1 << 5),
+
+    /**
+     * the last commit.
+     */
+    VERSIONSTR_GIT_COMMIT             = (0x1 << 6)
 };
 
 /**
