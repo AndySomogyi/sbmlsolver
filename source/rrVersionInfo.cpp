@@ -82,7 +82,7 @@ std::string getVersionStr(unsigned options)
 
     if (options & VERSIONSTR_GIT_BRANCH)
     {
-        result += std::string(getGitBranch());
+        result += std::string("Git branch: ") + std::string(getGitBranch());
 
         if (options & VERSIONSTR_GIT_COMMIT)
         {
@@ -93,7 +93,7 @@ std::string getVersionStr(unsigned options)
 
     if (options & VERSIONSTR_GIT_COMMIT)
     {
-        result += std::string(getGitLastCommit());
+        result += std::string("Git commit sha: ") + std::string(getGitLastCommit());
     }        
 
     return result;
