@@ -594,19 +594,19 @@ RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
     catch_ptr_macro
 }
 
-RRDataHandle rrcCallConv simulate(RRHandle handle)
+RRCDataPtr rrcCallConv simulate(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
 
         rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
         rri->simulate();
-        return (RRDataHandle) rri->getSimulationResult();
+        return createRRCData((RRDataHandle) rri->getSimulationResult());
 
     catch_ptr_macro
 }
 
-RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     start_try
         setTimeStart(handle, timeStart);
@@ -627,11 +627,11 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
     catch_ptr_macro
 }
 
-RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle)
+RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->getSimulationResult();
+        return createRRCData(rri->getSimulationResult());
     catch_ptr_macro
 }
 
@@ -1829,9 +1829,9 @@ vector<double> rr_getRatesOfChange(RoadRunner* rr)
     mModel->getFloatingSpeciesAmountRates(result.size(), 0, &result[0]);
     return result;
 }
-/* This is where we left off with Sauro/Andy */
-C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
 
+C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
+   FILE *f;
    try {
  	   RoadRunner *r = (RoadRunner*)h;
 
@@ -1844,13 +1844,75 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
         // which means that it can store arbitrary data types, 
         // so we have to convert that value to long.
 	    *result = intg->getValue("seed").convert<long>();
-
         return true;
    }
    catch (std::exception& e) {
       return false;
    }
+}
 
+C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
+   try {
+ 	   RoadRunner *r = (RoadRunner*)h;
+	    Integrator *intg = r->getIntegrator(SimulateOptions::GILLESPIE);
+	    intg->setValue("seed", result);
+        return true;
+   }
+   catch (std::exception& e) {
+      return false;
+
+   }
+}
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle) {
+	try {
+		RoadRunner *r = (RoadRunner*)handle;
+		SimulateOptions& o = r->getSimulateOptions();
+		o.integrator = SimulateOptions::GILLESPIE;
+		o.integratorFlags |= SimulateOptions::VARIABLE_STEP;
+		r->simulate();
+		return createRRCData((RRDataHandle) r->getSimulationResult());
+	}
+	catch (std::exception& e) {
+		return NULL;
+	}
+}
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieEx(RRHandle handle, double timeStart, double timeEnd) {
+	try {
+		setTimeStart (handle, timeStart);
+		setTimeEnd (handle, timeEnd);
+		return gillespie(handle);
+	}
+	catch (std::exception& e) {
+		return NULL;
+	}
+}
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle, int numberOfSteps) {
+	try {
+		RoadRunner *r = (RoadRunner*)handle;
+		SimulateOptions& o = r->getSimulateOptions();
+		o.integrator = SimulateOptions::GILLESPIE;
+		o.integratorFlags &= !SimulateOptions::VARIABLE_STEP;
+		o.steps = numberOfSteps;
+		r->simulate();
+		return createRRCData((RRDataHandle) r->getSimulationResult());
+	}
+	catch (std::exception& e) {
+		return NULL;
+	}
+}
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps) {
+	try {
+		setTimeStart (handle, timeStart);
+		setTimeEnd (handle, timeEnd);
+		return gillespie(handle);
+	}
+	catch (std::exception& e) {
+		return NULL;
+	}
 }
 
 }

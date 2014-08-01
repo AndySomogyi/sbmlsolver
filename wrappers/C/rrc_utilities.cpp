@@ -662,17 +662,6 @@ char* rrcCallConv stringArrayToString (const RRStringArrayPtr list)
     catch_ptr_macro
 }
 
-char* rrcCallConv rrDataToString(RRDataHandle rrData)
-{
-    start_try
-        RoadRunnerData* data = castToRRData(rrData);
-
-        stringstream str;
-        str <<(*data);
-        return rr::createText(str.str());
-    catch_ptr_macro
-}
-
 char* rrcCallConv rrCDataToString(const RRCDataPtr result)
 {
     start_try

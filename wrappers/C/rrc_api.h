@@ -532,7 +532,7 @@ setNumPoints etc to set the simulation characteristics.
  \return Returns a handle to roadrunners internal data object.
  \ingroup simulation
 */
-C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
+C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 
 /*!
  \brief Retrieve the result of the last simulation.
@@ -549,7 +549,7 @@ C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
  \return Returns an handle to roadrunners internal data object
  \ingroup simulation
 */
-C_DECL_SPEC RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle);
+C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
 
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
@@ -574,7 +574,7 @@ C_DECL_SPEC RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle);
  \return Returns a handle to roadrunners internal data object.
  \ingroup simulation
 */
-C_DECL_SPEC RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 /*!
  \brief Carry out a one step integration of the model
@@ -1431,9 +1431,6 @@ C_DECL_SPEC bool rrcCallConv getEE(RRHandle handle, const char* name, const char
 */
 C_DECL_SPEC bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value);
 
-// What's this, not sure if we need it?
-C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionName, const char* speciesName, double* value);
-
 /*!
  \brief Return the current seed used by the random generator
 
@@ -1443,6 +1440,16 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
  \ingroup stochastic
 */
 C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result);
+
+C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result);
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle);
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieEx(RRHandle handle, double timeStart, double timeEnd);
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle, int numberOfSteps);
+
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps);
 
 #if defined( __cplusplus)
 }
@@ -1469,8 +1476,7 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result);
 #include "rrc_utilities.h"
 int main (int argc, char *argv[]) {
     RRHandle rrHandle;
-    RRDataHandle result;
-    RRCDataPtr cOutput;
+    RRCDataPtr result;
     
     printf ("Starting Test Program %s\n", argv[0]);
     rrHandle = createRRInstance();
@@ -1480,7 +1486,6 @@ int main (int argc, char *argv[]) {
         exit (0);
     }
     result = simulateEx (rrHandle, 0, 10, 100);
-    cOutput = createRRCData (result);
     printf (rrDataToString (result));
     
     getchar ();
@@ -1499,8 +1504,7 @@ More complex example, using C API:
 #include "rrc_utilities.h"
 int main (int argc, char *argv[]) {
    RRHandle rrHandle;
-   RRDataHandle result;
-   RRCDataPtr cOutput;
+   RRCDataPtr result;
    int index;
    int col;
    int row;
@@ -1513,13 +1517,12 @@ int main (int argc, char *argv[]) {
       exit (0);
    }
    result = simulateEx (rrHandle, 0, 10, 10);  // start time, end time, and number of points
-   cOutput = createRRCData (result);
    index = 0;
    // Print out column headers... typically time and species.
-   for (col = 0; col < cOutput->CSize; col++)
+   for (col = 0; col < result->CSize; col++)
    {
       printf ("%10s", cOutput->ColumnHeaders[index++]);
-      if (col < cOutput->CSize - 1)
+      if (col < result->CSize - 1)
       {
          printf ("\t");
       }
@@ -1527,11 +1530,11 @@ int main (int argc, char *argv[]) {
    printf ("\n");
    index = 0;
    // Print out the data
-   for (row = 0; row < cOutput->RSize; row++)
+   for (row = 0; row < result->RSize; row++)
    {
-      for (col = 0; col < cOutput->CSize; col++)
+      for (col = 0; col < result->CSize; col++)
       {
-         printf ("%10f", cOutput->Data[index++]);
+         printf ("%10f", result->Data[index++]);
          if (col < cOutput->CSize -1)
          {
             printf ("\t");
@@ -1540,7 +1543,7 @@ int main (int argc, char *argv[]) {
    printf ("\n");
    }
    //Cleanup
-   freeRRCData (cOutput);
+   freeRRCData (result);
    freeRRInstance (rrHandle);
    getchar ();
    exit (0);
