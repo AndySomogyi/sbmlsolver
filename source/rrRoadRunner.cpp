@@ -923,13 +923,18 @@ bool RoadRunner::unLoadModel()
     return false;
 }
 
-//Reset the simulator back to the initial conditions specified in the SBML model
 void RoadRunner::reset()
+{
+    uint opt = rr::Config::getInt(rr::Config::MODEL_RESET);
+    reset(opt);
+}
+
+void RoadRunner::reset(int options)
 {
     if (impl->model)
     {
         // model gets set to before time = 0
-        impl->model->reset();
+        impl->model->reset(options);
 
         impl->integrator->restart(0.0);
 
@@ -3766,8 +3771,6 @@ static void metabolicControlCheck(ExecutableModel *model)
 }
 
 } //namespace
-
-
 
 #if defined(_WIN32)
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this

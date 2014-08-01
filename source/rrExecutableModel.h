@@ -672,6 +672,12 @@ public:
      */
     virtual double getFloatingSpeciesAmountRate(int index,
             const double *reactionRates) = 0;
+
+    /**
+     * reset the model accordign to a bitfield specified by the
+     * SelectionRecord::SelectionType values.
+     */
+    virtual void reset(int options) = 0;
 };
 
 

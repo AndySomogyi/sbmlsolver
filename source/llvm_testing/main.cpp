@@ -249,6 +249,63 @@ int cm_1_test(int argc, char* argv[])
 
 }
 
+int reset_test(int argc, char* argv[])
+{
+    try {
+        if (argc < 4)
+        {
+            cout << "usage: llvm_testing reset fname what";
+            return -1;
+        }
+
+        RoadRunner r(argv[2]);
+
+        r.setConservedMoietyAnalysis(true);
+
+        std::string what(argv[3]);
+
+        uint opt = 0;
+
+        if(what.find("GLOBAL_PARAMETER") != string::npos)
+        {
+            opt |= SelectionRecord::GLOBAL_PARAMETER;
+        }
+
+        if(what.find("TIME") != string::npos)
+        {
+            opt |= SelectionRecord::TIME;
+        }
+
+        if(what.find("FLOATING") != string::npos)
+        {
+            opt |= SelectionRecord::FLOATING;
+        }
+
+        if(what.find("COMPARTMENT") != string::npos)
+        {
+            opt |= SelectionRecord::COMPARTMENT;
+        }
+
+        if(what.find("RATE") != string::npos)
+        {
+            opt |= SelectionRecord::RATE;
+        }
+
+        if(what.find("ALL") != string::npos)
+        {
+            opt |= SelectionRecord::ALL;
+        }
+
+        r.reset(opt);
+
+        return opt;
+    }
+    catch(std::exception& e) {
+        cout << e.what();
+    }
+    return -1;
+}
+
 int main(int argc, char* argv[])
 {
     if (argc < 2) {
@@ -270,6 +327,10 @@ int main(int argc, char* argv[])
 
     if(strcmp("path", argv[1]) == 0) {
         return path_test(argc, argv);
+    }
+
+    if(strcmp("reset", argv[1]) == 0) {
+        return reset_test(argc, argv);
     }
 
     cout << "error, invalid test name: " << argv[1] << endl;

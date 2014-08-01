@@ -65,6 +65,13 @@ public:
      */
     virtual void reset();
 
+    /**
+     * reset the model accordign to a bitfield specified by the
+     * SelectionRecord::SelectionType values.
+     */
+    virtual void reset(int options);
+
+
     enum StateStackOptions
     {
         /**

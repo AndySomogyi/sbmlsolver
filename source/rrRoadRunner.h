@@ -196,10 +196,28 @@ public:
     std::string getSBML();
 
     /**
-     * Reset the simulator back to the initial conditions specified in the SBML model,
-     * provided an SBML model is loaded.
+     * Picks up default options from config.
+     *
+     * The current default is
+     * SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING.
      */
     void reset();
+
+    /**
+     * reset the model accordign to a bitfield specified by the
+     * SelectionRecord::SelectionType values.
+     *
+     * Note, this would make more sense as an unsigned, however SWIG has issues mapping
+     * an enum to an unsigned, but seems to map enums just fine to an int.
+     *
+     * For example, to reset the floating species, time and rate rule values:
+     * @code
+     * r.reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING);
+     * @endcode
+     *
+     * @param options a bitmask made from the SelectionRecord::SelectionTypes values.
+     */
+    void reset(int options);
 
     /**
      * @internal

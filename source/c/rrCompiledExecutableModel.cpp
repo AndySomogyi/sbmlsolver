@@ -705,6 +705,11 @@ string CompiledExecutableModel::getInfo()
     return info.str();
 }
 
+void CompiledExecutableModel::reset(int options)
+{
+    reset();
+}
+
 
 void CompiledExecutableModel::reset()
 {

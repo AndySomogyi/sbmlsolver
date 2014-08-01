@@ -87,9 +87,15 @@ public:
     virtual void evalInitialConditions();
 
     /**
-     * reset the model to its original state
+     * call reset(options) with defaut options.
      */
     virtual void reset();
+
+    /**
+     * reset the model accordign to a bitfield specified by the
+     * SelectionRecord::SelectionType values.
+     */
+    virtual void reset(int options);
 
 
 
