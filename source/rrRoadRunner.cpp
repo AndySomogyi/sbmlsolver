@@ -214,7 +214,7 @@ public:
      * these are freed in the dtor, but kept around for the lifetime of
      * this object.
      */
-    Integrator*  integrators[SimulateOptions::GILLESPIE+1];
+    Integrator*  integrators[SimulateOptions::INTEGRATOR_END];
 
     /**
      * TODO get rid of this garbage
@@ -389,21 +389,9 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
             impl(new RoadRunnerImpl(uriOrSBML, options))
 {
 
-#if defined(BUILD_LLVM)
-    string compiler =  "LLVM" ;
-#else
-    string compiler = gDefaultCompiler;
-#endif
+    impl->mModelGenerator = ModelGenerator::New(Compiler::getDefaultCompiler(), "", "");
 
-    // for now, dump out who we are
-    Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
-            ", tempDir:" << gDefaultTempFolder << ", supportCodeDir: " <<
-            gDefaultSupportCodeFolder;
-
-    impl->mModelGenerator = ModelGenerator::New(compiler,
-            gDefaultTempFolder, gDefaultSupportCodeFolder);
-
-    setTempDir(gDefaultTempFolder);
+    setTempDir(getTempDir());
 
     if (!uriOrSBML.empty()) {
         load(uriOrSBML, options);
@@ -416,20 +404,13 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 
 
 RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
-        const string& _supportCodeDir) :
-        impl(new RoadRunnerImpl(_compiler, _tempDir, _supportCodeDir))
+        const string& supportCodeDir) :
+        impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir))
 {
+    string compiler = _compiler.empty()
+            ? Compiler::getDefaultCompiler() : _compiler;
 
-
-#if defined(BUILD_LLVM)
-    string compiler = _compiler.empty() ? "LLVM" : _compiler;
-#else
-    string compiler = _compiler.empty() ? gDefaultCompiler : _compiler;
-#endif
-
-    string tempDir = _tempDir.empty() ? gDefaultTempFolder : _tempDir;
-    string supportCodeDir = _supportCodeDir.empty() ?
-            gDefaultSupportCodeFolder : _supportCodeDir;
+    string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
     // for now, dump out who we are
     Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
@@ -536,8 +517,7 @@ LibStructural* RoadRunner::getLibStruct()
     }
     else
     {
-        throw Exception("could not create structural analysis with no loaded sbml");
-        return 0;
+        throw std::invalid_argument("could not create structural analysis with no loaded sbml");
     }
 }
 
@@ -943,13 +923,18 @@ bool RoadRunner::unLoadModel()
     return false;
 }
 
-//Reset the simulator back to the initial conditions specified in the SBML model
 void RoadRunner::reset()
+{
+    uint opt = rr::Config::getInt(rr::Config::MODEL_RESET);
+    reset(opt);
+}
+
+void RoadRunner::reset(int options)
 {
     if (impl->model)
     {
         // model gets set to before time = 0
-        impl->model->reset();
+        impl->model->reset(options);
 
         impl->integrator->restart(0.0);
 
@@ -1536,53 +1521,73 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
         h = self.roadRunnerOptions.jacobianStepSize;
     }
 
-    // need 2h for for central difference
-    double inv2h = 1.0 / (2.0 * h);
-
-    int svSize = self.model->getStateVector(0);
     int nIndSpecies = self.model->getNumIndFloatingSpecies();
-    int nRates = self.model->getNumRateRules();
 
-    // need 3 buffers, state vector and 2 for state vector
-    // rate for central difference.
-    std::vector<double> yv(svSize);
-    std::vector<double> dy0v(svSize);
-    std::vector<double> dy1v(svSize);
+    // result matrix
+    DoubleMatrix jac(nIndSpecies, nIndSpecies);
 
-    double* y = &yv[0];
+    // need 2 buffers for rate central difference.
+    std::vector<double> dy0v(nIndSpecies);
+    std::vector<double> dy1v(nIndSpecies);
+
     double* dy0 = &dy0v[0];
     double* dy1 = &dy1v[0];
 
-    // grab the current state vector
-    self.model->getStateVector(y);
+    // function pointers to the model get values and get init values based on
+    // if we are doing amounts or concentrations.
+    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+            double *values);
+    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+                    double const *values);
 
-    // state vector is packed such that first elements are
-    // rate rules, final elements are species.
-    const int speciesZero = svSize - nIndSpecies;
+    GetValueFuncPtr getValuePtr = 0;
+    GetValueFuncPtr getRateValuePtr = 0;
+    SetValueFuncPtr setValuePtr = 0;
 
-    DoubleMatrix jac(nIndSpecies, nIndSpecies);
-
-    double time = self.model->getTime();
-
-    for (int i = speciesZero; i < nIndSpecies; ++i)
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+            == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
-        double savedVal = y[i];
+        Log(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
+        getValuePtr =     &ExecutableModel::getFloatingSpeciesAmounts;
+        getRateValuePtr = &ExecutableModel::getFloatingSpeciesAmountRates;
+        setValuePtr =     &ExecutableModel::setFloatingSpeciesAmounts;
+    }
+    else
+    {
+        Log(Logger::LOG_DEBUG) << "getReducedJacobian in CONCENTRATION mode";
+        getValuePtr =     &ExecutableModel::getFloatingSpeciesConcentrations;
+        getRateValuePtr = &ExecutableModel::getFloatingSpeciesAmountRates;
+        setValuePtr =     &ExecutableModel::setFloatingSpeciesConcentrations;
+    }
 
-        y[i] = savedVal + h;
+    for (int i = 0; i < nIndSpecies; ++i)
+    {
+        double savedVal = 0;
+        double y = 0;
 
-        self.model->getStateVectorRate(time, y, dy0);
+        // current value of species i
+        (self.model->*getValuePtr)(1, &i, &savedVal);
 
-        y[i] = savedVal - h;
+        // get the entire rate of change for all the species with
+        // species i being value(i) + h;
+        y = savedVal + h;
+        (self.model->*setValuePtr)(1, &i, &y);
+        (self.model->*getRateValuePtr)(nIndSpecies, 0, dy0);
 
-        self.model->getStateVectorRate(time, y, dy1);
 
-        y[i] = savedVal;
+        // get the entire rate of change for all the species with
+        // species i being value(i) - h;
+        y = savedVal - h;
+        (self.model->*setValuePtr)(1, &i, &y);
+        (self.model->*getRateValuePtr)(nIndSpecies, 0, dy1);
+
+        // restore original value
+        (self.model->*setValuePtr)(1, &i, &savedVal);
 
         // matrix is row-major, so have to copy by elements
        for (int j = 0; j < nIndSpecies; ++j)
        {
-           jac(j, i - speciesZero) =
-                   (dy0[speciesZero + j] - dy1[speciesZero + j]) / (2.0*h) ;
+           jac(j, i) = (dy0[j] - dy1[j]) / (2.0*h) ;
        }
     }
     return jac;
@@ -1617,6 +1622,11 @@ DoubleMatrix RoadRunner::getNrMatrix()
 DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
 {
     check_model();
+
+    if (impl->conservedMoietyAnalysis) {
+        // pointer to mat owned by ls
+        return *getLibStruct()->getReorderedStoichiometryMatrix();
+    }
 
     // pointer to owned matrix
     return *getLibStruct()->getStoichiometryMatrix();
@@ -1805,13 +1815,6 @@ static void setSBMLValue(libsbml::Model* model, const string& id, double value)
         oCompartment->setVolume(value); return;
     }
 
-    libsbml::Parameter* oParameter = model->getParameter(id);
-    if (oParameter != NULL)
-    {
-        oParameter->setValue(value);
-        return;
-    }
-
     for (int i = 0; i < model->getNumReactions(); i++)
     {
         libsbml::Reaction* reaction = model->getReaction(i);
@@ -1841,13 +1844,17 @@ static void setSBMLValue(libsbml::Model* model, const string& id, double value)
 
 string RoadRunner::getCurrentSBML()
 {
+    check_model();
+
+    get_self();
+
     libsbml::SBMLReader reader;
     std::stringstream stream;
     libsbml::SBMLDocument *doc = 0;
     libsbml::Model *model = 0;
 
     try {
-        doc = reader.readSBMLFromString(impl->mCurrentSBML); // new doc
+        doc = reader.readSBMLFromString(self.mCurrentSBML); // new doc
         model = doc->getModel(); // owned by doc
 
         vector<string> array = getFloatingSpeciesIds();
@@ -1879,16 +1886,31 @@ string RoadRunner::getCurrentSBML()
         {
             double value = 0;
             impl->model->getGlobalParameterValues(1, &i, &value);
-            setSBMLValue(model, array[i], value);
+
+            libsbml::Parameter* param = model->getParameter(array[i]);
+            if (param != NULL)
+            {
+                param->setValue(value);
+            }
+            else
+            {
+                // sanity check, just make sure that this is a conserved moeity
+                if (self.model->getConservedMoietyIndex(array[i]) < 0)
+                {
+                    throw std::logic_error("The global parameter name "
+                            + array[i] + " could not be found in the SBML model, "
+                            " and it is not a conserved moiety");
+                }
+            }
         }
 
         libsbml::SBMLWriter writer;
         writer.writeSBML(doc, stream);
     }
-    catch(std::exception& e) {
+    catch(std::exception&) {
         delete doc;
         doc = 0;
-        throw(e);
+        throw; // re-throw exception.
     }
 
     delete doc;
@@ -3749,8 +3771,6 @@ static void metabolicControlCheck(ExecutableModel *model)
 }
 
 } //namespace
-
-
 
 #if defined(_WIN32)
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this

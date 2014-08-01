@@ -206,7 +206,26 @@ public:
      */
     enum Integrator
     {
-        CVODE = 0,  GILLESPIE, INTEGRATOR_END
+        /**
+         * The default CVODE integrator from the Sundials package.
+         */
+        CVODE = 0,  
+
+        /**
+         * Basic Gillespie stochastic integrator. 
+         */
+        GILLESPIE, 
+
+        /**
+         * Basic Runge-Kutta fourth order integrator.
+         */
+        RK4, 
+
+        /**
+         * Always has to be at the end, this way, this value indicates
+         * how many integrators we have. 
+         */
+        INTEGRATOR_END
     };
 
     /**

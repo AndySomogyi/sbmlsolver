@@ -1,3 +1,38 @@
+-- Version 1.2.4
+*   Extended information such as git branch and last commit available via 
+    getVersionStr()
+
+*   Test case for reduced / full Jacobian in both amount and concentration mode. 
+
+*   Reduced Jacobian now works in either amount or concentration mode.
+
+*   Added getFloatingSpeciesConcentrationRates() function to get rates of change
+    of floating species concentrations. 
+
+*   Made model reset smarter when resetting model with conserved moieties. If users
+    changes CMs, they will only be reset if users also changes init species cond.
+
+*   Correctly display CM ids.
+
+*   Major cleanup in handling temp dir path, added config value for specifiying
+    tmp dir and log file path. 
+
+*   Added model checks to getCurrentSBML, fixes with CM is enabled. 
+
+*   Merged Alex's documentation updates to C API. 
+
+*   Fixed bug with CM being displayed twice in items. 
+
+*   Fix bug when getting stoich matrix when CM is enabled. 
+
+*   New Runge-Kutta integrator, available via simulate using integrator="rk4". 
+
+*   Full Jacobian works in either concentration or amount mode. 
+
+*   Update make_docs.sh shell script to work with spaces in directory names. 
+
+*   More user proofing and robustness. 
+
 -- Version 1.2.3
 *   Improvments to error and display messeges.
 
