@@ -618,10 +618,9 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        RoadRunnerData result = *rri->getSimulationResult();
 
         //Extract the data and return struct..
-        return  createRRCData(result);
+        return  createRRCData(*rri);
     catch_ptr_macro
 }
 
