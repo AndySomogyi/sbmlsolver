@@ -864,6 +864,22 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     {
         uint si = floatingSpeciesMap.size();
         floatingSpeciesMap[*i] = si;
+
+        // now that we know how many float species we have, we
+        // can map these to the conserved moieties.
+        // assume that the cm order (T vector) matches the order
+        // that the CM species were added.
+        if (computeAndAssignConsevationLaws)
+        {
+            // look in the set we just made
+            if (conservedMoietySpeciesSet.find(*i) !=
+                    conservedMoietySpeciesSet.end())
+            {
+                // keep incrementing the size each time we add one.
+                uint cmIndex = floatingSpeciesToConservedMoietyIdMap.size();
+                floatingSpeciesToConservedMoietyIdMap[si] = cmIndex;
+            }
+        }
     }
 
     // stuff the species in the map
@@ -1029,6 +1045,17 @@ uint LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
          throw std::out_of_range(std::string("index out of range in ") + __FUNC__);
     }
     return floatingSpeciesCompartmentIndices[floatIndex];
+}
+
+bool LLVMModelDataSymbols::isConservedMoietySpecies(uint id, uint& result) const
+{
+    UIntUIntMap::const_iterator i = floatingSpeciesToConservedMoietyIdMap.find(id);
+    if (i != floatingSpeciesToConservedMoietyIdMap.end())
+    {
+        result = i->second;
+        return true;
+    }
+    return false;
 }
 
 /**
