@@ -14,6 +14,16 @@
 #include "LLVMModelData.h"
 #include "rrExecutableModel.h"
 
+#if (__cplusplus >= 201103L) || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#define cxx11_ns std
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#define cxx11_ns std::tr1
+#endif
+
 #include <map>
 #include <set>
 #include <list>
@@ -125,6 +135,7 @@ public:
 
     typedef std::map<std::string, uint> StringUIntMap;
     typedef std::pair<std::string, uint> StringUIntPair;
+    typedef cxx11_ns::unordered_map<uint, uint> UIntUIntMap;
 
     enum SpeciesReferenceType
     {
@@ -354,6 +365,17 @@ public:
     bool isConservedMoietySpecies(const std::string& symbol) const;
 
     /**
+     * checks if the given floating species id corresponds to
+     * to a conserved moiety species.
+     *
+     * @param id index of floating species
+     * @param [out] result the index of the conserved moiety if this
+     * is a conserved moiety species.
+     * @returns true or false if this is a cm species or not.
+     */
+    bool isConservedMoietySpecies(uint id, uint &result) const;
+
+    /**
      * check if the global parameter with the given id is a
      * conserved moiety.
      */
@@ -405,6 +427,14 @@ private:
      * of this array will be a global parameter index.
      */
     std::vector<uint> conservedMoietyGlobalParameterIndex;
+
+    /**
+     * map of floating species ids to conserved moiety ids.
+     *
+     * assume conserved moeity speces are stored in the sbml
+     * in the same order as the conserved moieties.
+     */
+    UIntUIntMap floatingSpeciesToConservedMoietyIdMap;
 
 
 /*****************************************************************************/
