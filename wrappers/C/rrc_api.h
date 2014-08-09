@@ -525,11 +525,12 @@ C_DECL_SPEC bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const c
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle);
 
 /*!
- \brief Carry out a time-course simulation, use setTimeStart, setTimeEnd and
-setNumPoints etc to set the simulation characteristics.
+ \brief Carry out a time-course simulation. setTimeStart, setTimeEnd,
+ setNumPoints, etc are used to set the simulation characteristics.
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns a handle to roadrunners internal data object.
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
@@ -537,7 +538,6 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 /*!
  \brief Retrieve the result of the last simulation.
  \param[in] handle Handle to a RoadRunner instance
- \return Returns an handle to roadrunners internal data object
  \return Returns an array (RRCDataPtr) of columns containing the results of the
  simulation including string labels for the individual columns.
  \ingroup simulation
@@ -546,7 +546,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 /*!
  \brief Retrieve a handle to RoadRunners internal data
  \param[in] handle Handle to a RoadRunner instance
- \return Returns an handle to roadrunners internal data object
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
@@ -570,8 +571,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
  \param[in] timeStart Time start
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Number of points to generate
-
- \return Returns a handle to roadrunners internal data object.
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
@@ -1431,25 +1432,190 @@ C_DECL_SPEC bool rrcCallConv getEE(RRHandle handle, const char* name, const char
 */
 C_DECL_SPEC bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value);
 
+// --------------------------------------------------------------------------------
+// Stochastic methods
+// --------------------------------------------------------------------------------
+
 /*!
- \brief Return the current seed used by the random generator
+ \brief Determine the current seed used by the random generator
 
  \param[in] handle Handle to a RoadRunner instance
- \param[out] value This is the value of the current seed, returned to the caller
+ \param[out] seed This is the value of the current seed, returned to the caller
  \return Returns true if successful
  \ingroup stochastic
 */
-C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result);
+C_DECL_SPEC bool rrcCallConv getSeed(RRHandle handle, long* seed);
 
-C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result);
+/*!
+ \brief Set the current seed used by the random generator
 
+ \param[in] handle Handle to a RoadRunner instance
+ \param[out] seed This is the value the caller will set the seed to
+ \return Returns true if successful
+ \ingroup stochastic
+*/
+C_DECL_SPEC bool rrcCallConv setSeed(RRHandle handle, long seed);
+
+/*!
+ \brief Carry out a time-course simulation using the Gillespie algorithm with
+ variable step size. setTimeStart, setTimeEnd, etc are used to set the simulation
+ characteristics.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
+ \ingroup stochastic
+*/
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle);
 
+/*!
+ \brief Carry out a time-course simulation using the Gillespie algorithm based
+ on the given arguments, time start, time end and number of points.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double timeStart = 0.0;
+    double timeEnd = 25;
+
+    m = gillespieEx (rrHandle, timeStart, timeEnd);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] timeStart Time start
+ \param[in] timeEnd Time end
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
+ \ingroup stochastic
+*/
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieEx(RRHandle handle, double timeStart, double timeEnd);
 
-C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle, int numberOfSteps);
+/*!
+ \brief Carry out a time-course simulation using the Gillespie algorithm with
+ fixed step size. setTimeStart, setTimeEnd, setNumPoints, etc are used to set
+ the simulation characteristics.
 
-C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps);
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
+ \ingroup stochastic
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle);
+
+/*!
+ \brief Carry out a time-course simulation using the Gillespie algorithm with
+ fixed step size based on the given arguments, time start, time end, and
+ number of points.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double timeStart = 0.0;
+    double timeEnd = 25;
+    int numberOfPoints = 200;
+
+    m = gillespieOnGridEx (rrHandle, timeStart, timeEnd, numberOfPoints);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] timeStart Time start
+ \param[in] timeEnd Time end
+ \param[in] numberOfPoints Fixed number of points to generate
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns.
+ \ingroup stochastic
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfPoints);
+
+/*!
+ \brief Carry out a series of time-course simulations using the Gillespie 
+ algorithm with fixed step size, then return the average of the simulations.
+ setTimeStart, setTimeEnd, setNumPoints, etc are used to set the simulation
+ characteristics.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] numberOfSimulations Number of simulations to perform
+ \return Returns an array (RRCDataPtr) of columns containing the average of the
+ results of the simulations including string labels for the individual columns.
+ \ingroup stochastic
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numberOfSimulations);
+
+/*!
+ \brief Carry out a series of time-course simulations using the Gillespie
+ algorithm with fixed step size, then return the average of the simulations.
+ Based on the given arguments, time start, time end, and number of points.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double timeStart = 0.0;
+    double timeEnd = 25;
+    int numberOfPoints = 200;
+	int numberOfSimulations = 10;
+
+    m = gillespieMeanOnGridEx (rrHandle, timeStart, timeEnd, numberOfPoints, numberOfSimulations);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] timeStart Time start
+ \param[in] timeEnd Time end
+ \param[in] numberOfPoints Fixed number of points to generate
+ \param[in] numberOfSimulations Number of simulations to perform
+ \return Returns an array (RRCDataPtr) of columns containing the average of the 
+ results of the simulation including string labels for the individual columns.
+ \ingroup stochastic
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfPoints, int numberOfSimulations);
+
+/*!
+ \brief Carry out a series of time-course simulations using the Gillespie 
+ algorithm with fixed step size, then return the average and standard
+ deviation of the simulations. setTimeStart, setTimeEnd, setNumPoints, etc 
+ are used to set the simulation characteristics.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] numberOfSimulations Number of simulations to perform
+ \return Returns an array (RRCDataPtr) of columns containing the average of the
+ results of the simulations including string labels for the individual columns.
+ The averages are in Data and the standard deviations are in Weights.
+ \ingroup stochastic
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int numberOfSimulations);
+
+
+/*!
+ \brief Carry out a series of time-course simulations using the Gillespie
+ algorithm with fixed step size, then return the average and standard deviation
+ of the simulations. Based on the given arguments, time start, time end, number
+ of points, and number of simulations.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double timeStart = 0.0;
+    double timeEnd = 25;
+    int numberOfPoints = 200;
+	int numberOfSimulations = 10;
+
+    m = gillespieMeanSDOnGridEx (rrHandle, timeStart, timeEnd, numberOfPoints, numberOfSimulations);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] timeStart Time start
+ \param[in] timeEnd Time end
+ \param[in] numberOfPoints Fixed number of points to generate
+ \param[in] numberOfSimulations Number of simulations to perform
+ \return Returns an array (RRCDataPtr) of columns containing the average of the 
+ results of the simulation including string labels for the individual columns. The
+ average values are in Data and the standard deviations are in Weights.
+ \ingroup stochastic
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps, int numberOfSimulations);
 
 #if defined( __cplusplus)
 }
@@ -1487,7 +1653,8 @@ int main (int argc, char *argv[]) {
     }
     result = simulateEx (rrHandle, 0, 10, 100);
     printf (rrDataToString (result));
-    
+    freeRRCData(result);
+
     getchar ();
     exit (0);
 }
@@ -1521,7 +1688,7 @@ int main (int argc, char *argv[]) {
    // Print out column headers... typically time and species.
    for (col = 0; col < result->CSize; col++)
    {
-      printf ("%10s", cOutput->ColumnHeaders[index++]);
+      printf ("%10s", result->ColumnHeaders[index++]);
       if (col < result->CSize - 1)
       {
          printf ("\t");
@@ -1535,7 +1702,7 @@ int main (int argc, char *argv[]) {
       for (col = 0; col < result->CSize; col++)
       {
          printf ("%10f", result->Data[index++]);
-         if (col < cOutput->CSize -1)
+         if (col < result->CSize -1)
          {
             printf ("\t");
          }
@@ -1652,6 +1819,9 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
 
  \defgroup mca Metabolic control analysis
  \brief Calculate control coefficients and sensitivities
+
+ \defgroup stochastic Stochastic simulations
+ \brief Stochastic simulation algorithms
 
  \defgroup Stoich Stoichiometry analysis
  \brief Linear algebra based methods for analyzing a reaction network
