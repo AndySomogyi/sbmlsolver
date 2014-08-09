@@ -1,3 +1,15 @@
+-- Version 1.2.5
+*  New parallel ensemble function and 'roadrunner.stochastic' python module.
+
+*  Added new example files to python package.
+
+*  New function in C API to create RRDataPtr directly from RoadRunner object, 
+   completly bypassing RoadRunnerData C++ object. 
+
+*  Conserved moiety species amounts and concentrations are directly mutable. 
+
+*  RoadRunner.reset is now very flexible, can reset a variety of values based on args.
+
 -- Version 1.2.4
 *   Extended information such as git branch and last commit available via 
     getVersionStr()
