@@ -543,14 +543,6 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
  \ingroup simulation
 */C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
 
-/*!
- \brief Retrieve a handle to RoadRunners internal data
- \param[in] handle Handle to a RoadRunner instance
- \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
- \ingroup simulation
-*/
-C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
 
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
@@ -1530,7 +1522,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle);
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfPoints);
 
 /*!
- \brief Carry out a series of time-course simulations using the Gillespie 
+ \brief Carry out a series of time-course simulations using the Gillespie
  algorithm with fixed step size, then return the average of the simulations.
  setTimeStart, setTimeEnd, setNumPoints, etc are used to set the simulation
  characteristics.
@@ -1555,7 +1547,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
     double timeStart = 0.0;
     double timeEnd = 25;
     int numberOfPoints = 200;
-	int numberOfSimulations = 10;
+    int numberOfSimulations = 10;
 
     m = gillespieMeanOnGridEx (rrHandle, timeStart, timeEnd, numberOfPoints, numberOfSimulations);
     \endcode
@@ -1565,16 +1557,16 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Fixed number of points to generate
  \param[in] numberOfSimulations Number of simulations to perform
- \return Returns an array (RRCDataPtr) of columns containing the average of the 
+ \return Returns an array (RRCDataPtr) of columns containing the average of the
  results of the simulation including string labels for the individual columns.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfPoints, int numberOfSimulations);
 
 /*!
- \brief Carry out a series of time-course simulations using the Gillespie 
+ \brief Carry out a series of time-course simulations using the Gillespie
  algorithm with fixed step size, then return the average and standard
- deviation of the simulations. setTimeStart, setTimeEnd, setNumPoints, etc 
+ deviation of the simulations. setTimeStart, setTimeEnd, setNumPoints, etc
  are used to set the simulation characteristics.
 
  \param[in] handle Handle to a RoadRunner instance
@@ -1600,7 +1592,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
     double timeStart = 0.0;
     double timeEnd = 25;
     int numberOfPoints = 200;
-	int numberOfSimulations = 10;
+    int numberOfSimulations = 10;
 
     m = gillespieMeanSDOnGridEx (rrHandle, timeStart, timeEnd, numberOfPoints, numberOfSimulations);
     \endcode
@@ -1610,7 +1602,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Fixed number of points to generate
  \param[in] numberOfSimulations Number of simulations to perform
- \return Returns an array (RRCDataPtr) of columns containing the average of the 
+ \return Returns an array (RRCDataPtr) of columns containing the average of the
  results of the simulation including string labels for the individual columns. The
  average values are in Data and the standard deviations are in Weights.
  \ingroup stochastic
@@ -1643,7 +1635,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, doub
 int main (int argc, char *argv[]) {
     RRHandle rrHandle;
     RRCDataPtr result;
-    
+
     printf ("Starting Test Program %s\n", argv[0]);
     rrHandle = createRRInstance();
     if (!loadSBMLFromFile (rrHandle, "feedback.xml")) {
@@ -1732,7 +1724,7 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
  6.666667        0.306310        0.775477        1.304950        1.952076
  7.777778        0.193459        0.268986        0.628542        1.483161
  8.888889        1.566864        1.219950        1.105718        1.370199
-10.000000        0.269437        0.678127        1.199353        1.868247 
+10.000000        0.269437        0.678127        1.199353        1.868247
 
 \endcode
  * \section install_sec Installation
