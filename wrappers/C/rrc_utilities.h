@@ -516,13 +516,6 @@ C_DECL_SPEC bool rrcCallConv getComplexMatrixElement (RRComplexMatrixPtr m, int 
 */
 C_DECL_SPEC bool rrcCallConv setComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplexPtr value);
 
-/*!
- \brief Create a RoadRunner C data structure (RRCDataPtr) from RoadRunner data.
- \param[in] rrData A pointer to a RoadRunner numerical data type variable
- \return Returns NULL if fails, otherwise returns a RRCData handle
- \ingroup helperRoutines
-*/
-C_DECL_SPEC RRCDataPtr rrcCallConv createRRCData(RRDataHandle rrData);
 
 /*!
  \brief Retrieve the number of rows in the given RoadRunner numerical data (returned from simulate(RRHandle handle))
