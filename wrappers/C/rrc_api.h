@@ -546,7 +546,6 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
 
-<<<<<<< HEAD
 /*!
  \brief Retrieve a handle to RoadRunners internal data
  \param[in] handle Handle to a RoadRunner instance
@@ -556,8 +555,6 @@ C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
-=======
->>>>>>> 23c8b82d9c997da09df3c9d4f3a93c71aee808bd
 
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
