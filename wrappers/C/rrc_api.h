@@ -530,7 +530,8 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle han
 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
@@ -539,15 +540,18 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
  \brief Retrieve the result of the last simulation.
  \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup simulation
-*/C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
 
 /*!
  \brief Retrieve a handle to RoadRunners internal data
  \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
@@ -572,7 +576,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Number of points to generate
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
@@ -1463,7 +1468,8 @@ C_DECL_SPEC bool rrcCallConv setSeed(RRHandle handle, long seed);
 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle);
@@ -1486,7 +1492,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle);
  \param[in] timeStart Time start
  \param[in] timeEnd Time end
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieEx(RRHandle handle, double timeStart, double timeEnd);
@@ -1498,7 +1505,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieEx(RRHandle handle, double timeStart
 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle);
@@ -1524,7 +1532,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle);
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Fixed number of points to generate
  \return Returns an array (RRCDataPtr) of columns containing the results of the
- simulation including string labels for the individual columns.
+ simulation including string labels for the individual columns. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfPoints);
@@ -1539,6 +1548,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double tim
  \param[in] numberOfSimulations Number of simulations to perform
  \return Returns an array (RRCDataPtr) of columns containing the average of the
  results of the simulations including string labels for the individual columns.
+ rrdatahandle responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numberOfSimulations);
@@ -1567,6 +1577,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
  \param[in] numberOfSimulations Number of simulations to perform
  \return Returns an array (RRCDataPtr) of columns containing the average of the 
  results of the simulation including string labels for the individual columns.
+ rrdatahandle responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfPoints, int numberOfSimulations);
@@ -1582,6 +1593,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGridEx(RRHandle handle, double
  \return Returns an array (RRCDataPtr) of columns containing the average of the
  results of the simulations including string labels for the individual columns.
  The averages are in Data and the standard deviations are in Weights.
+ rrdatahandle responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int numberOfSimulations);
@@ -1612,10 +1624,17 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
  \param[in] numberOfSimulations Number of simulations to perform
  \return Returns an array (RRCDataPtr) of columns containing the average of the 
  results of the simulation including string labels for the individual columns. The
- average values are in Data and the standard deviations are in Weights.
+ average values are in Data and the standard deviations are in Weights. rrdatahandle
+ responsible for freeing the resulting RRCDataPtr structure.
  \ingroup stochastic
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps, int numberOfSimulations);
+
+C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
+
+C_DECL_SPEC bool rrcCallConv resetAll(RRHandle handle);
+
+C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
 
 #if defined( __cplusplus)
 }

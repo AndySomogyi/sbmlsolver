@@ -108,7 +108,7 @@ typedef struct RRComplexMatrix
 } *RRComplexMatrixPtr;                      /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
-/*!@brief Structure for the result type from the simulate calls */
+/*!@brief Structure for the result type from the simulate calls. The client is responsible for freeing the RRCDataPtr. */
 typedef struct RRCData
 {
     int             RSize;                  /*!< The number of rows in the data matrix */
