@@ -1633,12 +1633,6 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps, int numberOfSimulations);
 
-C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
-
-C_DECL_SPEC bool rrcCallConv resetAll(RRHandle handle);
-
-C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
-
 #if defined( __cplusplus)
 }
 }//namespace
