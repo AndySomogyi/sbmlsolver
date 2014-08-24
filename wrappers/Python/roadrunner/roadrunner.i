@@ -42,7 +42,8 @@
     #include <assert.h>
     #include <math.h>
     #include <cmath>
-    #include <PyUtils.h>
+    #include "PyUtils.h"
+    #include "PyLoggerStream.h"
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -2437,6 +2438,16 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
     %}
+}
+
+%extend rr::Logger {
+    static void enablePythonLogging() {
+        PyLoggerStream::enablePythonLogging();
+    }
+
+    static void disablePythonLogging() {
+        PyLoggerStream::disablePythonLogging();
+    }
 }
 
 %extend rr::Integrator {
