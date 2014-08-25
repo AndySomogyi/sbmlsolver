@@ -546,6 +546,15 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
 
+/*!
+ \brief Retrieve a handle to RoadRunners internal data
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns. The client is
+ responsible for freeing the resulting RRCDataPtr structure.
+ \ingroup simulation
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv getRoadRunnerData(RRHandle handle);
 
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
@@ -979,17 +988,6 @@ C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
 // --------------------------------------------------------------------------------
 // Initial condition Methods
 // --------------------------------------------------------------------------------
-
-/*!
- \brief Reset all floating species concentrations to their initial conditions
-
- Example: \code status = reset (RRHandle handle); \endcode
-
- \param[in] handle Handle to a RoadRunner instance
- \return Returns true if successful
- \ingroup simulation
-*/
-C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
 
 /*!
  \brief Set the initial floating species concentrations
@@ -1621,6 +1619,40 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, double timeStart, double timeEnd, int numberOfSteps, int numberOfSimulations);
 
+// --------------------------------------------------------------------------------
+// Reset methods
+// --------------------------------------------------------------------------------
+
+/*!
+ \brief Resets all variables of the model to their current initial values.
+ Does not change the parameters.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Boolean indicating success
+ \ingroup reset
+*/
+C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
+
+/*!
+ \brief Resets all variables of the model to their current initial values,
+ and resets all parameters to their original values.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Boolean indicating success
+ \ingroup reset
+*/
+C_DECL_SPEC bool rrcCallConv resetAll(RRHandle handle);
+
+/*!
+ \brief Resets the model to the state in which it was first loaded, including
+ initial conditions, variables, and parameters.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Boolean indicating success
+ \ingroup reset
+*/
+C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
+
 #if defined( __cplusplus)
 }
 }//namespace
@@ -1852,7 +1884,8 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
  \defgroup freeRoutines Free memory routines
  \brief Routines that should be used to free various data structures generated during the course of using the library
 
-
+ \defgroup reset Reset methods
+ \brief Methods for resetting instances to various initial states
 */
 
 
