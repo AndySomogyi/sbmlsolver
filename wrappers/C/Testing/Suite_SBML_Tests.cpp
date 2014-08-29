@@ -1138,7 +1138,7 @@ TEST(1116) { CHECK(RunTest("l3v1", 1116 )); }
 TEST(1117) { CHECK(RunTest("l3v1", 1117 )); }
 TEST(1118) { CHECK(RunTest("l3v1", 1118 )); }
 TEST(1119) { CHECK(RunTest("l3v1", 1119 )); }
-//TEST(1120) { CHECK(RunTest("l3v1", 1120 )); }
+TEST(1120) { CHECK(RunTest("l3v1", 1120 )); }
 TEST(1121) { CHECK(RunTest("l3v1", 1121 )); }
 TEST(1122) { CHECK(RunTest("l3v1", 1122 )); }
 TEST(1123) { CHECK(RunTest("l3v1", 1123 )); }
@@ -1552,9 +1552,6 @@ SUITE(SBML_TEST_SUITE_C_FAIL)
     TEST(942) { CHECK_EQUAL(false, RunTest("l2v4", 942)); } // CSymbolDelay
     TEST(943) { CHECK_EQUAL(false, RunTest("l2v4", 943)); } // CSymbolDelay
 
-    TEST(950) { CHECK_EQUAL(false, RunTest("l2v4", 950)); } // TODO:  HANDLE INF AND NAN IN INPUT AND OUTPUT
-    TEST(951) { CHECK_EQUAL(false, RunTest("l2v4", 951)); } // TODO:  HANDLE INF AND NAN IN INPUT AND OUTPUT
-
     TEST(981)  { CHECK_EQUAL(false, RunTest("l3v1", 981  )); } // CSymbolDelay
     TEST(982)  { CHECK_EQUAL(false, RunTest("l3v1", 982  )); } // CSymbolDelay
     TEST(983)  { CHECK_EQUAL(false, RunTest("l3v1", 983  )); } // AlgebraicRule // CSymbolDelay
@@ -1580,16 +1577,12 @@ SUITE(SBML_TEST_SUITE_C_FAIL)
 
     TEST(1108) { CHECK_EQUAL(false, RunTest("l3v1", 1108 )); } // AlgebraicRule
 
-    TEST(1120) { CHECK_EQUAL(false, RunTest("l3v1", 1120 )); } // TODO:  ORDERING BUG
     TEST(1142) { CHECK_EQUAL(false, RunTest("l3v1", 1142 )); } // AlgebraicRule // CSymbolDelay
 
     TEST(1148) { CHECK_EQUAL(false, RunTest("l3v1", 1148 )); } // TODO:  NUMBERS SLIGHTLY OFF:  WHY?
 
-    TEST(1170) { CHECK_EQUAL(false, RunTest("l3v1", 1170 )); } // TODO:  ORDERING BUG
     TEST(1173) { CHECK_EQUAL(false, RunTest("l3v1", 1173 )); } // CSymbolDelay
     TEST(1174) { CHECK_EQUAL(false, RunTest("l3v1", 1174 )); } // AlgebraicRule // CSymbolDelay
-    TEST(1175) { CHECK_EQUAL(false, RunTest("l3v1", 1175 )); } // TODO:  ORDERING BUG
-    TEST(1176) { CHECK_EQUAL(false, RunTest("l3v1", 1176 )); } // CSymbolDelay
 }
 
 
@@ -1641,13 +1634,13 @@ TEST(1166) { CHECK(RunTest("l3v1", 1166 )); }
 TEST(1167) { CHECK(RunTest("l3v1", 1167 )); }
 TEST(1168) { CHECK(RunTest("l3v1", 1168 )); }
 TEST(1169) { CHECK(RunTest("l3v1", 1169 )); }
-//TEST(1170) { CHECK(RunTest("l3v1", 1170 )); }  // TODO:  ORDERING BUG
+TEST(1170) { CHECK(RunTest("l3v1", 1170 )); }
 TEST(1171) { CHECK(RunTest("l3v1", 1171 )); }
 TEST(1172) { CHECK(RunTest("l3v1", 1172 )); }
 //TEST(1173) { CHECK(RunTest("l3v1", 1173 )); } // CSymbolDelay
 //TEST(1174) { CHECK(RunTest("l3v1", 1174 )); } // AlgebraicRule // CSymbolDelay
-//TEST(1175) { CHECK(RunTest("l3v1", 1175 )); } // TODO:  ORDERING BUG
-//TEST(1176) { CHECK(RunTest("l3v1", 1176 )); } // CSymbolDelay
+TEST(1175) { CHECK(RunTest("l3v1", 1175 )); }
+TEST(1176) { CHECK(RunTest("l3v1", 1176 )); } // CSymbolDelay
 TEST(1177) { CHECK(RunTest("l3v1", 1177 )); }
 TEST(1178) { CHECK(RunTest("l3v1", 1178 )); }
 TEST(1179) { CHECK(RunTest("l3v1", 1179 )); }
