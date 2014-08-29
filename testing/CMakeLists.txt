@@ -13,12 +13,22 @@ set(tests
     Test_3.xml
     ModelSourceTest.h
     ModelSourceTest.c
-    feedback.xml
 )
-
-
 install(
     FILES ${tests}
     DESTINATION testing 	COMPONENT testing
+)
+
+file(GLOB datfiles "${CMAKE_CURRENT_SOURCE_DIR}/*.dat")
+install(
+    FILES ${datfiles}
+    DESTINATION testing COMPONENT testing
+)
+
+
+file(GLOB xmlfiles "${CMAKE_CURRENT_SOURCE_DIR}/*.xml")
+install(
+    FILES ${xmlfiles}
+    DESTINATION testing COMPONENT testing
 )
 
