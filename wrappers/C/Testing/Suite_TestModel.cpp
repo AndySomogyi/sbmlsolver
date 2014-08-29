@@ -125,6 +125,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SET_STEADY_STATE_SELECTION_LIST ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -144,6 +145,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_STEADY_STATE_SELECTION_LIST ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -185,6 +187,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SPECIES_CONCENTRATIONS ====" << endl << endl;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
@@ -215,6 +218,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_SPECIES_INITIAL_CONCENTRATIONS ====" << endl << endl;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
@@ -242,6 +246,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl << endl;
 
         RRStringArray *arr = getFloatingSpeciesIds(gRR);
         for(int i = 0 ; i < aSection->KeyCount(); i++)
@@ -270,6 +275,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl << endl;
 
         RRStringArray *arr = getFloatingSpeciesIds(gRR);
         for(int i = 0 ; i < aSection->KeyCount(); i++)
@@ -307,6 +313,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SET_SPECIES_INITIAL_CONCENTRATIONS ====" << endl << endl;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
@@ -344,6 +351,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== FLUXES ====" << endl << endl;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
@@ -370,6 +378,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== FULL_JACOBIAN ====" << endl << endl;
 
         RRDoubleMatrixPtr       jActual     = getFullJacobian(gRR);
         ls::DoubleMatrix     jRef        = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -399,6 +408,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== INDIVIDUAL_EIGENVALUES ====" << endl << endl;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
@@ -432,6 +442,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_EIGENVALUE_MATRIX ====" << endl << endl;
 
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
@@ -480,6 +491,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== STOICHIOMETRY_MATRIX ====" << endl << endl;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
@@ -516,7 +528,6 @@ SUITE(TEST_MODEL)
 
     TEST(LINK_MATRIX)
     {
-        clog<<"\n==== LINK_MATRIX ====\n\n";
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -525,6 +536,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== LINK_MATRIX ====" << endl << endl;
 
            ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
@@ -561,7 +573,6 @@ SUITE(TEST_MODEL)
 
     TEST(UNSCALED_ELASTICITY_MATRIX)
     {
-        clog<<"\n==== UNSCALED_ELASTICITY_MATRIX ====\n\n";
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -570,6 +581,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<<"\n==== UNSCALED_ELASTICITY_MATRIX ====\n\n";
 
            ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
@@ -799,10 +811,9 @@ SUITE(TEST_MODEL)
         IniSection* aSection = iniFile.GetSection("Scaled Flux Control Matrix");
         if(!aSection || !gRR)
         {
-            clog << endl << "==== No 'Scaled Flux Control Matrix' test for this file. ====" << endl << endl;
             return;
         }
-        clog<<"\n==== SCALED_FLUX_CONTROL_MATRIX ====\n\n";
+        clog<< endl << "==== SCALED_FLUX_CONTROL_MATRIX ====" << endl << endl;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
@@ -845,6 +856,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== FLOATING_SPECIES_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -876,6 +888,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== BOUNDARY_SPECIES_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -907,6 +920,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GLOBAL_PARAMETER_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -938,6 +952,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== COMPARTMENT_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -969,6 +984,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== REACTION_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1000,6 +1016,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SPECIES_INITIAL_CONDITION_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1031,6 +1048,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_EIGENVALUE_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1062,6 +1080,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_RATES_OF_CHANGE_IDS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1096,6 +1115,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SET_STEADY_STATE_SELECTION_LIST_2 ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1115,6 +1135,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_STEADY_STATE_SELECTION_LIST_2 ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1149,6 +1170,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== SET_TIME_COURSE_SELECTION_LIST ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1168,6 +1190,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_TIME_COURSE_SELECTION_LIST ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1199,6 +1222,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== COMPUTE_STEADY_STATE_VALUES ====" << endl << endl;
 
         RRVector* values = computeSteadyStateValues(gRR);
 
@@ -1231,6 +1255,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== FLOATING_SPECIES_CONCENTRATIONS ====" << endl << endl;
 
         RRVector* values = getFloatingSpeciesConcentrations(gRR);
 
@@ -1253,7 +1278,7 @@ SUITE(TEST_MODEL)
         freeVector(values);
     }
 
-        TEST(BOUNDARY_SPECIES_CONCENTRATIONS)
+    TEST(BOUNDARY_SPECIES_CONCENTRATIONS)
     {
         CHECK(gRR!=NULL);
 
@@ -1263,6 +1288,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== BOUNDARY_SPECIES_CONCENTRATIONS ====" << endl << endl;
 
         RRVector* values = getBoundarySpeciesConcentrations(gRR);
 
@@ -1295,6 +1321,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_GLOBABL_PARAMETER_VALUES ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1335,6 +1362,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1375,6 +1403,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_REACTION_RATES ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1415,6 +1444,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_REACTION_RATE_BY_INDEX ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1453,6 +1483,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== NUMBER_OF_DEPENDENT_SPECIES ====" << endl << endl;
 
         if(aSection->KeyCount() < 1)
         {
@@ -1472,6 +1503,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== NUMBER_OF_INDEPENDENT_SPECIES ====" << endl << endl;
 
         if(aSection->KeyCount() < 1)
         {
@@ -1484,13 +1516,14 @@ SUITE(TEST_MODEL)
           CHECK(aKey->AsInt() ==  val);
     }
 
-        TEST(NUMBER_OF_RULES)
+    TEST(NUMBER_OF_RULES)
     {
         IniSection* aSection = iniFile.GetSection("Number of Rules");
         if(!aSection)
         {
             return;
         }
+        clog<< endl << "==== NUMBER_OF_RULES ====" << endl << endl;
 
         if(aSection->KeyCount() < 1)
         {
@@ -1513,6 +1546,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_RATES_OF_CHANGE ====" << endl << endl;
 
         IniKey* aKey = aSection->GetKey("list");
         if(!aKey)
@@ -1552,6 +1586,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_REACTION_RATES_EX ====" << endl << endl;
 
         IniKey* conc = aSection->GetKey("list1");
         if(!conc)
@@ -1609,6 +1644,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_RATES_OF_CHANGE_EX ====" << endl << endl;
 
         IniKey* conc = aSection->GetKey("list1");
         if(!conc)
@@ -1666,6 +1702,7 @@ SUITE(TEST_MODEL)
         {
             return;
         }
+        clog<< endl << "==== GET_RATE_OF_CHANGE_BY_INDEX ====" << endl << endl;
 
         IniKey* conc = aSection->GetKey("list1");
         if(!conc)
