@@ -5,7 +5,7 @@ set(target run_test_suite)
 
 set(tests
     Suite_Core_Tests.cpp
-    Suite_TestModel_1.cpp
+    Suite_TestModel.cpp
     Suite_SBML_Tests.cpp
     Suite_NOM_Tests.cpp
     Suite_LibStruct_Tests.cpp
