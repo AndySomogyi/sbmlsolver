@@ -83,7 +83,13 @@ int main(int argc, char* argv[])
     if(args.Suites.find('B') != std::string::npos)
     {
         // run the test model test over multiple data files.
-        std::set<string> files = SuiteTEST_MODEL::getTestFiles();
+        std::set<string> files;
+        if (args.TestDataFolder.empty()) {
+          files = SuiteTEST_MODEL::getTestFiles();
+        }
+        else {
+          files = SuiteTEST_MODEL::getTestFiles(args.TestDataFolder);
+        }
 
         for (std::set<string>::const_iterator i = files.begin();
                 i != files.end(); ++i)
@@ -210,7 +216,7 @@ bool setup(Args& args)
     if(args.Suites.size() == 0)
     {
         //Run all the non-duplicated tests.
-        args.Suites = "ABCDEJ";
+        args.Suites = "ABCDEJL";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
