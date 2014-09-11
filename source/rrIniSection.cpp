@@ -11,6 +11,7 @@ namespace rr
 IniSection::IniSection()
 :
 mIsDirty(true),
+mIsUsed(false),
 mName(""),
 mComment("")
 {
@@ -20,6 +21,7 @@ mComment("")
 IniSection::IniSection(const string& nameValueString, const char& sep)
 :
 mIsDirty(true),
+mIsUsed(false),
 mName(""),
 mComment("")
 {

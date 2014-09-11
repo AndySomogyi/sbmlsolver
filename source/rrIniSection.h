@@ -26,10 +26,11 @@ class RR_DECLSPEC IniSection
         bool            mIsDirty;
 
     public:
+        bool              mIsUsed;
         string            mName;
         string            mComment;
-        KeyList            mKeys;            //vector of pointers to keys
-        NonKeyList         mNonKeys;         //vector of pointers to non_keys
+        KeyList           mKeys;            //vector of pointers to keys
+        NonKeyList        mNonKeys;         //vector of pointers to non_keys
 
                         IniSection();
                         IniSection(const std::string& nameValueString, const char& sep);
