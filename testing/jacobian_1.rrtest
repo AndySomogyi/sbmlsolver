@@ -27,7 +27,6 @@
       <parameter id="kk4" value="1" constant="true"/>
       <parameter id="k4" value="0.55" constant="true"/>
       <parameter id="k_4" value="0.01" constant="true"/>
-      <parameter id="compartment_" constant="true"/>
     </listOfParameters>
     <listOfReactions>
       <reaction id="J1" reversible="true" fast="false">
@@ -156,3 +155,23 @@
 </sbml>
 
 [Amount/Concentration Jacobians]
+
+[Full Jacobian]
+      -2.15     0.27      0.09
+       1.1     -1.07      0.09
+       0.4      0.4      -0.64
+
+[Steady State Fluxes]
+J1 = 0.427394807520143
+J2 = 0.213697403760072
+J3 = 0.213697403760072
+J4 = 0.213697403760072
+
+[Species Concentrations]
+"[S1] = 0.29042"
+"[S2] = 0.33124"
+"[S3] = 0.38854"
+
+[Get Steady State Selection List]
+"[S1] [S2] [S3]"
+

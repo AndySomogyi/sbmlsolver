@@ -169,21 +169,17 @@
 "[S3] = 0.382513661202186"
 
 [Get Species Initial Concentrations By Index]
-0 = 0.1
-1 = 0.25
-2 = 0.1
+0.1 0.25 0.1
 
 [Set Species Initial Concentrations By Index]
-0 = 0.34
-1 = 0.35
-2 = 0.36
+0.30 0.31 0.32
 
 [Set Species Initial Concentrations]
 init([S1]) = 0.34
 init([S2]) = 0.35
 init([S3]) = 0.36
 
-[Fluxes]
+[Steady State Fluxes]
 J1 = 0.420765
 J2 = 0.210383
 J3 = 0.210383

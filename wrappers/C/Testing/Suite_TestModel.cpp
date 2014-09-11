@@ -283,8 +283,9 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        RRStringArray *arr = getFloatingSpeciesIds(gRR);
-        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        string valstr = Trim(aSection->GetNonKeysAsString());
+        vector<string> vals = splitString(valstr, " "); 
+        for(size_t i = 0 ; i < vals.size(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
             double val;
@@ -294,9 +295,9 @@ SUITE(TEST_MODEL)
             }
 
             //Check concentrations
-            CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+            CHECK_CLOSE(toDouble(vals[i]), val, 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+            clog<<"Ref:\t"<<toDouble(vals[i])<<"\tActual:\t "<<val<<endl;
         }
     }
 
@@ -313,13 +314,13 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        RRStringArray *arr = getFloatingSpeciesIds(gRR);
-        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        string valstr = Trim(aSection->GetNonKeysAsString());
+        vector<string> vals = splitString(valstr, " "); 
+        for(size_t i = 0 ; i < vals.size(); i++)
         {
-            IniKey *aKey = aSection->GetKey(i);
-
             //Set the value..
-            setFloatingSpeciesInitialConcentrationByIndex(gRR, i, aKey->AsFloat());
+            double newval = toDouble(vals[i]);
+            setFloatingSpeciesInitialConcentrationByIndex(gRR, i, newval);
 
             double val;
             //Read it back
@@ -329,14 +330,10 @@ SUITE(TEST_MODEL)
             }
 
             //Check concentrations
-            CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+            CHECK_CLOSE(newval, val, 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+            clog<<"Ref:\t"<<newval<<"\tActual:\t "<<val<<endl;
         }
-
-        double val;
-        reset(gRR);
-        steadyState(gRR, &val);
     }
 
     TEST(SET_SPECIES_INITIAL_CONCENTRATIONS)
@@ -378,18 +375,22 @@ SUITE(TEST_MODEL)
         steadyState(gRR, &val);
     }
 
-    TEST(FLUXES)
+    TEST(STEADY_STATE_FLUXES)
     {
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
-        IniSection* aSection = iniFile.GetSection("Fluxes");
+        IniSection* aSection = iniFile.GetSection("Steady State Fluxes");
         if(!aSection || !gRR)
         {
             return;
         }
-        clog<< endl << "==== FLUXES ====" << endl << endl;
+
+        clog<< endl << "==== STEADY STATE FLUXES ====" << endl << endl;
         aSection->mIsUsed = true;
+
+        double val;
+        steadyState(gRR, &val);
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {

@@ -112,16 +112,17 @@ def checkSpeciesConcentrations(rrInstance, testId):
     errorFlag = False
     for i in range (0,m):
         expectedValue =  float (species[i][1])
-        if expectApproximately (expectedValue, species[i][2], 1E-6) == False:
+        if expectApproximately (expectedValue, species[i][2], 1E-5) == False:
             errorFlag = True
             break
     print passMsg (errorFlag)
 
 
-def checkFluxes(rrInstance, testId):
+def checkSteadyStateFluxes(rrInstance, testId):
     words = []
     fluxes = []
     # Steady State Fluxes
+    print "Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState()
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     n = rrInstance.model.getNumReactions();
@@ -393,7 +394,7 @@ def checkReactionIds (rrInstance, testId):
     print passMsg (errorFlag)
 
 
-def checkFloatingSpeciesInitialConditionIds (rrInstance, testId):
+def checkFloatingSpeciesInitialConcentrationIds (rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
 
     words = divide(readLine())
@@ -547,12 +548,41 @@ def checkGetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     words = divide(readLine())
-    n = len(words) #rrInstance.model.getNumSpecies()
-    #for i in range (n):
-    #    value = rrInstance.model.getFloatingSpeciesInitialConcentrations()[i]
-    #    if expectApproximately(float (words[i]), value, 1E-6) == False:
-    #        errorFlag = True
-    #        break;
+    n = rrInstance.model.getNumFloatingSpecies()
+    values = rrInstance.model.getFloatingSpeciesInitConcentrations()
+    for i in range (n):
+        if expectApproximately(float (words[i]), values[i], 1E-6) == False:
+            errorFlag = True
+            break;
+    print passMsg (errorFlag)
+
+
+def checkSetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    words = divide(readLine())
+    n = rrInstance.model.getNumFloatingSpecies()
+    rrInstance.model.setFloatingSpeciesInitConcentrations(array(map(float, words)))
+    rt = rrInstance.model.getFloatingSpeciesInitConcentrations()
+    for i in range (n):
+        if expectApproximately(float (words[i]), rt[i], 1E-6) == False:
+            errorFlag = True
+            break
+    print passMsg (errorFlag)
+
+
+def checkSetSpeciesInitialConcentrations(rrInstance, testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    n = rrInstance.model.getNumFloatingSpecies()
+    for i in range (0,n):
+        words = divide(readLine())
+        if rrInstance.setValue(words[0], float(words[1])) == False:
+            errorFlag = True
+            break
+        if expectApproximately(rrInstance.getValue(words[0]), float (words[1]), 1E-6) == False:
+            errorFlag = True
+            break
     print passMsg (errorFlag)
 
 
@@ -580,7 +610,7 @@ def checkNumberOfRules(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     value = int (readLine())
-    if rrInstance.getNumRules() != value:
+    if rrInstance.model.getNumRules() != value:
         errorFlag = True
     print passMsg (errorFlag)
 
@@ -891,7 +921,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Eigenvalue Matrix]': checkEigenvalueMatrix,
              '[Floating Species Concentrations]': checkFloatingSpeciesConcentrations,
              '[Floating Species Ids]': checkGetFloatingSpeciesIds,
-             '[Fluxes]': checkFluxes,
+             '[Steady State Fluxes]': checkSteadyStateFluxes,
              '[Full Jacobian]': checkFullJacobian,
              '[Get Eigenvalue Ids]': checkEigenValueIds,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
@@ -900,7 +930,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
 #             '[Get Rates Of Change Ids]': checkGetRatesOfChangeIds,
 #             '[Get Rates Of Change]': checkGetRatesOfChange,
 #             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
-             '[Get Reaction Rate By Index]': checkGetReactionRatesByIndex,
+             '[Get Reaction Rates By Index]': checkGetReactionRatesByIndex,
 #             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
              '[Get Reaction Rates]': checkReactionRates,
              '[Get Species Initial Concentrations By Index]': checkGetSpeciesInitialConcentrationsByIndex,
@@ -912,15 +942,18 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Link Matrix]': checkLinkMatrix,
              '[Number of Dependent Species]': checkNumberOfDependentSpecies,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
+#             '[Number Of Rules]': checkNumberOfRules,
              '[Reaction Ids]': checkReactionIds,
              '[Scaled Concentration Control Matrix]': checkScaledConcentrationControlMatrix,
              '[Scaled Elasticity Matrix]': checkScaledElasticityMatrix,
              '[Scaled Flux Control Matrix]': checkScaledFluxControlCoefficientMatrix,
+             '[Set Species Initial Concentrations By Index]': checkSetSpeciesInitialConcentrationsByIndex,
+             '[Set Species Initial Concentrations]': checkSetSpeciesInitialConcentrations,
              '[Set Steady State Selection List]': checkSetSteadyStateSelectionList,
              '[Set Steady State Selection List 2]': checkSetSteadyStateSelectionList,
              '[Set Time Course Selection List]': checkSetTimeCourseSelectionList,
              '[Species Concentrations]': checkSpeciesConcentrations,
-             '[Species Initial Condition Ids]': checkFloatingSpeciesInitialConditionIds,
+             '[Species Initial Concentration Ids]': checkFloatingSpeciesInitialConcentrationIds,
              '[Stoichiometry Matrix]': checkStoichiometryMatrix,
              '[Unscaled Concentration Control Matrix]': checkUnscaledConcentrationControlMatrix,
              '[Unscaled Elasticity Matrix]': checkUnscaledElasticityMatrix,
