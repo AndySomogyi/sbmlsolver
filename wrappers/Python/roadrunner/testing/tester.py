@@ -19,6 +19,7 @@
 import random
 import string
 import roadrunner
+from roadrunner import Config
 import re
 from numpy import *
 
@@ -26,8 +27,8 @@ from numpy import *
 # Module wide file handle
 fHandle = ''
 rpadding = 45
-sbmlStr = ''
-JarnacStr = ''
+gFailedTests = 0
+gPassedTests = 0
 
 # --------------------------------------------------------------------------
 # SUPPORT ROUTINES
@@ -38,10 +39,14 @@ def expectApproximately (a, b, tol):
     return abs(diff) < tol
 
 def passMsg (errorFlag, msg = ""):
+    global gFailedTests
+    global gPassedTests
     if msg:
         msg = "\n    " + msg
     if not errorFlag:
+        gPassedTests = gPassedTests+1
         return "PASS"
+    gFailedTests = gFailedTests+1    
     return "*****FAIL*****" + msg
 
 # Empty lines are ignored
@@ -79,14 +84,6 @@ def getSBMLStr ():
         sbmlStr = sbmlStr + line
         line = fHandle.readline()
     return sbmlStr, line.strip()
-
-def getJarnacStr ():
-    JarnacStr = ''
-    line = fHandle.readline()
-    while (line != '[END_MODEL]' + '\n'):
-        JarnacStr = JarnacStr + line
-        line = fHandle.readline()
-    return JarnacStr
 
 # ------------------------------------------------------------------------
 # TESTS START HERE
@@ -144,6 +141,25 @@ def checkFullJacobian(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+    Jacobian = rrInstance.getFullJacobian()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        for j in range(0,m):
+            expectedValue = float(words[j])
+            if expectApproximately (expectedValue, Jacobian[i,j], 1E-6) == False:
+                errorFlag = True
+                break
+    print passMsg (errorFlag)
+
+
+def checkAmountJacobian(rrInstance, testId):
+    # Jacobian
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     Jacobian = rrInstance.getFullJacobian()
     for i in range(0,m):
         line = readLine ()
@@ -160,6 +176,28 @@ def checkIndividualEigenvalues(rrInstance, testId):
     # Eigenvalues
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+    m = rrInstance.model.getNumFloatingSpecies()
+    try:
+        for i in range(0,m):
+            words = divide(readLine())
+            eigenvalueName = words[0]
+            realPart = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
+            realPart = float (realPart)
+
+            if expectApproximately (realPart, float(words[1]), 1E-5) == False:
+                errorFlag = True
+                break
+        print passMsg (errorFlag)
+    except Exception, e:
+        print('Unexpected error in checkIndividualEigenvalues:' + str(e))
+
+
+def checkIndividualAmountEigenvalues(rrInstance, testId):
+    # Eigenvalues
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     m = rrInstance.model.getNumFloatingSpecies()
     try:
         for i in range(0,m):
@@ -181,6 +219,29 @@ def checkEigenvalueMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+    eigenvalues = rrInstance.getEigenvalues()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        realPart = float (words[0])
+        # Check if there is an imaginary part
+        if len (words) == 1:
+            imagPart = 0
+        else:
+            imagPart= float (words[1])
+        if (expectApproximately (realPart, eigenvalues[i,0], 1E-5) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
+            errorFlag = True
+            break
+    print passMsg (errorFlag)
+
+
+def checkEigenvalueAmountMatrix(rrInstance, testId):
+    # Eigenvalues
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     eigenvalues = rrInstance.getEigenvalues()
     for i in range(0,m):
         line = readLine ()
@@ -294,10 +355,26 @@ def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
 
 
 def checkUnscaledElasticityMatrix(rrInstance, testId):
-    # Jacobian
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+    uee = rrInstance.getUnscaledElasticityMatrix()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        for j in range(0,m):
+            expectedValue = float(words[j])
+            if expectApproximately (expectedValue, uee[i,j], 1E-6) == False:
+                errorFlag = True
+                break
+    print passMsg (errorFlag)
+
+def checkUnscaledElasticityAmountMatrix(rrInstance, testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     uee = rrInstance.getUnscaledElasticityMatrix()
     for i in range(0,m):
         line = readLine ()
@@ -310,10 +387,27 @@ def checkUnscaledElasticityMatrix(rrInstance, testId):
     print passMsg (errorFlag)
 
 def checkScaledElasticityMatrix(rrInstance, testId):
-    # Jacobian
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+    ee = rrInstance.getScaledElasticityMatrix()
+    for i in range(0,m):
+        line = readLine ()
+        words = line.split()
+        for j in range(0,m):
+            expectedValue = float(words[j])
+            if expectApproximately (expectedValue, ee[i,j], 1E-5) == False:
+                errorFlag = True
+                break
+    print passMsg (errorFlag)
+
+
+def checkScaledElasticityAmountMatrix(rrInstance, testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     ee = rrInstance.getScaledElasticityMatrix()
     for i in range(0,m):
         line = readLine ()
@@ -843,7 +937,6 @@ def setGetReset(rrInstance, testId):
 def checkJacobian(rrInstance, testId):
     # TODO need to update python 2.x printing
     print string.ljust ("Check " + testId, rpadding),
-    from roadrunner import Config
     import numpy as n
 
     errors = False
@@ -913,15 +1006,16 @@ def scriptTests():
 # ------------------------------------------------------------------------
 # List of tests
 functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
+             '[Amount Jacobian]' : checkAmountJacobian,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Boundary Species Ids]': checkGetBoundarySpeciesIds,
              '[Compartment Ids]': checkGetCompartmentIds,
              '[Compute Steady State Values]': checkComputeSteadyStateValues,
              '[Conservation Laws]': setConservationLaw,
              '[Eigenvalue Matrix]': checkEigenvalueMatrix,
+             '[Eigenvalue Amount Matrix]': checkEigenvalueAmountMatrix,
              '[Floating Species Concentrations]': checkFloatingSpeciesConcentrations,
              '[Floating Species Ids]': checkGetFloatingSpeciesIds,
-             '[Steady State Fluxes]': checkSteadyStateFluxes,
              '[Full Jacobian]': checkFullJacobian,
              '[Get Eigenvalue Ids]': checkEigenValueIds,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
@@ -939,6 +1033,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Get Time Course Selection List]': checkGetTimeCourseSelectionList,
              '[Global Parameter Ids]': checkGetGlobalParameterIds,
              '[Individual Eigenvalues]': checkIndividualEigenvalues,
+             '[Individual Amount Eigenvalues]': checkIndividualAmountEigenvalues,
              '[Link Matrix]': checkLinkMatrix,
              '[Number of Dependent Species]': checkNumberOfDependentSpecies,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
@@ -946,6 +1041,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Reaction Ids]': checkReactionIds,
              '[Scaled Concentration Control Matrix]': checkScaledConcentrationControlMatrix,
              '[Scaled Elasticity Matrix]': checkScaledElasticityMatrix,
+             '[Scaled Elasticity Amount Matrix]': checkScaledElasticityAmountMatrix,
              '[Scaled Flux Control Matrix]': checkScaledFluxControlCoefficientMatrix,
              '[Set Species Initial Concentrations By Index]': checkSetSpeciesInitialConcentrationsByIndex,
              '[Set Species Initial Concentrations]': checkSetSpeciesInitialConcentrations,
@@ -954,9 +1050,11 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Set Time Course Selection List]': checkSetTimeCourseSelectionList,
              '[Species Concentrations]': checkSpeciesConcentrations,
              '[Species Initial Concentration Ids]': checkFloatingSpeciesInitialConcentrationIds,
+             '[Steady State Fluxes]': checkSteadyStateFluxes,
              '[Stoichiometry Matrix]': checkStoichiometryMatrix,
              '[Unscaled Concentration Control Matrix]': checkUnscaledConcentrationControlMatrix,
              '[Unscaled Elasticity Matrix]': checkUnscaledElasticityMatrix,
+             '[Unscaled Elasticity Amount Matrix]': checkUnscaledElasticityAmountMatrix,
              '[Unscaled Flux Control Matrix]': checkUnscaledFluxControlCoefficientMatrix,
               }
 
@@ -975,8 +1073,6 @@ def runTester (testDir=None):
     are assumed to be testing files.
     """
     global fHandle
-    global sbmlStr
-    global JarnacStr
 
     import os.path as p
     from glob import glob
@@ -989,6 +1085,7 @@ def runTester (testDir=None):
 
     files = glob(p.join(testDir, "*.rrtest"))
 
+    unknownTests = 0
     for file in files:
         print "\n\nStarting Test on ", file
 
@@ -999,10 +1096,6 @@ def runTester (testDir=None):
         if testId == '[SBML]':
             sbmlStr, testId = getSBMLStr ()
         
-        if testId == '[JARNAC]':
-            JarnacStr = getJarnacStr ()
-            testId = jumpToNextTest()
-
         #print "\n", "Info:"+ "\n"
 
         # Create a roadRunner instance
@@ -1041,5 +1134,10 @@ def runTester (testDir=None):
                 func(rrInstance, testId)
             else:
                 #getFloatingSpeciesAmountRates
+                unknownTests = unknownTests+1
                 print string.ljust (testId, rpadding), 'UNKNOWN TEST'
             testId = jumpToNextTest()
+        
+    print "\n\nTotal failed tests:\t", gFailedTests, \
+    "\nTotal unknown tests:\t", unknownTests, \
+    "\nTotal passed tests:\t", gPassedTests

@@ -4,8 +4,10 @@
 #include "rrConfig.h"
 #include "rrIniFile.h"
 #include "rrLogger.h"
+#include "rrRoadRunner.h"
 #include "rrUtils.h"
 #include "rrc_api.h"
+#include "rrc_cpp_support.h"
 #include "src/TestUtils.h"
 
 #include "Poco/Path.h"
@@ -35,27 +37,45 @@ string Trim(const string& input)
 
 void compareJacobians(RRHandle gRR)
 {
-  RRDoubleMatrixPtr    jFull     = getFullJacobian(gRR);
-  RRDoubleMatrixPtr    jReduced  = getReducedJacobian(gRR);
+  RoadRunner* rri = castToRoadRunner(gRR);
+  ls::DoubleMatrix    jFull     = rri->getFullJacobian();
+  ls::DoubleMatrix    jReduced  = rri->getReducedJacobian();
 
   //Check dimensions
-  if(jFull->RSize != jReduced->RSize || 
-    jFull->CSize != jReduced->CSize)
+  if(jFull.RSize() != jReduced.RSize() || 
+    jFull.CSize() != jReduced.CSize())
   {
     CHECK(false);
     return;
   }
 
-  for(int row = 0; row < jFull->RSize; row++)
+  for(int row = 0; row < jFull.RSize(); row++)
   {
-    for(int col = 0; col < jFull->CSize; col++)
+    for(int col = 0; col < jFull.CSize(); col++)
     {
-      CHECK_CLOSE(jFull->Data[row*jFull->CSize + col], jReduced->Data[row*jFull->CSize + col], 1e-6);
+      CHECK_CLOSE(jFull(row, col), jReduced(row, col), 1e-6);
     }
   }
-  //Clean up...
-  freeMatrix(jFull);
-  freeMatrix(jReduced);
+}
+
+void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
+{
+        clog<<"Reference Matrix:" << endl;
+        clog<<ref<<endl;
+
+        clog<<"Calculated Matrix:" << endl;
+        clog<<calc<<endl;
+
+        if(calc.RSize() != ref.RSize())
+        {
+            CHECK(false);
+            return;
+        }
+
+        for(int i = 0 ; i < ref.RSize(); i++)
+        {
+            CHECK_CLOSE(ref(i,0), calc(i,0), 1e-5);
+        }
 }
 
 //This tests is mimicking the Python tests
@@ -417,33 +437,40 @@ SUITE(TEST_MODEL)
         {
             return;
         }
-        clog<< endl << "==== FULL_JACOBIAN ====" << endl << endl;
+        clog<< endl << "==== FULL JACOBIAN ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        RRDoubleMatrixPtr       jActual     = getFullJacobian(gRR);
-        ls::DoubleMatrix     jRef        = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
 
-        //Check dimensions
-        if(jActual->RSize != jRef.RSize() || jActual->CSize != jRef.CSize())
+        ls::DoubleMatrix   jActual = rri->getFullJacobian();
+        ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+
+        compareMatrices(jActual, jRef);
+    }
+
+    TEST(AMOUNT_JACOBIAN)
+    {
+        IniSection* aSection = iniFile.GetSection("Amount Jacobian");
+        if(!aSection)
         {
-            CHECK(false);
             return;
         }
+        clog<< endl << "==== AMOUNT JACOBIAN ====" << endl << endl;
+        aSection->mIsUsed = true;
 
-        for(int row = 0; row < jActual->RSize; row++)
-        {
-            for(int col = 0; col < jActual->CSize; col++)
-            {
-              CHECK_CLOSE(jRef(row,col), jActual->Data[row*jActual->CSize + col], 1e-6);
-            }
-        }
-        //Clean up...
-        freeMatrix(jActual);
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+
+        ls::DoubleMatrix   jActual = rri->getFullJacobian();
+        ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+
+        compareMatrices(jActual, jRef);
     }
 
     TEST(INDIVIDUAL_EIGENVALUES)
     {
-        IniSection* aSection = iniFile.GetSection("Individual EigenValues");
+        IniSection* aSection = iniFile.GetSection("Individual Eigenvalues");
         if(!aSection)
         {
             return;
@@ -451,19 +478,42 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== INDIVIDUAL_EIGENVALUES ====" << endl << endl;
         aSection->mIsUsed = true;
 
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
-            double val;
+            string eigenValueLabel ="eigen(" + aKey->mKey + ")";
+            double val = rri->getValue(eigenValueLabel.c_str());
+
+            clog<<"EigenValue "<<i<<": "<<val<<endl;
+            CHECK_CLOSE(aKey->AsFloat(), val, 1e-5);
+        }
+    }
+
+    TEST(INDIVIDUAL_AMOUNT_EIGENVALUES)
+    {
+        IniSection* aSection = iniFile.GetSection("Individual Amount Eigenvalues");
+        if(!aSection)
+        {
+            return;
+        }
+        clog<< endl << "==== INDIVIDUAL AMOUNT EIGENVALUES ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        {
+            IniKey *aKey = aSection->GetKey(i);
+            clog<<"\n";
+            clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
             string eigenValueLabel ="eigen(" + aKey->mKey + ")";
-            if(!getValue(gRR, eigenValueLabel.c_str(), &val))
-            {
-                CHECK(false);
-            }
+            double val = rri->getValue(eigenValueLabel.c_str());
 
             clog<<"EigenValue "<<i<<": "<<val<<endl;
             CHECK_CLOSE(aKey->AsFloat(), val, 1e-5);
@@ -486,40 +536,37 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== GET_EIGENVALUE_MATRIX ====" << endl << endl;
         aSection->mIsUsed = true;
 
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getEigenvalues();
 
-        RRDoubleMatrixPtr matrix = getEigenvalues(gRR);
-        if(!matrix)
+        compareMatrices(ref, matrix);
+    }
+
+
+    TEST(GET_EIGENVALUE_AMOUNT_MATRIX)
+    {
+        CHECK(gRR!=NULL);
+
+        setComputeAndAssignConservationLaws(gRR, true);
+
+        IniSection* aSection = iniFile.GetSection("Eigenvalue Amount Matrix");
+
+        //Read in the reference data, from the ini file
+        if(!aSection || !gRR)
         {
-            CHECK(false);
             return;
         }
+        clog<< endl << "==== GET_EIGENVALUE AMOUNT MATRIX ====" << endl << endl;
+        aSection->mIsUsed = true;
 
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getEigenvalues();
 
-        clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-        clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-5);
-
-        }
-        freeMatrix(matrix);
-
-
+        compareMatrices(ref, matrix);
     }
 
 
@@ -628,37 +675,37 @@ SUITE(TEST_MODEL)
         clog<<"\n==== UNSCALED_ELASTICITY_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
-           ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        double test;
+        steadyState(gRR, &test);
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getUnscaledElasticityMatrix();
 
-        RRDoubleMatrixPtr matrix = getUnscaledElasticityMatrix(gRR);
-        if(!matrix)
+        compareMatrices(ref, matrix);
+      }
+
+    TEST(UNSCALED_ELASTICITY_AMOUNT_MATRIX)
+    {
+        CHECK(gRR!=NULL);
+
+        //Read in the reference data, from the ini file
+        IniSection* aSection = iniFile.GetSection("Unscaled Elasticity Amount Matrix");
+        if(!aSection || !gRR)
         {
-            CHECK(false);
             return;
         }
+        clog<<"\n==== UNSCALED_ELASTICITY_AMOUNT_MATRIX ====\n\n";
+        aSection->mIsUsed = true;
 
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        double test;
+        steadyState(gRR, &test);
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getUnscaledElasticityMatrix();
 
-        clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-        clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-        }
-        freeMatrix(matrix);
+        compareMatrices(ref, matrix);
       }
 
     TEST(SCALED_ELASTICITY_MATRIX)
@@ -674,40 +721,37 @@ SUITE(TEST_MODEL)
         clog<<"\n==== SCALED_ELASTICITY_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
-        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
         double test;
         steadyState(gRR, &test);
-        RRDoubleMatrixPtr matrix = getScaledElasticityMatrix(gRR);
-        if(!matrix)
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getScaledElasticityMatrix();
+
+        compareMatrices(ref, matrix);
+      }
+
+    TEST(SCALED_ELASTICITY_AMOUNT_MATRIX)
+    {
+        CHECK(gRR!=NULL);
+
+        //Read in the reference data, from the ini file
+        IniSection* aSection = iniFile.GetSection("Scaled Elasticity Amount Matrix");
+        if(!aSection || !gRR)
         {
-            CHECK(false);
             return;
         }
+        clog<<"\n==== SCALED_ELASTICITY_AMOUNT_MATRIX ====\n\n";
+        aSection->mIsUsed = true;
 
-        clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        double test;
+        steadyState(gRR, &test);
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getScaledElasticityMatrix();
 
-        clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-5);
-
-        }
-        freeMatrix(matrix);
+        compareMatrices(ref, matrix);
       }
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
@@ -1693,10 +1737,10 @@ SUITE(TEST_MODEL)
         }
         clog<< endl << "==== AMOUNT_CONCENTRATION_JACOBIANS ====" << endl << endl;
         aSection->mIsUsed = true;
-        unsigned saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>();
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (int)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        rr::Variant saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         compareJacobians(gRR);
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         compareJacobians(gRR);
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, saved);
     }
