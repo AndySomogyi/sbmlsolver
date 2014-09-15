@@ -25,3 +25,9 @@ install(
     DESTINATION testing COMPONENT testing
 )
 
+file(GLOB rrtestfiles "${CMAKE_CURRENT_SOURCE_DIR}/*.rrtest")
+install(
+    FILES ${rrtestfiles}
+    DESTINATION testing COMPONENT testing
+)
+
