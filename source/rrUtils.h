@@ -126,5 +126,23 @@ RR_DECLSPEC string          getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 #undef CreateFile
 RR_DECLSPEC bool            createFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
 
+
+
+/**
+ * A cross platform monotonic timer.
+ *
+ * Returns seconds since some unspecified start time (guaranteed to be
+ * monotonicly increasing).
+ *
+ * Copyright 2013 Alex Reece.
+ * taken from 
+ * https://github.com/awreece/monotonic_timer
+ * http://codearcana.com/posts/2013/05/15/a-cross-platform-monotonic-timer.html
+ * 
+ * Note, this is a *PRIVATE* function, only reason why it is exported is so that 
+ * the test suite can verify that it is increasing.
+ */
+RR_DECLSPEC double getMicroSeconds();
+
 } // rr Namespace
 #endif
