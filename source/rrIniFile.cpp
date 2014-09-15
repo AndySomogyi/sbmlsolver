@@ -164,8 +164,17 @@ bool IniFile::Load(const string& newfName)
 				pSection = GetSection(Line, true);
             	Log(lDebug3)<<"Located section: " + pSection->mName;
 				Comment = string("");
-			}
-			else if ( Line.size() > 0 ) // we have a key, add this key/value pair
+            }
+            else if ( Line.find_first_of('<') != string::npos &&
+                      Line.find_first_of('>') != string::npos)     //XML
+            {
+                if(pSection)
+                {
+                    WriteNonKey(Line, pSection->mName);
+                }
+                Log(lDebug5)<<"Read NonKey on line: " << lines;
+            }
+            else if ( Line.size() > 0 ) // we have a key, add this key/value pair
 			{
                 string Comment = "";
                 string Key = "";
