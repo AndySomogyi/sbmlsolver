@@ -129,16 +129,8 @@ RR_DECLSPEC bool            createFile(const string& fName, std::ios_base::openm
 
 
 /**
- * A cross platform monotonic timer.
+ * Returns the timestamp expressed in microseconds since the Unix epoch, midnight, January 1, 1970.
  *
- * Returns seconds since some unspecified start time (guaranteed to be
- * monotonicly increasing).
- *
- * Copyright 2013 Alex Reece.
- * taken from 
- * https://github.com/awreece/monotonic_timer
- * http://codearcana.com/posts/2013/05/15/a-cross-platform-monotonic-timer.html
- * 
  * Note, this is a *PRIVATE* function, only reason why it is exported is so that 
  * the test suite can verify that it is increasing.
  */
