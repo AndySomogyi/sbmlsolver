@@ -679,7 +679,7 @@ int populateFileSet(const string& folder, set<string>& files)
 
 #endif
 
-double getMicroSeconds() {
+int64_t getMicroSeconds() {
     Poco::Timestamp ts;
     return ts.epochMicroseconds();
 }

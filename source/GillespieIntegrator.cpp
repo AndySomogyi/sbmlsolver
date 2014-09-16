@@ -8,6 +8,7 @@
 #include "GillespieIntegrator.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
+#include "rrConfig.h"
 
 #include <cstring>
 #include <assert.h>
@@ -25,6 +26,22 @@ using namespace std;
 namespace rr
 {
 
+static unsigned long defaultSeed()
+{
+    int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
+    if (seed < 0)
+    {
+        // system time in mirsoseconds since 1970
+        seed = getMicroSeconds();
+    }
+
+    int64_t maxl = std::numeric_limits<unsigned long>::max() - 1;
+
+    seed = seed % maxl;
+
+    return (unsigned long)seed;
+}
+
 GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
         const SimulateOptions* o) :
         model(m),
@@ -33,7 +50,7 @@ GillespieIntegrator::GillespieIntegrator(ExecutableModel* m,
         stoichRows(0),
         stoichCols(0),
         stoichData(0),
-        seed(5489UL) // default value for mersene twister
+        seed(defaultSeed()) // default value for mersene twister
 {
     if (o)
     {

@@ -14,7 +14,8 @@
 #include "rrExporter.h"
 #include "rrConstants.h"
 #include "rrStringUtils.h"
-//---------------------------------------------------------------------------
+#include <stdint.h>
+
 
 namespace rr
 {
@@ -131,10 +132,10 @@ RR_DECLSPEC bool            createFile(const string& fName, std::ios_base::openm
 /**
  * Returns the timestamp expressed in microseconds since the Unix epoch, midnight, January 1, 1970.
  *
- * Note, this is a *PRIVATE* function, only reason why it is exported is so that 
+ * Note, this is a *PRIVATE* function, only reason why it is exported is so that
  * the test suite can verify that it is increasing.
  */
-RR_DECLSPEC double getMicroSeconds();
+RR_DECLSPEC int64_t getMicroSeconds();
 
 } // rr Namespace
 #endif

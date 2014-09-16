@@ -405,7 +405,7 @@ public:
 
 
         /**
-         * Seed for random numbers, should be a double. 
+         * Seed for random numbers, should be a integer.
          *
          * If this value is negative, then the system time is used
          * for the random seed.

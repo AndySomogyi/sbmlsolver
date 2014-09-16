@@ -129,7 +129,7 @@ static Variant values[] =  {
     Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
     Variant(std::string(".")),                           // TEMP_DIR_PATH,
     Variant(std::string("")),                            // LOGGER_LOG_FILE_PATH,
-    Variant((double)5489UL)                              // RANDOM_SEED
+    Variant((int)5489UL)                              // RANDOM_SEED
     // add space after develop keys to clean up merging
 
 
