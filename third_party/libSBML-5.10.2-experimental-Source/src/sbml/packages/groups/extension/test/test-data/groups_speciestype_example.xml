@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1" 
+  xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1"
+  groups:required="false"> 
+  <model>  
+    <listOfSpecies>     
+      <species id="ATPc" compartment="cytosol" substanceUnits="mole" constant="false" 
+        hasOnlySubstanceUnits="false" boundaryCondition="true" />
+      <species id="ATPm" compartment="mitochon" substanceUnits="mole" constant="false" 
+        hasOnlySubstanceUnits="false" boundaryCondition="true" />
+    </listOfSpecies>   
+    <listOfCompartments>   
+      <compartment id="cytosol" spatialDimensions="3" size="1" constant="true" />
+      <compartment id="mitochon" spatialDimensions="3" size="1" constant="true" />
+    </listOfCompartments>   
+    <listOfGroups xmlns="http://www.sbml.org/sbml/level3/version1/groups/version1">   
+      <group groups:id="ATP" groups:kind="classification"> 
+        <listOfMembers sboTerm="SBO:0000248">
+          <member groups:idRef="ATPc" />
+          <member groups:idRef="ATPm" />
+        </listOfMembers>
+        <listOfMemberConstraints groups:membersShareType="true">
+          <memberConstraint groups:distinctAttribute="compartment" />
+          <memberConstraint groups:identicalAttribute="initialConcentration" />
+          <memberConstraint groups:identicalAttribute="constant" />
+        </listOfMemberConstraints>
+      </group> 
+    </listOfGroups>   
+  </model>  
+</sbml> 
