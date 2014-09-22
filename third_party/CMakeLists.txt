@@ -56,6 +56,9 @@ set(WITH_SWIG           OFF CACHE BOOL "test")
 set(WITH_ZLIB           OFF CACHE BOOL "test")
 set(WITH_CPP_NAMESPACE  ON  CACHE BOOL "test")
 set(ENABLE_COMP         ON  CACHE BOOL "test")
+set(ENABLE_DISTRIB      ON  CACHE BOOL "test")
+
+
 set(LIBSBML_USE_LEGACY_MATH ON CACHE BOOL "test")
 
 
@@ -151,12 +154,8 @@ endif()
 
 #Add Third Party Folders
 
-# libsbml looks for some .cmake files to build packages, 
-# need to add thier root dir so that it can find them.
-#set(CMAKE_MODULE_PATH libSBML-5.10.0-Source ${CMAKE_MODULE_PATH})
-#add_subdirectory(libSBML-5.10.0-Source)
-
-set(RR_LIBSBML "libSBML-5.10.2-Source")
+# Specify the source directory for libsbml here.
+set(RR_LIBSBML "libSBML-5.10.2-experimental-Source")
 set(LIBSBML_ROOT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/${RR_LIBSBML}" CACHE PATH
     "Path to the libsbml root source directory")
 set(LIBSBML_ROOT_BINARY_DIR "${CMAKE_BINARY_DIR}" CACHE PATH

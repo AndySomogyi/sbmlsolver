@@ -13,37 +13,22 @@ endif(BUILD_PYTHON)
 
 
 add_executable( ${target}
-    main.cpp
-    src/tests.cpp
-    src/cpplapack.cpp
-    src/CSRMatrixTest.cpp
-    src/LLVMCSRMatrixTest.cpp
-    src/test_compiler.cpp
-    src/TestBase.cpp
-    src/TestEvalInitialConditions.cpp
-    src/TestGetSetValues.cpp
-    src/TestEvalReactionRates.cpp
-    src/TestEvalModel.cpp
-    src/TestRoadRunner.cpp
-    src/GetBoundarySpeciesAmountTest.cpp
-    src/TestCapabilities.cpp
-    src/ConfigurableTest.cpp
-    src/TestVariant.cpp
-    src/tests.h
-    src/cpplapack.h
-    src/CSRMatrixTest.h
-    src/LLVMCSRMatrixTest.h
-    src/test_compiler.h
-    src/TestBase.h
-    src/TestEvalInitialConditions.h
-    src/TestGetSetValues.h
-    src/TestEvalReactionRates.h
-    src/TestEvalModel.h
-    src/TestRoadRunner.h
-    src/GetBoundarySpeciesAmountTest.h
-    src/TestCapabilities.h
-    src/ConfigurableTest.h
-    src/TestVariant.h
+    main
+    src/tests
+    src/cpplapack
+    src/CSRMatrixTest
+    src/LLVMCSRMatrixTest
+    src/test_compiler
+    src/TestBase
+    src/TestEvalInitialConditions
+    src/TestGetSetValues
+    src/TestEvalReactionRates
+    src/TestEvalModel
+    src/TestRoadRunner
+    src/GetBoundarySpeciesAmountTest
+    src/TestCapabilities
+    src/ConfigurableTest
+    src/TestVariant
     )
 
 set_property(TARGET ${target}

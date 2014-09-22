@@ -16,7 +16,7 @@
     #include <random>
     #define cxx11_ns std
     #define RR_CXX_RANDOM 1
-#elif  __clang_major__ >= 4
+#elif  __clang_major__ >= 4 || defined(__APPLE__)
     #include <tr1/random>
     #define cxx11_ns std::tr1
     #define RR_CXX_RANDOM 1

@@ -24,11 +24,8 @@
 #define cxx11_ns std::tr1
 #endif
 
-#if defined(_MSC_VER)
-#include "msc_stdint.h"
-#else
+
 #include <stdint.h>
-#endif
 
 namespace rr
 {
@@ -209,21 +206,21 @@ public:
         /**
          * The default CVODE integrator from the Sundials package.
          */
-        CVODE = 0,  
+        CVODE = 0,
 
         /**
-         * Basic Gillespie stochastic integrator. 
+         * Basic Gillespie stochastic integrator.
          */
-        GILLESPIE, 
+        GILLESPIE,
 
         /**
          * Basic Runge-Kutta fourth order integrator.
          */
-        RK4, 
+        RK4,
 
         /**
          * Always has to be at the end, this way, this value indicates
-         * how many integrators we have. 
+         * how many integrators we have.
          */
         INTEGRATOR_END
     };

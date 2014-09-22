@@ -403,6 +403,16 @@ public:
          */
         LOGGER_LOG_FILE_PATH,
 
+
+        /**
+         * Seed for random numbers, should be a integer.
+         *
+         * If this value is negative, then the system time is used
+         * for the random seed.
+         */
+        RANDOM_SEED,
+
+
         // add lots of space so not to conflict with other branches.
 
 

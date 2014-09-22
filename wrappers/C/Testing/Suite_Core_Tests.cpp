@@ -128,6 +128,24 @@ SUITE(CORE_TESTS)
         freeRRInstance(aRR1);
         freeRRInstance(aRR2);
     }
+
+    TEST(GET_MICROSECONDS)
+    {
+        int64_t millis = 123;
+        int64_t start = rr::getMicroSeconds();
+        // sleep for milliseconds
+        rr::sleep(millis);
+        int64_t end = rr::getMicroSeconds();
+        int64_t diff = end - start;
+
+        cout << "microseconds, start: " << start << ", end: " << end << ", diff: " << diff << endl;
+
+        // timer varies from system to system, but should be semi-close
+        CHECK_CLOSE(diff, 1000 * millis, 2000);
+
+        // make sure its increasing
+        CHECK(diff > 0);
+    }
 }
 
 string getListOfReactionsText(const string& fName)

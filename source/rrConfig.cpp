@@ -128,7 +128,8 @@ static Variant values[] =  {
     Variant(1.e-16),   // STEADYSTATE_MINIMUM_DAMPING
     Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
     Variant(std::string(".")),                           // TEMP_DIR_PATH,
-    Variant(std::string(""))                             // LOGGER_LOG_FILE_PATH,
+    Variant(std::string("")),                            // LOGGER_LOG_FILE_PATH,
+    Variant((int)5489UL)                              // RANDOM_SEED
     // add space after develop keys to clean up merging
 
 
@@ -224,6 +225,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["ROADRUNNER_JACOBIAN_MODE"] = rr::Config::ROADRUNNER_JACOBIAN_MODE;
     keys["TEMP_DIR_PATH"] = rr::Config::TEMP_DIR_PATH;
     keys["LOGGER_LOG_FILE_PATH"] = rr::Config::LOGGER_LOG_FILE_PATH;
+    keys["RANDOM_SEED"] = rr::Config::RANDOM_SEED;
     // add space after develop keys to clean up merging.
 
 

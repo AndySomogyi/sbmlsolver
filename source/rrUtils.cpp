@@ -55,7 +55,9 @@
 #include <mach-o/dyld.h>
 #endif
 
-//---------------------------------------------------------------------------
+// Poco timestamp
+#include <Poco/Timestamp.h>
+
 namespace rr
 {
 using namespace std;
@@ -636,7 +638,7 @@ string joinPath(const string& p1, const string& p2, const string& p3, const stri
 
 string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 {
-     LPVOID lpMsgBuf;
+    LPVOID lpMsgBuf;
     LPVOID lpDisplayBuf;
     DWORD dw = GetLastError();
 
@@ -676,5 +678,10 @@ int populateFileSet(const string& folder, set<string>& files)
 }
 
 #endif
+
+int64_t getMicroSeconds() {
+    Poco::Timestamp ts;
+    return ts.epochMicroseconds();
+}
 
 }//end of namespace
