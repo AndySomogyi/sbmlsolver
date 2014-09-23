@@ -51,18 +51,18 @@ static const char* modelDataFieldsNames[] =  {
         "Time",                                 // 2
         "NumIndCompartments",                   // 3
         "NumIndFloatingSpecies",                // 4
-        "NumConservedSpecies",                  // 5
-        "NumIndBoundarySpecies",                // 6
-        "NumIndGlobalParameters",               // 7
-        "NumRateRules",                         // 8
-        "NumReactions",                         // 9
+        "NumIndBoundarySpecies",                // 5
+        "NumIndGlobalParameters",               // 6
+        "NumRateRules",                         // 7
+        "NumReactions",                         // 8
 
-        "NumInitCompartments",                  // 10
-        "NumInitFloatingSpecies",               // 11
-        "NumInitBoundarySpecies",               // 12
-        "NumInitGlobalParameters",              // 13
+        "NumInitCompartments",                  // 9
+        "NumInitFloatingSpecies",               // 10
+        "NumInitBoundarySpecies",               // 11
+        "NumInitGlobalParameters",              // 12
 
-        "Stoichiometry",                        // 14
+        "Stoichiometry",                        // 13
+        "RandomPtr",                            // 14
         "NumEvents",                            // 15
         "StateVectorSize",                      // 16
         "StateVector",                          // 17
@@ -73,27 +73,25 @@ static const char* modelDataFieldsNames[] =  {
         "CompartmentVolumesAlias",              // 21
         "InitCompartmentVolumesAlias",          // 22
         "InitFloatingSpeciesAmountsAlias",      // 23
-        "InitConservedSpeciesAmountsAlias",     // 24
-        "BoundarySpeciesAmountsAlias",          // 25
-        "InitBoundarySpeciesAmountsAlias",      // 26
-        "GlobalParametersAlias",                // 27
-        "InitGlobalParametersAlias",            // 28
-        "ReactionRatesAlias",                   // 29
+        "BoundarySpeciesAmountsAlias",          // 24
+        "InitBoundarySpeciesAmountsAlias",      // 25
+        "GlobalParametersAlias",                // 26
+        "InitGlobalParametersAlias",            // 27
+        "ReactionRatesAlias",                   // 28
 
-        "RateRuleValuesAlias",                  // 30
-        "FloatingSpeciesAmountsAlias",          // 31
+        "RateRuleValuesAlias",                  // 29
+        "FloatingSpeciesAmountsAlias",          // 30
 
-        "CompartmentVolumes",                   // 32
-        "InitCompartmentVolumes",               // 33
-        "InitFloatingSpeciesAmounts",           // 34
-        "InitConservedSpeciesAmounts",          // 35
-        "BoundarySpeciesAmounts",               // 36
-        "InitBoundarySpeciesAmounts",           // 37
-        "GlobalParameters",                     // 38
-        "InitGlobalParameters",                 // 39
-        "ReactionRates",                        // 40
-        "NotSafe_RateRuleValues",               // 41
-        "NotSafe_FloatingSpeciesAmounts"        // 42
+        "CompartmentVolumes",                   // 31
+        "InitCompartmentVolumes",               // 32
+        "InitFloatingSpeciesAmounts",           // 33
+        "BoundarySpeciesAmounts",               // 34
+        "InitBoundarySpeciesAmounts",           // 35
+        "GlobalParameters",                     // 36
+        "InitGlobalParameters",                 // 37
+        "ReactionRates",                        // 38
+        "NotSafe_RateRuleValues",               // 39
+        "NotSafe_FloatingSpeciesAmounts"        // 40
 };
 
 
@@ -307,11 +305,6 @@ uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
 uint LLVMModelDataSymbols::getBoundarySpeciesSize() const
 {
     return boundarySpeciesMap.size();
-}
-
-uint LLVMModelDataSymbols::getConservedSpeciesSize() const
-{
-    return 0;
 }
 
 uint LLVMModelDataSymbols::getGlobalParameterIndex(

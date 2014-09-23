@@ -82,7 +82,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         builder(0),
         functionPassManager(0),
         options(options),
-        moietyConverter(0)
+        moietyConverter(0),
+        random(0)
 {
     try
     {
@@ -189,7 +190,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
         builder(0),
         functionPassManager(0),
         options(options),
-        moietyConverter(0)
+        moietyConverter(0),
+        random(0)
 {
     try
     {
@@ -299,6 +301,15 @@ ModelGeneratorContext::ModelGeneratorContext() :
     addGlobalMappings();
 }
 
+Random* ModelGeneratorContext::getRandom()
+{
+    if (random == 0)
+    {
+        random = new Random();
+    }
+    return random;
+}
+
 void ModelGeneratorContext::cleanup()
 {
     delete functionPassManager; functionPassManager = 0;
@@ -356,7 +367,7 @@ llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
 
 void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
         const llvm::LLVMContext** ctx, const llvm::ExecutionEngine** eng,
-        const string** err)
+        const Random** rnd, const string** err)
 {
     *sym = symbols;
     symbols = 0;
@@ -364,6 +375,8 @@ void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
     context = 0;
     *eng = executionEngine;
     executionEngine = 0;
+    *rnd = random;
+    random = 0;
     *err = errString;
     errString = 0;
 }

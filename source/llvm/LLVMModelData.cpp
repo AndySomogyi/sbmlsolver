@@ -12,12 +12,10 @@
 #include <string.h>
 #include "rrExecutableModel.h"
 #include "rrSparse.h"
+#include "Random.h"
 #include <iomanip>
 
-
-
 using namespace std;
-
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
@@ -103,6 +101,7 @@ void  LLVMModelData_free(LLVMModelData *data)
     if (data)
     {
         csr_matrix_delete(data->stoichiometry);
+        delete data->random;
         ::free(data);
     }
 }

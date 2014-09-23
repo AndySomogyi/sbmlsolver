@@ -13,8 +13,9 @@
 #include "ModelGeneratorContext.h"
 #include "LLVMIncludes.h"
 #include "ModelResources.h"
-#include "rrUtils.h"
+#include "Random.h"
 #include <rrLogger.h>
+#include <rrUtils.h>
 #include <Poco/Mutex.h>
 
 using rr::Logger;
@@ -157,8 +158,6 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     }
 
     SharedModelPtr rc(new ModelResources());
-
-
 
     ModelGeneratorContext context(sbml, options);
 
@@ -305,7 +304,14 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     // * MOVE * the bits over from the context to the exe model.
     context.stealThePeach(&rc->symbols, &rc->context,
-            &rc->executionEngine, &rc->errStr);
+            &rc->executionEngine, &rc->random, &rc->errStr);
+
+    // clone the random object, each ModelData instance has its own copy,
+    // as the Random object maintains a state.
+    if(rc->random)
+    {
+        modelData->random = new Random(*rc->random);
+    }
 
     if (!forceReCompile)
     {
@@ -379,7 +385,6 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
 
     uint numIndCompartments = symbols.getIndependentCompartmentSize();
     uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
-    uint numConservedSpecies = symbols.getConservedSpeciesSize();
     uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
     uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
 
@@ -397,7 +402,6 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
             numIndCompartments +
             numInitCompartments +
             numInitFloatingSpecies +
-            numConservedSpecies +
             numIndBoundarySpecies +
             numInitBoundarySpecies +
             numIndGlobalParameters +
@@ -414,7 +418,6 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     modelData->numIndCompartments = numIndCompartments;
     modelData->numIndFloatingSpecies = numIndFloatingSpecies;
     modelData->numIndBoundarySpecies = numIndBoundarySpecies;
-    modelData->numConservedSpecies = numConservedSpecies;
     modelData->numIndGlobalParameters = numIndGlobalParameters;
 
     modelData->numInitCompartments = numInitCompartments;
@@ -437,9 +440,6 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
 
     modelData->initFloatingSpeciesAmountsAlias = &modelData->data[offset];
     offset += numInitFloatingSpecies;
-
-    modelData->initConservedSpeciesAmountsAlias = &modelData->data[offset];
-    offset += numConservedSpecies;
 
     modelData->boundarySpeciesAmountsAlias = &modelData->data[offset];
     offset += numIndBoundarySpecies;
