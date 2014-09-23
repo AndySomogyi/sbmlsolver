@@ -742,28 +742,20 @@ double RoadRunner::getValue(const SelectionRecord& record)
         string species = record.p1;
         int index = impl->model->getFloatingSpeciesIndex(species);
 
-        DoubleMatrix mat;
-        if (impl->conservedMoietyAnalysis)
+        if (index < 0)
         {
-            mat = getReducedJacobian();
-        }
-        else
-        {
-            mat = getFullJacobian();
+            throw std::logic_error("Invalid species id" + record.p1 + " for eigenvalue");
         }
 
-        vector<Complex> oComplex = ls::getEigenValues(mat);
+        vector<Complex> eig = getEigenvaluesCpx();
 
-        if(impl->mSelectionList.size() == 0)
+        if (eig.size() <= index)
         {
-            throw("Tried to access record in empty impl->mSelectionList in getValue function: eigen");
+            // this should NEVER happen
+            throw std::runtime_error("Eigenvalues vector length less than species id");
         }
 
-        if (oComplex.size() > index) //Becuase first one is time !?
-        {
-            return std::real(oComplex[index]);
-        }
-        return std::numeric_limits<double>::quiet_NaN();
+        return std::real(eig[index]);
     }
     break;
     case SelectionRecord::INITIAL_CONCENTRATION:
