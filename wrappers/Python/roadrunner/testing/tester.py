@@ -64,7 +64,7 @@ def readLine ():
 def divide(line):
     words = line.strip()
     words = words.strip('"')
-    words = re.compile("[ =]").split(words)
+    words = re.compile("[ \t=]").split(words)
     while "" in words: words.remove("")
     return words
 
@@ -94,6 +94,10 @@ def checkMatrixVsUpcomingText(calc, rows):
     for i in range(0,rows):
         line = readLine ()
         words = line.split()
+        if(len(words) != len(calc[i])):
+            msg = "Expected a row of length " + str(len(words)) + ", but calculated a row of length " + str(len(calc[i]))
+            errorFlag = True
+            break
         for j in range(0,len(words)):
             expectedValue = float(words[j])
             if expectApproximately (expectedValue, calc[i,j], abs(1e-12+calc[i,j])*1E-5) == False:
@@ -144,7 +148,7 @@ def checkSpeciesConcentrations(rrInstance, testId):
     errorFlag = False
     for i in range (0,m):
         expectedValue =  float (species[i][1])
-        if expectApproximately (expectedValue, species[i][2], 1E-5) == False:
+        if expectApproximately (expectedValue, species[i][2], abs(species[i][2]*1E-5)) == False:
             errorFlag = True
             break
     print passMsg (errorFlag)
@@ -177,6 +181,15 @@ def checkFullJacobian(rrInstance, testId):
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     Jacobian = rrInstance.getFullJacobian()
+    checkMatrixVsUpcomingText(Jacobian, m)
+
+
+def checkReducedJacobian(rrInstance, testId):
+    # Jacobian
+    print string.ljust ("Check " + testId, rpadding),
+    m = rrInstance.model.getNumFloatingSpecies()
+    roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+    Jacobian = rrInstance.getReducedJacobian()
     checkMatrixVsUpcomingText(Jacobian, m)
 
 
@@ -253,7 +266,7 @@ def checkStoichiometryMatrix(rrInstance, testId):
     # Stoichiometry matrix
     print string.ljust ("Check " + testId, rpadding),
     m = rrInstance.model.getNumFloatingSpecies()
-    st = rrInstance.model.getCurrentStoichiometryMatrix()
+    st = rrInstance.getFullStoichiometryMatrix()
     checkMatrixVsUpcomingText(st, m)
 
 def checkLinkMatrix(rrInstance, testId):
@@ -917,6 +930,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
 #             '[Number Of Rules]': checkNumberOfRules,
              '[Reaction Ids]': checkReactionIds,
+             '[Reduced Jacobian]': checkReducedJacobian,
              '[Scaled Concentration Control Matrix]': checkScaledConcentrationControlMatrix,
              '[Scaled Elasticity Matrix]': checkScaledElasticityMatrix,
              '[Scaled Elasticity Amount Matrix]': checkScaledElasticityAmountMatrix,

@@ -96,6 +96,12 @@ void compareMatrices(const ls::DoubleMatrix& ref, RRDoubleMatrixPtr calc)
       return;
     }
 
+    clog<<"Reference Matrix:\n";
+    clog<<ref<<endl;
+
+    clog<<"Calculated Matrix:";
+    clog<<matrixToString(calc);
+
     if(!calc || calc->RSize != ref.RSize())
     {
       CHECK(false);
@@ -107,12 +113,6 @@ void compareMatrices(const ls::DoubleMatrix& ref, RRDoubleMatrixPtr calc)
       CHECK(false);
       return;
     }
-
-    clog<<"Reference Matrix:\n";
-    clog<<ref<<endl;
-
-    clog<<"Calculated Matrix:";
-    clog<<matrixToString(calc);
 
     for(int i = 0 ; i < ref.RSize(); i++)
     {
@@ -248,7 +248,7 @@ SUITE(TEST_MODEL)
         //Actually calculate the steady state:
         double val;
         CHECK( steadyState(gRR, &val));
-        CHECK_CLOSE(0, val, 1e-5);
+        CHECK_CLOSE(0, val, 1e-3);
     }
 
     TEST(GET_STEADY_STATE_SELECTION_LIST)
@@ -271,7 +271,12 @@ SUITE(TEST_MODEL)
             return;
         }
         vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
+        if (selList.size() != list->Count)
+        {
+          CHECK(false);
+          freeStringArray(list);
+          return;
+        }
         for(int i = 0; i < selList.size(); i++)
         {
             CHECK(selList[i] == list->String[i]);
@@ -511,7 +516,7 @@ SUITE(TEST_MODEL)
             }
 
             //Check concentrations
-            CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+            CHECK_CLOSE(aKey->AsFloat(), val, max(1e-9, abs(val*1e-5)));
             clog<<"\n";
             clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
         }
@@ -531,6 +536,25 @@ SUITE(TEST_MODEL)
         RoadRunner* rri = castToRoadRunner(gRR);
 
         ls::DoubleMatrix   jActual = rri->getFullJacobian();
+        ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+
+        compareMatrices(jActual, jRef);
+    }
+
+    TEST(REDUCED_JACOBIAN)
+    {
+        IniSection* aSection = iniFile.GetSection("Reduced Jacobian");
+        if(!aSection)
+        {
+            return;
+        }
+        clog<< endl << "==== REDUCED JACOBIAN ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+
+        ls::DoubleMatrix   jActual = rri->getReducedJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         compareMatrices(jActual, jRef);
@@ -1329,7 +1353,7 @@ SUITE(TEST_MODEL)
         {
 
             //Check concentrations
-            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], max(1e-9, abs(values->Data[i]*1e-5)));
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
