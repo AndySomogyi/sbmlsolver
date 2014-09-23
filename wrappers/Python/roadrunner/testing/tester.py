@@ -88,6 +88,41 @@ def getSBMLStr ():
 # ------------------------------------------------------------------------
 # TESTS START HERE
 # ------------------------------------------------------------------------
+def checkMatrixVsUpcomingText(calc, rows):
+    errorFlag = False
+    msg = ""
+    for i in range(0,rows):
+        line = readLine ()
+        words = line.split()
+        for j in range(0,len(words)):
+            expectedValue = float(words[j])
+            if expectApproximately (expectedValue, calc[i,j], abs(1e-12+calc[i,j])*1E-5) == False:
+                msg = "Expected " + words[j] + ", but calculated " + str(calc[i,j])
+                errorFlag = True
+                break
+    print passMsg (errorFlag, msg)
+    
+
+def compareUpcomingValuesWith(ss, error):
+    errorFlag = False
+    msg = ""
+    words = divide(readLine())
+    if (len(words)) == 1:
+        for i in range(len(ss)):
+            if expectApproximately(float (words[0]), ss[i], error) == False:
+                msg = "Expected " + words[0] + ", but calculated " + str(ss[i])
+                errorFlag = True
+                break;
+            if i < len(ss) - 1:
+                words = divide(readLine())
+    else:
+        for i in range (len (ss)):
+            if expectApproximately(float (words[i]), ss[i], error) == False:
+                msg = "Expected " + words[i] + ", but calculated " + str(ss[i])
+                errorFlag = True
+                break;
+    print passMsg (errorFlag, msg)
+
 def setConservationLaw(rrInstance, testId):
     line = readLine ()
     if line == 'True':
@@ -139,37 +174,19 @@ def checkSteadyStateFluxes(rrInstance, testId):
 def checkFullJacobian(rrInstance, testId):
     # Jacobian
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     Jacobian = rrInstance.getFullJacobian()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,m):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, Jacobian[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(Jacobian, m)
 
 
 def checkAmountJacobian(rrInstance, testId):
     # Jacobian
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     Jacobian = rrInstance.getFullJacobian()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,m):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, Jacobian[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(Jacobian, m)
 
 
 def checkIndividualEigenvalues(rrInstance, testId):
@@ -185,7 +202,7 @@ def checkIndividualEigenvalues(rrInstance, testId):
             realPart = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
             realPart = float (realPart)
 
-            if expectApproximately (realPart, float(words[1]), 1E-5) == False:
+            if expectApproximately (realPart, float(words[1]), abs(realPart+1e-12)*1E-4) == False:
                 errorFlag = True
                 break
         print passMsg (errorFlag)
@@ -217,190 +234,87 @@ def checkIndividualAmountEigenvalues(rrInstance, testId):
 def checkEigenvalueMatrix(rrInstance, testId):
     # Eigenvalues
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     eigenvalues = rrInstance.getEigenvalues()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        realPart = float (words[0])
-        # Check if there is an imaginary part
-        if len (words) == 1:
-            imagPart = 0
-        else:
-            imagPart= float (words[1])
-        if (expectApproximately (realPart, eigenvalues[i,0], 1E-5) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
-            errorFlag = True
-            break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(eigenvalues, m)
 
 
 def checkEigenvalueAmountMatrix(rrInstance, testId):
     # Eigenvalues
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     eigenvalues = rrInstance.getEigenvalues()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        realPart = float (words[0])
-        # Check if there is an imaginary part
-        if len (words) == 1:
-            imagPart = 0
-        else:
-            imagPart= float (words[1])
-        if (expectApproximately (realPart, eigenvalues[i,0], 1E-5) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
-            errorFlag = True
-            break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(eigenvalues, m)
 
 
 def checkStoichiometryMatrix(rrInstance, testId):
     # Stoichiometry matrix
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
-    n = rrInstance.model.getNumReactions();
     st = rrInstance.model.getCurrentStoichiometryMatrix()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,n):
-            if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(st, m)
 
 def checkLinkMatrix(rrInstance, testId):
     # Link matrix
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     st = rrInstance.getLinkMatrix()
-    for i in range(0,m):
-        words = readLine ().split()
-        for j in range(0,m):
-            if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(st, m)
 
 def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
     print string.ljust ("Check " + testId, rpadding),
-    words = []
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
-    n = rrInstance.model.getNumReactions();
     st = rrInstance.getUnscaledConcentrationControlCoefficientMatrix();
-    for i in range(0,m):
-        words = readLine ().split()
-        for j in range(0,n):
-            if expectApproximately(float (words[j]), st[i,j], 1E-5) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(st, m)
 
 
 def checkScaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
     print string.ljust ("Check " + testId, rpadding),
-    words = []
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
-    n = rrInstance.model.getNumReactions();
     st = rrInstance.getScaledConcentrationControlCoefficientMatrix();
-    for i in range(0,m):
-        words = readLine ().split()
-        for j in range(0,n):
-            if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(st, m)
 
 
 def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
     # Unscaled Flux Control matrix
     print string.ljust ("Check " + testId, rpadding),
-    words = []
-    errorFlag = False
     n = rrInstance.model.getNumReactions();
     st = rrInstance.getUnscaledFluxControlCoefficientMatrix();
-    for i in range(0,n):
-        words = readLine ().split()
-        for j in range(0,n):
-            if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(st, n)
 
 
 def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
     # Unscaled Flux Control matrix
     print string.ljust ("Check " + testId, rpadding),
-    words = []
-    errorFlag = False
     n = rrInstance.model.getNumReactions();
     st = rrInstance.getScaledFluxControlCoefficientMatrix()
-    for i in range(0,n):
-        words = readLine ().split()
-        for j in range(0,n):
-            if expectApproximately(float (words[j]), st[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(st, n)
 
 
 def checkUnscaledElasticityMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     uee = rrInstance.getUnscaledElasticityMatrix()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,m):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, uee[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(uee, m)
 
 def checkUnscaledElasticityAmountMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     uee = rrInstance.getUnscaledElasticityMatrix()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,m):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, uee[i,j], 1E-6) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(uee, m)
 
 def checkScaledElasticityMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     ee = rrInstance.getScaledElasticityMatrix()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,m):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, ee[i,j], 1E-5) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(ee, m)
 
 
 def checkScaledElasticityAmountMatrix(rrInstance, testId):
@@ -409,15 +323,7 @@ def checkScaledElasticityAmountMatrix(rrInstance, testId):
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     ee = rrInstance.getScaledElasticityMatrix()
-    for i in range(0,m):
-        line = readLine ()
-        words = line.split()
-        for j in range(0,m):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, ee[i,j], 1E-5) == False:
-                errorFlag = True
-                break
-    print passMsg (errorFlag)
+    checkMatrixVsUpcomingText(ee, m)
 
 
 def checkGetFloatingSpeciesIds(rrInstance, testId):
@@ -556,54 +462,28 @@ def checkGetTimeCourseSelectionList(rrInstance, testId):
 
     print passMsg (result == words)
 
-def compareUpcomingValuesWith(ss, error):
-    errorFlag = False
-    msg = ""
-    words = divide(readLine())
-    if (len(words)) == 1:
-        for i in range(len(ss)):
-            if expectApproximately(float (words[0]), ss[i], error) == False:
-                msg = "Expected " + words[0] + ", but calculated " + str(ss[i])
-                errorFlag = True
-                break;
-            if i < len(ss) - 1:
-                words = divide(readLine())
-    else:
-        for i in range (len (ss)):
-            if expectApproximately(float (words[i]), ss[i], error) == False:
-                msg = "Expected " + words[i] + ", but calculated " + str(ss[i])
-                errorFlag = True
-                break;
-    return errorFlag, msg
-
 def checkComputeSteadyStateValues(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     ss = rrInstance.getSteadyStateValues()
-    errorFlag, msg = compareUpcomingValuesWith(ss, 1E-6)
-    print passMsg (errorFlag, msg)
+    compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkFloatingSpeciesConcentrations(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     ss = rrInstance.model.getFloatingSpeciesConcentrations()
-    errorFlag, msg = compareUpcomingValuesWith(ss, 1E-6)
-    print passMsg (errorFlag, msg)
+    compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkBoundarySpeciesConcentrations(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     ss = rrInstance.model.getBoundarySpeciesConcentrations()
-    errorFlag, msg = compareUpcomingValuesWith(ss, 1E-6)
-    print passMsg (errorFlag, msg)
+    compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkGlobalParameterValues(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     ss = rrInstance.model.getGlobalParameterValues()
-    errorFlag, msg = compareUpcomingValuesWith(ss, 1E-6)
-    print passMsg (errorFlag, msg)
+    compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
@@ -620,10 +500,8 @@ def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
 
 def checkReactionRates(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
-    errorFlag = False
     ss = rrInstance.model.getReactionRates()
-    errorFlag, msg = compareUpcomingValuesWith(ss, 1E-6)
-    print passMsg (errorFlag, msg)
+    compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkGetReactionRatesByIndex(rrInstance, testId):

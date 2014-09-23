@@ -60,25 +60,75 @@ void compareJacobians(RRHandle gRR)
 
 void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
 {
-        clog<<"Reference Matrix:" << endl;
-        clog<<ref<<endl;
+    clog<<"Reference Matrix:" << endl;
+    clog<<ref<<endl;
 
-        clog<<"Calculated Matrix:" << endl;
-        clog<<calc<<endl;
+    clog<<"Calculated Matrix:" << endl;
+    clog<<calc<<endl;
 
-        if(calc.RSize() != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
+    if(calc.RSize() != ref.RSize())
+    {
+      CHECK(false);
+      return;
+    }
 
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            CHECK_CLOSE(ref(i,0), calc(i,0), 1e-5);
-        }
+    if(calc.CSize() != ref.CSize())
+    {
+      CHECK(false);
+      return;
+    }
+
+    for(int i = 0 ; i < ref.RSize(); i++)
+    {
+      for(int j=0; j < ref.CSize(); j++)
+      {
+        CHECK_CLOSE(ref(i,j), calc(i,j), abs(calc(i,j)*1e-5));
+      }
+    }
 }
 
-//This tests is mimicking the Python tests
+
+void compareMatrices(const ls::DoubleMatrix& ref, RRDoubleMatrixPtr calc)
+{
+    if(!calc)
+    {
+      CHECK(false);
+      return;
+    }
+
+    if(!calc || calc->RSize != ref.RSize())
+    {
+      CHECK(false);
+      return;
+    }
+
+    if(!calc || calc->CSize != ref.CSize())
+    {
+      CHECK(false);
+      return;
+    }
+
+    clog<<"Reference Matrix:\n";
+    clog<<ref<<endl;
+
+    clog<<"Calculated Matrix:";
+    clog<<matrixToString(calc);
+
+    for(int i = 0 ; i < ref.RSize(); i++)
+    {
+      for(int j=0; j < ref.CSize(); j++)
+      {
+        double val;
+        if(!getMatrixElement(calc, i , j, &val))
+        {
+          CHECK(false);
+        }
+        CHECK_CLOSE(ref(i,j), val, abs(val*1e-5));
+      }
+    }
+}
+
+//These tests are intended to duplicate the Python tests
 SUITE(TEST_MODEL)
 {
     // the current test data file that the test suite is using.
@@ -198,7 +248,7 @@ SUITE(TEST_MODEL)
         //Actually calculate the steady state:
         double val;
         CHECK( steadyState(gRR, &val));
-        CHECK_CLOSE(0, val, 1e-6);
+        CHECK_CLOSE(0, val, 1e-5);
     }
 
     TEST(GET_STEADY_STATE_SELECTION_LIST)
@@ -319,6 +369,43 @@ SUITE(TEST_MODEL)
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(vals[i])<<"\tActual:\t "<<val<<endl;
         }
+    }
+
+    TEST(GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS)
+    {
+        CHECK(gRR!=NULL);
+
+        //Read in the reference data, from the ini file
+        IniSection* aSection = iniFile.GetSection("Get Initial Floating Species Concs");
+        if(!aSection || !gRR)
+        {
+            return;
+        }
+        clog<< endl << "==== GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+
+        RRVector* values = getFloatingSpeciesInitialConcentrations(gRR);
+
+        vector<string> refList = splitString(keys," ,");
+
+        if(!values || values->Count != refList.size())
+        {
+            CHECK(false);
+            freeVector(values);
+            return;
+        }
+
+        for(int i = 0 ; i < refList.size(); i++)
+        {
+
+            //Check concentrations
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
+            clog<<"\n";
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+        }
+        freeVector(values);
     }
 
     TEST(SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX)
@@ -478,8 +565,9 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== INDIVIDUAL_EIGENVALUES ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
+
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
@@ -490,7 +578,7 @@ SUITE(TEST_MODEL)
             double val = rri->getValue(eigenValueLabel.c_str());
 
             clog<<"EigenValue "<<i<<": "<<val<<endl;
-            CHECK_CLOSE(aKey->AsFloat(), val, 1e-5);
+            CHECK_CLOSE(aKey->AsFloat(), val, abs(val*1e-5));
         }
     }
 
@@ -524,8 +612,6 @@ SUITE(TEST_MODEL)
     {
         CHECK(gRR!=NULL);
 
-        setComputeAndAssignConservationLaws(gRR, true);
-
         IniSection* aSection = iniFile.GetSection("Eigenvalue Matrix");
 
         //Read in the reference data, from the ini file
@@ -548,8 +634,6 @@ SUITE(TEST_MODEL)
     TEST(GET_EIGENVALUE_AMOUNT_MATRIX)
     {
         CHECK(gRR!=NULL);
-
-        setComputeAndAssignConservationLaws(gRR, true);
 
         IniSection* aSection = iniFile.GetSection("Eigenvalue Amount Matrix");
 
@@ -584,35 +668,8 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-
         RRDoubleMatrixPtr matrix = getStoichiometryMatrix(gRR);
-        if(!matrix)
-        {
-            CHECK(false);
-            return;
-        }
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-        clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-        }
+        compareMatrices(ref, matrix);
         freeMatrix(matrix);
       }
 
@@ -632,33 +689,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRDoubleMatrixPtr matrix = getLinkMatrix(gRR);
-        if(!matrix)
-        {
-            CHECK(false);
-            return;
-        }
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-        clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-        }
+        compareMatrices(ref, matrix);
         freeMatrix(matrix);
       }
 
@@ -771,34 +802,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRDoubleMatrixPtr matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
-        if(!matrix)
-        {
-            CHECK(false);
-            return;
-        }
-
-        clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-        clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-
-        }
+        compareMatrices(ref, matrix);
         freeMatrix(matrix);
     }
 
@@ -818,34 +822,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRDoubleMatrixPtr matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
-        if(!matrix)
-        {
-            CHECK(false);
-            return;
-        }
-
-          clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-          clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-
-        }
+        compareMatrices(ref, matrix);
         freeMatrix(matrix);
       }
 
@@ -865,34 +842,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRDoubleMatrixPtr matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
-        if(!matrix)
-        {
-            CHECK(false);
-            return;
-        }
-
-          clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-          clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-
-        }
+        compareMatrices(ref, matrix);
         freeMatrix(matrix);
       }
 
@@ -912,34 +862,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRDoubleMatrixPtr matrix = getScaledFluxControlCoefficientMatrix(gRR);
-        if(!matrix)
-        {
-            CHECK(false);
-            return;
-        }
-
-          clog<<"Reference Matrix:\n";
-        clog<<ref<<endl;
-
-          clog<<"Calculated Matrix:";
-        clog<<matrixToString(matrix);
-
-        if(!matrix || matrix->RSize != ref.RSize())
-        {
-            CHECK(false);
-            return;
-        }
-
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            double val;
-            if(!getMatrixElement(matrix, i , 0, &val))
-            {
-                CHECK(false);
-            }
-            CHECK_CLOSE(ref(i,0), val, 1e-6);
-
-        }
+        compareMatrices(ref, matrix);
         freeMatrix(matrix);
       }
 
@@ -1339,7 +1262,7 @@ SUITE(TEST_MODEL)
         freeVector(values);
     }
 
-    TEST(GET_GLOBABL_PARAMETER_VALUES)
+    TEST(GET_GLOBAL_PARAMETER_VALUES)
     {
         CHECK(gRR!=NULL);
 
@@ -1349,49 +1272,12 @@ SUITE(TEST_MODEL)
         {
             return;
         }
-        clog<< endl << "==== GET_GLOBABL_PARAMETER_VALUES ====" << endl << endl;
+        clog<< endl << "==== GET_GLOBAL_PARAMETER_VALUES ====" << endl << endl;
         aSection->mIsUsed = true;
 
         string keys = Trim(aSection->GetNonKeysAsString());
 
         RRVector* values = getGlobalParameterValues(gRR);
-
-        vector<string> refList = splitString(keys," ,");
-
-        if(!values || values->Count != refList.size())
-        {
-            CHECK(false);
-            freeVector(values);
-            return;
-        }
-
-        for(int i = 0 ; i < refList.size(); i++)
-        {
-
-            //Check concentrations
-            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
-            clog<<"\n";
-            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
-        }
-        freeVector(values);
-    }
-
-    TEST(GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS)
-    {
-        CHECK(gRR!=NULL);
-
-        //Read in the reference data, from the ini file
-        IniSection* aSection = iniFile.GetSection("Get Initial Floating Species Concs");
-        if(!aSection || !gRR)
-        {
-            return;
-        }
-        clog<< endl << "==== GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS ====" << endl << endl;
-        aSection->mIsUsed = true;
-
-        string keys = Trim(aSection->GetNonKeysAsString());
-
-        RRVector* values = getFloatingSpeciesInitialConcentrations(gRR);
 
         vector<string> refList = splitString(keys," ,");
 
