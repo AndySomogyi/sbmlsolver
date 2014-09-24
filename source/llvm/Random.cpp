@@ -51,9 +51,21 @@ static unsigned long defaultSeed()
 Random::Random(ModelGeneratorContext& ctx)
 {
     addGlobalMappings(ctx);
-
     engine.seed(defaultSeed());
 }
+
+Random::Random(const Random& other)
+{
+    *this = other;
+    engine.seed(defaultSeed());
+}
+
+Random& Random::operator =(const Random& rhs)
+{
+    engine = rhs.engine;
+    return *this;
+}
+
 
 
 Function* createGlobalMappingFunction(const char* funcName,
@@ -100,3 +112,4 @@ double distrib_uniform(Random *random, double _min, double _max)
 }
 
 } /* namespace rrllvm */
+

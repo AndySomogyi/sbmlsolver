@@ -131,6 +131,8 @@ SUITE(CORE_TESTS)
 
     TEST(GET_MICROSECONDS)
     {
+        // make sure that the time is essentially the same as sleep time in
+        // milliseconds.
         int64_t millis = 123;
         int64_t start = rr::getMicroSeconds();
         // sleep for milliseconds
@@ -145,6 +147,18 @@ SUITE(CORE_TESTS)
 
         // make sure its increasing
         CHECK(diff > 0);
+
+        // now make sure that the microseconds is monotinically increasing
+        const int len = 5;
+        int64_t prev = rr::getMicroSeconds();
+        for (int i = 0; i < len; ++i) {
+            // does not actually sleep, but makes system call
+            // which takes just over a microsecond.
+            rr::sleep(0);
+            int64_t curr = rr::getMicroSeconds();
+            CHECK(curr > prev);
+            prev = curr;
+        }
     }
 }
 

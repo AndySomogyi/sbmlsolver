@@ -35,6 +35,18 @@ public:
     Random(class ModelGeneratorContext& ctx);
 
     /**
+     * copy constructor, copy the distributions but reset the RNG to what
+     * is specified by the config.
+     */
+    Random(const Random& other);
+
+    /**
+     * assignment operator, copies the fields from the
+     * other object, but does not re-intialize them.
+     */
+    Random& operator=( const Random& rhs);
+
+    /**
      * RNG engine.
      */
     cxx11_ns::mt19937 engine;

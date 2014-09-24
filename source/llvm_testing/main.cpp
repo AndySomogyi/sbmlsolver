@@ -339,11 +339,22 @@ int distrib_test(int argc, char* argv[])
             return -1;
         }
 
-        RoadRunner r(argv[2]);
+        cout << "r1 values:" << endl;
 
-        for (int i = 0; i < 10; ++i) {
-            cout << "value: " << r.getValue("n") << endl;
+        RoadRunner r1(argv[2]);
+
+        for (int i = 0; i < 5; ++i) {
+            cout << "value: " << r1.getValue("rand") << endl;
         }
+
+        cout << "r2 values: " << endl;
+
+        RoadRunner r2(argv[2]);
+
+        for (int i = 0; i < 5; ++i) {
+            cout << "value: " << r2.getValue("rand") << endl;
+        }
+
 
     }
     catch(std::exception& e) {
