@@ -9,7 +9,7 @@
 
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
 
-
+#include "LLVMException.h"
 #include "rrLogger.h"
 
 using namespace llvm;
@@ -19,9 +19,12 @@ namespace rrllvm
 {
 
 DistribFunctionResolver::DistribFunctionResolver(
-        const ModelGeneratorContext& ctx) :
+        const ModelGeneratorContext& ctx, llvm::Value *modelData) :
                 builder(ctx.getBuilder()),
-                random(ctx.getRandom())
+                random(ctx.getRandom()),
+                modelData(modelData),
+                modelDataSymbols(ctx.getModelDataSymbols()),
+                module(ctx.getModule())
 {
 }
 
@@ -33,8 +36,26 @@ llvm::Value* DistribFunctionResolver::loadSymbolValue(
 {
     Log(Logger::LOG_NOTICE) << "distrib function: " << funcDef->getId();
 
-    return ConstantFP::get(builder.getContext(), APFloat(0.0));
+    ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
+                builder);
+
+    // pointer to random field.
+    llvm::Value *randomPtr = mdbuilder.createRandomLoad();
+
+    if (args.size() != 2)
+    {
+        throw_llvm_exception("invalid number of args");
+    }
+
+    llvm::Value *funcArgs[] = {randomPtr, args[0], args[1]};
+
+    llvm::Value *func = module->getFunction("rr_distrib_uniform");
+
+    return builder.CreateCall(func, funcArgs, "call_rr_distrib_uniform");
 }
+
+
+
 
 } /* namespace rrllvm */
 

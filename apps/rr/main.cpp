@@ -129,8 +129,6 @@ int main(int argc, char * argv[])
                 simulation.SetNumberOfPoints(args.Steps);
                 simulation.SetSelectionList(args.SelectionList);
             }
-
-            rr->setConservedMoietyAnalysis(false);
         }
 
         //Then Simulate model

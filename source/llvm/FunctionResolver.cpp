@@ -29,11 +29,13 @@ using rr::Logger;
 using rr::getLogger;
 
 FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
+        llvm::Value *modelData,
         const ModelGeneratorContext& ctx) :
                 modelGenContext(ctx),
                 parentResolver(parentResolver),
                 model(ctx.getModel()),
                 builder(ctx.getBuilder()),
+                modelData(modelData),
                 symbols(0)
 {
 }
@@ -65,7 +67,7 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
             dynamic_cast<const DistribFunctionDefinitionPlugin*>(funcDef->getPlugin("distrib"));
         if(distribFunc)
         {
-            DistribFunctionResolver distribFuncResolver(modelGenContext);
+            DistribFunctionResolver distribFuncResolver(modelGenContext, modelData);
             return distribFuncResolver.loadSymbolValue(funcDef, distribFunc, args);
         }
         #endif

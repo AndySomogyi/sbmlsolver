@@ -42,7 +42,7 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(
     /*************************************************************************/
     {
         Value *funcVal =
-            FunctionResolver(*this, modelGenContext).loadSymbolValue(symbol, args);
+            FunctionResolver(*this, modelData, modelGenContext).loadSymbolValue(symbol, args);
 
         if (funcVal)
         {

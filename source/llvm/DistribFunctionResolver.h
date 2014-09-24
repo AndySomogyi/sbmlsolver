@@ -22,7 +22,8 @@ namespace rrllvm
 class DistribFunctionResolver
 {
 public:
-    DistribFunctionResolver(const ModelGeneratorContext& ctx);
+    DistribFunctionResolver(const ModelGeneratorContext& ctx,
+            llvm::Value *modelData);
 
     llvm::Value *loadSymbolValue(const libsbml::FunctionDefinition *funcDef,
             const libsbml::DistribFunctionDefinitionPlugin *distribFunc,
@@ -32,6 +33,9 @@ public:
 private:
     llvm::IRBuilder<> &builder;
     Random *random;
+    llvm::Value* modelData;
+    const LLVMModelDataSymbols &modelDataSymbols;
+    llvm::Module *module;
 };
 
 } /* namespace rrllvm */

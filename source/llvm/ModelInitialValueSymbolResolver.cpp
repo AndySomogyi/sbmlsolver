@@ -62,7 +62,7 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
     /*************************************************************************/
     {
         Value *funcVal =
-            FunctionResolver(*this, modelGenContext).loadSymbolValue(symbol, args);
+            FunctionResolver(*this, modelData, modelGenContext).loadSymbolValue(symbol, args);
         if (funcVal)
         {
             return funcVal;

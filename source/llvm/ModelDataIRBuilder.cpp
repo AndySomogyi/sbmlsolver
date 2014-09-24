@@ -529,6 +529,13 @@ llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
     return createCSRMatrixGetNZ(builder, stoich, rowVal, colVal, name);
 }
 
+llvm::Value *ModelDataIRBuilder::createRandomLoad()
+{
+    LLVMContext &context = builder.getContext();
+    Value *randomEP = createGEP(RandomPtr);
+    Value *randomPtr = builder.CreateLoad(randomEP, "randomPtr");
+    return randomPtr;
+}
 
 
 void ModelDataIRBuilder::validateStruct(llvm::Value* s,
