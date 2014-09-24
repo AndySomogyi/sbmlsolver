@@ -148,7 +148,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         if (sp)
         {
             Log(Logger::LOG_DEBUG) << "found a cached model for " << md5;
-            return new LLVMExecutableModel(sp, createModelData(*sp->symbols));
+            return new LLVMExecutableModel(sp, createModelData(*sp->symbols, sp->random));
         }
         else
         {
@@ -283,7 +283,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     // Now that everything that could have thrown would have thrown, we
     // can now create the model and set its fields.
 
-    LLVMModelData *modelData = createModelData(context.getModelDataSymbols());
+    LLVMModelData *modelData = createModelData(context.getModelDataSymbols(),
+            context.getRandom());
 
     uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getModule(),
             &context.getExecutionEngine());
@@ -379,7 +380,8 @@ std::string to_string(const llvm::Value *value)
     return str;
 }
 
-LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
+LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
+        const Random *random)
 {
     uint modelDataBaseSize = sizeof(LLVMModelData);
 
@@ -472,6 +474,9 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
 
     modelData->stoichiometry = rr::csr_matrix_new(numIndFloatingSpecies, numReactions,
             stoichRowIndx, stoichColIndx, stoichValues);
+
+    // make a copy of the random object
+    modelData->random = random ? new Random(*random) : 0;
 
     return modelData;
 }

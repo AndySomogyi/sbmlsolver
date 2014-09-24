@@ -9,8 +9,12 @@
 #include "ModelGeneratorContext.h"
 #include "LLVMIncludes.h"
 #include "rrLogger.h"
+#include "rrConfig.h"
+#include "rrUtils.h"
 
 using rr::Logger;
+using rr::Config;
+using rr::getMicroSeconds;
 
 using namespace llvm;
 
@@ -28,9 +32,27 @@ static Function* createGlobalMappingFunction(const char* funcName,
 
 static void addGlobalMappings(const ModelGeneratorContext& ctx);
 
+static unsigned long defaultSeed()
+{
+    int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
+    if (seed < 0)
+    {
+        // system time in mirsoseconds since 1970
+        seed = getMicroSeconds();
+    }
+
+    unsigned long maxl = std::numeric_limits<unsigned long>::max() - 2;
+
+    seed = seed % maxl;
+
+    return (unsigned long)seed;
+}
+
 Random::Random(ModelGeneratorContext& ctx)
 {
     addGlobalMappings(ctx);
+
+    engine.seed(defaultSeed());
 }
 
 
@@ -67,12 +89,14 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
 
 double distrib_uniform(Random *random, double _min, double _max)
 {
-    Log(Logger::LOG_NOTICE) << "distrib_uniform("
+    Log(Logger::LOG_DEBUG) << "distrib_uniform("
             << static_cast<void*>(random)
             << ", " << _min << ", " << _max << ")";
 
-    cxx11_ns::uniform_real<double> dist(_min, _max);
-    return dist(random->engine);
+    // gcc tr1 uniform_real is broken in that it expects
+    // rng numbers to be normalized to [0,1].
+    double range = random->engine.max() - random->engine.min();
+    return (random->engine() / range) * (_max - _min) + _min;
 }
 
 } /* namespace rrllvm */
