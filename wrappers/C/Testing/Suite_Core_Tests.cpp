@@ -136,7 +136,7 @@ SUITE(CORE_TESTS)
         int64_t millis = 123;
         int64_t start = rr::getMicroSeconds();
         // sleep for milliseconds
-        rr::sleep(millis);
+        rr::sleep((int)millis);
         int64_t end = rr::getMicroSeconds();
         int64_t diff = end - start;
 
@@ -152,9 +152,11 @@ SUITE(CORE_TESTS)
         const int len = 5;
         int64_t prev = rr::getMicroSeconds();
         for (int i = 0; i < len; ++i) {
-            // does not actually sleep, but makes system call
-            // which takes just over a microsecond.
-            rr::sleep(0);
+            // the timer on Windows appears to be significantaly less 
+            // accurate than standard Unix machines, so have to sleep 
+            // for the miminal amount to time to get the alleged 'microseconds'
+            // to move. 
+            rr::sleep(1);
             int64_t curr = rr::getMicroSeconds();
             CHECK(curr > prev);
             prev = curr;
