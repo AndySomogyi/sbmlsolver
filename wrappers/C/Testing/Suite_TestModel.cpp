@@ -123,9 +123,20 @@ void compareMatrices(const ls::DoubleMatrix& ref, RRDoubleMatrixPtr calc)
         {
           CHECK(false);
         }
-        CHECK_CLOSE(ref(i,j), val, abs(val*1e-5));
+        CHECK_CLOSE(ref(i,j), val, abs((val+1e-7)*1e-5));
       }
     }
+}
+
+void trySteadyState(RRHandle& gRR)
+{
+    double val;
+    for (int i=0; i<10; i++)
+    {
+        CHECK( steadyState(gRR, &val));
+        if (val<1e-5) break;
+    }
+    CHECK_CLOSE(0, val, 1e-5);
 }
 
 //These tests are intended to duplicate the Python tests
@@ -246,9 +257,7 @@ SUITE(TEST_MODEL)
         CHECK(res);
 
         //Actually calculate the steady state:
-        double val;
-        CHECK( steadyState(gRR, &val));
-        CHECK_CLOSE(0, val, 1e-2);
+        trySteadyState(gRR);
     }
 
     TEST(GET_STEADY_STATE_SELECTION_LIST)
@@ -482,9 +491,8 @@ SUITE(TEST_MODEL)
         }
 
         //We need to set back the values to concentrations, after running steady state..
-        double val;
         reset(gRR);
-        steadyState(gRR, &val);
+        trySteadyState(gRR);
     }
 
     TEST(STEADY_STATE_FLUXES)
@@ -501,8 +509,7 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== STEADY STATE FLUXES ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        double val;
-        steadyState(gRR, &val);
+        trySteadyState(gRR);
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
@@ -751,8 +758,7 @@ SUITE(TEST_MODEL)
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
-        double test;
-        steadyState(gRR, &test);
+        //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getUnscaledElasticityMatrix();
 
@@ -774,8 +780,7 @@ SUITE(TEST_MODEL)
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         RoadRunner* rri = castToRoadRunner(gRR);
-        double test;
-        steadyState(gRR, &test);
+        //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getUnscaledElasticityMatrix();
 
@@ -797,8 +802,7 @@ SUITE(TEST_MODEL)
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
-        double test;
-        steadyState(gRR, &test);
+        //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getScaledElasticityMatrix();
 
@@ -820,8 +824,7 @@ SUITE(TEST_MODEL)
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         RoadRunner* rri = castToRoadRunner(gRR);
-        double test;
-        steadyState(gRR, &test);
+        //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getScaledElasticityMatrix();
 
