@@ -1212,7 +1212,7 @@ RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix tempMat = rri->getEigenvalues();
+        DoubleMatrix tempMat = rri->getFullEigenValues();
         return createMatrix(&tempMat);
     catch_ptr_macro
 }
@@ -1314,7 +1314,7 @@ RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        StringList aList = rri->getEigenvalueIds();
+        StringList aList = rri->getEigenValueIds();
         return createList(aList);
     catch_ptr_macro
 }
@@ -1554,7 +1554,7 @@ ArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr)
     oResult.Add("Unscaled Concentration Control Coefficients",      sel_getUnscaledConcentrationControlCoefficientIds(rr));
     oResult.Add("Elasticity Coefficients",                          sel_getElasticityCoefficientIds(rr) );
     oResult.Add("Unscaled Elasticity Coefficients",                 sel_getUnscaledElasticityCoefficientIds(rr) );
-    oResult.Add("Eigenvalues",                                      rr->getEigenvalueIds() );
+    oResult.Add("Eigenvalues",                                      rr->getEigenValueIds() );
 
     return oResult;
 }
@@ -1572,7 +1572,7 @@ ArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr)
     oResult.Add("Volumes",                          rr->getCompartmentIds() );
     oResult.Add("Elasticity Coefficients",          sel_getElasticityCoefficientIds(rr) );
     oResult.Add("Unscaled Elasticity Coefficients", sel_getUnscaledElasticityCoefficientIds(rr) );
-    oResult.Add("Eigenvalues",                      rr->getEigenvalueIds() );
+    oResult.Add("Eigenvalues",                      rr->getEigenValueIds() );
     return oResult;
 }
 

@@ -220,19 +220,23 @@ def checkEigenvalueMatrix(rrInstance, testId):
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
-    eigenvalues = rrInstance.getEigenvalues()
+    eigenvalues = rrInstance.getFullEigenValues()
     for i in range(0,m):
         line = readLine ()
         words = line.split()
         realPart = float (words[0])
-        # Check if there is an imaginary part
-        if len (words) == 1:
-            imagPart = 0
+        imagPart = float(words[1]) if len(words) > 1 else 0.0
+        
+        # only real eigenvalues
+        if eigenvalues.size == eigenvalues.shape[0]:
+            if (expectApproximately (realPart, eigenvalues[i], 1E-5) == False) or (expectApproximately (imagPart, 0.0, 1E-6)) == False:
+                errorFlag = True
+                break
+        # complex eigenvlues
         else:
-            imagPart= float (words[1])
-        if (expectApproximately (realPart, eigenvalues[i,0], 1E-5) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
-            errorFlag = True
-            break
+            if (expectApproximately (realPart, eigenvalues[i,0], 1E-5) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
+                errorFlag = True
+                break
     print passMsg (errorFlag)
 
 
@@ -242,7 +246,7 @@ def checkEigenvalueAmountMatrix(rrInstance, testId):
     errorFlag = False
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
-    eigenvalues = rrInstance.getEigenvalues()
+    eigenvalues = rrInstance.getFullEigenValues()
     for i in range(0,m):
         line = readLine ()
         words = line.split()
@@ -503,7 +507,7 @@ def checkEigenValueIds (rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     words = divide(readLine())
-    expected = rrInstance.getEigenvalueIds()
+    expected = rrInstance.getEigenValueIds()
     m = rrInstance.model.getNumFloatingSpecies()
     for i in range(0,m):
         if words[i] != expected[i]:

@@ -349,11 +349,23 @@ public:
     ls::DoubleMatrix getReducedJacobian(double h = -1.0);
 
     /**
-     * Returns eigenvalues, first column real part, second column imaginary part
+     * Returns the eigenvalues of the full jacobian.
+     *
+     * If the eigenvalues are all real, this returns a N x 1 matrix,
+     * if complex, returns an N x 2 matrix where the first column is the
+     * real values and the second is the imaginary part.
      */
-    ls::DoubleMatrix getEigenvalues();
+    ls::DoubleMatrix getFullEigenValues();
 
-    std::vector<ls::Complex> getEigenvaluesCpx();
+    /**
+     * Returns the eigenvalues of the reduced jacobian.
+     *
+     * If the eigenvalues are all real, this returns a N x 1 matrix,
+     * if complex, returns an N x 2 matrix where the first column is the
+     * real values and the second is the imaginary part.
+     */
+    ls::DoubleMatrix getReducedEigenValues();
+
 
     ls::DoubleMatrix getLinkMatrix();
 
@@ -394,7 +406,7 @@ public:
      * returns the list of floating species, but with a "eigen(...)" string
      * wrapped around them.
      */
-    std::vector<std::string> getEigenvalueIds();
+    std::vector<std::string> getEigenValueIds();
 
     /**
      * Returns the unscaled elasticity for a named reaction with respect to a
@@ -854,6 +866,13 @@ private:
      * potentially changed options.
      */
     void updateSimulateOptions();
+
+
+    enum JacobianMode {
+        JACOBIAN_FULL, JACOBIAN_REDUCED
+    };
+
+    std::vector< std::complex<double> > getEigenValues(JacobianMode mode);
 
     /**
      * private implementation class, can only access if inside

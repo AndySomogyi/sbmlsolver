@@ -747,12 +747,18 @@ double RoadRunner::getValue(const SelectionRecord& record)
             throw std::logic_error("Invalid species id" + record.p1 + " for eigenvalue");
         }
 
-        vector<Complex> eig = getEigenvaluesCpx();
+        vector<Complex> eig = getEigenValues(JACOBIAN_FULL);
 
         if (eig.size() <= index)
         {
             // this should NEVER happen
             throw std::runtime_error("Eigenvalues vector length less than species id");
+        }
+
+        if (std::abs(std::imag(eig[index])) > 2 * std::numeric_limits<double>::epsilon())
+        {
+            Log(Logger::LOG_WARNING) << "EigenValue for species " << species << " is complex, "
+                    << "returning only real part.";
         }
 
         return std::real(eig[index]);
@@ -1431,34 +1437,91 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 }
 
 
-DoubleMatrix RoadRunner::getEigenvalues()
+DoubleMatrix RoadRunner::getFullEigenValues()
 {
     check_model();
 
-    vector<Complex> vals = getEigenvaluesCpx();
+    vector<Complex> vals = getEigenValues(JACOBIAN_FULL);
 
-    DoubleMatrix result(vals.size(), 2);
-
-    for (int i = 0; i < vals.size(); i++)
+    bool cpx = false;
+    // small number
+    double epsilon = 2 * std::numeric_limits<double>::epsilon();
+    for (vector<Complex>::const_iterator i = vals.begin(); i != vals.end(); ++i)
     {
-        result[i][0] = std::real(vals[i]);
-        result[i][1] = imag(vals[i]);
+        cpx = cpx || (std::imag(*i) >= epsilon);
+        if (cpx) break;
     }
-    return result;
-}
 
-vector< Complex > RoadRunner::getEigenvaluesCpx()
-{
-    check_model();
-
-    DoubleMatrix mat;
-    if (impl->conservedMoietyAnalysis)
+    if (cpx)
     {
-        mat = getReducedJacobian();
+        DoubleMatrix result(vals.size(), 2);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+            result(i, 1) = imag(vals[i]);
+        }
+        return result;
     }
     else
     {
+        DoubleMatrix result(vals.size(), 1);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+        }
+        return result;
+    }
+}
+
+
+DoubleMatrix RoadRunner::getReducedEigenValues()
+{
+    check_model();
+
+    vector<Complex> vals = getEigenValues(JACOBIAN_REDUCED);
+
+    bool cpx = false;
+    // small number
+    double epsilon = 2 * std::numeric_limits<double>::epsilon();
+    for (vector<Complex>::const_iterator i = vals.begin(); i != vals.end(); ++i)
+    {
+        cpx = cpx || (std::imag(*i) >= epsilon);
+        if (cpx) break;
+    }
+
+    if (cpx)
+    {
+        DoubleMatrix result(vals.size(), 2);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+            result(i, 1) = imag(vals[i]);
+        }
+        return result;
+    }
+    else
+    {
+        DoubleMatrix result(vals.size(), 1);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+        }
+        return result;
+    }
+}
+
+std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::JacobianMode mode)
+{
+    check_model();
+    DoubleMatrix mat;
+
+    if(mode == JACOBIAN_FULL)
+    {
         mat = getFullJacobian();
+    }
+    else
+    {
+        mat = getReducedJacobian();
     }
     return ls::getEigenValues(mat);
 }
@@ -3653,7 +3716,7 @@ vector<string> RoadRunner::getReactionIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
-vector<string> RoadRunner::getEigenvalueIds()
+vector<string> RoadRunner::getEigenValueIds()
 {
     std::list<std::string> list;
 
