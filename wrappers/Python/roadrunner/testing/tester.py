@@ -148,7 +148,7 @@ def checkSpeciesConcentrations(rrInstance, testId):
     errorFlag = False
     for i in range (0,m):
         expectedValue =  float (species[i][1])
-        if expectApproximately (expectedValue, species[i][2], abs(species[i][2]*1E-5)) == False:
+        if expectApproximately (expectedValue, species[i][2], abs(species[i][2]*1E-4)) == False:
             errorFlag = True
             break
     print passMsg (errorFlag)

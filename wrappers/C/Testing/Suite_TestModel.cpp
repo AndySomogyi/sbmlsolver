@@ -248,7 +248,7 @@ SUITE(TEST_MODEL)
         //Actually calculate the steady state:
         double val;
         CHECK( steadyState(gRR, &val));
-        CHECK_CLOSE(0, val, 1e-3);
+        CHECK_CLOSE(0, val, 1e-2);
     }
 
     TEST(GET_STEADY_STATE_SELECTION_LIST)
@@ -538,7 +538,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix   jActual = rri->getFullJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        compareMatrices(jActual, jRef);
+        compareMatrices(jRef, jActual);
     }
 
     TEST(REDUCED_JACOBIAN)
@@ -557,7 +557,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix   jActual = rri->getReducedJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        compareMatrices(jActual, jRef);
+        compareMatrices(jRef, jActual);
     }
 
     TEST(AMOUNT_JACOBIAN)
@@ -576,7 +576,7 @@ SUITE(TEST_MODEL)
         ls::DoubleMatrix   jActual = rri->getFullJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        compareMatrices(jActual, jRef);
+        compareMatrices(jRef, jActual);
     }
 
     TEST(INDIVIDUAL_EIGENVALUES)
@@ -692,9 +692,28 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        RRDoubleMatrixPtr matrix = getStoichiometryMatrix(gRR);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        ls::DoubleMatrix matrix = rri->getFullStoichiometryMatrix();
         compareMatrices(ref, matrix);
-        freeMatrix(matrix);
+      }
+
+    TEST(REDUCED_STOICHIOMETRY_MATRIX)
+    {
+        CHECK(gRR!=NULL);
+
+        //Read in the reference data, from the ini file
+        IniSection* aSection = iniFile.GetSection("Reduced Stoichiometry Matrix");
+        if(!aSection || !gRR)
+        {
+            return;
+        }
+        clog<< endl << "==== REDUCED STOICHIOMETRY_MATRIX ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        RoadRunner* rri = castToRoadRunner(gRR);
+        ls::DoubleMatrix matrix = rri->getReducedStoichiometryMatrix();
+        compareMatrices(ref, matrix);
       }
 
     TEST(LINK_MATRIX)
