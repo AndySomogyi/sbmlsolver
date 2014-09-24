@@ -46,6 +46,8 @@ public:
      */
     Random& operator=( const Random& rhs);
 
+    ~Random();
+
     /**
      * RNG engine.
      */

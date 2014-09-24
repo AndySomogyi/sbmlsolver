@@ -307,12 +307,6 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     context.stealThePeach(&rc->symbols, &rc->context,
             &rc->executionEngine, &rc->random, &rc->errStr);
 
-    // clone the random object, each ModelData instance has its own copy,
-    // as the Random object maintains a state.
-    if(rc->random)
-    {
-        modelData->random = new Random(*rc->random);
-    }
 
     if (!forceReCompile)
     {

@@ -21,6 +21,8 @@ using namespace llvm;
 namespace rrllvm
 {
 
+static int randomCount = 0;
+
 /**
  * random uniform distribution
  */
@@ -52,12 +54,14 @@ Random::Random(ModelGeneratorContext& ctx)
 {
     addGlobalMappings(ctx);
     engine.seed(defaultSeed());
+    randomCount++;
 }
 
 Random::Random(const Random& other)
 {
     *this = other;
     engine.seed(defaultSeed());
+    randomCount++;
 }
 
 Random& Random::operator =(const Random& rhs)
@@ -65,8 +69,6 @@ Random& Random::operator =(const Random& rhs)
     engine = rhs.engine;
     return *this;
 }
-
-
 
 Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module)
@@ -109,6 +111,12 @@ double distrib_uniform(Random *random, double _min, double _max)
     // rng numbers to be normalized to [0,1].
     double range = random->engine.max() - random->engine.min();
     return (random->engine() / range) * (_max - _min) + _min;
+}
+
+Random::~Random()
+{
+    --randomCount;
+    Log(Logger::LOG_TRACE) << "deleted Random object, count: " << randomCount;
 }
 
 } /* namespace rrllvm */
