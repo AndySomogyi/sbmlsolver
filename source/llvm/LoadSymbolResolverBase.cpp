@@ -23,14 +23,12 @@ namespace rrllvm
 {
 
 LoadSymbolResolverBase::LoadSymbolResolverBase(
-        const libsbml::Model* model,
-        const LLVMModelSymbols& modelSymbols,
-        const LLVMModelDataSymbols& modelDataSymbols,
-        llvm::IRBuilder<>& builder) :
-        model(model),
-        modelSymbols(modelSymbols),
-        modelDataSymbols(modelDataSymbols),
-        builder(builder)
+        const ModelGeneratorContext& ctx) :
+        modelGenContext(ctx),
+        model(ctx.getModel()),
+        modelSymbols(ctx.getModelSymbols()),
+        modelDataSymbols(ctx.getModelDataSymbols()),
+        builder(ctx.getBuilder())
 {
 }
 

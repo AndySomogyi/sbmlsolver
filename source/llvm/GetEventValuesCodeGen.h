@@ -86,8 +86,7 @@ llvm::Value *GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
 
     const libsbml::ListOfEvents *events = this->model->getListOfEvents();
 
-    ModelDataLoadSymbolResolver resolver(args[0], this->model, this->modelSymbols,
-            this->dataSymbols, this->builder);
+    ModelDataLoadSymbolResolver resolver(args[0], this->modelGenContext);
 
     ASTNodeCodeGen astCodeGen(this->builder, resolver);
 

@@ -26,9 +26,7 @@ class ModelDataLoadSymbolResolver: public LoadSymbolResolverBase
 {
 public:
     ModelDataLoadSymbolResolver(llvm::Value *modelData,
-            const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
-            const LLVMModelDataSymbols &modelDataSymbols,
-            llvm::IRBuilder<> &builder);
+            const ModelGeneratorContext& ctx);
 
     virtual ~ModelDataLoadSymbolResolver() {};
 

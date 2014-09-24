@@ -70,8 +70,7 @@ llvm::Value* GetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
     std::vector<std::string> ids = static_cast<Derived*>(this)->getIds();
 
-    ModelInitialValueSymbolResolver resolver(args[0], this->model, this->modelSymbols,
-            this->dataSymbols, this->builder);
+    ModelInitialValueSymbolResolver resolver(args[0], this->modelGenContext);
 
     // default, return NaN
     llvm::BasicBlock *def = llvm::BasicBlock::Create(this->context, "default", this->function);

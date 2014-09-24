@@ -31,8 +31,7 @@ bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData,
         llvm::Value *data, const libsbml::Event* event)
 {
     ModelDataIRBuilder mdBuilder(modelData, dataSymbols, builder);
-    ModelDataLoadSymbolResolver mdLoadResolver(modelData, model, modelSymbols,
-            dataSymbols, builder);
+    ModelDataLoadSymbolResolver mdLoadResolver(modelData, modelGenContext);
     ModelDataStoreSymbolResolver mdStoreResolver(modelData, model, modelSymbols,
             dataSymbols, builder, mdLoadResolver);
     ASTNodeCodeGen astCodeGen(builder, mdLoadResolver);

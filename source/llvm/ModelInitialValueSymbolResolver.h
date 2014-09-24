@@ -29,9 +29,7 @@ class ModelInitialValueSymbolResolver: public LoadSymbolResolverBase
 public:
 
     ModelInitialValueSymbolResolver(llvm::Value *modelData,
-            const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
-            const LLVMModelDataSymbols &modelDataSymbols,
-            llvm::IRBuilder<> &builder);
+            const ModelGeneratorContext& ctx);
 
     virtual ~ModelInitialValueSymbolResolver() {};
 

@@ -147,10 +147,12 @@ public:
     }
 
     /**
-     * get a pointer to the random object. If no object exists, this
-     * creates one.
+     * get a pointer to the random object.
+     *
+     * The random object exists if the document has the distrib package,
+     * is null otherwise.
      */
-    Random* getRandom();
+    Random* getRandom() const;
 
 private:
 

@@ -50,6 +50,7 @@ public:
 
 protected:
     CodeGenBase(const ModelGeneratorContext &mgc) :
+            modelGenContext(mgc),
             model(mgc.getModel()),
             dataSymbols(mgc.getModelDataSymbols()),
             modelSymbols(mgc.getModelSymbols()),
@@ -62,6 +63,8 @@ protected:
             functionPassManager(mgc.getFunctionPassManager())
     {
     };
+
+    const ModelGeneratorContext &modelGenContext;
 
     /**
      * could potentially be null, everything else is guaranteed to be valid

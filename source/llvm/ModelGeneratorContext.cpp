@@ -301,12 +301,8 @@ ModelGeneratorContext::ModelGeneratorContext() :
     addGlobalMappings();
 }
 
-Random* ModelGeneratorContext::getRandom()
+Random* ModelGeneratorContext::getRandom() const
 {
-    if (random == 0)
-    {
-        random = new Random();
-    }
     return random;
 }
 

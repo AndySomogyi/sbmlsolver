@@ -27,15 +27,23 @@ namespace rrllvm
 class SBMLInitialValueSymbolResolver: public LoadSymbolResolverBase
 {
 public:
-    SBMLInitialValueSymbolResolver(const libsbml::Model *model,
-            const LLVMModelDataSymbols &modelDataSymbols,
-            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder);
+
+    /**
+     * need a modelData ptr because it holds state needed from the random
+     * number generators, could be used for init assignmnets.
+     */
+    SBMLInitialValueSymbolResolver(llvm::Value *modelData,
+            const ModelGeneratorContext& ctx);
+
 
     virtual ~SBMLInitialValueSymbolResolver() {};
 
     virtual llvm::Value *loadSymbolValue(const std::string& symbol,
             const llvm::ArrayRef<llvm::Value*>& args =
                     llvm::ArrayRef<llvm::Value*>());
+
+private:
+    llvm::Value *modelData;
 
 };
 

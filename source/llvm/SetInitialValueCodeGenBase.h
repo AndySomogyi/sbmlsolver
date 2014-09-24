@@ -74,8 +74,7 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
     // are we doing init symbols or regular symbols.
     bool isInit = static_cast<Derived*>(this)->isInitialValue();
 
-    ModelInitialValueSymbolResolver loadResolver(args[0], this->model, this->modelSymbols,
-            this->dataSymbols, this->builder);
+    ModelInitialValueSymbolResolver loadResolver(args[0], this->modelGenContext);
 
     ModelInitialValueStoreSymbolResolver storeResolver(args[0], this->model, this->modelSymbols,
             this->dataSymbols, this->builder, loadResolver);
