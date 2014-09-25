@@ -6,14 +6,13 @@
   <model id="normaltest" name="normaltest">
 
 
-￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼
     <listOfParameters>
       <parameter id="mu" value="1" constant="true"/>
       <parameter id="sigma" value="2" constant="true"/>
-      <parameter id="n" constant="false"/>
+      <parameter id="rand" constant="false"/>
     </listOfParameters>
     <listOfRules>
-      <assignmentRule variable="n">
+      <assignmentRule variable="rand">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <ci> normal </ci>

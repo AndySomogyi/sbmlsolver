@@ -5,13 +5,12 @@
 
   <model id="uniform_test" name="uniform distrib test">
 
-
-￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼
     <listOfParameters>
       <parameter id="min" value="1" constant="true"/>
       <parameter id="max" value="2" constant="true"/>
       <parameter id="rand" constant="false"/>
     </listOfParameters>
+
     <listOfRules>
       <assignmentRule variable="rand">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -23,8 +22,6 @@
         </math>
       </assignmentRule>
     </listOfRules>
-
-
 
     <listOfFunctionDefinitions>
       <functionDefinition id="uniform">
