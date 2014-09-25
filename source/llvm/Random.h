@@ -22,6 +22,8 @@
     #include <sys/time.h>
 #endif
 
+#include <stdint.h>
+
 namespace rrllvm
 {
 

@@ -13,6 +13,15 @@
 #include "rrUtils.h"
 #include <stdint.h>
 
+
+#if INTPTR_MAX == INT32_MAX
+    #define RR_32BIT
+#elif INTPTR_MAX == INT64_MAX
+   #define RR_64BIT
+#else
+    #error "Environment not 32 or 64-bit."
+#endif
+
 using rr::Logger;
 using rr::Config;
 using rr::getMicroSeconds;
@@ -38,7 +47,7 @@ static Function* createGlobalMappingFunction(const char* funcName,
 
 static void addGlobalMappings(const ModelGeneratorContext& ctx);
 
-static unsigned long defaultSeed()
+static int64_t defaultSeed()
 {
     int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
     if (seed < 0)
@@ -46,34 +55,26 @@ static unsigned long defaultSeed()
         // system time in mirsoseconds since 1970
         seed = getMicroSeconds();
     }
-
-    unsigned long maxl = std::numeric_limits<unsigned long>::max() - 2;
-
-    seed = seed % maxl;
-
-    return (unsigned long)seed;
+    return seed;
 }
 
 Random::Random(ModelGeneratorContext& ctx)
 {
     addGlobalMappings(ctx);
-    randomSeed = defaultSeed();
-    engine.seed(randomSeed);
+    setRandomSeed(defaultSeed());
     randomCount++;
 }
 
 Random::Random(const Random& other)
 {
     *this = other;
-    randomSeed = defaultSeed();
-    engine.seed(randomSeed);
+    setRandomSeed(defaultSeed());
     randomCount++;
 }
 
 Random::Random()
 {
-    randomSeed = defaultSeed();
-    engine.seed(randomSeed);
+    setRandomSeed(defaultSeed());
     randomCount++;
 }
 
@@ -155,8 +156,15 @@ double Random::operator ()()
 
 void Random::setRandomSeed(int64_t val)
 {
+#ifdef RR_32BIT
+    unsigned long maxl = std::numeric_limits<unsigned long>::max() - 2;
+    unsigned long seed = val % maxl;
+    engine.seed(seed);
+    randomSeed = seed;
+#else
     engine.seed(val);
     randomSeed = val;
+#endif
 }
 
 int64_t Random::getRandomSeed()
