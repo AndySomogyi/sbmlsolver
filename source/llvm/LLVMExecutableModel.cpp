@@ -2179,4 +2179,61 @@ int LLVMExecutableModel::getGlobalParameterInitValues(int len, const int *indx,
 /******************************************************************************/
 
 
+
+/******************************* Random Section *******************************/
+#if (1) /**********************************************************************/
+/******************************************************************************/
+
+/**
+ * set the seed used by the random number generator. This will by definition
+ * reset the RNG.
+ */
+void LLVMExecutableModel::setRandomSeed(int64_t seed)
+{
+    // if this does not exist, can create it, this will be freed
+    // by LLVMModelData_free
+    if (modelData->random == 0)
+    {
+        modelData->random = new Random();
+    }
+    modelData->random->setRandomSeed(seed);
+
+}
+
+/**
+ * get the seed used by the RNG.
+ */
+int64_t LLVMExecutableModel::getRandomSeed()
+{
+    // if this does not exist, can create it, this will be freed
+    // by LLVMModelData_free
+    if (modelData->random == 0)
+    {
+        modelData->random = new Random();
+    }
+    return modelData->random->getRandomSeed();
+}
+
+/**
+ * Get a uniform random number between 0 and 1 created by the RNG.
+ *
+ * The type of RNG can be specified in the config file with the
+ * RANDOM_GENERATOR_TYPE key.
+ */
+double LLVMExecutableModel::getRandom()
+{
+    // if this does not exist, can create it, this will be freed
+    // by LLVMModelData_free
+    if (modelData->random == 0)
+    {
+        modelData->random = new Random();
+    }
+    return (*modelData->random)();
+}
+
+/******************************* End Random Section ***************************/
+#endif  /**********************************************************************/
+/******************************************************************************/
+
+
 } /* namespace rr */

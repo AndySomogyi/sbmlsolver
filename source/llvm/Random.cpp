@@ -33,7 +33,6 @@ static double distrib_uniform(Random *random, double _min, double _max);
 
 static double distrib_normal(Random* random, double mu, double sigma);
 
-
 static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module);
 
@@ -58,14 +57,23 @@ static unsigned long defaultSeed()
 Random::Random(ModelGeneratorContext& ctx)
 {
     addGlobalMappings(ctx);
-    engine.seed(defaultSeed());
+    randomSeed = defaultSeed();
+    engine.seed(randomSeed);
     randomCount++;
 }
 
 Random::Random(const Random& other)
 {
     *this = other;
-    engine.seed(defaultSeed());
+    randomSeed = defaultSeed();
+    engine.seed(randomSeed);
+    randomCount++;
+}
+
+Random::Random()
+{
+    randomSeed = defaultSeed();
+    engine.seed(randomSeed);
     randomCount++;
 }
 
@@ -143,6 +151,17 @@ double Random::operator ()()
 {
     double range = engine.max() - engine.min();
     return engine() / range;
+}
+
+void Random::setRandomSeed(int64_t val)
+{
+    engine.seed(val);
+    randomSeed = val;
+}
+
+int64_t Random::getRandomSeed()
+{
+    return randomSeed;
 }
 
 } /* namespace rrllvm */

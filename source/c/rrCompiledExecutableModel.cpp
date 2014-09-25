@@ -1783,6 +1783,21 @@ double CompiledExecutableModel::getFloatingSpeciesAmountRate(int index,
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
+void CompiledExecutableModel::setRandomSeed(int64_t)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+};
+
+int64_t CompiledExecutableModel::getRandomSeed()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+};
+
+double CompiledExecutableModel::getRandom()
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+};
+
 
 
 } //Namespace rr
