@@ -55,6 +55,16 @@ public:
     double operator()();
 
     /**
+     * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist. 
+     */
+    double min() { return 0.0; };
+
+    /**
+     * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist. 
+     */
+    double max() { return 1.0; }; 
+
+    /**
      * RNG engine.
      */
     cxx11_ns::mt19937 engine;
