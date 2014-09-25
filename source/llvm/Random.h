@@ -49,6 +49,12 @@ public:
     ~Random();
 
     /**
+     * return a normalized random number between 0 and 1 using the
+     * RNG engine.
+     */
+    double operator()();
+
+    /**
      * RNG engine.
      */
     cxx11_ns::mt19937 engine;

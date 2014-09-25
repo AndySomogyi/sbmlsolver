@@ -14,17 +14,18 @@
 
 using namespace llvm;
 using namespace rr;
+using namespace libsbml;
 
 namespace rrllvm
 {
 
 DistribFunctionResolver::DistribFunctionResolver(
         const ModelGeneratorContext& ctx, llvm::Value *modelData) :
-                builder(ctx.getBuilder()),
-                random(ctx.getRandom()),
-                modelData(modelData),
-                modelDataSymbols(ctx.getModelDataSymbols()),
-                module(ctx.getModule())
+                        builder(ctx.getBuilder()),
+                        random(ctx.getRandom()),
+                        modelData(modelData),
+                        modelDataSymbols(ctx.getModelDataSymbols()),
+                        module(ctx.getModule())
 {
 }
 
@@ -37,7 +38,7 @@ llvm::Value* DistribFunctionResolver::loadSymbolValue(
     Log(Logger::LOG_NOTICE) << "distrib function: " << funcDef->getId();
 
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
-                builder);
+            builder);
 
     // pointer to random field.
     llvm::Value *randomPtr = mdbuilder.createRandomLoad();
@@ -47,11 +48,38 @@ llvm::Value* DistribFunctionResolver::loadSymbolValue(
         throw_llvm_exception("invalid number of args");
     }
 
-    llvm::Value *funcArgs[] = {randomPtr, args[0], args[1]};
+    const DrawFromDistribution* distrib =
+            distribFunc->getDrawFromDistribution();
 
-    llvm::Value *func = module->getFunction("rr_distrib_uniform");
+    const UncertMLNode *uml = distrib->getUncertML();
 
-    return builder.CreateCall(func, funcArgs, "call_rr_distrib_uniform");
+    if (uml->getElementName() == "UniformDistribution")
+    {
+        llvm::Value *funcArgs[] = {randomPtr, args[0], args[1]};
+
+        llvm::Value *func = module->getFunction("rr_distrib_uniform");
+
+        assert(func && "could not get rr_distrib_uniform");
+
+        return builder.CreateCall(func, funcArgs, "call_rr_distrib_uniform");
+    }
+
+    else if (uml->getElementName() == "NormalDistribution")
+    {
+        llvm::Value *funcArgs[] = {randomPtr, args[0], args[1]};
+
+        llvm::Value *func = module->getFunction("rr_distrib_normal");
+
+        assert(func && "could not get rr_distrib_normal");
+
+        return builder.CreateCall(func, funcArgs, "call_rr_normal_uniform");
+    }
+
+    else
+    {
+        string name = uml->getElementName();
+        throw_llvm_exception("Unsupported distribution: " + name);
+    }
 }
 
 

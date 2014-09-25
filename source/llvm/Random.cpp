@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "rrConfig.h"
 #include "rrUtils.h"
+#include <stdint.h>
 
 using rr::Logger;
 using rr::Config;
@@ -21,12 +22,16 @@ using namespace llvm;
 namespace rrllvm
 {
 
+typedef cxx11_ns::normal_distribution<double> NormalDist;
+
 static int randomCount = 0;
 
 /**
  * random uniform distribution
  */
 static double distrib_uniform(Random *random, double _min, double _max);
+
+static double distrib_normal(Random* random, double mu, double sigma);
 
 
 static Function* createGlobalMappingFunction(const char* funcName,
@@ -82,6 +87,7 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
     LLVMContext& context = module->getContext();
     llvm::ExecutionEngine *executionEngine = &ctx.getExecutionEngine();
     Type *double_type = Type::getDoubleTy(context);
+    Type *int_type = Type::getInt32Ty(context);
 
 
     // LLVM does not appear to have a true void ptr, so just use a pointer
@@ -94,10 +100,16 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
     Type* args_void_double_double[] = { voidPtrType, double_type, double_type };
 
 
+
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("rr_distrib_uniform",
                     FunctionType::get(double_type, args_void_double_double, false), module),
                         (void*) distrib_uniform);
+
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("rr_distrib_normal",
+                    FunctionType::get(double_type, args_void_double_double, false), module),
+                        (void*) distrib_normal);
 
 }
 
@@ -107,16 +119,30 @@ double distrib_uniform(Random *random, double _min, double _max)
             << static_cast<void*>(random)
             << ", " << _min << ", " << _max << ")";
 
-    // gcc tr1 uniform_real is broken in that it expects
-    // rng numbers to be normalized to [0,1].
-    double range = random->engine.max() - random->engine.min();
-    return (random->engine() / range) * (_max - _min) + _min;
+    cxx11_ns::uniform_real<double> dist(_min, _max);
+    return dist(*random);
+}
+
+double distrib_normal(Random* random, double mu, double sigma)
+{
+    Log(Logger::LOG_DEBUG) << "distrib_normal("
+            << static_cast<void*>(random)
+            << ", " << mu << ", " << sigma << ")";
+
+    NormalDist normal(mu, sigma);
+    return normal(*random);
 }
 
 Random::~Random()
 {
     --randomCount;
     Log(Logger::LOG_TRACE) << "deleted Random object, count: " << randomCount;
+}
+
+double Random::operator ()()
+{
+    double range = engine.max() - engine.min();
+    return engine() / range;
 }
 
 } /* namespace rrllvm */
