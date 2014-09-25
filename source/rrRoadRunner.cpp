@@ -2696,92 +2696,66 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 
 DoubleMatrix RoadRunner::getScaledElasticityMatrix()
 {
-    try
+    get_self();
+
+    check_model();
+
+    DoubleMatrix uelast = getUnscaledElasticityMatrix();
+    DoubleMatrix result(uelast.RSize(), uelast.CSize());;
+    vector<double> rates(self.model->getNumReactions());
+    self.model->getReactionRates(rates.size(), 0, &rates[0]);
+
+    if (uelast.RSize() != rates.size())
     {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-
-        DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
-        impl->model->convertToConcentrations();
-        impl->model->evalReactionRates();
-        vector<double> rates(impl->model->getNumReactions());
-        impl->model->getReactionRates(rates.size(), 0, &rates[0]);
-
-        for (int i = 0; i < uelast.RSize(); i++)
-        {
-            // Rows are rates
-            if (impl->model->getNumReactions() == 0 || rates[i] == 0)
-            {
-                string name;
-                if(impl->mModelGenerator && impl->model->getNumReactions())
-                {
-                    name = impl->model->getReactionId(i);
-                }
-                else
-                {
-                    name = "none";
-                }
-
-                throw CoreException("Unable to compute elasticity, reaction rate [" + name + "] set to zero");
-            }
-
-            for (int j = 0; j < uelast.CSize(); j++) // Columns are species
-            {
-                double concentration = 0;
-                impl->model->getFloatingSpeciesConcentrations(1, &j, &concentration);
-
-                result[i][j] = uelast[i][j]*concentration/rates[i];
-            }
-        }
-        return result;
+        // this should NEVER happen
+        throw std::runtime_error("row count of unscaled elasticity different "
+                "than # of reactions");
     }
-    catch (const Exception& e)
+
+    for (int i = 0; i < uelast.RSize(); i++)
     {
-        throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
+        for (int j = 0; j < uelast.CSize(); j++) // Columns are species
+        {
+            double concentration = 0;
+            self.model->getFloatingSpeciesConcentrations(1, &j, &concentration);
+
+            result[i][j] = uelast[i][j]*concentration/rates[i];
+        }
     }
+    return result;
 }
 
-//        [Help("Compute the scaled elasticity for a given reaction and given species")]
-double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName)
+
+double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName,
+        const string& speciesName)
 {
-    try
+    get_self();
+
+    check_model();
+
+    int speciesIndex = 0;
+    int reactionIndex = 0;
+
+    self.model->convertToConcentrations();
+    self.model->evalReactionRates();
+
+    if ((speciesIndex = self.model->getFloatingSpeciesIndex(speciesName)) < 0)
     {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-        int speciesIndex = 0;
-        int reactionIndex = 0;
+        throw std::invalid_argument("invalid species name: " + speciesName);
+    }
+    if ((reactionIndex = self.model->getReactionIndex(reactionName)) < 0)
+    {
+        throw std::invalid_argument("invalid reaction name: " + reactionName);
+    }
 
-        impl->model->convertToConcentrations();
-        impl->model->evalReactionRates();
+    double concentration = 0;
+    self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
 
-        if ((speciesIndex = impl->model->getFloatingSpeciesIndex(speciesName)) < 0)
-        {
-            throw CoreException("Internal Error: unable to locate species name while computing unscaled elasticity");
-        }
-        if ((reactionIndex = impl->model->getReactionIndex(reactionName)) < 0)
-        {
-            throw CoreException("Internal Error: unable to locate reaction name while computing unscaled elasticity");
-        }
+    double reactionRate = 0;
+    self.model->getReactionRates(1, &reactionIndex, &reactionRate);
 
-        double concentration = 0;
-        impl->model->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
-
-        double reactionRate = 0;
-        impl->model->getReactionRates(1, &reactionIndex, &reactionRate);
-        return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex) *
+    return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex) *
             concentration / reactionRate;
-
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
-    }
 }
 
 
