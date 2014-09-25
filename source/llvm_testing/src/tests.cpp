@@ -74,7 +74,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         c.getModelDataSymbols().print();
 
-        createModelData(c.getModelDataSymbols());
+        createModelData(c.getModelDataSymbols(), 0);
 
         ExecutionEngine &engine = c.getExecutionEngine();
 
@@ -112,7 +112,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     ModelGeneratorContext c(doc, true);
 
-    md = createModelData(c.getModelDataSymbols());
+    md = createModelData(c.getModelDataSymbols(), 0);
 
     LLVMModelDataIRBuilderTesting builder(c.getModelDataSymbols(), c.getBuilder());
 

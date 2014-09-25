@@ -131,20 +131,38 @@ SUITE(CORE_TESTS)
 
     TEST(GET_MICROSECONDS)
     {
+        // make sure that the time is essentially the same as sleep time in
+        // milliseconds.
         int64_t millis = 123;
         int64_t start = rr::getMicroSeconds();
         // sleep for milliseconds
-        rr::sleep(millis);
+        rr::sleep((int)millis);
         int64_t end = rr::getMicroSeconds();
         int64_t diff = end - start;
 
-        cout << "microseconds, start: " << start << ", end: " << end << ", diff: " << diff << endl;
+        cout << "microseconds, start: " << start << ", end: " << end << ", diff: " << diff 
+             << ", expected sleep mu s: " << 1000 * millis 
+             << ", diff between expeted and actual mu s: " << diff - (1000 * millis) << endl;
 
-        // timer varies from system to system, but should be semi-close
-        CHECK_CLOSE(diff, 1000 * millis, 2000);
+        // timer varies from system to system, but should be semi-close, like say 20%
+        CHECK_CLOSE(diff, 1000 * millis, (1000 * millis) / 5 );
 
         // make sure its increasing
         CHECK(diff > 0);
+
+        // now make sure that the microseconds is monotinically increasing
+        const int len = 5;
+        int64_t prev = rr::getMicroSeconds();
+        for (int i = 0; i < len; ++i) {
+            // the timer on Windows appears to be significantaly less 
+            // accurate than standard Unix machines, so have to sleep 
+            // for the miminal amount to time to get the alleged 'microseconds'
+            // to move. Timer is also not super accurate in virtualbox. 
+            rr::sleep(1);
+            int64_t curr = rr::getMicroSeconds();
+            CHECK(curr > prev);
+            prev = curr;
+        }
     }
 }
 

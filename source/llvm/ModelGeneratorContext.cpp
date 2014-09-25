@@ -21,6 +21,12 @@
 #include <vector>
 #include <math.h>
 
+#include <sbml/common/libsbml-config-packages.h>
+#ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+#include <sbml/packages/distrib/common/DistribExtensionTypes.h>
+#include "DistribFunctionResolver.h"
+#endif
+
 using namespace llvm;
 using namespace std;
 using namespace libsbml;
@@ -82,7 +88,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         builder(0),
         functionPassManager(0),
         options(options),
-        moietyConverter(0)
+        moietyConverter(0),
+        random(0)
 {
     try
     {
@@ -136,7 +143,6 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
 
         modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
 
-
         // initialize LLVM
         // TODO check result
         InitializeNativeTarget();
@@ -158,6 +164,18 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         createLibraryFunctions(module);
 
         ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+        // check if doc has distrib package
+        // Random adds mappings, need call after llvm objs created
+#ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+        const DistribSBMLDocumentPlugin* distrib =
+                dynamic_cast<const DistribSBMLDocumentPlugin*>(
+                        doc->getPlugin("distrib"));
+        if(distrib)
+        {
+            random = new Random(*this);
+        }
+#endif
 
         initFunctionPassManager();
 
@@ -189,7 +207,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
         builder(0),
         functionPassManager(0),
         options(options),
-        moietyConverter(0)
+        moietyConverter(0),
+        random(0)
 {
     try
     {
@@ -253,6 +272,18 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
 
         ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
 
+        // check if doc has distrib package
+        // Random adds mappings, need call after llvm objs created
+#ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+        const DistribSBMLDocumentPlugin* distrib =
+                dynamic_cast<const DistribSBMLDocumentPlugin*>(
+                        doc->getPlugin("distrib"));
+        if(distrib)
+        {
+            random = new Random(*this);
+        }
+#endif
+
         initFunctionPassManager();
 
     }
@@ -297,6 +328,11 @@ ModelGeneratorContext::ModelGeneratorContext() :
     executionEngine = engineBuilder.create();
 
     addGlobalMappings();
+}
+
+Random* ModelGeneratorContext::getRandom() const
+{
+    return random;
 }
 
 void ModelGeneratorContext::cleanup()
@@ -356,7 +392,7 @@ llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
 
 void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
         const llvm::LLVMContext** ctx, const llvm::ExecutionEngine** eng,
-        const string** err)
+        const Random** rnd, const string** err)
 {
     *sym = symbols;
     symbols = 0;
@@ -364,6 +400,8 @@ void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
     context = 0;
     *eng = executionEngine;
     executionEngine = 0;
+    *rnd = random;
+    random = 0;
     *err = errString;
     errString = 0;
 }

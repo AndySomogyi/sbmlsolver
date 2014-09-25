@@ -529,6 +529,13 @@ llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
     return createCSRMatrixGetNZ(builder, stoich, rowVal, colVal, name);
 }
 
+llvm::Value *ModelDataIRBuilder::createRandomLoad()
+{
+    LLVMContext &context = builder.getContext();
+    Value *randomEP = createGEP(RandomPtr);
+    Value *randomPtr = builder.CreateLoad(randomEP, "randomPtr");
+    return randomPtr;
+}
 
 
 void ModelDataIRBuilder::validateStruct(llvm::Value* s,
@@ -566,7 +573,6 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         // these have initial conditions, so need to allocate them twice
         uint numIndCompartments = symbols.getIndependentCompartmentSize();
         uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
-        uint numConservedSpecies = symbols.getConservedSpeciesSize();
         uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
         uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
 
@@ -588,6 +594,12 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         Type *doubleType = Type::getDoubleTy(context);
         Type *doublePtrType = Type::getDoublePtrTy(context);
 
+        // LLVM does not appear to have a true void ptr, so just use a pointer
+        // to a byte, pointers are all the same size anyway.
+        // used for the LLVMModelData::random which is not accessed by
+        // generated llvm code anyway.
+        Type *voidPtrType = Type::getInt8PtrTy(context);
+
         vector<Type*> elements;
 
         elements.push_back(int32Type);        // 0      unsigned                 size;
@@ -595,18 +607,18 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         elements.push_back(doubleType);       // 2      double                   time;
         elements.push_back(int32Type);        // 3      int                      numIndCompartments;
         elements.push_back(int32Type);        // 4      int                      numIndFloatingSpecies;
-        elements.push_back(int32Type);        // 5      int                      numConservedSpecies;
-        elements.push_back(int32Type);        // 6      int                      numIndBoundarySpecies;
-        elements.push_back(int32Type);        // 7      int                      numIndGlobalParameters;
-        elements.push_back(int32Type);        // 8      int                      numRateRules;
-        elements.push_back(int32Type);        // 9      int                      numReactions;
+        elements.push_back(int32Type);        // 5      int                      numIndBoundarySpecies;
+        elements.push_back(int32Type);        // 6      int                      numIndGlobalParameters;
+        elements.push_back(int32Type);        // 7      int                      numRateRules;
+        elements.push_back(int32Type);        // 8      int                      numReactions;
 
-        elements.push_back(int32Type);        // 10     int                      numInitCompartments;
-        elements.push_back(int32Type);        // 11     int                      numInitFloatingSpecies;
-        elements.push_back(int32Type);        // 12     int                      numInitBoundarySpecies;
-        elements.push_back(int32Type);        // 13     int                      numInitGlobalParameters;
+        elements.push_back(int32Type);        // 9      int                      numInitCompartments;
+        elements.push_back(int32Type);        // 10     int                      numInitFloatingSpecies;
+        elements.push_back(int32Type);        // 11     int                      numInitBoundarySpecies;
+        elements.push_back(int32Type);        // 12     int                      numInitGlobalParameters;
 
-        elements.push_back(csrSparsePtrType); // 14     dcsr_matrix             stoichiometry;
+        elements.push_back(csrSparsePtrType); // 13     dcsr_matrix              stoichiometry;
+        elements.push_back(voidPtrType);      // 14     void*                    random;
         elements.push_back(int32Type);        // 15     int                      numEvents;
         elements.push_back(int32Type);        // 16     int                      stateVectorSize;
         elements.push_back(doublePtrType);    // 17     double*                  stateVector;
@@ -617,27 +629,25 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         elements.push_back(doublePtrType);    // 21     double*                  compartmentVolumesAlias;
         elements.push_back(doublePtrType);    // 22     double*                  compartmentVolumesInitAlias;
         elements.push_back(doublePtrType);    // 23     double*                  floatingSpeciesAmountsInitAlias
-        elements.push_back(doublePtrType);    // 24     double*                  conservedSpeciesAmountsInitAlias
-        elements.push_back(doublePtrType);    // 25     double*                  boundarySpeciesAmountsAlias;
-        elements.push_back(doublePtrType);    // 26     double*                  boundarySpeciesAmountsInitAlias;
-        elements.push_back(doublePtrType);    // 27     double*                  globalParametersAlias
-        elements.push_back(doublePtrType);    // 28     double*                  globalParametersInitAlias
-        elements.push_back(doublePtrType);    // 29     double*                  reactionRatesAlias
+        elements.push_back(doublePtrType);    // 24     double*                  boundarySpeciesAmountsAlias;
+        elements.push_back(doublePtrType);    // 25     double*                  boundarySpeciesAmountsInitAlias;
+        elements.push_back(doublePtrType);    // 26     double*                  globalParametersAlias
+        elements.push_back(doublePtrType);    // 27     double*                  globalParametersInitAlias
+        elements.push_back(doublePtrType);    // 28     double*                  reactionRatesAlias
 
-        elements.push_back(doublePtrType);    // 30     double*                  rateRuleValuesAlias
-        elements.push_back(doublePtrType);    // 31     double*                  floatingSpeciesAmountsAlias
+        elements.push_back(doublePtrType);    // 29     double*                  rateRuleValuesAlias
+        elements.push_back(doublePtrType);    // 30     double*                  floatingSpeciesAmountsAlias
 
-        elements.push_back(ArrayType::get(doubleType, numIndCompartments));     // 32 CompartmentVolumes
-        elements.push_back(ArrayType::get(doubleType, numInitCompartments));    // 33 initCompartmentVolumes
-        elements.push_back(ArrayType::get(doubleType, numInitFloatingSpecies)); // 34 initFloatingSpeciesAmounts
-        elements.push_back(ArrayType::get(doubleType, numConservedSpecies));    // 35 initConservedSpeciesAmounts
-        elements.push_back(ArrayType::get(doubleType, numIndBoundarySpecies));  // 36 boundarySpeciesAmounts
-        elements.push_back(ArrayType::get(doubleType, numInitBoundarySpecies)); // 37 initBoundarySpeciesAmounts
-        elements.push_back(ArrayType::get(doubleType, numIndGlobalParameters)); // 38 globalParameters
-        elements.push_back(ArrayType::get(doubleType, numInitGlobalParameters));// 39 initGlobalParameters
-        elements.push_back(ArrayType::get(doubleType, numReactions));           // 40 reactionRates
-        elements.push_back(ArrayType::get(doubleType, numRateRules));           // 41 rateRuleValues
-        elements.push_back(ArrayType::get(doubleType, numIndFloatingSpecies));  // 42 floatingSpeciesAmounts
+        elements.push_back(ArrayType::get(doubleType, numIndCompartments));     // 31 CompartmentVolumes
+        elements.push_back(ArrayType::get(doubleType, numInitCompartments));    // 32 initCompartmentVolumes
+        elements.push_back(ArrayType::get(doubleType, numInitFloatingSpecies)); // 33 initFloatingSpeciesAmounts
+        elements.push_back(ArrayType::get(doubleType, numIndBoundarySpecies));  // 34 boundarySpeciesAmounts
+        elements.push_back(ArrayType::get(doubleType, numInitBoundarySpecies)); // 35 initBoundarySpeciesAmounts
+        elements.push_back(ArrayType::get(doubleType, numIndGlobalParameters)); // 36 globalParameters
+        elements.push_back(ArrayType::get(doubleType, numInitGlobalParameters));// 37 initGlobalParameters
+        elements.push_back(ArrayType::get(doubleType, numReactions));           // 38 reactionRates
+        elements.push_back(ArrayType::get(doubleType, numRateRules));           // 39 rateRuleValues
+        elements.push_back(ArrayType::get(doubleType, numIndFloatingSpecies));  // 40 floatingSpeciesAmounts
 
         // creates a named struct,
         // the act of creating a named struct should

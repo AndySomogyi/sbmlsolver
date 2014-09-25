@@ -330,6 +330,39 @@ int validate_test(int argc, char* argv[])
     return -1;
 }
 
+int distrib_test(int argc, char* argv[])
+{
+    try {
+        if (argc < 3)
+        {
+            cout << "usage: llvm_testing distrib fname";
+            return -1;
+        }
+
+        cout << "r1 values:" << endl;
+
+        RoadRunner r1(argv[2]);
+
+        for (int i = 0; i < 5; ++i) {
+            cout << "value: " << r1.getValue("rand") << endl;
+        }
+
+        cout << "r2 values: " << endl;
+
+        RoadRunner r2(argv[2]);
+
+        for (int i = 0; i < 5; ++i) {
+            cout << "value: " << r2.getValue("rand") << endl;
+        }
+
+
+    }
+    catch(std::exception& e) {
+        cout << e.what();
+    }
+    return -1;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -360,6 +393,10 @@ int main(int argc, char* argv[])
 
     if(strcmp("validate", argv[1]) == 0) {
         return validate_test(argc, argv);
+    }
+
+    if(strcmp("distrib", argv[1]) == 0) {
+        return distrib_test(argc, argv);
     }
 
     cout << "error, invalid test name: " << argv[1] << endl;

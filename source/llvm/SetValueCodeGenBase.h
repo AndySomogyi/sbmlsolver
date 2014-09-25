@@ -70,8 +70,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
     StringIntVector ids = static_cast<Derived*>(this)->getIds();
 
-    ModelDataLoadSymbolResolver loadResolver(args[0], this->model, this->modelSymbols,
-            this->dataSymbols, this->builder);
+    ModelDataLoadSymbolResolver loadResolver(args[0], this->modelGenContext);
 
     ModelDataStoreSymbolResolver storeResolver(args[0], this->model, this->modelSymbols,
             this->dataSymbols, this->builder, loadResolver);

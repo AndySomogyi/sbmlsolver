@@ -35,7 +35,7 @@ static unsigned long defaultSeed()
         seed = getMicroSeconds();
     }
 
-    int64_t maxl = std::numeric_limits<unsigned long>::max() - 1;
+    unsigned long maxl = std::numeric_limits<unsigned long>::max() - 2;
 
     seed = seed % maxl;
 

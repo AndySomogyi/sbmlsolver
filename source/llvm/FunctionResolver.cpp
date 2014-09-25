@@ -10,6 +10,13 @@
 #include "LLVMException.h"
 #include "rrStringUtils.h"
 #include <sbml/common/libsbml-version.h>
+#include <sbml/common/libsbml-config-packages.h>
+
+#ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+#include <sbml/packages/distrib/common/DistribExtensionTypes.h>
+#include "DistribFunctionResolver.h"
+#endif
+
 
 namespace rrllvm
 {
@@ -22,10 +29,13 @@ using rr::Logger;
 using rr::getLogger;
 
 FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
-        const libsbml::Model* model, llvm::IRBuilder<>& builder) :
+        llvm::Value *modelData,
+        const ModelGeneratorContext& ctx) :
+                modelGenContext(ctx),
                 parentResolver(parentResolver),
-                model(model),
-                builder(builder),
+                model(ctx.getModel()),
+                builder(ctx.getBuilder()),
+                modelData(modelData),
                 symbols(0)
 {
 }
@@ -49,6 +59,19 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
     }
     else if ((funcDef = model->getListOfFunctionDefinitions()->get(symbol)))
     {
+        // check if a function is a distrib function, these can not call any other
+        // functions or look up and values, these just return a value from a
+        // random distribution.
+        #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+        const DistribFunctionDefinitionPlugin *distribFunc =
+            dynamic_cast<const DistribFunctionDefinitionPlugin*>(funcDef->getPlugin("distrib"));
+        if(distribFunc)
+        {
+            DistribFunctionResolver distribFuncResolver(modelGenContext, modelData);
+            return distribFuncResolver.loadSymbolValue(funcDef, distribFunc, args);
+        }
+        #endif
+
         recursiveSymbolPush(symbol);
 
         const ASTNode *math = funcDef->getMath();

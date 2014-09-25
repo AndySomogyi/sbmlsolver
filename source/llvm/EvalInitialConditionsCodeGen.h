@@ -46,22 +46,27 @@ public:
 
 private:
 
-    void codeGenSpecies(StoreSymbolResolver& modelDataResolver);
+    void codeGenSpecies(StoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& loadResolver);
 
     void codeGenStoichiometry(llvm::Value *modelData,
-            ModelDataStoreSymbolResolver& modelDataResolver);
+            ModelDataStoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& initialValueResolver);
 
-    void codeGenCompartments(StoreSymbolResolver& modelDataResolver);
+    void codeGenCompartments(StoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& loadResolver);
 
-    void codeGenGlobalParameters(StoreSymbolResolver& modelDataResolver);
+    void codeGenGlobalParameters(StoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& loadResolver);
 
-    void codeGenInitSpecies(StoreSymbolResolver& modelDataResolver);
+    void codeGenInitSpecies(StoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& loadResolver);
 
-    void codeGenInitCompartments(StoreSymbolResolver& modelDataResolver);
+    void codeGenInitCompartments(StoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& loadResolver);
 
-    void codeGenInitGlobalParameters(StoreSymbolResolver& modelDataResolver);
-
-    SBMLInitialValueSymbolResolver initialValueResolver;
+    void codeGenInitGlobalParameters(StoreSymbolResolver& modelDataResolver,
+            LoadSymbolResolver& loadResolver);
 };
 
 } /* namespace rr */

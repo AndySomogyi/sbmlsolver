@@ -656,7 +656,7 @@ SUITE(TEST_MODEL)
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        ls::DoubleMatrix  matrix = rri->getEigenvalues();
+        ls::DoubleMatrix  matrix = rri->getFullEigenValues();
 
         compareMatrices(ref, matrix);
     }
@@ -679,7 +679,7 @@ SUITE(TEST_MODEL)
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        ls::DoubleMatrix  matrix = rri->getEigenvalues();
+        ls::DoubleMatrix  matrix = rri->getFullEigenValues();
 
         compareMatrices(ref, matrix);
     }

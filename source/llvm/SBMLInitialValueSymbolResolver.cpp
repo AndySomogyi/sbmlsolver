@@ -19,11 +19,9 @@ namespace rrllvm
 {
 
 SBMLInitialValueSymbolResolver::SBMLInitialValueSymbolResolver(
-        const libsbml::Model* model,
-        const LLVMModelDataSymbols& modelDataSymbols,
-        const LLVMModelSymbols& modelSymbols,
-        llvm::IRBuilder<>& builder) :
-        LoadSymbolResolverBase(model, modelSymbols, modelDataSymbols, builder)
+        llvm::Value *modelData,
+        const ModelGeneratorContext& ctx) :
+        LoadSymbolResolverBase(ctx), modelData(modelData)
 {
 }
 
@@ -44,7 +42,7 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(
     /*************************************************************************/
     {
         Value *funcVal =
-            FunctionResolver(*this, model, builder).loadSymbolValue(symbol, args);
+            FunctionResolver(*this, modelData, modelGenContext).loadSymbolValue(symbol, args);
 
         if (funcVal)
         {

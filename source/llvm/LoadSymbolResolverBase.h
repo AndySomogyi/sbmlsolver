@@ -12,6 +12,7 @@
 #include "LLVMIncludes.h"
 #include "LLVMModelDataSymbols.h"
 #include "LLVMModelSymbols.h"
+#include "ModelGeneratorContext.h"
 
 namespace libsbml
 {
@@ -41,13 +42,11 @@ public:
     virtual void recursiveSymbolPop();
 
 protected:
-    LoadSymbolResolverBase(const libsbml::Model *model,
-            const LLVMModelSymbols &modelSymbols,
-            const LLVMModelDataSymbols &modelDataSymbols,
-            llvm::IRBuilder<> &builder);
+    LoadSymbolResolverBase(const ModelGeneratorContext &ctx);
 
     typedef std::list<std::string> StringStack;
 
+    const ModelGeneratorContext &modelGenContext;
     const libsbml::Model *model;
     const LLVMModelDataSymbols &modelDataSymbols;
     const LLVMModelSymbols &modelSymbols;

@@ -243,6 +243,11 @@ public:
             const llvm::Twine& name = "");
 
     /**
+     * pointer to ModelData::random field.
+     */
+    llvm::Value *createRandomLoad();
+
+    /**
      * create a call to the csr_matrix_set_nz function.
      *
      * only valid whilst a basic block is being filled.

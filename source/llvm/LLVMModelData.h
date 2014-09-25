@@ -20,7 +20,6 @@ namespace rrllvm
 #pragma warning( disable : 4200 )
 #endif
 
-
 /**
  * A data structure that is that allows data to be exchanged
  * with running SBML models. In the case of CExecutableModels, A pointer to
@@ -74,49 +73,47 @@ struct LLVMModelData
     unsigned                            numIndFloatingSpecies;            // 4
 
     /**
-     * \conservation
-     *
-     * conserved floating species require initial conditions to be set.
-     */
-    unsigned                            numConservedSpecies;              // 5
-
-
-    /**
      * number of boundary species and boundary species concentrations.
      * units: either
      * Mass Percent = (Mass of Solute) / (Mass of Solution) x 100%
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numIndBoundarySpecies;            // 6
+    unsigned                            numIndBoundarySpecies;            // 5
 
     /**
      * number of global parameters
      */
-    unsigned                            numIndGlobalParameters;           // 7
+    unsigned                            numIndGlobalParameters;           // 6
 
 
     /**
      * all rate rules are by definition dependent
      */
-    unsigned                            numRateRules;                     // 8
+    unsigned                            numRateRules;                     // 7
 
     /**
      * number of reactions, same as ratesSize.
      * These are the calcuated reaction rates, not the
      * species rates.
      */
-    unsigned                            numReactions;                     // 9
+    unsigned                            numReactions;                     // 8
 
-    unsigned                            numInitCompartments;              // 10
-    unsigned                            numInitFloatingSpecies;           // 11
-    unsigned                            numInitBoundarySpecies;           // 12
-    unsigned                            numInitGlobalParameters;          // 13
+    unsigned                            numInitCompartments;              // 9
+    unsigned                            numInitFloatingSpecies;           // 10
+    unsigned                            numInitBoundarySpecies;           // 11
+    unsigned                            numInitGlobalParameters;          // 12
 
     /**
      * stoichiometry matrix
      */
-    rr::csr_matrix*                     stoichiometry;                    // 14
+    rr::csr_matrix*                     stoichiometry;                    // 13
+
+    /**
+     * The rrllvm::Random class holds a RNG and caches random distributions
+     * used by the distrib package.
+     */
+    class Random*                       random;                           // 14
 
 
     //Event stuff
@@ -180,15 +177,14 @@ struct LLVMModelData
      */
     double*                             initFloatingSpeciesAmountsAlias;  // 23
 
-    double*                             initConservedSpeciesAmountsAlias; // 24
 
-    double*                             boundarySpeciesAmountsAlias;      // 25
-    double*                             initBoundarySpeciesAmountsAlias;  // 26
+    double*                             boundarySpeciesAmountsAlias;      // 24
+    double*                             initBoundarySpeciesAmountsAlias;  // 25
 
-    double*                             globalParametersAlias;            // 27
-    double*                             initGlobalParametersAlias;        // 28
+    double*                             globalParametersAlias;            // 26
+    double*                             initGlobalParametersAlias;        // 27
 
-    double*                             reactionRatesAlias;               // 29
+    double*                             reactionRatesAlias;               // 28
 
     /**
      * All of the elelments which have a rate rule are stored here.
@@ -202,7 +198,7 @@ struct LLVMModelData
      * of this struct.
      *
      */
-    double*                             rateRuleValuesAlias;              // 30
+    double*                             rateRuleValuesAlias;              // 29
 
 
 
@@ -213,23 +209,22 @@ struct LLVMModelData
      * This pointer is part of the state vector. When any function is called by
      * CVODE, this is actually a pointer to a CVODE owned memory block.
      */
-    double*                             floatingSpeciesAmountsAlias;      // 31
+    double*                             floatingSpeciesAmountsAlias;      // 30
 
     /**
      * binary data layout:
      *
-     * compartmentVolumes                [numIndCompartmentVolumes]       // 32
-     * initCompartmentVolumes            [numInitCompartmentVolumes]      // 33
-     * initFloatingSpeciesAmounts        [numInitFloatingSpecies]         // 34
-     * initConservedSpeciesAmounts       [numConservedSpecies]            // 35
-     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 36
-     * initBoundarySpeciesAmounts        [numInitBoundarySpecies]         // 37
-     * globalParameters                  [numIndGlobalParameters]         // 38
-     * initGlobalParameters              [numInitGlobalParameters]        // 39
-     * reactionRates                     [numReactions]                   // 40
+     * compartmentVolumes                [numIndCompartmentVolumes]       // 31
+     * initCompartmentVolumes            [numInitCompartmentVolumes]      // 32
+     * initFloatingSpeciesAmounts        [numInitFloatingSpecies]         // 33
+     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 34
+     * initBoundarySpeciesAmounts        [numInitBoundarySpecies]         // 35
+     * globalParameters                  [numIndGlobalParameters]         // 36
+     * initGlobalParameters              [numInitGlobalParameters]        // 37
+     * reactionRates                     [numReactions]                   // 38
      *
-     * rateRuleValues                    [numRateRules]                   // 41
-     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 42
+     * rateRuleValues                    [numRateRules]                   // 39
+     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 40
      */
     double                              data[0];                          // not listed
 };

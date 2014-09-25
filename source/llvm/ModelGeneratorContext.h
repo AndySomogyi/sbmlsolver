@@ -14,6 +14,7 @@
 #include "LLVMIncludes.h"
 #include "LLVMModelDataSymbols.h"
 #include "LLVMModelSymbols.h"
+#include "Random.h"
 
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
@@ -135,7 +136,7 @@ public:
      */
     void stealThePeach(const LLVMModelDataSymbols **sym,
             const llvm::LLVMContext **ctx, const llvm::ExecutionEngine **eng,
-            const std::string **errStr);
+            const Random **random, const std::string **errStr);
 
 
     bool getConservedMoietyAnalysis() const;
@@ -144,6 +145,14 @@ public:
     {
         return options;
     }
+
+    /**
+     * get a pointer to the random object.
+     *
+     * The random object exists if the document has the distrib package,
+     * is null otherwise.
+     */
+    Random* getRandom() const;
 
 private:
 
@@ -182,6 +191,31 @@ private:
 
     llvm::FunctionPassManager *functionPassManager;
 
+    /**
+     * As the model is being generated, various distributions may be created
+     * which are added to the random object.
+     *
+     * Ownership of the random object is then transfered to the ExecutableModel
+     * which owns up untill the ExecutableModel is destroyed.
+     *
+     * The logic here is that many distributions used the normal_distribution
+     * object which maintains a state and has an expensive startup cost. So,
+     * the distributions are created whilst the model is being generated,
+     * and then the distribution calls just end up calling an existing
+     * distribution object inside this class.
+     *
+     * A pointer to this object is stored in the ModelData struct, and when
+     * the generated sbml code calls a stochastic dist function, it passes
+     * in a pionter to this object so the func can look up the distribution.
+     *
+     * The alternative to this approach would have been to simply have global
+     * distributions and a global RNG. This however would use more memory and
+     * would not be thread safe, and the RNG would have to be shared amoungst
+     * multiple models, and would not be be able to create a repeatable stream
+     * of random numbers.
+     */
+    Random *random;
+
     unsigned options;
 
     /**
@@ -199,7 +233,8 @@ private:
 };
 
 
-LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols);
+LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
+        const Random* random);
 
 
 } /* namespace rr */

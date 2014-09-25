@@ -126,6 +126,8 @@ if(BUILD_LLVM)
         llvm/SBMLSupportFunctions
         llvm/EvalVolatileStoichCodeGen
         llvm/SBMLInitialValueSymbolResolver
+        llvm/Random
+        llvm/DistribFunctionResolver
         )
 endif(BUILD_LLVM)
 

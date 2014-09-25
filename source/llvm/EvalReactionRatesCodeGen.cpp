@@ -54,8 +54,7 @@ Value* EvalReactionRatesCodeGen::codeGen()
 
     Value *modelData = args[0];
 
-    ModelDataLoadSymbolResolver resolver(modelData,model,modelSymbols,
-            dataSymbols,builder);
+    ModelDataLoadSymbolResolver resolver(modelData, modelGenContext);
     ModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
     ASTNodeFactory nodes;
 

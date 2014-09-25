@@ -6,6 +6,7 @@
  */
 #pragma hdrstop
 #include "ModelResources.h"
+#include "Random.h"
 
 #include <rrLogger.h>
 
@@ -16,7 +17,7 @@ namespace rrllvm
 {
 
 ModelResources::ModelResources() :
-        symbols(0), executionEngine(0), context(0), errStr(0)
+        symbols(0), executionEngine(0), context(0), random(0), errStr(0)
 {
     // the reset of the ivars are assigned by the generator,
     // and in an exception they are not, does not matter as
@@ -36,6 +37,7 @@ ModelResources::~ModelResources()
     // the exe engine owns all the functions
     delete executionEngine;
     delete context;
+    delete random;
     delete errStr;
 }
 

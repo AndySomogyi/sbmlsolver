@@ -249,7 +249,7 @@ def checkEigenvalueMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
-    eigenvalues = rrInstance.getEigenvalues()
+    eigenvalues = rrInstance.getFullEigenvalues()
     checkMatrixVsUpcomingText(eigenvalues, m)
 
 
@@ -258,9 +258,8 @@ def checkEigenvalueAmountMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     m = rrInstance.model.getNumFloatingSpecies()
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
-    eigenvalues = rrInstance.getEigenvalues()
+    eigenvalues = rrInstance.getFullEigenvalues()
     checkMatrixVsUpcomingText(eigenvalues, m)
-
 
 def checkStoichiometryMatrix(rrInstance, testId):
     # Stoichiometry matrix
@@ -422,7 +421,7 @@ def checkEigenValueIds (rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     words = divide(readLine())
-    expected = rrInstance.getEigenvalueIds()
+    expected = rrInstance.getEigenValueIds()
     m = rrInstance.model.getNumFloatingSpecies()
     for i in range(0,m):
         if words[i] != expected[i]:

@@ -22,7 +22,8 @@ class FunctionResolver: public LoadSymbolResolver
 {
 public:
     FunctionResolver(LoadSymbolResolver& parentResolver,
-            const libsbml::Model *model, llvm::IRBuilder<> &builder);
+            llvm::Value *modelData,
+            const ModelGeneratorContext& ctx);
 
     virtual ~FunctionResolver() {};
 
@@ -36,8 +37,10 @@ public:
 
 private:
     LoadSymbolResolver& parentResolver;
+    const ModelGeneratorContext& modelGenContext;
     const libsbml::Model *model;
     llvm::IRBuilder<> &builder;
+    llvm::Value *modelData;
 
     /**
      * only valid during an outer call to loadSymbolValue, otherwise

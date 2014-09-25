@@ -742,28 +742,26 @@ double RoadRunner::getValue(const SelectionRecord& record)
         string species = record.p1;
         int index = impl->model->getFloatingSpeciesIndex(species);
 
-        DoubleMatrix mat;
-        if (impl->conservedMoietyAnalysis)
+        if (index < 0)
         {
-            mat = getReducedJacobian();
-        }
-        else
-        {
-            mat = getFullJacobian();
+            throw std::logic_error("Invalid species id" + record.p1 + " for eigenvalue");
         }
 
-        vector<Complex> oComplex = ls::getEigenValues(mat);
+        vector<Complex> eig = getEigenValues(JACOBIAN_FULL);
 
-        if(impl->mSelectionList.size() == 0)
+        if (eig.size() <= index)
         {
-            throw("Tried to access record in empty impl->mSelectionList in getValue function: eigen");
+            // this should NEVER happen
+            throw std::runtime_error("Eigenvalues vector length less than species id");
         }
 
-        if (oComplex.size() > index) //Becuase first one is time !?
+        if (std::abs(std::imag(eig[index])) > 2 * std::numeric_limits<double>::epsilon())
         {
-            return std::real(oComplex[index]);
+            Log(Logger::LOG_WARNING) << "EigenValue for species " << species << " is complex, "
+                    << "returning only real part.";
         }
-        return std::numeric_limits<double>::quiet_NaN();
+
+        return std::real(eig[index]);
     }
     break;
     case SelectionRecord::INITIAL_CONCENTRATION:
@@ -1439,34 +1437,91 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 }
 
 
-DoubleMatrix RoadRunner::getEigenvalues()
+DoubleMatrix RoadRunner::getFullEigenValues()
 {
     check_model();
 
-    vector<Complex> vals = getEigenvaluesCpx();
+    vector<Complex> vals = getEigenValues(JACOBIAN_FULL);
 
-    DoubleMatrix result(vals.size(), 2);
-
-    for (int i = 0; i < vals.size(); i++)
+    bool cpx = false;
+    // small number
+    double epsilon = 2 * std::numeric_limits<double>::epsilon();
+    for (vector<Complex>::const_iterator i = vals.begin(); i != vals.end(); ++i)
     {
-        result[i][0] = std::real(vals[i]);
-        result[i][1] = imag(vals[i]);
+        cpx = cpx || (std::imag(*i) >= epsilon);
+        if (cpx) break;
     }
-    return result;
-}
 
-vector< Complex > RoadRunner::getEigenvaluesCpx()
-{
-    check_model();
-
-    DoubleMatrix mat;
-    if (impl->conservedMoietyAnalysis)
+    if (cpx)
     {
-        mat = getReducedJacobian();
+        DoubleMatrix result(vals.size(), 2);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+            result(i, 1) = imag(vals[i]);
+        }
+        return result;
     }
     else
     {
+        DoubleMatrix result(vals.size(), 1);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+        }
+        return result;
+    }
+}
+
+
+DoubleMatrix RoadRunner::getReducedEigenValues()
+{
+    check_model();
+
+    vector<Complex> vals = getEigenValues(JACOBIAN_REDUCED);
+
+    bool cpx = false;
+    // small number
+    double epsilon = 2 * std::numeric_limits<double>::epsilon();
+    for (vector<Complex>::const_iterator i = vals.begin(); i != vals.end(); ++i)
+    {
+        cpx = cpx || (std::imag(*i) >= epsilon);
+        if (cpx) break;
+    }
+
+    if (cpx)
+    {
+        DoubleMatrix result(vals.size(), 2);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+            result(i, 1) = imag(vals[i]);
+        }
+        return result;
+    }
+    else
+    {
+        DoubleMatrix result(vals.size(), 1);
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result(i, 0) = std::real(vals[i]);
+        }
+        return result;
+    }
+}
+
+std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::JacobianMode mode)
+{
+    check_model();
+    DoubleMatrix mat;
+
+    if(mode == JACOBIAN_FULL)
+    {
         mat = getFullJacobian();
+    }
+    else
+    {
+        mat = getReducedJacobian();
     }
     return ls::getEigenValues(mat);
 }
@@ -2641,92 +2696,66 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 
 DoubleMatrix RoadRunner::getScaledElasticityMatrix()
 {
-    try
+    get_self();
+
+    check_model();
+
+    DoubleMatrix uelast = getUnscaledElasticityMatrix();
+    DoubleMatrix result(uelast.RSize(), uelast.CSize());;
+    vector<double> rates(self.model->getNumReactions());
+    self.model->getReactionRates(rates.size(), 0, &rates[0]);
+
+    if (uelast.RSize() != rates.size())
     {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-
-        DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
-        impl->model->convertToConcentrations();
-        impl->model->evalReactionRates();
-        vector<double> rates(impl->model->getNumReactions());
-        impl->model->getReactionRates(rates.size(), 0, &rates[0]);
-
-        for (int i = 0; i < uelast.RSize(); i++)
-        {
-            // Rows are rates
-            if (impl->model->getNumReactions() == 0 || rates[i] == 0)
-            {
-                string name;
-                if(impl->mModelGenerator && impl->model->getNumReactions())
-                {
-                    name = impl->model->getReactionId(i);
-                }
-                else
-                {
-                    name = "none";
-                }
-
-                throw CoreException("Unable to compute elasticity, reaction rate [" + name + "] set to zero");
-            }
-
-            for (int j = 0; j < uelast.CSize(); j++) // Columns are species
-            {
-                double concentration = 0;
-                impl->model->getFloatingSpeciesConcentrations(1, &j, &concentration);
-
-                result[i][j] = uelast[i][j]*concentration/rates[i];
-            }
-        }
-        return result;
+        // this should NEVER happen
+        throw std::runtime_error("row count of unscaled elasticity different "
+                "than # of reactions");
     }
-    catch (const Exception& e)
+
+    for (int i = 0; i < uelast.RSize(); i++)
     {
-        throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
+        for (int j = 0; j < uelast.CSize(); j++) // Columns are species
+        {
+            double concentration = 0;
+            self.model->getFloatingSpeciesConcentrations(1, &j, &concentration);
+
+            result[i][j] = uelast[i][j]*concentration/rates[i];
+        }
     }
+    return result;
 }
 
-//        [Help("Compute the scaled elasticity for a given reaction and given species")]
-double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName)
+
+double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName,
+        const string& speciesName)
 {
-    try
+    get_self();
+
+    check_model();
+
+    int speciesIndex = 0;
+    int reactionIndex = 0;
+
+    self.model->convertToConcentrations();
+    self.model->evalReactionRates();
+
+    if ((speciesIndex = self.model->getFloatingSpeciesIndex(speciesName)) < 0)
     {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-        int speciesIndex = 0;
-        int reactionIndex = 0;
+        throw std::invalid_argument("invalid species name: " + speciesName);
+    }
+    if ((reactionIndex = self.model->getReactionIndex(reactionName)) < 0)
+    {
+        throw std::invalid_argument("invalid reaction name: " + reactionName);
+    }
 
-        impl->model->convertToConcentrations();
-        impl->model->evalReactionRates();
+    double concentration = 0;
+    self.model->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
 
-        if ((speciesIndex = impl->model->getFloatingSpeciesIndex(speciesName)) < 0)
-        {
-            throw CoreException("Internal Error: unable to locate species name while computing unscaled elasticity");
-        }
-        if ((reactionIndex = impl->model->getReactionIndex(reactionName)) < 0)
-        {
-            throw CoreException("Internal Error: unable to locate reaction name while computing unscaled elasticity");
-        }
+    double reactionRate = 0;
+    self.model->getReactionRates(1, &reactionIndex, &reactionRate);
 
-        double concentration = 0;
-        impl->model->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
-
-        double reactionRate = 0;
-        impl->model->getReactionRates(1, &reactionIndex, &reactionRate);
-        return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex) *
+    return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex) *
             concentration / reactionRate;
-
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
-    }
 }
 
 
@@ -3661,7 +3690,7 @@ vector<string> RoadRunner::getReactionIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
-vector<string> RoadRunner::getEigenvalueIds()
+vector<string> RoadRunner::getEigenValueIds()
 {
     std::list<std::string> list;
 

@@ -33,8 +33,7 @@ const char* EvalInitialConditionsCodeGen::FunctionName = "evalInitialConditions"
 
 EvalInitialConditionsCodeGen::EvalInitialConditionsCodeGen(
         const ModelGeneratorContext &mgc) :
-        CodeGenBase<EvalInitialConditions_FunctionPtr>(mgc),
-        initialValueResolver(model, dataSymbols, modelSymbols, builder)
+        CodeGenBase<EvalInitialConditions_FunctionPtr>(mgc)
 {
 }
 
@@ -62,13 +61,15 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         }
     }
 
+    SBMLInitialValueSymbolResolver initialValueResolver(modelData, modelGenContext);
+
     ModelDataStoreSymbolResolver modelDataResolver(modelData, model,
             modelSymbols, dataSymbols, builder, initialValueResolver);
 
     // generate model code for both floating and boundary species
-    codeGenSpecies(modelDataResolver);
+    codeGenSpecies(modelDataResolver, initialValueResolver);
 
-    codeGenGlobalParameters(modelDataResolver);
+    codeGenGlobalParameters(modelDataResolver, initialValueResolver);
 
 
     // initializes the values stored in the model
@@ -76,7 +77,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     // always generate code for compartment init values so they are initialized the
     // in the exe model ctor. compartments are not usually reset.
-    codeGenCompartments(modelDataResolver);
+    codeGenCompartments(modelDataResolver, initialValueResolver);
 
     // generates code to set the *initial* values in the model to
     // the values specified in the sbml.
@@ -85,14 +86,14 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,
                         modelSymbols, dataSymbols, builder, initialValueResolver);
 
-        codeGenInitSpecies(initValueStoreResolver);
+        codeGenInitSpecies(initValueStoreResolver, initialValueResolver);
 
-        codeGenInitCompartments(initValueStoreResolver);
+        codeGenInitCompartments(initValueStoreResolver, initialValueResolver);
 
-        codeGenInitGlobalParameters(initValueStoreResolver);
+        codeGenInitGlobalParameters(initValueStoreResolver, initialValueResolver);
     }
 
-    codeGenStoichiometry(modelData, modelDataResolver);
+    codeGenStoichiometry(modelData, modelDataResolver, initialValueResolver);
 
     builder.CreateRetVoid();
 
@@ -100,7 +101,8 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 }
 
 void EvalInitialConditionsCodeGen::codeGenSpecies(
-        StoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     {
         vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
@@ -138,7 +140,8 @@ void EvalInitialConditionsCodeGen::codeGenSpecies(
 
 
 void EvalInitialConditionsCodeGen::codeGenStoichiometry(
-        llvm::Value *modelData, ModelDataStoreSymbolResolver& modelDataResolver)
+        llvm::Value *modelData, ModelDataStoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     ModelDataIRBuilder modelDataBuilder(modelData, dataSymbols,
                 builder);
@@ -192,7 +195,8 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
 }
 
 void EvalInitialConditionsCodeGen::codeGenCompartments(
-        StoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     vector<string> compartments = dataSymbols.getCompartmentIds();
 
@@ -210,7 +214,8 @@ void EvalInitialConditionsCodeGen::codeGenCompartments(
 }
 
 void EvalInitialConditionsCodeGen::codeGenInitCompartments(
-        StoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     vector<string> compartments = dataSymbols.getCompartmentIds();
 
@@ -228,7 +233,8 @@ void EvalInitialConditionsCodeGen::codeGenInitCompartments(
 }
 
 void EvalInitialConditionsCodeGen::codeGenInitSpecies(
-        StoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     {
         vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
@@ -249,7 +255,8 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
 
 
 void EvalInitialConditionsCodeGen::codeGenGlobalParameters(
-        StoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
 
@@ -267,7 +274,8 @@ void EvalInitialConditionsCodeGen::codeGenGlobalParameters(
 }
 
 void EvalInitialConditionsCodeGen::codeGenInitGlobalParameters(
-        StoreSymbolResolver& modelDataResolver)
+        StoreSymbolResolver& modelDataResolver,
+        LoadSymbolResolver& initialValueResolver)
 {
     vector<string> parameters = dataSymbols.getGlobalParameterIds();
 
