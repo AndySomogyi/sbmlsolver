@@ -1437,11 +1437,11 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 }
 
 
-DoubleMatrix RoadRunner::getFullEigenValues()
+std::vector<ls::Complex> RoadRunner::getFullEigenValues()
 {
-    check_model();
+    return getEigenValues(JACOBIAN_FULL);
 
-    vector<Complex> vals = getEigenValues(JACOBIAN_FULL);
+    /*
 
     bool cpx = false;
     // small number
@@ -1471,14 +1471,15 @@ DoubleMatrix RoadRunner::getFullEigenValues()
         }
         return result;
     }
+    */
 }
 
 
-DoubleMatrix RoadRunner::getReducedEigenValues()
+std::vector<ls::Complex> RoadRunner::getReducedEigenValues()
 {
-    check_model();
+    return getEigenValues(JACOBIAN_REDUCED);
 
-    vector<Complex> vals = getEigenValues(JACOBIAN_REDUCED);
+    /*
 
     bool cpx = false;
     // small number
@@ -1508,6 +1509,7 @@ DoubleMatrix RoadRunner::getReducedEigenValues()
         }
         return result;
     }
+    */
 }
 
 std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::JacobianMode mode)

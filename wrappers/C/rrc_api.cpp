@@ -1211,9 +1211,32 @@ RRDoubleMatrixPtr rrcCallConv getReducedJacobian(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        DoubleMatrix tempMat = rri->getFullEigenValues();
-        return createMatrix(&tempMat);
+    RoadRunner* rri = castToRoadRunner(handle);
+    std::vector<ls::Complex> eigen = rri->getFullEigenValues();
+
+    RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
+
+    matrix->RSize = eigen.size();
+    matrix->CSize = 2;
+    int dim =  matrix->RSize * matrix->CSize;
+    if(dim)
+    {
+        matrix->Data =  new double[matrix->RSize * matrix->CSize];
+    }
+    else
+    {
+        delete matrix;
+        return NULL;
+    }
+
+    int index = 0;
+    for(u_int row = 0; row < matrix->RSize; row++)
+    {
+        matrix->Data[index++] = std::real(eigen[row]);
+        matrix->Data[index++] = std::imag(eigen[row]);
+    }
+    return matrix;
+
     catch_ptr_macro
 }
 
@@ -1877,9 +1900,9 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
         SimulateOptions& o = r->getSimulateOptions();
         o.integrator = SimulateOptions::GILLESPIE;
         o.integratorFlags &= !SimulateOptions::VARIABLE_STEP;
-    
+
         double steps = o.steps;
-    
+
         RoadRunner &rref = const_cast<RoadRunner&>(*r);
         const DoubleMatrix& reference = *rref.getSimulationData();
 
@@ -1936,16 +1959,16 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGridEx(RRHandle handle, double
     catch_ptr_macro
 }
 
-C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int numberOfSimulations) {    
+C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int numberOfSimulations) {
     start_try
         // Standard gillespieOnGrid setup
         RoadRunner *r = (RoadRunner*)handle;
         SimulateOptions& o = r->getSimulateOptions();
         o.integrator = SimulateOptions::GILLESPIE;
         o.integratorFlags &= !SimulateOptions::VARIABLE_STEP;
-    
+
         double steps = o.steps;
-    
+
         RoadRunner &rref = const_cast<RoadRunner&>(*r);
         const DoubleMatrix& reference = *rref.getSimulationData();
 
