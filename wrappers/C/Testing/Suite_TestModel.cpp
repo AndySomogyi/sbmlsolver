@@ -82,7 +82,7 @@ void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
     {
       for(int j=0; j < ref.CSize(); j++)
       {
-        CHECK_CLOSE(ref(i,j), calc(i,j), abs(calc(i,j)*1e-5));
+        CHECK_CLOSE(ref(i,j), calc(i,j), abs(calc(i,j)*1e-4));
       }
     }
 }
@@ -123,7 +123,7 @@ void compareMatrices(const ls::DoubleMatrix& ref, RRDoubleMatrixPtr calc)
         {
           CHECK(false);
         }
-        CHECK_CLOSE(ref(i,j), val, abs((val+1e-7)*1e-5));
+        CHECK_CLOSE(ref(i,j), val, abs((val+1e-7)*1e-4));
       }
     }
 }
@@ -609,7 +609,7 @@ SUITE(TEST_MODEL)
             double val = rri->getValue(eigenValueLabel.c_str());
 
             clog<<"EigenValue "<<i<<": "<<val<<endl;
-            CHECK_CLOSE(aKey->AsFloat(), val, abs(val*1e-5));
+            CHECK_CLOSE(aKey->AsFloat(), val, abs(val*1e-4));
         }
     }
 
@@ -680,6 +680,29 @@ SUITE(TEST_MODEL)
         RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getFullEigenValues();
+
+        compareMatrices(ref, matrix);
+    }
+
+
+    TEST(GET_REDUCED_EIGENVALUE_MATRIX)
+    {
+        CHECK(gRR!=NULL);
+
+        IniSection* aSection = iniFile.GetSection("Reduced Eigenvalue Matrix");
+
+        //Read in the reference data, from the ini file
+        if(!aSection || !gRR)
+        {
+            return;
+        }
+        clog<< endl << "==== GET_REDUCED_EIGENVALUE_MATRIX ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        RoadRunner* rri = castToRoadRunner(gRR);
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix  matrix = rri->getReducedEigenValues();
 
         compareMatrices(ref, matrix);
     }

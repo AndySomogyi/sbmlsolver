@@ -140,11 +140,14 @@ J1 = 2.03087
 
 [Individual Eigenvalues]
 S1= -1.49131	0
-#S2 = 0          0
+S2 = 0          0
 
 [Eigenvalue Matrix]
 -1.49131	0
-#0	        0
+0	        0
+
+[Reduced Eigenvalue Matrix]
+-1.49131	0
 
 [Stoichiometry Matrix]
         -1          1

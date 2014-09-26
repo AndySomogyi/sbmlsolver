@@ -182,11 +182,16 @@ J2 = 0.437424
 -16.2489	-14.2918
 
 [Individual Eigenvalues]
-#S1 = 0	0
+S1 = -2.42217	0
 S2 = -32.9754	0
-S3 = -2.42217	0
+S3 = 0	0
 
 [Eigenvalue Matrix]
+-32.9754	0
+-2.42217	0
+0	0
+
+[Reduced Eigenvalue Matrix]
 -32.9754	0
 -2.42217	0
 
