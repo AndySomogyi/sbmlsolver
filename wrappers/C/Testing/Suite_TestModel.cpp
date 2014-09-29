@@ -27,7 +27,7 @@ extern string gCompiler;
 string Trim(const string& input)
 {
   string ret = trim(input, '\n');
-  if (!ret.empty() && ret[0] == '"' && ret[ret.size()-1]=='"') 
+  if (!ret.empty() && ret[0] == '"' && ret[ret.size()-1]=='"')
   {
     ret = ret.replace(0,1,"");
     ret = ret.replace(ret.size()-1, 1, "");
@@ -42,7 +42,7 @@ void compareJacobians(RRHandle gRR)
   ls::DoubleMatrix    jReduced  = rri->getReducedJacobian();
 
   //Check dimensions
-  if(jFull.RSize() != jReduced.RSize() || 
+  if(jFull.RSize() != jReduced.RSize() ||
     jFull.CSize() != jReduced.CSize())
   {
     CHECK(false);
@@ -60,22 +60,50 @@ void compareJacobians(RRHandle gRR)
 
 void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
 {
-        clog<<"Reference Matrix:" << endl;
-        clog<<ref<<endl;
+    clog << "Reference Matrix:" << endl;
+    clog << ref << endl;
 
-        clog<<"Calculated Matrix:" << endl;
-        clog<<calc<<endl;
+    clog << "Calculated Matrix:" << endl;
+    clog << calc << endl;
 
-        if(calc.RSize() != ref.RSize())
+    if ((calc.RSize() != ref.RSize()) || (calc.CSize() != ref.CSize()))
+    {
+        CHECK(false);
+        return;
+    }
+
+    for (int i = 0; i < ref.RSize(); i++)
+    {
+        for (int j = 0; j < ref.CSize(); j++)
         {
-            CHECK(false);
-            return;
+            CHECK_CLOSE(ref(i, j), calc(i, j), 1e-5);
         }
+    }
+}
 
-        for(int i = 0 ; i < ref.RSize(); i++)
-        {
-            CHECK_CLOSE(ref(i,0), calc(i,0), 1e-5);
-        }
+
+void compareMatrices(const ls::DoubleMatrix& ref, const std::vector<ls::Complex> calc)
+{
+    clog<<"Reference Matrix:" << endl;
+    clog<<ref<<endl;
+
+    clog<<"Calculated Matrix:" << endl;
+    for(int i = 0; i < calc.size(); ++i)
+    {
+        clog << calc[i] << endl;
+    }
+
+    if((ref.CSize() != 2) || (calc.size() != ref.RSize()))
+    {
+        CHECK(false);
+        return;
+    }
+
+    for(int i = 0 ; i < ref.RSize(); i++)
+    {
+        CHECK_CLOSE(ref(i,0), std::real(calc[i]), 1e-5);
+        CHECK_CLOSE(ref(i,1), std::imag(calc[i]), 1e-5);
+    }
 }
 
 //This tests is mimicking the Python tests
@@ -243,7 +271,7 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         string valstr = Trim(aSection->GetNonKeysAsString());
-        vector<string> vals = splitString(valstr, " "); 
+        vector<string> vals = splitString(valstr, " ");
         for(int i = 0 ; i < vals.size(); i++)
         {
             double val;
@@ -304,7 +332,7 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         string valstr = Trim(aSection->GetNonKeysAsString());
-        vector<string> vals = splitString(valstr, " "); 
+        vector<string> vals = splitString(valstr, " ");
         for(size_t i = 0 ; i < vals.size(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
@@ -335,7 +363,7 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         string valstr = Trim(aSection->GetNonKeysAsString());
-        vector<string> vals = splitString(valstr, " "); 
+        vector<string> vals = splitString(valstr, " ");
         for(size_t i = 0 ; i < vals.size(); i++)
         {
             //Set the value..
@@ -538,10 +566,10 @@ SUITE(TEST_MODEL)
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
-        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        ls::DoubleMatrix  matrix = rri->getFullEigenValues();
+        ls::DoubleMatrix ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+        std::vector<ls::Complex> eigen = rri->getFullEigenValues();
 
-        compareMatrices(ref, matrix);
+        compareMatrices(ref, eigen);
     }
 
 
@@ -564,9 +592,9 @@ SUITE(TEST_MODEL)
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        ls::DoubleMatrix  matrix = rri->getFullEigenValues();
+        std::vector<ls::Complex> eigen = rri->getFullEigenValues();
 
-        compareMatrices(ref, matrix);
+        compareMatrices(ref, eigen);
     }
 
 
@@ -1274,7 +1302,7 @@ SUITE(TEST_MODEL)
         RRVector* values = computeSteadyStateValues(gRR);
 
         string valstr = Trim(aSection->GetNonKeysAsString());
-        vector<string> vals = splitString(valstr, " "); 
+        vector<string> vals = splitString(valstr, " ");
         for(int i = 0 ; i < vals.size(); i++)
         {
             //Check concentrations
@@ -1301,7 +1329,7 @@ SUITE(TEST_MODEL)
         RRVector* values = getFloatingSpeciesConcentrations(gRR);
 
         string valstr = Trim(aSection->GetNonKeysAsString());
-        vector<string> vals = splitString(valstr, " "); 
+        vector<string> vals = splitString(valstr, " ");
         for(int i = 0 ; i < vals.size(); i++)
         {
             //Check concentrations
@@ -1328,7 +1356,7 @@ SUITE(TEST_MODEL)
         RRVector* values = getBoundarySpeciesConcentrations(gRR);
 
         string valstr = Trim(aSection->GetNonKeysAsString());
-        vector<string> vals = splitString(valstr, " "); 
+        vector<string> vals = splitString(valstr, " ");
         for(int i = 0 ; i < vals.size(); i++)
         {
             //Check concentrations
@@ -1747,7 +1775,7 @@ SUITE(TEST_MODEL)
 
     TEST(CHECK_UNUSED_TESTS)
     {
-        for(int i=0; i<iniFile.GetNumberOfSections(); i++) 
+        for(int i=0; i<iniFile.GetNumberOfSections(); i++)
         {
             if (!iniFile.GetSection(i)->mIsUsed)
             {

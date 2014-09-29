@@ -355,7 +355,7 @@ public:
      * if complex, returns an N x 2 matrix where the first column is the
      * real values and the second is the imaginary part.
      */
-    ls::DoubleMatrix getFullEigenValues();
+    std::vector<ls::Complex> getFullEigenValues();
 
     /**
      * Returns the eigenvalues of the reduced jacobian.
@@ -364,7 +364,7 @@ public:
      * if complex, returns an N x 2 matrix where the first column is the
      * real values and the second is the imaginary part.
      */
-    ls::DoubleMatrix getReducedEigenValues();
+    std::vector<ls::Complex> getReducedEigenValues();
 
 
     ls::DoubleMatrix getLinkMatrix();

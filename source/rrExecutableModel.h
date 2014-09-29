@@ -678,6 +678,26 @@ public:
      * SelectionRecord::SelectionType values.
      */
     virtual void reset(int options) = 0;
+
+    /**
+     * set the seed used by the random number generator. This will by definition
+     * reset the RNG.
+     */
+    virtual void setRandomSeed(int64_t) = 0;
+
+    /**
+     * get the seed used by the RNG.
+     */
+    virtual int64_t getRandomSeed() = 0;
+
+    /**
+     * Get a uniform random number between 0 and 1 created by the RNG.
+     *
+     * The type of RNG can be specified in the config file with the
+     * RANDOM_GENERATOR_TYPE key.
+     */
+    virtual double getRandom() = 0;
+
 };
 
 
