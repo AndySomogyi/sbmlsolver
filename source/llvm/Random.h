@@ -22,6 +22,8 @@
     #include <sys/time.h>
 #endif
 
+#include <stdint.h>
+
 namespace rrllvm
 {
 
@@ -46,6 +48,13 @@ public:
      */
     Random& operator=( const Random& rhs);
 
+    /**
+     * default ctor, this obviously does not add any mappings to a
+     * ModelGeneratorContext. This would be used when a Random is created
+     * by itself, to use the attached RNG engine.
+     */
+    Random();
+
     ~Random();
 
     /**
@@ -55,19 +64,36 @@ public:
     double operator()();
 
     /**
-     * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist. 
+     * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
     double min() { return 0.0; };
 
     /**
-     * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist. 
+     * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
-    double max() { return 1.0; }; 
+    double max() { return 1.0; };
+
+    /**
+     * Try to hide the RNG, so we can use different RNGs in the future.
+     * set the seed used by the random number generator. This will by definition
+     * reset the RNG.
+     */
+    void setRandomSeed(int64_t);
+
+    /**
+     * Try to hide the RNG so we can used different RNGs in the future.
+     * get the seed used by the RNG.
+     */
+    int64_t getRandomSeed();
 
     /**
      * RNG engine.
      */
     cxx11_ns::mt19937 engine;
+
+private:
+    // seed that was used to seed the engine.
+    int64_t randomSeed;
 };
 
 

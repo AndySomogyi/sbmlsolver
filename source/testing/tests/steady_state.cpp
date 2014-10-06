@@ -140,8 +140,8 @@ string TestModelFileName;
             return;
         }
 
-        DoubleMatrix eigenVals = aRR->getFullEigenValues();
-        if(eigenVals.RSize() != aSection->KeyCount())
+        std::vector<ls::Complex> eigenVals = aRR->getFullEigenValues();
+        if(eigenVals.size() != aSection->KeyCount())
         {
             CHECK(false);
             return;
@@ -153,7 +153,7 @@ string TestModelFileName;
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
-            double eigenVal = eigenVals(i,0);
+            double eigenVal = std::real(eigenVals[i]);
 
             clog<<"EigenValue "<<i<<": "<< eigenVal << endl;
             CHECK_CLOSE(aKey->AsFloat(), eigenVal, 1e-6);

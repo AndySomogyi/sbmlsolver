@@ -495,6 +495,12 @@ public:
 
     virtual double getFloatingSpeciesAmountRate(int index,
             const double *reactionRates);
+
+    virtual void setRandomSeed(int64_t);
+
+    virtual int64_t getRandomSeed();
+
+    virtual double getRandom();
 };
 }
 #endif

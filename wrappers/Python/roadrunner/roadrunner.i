@@ -220,6 +220,65 @@
     $result  = array;
 }
 
+
+/* Convert from C --> Python */
+%typemap(out) std::vector<ls::Complex> {
+
+    typedef std::complex<double> cpx;
+
+    std::vector<cpx>& vec = $1;
+
+    bool iscpx = false;
+
+    // small number
+    double epsilon = 2 * std::numeric_limits<double>::epsilon();
+    for (std::vector<cpx>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+    {
+        iscpx = iscpx || (std::imag(*i) >= epsilon);
+        if (iscpx) break;
+    }
+
+    if (iscpx) {
+        int len = $1.size();
+        npy_intp dims[1] = {len};
+        
+        PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
+        VERIFY_PYARRAY(array);
+        
+        if (!array) {
+            // TODO error handling.
+            return 0;
+        }
+        
+        cpx *data = (cpx*)PyArray_DATA((PyArrayObject*)array);
+        
+        memcpy(data, &vec[0], sizeof(std::complex<double>)*len);
+        
+        $result  = array;
+    } else {
+        int len = $1.size();
+        npy_intp dims[1] = {len};
+        
+        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+        VERIFY_PYARRAY(array);
+        
+        if (!array) {
+            // TODO error handling.
+            return 0;
+        }
+        
+        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
+
+        for (int i = 0; i < vec.size(); ++i) {
+            data[i] = std::real(vec[i]);
+        }
+        
+        $result  = array;
+    }
+}
+
+
+
 %typemap(out) const rr::Variant& {
     try {
         const rr::Variant& temp = *($1);
