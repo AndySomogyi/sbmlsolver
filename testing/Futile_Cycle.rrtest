@@ -189,16 +189,16 @@ J3 = 1.47829
 0.388651	-0.383866
 
 [Individual Eigenvalues]
-S2 = -0.0862513	0
 S1 = -0.78062	0
+S2 = -0.0862513	0
 
 [Eigenvalue Matrix]
--0.0862513	0
 -0.78062	0
+-0.0862513	0
 
 [Reduced Eigenvalue Matrix]
--0.0862513	0
 -0.78062	0
+-0.0862513	0
 
 [Stoichiometry Matrix]
 1	-1	1	0

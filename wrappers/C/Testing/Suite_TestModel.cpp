@@ -76,7 +76,7 @@ void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
     {
         for (int j = 0; j < ref.CSize(); j++)
         {
-            CHECK_CLOSE(ref(i, j), calc(i, j), 1e-5);
+            CHECK_CLOSE(ref(i, j), calc(i, j), abs((ref(i,j)+1e-7)*1e-4));
         }
     }
 }
@@ -101,8 +101,8 @@ void compareMatrices(const ls::DoubleMatrix& ref, const std::vector<ls::Complex>
 
     for(int i = 0 ; i < ref.RSize(); i++)
     {
-        CHECK_CLOSE(ref(i,0), std::real(calc[i]), 1e-5);
-        CHECK_CLOSE(ref(i,1), std::imag(calc[i]), 1e-5);
+        CHECK_CLOSE(ref(i,0), std::real(calc[i]), abs((ref(i,0)+1e-7)*1e-4));
+        CHECK_CLOSE(ref(i,1), std::imag(calc[i]), abs((ref(i,1)+1e-7)*1e-4));
     }
 }
 
@@ -720,9 +720,9 @@ SUITE(TEST_MODEL)
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        ls::DoubleMatrix  matrix = rri->getReducedEigenValues();
+        std::vector<ls::Complex>  eigen = rri->getReducedEigenValues();
 
-        compareMatrices(ref, matrix);
+        compareMatrices(ref, eigen);
     }
 
 
@@ -1416,7 +1416,7 @@ SUITE(TEST_MODEL)
         {
 
             //Check concentrations
-            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], max(1e-9, abs(values->Data[i]*1e-5)));
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], max(1e-9, abs(values->Data[i]*1e-4)));
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
@@ -1493,14 +1493,14 @@ SUITE(TEST_MODEL)
         CHECK(toInt(key) ==  val);
     }
 
-    TEST(NUMBER_OF_RULES)
+    TEST(NUMBER_OF_RATE_RULES)
     {
-        IniSection* aSection = iniFile.GetSection("Number of Rules");
+        IniSection* aSection = iniFile.GetSection("Number of Rate Rules");
         if(!aSection)
         {
             return;
         }
-        clog<< endl << "==== NUMBER_OF_RULES ====" << endl << endl;
+        clog<< endl << "==== NUMBER_OF_RATE_RULES ====" << endl << endl;
         aSection->mIsUsed = true;
 
         string key = Trim(aSection->GetNonKeysAsString());

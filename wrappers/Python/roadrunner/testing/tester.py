@@ -126,9 +126,8 @@ def checkComplexVecVsUpcomingText(calc):
             msg = "Faulty test:  needed a row of length two for complex number, but found " + str(len(words))
             errorFlag = True
             break
-        for j in range(0,len(words)):
-            expectedValue = float(words[j])
-            if expectApproximately (expectedValue, calc[i,j], abs(1e-7+calc[i,j])*1E-4) == False:
+            expectedValue =  complex(float(words[0], float(words[1])))
+            if expectApproximately (expectedValue, calc[i], abs(calc+1e-7)*1E-4) == False:
                 msg = "Expected " + words[j] + ", but calculated " + str(calc[i,j])
                 errorFlag = True
                 break
@@ -237,10 +236,10 @@ def checkIndividualEigenvalues(rrInstance, testId):
         for i in range(0,m):
             words = divide(readLine())
             eigenvalueName = words[0]
-            realPart = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
-            realPart = float (realPart)
+            calc = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
+            expected = complex(float(words[1]), float(words[2]))
 
-            if expectApproximately (realPart, float(words[1]), abs(realPart+1e-7)*1E-4) == False:
+            if expectApproximately (calc, expected, abs(calc+1e-7)*1E-4) == False:
                 errorFlag = True
                 break
         print passMsg (errorFlag)
@@ -274,7 +273,7 @@ def checkEigenvalueMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     eigenvalues = rrInstance.getFullEigenValues()
-    #checkComplexVecVsUpcomingText(eigenvalues)
+    checkComplexVecVsUpcomingText(eigenvalues)
 
 
 def checkReducedEigenvalueMatrix(rrInstance, testId):
@@ -282,7 +281,7 @@ def checkReducedEigenvalueMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     eigenvalues = rrInstance.getReducedEigenValues()
-    #checkComplexVecVsUpcomingText(eigenvalues)
+    checkComplexVecVsUpcomingText(eigenvalues)
 
 
 def checkEigenvalueAmountMatrix(rrInstance, testId):
@@ -290,7 +289,7 @@ def checkEigenvalueAmountMatrix(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     eigenvalues = rrInstance.getFullEigenValues()
-    #checkComplexVecVsUpcomingText(eigenvalues)
+    checkComplexVecVsUpcomingText(eigenvalues)
 
 def checkStoichiometryMatrix(rrInstance, testId):
     # Stoichiometry matrix
@@ -456,14 +455,6 @@ def checkEigenValueIds (rrInstance, testId):
     print passMsg (errorFlag)
 
 
-def checkGetRatesOfChangeIds (rrInstance, testId):
-    print string.ljust ("Check " + testId, rpadding),
-    words = divide(readLine())
-    expected = rrInstance.model.getRatesOfChangeIds()
-
-    print passMsg (expected != words)
-
-
 def checkSetSteadyStateSelectionList(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
@@ -471,7 +462,10 @@ def checkSetSteadyStateSelectionList(rrInstance, testId):
     rrInstance.conservedMoietyAnalysis = True
     rrInstance.steadyStateSelections = words
     print passMsg (errorFlag)
-    print "Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState()
+    time = rrInstance.steadyState()
+    if (time>0.00001):
+        time = rrInstance.steadyState()
+    print "Computing Steady State.  Distance to SteadyState:", time
 
 
 def checkGetSteadyStateSelectionList(rrInstance, testId):
@@ -615,11 +609,11 @@ def checkNumberOfIndependentSpecies(rrInstance, testId):
     print passMsg (errorFlag)
 
 
-def checkNumberOfRules(rrInstance, testId):
+def checkNumberOfRateRules(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
     value = int (readLine())
-    if rrInstance.model.getNumRules() != value:
+    if rrInstance.model.getNumRateRules() != value:
         errorFlag = True
     print passMsg (errorFlag)
 
@@ -627,10 +621,10 @@ def checkNumberOfRules(rrInstance, testId):
 def checkGetRatesOfChange(rrInstance, testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
-    words = readLine().split()
-    values = rrInstance.model.getRatesOfChange()
+    words = divide(readLine())
+    values = rrInstance.model.getFloatingSpeciesAmountRates()
     for i in range (len(words)):
-        if expectApproximately (float (words[i]), values[i], 1E-6) == False:
+        if expectApproximately (float (words[i]), values[i], abs(values[i]+1e-7)*1E-5) == False:
             errorFlag = True
     print passMsg (errorFlag)
 
@@ -936,8 +930,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
              '[Get Initial Floating Species Concs]': checkInitalFloatingSpeciesConcentations,
 #             '[Get Rate of Change by Index]': checkGetRateOfChangeByIndex,
-#             '[Get Rates Of Change Ids]': checkGetRatesOfChangeIds,
-#             '[Get Rates Of Change]': checkGetRatesOfChange,
+             '[Get Rates Of Change]': checkGetRatesOfChange,
 #             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
              '[Get Reaction Rates By Index]': checkGetReactionRatesByIndex,
 #             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
@@ -952,7 +945,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Link Matrix]': checkLinkMatrix,
              '[Number of Dependent Species]': checkNumberOfDependentSpecies,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
-#             '[Number Of Rules]': checkNumberOfRules,
+             '[Number Of Rate Rules]': checkNumberOfRateRules,
              '[Reaction Ids]': checkReactionIds,
              '[Reduced Eigenvalue Matrix]': checkReducedEigenvalueMatrix,
              '[Reduced Jacobian]': checkReducedJacobian,
