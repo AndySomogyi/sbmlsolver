@@ -1,0 +1,5 @@
+/** @defgroup core Core libSBML
+
+@htmlinclude libsbml-group-core-intro.html
+
+*/
