@@ -379,20 +379,6 @@ Stoichiometry
    :param reactionIndex: a reaction index from :meth:`getReactionIds`
 
 
-.. method:: ExecutableModel.getStoichiometryMatrix()
-
-   Returns the current stoichiometry matrix, a :math:`n \times m` matrix where :math:`n` is the
-   number of species which take place in reactions (floating species) and :math:`m` is the number of
-   reactions.
-
-
-   When the LLVM back end is used (default) this always returns the current state of the
-   stochiometric coefficients, so if any of these are determined by any rule, this will return the
-   current value. 
-
-
-   :returns: an n by m numpy ndarray of the stoichiometric coefficients. 
-   :rtype: numpy.ndarray
 
 State Vector
 ------------
@@ -497,11 +483,6 @@ Conserved Moieties
 Misc
 ----
 
-.. method:: ExecutableModel.evalInitialConditions()
-   :module: roadrunner
-
-   calculate and apply the initial conditions specified in the model. 
-
 
 .. method:: ExecutableModel.getInfo()
    :module: roadrunner
@@ -512,25 +493,6 @@ Misc
    :module: roadrunner
 
    Get the model name specified in the SBML.
-
-
-
-.. method:: ExecutableModel.getNumDependentSpecies()
-   :module: roadrunner
-
-   Returns the number of dependent floating species in the model.
-
-
-.. method:: ExecutableModel.getNumIndependentSpecies()
-   :module: roadrunner
-
-   Returns the number of independent floating species in the model.
-
-
-.. method:: ExecutableModel.getNumRules()
-   :module: roadrunner
-
-   Returns the number of rules in the SBML model.
 
 
 .. method:: ExecutableModel.getTime()

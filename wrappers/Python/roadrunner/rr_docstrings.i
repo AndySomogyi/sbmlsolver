@@ -438,25 +438,8 @@ large and only a single coefficient is needed.
 
 :param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
 :param reactionIndex: a reaction index from :meth:`getReactionIds`
-";
 
 
-
-%feature("docstring") rr::ExecutableModel::getStoichiometryMatrix "
-ExecutableModel.getStoichiometryMatrix()
-
-Returns the current stoichiometry matrix, a :math:`n \\\\times m` matrix where :math:`n` is the
-number of species which take place in reactions (floating species) and :math:`m` is the number of
-reactions.
-
-
-When the LLVM back end is used (default) this always returns the current state of the
-stochiometric coefficients, so if any of these are determined by any rule, this will return the
-current value.
-
-
-:returns: an n by m numpy ndarray of the stoichiometric coefficients.
-:rtype: numpy.ndarray
 
 State Vector
 ------------
@@ -593,14 +576,6 @@ Misc
 
 
 
-%feature("docstring") rr::ExecutableModel::evalInitialConditions "
-ExecutableModel.evalInitialConditions()
-
-calculate and apply the initial conditions specified in the model.
-";
-
-
-
 %feature("docstring") rr::ExecutableModel::getInfo "
 ExecutableModel.getInfo()
 
@@ -613,30 +588,6 @@ get various info about the model.
 ExecutableModel.getModelName()
 
 Get the model name specified in the SBML.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumDependentSpecies "
-ExecutableModel.getNumDependentSpecies()
-
-Returns the number of dependent floating species in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumIndependentSpecies "
-ExecutableModel.getNumIndependentSpecies()
-
-Returns the number of independent floating species in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumRules "
-ExecutableModel.getNumRules()
-
-Returns the number of rules in the SBML model.
 ";
 
 
@@ -691,10 +642,37 @@ using the load method.
 
 
 
-%feature("docstring") rr::RoadRunner::createSelection "
-RoadRunner.createSelection(str)
+%feature("docstring") rr::RoadRunner::load "
+RoadRunner.load(uriOrDocument)
 
-Creates a new SelectionRecord for the given selection string.
+Loads an SBML document, given a string for file path, URI, or contents.
+
+This method also accepts HTTP URI for remote files, however this feature is currently limited
+to the Mac version, plan on enabling HTTP loading of SBML documents on Windows and Linux
+shortly.
+
+Some examples of loading files on Mac or Linux::
+
+    >>> r.load(\"myfile.xml\")                               # load a file from the current directory
+    >>> r.load(\"/Users/Fred/myfile.xml\")                   # absolute path
+    >>> r.load(\"http://sbml.org/example_system.xml\")       # remote file
+
+
+Or on Windows:
+
+    >>> r.load(\"myfile.xml\")                                  # load a file from the current directory
+    >>> r.load(\"file://localhost/c:/Users/Fred/myfile.xml\")   # using a URI
+
+One may also load the contents of a document::
+
+    >>> myfile = open(\"myfile.xml, \"r\")
+    >>> contents = file.read()
+    >>> r.load(contents)
+
+In future version, we will also support loading directly from a libSBML Document object.
+
+:param uriOrDocument: A string which may be a local path, URI or contents of an SBML document.
+:type name: str
 ";
 
 
@@ -702,7 +680,8 @@ Creates a new SelectionRecord for the given selection string.
 %feature("docstring") rr::RoadRunner::getCompiler "
 RoadRunner.getCompiler()
 
-Return the compiler used to build the ExecutableModel.
+Return the JIT :class:`Compiler` object currently being used.
+This object provides various information about the current processor and system.
 ";
 
 
@@ -719,27 +698,10 @@ The value of this result depends on what child objects are presently loaded.
 
 
 
-%feature("docstring") rr::RoadRunner::getCopyright "
-RoadRunner.getCopyright()
-
-Returns the copyright string
-";
-
-
-
 %feature("docstring") rr::RoadRunner::getExtendedVersionInfo "
 RoadRunner.getExtendedVersionInfo()
 
 getVersion plus info about dependent libs versions.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getFloatingSpeciesAmountIds "
-RoadRunner.getFloatingSpeciesAmountIds()
-
-Returns a list of the floating species Ids, but with the Ids surrounded
-by square brackets, i.e. 'S1' -> '\\\\[S1]'
 ";
 
 
@@ -779,6 +741,14 @@ time evolve the system.
 
 
 
+%feature("docstring") rr::RoadRunner::getAvailableIntegrators "
+RoadRunner.getAvailableIntegrators()
+
+Get a list of available integrator names.
+";
+
+
+
 %feature("docstring") rr::RoadRunner::getParamPromotedSBML "
 RoadRunner.getParamPromotedSBML(*args)
 
@@ -810,6 +780,19 @@ RoadRunner.getSBML()
 Returns the original SBML model that was loaded into roadrunner.
 
 :rtype: str
+
+Selections
+----------
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getIds "
+RoadRunner.getIds()
+
+Return a list of selection ids that this object can select on.
+
+:rtype: list
 ";
 
 
@@ -836,17 +819,9 @@ returns the values selected with SimulateOptions for the current model time / ti
 
 
 
-%feature("docstring") rr::RoadRunner::getSimulationResult "
-RoadRunner.getSimulationResult()
-
-get the simulation result in case one forgot to hold on to the simulate return value.
-
-:rtype: numpy.ndarray
-";
-
-
-
 %feature("docstring") rr::RoadRunner::selections "
+
+Get or set the list of current selections used for the simulation result columns.
 ";
 
 
@@ -857,22 +832,10 @@ RoadRunner.createSelection(sel)
 Create a new selection based on a selection string
 
 :rtype: roadrunner.SelectionRecord
-";
 
 
-
-%feature("docstring") rr::RoadRunner::__version__ "
-RoadRunner.__version__()
-
-Returns the current version of the RoadRunner library.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getlibSBMLVersion "
-RoadRunner.getlibSBMLVersion()
-
-Returns the version of the libSBML library that is currently being used.
+Model Access
+------------
 ";
 
 
@@ -885,45 +848,18 @@ Return True if model was loaded; False otherwise
 
 
 
-%feature("docstring") rr::RoadRunner::load "
-RoadRunner.load(uriOrDocument)
-
-Loads an SBML document, given a string for file path, URI, or contents.
-
-This method also accepts HTTP URI for remote files, however this feature is currently limited
-to the Mac version, plan on enabling HTTP loading of SBML documents on Windows and Linux
-shortly.
-
-Some examples of loading files on Mac or Linux::
-
-    >>> r.load(\"myfile.xml\")                               # load a file from the current directory
-    >>> r.load(\"/Users/Fred/myfile.xml\")                   # absolute path
-    >>> r.load(\"http://sbml.org/example_system.xml\")       # remote file
-
-
-Or on Windows:
-
-    >>> r.load(\"myfile.xml\")                                  # load a file from the current directory
-    >>> r.load(\"file://localhost/c:/Users/Fred/myfile.xml\")   # using a URI
-
-One may also load the contents of a document::
-
-    >>> myfile = open(\"myfile.xml, \"r\")
-    >>> contents = file.read()
-    >>> r.load(contents)
-
-In future version, we will also support loading directly from a libSBML Document object.
-
-:param uriOrDocument: A string which may be a local path, URI or contents of an SBML document.
-:type name: str
-";
-
-
-
 %feature("docstring") rr::RoadRunner::model "
 :annotation: None
 
 Get the currently loaded model. The model object contains the entire state of the SBML model.
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getModel "
+RoadRunner.getModel()
+
+Function form of the RoadRunner.model property, identical to model.
 ";
 
 
@@ -968,40 +904,150 @@ If this is enabled, the SBML document (either current, or one about to be loaded
 is converted using the ConservedMoietyConverter. All of the linearly dependent
 species are replaced with assignment rules and a new set of conserved moiety
 parameters are introduced.
+
+
+Simulation
+----------
+
+Fast and easy time series simulations is one of the main objectives of the RoadRunner project.
+
+All simulation related tasks can be accomplished with the single ``simulate`` method.
 ";
 
 
 
 %feature("docstring") rr::RoadRunner::simulate "
-RoadRunner.simulate(*args)
+RoadRunner.simulate(*args, **kwargs)
 
-Simulate the current SBML model.
+
+
+Simulate the optionally plot current SBML model. This is the one stop shopping method
+for simulation and ploting.
+
+simulate accepts a up to four positional arguments and a large number of keyword args.
+
+The first four (optional) arguments are treated as:
+
+   1: Start Time, if this is a number.
+
+   2: End Time, if this is a number.
+
+   3: Number of Steps, if this is a number.
+
+   4: List of Selections.
+
+All four of the positional arguments are optional. If any of the positional arguments are
+a list of string instead of a number, then they are interpreted as a list of selections.
+
 
 There are a number of ways to call simulate.
 
-1. With no arguments. In this case, the current set of `SimulateOptions` will
-   be used for the simulation. The current set may be changed either directly
-   via setSimulateOptions() or with one of the two alternate ways of calling
-   simulate.
+1: With no arguments. In this case, the current set of options from the previous
+   ``simulate`` call will be used. If this is the first time ``simulate`` is called,
+   then a default set of values is used.
 
-2: With single `SimulateOptions` argument. In this case, all of the settings
-   in the given options are copied and will be used for the current and future
-   simulations.
+2: With up to three positions arguments, described above.
 
-3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
-   these three values are copied and will be used for the current and future simulations.
+3: With optional keyword arguments where keywords are listed below.
 
-The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-one calls::
+   For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
 
-  rr.simulate (0, 3, 100)
+     rr.simulate(end=10, start=0, steps=1000, reset=True, plot=True)
 
-The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
-is followed by a call to::
+   All of the options given to ``simulate`` are remembered and used as default arguments for
+   subsequent calls, i.e. if one calls::
 
-  rr.simulate()
+     rr.simulate (0, 3, 100, [\"time\", \"[S1]\"])
 
-This simulation will use the previous values.
+   The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
+   so that if this is followed by a call to::
+
+     rr.simulate()
+
+   This simulation will use the previous values. Note, that if the ``reset=True`` options was not
+   given, this will continue the simulation using the previous model state, but time here will
+   start at 0 and continue to 3.
+
+simulate accepts the following list of keyword arguments:
+
+integrator
+  A text string specifying which integrator to use. Currently supports \"cvode\"
+  for deterministic simulation (default) and \"gillespie\" for stochastic
+  simulation.
+
+sel or selections
+  A list of strings specifying what values to display in the output.
+
+plot
+  True or False
+  If True, RoadRunner will create a basic plot of the simulation result using
+  the built in plot routine which uses MatPlotLib.
+
+absolute
+  A number representing the absolute difference permitted for the integrator
+  tolerance.
+
+duration
+  The duration of the simulation run, in the model's units of time.
+  Note, setting the duration automatically sets the end time and visa versa.
+
+end
+  The simulation end time. Note, setting the end time automatically sets
+  the duration accordingly and visa versa.
+
+relative
+  A float-point number representing the relative difference permitted.
+  Defaults 0.0001
+
+resetModel (or just \"reset\"???)
+  True or False
+  Causes the model to be reset to the original conditions specified in
+  the SBML when the simulation is run.
+
+start
+  The start time of the simulation time-series data. Often this is 0,
+  but not necessarily.
+
+steps
+  The number of steps at which the output is sampled. The samples are evenly spaced.
+  When a simulation system calculates the data points to record, it will typically
+  divide the duration by the number of time steps. Thus, for N steps, the output
+  will have N+1 data rows.
+
+stiff
+  True or False
+  Use the stiff integrator. Only use this if the model is stiff and causes issues
+  with the regular integrator. The stiff integrator is slower than the conventional
+  integrator.
+
+multiStep
+  True or False
+  Perform a multi step integration.
+
+  \\\\* Experimental \\\\*
+  Perform a multi-step simulation. In multi-step simulation, one may monitor the
+  variable time stepping via the IntegratorListener events system.
+
+initialTimeStep
+  A user specified initial time step. If this is <= 0, the integrator will attempt
+  to determine a safe initial time step.
+
+  Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
+  the internal integrator may take many many steps to reach one of the external time steps.
+  This value specifies an initial value for the internal integrator time step.
+
+minimumTimeStep
+  Specify the minimum time step that the internal integrator will use.
+  Uses integrator estimated value if <= 0.
+
+maximumTimeStep
+  Specify the maximum time step size that the internal integrator will use.
+  Uses integrator estimated value if <= 0.
+
+maximumNumSteps
+  Specify the maximum number of steps the internal integrator will use before
+  reaching the user specified time span. Uses the integrator default value if <= 0.
+
 
 :returns: a numpy array with each selected output time series being a
           column vector, and the 0'th column is the simulation time.
@@ -1037,17 +1083,7 @@ to be global parameters.
 
 :param str SBML: the contents of an SBML document
 :rtype: str
-";
 
-
-
-%feature("docstring") rr::RoadRunner::evalModel "
-RoadRunner.evalModel()
-
-Evaluates the current model, that is it updates the rates of change and any assignments in the model.
-It does *not* carry out an integration step.
-
-:returns: Returns true if successful
 
 
 Steady State Sections
@@ -1172,8 +1208,8 @@ Get unscaled elasticity coefficient with respect to a global parameter or specie
 
 
 
-%feature("docstring") rr::RoadRunner::getEigenvalueIds "
-RoadRunner.getEigenvalueIds()
+%feature("docstring") rr::RoadRunner::getEigenValueIds "
+RoadRunner.getEigenValueIds()
 
 returns a list of selection symbols for the eigenvalues of the floating species. The eigen value
 selection symbol is ``eigen(XX)``, where ``XX`` is the floating species name.
@@ -1181,15 +1217,29 @@ selection symbol is ``eigen(XX)``, where ``XX`` is the floating species name.
 
 
 
-%feature("docstring") rr::RoadRunner::getEigenvalues "
-RoadRunner.getEigenvalues()
+%feature("docstring") rr::RoadRunner::getFullEigenValues "
+RoadRunner.getFullEigenValues()
 
 
-Calculates the eigen values of the Jacobian as a real matrix, first column real part, second
+Calculates the eigen values of the Full Jacobian as a real matrix, first column real part, second
 column imaginary part.
 
-If moiety conservation is enables, the reduced Jacobian is used, otherwise the full Jacobian is
-used.
+Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
+time invariant stoichiometry).
+
+:rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getReducedEigenValues "
+RoadRunner.getReducedEigenValues()
+
+
+Calculates the eigen values of the Reduced Jacobian as a real matrix, first column real part, second
+column imaginary part.
+
+Only valid if moiety conversion is enabled.
 
 Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
 time invariant stoichiometry).
@@ -1205,16 +1255,6 @@ RoadRunner.getFullJacobian()
 Compute the full Jacobian at the current operating point.
 
 This is the Jacobian of ONLY the floating species.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getFullyReorderedStoichiometryMatrix "
-RoadRunner.getFullyReorderedStoichiometryMatrix()
-
-Returns the full reordered stoichiometry matrix for the currently loaded model.
-The rows will corresponds to the order of species in the call to getFloatinSpeciesIds(),
-the columns will corresponds to the order of reactions in the call to getReactionIds().
 ";
 
 
@@ -1248,6 +1288,19 @@ Returns the scaled elasticity for a given reaction and given species.
 
 :param str reactionId: the SBML id of a reaction.
 :param str speciesId: the SBML id of a species.
+:rtype: double
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getUnscaledParameterElasticity "
+RoadRunner.getUnscaledParameterElasticity(reactionId, parameterId)
+
+ Returns the unscaled elasticity for a named reaction with respect to a
+ named parameter
+
+:param str reactionId: the SBML id of a reaction.
+:param str parameterId: the SBML id of a parameter.
 :rtype: double
 ";
 
@@ -1305,17 +1358,31 @@ RoadRunner.getScaledElasticityMatrix()
 Returns the scaled elasticity matrix at the current operating point.
 
 :rtype: numpy.ndarray
+
+
+Stochiometric Analysis
+----------------------
 ";
 
 
 
-%feature("docstring") rr::RoadRunner::getReorderedStoichiometryMatrix "
-RoadRunner.getReorderedStoichiometryMatrix()
+%feature("docstring") rr::RoadRunner::getFullStoichiometryMatrix "
+RoadRunner.getFullStoichiometryMatrix()
 
-Returns the reordered stoichiometry matrix where the tops rows represent the independent species of
-which there will be rank (N) and the bottom rows the dependent species.
 
-:rtype: numpy.ndarray
+Get the stoichiometry matrix that coresponds to the full model, even it
+it was converted via conservation conversion.
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getReducedStoichiometryMatrix "
+RoadRunner.getReducedStoichiometryMatrix()
+
+get the reduced stochiometry matrix. If conservation conversion is enabled,
+this is the matrix that coresponds to the independent species.
+
+A synonym for getNrMatrix().
 ";
 
 
@@ -1357,6 +1424,19 @@ RoadRunner.getNrMatrix()
 
 Returns the reduced stoichiometry matrix, :math:`N_R`, which will have only r rows where r is the rank of
 the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
+
+:rtype: numpy.ndarray
+
+
+Analysis
+--------
+
+.. method:: RoadRunner.getFrequencyResponse(startFrequency,
+numberOfDecades, numberOfPoints,
+parameterName, variableName,
+useDB, useHz)
+
+Compute the frequency response
 
 :rtype: numpy.ndarray
 ";
@@ -2270,35 +2350,7 @@ Config.writeConfigFile(path)
 
 Write all of the current configuration values to a file. This could be written to one of the
 default locations, or to any other location, and re-loaded at a later time.
-";
 
-
-
-%feature("docstring") rr::Config::getString "
-Config.getString(key)
-
-Get the value of the key as a string. This is mostly used internally in RoadRunner. As RoadRunner
-is written in C++ which is a statically rather than a dynamically typed language, it requires
-values to be returned with a concrete type, i.e. string, integer, double, etc...
-
-The getString, getInt, getDouble methods may be useful in python to see what the current value of
-a parameter is.
-";
-
-
-
-%feature("docstring") rr::Config::getInt "
-Config.getInt(key)
-
-Get the value of a key as an integer.
-";
-
-
-
-%feature("docstring") rr::Config::getDouble "
-Config.getDouble(key)
-
-Get the value of the key as a double.
 
 
 Available Configuration Parameters
@@ -2540,15 +2592,6 @@ time step.
 :annotation: double
 
 Specify The Minimum Time Step That The Internal Integrator
-Will Use. Uses Integrator Estimated Value If <= 0.
-";
-
-
-
-%feature("docstring") rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMSETEP "
-:annotation: double
-
-Specify The Maximum Time Step Size That The Internal Integrator
 Will Use. Uses Integrator Estimated Value If <= 0.
 ";
 

@@ -27,179 +27,6 @@ _________________________
    :type name: str (optional)
 
 
-
-.. method:: RoadRunner.createSelection(str)
-
-   Creates a new SelectionRecord for the given selection string.
-
-
-
-.. method:: RoadRunner.getCompiler()
-
-   Return the JIT :class:`Compiler` object currently being used. 
-   This object provides various information about the current processor and system.
-
-
-
-.. method:: RoadRunner.getConfigurationXML()
-   :module: roadrunner
-
-   recurse through all of the child configurable objects that this
-   class ones and build an assemble all of their configuration parameters
-   into a single xml document which is returned as a string.
-
-   The value of this result depends on what child objects are presently loaded.
-
-
-
-
-.. staticmethod:: RoadRunner.getCopyright()
-   :module: roadrunner
-
-   Returns the copyright string
-
-
-
-.. staticmethod:: RoadRunner.getExtendedVersionInfo()
-   :module: roadrunner
-
-   getVersion plus info about dependent libs versions.
-
-
-
-.. method:: RoadRunner.getFloatingSpeciesAmountIds()
-   :module: roadrunner
-
-   Returns a list of the floating species Ids, but with the Ids surrounded
-   by square brackets, i.e. 'S1' -> '\[S1]'
-
-
-.. method:: RoadRunner.getInfo()
-   :module: roadrunner
-
-   return info about the current state of the object
-
-   :rtype: str
-
-
-
-.. method:: RoadRunner.getInstanceCount()
-   :module: roadrunner
-
-   Number of currently running RoadRunner instances.
-
-
-
-.. method:: RoadRunner.getInstanceID()
-   :module: roadrunner
-
-   When there are multiple instances of RoadRunner, this is the instance id.
-
-
-
-.. method:: RoadRunner.getIntegrator()
-   :module: roadrunner
-
-   get the integrator which is currently being used to
-   time evolve the system.
-
-
-
-
-.. staticmethod:: RoadRunner.getParamPromotedSBML(*args)
-   :module: roadrunner
-
-   Takes an SBML document (in textual form) and changes all of the local parameters
-   to be global parameters.
-
-   :param str SBML: the contents of an SBML document
-   :rtype: str
-
-
-
-
-.. method:: RoadRunner.getCurrentSBML()
-   :module: roadrunner
-
-   Returns the current state of the model in the form of an SBML string. 
-   
-   That is the SBML will reflect the current state of the model and not the 
-   original SBML that was loaded into RoadRunner.
-
-   :rtype: str
-
-
-.. method:: RoadRunner.getSBML()
-   :module: roadrunner
-
-   Returns the original SBML model that was loaded into roadrunner.
-
-   :rtype: str
-
-
-
-.. method:: RoadRunner.getValue(sel)
-
-   Returns the value for a given selection.
-
-   :param sel: a selection that is either a string or a SelectionRecord that was
-               obtained from createSelection
-   :type sel: str or SelectionRecord
-
-
-
-.. method:: RoadRunner.getSelectedValues()
-   :module: roadrunner
-
-   returns the values selected with SimulateOptions for the current model time / timestep
-
-   :rtype: numpy.ndarray
-
-
-
-.. method:: RoadRunner.getSimulationResult()
-   :module: roadrunner
-
-   get the simulation result in case one forgot to hold on to the simulate return value.
-
-   :rtype: numpy.ndarray
-
-
-
-.. attribute:: RoadRunner.selections
-   :module: roadrunner
-
-
-
-.. method:: RoadRunner.createSelection(sel)
-
-   Create a new selection based on a selection string
-
-   :rtype: roadrunner.SelectionRecord
-
-
-
-
-.. staticmethod:: RoadRunner.__version__()
-   :module: roadrunner
-
-   Returns the current version of the RoadRunner library.
-
-
-.. staticmethod:: RoadRunner.getlibSBMLVersion()
-   :module: roadrunner
-
-   Returns the version of the libSBML library that is currently being used.
-
-
-
-.. method:: RoadRunner.isModelLoaded()
-   :module: roadrunner
-
-   Return True if model was loaded; False otherwise
-
-
-
 .. method:: RoadRunner.load(uriOrDocument)
    :module: roadrunner
 
@@ -234,12 +61,163 @@ _________________________
 
 
 
+
+
+
+.. method:: RoadRunner.getCompiler()
+
+   Return the JIT :class:`Compiler` object currently being used. 
+   This object provides various information about the current processor and system.
+
+
+
+.. method:: RoadRunner.getConfigurationXML()
+   :module: roadrunner
+
+   recurse through all of the child configurable objects that this
+   class ones and build an assemble all of their configuration parameters
+   into a single xml document which is returned as a string.
+
+   The value of this result depends on what child objects are presently loaded.
+
+
+.. staticmethod:: RoadRunner.getExtendedVersionInfo()
+   :module: roadrunner
+
+   getVersion plus info about dependent libs versions.
+
+
+
+.. method:: RoadRunner.getInfo()
+   :module: roadrunner
+
+   return info about the current state of the object
+
+   :rtype: str
+
+
+
+.. method:: RoadRunner.getInstanceCount()
+   :module: roadrunner
+
+   Number of currently running RoadRunner instances.
+
+
+
+.. method:: RoadRunner.getInstanceID()
+   :module: roadrunner
+
+   When there are multiple instances of RoadRunner, this is the instance id.
+
+
+
+.. method:: RoadRunner.getIntegrator()
+   :module: roadrunner
+
+   get the integrator which is currently being used to
+   time evolve the system.
+
+.. method:: RoadRunner.getAvailableIntegrators()
+   :module: roadrunner
+   
+   Get a list of available integrator names.
+
+
+
+.. staticmethod:: RoadRunner.getParamPromotedSBML(*args)
+   :module: roadrunner
+
+   Takes an SBML document (in textual form) and changes all of the local parameters
+   to be global parameters.
+
+   :param str SBML: the contents of an SBML document
+   :rtype: str
+
+
+
+
+.. method:: RoadRunner.getCurrentSBML()
+   :module: roadrunner
+
+   Returns the current state of the model in the form of an SBML string. 
+   
+   That is the SBML will reflect the current state of the model and not the 
+   original SBML that was loaded into RoadRunner.
+
+   :rtype: str
+
+
+.. method:: RoadRunner.getSBML()
+   :module: roadrunner
+
+   Returns the original SBML model that was loaded into roadrunner.
+
+   :rtype: str
+
+Selections
+----------
+
+.. method:: RoadRunner.getIds()
+
+   Return a list of selection ids that this object can select on.
+
+   :rtype: list
+
+
+.. method:: RoadRunner.getValue(sel)
+
+   Returns the value for a given selection.
+
+   :param sel: a selection that is either a string or a SelectionRecord that was
+               obtained from createSelection
+   :type sel: str or SelectionRecord
+
+
+
+.. method:: RoadRunner.getSelectedValues()
+   :module: roadrunner
+
+   returns the values selected with SimulateOptions for the current model time / timestep
+
+   :rtype: numpy.ndarray
+
+
+
+.. attribute:: RoadRunner.selections
+   :module: roadrunner
+            
+   Get or set the list of current selections used for the simulation result columns. 
+
+
+.. method:: RoadRunner.createSelection(sel)
+
+   Create a new selection based on a selection string
+
+   :rtype: roadrunner.SelectionRecord
+
+
+Model Access
+------------
+
+
+.. method:: RoadRunner.isModelLoaded()
+   :module: roadrunner
+
+   Return True if model was loaded; False otherwise
+
+
+
 .. py:attribute:: RoadRunner.model
    :module: roadrunner
    :annotation: None
 
    Get the currently loaded model. The model object contains the entire state of the SBML model.
 
+
+.. method:: RoadRunner.getModel()
+   :module: roadrunner
+
+   Function form of the RoadRunner.model property, identical to model. 
 
 .. method:: RoadRunner.oneStep(startTime, stepSize)
    :module: roadrunner
@@ -459,13 +437,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    :param str SBML: the contents of an SBML document
    :rtype: str
 
-.. method:: RoadRunner.evalModel()
-   :module: roadrunner
-
-   Evaluates the current model, that is it updates the rates of change and any assignments in the model.
-   It does *not* carry out an integration step.
-
-   :returns: Returns true if successful
 
 
 Steady State Sections
@@ -569,21 +540,33 @@ related to metabolic control analysis are applicable. These methods are describe
    Get unscaled elasticity coefficient with respect to a global parameter or species.
 
 
-.. method:: RoadRunner.getEigenvalueIds()
+.. method:: RoadRunner.getEigenValueIds()
    :module: roadrunner
 
    returns a list of selection symbols for the eigenvalues of the floating species. The eigen value
    selection symbol is ``eigen(XX)``, where ``XX`` is the floating species name. 
 
-.. method:: RoadRunner.getEigenvalues()
+.. method:: RoadRunner.getFullEigenValues()
    :module: roadrunner
 
 
-   Calculates the eigen values of the Jacobian as a real matrix, first column real part, second
+   Calculates the eigen values of the Full Jacobian as a real matrix, first column real part, second
    column imaginary part.
 
-   If moiety conservation is enables, the reduced Jacobian is used, otherwise the full Jacobian is
-   used. 
+   Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
+   time invariant stoichiometry). 
+
+   :rtype: numpy.ndarray
+
+
+.. method:: RoadRunner.getReducedEigenValues()
+   :module: roadrunner
+
+
+   Calculates the eigen values of the Reduced Jacobian as a real matrix, first column real part, second
+   column imaginary part.
+
+   Only valid if moiety conversion is enabled. 
 
    Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
    time invariant stoichiometry). 
@@ -597,15 +580,6 @@ related to metabolic control analysis are applicable. These methods are describe
    Compute the full Jacobian at the current operating point.
 
    This is the Jacobian of ONLY the floating species.
-
-
-.. method:: RoadRunner.getFullyReorderedStoichiometryMatrix()
-   :module: roadrunner
-
-   Returns the full reordered stoichiometry matrix for the currently loaded model.
-   The rows will corresponds to the order of species in the call to getFloatinSpeciesIds(),
-   the columns will corresponds to the order of reactions in the call to getReactionIds().
-
 
 
 .. method:: RoadRunner.getReducedJacobian()
@@ -635,6 +609,17 @@ related to metabolic control analysis are applicable. These methods are describe
 
    :param str reactionId: the SBML id of a reaction.
    :param str speciesId: the SBML id of a species.
+   :rtype: double
+
+
+.. method:: RoadRunner.getUnscaledParameterElasticity(reactionId, parameterId)
+   :module: roadrunner
+
+    Returns the unscaled elasticity for a named reaction with respect to a
+    named parameter
+     
+   :param str reactionId: the SBML id of a reaction.
+   :param str parameterId: the SBML id of a parameter.
    :rtype: double
 
 
@@ -683,14 +668,25 @@ related to metabolic control analysis are applicable. These methods are describe
    :rtype: numpy.ndarray
 
 
+Stochiometric Analysis
+----------------------
 
-.. method:: RoadRunner.getReorderedStoichiometryMatrix()
+.. method:: RoadRunner.getFullStoichiometryMatrix()
    :module: roadrunner
 
-   Returns the reordered stoichiometry matrix where the tops rows represent the independent species of
-   which there will be rank (N) and the bottom rows the dependent species.
 
-   :rtype: numpy.ndarray
+   Get the stoichiometry matrix that coresponds to the full model, even it
+   it was converted via conservation conversion.
+
+
+.. method:: RoadRunner.getReducedStoichiometryMatrix()
+   :module: roadrunner
+
+   get the reduced stochiometry matrix. If conservation conversion is enabled,
+   this is the matrix that coresponds to the independent species.
+
+   A synonym for getNrMatrix().
+
 
 
 .. method:: RoadRunner.getConservationMatrix()
@@ -728,3 +724,13 @@ related to metabolic control analysis are applicable. These methods are describe
 
    :rtype: numpy.ndarray
 
+
+Analysis
+--------
+
+.. method:: RoadRunner.getFrequencyResponse(startFrequency, numberOfDecades, numberOfPoints, parameterName, variableName, useDB, useHz)
+   :module: roadrunner
+
+   Compute the frequency response
+
+   :rtype: numpy.ndarray

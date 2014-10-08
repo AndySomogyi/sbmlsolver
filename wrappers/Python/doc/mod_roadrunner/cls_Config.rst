@@ -101,27 +101,6 @@ Configuration Functions
    default locations, or to any other location, and re-loaded at a later time. 
 
 
-.. staticmethod:: Config.getString(key)
-   :module: roadrunner
-
-   Get the value of the key as a string. This is mostly used internally in RoadRunner. As RoadRunner
-   is written in C++ which is a statically rather than a dynamically typed language, it requires
-   values to be returned with a concrete type, i.e. string, integer, double, etc...
-
-   The getString, getInt, getDouble methods may be useful in python to see what the current value of
-   a parameter is. 
-
-.. staticmethod:: Config.getInt(key)
-   :module: roadrunner
-
-   Get the value of a key as an integer.
-
-
-.. staticmethod:: Config.getDouble(key)
-   :module: roadrunner
-
-   Get the value of the key as a double.
-
 
 Available Configuration Parameters
 ----------------------------------
@@ -355,15 +334,6 @@ here. The variable type of the parameter is listed after the key name.
    :annotation: double
 
    Specify The Minimum Time Step That The Internal Integrator
-   Will Use. Uses Integrator Estimated Value If <= 0.
-
-
-
-.. attribute:: Config.SIMULATEOPTIONS_MAXIMUM_TIMSETEP
-   :module: roadrunner
-   :annotation: double
-
-   Specify The Maximum Time Step Size That The Internal Integrator
    Will Use. Uses Integrator Estimated Value If <= 0.
 
 
