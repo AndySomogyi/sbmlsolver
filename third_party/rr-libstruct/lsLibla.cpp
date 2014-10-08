@@ -54,7 +54,7 @@ vector< Complex> getEigenValues(DoubleMatrix &oMatrix)
 
     if (numRows != numCols)
     {
-        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
+        throw ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
     }
 
     if (numRows == 0) return oResult;
@@ -104,7 +104,7 @@ vector< ls::Complex > ZgetEigenValues(ComplexMatrix &oMatrix)
     integer lwork = 2*numRows; integer info;
 
     if (numRows != numCols)
-        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
+        throw ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
 
     doublecomplex* A = new doublecomplex[numRows*numRows]; memset(A, 0, sizeof(doublecomplex)*numRows*numRows);
     doublecomplex* eigVals = new doublecomplex[numRows]; memset(eigVals, 0, sizeof(doublecomplex)*numRows);
@@ -555,7 +555,7 @@ ComplexMatrix* getEigenVectors(DoubleMatrix &oMatrix)
     integer lwork = 2*numRows; integer info;
 
     if (numRows != numCols)
-        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
+        throw ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
 
     if (numRows == 0) return new ComplexMatrix();
 
@@ -608,7 +608,7 @@ ComplexMatrix* ZgetEigenVectors(ComplexMatrix &oMatrix)
     integer lwork = 2*numRows; integer info;
 
     if (numRows != numCols)
-        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
+        throw ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
 
     if (numRows == 0) return new ComplexMatrix();
 
@@ -934,7 +934,7 @@ LU_Result* getLUwithFullPivoting(DoubleMatrix &oMatrix)
     integer numCols = oMatrix.numCols();
 
     if (numRows != numCols)
-        throw new ApplicationException("Input Matrix must be square", "Expecting a Square Matrix");
+        throw ApplicationException("Input Matrix must be square", "Expecting a Square Matrix");
 
 
     doublereal *A = (doublereal*)oMatrix.getCopy(true);
@@ -1026,7 +1026,7 @@ DoubleMatrix* inverse(DoubleMatrix &oMatrix)
 
 
     if (numRows != numCols)
-        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
+        throw ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
 
 
     doublereal* A = oMatrix.getCopy(true);
@@ -1039,9 +1039,9 @@ DoubleMatrix* inverse(DoubleMatrix &oMatrix)
     // Carry out LU Factorization
     integer info; dgetrf_ (&numRows, &numRows, A, &numRows, ipvt, &info);
     if (info < 0)
-        throw new ApplicationException("Error in dgetrf : LU Factorization", "Illegal Value");
+        throw ApplicationException("Error in dgetrf : LU Factorization", "Illegal Value");
     if (info > 0)
-        throw new ApplicationException("Exception in ls while computing Inverse", "Input Matrix is Singular.");
+        throw ApplicationException("Exception in ls while computing Inverse", "Input Matrix is Singular.");
 
 
     //Log(lDebug5) << "After dgetrf: \n"<<ls::print(numRows, numRows, A);

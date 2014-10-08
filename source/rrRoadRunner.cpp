@@ -145,6 +145,11 @@ enum ParameterType
 #define check_model() { if (!impl->model) { throw std::logic_error(gEmptyModelMessage); } }
 
 /**
+ * assert that numbers are similar.
+ */
+#define assert_similar(a, b) assert(std::abs(a - b) < 1e-13)
+
+/**
  * implemention class, hide all details here.
  */
 class RoadRunnerImpl {
@@ -755,13 +760,28 @@ double RoadRunner::getValue(const SelectionRecord& record)
             throw std::runtime_error("Eigenvalues vector length less than species id");
         }
 
-        if (std::abs(std::imag(eig[index])) > 2 * std::numeric_limits<double>::epsilon())
+        return std::real(eig[index]);
+    }
+    break;
+    case SelectionRecord::EIGENVALUE_COMPLEX:
+    {
+        string species = record.p1;
+        int index = impl->model->getFloatingSpeciesIndex(species);
+
+        if (index < 0)
         {
-            Log(Logger::LOG_WARNING) << "EigenValue for species " << species << " is complex, "
-                    << "returning only real part.";
+            throw std::logic_error("Invalid species id" + record.p1 + " for eigenvalue");
         }
 
-        return std::real(eig[index]);
+        vector<Complex> eig = getEigenValues(JACOBIAN_FULL);
+
+        if (eig.size() <= index)
+        {
+            // this should NEVER happen
+            throw std::runtime_error("Eigenvalues vector length less than species id");
+        }
+
+        return std::imag(eig[index]);
     }
     break;
     case SelectionRecord::INITIAL_CONCENTRATION:
@@ -1440,76 +1460,12 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 std::vector<ls::Complex> RoadRunner::getFullEigenValues()
 {
     return getEigenValues(JACOBIAN_FULL);
-
-    /*
-
-    bool cpx = false;
-    // small number
-    double epsilon = 2 * std::numeric_limits<double>::epsilon();
-    for (vector<Complex>::const_iterator i = vals.begin(); i != vals.end(); ++i)
-    {
-        cpx = cpx || (std::imag(*i) >= epsilon);
-        if (cpx) break;
-    }
-
-    if (cpx)
-    {
-        DoubleMatrix result(vals.size(), 2);
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result(i, 0) = std::real(vals[i]);
-            result(i, 1) = imag(vals[i]);
-        }
-        return result;
-    }
-    else
-    {
-        DoubleMatrix result(vals.size(), 1);
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result(i, 0) = std::real(vals[i]);
-        }
-        return result;
-    }
-    */
 }
 
 
 std::vector<ls::Complex> RoadRunner::getReducedEigenValues()
 {
     return getEigenValues(JACOBIAN_REDUCED);
-
-    /*
-
-    bool cpx = false;
-    // small number
-    double epsilon = 2 * std::numeric_limits<double>::epsilon();
-    for (vector<Complex>::const_iterator i = vals.begin(); i != vals.end(); ++i)
-    {
-        cpx = cpx || (std::imag(*i) >= epsilon);
-        if (cpx) break;
-    }
-
-    if (cpx)
-    {
-        DoubleMatrix result(vals.size(), 2);
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result(i, 0) = std::real(vals[i]);
-            result(i, 1) = imag(vals[i]);
-        }
-        return result;
-    }
-    else
-    {
-        DoubleMatrix result(vals.size(), 1);
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result(i, 0) = std::real(vals[i]);
-        }
-        return result;
-    }
-    */
 }
 
 std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::JacobianMode mode)
@@ -1530,32 +1486,22 @@ std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::Jacob
 
 DoubleMatrix RoadRunner::getFullJacobian()
 {
-    try
-    {
-        if (!impl->model)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
+    check_model();
 
-        // ptr to libstruct owned obj.
-        DoubleMatrix *rsm;
-        LibStructural *ls = getLibStruct();
-        if (impl->conservedMoietyAnalysis)
-        {
-            rsm = ls->getReorderedStoichiometryMatrix();
-        }
-        else
-        {
-            rsm = ls->getStoichiometryMatrix();
-        }
-       return ls::mult(*rsm, uelast);
+    DoubleMatrix uelast = getUnscaledElasticityMatrix();
 
-    }
-    catch (const Exception& e)
+    // ptr to libstruct owned obj.
+    DoubleMatrix *rsm;
+    LibStructural *ls = getLibStruct();
+    if (impl->conservedMoietyAnalysis)
     {
-        throw CoreException("Unexpected error from fullJacobian()", e.Message());
+        rsm = ls->getReorderedStoichiometryMatrix();
     }
+    else
+    {
+        rsm = ls->getStoichiometryMatrix();
+    }
+    return ls::mult(*rsm, uelast);
 }
 
 DoubleMatrix RoadRunner::getFullReorderedJacobian()
@@ -2603,12 +2549,12 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
         (self.model->*setInitValuePtr)(conc.size(), 0, &conc[0]);
 
         // sanity check
-        assert(originalConc == conc[speciesIndex]);
+        assert_similar(originalConc, conc[speciesIndex]);
         double tmp = 0;
         (self.model->*getInitValuePtr)(1, &speciesIndex, &tmp);
-        assert(originalConc == tmp);
+        assert_similar(originalConc, tmp);
         (self.model->*getValuePtr)(1, &speciesIndex, &tmp);
-        assert(originalConc == tmp);
+        assert_similar(originalConc, tmp);
 
         // things check out, start fiddling...
 
@@ -2812,49 +2758,31 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
     }
 }
 
-// [Help("Compute the matrix of scaled concentration control coefficients")]
+
 DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
 {
-    try
-    {
-        if (impl->model)
-        {
-            DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
+    get_self();
 
-            if (ucc.size() > 0 )
-            {
-                impl->model->convertToConcentrations();
-                impl->model->evalReactionRates();
-                for (int i = 0; i < ucc.RSize(); i++)
-                {
-                    for (int j = 0; j < ucc.CSize(); j++)
-                    {
-                        double conc = 0;
-                        impl->model->getFloatingSpeciesConcentrations(1, &i, &conc);
-                        if(conc != 0.0)
-                        {
-                            double rate = 0;
-                            impl->model->getReactionRates(1, &j, &rate);
-                            ucc[i][j] = ucc[i][j] * rate / conc;
-                        }
-                        else
-                        {
-                            throw(Exception("Dividing with zero"));
-                        }
-                    }
-                }
-            }
-            return ucc;
-        }
-        else
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-    }
-    catch (const Exception& e)
+    check_model();
+
+    DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
+
+    if (ucc.size() > 0 )
     {
-        throw CoreException("Unexpected error from getScaledConcentrationControlCoefficientMatrix()", e.Message());
+        for (int i = 0; i < ucc.RSize(); i++)
+        {
+            for (int j = 0; j < ucc.CSize(); j++)
+            {
+                double conc = 0;
+                self.model->getFloatingSpeciesConcentrations(1, &i, &conc);
+
+                double rate = 0;
+                self.model->getReactionRates(1, &j, &rate);
+                ucc[i][j] = ucc[i][j] * rate / conc;
+            }
+        }
     }
+    return ucc;
 }
 
 // Use the formula: ucc = elast CS + I
@@ -3215,6 +3143,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
 
         break;
     case SelectionRecord::EIGENVALUE:
+    case SelectionRecord::EIGENVALUE_COMPLEX:
         if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
             break;
