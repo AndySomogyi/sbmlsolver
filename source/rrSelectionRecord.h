@@ -56,7 +56,12 @@ public:
         UNSCALED =                          (0x1 << 11),
         ELASTICITY =                        (0x1 << 12),
         CONTROL =                           (0x1 << 13),
+
+        /**
+         * eigenvalue without complex is real part of eigenvalue.
+         */
         EIGENVALUE =                        (0x1 << 14),
+
         ELEMENT =                           (0x1 << 15),
         STOICHIOMETRY =                     (0x1 << 16),
         UNKNOWN =                           (0x1 << 17),
@@ -65,6 +70,18 @@ public:
         CONSREVED_MOIETY =                  (0x1 << 20),
         STATE_VECTOR =                      (0x1 << 21),
         EVENT =                             (0x1 << 22),
+
+        /**
+         * the complex bit, off to get real values, on to get imaginary parts.
+         *
+         * Only used with EIGENVALUE currently.
+         */
+        COMPLEX =                           (0x1 << 23),
+
+        /**
+         * complex eigenvalue
+         */
+        EIGENVALUE_COMPLEX =                EIGENVALUE | COMPLEX,
 
         UNKNOWN_CONCENTRATION =             UNKNOWN | CONCENTRATION,
 

@@ -4,6 +4,8 @@
 #include <vector>
 #include <sstream>
 
+#include <iostream>
+
 
 // TODO When we have gcc 4.4 as minimal compiler, drop poco and use C++ standard regex
 #include <Poco/RegularExpression.h>
@@ -170,16 +172,25 @@ static bool is_amount_rate(const std::string& str, std::string& p1)
     }
 }
 
-static const Poco::RegularExpression is_eigen_re("^\\s*eigen\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-static bool is_eigen(const std::string& str, std::string& p1)
+static const Poco::RegularExpression is_eigen_re("^\\s*(eigen|eigenr|eigenc)\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
+static bool is_eigen(const std::string& str, std::string& p1, bool& complex)
 {
     std::vector<std::string> matches;
 
     int nmatch = is_eigen_re.split(str, matches);
 
-    if (nmatch == 2)
+    if (nmatch == 3)
     {
-        p1 = matches[1];
+        p1 = matches[2];
+
+        if (matches[1] == "eigenc")
+        {
+            complex = true;
+        }
+        else
+        {
+            complex = false;
+        }
         return true;
     }
     else
@@ -289,6 +300,8 @@ std::string SelectionRecord::to_repr() const
 rr::SelectionRecord::SelectionRecord(const std::string str) :
         index(-1), selectionType(UNKNOWN)
 {
+    bool complex;
+
     if (is_time(str))
     {
         selectionType = TIME;
@@ -317,9 +330,16 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     {
         selectionType = FLOATING_AMOUNT_RATE;
     }
-    else if(is_eigen(str, p1))
+    else if(is_eigen(str, p1, complex))
     {
-        selectionType = EIGENVALUE;
+        if(complex)
+        {
+            selectionType = EIGENVALUE_COMPLEX;
+        }
+        else
+        {
+            selectionType = EIGENVALUE;
+        }
     }
     else if(is_init_value(str, p1))
     {
@@ -378,6 +398,9 @@ std::string rr::SelectionRecord::to_string() const
         break;
     case EIGENVALUE:
         result = "eigen(" + p1 + ")";
+        break;
+    case EIGENVALUE_COMPLEX:
+        result = "eigenc(" + p1 + ")";
         break;
     case INITIAL_AMOUNT:
         result = "init(" + p1 + ")";

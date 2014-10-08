@@ -1020,7 +1020,7 @@ string LibStructural::analyzeWithLU()
 
         if (nInfo < 0 )
         {
-            throw new ApplicationException("Exception in analyzeWithLU()", "Illegal Value encountered while performing LU Factorization");
+            throw ApplicationException("Exception in analyzeWithLU()", "Illegal Value encountered while performing LU Factorization");
         }
         else if (nInfo > 0)
         {
@@ -1162,7 +1162,7 @@ string LibStructural::analyzeWithFullyPivotedLU()
 
             if (nInfo < 0 )
             {
-                throw new ApplicationException("Exception in analyzeWithLU()", "Illegal Value encountered while performing LU Factorization");
+                throw ApplicationException("Exception in analyzeWithLU()", "Illegal Value encountered while performing LU Factorization");
             }
             else if (nInfo > 0)
             {

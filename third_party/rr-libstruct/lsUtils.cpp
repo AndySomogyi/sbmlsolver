@@ -104,7 +104,7 @@ IntMatrix* matMult(IntMatrix &A, IntMatrix &B)
 
 // ----------------------------------------------------------------------------
 // double[][] matMult(int, int, int**, int**, int)
-// 
+//
 // Integer Matrix Multiplication
 // ----------------------------------------------------------------------------
 int** matMult(int mA, int nA, int** A, int** B, int nB) {
@@ -147,7 +147,7 @@ double** matMult(int mA, int nA, double** A, double** B, int nB) {
 }
 
 void checkTolerance(int nrows, double* A, double dTolerance) {
-    for (int i=0; i<nrows; i++) 
+    for (int i=0; i<nrows; i++)
     {
         A[i] = RoundToTolerance(A[i], dTolerance);
     }
@@ -182,9 +182,9 @@ void RoundMatrixToTolerance(DoubleMatrix& oMatrix, double dTolerance)
 }
 
 void checkTolerance(int nrows, int ncols, double** A, double dTolerance) {
-    for (int i=0; i<nrows; i++) 
+    for (int i=0; i<nrows; i++)
     {
-        for (int j=0; j<ncols; j++) 
+        for (int j=0; j<ncols; j++)
         {
             A[i][j] =RoundToTolerance(A[i][j], dTolerance);
         }
@@ -194,18 +194,18 @@ void checkTolerance(int nrows, int ncols, double** A, double dTolerance) {
 int findRank(DoubleMatrix &oMatrix, double dTolerance)
 {
     int i;
-    int rank = oMatrix.numRows();        
+    int rank = oMatrix.numRows();
     double sumj;
 
     i = oMatrix.numRows()-1;
-    while (i != 0) 
+    while (i != 0)
     {
         sumj = 0.0;
-        for (unsigned int j=0; j<oMatrix.numCols(); j++) 
+        for (unsigned int j=0; j<oMatrix.numCols(); j++)
         {
             sumj = sumj + std::abs(oMatrix(i,j));
         }
-        if (sumj < dTolerance) 
+        if (sumj < dTolerance)
         {
             rank--;
             i--;
@@ -222,7 +222,7 @@ void FullyPivotedGaussJordan(DoubleMatrix &oMatrix, double dTolerance, std::vect
     DoubleMatrix *oTranspose = oMatrix.getTranspose();
 
     colPivots = GaussJordan(*oTranspose, dTolerance);
-    std::vector<int> oColCopy(colPivots.begin(), colPivots.end());    // take a copy 
+    std::vector<int> oColCopy(colPivots.begin(), colPivots.end());    // take a copy
     // take permutations and swap columns in original matrix
 
     bool bChanged = true; unsigned int nLast = 0;
@@ -242,11 +242,11 @@ void FullyPivotedGaussJordan(DoubleMatrix &oMatrix, double dTolerance, std::vect
                 break;
             }
         }
-        
+
     }
 
     delete oTranspose;
-    rowPivots = GaussJordan(oMatrix, dTolerance);    
+    rowPivots = GaussJordan(oMatrix, dTolerance);
 }
 bool isPositive(DoubleMatrix &A, double dTolerance)
 {
@@ -268,7 +268,7 @@ std::vector<int> GaussJordan(DoubleMatrix &oMatrix, double dTolerance)
 {
     std::vector<int> oPivots;
 
-    // here the pseudo code: 
+    // here the pseudo code:
     /*
     il = 0 (number of leading 1s created)
     for j = 1 ... m do:
@@ -297,14 +297,14 @@ std::vector<int> GaussJordan(DoubleMatrix &oMatrix, double dTolerance)
         for (int nRow = nCurrentRow; nRow < nRows; nRow++)
         {
             if (fabs(oMatrix(nRow, nCurrentCol)) > fabs(oMatrix(nTempPivotRow, nCurrentCol)))
-            {                
+            {
                 nTempPivotRow = nRow;
             }
         }
 
         // found better pivot so lets swap rows
         if (nCurrentRow != nTempPivotRow)
-        {            
+        {
             int nTemp = oPivots[nCurrentRow];
             oPivots[nCurrentRow] = oPivots[nTempPivotRow];
             oPivots[nTempPivotRow] = nTemp;
@@ -323,7 +323,7 @@ std::vector<int> GaussJordan(DoubleMatrix &oMatrix, double dTolerance)
         }
         // divide current row by pivot (yielding a leading 1)
         for (int nCol = 0; nCol < nCols; nCol ++)
-        {            
+        {
             oMatrix(nCurrentRow, nCol) = oMatrix(nCurrentRow, nCol)/dPivot;
         }
 
@@ -335,7 +335,7 @@ std::vector<int> GaussJordan(DoubleMatrix &oMatrix, double dTolerance)
             if (fabs(dTemp) > dTolerance)
             {
                 for (int nCol = 0; nCol < nCols; nCol++)
-                {            
+                {
                     oMatrix(nRow, nCol) = oMatrix(nRow, nCol) -  oMatrix(nCurrentRow,nCol)*dTemp;
                 }
             }
@@ -366,18 +366,18 @@ void gaussJordan(DoubleMatrix &oMatrix,double dTolerance)
         // the current pivot with a greater absolute value.
         x = nPivotRow;
 
-        for (int C=nPivotRow; C<nRows; C++) 
+        for (int C=nPivotRow; C<nRows; C++)
         {
             if (fabs(oMatrix(C,nPivotCol)) > fabs(oMatrix(x,nPivotCol))) x = C;
         }
 
-        if(x != nPivotRow) 
+        if(x != nPivotRow)
         {
             // If here, there is a better pivot choice somewhere
             // below the current pivot.
             // Interchange the pivot row with the row
             // containing the largest pivot, x
-            for (int b=0; b<nCols; b++) 
+            for (int b=0; b<nCols; b++)
             {
                 dTemp = oMatrix(nPivotRow,b);
                 oMatrix(nPivotRow,b) = oMatrix(x,b);
@@ -387,19 +387,19 @@ void gaussJordan(DoubleMatrix &oMatrix,double dTolerance)
 
         dPivot = oMatrix(nPivotRow,nPivotCol);
         //Log(lDebug5) << "pivot: " << dPivot << endl;
-        if(fabs(dPivot) > dTolerance) 
+        if(fabs(dPivot) > dTolerance)
         {
             // Introduce a '1' at the pivot point
             for (int b=0; b < nCols; b++)
                 oMatrix(nPivotRow,b) = oMatrix(nPivotRow,b)/dPivot;
 
-            for (int b=0; b < nPivotRow; b++) 
+            for (int b=0; b < nPivotRow; b++)
             {
                 // Eliminate (make zero) all elements above
                 // and below the pivot.
-                
+
                 // Skip over the pivot row when we come to it.
-                if ((b != nPivotRow) ) //|| (fabs(oMatrix(b,nPivotCol)) > dTolerance)) 
+                if ((b != nPivotRow) ) //|| (fabs(oMatrix(b,nPivotCol)) > dTolerance))
                 {
                     dPivot = oMatrix(b,nPivotCol);
                     for (int d = nPivotRow; d < nCols; d++)
@@ -719,12 +719,12 @@ void CopyMatrix(ComplexMatrix& oMatrix, double** &outMatrixReal,double** &outMat
     outNumRows = oMatrix.numRows();
     outNumCols = oMatrix.numCols();
 
-    outMatrixReal = (double **) malloc(sizeof(double*) *outNumRows); if (outMatrixReal == NULL) throw new ApplicationException("Out of Memory during Matrix copy"); memset(outMatrixReal, 0, sizeof(double*)*outNumRows);
-    outMatrixImag = (double **) malloc(sizeof(double*) *outNumRows); if (outMatrixImag == NULL) throw new ApplicationException("Out of Memory during Matrix copy"); memset(outMatrixImag, 0, sizeof(double*)*outNumRows);
+    outMatrixReal = (double **) malloc(sizeof(double*) *outNumRows); if (outMatrixReal == NULL) throw ApplicationException("Out of Memory during Matrix copy"); memset(outMatrixReal, 0, sizeof(double*)*outNumRows);
+    outMatrixImag = (double **) malloc(sizeof(double*) *outNumRows); if (outMatrixImag == NULL) throw ApplicationException("Out of Memory during Matrix copy"); memset(outMatrixImag, 0, sizeof(double*)*outNumRows);
     for (int i = 0; i < outNumRows; i++)
     {
-        outMatrixReal[i] = (double*) malloc(sizeof(double)*outNumCols); if (outMatrixReal[i] == NULL) throw new ApplicationException("Out of Memory during Matrix copy"); memset(outMatrixReal[i], 0, sizeof(double)*outNumCols);
-        outMatrixImag[i] = (double*) malloc(sizeof(double)*outNumCols); if (outMatrixImag[i] == NULL) throw new ApplicationException("Out of Memory during Matrix copy");memset(outMatrixImag[i], 0, sizeof(double)*outNumCols);
+        outMatrixReal[i] = (double*) malloc(sizeof(double)*outNumCols); if (outMatrixReal[i] == NULL) throw ApplicationException("Out of Memory during Matrix copy"); memset(outMatrixReal[i], 0, sizeof(double)*outNumCols);
+        outMatrixImag[i] = (double*) malloc(sizeof(double)*outNumCols); if (outMatrixImag[i] == NULL) throw ApplicationException("Out of Memory during Matrix copy");memset(outMatrixImag[i], 0, sizeof(double)*outNumCols);
     }
 
     for (int i = 0; i < outNumRows; i++)
@@ -740,7 +740,7 @@ void CopyMatrix(ComplexMatrix& oMatrix, double** &outMatrixReal,double** &outMat
 void CopyIntVector(const std::vector< int > &vector, int* &outVector, int &outLength)
 {
     outLength = vector.size();
-    outVector = (int*)malloc(sizeof(int)*outLength); if (outVector == NULL) throw new ApplicationException("Out of Memory during Vector copy"); memset(outVector, 0, sizeof(int)*outLength);
+    outVector = (int*)malloc(sizeof(int)*outLength); if (outVector == NULL) throw ApplicationException("Out of Memory during Vector copy"); memset(outVector, 0, sizeof(int)*outLength);
     for (int i = 0; i < outLength; i++)
     {
         outVector[i] = vector[i];

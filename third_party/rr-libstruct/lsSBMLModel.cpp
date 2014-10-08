@@ -25,7 +25,7 @@ SBMLmodel::SBMLmodel(const string &sSBML)
     _Model(_Document->getModel())
 {
     if (_Model == NULL)
-        throw new ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
+        throw ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
 }
 
 SBMLmodel::SBMLmodel(SBMLDocument *document)
@@ -34,7 +34,7 @@ SBMLmodel::SBMLmodel(SBMLDocument *document)
     _Model(_Document->getModel())
 {
     if (_Model == NULL)
-        throw new ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
+        throw ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
 }
 
 SBMLmodel::SBMLmodel(const libsbml::Model *model)
@@ -43,7 +43,7 @@ SBMLmodel::SBMLmodel(const libsbml::Model *model)
     _Model(model)
 {
     if (_Model == NULL)
-        throw new ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
+        throw ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
 }
 
 SBMLmodel::~SBMLmodel(void)
