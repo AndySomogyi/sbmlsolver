@@ -20,6 +20,7 @@ import random
 import string
 import roadrunner
 from roadrunner import Config
+from roadrunner import Logger
 import re
 import numpy
 from numpy import *
@@ -76,7 +77,8 @@ def jumpToNextTest():
     #      line = fHandle.readline().strip ('\n')
     while (line != "") and (line[0] != '['):
         line = readLine()
-    return line
+    # remove any leading or trailing whitespace
+    return line.strip()
 
 def getSBMLStr ():
     sbmlStr = ''
@@ -1004,19 +1006,15 @@ def runTester (testDir=None):
         fHandle = open (file, 'r')
         testId = jumpToNextTest()
 
+        
+
         if testId == '[SBML]':
             sbmlStr, testId = getSBMLStr ()
+        else:
+            Logger.log(Logger.LOG_WARNING, "rrtest file, \"" 
+                       + file + "\" missing SBML section, ignoring test file")
+            continue
         
-        #print "\n", "Info:"+ "\n"
-
-        # Create a roadRunner instance
-        print "Creating roadRunner Instance..."
-        rrInstance = roadrunner.RoadRunner()
-
-        #rrInstance.enableLogging()
-        #info = rrInstance.getInfo()
-        #print info
-        #print
 
         # Load any initialization actions
         if testId == '[INITIALIZATION]':
@@ -1030,13 +1028,9 @@ def runTester (testDir=None):
                 testId = jumpToNextTest()
             testId = jumpToNextTest()
 
-        # Load the model into RoadRunner
-        if rrInstance.load(sbmlStr) == False:
-            print 'Failed to load model.\n'
-            #print rrInstance.getLastError()
-            raise
-        else:
-            print 'Successfully loaded model.\n'
+        # create a RoadRunner obj with the sbml from the test file
+        rrInstance = roadrunner.RoadRunner(sbmlStr)
+        print 'Successfully loaded model.\n'
 
         # Now start the tests proper
         while testId != '':

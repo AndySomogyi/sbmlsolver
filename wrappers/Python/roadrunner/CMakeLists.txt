@@ -140,4 +140,9 @@ install(
     FILES_MATCHING PATTERN "*.*"
 )
 
+file(GLOB rrtest_files "${RR_ROOT}/testing/*.rrtest")
+install(
+    FILES ${rrtest_files} 
+    DESTINATION ${RR_PACKAGE_DIR}/testing/test_data
+)
 
