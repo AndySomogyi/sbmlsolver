@@ -180,13 +180,13 @@ int jacobian_test(int argc, char* argv[])
 
         ls::DoubleMatrix mat = r.getFullJacobian();
 
-        cout << "amount mode full jabobian: " << endl;
+        cout << "amount mode full jacobian: " << endl;
 
         cout << mat << endl;
 
         mat = r.getReducedJacobian();
 
-        cout << "amount mode reduced jabobian: " << endl;
+        cout << "amount mode reduced jacobian: " << endl;
 
         cout << mat << endl;
 
@@ -196,13 +196,13 @@ int jacobian_test(int argc, char* argv[])
 
         mat = r.getFullJacobian();
 
-        cout << "concentration mode full jabobian: " << endl;
+        cout << "concentration mode full jacobian: " << endl;
 
         cout << mat << endl;
 
         mat = r.getReducedJacobian();
 
-        cout << "concentration mode reduced jabobian: " << endl;
+        cout << "concentration mode reduced jacobian: " << endl;
 
         cout << mat << endl;
 
@@ -210,6 +210,7 @@ int jacobian_test(int argc, char* argv[])
     catch(std::exception &e)
     {
         cout << e.what() << endl;
+        return -1;
     }
     return 0;
 }
