@@ -598,11 +598,8 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-
-        rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
         rri->simulate();
         return createRRCData(*rri);
-
     catch_ptr_macro
 }
 
