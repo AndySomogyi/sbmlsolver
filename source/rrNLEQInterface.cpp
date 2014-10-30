@@ -9,16 +9,23 @@
 #include "rrException.h"
 #include "rrConfig.h"
 
-#include <Poco/ThreadLocal.h>
+#include <Poco/Mutex.h>
 #include <assert.h>
 #include <math.h>
-
-using Poco::ThreadLocal;
 
 namespace rr
 {
 
-static ThreadLocal<ExecutableModel*> threadModel;
+// NLEQ is an ancient Fortran77 routine that assumes that there is only
+// one program which has a hard coded function in it.
+// So, there is no concept of a user suplied data block, have to store
+// the model in this static location -- only a single thread at a time
+// may use the nleq steady state.
+static ExecutableModel* callbackModel = NULL;
+
+// mutex to ensure only one thead
+using Poco::Mutex;
+static Mutex mutex;
 
 // the NLEQ callback, we use same data types as f2c here.
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
@@ -126,6 +133,9 @@ bool NLEQInterface::isAvailable()
 
 double NLEQInterface::solve(const vector<double>& yin)
 {
+    // lock so only one thread can be here.
+    Mutex::ScopedLock lock(mutex);
+
     if (yin.size() == 0)
     {
         return 0;
@@ -170,31 +180,41 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     // set up the thread local variables, only this thread
     // access them.
-    if (*threadModel)
+    if (callbackModel)
     {
-        throw(Exception("thread local storage model is set, this should never occur here."));
+        throw Exception("global callbackModel is set, this should never happen!");
     }
 
-    *threadModel = model;
+    // should be exception safe, just make sure
 
-    vector<double> stateVector(n);
-    model->getStateVector(&stateVector[0]);
+    try
+    {
+        callbackModel = model;
+        vector<double> stateVector(n);
+        model->getStateVector(&stateVector[0]);
 
-    NLEQ1(  &n,
-            &ModelFunction,
-            NULL,
-            &stateVector[0],
-            XScal,
-            &tmpTol,
-            iopt,
-            &ierr,
-            &LIWK,
-            IWK,
-            &LWRK,
-            RWK);
+        NLEQ1(  &n,
+                &ModelFunction,
+                NULL,
+                &stateVector[0],
+                XScal,
+                &tmpTol,
+                iopt,
+                &ierr,
+                &LIWK,
+                IWK,
+                &LWRK,
+                RWK);
 
-    // done, clear it.
-    *threadModel = 0;
+        // done, clear it.
+        callbackModel = NULL;
+    }
+    catch(...)
+    {
+        // clear the global model and re-throw the exception.
+        callbackModel = NULL;
+        throw;
+    }
 
     if (ierr == 2) // retry
     {
@@ -223,51 +243,6 @@ double NLEQInterface::solve(const vector<double>& yin)
     return computeSumsOfSquares();
 }
 
-
-//void ModelFunction(int* nx, double* y, double* fval, int* pErr)
-//{
-//    ModelFromC* model = NLEQInterface::getModel();
-//    if (model == NULL)
-//    {
-//        return;
-//    }
-//
-//    try
-//    {
-//        long n = NLEQInterface::getN();
-//                for(long i = 0; i < n; i++)
-//        {
-//                model->amounts[i] = y[i];
-//        }
-//
-//        int size = *model->amountsSize + *model->rateRulesSize;
-//        vector<double> dTemp;
-//        dTemp.resize(size);
-//
-//                for(int i = 0; i < *model->rateRulesSize; i++)
-//        {
-//                dTemp[i] = model->rateRules[i];
-//        }
-//
-//        for(int i = *model->rateRulesSize; i < *model->amountsSize + *model->rateRulesSize; i++)
-//        {
-//                dTemp[i] = model->amounts[i];
-//        }
-//
-//        model->evalModel(0.0, dTemp);
-//
-//                for(int i = 0; i < n; i++)
-//        {
-//                fval[i] = model->dydt[i];
-//        }
-//
-//        pErr = 0;
-//    }
-//    catch (const Exception& ex)
-//    {
-//        throw(ex);      //catch at a higher level
-//    }
-//}
 
 
 /*     FCN(N,X,F,IFAIL) Ext    Function subroutine */
@@ -298,7 +273,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ExecutableModel* model = *threadModel;
+    ExecutableModel* model = callbackModel;
     assert(model && "model is NULL");
 
     assert(*nx == model->getStateVector(0) && "incorrect state vector size");

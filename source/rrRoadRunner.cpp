@@ -1623,6 +1623,15 @@ DoubleMatrix RoadRunner::getNrMatrix()
     return *getLibStruct()->getNrMatrix();
 }
 
+DoubleMatrix RoadRunner::getKMatrix()
+{
+    check_model();
+
+    // pointer to owned matrix
+    return *getLibStruct()->getKMatrix();
+}
+
+
 DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
 {
     check_model();

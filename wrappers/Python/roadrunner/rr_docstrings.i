@@ -1426,15 +1426,27 @@ Returns the reduced stoichiometry matrix, :math:`N_R`, which will have only r ro
 the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
 
 :rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getKMatrix "
+RoadRunner.getKMatrix()
+
+Returns the K matrix, :math:`ker(N_R)`, (right nullspace of Nr)
+The K matrix has the structure, :math:`[I K0]'`
+
+:rtype: numpy.ndarray
 
 
 Analysis
 --------
+";
 
-.. method:: RoadRunner.getFrequencyResponse(startFrequency,
-numberOfDecades, numberOfPoints,
-parameterName, variableName,
-useDB, useHz)
+
+
+%feature("docstring") rr::RoadRunner::getFrequencyResponse "
+RoadRunner.getFrequencyResponse(startFrequency, numberOfDecades, numberOfPoints, parameterName, variableName, useDB, useHz)
 
 Compute the frequency response
 

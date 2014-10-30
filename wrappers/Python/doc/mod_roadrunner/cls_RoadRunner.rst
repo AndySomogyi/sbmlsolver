@@ -725,6 +725,15 @@ Stochiometric Analysis
    :rtype: numpy.ndarray
 
 
+.. method:: RoadRunner.getKMatrix()
+   :module: roadrunner
+
+   Returns the K matrix, :math:`ker(N_R)`, (right nullspace of Nr)
+   The K matrix has the structure, :math:`[I K0]'`
+
+   :rtype: numpy.ndarray
+
+
 Analysis
 --------
 
