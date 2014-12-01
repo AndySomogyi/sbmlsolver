@@ -196,7 +196,7 @@ bool rrcCallConv setInstallFolder(const char* folder)
 char* rrcCallConv getAPIVersion()
 {
     start_try
-        return rr::createText("0.99");
+        return rr::createText("1.0");
     catch_ptr_macro
 }
 
@@ -220,6 +220,7 @@ char* rrcCallConv getVersionStr()
 {
     return rr::createText(rr::getVersionStr(VERSIONSTR_BASIC).c_str());
 }
+
 
 char* rrcCallConv getVersionEx()
 {
@@ -598,11 +599,8 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-
-        rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
         rri->simulate();
         return createRRCData(*rri);
-
     catch_ptr_macro
 }
 

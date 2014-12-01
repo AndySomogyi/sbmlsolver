@@ -51,11 +51,13 @@ The following methods are related to the analysis of the stoichiometric matrix.
 
 .. autosummary::
 
-   ExecutableModel.getStoichiometryMatrix
    RoadRunner.getLinkMatrix
    RoadRunner.getNrMatrix
+   RoadRunner.getKMatrix
    RoadRunner.getConservationMatrix
    RoadRunner.getL0Matrix
+   RoadRunner.getFullStoichiometryMatrix
+   RoadRunner.getReducedStoichiometryMatrix
    ExecutableModel.getNumConservedMoieties
    ExecutableModel.getConservedMoietyIds
    ExecutableModel.getConservedMoietyValues

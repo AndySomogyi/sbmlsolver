@@ -377,6 +377,13 @@ public:
      */
     ls::DoubleMatrix getNrMatrix();
 
+
+    /**
+     * Returns the K matrix (right nullspace of Nr)
+     * The K matrix has the structure, [I K0]'
+     */
+    ls::DoubleMatrix getKMatrix();
+
     /**
      * get the reduced stochiometry matrix. If conservation conversion is enabled,
      * this is the matrix that coresponds to the independent species.

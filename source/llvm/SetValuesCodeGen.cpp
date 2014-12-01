@@ -23,31 +23,14 @@ namespace rrllvm
 {
 
 /**
+ * Filter list of elements which are assignable -- do not have assignment rules.
+ *
+ * Rate rule values may be assigned.
+ *
  * C++ 11 has the copy_if template, but for the time being, we need to be
  * compatible with older C++, so use our own filtering here.
  */
 static StringIntVector independentElements(const LLVMModelDataSymbols &dataSymbols,
-        const std::vector<string> elements)
-{
-    StringIntVector result;
-
-    for(std::vector<string>::const_iterator i = elements.begin();
-            i != elements.end(); ++i)
-    {
-        if (dataSymbols.isIndependentElement(*i))
-        {
-            result.push_back(make_pair(*i, distance(elements.begin(), i)));
-        }
-    }
-
-    return result;
-}
-
-/**
- * C++ 11 has the copy_if template, but for the time being, we need to be
- * compatible with older C++, so use our own filtering here.
- */
-static StringIntVector nonRateElements(const LLVMModelDataSymbols &dataSymbols,
         const std::vector<string> elements)
 {
     StringIntVector result;
@@ -63,6 +46,8 @@ static StringIntVector nonRateElements(const LLVMModelDataSymbols &dataSymbols,
 
     return result;
 }
+
+
 
 const char* SetBoundarySpeciesAmountCodeGen::FunctionName = "setBoundarySpeciesAmount";
 const char* SetBoundarySpeciesAmountCodeGen::IndexArgName = "boundarySpeciesIndex";
@@ -150,7 +135,7 @@ SetGlobalParameterCodeGen::SetGlobalParameterCodeGen(
 
 StringIntVector SetGlobalParameterCodeGen::getIds()
 {
-    return nonRateElements(dataSymbols, dataSymbols.getGlobalParameterIds());
+    return independentElements(dataSymbols, dataSymbols.getGlobalParameterIds());
 }
 
 } /* namespace rr */

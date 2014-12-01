@@ -128,7 +128,16 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
     {
         if (symbolStack.size())
         {
-            return mdbuilder.createCompLoad(symbol);
+            if (modelDataSymbols.isIndependentCompartment(symbol))
+            {
+                return mdbuilder.createCompLoad(symbol);
+            }
+            else
+            {
+                assert(modelDataSymbols.hasRateRule(symbol)
+                        && "dependent compartment must have rate rule");
+                return mdbuilder.createRateRuleValueLoad(symbol);
+            }
         }
         else
         {
@@ -146,7 +155,16 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
     {
         if (symbolStack.size())
         {
-            return mdbuilder.createGlobalParamLoad(symbol);
+            if (modelDataSymbols.isIndependentGlobalParameter(symbol))
+            {
+                return mdbuilder.createGlobalParamLoad(symbol);
+            }
+            else
+            {
+                assert(modelDataSymbols.hasRateRule(symbol)
+                        && "dependent global param must have rate rule");
+                return mdbuilder.createRateRuleValueLoad(symbol);
+            }
         }
         else
         {
