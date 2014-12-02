@@ -408,11 +408,11 @@ string LibStructural::GenerateResultString()
     }
 
     oBuffer << "L0 : ";
-    if ((_NumRows == _NumIndependent))
+    if (_NumRows == _NumIndependent)
     {
         oBuffer << "There are no dependencies. L0 is an EMPTY matrix";
     }
-    else if ((_NumCols == 0))
+    else if (_NumCols == 0)
     {
         oBuffer << "There are " << _NumRows << " dependencies. L0 is a " << _NumRows << "x" << _NumRows << " matrix.";
     }

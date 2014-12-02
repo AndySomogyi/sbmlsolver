@@ -11,107 +11,231 @@
 #endif
 #include <ostream>
 #include <complex>
+#include <vector>
 #include "lsExporter.h"
 
 
 namespace ls
 {
 
-    /*! \class ls::Matrix
-        \brief ls::Matrix is the matrix class used by ls::LibLA and LIB_STRUTURAL::LibStructural
-        This class implements a template to hold real, ls::Complex and integer matrices. It also implements basic
-        operations on matrices.
-    */
 
 typedef std::complex<double> Complex;
-template <class T>
+
+
+/**
+ * @class lassMatrix
+ * @brief Matrix is the matrix class used by ls::LibLA and LIB_STRUTURAL::LibStructural
+ * This class implements a template to hold real, ls::Complex and integer matrices. It also implements basic
+ * operations on matrices.
+ */
+template<class T>
 class Matrix
 {
-    protected:
-        unsigned int                _Rows;
-        unsigned int                _Cols;
-        T*                          _Array;
+public:
 
-    public:
+    /**
+     * Creates a new matrix with the given numbers of rows and columns
+     */
+    Matrix(unsigned int rows = 0, unsigned int cols = 0);
 
-                                    //! Creates a new matrix with the given numbers of rows and columns
-                                    Matrix(unsigned int rows = 0, unsigned int cols = 0);
+    /**
+     * Copy constructors
+     */
+    Matrix(const Matrix<double>& src);
 
-                                    //! Copy constructors
-                                    //Matrix(const Matrix< T > & src);
-                                    Matrix(const Matrix< double >& src);
-                                    Matrix(const Matrix< Complex >& src, bool real = true);
+    /**
+     * copy constructor
+     */
+    Matrix(const Matrix<Complex>& src, bool real = true);
 
-                                    //! Constructor taking a matrix mapped to a vector and reconstructing the 2D form
-                                    Matrix( T* &oRawData, int nRows, int nCols, bool transpose = true);
+    /**
+     * Constructor taking a matrix mapped to a vector and reconstructing the 2D form
+     */
+    Matrix(T* &oRawData, int nRows, int nCols, bool transpose = true);
 
-                                    //! constructs a matrix from 2D data
-                                    Matrix(T** &oRawData, int nRows, int nCols);
+    /**
+     * constructs a matrix from 2D data
+     */
+    Matrix(T** &oRawData, int nRows, int nCols);
 
-                                    //! constructs a matrix from 2D const data
-                                    Matrix(const T** oRawData, int nRows, int nCols);
+    /**
+     * constructs a matrix from 2D const data
+     */
+    Matrix(const T** oRawData, int nRows, int nCols);
 
-                                    //!  destructor
-                                    ~Matrix();
+    /**
+     * destructor
+     */
+    ~Matrix();
 
-        T*                          GetPointer();
-        bool                        isAllocated() const;
-        unsigned int                CSize() const;                      //! returns the number of columns
-        unsigned int                RSize() const;
-        unsigned int                Length() const;
-        // Matrix <T>&              operator + (const Matrix <T> & rhs);
-        T*                          getArray();                         //! returns a pointer to the underlying 1D array
-        T*                          getCopy(bool transpose = false);    //! returns a copy of the data, optionally transposing it
-        void                        initializeFrom2DMatrix( T** &oRawData, int nRows, int nCols); //! initializes the matrix from 2D data
-        void                        initializeFromConst2DMatrix(const T** oRawData, int nRows, int nCols); //! initializes the matrix from 2D const data
+    T* GetPointer();
+    bool isAllocated() const;
+
+    /**
+     * returns the number of columns
+     */
+    unsigned int CSize() const;
+    unsigned int RSize() const;
+    unsigned int Length() const;
+
+    /**
+     * returns a pointer to the underlying 1D array
+     */
+    T* getArray();
+
+    /**
+     * returns a copy of the data, optionally transposing it
+     */
+    T* getCopy(bool transpose = false);
 
 
-                                    //! returns a 2D data array
-        T**                         get2DMatrix(int &nRows, int &nCols);
+    /**
+     * initializes the matrix from 2D data
+     */
+    void initializeFrom2DMatrix(T** &oRawData, int nRows, int nCols);
 
-                                    //! swaps the given rows
-        void                        swapRows(unsigned int row1, unsigned int row2);
+    /**
+     * initializes the matrix from 2D const data
+     */
+    void initializeFromConst2DMatrix(const T** oRawData, int nRows, int nCols);
 
-                                    //! swaps the given columns
-        void                        swapCols(unsigned int col1, unsigned int col2);
+    /**
+     * returns a 2D data array
+     */
+    T** get2DMatrix(int &nRows, int &nCols);
 
-                                    //! resizes the matrix to the given number of rows and columns
-        void                        resize(unsigned int rows, unsigned int cols);
-        bool                        Allocate(unsigned int rows, unsigned int cols);
+    /**
+     * swaps the given rows
+     */
+    void swapRows(unsigned int row1, unsigned int row2);
 
-                                    //! creates a new matrix holding the transpose
-        Matrix<T>*                  getTranspose();
+    /**
+     * swaps the given columns
+     */
+    void swapCols(unsigned int col1, unsigned int col2);
 
-                                    //! assignment operator
-        Matrix<T>&                  operator = (const Matrix <T>& rhs);
+    /**
+     * resizes the matrix to the given number of rows and columns
+     */
+    void resize(unsigned int rows, unsigned int cols);
 
-                                    //! scalar assignment operator
-        Matrix<T>&                  operator = (const T & value);
+    bool Allocate(unsigned int rows, unsigned int cols);
 
-                                    //! returns the size of the matrix ??
-        unsigned int                size() const;
+    /**
+     * creates a new matrix holding the transpose
+     */
+    Matrix<T>* getTranspose();
 
-                                    //! returns the number of rows
-        unsigned int                numRows() const;
+    /**
+     * assignment operator
+     */
+    Matrix<T>& operator =(const Matrix<T>& rhs);
 
-                                    //! returns the number of columns
-        unsigned int                numCols() const;
+    /**
+     * scalar assignment operator
+     */
+    Matrix<T>& operator =(const T & value);
 
-                                    //! returns the selected row
-        T*                          operator[](unsigned int row);
+    /**
+     * returns the size of the matrix ??
+     */
+    unsigned int size() const;
 
-                                    //! returns the selected row
-        const T*                    operator[](unsigned int row) const;
+    /**
+     * returns the number of rows
+     */
+    unsigned int numRows() const;
 
-                                    //! returns the selected matrix element
-        T&                          operator()(const unsigned int & row, const unsigned int & col);
+    /**
+     * returns the number of columns
+     */
+    unsigned int numCols() const;
 
-                                    //! returns the selected matrix element (const)
-        const T&                    operator()(const unsigned int & row, const unsigned int & col) const;
-        const T&                    Element(const unsigned int & row, const unsigned int & col) const;
+    /**
+     * returns the selected row
+     */
+    T* operator[](unsigned int row);
 
-       //    const Matrix<T>      operator*(const Matrix<T>& lhs, const double& rhs);
-//        friend const mtkMatrix<T>             operator*(const double& rVal, const mtkMatrix<T>& Rmat);
+    /**
+     * returns the selected row
+     */
+    const T* operator[](unsigned int row) const;
+
+    /**
+     * returns the selected matrix element
+     */
+    T& operator()(const unsigned int & row, const unsigned int & col);
+
+    /**
+     * returns the selected matrix element (const)
+     */
+    const T& operator()(const unsigned int & row,
+            const unsigned int & col) const;
+
+    const T& Element(const unsigned int & row, const unsigned int & col) const;
+
+    /**
+     * set the row names
+     */
+    void setRowNames(const std::vector<std::string> rowNames);
+
+    /**
+     * set the row names, same args as std::vector ctor
+     */
+    template<class strType>
+    void setRowNames(const strType begin, const strType end) {
+        rowNames = std::vector<std::string>(begin, end);
+    }
+
+    /**
+     * set the column names, same args as std::vector ctor
+     */
+    template<class strType>
+    void setColumnNames(const strType begin, const strType end) {
+        colNames = std::vector<std::string>(begin, end);
+    }
+
+    /**
+     * get the row names
+     */
+    const std::vector<std::string> &getRowNames() const {
+        return rowNames;
+    }
+
+    /**
+     * get the column names
+     */
+    const std::vector<std::string> &getColumnNames() const {
+        return colNames;
+    }
+
+
+protected:
+    /**
+     * number of rows
+     */
+    unsigned int _Rows;
+
+    /**
+     * number of columns
+     */
+    unsigned int _Cols;
+
+    /**
+     * pointer to block of memory of the data, stored in row-major format.
+     */
+    T* _Array;
+
+    /**
+     * vector of column names, may be empty
+     */
+    std::vector<std::string> colNames;
+
+    /**
+     * vector of row names, may be empty
+     */
+    std::vector<std::string> rowNames;
+
 };
 
 //! hide templates in signatures
