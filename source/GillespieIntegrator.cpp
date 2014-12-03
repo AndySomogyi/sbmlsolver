@@ -96,20 +96,20 @@ void GillespieIntegrator::setSimulateOptions(const SimulateOptions* o)
         if(options.hasKey("stoichScale"))
         {
             Log(Logger::LOG_NOTICE) << "getting stoichScale";
-            stoichScale = options.getValue("stoichScale").convert<double>();
+            stoichScale = options.getItem("stoichScale").convert<double>();
             Log(Logger::LOG_NOTICE) << "new stoichScale: " << stoichScale;
         }
 
         if(options.hasKey("timeScale"))
         {
             Log(Logger::LOG_NOTICE) << "getting timeScale";
-            timeScale = options.getValue("timeScale").convert<double>();
+            timeScale = options.getItem("timeScale").convert<double>();
             Log(Logger::LOG_NOTICE) << "new timeScale: " << timeScale;
         }
 
-        if(options.hasKey("seed") && !options.getValue("seed").isEmpty())
+        if(options.hasKey("seed") && !options.getItem("seed").isEmpty())
         {
-            setSeed(options.getValue("seed"));
+            setSeed(options.getItem("seed"));
         }
     }
 }
@@ -123,7 +123,7 @@ double GillespieIntegrator::integrate(double t, double hstep)
 
     assert(hstep > 0 && "hstep must be > 0");
 
-    if (options.integratorFlags & SimulateOptions::VARIABLE_STEP)
+    if (options.integratorFlags & VARIABLE_STEP)
     {
         if (options.minimumTimeStep > 0.0)
         {
@@ -277,7 +277,7 @@ void GillespieIntegrator::setSeed(const rr::Variant& value)
     }
 }
 
-void GillespieIntegrator::setValue(const std::string& key,
+void GillespieIntegrator::setItem(const std::string& key,
         const rr::Variant& value)
 {
     if (key == "seed")
@@ -297,7 +297,7 @@ void GillespieIntegrator::setValue(const std::string& key,
     }
 }
 
-Variant GillespieIntegrator::getValue(const std::string& key) const
+Variant GillespieIntegrator::getItem(const std::string& key) const
 {
     if (key == "seed")
     {
@@ -321,7 +321,7 @@ bool GillespieIntegrator::hasKey(const std::string& key) const
     return key == "seed" || key == "rand";
 }
 
-int GillespieIntegrator::deleteValue(const std::string& key)
+int GillespieIntegrator::deleteItem(const std::string& key)
 {
     return -1;
 }
@@ -362,7 +362,7 @@ std::string GillespieIntegrator::toString() const
     for(std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i)
     {
         ss << "'" << *i << "' : ";
-        ss << getValue(*i).toString();
+        ss << getItem(*i).toString();
 
         if (i + 1 < keys.end()) {
             ss << ", " << std::endl;
@@ -388,5 +388,23 @@ std::string GillespieIntegrator::getName() const
     return "gillespie";
 }
 
+
+const Dictionary* GillespieIntegrator::getIntegratorOptions()
+{
+    // static instance
+    static SimulateOptions opt;
+
+    // defaults could have changed, so re-load them.
+    opt = SimulateOptions();
+
+    opt.setItem("integrator", "gillespie");
+    opt.setItem("seed", Config::getValue(Config::RANDOM_SEED).convert<int>());
+    opt.setItem("seed.description", "random number seed value used for random number generator");
+    opt.setItem("seed.hint", "random number seed");
+
+    return &opt;
+}
+
 } /* namespace rr */
+
 

@@ -114,7 +114,7 @@ public:
      *
      * Throws a std::invalid_argument if intg is not valid.
      */
-    Integrator *getIntegrator(SimulateOptions::Integrator intg);
+    Integrator *getIntegrator(Integrator::IntegratorId intg);
 
     bool isModelLoaded();
 
@@ -142,17 +142,52 @@ public:
     double oneStep(double currentTime, double stepSize, bool reset = true);
 
     /**
-     * simulate the current SBML model.
+     * Simulate the current SBML model.
      *
      * If options is null, then the current simulation settings (start time,
      * end time, n steps) are used. If options is not null, then the
      * current simulation settings are set to the values specified by
      * options and they are used.
      *
-     * @returns a RoadRunnerData object which is owned by the the RoadRunner
-     * object if successfull, 0 on failure.
+     * The options Dictionary may contain a large number of options, for a complete
+     * list of all available options for each integrator type, @see IntegratorFactory,
+     * @see SimulateOptions.
+     *
+     * For example, to perform a simulation from time 0 to 10 with 1000 steps, using a
+     * stiff integtator, you would:
+     * @code
+     * RoadRunner r = RoadRunner("someFile.xml");
+     * SimulateOptions opt;
+     * opt.setItem("start", 0);
+     * opt.setItem("duration", 10);
+     * opt.setItem("steps", 1000);
+     * opt.setItem("stiff", true);
+     * const DoubleMatrix *result = r.simulate(&opt);
+     * @endcode
+     *
+     * Similarly, if one wants to use a stochastic integrator, such as the Gillespie
+     * integrator, this is set via the "integrator" key, i.e.
+     * @code
+     * RoadRunner r = RoadRunner("someFile.xml");
+     * SimulateOptions opt;
+     * opt.setItem("integrator", "gillespie");
+     * opt.setItem("start", 0);
+     * opt.setItem("duration", 10);
+     * opt.setItem("steps", 1000);
+     * opt.setItem("stiff", true);
+     * opt.setItem("seed", 12345);
+     * const DoubleMatrix *result = r.simulate(&opt);
+     * @endcode
+     * Here, the "integrator" specifies the integrator to use. The "stiff" key
+     * is only used by the deterministic solvers, and it is safely ignored by the
+     * stochastic solvers. Also, the "seed" sets the random seed that the integrator
+     * uses. For more information about all of the avaialble options for each integrator,
+     * @see IntegratorFactory::getIntegratorOptions".
+     *
+     * @throws an std::exception if any options are invalid.
+     * @returns a borrowed reference to a DoubleMatrix object if successfull.
      */
-    const ls::DoubleMatrix *simulate(const SimulateOptions* options = 0);
+    const ls::DoubleMatrix *simulate(const Dictionary* options = 0);
 
     /**
      * RoadRunner keeps a copy of the simulation data around until the

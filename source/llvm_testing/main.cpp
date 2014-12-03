@@ -50,8 +50,8 @@ using namespace rr;
 DoubleMatrix ensemble(RoadRunner &r, int n, unsigned long seed, double start, double stop, int npts) {
 
     // set the seed value of the integrator
-    Integrator *itg = r.getIntegrator(SimulateOptions::GILLESPIE);
-    itg->setValue("seed", seed);
+    Integrator *itg = r.getIntegrator(Integrator::GILLESPIE);
+    itg->setItem("seed", seed);
 
     // setup the simulation
     // create a sim opt obj, loads itself with
@@ -65,7 +65,7 @@ DoubleMatrix ensemble(RoadRunner &r, int n, unsigned long seed, double start, do
     // set the RESET_MODEL bit.
     o.flags |= SimulateOptions::RESET_MODEL;
 
-    o.integrator = SimulateOptions::GILLESPIE;
+    o.integrator = Integrator::GILLESPIE;
 
     // make a result var
     DoubleMatrix result(npts+1, n+1);
@@ -364,6 +364,109 @@ int distrib_test(int argc, char* argv[])
     return -1;
 }
 
+typedef vector<string> strvec;
+
+int variant_test(int argc, char* argv[])
+{
+    // variant from a string
+    Variant v(string("123"));
+
+    // convert it to a double
+    double d = v;
+
+    // convert it to an int
+    int i = v;
+
+    // Create a vector v2 with 5 elements of value 2
+    vector <int> v2(5, 2);
+
+    // create a Variant around around the vector:
+    Variant vecVar(v2);
+
+    // copy the value out of the Variant into a new vector
+    vector<int> res = vecVar;
+
+    // check if the types are the same
+    if(typeid(strvec) == vecVar.type())
+    {
+        // get the value as a vector<string>
+        strvec sv = vecVar;
+    }
+
+
+    return 0;
+}
+
+
+
+int intparam_test(int argc, char* argv[])
+{
+    // get a list of all of the integrator options
+    vector<const Dictionary*> opts =
+            IntegratorFactory::getIntegratorOptions();
+
+    // iterate through the integrator options
+    for(int i = 0; i < opts.size(); ++i) {
+        // each dictionary will contain all the keys that
+        // are valid for a particular integrator.
+        const Dictionary &d = *opts[i];
+        vector<string> keys = d.getKeys();
+        for(int j = 0; j < keys.size(); ++j) {
+            string key = keys[j];
+            string item = d.getItem(key);
+            cout << "key: " << key << ", value: " << item << std::endl;
+        }
+    }
+
+    return 0;
+}
+
+
+int matnames_test(int argc, char* argv[]) {
+
+    ls::DoubleMatrix mat;
+
+    typedef std::vector<std::string> strvec;
+
+    const char* data[] = {
+            "1", "2", "3", "4", "5", "6", "7", "8", "9"
+    };
+
+
+
+    mat.setRowNames(&data[0], &data[sizeof(data)/sizeof(char*)]);
+
+    std::vector<std::string> rowNames = mat.getRowNames();
+
+
+    mat.setColumnNames(rowNames.begin(), rowNames.end());
+
+
+    for(strvec::const_iterator i = mat.getRowNames().begin(); i != mat.getRowNames().end(); ++i) {
+        cout << *i << ", ";
+    }
+
+    cout << endl;
+
+
+    for(strvec::const_iterator i = mat.getColumnNames().begin(); i != mat.getColumnNames().end(); ++i) {
+        cout << *i << ", ";
+    }
+
+    cout << endl;
+
+
+
+
+
+
+
+
+
+
+    return 0;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -399,6 +502,21 @@ int main(int argc, char* argv[])
     if(strcmp("distrib", argv[1]) == 0) {
         return distrib_test(argc, argv);
     }
+
+    if(strcmp("variant", argv[1]) == 0) {
+        return variant_test(argc, argv);
+    }
+
+    if(strcmp("options", argv[1]) == 0) {
+        return intparam_test(argc, argv);
+    }
+
+
+    if(strcmp("matnames", argv[1]) == 0) {
+        return matnames_test(argc, argv);
+    }
+
+
 
     cout << "error, invalid test name: " << argv[1] << endl;
     return -1;

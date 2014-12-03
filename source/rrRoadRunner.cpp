@@ -218,7 +218,7 @@ public:
      * these are freed in the dtor, but kept around for the lifetime of
      * this object.
      */
-    Integrator*  integrators[SimulateOptions::INTEGRATOR_END];
+    Integrator*  integrators[Integrator::INTEGRATOR_END];
 
     /**
      * TODO get rid of this garbage
@@ -366,7 +366,7 @@ public:
 
     void deleteIntegrators()
     {
-        for (int i = 0; i < SimulateOptions::INTEGRATOR_END; ++i)
+        for (int i = 0; i < Integrator::INTEGRATOR_END; ++i)
         {
             delete integrators[i];
             integrators[i] = 0;
@@ -646,19 +646,19 @@ void RoadRunner::updateIntegrator()
     if(self.model)
     {
         // check if valid range
-        if (self.simulateOpt.integrator >= SimulateOptions::INTEGRATOR_END)
+        if (self.simulateOpt.integrator >= Integrator::INTEGRATOR_END)
         {
             std::stringstream ss;
             ss << "Invalid integrator of " << self.simulateOpt.integrator
                     << ", integrator must be >= 0 and < "
-                    << SimulateOptions::INTEGRATOR_END;
+                    << Integrator::INTEGRATOR_END;
             throw std::invalid_argument(ss.str());
         }
 
         if (self.integrators[self.simulateOpt.integrator] == 0)
         {
             self.integrators[self.simulateOpt.integrator]
-                    = Integrator::New(&self.simulateOpt, self.model);
+                    = IntegratorFactory::New(&self.simulateOpt, self.model);
         }
 
         self.integrator = self.integrators[self.simulateOpt.integrator];
@@ -1230,10 +1230,12 @@ void RoadRunner::evalModel()
 }
 
 
-const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
+const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 {
     get_self();
     check_model();
+
+    const SimulateOptions *opt = dynamic_cast<const SimulateOptions*>(dict);
 
     if (opt) {
         self.simulateOpt = *opt;
@@ -1248,7 +1250,7 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     self.model->getStateVectorRate(timeStart, 0, 0);
 
     // Variable Time Step Integration
-    if (self.simulateOpt.integratorFlags & SimulateOptions::VARIABLE_STEP )
+    if (self.simulateOpt.integratorFlags & Integrator::VARIABLE_STEP )
     {
         Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
@@ -1302,8 +1304,8 @@ const DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt)
     // Stochastic Fixed Step Integration
     // do fixed time step simulation, these are different for deterministic
     // and stochastic.
-    else if(SimulateOptions::getIntegratorType(self.simulateOpt.integrator) ==
-            SimulateOptions::STOCHASTIC)
+    else if(IntegratorFactory::getIntegratorType(self.simulateOpt.integrator) ==
+            Integrator::STOCHASTIC)
     {
         Log(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
@@ -3654,19 +3656,19 @@ const DoubleMatrix* RoadRunner::getSimulationData() const
     return &impl->simulationResult;
 }
 
-Integrator* RoadRunner::getIntegrator(SimulateOptions::Integrator intg)
+Integrator* RoadRunner::getIntegrator(Integrator::IntegratorId intg)
 {
     get_self();
 
     if(self.model)
     {
         // check if valid range
-        if (intg >= SimulateOptions::INTEGRATOR_END)
+        if (intg >= Integrator::INTEGRATOR_END)
         {
             std::stringstream ss;
             ss << "Invalid integrator of " << self.simulateOpt.integrator
                     << ", integrator must be >= 0 and < "
-                    << SimulateOptions::INTEGRATOR_END;
+                    << Integrator::INTEGRATOR_END;
             throw std::invalid_argument(ss.str());
         }
 
@@ -3677,7 +3679,7 @@ Integrator* RoadRunner::getIntegrator(SimulateOptions::Integrator intg)
             opt.integrator = intg;
 
             self.integrators[intg]
-                    = Integrator::New(&opt, self.model);
+                    = IntegratorFactory::New(&opt, self.model);
         }
 
         return self.integrators[intg];

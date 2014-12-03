@@ -9,7 +9,8 @@
 #define RRROADRUNNEROPTIONS_H_
 
 #include "rrExporter.h"
-#include "Variant.h"
+#include "Dictionary.h"
+#include "Integrator.h"
 
 #include <string>
 #include <vector>
@@ -170,7 +171,7 @@ struct RR_DECLSPEC LoadSBMLOptions
  * documentation of the fields which correspond to an sbml test suite settings was
  * taken from http://sbml.org
  */
-class RR_DECLSPEC SimulateOptions
+class RR_DECLSPEC SimulateOptions : public DictionaryImpl
 {
 public:
     enum Options
@@ -194,95 +195,6 @@ public:
         COPY_RESULT             = (0x1 << 2), // => 0x00000100
     };
 
-    /**
-     * the list of ODE solvers RoadRunner currently supports.
-     *
-     * The last item, INTEGRATOR_END needs to always be the last item
-     * it is not a valid integrator, just used to indicate how many
-     * we have.
-     */
-    enum Integrator
-    {
-        /**
-         * The default CVODE integrator from the Sundials package.
-         */
-        CVODE = 0,
-
-        /**
-         * Basic Gillespie stochastic integrator.
-         */
-        GILLESPIE,
-
-        /**
-         * Basic Runge-Kutta fourth order integrator.
-         */
-        RK4,
-
-        /**
-         * Always has to be at the end, this way, this value indicates
-         * how many integrators we have.
-         */
-        INTEGRATOR_END
-    };
-
-    /**
-     * the kind of integrator
-     */
-    enum IntegratorType
-    {
-        DETERMINISTIC, STOCHASTIC
-    };
-
-    /**
-     * get the type of integrator.
-     */
-    static IntegratorType getIntegratorType(Integrator i);
-
-    /**
-     * get the textual name of the integrator.
-     */
-    static std::string getIntegratorNameFromId(Integrator);
-
-    /**
-     * mape the textual name of an integrator to its
-     * enumerated id.
-     */
-    static Integrator getIntegratorIdFromName(const std::string& name);
-
-
-    enum IntegratorFlags
-    {
-        /**
-         * Is the model a stiff system? setting this to stiff causes
-         * RoadRunner to load a stiff solver which could potentially be
-         * extremly slow
-         */
-        STIFF                   = (0x1 << 0), // => 0x00000001
-
-        /**
-         * The MULTI_STEP option tells the solver to take a series of internal steps
-         * and then return the solution at the point reached by that step.
-         *
-         * In simulate, this option will likely be slower than normal mode,
-         * but may be useful to monitor solutions as they are integrated.
-         *
-         * This is intended to be used in combination with the
-         * IntegratorListener. It this option is set, and there is a
-         * IntegratorListener set, RoadRunner::integrate will run the
-         * integrator in a series of internal steps, and the listner
-         * will by notified at each step.
-         *
-         * Highly Experimental!!!
-         */
-        MULTI_STEP                = (0x1 << 1), // => 0x00000010
-
-        /**
-         * Perform a variable time step simulation. This will allow the
-         * integrator to best choose an adaptive time step and the resulting
-         * matrix will have a non-uniform time column
-         */
-        VARIABLE_STEP             = (0x1 << 2) // => 0b00000100
-    };
 
     /**
      * init with default options.
@@ -294,6 +206,12 @@ public:
      * amounts and concentrations are loaded from an sbml test suite settings file.
      */
     SimulateOptions(const std::string& sbmlSettingFilePath);
+
+    /**
+     * Copy constructor, initializes a new SimulateOptions object
+     * using the values from an existing Dictionary.
+     */
+    SimulateOptions(const Dictionary*);
 
     /**
      * a bitmask of the options specified in the Options enumeration.
@@ -308,7 +226,7 @@ public:
      * corespond with the appropriate integrator.
      */
     #ifndef SWIG
-    Integrator integrator;
+    Integrator::IntegratorId integrator;
     #endif
 
     /**
@@ -410,15 +328,22 @@ public:
     /**
      * set an arbitrary key
      */
-    void setValue(const std::string& key, const rr::Variant& value);
+    virtual void setItem(const std::string& key, const rr::Variant& value);
 
-    const Variant& getValue(const std::string& key) const;
+    virtual Variant getItem(const std::string& key) const;
 
-    bool hasKey(const std::string& key) const;
+    virtual bool hasKey(const std::string& key) const;
 
-    int deleteValue(const std::string& key);
+    virtual int deleteItem(const std::string& key);
 
-    std::vector<std::string> getKeys() const;
+    virtual std::vector<std::string> getKeys() const;
+
+    /**
+     * get the list of keys that the SimulateOptions class
+     * supports. All integrators support this basic list of keys,
+     * and they add thier own.
+     */
+    static std::vector<std::string> getSimulateOptionsKeys();
 
     /**
      * get a description of this object, compatable with python __str__
@@ -443,15 +368,8 @@ public:
      * set the integrator field, and also update the variable step
      * options to be appropriate for the current values.
      */
-    void setIntegrator(Integrator value);
+    void setIntegrator(Integrator::IntegratorId value);
 
-private:
-
-    /**
-     * map of string to arbitrary values
-     */
-    typedef cxx11_ns::unordered_map<std::string, rr::Variant> VariantMap;
-    VariantMap values;
 };
 
 

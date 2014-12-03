@@ -120,8 +120,8 @@ CVODEIntegrator::~CVODEIntegrator()
 
 void CVODEIntegrator::setSimulateOptions(const SimulateOptions* o)
 {
-    if (o && (o->integratorFlags & SimulateOptions::STIFF) !=
-            (options.integratorFlags & SimulateOptions::STIFF))
+    if (o && (o->integratorFlags & STIFF) !=
+            (options.integratorFlags & STIFF))
     {
         // if the integrator is changed from stiff to standard, this
         // requires re-creating the CVode objects.
@@ -196,8 +196,8 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
     double tout = timeStart + hstep;
     int strikes = 3;
 
-    const int itask = ((options.integratorFlags & SimulateOptions::MULTI_STEP)
-            || (options.integratorFlags & SimulateOptions::VARIABLE_STEP))
+    const int itask = ((options.integratorFlags & MULTI_STEP)
+            || (options.integratorFlags & VARIABLE_STEP))
             ? CV_ONE_STEP : CV_NORMAL;
 
     // get the original event status
@@ -289,7 +289,7 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
         }
         Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
 
-        if (options.integratorFlags & SimulateOptions::VARIABLE_STEP)
+        if (options.integratorFlags & VARIABLE_STEP)
         {
             return timeEnd;
         }
@@ -344,7 +344,7 @@ void CVODEIntegrator::createCVode()
         SetVector(mStateVector, i, 0.);
     }
 
-    if (options.integratorFlags & SimulateOptions::STIFF)
+    if (options.integratorFlags & STIFF)
     {
         Log(Logger::LOG_INFORMATION) << "using stiff integrator";
         mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
@@ -390,7 +390,7 @@ void CVODEIntegrator::createCVode()
 
     // only allocate this if we are using stiff solver.
     // otherwise, CVode will NOT free it if using standard solver.
-    if (options.integratorFlags & SimulateOptions::STIFF)
+    if (options.integratorFlags & STIFF)
     {
         if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
         {
@@ -545,6 +545,22 @@ void CVODEIntegrator::freeCVode()
     mStateVector = 0;
 }
 
+const Dictionary* CVODEIntegrator::getIntegratorOptions()
+{
+    // static instance
+    static SimulateOptions opt;
+
+    // defaults could have changed, so re-load them.
+    opt = SimulateOptions();
+
+    opt.setItem("integrator", "cvode");
+    opt.setItem("integrator.description", "cvode description");
+    opt.setItem("integrator.hint", "cvode hint");
+
+
+    return &opt;
+}
+
 // int (*CVRootFn)(realtype t, N_Vector y, realtype *gout, void *user_data)
 // Cvode calls this to check for event changes
 int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_data)
@@ -602,12 +618,12 @@ void CVODEIntegrator::loadConfig(const _xmlDoc* doc)
 }
 
 
-void CVODEIntegrator::setValue(const std::string& key, const rr::Variant& value)
+void CVODEIntegrator::setItem(const std::string& key, const rr::Variant& value)
 {
     if (key == "BDFMaxOrder")
     {
         mMaxBDFOrder = value.convert<int>();
-        if (options.integratorFlags & SimulateOptions::STIFF)
+        if (options.integratorFlags & STIFF)
         {
             CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
         }
@@ -616,7 +632,7 @@ void CVODEIntegrator::setValue(const std::string& key, const rr::Variant& value)
     else if (key == "AdamsMaxOrder")
     {
         mMaxAdamsOrder = value.convert<int>();
-        if (!(options.integratorFlags & SimulateOptions::STIFF))
+        if (!(options.integratorFlags & STIFF))
         {
             CVodeSetMaxOrd(mCVODE_Memory, mMaxAdamsOrder);
         }
@@ -625,7 +641,7 @@ void CVODEIntegrator::setValue(const std::string& key, const rr::Variant& value)
     throw std::invalid_argument("invalid key: " + key);
 }
 
-Variant CVODEIntegrator::getValue(const std::string& key) const
+Variant CVODEIntegrator::getItem(const std::string& key) const
 {
     if (key == "BDFMaxOrder")
     {
@@ -643,7 +659,7 @@ bool CVODEIntegrator::hasKey(const std::string& key) const
     return key == "BDFMaxOrder" || key == "AdamsMaxOrder";
 }
 
-int CVODEIntegrator::deleteValue(const std::string& key)
+int CVODEIntegrator::deleteItem(const std::string& key)
 {
     return -1;
 }
@@ -668,7 +684,7 @@ std::string CVODEIntegrator::toString() const
     for(std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i)
     {
         ss << "'" << *i << "' : ";
-        ss << getValue(*i).toString();
+        ss << getItem(*i).toString();
 
         if (i + 1 < keys.end()) {
             ss << ", " << std::endl;

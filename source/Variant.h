@@ -29,7 +29,7 @@ namespace rr
  *
  * Usage:
  * This class can convert to and from any primitive data type, and
- * some collections types. More type conversions will be added as needed. 
+ * some collections types. More type conversions will be added as needed.
  *
  * To store a value, just assign it, the assignment operator automatically
  * takes care of everything for you:
@@ -37,7 +37,7 @@ namespace rr
  * // store an int:
  * int i = 23;
  * Variant v = i;
- * 
+ *
  * // store a double:
  * Variant v = (double)0.123;
  * @endcode
@@ -94,6 +94,14 @@ public:
         assign(info, &val);
     }
 
+    Variant(const char* str) : self(0)
+    {
+        const std::type_info &info = typeid(std::string);
+        std::string val(str);
+        alloc();
+        assign(info, &val);
+    }
+
     /**
      * Copy constructor.
      */
@@ -102,7 +110,7 @@ public:
     /**
      * Assignment operator for assigning POD to Var
      * same as the constructor, this assigns a value to an existing
-     * Variant. 
+     * Variant.
      */
     template <typename T>
     Variant& operator = (const T& value)
@@ -113,7 +121,7 @@ public:
     }
 
     /**
-     * Assignment operator. Assign one variant to another. 
+     * Assignment operator. Assign one variant to another.
      */
     Variant& operator = (const Variant& other);
 
@@ -144,7 +152,7 @@ public:
      *
      * This method will try to perform type coercion, i.e. if this variant contains
      * a string, and it is asked to convert to a int, the string will be parsed as
-     * an int. Similary, doubles will be rounded to int, so forth. 
+     * an int. Similary, doubles will be rounded to int, so forth.
      *
      * @code
      * // convert to int:
@@ -157,6 +165,12 @@ public:
         T value;
         convert_to(typeid(T), &value);
         return value;
+    }
+
+    template <typename T>
+    operator T() const
+    {
+        return convert<T>();
     }
 
     /**

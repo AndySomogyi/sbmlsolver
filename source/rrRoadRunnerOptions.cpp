@@ -17,11 +17,357 @@
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
+#include <assert.h>
 
 using namespace std;
 
 namespace rr
 {
+
+static const char* keys[] = {
+        "integrator",
+        "steps",
+        "start",
+        "duration",
+        "absolute",
+        "relative",
+        "initialTimeStep",
+        "minimumTimeStep",
+        "maximumTimeStep",
+        "maximumNumSteps",
+        "reset",
+        "copyResult",
+        "stiff",
+        "multiStep",
+        "variableStep",
+
+        "steps.description",
+        "start.description",
+        "duration.description",
+        "absolute.description",
+        "relative.description",
+        "initialTimeStep.description",
+        "minimumTimeStep.description",
+        "maximumTimeStep.description",
+        "maximumNumSteps.description",
+        "reset.description",
+        "copyResult.description",
+        "stiff.description",
+        "multiStep.description",
+        "variableStep.description",
+
+        "steps.hint",
+        "start.hint",
+        "duration.hint",
+        "absolute.hint",
+        "relative.hint",
+        "initialTimeStep.hint",
+        "minimumTimeStep.hint",
+        "maximumTimeStep.hint",
+        "maximumNumSteps.hint",
+        "reset.hint",
+        "copyResult.hint",
+        "stiff.hint",
+        "multiStep.hint",
+        "variableStep.hint"
+};
+
+static const char* descriptions[] = {
+        "steps.description",
+        "start.description",
+        "duration.description",
+        "absolute.description",
+        "relative.description",
+        "initialTimeStep.description",
+        "minimumTimeStep.description",
+        "maximumTimeStep.description",
+        "maximumNumSteps.description",
+        "reset.description",
+        "copyResult.description",
+        "stiff.description",
+        "multiStep.description",
+        "variableStep.description"
+};
+
+static const char* hints[] = {
+        "steps.hint",
+        "start.hint",
+        "duration.hint",
+        "absolute.hint",
+        "relative.hint",
+        "initialTimeStep.hint",
+        "minimumTimeStep.hint",
+        "maximumTimeStep.hint",
+        "maximumNumSteps.hint",
+        "reset.hint",
+        "copyResult.hint",
+        "stiff.hint",
+        "multiStep.hint",
+        "variableStep.hint"
+};
+
+enum key_index {
+    KEY_INTEGRATOR,
+    KEY_STEPS,
+    KEY_START,
+    KEY_DURATION,
+    KEY_ABSOLUTE,
+    KEY_RELATIVE,
+    KEY_INITIALTIMESTEP,
+    KEY_MINIMUMTIMESTEP,
+    KEY_MAXIMUMTIMESTEP,
+    KEY_MAXIMUMNUMSTEPS,
+    KEY_RESET,
+    KEY_COPYRESULT,
+    KEY_STIFF,
+    KEY_MULTISTEP,
+    KEY_VARIABLESTEP,
+
+    KEY_STEPS_DESCRIPTION,
+    KEY_START_DESCRIPTION,
+    KEY_DURATION_DESCRIPTION,
+    KEY_ABSOLUTE_DESCRIPTION,
+    KEY_RELATIVE_DESCRIPTION,
+    KEY_INITIALTIMESTEP_DESCRIPTION,
+    KEY_MINIMUMTIMESTEP_DESCRIPTION,
+    KEY_MAXIMUMTIMESTEP_DESCRIPTION,
+    KEY_MAXIMUMNUMSTEPS_DESCRIPTION,
+    KEY_RESET_DESCRIPTION,
+    KEY_COPYRESULT_DESCRIPTION,
+    KEY_STIFF_DESCRIPTION,
+    KEY_MULTISTEP_DESCRIPTION,
+    KEY_VARIABLESTEP_DESCRIPTION,
+
+    KEY_STEPS_HINT,
+    KEY_START_HINT,
+    KEY_DURATION_HINT,
+    KEY_ABSOLUTE_HINT,
+    KEY_RELATIVE_HINT,
+    KEY_INITIALTIMESTEP_HINT,
+    KEY_MINIMUMTIMESTEP_HINT,
+    KEY_MAXIMUMTIMESTEP_HINT,
+    KEY_MAXIMUMNUMSTEPS_HINT,
+    KEY_RESET_HINT,
+    KEY_COPYRESULT_HINT,
+    KEY_STIFF_HINT,
+    KEY_MULTISTEP_HINT,
+    KEY_VARIABLESTEP_HINT,
+    KEY_END
+};
+
+static bool isDescription(key_index index) {
+    return index >= KEY_STEPS_DESCRIPTION
+            && index <= KEY_VARIABLESTEP_DESCRIPTION;
+}
+
+static const char* getDescription(key_index index) {
+    assert(sizeof(descriptions)/sizeof(char*)
+            == KEY_VARIABLESTEP_DESCRIPTION - KEY_STEPS_DESCRIPTION + 1);
+    return descriptions[index - KEY_STEPS_DESCRIPTION];
+}
+
+static bool isHint(key_index index) {
+    return index >= KEY_STEPS_HINT
+            && index <= KEY_VARIABLESTEP_HINT;
+}
+
+static const char* getHint(key_index index) {
+    assert(sizeof(hints)/sizeof(char*)
+            == KEY_VARIABLESTEP_HINT - KEY_STEPS_HINT + 1);
+    return hints[index - KEY_STEPS_HINT];
+}
+
+static key_index indexFromString(const string& str)
+{
+    assert(sizeof(keys)/sizeof(char*) == KEY_END);
+
+    for(int i = 0; i < KEY_END; ++i) {
+        if (rr::compareNoCase(str, keys[i]) == 0) {
+            return (key_index)i;
+        }
+    }
+
+    return KEY_END;
+}
+
+static Variant itemFromIndex(const SimulateOptions& opt, key_index index)
+{
+    if (isHint(index)) {
+        return Variant(getHint(index));
+    }
+
+    if (isDescription(index)) {
+        return Variant(getDescription(index));
+    }
+
+    switch(index) {
+    case KEY_INTEGRATOR:
+        return IntegratorFactory::getIntegratorNameFromId(opt.integrator);
+
+    case KEY_STEPS:
+        return opt.steps;
+
+    case KEY_START:
+        return opt.start;
+
+    case KEY_DURATION:
+        return opt.duration;
+
+    case KEY_ABSOLUTE:
+        return opt.absolute;
+
+    case KEY_RELATIVE:
+        return opt.relative;
+
+    case KEY_INITIALTIMESTEP:
+        return opt.initialTimeStep;
+
+    case KEY_MINIMUMTIMESTEP:
+        return opt.minimumTimeStep;
+
+    case KEY_MAXIMUMTIMESTEP:
+        return opt.maximumTimeStep;
+
+    case KEY_MAXIMUMNUMSTEPS:
+        return opt.maximumNumSteps;
+
+    case KEY_RESET:
+        return (opt.flags & SimulateOptions::RESET_MODEL) != 0;
+
+    case KEY_COPYRESULT:
+        return (opt.flags & SimulateOptions::COPY_RESULT) != 0;
+
+    case KEY_STIFF:
+        return (opt.integratorFlags & Integrator::STIFF) != 0;
+
+    case KEY_MULTISTEP:
+        return (opt.integratorFlags & Integrator::MULTI_STEP) != 0;
+
+    case KEY_VARIABLESTEP:
+        return (opt.integratorFlags & Integrator::VARIABLE_STEP) != 0;
+
+    default:
+        throw std::invalid_argument("invalid key index: " + toString(index));
+
+    }
+}
+
+static void setItemWithIndex(SimulateOptions& opt, key_index index, const Variant& value)
+{
+    if (isHint(index)) {
+        throw std::invalid_argument("hints are read-only");
+    }
+
+    if (isDescription(index)) {
+        throw std::invalid_argument("descriptions are read-only");
+    }
+
+    switch(index) {
+    case KEY_INTEGRATOR:
+        opt.setIntegrator(IntegratorFactory::getIntegratorIdFromName(value));
+        break;
+
+    case KEY_STEPS:
+        opt.steps = value;
+        break;
+
+    case KEY_START:
+        opt.start = value;
+        break;
+
+    case KEY_DURATION:
+        opt.duration = value;
+        break;
+
+    case KEY_ABSOLUTE:
+        opt.absolute = value;
+        break;
+
+    case KEY_RELATIVE:
+        opt.relative = value;
+        break;
+
+    case KEY_INITIALTIMESTEP:
+        opt.initialTimeStep = value;
+        break;
+
+    case KEY_MINIMUMTIMESTEP:
+        opt.minimumTimeStep = value;
+        break;
+
+    case KEY_MAXIMUMTIMESTEP:
+        opt.maximumTimeStep = value;
+        break;
+
+    case KEY_MAXIMUMNUMSTEPS:
+        opt.maximumNumSteps = value;
+        break;
+
+    case KEY_RESET:
+    {
+        bool b = value;
+        if (b) {
+            opt.flags |= SimulateOptions::RESET_MODEL;
+        } else {
+            opt.flags &= !SimulateOptions::RESET_MODEL;
+        }
+    }
+    break;
+
+    case KEY_COPYRESULT:
+    {
+        bool b = value;
+        if (b) {
+            opt.flags |= SimulateOptions::COPY_RESULT;
+        } else {
+            opt.flags &= !SimulateOptions::COPY_RESULT;
+        }
+    }
+    break;
+
+    case KEY_STIFF:
+    {
+        bool b = value;
+        if (b) {
+            opt.integratorFlags |= Integrator::STIFF;
+        } else {
+            opt.integratorFlags &= !Integrator::STIFF;
+        }
+    }
+    break;
+
+
+    case KEY_MULTISTEP:
+    {
+        bool b = value;
+        if (b) {
+            opt.integratorFlags |= Integrator::MULTI_STEP;
+        } else {
+            opt.integratorFlags &= !Integrator::MULTI_STEP;
+        }
+    }
+    break;
+
+
+    case KEY_VARIABLESTEP:
+    {
+        bool b = value;
+        if (b) {
+            opt.integratorFlags |= Integrator::VARIABLE_STEP;
+        } else {
+            opt.integratorFlags &= !Integrator::VARIABLE_STEP;
+        }
+    }
+    break;
+
+
+    default:
+        throw std::invalid_argument("invalid key index: " + toString(index));
+
+    }
+
+}
+
 
 LoadSBMLOptions::LoadSBMLOptions()
 {
@@ -76,46 +422,46 @@ static void getConfigValues(SimulateOptions *s)
 
 
     if (Config::getBool(Config::SIMULATEOPTIONS_STIFF)) {
-        s->integratorFlags |=  SimulateOptions::STIFF;
+        s->integratorFlags |=  Integrator::STIFF;
     } else {
-        s->integratorFlags &= ~SimulateOptions::STIFF;
+        s->integratorFlags &= ~Integrator::STIFF;
     }
 
     if (Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP)) {
-        s->integratorFlags |= SimulateOptions::MULTI_STEP;
+        s->integratorFlags |= Integrator::MULTI_STEP;
     } else {
-        s->integratorFlags &= ~SimulateOptions::MULTI_STEP;
+        s->integratorFlags &= ~Integrator::MULTI_STEP;
     }
 
     // set the variable step based on if we are using a stochastic or deterministic
     // integrator
     if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "CVODE") {
-        s->integrator = SimulateOptions::CVODE;
+        s->integrator = Integrator::CVODE;
     }
     else if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "GILLESPIE") {
-        s->integrator = SimulateOptions::GILLESPIE;
+        s->integrator = Integrator::GILLESPIE;
     }
     else {
         Log(Logger::LOG_WARNING) << "Invalid integrator specified in configuration: "
                 << Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR)
         << std::endl << "Defaulting to CVODE";
-        s->integrator = SimulateOptions::CVODE;
+        s->integrator = Integrator::CVODE;
     }
 
     bool vs = false;
 
-    if (SimulateOptions::getIntegratorType(s->integrator) == SimulateOptions::STOCHASTIC) {
+    if (IntegratorFactory::getIntegratorType(s->integrator) == Integrator::STOCHASTIC) {
         vs = Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
     }
 
-    else if (SimulateOptions::getIntegratorType(s->integrator) == SimulateOptions::DETERMINISTIC) {
+    else if (IntegratorFactory::getIntegratorType(s->integrator) == Integrator::DETERMINISTIC) {
         vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
     }
 
     if (vs) {
-        s->integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+        s->integratorFlags |= Integrator::VARIABLE_STEP;
     } else {
-        s->integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
+        s->integratorFlags &= ~Integrator::VARIABLE_STEP;
     }
 
     if (rr::Config::getBool(rr::Config::SIMULATEOPTIONS_COPY_RESULT)) {
@@ -135,7 +481,7 @@ duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
 absolute(Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE)),
 relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
 flags(0),
-integrator(CVODE),
+integrator(Integrator::CVODE),
 integratorFlags(0),
 initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
 minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
@@ -153,7 +499,7 @@ duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
 absolute(Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE)),
 relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
 flags(0),
-integrator(CVODE),
+integrator(Integrator::CVODE),
 integratorFlags(0),
 initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
 minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
@@ -214,8 +560,6 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
         it = settings.find("relative");
         relative = (it != settings.end())    ? std::abs(toDouble((*it).second)) : minRel;
 
-
-
         it = settings.find("variables");
         if(it != settings.end())
         {
@@ -256,21 +600,27 @@ maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
     }
 }
 
-void SimulateOptions::setValue(const std::string& name,
+void SimulateOptions::setItem(const std::string& name,
         const rr::Variant& value)
 {
-    values[name] = value;
-}
+    key_index index = indexFromString(name);
 
-const Variant& SimulateOptions::getValue(const std::string& name) const
-{
-    VariantMap::const_iterator i = values.find(name);
-    if (i != values.end())
-    {
-        return i->second;
+    if(index != KEY_END) {
+        return setItemWithIndex(*this, index, value);
     }
 
-    throw std::invalid_argument("key not found: " + name);
+    return DictionaryImpl::setItem(name, value);
+}
+
+Variant SimulateOptions::getItem(const std::string& name) const
+{
+    key_index index = indexFromString(name);
+
+    if(index != KEY_END) {
+        return itemFromIndex(*this, index);
+    }
+
+    return DictionaryImpl::getItem(name);
 }
 
 
@@ -287,34 +637,30 @@ RoadRunnerOptions::RoadRunnerOptions() :
 
 bool SimulateOptions::hasKey(const std::string& key) const
 {
-    VariantMap::const_iterator i = values.find(key);
-    return i != values.end();
+    if (indexFromString(key) != KEY_END) {
+        return true;
+    }
+    return DictionaryImpl::hasKey(key);
 }
 
-SimulateOptions::IntegratorType SimulateOptions::getIntegratorType(Integrator i)
-{
-    if (i == CVODE || i == RK4) {
-        return DETERMINISTIC;
-    } else {
-        return STOCHASTIC;
-    }
-}
+
 
 std::vector<std::string> SimulateOptions::getKeys() const
 {
-    std::vector<std::string> keys(values.size());
-    int j = 0;
+    // vector of standard keys
+    std::vector<std::string> result(&keys[0], &keys[KEY_END]);
 
-    for (VariantMap::const_iterator i = values.begin(); i != values.end(); ++i) {
-        keys[j++] = i->first;
+    // add custom keys in map
+    for (VariantMap::const_iterator i = items.begin(); i != items.end(); ++i) {
+        result.push_back(i->first);
     }
 
-    return keys;
+    return result;
 }
 
-int SimulateOptions::deleteValue(const std::string& key)
+int SimulateOptions::deleteItem(const std::string& key)
 {
-    return values.erase(key);
+    return items.erase(key);
 }
 
 
@@ -329,11 +675,11 @@ std::string SimulateOptions::toString() const
             << endl << "'this' : " << (void*)this << ", " << std::endl;
 
     ss << "integrator: ";
-    if (integrator == CVODE) {
+    if (integrator == Integrator::CVODE) {
         ss << "\"cvode\"," << std::endl;
     }
 
-    else if (integrator == GILLESPIE ) {
+    else if (integrator == Integrator::GILLESPIE ) {
         ss << "\"gillespie\"," << std::endl;
     }
 
@@ -341,11 +687,11 @@ std::string SimulateOptions::toString() const
         ss << "\"unknown\"," << std::endl;
     }
 
-    ss << "'stiff' : " << BITFIELD2STR(integratorFlags & STIFF) << "," << std::endl;
+    ss << "'stiff' : " << BITFIELD2STR(integratorFlags & Integrator::STIFF) << "," << std::endl;
 
-    ss << "'multiStep' : " << BITFIELD2STR(integratorFlags & MULTI_STEP) << "," <<  std::endl;
+    ss << "'multiStep' : " << BITFIELD2STR(integratorFlags & Integrator::MULTI_STEP) << "," <<  std::endl;
 
-    ss << "'variableStep' : " << BITFIELD2STR(integratorFlags & VARIABLE_STEP) << "," <<  std::endl;
+    ss << "'variableStep' : " << BITFIELD2STR(integratorFlags & Integrator::VARIABLE_STEP) << "," <<  std::endl;
 
     ss << "'reset' : " << BITFIELD2STR(flags & RESET_MODEL) << "," <<  std::endl;
 
@@ -380,7 +726,7 @@ std::string SimulateOptions::toString() const
     for(std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i)
     {
         ss << "'" << *i << "' : ";
-        ss << getValue(*i).toString();
+        ss << getItem(*i).toString();
 
         if (std::distance(i, keys.end()) > 1) {
             ss << ", " << std::endl;
@@ -402,27 +748,9 @@ std::string SimulateOptions::toRepr() const
     return ss.str();
 }
 
-SimulateOptions::Integrator SimulateOptions::getIntegratorIdFromName(const std::string& _name)
-{
-    std::string name = _name;
-    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-
-    for (unsigned i = 0; i < INTEGRATOR_END; ++i) {
-        std::string iname = getIntegratorNameFromId((Integrator)i);
-        std::transform(iname.begin(), iname.end(), iname.begin(), ::toupper);
-
-        if (iname == name) {
-            return (Integrator)i;
-        }
-    }
-
-    throw std::invalid_argument("invalid integrator name");
-}
-
-
 void SimulateOptions::tweakTolerances()
 {
-    if (integrator == CVODE)
+    if (integrator == Integrator::CVODE)
     {
         double minAbs = Config::getDouble(Config::CVODE_MIN_ABSOLUTE);
         double minRel = Config::getDouble(Config::CVODE_MIN_RELATIVE);
@@ -435,7 +763,20 @@ void SimulateOptions::tweakTolerances()
     }
 }
 
-void SimulateOptions::setIntegrator(Integrator value)
+std::vector<std::string> SimulateOptions::getSimulateOptionsKeys()
+{
+    assert(sizeof(keys)/sizeof(char*) == KEY_END);
+    const char** begin = &keys[0];
+    const char** end = &keys[KEY_END];
+    return std::vector<std::string>(begin, end);
+}
+
+SimulateOptions::SimulateOptions(const Dictionary*)
+{
+    assert(0);
+}
+
+void SimulateOptions::setIntegrator(Integrator::IntegratorId value)
 {
     // set the value
     integrator = value;
@@ -444,34 +785,22 @@ void SimulateOptions::setIntegrator(Integrator value)
     // stochastic or deterministic integrator.
     bool vs = false;
 
-    if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::STOCHASTIC) {
+    if (rr::IntegratorFactory::getIntegratorType(value) == Integrator::STOCHASTIC) {
         vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
     }
 
-    else if (rr::SimulateOptions::getIntegratorType(value) == rr::SimulateOptions::DETERMINISTIC) {
+    else if (rr::IntegratorFactory::getIntegratorType(value) == Integrator::DETERMINISTIC) {
         vs = rr::Config::getBool(rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
     }
 
     if (vs) {
-        integratorFlags |= rr::SimulateOptions::VARIABLE_STEP;
+        integratorFlags |= Integrator::VARIABLE_STEP;
     } else {
-        integratorFlags &= ~rr::SimulateOptions::VARIABLE_STEP;
+        integratorFlags &= ~Integrator::VARIABLE_STEP;
     }
 }
 
-std::string SimulateOptions::getIntegratorNameFromId(Integrator integrator)
-{
-    static const char* names[] = {"cvode", "gillespie", "rk4"};
 
-    if (integrator >= 0 && integrator < INTEGRATOR_END)
-    {
-        return names[integrator];
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid integrator value");
-    }
-}
 
 } /* namespace rr */
 

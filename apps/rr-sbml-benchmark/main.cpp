@@ -135,7 +135,7 @@ int main(int argc, char** argv)
 
     for (int i = 0; i < argc; ++i) {
         if (string(argv[i]).find("stiff") != string::npos) {
-            settings.integratorFlags |= SimulateOptions::STIFF;
+            settings.integratorFlags |= Integrator::STIFF;
         }
     }
 
@@ -144,7 +144,7 @@ int main(int argc, char** argv)
     std::cout << "absolute: " << settings.absolute << std::endl;
     std::cout << "relative: " << settings.relative << std::endl;
 
-    std::cout << "stiff: " << (settings.integratorFlags & SimulateOptions::STIFF ? "True" : "False") << std::endl;
+    std::cout << "stiff: " << (settings.integratorFlags & Integrator::STIFF ? "True" : "False") << std::endl;
 
     roadRunner.setSimulateOptions(settings);
 

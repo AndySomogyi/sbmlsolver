@@ -72,13 +72,13 @@ public:
     /**
      * implement dictionary interface
      */
-    virtual void setValue(const std::string& key, const rr::Variant& value);
+    virtual void setItem(const std::string& key, const rr::Variant& value);
 
-    virtual Variant getValue(const std::string& key) const;
+    virtual Variant getItem(const std::string& key) const;
 
     virtual bool hasKey(const std::string& key) const;
 
-    virtual int deleteValue(const std::string& key);
+    virtual int deleteItem(const std::string& key);
 
     virtual std::vector<std::string> getKeys() const;
 
@@ -96,6 +96,11 @@ public:
      * get the name of this integrator
      */
     virtual std::string getName() const;
+
+    /**
+     * list of keys that this integrator supports.
+     */
+    static const Dictionary* getIntegratorOptions();
 
 private:
 

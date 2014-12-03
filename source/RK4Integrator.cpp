@@ -146,13 +146,13 @@ std::string RK4Integrator::getName() const
     return "rk4";
 }
 
-void RK4Integrator::setValue(const std::string& key,
+void RK4Integrator::setItem(const std::string& key,
         const rr::Variant& value)
 {
     throw std::invalid_argument("invalid key");
 }
 
-Variant RK4Integrator::getValue(const std::string& key) const
+Variant RK4Integrator::getItem(const std::string& key) const
 {
     throw std::invalid_argument("invalid key");
 }
@@ -162,7 +162,7 @@ bool RK4Integrator::hasKey(const std::string& key) const
     return false;
 }
 
-int RK4Integrator::deleteValue(const std::string& key)
+int RK4Integrator::deleteItem(const std::string& key)
 {
     return -1;
 }
@@ -170,6 +170,22 @@ int RK4Integrator::deleteValue(const std::string& key)
 std::vector<std::string> RK4Integrator::getKeys() const
 {
     return std::vector<std::string>();
+}
+
+const Dictionary* RK4Integrator::getIntegratorOptions()
+{
+    // static instance
+    static SimulateOptions opt;
+
+    // defaults could have changed, so re-load them.
+    opt = SimulateOptions();
+
+    opt.setItem("integrator", "rk4");
+    opt.setItem("integrator.description", "rk4 description");
+    opt.setItem("integrator.hint", "rk4 hint");
+
+
+    return &opt;
 }
 
 } /* namespace rr */

@@ -12,8 +12,10 @@
 // otherwise compile pukes with:
 // localefwd.h error: too many arguments provided to function-like macro invocation
 #include <sstream>
+#include <vector>
 #include <PyUtils.h>
-
+#include <rrLogger.h>
+#include <Dictionary.h>
 
 
 
@@ -132,6 +134,97 @@ Variant Variant_from_py(PyObject* py)
 
     string msg = "could not convert Python type to built in type";
     throw invalid_argument(msg);
+}
+
+PyObject* dictionary_keys(const Dictionary* dict)
+{
+    std::vector<std::string> keys = dict->getKeys();
+
+    unsigned size = keys.size();
+
+    PyObject* pyList = PyList_New(size);
+
+    unsigned j = 0;
+
+    for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
+    {
+        const std::string& key  = *i;
+        PyObject* pyStr = PyString_FromString(key.c_str());
+        PyList_SET_ITEM(pyList, j++, pyStr);
+    }
+
+    return pyList;
+}
+
+PyObject* dictionary_values(const Dictionary* dict)
+{
+    std::vector<std::string> keys = dict->getKeys();
+
+    unsigned size = keys.size();
+
+    PyObject* pyList = PyList_New(size);
+
+    unsigned j = 0;
+
+    for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
+    {
+        const std::string& key  = *i;
+        PyObject* pyVal = Variant_to_py(dict->getItem(key));
+        PyList_SET_ITEM(pyList, j++, pyVal);
+    }
+
+    return pyList;
+}
+
+PyObject* dictionary_items(const Dictionary* dict)
+{
+    std::vector<std::string> keys = dict->getKeys();
+
+    unsigned size = keys.size();
+
+    PyObject* pyList = PyList_New(size);
+
+    unsigned j = 0;
+
+    for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
+    {
+        const std::string& key  = *i;
+        PyObject* pyStr = Variant_to_py(dict->getItem(key));
+
+        PyObject *pyKey = PyString_FromString(key.c_str());
+        PyObject *pyVal = Variant_to_py(dict->getItem(key));
+        PyObject *tup = PyTuple_Pack(2, pyKey, pyVal);
+
+        Py_DECREF(pyKey);
+        Py_DECREF(pyVal);
+
+        // list takes ownershipt of tuple
+        PyList_SET_ITEM(pyList, j++, tup);
+    }
+
+    return pyList;
+}
+
+PyObject* dictionary_getitem(const Dictionary* dict, const char* key)
+{
+    return Variant_to_py(dict->getItem(key));
+}
+
+PyObject* dictionary_setitem(Dictionary* dict, const char* key, PyObject* value)
+{
+    dict->setItem(key, Variant_from_py(value));
+    Py_RETURN_NONE;
+}
+
+void dictionary_delitem(Dictionary* dict, const char* key)
+{
+    dict->deleteItem(key);
+}
+
+PyObject* dictionary_contains(const Dictionary* dict, const char* key)
+{
+    bool contains = dict->hasKey(key);
+    return PyBool_FromLong(contains);
 }
 
 } /* namespace rr */

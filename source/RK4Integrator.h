@@ -9,6 +9,7 @@
 #define RK4Integrator_H_
 
 #include <Integrator.h>
+#include <rrRoadRunnerOptions.h>
 
 namespace rr
 {
@@ -87,12 +88,12 @@ public:
     /**
      * set an arbitrary key
      */
-    virtual void setValue(const std::string& key, const rr::Variant& value);
+    virtual void setItem(const std::string& key, const rr::Variant& value);
 
     /**
      * get a value. Variants are POD.
      */
-    virtual Variant getValue(const std::string& key) const;
+    virtual Variant getItem(const std::string& key) const;
 
     /**
      * is there a key matching this name.
@@ -102,12 +103,17 @@ public:
     /**
      * remove a value
      */
-    virtual int deleteValue(const std::string& key);
+    virtual int deleteItem(const std::string& key);
 
     /**
      * list of keys in this object.
      */
     virtual std::vector<std::string> getKeys() const;
+
+    /**
+     * list of keys that this integrator supports.
+     */
+    static const Dictionary* getIntegratorOptions();
 
 
 private:

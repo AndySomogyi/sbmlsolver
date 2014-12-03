@@ -86,6 +86,8 @@
 %}
 
 
+
+
 %naturalvar;
 
 // C++ std::string handling
@@ -127,6 +129,9 @@
 
 %apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
+%template(DictionaryVector) std::vector<const rr::Dictionary*>;
+%apply std::vector<const rr::Dictionary*> {std::vector<const Dictionary*>, vector<const rr::Dictionary*>, vector<const Dictionary*>};
+
 %exception {
   try {
     $action
@@ -153,7 +158,7 @@
         pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                              NPY_CARRAY | NPY_OWNDATA, NULL);
 
-    } 
+    }
     else {
         int nd = 2;
         npy_intp dims[2] = {rows, cols};
@@ -181,7 +186,7 @@
         npy_intp dims[1] = {rows};
         pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                              NPY_CARRAY, NULL);
-    } 
+    }
     else {
         int nd = 2;
         npy_intp dims[2] = {rows, cols};
@@ -241,38 +246,38 @@
     if (iscpx) {
         int len = $1.size();
         npy_intp dims[1] = {len};
-        
+
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
         VERIFY_PYARRAY(array);
-        
+
         if (!array) {
             // TODO error handling.
             return 0;
         }
-        
+
         cpx *data = (cpx*)PyArray_DATA((PyArrayObject*)array);
-        
+
         memcpy(data, &vec[0], sizeof(std::complex<double>)*len);
-        
+
         $result  = array;
     } else {
         int len = $1.size();
         npy_intp dims[1] = {len};
-        
+
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
         VERIFY_PYARRAY(array);
-        
+
         if (!array) {
             // TODO error handling.
             return 0;
         }
-        
+
         double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
         for (int i = 0; i < vec.size(); ++i) {
             data[i] = std::real(vec[i]);
         }
-        
+
         $result  = array;
     }
 }
@@ -297,6 +302,7 @@
     }
 }
 
+%apply const rr::Variant {Variant, rr::Variant, const Variant};
 
 
 %typemap(in) const rr::Variant& (rr::Variant temp) {
@@ -618,13 +624,26 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Config::getBool;
 %ignore rr::Config::getDouble;
 
+%ignore *::setItem;
+%ignore *::getItem;
+%ignore *::hasKey;
+%ignore *::deleteItem;
+%ignore *::getKeys;
+
 // ignore SimulateOptions key access methods,
 // these are replaced by python dictionary protocol.
-%ignore rr::SimulateOptions::setValue;
-%ignore rr::SimulateOptions::getValue;
-%ignore rr::SimulateOptions::hasKey;
-%ignore rr::SimulateOptions::deleteValue;
-%ignore rr::SimulateOptions::getKeys;
+//%rename (__setitem__) rr::Dictionary::setItem;
+//%rename (__getitem__) rr::Dictionary::getItem;
+//%rename (__contains__) rr::Dictionary::hasKey;
+//%rename (__delitem__) rr::Dictionary::deleteItem;
+//%rename (keys) rr::Dictionary::getKeys;
+
+// do not create these, pure interface. 
+%nodefaultctor rr::Dictionary;
+%nodefaultdtor Dictionary;
+%nodefaultctor rr::DictionaryImpl;
+%nodefaultdtor DictionaryImpl;
+
 
 %rename (_setIntegratorId) rr::SimulateOptions::setIntegrator;
 
@@ -783,6 +802,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore *::createConfigNode;
 %ignore *::loadConfig;
 
+//%ignore rr::DictionaryImpl;
+
 // Warning 389: operator[] ignored (consider using %extend)
 // Warning 401: Nothing known about base class 'Configurable'. Ignored.
 
@@ -804,6 +825,8 @@ namespace std { class ostream{}; }
 //namespace rr { class Configurable{}; }
 
 %ignore rr::Configurable;
+
+%include <Dictionary.h>
 %include <Configurable.h>
 
 %include <rrRoadRunnerOptions.h>
@@ -1166,7 +1189,7 @@ namespace std { class ostream{}; }
             if iname is None:
                 return self._getCurrentIntegrator()
 
-            id = SimulateOptions.getIntegratorIdFromName(iname)
+            id = IntegratorFactory.getIntegratorIdFromName(iname)
             return self._getIntegrator(id)
 
         def setIntegrator(self, iname):
@@ -1459,7 +1482,7 @@ namespace std { class ostream{}; }
             """
             get a list of available integrator names.
             """
-            return [SimulateOptions.getIntegratorNameFromId(i) \
+            return [IntegratorFactory.getIntegratorNameFromId(i) \
                 for i in range(0, SimulateOptions.INTEGRATOR_END)]
 
 
@@ -1580,54 +1603,16 @@ namespace std { class ostream{}; }
         return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
     }
 
-    PyObject *keys() {
-        std::vector<std::string> keys = $self->getKeys();
-
-        unsigned size = keys.size();
-
-        PyObject* pyList = PyList_New(size);
-
-        unsigned j = 0;
-
-        for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
-        {
-            const std::string& key  = *i;
-            PyObject* pyStr = PyString_FromString(key.c_str());
-            PyList_SET_ITEM(pyList, j++, pyStr);
-        }
-
-        return pyList;
-    }
-
-    const rr::Variant& __getitem__(const std::string& id) {
-        return ($self)->getValue(id);
-    }
-
-    void __setitem__(const std::string& key, const rr::Variant& value) {
-        ($self)->setValue(key, value);
-    }
-
-    void __delitem__(const std::string& key) {
-        ($self)->deleteValue(key);
-    }
-
-    bool __contains__(const std::string& key) {
-        return $self->hasKey(key);
-    }
-
     std::string _getIntegrator() {
-        return SimulateOptions::getIntegratorNameFromId(($self)->integrator);
+        return IntegratorFactory::getIntegratorNameFromId(($self)->integrator);
     }
 
     void _setIntegrator(const std::string &str) {
 
-        // set the value
-        SimulateOptions::Integrator value = SimulateOptions::getIntegratorIdFromName(str);
-
-        ($self)->setIntegrator(value);
+        ($self)->setItem("integrator", str);
     }
 
-    rr::SimulateOptions::Integrator getIntegratorId() {
+    rr::Integrator::IntegratorId getIntegratorId() {
         return ($self)->integrator;
     }
 
@@ -1662,15 +1647,11 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_resetModel_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::RESET_MODEL;
+        return opt->getItem("reset");
     }
 
     void rr_SimulateOptions_resetModel_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->flags |= SimulateOptions::RESET_MODEL;
-        } else {
-            opt->flags &= !SimulateOptions::RESET_MODEL;
-        }
+        opt->setItem("reset", value);
     }
 
     bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
@@ -1686,52 +1667,35 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->integratorFlags & SimulateOptions::STIFF;
+        return opt->getItem("stiff");
     }
 
     void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->integratorFlags |= SimulateOptions::STIFF;
-        } else {
-            opt->integratorFlags &= ~SimulateOptions::STIFF;
-        }
+        opt->setItem("stiff", value);
     }
 
     bool rr_SimulateOptions_multiStep_get(SimulateOptions* opt) {
-        return opt->integratorFlags & SimulateOptions::MULTI_STEP;
+        return opt->getItem("multiStep");
     }
 
     void rr_SimulateOptions_multiStep_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->integratorFlags |= SimulateOptions::MULTI_STEP;
-        } else {
-            opt->integratorFlags &= ~SimulateOptions::MULTI_STEP;
-        }
+        opt->setItem("multiStep", value);
     }
 
     bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::COPY_RESULT;
+        return opt->getItem("copyResult");
     }
 
     void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->flags |= SimulateOptions::COPY_RESULT;
-        } else {
-            opt->flags &= ~SimulateOptions::COPY_RESULT;
-        }
+        opt->setItem("copyResult", value);
     }
 
-
     bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
-        return opt->integratorFlags & SimulateOptions::VARIABLE_STEP;
+        return opt->getItem("variableStep");
     }
 
     void rr_SimulateOptions_variableStep_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->integratorFlags |= SimulateOptions::VARIABLE_STEP;
-        } else {
-            opt->integratorFlags &= ~SimulateOptions::VARIABLE_STEP;
-        }
+        opt->setItem("variableStep", value);
     }
 %}
 
@@ -2588,42 +2552,6 @@ namespace std { class ostream{}; }
 
         Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
     }
-
-    PyObject *keys() {
-        std::vector<std::string> keys = $self->getKeys();
-
-        unsigned size = keys.size();
-
-        PyObject* pyList = PyList_New(size);
-
-        unsigned j = 0;
-
-        for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
-        {
-            const std::string& key  = *i;
-            PyObject* pyStr = PyString_FromString(key.c_str());
-            PyList_SET_ITEM(pyList, j++, pyStr);
-        }
-
-        return pyList;
-    }
-
-    const rr::Variant __getitem__(const std::string& id) {
-        return ($self)->getValue(id);
-    }
-
-    void __setitem__(const std::string& key, const rr::Variant& value) {
-        ($self)->setValue(key, value);
-    }
-
-    void __delitem__(const std::string& key) {
-        ($self)->deleteValue(key);
-    }
-
-    bool __contains__(const std::string& key) {
-        return $self->hasKey(key);
-    }
-
 
     // we want to get the listener back as a PyIntegratorListener, however
     // swig won't let us ignore by return value and if we ignore getListener,

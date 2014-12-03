@@ -64,6 +64,7 @@ set(rrSources
     rrUtils
     Integrator
     CVODEIntegrator
+    Dictionary
     GillespieIntegrator
     RK4Integrator
     rrNLEQInterface
