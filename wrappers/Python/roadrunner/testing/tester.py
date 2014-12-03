@@ -239,6 +239,7 @@ def checkIndividualEigenvalues(rrInstance, testId):
             words = divide(readLine())
             eigenvalueName = words[0]
             calc = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
+            calc = complex(calc, rrInstance.getValue('eigeni(' + eigenvalueName + ')'))
             expected = complex(float(words[1]), float(words[2]))
 
             if expectApproximately (calc, expected, abs(calc+1e-7)*1E-4) == False:
