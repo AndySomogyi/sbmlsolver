@@ -167,11 +167,36 @@ public:
         return value;
     }
 
-    template <typename T>
-    operator T() const
-    {
-        return convert<T>();
-    }
+    /**
+     * conversion operators, note, MSVC 2012 is buggy and does not support
+     * templated conversion operators correctly, so manually implement
+     * the supported types here. 
+     */
+    #define VARIANT_IMPLICIT_CONVERT(type)   \
+    operator type() const                    \
+    {                                        \
+        return convert<type>();              \
+    }                                    
+
+    VARIANT_IMPLICIT_CONVERT(std::string);
+
+    VARIANT_IMPLICIT_CONVERT(long);
+
+    VARIANT_IMPLICIT_CONVERT(bool);
+
+    VARIANT_IMPLICIT_CONVERT(float);
+
+    VARIANT_IMPLICIT_CONVERT(double);
+
+    VARIANT_IMPLICIT_CONVERT(unsigned long);
+
+    VARIANT_IMPLICIT_CONVERT(int);
+
+    VARIANT_IMPLICIT_CONVERT(unsigned int);
+
+    VARIANT_IMPLICIT_CONVERT(char);
+
+    VARIANT_IMPLICIT_CONVERT(unsigned char);
 
     /**
      * Parses the string which must be in JSON format. This is a common

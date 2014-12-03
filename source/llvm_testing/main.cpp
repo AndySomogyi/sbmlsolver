@@ -368,30 +368,7 @@ typedef vector<string> strvec;
 
 int variant_test(int argc, char* argv[])
 {
-    // variant from a string
-    Variant v(string("123"));
 
-    // convert it to a double
-    double d = v;
-
-    // convert it to an int
-    int i = v;
-
-    // Create a vector v2 with 5 elements of value 2
-    vector <int> v2(5, 2);
-
-    // create a Variant around around the vector:
-    Variant vecVar(v2);
-
-    // copy the value out of the Variant into a new vector
-    vector<int> res = vecVar;
-
-    // check if the types are the same
-    if(typeid(strvec) == vecVar.type())
-    {
-        // get the value as a vector<string>
-        strvec sv = vecVar;
-    }
 
 
     return 0;
@@ -413,7 +390,7 @@ int intparam_test(int argc, char* argv[])
         vector<string> keys = d.getKeys();
         for(int j = 0; j < keys.size(); ++j) {
             string key = keys[j];
-            string item = d.getItem(key);
+            string item = (string)d.getItem(key);
             cout << "key: " << key << ", value: " << item << std::endl;
         }
     }

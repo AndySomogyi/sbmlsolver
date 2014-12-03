@@ -9,6 +9,7 @@
 #include "CVODEIntegrator.h"
 #include "GillespieIntegrator.h"
 #include "RK4Integrator.h"
+#include "rrStringUtils.h"
 
 namespace rr
 {
@@ -90,12 +91,11 @@ Integrator::IntegratorType IntegratorFactory::getIntegratorType(
 
 Integrator::IntegratorId IntegratorFactory::getIntegratorIdFromName(const std::string& _name)
 {
-    std::string name = _name;
-    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+    std::string name = rr::toUpper(_name);
+    
 
     for (unsigned i = 0; i < Integrator::INTEGRATOR_END; ++i) {
-        std::string iname = getIntegratorNameFromId((Integrator::IntegratorId)i);
-        std::transform(iname.begin(), iname.end(), iname.begin(), ::toupper);
+        std::string iname = rr::toUpper(getIntegratorNameFromId((Integrator::IntegratorId)i));
 
         if (iname == name) {
             return (Integrator::IntegratorId)i;
