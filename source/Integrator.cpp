@@ -63,7 +63,19 @@ std::vector<const Dictionary*> IntegratorFactory::getIntegratorOptions()
 const Dictionary* IntegratorFactory::getIntegratorOptions(
         const std::string& intName)
 {
-    return NULL;
+    Integrator::IntegratorId id = getIntegratorIdFromName(intName);
+
+    switch(id) {
+    case Integrator::CVODE:
+        return CVODEIntegrator::getIntegratorOptions();
+    case Integrator::GILLESPIE:
+        return GillespieIntegrator::getIntegratorOptions();
+    case Integrator::RK4:
+        return RK4Integrator::getIntegratorOptions();
+    default:
+        throw std::invalid_argument("invalid integrator name");
+
+    }
 }
 
 Integrator::IntegratorType IntegratorFactory::getIntegratorType(
