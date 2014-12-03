@@ -219,9 +219,27 @@ public:
     void setOptions(const RoadRunnerOptions&);
 
     /**
-     * get the currently loaded sbml document as a string.
+     * get the originally loaded sbml document as a string.
+     *
+     * This may optionally up or downconvert the document to a different version, if
+     * the level and version arguments are non-zero.
+     *
+     * If both arguments are zero, then the document is left alone and the
      */
-    std::string getSBML();
+    std::string getSBML(int level = 0, int version = 0);
+
+
+    /**
+     * Returns the SBML with the current model parameters. This is different than
+     * getSBML which returns the orginal SBML.
+     *
+     * This may optionally up or downconvert the document to a different version, if
+     * the level and version arguments are non-zero.
+     *
+     * If both arguments are zero, then the document is left alone and the original
+     * version is returned.
+     */
+    std::string getCurrentSBML(int level = 0, int version = 0);
 
     /**
      * Picks up default options from config.
@@ -472,11 +490,6 @@ public:
      * is conservation analysis enabled. This is set
      */
     bool getConservedMoietyAnalysis();
-
-    /**
-     * Returns the SBML with the current parameterset.
-     */
-    std::string getCurrentSBML();
 
 
     /**

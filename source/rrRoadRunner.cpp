@@ -1857,80 +1857,6 @@ static void setSBMLValue(libsbml::Model* model, const string& id, double value)
 }
 
 
-string RoadRunner::getCurrentSBML()
-{
-    check_model();
-
-    get_self();
-
-    libsbml::SBMLReader reader;
-    std::stringstream stream;
-    libsbml::SBMLDocument *doc = 0;
-    libsbml::Model *model = 0;
-
-    try {
-        doc = reader.readSBMLFromString(self.mCurrentSBML); // new doc
-        model = doc->getModel(); // owned by doc
-
-        vector<string> array = getFloatingSpeciesIds();
-        for (int i = 0; i < array.size(); i++)
-        {
-            double value = 0;
-            impl->model->getFloatingSpeciesAmounts(1, &i, &value);
-            setSBMLValue(model, array[i], value);
-        }
-
-        array = getBoundarySpeciesIds();
-        for (int i = 0; i < array.size(); i++)
-        {
-            double value = 0;
-            impl->model->getBoundarySpeciesConcentrations(1, &i, &value);
-            setSBMLValue(model, array[i], value);
-        }
-
-        array = getCompartmentIds();
-        for (int i = 0; i < array.size(); i++)
-        {
-            double value = 0;
-            impl->model->getCompartmentVolumes(1, &i, &value);
-            setSBMLValue(model, array[i], value);
-        }
-
-        array = getGlobalParameterIds();
-        for (int i = 0; i < impl->model->getNumGlobalParameters(); i++)
-        {
-            double value = 0;
-            impl->model->getGlobalParameterValues(1, &i, &value);
-
-            libsbml::Parameter* param = model->getParameter(array[i]);
-            if (param != NULL)
-            {
-                param->setValue(value);
-            }
-            else
-            {
-                // sanity check, just make sure that this is a conserved moeity
-                if (self.model->getConservedMoietyIndex(array[i]) < 0)
-                {
-                    throw std::logic_error("The global parameter name "
-                            + array[i] + " could not be found in the SBML model, "
-                            " and it is not a conserved moiety");
-                }
-            }
-        }
-
-        libsbml::SBMLWriter writer;
-        writer.writeSBML(doc, stream);
-    }
-    catch(std::exception&) {
-        delete doc;
-        doc = 0;
-        throw; // re-throw exception.
-    }
-
-    delete doc;
-    return stream.str();
-}
 
 
 // Help("Get the number of reactions")
@@ -2869,14 +2795,86 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
     }
 }
 
-// Help("Returns the initially loaded model as SBML")
-string RoadRunner::getSBML()
+string RoadRunner::getSBML(int level, int version)
 {
     return impl->mCurrentSBML;
 }
 
-// Help(
-//            "Change the initial conditions to another concentration vector (changes only initial conditions for floating Species)")
+string RoadRunner::getCurrentSBML(int level, int version)
+{
+    check_model();
+
+    get_self();
+
+    libsbml::SBMLReader reader;
+    std::stringstream stream;
+    libsbml::SBMLDocument *doc = 0;
+    libsbml::Model *model = 0;
+
+    try {
+        doc = reader.readSBMLFromString(self.mCurrentSBML); // new doc
+        model = doc->getModel(); // owned by doc
+
+        vector<string> array = getFloatingSpeciesIds();
+        for (int i = 0; i < array.size(); i++)
+        {
+            double value = 0;
+            impl->model->getFloatingSpeciesAmounts(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        array = getBoundarySpeciesIds();
+        for (int i = 0; i < array.size(); i++)
+        {
+            double value = 0;
+            impl->model->getBoundarySpeciesConcentrations(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        array = getCompartmentIds();
+        for (int i = 0; i < array.size(); i++)
+        {
+            double value = 0;
+            impl->model->getCompartmentVolumes(1, &i, &value);
+            setSBMLValue(model, array[i], value);
+        }
+
+        array = getGlobalParameterIds();
+        for (int i = 0; i < impl->model->getNumGlobalParameters(); i++)
+        {
+            double value = 0;
+            impl->model->getGlobalParameterValues(1, &i, &value);
+
+            libsbml::Parameter* param = model->getParameter(array[i]);
+            if (param != NULL)
+            {
+                param->setValue(value);
+            }
+            else
+            {
+                // sanity check, just make sure that this is a conserved moeity
+                if (self.model->getConservedMoietyIndex(array[i]) < 0)
+                {
+                    throw std::logic_error("The global parameter name "
+                            + array[i] + " could not be found in the SBML model, "
+                            " and it is not a conserved moiety");
+                }
+            }
+        }
+
+        libsbml::SBMLWriter writer;
+        writer.writeSBML(doc, stream);
+    }
+    catch(std::exception&) {
+        delete doc;
+        doc = 0;
+        throw; // re-throw exception.
+    }
+
+    delete doc;
+    return stream.str();
+}
+
 void RoadRunner::changeInitialConditions(const vector<double>& ic)
 {
     if (!impl->model)
