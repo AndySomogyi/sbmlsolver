@@ -1,7 +1,6 @@
 #ifndef rrSteadyStateSolverH
 #define rrSteadyStateSolverH
 #include "rrExporter.h"
-#include "Configurable.h"
 #include "rrExecutableModel.h"
 #include "Dictionary.h"
 #include <vector>
@@ -22,19 +21,13 @@ struct SteadyStateOptions
  *
  *
  */
-class RR_DECLSPEC SteadyStateSolver : public Configurable
+class RR_DECLSPEC SteadyStateSolver : public Dictionary
 {
 
 public:
 
     virtual ~SteadyStateSolver() {};
     virtual double solve(const std::vector<double>& yin) = 0;
-
-
-    /**
-     * factory method to create a new steady state solver.
-     */
-    static SteadyStateSolver* New(const SteadyStateOptions*, ExecutableModel*);
 };
 
 /**
@@ -49,7 +42,7 @@ public:
     /**
      * factory method to create a new steady state solver.
      */
-    static SteadyStateSolver* New(const Dictionary* doct, ExecutableModel* model);
+    static SteadyStateSolver* New(const Dictionary* dict, ExecutableModel* model);
 
     /**
      * The list of steady state solver names that are currently implemented.

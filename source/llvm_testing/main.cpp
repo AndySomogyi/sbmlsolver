@@ -28,6 +28,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <cmath>
+#include <stdint.h>
 
 
 
@@ -366,11 +367,36 @@ int distrib_test(int argc, char* argv[])
 
 typedef vector<string> strvec;
 
+
+std::string variantName(const Variant& var) {
+    switch(var.type()) {
+    case Variant::STRING: return "string";
+    case Variant::INT32: return "int32";
+    case Variant::UINT32: return "uint32";
+    case Variant::INT64: return "int64";
+    case Variant::UINT64: return "uint64";
+    case Variant::FLOAT: return "float";
+    case Variant::DOUBLE: return "double";
+    case Variant::CHAR: return "char";
+    case Variant::UCHAR: return "uchar";
+    case Variant::BOOL: return "bool";
+    default: return "empty";
+    }
+}
+
 int variant_test(int argc, char* argv[])
 {
-
-
-
+    cout << variantName("hello") << endl;
+    cout << variantName(string("hello"))  << endl;
+    cout << variantName((int32_t)0)  << endl;
+    cout << variantName((uint32_t)0)  << endl;
+    cout << variantName((int64_t)0)  << endl;
+    cout << variantName((uint64_t)0)  << endl;
+    cout << variantName((float)0)  << endl;
+    cout << variantName((double)0)  << endl;
+    cout << variantName((char)0)  << endl;
+    cout << variantName((unsigned char)0)  << endl;
+    cout << variantName(false)  << endl;
     return 0;
 }
 

@@ -171,7 +171,7 @@ struct RR_DECLSPEC LoadSBMLOptions
  * documentation of the fields which correspond to an sbml test suite settings was
  * taken from http://sbml.org
  */
-class RR_DECLSPEC SimulateOptions : public DictionaryImpl
+class RR_DECLSPEC SimulateOptions : public BasicDictionary
 {
 public:
     enum Options

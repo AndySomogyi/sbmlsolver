@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <Poco/Dynamic/Var.h>
+#include <stdint.h>
 
 using namespace std;
 using Poco::Dynamic::Var;
@@ -26,6 +27,7 @@ namespace rr
 struct VariantImpl
 {
     Var var;
+    unsigned size;
 };
 
 Variant::Variant()
@@ -50,7 +52,7 @@ Variant::~Variant()
     delete self;
 }
 
-const std::type_info& Variant::type() const
+const std::type_info& Variant::typeInfo() const
 {
     return self->var.type();
 }
@@ -64,6 +66,7 @@ void Variant::alloc()
         if (info == typeid(type)) {                         \
             const type *val = static_cast<const type*>(p);  \
             self->var = *val;                               \
+            self->size = sizeof(type);                      \
             return;                                         \
         }
 
@@ -88,6 +91,14 @@ void Variant::assign(const std::type_info& info, const void* p)
     TRY_ASSIGN(char);
 
     TRY_ASSIGN(unsigned char);
+
+    TRY_ASSIGN(int32_t);
+
+    TRY_ASSIGN(uint32_t);
+
+    TRY_ASSIGN(int64_t);
+
+    TRY_ASSIGN(uint64_t);
 
     string msg = "could not assign type ";
     msg += info.name();
@@ -201,6 +212,24 @@ bool Variant::isEmpty() const
 bool Variant::isSigned() const
 {
     return self->var.isSigned();
+}
+
+#define TYPE_KIND(t, tid) if (info == typeid(t)) return tid;
+
+Variant::TypeId Variant::type() const
+{
+    const std::type_info& info = self->var.type();
+    TYPE_KIND(std::string, STRING);
+    TYPE_KIND(int32_t, INT32);
+    TYPE_KIND(uint32_t, UINT32);
+    TYPE_KIND(int64_t, INT64);
+    TYPE_KIND(uint64_t, UINT64);
+    TYPE_KIND(float, FLOAT);
+    TYPE_KIND(double, DOUBLE);
+    TYPE_KIND(char, CHAR);
+    TYPE_KIND(unsigned char, UCHAR);
+    TYPE_KIND(bool, BOOL);
+    return EMPTY;
 }
 
 void Variant::convert_to(const std::type_info& info, void* p) const

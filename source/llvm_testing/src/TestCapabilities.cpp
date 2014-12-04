@@ -24,11 +24,7 @@ TestCapabilities::~TestCapabilities() {
 
 bool TestCapabilities::test()
 {
-    RoadRunner rr;
 
-    std::string caps = rr.getConfigurationXML();
-
-    Log(Logger::LOG_INFORMATION) << caps;
 
 
     return true;

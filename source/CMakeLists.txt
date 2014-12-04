@@ -52,7 +52,6 @@ include_directories(
 set(rrSources
     rrConfig
     rrSteadyStateSolver
-    Configurable
     rrConstants
     rrException
     rrGetOptions

@@ -4,7 +4,6 @@
 #include "rrExporter.h"
 #include "rrExecutableModel.h"
 #include "rrSteadyStateSolver.h"
-#include "Configurable.h"
 using std::vector;
 
 namespace rr
@@ -32,18 +31,41 @@ public:
      */
     double solve(const vector<double>& yin);
 
-    /**
-     * creates a new xml element that represent the current state of this
-     * Configurable object and all if its child objects.
-     */
-    virtual _xmlNode *createConfigNode();
 
     /**
-     * Given an xml element, the Configurable object should pick its needed
-     * values that are stored in the element and use them to set its
-     * internal configuration state.
+     * Implement Dictionary Interface
      */
-    virtual void loadConfig(const _xmlDoc* doc);
+public:
+
+    /**
+     * set an arbitrary key
+     */
+    virtual void setItem(const std::string& key, const rr::Variant& value);
+
+    /**
+     * get a value. Variants are POD.
+     */
+    virtual Variant getItem(const std::string& key) const;
+
+    /**
+     * is there a key matching this name.
+     */
+    virtual bool hasKey(const std::string& key) const;
+
+    /**
+     * remove a value
+     */
+    virtual int deleteItem(const std::string& key);
+
+    /**
+     * list of keys in this object.
+     */
+    virtual std::vector<std::string> getKeys() const;
+
+    /**
+     * list of keys that this integrator supports.
+     */
+    static const Dictionary* getSteadyStateOptions();
 
 
 private:

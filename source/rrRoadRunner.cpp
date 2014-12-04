@@ -989,7 +989,7 @@ std::vector<rr::SelectionRecord>& RoadRunner::getSelections()
 }
 
 
-double RoadRunner::steadyState()
+double RoadRunner::steadyState(const Dictionary* dict)
 {
     if (!impl->model)
     {
@@ -1006,12 +1006,7 @@ double RoadRunner::steadyState()
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
-    SteadyStateSolver *steadyStateSolver = SteadyStateSolver::New(0, impl->model);
-
-    if (impl->configurationXML.length() > 0)
-    {
-        Configurable::loadXmlConfig(impl->configurationXML, steadyStateSolver);
-    }
+    SteadyStateSolver *steadyStateSolver = SteadyStateSolverFactory::New(dict, impl->model);
 
     //Get a std vector for the solver
     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
@@ -2976,67 +2971,6 @@ static std::vector<std::string> createSelectionList(const SimulateOptions& o)
     }
 
     return result;
-}
-
-
-_xmlNode *RoadRunner::createConfigNode()
-{
-    // the top level capabilities
-    _xmlNode *capies = Configurable::createCapabilitiesNode("RoadRunner",
-            "RoadRunner Capabilities");
-
-    // capability for this class
-    _xmlNode *caps = Configurable::createCapabilityNode("RoadRunner Core", "",
-            "Core RoadRunner Capability");
-
-    Configurable::addChild(caps, Configurable::createParameterNode("Conservation",
-                    "enables (=true) or disables (=false) the conservation analysis of models for timecourse simulations.",
-                    (int) impl->conservedMoietyAnalysis));
-
-    Configurable::addChild(capies, caps);
-
-    // capability for child objects
-    Configurable *intConf = dynamic_cast<Configurable*>(impl->integrator);
-    if (intConf)
-    {
-        Configurable::addChild(capies, intConf->createConfigNode());
-    }
-
-
-    // nleq only exists during steadyState, so we need to create a tmp
-    // one and load it with the xml if we given.
-    SteadyStateSolver *ss = SteadyStateSolver::New(0, 0);
-
-    if (impl->configurationXML.length() > 0)
-    {
-        Configurable::loadXmlConfig(impl->configurationXML, ss);
-    }
-
-    Configurable::addChild(capies, ss->createConfigNode());
-
-    delete ss;
-
-    return capies;
-}
-
-void RoadRunner::loadConfig(const _xmlDoc* doc)
-{
-    Configurable *intConf = dynamic_cast<Configurable*>(impl->integrator);
-    if (intConf)
-    {
-        intConf->loadConfig(doc);
-    }
-}
-
-std::string RoadRunner::getConfigurationXML()
-{
-    return Configurable::xmlFromConfigNode(createConfigNode());
-}
-
-void RoadRunner::setConfigurationXML(const std::string& xml)
-{
-    impl->configurationXML = xml;
-    Configurable::loadXmlConfig(xml, this);
 }
 
 SelectionRecord RoadRunner::createSelection(const std::string& str)

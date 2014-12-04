@@ -104,7 +104,7 @@ void TestVariant::test(int argc, char* argv[])
 
     Variant v = Variant::parse(argv[1]);
 
-    cout << "converted \'" << argv[1] << "\' to \'" << v.toString() << "\', with type " << v.type().name() << endl;
+    cout << "converted \'" << argv[1] << "\' to \'" << v.toString() << "\', with type " << v.typeInfo().name() << endl;
 
     Config::writeConfigFile("/Users/andy/temp.conf");
 }

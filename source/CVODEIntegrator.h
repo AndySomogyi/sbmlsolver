@@ -3,7 +3,6 @@
 
 #include "Integrator.h"
 #include "rrRoadRunnerOptions.h"
-#include "Configurable.h"
 
 #include <string>
 #include <vector>
@@ -25,25 +24,12 @@ class RoadRunner;
  * @internal
  * The integrator implemented by CVODE.
  */
-class CVODEIntegrator : public Integrator, public Configurable
+class CVODEIntegrator : public Integrator
 {
 public:
     CVODEIntegrator(ExecutableModel* oModel, const SimulateOptions* options);
 
     virtual ~CVODEIntegrator();
-
-    /**
-     * creates a new xml element that represent the current state of this
-     * Configurable object and all if its child objects.
-     */
-    virtual _xmlNode *createConfigNode();
-
-    /**
-     * Given an xml element, the Configurable object should pick its needed
-     * values that are stored in the element and use them to set its
-     * internal configuration state.
-     */
-    virtual void loadConfig(const _xmlDoc* doc);
 
     double integrate(double t0, double tf);
 

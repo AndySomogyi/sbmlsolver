@@ -580,44 +580,6 @@ int cvodeRootFcn (realtype time, N_Vector y_vector, realtype *gout, void *user_d
 
 
 
-_xmlNode* CVODEIntegrator::createConfigNode()
-{
-    _xmlNode *cap = Configurable::createCapabilityNode("Integration", "CVODE",
-            "CVODE Integrator");
-
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "BDFOrder", "Maximum order for BDF Method", mMaxBDFOrder));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "AdamsOrder", "Maximum order for Adams Method", mMaxAdamsOrder));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "rtol", "Relative Tolerance", options.relative));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "atol", "Absolute Tolerance", options.absolute));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "maxsteps", "Maximum number of internal stepsc", options.maximumNumSteps));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "initstep", "the initial step size", options.initialTimeStep));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "minstep", "specifies a lower bound on the magnitude of the step size.", options.minimumTimeStep));
-    Configurable::addChild(cap, Configurable::createParameterNode(
-            "maxstep", "specifies an upper bound on the magnitude of the step size.", options.maximumTimeStep));
-
-    return cap;
-}
-
-void CVODEIntegrator::loadConfig(const _xmlDoc* doc)
-{
-    mMaxBDFOrder = Configurable::getParameterIntValue(doc, "Integration", "BDFOrder");
-    mMaxAdamsOrder = Configurable::getParameterIntValue(doc, "Integration", "AdamsOrder");
-    options.relative = Configurable::getParameterDoubleValue(doc, "Integration", "rtol");
-    options.absolute = Configurable::getParameterDoubleValue(doc, "Integration", "atol");
-    options.maximumNumSteps = Configurable::getParameterIntValue(doc, "Integration", "maxsteps");
-    options.initialTimeStep = Configurable::getParameterDoubleValue(doc, "Integration", "initstep");
-    options.minimumTimeStep = Configurable::getParameterDoubleValue(doc, "Integration", "minstep");
-    options.maximumTimeStep = Configurable::getParameterDoubleValue(doc, "Integration", "maxstep");
-}
-
-
 void CVODEIntegrator::setItem(const std::string& key, const rr::Variant& value)
 {
     if (key == "BDFMaxOrder")

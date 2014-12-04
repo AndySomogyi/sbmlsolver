@@ -12,6 +12,7 @@
 #include <typeinfo>
 #include <string>
 
+
 namespace rr
 {
 
@@ -72,6 +73,19 @@ namespace rr
 class RR_DECLSPEC Variant
 {
 public:
+
+    /**
+     * list of currently supported types that a Variant can hold.
+     */
+    enum TypeId
+    {
+        STRING, BOOL, INT32, UINT32, INT64, UINT64, FLOAT, DOUBLE, CHAR, UCHAR, EMPTY
+    };
+
+    /**
+     * the current type that this Variant is.
+     */
+    TypeId type() const;
 
     /**
      * creates an emtpy variant
@@ -145,7 +159,7 @@ public:
      *     cout << "ints a string";
      * @endcode
      */
-    const std::type_info& type() const;
+    const std::type_info& typeInfo() const;
 
     /**
      * Convert this variant to a supported data type.
@@ -170,13 +184,13 @@ public:
     /**
      * conversion operators, note, MSVC 2012 is buggy and does not support
      * templated conversion operators correctly, so manually implement
-     * the supported types here. 
+     * the supported types here.
      */
     #define VARIANT_IMPLICIT_CONVERT(type)   \
     operator type() const                    \
     {                                        \
         return convert<type>();              \
-    }                                    
+    }
 
     VARIANT_IMPLICIT_CONVERT(std::string);
 

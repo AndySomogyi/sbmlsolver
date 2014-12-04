@@ -638,10 +638,10 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%rename (__delitem__) rr::Dictionary::deleteItem;
 //%rename (keys) rr::Dictionary::getKeys;
 
-// do not create these, pure interface. 
+// do not create these, pure interface.
 %nodefaultctor rr::Dictionary;
 %nodefaultdtor Dictionary;
-%nodefaultctor rr::DictionaryImpl;
+%nodefaultctor rr::BasicDictionary;
 %nodefaultdtor DictionaryImpl;
 
 
@@ -798,9 +798,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore operator<<(ostream&, const rr::SelectionRecord& rec);
 %ignore operator<<(rr::ostream&, const rr::SelectionRecord& rec);
 
-// ignore all instances of the Configurable methods.
-%ignore *::createConfigNode;
-%ignore *::loadConfig;
+
 
 //%ignore rr::DictionaryImpl;
 
@@ -819,16 +817,9 @@ namespace std { class ostream{}; }
  * include the roadrunner files here, this is where the wrappers are generated.
  */
 
-//%import(module="roadrunner") "Configurable.h"
-//%ignore rr::Configurable;
 
-//namespace rr { class Configurable{}; }
-
-%ignore rr::Configurable;
 
 %include <Dictionary.h>
-%include <Configurable.h>
-
 %include <rrRoadRunnerOptions.h>
 %include <rrLogger.h>
 %include <rrCompiler.h>

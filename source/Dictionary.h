@@ -142,10 +142,10 @@ public:                       // *mistakenly* complains in ONE instance.
  * Basic implementation of the Dictionary interface which uses a
  * std unordered map to store the values.
  */
-class RR_DECLSPEC DictionaryImpl : public Dictionary
+class RR_DECLSPEC BasicDictionary : public Dictionary
 {
 public:
-    DictionaryImpl() {};
+    BasicDictionary() {};
 
     /**
      * sets an item in the internal unordered map.
@@ -178,7 +178,7 @@ public:
      * Pure virtual interface, you should never have to delete
      * an instance of this type directly.
      */
-    virtual ~DictionaryImpl() {};
+    virtual ~BasicDictionary() {};
 
 protected:
     typedef cxx11_ns::unordered_map<std::string, Variant> VariantMap;

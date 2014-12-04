@@ -30,7 +30,7 @@ PyObject* Variant_to_py(const Variant& var)
 {
     PyObject *result = 0;
 
-    const std::type_info &type = var.type();
+    const std::type_info &type = var.typeInfo();
 
     if (var.isEmpty()) {
         Py_RETURN_NONE;

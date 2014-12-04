@@ -609,7 +609,7 @@ void SimulateOptions::setItem(const std::string& name,
         return setItemWithIndex(*this, index, value);
     }
 
-    return DictionaryImpl::setItem(name, value);
+    return BasicDictionary::setItem(name, value);
 }
 
 Variant SimulateOptions::getItem(const std::string& name) const
@@ -620,7 +620,7 @@ Variant SimulateOptions::getItem(const std::string& name) const
         return itemFromIndex(*this, index);
     }
 
-    return DictionaryImpl::getItem(name);
+    return BasicDictionary::getItem(name);
 }
 
 
@@ -640,7 +640,7 @@ bool SimulateOptions::hasKey(const std::string& key) const
     if (indexFromString(key) != KEY_END) {
         return true;
     }
-    return DictionaryImpl::hasKey(key);
+    return BasicDictionary::hasKey(key);
 }
 
 

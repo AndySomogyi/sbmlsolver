@@ -5,7 +5,6 @@
 #include "rr-libstruct/lsMatrix.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerOptions.h"
-#include "Configurable.h"
 
 #include <string>
 #include <vector>
@@ -32,7 +31,7 @@ class Integrator;
  * MemoryManagment: Any pointer returned by a get... method is owned by the
  * RoadRunner object and does NOT have to be deleted.
  */
-class RR_DECLSPEC RoadRunner : public Configurable
+class RR_DECLSPEC RoadRunner
 {
 
 public:
@@ -157,7 +156,7 @@ public:
      * stiff integtator, you would:
      * @code
      * RoadRunner r = RoadRunner("someFile.xml");
-     * SimulateOptions opt;
+     * BasicDictionary opt;
      * opt.setItem("start", 0);
      * opt.setItem("duration", 10);
      * opt.setItem("steps", 1000);
@@ -169,7 +168,7 @@ public:
      * integrator, this is set via the "integrator" key, i.e.
      * @code
      * RoadRunner r = RoadRunner("someFile.xml");
-     * SimulateOptions opt;
+     * BasicDictionary opt;
      * opt.setItem("integrator", "gillespie");
      * opt.setItem("start", 0);
      * opt.setItem("duration", 10);
@@ -298,37 +297,6 @@ public:
      */
     void load(const std::string& uriOrSBML,
             const LoadSBMLOptions* options = 0);
-
-    /**
-     * creates a new xml element that represent the current state of this
-     * Configurable object and all if its child objects.
-     *
-     * This node needs to be consumed by Configurable::xmlFromConfigNode
-     */
-    virtual _xmlNode *createConfigNode();
-
-    /**
-     * Given an xml element, the Configurable object should pick its needed
-     * values that are stored in the element and use them to set its
-     * internal configuration state.
-     */
-    virtual void loadConfig(const _xmlDoc* doc);
-
-    /**
-     * recurse through all of the child configurable objects that this
-     * class ownes and build an assemble all of thier configuration parameters
-     * into a single xml document which is returned as a string.
-     *
-     * The value of this result depends on what child objects are presently loaded.
-     */
-    std::string getConfigurationXML();
-
-    /**
-     * given a xml document, which should have been returned from getConfigurationXML,
-     * this method recurses though all the child configurable elements and sets thier
-     * configuration to the values specified in the document.
-     */
-    void setConfigurationXML(const std::string& xml);
 
 
 /************************ Selection Ids Species Section ***********************/
@@ -573,8 +541,15 @@ public:
     /**
      * Compute the steady state of the model, returns the sum of squares of the
      * solution
+     *
+     * The steady state solver and whatever options it needs may be specified
+     * via the given dictionary. For a list of all available steady state solvers,
+     * @see SteadyStateSolverFactory.
+     *
+     * @param dict a pointer to a dictionary which has the steady state options.
+     * May be NULL, in this case the existing options are used.
      */
-    double steadyState();
+    double steadyState(const Dictionary* dict = 0);
 
     /**
      * returns the current set of steady state selections.

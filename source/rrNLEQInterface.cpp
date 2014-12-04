@@ -370,6 +370,68 @@ string ErrorForStatus(int error)
     }
 }
 
+
+
+// steady state solver options
+static const char* keys[] =
+{
+        "maxIterations",
+        "relativeTolerance",
+
+        "maxIterations.description",
+        "relativeTolerance.description",
+
+        "maxIterations.hint",
+        "relativeTolerance.hint"
+};
+
+void NLEQInterface::setItem(const std::string& key, const rr::Variant& value)
+{
+}
+
+Variant NLEQInterface::getItem(const std::string& key) const
+{
+    return 0;
+}
+
+bool NLEQInterface::hasKey(const std::string& key) const
+{
+    return false;
+}
+
+int NLEQInterface::deleteItem(const std::string& key)
+{
+    return 0;
+}
+
+std::vector<std::string> NLEQInterface::getKeys() const
+{
+    return std::vector<std::string>(&keys[0], &keys[sizeof(keys)/sizeof(char*)]);
+}
+
+const Dictionary* NLEQInterface::getSteadyStateOptions()
+{
+    static BasicDictionary dict;
+
+    dict.setItem("steadyState", "NLEQ");
+    dict.setItem("steadyState.hint", "NLEQ hint");
+    dict.setItem("steadyState.description", "NLEQ description");
+
+    dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
+    dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
+    dict.setItem("minDamping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
+
+    dict.setItem("maxIterations.description", "maxIterations.description");
+    dict.setItem("relativeTolerance.description", "relativeTolerance.description");
+    dict.setItem("minDamping.description", "minDamping.description");
+
+    dict.setItem("maxIterations.hint", "maxIterations.hint");
+    dict.setItem("relativeTolerance.hint", "relativeTolerance.hint");
+    dict.setItem("minDamping.hint", "minDamping.hint");
+
+    return &dict;
+}
+
 double NLEQInterface::computeSumsOfSquares()
 {
     double sum = 0;
@@ -383,24 +445,7 @@ double NLEQInterface::computeSumsOfSquares()
     return sqrt(sum);
 }
 
-_xmlNode* NLEQInterface::createConfigNode()
-{
 
-    _xmlNode *caps = Configurable::createCapabilityNode(
-            "SteadyState", "NLEQ2", "NLEQ2 Steady State Solver");
-    Configurable::addChild(caps, Configurable::createParameterNode(
-            "MaxIterations", "Maximum number of newton iterations", maxIterations));
-    Configurable::addChild(caps, Configurable::createParameterNode(
-            "relativeTolerance", "Relative precision of solution components", relativeTolerance));
-
-    return caps;
-}
-
-void NLEQInterface::loadConfig(const _xmlDoc* doc)
-{
-    maxIterations = Configurable::getParameterIntValue(doc, "SteadyState", "MaxIterations");
-    relativeTolerance = Configurable::getParameterDoubleValue(doc, "SteadyState", "relativeTolerance");
-}
 
 }    //end of namespace
 

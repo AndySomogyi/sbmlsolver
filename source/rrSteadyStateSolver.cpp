@@ -5,11 +5,6 @@
 namespace rr
 {
 
-SteadyStateSolver* rr::SteadyStateSolver::New(const SteadyStateOptions*,
-        ExecutableModel* m)
-{
-    return new NLEQInterface(m);
-}
 
 SteadyStateSolver* SteadyStateSolverFactory::New(const Dictionary* doct,
         ExecutableModel* model)

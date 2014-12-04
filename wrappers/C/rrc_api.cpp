@@ -1311,23 +1311,12 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 
 bool rrcCallConv setConfigurationXML(RRHandle handle, const char* caps)
 {
-    start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        if(!caps)
-        {
-            return false;
-        }
-        rri->setConfigurationXML(caps);
-        return true;
-    catch_bool_macro
+    return false;
 }
 
 char* rrcCallConv getConfigurationXML(RRHandle handle)
 {
-    start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        return rr::createText(rri->getConfigurationXML());
-    catch_ptr_macro
+    return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
