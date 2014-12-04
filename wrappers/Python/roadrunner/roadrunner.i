@@ -318,6 +318,7 @@
 
 %init %{
 import_array();
+rr::pyutil_init();
 %}
 
 %{

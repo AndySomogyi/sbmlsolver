@@ -24,6 +24,8 @@
 #include "rrRoadRunnerOptions.h"
 #include <numpy/arrayobject.h>
 
+#include <iostream>
+
 
 
 
@@ -292,9 +294,6 @@ PyObject* dictionary_contains(const Dictionary* dict, const char* key)
 
 PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 {
-
-    Log(Logger::LOG_NOTICE) << __PRETTY_FUNCTION__;
-
     ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix*>(m);
 
 
@@ -379,21 +378,6 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
         if (flags & SimulateOptions::COPY_RESULT) {
 
-            /*
-
-            Log(rr::Logger::LOG_DEBUG) << "copying result data";
-
-            pArray = PyArray_SimpleNew(2, dims, NPY_DOUBLE);
-
-            VERIFY_PYARRAY(pArray);
-            assert(PyArray_NBYTES(pArray) == rows*cols*sizeof(double) && "invalid array size");
-
-            double *pyData = (double*)PyArray_BYTES(pArray);
-            double *mData = mat->getArray();
-
-            memcpy(pyData, mData, rows*cols*sizeof(double));
-            */
-
             Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
             double *data = (double*)malloc(sizeof(double)*rows*cols);
@@ -443,8 +427,16 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 }
 
 
+struct RowColArrayObject {
+    PyArrayObject array;
+    int test1;
+    int test2;
+    int test3;
+} ;
 
-
+void pyutil_init()
+{
+}
 
 } /* namespace rr */
 
