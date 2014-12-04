@@ -39,11 +39,13 @@ Variant::Variant(const Variant& other)
 {
     alloc();
     self->var = other.self->var;
+    self->size = other.self->size;
 }
 
 Variant& Variant::operator =(const Variant& other)
 {
     self->var = other.self->var;
+    self->size = other.self->size;
     return *this;
 }
 
@@ -229,6 +231,28 @@ Variant::TypeId Variant::type() const
     TYPE_KIND(char, CHAR);
     TYPE_KIND(unsigned char, UCHAR);
     TYPE_KIND(bool, BOOL);
+
+    if(info == typeid(int)) {
+        if(self->size == 4) return INT32;
+        if(self->size == 8) return INT64;
+    }
+
+    if(info == typeid(long)) {
+        if(self->size == 4) return INT32;
+        if(self->size == 8) return INT64;
+    }
+
+    if(info == typeid(unsigned int)) {
+        if(self->size == 4) return UINT32;
+        if(self->size == 8) return UINT64;
+    }
+
+    if(info == typeid(unsigned long)) {
+        if(self->size == 4) return UINT32;
+        if(self->size == 8) return UINT64;
+    }
+
+
     return EMPTY;
 }
 
@@ -255,6 +279,11 @@ void Variant::convert_to(const std::type_info& info, void* p) const
         TRY_CONVERT_TO(char);
 
         TRY_CONVERT_TO(unsigned char);
+
+        TRY_CONVERT_TO(int32_t);
+
+        TRY_CONVERT_TO(uint32_t);
+
     }
     catch(Poco::SyntaxException& ex)
     {

@@ -386,17 +386,22 @@ std::string variantName(const Variant& var) {
 
 int variant_test(int argc, char* argv[])
 {
-    cout << variantName("hello") << endl;
-    cout << variantName(string("hello"))  << endl;
-    cout << variantName((int32_t)0)  << endl;
-    cout << variantName((uint32_t)0)  << endl;
-    cout << variantName((int64_t)0)  << endl;
-    cout << variantName((uint64_t)0)  << endl;
-    cout << variantName((float)0)  << endl;
-    cout << variantName((double)0)  << endl;
-    cout << variantName((char)0)  << endl;
-    cout << variantName((unsigned char)0)  << endl;
-    cout << variantName(false)  << endl;
+    BasicDictionary d;
+
+    d.setItem("int", 123);
+    d.setItem("long", (long)123);
+    d.setItem("bool", false);
+    d.setItem("ulong", (unsigned long)123);
+    d.setItem("string", "hello");
+    d.setItem("double", 1.23);
+    d.setItem("char", 'a');
+
+    vector<string> keys = d.getKeys();
+
+    for(int i = 0; i < keys.size(); ++i) {
+        cout << "key: " << keys[i] << ", type: " << variantName(d.getItem(keys[i])) << endl;
+    }
+
     return 0;
 }
 
