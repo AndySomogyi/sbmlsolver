@@ -10,6 +10,8 @@
 
 #include "Variant.h"
 #include <Python.h>
+#include <lsMatrix.h>
+#include <stdint.h>
 
 namespace rr
 {
@@ -33,6 +35,10 @@ PyObject *dictionary_setitem(Dictionary* dict, const char* key, PyObject* value)
 void dictionary_delitem(Dictionary* dict, const char* key);
 
 PyObject *dictionary_contains(const Dictionary* dict, const char* key);
+
+PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, uint32_t flags);
+
+
 
 } /* namespace rr */
 

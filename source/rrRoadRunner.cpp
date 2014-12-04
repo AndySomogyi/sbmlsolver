@@ -3140,6 +3140,13 @@ void RoadRunner::setSelections(const vector<string>& _selList)
     {
         impl->mSelectionList.push_back(createSelection(_selList[i]));
     }
+
+    vector<string> selstr = vector<string>(impl->mSelectionList.size());
+    for(int i = 0; i < selstr.size(); ++i)
+    {
+        selstr[i] = impl->mSelectionList[i].to_string();
+    }
+    impl->simulationResult.setColumnNames(selstr.begin(), selstr.end());
 }
 
 void RoadRunner::setSelections(const std::vector<rr::SelectionRecord>& ss)

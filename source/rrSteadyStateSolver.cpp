@@ -1,6 +1,8 @@
 #include "rrSteadyStateSolver.h"
 #include "rrNLEQInterface.h"
 
+using namespace std;
+
 
 namespace rr
 {
@@ -14,18 +16,22 @@ SteadyStateSolver* SteadyStateSolverFactory::New(const Dictionary* doct,
 
 std::vector<std::string> rr::SteadyStateSolverFactory::getSteadyStateNames()
 {
-    return std::vector<std::string>();
+    std::vector<std::string> res;
+    res.push_back("NLEQ");
+    return res;
 }
 
 std::vector<const Dictionary*> rr::SteadyStateSolverFactory::getSteadyStateOptions()
 {
-    return std::vector<const Dictionary*>();
+    std::vector<const Dictionary*> res;
+    res.push_back(NLEQInterface::getSteadyStateOptions());
+    return res;
 }
 
 const Dictionary* rr::SteadyStateSolverFactory::getSteadyStateOptions(
         const std::string& name)
 {
-    return NULL;
+    return NLEQInterface::getSteadyStateOptions();;
 }
 
 }

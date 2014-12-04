@@ -5,6 +5,11 @@
  *      Author: andy
  */
 
+// see discission on import array,
+// http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
+#define NO_IMPORT_ARRAY
+#define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
+
 #include <stdexcept>
 #include <string>
 
@@ -16,6 +21,8 @@
 #include <PyUtils.h>
 #include <rrLogger.h>
 #include <Dictionary.h>
+#include "rrRoadRunnerOptions.h"
+#include <numpy/arrayobject.h>
 
 
 
@@ -226,6 +233,218 @@ PyObject* dictionary_contains(const Dictionary* dict, const char* key)
     bool contains = dict->hasKey(key);
     return PyBool_FromLong(contains);
 }
+
+#define VERIFY_PYARRAY(p) { \
+    assert(p && "PyArray is NULL"); \
+    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+}
+
+/*  original %typemap(out) ls::DoubleMatrix {
+ *
+    PyObject *pArray = NULL;
+    int rows = ($1).numRows();
+    int cols = ($1).numCols();
+    double *data = (double*)malloc(sizeof(double)*rows*cols);
+    memcpy(data, ($1).getArray(), sizeof(double)*rows*cols);
+
+    if(cols == 1) {
+        int nd = 1;
+        npy_intp dims[1] = {rows};
+        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                             NPY_CARRAY | NPY_OWNDATA, NULL);
+
+    }
+    else {
+        int nd = 2;
+        npy_intp dims[2] = {rows, cols};
+        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                             NPY_CARRAY | NPY_OWNDATA, NULL);
+    }
+
+    VERIFY_PYARRAY(pArray);
+    $result  = pArray;
+ */
+
+/*  original %typemap(out) const ls::DoubleMatrix* {
+ *
+    PyObject *pArray = NULL;
+    int rows = ($1)->numRows();
+    int cols = ($1)->numCols();
+    double *data = ($1)->getArray();
+
+    if(cols == 1) {
+        int nd = 1;
+        npy_intp dims[1] = {rows};
+        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                             NPY_CARRAY, NULL);
+    }
+    else {
+        int nd = 2;
+        npy_intp dims[2] = {rows, cols};
+        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                             NPY_CARRAY, NULL);
+    }
+
+    VERIFY_PYARRAY(pArray);
+    $result  = pArray;
+ */
+
+
+PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
+{
+
+    Log(Logger::LOG_NOTICE) << __PRETTY_FUNCTION__;
+
+    ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix*>(m);
+
+
+    // a valid array descriptor:
+    // In [87]: b = array(array([0,1,2,3]),
+    //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
+
+
+    // are we returning a structured array?
+    if (flags & SimulateOptions::STRUCTURED_RESULT) {
+
+        // get the column names
+        //const std::vector<SelectionRecord>& sel = ($self)->getSelections();
+        //std::vector<string> names(sel.size());
+
+        //for(int i = 0; i < sel.size(); ++i) {
+        //    names[i] = sel[i].to_string();
+        //}
+
+        std::vector<string> names = mat->getColumnNames();
+
+
+        int rows = mat->numRows();
+        int cols = mat->numCols();
+
+        if (cols == 0) {
+            Py_RETURN_NONE;
+        }
+
+        if (cols != names.size()) {
+            throw std::logic_error("column names size does not match matrix columns size");
+        }
+
+        double* mData = mat->getArray();
+
+        PyObject* list = PyList_New(names.size());
+
+        for(int i = 0; i < names.size(); ++i)
+        {
+            PyObject *col = PyString_FromString(names[i].c_str());
+            PyObject *type = PyString_FromString("f8");
+            PyObject *tup = PyTuple_Pack(2, col, type);
+
+            Py_DECREF(col);
+            Py_DECREF(type);
+
+            // list takes ownershipt of tuple
+            void PyList_SET_ITEM(list, i, tup);
+        }
+
+        PyArray_Descr* descr = 0;
+        PyArray_DescrConverter(list, &descr);
+
+        // done with list
+        Py_CLEAR(list);
+        npy_intp dims[] = {rows};
+
+        // steals a reference to descr
+        PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
+        VERIFY_PYARRAY(pyres);
+
+        if (pyres) {
+
+            assert(PyArray_NBYTES(pyres) == rows*cols*sizeof(double) && "invalid array size");
+
+            double* data = (double*)PyArray_BYTES(pyres);
+
+            memcpy(data, mData, rows*cols*sizeof(double));
+        }
+
+        return pyres;
+    }
+    // standard array result.
+    // this version just wraps the roadrunner owned data.
+    else {
+
+        int rows = mat->numRows();
+        int cols = mat->numCols();
+        int nd = 2;
+        npy_intp dims[2] = {rows, cols};
+        PyObject *pArray = NULL;
+
+        if (flags & SimulateOptions::COPY_RESULT) {
+
+            /*
+
+            Log(rr::Logger::LOG_DEBUG) << "copying result data";
+
+            pArray = PyArray_SimpleNew(2, dims, NPY_DOUBLE);
+
+            VERIFY_PYARRAY(pArray);
+            assert(PyArray_NBYTES(pArray) == rows*cols*sizeof(double) && "invalid array size");
+
+            double *pyData = (double*)PyArray_BYTES(pArray);
+            double *mData = mat->getArray();
+
+            memcpy(pyData, mData, rows*cols*sizeof(double));
+            */
+
+            Log(rr::Logger::LOG_DEBUG) << "copying result data";
+
+            double *data = (double*)malloc(sizeof(double)*rows*cols);
+            memcpy(data, mat->getArray(), sizeof(double)*rows*cols);
+
+            if(cols == 1) {
+                int nd = 1;
+                npy_intp dims[1] = {rows};
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY | NPY_OWNDATA, NULL);
+
+            }
+            else {
+                int nd = 2;
+                npy_intp dims[2] = {rows, cols};
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY | NPY_OWNDATA, NULL);
+            }
+
+            VERIFY_PYARRAY(pArray);
+        }
+        else {
+
+            Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
+
+
+            double *data = mat->getArray();
+
+            if(cols == 1) {
+                int nd = 1;
+                npy_intp dims[1] = {rows};
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY, NULL);
+            }
+            else {
+                int nd = 2;
+                npy_intp dims[2] = {rows, cols};
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY, NULL);
+            }
+
+            VERIFY_PYARRAY(pArray);
+
+        }
+        return pArray;
+    }
+}
+
+
+
+
 
 } /* namespace rr */
 

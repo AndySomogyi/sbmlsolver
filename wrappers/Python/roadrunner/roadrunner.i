@@ -22,6 +22,9 @@
 
 %{
     #define SWIG_FILE_WITH_INIT
+    // see discission on import array,
+    // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
+    #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
     #include <numpy/arrayobject.h>
     #include <lsMatrix.h>
     #include <lsLibla.h>
@@ -146,28 +149,9 @@
  *  copy data
  */
 %typemap(out) ls::DoubleMatrix {
-    PyObject *pArray = NULL;
-    int rows = ($1).numRows();
-    int cols = ($1).numCols();
-    double *data = (double*)malloc(sizeof(double)*rows*cols);
-    memcpy(data, ($1).getArray(), sizeof(double)*rows*cols);
-
-    if(cols == 1) {
-        int nd = 1;
-        npy_intp dims[1] = {rows};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY | NPY_OWNDATA, NULL);
-
-    }
-    else {
-        int nd = 2;
-        npy_intp dims[2] = {rows, cols};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY | NPY_OWNDATA, NULL);
-    }
-
-    VERIFY_PYARRAY(pArray);
-    $result  = pArray;
+    // %typemap(out) ls::DoubleMatrix
+    const ls::DoubleMatrix* mat = &($1);
+    $result = doublematrix_to_py(mat, SimulateOptions::COPY_RESULT);
 }
 
 
@@ -176,26 +160,9 @@
  * reference roadrunner owned data.
  */
 %typemap(out) const ls::DoubleMatrix* {
-    PyObject *pArray = NULL;
-    int rows = ($1)->numRows();
-    int cols = ($1)->numCols();
-    double *data = ($1)->getArray();
-
-    if(cols == 1) {
-        int nd = 1;
-        npy_intp dims[1] = {rows};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY, NULL);
-    }
-    else {
-        int nd = 2;
-        npy_intp dims[2] = {rows, cols};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY, NULL);
-    }
-
-    VERIFY_PYARRAY(pArray);
-    $result  = pArray;
+    // %typemap(out) const ls::DoubleMatrix*
+    const ls::DoubleMatrix* mat = ($1);
+    $result = doublematrix_to_py(mat, 0);
 }
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
@@ -867,106 +834,7 @@ namespace std { class ostream{}; }
         // its not const correct...
         ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
 
-        // a valid array descriptor:
-        // In [87]: b = array(array([0,1,2,3]),
-        //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
-
-
-        // are we returning a structured array?
-        if (opt->flags & SimulateOptions::STRUCTURED_RESULT) {
-
-            // get the column names
-            const std::vector<SelectionRecord>& sel = ($self)->getSelections();
-            std::vector<string> names(sel.size());
-
-            for(int i = 0; i < sel.size(); ++i) {
-                names[i] = sel[i].to_string();
-            }
-
-
-            int rows = result->numRows();
-            int cols = result->numCols();
-
-            if (cols == 0) {
-                Py_RETURN_NONE;
-            }
-
-            double* mData = result->getArray();
-
-            PyObject* list = PyList_New(names.size());
-
-            for(int i = 0; i < names.size(); ++i)
-            {
-                PyObject *col = PyString_FromString(names[i].c_str());
-                PyObject *type = PyString_FromString("f8");
-                PyObject *tup = PyTuple_Pack(2, col, type);
-
-                Py_DECREF(col);
-                Py_DECREF(type);
-
-                // list takes ownershipt of tuple
-                void PyList_SET_ITEM(list, i, tup);
-            }
-
-            PyArray_Descr* descr = 0;
-            PyArray_DescrConverter(list, &descr);
-
-            // done with list
-            Py_CLEAR(list);
-            npy_intp dims[] = {rows};
-
-            // steals a reference to descr
-            PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims,  descr);
-            VERIFY_PYARRAY(pyres);
-
-            if (pyres) {
-
-                assert(PyArray_NBYTES(pyres) == rows*cols*sizeof(double) && "invalid array size");
-
-                double* data = (double*)PyArray_BYTES(pyres);
-
-                memcpy(data, mData, rows*cols*sizeof(double));
-            }
-
-            return pyres;
-        }
-        // standard array result.
-        // this version just wraps the roadrunner owned data.
-        else {
-
-            int rows = result->numRows();
-            int cols = result->numCols();
-            int nd = 2;
-            npy_intp dims[2] = {rows, cols};
-            PyObject *pArray = NULL;
-
-            if (opt->flags & SimulateOptions::COPY_RESULT) {
-
-                Log(rr::Logger::LOG_DEBUG) << "copying result data";
-
-                pArray = PyArray_SimpleNew(2, dims, NPY_DOUBLE);
-
-                VERIFY_PYARRAY(pArray);
-                assert(PyArray_NBYTES(pArray) == rows*cols*sizeof(double) && "invalid array size");
-
-                double *pyData = (double*)PyArray_BYTES(pArray);
-                double *mData = result->getArray();
-
-                memcpy(pyData, mData, rows*cols*sizeof(double));
-            }
-            else {
-
-                Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
-
-                double *data = result->getArray();
-
-                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                     NPY_CARRAY, NULL);
-                VERIFY_PYARRAY(pArray);
-
-            }
-            return pArray;
-        }
+        return doublematrix_to_py(result, opt->flags);
     }
 
     double getValue(const rr::SelectionRecord* pRecord) {
@@ -1454,8 +1322,8 @@ namespace std { class ostream{}; }
             # explicit options of variableStep trumps everything,
             # if not explicit, variableStep is if number of steps was specified,
             # if no steps, varStep = true, false otherwise.
-            if SimulateOptions.getIntegratorType(o.getIntegratorId()) == \
-                SimulateOptions.STOCHASTIC and not haveVariableStep:
+            if IntegratorFactory.getIntegratorType(o.getIntegratorId()) == \
+                Integrator.STOCHASTIC and not haveVariableStep:
                 o.variableStep = not haveSteps
 
             # the options are set up, now actually run the simuation...
