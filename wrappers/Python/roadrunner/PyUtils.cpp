@@ -446,7 +446,7 @@ static PyObject* NamedArrayObject_Finalize(NamedArrayObject * self, PyObject *pa
 
 static void NamedArrayObject_dealloc(NamedArrayObject *self)
 {
-    Log(Logger::LOG_INFORMATION) << __PRETTY_FUNCTION__;
+    Log(Logger::LOG_INFORMATION) << __FUNC__;
     Py_XDECREF(self->rowNames);
     Py_XDECREF(self->colNames);
 
@@ -455,14 +455,14 @@ static void NamedArrayObject_dealloc(NamedArrayObject *self)
     assert(pself->ob_type->tp_base == &PyArray_Type);
     PyArray_Type.tp_dealloc(pself);
 
-    Log(Logger::LOG_INFORMATION) <<  __PRETTY_FUNCTION__ << ", Done";
+    Log(Logger::LOG_INFORMATION) <<  __FUNC__ << ", Done";
 }
 
 
 
 static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems)
 {
-    Log(Logger::LOG_INFORMATION) << __PRETTY_FUNCTION__;
+    Log(Logger::LOG_INFORMATION) << __FUNC__;
     PyObject *obj;
 
     assert(type->tp_basicsize == sizeof(NamedArrayObject));
@@ -565,7 +565,7 @@ static PyTypeObject NamedArray_Type = {
 
 PyObject* NamedArrayObject_Finalize(NamedArrayObject * self, PyObject *parent)
 {
-    Log(Logger::LOG_INFORMATION) << __PRETTY_FUNCTION__;
+    Log(Logger::LOG_INFORMATION) << __FUNC__;
 
     if(parent != NULL && parent->ob_type == &NamedArray_Type)
     {
