@@ -21,8 +21,10 @@
 #include <PyUtils.h>
 #include <rrLogger.h>
 #include <Dictionary.h>
+#include "rrConfig.h"
 #include "rrRoadRunnerOptions.h"
 #include <numpy/arrayobject.h>
+#include "structmember.h"
 
 #include <iostream>
 
@@ -292,6 +294,10 @@ PyObject* dictionary_contains(const Dictionary* dict, const char* key)
  */
 
 
+static PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
+        const ls::DoubleMatrix* mat, uint32_t flags);
+
+
 PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 {
     ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix*>(m);
@@ -313,7 +319,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
         //    names[i] = sel[i].to_string();
         //}
 
-        std::vector<string> names = mat->getColumnNames();
+        std::vector<string> names = mat->getColNames();
 
 
         int rows = mat->numRows();
@@ -386,15 +392,15 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
             if(cols == 1) {
                 int nd = 1;
                 npy_intp dims[1] = {rows};
-                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                     NPY_CARRAY | NPY_OWNDATA, NULL);
+                pArray = NamedArray_New(nd, dims, data,
+                                     NPY_CARRAY | NPY_OWNDATA, mat, flags);
 
             }
             else {
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
-                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                     NPY_CARRAY | NPY_OWNDATA, NULL);
+                pArray = NamedArray_New(nd, dims, data,
+                                     NPY_CARRAY | NPY_OWNDATA, mat, flags);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -409,14 +415,14 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
             if(cols == 1) {
                 int nd = 1;
                 npy_intp dims[1] = {rows};
-                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                     NPY_CARRAY, NULL);
+                pArray = NamedArray_New(nd, dims, data,
+                                     NPY_CARRAY, mat, flags);
             }
             else {
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
-                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                                     NPY_CARRAY, NULL);
+                pArray = NamedArray_New(nd, dims, data,
+                                     NPY_CARRAY, mat, flags);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -427,15 +433,254 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 }
 
 
-struct RowColArrayObject {
+struct NamedArrayObject {
     PyArrayObject array;
+    PyObject *rowNames;
+    PyObject *colNames;
     int test1;
     int test2;
     int test3;
 } ;
 
+static PyObject* NamedArrayObject_Finalize(NamedArrayObject * self, PyObject *parent);
+
+static void NamedArrayObject_dealloc(NamedArrayObject *self)
+{
+    Log(Logger::LOG_INFORMATION) << __PRETTY_FUNCTION__;
+    Py_XDECREF(self->rowNames);
+    Py_XDECREF(self->colNames);
+
+    PyObject *pself = (PyObject*)self;
+
+    assert(pself->ob_type->tp_base == &PyArray_Type);
+    PyArray_Type.tp_dealloc(pself);
+
+    Log(Logger::LOG_INFORMATION) <<  __PRETTY_FUNCTION__ << ", Done";
+}
+
+
+
+static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems)
+{
+    Log(Logger::LOG_INFORMATION) << __PRETTY_FUNCTION__;
+    PyObject *obj;
+
+    assert(type->tp_basicsize == sizeof(NamedArrayObject));
+
+    obj = (PyObject *)PyArray_malloc(type->tp_basicsize);
+    PyObject_Init(obj, type);
+    ((NamedArrayObject *)obj)->rowNames = NULL;
+    ((NamedArrayObject *)obj)->colNames = NULL;
+    ((NamedArrayObject *)obj)->test1 = 10;
+    ((NamedArrayObject *)obj)->test2 = 11;
+    ((NamedArrayObject *)obj)->test3 = 12;
+
+    Log(Logger::LOG_INFORMATION) << "created obj: " << obj;
+    return obj;
+}
+
+#define CSTR(str) const_cast<char*>(str)
+
+
+static PyMemberDef NamedArray_members[] = {
+        {CSTR("rownames"), T_OBJECT_EX, offsetof(NamedArrayObject, rowNames), 0, CSTR("row names")},
+        {CSTR("colnames"), T_OBJECT_EX, offsetof(NamedArrayObject, colNames), 0, CSTR("column names")},
+        {CSTR("test1"), T_INT, offsetof(NamedArrayObject, test1), 0, CSTR("test1 number")},
+        {CSTR("test2"), T_INT, offsetof(NamedArrayObject, test2), 0, CSTR("test2 number")},
+        {CSTR("test3"), T_INT, offsetof(NamedArrayObject, test3), 0, CSTR("test3 number")},
+        {NULL}  /* Sentinel */
+};
+
+static PyMethodDef NamedArray_methods[] = {
+    { CSTR("__array_finalize__"), (PyCFunction)NamedArrayObject_Finalize, METH_VARARGS,  CSTR("")},
+    {0}
+};
+
+/*
+static PyMethodDef DatetimeArray_methods[] = {
+    { "__array_finalize__", (PyCFunction)DatetimeArray_finalize, METH_VARARGS,
+      ""},
+//    {"__getitem__", (PyCFunction)DatetimeArray_getitem, METH_VARARGS, ""},
+    {"has_dups", (PyCFunction)DatetimeArray_has_dups, METH_VARARGS, ""},
+    {"has_missing", (PyCFunction)DatetimeArray_has_missing, METH_VARARGS, ""},
+    {"is_chrono", (PyCFunction)DatetimeArray_is_chrono, METH_VARARGS, ""},
+    {"is_full", (PyCFunction)DatetimeArray_is_full, METH_VARARGS, ""},
+    {"is_valid", (PyCFunction)DatetimeArray_is_valid, METH_VARARGS, ""},
+    {"date_to_index", (PyCFunction)DatetimeArray_date_to_index, METH_VARARGS, ""},
+    {"tovalues", (PyCFunction)DatetimeArray_tovalues, METH_VARARGS, ""},
+    {"toordinals", (PyCFunction)DatetimeArray_toordinals, METH_VARARGS, ""},
+    {"tolist", (PyCFunction)DatetimeArray_tolist, METH_VARARGS, ""},
+    {"fill_missing_dates", (PyCFunction)DatetimeArray_fill_missing_dates, METH_KEYWORDS, ""},
+    {"get_missing_dates_mask", (PyCFunction)DatetimeArray_get_missing_dates_mask, METH_VARARGS, ""},
+    {"convert", (PyCFunction)DatetimeArray_convert, METH_KEYWORDS, ""},
+    {0}
+};
+*/
+
+
+
+
+static PyTypeObject NamedArray_Type = {
+    PyObject_HEAD_INIT(NULL)
+    0,                                        /* ob_size */
+    "roadrunner.NamedArray",                  /* tp_name */
+    sizeof(NamedArrayObject),                 /* tp_basicsize */
+    0,                                        /* tp_itemsize */
+    (destructor)NamedArrayObject_dealloc,     /* tp_dealloc */
+    0,                                        /* tp_print */
+    0,                                        /* tp_getattr */
+    0,                                        /* tp_setattr */
+    0,                                        /* tp_compare */
+    0,                                        /* tp_repr */
+    0,                                        /* tp_as_number */
+    0,                                        /* tp_as_sequence */
+    0,                                        /* tp_as_mapping */
+    0,                                        /* tp_hash */
+    0,                                        /* tp_call */
+    0,                                        /* tp_str */
+    0,                                        /* tp_getattro */
+    0,                                        /* tp_setattro */
+    0,                                        /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
+    "NamedArray",                             /* tp_doc */
+    0,                                        /* tp_traverse */
+    0,                                        /* tp_clear */
+    0,                                        /* tp_richcompare */
+    0,                                        /* tp_weaklistoffset */
+    0,                                        /* tp_iter */
+    0,                                        /* tp_iternext */
+    NamedArray_methods,                       /* tp_methods */
+    NamedArray_members,                       /* tp_members */
+    0,                                        /* tp_getset */
+    0,                                        /* tp_base, this gets set to &PyArray_Type when module is initialized */
+    0,                                        /* tp_dict */
+    0,                                        /* tp_descr_get */
+    0,                                        /* tp_descr_set */
+    0,                                        /* tp_dictoffset */
+    0,                                        /* tp_init */
+    NamedArrayObject_alloc,                  /* tp_alloc */
+    0,                        /* tp_new */
+};
+
+
+PyObject* NamedArrayObject_Finalize(NamedArrayObject * self, PyObject *parent)
+{
+    Log(Logger::LOG_INFORMATION) << __PRETTY_FUNCTION__;
+
+    if(parent != NULL && parent->ob_type == &NamedArray_Type)
+    {
+        NamedArrayObject *p = (NamedArrayObject *)parent;
+        if (p->rowNames != NULL) {
+            Py_INCREF(p->rowNames);
+            self->rowNames = p->rowNames;
+        }
+
+        if (p->colNames != NULL) {
+            Py_INCREF(p->colNames);
+            self->colNames = p->colNames;
+        }
+
+        self->test1 = p->test1;
+        self->test2 = p->test2;
+        self->test3 = p->test3;
+    }
+    Py_RETURN_NONE;
+}
+
+
+/*
+NPY_NO_EXPORT PyObject *
+PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
+            npy_intp *strides, void *data, int itemsize, int flags,
+            PyObject *obj)
+{
+    PyArray_Descr *descr;
+    PyObject *new;
+
+    descr = PyArray_DescrFromType(type_num);
+    if (descr == NULL) {
+        return NULL;
+    }
+    if (descr->elsize == 0) {
+        if (itemsize < 1) {
+            PyErr_SetString(PyExc_ValueError,
+                            "data type must provide an itemsize");
+            Py_DECREF(descr);
+            return NULL;
+        }
+        PyArray_DESCR_REPLACE(descr);
+        descr->elsize = itemsize;
+    }
+    new = PyArray_NewFromDescr(subtype, descr, nd, dims, strides,
+                               data, flags, obj);
+    return new;
+}
+ */
+
+/* PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                     NPY_CARRAY | NPY_OWNDATA, NULL);
+ */
+PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
+        const ls::DoubleMatrix* mat, uint32_t flags)
+{
+    bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
+
+    if(named) {
+        Log(Logger::LOG_INFORMATION) << "creating NEW style array";
+
+        NamedArrayObject *array = (NamedArrayObject*)PyArray_New(
+                &NamedArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                        pyFlags, NULL);
+
+        if (array == NULL) {
+            PyObject* pystr = PyObject_Str(PyErr_Occurred());
+            const char* error = PyString_AsString(pystr);
+            Log(Logger::LOG_CRITICAL) << error;
+            return NULL;
+        }
+
+        array->rowNames = stringvector_to_py(mat->getRowNames());
+        array->colNames = stringvector_to_py(mat->getColNames());
+        array->test1 = 1;
+        array->test2 = 2;
+        array->test3 = 3;
+        return (PyObject*)array;
+
+    } else {
+        Log(Logger::LOG_INFORMATION) << "creating old style array";
+        return PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                pyFlags, NULL);
+    }
+}
+
+PyObject* stringvector_to_py(const std::vector<std::string> vec)
+{
+    unsigned size = vec.size();
+
+    PyObject* pyList = PyList_New(size);
+
+    unsigned j = 0;
+
+    for (std::vector<std::string>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+    {
+        const std::string& str  = *i;
+        PyObject* pyStr = PyString_FromString(str.c_str());
+        PyList_SET_ITEM(pyList, j++, pyStr);
+    }
+
+    return pyList;
+}
+
 void pyutil_init()
 {
+    NamedArray_Type.tp_base = &PyArray_Type;
+
+    if (PyType_Ready(&NamedArray_Type) < 0)
+        return;
+    Py_INCREF(&NamedArray_Type);
+    // PyModule_AddObject(m, "DatetimeArray", (PyObject *)(&DatetimeArray_Type));
+
+    std::cout << "initialized NamedArray_Type" << std::endl;
 }
 
 } /* namespace rr */

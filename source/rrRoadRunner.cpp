@@ -50,6 +50,8 @@ using Poco::Mutex;
 
 static Mutex roadRunnerMutex;
 
+typedef std::vector<std::string> string_vector;
+
 
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
@@ -1596,62 +1598,84 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
 DoubleMatrix RoadRunner::getLinkMatrix()
 {
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
+
+    ls::LibStructural *ls = getLibStruct();
+
     // pointer to owned matrix
-    return *getLibStruct()->getLinkMatrix();
+    DoubleMatrix res = *ls->getLinkMatrix();
+
+    ls->getLinkMatrixLabels(res.getRowNames(), res.getColNames());
+
+    return res;
 }
 
 DoubleMatrix RoadRunner::getReducedStoichiometryMatrix()
 {
-    check_model();
-
-    // pointer to owned matrix
-    return *getLibStruct()->getNrMatrix();
+    return getNrMatrix();
 }
 
 DoubleMatrix RoadRunner::getNrMatrix()
 {
     check_model();
 
+    ls::LibStructural *ls = getLibStruct();
+
     // pointer to owned matrix
-    return *getLibStruct()->getNrMatrix();
+    DoubleMatrix res = *ls->getNrMatrix();
+
+    ls->getNrMatrixLabels(res.getRowNames(), res.getColNames());
+
+    return res;
 }
 
 DoubleMatrix RoadRunner::getKMatrix()
 {
     check_model();
 
+    ls::LibStructural *ls = getLibStruct();
+
     // pointer to owned matrix
-    return *getLibStruct()->getKMatrix();
+    DoubleMatrix res = *ls->getKMatrix();
+
+    ls->getKMatrixLabels(res.getRowNames(), res.getColNames());
+
+    return res;
 }
 
 
 DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
 {
     check_model();
+    ls::LibStructural *ls = getLibStruct();
 
     if (impl->conservedMoietyAnalysis) {
         // pointer to mat owned by ls
-        return *getLibStruct()->getReorderedStoichiometryMatrix();
+        DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
+        ls->getFullyReorderedStoichiometryMatrixLabels(
+                m.getRowNames(), m.getColNames());
+        return m;
     }
 
     // pointer to owned matrix
-    return *getLibStruct()->getStoichiometryMatrix();
+    DoubleMatrix m = *ls->getStoichiometryMatrix();
+    ls->getStoichiometryMatrixLabels(m.getRowNames(), m.getColNames());
+    return m;
 }
 
 DoubleMatrix RoadRunner::getL0Matrix()
 {
     check_model();
+    ls::LibStructural *ls = getLibStruct();
 
     // the libstruct getL0Matrix returns a NEW matrix,
     // nice consistent API yes?!?!?
-    DoubleMatrix *tmp = getLibStruct()->getL0Matrix();
-    DoubleMatrix result = *tmp;
+    DoubleMatrix *tmp = ls->getL0Matrix();
+    DoubleMatrix m = *tmp;
     delete tmp;
-    return result;
+
+    ls->getL0MatrixLabels(m.getRowNames(), m.getColNames());
+    return m;
 }
 
 
@@ -3146,7 +3170,7 @@ void RoadRunner::setSelections(const vector<string>& _selList)
     {
         selstr[i] = impl->mSelectionList[i].to_string();
     }
-    impl->simulationResult.setColumnNames(selstr.begin(), selstr.end());
+    impl->simulationResult.setColNames(selstr.begin(), selstr.end());
 }
 
 void RoadRunner::setSelections(const std::vector<rr::SelectionRecord>& ss)

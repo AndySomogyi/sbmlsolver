@@ -177,7 +177,13 @@ public:
     /**
      * set the row names
      */
-    void setRowNames(const std::vector<std::string> rowNames);
+    void setRowNames(const std::vector<std::string> &rows) {
+        rowNames = rows;
+    }
+
+    void setColNames(const std::vector<std::string> &cols) {
+        colNames = cols;
+    }
 
     /**
      * set the row names, same args as std::vector ctor
@@ -191,21 +197,35 @@ public:
      * set the column names, same args as std::vector ctor
      */
     template<class strType>
-    void setColumnNames(const strType begin, const strType end) {
+    void setColNames(const strType begin, const strType end) {
         colNames = std::vector<std::string>(begin, end);
     }
 
     /**
      * get the row names
      */
-    const std::vector<std::string> &getRowNames() const {
+     const std::vector<std::string> &getRowNames() const {
         return rowNames;
     }
 
     /**
      * get the column names
      */
-    const std::vector<std::string> &getColumnNames() const {
+    const std::vector<std::string> &getColNames() const {
+        return colNames;
+    }
+
+    /**
+     * get the row names (mutable)
+     */
+     std::vector<std::string> &getRowNames() {
+        return rowNames;
+    }
+
+    /**
+     * get the column names (mutable)
+     */
+    std::vector<std::string> &getColNames() {
         return colNames;
     }
 
@@ -297,9 +317,12 @@ _Array(NULL)
 {
     if (_Rows && _Cols)
     {
-        _Array = new double[_Rows * _Cols]; //Todo: memoryleak
+        _Array = new double[_Rows * _Cols];
         memcpy(_Array, src._Array, _Rows * _Cols * sizeof(double));
     }
+
+    rowNames = src.rowNames;
+    colNames = src.colNames;
 }
 
 template<>
@@ -424,7 +447,6 @@ inline Matrix<T>::~Matrix()
   if (_Array)
   {
       delete [] _Array;
-//      _Array = NULL;
   }
 }
 
@@ -595,6 +617,9 @@ Matrix<T>& Matrix<T>::operator = (const Matrix <T>& rhs)
     {
       resize(rhs._Rows, rhs._Cols);
     }
+
+    rowNames = rhs.rowNames;
+    colNames = rhs.colNames;
 
   memcpy(_Array, rhs._Array, _Rows * _Cols * sizeof(T));
   return *this;

@@ -416,7 +416,7 @@ public:
          * use new numpy arrays with row/column names
          * experimental
          */
-        PYTHON_ENABLE_ROW_COLUMN_MATRIX,
+        PYTHON_ENABLE_NAMED_MATRIX,
 
 
         // add lots of space so not to conflict with other branches.

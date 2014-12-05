@@ -38,6 +38,8 @@ PyObject *dictionary_contains(const Dictionary* dict, const char* key);
 
 PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, uint32_t flags);
 
+PyObject *stringvector_to_py(const std::vector<std::string> vec);
+
 
 void pyutil_init();
 

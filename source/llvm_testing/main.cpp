@@ -447,7 +447,7 @@ int matnames_test(int argc, char* argv[]) {
     std::vector<std::string> rowNames = mat.getRowNames();
 
 
-    mat.setColumnNames(rowNames.begin(), rowNames.end());
+    mat.setColNames(rowNames.begin(), rowNames.end());
 
 
     for(strvec::const_iterator i = mat.getRowNames().begin(); i != mat.getRowNames().end(); ++i) {
@@ -457,7 +457,7 @@ int matnames_test(int argc, char* argv[]) {
     cout << endl;
 
 
-    for(strvec::const_iterator i = mat.getColumnNames().begin(); i != mat.getColumnNames().end(); ++i) {
+    for(strvec::const_iterator i = mat.getColNames().begin(); i != mat.getColNames().end(); ++i) {
         cout << *i << ", ";
     }
 
