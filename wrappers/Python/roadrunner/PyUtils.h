@@ -40,8 +40,10 @@ PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, uint32_t flags);
 
 PyObject *stringvector_to_py(const std::vector<std::string> vec);
 
+std::vector<std::string> py_to_stringvector(PyObject *obj);
 
-void pyutil_init();
+
+void pyutil_init(PyObject *module);
 
 
 

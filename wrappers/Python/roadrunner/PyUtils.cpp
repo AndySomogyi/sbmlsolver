@@ -27,11 +27,11 @@
 #include "structmember.h"
 
 #include <iostream>
-
-
-
+#include <iomanip>
 
 using namespace std;
+
+typedef vector<string> str_vector;
 
 namespace rr
 {
@@ -444,6 +444,10 @@ struct NamedArrayObject {
 
 static PyObject* NamedArrayObject_Finalize(NamedArrayObject * self, PyObject *parent);
 
+static PyObject *NamedArray_repr(NamedArrayObject *self);
+
+static PyObject *NamedArray_str(NamedArrayObject *self);
+
 static void NamedArrayObject_dealloc(NamedArrayObject *self)
 {
     Log(Logger::LOG_INFORMATION) << __FUNC__;
@@ -523,7 +527,7 @@ static PyMethodDef DatetimeArray_methods[] = {
 static PyTypeObject NamedArray_Type = {
     PyObject_HEAD_INIT(NULL)
     0,                                        /* ob_size */
-    "roadrunner.NamedArray",                  /* tp_name */
+    "NamedArray",                             /* tp_name */
     sizeof(NamedArrayObject),                 /* tp_basicsize */
     0,                                        /* tp_itemsize */
     (destructor)NamedArrayObject_dealloc,     /* tp_dealloc */
@@ -531,13 +535,13 @@ static PyTypeObject NamedArray_Type = {
     0,                                        /* tp_getattr */
     0,                                        /* tp_setattr */
     0,                                        /* tp_compare */
-    0,                                        /* tp_repr */
+    (reprfunc)NamedArray_repr,                /* tp_repr */
     0,                                        /* tp_as_number */
     0,                                        /* tp_as_sequence */
     0,                                        /* tp_as_mapping */
     0,                                        /* tp_hash */
     0,                                        /* tp_call */
-    0,                                        /* tp_str */
+    (reprfunc)NamedArray_str,                 /* tp_str */
     0,                                        /* tp_getattro */
     0,                                        /* tp_setattro */
     0,                                        /* tp_as_buffer */
@@ -671,17 +675,163 @@ PyObject* stringvector_to_py(const std::vector<std::string> vec)
     return pyList;
 }
 
-void pyutil_init()
+std::vector<std::string> py_to_stringvector(PyObject* obj)
+{
+    str_vector result;
+    if(obj) {
+        PyObject *seq = PySequence_Fast(obj, "expected a sequence");
+        if(obj) {
+            unsigned len = PySequence_Size(obj);
+            if (PyList_Check(seq))
+                for (unsigned i = 0; i < len; i++) {
+                    PyObject *item = PyList_GET_ITEM(seq, i);
+                    // Return value: New reference.
+                    PyObject *pystr = PyObject_Str(item);
+                    result.push_back(PyString_AsString(pystr));
+                    Py_XDECREF(pystr);
+                }
+            else
+                for (unsigned i = 0; i < len; i++) {
+                    PyObject *item = PyTuple_GET_ITEM(seq, i);
+                    // Return value: New reference.
+                    PyObject *pystr = PyObject_Str(item);
+                    result.push_back(PyString_AsString(pystr));
+                    Py_XDECREF(pystr);
+                }
+            Py_XDECREF(seq);
+        }
+    }
+
+    return result;
+}
+
+
+void pyutil_init(PyObject *module)
 {
     NamedArray_Type.tp_base = &PyArray_Type;
 
-    if (PyType_Ready(&NamedArray_Type) < 0)
-        return;
-    Py_INCREF(&NamedArray_Type);
-    // PyModule_AddObject(m, "DatetimeArray", (PyObject *)(&DatetimeArray_Type));
+    int result;
 
-    std::cout << "initialized NamedArray_Type" << std::endl;
+    if ((result = PyType_Ready(&NamedArray_Type)) < 0) {
+        std::cout << "PyType_Ready(&NamedArray_Type)) Failed, error: " << result;
+        return;
+    }
+
+    Py_INCREF(&NamedArray_Type);
+    result = PyModule_AddObject(module, "NamedArray", (PyObject *)(&NamedArray_Type));
+
+    std::cout << "initialized NamedArray_Type, result: " << result << std::endl;
 }
+
+
+/*****************************************************************************************
+ * Array Printing Stuff
+ ****************************************************************************************/
+
+
+
+static int longestStrLen(const str_vector& s) {
+    string::size_type longest = 0;
+    for(str_vector::const_iterator i = s.begin(); i != s.end(); ++i) {
+        longest = std::max(longest, i->length());
+    }
+    return longest;
+}
+
+// the standard double str format of double keeps small values like 1e-300, so
+// this just truncates it to zero.
+static inline double flub(double d) {
+    return std::abs(d) < 1e-30 ? 0.0 : d;
+}
+
+static std::string array_format(unsigned rows, unsigned cols, const double* data,
+        const str_vector& rowNames, const str_vector& colNames) {
+    #define GET_VAL(_row, _col) flub(data[_col*cols + _row])
+
+    // longest row name + " [["
+    int rowNameWidth = longestStrLen(rowNames) + 1;
+
+    // find widest element in each column
+    vector<unsigned> columnWidths(cols);
+    for(unsigned i = 0; i < rows; ++i) {
+        for(unsigned j = 0; j < cols; ++j) {
+            unsigned colw = columnWidths[j];
+            colw = std::max(colw, j < colNames.size() ? (unsigned)colNames[j].length() + 1 : 0);
+            stringstream ss;
+            ss << GET_VAL(i, j);
+            colw = std::max(colw, (unsigned)ss.str().length() + 1);
+            columnWidths[j] = colw;
+        }
+    }
+
+    stringstream ss;
+
+    // first row, column names
+    if(colNames.size()) {
+        for(unsigned j = 0; j < cols; ++j) {
+            ss << setw((j == 0 ? rowNameWidth + 2 : 0) + columnWidths[j]);
+            ss << right;
+            ss << (j < colNames.size() ? colNames[j] : "");
+            if (j < cols - 1) {
+                ss << ",";
+            }
+        }
+        ss << endl;
+    }
+
+    // main matrix bit
+    for(unsigned i = 0; i < rows; ++i) {
+        // row names
+        ss << setw(rowNameWidth);
+        ss << left;
+        ss << (i < rowNames.size() ? rowNames[i] : "");
+        ss << ((i > 0 && rows > 1) ? " [" : "[[");
+        // columns
+        for(unsigned j = 0; j < cols; ++j) {
+            ss << setw(columnWidths[j]);
+            ss << right;
+            ss << GET_VAL(i, j);
+            if (j < cols-1) {
+                ss << ",";
+            }
+        }
+        ss << ((i < rows - 1) ? "]," : "]]");
+        ss << endl;
+    }
+    return ss.str();
+}
+
+PyObject *NamedArray_repr(NamedArrayObject *self)
+{
+    PyArrayObject *array = (PyArrayObject*)self;
+    str_vector rowNames = py_to_stringvector(self->rowNames);
+    str_vector colNames = py_to_stringvector(self->colNames);
+
+    // The number of dimensions in the array.
+    int ndim = PyArray_NDIM(array);
+
+    assert(ndim >= 1);
+
+    // Returns a pointer to the dimensions/shape of the array.
+    npy_intp *dims = PyArray_DIMS(array);
+
+    unsigned rows = dims[0];
+    unsigned cols = ndim == 2 ? dims[1] : 0;
+
+    double* data = (double*)PyArray_DATA(array);
+
+    string str = array_format(rows, cols,  data, rowNames, colNames);
+
+    return PyString_FromString(str.c_str());
+}
+
+PyObject *NamedArray_str(NamedArrayObject *self)
+{
+    return NamedArray_repr(self);
+}
+
+
+
 
 } /* namespace rr */
 
