@@ -738,15 +738,16 @@ static int longestStrLen(const str_vector& s) {
     return longest;
 }
 
-// the standard double str format of double keeps small values like 1e-300, so
-// this just truncates it to zero.
-static inline double flub(double d) {
-    return std::abs(d) < 1e-30 ? 0.0 : d;
-}
-
-static std::string array_format(unsigned rows, unsigned cols, const double* data,
+static std::string array_format(PyArrayObject *arr,
         const str_vector& rowNames, const str_vector& colNames) {
-    #define GET_VAL(_row, _col) flub(data[_col*cols + _row])
+
+    unsigned ndim = PyArray_NDIM(arr);
+    unsigned rows = ndim > 0 ? PyArray_DIM(arr, 0) : 0;
+    unsigned cols = ndim > 1 ? PyArray_DIM(arr, 1) : 0;
+
+    assert(rows > 0 && cols > 0);
+
+    #define GET_VAL(_row, _col) *((double *) PyArray_GETPTR2(arr, _row, _col))
 
     // longest row name + " [["
     int rowNameWidth = longestStrLen(rowNames) + 1;
@@ -799,6 +800,8 @@ static std::string array_format(unsigned rows, unsigned cols, const double* data
         ss << endl;
     }
     return ss.str();
+
+    #undef GET_VAL
 }
 
 PyObject *NamedArray_repr(NamedArrayObject *self)
@@ -807,20 +810,15 @@ PyObject *NamedArray_repr(NamedArrayObject *self)
     str_vector rowNames = py_to_stringvector(self->rowNames);
     str_vector colNames = py_to_stringvector(self->colNames);
 
-    // The number of dimensions in the array.
-    int ndim = PyArray_NDIM(array);
+    unsigned ndim = PyArray_NDIM(array);
+    unsigned rows = ndim > 0 ? PyArray_DIM(array, 0) : 0;
+    unsigned cols = ndim > 1 ? PyArray_DIM(array, 1) : 0;
 
-    assert(ndim >= 1);
+    if(rows == 0 || cols == 0) {
+        return PyArray_Type.tp_str((PyObject*)self);
+    }
 
-    // Returns a pointer to the dimensions/shape of the array.
-    npy_intp *dims = PyArray_DIMS(array);
-
-    unsigned rows = dims[0];
-    unsigned cols = ndim == 2 ? dims[1] : 0;
-
-    double* data = (double*)PyArray_DATA(array);
-
-    string str = array_format(rows, cols,  data, rowNames, colNames);
+    string str = array_format(array, rowNames, colNames);
 
     return PyString_FromString(str.c_str());
 }
