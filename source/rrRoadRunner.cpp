@@ -27,6 +27,7 @@
 #include "SBMLValidator.h"
 
 #include <sbml/conversion/SBMLLocalParameterConverter.h>
+#include <sbml/conversion/SBMLLevelVersionConverter.h>
 
 #include <iostream>
 #include <math.h>
@@ -2814,8 +2815,63 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
     }
 }
 
+static string convertSBMLVersion(const std::string& str, int level, int version) {
+    libsbml::SBMLReader reader;
+    std::stringstream stream;
+    libsbml::SBMLDocument *doc = 0;
+
+
+    try {
+        // new doc
+        doc = reader.readSBMLFromString(str);
+
+        // this does an in-place conversion, at least for the time being
+        libsbml::SBMLLevelVersionConverter versionConverter;
+
+        libsbml::ConversionProperties versionProps = versionConverter.getDefaultProperties();
+
+        // this is how the target version is set
+        libsbml::SBMLNamespaces targetNamespace(level, version);
+
+        // clones the ns
+        versionProps.setTargetNamespaces(&targetNamespace);
+
+        versionConverter.setProperties(&versionProps);
+
+        // converter does an in-place conversion
+        doc->setApplicableValidators((unsigned char)Config::getInt(
+                Config::SBML_APPLICABLEVALIDATORS));
+
+        versionConverter.setDocument(doc);
+
+        if (versionConverter.convert() != libsbml::LIBSBML_OPERATION_SUCCESS)
+        {
+            Log(rr::Logger::LOG_ERROR) << "could not change source sbml level or version";
+
+            const libsbml::SBMLErrorLog *log = doc->getErrorLog();
+            string errors = log ? log->toString() : string(" NULL SBML Error Log");
+            Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+
+            throw std::logic_error("Error version converting sbml: " + errors);
+        }
+
+        libsbml::SBMLWriter writer;
+        writer.writeSBML(doc, stream);
+        delete doc;
+    }
+    catch(std::exception& exp) {
+        delete doc;
+        throw;
+    }
+
+    return stream.str();
+}
+
 string RoadRunner::getSBML(int level, int version)
 {
+    if (level > 0) {
+        return convertSBMLVersion(impl->mCurrentSBML, level, version);
+    }
     return impl->mCurrentSBML;
 }
 
@@ -2891,6 +2947,11 @@ string RoadRunner::getCurrentSBML(int level, int version)
     }
 
     delete doc;
+
+
+    if (level > 0) {
+        return convertSBMLVersion(stream.str(), level, version);
+    }
     return stream.str();
 }
 
