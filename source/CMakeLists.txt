@@ -7,9 +7,9 @@ include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the 
 
 OPTION(USE_POCO_NET "Use poco net library" ON)
 
-# pre-process the GitInfo.h.in file and insert the response from git about 
+# pre-process the GitInfo.h.in file and insert the response from git about
 # last commit and current branch.
-# may not have git, set default replacement strings then. 
+# may not have git, set default replacement strings then.
 find_program(GIT git)
 
 if(GIT)
@@ -32,7 +32,7 @@ else()
     # could not find GIT
     message("could not find git")
 
-	set(ROADRUNNER_GIT_BRANCH "git not found, unknown git branch")
+    set(ROADRUNNER_GIT_BRANCH "git not found, unknown git branch")
     set(ROADRUNNER_GIT_LAST_COMMIT "git not found, unknown git commit")
 endif(GIT)
 
@@ -335,17 +335,15 @@ if(${INSTALL_CXX_API})
         )
     #endif()
 
-    #=== HEADERS
-    set(subfolders
-        .
-        #./mtrand
-        )
+    set(install_headers
+        rrRoadRunner.h)
 
-    foreach(subfolder ${subfolders})
-        FILE (GLOB headers ${subfolder}/*.h)
-        install (   FILES ${headers}
-            DESTINATION include/rr/${subfolder}
-            COMPONENT rr_core)
-    endforeach(subfolder)
+
+    #foreach(subfolder ${subfolders})
+    #    FILE (GLOB headers ${subfolder}/*.h)
+    #    install (   FILES ${headers}
+    #        DESTINATION include/rr/${subfolder}
+    #        COMPONENT rr_core)
+    #endforeach(subfolder)
 endif() #Install CXX API
 
