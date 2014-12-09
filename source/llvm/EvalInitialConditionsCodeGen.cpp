@@ -43,9 +43,25 @@ EvalInitialConditionsCodeGen::~EvalInitialConditionsCodeGen()
 
 Value* EvalInitialConditionsCodeGen::codeGen()
 {
-    Value *modelData = 0;
+    // make the set init value function
+    llvm::Type *argTypes[] = {
+        llvm::PointerType::get(ModelDataIRBuilder::getStructType(this->module), 0),
+        llvm::Type::getInt32Ty(this->context)
+    };
 
-    codeGenVoidModelDataHeader(FunctionName, modelData);
+    const char *argNames[] = {
+        "modelData", "flags"
+    };
+
+    llvm::Value *args[] = {0, 0};
+
+    llvm::BasicBlock *entry = codeGenHeader(FunctionName,
+            llvm::Type::getVoidTy(context),
+                argTypes, argNames, args);
+
+    Value* modelData = args[0];
+    Value *flagsArg = args[1];
+
 
     if (Logger::LOG_DEBUG <= rr::Logger::getLevel())
     {
@@ -61,15 +77,21 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         }
     }
 
+    // read symbols from the orginal sbml
     SBMLInitialValueSymbolResolver initialValueResolver(modelData, modelGenContext);
 
+    // store values in the model state
     ModelDataStoreSymbolResolver modelDataResolver(modelData, model,
             modelSymbols, dataSymbols, builder, initialValueResolver);
 
     // generate model code for both floating and boundary species
     codeGenSpecies(modelDataResolver, initialValueResolver);
 
+    // read init values from sbml and store in model data
     codeGenGlobalParameters(modelDataResolver, initialValueResolver);
+
+    // read values from the model data state vector
+    ModelDataLoadSymbolResolver modelValueResolver(modelData, this->modelGenContext);
 
 
     // initializes the values stored in the model
@@ -79,21 +101,28 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     // in the exe model ctor. compartments are not usually reset.
     codeGenCompartments(modelDataResolver, initialValueResolver);
 
+    // store stoich in the sparse matrix structure.
+    codeGenStoichiometry(modelData, modelDataResolver, initialValueResolver);
+
+    // at this point, the model data state variables are all initialized
+    // from the original sbml values.
+
     // generates code to set the *initial* values in the model to
     // the values specified in the sbml.
+    // at this point, all the model vars have been set,
+    // so we can just copy them to the init value locations.
     if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
     {
+        // store symbols in the model data init var locations.
         ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,
                         modelSymbols, dataSymbols, builder, initialValueResolver);
 
-        codeGenInitSpecies(initValueStoreResolver, initialValueResolver);
+        codeGenInitSpecies(initValueStoreResolver, modelValueResolver);
 
-        codeGenInitCompartments(initValueStoreResolver, initialValueResolver);
+        codeGenInitCompartments(initValueStoreResolver, modelValueResolver);
 
-        codeGenInitGlobalParameters(initValueStoreResolver, initialValueResolver);
+        codeGenInitGlobalParameters(initValueStoreResolver, modelValueResolver);
     }
-
-    codeGenStoichiometry(modelData, modelDataResolver, initialValueResolver);
 
     builder.CreateRetVoid();
 

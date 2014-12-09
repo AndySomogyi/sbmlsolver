@@ -74,17 +74,13 @@ public:
     virtual void setTime(double _time);
     virtual double getTime();
 
-    virtual bool getConservedSumChanged();
-
-    virtual void setConservedSumChanged(bool);
-
     /**
      * evaluate the initial conditions specified in the sbml, this entails
      * evaluating all InitialAssigments, AssigmentRules, initial values, etc...
      *
      * The the model state is fully set.
      */
-    virtual void evalInitialConditions();
+    void evalInitialConditions(uint32_t flags = 0);
 
     /**
      * call reset(options) with defaut options.
@@ -140,15 +136,6 @@ public:
 
     virtual int getNumRateRules();
 
-
-
-    virtual int getNumLocalParameters(int reactionId);
-
-
-    virtual void convertToAmounts();
-    virtual void computeConservedTotals();
-
-
     /**
      * copy (but do not evaluate) existing rate rules values into
      * a buffer.
@@ -180,11 +167,6 @@ public:
      *         on failure.
      */
     virtual int setStateVector(const double *stateVector);
-
-    virtual void convertToConcentrations();
-    virtual void updateDependentSpeciesValues();
-    virtual void computeAllRatesOfChange();
-
 
     /**
      * where most of the juicy bits occur.
@@ -317,12 +299,6 @@ public:
     virtual int getConservedMoietyValues(int len, int const *indx, double *values);
     virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values);
-
-
-    /**
-     * using the current model state, evaluate and store all the reaction rates.
-     */
-    virtual void evalReactionRates();
 
 
     virtual int setCompartmentVolumes(int len, int const *indx,

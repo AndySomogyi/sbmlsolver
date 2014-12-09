@@ -137,6 +137,12 @@ public:
         INITIAL_GLOBAL_PARAMETER =          INITIAL | _GLOBAL_PARAMETER | INDEPENDENT | DEPENDENT,
 
 
+        /**
+         * Global parameters that have initial assignment rules.
+         */
+        DEPENDENT_INITIAL_GLOBAL_PARAMETER =  INITIAL | _GLOBAL_PARAMETER | DEPENDENT,
+
+
         UNSCALED_ELASTICITY =               UNSCALED | ELASTICITY,
         UNSCALED_CONTROL =                  UNSCALED | CONTROL,
         UNKNOWN_ELEMENT =                   UNKNOWN | ELEMENT,
@@ -161,7 +167,21 @@ public:
          * model. These do not include the initial values as the initial values
          * can not be changed by advancing the model with the integrator.
          */
-        MODEL_STATE =                       ALL_INDEPENDENT_AMOUNT & ~INITIAL
+        MODEL_STATE =                       ALL_INDEPENDENT_AMOUNT & ~INITIAL,
+
+
+        /**
+         * If this bit is set, then the reset function evaluates all of the
+         * SBML model init conditions (init values and all init assignment rules),
+         * and assigns them to the model state variable. This setting brings
+         * the model back the originally loaded state.
+         */
+        SBML_INITIALIZE =                   STATE_VECTOR   // the STATE_VECTOR options
+                                                           // is used here because it is
+                                                           // not used anywhere else in
+                                                           // the reset options, and gives
+                                                           // the indication that everything is set,
+                                                           // mostly it saves a not wasting a bit value.
     };
 
     /**

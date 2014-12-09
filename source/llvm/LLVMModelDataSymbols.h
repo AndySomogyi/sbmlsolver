@@ -233,7 +233,10 @@ public:
     std::vector<std::string> getReactionIds() const;
     uint getReactionSize() const;
 
-    std::vector<std::string> getGlobalParameterIds() const;
+    /**
+     * @param indOnly: only include ind values
+     */
+    std::vector<std::string> getGlobalParameterIds(bool indOnly = false) const;
 
     /**
      * is the global parameter index defined by a rate rule.
@@ -245,8 +248,10 @@ public:
      * remain constant.
      *
      * All floating species ids, independent first.
+     *
+     * @param indOnly: only include independent values
      */
-    std::vector<std::string> getFloatingSpeciesIds() const;
+    std::vector<std::string> getFloatingSpeciesIds(bool indOnly = false) const;
 
 
     /**
@@ -271,7 +276,10 @@ public:
 
     uint getGlobalParametersSize() const;
 
-    std::vector<std::string> getCompartmentIds() const;
+    /**
+     * @param indOnly only include ind values
+     */
+    std::vector<std::string> getCompartmentIds(bool indOnly = false) const;
 
     /**
      * number of compartments which are not determined by rules.
@@ -282,8 +290,9 @@ public:
 
     /**
      * all the boundary species ids, independent first.
+     * @param indOnly only include ind values
      */
-    std::vector<std::string> getBoundarySpeciesIds() const;
+    std::vector<std::string> getBoundarySpeciesIds(bool indOnly = false) const;
 
     /**
      * get a list of all the non-zero entries in the
@@ -490,6 +499,13 @@ public:
      * is a global param and not having an assignment or init assignment rule.
      */
     bool isIndependentInitGlobalParameter(const std::string& symbol) const;
+
+
+    /**
+     * is this global parameter id an independent init param --
+     * a global param without an init assignment rule.
+     */
+    bool isIndependentInitGlobalParameter(uint id) const;
 
     /**
      * get the index of a floating species initial value.

@@ -117,12 +117,6 @@ public:
     virtual void setTime(double _time) = 0;
     virtual double getTime() = 0;
 
-    /**
-     * @deprecated
-     *
-     * The model object knows how to reset itself with reset().
-     */
-    virtual void evalInitialConditions() = 0;
 
     /**
      * Loads the initial conditions into the current model state.
@@ -598,55 +592,6 @@ public:
      #endif /**********************************************************************/
     /******************************************************************************/
 
-    /******************************* Deprecated Section ***************************/
-
-    /**
-     * @deprecated
-     * did something with the old C backend, obsolete now.
-     */
-    virtual bool getConservedSumChanged() = 0;
-
-    /**
-     * @deprecated
-     * compatability with C backend, does nothing anymore.
-     */
-    virtual void computeConservedTotals() = 0;
-
-    /**
-     * @deprecated
-     * did something with old C backend, here for compatility.
-     */
-    virtual void setConservedSumChanged(bool) = 0;
-
-    /**
-     * @deprecated
-     * The old C backend had state variables for everything,
-     * here only for compatability, does nothing in LLVM.
-     *
-     * Only for floating species.
-     */
-    virtual void convertToAmounts() = 0;
-
-    /**
-     * @deprecated
-     */
-    virtual void convertToConcentrations() = 0;
-
-    /**
-     * @deprecated
-     */
-    virtual void updateDependentSpeciesValues() = 0;
-
-    /**
-     * @deprecated
-     */
-    virtual void computeAllRatesOfChange() = 0;
-
-    /**
-     * @deprecated
-     */
-    virtual void evalReactionRates() = 0;
-
 
     /**
      * Gets the index for an event id.
@@ -697,6 +642,12 @@ public:
      * RANDOM_GENERATOR_TYPE key.
      */
     virtual double getRandom() = 0;
+
+
+    /**
+     * for source compatability
+     */
+    void computeAllRatesOfChange() {};
 
 };
 

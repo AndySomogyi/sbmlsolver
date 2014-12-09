@@ -95,14 +95,16 @@ static const char* modelDataFieldsNames[] =  {
 };
 
 
-static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::StringUIntMap & m)
+static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::StringUIntMap & m,
+        unsigned size)
 {
-    vector<string> result(m.size());
+    vector<string> result(size);
     for(rrllvm::LLVMModelDataSymbols::StringUIntMap::const_iterator i = m.begin();
             i != m.end(); i++)
     {
-        assert(i->second < result.size() && "symbol map index out of bounds, possibly duplicate sbml ids");
-        result[i->second] = i->first;
+        if(i->second < size) {
+            result[i->second] = i->first;
+        }
     }
     return result;
 }
@@ -372,14 +374,16 @@ const std::vector<uint>& LLVMModelDataSymbols::getStoichColIndx() const
     return stoichColIndx;
 }
 
-std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
+std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds(bool onlyInd) const
 {
-    return getIds(compartmentsMap);
+    return getIds(compartmentsMap,
+            onlyInd ? independentCompartmentSize : compartmentsMap.size());
 }
 
-std::vector<std::string> LLVMModelDataSymbols::getBoundarySpeciesIds() const
+std::vector<std::string> LLVMModelDataSymbols::getBoundarySpeciesIds(bool onlyInd) const
 {
-    return getIds(boundarySpeciesMap);
+    return getIds(boundarySpeciesMap,
+            onlyInd ? independentBoundarySpeciesSize : boundarySpeciesMap.size());
 }
 
 uint LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
@@ -397,7 +401,7 @@ uint LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
 
 std::vector<std::string> LLVMModelDataSymbols::getReactionIds() const
 {
-    return getIds(reactionsMap);
+    return getIds(reactionsMap, reactionsMap.size());
 }
 
 uint LLVMModelDataSymbols::getReactionSize() const
@@ -466,14 +470,16 @@ void LLVMModelDataSymbols::print() const
     }
 }
 
-std::vector<std::string> LLVMModelDataSymbols::getGlobalParameterIds() const
+std::vector<std::string> LLVMModelDataSymbols::getGlobalParameterIds(bool onlyInd) const
 {
-    return getIds(globalParametersMap);
+    return getIds(globalParametersMap,
+            onlyInd ? independentGlobalParameterSize : globalParametersMap.size() );
 }
 
-std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
+std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds(bool onlyInd) const
 {
-    return getIds(floatingSpeciesMap);
+    return getIds(floatingSpeciesMap,
+            onlyInd ? independentFloatingSpeciesSize : floatingSpeciesMap.size());
 }
 
 std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
@@ -1455,6 +1461,11 @@ bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
             i->second < independentInitGlobalParameterSize;
 }
 
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(uint id) const
+{
+    return isIndependentInitGlobalParameter(getGlobalParameterId(id));
+}
+
 bool LLVMModelDataSymbols::isIndependentInitElement(
         const std::string& id) const
 {
@@ -1490,7 +1501,7 @@ uint LLVMModelDataSymbols::getInitGlobalParameterSize() const
 
 std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
 {
-    return getIds(eventIds);
+    return getIds(eventIds, eventIds.size());
 }
 
 std::string LLVMModelDataSymbols::getEventId(uint indx) const
@@ -1564,5 +1575,3 @@ uint LLVMModelDataSymbols::getConservedMoietyIndex(
 }
 
 } /* namespace rr */
-
-

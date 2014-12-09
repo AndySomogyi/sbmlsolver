@@ -29,8 +29,6 @@ bool TestEvalInitialConditions::test()
 {
     Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
-    model->evalInitialConditions();
-
     Log(Logger::LOG_INFORMATION) << model << endl;
 
     for (int i = 0; i < model->getNumFloatingSpecies(); i++)

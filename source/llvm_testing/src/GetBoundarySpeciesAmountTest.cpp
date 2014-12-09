@@ -46,7 +46,7 @@ bool rr::GetBoundarySpeciesAmountTest::test()
     return true;
     */
 
-    model->evalInitialConditions();
+
 
     Log(Logger::LOG_INFORMATION) << model;
 

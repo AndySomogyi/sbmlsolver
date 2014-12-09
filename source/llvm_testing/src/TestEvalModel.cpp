@@ -28,13 +28,11 @@ bool TestEvalModel::test()
 {
     Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
-    model->evalInitialConditions();
 
     Log(Logger::LOG_INFORMATION) << model << endl;
 
     Log(Logger::LOG_INFORMATION) << "Evaluating Reaction Rates for " << fileName << endl;
 
-    model->evalReactionRates();
 
     Log(Logger::LOG_INFORMATION) << model << endl;
 

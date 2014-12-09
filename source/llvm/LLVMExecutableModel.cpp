@@ -303,20 +303,6 @@ int LLVMExecutableModel::getNumReactions()
     return modelData->numReactions;
 }
 
-int LLVMExecutableModel::getNumLocalParameters(int reactionId)
-{
-    return 0;
-}
-
-void LLVMExecutableModel::convertToAmounts()
-{
-}
-
-void LLVMExecutableModel::computeConservedTotals()
-{
-}
-
-
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
 {
@@ -326,19 +312,6 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *in
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
     memcpy(rateRuleValues, modelData->rateRuleValuesAlias, modelData->numRateRules * sizeof(double));
-}
-
-
-void LLVMExecutableModel::convertToConcentrations()
-{
-}
-
-void LLVMExecutableModel::updateDependentSpeciesValues()
-{
-}
-
-void LLVMExecutableModel::computeAllRatesOfChange()
-{
 }
 
 void LLVMExecutableModel::getStateVectorRate(double time, const double *y, double *dydt)
@@ -636,9 +609,9 @@ string LLVMExecutableModel::getReactionId(int id)
     }
 }
 
-void LLVMExecutableModel::evalInitialConditions()
+void LLVMExecutableModel::evalInitialConditions(uint32_t flags)
 {
-    evalInitialConditionsPtr(modelData);
+    evalInitialConditionsPtr(modelData, flags);
 }
 
 void LLVMExecutableModel::reset()
@@ -650,12 +623,10 @@ void LLVMExecutableModel::reset()
 
 void LLVMExecutableModel::reset(int opt)
 {
-    // initializes the initial initial conditions (not a typo),
+    // initializes the the model the init values specifie in the sbml, and
+    // copies these to the initial initial conditions (not a typo),
     // sets the 'init(...)' values to the sbml specified init values.
-    if ((opt & SelectionRecord::INITIAL) ||
-            (getCompartmentInitVolumesPtr == 0
-                && getFloatingSpeciesInitAmountsPtr == 0
-                && getGlobalParameterInitValuePtr == 0))
+    if (opt & SelectionRecord::SBML_INITIALIZE)
     {
         Log(Logger::LOG_INFORMATION) << "resetting init conditions";
         evalInitialConditions();
@@ -696,11 +667,6 @@ void LLVMExecutableModel::reset(int opt)
         }
 
 
-        if(opt & SelectionRecord::CONSREVED_MOIETY)
-        {
-            Log(Logger::LOG_INFORMATION) << "opt & SelectionRecord::CONSREVED_MOIETY)";
-        }
-
         // were we forced to reset cms.
         bool reset_cm = false;
 
@@ -714,19 +680,24 @@ void LLVMExecutableModel::reset(int opt)
         for (int gid = 0; gid < modelData->numIndGlobalParameters; ++gid)
         {
             bool cm = symbols->isConservedMoietyParameter(gid);
+            bool depInit = !symbols->isIndependentInitGlobalParameter(gid);
 
             // reset gp if options say so
             if (checkExact(SelectionRecord::GLOBAL_PARAMETER, opt)
                     // or if opt say to reset cms and its a cm
                     || ((opt & SelectionRecord::CONSREVED_MOIETY) && cm)
                     // or if init conds have changes and its a cm (cm depends on init cond)
-                    || (dirty_init && cm))
+                    || (dirty_init && cm)
+                    // or reseting global params which have init assignment rules
+                    || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
             {
                 Log(Logger::LOG_INFORMATION) << "resetting global parameter, "
                         << gid << ", GLOBAL_PARAMETER: "
                         << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
                         << ", CONSREVED_MOIETY: "
-                        << ((opt & SelectionRecord::CONSREVED_MOIETY) && cm);
+                        << ((opt & SelectionRecord::CONSREVED_MOIETY) && cm)
+                        << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
+                            (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
                 reset_cm |= cm;
                 getGlobalParameterInitValues(1, &gid, buffer);
                 setGlobalParameterValues(1, &gid, buffer);
@@ -779,15 +750,6 @@ void LLVMExecutableModel::reset(int opt)
     dirty &= ~DIRTY_INIT_SPECIES;
 
     Log(Logger::LOG_DEBUG) << __FUNC__ << *modelData;
-}
-
-bool LLVMExecutableModel::getConservedSumChanged()
-{
-    return false;
-}
-
-void LLVMExecutableModel::setConservedSumChanged(bool val)
-{
 }
 
 int LLVMExecutableModel::getStateVector(double* stateVector)
@@ -952,11 +914,13 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
+    // only get init values indepndent values, dep, with assignment rules
+    // always have the same value.
     if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
             && (SelectionRecord::INDEPENDENT & types)) {
         for(int i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
             std::string gs = symbols->getGlobalParameterId(i);
-            if (symbols->isIndependentInitGlobalParameter(gs)) {
+            if(symbols->isIndependentGlobalParameter(gs)) {
                 ids.push_back("init(" + gs + ")");
             }
         }
@@ -967,7 +931,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         for(int i = symbols->getIndependentGlobalParameterSize();
                 i < symbols->getGlobalParametersSize(); ++i) {
             std::string gs = symbols->getGlobalParameterId(i);
-            if (symbols->isIndependentInitGlobalParameter(gs)) {
+            if(symbols->isIndependentGlobalParameter(gs)) {
                 ids.push_back("init(" + gs + ")");
             }
         }
@@ -1459,10 +1423,6 @@ rr::EventListenerPtr LLVMExecutableModel::getEventListener(int index)
 LLVMExecutableModel* LLVMExecutableModel::dummy()
 {
     return new LLVMExecutableModel();
-}
-
-void LLVMExecutableModel::evalReactionRates()
-{
 }
 
 int LLVMExecutableModel::getNumRateRules()

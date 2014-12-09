@@ -210,7 +210,6 @@ double CVODEIntegrator::integrate(double timeStart, double hstep)
         // still at least evaluate the model function
         if (!haveVariables() && mModel->getNumEvents() == 0)
         {
-            mModel->convertToAmounts();
             mModel->getStateVectorRate(tout, 0, 0);
             return tout;
         }

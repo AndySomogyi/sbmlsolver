@@ -86,7 +86,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         pfunc = iv.createFunction();
 
-        pfunc(md);
+        pfunc(md, 0);
 
         Log(lInfo) << md;
 

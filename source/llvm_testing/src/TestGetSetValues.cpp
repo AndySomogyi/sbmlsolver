@@ -29,7 +29,6 @@ bool TestGetSetValues::test()
 {
     Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
-    model->evalInitialConditions();
 
     Log(Logger::LOG_INFORMATION) << "before set: " << model << endl;
 
