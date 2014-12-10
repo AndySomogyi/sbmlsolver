@@ -8,20 +8,7 @@
 #ifndef _RRLLVM_RANDOM_H_
 #define _RRLLVM_RANDOM_H_
 
-// bugs in gcc 44 c++ random generator
-#if (__cplusplus >= 201103L) || defined(_MSC_VER)
-    #include <random>
-    #define cxx11_ns std
-    #define RR_CXX_RANDOM 1
-#elif  __clang_major__ >= 4 || defined(__APPLE__)
-    #include <tr1/random>
-    #define cxx11_ns std::tr1
-    #define RR_CXX_RANDOM 1
-#else
-    #include <stdlib.h>
-    #include <sys/time.h>
-#endif
-
+#include <rr_random> // rr proxy to <random>
 #include <stdint.h>
 
 namespace rrllvm
