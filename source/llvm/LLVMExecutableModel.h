@@ -30,17 +30,7 @@
 #include "EventQueue.h"
 #include "rrSelectionRecord.h"
 
-
-#if (__cplusplus >= 201103L) || defined(_MSC_VER)
-#include <memory>
-#include <unordered_map>
-#define cxx11_ns std
-#else
-#include <tr1/memory>
-#include <tr1/unordered_map>
-#define cxx11_ns std::tr1
-#endif
-
+#include <rr_unordered_map>
 #include <map>
 
 namespace rrllvm

@@ -419,6 +419,12 @@ public:
         PYTHON_ENABLE_NAMED_MATRIX,
 
 
+        /**
+         * cache llvm symbols durring sbml compilation.
+         */
+        LLVM_SYMBOL_CACHE,
+
+
         // add lots of space so not to conflict with other branches.
 
 

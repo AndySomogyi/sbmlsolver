@@ -14,16 +14,7 @@
 
 #include <string>
 #include <vector>
-
-#if (__cplusplus >= 201103L) || defined(_MSC_VER)
-#include <memory>
-#include <unordered_map>
-#define cxx11_ns std
-#else
-#include <tr1/memory>
-#include <tr1/unordered_map>
-#define cxx11_ns std::tr1
-#endif
+#include <rr_unordered_map>
 
 
 #include <stdint.h>
@@ -129,7 +120,10 @@ struct RR_DECLSPEC LoadSBMLOptions
          * The MCJIT is the new LLVM JIT engine, it is not as well tested as the
          * original JIT engine. Does NOT work on LLVM 3.1
          */
-        USE_MCJIT =                       (0x1 << 10)
+        USE_MCJIT =                       (0x1 << 10),
+
+
+        LLVM_SYMBOL_CACHE =               (0x1 << 11)
     };
 
     enum LoadOpt

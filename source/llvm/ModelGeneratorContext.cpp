@@ -91,6 +91,12 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         moietyConverter(0),
         random(0)
 {
+    if(useSymbolCache()) {
+        Log(Logger::LOG_NOTICE) << "Using LLVM symbol/value cache";
+    } else {
+        Log(Logger::LOG_NOTICE) << "Not using LLVM symbol/value cache";
+    }
+
     try
     {
         ownedDoc = checkedReadSBMLFromString(sbml.c_str());
@@ -210,6 +216,12 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
         moietyConverter(0),
         random(0)
 {
+    if(useSymbolCache()) {
+        Log(Logger::LOG_NOTICE) << "Using LLVM symbol/value cache";
+    } else {
+        Log(Logger::LOG_NOTICE) << "Not using LLVM symbol/value cache";
+    }
+
     try
     {
         if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
@@ -413,7 +425,12 @@ const LLVMModelSymbols& ModelGeneratorContext::getModelSymbols() const
 
 bool ModelGeneratorContext::getConservedMoietyAnalysis() const
 {
-    return options & rr::ModelGenerator::CONSERVED_MOIETIES;
+    return (options & rr::ModelGenerator::CONSERVED_MOIETIES) != 0;
+}
+
+bool ModelGeneratorContext::useSymbolCache() const
+{
+    return (options & rr::ModelGenerator::LLVM_SYMBOL_CACHE) != 0;
 }
 
 llvm::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const

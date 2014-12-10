@@ -141,6 +141,8 @@ public:
 
     bool getConservedMoietyAnalysis() const;
 
+    bool useSymbolCache() const;
+
     unsigned getOptions() const
     {
         return options;

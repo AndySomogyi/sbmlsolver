@@ -141,7 +141,10 @@ public:
          * The MCJIT is the new LLVM JIT engine, it is not as well tested as the
          * original JIT engine. Does NOT work on LLVM 3.1
          */
-        USE_MCJIT =                       (0x1 << 10)
+        USE_MCJIT =                       (0x1 << 10),
+
+
+        LLVM_SYMBOL_CACHE =               (0x1 << 11)
     };
 
     /**

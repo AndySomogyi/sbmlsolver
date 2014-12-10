@@ -109,6 +109,7 @@ llvm::Value *GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
         std::sprintf(block_name, "event_%i_block", i);
         llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, block_name, this->function);
         this->builder.SetInsertPoint(block);
+        resolver.flushCache();
 
         const libsbml::Event *event = events->get(i);
 

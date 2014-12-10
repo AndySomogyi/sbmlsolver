@@ -88,6 +88,7 @@ llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     {
         llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i] + "_block", this->function);
         this->builder.SetInsertPoint(block);
+        resolver.flushCache();
 
         // the requested value
         llvm::Value *value = resolver.loadSymbolValue(ids[i]);

@@ -130,7 +130,8 @@ static Variant values[] =  {
     Variant(std::string(".")),                           // TEMP_DIR_PATH,
     Variant(std::string("")),                            // LOGGER_LOG_FILE_PATH,
     Variant(-1),                              // RANDOM_SEED
-    Variant(true)       // PYTHON_ENABLE_NAMED_MATRIX
+    Variant(true),      // PYTHON_ENABLE_NAMED_MATRIX
+    Variant(true)       // LLVM_SYMBOL_CACHE
     // add space after develop keys to clean up merging
 
 
@@ -228,6 +229,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["LOGGER_LOG_FILE_PATH"] = rr::Config::LOGGER_LOG_FILE_PATH;
     keys["RANDOM_SEED"] = rr::Config::RANDOM_SEED;
     keys["PYTHON_ENABLE_NAMED_MATRIX"] = rr::Config::PYTHON_ENABLE_NAMED_MATRIX;
+    keys["LLVM_SYMBOL_CACHE"] = rr::Config::LLVM_SYMBOL_CACHE;
 
     // add space after develop keys to clean up merging.
 

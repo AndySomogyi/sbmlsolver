@@ -49,6 +49,11 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
         const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
+    {
+        Value* cachedValue = cacheValue(symbol, args);
+        if(cachedValue) return cachedValue;
+    }
+
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
             builder);
 
@@ -59,7 +64,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
     {
         Value *timeEP = mdbuilder.createGEP(Time);
         Value *time = builder.CreateLoad(timeEP, SBML_TIME_SYMBOL);
-        return time;
+        return cacheValue(symbol, args, time);
     }
 
     /*************************************************************************/
@@ -85,7 +90,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
             recursiveSymbolPush(symbol);
             Value* result = ASTNodeCodeGen(builder, *this).codeGen(i->second);
             recursiveSymbolPop();
-            return result;
+            return cacheValue(symbol, args, result);
         }
     }
 
@@ -120,7 +125,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
         // now we have an amount, check to see if we need to convert to conc
         if (species->getHasOnlySubstanceUnits())
         {
-            return amt;
+            return cacheValue(symbol, args, amt);
         }
         else
         {
@@ -128,24 +133,24 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
             // so we need to get the compartment its in, but these
             // can vary also...
             Value *comp = loadSymbolValue(species->getCompartment());
-            return builder.CreateFDiv(amt, comp, symbol + "_conc");
+            return cacheValue(symbol, args, builder.CreateFDiv(amt, comp, symbol + "_conc"));
         }
     }
 
     if (modelDataSymbols.isIndependentCompartment(symbol))
     {
-        return mdbuilder.createCompLoad(symbol);
+        return cacheValue(symbol, args, mdbuilder.createCompLoad(symbol));
     }
 
     if (modelDataSymbols.isIndependentGlobalParameter(symbol))
     {
-        return mdbuilder.createGlobalParamLoad(symbol);
+        return cacheValue(symbol, args, mdbuilder.createGlobalParamLoad(symbol));
     }
 
     if (modelDataSymbols.hasRateRule(symbol))
     {
         // species conc / amt has already been taken care of at this point
-        return mdbuilder.createRateRuleValueLoad(symbol);
+        return cacheValue(symbol, args, mdbuilder.createRateRuleValueLoad(symbol));
     }
 
     if (modelDataSymbols.isNamedSpeciesReference(symbol))
@@ -173,7 +178,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
             value = builder.CreateFMul(negOne, value, "neg_" + symbol);
         }
 
-        return value;
+        return cacheValue(symbol, args, value);
     }
 
     /*************************************************************************/
@@ -182,7 +187,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
     const Reaction* reaction = model->getReaction(symbol);
     if (reaction)
     {
-        return loadReactionRate(reaction);
+        return cacheValue(symbol, args, loadReactionRate(reaction));
     }
 
 

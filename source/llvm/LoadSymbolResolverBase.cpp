@@ -80,6 +80,32 @@ void LoadSymbolResolverBase::recursiveSymbolPop()
     symbolStack.pop_back();
 }
 
+void LoadSymbolResolverBase::flushCache()
+{
+    symbolCache.clear();
+}
+
+llvm::Value* LoadSymbolResolverBase::cacheValue(const std::string& symbol,
+        const llvm::ArrayRef<llvm::Value*>& args,
+        llvm::Value* value)
+{
+    if(args.size() || !modelGenContext.useSymbolCache()) {
+        return value;
+    }
+
+    if(value) {
+        symbolCache[symbol] = value;
+        Log(Logger::LOG_DEBUG) << "caching value for " << symbol;
+        return value;
+    }
+
+    ValueMap::const_iterator i = symbolCache.find(symbol);
+    Value* result = i != symbolCache.end() ? i->second : NULL;
+
+    Log(Logger::LOG_DEBUG) <<  (result ? "found " : "did not find ") << "cached value for " << symbol;
+    return result;
+}
+
 } /* namespace rrllvm */
 
 

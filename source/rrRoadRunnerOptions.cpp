@@ -408,6 +408,9 @@ LoadSBMLOptions::LoadSBMLOptions()
     if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
         modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
 
+    if (Config::getBool(Config::LLVM_SYMBOL_CACHE))
+        modelGeneratorOpt |= LoadSBMLOptions::LLVM_SYMBOL_CACHE;
+
     loadFlags = 0;
 }
 

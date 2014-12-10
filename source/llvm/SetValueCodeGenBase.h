@@ -92,6 +92,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     {
         llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i].first + "_block", this->function);
         this->builder.SetInsertPoint(block);
+        loadResolver.flushCache();
 
         // the value we are attempting to store, make a copy in loop scope
         // because we can modify the copy.

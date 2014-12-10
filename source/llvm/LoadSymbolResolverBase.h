@@ -14,6 +14,8 @@
 #include "LLVMModelSymbols.h"
 #include "ModelGeneratorContext.h"
 
+#include <rr_unordered_map>
+
 namespace libsbml
 {
 class Model;
@@ -41,10 +43,17 @@ public:
 
     virtual void recursiveSymbolPop();
 
+    /**
+     * Flush the symbol cache. This is required in branches and switch blocks as
+     * a symbol used in a previous block can not be re-used in the current block.
+     */
+    void flushCache();
+
 protected:
     LoadSymbolResolverBase(const ModelGeneratorContext &ctx);
 
     typedef std::list<std::string> StringStack;
+    typedef cxx11_ns::unordered_map<std::string, llvm::Value*> ValueMap;
 
     const ModelGeneratorContext &modelGenContext;
     const libsbml::Model *model;
@@ -52,7 +61,22 @@ protected:
     const LLVMModelSymbols &modelSymbols;
     llvm::IRBuilder<> &builder;
 
+    // check for recursive symbol definitions in rule evaluations
     StringStack symbolStack;
+
+    // cache symbols
+    ValueMap symbolCache;
+
+    /**
+     * check in the symbol cache if the symbol exists, if so return it.
+     *
+     * If the value is not NULL, it is cached and returned.
+     *
+     * Cached function args not currently supported (just return NULL).
+     */
+    llvm::Value* cacheValue(const std::string& symbol,
+            const llvm::ArrayRef<llvm::Value*>& args,
+            llvm::Value* value = NULL);
 };
 
 
