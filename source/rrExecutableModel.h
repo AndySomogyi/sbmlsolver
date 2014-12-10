@@ -643,11 +643,53 @@ public:
      */
     virtual double getRandom() = 0;
 
+    /**
+     * Get the current set of flags
+     */
+    virtual uint32_t getFlags() const = 0;
+
+    /**
+     * Set certain options that determine the state of the ExecutableModel,
+     * these are listed in
+     */
+    virtual void setFlags(uint32_t) = 0;
+
+    enum ExecutableModelFlags {
+        /**
+         * A simulation is currently running. This means that the model
+         * should not have to re-calculate the reaction rate vector
+         * as it was calculated in the previous integration step.
+         */
+        INTEGRATION                       = (0x1 << 0),  // => 0x00000001
+
+        /**
+         * optimize not-recalculating the reaction rates during selection.
+         */
+        OPTIMIZE_REACTION_RATE_SELECTION  = (0x1 << 1),  // => 0x00000010
+    };
 
     /**
      * for source compatability
      */
     void computeAllRatesOfChange() {};
+
+    friend class RoadRunner;
+
+protected:
+
+    /**
+     * is integration is currently proceeding.
+     */
+    void setIntegration(bool value) {
+        uint32_t flags = getFlags();
+        if(value) {
+            flags |= INTEGRATION;
+        } else {
+            flags &= ~INTEGRATION;
+        }
+        setFlags(flags);
+    }
+
 
 };
 

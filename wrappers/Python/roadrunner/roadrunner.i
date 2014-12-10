@@ -1522,7 +1522,7 @@ namespace std { class ostream{}; }
         if (value) {
             opt->flags |= SimulateOptions::STRUCTURED_RESULT;
         } else {
-            opt->flags &= !SimulateOptions::STRUCTURED_RESULT;
+            opt->flags &= ~SimulateOptions::STRUCTURED_RESULT;
         }
     }
 

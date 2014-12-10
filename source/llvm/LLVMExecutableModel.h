@@ -519,6 +519,18 @@ public:
      */
     int getRateRueRates(int len, int const *indx, double *values);
 
+
+    /**
+     * Get the current set of flags
+     */
+    virtual uint32_t getFlags() const { return flags; }
+
+    /**
+     * Set certain options that determine the state of the ExecutableModel,
+     * these are listed in
+     */
+    virtual void setFlags(uint32_t val) { flags = val; }
+
 private:
 
     /**
@@ -647,7 +659,7 @@ private:
     /**
      * what items are dirty
      */
-    unsigned dirty;
+    uint32_t dirty;
 
     enum
     {
@@ -656,7 +668,13 @@ private:
 
         // conserved moieties have changes.
         DIRTY_CONSERVED_MOIETIES      = (0x1 << 1),  // => 0x00000010
+
+        // reaction rates need to be re-calculated.
+        DIRTY_REACTION_RATES          = (0x1 << 2)   //
     };
+
+
+    uint32_t flags;
 };
 
 } /* namespace rr */

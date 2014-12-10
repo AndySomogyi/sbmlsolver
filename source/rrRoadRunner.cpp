@@ -1254,12 +1254,16 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 
             double tout = timeStart;
 
+            // optimiziation for certain getValue operations.
+            self.model->setIntegration(true);
 
             while(tout < timeEnd)
             {
                 Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
                 tout = self.integrator->integrate(tout, timeEnd);
+
+
                 if (!isfinite(tout))
                 {
                     // time step is at infinity so bail, but get the last value
@@ -1381,6 +1385,9 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 
             self.integrator->restart(timeStart);
 
+            // optimiziation for certain getValue operations.
+            self.model->setIntegration(true);
+
             double tout = timeStart;
 
             for (int i = 1; i < self.simulateOpt.steps + 1; i++)
@@ -1403,6 +1410,8 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     }
 
     // done with integration
+
+    self.model->setIntegration(false);
 
     Log(Logger::LOG_DEBUG) << "Simulation done..";
 

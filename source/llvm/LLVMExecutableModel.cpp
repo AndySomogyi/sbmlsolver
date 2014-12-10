@@ -97,6 +97,16 @@ static void addConcIds(rr::ExecutableModel *model, int start, int end,
     }
 }
 
+static uint32_t defaultFlags() {
+    uint32_t result = 0;
+
+    if(Config::getBool(Config::OPTIMIZE_REACTION_RATE_SELECTION)) {
+        result |= rr::ExecutableModel::OPTIMIZE_REACTION_RATE_SELECTION;
+    }
+
+    return result;
+}
+
 
 namespace rrllvm
 {
@@ -188,7 +198,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     setCompartmentInitVolumesPtr(0),
     getGlobalParameterInitValuePtr(0),
     setGlobalParameterInitValuePtr(0),
-    dirty(0)
+    dirty(0),
+    flags(defaultFlags())
 {
     std::srand((unsigned)std::time(0));
 }
@@ -230,7 +241,8 @@ LLVMExecutableModel::LLVMExecutableModel(
     getGlobalParameterInitValuePtr(rc->getGlobalParameterInitValuePtr),
     setGlobalParameterInitValuePtr(rc->setGlobalParameterInitValuePtr),
     eventListeners(modelData->numEvents, EventListenerPtr()), // init eventHandlers vector
-    dirty(0)
+    dirty(0),
+    flags(defaultFlags())
 {
 
     modelData->time = -1.0; // time is initially before simulation starts
@@ -328,7 +340,9 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
         evalVolatileStoichPtr(modelData);
 
+        // not setting state vector, react rates get dirty
         conversionFactor = evalReactionRatesPtr(modelData);
+        dirty |= DIRTY_REACTION_RATES;
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
@@ -362,6 +376,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         evalVolatileStoichPtr(modelData);
 
         conversionFactor = evalReactionRatesPtr(modelData);
+        dirty &= ~DIRTY_REACTION_RATES;
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
@@ -800,21 +815,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
     evalVolatileStoichPtr(modelData);
 
-    /*
-    if (Logger::LOG_PRIO_TRACE <= rr::Logger::LOG_GetLogLevel()) {
-
-        LoggingBuffer log(Logger::LOG_PRIO_TRACE, __FILE__, __LINE__);
-
-        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
-
-        log.stream() << __FUNC__ << ",  stateVector: ";
-        if (stateVector) {
-            dump_array(log.stream(), modelData->numRateRules + modelData->numIndFloatingSpecies, stateVector);
-        } else {
-            log.stream() << "null";
-        }
-    }
-    */
+    dirty |= DIRTY_REACTION_RATES;
 
     return modelData->numRateRules + modelData->numIndFloatingSpecies;
 }
@@ -1620,7 +1621,17 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
 {
     // the reaction rates are a function of the model state, so someone
     // could have changed some parameter, so we need to re-evaluate.
-    conversionFactor = evalReactionRatesPtr(modelData);
+
+    // this is an optimization to not re-calcualte the reaction rates
+    // when selecting reaction rates in a simulations.
+    // its possible to extend this approach to check whenever any value
+    // is set, save that for a future optimization.
+    if((flags & OPTIMIZE_REACTION_RATE_SELECTION) == 0
+            || (flags & INTEGRATION) == 0 || (dirty & DIRTY_REACTION_RATES) != 0) {
+        conversionFactor = evalReactionRatesPtr(modelData);
+        dirty &= ~DIRTY_REACTION_RATES;
+    }
+
 
     if (indx)
     {

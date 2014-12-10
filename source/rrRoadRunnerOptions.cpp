@@ -1,5 +1,4 @@
 /*
- * rrRoadRunnerOptions.cpp
  *
  *  Created on: Sep 9, 2013
  *      Author: andy
@@ -309,7 +308,7 @@ static void setItemWithIndex(SimulateOptions& opt, key_index index, const Varian
         if (b) {
             opt.flags |= SimulateOptions::RESET_MODEL;
         } else {
-            opt.flags &= !SimulateOptions::RESET_MODEL;
+            opt.flags &= ~SimulateOptions::RESET_MODEL;
         }
     }
     break;
@@ -320,7 +319,7 @@ static void setItemWithIndex(SimulateOptions& opt, key_index index, const Varian
         if (b) {
             opt.flags |= SimulateOptions::COPY_RESULT;
         } else {
-            opt.flags &= !SimulateOptions::COPY_RESULT;
+            opt.flags &= ~SimulateOptions::COPY_RESULT;
         }
     }
     break;
@@ -331,7 +330,7 @@ static void setItemWithIndex(SimulateOptions& opt, key_index index, const Varian
         if (b) {
             opt.integratorFlags |= Integrator::STIFF;
         } else {
-            opt.integratorFlags &= !Integrator::STIFF;
+            opt.integratorFlags &= ~Integrator::STIFF;
         }
     }
     break;
@@ -343,7 +342,7 @@ static void setItemWithIndex(SimulateOptions& opt, key_index index, const Varian
         if (b) {
             opt.integratorFlags |= Integrator::MULTI_STEP;
         } else {
-            opt.integratorFlags &= !Integrator::MULTI_STEP;
+            opt.integratorFlags &= ~Integrator::MULTI_STEP;
         }
     }
     break;
@@ -355,7 +354,7 @@ static void setItemWithIndex(SimulateOptions& opt, key_index index, const Varian
         if (b) {
             opt.integratorFlags |= Integrator::VARIABLE_STEP;
         } else {
-            opt.integratorFlags &= !Integrator::VARIABLE_STEP;
+            opt.integratorFlags &= ~Integrator::VARIABLE_STEP;
         }
     }
     break;

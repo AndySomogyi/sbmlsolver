@@ -425,6 +425,12 @@ public:
         LLVM_SYMBOL_CACHE,
 
 
+        /**
+         * optimize reaction rate selection durring integration.
+         */
+        OPTIMIZE_REACTION_RATE_SELECTION,
+
+
         // add lots of space so not to conflict with other branches.
 
 

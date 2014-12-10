@@ -501,6 +501,16 @@ public:
     virtual int64_t getRandomSeed();
 
     virtual double getRandom();
+
+    virtual uint32_t getFlags() const
+    {
+        return 0;
+    }
+
+    virtual void setFlags(uint32_t)
+    {
+
+    }
 };
 }
 #endif
