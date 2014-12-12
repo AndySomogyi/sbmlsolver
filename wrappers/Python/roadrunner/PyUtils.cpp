@@ -386,24 +386,27 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
             Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
-            double *data = (double*)malloc(sizeof(double)*rows*cols);
-            memcpy(data, mat->getArray(), sizeof(double)*rows*cols);
-
+	    // passing a NULL for data tells numpy to allocate its own data
             if(cols == 1) {
                 int nd = 1;
                 npy_intp dims[1] = {rows};
-                pArray = NamedArray_New(nd, dims, data,
-                                     NPY_CARRAY | NPY_OWNDATA, mat, flags);
+                pArray = NamedArray_New(nd, dims, NULL,
+                                     0, mat, flags);
 
             }
             else {
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
-                pArray = NamedArray_New(nd, dims, data,
-                                     NPY_CARRAY | NPY_OWNDATA, mat, flags);
+                pArray = NamedArray_New(nd, dims, NULL,
+                                     0, mat, flags);
             }
 
-            VERIFY_PYARRAY(pArray);
+	    VERIFY_PYARRAY(pArray);
+
+	    // copy our data into the numpy array
+            double *data = static_cast<double*>(PyArray_DATA(pArray));
+            memcpy(data, mat->getArray(), sizeof(double)*rows*cols);
+
         }
         else {
 

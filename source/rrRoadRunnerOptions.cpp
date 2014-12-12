@@ -154,7 +154,7 @@ enum key_index {
     KEY_END
 };
 
-static bool isDescription(key_index index) {
+static bool isDescription(int index) {
     return index >= KEY_STEPS_DESCRIPTION
             && index <= KEY_VARIABLESTEP_DESCRIPTION;
 }
@@ -165,12 +165,12 @@ static const char* getDescription(key_index index) {
     return SimulateOptionsDesc[index - KEY_STEPS_DESCRIPTION];
 }
 
-static bool isHint(key_index index) {
+static bool isHint(int index) {
     return index >= KEY_STEPS_HINT
             && index <= KEY_VARIABLESTEP_HINT;
 }
 
-static const char* getHint(key_index index) {
+static const char* getHint(int index) {
     assert(sizeof(SimulateOptionsHints)/sizeof(char*)
             == KEY_VARIABLESTEP_HINT - KEY_STEPS_HINT + 1);
     return SimulateOptionsHints[index - KEY_STEPS_HINT];
@@ -251,7 +251,7 @@ static Variant itemFromIndex(const SimulateOptions& opt, key_index index)
     }
 }
 
-static void setItemWithIndex(SimulateOptions& opt, key_index index, const Variant& value)
+static void setItemWithIndex(SimulateOptions& opt, int index, const Variant& value)
 {
     if (isHint(index)) {
         throw std::invalid_argument("hints are read-only");
@@ -776,7 +776,7 @@ SimulateOptions::SimulateOptions(const Dictionary* dict) :
     if(o) {
         *this = *o;
     } else if(dict) {
-        for(key_index i = KEY_INTEGRATOR; i <= KEY_VARIABLESTEP; ++i) {
+        for(int i = KEY_INTEGRATOR; i <= KEY_VARIABLESTEP; ++i) {
             if(dict->hasKey(SimulateOptionsKeys[i])) {
                 setItemWithIndex(*this, i, dict->getItem(SimulateOptionsKeys[i]));
             }
