@@ -1,7 +1,7 @@
 #ifndef CModelGenerator_H_
 #define CModelGenerator_H_
 //---------------------------------------------------------------------------
-#include "ModelGenerator.h"
+
 #include "rrCompiledModelGenerator.h"
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"

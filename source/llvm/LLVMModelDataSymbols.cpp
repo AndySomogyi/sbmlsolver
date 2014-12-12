@@ -10,9 +10,9 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
-#include "ModelGenerator.h"
 #include "rrStringUtils.h"
 #include "conservation/ConservationExtension.h"
+#include "rrRoadRunnerOptions.h"
 
 #include <Poco/LogStream.h>
 #include <sbml/Model.h>
@@ -190,7 +190,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 
     // process the floating species
-    initFloatingSpecies(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
+    initFloatingSpecies(model, options & rr::LoadSBMLOptions::CONSERVED_MOIETIES);
 
     // display compartment info. We need to get the compartments before the
     // so we can get the species compartments. But the struct anal dumps
@@ -200,7 +200,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
     initBoundarySpecies(model);
 
-    initGlobalParameters(model, options & rr::ModelGenerator::CONSERVED_MOIETIES);
+    initGlobalParameters(model, options & rr::LoadSBMLOptions::CONSERVED_MOIETIES);
 
     initReactions(model);
 

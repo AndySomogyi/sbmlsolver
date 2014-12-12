@@ -37,6 +37,11 @@ class RR_DECLSPEC RoadRunner
 public:
 
     /**
+     * create an empty RoadRunner object.
+     */
+    RoadRunner();
+
+    /**
      * load an sbml document from anywhere.
      *
      * same arguments as load.
@@ -47,8 +52,7 @@ public:
      * @param uriOrSBML: a URI, local path or sbml document contents.
      * @param options: an options struct, if null, default values are used.
      */
-    RoadRunner(const std::string& uriOrSBML = "",
-            const LoadSBMLOptions* options = 0);
+    RoadRunner(const std::string& uriOrSBML, const Dictionary* options = 0);
 
     /**
      * All three of the RoadRunner options default to the empty string, in this
@@ -274,10 +278,6 @@ public:
      */
     void changeInitialConditions(const std::vector<double>& ic);
 
-    /**
-     * get the ModelGenerator that is used to create executable (runnable) models.
-     */
-    ModelGenerator* getModelGenerator();
 
     /**
      * get a pointer to the ExecutableModel owned by the RoadRunner object.
@@ -296,7 +296,7 @@ public:
      * @param options: an options struct, if null, default values are used.
      */
     void load(const std::string& uriOrSBML,
-            const LoadSBMLOptions* options = 0);
+            const Dictionary* options = 0);
 
 
 /************************ Selection Ids Species Section ***********************/

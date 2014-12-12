@@ -68,7 +68,8 @@ public:
 
     static std::string getDefaultCompiler();
 
-protected:
+    static Compiler* New();
+
     virtual ~Compiler() {};
 };
 

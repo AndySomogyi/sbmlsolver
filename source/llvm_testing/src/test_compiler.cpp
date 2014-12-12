@@ -6,7 +6,6 @@
  */
 #pragma hdrstop
 #include "test_compiler.h"
-#include "ModelGenerator.h"
 #include "rrCompiler.h"
 
 #include "rrOSSpecifics.h"
@@ -19,21 +18,7 @@ namespace rr
 
 void test_compiler()
 {
-    cout << __FUNC__ << "\n";
 
-    ModelGenerator *mg = ModelGenerator::New("LLVM");
-
-    cout << "temporary directory: " << mg->getTemporaryDirectory() << "\n";
-
-    Compiler *c = mg->getCompiler();
-
-    cout << "compiler: " << c->getCompiler() << "\n";
-
-    cout << "compiler location: " << c->getCompilerLocation() << "\n";
-
-    cout << "support code dir: " << c->getSupportCodeFolder() << "\n";
-
-    delete mg;
 }
 
 } /* namespace rr */

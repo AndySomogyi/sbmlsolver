@@ -11,7 +11,7 @@
 #include "SBMLInitialValueSymbolResolver.h"
 #include "ModelInitialValueSymbolResolver.h"
 #include "rrLogger.h"
-#include "ModelGenerator.h"
+#include "rrRoadRunnerOptions.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <Poco/Logger.h>
@@ -23,7 +23,7 @@ using namespace std;
 
 using rr::Logger;
 using rr::getLogger;
-using rr::ModelGenerator;
+using rr::LoadSBMLOptions;
 
 
 namespace rrllvm
@@ -111,7 +111,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     // the values specified in the sbml.
     // at this point, all the model vars have been set,
     // so we can just copy them to the init value locations.
-    if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
+    if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS)
     {
         // store symbols in the model data init var locations.
         ModelInitialValueStoreSymbolResolver initValueStoreResolver(modelData, model,

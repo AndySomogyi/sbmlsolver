@@ -23,7 +23,7 @@ using namespace std;
 namespace rr
 {
 
-static const char* keys[] = {
+static const char* SimulateOptionsKeys[] = {
         "integrator",
         "steps",
         "start",
@@ -71,7 +71,7 @@ static const char* keys[] = {
         "variableStep.hint"
 };
 
-static const char* descriptions[] = {
+static const char* SimulateOptionsDesc[] = {
         "steps.description",
         "start.description",
         "duration.description",
@@ -88,7 +88,7 @@ static const char* descriptions[] = {
         "variableStep.description"
 };
 
-static const char* hints[] = {
+static const char* SimulateOptionsHints[] = {
         "steps.hint",
         "start.hint",
         "duration.hint",
@@ -160,9 +160,9 @@ static bool isDescription(key_index index) {
 }
 
 static const char* getDescription(key_index index) {
-    assert(sizeof(descriptions)/sizeof(char*)
+    assert(sizeof(SimulateOptionsDesc)/sizeof(char*)
             == KEY_VARIABLESTEP_DESCRIPTION - KEY_STEPS_DESCRIPTION + 1);
-    return descriptions[index - KEY_STEPS_DESCRIPTION];
+    return SimulateOptionsDesc[index - KEY_STEPS_DESCRIPTION];
 }
 
 static bool isHint(key_index index) {
@@ -171,17 +171,17 @@ static bool isHint(key_index index) {
 }
 
 static const char* getHint(key_index index) {
-    assert(sizeof(hints)/sizeof(char*)
+    assert(sizeof(SimulateOptionsHints)/sizeof(char*)
             == KEY_VARIABLESTEP_HINT - KEY_STEPS_HINT + 1);
-    return hints[index - KEY_STEPS_HINT];
+    return SimulateOptionsHints[index - KEY_STEPS_HINT];
 }
 
 static key_index indexFromString(const string& str)
 {
-    assert(sizeof(keys)/sizeof(char*) == KEY_END);
+    assert(sizeof(SimulateOptionsKeys)/sizeof(char*) == KEY_END);
 
     for(int i = 0; i < KEY_END; ++i) {
-        if (rr::compareNoCase(str, keys[i]) == 0) {
+        if (rr::compareNoCase(str, SimulateOptionsKeys[i]) == 0) {
             return (key_index)i;
         }
     }
@@ -368,49 +368,31 @@ static void setItemWithIndex(SimulateOptions& opt, key_index index, const Varian
 }
 
 
+LoadSBMLOptions::LoadSBMLOptions(const Dictionary* dict)
+{
+    defaultInit();
+
+    const LoadSBMLOptions *opt = dynamic_cast<const LoadSBMLOptions*>(dict);
+
+    if(opt) {
+        version = opt->version;
+        size = opt->size;
+        modelGeneratorOpt = opt->modelGeneratorOpt;
+        loadFlags = opt->loadFlags;
+        this->items = opt->items;
+    } else if (dict) {
+        std::vector<std::string> keys = dict->getKeys();
+        for(std::vector<std::string>::const_iterator k = keys.begin(); k != keys.end(); ++k) {
+            setItem(*k, dict->getItem(*k));
+        }
+    }
+}
+
+
+
 LoadSBMLOptions::LoadSBMLOptions()
 {
-    version = 0;
-    size = sizeof(LoadSBMLOptions);
-    modelGeneratorOpt = 0;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES))
-        modelGeneratorOpt |= LoadSBMLOptions::CONSERVED_MOIETIES;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_RECOMPILE))
-        modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_READ_ONLY))
-        modelGeneratorOpt |= LoadSBMLOptions::READ_ONLY;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS))
-        modelGeneratorOpt |= LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
-        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_GVN;
-
-    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION))
-        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))
-        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION))
-        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION))
-        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
-        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER;
-
-    if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
-        modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
-
-    if (Config::getBool(Config::LLVM_SYMBOL_CACHE))
-        modelGeneratorOpt |= LoadSBMLOptions::LLVM_SYMBOL_CACHE;
-
-    loadFlags = 0;
+   defaultInit();
 }
 
 
@@ -650,7 +632,7 @@ bool SimulateOptions::hasKey(const std::string& key) const
 std::vector<std::string> SimulateOptions::getKeys() const
 {
     // vector of standard keys
-    std::vector<std::string> result(&keys[0], &keys[KEY_END]);
+    std::vector<std::string> result(&SimulateOptionsKeys[0], &SimulateOptionsKeys[KEY_END]);
 
     // add custom keys in map
     for (VariantMap::const_iterator i = items.begin(); i != items.end(); ++i) {
@@ -767,15 +749,39 @@ void SimulateOptions::tweakTolerances()
 
 std::vector<std::string> SimulateOptions::getSimulateOptionsKeys()
 {
-    assert(sizeof(keys)/sizeof(char*) == KEY_END);
-    const char** begin = &keys[0];
-    const char** end = &keys[KEY_END];
+    assert(sizeof(SimulateOptionsKeys)/sizeof(char*) == KEY_END);
+    const char** begin = &SimulateOptionsKeys[0];
+    const char** end = &SimulateOptionsKeys[KEY_END];
     return std::vector<std::string>(begin, end);
 }
 
-SimulateOptions::SimulateOptions(const Dictionary*)
+
+SimulateOptions::SimulateOptions(const Dictionary* dict) :
+    steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
+    start(0),
+    duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
+    absolute(Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE)),
+    relative(Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE)),
+    flags(0),
+    integrator(Integrator::CVODE),
+    integratorFlags(0),
+    initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
+    minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
+    maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
+    maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
+
 {
-    assert(0);
+    getConfigValues(this);
+    const SimulateOptions *o = dynamic_cast<const SimulateOptions*>(dict);
+    if(o) {
+        *this = *o;
+    } else if(dict) {
+        for(key_index i = KEY_INTEGRATOR; i <= KEY_VARIABLESTEP; ++i) {
+            if(dict->hasKey(SimulateOptionsKeys[i])) {
+                setItemWithIndex(*this, i, dict->getItem(SimulateOptionsKeys[i]));
+            }
+        }
+    }
 }
 
 void SimulateOptions::setIntegrator(Integrator::IntegratorId value)
@@ -802,8 +808,84 @@ void SimulateOptions::setIntegrator(Integrator::IntegratorId value)
     }
 }
 
+void LoadSBMLOptions::setItem(const std::string& key, const rr::Variant& value)
+{
+    BasicDictionary::setItem(key, value);
+}
 
+Variant LoadSBMLOptions::getItem(const std::string& key) const
+{
+    return BasicDictionary::getItem(key);
+}
+
+bool LoadSBMLOptions::hasKey(const std::string& key) const
+{
+    return BasicDictionary::hasKey(key);
+}
+
+int LoadSBMLOptions::deleteItem(const std::string& key)
+{
+    return BasicDictionary::deleteItem(key);
+}
+
+std::vector<std::string> LoadSBMLOptions::getKeys() const
+{
+    return BasicDictionary::getKeys();
+}
+
+LoadSBMLOptions::~LoadSBMLOptions()
+{
+}
+
+void LoadSBMLOptions::defaultInit()
+{
+    version = 0;
+    size = sizeof(LoadSBMLOptions);
+    modelGeneratorOpt = 0;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES))
+        modelGeneratorOpt |= LoadSBMLOptions::CONSERVED_MOIETIES;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_RECOMPILE))
+        modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_READ_ONLY))
+        modelGeneratorOpt |= LoadSBMLOptions::READ_ONLY;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS))
+        modelGeneratorOpt |= LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
+        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_GVN;
+
+    if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION))
+        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))
+        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION))
+        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION))
+        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
+        modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER;
+
+    if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
+        modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
+
+    if (Config::getBool(Config::LLVM_SYMBOL_CACHE))
+        modelGeneratorOpt |= LoadSBMLOptions::LLVM_SYMBOL_CACHE;
+
+
+    setItem("tempDir", "");
+    setItem("compiler", "LLVM");
+    setItem("supportCodeDir", "");
+
+    loadFlags = 0;
+}
 
 } /* namespace rr */
-
 

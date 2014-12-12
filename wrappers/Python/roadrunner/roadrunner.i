@@ -32,7 +32,7 @@
     #include <lsLUResult.h>
     #include <lsUtils.h>
     #include <rrCompiler.h>
-    #include <ModelGenerator.h>
+    #include <ExecutableModelFactory.h>
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
@@ -84,6 +84,19 @@
     assert(p && "PyArray is NULL"); \
     assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
+
+
+    class DictionaryHolder {
+    public:
+        rr::Dictionary* dict;
+
+        DictionaryHolder() { dict = NULL; }
+
+        ~DictionaryHolder() {
+            Log(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
+            delete dict;
+        }
+    };
 
 
 %}
@@ -285,6 +298,38 @@
 %apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
 
+/**
+ * input map, convert an incomming object to a roadrunner Dictionary*
+ */
+%typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp) {
+
+    try {
+        // check if null, this is fine,
+        if($input == NULL) {
+            $1 = NULL;
+        }
+        else {
+            // first check if its a roadrunner type
+            int res = SWIG_ConvertPtr($input, &argp,SWIGTYPE_p_rr__Dictionary, 0 |  0 );
+            if (SWIG_IsOK(res)) {
+                $1 = reinterpret_cast< rr::Dictionary * >(argp);
+            } else {
+                holder.dict = Dictionary_from_py($input);
+                $1 = holder.dict;
+            }
+        }
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+%typemap(typecheck) const rr::Dictionary* = PyObject*;
+
+%apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
+
+
+
+
 
 
 
@@ -445,6 +490,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 // Many of the RoadRunner methods will be ignored for the time being
 // as currently we do not have a clean mapping to Python.
 
+
+%ignore rr::RoadRunner::RoadRunner(const std::string&, const std::string&, const std::string&);
 
 %ignore rr::RoadRunner::addCapabilities;
 %ignore rr::RoadRunner::getFloatingSpeciesIds;
@@ -786,13 +833,19 @@ namespace std { class ostream{}; }
  */
 
 
+/**
+ * this returns a new object
+ */
+%newobject rr::ExecutableModelFactory::createModel;
+
+
 
 %include <Dictionary.h>
 %include <rrRoadRunnerOptions.h>
 %include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
-%include <ModelGenerator.h>
+%include <ExecutableModelFactory.h>
 %include <rrVersionInfo.h>
 
 %thread;

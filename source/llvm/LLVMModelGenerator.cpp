@@ -21,7 +21,7 @@
 using rr::Logger;
 using rr::getLogger;
 using rr::ExecutableModel;
-using rr::ModelGenerator;
+using rr::LoadSBMLOptions;
 using rr::Compiler;
 
 namespace rrllvm
@@ -70,52 +70,10 @@ void copyCachedModel(a_type* src, b_type* dst)
 }
 
 
-LLVMModelGenerator::LLVMModelGenerator()
-{
-    Log(Logger::LOG_TRACE) << __FUNC__;
-}
-
-LLVMModelGenerator::~LLVMModelGenerator()
-{
-    Log(Logger::LOG_TRACE) << __FUNC__;
-
-}
-
-bool LLVMModelGenerator::setTemporaryDirectory(const string& path)
-{
-    return true;
-}
-
-string LLVMModelGenerator::getTemporaryDirectory()
-{
-    return "not used";
-}
-
-class test
-{
-public:
-    const int* p;
-};
-
-void testt(const int** p)
-{
-    *p = 0;
-}
-
-void testtt()
-{
-    test *t = new test();
-
-    testt(&t->p);
-}
-
-
-
-
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         uint options)
 {
-    bool forceReCompile = options & ModelGenerator::RECOMPILE;
+    bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
     string md5;
 
@@ -124,7 +82,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         // check for a chached copy
         md5 = rr::getMD5(sbml);
 
-        if (options & ModelGenerator::CONSERVED_MOIETIES)
+        if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
             md5 += "_conserved";
         }
@@ -209,7 +167,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     rc->evalConversionFactorPtr =
             EvalConversionFactorCodeGen(context).createFunction();
 
-    if (options & ModelGenerator::READ_ONLY)
+    if (options & LoadSBMLOptions::READ_ONLY)
     {
         rc->setBoundarySpeciesAmountPtr = 0;
         rc->setBoundarySpeciesConcentrationPtr = 0;
@@ -239,7 +197,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
                 SetGlobalParameterCodeGen(context).createFunction();
     }
 
-    if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
+    if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS)
     {
         rc->getFloatingSpeciesInitConcentrationsPtr =
                 GetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
@@ -351,15 +309,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     return new LLVMExecutableModel(rc, modelData);
 }
 
-Compiler* LLVMModelGenerator::getCompiler()
-{
-    return &compiler;
-}
 
-bool LLVMModelGenerator::setCompiler(const string& compiler)
-{
-    return true;
-}
 
 /************ LLVM Utility Functions, TODO: Move To Separate File ************/
 

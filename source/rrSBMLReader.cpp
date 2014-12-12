@@ -184,6 +184,12 @@ static string flatten_comp(const string& sbml, const std::string fname)
 
 std::string SBMLReader::read(const std::string& str)
 {
+    // bail here (empty str is valid sometimes), but messes
+    // with POCO readers.
+    if(str.empty()) {
+        return str;
+    }
+
     if (is_sbml(str))
     {
         if(has_comp(str))

@@ -74,7 +74,7 @@ set(rrSources
     rrFileName
     rrRoadRunnerData
     rrSelectionRecord
-    ModelGenerator
+    ExecutableModelFactory
     rrVersionInfo
     rrSparse
     rrSBMLModelSimulation
@@ -85,6 +85,7 @@ set(rrSources
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
     conservation/ConservedMoietyConverter
+    testing/CXXExecutableModel
     )
 
 # Add the LLVM sources to compilation

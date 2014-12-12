@@ -13,6 +13,7 @@
 #include "rrException.h"
 #include "rrCModelGenerator.h"
 #include "rrCompiledExecutableModel.h"
+#include "rrRoadRunnerOptions.h"
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -2359,9 +2360,9 @@ bool CModelGenerator::setTemporaryDirectory(const string& _path)
 ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
 {
     bool computeAndAssignConsevationLaws =
-                options & ModelGenerator::CONSERVED_MOIETIES;
+                options & LoadSBMLOptions::CONSERVED_MOIETIES;
 
-    bool forceReCompile = options & ModelGenerator::RECOMPILE;
+    bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
     LibStructural libStruct(sbml);
 

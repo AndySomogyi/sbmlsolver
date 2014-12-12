@@ -10,7 +10,7 @@
 
 #include "rrRoadRunner.h"
 #include "rrException.h"
-#include "ModelGenerator.h"
+#include "ExecutableModelFactory.h"
 #include "rrCompiler.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
@@ -175,18 +175,16 @@ public:
     /**
      * ModelGenerator obtained from the factory
      */
-    ModelGenerator *mModelGenerator;
-
-    /**
-     * read from the Config, duplicates loadsbmloptions
-     *
-     * TODO: this needs to be cleaned up.
-     */
-    bool conservedMoietyAnalysis;
+    LoadSBMLOptions loadOpt;
 
     std::vector<SelectionRecord> mSteadyStateSelection;
 
     ExecutableModel* model;
+
+    /**
+     * here for compatiblity, will go.
+     */
+    Compiler* compiler;
 
     std::string mCurrentSBML;
 
@@ -230,20 +228,20 @@ public:
 
 
     RoadRunnerImpl(const std::string& uriOrSBML,
-            const LoadSBMLOptions* options) :
+            const Dictionary* dict) :
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(0),
                 mSelectionList(),
-                mModelGenerator(0),
-                conservedMoietyAnalysis(Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
                 mSteadyStateSelection(),
                 model(0),
                 mCurrentSBML(),
                 mLS(0),
                 simulateOpt(),
-                mInstanceID(0)
+                mInstanceID(0),
+                loadOpt(dict),
+                compiler(Compiler::New())
     {
         // have to init integrators the hard way in c++98
         memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
@@ -257,15 +255,18 @@ public:
                 simulationResult(),
                 integrator(0),
                 mSelectionList(),
-                mModelGenerator(0),
-                conservedMoietyAnalysis(Config::getBool(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES)),
                 mSteadyStateSelection(),
                 model(0),
                 mCurrentSBML(),
                 mLS(0),
                 simulateOpt(),
-                mInstanceID(0)
+                mInstanceID(0),
+                compiler(Compiler::New())
     {
+        loadOpt.setItem("compiler", _compiler);
+        loadOpt.setItem("tempDir", _tempDir);
+        loadOpt.setItem("supportCodeDir", _supportCodeDir);
+
         // have to init integrators the hard way in c++98
         memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
@@ -274,7 +275,7 @@ public:
     {
         Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
 
-        delete mModelGenerator;
+        delete compiler;
         delete model;
         delete mLS;
 
@@ -389,18 +390,18 @@ int RoadRunner::getInstanceID()
     return impl->mInstanceID;
 }
 
+RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
+{
+    //Increase instance count..
+    mInstanceCount++;
+    impl->mInstanceID = mInstanceCount;
+}
+
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
-        const LoadSBMLOptions* options) :
+        const Dictionary* options) :
             impl(new RoadRunnerImpl(uriOrSBML, options))
 {
-
-    impl->mModelGenerator = ModelGenerator::New(Compiler::getDefaultCompiler(), "", "");
-
-    setTempDir(getTempDir());
-
-    if (!uriOrSBML.empty()) {
-        load(uriOrSBML, options);
-    }
+    load(uriOrSBML, options);
 
     //Increase instance count..
     mInstanceCount++;
@@ -412,18 +413,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& supportCodeDir) :
         impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir))
 {
-    string compiler = _compiler.empty()
-            ? Compiler::getDefaultCompiler() : _compiler;
-
     string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
-
-    // for now, dump out who we are
-    Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
-            ", tempDir:" << tempDir << ", supportCodeDir: " <<
-            supportCodeDir;
-
-    impl->mModelGenerator = ModelGenerator::New(compiler,
-            tempDir, supportCodeDir);
 
     setTempDir(tempDir);
 
@@ -468,7 +458,7 @@ string RoadRunner::getInfo()
 
     ss << "'libSBMLVersion' : " << getVersionStr(VERSIONSTR_LIBSBML) << std::endl;
     ss << "'jacobianStepSize' : " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
-    ss << "'conservedMoietyAnalysis' : " << rr::toString(impl->conservedMoietyAnalysis) << std::endl;
+    ss << "'conservedMoietyAnalysis' : " << rr::toString(impl->loadOpt.getConservedMoietyConversion()) << std::endl;
 
 #if defined(BUILD_LEGACY_C)
     ss<<"Temporary folder: "        <<    getTempDir()<<endl;
@@ -528,13 +518,13 @@ ls::LibStructural* RoadRunner::getLibStruct()
 
 Compiler* RoadRunner::getCompiler()
 {
-    return impl->mModelGenerator ? impl->mModelGenerator->getCompiler() : 0;
+    return impl->compiler;
 }
 
 
 void RoadRunner::setCompiler(const string& compiler)
 {
-    impl->mModelGenerator ? impl->mModelGenerator->setCompiler(compiler) : false;
+    impl->loadOpt.setItem("compiler", compiler);
 }
 
 bool RoadRunner::isModelLoaded()
@@ -554,17 +544,17 @@ SimulateOptions& RoadRunner::getSimulateOptions()
 
 bool RoadRunner::getConservedMoietyAnalysis()
 {
-    return impl->conservedMoietyAnalysis;
+    return impl->loadOpt.getConservedMoietyConversion();
 }
 
 void RoadRunner::setTempDir(const string& folder)
 {
-    impl->mModelGenerator ? impl->mModelGenerator->setTemporaryDirectory(folder) : false;
+    impl->loadOpt.setItem("tempDir", folder);
 }
 
 string RoadRunner::getTempDir()
 {
-    return impl->mModelGenerator ? impl->mModelGenerator->getTemporaryDirectory() : string("");
+    return impl->loadOpt.getItem("tempDir");
 }
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
@@ -609,11 +599,6 @@ int RoadRunner::createTimeCourseSelectionList()
     }
 
     return impl->mSelectionList.size();
-}
-
-ModelGenerator* RoadRunner::getModelGenerator()
-{
-    return impl->mModelGenerator;
 }
 
 string RoadRunner::getParamPromotedSBML(const string& sbml)
@@ -846,23 +831,20 @@ vector<double> RoadRunner::getConservedMoietyValues()
     return getLibStruct()->getConservedSums();
 }
 
-void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
+void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
     get_self();
 
-    impl->mCurrentSBML = SBMLReader::read(uriOrSbml);
-
-    //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
-    Log(lDebug)<<"Loading SBML into simulator";
-    if (!impl->mCurrentSBML.size())
-    {
-        throw(CoreException("SBML string is empty!"));
-    }
+    self.mCurrentSBML = SBMLReader::read(uriOrSbml);
 
     delete impl->model;
     impl->model = 0;
+
+    if(dict) {
+        self.loadOpt = LoadSBMLOptions(dict);
+    }
 
     self.deleteIntegrators();
 
@@ -870,20 +852,9 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     // we validate the model to provide explicit details about where it
     // failed. Its *VERY* expensive to pre-validate the model.
     try {
-        if (options)
-        {
-            impl->conservedMoietyAnalysis = options->modelGeneratorOpt
-                    & LoadSBMLOptions::CONSERVED_MOIETIES;
-            impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, options->modelGeneratorOpt);
-        }
-        else
-        {
-            LoadSBMLOptions opt;
-            opt.modelGeneratorOpt = getConservedMoietyAnalysis() ?
-                    opt.modelGeneratorOpt | LoadSBMLOptions::CONSERVED_MOIETIES :
-                    opt.modelGeneratorOpt & ~LoadSBMLOptions::CONSERVED_MOIETIES;
-            impl->model = impl->mModelGenerator->createModel(impl->mCurrentSBML, opt.modelGeneratorOpt);
-        }
+
+        self.model = ExecutableModelFactory::createModel(self.mCurrentSBML, &self.loadOpt);
+
     } catch (std::exception&) {
         string errors = validateSBML(impl->mCurrentSBML);
 
@@ -899,7 +870,7 @@ void RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 
     reset();
 
-    if (!options || !(options->loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS))
+    if ((self.loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS) == 0)
     {
         createDefaultSelectionLists();
     }
@@ -998,7 +969,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (!impl->conservedMoietyAnalysis &&
+    if (!impl->loadOpt.getConservedMoietyConversion() &&
             (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
                 & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
     {
@@ -1029,28 +1000,28 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
 
 
-void RoadRunner::setConservedMoietyAnalysis(bool bValue)
+void RoadRunner::setConservedMoietyAnalysis(bool value)
 {
-    if(bValue == impl->conservedMoietyAnalysis)
+    get_self();
+
+    if(value == self.loadOpt.getConservedMoietyConversion())
     {
-        Log(lDebug)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
+        Log(lDebug)<<"The compute and assign conservation laws flag already set to : " << toString(value);
     }
 
-    impl->conservedMoietyAnalysis = bValue;
+    self.loadOpt.setConservedMoietyConversion(value);
 
-    if(impl->model != NULL)
+    if(self.model != NULL)
     {
-        LoadSBMLOptions opt;
-
-        // set the comput and assign cons flag
-        opt.modelGeneratorOpt = bValue ?
-                opt.modelGeneratorOpt | LoadSBMLOptions::CONSERVED_MOIETIES :
-                opt.modelGeneratorOpt & ~LoadSBMLOptions::CONSERVED_MOIETIES;
+        uint32_t savedOpt = self.loadOpt.modelGeneratorOpt;
 
         // have to reload
-        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
+        self.loadOpt.modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
 
-        load(impl->mCurrentSBML, &opt);
+        load(impl->mCurrentSBML);
+
+        // restore original reload value
+        self.loadOpt.modelGeneratorOpt = savedOpt;
     }
 }
 
@@ -1486,12 +1457,14 @@ DoubleMatrix RoadRunner::getFullJacobian()
 {
     check_model();
 
+    get_self();
+
     DoubleMatrix uelast = getUnscaledElasticityMatrix();
 
     // ptr to libstruct owned obj.
     DoubleMatrix *rsm;
     LibStructural *ls = getLibStruct();
-    if (impl->conservedMoietyAnalysis)
+    if (self.loadOpt.getConservedMoietyConversion())
     {
         rsm = ls->getReorderedStoichiometryMatrix();
     }
@@ -1646,9 +1619,10 @@ DoubleMatrix RoadRunner::getKMatrix()
 DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
 {
     check_model();
+    get_self();
     ls::LibStructural *ls = getLibStruct();
 
-    if (impl->conservedMoietyAnalysis) {
+    if (self.loadOpt.getConservedMoietyConversion()) {
         // pointer to mat owned by ls
         DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
         ls->getFullyReorderedStoichiometryMatrixLabels(

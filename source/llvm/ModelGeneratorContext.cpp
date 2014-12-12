@@ -11,9 +11,9 @@
 #include "ModelDataIRBuilder.h"
 #include "LLVMException.h"
 #include "SBMLSupportFunctions.h"
-#include "ModelGenerator.h"
 #include "conservation/ConservedMoietyConverter.h"
 #include "conservation/ConservationExtension.h"
+#include "rrRoadRunnerOptions.h"
 #include "rrConfig.h"
 
 #include <sbml/SBMLReader.h>
@@ -32,7 +32,7 @@ using namespace std;
 using namespace libsbml;
 
 using rr::Logger;
-using rr::ModelGenerator;
+using rr::LoadSBMLOptions;
 
 namespace rrllvm
 {
@@ -101,7 +101,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     {
         ownedDoc = checkedReadSBMLFromString(sbml.c_str());
 
-        if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
+        if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
             if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
                     rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
@@ -224,7 +224,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
 
     try
     {
-        if (options & rr::ModelGenerator::CONSERVED_MOIETIES)
+        if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
             Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
 
@@ -425,12 +425,12 @@ const LLVMModelSymbols& ModelGeneratorContext::getModelSymbols() const
 
 bool ModelGeneratorContext::getConservedMoietyAnalysis() const
 {
-    return (options & rr::ModelGenerator::CONSERVED_MOIETIES) != 0;
+    return (options & LoadSBMLOptions::CONSERVED_MOIETIES) != 0;
 }
 
 bool ModelGeneratorContext::useSymbolCache() const
 {
-    return (options & rr::ModelGenerator::LLVM_SYMBOL_CACHE) != 0;
+    return (options & LoadSBMLOptions::LLVM_SYMBOL_CACHE) != 0;
 }
 
 llvm::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const
@@ -440,7 +440,7 @@ llvm::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const
 
 void ModelGeneratorContext::initFunctionPassManager()
 {
-    if (options & ModelGenerator::OPTIMIZE)
+    if (options & LoadSBMLOptions::OPTIMIZE)
     {
         functionPassManager = new FunctionPassManager(module);
 
@@ -458,37 +458,37 @@ void ModelGeneratorContext::initFunctionPassManager()
         functionPassManager->add(createBasicAliasAnalysisPass());
 
 
-        if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
+        if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
         {
             Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
             functionPassManager->add(createInstructionSimplifierPass());
         }
 
-        if (options & ModelGenerator::OPTIMIZE_INSTRUCTION_COMBINING)
+        if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING)
         {
             Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_COMBINING";
             functionPassManager->add(createInstructionCombiningPass());
         }
 
-        if(options & ModelGenerator::OPTIMIZE_GVN)
+        if(options & LoadSBMLOptions::OPTIMIZE_GVN)
         {
             Log(Logger::LOG_INFORMATION) << "using GVN optimization";
             functionPassManager->add(createGVNPass());
         }
 
-        if (options & ModelGenerator::OPTIMIZE_CFG_SIMPLIFICATION)
+        if (options & LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION)
         {
             Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_CFG_SIMPLIFICATION";
             functionPassManager->add(createCFGSimplificationPass());
         }
 
-        if (options & ModelGenerator::OPTIMIZE_DEAD_INST_ELIMINATION)
+        if (options & LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION)
         {
             Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
             functionPassManager->add(createDeadInstEliminationPass());
         }
 
-        if (options & ModelGenerator::OPTIMIZE_DEAD_CODE_ELIMINATION)
+        if (options & LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION)
         {
             Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
             functionPassManager->add(createDeadCodeEliminationPass());

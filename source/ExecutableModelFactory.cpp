@@ -1,15 +1,16 @@
 /*
- * ModelGenerator.cpp
+ * ExecutableModelFactory.cpp
  *
- *  Created on: May 20, 2013
+ *  Created on: Dec 11, 2014
  *      Author: andy
  */
-#pragma hdrstop
-#include "ModelGenerator.h"
 
+#include <ExecutableModelFactory.h>
+#include "rrRoadRunnerOptions.h"
 
 #if defined(BUILD_LLVM)
 #include "llvm/LLVMModelGenerator.h"
+#include "llvm/LLVMCompiler.h"
 #endif
 
 #if defined(BUILD_LEGACY_C)
@@ -20,9 +21,19 @@
 #include <string>
 #include <algorithm>
 
+#include "testing/CXXExecutableModel.h"
+
 using namespace std;
 namespace rr {
 
+/*
+static ModelGenerator* createModelGenerator(const string& compiler, const string& tempFolder,
+            const string& supportCodeFolder);
+*/
+
+/**
+ * implement the couple Compiler methods, this will go, here for source compatiblity.
+ */
 
 std::string Compiler::getDefaultCompiler()
 {
@@ -39,7 +50,24 @@ std::string Compiler::getDefaultCompiler()
 #endif
 }
 
-ModelGenerator* ModelGenerator::New(const string& compiler, const string& tempFolder,
+Compiler* Compiler::New() {
+    return new rrllvm::LLVMCompiler();
+}
+
+ExecutableModel* rr::ExecutableModelFactory::createModel(
+        const std::string& sbml, const Dictionary* dict)
+{
+    LoadSBMLOptions opt(dict);
+
+    if(opt.hasKey("cxxTestModel")) {
+        return new rrtesting::CXXExecutableModel(dict);
+    }
+
+    return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
+}
+
+/*
+ModelGenerator* createModelGenerator(const string& compiler, const string& tempFolder,
             const string& supportCodeFolder)
 {
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
@@ -75,8 +103,9 @@ ModelGenerator* ModelGenerator::New(const string& compiler, const string& tempFo
 #if !defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
 #error Must built at least one ModelGenerator backend, either BUILD_LLVM or BUILD_LEGACY_C
 #endif
-
-
 }
+*/
+
 
 } /* namespace rr */
+

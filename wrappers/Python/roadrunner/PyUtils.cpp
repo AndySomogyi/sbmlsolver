@@ -706,6 +706,34 @@ std::vector<std::string> py_to_stringvector(PyObject* obj)
 }
 
 
+
+Dictionary *Dictionary_from_py(PyObject *py)
+{
+    if (PyDict_Check(py) == 0) {
+        throw invalid_argument("object is not a dictionary");
+    }
+
+    BasicDictionary* dict = new BasicDictionary();
+
+    PyObject *pkey, *pvalue;
+    Py_ssize_t pos = 0;
+
+    while (PyDict_Next(py, &pos, &pkey, &pvalue)) {
+        if (PyString_Check(pkey)) {
+            std::string key(PyString_AsString(pkey));
+            Variant value = Variant_from_py(pvalue);
+
+            dict->setItem(key, value);
+            
+        } else {
+            throw invalid_argument("keys must be strings");
+        }
+    }
+
+    return dict;
+}
+
+
 void pyutil_init(PyObject *module)
 {
     NamedArray_Type.tp_base = &PyArray_Type;

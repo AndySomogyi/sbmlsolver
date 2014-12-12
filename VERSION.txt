@@ -1,1 +1,1 @@
-1.3-symcache-beta2
+1.3-symcache-beta3

@@ -28,8 +28,9 @@ namespace rr
  * Future version may add additional fields to the end of this struct,
  * this way we can maintain binary compatibility with older RoadRunner versions.
  */
-struct RR_DECLSPEC LoadSBMLOptions
+class RR_DECLSPEC LoadSBMLOptions : public BasicDictionary
 {
+public:
     enum ModelGeneratorOpt
     {
         /**
@@ -113,6 +114,15 @@ struct RR_DECLSPEC LoadSBMLOptions
         OPTIMIZE_INSTRUCTION_SIMPLIFIER  = (0x1 << 9),
 
         /**
+         * all optimizations, use to check if bit mask has
+         * any optimizations.
+         */
+        OPTIMIZE = OPTIMIZE_GVN | OPTIMIZE_CFG_SIMPLIFICATION |
+        OPTIMIZE_INSTRUCTION_COMBINING |
+        OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION |
+        OPTIMIZE_INSTRUCTION_SIMPLIFIER,
+
+        /**
          * Use the LLVM MCJIT JIT engine.
          *
          * Defaults to false.
@@ -140,6 +150,11 @@ struct RR_DECLSPEC LoadSBMLOptions
     LoadSBMLOptions();
 
     /**
+     * creates an object from an existing dictionary.
+     */
+    LoadSBMLOptions(const Dictionary* dict);
+
+    /**
      * the version this struct
      */
     uint16_t version;
@@ -153,6 +168,53 @@ struct RR_DECLSPEC LoadSBMLOptions
     uint32_t modelGeneratorOpt;
 
     uint32_t loadFlags;
+
+
+    /**
+     * sets an item in the internal unordered map.
+     */
+    virtual void setItem(const std::string& key, const rr::Variant& value);
+
+    /**
+     * gets an item from the internal unordered map.
+     */
+    virtual Variant getItem(const std::string& key) const;
+
+    /**
+     * is there a key matching this name.
+     *
+     * @retruns true if this key exists, false otherwise.
+     */
+    virtual bool hasKey(const std::string& key) const;
+
+    /**
+     * remove a value
+     */
+    virtual int deleteItem(const std::string& key);
+
+    /**
+     * list of keys in this object.
+     */
+    virtual std::vector<std::string> getKeys() const;
+
+
+    inline bool getConservedMoietyConversion() const {
+        return modelGeneratorOpt & CONSERVED_MOIETIES;
+    }
+
+    inline void setConservedMoietyConversion(bool val) {
+        modelGeneratorOpt = val ?
+                modelGeneratorOpt | CONSERVED_MOIETIES :
+                modelGeneratorOpt & ~CONSERVED_MOIETIES;
+    }
+
+
+    virtual ~LoadSBMLOptions();
+
+private:
+
+    // load default values;
+    void defaultInit();
 };
 
 /**

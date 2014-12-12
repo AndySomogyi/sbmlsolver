@@ -42,6 +42,7 @@ PyObject *stringvector_to_py(const std::vector<std::string> vec);
 
 std::vector<std::string> py_to_stringvector(PyObject *obj);
 
+Dictionary *Dictionary_from_py(PyObject *py);
 
 void pyutil_init(PyObject *module);
 

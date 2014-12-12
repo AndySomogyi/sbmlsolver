@@ -8,7 +8,7 @@
 #ifndef RRCOMPILEDMODELGENERATOR_H_
 #define RRCOMPILEDMODELGENERATOR_H_
 
-#include "ModelGenerator.h"
+
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
 #include "rrScanner.h"
@@ -28,7 +28,7 @@ namespace rr {
  * Both compiled model generators (C and CSharp) share a lot of functionality,
  * so implement that here.
  */
-class RR_DECLSPEC CompiledModelGenerator : public ModelGenerator
+class RR_DECLSPEC CompiledModelGenerator
 {
 protected:
     CompiledModelGenerator();
