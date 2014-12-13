@@ -49,11 +49,28 @@ public:
      */
     void flushCache();
 
+    /**
+     * nested conditionals (or functions?) can push a local cache block, where
+     * symbols would be chached. These need to be popped as these symbols are
+     * not valid outside of the local conditional or scope block.
+     */
+    virtual unsigned pushCacheBlock();
+
+    /**
+     * Pop a scoped cache block, this clears these values, and any subsequent reads
+     * re-evaluate the requested symbol.
+     *
+     * Will throw an exception if an empty stack pop is attempted.
+     */
+    virtual unsigned popCacheBlock();
+
+
 protected:
     LoadSymbolResolverBase(const ModelGeneratorContext &ctx);
 
     typedef std::list<std::string> StringStack;
     typedef cxx11_ns::unordered_map<std::string, llvm::Value*> ValueMap;
+    typedef std::deque<ValueMap> ValueMapStack;
 
     const ModelGeneratorContext &modelGenContext;
     const libsbml::Model *model;
@@ -65,7 +82,7 @@ protected:
     StringStack symbolStack;
 
     // cache symbols
-    ValueMap symbolCache;
+    ValueMapStack symbolCache;
 
     /**
      * check in the symbol cache if the symbol exists, if so return it.

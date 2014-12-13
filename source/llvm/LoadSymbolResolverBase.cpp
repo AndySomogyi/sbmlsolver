@@ -30,6 +30,8 @@ LoadSymbolResolverBase::LoadSymbolResolverBase(
         modelDataSymbols(ctx.getModelDataSymbols()),
         builder(ctx.getBuilder())
 {
+    // start with a single empty cache block
+    symbolCache.push_back(ValueMap());
 }
 
 
@@ -55,7 +57,6 @@ llvm::Value* LoadSymbolResolverBase::loadReactionRate(
     ASTNodeCodeGen astCodeGen(builder, lpResolver);
 
     return astCodeGen.codeGen(math);
-
 }
 
 void LoadSymbolResolverBase::recursiveSymbolPush(const std::string& symbol)
@@ -83,6 +84,22 @@ void LoadSymbolResolverBase::recursiveSymbolPop()
 void LoadSymbolResolverBase::flushCache()
 {
     symbolCache.clear();
+    symbolCache.push_back(ValueMap());
+}
+
+unsigned LoadSymbolResolverBase::pushCacheBlock()
+{
+    symbolCache.push_back(ValueMap());
+    return symbolCache.size();
+}
+
+unsigned LoadSymbolResolverBase::popCacheBlock()
+{
+    if(symbolCache.empty()) {
+        throw std::logic_error("attempt to pop from an empty symbol cache stack");
+    }
+    symbolCache.pop_back();
+    return symbolCache.size();
 }
 
 llvm::Value* LoadSymbolResolverBase::cacheValue(const std::string& symbol,
@@ -93,17 +110,29 @@ llvm::Value* LoadSymbolResolverBase::cacheValue(const std::string& symbol,
         return value;
     }
 
+    assert(symbolCache.size() && "symbol cache stack empty");
+
     if(value) {
-        symbolCache[symbol] = value;
+        ValueMap &values = symbolCache.back();
+        values[symbol] = value;
         Log(Logger::LOG_DEBUG) << "caching value for " << symbol;
         return value;
     }
 
-    ValueMap::const_iterator i = symbolCache.find(symbol);
-    Value* result = i != symbolCache.end() ? i->second : NULL;
+    for(ValueMapStack::const_reverse_iterator i = symbolCache.rbegin();
+            i != symbolCache.rend(); ++i) {
+        const ValueMap &values = *i;
+        ValueMap::const_iterator j = values.find(symbol);
+        Value* result = j != values.end() ? j->second : NULL;
 
-    Log(Logger::LOG_DEBUG) <<  (result ? "found " : "did not find ") << "cached value for " << symbol;
-    return result;
+        if(result) {
+            Log(Logger::LOG_DEBUG) <<  "found cached value for " << symbol;
+            return result;
+        }
+    }
+
+    Log(Logger::LOG_DEBUG) <<  "did not found cached value for " << symbol;
+    return NULL;
 }
 
 } /* namespace rrllvm */

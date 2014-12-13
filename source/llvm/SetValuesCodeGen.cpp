@@ -33,13 +33,8 @@ namespace rrllvm
 static StringIntVector independentElements(const LLVMModelDataSymbols &dataSymbols,
         const std::vector<string> elements)
 {
-    StringIntVector result(elements.size());
+    StringIntVector result;
 
-    for(int i = 0; i < elements.size(); ++i) {
-        result[i] = make_pair(elements[i], i);
-    }
-
-    /*
     for(std::vector<string>::const_iterator i = elements.begin();
             i != elements.end(); ++i)
     {
@@ -48,7 +43,6 @@ static StringIntVector independentElements(const LLVMModelDataSymbols &dataSymbo
             result.push_back(make_pair(*i, distance(elements.begin(), i)));
         }
     }
-    */
 
     return result;
 }
@@ -66,7 +60,7 @@ SetBoundarySpeciesAmountCodeGen::SetBoundarySpeciesAmountCodeGen(
 
 StringIntVector SetBoundarySpeciesAmountCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds(true));
+    return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
 }
 
 
@@ -81,7 +75,7 @@ SetFloatingSpeciesAmountCodeGen::SetFloatingSpeciesAmountCodeGen(
 
 StringIntVector SetFloatingSpeciesAmountCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds(true));
+    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
 }
 
 
@@ -96,7 +90,7 @@ SetBoundarySpeciesConcentrationCodeGen::SetBoundarySpeciesConcentrationCodeGen(
 
 StringIntVector SetBoundarySpeciesConcentrationCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds(true));
+    return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
 }
 
 
@@ -111,7 +105,7 @@ SetFloatingSpeciesConcentrationCodeGen::SetFloatingSpeciesConcentrationCodeGen(
 
 StringIntVector SetFloatingSpeciesConcentrationCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds(true));
+    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
 }
 
 
@@ -126,7 +120,7 @@ SetCompartmentVolumeCodeGen::SetCompartmentVolumeCodeGen(
 
 StringIntVector SetCompartmentVolumeCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getCompartmentIds(true));
+    return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
 }
 
 
@@ -141,7 +135,7 @@ SetGlobalParameterCodeGen::SetGlobalParameterCodeGen(
 
 StringIntVector SetGlobalParameterCodeGen::getIds()
 {
-    return independentElements(dataSymbols, dataSymbols.getGlobalParameterIds(true));
+    return independentElements(dataSymbols, dataSymbols.getGlobalParameterIds());
 }
 
 } /* namespace rr */

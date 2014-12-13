@@ -789,13 +789,19 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
         // the conditional
         const ASTNode *condNode = ast->getChild(i++);
 
+        resolver.pushCacheBlock();
         Value *cond = toBoolean(codeGen(condNode));
+        resolver.popCacheBlock();
 
         builder.CreateCondBr(cond, thenBB, elseBB);
 
         // the then value
         builder.SetInsertPoint(thenBB);
+
+        resolver.pushCacheBlock();
         Value *thenVal = toDouble(codeGen(thenNode));
+        resolver.popCacheBlock();
+
         values.push_back(thenVal);
 
         builder.CreateBr(mergeBB);
@@ -818,7 +824,9 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
         assert((i+1) == nchild);
 
         const ASTNode *ow = ast->getChild(i);
+        resolver.pushCacheBlock();
         owVal = toDouble(codeGen(ow));
+        resolver.popCacheBlock();
     }
     else
     {

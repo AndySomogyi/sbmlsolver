@@ -45,6 +45,21 @@ public:
 
     virtual void recursiveSymbolPop() = 0;
 
+    /**
+     * nested conditionals (or functions?) can push a local cache block, where
+     * symbols would be chached. These need to be popped as these symbols are
+     * not valid outside of the local conditional or scope block.
+     */
+    virtual unsigned pushCacheBlock() {return 0;}
+
+    /**
+     * Pop a scoped cache block, this clears these values, and any subsequent reads
+     * re-evaluate the requested symbol.
+     *
+     * Will throw an exception if an empty stack pop is attempted.
+     */
+    virtual unsigned popCacheBlock() {return 0;}
+
 protected:
 
     virtual ~LoadSymbolResolver() {};

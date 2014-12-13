@@ -94,6 +94,8 @@ enum EventAtributes
     EventPersistent               = (0x1 << 2)  // => 0x00000100
 };
 
+
+
 /**
  * stores the names of all the symbols in the sbml model and thier
  * indexes in the ModelData arrays. This class essentially maps symbol
@@ -233,10 +235,8 @@ public:
     std::vector<std::string> getReactionIds() const;
     uint getReactionSize() const;
 
-    /**
-     * @param indOnly: only include ind values
-     */
-    std::vector<std::string> getGlobalParameterIds(bool indOnly = false) const;
+
+    std::vector<std::string> getGlobalParameterIds() const;
 
     /**
      * is the global parameter index defined by a rate rule.
@@ -246,12 +246,8 @@ public:
     /**
      * the list that is returned by ExecutableModel, so order must
      * remain constant.
-     *
-     * All floating species ids, independent first.
-     *
-     * @param indOnly: only include independent values
      */
-    std::vector<std::string> getFloatingSpeciesIds(bool indOnly = false) const;
+    std::vector<std::string> getFloatingSpeciesIds() const;
 
 
     /**
@@ -276,10 +272,7 @@ public:
 
     uint getGlobalParametersSize() const;
 
-    /**
-     * @param indOnly only include ind values
-     */
-    std::vector<std::string> getCompartmentIds(bool indOnly = false) const;
+    std::vector<std::string> getCompartmentIds() const;
 
     /**
      * number of compartments which are not determined by rules.
@@ -287,12 +280,7 @@ public:
     uint getIndependentCompartmentSize() const;
 
 
-
-    /**
-     * all the boundary species ids, independent first.
-     * @param indOnly only include ind values
-     */
-    std::vector<std::string> getBoundarySpeciesIds(bool indOnly = false) const;
+    std::vector<std::string> getBoundarySpeciesIds() const;
 
     /**
      * get a list of all the non-zero entries in the

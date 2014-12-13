@@ -107,7 +107,6 @@ if(BUILD_LLVM)
         llvm/EventQueue
         llvm/FunctionResolver
         llvm/LLVMExecutableModel
-        llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
         llvm/LoadSymbolResolverBase
         llvm/GetInitialValuesCodeGen
@@ -121,7 +120,6 @@ if(BUILD_LLVM)
         llvm/LLVMModelGenerator
         llvm/ModelGeneratorContext
         llvm/LLVMModelSymbols
-        llvm/SetRateRuleValuesCodeGen
         llvm/SetValuesCodeGen
         llvm/SetInitialValuesCodeGen
         llvm/SBMLSupportFunctions
