@@ -66,12 +66,12 @@ public:
     /**
      * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
-    double min() { return 0.0; };
+    static double min() { return 0.0; };
 
     /**
      * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
-    double max() { return 1.0; };
+    static double max() { return 1.0; };
 
     /**
      * Try to hide the RNG, so we can use different RNGs in the future.
