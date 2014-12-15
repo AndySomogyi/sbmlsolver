@@ -13,6 +13,8 @@
 #include "rrUtils.h"
 #include <stdint.h>
 
+#include <tr1proxy/rr_random.h>
+
 
 #if INTPTR_MAX == INT32_MAX
     #define RR_32BIT
@@ -128,7 +130,7 @@ double distrib_uniform(Random *random, double _min, double _max)
             << static_cast<void*>(random)
             << ", " << _min << ", " << _max << ")";
 
-    cxx11_ns::uniform_real<double> dist(_min, _max);
+    cxx11_ns::uniform_real_distribution<double> dist(_min, _max);
     return dist(*random);
 }
 
