@@ -6,7 +6,7 @@
 #include <deque>
 #include <string>
 #include <stack>
-#include <memory>
+#include <tr1proxy/rr_memory.h>
 #include "sbml/math/ASTNode.h"
 #include "rrExporter.h"
 #include "rrStringListContainer.h"

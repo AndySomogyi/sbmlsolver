@@ -14,10 +14,10 @@
 #include <stdexcept>
 
 #if (__cplusplus >= 201103L) || defined(_MSC_VER)
-#include <memory>
+#include <tr1proxy/rr_memory.h>
 #define cxx11_ns std
 #else
-#include <tr1/memory>
+#include <tr1proxy/rr_memory.h>
 #define cxx11_ns std::tr1
 #endif
 
