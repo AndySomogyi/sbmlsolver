@@ -433,8 +433,12 @@ void ModelGeneratorContext::initFunctionPassManager()
     // we only support LLVM >= 3.1
 #if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
     functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
-#else
+#elif (LLVM_VERSION_MINOR <= 4)
     functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+#else // LLVM_VERSION_MINOR > 4
+    // Needed for LLVM 3.5 regardless of architecture
+    // also, should use DataLayoutPass(module) per Renato (http://reviews.llvm.org/D4607)
+    functionPassManager->add(new DataLayoutPass(module));
 #endif
 
          // Provide basic AliasAnalysis support for GVN.
