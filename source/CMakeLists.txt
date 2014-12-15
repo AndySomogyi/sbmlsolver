@@ -198,7 +198,7 @@ if(RR_BUILD_SHARED_CORE)
         PocoFoundation
         )
     if(APPLE)
-        target_link_libraries(${target} ${ZLIB_LIBRARIES})
+        target_link_libraries(${target} ${ZLIB_LIBRARY})
     endif()
 
 
@@ -229,7 +229,7 @@ if(RR_BUILD_SHARED_CORE)
             )
     endif(UNIX)
     if(APPLE)
-        target_link_libraries(${target} ${ZLIB_LIBRARIES})
+        target_link_libraries(${target} ${ZLIB_LIBRARY})
     endif()
 
     #Libxml is not built. Use a VS converted import file for Borland
