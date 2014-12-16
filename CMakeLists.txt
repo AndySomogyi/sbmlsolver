@@ -63,6 +63,11 @@ else()
     find_package(LLVM)
 endif()
 
+# Zlib required on Mac
+if(APPLE)
+  find_package(ZLIB REQUIRED)
+endif()
+
 # should we build and install Testing tools?
 option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
 

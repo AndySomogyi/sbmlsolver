@@ -14,15 +14,9 @@
 #include "LLVMModelData.h"
 #include "rrExecutableModel.h"
 
-#if (__cplusplus >= 201103L) || defined(_MSC_VER)
-#include <memory>
-#include <unordered_map>
-#define cxx11_ns std
-#else
-#include <tr1/memory>
-#include <tr1/unordered_map>
-#define cxx11_ns std::tr1
-#endif
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
+
 
 #include <map>
 #include <set>

@@ -11,15 +11,9 @@
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
 #include "Dictionary.h"
+#include "tr1proxy/rr_memory.h"
 #include <stdexcept>
 
-#if (__cplusplus >= 201103L) || defined(_MSC_VER)
-#include <memory>
-#define cxx11_ns std
-#else
-#include <tr1/memory>
-#define cxx11_ns std::tr1
-#endif
 
 namespace rr
 {

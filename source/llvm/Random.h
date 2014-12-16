@@ -8,7 +8,7 @@
 #ifndef _RRLLVM_RANDOM_H_
 #define _RRLLVM_RANDOM_H_
 
-#include <rr_random> // rr proxy to <random>
+#include "tr1proxy/rr_random.h" // rr proxy to <random>
 #include <stdint.h>
 
 namespace rrllvm

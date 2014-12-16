@@ -76,6 +76,10 @@ else() #Unix
         )
 endif()
 
+if(APPLE)
+    target_link_libraries(${target} ${ZLIB_LIBRARY})
+endif()
+
 add_subdirectory(Apps)
 if(INSTALL_EXAMPLES)
     add_subdirectory(Examples)

@@ -30,7 +30,8 @@
 #include "EventQueue.h"
 #include "rrSelectionRecord.h"
 
-#include <rr_unordered_map>
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
 #include <map>
 
 namespace rrllvm
