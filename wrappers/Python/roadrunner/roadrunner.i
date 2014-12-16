@@ -61,6 +61,8 @@
     #include "PyEventListener.h"
     #include "PyIntegratorListener.h"
 
+    #include "tr1proxy/cxx11_ns.h"
+
     using ls::Matrix;
     using ls::DoubleMatrix;
     using ls::Complex;
@@ -127,7 +129,9 @@
 %include "rr_docstrings.i"
 
  // the integrator listener is a shared ptr
+#ifdef CXX11_NS_TR1
 #define SWIG_SHARED_PTR_SUBNAMESPACE tr1
+#endif
 %include "std_shared_ptr.i"
 
 %shared_ptr(rr::PyIntegratorListener)

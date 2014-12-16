@@ -50,6 +50,7 @@ public:
      */
     double operator()();
 
+#ifdef CXX11_NS_TR1
     /**
      * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
@@ -59,6 +60,17 @@ public:
      * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
     double max() { return 1.0; };
+#else
+    /**
+     * used by random distributions
+     */
+    static constexpr unsigned long long min() { return 0; };
+
+    /**
+     * used by random distrbutions
+     */
+    static constexpr unsigned long long max() { return 1; };
+#endif
 
     /**
      * Try to hide the RNG, so we can use different RNGs in the future.

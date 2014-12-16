@@ -60,9 +60,6 @@ if(UNIX)
         )
 endif()
 
-if(APPLE)
-    target_link_libraries(${target} ${ZLIB_LIBRARY})
-endif()
 
 install (TARGETS ${target}
     DESTINATION bin

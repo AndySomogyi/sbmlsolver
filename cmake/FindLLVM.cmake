@@ -170,6 +170,15 @@ if (LLVM_CONFIG_EXECUTABLE)
             #message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
             set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
+
+
+            # LLVM 3.5 seems to require zlib, at least on OSX 10.9. 
+            # no big deal to just add it on UNIX in general as it already there. 
+            if (LLVM_VERSION_MINOR GREATER 4)
+                message("LLVM > 3.4, looking for zlib")
+                find_package(ZLIB REQUIRED)
+                set (LLVM_LIBRARIES "${LLVM_LIBRARIES};${ZLIB_LIBRARY}")
+            endif()
             message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
         else()

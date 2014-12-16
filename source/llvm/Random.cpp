@@ -128,7 +128,12 @@ double distrib_uniform(Random *random, double _min, double _max)
             << static_cast<void*>(random)
             << ", " << _min << ", " << _max << ")";
 
+#ifdef CXX11_NS_TR1
     cxx11_ns::uniform_real<double> dist(_min, _max);
+
+#else
+    cxx11_ns::uniform_real_distribution<double> dist(_min, _max);
+#endif
     return dist(*random);
 }
 
