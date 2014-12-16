@@ -13,6 +13,7 @@
     #include <random>
     #define cxx11_ns std
     #define RR_CXX_RANDOM 1
+    #define RR_RANDOM_CXX11 1
 #elif  __clang_major__ >= 4 || defined(__APPLE__)
     #include <tr1/random>
     #define cxx11_ns std::tr1
@@ -66,12 +67,20 @@ public:
     /**
      * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
-    double min() { return 0.0; };
+# ifdef RR_RANDOM_CXX11
+    static constexpr unsigned long long min() { return 0.0; };
+# else
+    static unsigned long long min() { return 0.0; };
+# endif
 
     /**
      * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
-    double max() { return 1.0; };
+# ifdef RR_RANDOM_CXX11
+    static constexpr unsigned long long max() { return 1.0; };
+# else
+    static unsigned long long min() { return 0.0; };
+# endif
 
     /**
      * Try to hide the RNG, so we can use different RNGs in the future.

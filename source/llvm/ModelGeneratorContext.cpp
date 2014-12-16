@@ -433,8 +433,12 @@ void ModelGeneratorContext::initFunctionPassManager()
     // we only support LLVM >= 3.1
 #if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
     functionPassManager->add(new TargetData(*executionEngine->getTargetData()));
-#else
+#elif (LLVM_VERSION_MINOR <= 4)
     functionPassManager->add(new DataLayout(*executionEngine->getDataLayout()));
+#else // LLVM_VERSION_MINOR > 4
+    // Needed for LLVM 3.5 regardless of architecture
+    // also, should use DataLayoutPass(module) per Renato (http://reviews.llvm.org/D4607)
+    functionPassManager->add(new DataLayoutPass(module));
 #endif
 
          // Provide basic AliasAnalysis support for GVN.
@@ -618,19 +622,19 @@ void ModelGeneratorContext::addGlobalMappings()
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arccosh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) acosh);
+                        (void*)static_cast<double (*)(double)>(acosh));
 
     // AST_FUNCTION_ARCSINH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arcsinh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) asinh);
+                        (void*)static_cast<double (*)(double)>(asinh));
 
     // AST_FUNCTION_ARCTANH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arctanh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) atanh);
+                        (void*)static_cast<double (*)(double)>(atanh));
 
 }
 
