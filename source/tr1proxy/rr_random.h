@@ -16,6 +16,8 @@
   * hence no use for a tr1 prefix.
 **/
 
+#include "cxx11_ns.h"
+
 #if __APPLE__
   // is Mavericks
   #if (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_9) || (__cplusplus >= 201103L)
@@ -37,7 +39,5 @@
   #endif
 
 #endif                                                     // __APPLE__
-
-#include "cxx11_ns.h"
 
 #endif // _INCLUDED_RR_RANDOM_H_

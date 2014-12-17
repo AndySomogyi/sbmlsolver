@@ -16,23 +16,21 @@
   * hence no use for a tr1 prefix.
 **/
 
-# if __APPLE__
-  // is Mavericks
-  # if (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_9) || (__cplusplus >= 201103L)
-    # include <memory>
-  # else
-    # include <tr1/memory>
-  # endif                                                   // OSX ver
-# else                                                      // not __APPLE__
-  # if (__cplusplus >= 201103L) || defined(_MSC_VER)
-    # include <memory>
-  # else
-    # include <tr1/memory>
-  # endif
-# endif                                                     // __APPLE__
-
 #include "cxx11_ns.h"
 
-
+#if __APPLE__
+  // is Mavericks
+  #if (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_9) || (__cplusplus >= 201103L)
+    #include <memory>
+  #else
+    #include <tr1/memory>
+  #endif                                                   // OSX ver
+#else                                                      // not __APPLE__
+  #if (__cplusplus >= 201103L) || defined(_MSC_VER)
+    #include <memory>
+  #else
+    #include <tr1/memory>
+  #endif
+#endif                                                     // __APPLE__
 
 #endif //  _INCLUDED_RR_MEMORY_H_
