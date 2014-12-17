@@ -89,10 +89,7 @@ public:
 private:
     ExecutableModel *model;
     SimulateOptions options;
-
-#ifdef RR_CXX_RANDOM
     cxx11_ns::mt19937 engine;
-#endif
 
     double timeScale;
     double stoichScale;

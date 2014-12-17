@@ -50,7 +50,17 @@ public:
      */
     double operator()();
 
-#ifdef CXX11_NS_TR1
+#ifdef CXX11_RANDOM
+     /**
+     * used by random distributions
+     */
+    static constexpr unsigned long long min() { return 0; };
+
+    /**
+     * used by random distrbutions
+     */
+    static constexpr unsigned long long max() { return 1; };
+#else
     /**
      * min random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
@@ -60,16 +70,6 @@ public:
      * max random number. MSVC looks at this, but gcc stdlib assumes normalized dist.
      */
     double max() { return 1.0; };
-#else
-    /**
-     * used by random distributions
-     */
-    static constexpr unsigned long long min() { return 0; };
-
-    /**
-     * used by random distrbutions
-     */
-    static constexpr unsigned long long max() { return 1; };
 #endif
 
     /**

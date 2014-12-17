@@ -249,11 +249,7 @@ IntegratorListenerPtr GillespieIntegrator::getListener()
 
 double GillespieIntegrator::urand()
 {
-#ifdef RR_CXX_RANDOM
     return (double) engine() / (double) engine.max();
-#else
-    return drand48();
-#endif
 }
 
 
@@ -343,12 +339,8 @@ void GillespieIntegrator::setEngineSeed(unsigned long seed)
 {
     Log(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
 
-#ifdef RR_CXX_RANDOM
     // MSVC needs an explicit cast, fail to compile otherwise.
     engine.seed((unsigned long)seed);
-#else
-    srand48(seed);
-#endif
 }
 
 std::string GillespieIntegrator::toString() const
