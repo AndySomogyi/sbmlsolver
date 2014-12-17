@@ -128,10 +128,11 @@
 // all the documentation goes here.
 %include "rr_docstrings.i"
 
- // the integrator listener is a shared ptr
-#ifdef CXX11_NS_TR1
-#define SWIG_SHARED_PTR_SUBNAMESPACE tr1
-#endif
+
+// the cmake CMakeLists.txt file in this directory sets the value of the 
+// SWIG_SHARED_PTR_SUBNAMESPACE as a pre-processor symbol based on the 
+// USE_TR1_CXX_NS CMake option. SWIG has no way of getting this info
+// from the compiler so have to reley on the CMake system.  
 %include "std_shared_ptr.i"
 
 %shared_ptr(rr::PyIntegratorListener)

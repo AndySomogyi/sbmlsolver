@@ -17,10 +17,21 @@ include_directories(
 
 
 
+
+
+
 SET_SOURCE_FILES_PROPERTIES(roadrunner.i PROPERTIES CPLUSPLUS ON)
 SET_SOURCE_FILES_PROPERTIES(roadrunner.i PROPERTIES SWIG_FLAGS "-threads")
 
+
+if(USE_TR1_CXX_NS)
+  message(STATUS "Using tr1 for SWIG smart pointer namespace")
+  set(CMAKE_SWIG_FLAGS "-DSWIG_SHARED_PTR_SUBNAMESPACE=tr1")
+endif()
+
 SWIG_ADD_MODULE(roadrunner python roadrunner.i PyUtils PyLoggerStream)
+
+
 
 
 

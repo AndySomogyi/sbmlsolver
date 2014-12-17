@@ -94,6 +94,8 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
+# new clang on OSX and msvc use std namespace. 
+option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
 OPTION (INSTALL_CXX_API         "Generate C++ api"                               ON )
 OPTION (INSTALL_C_API           "Generate C API"                                 ON )
 OPTION (INSTALL_C_API_PYTHON    "Package ctypes  Python wrapper for the C API"   ON )
