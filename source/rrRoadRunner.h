@@ -914,30 +914,3 @@ private:
 }
 
 #endif
-
-/*! \mainpage RoadRunner C++ Library
-
- \par
- This document describes the application programming interface (API) of RoadRunner, an open source (BSD) library for computing structural characteristics of cellular networks.
- \par
-
- \par Dependencies
- The RoadRunner library depend on several third-party libraries, CLapack, libSBML (libxml2), Sundials, NLEQ, and Poco. These are provided with the binary installation where necessary.
- \par
-
- \author Andy Somogyi (andy.somogyi@gmail.com, somogyie@indiana.edu)
- \author Totte Karlsson (totte@dunescientific.com)
- \author Herbert M. Sauro  (hsauro@u.washington.edu)
-
- \par
- Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
- \li Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-
- \li Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
- \li Neither the name of University of Washington nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
- \par
-
- */

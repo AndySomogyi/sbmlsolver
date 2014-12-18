@@ -22,13 +22,34 @@ namespace rr
  * general purpose Runge-Kutta integrator which will support
  * different orders and adaptive time stepping.
  *
- * TODO: SBML event handling.
+ * This object is mainly here as an example of creating a new Integrator.
+ *
  */
 class RK4Integrator: public Integrator
 {
 public:
+
+
+    /**
+     * Creates a new RK4Integrator.
+     *
+     * The IntegratorFactory is the ONLY object that creates integrators.
+     *
+     * Integrators are created when the IntegratorFactory::New method is called,
+     * typically by the top level RoadRunner object.
+     *
+     * The integrator will hold onto the ExecutableModel pointer, m, and when the
+     * integrate method is called, will advance the model object forward in time.
+     *
+     * @param m: a borrowed reference to an existing ExecutableModel object.
+     * @param o: a reference to a SimulatOptions object where the configuration
+     * parameters will be read from.
+     */
     RK4Integrator(ExecutableModel *m, const SimulateOptions *o);
 
+    /**
+     * clean up any mess.
+     */
     virtual ~RK4Integrator();
 
 
@@ -112,6 +133,9 @@ public:
 
     /**
      * list of keys that this integrator supports.
+     *
+     * This method is called by the IntegratorFactory to build a list of
+     * all the options that all the integrators support.
      */
     static const Dictionary* getIntegratorOptions();
 

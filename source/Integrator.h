@@ -69,7 +69,11 @@ class RR_DECLSPEC Integrator : public Dictionary
 public:
 
     /**
-     * Set the configuration parameters the integrator uses.
+     * Whenever the simulation parameters are changed via calls to the
+     * RoadRunner::simulate method, the setSimulateOptions method is
+     * called by RoadRunner.
+     *
+     * This method should be used to read any updated tuning parameters.
      */
     virtual void setSimulateOptions(const SimulateOptions* options) = 0;
 
