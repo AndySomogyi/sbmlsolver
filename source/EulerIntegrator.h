@@ -29,6 +29,27 @@ using std::stringstream;
  * This integrator should not really be used in practice as the
  * forward Euler algorithm is highly unstable and will seldomly
  * yield numerically correct values.
+ *
+ * This class also has two dummy variables, exampleParameter1 and
+ * exampleParameter2. These serve as examples of how to use the Dictionary
+ * interface to get/set various tuning paramters that an Integrator
+ * might have. These values will be displayed when the toString method
+ * is called, typically by Python.
+ *
+ * An example of calling simulate in Python, and the results of specifying
+ * the parameters as keyword arguments is
+ *
+ * @code
+ * r.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
+ *
+ * print(r.integrator)
+ * < roadrunner.EulerIntegrator()
+ * { 'this' : 0x101f28350
+ * 'exampleParameter1' : 123456
+ * 'exampleParameter2' : some value
+ * }>
+ * @endcode
+ *
  */
 class EulerIntegrator: public Integrator
 {
@@ -133,7 +154,7 @@ public:
             // a time step
             if (listener)
             {
-                listener->onEvent(this, model, t0 + h);
+                listener->onTimeStep(this, model, t0 + h);
             }
         }
         return t0 + h;
@@ -164,7 +185,7 @@ public:
      */
     virtual std::string toString() const {
         std::stringstream ss;
-        ss << "< roadrunner.EulerIntegrator() << std::endl;";
+        ss << "< roadrunner.EulerIntegrator() " << std::endl;
         ss << "{ 'this' : " << (void*)this << std::endl;
         ss << "'exampleParameter1' : " << exampleParameter1 << std::endl;
         ss << "'exampleParameter2' : " << exampleParameter2 << std::endl;

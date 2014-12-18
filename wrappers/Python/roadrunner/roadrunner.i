@@ -129,10 +129,10 @@
 %include "rr_docstrings.i"
 
 
-// the cmake CMakeLists.txt file in this directory sets the value of the 
-// SWIG_SHARED_PTR_SUBNAMESPACE as a pre-processor symbol based on the 
+// the cmake CMakeLists.txt file in this directory sets the value of the
+// SWIG_SHARED_PTR_SUBNAMESPACE as a pre-processor symbol based on the
 // USE_TR1_CXX_NS CMake option. SWIG has no way of getting this info
-// from the compiler so have to reley on the CMake system.  
+// from the compiler so have to reley on the CMake system.
 %include "std_shared_ptr.i"
 
 %shared_ptr(rr::PyIntegratorListener)
@@ -1355,17 +1355,6 @@ namespace std { class ostream{}; }
                     o.variableStep = v
                     continue
 
-                # check if specifying seed for RNG.
-                if k == "seed":
-                    o["seed"] = v
-                    continue
-
-                # look through all the attributes of the SimulateOptions class,
-                # if its one of these, set it.
-                if SimulateOptions.__dict__.has_key(k):
-                    setattr(o, k, v)
-                    continue
-
                 if k == "plot":
                     doPlot = v
                     continue
@@ -1374,7 +1363,11 @@ namespace std { class ostream{}; }
                     show = v
                     continue
 
-                raise Exception("{0} is not a valid keyword argument".format(k))
+                # if its not one of these, just set the item on the dict, and
+                # if the inegrator cares about it, it will use it.
+                # if its one of these, set it.
+                o[k] = v
+
 
 
             # if we are doing a stochastic sim,

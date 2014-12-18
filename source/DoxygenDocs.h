@@ -46,7 +46,7 @@ an open source (BSD) library for computing structural characteristics of cellula
 One of the key design goals of the LibRoadRunner library is extensibility. This means that the 
 library is designed with the idea that most internal components are loosely coupled and that
 it is simple to add new solvers such as new steady state solvers or integrators. This section
-will give a tutorial on creating a new integrator using the RK4Integrator as an example. 
+will give a tutorial on creating a new integrator using the EulerIntegrator as an example. 
 
 At its simplest, an Integrator is a class which implements the Integrator interface and
 is responsible for advanding a model (an object which implements the ExecutableModel interface)
@@ -98,15 +98,15 @@ This method should be used to read any updated tuning parameters.
 @li Integrator::integrate This is the actual method that should perform the time integration. 
 
 @li Integrator::restart This method is called whenever the RoadRunner object is re-started. This gives the 
-integrator an option to reload any internal solvers. Simple integrators like the RK4Integrator does not 
-really do anything in the RK4Integrator::restart method, but more sophisticated ones like the CVODE integrator
+integrator an option to reload any internal solvers. Simple integrators like the EulerIntegrator does not 
+really do anything in the EulerIntegrator::restart method, but more sophisticated ones like the CVODE integrator
 perform a number of tasks such as re-calclating the tollerances and so forth. 
 
 The other key thing that an Integrator needs to do is provide a 
 @code 
 static const Dictionary* getIntegratorOptions();
 @endcode 
-method, as in the RK4Integrator::getIntegratorOptions. This method is used by the IntegratorFactory
+method, as in the EulerIntegrator::getIntegratorOptions. This method is used by the IntegratorFactory
 to build a list of all the available tuning parameters that any integrator supports. The returned
 Dictionary pointer should be statically created inside the implemtation file, and should contain the 
 following keys / values
@@ -180,6 +180,10 @@ else if(opt->integrator == Integrator::RK4)
 {
     result = new RK4Integrator(m, opt);
 }
+else if(opt->integrator == Integrator::EULER)
+{
+    result = new EulerIntegrator(m, opt);
+}
 else
 {
     result = new CVODEIntegrator(m, opt);
@@ -193,16 +197,50 @@ the dictionary that was created in the getIntegratorOptions method, e.g.
 const Dictionary* options[] = {
         CVODEIntegrator::getIntegratorOptions(),
         GillespieIntegrator::getIntegratorOptions(),
-        RK4Integrator::getIntegratorOptions()
+        RK4Integrator::getIntegratorOptions(),
+        EulerIntegrator::getIntegratorOptions()
 };
 @endcode
 
 Once the IntegratorFactory is made aware of your new integrator, it is available for full introspection and
 can be used by just adding the <tt>integrator="myNewIntegrator"</tt> argument whenever the 
-RoadRunner.simulate method is called. The RK4Integrator was created as an example of how to create and add
+RoadRunner.simulate method is called. The EulerIntegrator was created as an example of how to create and add
 a new integrator, have a look at it. 
 
+
+@subsection sec_euler A complete example of creating an integrator.
+This section includes the complete Euler integrator as an example of creating a new integrator. 
+This class has two demo paramters which may be set via the keyword arguments to RoadRunner.simulate
+in Python, or set via the Dictionary::setItem method on the dictionary that is given to the 
+RoadRunner::simulate method in C++. In Python, this would be
+
+
+@code
+r.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
+
+print(r.integrator)
+< roadrunner.EulerIntegrator() { 
+  'this' : 0x101f28350
+  'exampleParameter1' : 123456
+  'exampleParameter2' : some value
+}>
+@endcode
+
+
+The EulerIntegrator.h file serves as a complete example of creating an new integrator. 
+This example was written entierly in the header file for clarity, but a real integrator 
+should separate the code and header files. 
 
 
 */
 } // namespace rr
+
+
+// This definition is just here so doxygen can pick up the smart pointer
+// typedef
+
+/**
+ * listeners are shared objects, so use std smart pointers
+ * to manage them.
+ */
+namespace cxx11_ns { template<class T> class shared_ptr { T *dummy; }; }
