@@ -78,9 +78,12 @@ public:
         delete[] stateBuffer2;
     };
 
-public:
     /**
-     * Set the configuration parameters the integrator uses.
+     * Whenever the simulation parameters are changed via calls to the
+     * RoadRunner::simulate method, this setSimulateOptions method is
+     * called by the top level RoadRunner object.
+     *
+     * This method should be used to read any updated tuning parameters.
      */
     virtual void setSimulateOptions(const SimulateOptions* opt) {
         if(opt) {
@@ -186,7 +189,7 @@ public:
         return "euler";
     }
 
-public:
+
     /**
      * sets the value for a key.
      *
