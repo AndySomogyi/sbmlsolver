@@ -235,12 +235,3 @@ should separate the code and header files.
 */
 } // namespace rr
 
-
-// This definition is just here so doxygen can pick up the smart pointer
-// typedef
-
-/**
- * listeners are shared objects, so use std smart pointers
- * to manage them.
- */
-namespace cxx11_ns { template<class T> class shared_ptr { T *dummy; }; }
