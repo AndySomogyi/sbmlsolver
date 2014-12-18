@@ -9,6 +9,7 @@
 #include "CVODEIntegrator.h"
 #include "GillespieIntegrator.h"
 #include "RK4Integrator.h"
+#include "EulerIntegrator.h"
 #include "rrStringUtils.h"
 
 namespace rr
@@ -18,7 +19,7 @@ namespace rr
  * list of interator names, the index should correspond to the
  * Integrator::IntegratorId enum.
  */
-static const char* integratorNames[] = {"cvode", "gillespie", "rk4"};
+static const char* integratorNames[] = {"cvode", "gillespie", "rk4", "euler"};
 
 Integrator* IntegratorFactory::New(const Dictionary* dict, ExecutableModel* m)
 {
@@ -36,6 +37,10 @@ Integrator* IntegratorFactory::New(const Dictionary* dict, ExecutableModel* m)
     else if(opt->integrator == Integrator::RK4)
     {
         result = new RK4Integrator(m, opt);
+    }
+    else if(opt->integrator == Integrator::EULER)
+    {
+        result = new EulerIntegrator(m, opt);
     }
     else
     {
@@ -56,9 +61,11 @@ std::vector<const Dictionary*> IntegratorFactory::getIntegratorOptions()
     const Dictionary* options[] = {
             CVODEIntegrator::getIntegratorOptions(),
             GillespieIntegrator::getIntegratorOptions(),
-            RK4Integrator::getIntegratorOptions()
+            RK4Integrator::getIntegratorOptions(),
+            EulerIntegrator::getIntegratorOptions()
     };
-    return std::vector<const Dictionary*>(&options[0], &options[3]);
+    return std::vector<const Dictionary*>(&options[0],
+            &options[Integrator::INTEGRATOR_END]);
 }
 
 const Dictionary* IntegratorFactory::getIntegratorOptions(
@@ -73,6 +80,8 @@ const Dictionary* IntegratorFactory::getIntegratorOptions(
         return GillespieIntegrator::getIntegratorOptions();
     case Integrator::RK4:
         return RK4Integrator::getIntegratorOptions();
+    case Integrator::EULER:
+        return EulerIntegrator::getIntegratorOptions();
     default:
         throw std::invalid_argument("invalid integrator name");
 
@@ -82,7 +91,7 @@ const Dictionary* IntegratorFactory::getIntegratorOptions(
 Integrator::IntegratorType IntegratorFactory::getIntegratorType(
         Integrator::IntegratorId i)
 {
-    if (i == Integrator::CVODE || i == Integrator::RK4) {
+    if (i == Integrator::CVODE || i == Integrator::RK4 || i == Integrator::EULER) {
         return Integrator::DETERMINISTIC;
     } else {
         return Integrator::STOCHASTIC;
@@ -92,7 +101,7 @@ Integrator::IntegratorType IntegratorFactory::getIntegratorType(
 Integrator::IntegratorId IntegratorFactory::getIntegratorIdFromName(const std::string& _name)
 {
     std::string name = rr::toUpper(_name);
-    
+
 
     for (unsigned i = 0; i < Integrator::INTEGRATOR_END; ++i) {
         std::string iname = rr::toUpper(getIntegratorNameFromId((Integrator::IntegratorId)i));

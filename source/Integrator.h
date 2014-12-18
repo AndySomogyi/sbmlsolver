@@ -148,6 +148,12 @@ public:
         RK4,
 
         /**
+         * Simple forward Euler integrator to demonstrate creating an
+         * integrator.
+         */
+        EULER,
+
+        /**
          * Always has to be at the end, this way, this value indicates
          * how many integrators we have.
          */
