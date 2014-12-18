@@ -97,8 +97,11 @@ public:
     /**
      * integrates the model from t0 to t0 + hstep
      *
-     * @return the final time value. This is typically very close to t0 + hstep,
-     * but may be different if variableStep is used.
+     * In this implementation, this performs a basic forward Euler step.
+     * This method also demonstrates how to notify the listener
+     * that a timestep has completed.
+     *
+     * @return the end time.
      */
     virtual double integrate(double t0, double h) {
         if(model) {
