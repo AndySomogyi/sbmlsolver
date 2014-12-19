@@ -209,16 +209,16 @@ a new integrator, have a look at it.
 
 
 @subsection sec_euler A complete example of creating an integrator.
-This section includes the complete Euler integrator as an example of creating a new integrator. 
+This section includes the complete Euler integrator implemented in EulerIntegrator.h as an example of 
+creating a new integrator. 
 This class has two demo paramters which may be set via the keyword arguments to RoadRunner.simulate
 in Python, or set via the Dictionary::setItem method on the dictionary that is given to the 
-RoadRunner::simulate method in C++. In Python, this would be
-
+RoadRunner::simulate method in C++. In Python, this would be:
 
 @code
 r.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
-
 print(r.integrator)
+
 < roadrunner.EulerIntegrator() { 
   'this' : 0x101f28350
   'exampleParameter1' : 123456
@@ -226,6 +226,18 @@ print(r.integrator)
 }>
 @endcode
 
+In Python, all the keyword arguments to the simulate method are packaged up and added to the 
+dictionary which is passed into the RoadRunner::simulate method. In C++, the equivalent code 
+would be:
+@code
+SimulateOptions& opt = r.getSimulateOptions();
+opt.setItem("integrator", "euler")
+opt.setItem("exampleParameter1", 123456);
+opt.setItem("exampleParameter2", "some value");
+r.simulate();
+
+cout << r.getIntegrator()->toString() << endl;
+@endcode
 
 The EulerIntegrator.h file serves as a complete example of creating an new integrator. 
 This example was written entierly in the header file for clarity, but a real integrator 
