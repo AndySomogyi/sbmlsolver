@@ -160,6 +160,57 @@ class SBMLTest(object):
 
         return result
 
+    def diffplot(self):
+        """
+        Run the SBML test. Returns True or False depending on if the test passes or not. 
+        If the test fails, any errors will be available in the SBMLTest.errors property.
+        """
+
+        import matplotlib.pyplot as plt
+        
+        self.errors = []
+        result = True
+        
+        try:
+            # run the simulation
+
+            plt.figure(1)
+
+            r = rr.RoadRunner(self.sbmlFileName, _getLoadOptions())
+
+            # need to tweak the tolerances for the current integrator
+            opt = self.settings.copy()
+            opt.tweakTolerances()
+            opt.structuredResult = True
+
+            plt.subplot(211)
+            r.simulate(opt, plot=True, show=False)
+            plt.xlim([0, opt.duration])
+
+
+            r = rr.RoadRunner(self.sbmlFileName, _getLoadOptions())
+
+            # need to tweak the tolerances for the current integrator
+            opt = self.settings.copy()
+            opt.tweakTolerances()
+            opt.variableStep = True
+            opt.structuredResult = True
+
+            plt.subplot(212)
+            r.simulate(opt, plot=True, show=False)
+            plt.xlim([0, opt.duration])
+
+
+            plt.show()
+
+
+        except Exception as e:
+            result = False
+            self._addError(str(e))
+
+        return result
+
+
     def _addError(self, err):
         self.errors += [err]
 
@@ -249,6 +300,41 @@ def runSBMLTest(sbmlTestDir, case):
         rr.Logger.log(rr.Logger.LOG_ERROR, "test " + case + " failed, errors: ")
         for e in test.errors:
             rr.Logger.log(rr.Logger.LOG_ERROR, e)
+
+
+def plotSBMLTest(sbmlTestDir, case):
+    """
+    Run a single sbml test case. 
+
+    :param sbmlTestDir: the directory where the sbml tests are located, this would
+    be the directory where you unziped the sbml test suite to.
+
+    :param case: the sbml test case. This may be a number, or it may be a 
+    text string to use as the exact test case directory, i.e. 1, or "00001".
+    """
+
+    import roadrunner as rr
+
+    # if case is a number, we convert to the correct textual form
+    # padd the with the correct number of zeros.
+    if type(case) == int:
+        case = str(case).zfill(5)
+
+    rr.Logger.log(rr.Logger.LOG_NOTICE, "running test " + case)
+
+    # the test dir may have /cases/semantic/ sub directories
+    if not path.isdir(path.join(sbmlTestDir, case)) and \
+        path.isdir(path.join(sbmlTestDir, "cases")):
+            sbmlTestDir = path.join(sbmlTestDir, "cases")
+
+            if not path.isdir(path.join(sbmlTestDir, case)) and \
+                path.isdir(path.join(sbmlTestDir, "semantic")):
+                    sbmlTestDir = path.join(sbmlTestDir, "semantic")
+
+    test = SBMLTest(path.join(sbmlTestDir, case))
+    test.diffplot()
+
+
 
 
 
