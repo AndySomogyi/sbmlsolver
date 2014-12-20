@@ -101,14 +101,34 @@ private:
 
     static const int mDefaultMaxAdamsOrder;
     static const int mDefaultMaxBDFOrder;
-    double mLastEvent;
+
+    /**
+     * the time that the last event occured.
+     */
+    double lastEventTime;
 
     /**
      * the shared model object, owned by RoadRunner.
      */
     ExecutableModel* mModel;
 
-    bool mFollowEvents;
+    bool variableStepPendingEvent;
+
+    bool variableStepTimeEndEvent;
+
+    /**
+     * If an event occurs at the exact moment a time step completes,
+     * need to store the post event state as the pre-event state
+     * is copied into the model to produce an extra time point just
+     * before the event.
+     */
+    double *variableStepPostEventState;
+
+    /**
+     * an array of event status. Used by integrate to read the current model
+     * event status into.
+     */
+    std::vector<unsigned char> eventStatus;
 
     /**
      * the listener
@@ -140,10 +160,13 @@ private:
      */
     void setCVODETolerances();
 
-    void assignPendingEvents(double timeEnd, double tout);
+    void applyPendingEvents(double timeEnd);
 
-    void handleRootsForTime(double timeEnd,
+    void applyEvents(double timeEnd,
             std::vector<unsigned char> &previousEventStatus);
+
+
+    double applyVariableStepPendingEvents();
 
     /**
      * re-initialize cvode with a new set of initial conditions

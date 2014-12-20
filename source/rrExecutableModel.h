@@ -551,10 +551,22 @@ public:
      */
     virtual int getEventTriggers(int len, const int *indx, unsigned char *values) = 0;
 
-    virtual void applyEvents(double timeEnd, const unsigned char* previousEventStatus,
+
+    /**
+     * Itterate through all of the current and pending events and apply them. If any
+     * events trigger a state change which triggers any additional events, these
+     * are applied as well. After this method finishes, all events are processed.
+     *
+     * @param timeEnd: model time when the event occured.
+     * @param previousEventStatus: array of previous event triggered states.
+     * @param initialState (optional): initial state vector, may be NULL, in which
+     * the current state is used.
+     * @param finalState (optional): final state vector, where the final state is
+     * coppied to. May be NULL, in which case, ignored.
+     */
+    virtual int applyEvents(double timeEnd, const unsigned char* previousEventStatus,
                 const double *initialState, double* finalState) = 0;
 
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout) = 0;
 
     /**
      * evaluate the event 'roots' -- when events transition form triggered - non-triggered

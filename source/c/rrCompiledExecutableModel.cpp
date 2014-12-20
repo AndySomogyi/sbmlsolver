@@ -1023,16 +1023,14 @@ vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const v
     return result;
 }
 
-int CompiledExecutableModel::applyPendingEvents(const double *stateVector,
-        double timeEnd,  double tout)
+int CompiledExecutableModel::applyPendingEvents(double timeEnd)
 {
     int handled = 0;
     for (int i = (int) mAssignments.size() - 1; i >= 0; i--)
     {
         if (timeEnd >= mAssignments[i].getTime())
         {
-            this->setTime(tout);
-            this->setStateVector(stateVector);
+            this->setTime(timeEnd);
             this->convertToConcentrations();
             this->updateDependentSpeciesValues();
             mAssignments[i].eval();
@@ -1052,7 +1050,7 @@ int CompiledExecutableModel::applyPendingEvents(const double *stateVector,
     return handled;
 }
 
-void CompiledExecutableModel::applyEvents(double timeEnd,
+int CompiledExecutableModel::applyEvents(double timeEnd,
         const unsigned char* previousEventStatus, const double *initialState,
         double* finalState)
 {
@@ -1087,6 +1085,8 @@ void CompiledExecutableModel::applyEvents(double timeEnd,
             }
         }
     }
+
+    int numEvents = firedEvents.size();
 
     vector<int> handled;
     while (firedEvents.size() > 0)
@@ -1184,6 +1184,8 @@ void CompiledExecutableModel::applyEvents(double timeEnd,
     this->getStateVector(finalState);
 
     sort(mAssignmentTimes.begin(), mAssignmentTimes.end());
+
+    return numEvents;
 }
 
 void CompiledExecutableModel::removePendingAssignmentForIndex(int eventIndex)

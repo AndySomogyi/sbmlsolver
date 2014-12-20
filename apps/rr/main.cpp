@@ -5,6 +5,7 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrGetOptions.h"
 #include "Args.h"
+#include "Integrator.h"
 #include "rrVersionInfo.h"
 
 #include <iostream>
@@ -124,10 +125,13 @@ int main(int argc, char * argv[])
             }
             else //Read from command line
             {
-                simulation.SetTimeStart(args.StartTime);
-                simulation.SetTimeEnd(args.EndTime);
-                simulation.SetNumberOfPoints(args.Steps);
-                simulation.SetSelectionList(args.SelectionList);
+                SimulateOptions& opt = rr->getSimulateOptions();
+                opt.start = args.StartTime;
+                opt.duration = args.EndTime - args.StartTime;
+                opt.steps = args.Steps;
+                if(args.variableStep) {
+                    opt.integratorFlags |= Integrator::VARIABLE_STEP;
+                }
             }
         }
 
@@ -173,7 +177,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
 
-    while ((c = GetOptions(argc, argv, (const char*) ("cpuo:v:n:d:t:l:m:s:e:z:"))) != -1)
+    while ((c = GetOptions(argc, argv, (const char*) ("xcpuo:v:n:d:t:l:m:s:e:z:"))) != -1)
     {
         switch (c)
         {
@@ -189,6 +193,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                 }
                 break;
             case ('c'): args.OnlyCompile                    = true;                                break;
+            case ('x'): args.variableStep                   = true;                                break;
             case ('p'): args.Pause                          = true;                                break;
             case ('t'): args.TempDataFolder                 = rrOptArg;                            break;
             case ('d'): args.DataOutputFolder               = rrOptArg;                            break;

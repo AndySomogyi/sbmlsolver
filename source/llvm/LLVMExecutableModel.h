@@ -413,11 +413,8 @@ public:
      * erases expired events, and applies ripe events as long as we have ripe
      * events.
      */
-    virtual void applyEvents(double timeEnd, const unsigned char* previousEventState,
+    virtual int applyEvents(double timeEnd, const unsigned char* previousEventState,
             const double *initialState, double* finalState);
-
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
-            double tout);
 
     virtual void getEventRoots(double time, const double* y, double* gdot);
 

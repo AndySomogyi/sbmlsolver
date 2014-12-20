@@ -20,7 +20,8 @@ StartTime(0),
 Duration(5),
 EndTime(StartTime + Duration),
 Steps(50),
-SelectionList("")
+SelectionList(""),
+variableStep(false)
 {}
 
 string Usage(const string& prg)
@@ -44,6 +45,7 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-z<#>"                        <<" Set number of steps in the simulation. Default: 50\n";
     usage<<setw(25)<<"-l<List>"                     <<" Set selection list. Separate variables using ',' or space\n";
     usage<<setw(25)<<"-version"                     <<" Prints the current version.\n\n";
+    usage<<setw(25)<<"-x"                           <<" Enables variable step mode.\n\n";
     usage<<setw(25)<<"-? "                          <<" Shows the help screen.\n\n";
 
     usage << "Version: " << rr::getVersionStr() << std::endl;
