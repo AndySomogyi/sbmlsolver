@@ -26,6 +26,9 @@
 #include <numpy/arrayobject.h>
 #include "structmember.h"
 
+// python object.h
+#include "object.h"
+
 #include <iostream>
 #include <iomanip>
 
@@ -386,7 +389,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
             Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
-	    // passing a NULL for data tells numpy to allocate its own data
+        // passing a NULL for data tells numpy to allocate its own data
             if(cols == 1) {
                 int nd = 1;
                 npy_intp dims[1] = {rows};
@@ -401,9 +404,9 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
                                      0, mat, flags);
             }
 
-	    VERIFY_PYARRAY(pArray);
+        VERIFY_PYARRAY(pArray);
 
-	    // copy our data into the numpy array
+        // copy our data into the numpy array
             double *data = static_cast<double*>(PyArray_DATA(pArray));
             memcpy(data, mat->getArray(), sizeof(double)*rows*cols);
 
@@ -526,6 +529,113 @@ static PyMethodDef DatetimeArray_methods[] = {
 
 
 
+//static PyMappingMethods NamedArray_MappingMethods = {
+//#if PY_VERSION_HEX >= 0x02050000
+//    (lenfunc)array_length,              /*mp_length*/
+//#else
+//    (inquiry)array_length,              /*mp_length*/
+//#endif
+//    (binaryfunc)array_subscript_nice,       /*mp_subscript*/
+//    (objobjargproc)array_ass_sub,       /*mp_ass_subscript*/
+//};
+
+
+/**
+ * binaryfunc PyMappingMethods.mp_subscript
+ * This function is used by PyObject_GetItem() and has the same signature.
+ * This slot must be filled for the PyMapping_Check() function to return 1,
+ * it can be NULL otherwise.
+ */
+static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
+{
+    binaryfunc PyArray_subscript = PyArray_Type.tp_as_mapping->mp_subscript;
+
+    if (PyString_Check(op)) {
+        const char* keyName = PyString_AsString(op);
+
+        PyObject *colSeq = PySequence_Fast(self->colNames, "expected a sequence");
+        int len = PySequence_Size(colSeq);
+        for (int col = 0; col < len; col++) {
+            PyObject *item = PySequence_Fast_GET_ITEM(colSeq, col);
+            const char* itemStr = PyString_AsString(item);
+
+            if(strcmp(keyName, itemStr) == 0) {
+
+                int rows = PyArray_DIM(self, 0);
+                int cols = PyArray_DIM(self, 1);
+
+                npy_intp dims[1] = {rows};
+                PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
+                        NPY_CARRAY, NULL);
+
+                // copy data to result array
+                double* data = (double*)PyArray_DATA(self);
+                double* newData = (double*)PyArray_DATA(result);
+
+                for(int i = 0; i < rows; ++i) {
+                    newData[i] = data[(i * cols) + col];
+                }
+
+                // free the seq and return
+                Py_DECREF(colSeq);
+                return result;
+            }
+        }
+
+        // did not find a col name, free the seq
+        Py_DECREF(colSeq);
+
+
+        // look for row names
+        PyObject *rowSeq = PySequence_Fast(self->rowNames, "expected a sequence");
+        len = PySequence_Size(rowSeq);
+        for (int row = 0; row < len; ++row) {
+            PyObject *item = PySequence_Fast_GET_ITEM(rowSeq, row);
+            const char* itemStr = PyString_AsString(item);
+
+            if(strcmp(keyName, itemStr) == 0) {
+
+                int rows = PyArray_DIM(self, 0);
+                int cols = PyArray_DIM(self, 1);
+
+                npy_intp dims[1] = {cols};
+                PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
+                        NPY_CARRAY, NULL);
+
+                // copy data to result array
+                double* data = (double*)PyArray_DATA(self);
+                double* newData = (double*)PyArray_DATA(result);
+
+                for(int i = 0; i < cols; ++i) {
+                    newData[i] = data[(row * cols) + i];
+                }
+
+                // free the seq and return
+                Py_DECREF(rowSeq);
+                return result;
+            }
+        }
+
+        // did not find a col name, free the seq
+        Py_DECREF(rowSeq);
+
+    }
+
+    // not found in row or col names, return default numpy func.
+    return PyArray_subscript((PyObject*)self, op);
+}
+
+static PyMappingMethods NamedArray_MappingMethods = {
+#if PY_VERSION_HEX >= 0x02050000
+    (lenfunc)0,              /*mp_length*/
+#else
+    (inquiry)0,              /*mp_length*/
+#endif
+    (binaryfunc)0,       /*mp_subscript*/
+    (objobjargproc)0,       /*mp_ass_subscript*/
+};
+
+
 
 static PyTypeObject NamedArray_Type = {
     PyObject_HEAD_INIT(NULL)
@@ -541,7 +651,7 @@ static PyTypeObject NamedArray_Type = {
     (reprfunc)NamedArray_repr,                /* tp_repr */
     0,                                        /* tp_as_number */
     0,                                        /* tp_as_sequence */
-    0,                                        /* tp_as_mapping */
+    &NamedArray_MappingMethods,               /* tp_as_mapping */
     0,                                        /* tp_hash */
     0,                                        /* tp_call */
     (reprfunc)NamedArray_str,                 /* tp_str */
@@ -727,7 +837,7 @@ Dictionary *Dictionary_from_py(PyObject *py)
             Variant value = Variant_from_py(pvalue);
 
             dict->setItem(key, value);
-            
+
         } else {
             throw invalid_argument("keys must be strings");
         }
@@ -739,7 +849,20 @@ Dictionary *Dictionary_from_py(PyObject *py)
 
 void pyutil_init(PyObject *module)
 {
+    // set up the base class to be the numpy ndarray PyArray_Type
     NamedArray_Type.tp_base = &PyArray_Type;
+
+
+    // set up the pointers of the NamedArray_MappingMethods to point
+    // to the numpy ones
+    PyMappingMethods *numpyMappMethods = PyArray_Type.tp_as_mapping;
+
+    assert(numpyMappMethods && "Numpy PyMappingMethods is NULL");
+
+    NamedArray_MappingMethods = *numpyMappMethods;
+
+    // set our getitem pointer
+    NamedArray_MappingMethods.mp_subscript = (binaryfunc)NammedArray_subscript;
 
     int result;
 
