@@ -453,10 +453,9 @@ public:
             const vector<int>& handledEvents,
             const bool& assignOldState, vector<int>& removeEvents);
 
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
-            double tout);
+    virtual int applyPendingEvents(double timeEnd);
 
-    virtual void applyEvents(double timeEnd, const unsigned char* previousEventStatus,
+    virtual int applyEvents(double timeEnd, const unsigned char* previousEventStatus,
             const double *initialState, double* finalState);
 
     virtual void getEventRoots(double time, const double* y,  double* gdot);

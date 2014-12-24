@@ -24,6 +24,7 @@ public:
     double                          EndTime;            //option e
     int                             Steps;              //option z
     string                          SelectionList;      //option l:
+    bool variableStep;
 };
 
 #endif

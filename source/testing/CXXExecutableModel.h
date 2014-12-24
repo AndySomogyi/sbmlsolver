@@ -469,10 +469,10 @@ public:
      */
     virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
 
-    virtual void applyEvents(double timeEnd, const unsigned char* previousEventStatus,
+    virtual int applyEvents(double timeEnd, const unsigned char* previousEventStatus,
                 const double *initialState, double* finalState);
 
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout);
+    virtual int applyPendingEvents(double timeEnd);
 
     /**
      * evaluate the event 'roots' -- when events transition form triggered - non-triggered

@@ -1411,7 +1411,7 @@ namespace std { class ostream{}; }
             show() method is called.
             """
 
-            import pylab as p
+            import matplotlib.pyplot as p
 
             result = self.getSimulationData()
 

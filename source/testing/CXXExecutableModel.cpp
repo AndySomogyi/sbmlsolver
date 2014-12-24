@@ -356,14 +356,14 @@ int CXXExecutableModel::getEventTriggers(int len, const int* indx,
     return 0;
 }
 
-void CXXExecutableModel::applyEvents(double timeEnd,
+int CXXExecutableModel::applyEvents(double timeEnd,
         const unsigned char* previousEventStatus, const double* initialState,
         double* finalState)
 {
+    return 0;
 }
 
-int CXXExecutableModel::applyPendingEvents(const double* stateVector,
-        double timeEnd, double tout)
+int CXXExecutableModel::applyPendingEvents(double timeEnd)
 {
     return 0;
 }

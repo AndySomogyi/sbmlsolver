@@ -1859,64 +1859,44 @@ int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned cha
     }
 }
 
-void LLVMExecutableModel::applyEvents(double timeEnd,
+int LLVMExecutableModel::applyEvents(double timeEnd,
         const unsigned char* previousEventStatus, const double *initialState,
         double* finalState)
 {
-    modelData->time = timeEnd;
-    setStateVector(initialState);
-
-    // copy event status into local vars, these
-    // are modified via applyEvents
-    vector<unsigned char> prevEventState(previousEventStatus,
-            previousEventStatus + modelData->numEvents);
-
-    vector<unsigned char> currEventStatus(modelData->numEvents);
-
-    unsigned char *p1 = &prevEventState[0];
-    unsigned char *p2 = &currEventStatus[0];
-
-    pendingEvents.eraseExpiredEvents();
-
-    while(applyEvents(p1, p2))
-    {
-        std::swap(p1, p2);
-    }
-
-    getStateVector(finalState);
-}
-
-/**
- * Each applied event application typically results in a state change.
- *
- * At each state change, we need to re-scan the events and see
- * if any new events become triggered or events expire.
- */
-int LLVMExecutableModel::applyPendingEvents(const double *stateVector,
-        double timeEnd, double tout)
-{
     int assignedEvents = 0;
     modelData->time = timeEnd;
-    setStateVector(stateVector);
 
-    vector<unsigned char> prevEventState(modelData->numEvents);
-    vector<unsigned char> currEventStatus(modelData->numEvents);
+    if(initialState) {
+        setStateVector(initialState);
+    }
 
-    getEventTriggers(prevEventState.size(), 0, &prevEventState[0]);
+    if(modelData->numEvents) {
+        // copy event status into local vars, these
+        // are modified via applyEvents
+        vector<unsigned char> prevEventState(previousEventStatus,
+                previousEventStatus + modelData->numEvents);
 
-    unsigned char *p1 = &prevEventState[0];
-    unsigned char *p2 = &currEventStatus[0];
+        vector<unsigned char> currEventStatus(modelData->numEvents);
 
-    pendingEvents.eraseExpiredEvents();
+        unsigned char *p1 = &prevEventState[0];
+        unsigned char *p2 = &currEventStatus[0];
 
-    while (applyEvents(p1, p2))
-    {
-        assignedEvents++;
-        std::swap(p1, p2);
+        pendingEvents.eraseExpiredEvents();
+
+        while(applyEvents(p1, p2))
+        {
+            assignedEvents++;
+            std::swap(p1, p2);
+        }
+    }
+
+    if(finalState) {
+        getStateVector(finalState);
     }
 
     return assignedEvents;
 }
+
 
 void  LLVMExecutableModel::getEventRoots(double time, const double* y, double* gdot)
 {
