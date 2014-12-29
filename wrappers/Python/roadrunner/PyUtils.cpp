@@ -381,8 +381,6 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
         int rows = mat->numRows();
         int cols = mat->numCols();
-        int nd = 2;
-        npy_intp dims[2] = {rows, cols};
         PyObject *pArray = NULL;
 
         if (flags & SimulateOptions::COPY_RESULT) {
@@ -390,12 +388,13 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
             Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
         // passing a NULL for data tells numpy to allocate its own data
-            if(cols == 1) {
+
+            // make a 1D array in this case
+            if(cols == 1 && mat->getColNames().size() == 0) {
                 int nd = 1;
                 npy_intp dims[1] = {rows};
-                pArray = NamedArray_New(nd, dims, NULL,
-                                     0, mat, flags);
-
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
+                        NULL, NULL, 0, 0, NULL);
             }
             else {
                 int nd = 2;
@@ -404,9 +403,9 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
                                      0, mat, flags);
             }
 
-        VERIFY_PYARRAY(pArray);
+            VERIFY_PYARRAY(pArray);
 
-        // copy our data into the numpy array
+            // copy our data into the numpy array
             double *data = static_cast<double*>(PyArray_DATA(pArray));
             memcpy(data, mat->getArray(), sizeof(double)*rows*cols);
 
@@ -415,20 +414,19 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
             Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
 
-
             double *data = mat->getArray();
 
-            if(cols == 1) {
+            if(cols == 1 && mat->getColNames().size() == 0) {
                 int nd = 1;
                 npy_intp dims[1] = {rows};
-                pArray = NamedArray_New(nd, dims, data,
-                                     NPY_CARRAY, mat, flags);
+                pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
+                        NULL, data, 0, NPY_CARRAY, NULL);
             }
             else {
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
                 pArray = NamedArray_New(nd, dims, data,
-                                     NPY_CARRAY, mat, flags);
+                        NPY_CARRAY, mat, flags);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -549,8 +547,9 @@ static PyMethodDef DatetimeArray_methods[] = {
 static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
 {
     binaryfunc PyArray_subscript = PyArray_Type.tp_as_mapping->mp_subscript;
+    int dim = PyArray_NDIM(self);
 
-    if (PyString_Check(op)) {
+    if (dim == 2 && PyString_Check(op)) {
         const char* keyName = PyString_AsString(op);
 
         PyObject *colSeq = PySequence_Fast(self->colNames, "expected a sequence");
@@ -627,11 +626,11 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
 
 static PyMappingMethods NamedArray_MappingMethods = {
 #if PY_VERSION_HEX >= 0x02050000
-    (lenfunc)0,              /*mp_length*/
+    (lenfunc)0,             /*mp_length*/
 #else
-    (inquiry)0,              /*mp_length*/
+    (inquiry)0,             /*mp_length*/
 #endif
-    (binaryfunc)0,       /*mp_subscript*/
+    (binaryfunc)0,          /*mp_subscript*/
     (objobjargproc)0,       /*mp_ass_subscript*/
 };
 
@@ -770,7 +769,7 @@ PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
     }
 }
 
-PyObject* stringvector_to_py(const std::vector<std::string> vec)
+PyObject* stringvector_to_py(const std::vector<std::string>& vec)
 {
     unsigned size = vec.size();
 

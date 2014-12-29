@@ -1472,7 +1472,19 @@ DoubleMatrix RoadRunner::getFullJacobian()
     {
         rsm = ls->getStoichiometryMatrix();
     }
-    return ls::mult(*rsm, uelast);
+
+    DoubleMatrix jac = ls::mult(*rsm, uelast);
+
+    // get the row/column ids, independent floating species
+    std::list<std::string> list;
+    self.model->getIds(SelectionRecord::FLOATING_AMOUNT, list);
+    std::vector<std::string> ids(list.begin(), list.end());
+    assert(ids.size() == jac.RSize() &&
+            ids.size() == jac.CSize() && "independent species ids length != RSize && CSize");
+    jac.setColNames(ids);
+    jac.setRowNames(ids);
+
+    return jac;
 }
 
 DoubleMatrix RoadRunner::getFullReorderedJacobian()
@@ -1500,6 +1512,14 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
     // result matrix
     DoubleMatrix jac(nIndSpecies, nIndSpecies);
+
+    // get the row/column ids, independent floating species
+    std::list<std::string> list;
+    self.model->getIds(SelectionRecord::INDEPENDENT_FLOATING_AMOUNT, list);
+    std::vector<std::string> ids(list.begin(), list.end());
+    assert(ids.size() == nIndSpecies && "independent species ids length != getNumIndFloatingSpecies");
+    jac.setColNames(ids);
+    jac.setRowNames(ids);
 
     // need 2 buffers for rate central difference.
     std::vector<double> dy0v(nIndSpecies);
@@ -2511,12 +2531,12 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 {
     get_self();
 
-    if (!self.model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
+    check_model();
 
     DoubleMatrix uElastMatrix(self.model->getNumReactions(), self.model->getNumFloatingSpecies());
+
+    uElastMatrix.setRowNames(getReactionIds());
+    uElastMatrix.setColNames(getFloatingSpeciesIds());
 
     for (int i = 0; i < self.model->getNumReactions(); i++)
     {
@@ -2536,7 +2556,11 @@ DoubleMatrix RoadRunner::getScaledElasticityMatrix()
     check_model();
 
     DoubleMatrix uelast = getUnscaledElasticityMatrix();
-    DoubleMatrix result(uelast.RSize(), uelast.CSize());;
+    DoubleMatrix result(uelast.RSize(), uelast.CSize());
+
+    result.setColNames(uelast.getColNames());
+    result.setRowNames(uelast.getRowNames());
+
     vector<double> rates(self.model->getNumReactions());
     self.model->getReactionRates(rates.size(), 0, &rates[0]);
 
@@ -2595,51 +2619,44 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
 // [Help("Compute the matrix of unscaled concentration control coefficients")]
 DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 {
-    try
+    get_self();
+
+    check_model();
+
+    impl->simulateOpt.start = 0;
+    impl->simulateOpt.duration = 50.0;
+    impl->simulateOpt.steps = 1;
+
+    // TODO why is simulate called here???
+    simulate();
+    if (steadyState() > impl->mSteadyStateThreshold)
     {
-        if (!impl->model)
+        if (steadyState() > 1E-2)
         {
-            throw CoreException(gEmptyModelMessage);
+            throw CoreException("Unable to locate steady state during control coefficient computation");
         }
-
-        impl->simulateOpt.start = 0;
-        impl->simulateOpt.duration = 50.0;
-        impl->simulateOpt.steps = 1;
-
-        simulate(); //This will crash, because numpoints == 1, not anymore, numPoints = 2 if numPoints <= 1
-        if (steadyState() > impl->mSteadyStateThreshold)
-        {
-            if (steadyState() > 1E-2)
-            {
-                throw CoreException("Unable to locate steady state during control coefficient computation");
-            }
-        }
-
-        // Compute the Jacobian first
-        DoubleMatrix uelast     = getUnscaledElasticityMatrix();
-        DoubleMatrix Nr         = getNrMatrix();
-        DoubleMatrix T1 = mult(Nr, uelast);
-        DoubleMatrix LinkMatrix = getLinkMatrix();
-        DoubleMatrix Jac = mult(T1, LinkMatrix);
-
-        // Compute -Jac
-        DoubleMatrix T2 = Jac * (-1.0);
-
-        ComplexMatrix temp(T2); //Get a complex matrix from a double one. Imag part is zero
-        ComplexMatrix Inv = GetInverse(temp);
-
-        // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        // Sauro: mult which takes complex matrix need to be implemented
-        DoubleMatrix T3 = mult(Inv, Nr); // Compute ( - Jac)^-1 . Nr
-
-        // Finally include the dependent set as well.
-        DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
-        return T4;
     }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getUnscaledConcentrationControlCoefficientMatrix()", e.Message());
-    }
+
+    // Compute the Jacobian first
+    DoubleMatrix uelast     = getUnscaledElasticityMatrix();
+    DoubleMatrix Nr         = getNrMatrix();
+    DoubleMatrix T1 = mult(Nr, uelast);
+    DoubleMatrix LinkMatrix = getLinkMatrix();
+    DoubleMatrix Jac = mult(T1, LinkMatrix);
+
+    // Compute -Jac
+    DoubleMatrix T2 = Jac * (-1.0);
+
+    ComplexMatrix temp(T2); //Get a complex matrix from a double one. Imag part is zero
+    ComplexMatrix Inv = GetInverse(temp);
+
+    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    // Sauro: mult which takes complex matrix need to be implemented
+    DoubleMatrix T3 = mult(Inv, Nr); // Compute ( - Jac)^-1 . Nr
+
+    // Finally include the dependent set as well.
+    DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
+    return T4;
 }
 
 
@@ -2673,30 +2690,21 @@ DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
 // [Help("Compute the matrix of unscaled flux control coefficients")]
 DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 {
-    try
-    {
-        if (impl->model)
-        {
-            DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
-            DoubleMatrix uee = getUnscaledElasticityMatrix();
+    get_self();
 
-            DoubleMatrix T1 = mult(uee, ucc);
+    check_model();
 
-            // Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
-            for (int i=0; i<T1.RSize(); i++)
-                T1[i][i] = T1[i][i] + 1;
-            return T1;//Matrix.convertToDouble(T1);
-        }
-        else throw CoreException(gEmptyModelMessage);
+    DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
+    DoubleMatrix uee = getUnscaledElasticityMatrix();
+
+    DoubleMatrix T1 = mult(uee, ucc);
+
+    // Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
+    for (int i=0; i<T1.RSize(); i++) {
+        T1[i][i] = T1[i][i] + 1;
     }
-    catch (CoreException&)
-    {
-        throw;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getUnscaledFluxControlCoefficientMatrix()", e.Message());
-    }
+
+    return T1;
 }
 
 // [Help("Compute the matrix of scaled flux control coefficients")]

@@ -99,6 +99,7 @@ public:
          * current amounts
          */
         FLOATING_AMOUNT =                   FLOATING | AMOUNT | INDEPENDENT | DEPENDENT | CURRENT,
+        INDEPENDENT_FLOATING_AMOUNT =       FLOATING | AMOUNT | INDEPENDENT | CURRENT,
         BOUNDARY_AMOUNT =                   BOUNDARY | AMOUNT | INDEPENDENT | DEPENDENT | CURRENT,
 
         /**
