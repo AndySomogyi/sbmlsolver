@@ -29,18 +29,41 @@ ostream& operator<<(ostream& stream, const IntMatrix& mat)
     return stream;
 }
 
-ostream& operator<<(ostream& stream, const DoubleMatrix& mat)
+ostream& operator<<(ostream& ss, const DoubleMatrix& mat)
 {
-    for(unsigned row = 0; row < mat.RSize(); row++)
-    {
-        for(unsigned col = 0; col < mat.CSize(); col++)
-        {
-            double val = mat(row,col);
-            stream<<val<<"\t";
-        }
-        stream<<"\n";
-    }
-    return stream;
+	// write col names (if they exist)
+	const std::vector<std::string> &colNames = mat.getColNames();
+	if(colNames.size() > 0) {
+		for(u_int col = 0; col < colNames.size(); col++) {
+			ss << colNames[col];
+			if(col < colNames.size() -1) {
+				ss << ",";
+			}
+			else {
+				ss << std::endl;
+			}
+		}
+	}
+
+	//Then the data
+	for(u_int row = 0; row < mat.RSize(); row++) {
+	    for(u_int col = 0; col < mat.CSize(); col++) {
+	        if(col == 0) {
+	            ss << mat(row, col);
+	        }
+	        else {
+	            ss << mat(row, col);
+	        }
+
+	        if(col < mat.CSize() -1) {
+	            ss << ",";
+	        }
+	        else {
+	            ss << std::endl;
+	        }
+	    }
+	}
+    return ss;
 }
 
 ostream& operator<<(ostream& stream, const ComplexMatrix& mat)

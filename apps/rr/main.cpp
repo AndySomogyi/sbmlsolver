@@ -2,7 +2,6 @@
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrSBMLModelSimulation.h"
 #include "rrGetOptions.h"
 #include "Args.h"
 #include "Integrator.h"
@@ -43,26 +42,10 @@ int main(int argc, char * argv[])
 
         ProcessCommandLineArguments(argc, argv, args);
 
-        gLog.setLevel(args.CurrentLogLevel);
+        Logger::setLevel(args.CurrentLogLevel);
 
         string thisExeFolder = getCurrentExeFolder();
-        Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
-
-        //Assume(!) rr.exe is in bin folder of roadrunner install
-        string RRInstallFolder = getParentFolder(thisExeFolder);    //Go up one folder
-        Log(lDebug)<<"Assuming RoadRunner is installed in: "<<RRInstallFolder;
-
-        if(args.UseOSTempFolder)
-        {
-            args.TempDataFolder = getTempDir();
-        }
-
-        if(args.TempDataFolder == ".")
-        {
-            args.TempDataFolder = getCWD();
-        }
-
-        Log(lDebug)<<"Temp data folder: "<<args.TempDataFolder<<endl;
+        Log(Logger::LOG_DEBUG) << "RoadRunner bin location is: " << thisExeFolder;
 
         if(args.ModelFileName.size())
         {
@@ -74,102 +57,45 @@ int main(int argc, char * argv[])
             Logger::enableConsoleLogging(Logger::getLevel());
         }
 
-        Log(lInfo) << "Current Log level is:" << Logger::getCurrentLevelAsString();
-        SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
+        Log(Logger::LOG_INFORMATION) << "Current Log level is:"
+        		<< Logger::getCurrentLevelAsString();
 
-        Log(lDebug) << "Working Directory: "<<getCWD()<<endl;
-
-        //Creating roadrunner
-        Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder, "");
-        rr->reset();
-
-        Log(lDebug)<<"....."<<endl;
-        simulation.UseEngine(rr);
-
-        //The following will load and compile and simulate the sbml model in the file
         if(!args.ModelFileName.size())
         {
             Log(lInfo)<<"Please supply a sbml model file name, using option -m<modelfilename>";
-            doContinue = false;
+            exit(0);
         }
 
-        if(doContinue && !simulation.SetModelFileName(args.ModelFileName))
+        //Creating roadrunner
+        Log(Logger::LOG_DEBUG) << "Creating RoadRunner..." << endl;
+        RoadRunner rr(args.ModelFileName);
+
+        SimulateOptions& opt = rr.getSimulateOptions();
+        opt.start = args.StartTime;
+        opt.duration = args.EndTime - args.StartTime;
+        opt.steps = args.Steps;
+        if(args.variableStep) {
+        	opt.integratorFlags |= Integrator::VARIABLE_STEP;
+        }
+
+        ls::DoubleMatrix res = *rr.simulate();
+
+        if(args.OutputFileName.size() >  0)
         {
-            Log(lInfo)<<"Bad model file";
-            doContinue = false;
+        	ofstream os(args.OutputFileName.c_str());
+        	os << res;
         }
-
-        simulation.ReCompileIfDllExists(true);
-        if(doContinue && !simulation.LoadSBMLFromFile())
+        else
         {
-            Log(lError)<<"Failed loading SBML model";
-            doContinue = false;
+        	cout << res;
         }
-
-        if(doContinue)
-        {
-            Log(lInfo)<<"SBML semantics was loaded from file: "<<simulation.GetModelsFullFilePath();
-        }
-
-        //Then read settings file if it exists..
-        if(doContinue)
-        {
-            if(settingsFile.size())
-            {
-                if(!simulation.LoadSettings(settingsFile))    //set selection list here!
-                {
-                    Log(lError)<<"Failed loading SBML model settings";
-                    doContinue = false;
-                }
-            }
-            else //Read from command line
-            {
-                SimulateOptions& opt = rr->getSimulateOptions();
-                opt.start = args.StartTime;
-                opt.duration = args.EndTime - args.StartTime;
-                opt.steps = args.Steps;
-                if(args.variableStep) {
-                    opt.integratorFlags |= Integrator::VARIABLE_STEP;
-                }
-            }
-        }
-
-        //Then Simulate model
-        if(doContinue && !simulation.Simulate())
-        {
-            Log(lError)<<"Failed running simulation";
-            throw("Failed running simulation");
-        }
-
-        if(doContinue)
-        {
-            RoadRunnerData result = simulation.GetResult();
-
-            if(args.OutputFileName.size() >  0)
-            {
-                ofstream os(args.OutputFileName.c_str());
-                os<<result;
-            }
-            else
-            {
-                cout<<result;
-            }
-        }
-
-        delete rr;
     }
     catch(std::exception& ex)
     {
-        Log(Logger::LOG_ERROR) << ex.what() << endl;
+    	Log(Logger::LOG_ERROR) << ex.what() << endl;
     }
 
 
-    Log(Logger::LOG_INFORMATION) << "RoadRunner is exiting...";
-    if(args.Pause)
-    {
-        rr::pause();
-    }
     return 0;
 }
 
