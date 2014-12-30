@@ -950,6 +950,7 @@ TEST(929) { CHECK(RunTest("l3v1", 929)); }
 TEST(930) { CHECK(RunTest("l3v1", 930)); }
 TEST(931) { CHECK(RunTest("l3v1", 931)); }
 TEST(932) { CHECK(RunTest("l3v1", 932)); }
+TEST(933) { CHECK(RunTest("l3v1", 933)); }
 TEST(934) { CHECK(RunTest("l3v1", 934)); }
 TEST(935) { CHECK(RunTest("l3v1", 935)); }
 TEST(936) { CHECK(RunTest("l2v4", 936)); }
@@ -1412,7 +1413,7 @@ SUITE(SBML_TEST_SUITE_EVENTS)
     TEST(775) { CHECK(RunTest("l2v4", 775)); }
     TEST(776) { CHECK(RunTest("l2v4", 776)); }
 
-
+    TEST(933) { CHECK(RunTest("l3v1", 933)); }
     TEST(952) { CHECK(RunTest("l3v1", 952)); }
     TEST(953) { CHECK(RunTest("l3v1", 953)); }
     TEST(954) { CHECK(RunTest("l2v4", 954)); }
@@ -1580,8 +1581,6 @@ SUITE(SBML_TEST_SUITE_C_FAIL)
 
     TEST(1142) { CHECK_EQUAL(false, RunTest("l3v1", 1142 )); } // AlgebraicRule // CSymbolDelay
 
-    TEST(1148) { CHECK_EQUAL(false, RunTest("l3v1", 1148 )); } // TODO:  NUMBERS SLIGHTLY OFF:  WHY?
-
     TEST(1173) { CHECK_EQUAL(false, RunTest("l3v1", 1173 )); } // CSymbolDelay
     TEST(1174) { CHECK_EQUAL(false, RunTest("l3v1", 1174 )); } // AlgebraicRule // CSymbolDelay
 }
@@ -1613,7 +1612,7 @@ TEST(1144) { CHECK(RunTest("l3v1", 1144 )); }
 TEST(1145) { CHECK(RunTest("l3v1", 1145 )); }
 TEST(1146) { CHECK(RunTest("l3v1", 1146 )); }
 TEST(1147) { CHECK(RunTest("l3v1", 1147 )); }
-//TEST(1148) { CHECK(RunTest("l3v1", 1148 )); } // TODO:  NUMBERS SLIGHTLY OFF:  WHY?
+TEST(1148) { CHECK(RunTest("l3v1", 1148 )); }
 TEST(1149) { CHECK(RunTest("l3v1", 1149 )); }
 TEST(1150) { CHECK(RunTest("l3v1", 1150 )); }
 TEST(1151) { CHECK(RunTest("l3v1", 1151 )); }
