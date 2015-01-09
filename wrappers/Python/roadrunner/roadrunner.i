@@ -1262,7 +1262,7 @@ namespace std { class ostream{}; }
             """
 
             doPlot = False
-            show = True
+            showPlot = True
 
             # user specified number of steps via 3rd arg or steps=xxx
             haveSteps = False
@@ -1360,7 +1360,7 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "show":
-                    show = v
+                    showPlot = v
                     continue
 
                 # if its not one of these, just set the item on the dict, and
@@ -1385,7 +1385,7 @@ namespace std { class ostream{}; }
                 del o["seed"]
 
             if doPlot:
-                self.plot(show)
+                self.plot(result=None, loc='upper left', show=showPlot)
 
             return result
 
@@ -1397,7 +1397,7 @@ namespace std { class ostream{}; }
                 for i in range(0, SimulateOptions.INTEGRATOR_END)]
 
 
-        def plot(self, show=True):
+        def plot(self, result=None, loc='upper left', show=True):
             """
             RoadRunner.plot([show])
 
