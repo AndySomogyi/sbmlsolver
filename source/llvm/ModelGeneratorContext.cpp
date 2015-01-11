@@ -92,9 +92,9 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         random(0)
 {
     if(useSymbolCache()) {
-        Log(Logger::LOG_NOTICE) << "Using LLVM symbol/value cache";
+        Log(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
     } else {
-        Log(Logger::LOG_NOTICE) << "Not using LLVM symbol/value cache";
+        Log(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
     }
 
     try
@@ -217,9 +217,9 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
         random(0)
 {
     if(useSymbolCache()) {
-        Log(Logger::LOG_NOTICE) << "Using LLVM symbol/value cache";
+        Log(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
     } else {
-        Log(Logger::LOG_NOTICE) << "Not using LLVM symbol/value cache";
+        Log(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
     }
 
     try

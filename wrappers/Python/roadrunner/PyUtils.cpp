@@ -872,8 +872,6 @@ void pyutil_init(PyObject *module)
 
     Py_INCREF(&NamedArray_Type);
     result = PyModule_AddObject(module, "NamedArray", (PyObject *)(&NamedArray_Type));
-
-    std::cout << "initialized NamedArray_Type, result: " << result << std::endl;
 }
 
 

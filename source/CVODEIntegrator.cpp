@@ -492,7 +492,7 @@ void CVODEIntegrator::applyPendingEvents(double timeEnd)
         int handled = mModel->applyEvents(timeEnd, &eventStatus[0], NULL, NULL);
         if (handled > 0)
         {
-            Log(Logger::LOG_NOTICE) << __FUNC__;
+            Log(Logger::LOG_DEBUG) << __FUNC__;
             restart(timeEnd);
         }
     }
