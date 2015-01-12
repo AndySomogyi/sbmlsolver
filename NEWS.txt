@@ -1,3 +1,57 @@
+-- Version 1.3
+* New Python ND array type which inherits from the numpy ndarray, contains row/column name info, and
+  prints the row/col names in nicely formatted output. 
+
+* Added row/column fields to DoubleMatrix, these are populated by a majority of RoadRunner methods.
+
+* plotting compatibility between roadrunner and tellurium
+
+* DoubleMatrix correctly writes csv format to stream
+
+* Update to libSBML 5.11
+
+* Add extra time steps in variable step mode to add timesteps at the exact point of event triggers,
+  results in crisp vertical lines on plots.
+
+* C++ and Python documentation updates.
+
+* new C++11 proxy classes to compile on OSX 10.9
+
+* Introduce new LLVM symbol caching optimiztion and scoped cache blocks for read combining
+  -- results in SIGNIFICANT imporovments in both compile time and run time performance.
+
+* memory leak fixes in numpy binding.
+
+* code cleanup and new reset option to apply init assignment rules to global params
+
+* added SBML version converter to optionaly version convert resulting sbml string
+  from getSBML and getCurrentSBML
+
+* many RoadRunner objects are now properly a Dictionary and methods now accept a
+  Dictionary interface.
+
+* SteadyState solvers properly created by factory. 
+
+-- Version 1.2.7
+* made the NLEQ steadystate single threaded -- it will block all other threads
+  and only let one thread at a time be in the steadyState function.
+  The FORTRAN77 code that it was written in uses globals for everything, there was
+  no possible way that it was ever thread safe. 
+
+* NLEQ steadystate function now uses a static var to hold a pointer to the model object
+
+* Added getKMatrix() method to RoadRunner object, updated python and C++ docs to reflect this.
+
+* Added new 'eigenr' and 'eigenc' selections to get real and complex values of eigenvalues,
+  note, the existing 'eigen' is the same as 'eigenr' -- will get real part of eigenvalue.
+
+* new rrtest testing file format.
+
+* Removed RoadRunner::getEigenvalues and replaced with getFullEigenValues and
+  getReducedEigenValues which return the eigenvalues for the respective Jacobians.
+
+* support for 'distrib' SBML package for random distributions. 
+
 -- Version 1.2.6
 *  Python dynamic properties are now on the RoadRunner instead of the RoadRunner.model object 
 
