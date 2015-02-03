@@ -17,3 +17,7 @@ if(BUILD_PYTHON)
     add_subdirectory("Python")
 endif()
 
+if(BUILD_JAVA_INTERFACE)
+    add_subdirectory("Java")
+endif()
+
