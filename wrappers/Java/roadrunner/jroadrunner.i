@@ -111,7 +111,8 @@
 %typemap(out) ls::DoubleMatrix {
     // %typemap(out) ls::DoubleMatrix
     const ls::DoubleMatrix* mat = &($1);
-    $result = doublematrix_to_py(mat, SimulateOptions::COPY_RESULT);
+    // FIXME
+//     $result = doublematrix_to_py(mat, SimulateOptions::COPY_RESULT);
 }
 
 
@@ -122,7 +123,8 @@
 %typemap(out) const ls::DoubleMatrix* {
     // %typemap(out) const ls::DoubleMatrix*
     const ls::DoubleMatrix* mat = ($1);
-    $result = doublematrix_to_py(mat, 0);
+//     $result = doublematrix_to_py(mat, 0);
+    // FIXME
 }
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
@@ -133,22 +135,12 @@
 %typemap(out) std::vector<double> {
 
     int len = $1.size();
-    npy_intp dims[1] = {len};
-
-    VERIFY_PYARRAY(array);
-
-    if (!array) {
-        // TODO error handling.
-        return 0;
-    }
-
-    double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
     std::vector<double>& vec = $1;
 
-    memcpy(data, &vec[0], sizeof(double)*len);
+//     memcpy(data, &vec[0], sizeof(double)*len);
 
-    $result  = array;
+    // FIXME
 }
 
 
@@ -159,55 +151,16 @@
 
     std::vector<cpx>& vec = $1;
 
-    bool iscpx = false;
-
-    // small number
-    double epsilon = 2 * std::numeric_limits<double>::epsilon();
-    for (std::vector<cpx>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-    {
-        iscpx = iscpx || (std::imag(*i) >= epsilon);
-        if (iscpx) break;
-    }
-
-    if (iscpx) {
-        int len = $1.size();
-        npy_intp dims[1] = {len};
-
-        if (!array) {
-            // TODO error handling.
-            return 0;
-        }
-
-        cpx *data = (cpx*)PyArray_DATA((PyArrayObject*)array);
-
-        memcpy(data, &vec[0], sizeof(std::complex<double>)*len);
-
-        $result  = array;
-    } else {
-        int len = $1.size();
-        npy_intp dims[1] = {len};
-
-        if (!array) {
-            // TODO error handling.
-            return 0;
-        }
-
-        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
-
-        for (int i = 0; i < vec.size(); ++i) {
-            data[i] = std::real(vec[i]);
-        }
-
-        $result  = array;
-    }
+    // FIXME
 }
 
 
 
 %typemap(out) const rr::Variant& {
     try {
+      // FIXME
         const rr::Variant& temp = *($1);
-        $result = Variant_to_py(temp);
+//         $result = Variant_to(temp);
     } catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
@@ -216,7 +169,8 @@
 
 %typemap(out) const rr::Variant {
     try {
-        $result = Variant_to_py($1);
+      // FIXME
+//         $result = Variant_to($1);
     } catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
@@ -228,7 +182,8 @@
 %typemap(in) const rr::Variant& (rr::Variant temp) {
 
     try {
-        temp = Variant_from_py($input);
+//         temp = Variant_from_?Variant_to_py($input);
+        // FIXME
         $1 = &temp;
     } catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
