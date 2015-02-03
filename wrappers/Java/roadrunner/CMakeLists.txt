@@ -59,7 +59,7 @@ else(WIN32)
         )
 
     SWIG_LINK_LIBRARIES ( jroadrunner
-        jroadrunner-static
+        roadrunner-static
         rr-libstruct-static
         nleq-static
         sbml-static
