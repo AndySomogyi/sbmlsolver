@@ -3,9 +3,6 @@
 %module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
         "threads"=1 /*, directors="1"*/) roadrunner
 
-
-//%feature("director") PyEventListener;
-
 // ************************************************************
 // Module Includes
 // ************************************************************
@@ -1098,64 +1095,6 @@ namespace std { class ostream{}; }
 }
 
 %extend rr::Integrator {
-
-    void _setListener(const rr::PyIntegratorListenerPtr &listener) {
-
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
-
-        cxx11_ns::shared_ptr<rr::IntegratorListener> i =
-            cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
-
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
-
-        ($self)->setListener(i);
-    }
-
-    rr::PyIntegratorListenerPtr _getListener() {
-
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__;
-
-        rr::IntegratorListenerPtr l = ($self)->getListener();
-
-        rr::PyIntegratorListenerPtr ptr =
-            cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
-
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
-
-        return ptr;
-    }
-
-    void _clearListener() {
-        rr::IntegratorListenerPtr current = ($self)->getListener();
-
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
-
-        ($self)->setListener(rr::IntegratorListenerPtr());
-
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
-    }
-
-    // we want to get the listener back as a PyIntegratorListener, however
-    // swig won't let us ignore by return value and if we ignore getListener,
-    // it ignores any extended version. So, we have to make an extended
-    // _getListener() above, and call it from python like this.
-//     %pythoncode %{
-//         def getListener(self):
-//             return self._getListener()
-//
-//         def setListener(self, listener):
-//             if listener is None:
-//                 self._clearListener()
-//             else:
-//                 self._setListener(listener)
-//
-//         __swig_getmethods__["listener"] = getListener
-//         __swig_setmethods__["listener"] = setListener
-//         __swig_getmethods__["name"] = getName
-//         if _newclass:
-//             listener = property(getListener, setListener)
-//             name = property(getName)
-//     %}
 }
 
 
