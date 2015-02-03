@@ -1,7 +1,7 @@
 
 // Module Name
-%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
-        "threads"=1 /*, directors="1"*/) roadrunner
+%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 J Kyle Medley, Andy Somogyi and Herbert Sauro",
+        "threads"=1 /*, directors="1"*/) Roadrunner
 
 // ************************************************************
 // Module Includes
