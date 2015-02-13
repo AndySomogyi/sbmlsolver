@@ -13,33 +13,27 @@ include_directories(
 
 set_source_files_properties(jroadrunner.i PROPERTIES CPLUSPLUS ON)
 
-SWIG_ADD_MODULE(jroadrunner java jroadrunner.i)
-
-
-
-
+swig_add_module(jroadrunner java jroadrunner.i)
 
 if(WIN32)
+    message(FATAL_ERROR "Java build on Windows not supported")
     # changes dll name to pyd sop that it is compatible with new Python standard
-    set_property(TARGET jroadrunner
-        PROPERTY  COMPILE_DEFINITIONS
-        EXPORT_RRC
-        LIBSBML_STATIC
-        LIBLAX_STATIC
-        STATIC_PUGI
-        POCO_STATIC
-        STATIC_LIBSTRUCT
-        STATIC_RR
-        )
-
-    SWIG_LINK_LIBRARIES ( jroadrunner
-        jroadrunner-static
-        ${Java_LIBRARIES}
-        )
-
-
+#     set_property(TARGET jroadrunner
+#         PROPERTY  COMPILE_DEFINITIONS
+#         EXPORT_RRC
+#         LIBSBML_STATIC
+#         LIBLAX_STATIC
+#         STATIC_PUGI
+#         POCO_STATIC
+#         STATIC_LIBSTRUCT
+#         STATIC_RR
+#         )
+#
+#     swig_link_libraries ( jroadrunner
+#         jroadrunner-static
+#         ${Java_LIBRARIES}
+#         )
 else(WIN32)
-
     #    set(CMAKE_SHARED_LINKER_FLAGS "-Wl, -z,defs --no-undefined")
     #    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 
@@ -58,7 +52,7 @@ else(WIN32)
         STATIC_LIBSTRUCT
         )
 
-    SWIG_LINK_LIBRARIES ( jroadrunner
+    swig_link_libraries ( jroadrunner
         roadrunner-static
         rr-libstruct-static
         nleq-static
