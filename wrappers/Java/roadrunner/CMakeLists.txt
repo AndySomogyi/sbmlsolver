@@ -18,7 +18,7 @@ set_source_files_properties(jroadrunner.i PROPERTIES CPLUSPLUS ON)
 swig_add_module(jroadrunner java jroadrunner.i)
 
 set(ROADRUNNER_JAVA_GENERATED
-  # NativeLib.java
+  ${CMAKE_CURRENT_SOURCE_DIR}/NativeLib.java
   ${CMAKE_CURRENT_BINARY_DIR}/BasicDictionary.java
 #   ${CMAKE_CURRENT_BINARY_DIR}/roadrunnerJNI.java
   ${CMAKE_CURRENT_BINARY_DIR}/RoadrunnerJNI.java
