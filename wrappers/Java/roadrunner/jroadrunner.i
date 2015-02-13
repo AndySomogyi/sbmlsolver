@@ -287,9 +287,10 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %ignore rr::RoadRunner::computeSteadyStateValues;
 %ignore rr::RoadRunner::getFullReorderedJacobian;
 %ignore rr::RoadRunner::getReactionRates;
-%ignore rr::RoadRunner::getOptions;
+// %ignore rr::RoadRunner::getOptions;
+// %immutable rr::RoadRunner::getOptions;
 // Since getOptions returns a reference, SWIG generates a setter as well
-%ignore rr::RoadRunner::setOptions;
+%ignore rr::RoadRunner::setOptions; // not needed since getOptions returns a ref
 //%ignore rr::RoadRunner::loadSBMLFromFile;
 %ignore rr::RoadRunner::correctMaxStep;
 //%ignore rr::RoadRunner::getFullyReorderedStoichiometryMatrix;
