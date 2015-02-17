@@ -10,6 +10,8 @@
 #include "rrOSSpecifics.h"
 
 #include <stdexcept>
+#include <cmath>
+#include <cstring>
 
 using rr::Logger;
 
