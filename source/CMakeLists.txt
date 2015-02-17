@@ -338,15 +338,19 @@ if(${INSTALL_CXX_API})
         )
     #endif()
 
-    set(install_headers
-        rrRoadRunner.h)
+#     set(install_headers
+#         rrRoadRunner.h)
+    set(subfolders
+          .
+          tr1proxy
+          )
 
-
-    #foreach(subfolder ${subfolders})
-    #    FILE (GLOB headers ${subfolder}/*.h)
-    #    install (   FILES ${headers}
-    #        DESTINATION include/rr/${subfolder}
-    #        COMPONENT rr_core)
-    #endforeach(subfolder)
+    foreach(subfolder ${subfolders})
+       FILE (GLOB headers ${subfolder}/*.h)
+       message(STATUS "*** headers *** ${headers}")
+       install (   FILES ${headers}
+           DESTINATION include/rr/${subfolder}
+           COMPONENT rr_core)
+    endforeach(subfolder)
 endif() #Install CXX API
 
