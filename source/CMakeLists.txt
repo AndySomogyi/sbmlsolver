@@ -86,6 +86,9 @@ set(rrSources
     conservation/ConservedMoietyPlugin
     conservation/ConservedMoietyConverter
     testing/CXXExecutableModel
+    testing/CXXEnzymeExecutableModel
+    testing/CXXBrusselatorExecutableModel
+    testing/CXXPiecewiseExecutableModel
     )
 
 # Add the LLVM sources to compilation
