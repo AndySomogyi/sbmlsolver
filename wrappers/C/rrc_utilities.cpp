@@ -10,7 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrUtils.h"
 #include "rrException.h"
 

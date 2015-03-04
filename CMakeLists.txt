@@ -70,8 +70,19 @@ option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
 # should we use LLVM ?
 option (BUILD_LLVM "Build the LLVM back end" ON)
 
+# should we use FBC ?
+option (ENABLE_FBC "Enable Flux Balance Constraint Modeling" ON)
 
-option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
+if(ENABLE_FBC)
+  # specify rood dir of constraint solver"
+  set(COINOR_PREFIX "" CACHE PATH "The install prefix of the Coin-Or linear programming library (CLP). Required for FBC, leave blank for system default path.")
+  find_package(COINOR_CLP REQUIRED)
+
+  include_directories(${COINOR_CLP_INCLUDE_DIR})
+  
+  add_definitions(-DENABLE_FBC)
+endif()
+                
 
 # should we build the swig python wrapper?
 option (BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
@@ -81,7 +92,6 @@ if(BUILD_LLVM AND NOT LLVM_FOUND)
 endif()
 
 mark_as_advanced(
-    BUILD_LEGACY_C
     INSTALL_APPS
     INSTALL_CXX_API
     INSTALL_C_API
@@ -89,7 +99,7 @@ mark_as_advanced(
     INSTALL_STATIC_LIB
     )
 
-set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
+set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/src)
 set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
@@ -106,11 +116,11 @@ OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"          
 OPTION (BUILD_TESTS             "Build the SBML C API test suite"                OFF)
 OPTION (INSTALL_SBML_MODELS     "Install SBML Models"                            ON )
 
-#Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
+#Setup so that sbmlsolver is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS            ON)
 
 set(RR_ROOT                      ${CMAKE_CURRENT_SOURCE_DIR})
-set(RR_SOURCE_ROOT               ${CMAKE_CURRENT_SOURCE_DIR}/source)
+set(RR_SOURCE_ROOT               ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(THIRD_PARTY_FOLDER           ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 set(exe_path                     ${PROJECT_BINARY_DIR}/bin)
@@ -237,21 +247,11 @@ else()
     message(STATUS "NOT using LLVM")
 endif(BUILD_LLVM)
 
-if(BUILD_LEGACY_C)
-    message(STATUS "building legacy C backend")
-    add_definitions(-DBUILD_LEGACY_C)
-else()
-    message(STATUS "not building legacy C backend")
-endif(BUILD_LEGACY_C)
 
 
-# We alway have to build the roadrunner core, everything depends on this
-add_subdirectory(source)
+# We alway have to build the sbmlsolver core, everything depends on this
+add_subdirectory(src)
 
-# install the rr_support if building legacy c
-if(BUILD_LEGACY_C)
-    add_subdirectory(rr_support)
-endif(BUILD_LEGACY_C)
 
 if(INSTALL_CXX_API)
     if(INSTALL_APPS)
@@ -280,7 +280,7 @@ if(${INSTALL_SBML_MODELS})
 endif()
 
 if(INSTALL_CXX_API)
-    install(FILES source/rr_pch.h
+    install(FILES src/rr_pch.h
         DESTINATION include
         COMPONENT rr_core)
 endif(INSTALL_CXX_API)

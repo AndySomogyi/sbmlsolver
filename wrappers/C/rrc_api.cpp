@@ -44,8 +44,8 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "rrRoadRunner.h"
-#include "rrRoadRunnerOptions.h"
+#include "SBMLSolver.h"
+#include <SBMLSolverOptions.h>
 #include "rrExecutableModel.h"
 #include "rrCompiler.h"
 #include "rrLogger.h"
@@ -87,19 +87,19 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
-static ArrayList         sel_getFluxControlCoefficientIds(RoadRunner* rr);
-static ArrayList         sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
-static ArrayList         sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
-static vector<string>    sel_getBoundarySpeciesAmountIds(RoadRunner* rr);
-static vector<string>    sel_getBoundarySpeciesConcIds(RoadRunner* rr);
-static ArrayList         sel_getConcentrationControlCoefficientIds(RoadRunner* rr);
-static ArrayList         sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr);
-static ArrayList         sel_getElasticityCoefficientIds(RoadRunner* rr);
-static ArrayList         sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
-static vector<string>    sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
-static vector<string>    sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
+static ArrayList         sel_getFluxControlCoefficientIds(SBMLSolver* rr);
+static ArrayList         sel_getAvailableSteadyStateSymbols(SBMLSolver* rr);
+static ArrayList         sel_getAvailableTimeCourseSymbols(SBMLSolver* rr);
+static vector<string>    sel_getBoundarySpeciesAmountIds(SBMLSolver* rr);
+static vector<string>    sel_getBoundarySpeciesConcIds(SBMLSolver* rr);
+static ArrayList         sel_getConcentrationControlCoefficientIds(SBMLSolver* rr);
+static ArrayList         sel_getUnscaledConcentrationControlCoefficientIds(SBMLSolver* rr);
+static ArrayList         sel_getElasticityCoefficientIds(SBMLSolver* rr);
+static ArrayList         sel_getUnscaledElasticityCoefficientIds(SBMLSolver* rr);
+static vector<string>    sel_getFloatingSpeciesConcSymbols(SBMLSolver* rr);
+static vector<string>    sel_getBoundarySpeciesConcSymbols(SBMLSolver* rr);
 
-static vector<double> rr_getRatesOfChange(RoadRunner* rr);
+static vector<double> rr_getRatesOfChange(SBMLSolver* rr);
 
 
 // TODO: move all the depracated method here:
@@ -146,7 +146,7 @@ RRHandle rrcCallConv createRRInstance()
 {
     start_try
         string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-        return new RoadRunner("", getTempDir(), joinPath(rrInstallFolder, "rr_support"));
+        return new SBMLSolver("", getTempDir(), joinPath(rrInstallFolder, "rr_support"));
     catch_ptr_macro
 }
 
@@ -168,11 +168,11 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         }
         else if(tempFolder)
         {
-            return new RoadRunner(compiler, tempFolder, joinPath(rrInstallFolder, "rr_support"));
+            return new SBMLSolver(compiler, tempFolder, joinPath(rrInstallFolder, "rr_support"));
         }
         else
         {
-            return new RoadRunner(compiler, getTempDir(), joinPath(rrInstallFolder, "rr_support"));
+            return new SBMLSolver(compiler, getTempDir(), joinPath(rrInstallFolder, "rr_support"));
         }
     catch_ptr_macro
 }
@@ -260,7 +260,7 @@ char* rrcCallConv getCopyright()
 char* rrcCallConv getInfo(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rr::createText(rri->getInfo());
     catch_ptr_macro
 }
@@ -269,7 +269,7 @@ char* rrcCallConv getExtendedAPIInfo()
 {
     start_try
         RRHandle handle = createRRInstance();
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         char* text = rr::createText(rri->getExtendedVersionInfo());
         freeRRInstance(handle);
         return text;
@@ -286,7 +286,7 @@ char* rrcCallConv getlibSBMLVersion(RRHandle handle)
 char* rrcCallConv getCurrentSBML(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rr::createText(rri->getCurrentSBML());
     catch_ptr_macro
 }
@@ -295,7 +295,7 @@ char* rrcCallConv getCurrentSBML(RRHandle handle)
 bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool OnOrOff)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setConservedMoietyAnalysis(OnOrOff);
         return true;
     catch_bool_macro
@@ -304,7 +304,7 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
 bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setTempDir(folder);
         return true;
     catch_bool_macro
@@ -313,7 +313,7 @@ bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 char* rrcCallConv getTempFolder(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rr::createText(rri->getTempDir());
     catch_ptr_macro
 }
@@ -321,7 +321,7 @@ char* rrcCallConv getTempFolder(RRHandle handle)
 bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         if(rri->getCompiler())
         {
             return rri->getCompiler()->setCompiler(fName);
@@ -336,7 +336,7 @@ bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
 char* rrcCallConv getCompiler(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         Compiler *compiler = rri->getCompiler();
         return strdup(compiler ? compiler->getCompiler().c_str() : "");
     catch_ptr_macro
@@ -345,7 +345,7 @@ char* rrcCallConv getCompiler(RRHandle handle)
 bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         if(rri->getCompiler())
         {
             return rri->getCompiler()->setCompilerLocation(folder);
@@ -360,7 +360,7 @@ bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
 char* rrcCallConv getCompilerLocation(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rr::createText(rri->getCompiler()->getCompilerLocation());
     catch_ptr_macro
 }
@@ -368,7 +368,7 @@ char* rrcCallConv getCompilerLocation(RRHandle handle)
 bool rrcCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         if(rri->getCompiler())
         {
             return rri->getCompiler()->setSupportCodeFolder(folder);
@@ -383,7 +383,7 @@ bool rrcCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
 char* rrcCallConv getSupportCodeFolder(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rr::createText(rri->getCompiler()->getSupportCodeFolder());
     catch_ptr_macro
 }
@@ -407,7 +407,7 @@ bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
             return false;
         }
 
-        RoadRunner* rri = castToRoadRunner(_handle);
+        SBMLSolver* rri = castToRoadRunner(_handle);
         rri->load(fileName);
         return true;
     catch_bool_macro
@@ -425,7 +425,7 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
             return false;
         }
 
-        RoadRunner* rri = castToRoadRunner(_handle);
+        SBMLSolver* rri = castToRoadRunner(_handle);
 
         LoadSBMLOptions opt;
         opt.modelGeneratorOpt = forceRecompile ?
@@ -440,7 +440,7 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
 bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->load(sbml);
         return true;
     catch_bool_macro
@@ -449,7 +449,7 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompile)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
 
         LoadSBMLOptions opt;
                 opt.modelGeneratorOpt = forceRecompile ?
@@ -474,7 +474,7 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
             return false;
         }
 
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setSimulateOptions(SimulateOptions(fileName));
         return true;
     catch_bool_macro
@@ -483,7 +483,7 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 char* rrcCallConv getSBML(RRHandle handle)
 {
     start_try
-          RoadRunner* rri = castToRoadRunner(handle);
+          SBMLSolver* rri = castToRoadRunner(handle);
         return rr::createText(rri->getSBML());
     catch_ptr_macro
 }
@@ -491,7 +491,7 @@ char* rrcCallConv getSBML(RRHandle handle)
 bool rrcCallConv isModelLoaded(RRHandle handle)
 {
     start_try
-          RoadRunner* rri = castToRoadRunner(handle);
+          SBMLSolver* rri = castToRoadRunner(handle);
         return rri->isModelLoaded();
     catch_bool_macro
 }
@@ -499,7 +499,7 @@ bool rrcCallConv isModelLoaded(RRHandle handle)
 bool rrcCallConv unLoadModel(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->unLoadModel();
     catch_bool_macro
 }
@@ -507,7 +507,7 @@ bool rrcCallConv unLoadModel(RRHandle handle)
 bool rrcCallConv setTimeStart(RRHandle handle, const double timeStart)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->getSimulateOptions().start = timeStart;
         return true;
     catch_bool_macro
@@ -516,7 +516,7 @@ bool rrcCallConv setTimeStart(RRHandle handle, const double timeStart)
 bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         SimulateOptions &opt = rri->getSimulateOptions();
         opt.duration = timeEnd - opt.start;
         return true;
@@ -526,7 +526,7 @@ bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
 bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         SimulateOptions &opt = rri->getSimulateOptions();
         opt.steps = nrPoints - 1;
         return true;
@@ -536,7 +536,7 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
 bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *timeStart = rri->getSimulateOptions().start;
         return true;
     catch_bool_macro
@@ -545,7 +545,7 @@ bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 bool rrcCallConv getTimeEnd(RRHandle handle, double* timeEnd)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *timeEnd = rri->getSimulateOptions().duration + rri->getSimulateOptions().start;
         return true;
     catch_bool_macro
@@ -554,7 +554,7 @@ bool rrcCallConv getTimeEnd(RRHandle handle, double* timeEnd)
 bool rrcCallConv getNumPoints(RRHandle handle, int* numPoints)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *numPoints = rri->getSimulateOptions().steps + 1;
         return true;
     catch_bool_macro
@@ -563,7 +563,7 @@ bool rrcCallConv getNumPoints(RRHandle handle, int* numPoints)
 bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList aList(list,", ");
         rri->setSelections(aList);
         return true;
@@ -573,7 +573,7 @@ bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
 RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
 
         vector<SelectionRecord> selections = rri->getSelections();
 
@@ -598,7 +598,7 @@ RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
 RRCDataPtr rrcCallConv simulate(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->simulate();
         return createRRCData(*rri);
     catch_ptr_macro
@@ -617,7 +617,7 @@ RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const
 RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
 
         //Extract the data and return struct..
         return  createRRCData(*rri);
@@ -628,7 +628,7 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList rNames = rri->getReactionIds();
 
         if(!rNames.Count())
@@ -642,7 +642,7 @@ RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle)
 RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> rates = rr_getRatesOfChange(rri);
 
         if(!rates.size())
@@ -657,7 +657,7 @@ RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle)
 RRStringArrayPtr rrcCallConv getRatesOfChangeIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList rNames = rri->getRateOfChangeIds();
 
         if(!rNames.Count())
@@ -672,7 +672,7 @@ RRStringArrayPtr rrcCallConv getRatesOfChangeIds(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getUnscaledElasticityMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getUnscaledElasticityMatrix();
         RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
@@ -682,7 +682,7 @@ RRDoubleMatrixPtr rrcCallConv getUnscaledElasticityMatrix(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getScaledElasticityMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getScaledElasticityMatrix();
         RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
@@ -692,7 +692,7 @@ RRDoubleMatrixPtr rrcCallConv getScaledElasticityMatrix(RRHandle handle)
 bool rrcCallConv getValue(RRHandle handle, const char* symbolId, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getValue(symbolId);
         return true;
     catch_bool_macro
@@ -701,7 +701,7 @@ bool rrcCallConv getValue(RRHandle handle, const char* symbolId, double *value)
 bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setValue(symbolId, value);
         return true;
     catch_bool_macro
@@ -710,7 +710,7 @@ bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double va
 RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ExecutableModel* model = rri->getModel();
 
         if(model)
@@ -742,7 +742,7 @@ RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getConservationMatrix();
 
         RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
@@ -765,7 +765,7 @@ RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getLinkMatrix();
         return createMatrix(&tempMat);
     catch_ptr_macro
@@ -774,7 +774,7 @@ RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getNrMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getNrMatrix();
         return createMatrix(&tempMat);
     catch_ptr_macro
@@ -797,7 +797,7 @@ char* rrcCallConv getLastError()
 int rrcCallConv getNumberOfReactions(RRHandle handle)
 {
      start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfReactions();
     catch_int_macro
 }
@@ -805,7 +805,7 @@ int rrcCallConv getNumberOfReactions(RRHandle handle)
 bool rrcCallConv getReactionRate(RRHandle handle, const int rateNr, double* value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getReactionRate(rateNr);
         return true;
     catch_bool_macro
@@ -814,7 +814,7 @@ bool rrcCallConv getReactionRate(RRHandle handle, const int rateNr, double* valu
 RRVectorPtr rrcCallConv getReactionRates(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getReactionRates();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
@@ -824,7 +824,7 @@ RRVectorPtr rrcCallConv getReactionRates(RRHandle handle)
 int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfBoundarySpecies();
     catch_int_macro
 }
@@ -832,7 +832,7 @@ int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle)
 RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList bNames = rri->getBoundarySpeciesIds();
 
         if(!bNames.Count())
@@ -847,7 +847,7 @@ RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle)
 int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfFloatingSpecies();
     catch_int_macro
 }
@@ -855,7 +855,7 @@ int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)
 RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList fNames = rri->getFloatingSpeciesIds();
 
         if(!fNames.Count())
@@ -870,7 +870,7 @@ RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle)
 int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfGlobalParameters();
     catch_int_macro
 }
@@ -878,7 +878,7 @@ int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList pNames = rri->getGlobalParameterIds();
 
         if(!pNames.Count())
@@ -893,7 +893,7 @@ RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
 bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ExecutableModel *model = rri->getModel();
 
         if (model && model->getNumFloatingSpecies() > index)
@@ -907,7 +907,7 @@ bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, 
 RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getFloatingSpeciesConcentrations();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
@@ -917,7 +917,7 @@ RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getBoundarySpeciesConcentrations();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
@@ -927,7 +927,7 @@ RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getFloatingSpeciesInitialConcentrations();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
@@ -937,7 +937,7 @@ RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
 bool rrcCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, const double value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setFloatingSpeciesByIndex(index, value);
         return true;
     catch_bool_macro
@@ -946,7 +946,7 @@ bool rrcCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, co
 bool rrcCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, const double value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setBoundarySpeciesByIndex(index, value);
         return true;
     catch_bool_macro
@@ -955,7 +955,7 @@ bool rrcCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, co
 bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setGlobalParameterByIndex(index, value);
         return true;
     catch_bool_macro
@@ -964,7 +964,7 @@ bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const int index, con
 bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int index, const double value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setFloatingSpeciesInitialConcentrationByIndex(index, value);
         return true;
     catch_bool_macro
@@ -975,7 +975,7 @@ bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const 
     start_try
         vector<double> tempVec;
         copyVector(vec, tempVec);
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->changeInitialConditions(tempVec);
         return true;
     catch_bool_macro
@@ -984,7 +984,7 @@ bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const 
 bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVectorPtr vec)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
 
 
         vector<double> tempVec;
@@ -1000,7 +1000,7 @@ bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVecto
     start_try
         vector<double> tempVec;
         copyVector(vec, tempVec);
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setBoundarySpeciesConcentrations(tempVec);
         return true;
     catch_bool_macro
@@ -1009,7 +1009,7 @@ bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVecto
 bool rrcCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->oneStep(currentTime, stepSize);
         return true;
     catch_bool_macro
@@ -1018,7 +1018,7 @@ bool rrcCallConv oneStep(RRHandle handle, const double currentTime, const double
 RRVectorPtr rrcCallConv getGlobalParameterValues(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getGlobalParameterValues();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
@@ -1028,7 +1028,7 @@ RRVectorPtr rrcCallConv getGlobalParameterValues(RRHandle handle)
 RRListPtr rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ArrayList slSymbols = sel_getAvailableTimeCourseSymbols(rri);
         return createArrayList(slSymbols);
     catch_ptr_macro
@@ -1037,7 +1037,7 @@ RRListPtr rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
 RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ArrayList slSymbols = sel_getAvailableSteadyStateSymbols(rri);
         return createArrayList(slSymbols);
     catch_ptr_macro
@@ -1046,7 +1046,7 @@ RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
 bool rrcCallConv getBoundarySpeciesByIndex (RRHandle handle, const int index, double* value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getBoundarySpeciesByIndex(index);
         return true;
     catch_bool_macro
@@ -1055,7 +1055,7 @@ bool rrcCallConv getBoundarySpeciesByIndex (RRHandle handle, const int index, do
 bool rrcCallConv getFloatingSpeciesByIndex (RRHandle handle, const int index, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getFloatingSpeciesByIndex(index);
         return true;
     catch_bool_macro
@@ -1064,7 +1064,7 @@ bool rrcCallConv getFloatingSpeciesByIndex (RRHandle handle, const int index, do
 bool rrcCallConv getGlobalParameterByIndex (RRHandle handle, const int index, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getGlobalParameterByIndex(index);
         return true;
     catch_bool_macro
@@ -1073,7 +1073,7 @@ bool rrcCallConv getGlobalParameterByIndex (RRHandle handle, const int index, do
 bool rrcCallConv getuCC (RRHandle handle, const char* variable, const char* parameter, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getuCC(variable, parameter);
         return true;
     catch_bool_macro
@@ -1083,7 +1083,7 @@ bool rrcCallConv getuCC (RRHandle handle, const char* variable, const char* para
 bool rrcCallConv getCC (RRHandle handle, const char* variable, const char* parameter, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getCC(variable, parameter);
         return true;
     catch_bool_macro
@@ -1092,7 +1092,7 @@ bool rrcCallConv getCC (RRHandle handle, const char* variable, const char* param
 bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getuEE(name, species);
         return true;
     catch_bool_macro
@@ -1101,7 +1101,7 @@ bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, 
 bool rrcCallConv getEE(RRHandle handle, const char* name, const char* species, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getEE(name, species);
         return true;
     catch_bool_macro
@@ -1110,7 +1110,7 @@ bool rrcCallConv getEE(RRHandle handle, const char* name, const char* species, d
 int rrcCallConv getNumberOfDependentSpecies(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfDependentSpecies();
     catch_int_macro
 }
@@ -1118,7 +1118,7 @@ int rrcCallConv getNumberOfDependentSpecies(RRHandle handle)
 int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfIndependentSpecies();
     catch_int_macro
 }
@@ -1126,7 +1126,7 @@ int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle)
 bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->steadyState();
         return true;
     catch_bool_macro
@@ -1135,7 +1135,7 @@ bool rrcCallConv steadyState(RRHandle handle, double* value)
 bool rrcCallConv evalModel(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->evalModel();
         return true;
     catch_bool_macro
@@ -1144,7 +1144,7 @@ bool rrcCallConv evalModel(RRHandle handle)
 char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         string param =  rri->getParamPromotedSBML(sArg);
         char* text = rr::createText(param.c_str());
         return text;
@@ -1154,7 +1154,7 @@ char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
 RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> vec =  rri->getSteadyStateValues();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
@@ -1164,7 +1164,7 @@ RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle)
 bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList aList(list, " ,");
         rri->setSteadyStateSelections(aList);
         return true;
@@ -1174,7 +1174,7 @@ bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
 RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<SelectionRecord>& ss = rri->getSteadyStateSelections();
 
         vector<string> sNames;
@@ -1191,7 +1191,7 @@ RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getFullJacobian(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getFullJacobian();
         return createMatrix(&tempMat);
     catch_ptr_macro
@@ -1200,7 +1200,7 @@ RRDoubleMatrixPtr rrcCallConv getFullJacobian(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getReducedJacobian(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix tempMat = rri->getReducedJacobian();
         return createMatrix(&tempMat);
     catch_ptr_macro
@@ -1209,7 +1209,7 @@ RRDoubleMatrixPtr rrcCallConv getReducedJacobian(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
 {
     start_try
-    RoadRunner* rri = castToRoadRunner(handle);
+    SBMLSolver* rri = castToRoadRunner(handle);
     std::vector<ls::Complex> eigen = rri->getFullEigenValues();
 
     RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
@@ -1249,7 +1249,7 @@ bool rrcCallConv setCodeGenerationMode (RRHandle handle, int mode)
 bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getScaledFloatingSpeciesElasticity(reactionId, speciesId);
         return true;
     catch_bool_macro
@@ -1258,7 +1258,7 @@ bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char*
 RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList aList = rri->getFloatingSpeciesInitialConditionIds();
         return createList(aList);
     catch_ptr_macro
@@ -1267,7 +1267,7 @@ RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle hand
 RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr vec)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> values = rrc::createVector(vec);
 
         rri->setFloatingSpeciesConcentrations(values);
@@ -1279,7 +1279,7 @@ RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr ve
 RRVectorPtr rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorPtr vec)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         vector<double> conc = rrc::createVector(vec);
 
         ExecutableModel *model = rri->getModel();
@@ -1302,7 +1302,7 @@ RRVectorPtr rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorPtr ve
 RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ArrayList aList = sel_getElasticityCoefficientIds(rri);
         RRListPtr bList = createArrayList(aList);
         return bList;
@@ -1323,7 +1323,7 @@ char* rrcCallConv getConfigurationXML(RRHandle handle)
 RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         StringList aList = rri->getEigenValueIds();
         return createList(aList);
     catch_ptr_macro
@@ -1332,7 +1332,7 @@ RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle)
 RRListPtr rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return createArrayList(sel_getFluxControlCoefficientIds(rri));
     catch_ptr_macro
 }
@@ -1340,7 +1340,7 @@ RRListPtr rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
 RRDoubleMatrixPtr rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getUnscaledConcentrationControlCoefficientMatrix();
         return createMatrix(&(aMat));
     catch_ptr_macro
@@ -1349,7 +1349,7 @@ RRDoubleMatrixPtr rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(R
 RRDoubleMatrixPtr rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getScaledConcentrationControlCoefficientMatrix();
         return createMatrix(&(aMat));
     catch_ptr_macro
@@ -1358,7 +1358,7 @@ RRDoubleMatrixPtr rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRH
 RRDoubleMatrixPtr rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getUnscaledFluxControlCoefficientMatrix();
         return createMatrix(&(aMat));
     catch_ptr_macro
@@ -1367,13 +1367,13 @@ RRDoubleMatrixPtr rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle h
 RRDoubleMatrixPtr rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix aMat = rri->getScaledFluxControlCoefficientMatrix();
         return createMatrix(&(aMat));
     catch_ptr_macro
 }
 
-static ArrayList RoadRunner_getUnscaledFluxControlCoefficientIds(RoadRunner *rr)
+static ArrayList RoadRunner_getUnscaledFluxControlCoefficientIds(SBMLSolver *rr)
 {
     ArrayList oResult;
 
@@ -1415,7 +1415,7 @@ static ArrayList RoadRunner_getUnscaledFluxControlCoefficientIds(RoadRunner *rr)
 RRListPtr rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ArrayList arrList = RoadRunner_getUnscaledFluxControlCoefficientIds(rri);
         return createArrayList(arrList);
     catch_ptr_macro
@@ -1424,7 +1424,7 @@ RRListPtr rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
 RRList* rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         ArrayList list = sel_getConcentrationControlCoefficientIds(rri);
         return createArrayList(list);
     catch_ptr_macro
@@ -1433,7 +1433,7 @@ RRList* rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle)
 RRListPtr rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return createArrayList(sel_getUnscaledConcentrationControlCoefficientIds(rri));
     catch_ptr_macro
 }
@@ -1441,7 +1441,7 @@ RRListPtr rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle han
 int rrcCallConv getNumberOfCompartments(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return rri->getNumberOfCompartments();
     catch_int_macro
 }
@@ -1449,7 +1449,7 @@ int rrcCallConv getNumberOfCompartments(RRHandle handle)
 bool rrcCallConv getCompartmentByIndex(RRHandle handle, const int index, double *value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getCompartmentByIndex(index);
         return true;
     catch_bool_macro
@@ -1458,7 +1458,7 @@ bool rrcCallConv getCompartmentByIndex(RRHandle handle, const int index, double 
 bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int index, const double value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->setCompartmentByIndex(index, value);
         return true;
     catch_bool_macro
@@ -1467,7 +1467,7 @@ bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int index, const 
 RRStringArrayPtr rrcCallConv getCompartmentIds(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return createList(rri->getCompartmentIds());
     catch_ptr_macro
 }
@@ -1475,7 +1475,7 @@ RRStringArrayPtr rrcCallConv getCompartmentIds(RRHandle handle)
 bool rrcCallConv getRateOfChange(RRHandle handle, const int index, double* value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         *value = rri->getRateOfChange(index);
         return true;
     catch_bool_macro
@@ -1499,7 +1499,7 @@ char* rrcCallConv getBuildDateTime()
 bool rrcCallConv freeRRInstance(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         delete rri;
         rri = NULL;
         return true;
@@ -1507,7 +1507,7 @@ bool rrcCallConv freeRRInstance(RRHandle handle)
 }
 
 //  Help("Returns the Symbols of all Flux Control Coefficients.")
-ArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr)
+ArrayList sel_getFluxControlCoefficientIds(SBMLSolver* rr)
 {
     ArrayList oResult;
     vector<string> oReactions       = rr->getReactionIds();
@@ -1548,7 +1548,7 @@ ArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr)
 // Help(
 //            "Returns symbols of the currently loaded model, that can be used for steady state analysis. format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
 //            )
-ArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr)
+ArrayList sel_getAvailableSteadyStateSymbols(SBMLSolver* rr)
 {
     ArrayList oResult;
 
@@ -1569,7 +1569,7 @@ ArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr)
     return oResult;
 }
 
-ArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr)
+ArrayList sel_getAvailableTimeCourseSymbols(SBMLSolver* rr)
 {
     ArrayList oResult;
     oResult.Add("Floating Species",                 sel_getFloatingSpeciesConcSymbols(rr) );
@@ -1587,7 +1587,7 @@ ArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr)
 }
 
 // Help("Gets the list of boundary species amount names")
-vector<string> sel_getBoundarySpeciesAmountIds(RoadRunner* rr)
+vector<string> sel_getBoundarySpeciesAmountIds(SBMLSolver* rr)
 {
     vector<string> result;// = new ArrayList();
     vector<string> list = rr->getBoundarySpeciesIds();
@@ -1600,7 +1600,7 @@ vector<string> sel_getBoundarySpeciesAmountIds(RoadRunner* rr)
     return result;
 }
 
-vector<string> sel_getBoundarySpeciesConcIds(RoadRunner* rr)
+vector<string> sel_getBoundarySpeciesConcIds(SBMLSolver* rr)
 {
     vector<string> result;// = new ArrayList();
     vector<string> list = rr->getBoundarySpeciesIds();
@@ -1614,7 +1614,7 @@ vector<string> sel_getBoundarySpeciesConcIds(RoadRunner* rr)
 }
 
 // Help("Returns the Symbols of all Concentration Control Coefficients.")
-ArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr)
+ArrayList sel_getConcentrationControlCoefficientIds(SBMLSolver* rr)
 {
     ArrayList oResult;// = new ArrayList();
     vector<string> oFloating        = rr->getFloatingSpeciesIds();
@@ -1652,7 +1652,7 @@ ArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr)
 }
 
 // Help("Returns the Symbols of all Unscaled Concentration Control Coefficients.")
-ArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr)
+ArrayList sel_getUnscaledConcentrationControlCoefficientIds(SBMLSolver* rr)
 {
     ArrayList oResult;
     vector<string> oFloating        = rr->getFloatingSpeciesIds();
@@ -1690,7 +1690,7 @@ ArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr)
 }
 
 // Help("Returns the Symbols of all Elasticity Coefficients.")
-ArrayList sel_getElasticityCoefficientIds(RoadRunner* rr)
+ArrayList sel_getElasticityCoefficientIds(SBMLSolver* rr)
 {
     ArrayList oResult;
     vector<string> reactionNames        = rr->getReactionIds();
@@ -1734,7 +1734,7 @@ ArrayList sel_getElasticityCoefficientIds(RoadRunner* rr)
 }
 
 // Help("Returns the Symbols of all Unscaled Elasticity Coefficients.")
-ArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
+ArrayList sel_getUnscaledElasticityCoefficientIds(SBMLSolver* rr)
 {
     ArrayList oResult;
     vector<string> oReactions( rr->getReactionIds() );
@@ -1782,7 +1782,7 @@ ArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
 }
 
 
-vector<string> sel_getFloatingSpeciesConcSymbols(RoadRunner* rr)
+vector<string> sel_getFloatingSpeciesConcSymbols(SBMLSolver* rr)
 {
     vector<string> ids = rr->getFloatingSpeciesIds();
     vector<string> result;
@@ -1796,7 +1796,7 @@ vector<string> sel_getFloatingSpeciesConcSymbols(RoadRunner* rr)
 }
 
 
-vector<string> sel_getBoundarySpeciesConcSymbols(RoadRunner* rr)
+vector<string> sel_getBoundarySpeciesConcSymbols(SBMLSolver* rr)
 {
     vector<string> ids = rr->getBoundarySpeciesIds();
     vector<string> result;
@@ -1809,7 +1809,7 @@ vector<string> sel_getBoundarySpeciesConcSymbols(RoadRunner* rr)
     return result;
 }
 
-vector<double> rr_getRatesOfChange(RoadRunner* rr)
+vector<double> rr_getRatesOfChange(SBMLSolver* rr)
 {
     ExecutableModel *mModel = rr->getModel();
     if (!mModel)
@@ -1825,7 +1825,7 @@ vector<double> rr_getRatesOfChange(RoadRunner* rr)
 
 C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
     start_try
-        RoadRunner *r = (RoadRunner*)h;
+        SBMLSolver *r = (SBMLSolver*)h;
         Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
         *result = intg->getItem("seed").convert<long>();
         return true;
@@ -1834,7 +1834,7 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
 
 C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
     start_try
-        RoadRunner *r = (RoadRunner*)h;
+        SBMLSolver *r = (SBMLSolver*)h;
         Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
         intg->setItem("seed", result);
         return true;
@@ -1843,7 +1843,7 @@ C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
 
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle) {
     start_try
-        RoadRunner *r = (RoadRunner*)handle;
+        SBMLSolver *r = (SBMLSolver*)handle;
         SimulateOptions& o = r->getSimulateOptions();
         o.integrator = Integrator::GILLESPIE;
         o.integratorFlags |= Integrator::VARIABLE_STEP;
@@ -1862,7 +1862,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieEx(RRHandle handle, double timeStart
 
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle) {
     start_try
-        RoadRunner *r = (RoadRunner*)handle;
+        SBMLSolver *r = (SBMLSolver*)handle;
         SimulateOptions& o = r->getSimulateOptions();
         o.integrator = Integrator::GILLESPIE;
         o.integratorFlags &= !Integrator::VARIABLE_STEP;
@@ -1883,14 +1883,14 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGridEx(RRHandle handle, double tim
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numberOfSimulations) {
     start_try
         // Standard gillespieOnGrid setup
-        RoadRunner *r = (RoadRunner*)handle;
+        SBMLSolver *r = (SBMLSolver*)handle;
         SimulateOptions& o = r->getSimulateOptions();
         o.integrator = Integrator::GILLESPIE;
         o.integratorFlags &= !Integrator::VARIABLE_STEP;
 
         double steps = o.steps;
 
-        RoadRunner &rref = const_cast<RoadRunner&>(*r);
+        SBMLSolver &rref = const_cast<SBMLSolver&>(*r);
         const DoubleMatrix& reference = *rref.getSimulationData();
 
         // Initializes a DoubleMatrix "res" with all zeroes
@@ -1949,14 +1949,14 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGridEx(RRHandle handle, double
 C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int numberOfSimulations) {
     start_try
         // Standard gillespieOnGrid setup
-        RoadRunner *r = (RoadRunner*)handle;
+        SBMLSolver *r = (SBMLSolver*)handle;
         SimulateOptions& o = r->getSimulateOptions();
         o.integrator = Integrator::GILLESPIE;
         o.integratorFlags &= !Integrator::VARIABLE_STEP;
 
         double steps = o.steps;
 
-        RoadRunner &rref = const_cast<RoadRunner&>(*r);
+        SBMLSolver &rref = const_cast<SBMLSolver&>(*r);
         const DoubleMatrix& reference = *rref.getSimulationData();
 
         // Initializes a DoubleMatrix "res" with all zeroes
@@ -2022,7 +2022,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, doub
 bool rrcCallConv reset(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->reset();
         return true;
     catch_bool_macro
@@ -2031,7 +2031,7 @@ bool rrcCallConv reset(RRHandle handle)
 bool rrcCallConv resetAll(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING | SelectionRecord::GLOBAL_PARAMETER);
         return true;
     catch_bool_macro
@@ -2040,7 +2040,7 @@ bool rrcCallConv resetAll(RRHandle handle)
 bool rrcCallConv resetToOrigin(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         rri->reset(SelectionRecord::ALL);
         return true;
     catch_bool_macro

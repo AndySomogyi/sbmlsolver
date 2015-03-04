@@ -174,9 +174,6 @@ add_subdirectory(unit_test)
 add_subdirectory(poco_1.5.3)
 
 
-if(WIN32)
-    add_subdirectory(compilers)
-endif(WIN32)
 
 #==== SYSTEM FILES (COMPILER SPECIFICS) =================================================
 if(${BORLAND})

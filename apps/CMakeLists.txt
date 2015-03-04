@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(Apps)
-set(RR_INCLUDE_ROOT "../source")
+set(RR_INCLUDE_ROOT "../src")
 
 # rr Includes
 include_directories(

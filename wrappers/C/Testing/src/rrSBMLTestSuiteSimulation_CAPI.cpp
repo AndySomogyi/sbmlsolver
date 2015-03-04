@@ -3,7 +3,7 @@
 #include "rrUtils.h"
 #include "rrRoadRunnerData.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrLogger.h"
 
 using namespace rrc;
@@ -33,7 +33,7 @@ void SBMLTestSuiteSimulation_CAPI::UseHandle(RRHandle handle)
     mRRHandle = handle;
     if(mRRHandle)
     {
-        this->UseEngine((RoadRunner*) mRRHandle);
+        this->UseEngine((SBMLSolver*) mRRHandle);
     }
 }
 
@@ -56,7 +56,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
             return false;
         }
 
-        RoadRunner* rri = (RoadRunner*) mRRHandle;
+        SBMLSolver* rri = (SBMLSolver*) mRRHandle;
 
         LoadSBMLOptions opt;
 

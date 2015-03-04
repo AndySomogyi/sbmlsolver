@@ -28,7 +28,7 @@ void TestSuiteSimulation::UseHandle(RRHandle handle)
     mRRHandle = handle;
     if(mRRHandle)
     {
-        this->UseEngine((RoadRunner*) mRRHandle);
+        this->UseEngine((SBMLSolver*) mRRHandle);
     }
 }
 

@@ -8,7 +8,7 @@
 #include "rrGetOptions.h"
 #include "TestSuiteSimulation.h"
 #include "rrException.h"
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrConfig.h"
 
 using namespace std;
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 
         cout << "Built on " << __DATE__ << " " << __TIME__ << endl;
 
-        cout << RoadRunner::getExtendedVersionInfo() << endl;
+        cout << SBMLSolver::getExtendedVersionInfo() << endl;
 
         Logger::enableConsoleLogging();
 

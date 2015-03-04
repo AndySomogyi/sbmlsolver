@@ -1,5 +1,5 @@
 #include <iostream>
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -19,7 +19,7 @@ int main(int argc, char** argv)
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        RoadRunner rr1("", tmpFolder);
+        SBMLSolver rr1("", tmpFolder);
         LoadSBMLOptions opt;
         opt.modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
         if(!rr1.load(modelFile, &opt))

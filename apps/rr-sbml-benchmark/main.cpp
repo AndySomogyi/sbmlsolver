@@ -10,9 +10,7 @@
 // Copyright (C) 2013 Andy Somogyi
 // Indiana University, University of Washington
 
-#include "rrRoadRunner.h"
-#include "rrRoadRunnerOptions.h"
-
+#include "SBMLSolver.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -20,6 +18,7 @@
 #include <sstream>
 #include <set>
 #include <stdlib.h>
+#include <SBMLSolverOptions.h>
 
 using namespace rr;
 using namespace std;
@@ -92,7 +91,7 @@ int main(int argc, char** argv)
         output_filename = os.str();
     }
 
-    RoadRunner roadRunner;
+    SBMLSolver roadRunner;
 
     LoadSBMLOptions opt;
 

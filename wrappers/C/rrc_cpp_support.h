@@ -52,7 +52,7 @@
 
 namespace rr
 {
-class RoadRunner;
+class SBMLSolver;
 }
 
 //When using the rrc_core_api from C++, the following routines are useful
@@ -75,7 +75,7 @@ C_DECL_SPEC void                        setError(const string& err);
  \return Pointer to a roadrunner instance
  \ingroup cpp_support
 */
-C_DECL_SPEC rr::RoadRunner*             castToRoadRunner(RRHandle rrHandle);
+C_DECL_SPEC rr::SBMLSolver*             castToRoadRunner(RRHandle rrHandle);
 
 
 /*!
@@ -161,7 +161,7 @@ C_DECL_SPEC RRListPtr                      createArrayList(const ArrayList& list
  * to package up the simulation result data and column names into one of
  * these RRCDataPtr structs.
  */
-C_DECL_SPEC RRCDataPtr    createRRCData(const rr::RoadRunner&);
+C_DECL_SPEC RRCDataPtr    createRRCData(const rr::SBMLSolver&);
 
 }
 #endif

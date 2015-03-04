@@ -8,7 +8,7 @@
 #include "rrc_api.h"
 #include "rrGetOptions.h"
 #include "src/Args.h"
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrConfig.h"
 
 #include "Suite_TestModel.h"
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     cout << "built on " << __DATE__ << ", " << __TIME__ << endl;
 
-    cout << RoadRunner::getExtendedVersionInfo() << endl;
+    cout << SBMLSolver::getExtendedVersionInfo() << endl;
 
     Logger::enableConsoleLogging();
 

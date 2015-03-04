@@ -4,7 +4,7 @@
 #include "rrConfig.h"
 #include "rrIniFile.h"
 #include "rrLogger.h"
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrUtils.h"
 #include "rrc_api.h"
 #include "rrc_cpp_support.h"
@@ -37,7 +37,7 @@ string Trim(const string& input)
 
 void compareJacobians(RRHandle gRR)
 {
-  RoadRunner* rri = castToRoadRunner(gRR);
+  SBMLSolver* rri = castToRoadRunner(gRR);
   ls::DoubleMatrix    jFull     = rri->getFullJacobian();
   ls::DoubleMatrix    jReduced  = rri->getReducedJacobian();
 
@@ -557,8 +557,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== FULL JACOBIAN ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
 
         ls::DoubleMatrix   jActual = rri->getFullJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -576,8 +576,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== REDUCED JACOBIAN ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
 
         ls::DoubleMatrix   jActual = rri->getReducedJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -595,8 +595,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== AMOUNT JACOBIAN ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_AMOUNTS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
 
         ls::DoubleMatrix   jActual = rri->getFullJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -614,9 +614,9 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== INDIVIDUAL_EIGENVALUES ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        RoadRunner* rri = castToRoadRunner(gRR);
+        SBMLSolver* rri = castToRoadRunner(gRR);
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
@@ -641,8 +641,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== INDIVIDUAL AMOUNT EIGENVALUES ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_AMOUNTS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
@@ -671,8 +671,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== GET_EIGENVALUE_MATRIX ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         std::vector<ls::Complex> eigen = rri->getFullEigenValues();
 
@@ -694,8 +694,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== GET_EIGENVALUE AMOUNT MATRIX ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_AMOUNTS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         std::vector<ls::Complex> eigen = rri->getFullEigenValues();
 
@@ -717,8 +717,8 @@ SUITE(TEST_MODEL)
         clog<< endl << "==== GET_REDUCED_EIGENVALUE_MATRIX ====" << endl << endl;
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         std::vector<ls::Complex>  eigen = rri->getReducedEigenValues();
 
@@ -740,7 +740,7 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        RoadRunner* rri = castToRoadRunner(gRR);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix matrix = rri->getFullStoichiometryMatrix();
         compareMatrices(ref, matrix);
       }
@@ -759,7 +759,7 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
-        RoadRunner* rri = castToRoadRunner(gRR);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix matrix = rri->getReducedStoichiometryMatrix();
         compareMatrices(ref, matrix);
       }
@@ -797,8 +797,8 @@ SUITE(TEST_MODEL)
         clog<<"\n==== UNSCALED_ELASTICITY_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getUnscaledElasticityMatrix();
@@ -819,8 +819,8 @@ SUITE(TEST_MODEL)
         clog<<"\n==== UNSCALED_ELASTICITY_AMOUNT_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_AMOUNTS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getUnscaledElasticityMatrix();
@@ -841,8 +841,8 @@ SUITE(TEST_MODEL)
         clog<<"\n==== SCALED_ELASTICITY_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getScaledElasticityMatrix();
@@ -863,8 +863,8 @@ SUITE(TEST_MODEL)
         clog<<"\n==== SCALED_ELASTICITY_AMOUNT_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
-        RoadRunner* rri = castToRoadRunner(gRR);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_AMOUNTS);
+        SBMLSolver* rri = castToRoadRunner(gRR);
         //trySteadyState(gRR);
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         ls::DoubleMatrix  matrix = rri->getScaledElasticityMatrix();
@@ -1710,12 +1710,12 @@ SUITE(TEST_MODEL)
         }
         clog<< endl << "==== AMOUNT_CONCENTRATION_JACOBIANS ====" << endl << endl;
         aSection->mIsUsed = true;
-        rr::Variant saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
+        rr::Variant saved = Config::getValue(Config::SBMLSOLVER_JACOBIAN_MODE);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_AMOUNTS);
         compareJacobians(gRR);
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, (unsigned)Config::SBMLSOLVER_JACOBIAN_MODE_CONCENTRATIONS);
         compareJacobians(gRR);
-        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, saved);
+        Config::setValue(Config::SBMLSOLVER_JACOBIAN_MODE, saved);
     }
 
     TEST(CHECK_UNUSED_TESTS)

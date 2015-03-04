@@ -34,7 +34,7 @@ if(UNIX)
 endif()
 
 target_link_libraries (${target}
-    roadrunner_c_api
+    sbmlsolver_c_api
     unit_test-static
     PocoXML
     )

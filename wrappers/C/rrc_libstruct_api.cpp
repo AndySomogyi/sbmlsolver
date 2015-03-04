@@ -4,7 +4,7 @@
 #include "rrc_utilities.h"
 #include "rrc_macros.h"
 
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrException.h"
 #include "rr-libstruct/lsLibla.h"
 #include "rrc_cpp_support.h"
@@ -20,7 +20,7 @@ using namespace std;
 RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle)
 {
     start_try
-        rr::RoadRunner* rri = castToRoadRunner(handle);
+        rr::SBMLSolver* rri = castToRoadRunner(handle);
         DoubleMatrix     tempMat     = rri->getL0Matrix();
         return createMatrix(&tempMat);
 
@@ -30,7 +30,7 @@ RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle)
 RRVectorPtr getConservedSums(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle); //Will throw if it can't cast
+        SBMLSolver* rri = castToRoadRunner(handle); //Will throw if it can't cast
         vector<double> tempMat = rri->getConservedMoietyValues();
         return rrc::createVector(tempMat);
     catch_ptr_macro

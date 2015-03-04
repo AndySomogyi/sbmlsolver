@@ -8,7 +8,7 @@
 #include "rrc_types.h"
 #include "rrc_utilities.h"
 #include "rrStringUtils.h"
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 
 namespace rrc
 {
@@ -25,9 +25,9 @@ void setError(const string& err)
     gLastError = rr::createText(err);
 }
 
-RoadRunner* castToRoadRunner(RRHandle handle)
+SBMLSolver* castToRoadRunner(RRHandle handle)
 {
-    RoadRunner* rr = (RoadRunner*) handle;
+    SBMLSolver* rr = (SBMLSolver*) handle;
     if(rr) //Will only fail if handle is NULL...
     {
         return rr;
@@ -317,10 +317,10 @@ RRList* createArrayList(const rrc::ArrayList& aList)
 
 
 
-RRCDataPtr createRRCData(const RoadRunner& tmp)
+RRCDataPtr createRRCData(const SBMLSolver& tmp)
 {
     // TODO make roadrunner const correct
-    RoadRunner& r = const_cast<RoadRunner&>(tmp);
+    SBMLSolver& r = const_cast<SBMLSolver&>(tmp);
 
     RRCData* rrCData  = new RRCData;
     memset(rrCData, 0, sizeof(RRCData));

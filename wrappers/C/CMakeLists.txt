@@ -1,4 +1,4 @@
-set(target roadrunner_c_api)
+set(target sbmlsolver_c_api)
 
 set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 
@@ -6,7 +6,7 @@ include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the 
 
 include_directories(
 ${C_API_INCLUDE_ROOT}
-${RR_ROOT}/source
+${RR_ROOT}/src
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 
@@ -31,7 +31,7 @@ add_library(${target} SHARED
     rrc_cpp_support
 )
 
-#Link C_api dll statically to roadrunner and libsbml
+#Link C_api dll statically to sbmlsolver and libsbml
 if(WIN32)
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
@@ -44,7 +44,7 @@ if(WIN32)
         )
 
     target_link_libraries ( ${target}
-        roadrunner-static
+        sbmlsolver-static
         )
 
 else() #Unix
@@ -65,7 +65,7 @@ else() #Unix
         )
 
     target_link_libraries ( ${target}
-        roadrunner-static
+        sbmlsolver-static
         rr-libstruct-static
         nleq-static
         sbml-static

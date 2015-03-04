@@ -1,5 +1,5 @@
 #include "rrLogger.h"
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrGetOptions.h"
@@ -68,12 +68,20 @@ int main(int argc, char * argv[])
 
         //Creating roadrunner
         Log(Logger::LOG_DEBUG) << "Creating RoadRunner..." << endl;
-        RoadRunner rr(args.ModelFileName);
+        SBMLSolver rr(args.ModelFileName);
 
         SimulateOptions& opt = rr.getSimulateOptions();
         opt.start = args.StartTime;
         opt.duration = args.EndTime - args.StartTime;
         opt.steps = args.Steps;
+
+        args.conservedMoieties = true;
+
+        if(args.conservedMoieties) {
+        	cout << "Performing Moiety Conversion" << std::endl;
+        	rr.setConservedMoietyAnalysis(true);
+        }
+
         if(args.variableStep) {
         	opt.integratorFlags |= Integrator::VARIABLE_STEP;
         }
@@ -118,7 +126,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                     args.CurrentLogLevel                = Logger::stringToLevel(rrOptArg);
                 }
                 break;
-            case ('c'): args.OnlyCompile                    = true;                                break;
+            case ('c'): args.conservedMoieties              = true;                                break;
             case ('x'): args.variableStep                   = true;                                break;
             case ('p'): args.Pause                          = true;                                break;
             case ('t'): args.TempDataFolder                 = rrOptArg;                            break;

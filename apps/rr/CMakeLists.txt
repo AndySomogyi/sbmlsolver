@@ -22,15 +22,15 @@ add_definitions(
 )
 
 target_link_libraries (${target} 
-#roadrunner-static
-roadrunner
+#sbmlsolver-static
+sbmlsolver
 )
 endif()
 
-#Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static
+#Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in sbmlsolver-static
 if(UNIX)
 target_link_libraries (${target} 
-roadrunner-static
+sbmlsolver-static
 nleq-static.a
 rr-libstruct-static
 lapack

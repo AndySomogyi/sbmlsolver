@@ -19,12 +19,12 @@ add_definitions(
 )
 
 target_link_libraries (${target} 
-roadrunner_c_api
-#roadrunner-static
+sbmlsolver_c_api
+#sbmlsolver-static
 #poco_foundation-static
 )
 
-#Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static
+#Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in sbmlsolver-static
 if(UNIX)
 target_link_libraries (${target} 
 f2c

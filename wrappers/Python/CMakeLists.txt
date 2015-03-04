@@ -28,7 +28,7 @@ SET(CMAKE_SWIG_FLAGS "")
 
 
 IF(SWIG_FOUND)
-    add_subdirectory(roadrunner)
+    add_subdirectory(sbmlsolver)
 ELSE(SWIG_FOUND)
     message("could not find SWIG in your system")
 ENDIF(SWIG_FOUND)

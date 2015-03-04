@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "rrRoadRunner.h"
+#include "SBMLSolver.h"
 #include "rrExecutableModel.h"
 #include "rrException.h"
 #include "rrc_nom_api.h"
@@ -17,7 +17,7 @@ using namespace std;
 char* rrcCallConv getModelName(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         return createText(rri->getModelName());
     catch_ptr_macro
 }
@@ -25,7 +25,7 @@ char* rrcCallConv getModelName(RRHandle handle)
 int rrcCallConv getNumberOfRules(RRHandle handle)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
+        SBMLSolver* rri = castToRoadRunner(handle);
         if(!rri->getModel())
         {
             Log(Logger::LOG_WARNING)<<"Model is not allocated.";
