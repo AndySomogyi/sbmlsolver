@@ -49,7 +49,7 @@ include_directories(
     ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
     )
 
-set(rrSources
+set(rrCoreSources
     rrConfig
     rrSteadyStateSolver
     rrConstants
@@ -91,10 +91,11 @@ set(rrSources
     testing/CXXPiecewiseExecutableModel
     )
 
+set(rrSources ${rrCoreSources})
+
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)
-    set(rrSources
-        ${rrSources}
+    set(rrLLVMSources
         llvm/AssignmentRuleEvaluator
         llvm/ASTNodeCodeGen
         llvm/ASTNodeFactory
@@ -131,6 +132,11 @@ if(BUILD_LLVM)
         llvm/Random
         llvm/DistribFunctionResolver
         )
+
+    # set up appropriate flags for using LLVM
+    set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
+    # add LLVM-based model sources to list
+    set(rrSources ${rrSources} ${rrLLVMSources})
 endif(BUILD_LLVM)
 
 if(BUILD_LEGACY_C)

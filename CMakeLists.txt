@@ -232,7 +232,7 @@ if(BUILD_LLVM)
     message(STATUS "LLVM_LIBRARY_DIRS: ${LLVM_LIBRARY_DIRS}")
     add_definitions(-DBUILD_LLVM)
     # Don't use add_definitions for LLVM flags per http://stackoverflow.com/questions/13638408/cmake-override-compile-flags-for-single-files
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}")
+#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
     include_directories(${LLVM_INCLUDE_DIRS})
 else()
     message(STATUS "NOT using LLVM")
