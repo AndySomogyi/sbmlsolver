@@ -67,9 +67,6 @@ endif()
 # should we build and install Testing tools?
 option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
 
-# should we build and install Testing tools?
-option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
-
 # should we use LLVM ?
 option (BUILD_LLVM "Build the LLVM back end" ON)
 
