@@ -113,7 +113,7 @@ else()
 
   set(CMAKE_JNI_TARGET TRUE)
 #   add_jar(roadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
-  add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED} )
+  add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
 
   # need to make this depend on the generated files as well
   add_dependencies(roadrunner_jar jroadrunner)
