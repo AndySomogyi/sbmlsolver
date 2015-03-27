@@ -113,28 +113,29 @@ else()
 
   set(CMAKE_JNI_TARGET TRUE)
 #   add_jar(roadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
-  add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
+#   add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
+  add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED})
 
   # need to make this depend on the generated files as well
   add_dependencies(roadrunner_jar jroadrunner)
 #   install_jar(roadrunner_jar ${LIB_INSTALL_DIR}/java)
 #   install_jni_symlink(roadrunner_jar .)
 
-#   set(JAVA_BUNDLE "${CMAKE_CURRENT_SOURCE_DIR}/java_bundle.sh")
+  set(JAVA_BUNDLE "${CMAKE_CURRENT_SOURCE_DIR}/java_bundle.sh")
 
-#   set(JAVA_BUNDLE_SO_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libexample_swig.so")
+  set(JAVA_BUNDLE_SO_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libexample_swig.so")
 
-#   set(MANIFEST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/MANIFEST")
+  set(MANIFEST_FILE "${CMAKE_CURRENT_BUILD_DIR}/MANIFEST")
 
-#   add_custom_command(TARGET example_swig
-#     POST_BUILD
-#     DEPEND example_swig_jar
-#     COMMAND ${JAVA_BUNDLE} "roadrunner.jar" "${Java_JAVA_EXECUTABLE}" "NativeLib" "${CMAKE_STRIP}"
-#     COMMAND ${JAVA_ARCHIVE} -uvf "example_swig_jar.jar" "NATIVE"
-#     COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." > ${MANIFEST_FILE}
-#     COMMAND ${JAVA_ARCHIVE} -uvmf "MANIFEST" "example_swig_jar.jar"
-#     COMMAND ${CMAKE_COMMAND} -E remove ${MANIFEST_FILE}
-#     )
+  add_custom_command(TARGET jjroadrunner
+    POST_BUILD
+    DEPEND roadrunner_jar
+    COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}"
+    COMMAND ${JAVA_ARCHIVE} -uvf "roadrunner_jar.jar" "NATIVE"
+    COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." > ${MANIFEST_FILE}
+    COMMAND ${JAVA_ARCHIVE} -uvmf "MANIFEST" "roadrunner_jar.jar"
+    COMMAND ${CMAKE_COMMAND} -E remove ${MANIFEST_FILE}
+    )
 
   #        lapack
   #        blas
