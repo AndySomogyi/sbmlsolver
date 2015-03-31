@@ -45,8 +45,8 @@ if(SWIG_FOUND)
   set(ROADRUNNER_JAVA_GENERATED
     ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/NativeLib.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/BasicDictionary.java
-  #   ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/roadrunnerJNI.java
-    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/RoadrunnerJNI.java
+    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/roadrunnerJNI.java
+#     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/RoadrunnerJNI.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Compiler.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Config.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Dictionary.java
@@ -61,8 +61,8 @@ if(SWIG_FOUND)
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/LoadSBMLOptions.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Logger.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/PyConservedMoietyConverter.java
-  #   ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/roadrunner.java
-    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Roadrunner.java
+    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/roadrunner.java
+#     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Roadrunner.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/RoadRunner.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/RoadRunnerOptions.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SBMLReader.java
@@ -117,7 +117,7 @@ if(SWIG_FOUND)
 #   install_jar(roadrunner_jar ${LIB_INSTALL_DIR}/java)
 #   install_jni_symlink(roadrunner_jar .)
 
-  set(JAVA_BUNDLE "${CMAKE_CURRENT_SOURCE_DIR}/java_bundle.sh")
+  set(JAVA_BUNDLE "${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/java_bundle.sh")
 
   set(JAVA_BUNDLE_SO_FILES "${CMAKE_BINARY_DIR}/lib/libjroadrunner.so")
 
