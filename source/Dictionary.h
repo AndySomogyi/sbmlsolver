@@ -95,7 +95,7 @@ public:                       // *mistakenly* complains in ONE instance.
      * will not see them, so as far as I can tell, this is the only way to
      * add these methods.
      */
-#if defined(SWIG) || defined(SWIGPYTHON)
+#if defined(SWIGPYTHON)
     PyObject *keys() {
         return dictionary_keys(this);
     }
