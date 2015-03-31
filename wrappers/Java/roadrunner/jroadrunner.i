@@ -254,7 +254,11 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 #define RR_DECLSPEC
 #define PUGIXML_CLASS
 
-
+%pragma(java) jniclasscode=%{
+  static {
+  NativeLib.nativeInit();
+  }
+%}
 
 %warnfilter(509) rr::RoadRunner::setSelections;
 %warnfilter(509) rr::RoadRunner::setSteadyStateSelections;

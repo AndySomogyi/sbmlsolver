@@ -9,7 +9,7 @@ public final class NativeLib {
 
     /* Statically load the library which contains all native functions used in here */
     static private boolean isNativeInited = false;
-    static String name = "roadrunner_swig";
+    static String name = "jroadrunner";
 
     public static String getPath() {
         String prefix = "NATIVE";
