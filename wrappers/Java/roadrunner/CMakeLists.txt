@@ -123,16 +123,16 @@ else()
 
   set(JAVA_BUNDLE "${CMAKE_CURRENT_SOURCE_DIR}/java_bundle.sh")
 
-  set(JAVA_BUNDLE_SO_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libexample_swig.so")
+  set(JAVA_BUNDLE_SO_FILES "${CMAKE_BINARY_DIR}/lib/libjroadrunner.so")
 
-  set(MANIFEST_FILE "${CMAKE_CURRENT_BUILD_DIR}/MANIFEST")
+  set(MANIFEST_FILE "MANIFEST")
 
   add_custom_command(TARGET jjroadrunner
     POST_BUILD
     DEPEND roadrunner_jar
-    COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}"
+    COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES}
     COMMAND ${JAVA_ARCHIVE} -uvf "roadrunner_jar.jar" "NATIVE"
-    COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." > ${MANIFEST_FILE}
+    COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." >${MANIFEST_FILE}
     COMMAND ${JAVA_ARCHIVE} -uvmf "MANIFEST" "roadrunner_jar.jar"
     COMMAND ${CMAKE_COMMAND} -E remove ${MANIFEST_FILE}
     )
