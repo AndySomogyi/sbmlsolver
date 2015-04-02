@@ -35,7 +35,7 @@ before_install:
   - mkdir -p ~/build/llvm-3.5.1
   - cd ~/build/llvm-3.5.1
   - ~/install/cmake-3.2.1/bin/cmake --version
-  - ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/llvm-3.5.1 ~/src/rr-deps/llvm-3.5.1/llvm-3.5.1.src
+  - ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBCXX=ON -DCMAKE_INSTALL_PREFIX=~/install/llvm-3.5.1 ~/src/rr-deps/llvm-3.5.1/llvm-3.5.1.src
 
 install: true
 
