@@ -559,23 +559,24 @@ string RoadRunner::getTempDir()
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
 {
-    vector<string> theList;
-    vector<string> oFloating  = getFloatingSpeciesIds();
+	vector<string> theList;
+	vector<string> oFloating  = getFloatingSpeciesIds();
+	int numIndSpecies = getNumberOfIndependentSpecies();
 
-    theList.push_back("time");
-    for(int i = 0; i < oFloating.size(); i++)
-    {
-        theList.push_back("[" + oFloating[i] + "]");
-    }
+	theList.push_back("time");
+	for(int i = 0; i < numIndSpecies; i++)
+	{
+		theList.push_back("[" + oFloating[i] + "]");
+	}
 
-    setSelections(theList);
+	setSelections(theList);
 
-    Log(lDebug)<<"The following is selected:";
-    for(int i = 0; i < impl->mSelectionList.size(); i++)
-    {
-        Log(lDebug)<<impl->mSelectionList[i];
-    }
-    return impl->mSelectionList.size();
+	Log(lDebug)<<"The following is selected:";
+	for(int i = 0; i < impl->mSelectionList.size(); i++)
+	{
+		Log(lDebug)<<impl->mSelectionList[i];
+	}
+	return impl->mSelectionList.size();
 }
 
 int RoadRunner::createTimeCourseSelectionList()
@@ -842,6 +843,9 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
     delete impl->model;
     impl->model = 0;
 
+	delete impl->mLS;
+	impl->mLS = NULL;
+
     if(dict) {
         self.loadOpt = LoadSBMLOptions(dict);
     }
@@ -912,6 +916,9 @@ bool RoadRunner::unLoadModel()
     {
         delete impl->model;
         impl->model = NULL;
+
+		delete impl->mLS;
+		impl->mLS = NULL;
         return true;
     }
     return false;
@@ -1770,19 +1777,20 @@ double RoadRunner::getVariableValue(const VariableType variableType,
 
 int RoadRunner::createDefaultSteadyStateSelectionList()
 {
-    impl->mSteadyStateSelection.clear();
-    // default should be species only ...
-    vector<string> floatingSpecies = getFloatingSpeciesIds();
-    impl->mSteadyStateSelection.resize(floatingSpecies.size());
-    for (int i = 0; i < floatingSpecies.size(); i++)
-    {
-        SelectionRecord aRec;
-        aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
-        aRec.p1 = floatingSpecies[i];
-        aRec.index = i;
-        impl->mSteadyStateSelection[i] = aRec;
-    }
-    return impl->mSteadyStateSelection.size();
+	impl->mSteadyStateSelection.clear();
+	// default should be independent floating species only ...
+	vector<string> floatingSpecies = getFloatingSpeciesIds();
+	int numIndSpecies = getNumberOfIndependentSpecies();
+	impl->mSteadyStateSelection.resize(numIndSpecies);
+	for (int i = 0; i < numIndSpecies; i++)
+	{
+		SelectionRecord aRec;
+		aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
+		aRec.p1 = floatingSpecies[i];
+		aRec.index = i;
+		impl->mSteadyStateSelection[i] = aRec;
+	}
+	return impl->mSteadyStateSelection.size();
 }
 
 vector<SelectionRecord>& RoadRunner::getSteadyStateSelections()
