@@ -14,11 +14,11 @@ branches:
     #sources:
     #- llvm-toolchain-precise-3.5
 
-addons:
-  apt:
-    packages:
+#addons:
+  #apt:
+    #packages:
     #- cmake
-    - llvm-3.4
+    #- llvm-3.4
 
 before_script:
   - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
