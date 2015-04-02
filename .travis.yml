@@ -1,4 +1,4 @@
-sudo: false
+#sudo: false
 
 language: cpp
 
@@ -20,7 +20,13 @@ branches:
     #- cmake
     #- llvm-3.4
 
+
 before_install:
+  # https://github.com/travis-ci/travis-ci/issues/1379
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
   - mkdir ~/install
   # setup CMake 3.2.1
   - mkdir ~/install/cmake-3.2.1
