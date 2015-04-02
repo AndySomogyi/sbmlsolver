@@ -65,5 +65,5 @@ before_script:
   - ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=~/install/roadrunner-tp -DLLVM_CONFIG_EXECUTABLE=~/install/llvm-3.5.1/bin/llvm-config -DBUILD_PYTHON=OFF -DBUILD_TESTS=OFF -DUSE_TR1_CXX_NS=ON -DBUILD_JAVA_INTERFACE=OFF -DBUILD_TEST_TOOLS=OFF "$TRAVIS_BUILD_DIR"
 
 script:
-  - cd ~/build/roadrunner-tp
+  - cd ~/build/roadrunner
   - make -j2 && make install
