@@ -1,0 +1,38 @@
+sudo: false
+
+language: cpp
+
+compiler: clang
+
+branches:
+  only:
+    - develop
+
+#addons:
+  #apt:
+    #sources:
+    #- llvm-toolchain-precise-3.5
+
+addons:
+  apt:
+    packages:
+    #- cmake
+    - llvm-3.4
+
+before_script:
+  - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
+  - mkdir "~/install"
+  # third party:
+  - mkdir -p "~/build/roadrunner-tp"
+  - cd "~/build/roadrunner-tp"
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="~/install/roadrunner-tp" "$TRAVIS_BUILD_DIR/third_party"
+  # roadrunner:
+  - mkdir -p "~/build/roadrunner"
+  - cd "~/build/roadrunner"
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="~/install/roadrunner" -DTHIRD_PARTY_INSTALL_FOLDER="~/install/roadrunner-tp" -DBUILD_PYTHON=OFF -DBUILD_TESTS=OFF -DUSE_TR1_CXX_NS=ON -DBUILD_JAVA_INTERFACE=OFF -DBUILD_TEST_TOOLS=OFF "$TRAVIS_BUILD_DIR"
+
+script:
+  - cd "~/build/roadrunner-tp"
+  - make && make install
+
+install: true
