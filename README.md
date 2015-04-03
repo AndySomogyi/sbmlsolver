@@ -1,7 +1,9 @@
-libRoadRunner
+# libRoadRunner
+[![Build Status](https://travis-ci.org/0u812/roadrunner.svg?branch=develop)](https://travis-ci.org/0u812/roadrunner)
+
 Copyright 2013
 
-E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3 and H. M Sauro 3
+E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3, J. K. Medley 3 and H. M Sauro 3
 
 1 Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
 2 Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
@@ -9,24 +11,24 @@ E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3 and H. M Sauro 3
 
 libRoadRunner high performance and portable simulation engine for systems and synthetic biology.
 
-libRoadRunner 1.0 supports the following features:
+## libRoadRunner supports the following features:
 
-- Time Dependent Simulation (with optional conservation law reduction) using CVODE
-- Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations
-- Uses latest libSBML distribution
-- Defaults to LLVM code generation on the backend, resulting is very fast simulation times
-- Optional generation of model C code and linking at run-time
-- Add plugins, distribution comes with Levenberg-Marquardt optimizer plugin
-- Compute steady state
-- Metabolic Control Analysis
-- Frequency Domain Analysis
-- Access to:
-  - Eigenvalues and Eigenvectors
-  - Jacobian, full and reduced
-  - Structural Matrices of the stoichiometry matrix
+* Time Dependent Simulation (with optional conservation law reduction) using CVODE
+* Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations
+* Uses latest libSBML distribution
+* Defaults to LLVM code generation on the backend, resulting is very fast simulation times
+* Optional generation of model C code and linking at run-time
+* Add plugins, distribution comes with Levenberg-Marquardt optimizer plugin
+* Compute steady state
+* Metabolic Control Analysis
+* Frequency Domain Analysis
+* Access to:
+  * Eigenvalues and Eigenvectors
+  * Jacobian, full and reduced
+  * Structural Matrices of the stoichiometry matrix
 
 
-Availability
+## Availability
 
 RoadRunner is licensed for free as an open source programmatic library for use in other 
 applications and as a standalone command line driven application. Its C++ API, C API, and 
@@ -36,7 +38,7 @@ downloaded from http://sourceforge.net/projects/libroadrunner/files and can be i
 ready for use.
 
 
-Acknowledgements
+## Acknowledgements
 
 This work is funded by NIGMS grant: GM081070
 
