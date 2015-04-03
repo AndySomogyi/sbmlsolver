@@ -35,17 +35,22 @@ before_install:
   - wget http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.Z
   - tar xf cmake-3.2.1-Linux-x86_64.tar.Z --strip-components=1
 
-  # get LLVM 3.5.1 sources
-  - mkdir -p ~/src/rr-deps/llvm-3.5.1
-  - cd ~/src/rr-deps/llvm-3.5.1
-  - wget http://llvm.org/releases/3.5.1/llvm-3.5.1.src.tar.xz
-  - tar xf llvm-3.5.1.src.tar.xz
-  # build LLVM 3.5.1
-  - mkdir -p ~/build/llvm-3.5.1
-  - cd ~/build/llvm-3.5.1
-  - ~/install/cmake-3.2.1/bin/cmake --version
-  - ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/llvm-3.5.1 ~/src/rr-deps/llvm-3.5.1/llvm-3.5.1.src
-  - make -j2 && make install
+  ## get LLVM 3.5.1 sources
+  #- mkdir -p ~/src/rr-deps/llvm-3.5.1
+  #- cd ~/src/rr-deps/llvm-3.5.1
+  #- wget http://llvm.org/releases/3.5.1/llvm-3.5.1.src.tar.xz
+  #- tar xf llvm-3.5.1.src.tar.xz
+  ## build LLVM 3.5.1
+  #- mkdir -p ~/build/llvm-3.5.1
+  #- cd ~/build/llvm-3.5.1
+  #- ~/install/cmake-3.2.1/bin/cmake --version
+  #- ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/llvm-3.5.1 ~/src/rr-deps/llvm-3.5.1/llvm-3.5.1.src
+  #- make -j2 && make install
+
+  # download LLVM 3.5.1 binaries
+  - cd ~/install
+  - wget http://sourceforge.net/projects/roadrunner-deps/files/ubuntu-12.04.5/llvm-3.5.1.tar.xz/download
+  - tar xf llvm-3.5.1.tar.xz
 
   # roadrunner third party:
   - mkdir -p ~/build/roadrunner-tp
