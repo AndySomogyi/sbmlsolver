@@ -305,7 +305,6 @@
         </listOfProducts>
         <listOfModifiers>
           <modifierSpeciesReference species="S4"/>
-          <modifierSpeciesReference species="S4"/>
         </listOfModifiers>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
