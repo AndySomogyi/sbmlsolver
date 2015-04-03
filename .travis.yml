@@ -49,7 +49,7 @@ before_install:
 
   # download LLVM 3.5.1 binaries
   - cd ~/install
-  - wget http://sourceforge.net/projects/roadrunner-deps/files/ubuntu-12.04.5/llvm-3.5.1.tar.xz/download
+  - wget http://sourceforge.net/projects/roadrunner-deps/files/ubuntu-12.04.5/llvm-3.5.1.tar.xz
   - tar xf llvm-3.5.1.tar.xz
 
   # roadrunner third party:
