@@ -4,7 +4,7 @@
 
 Copyright 2013
 
-E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3, J. K. Medley 3 and H. M Sauro 3
+E. T. Somogyi <sup>1</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, J. K. Medley <sup>3</sup> and H. M Sauro <sup>3</sup>
 
 1. Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
@@ -51,7 +51,7 @@ file except in compliance with the License. You may obtain a copy of the License
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed 
-under the License is distributed on an ÎAS IS BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+under the License is distributed on an ÃŽAS IS BASIS, WITHOUT WARRANTIES OR CONDITIONS 
 OF ANY KIND, either express or implied. See the License for the specific language 
 governing permissions and limitations under the License.
 
