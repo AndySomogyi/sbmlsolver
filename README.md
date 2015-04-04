@@ -6,9 +6,9 @@ Copyright 2013
 
 E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3, J. K. Medley 3 and H. M Sauro 3
 
-1 Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
-2 Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
-3 Department of Bioengineering, University of Washington, Seattle, WA, 98195
+1. Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
+2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
+3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
 
 libRoadRunner high performance and portable simulation engine for systems and synthetic biology.
 
