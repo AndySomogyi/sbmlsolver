@@ -1,6 +1,6 @@
 # libRoadRunner
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
-[![Build Status](https://travis-ci.org/0u812/roadrunner.svg?branch=develop)](https://travis-ci.org/0u812/roadrunner)
+[![Build Status](https://travis-ci.org/sys-bio/roadrunner.svg?branch=develop)](https://travis-ci.org/sys-bio/roadrunner)
 
 Copyright 2013
 

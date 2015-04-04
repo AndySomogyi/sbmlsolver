@@ -289,7 +289,7 @@ if(INSTALL_CXX_API)
         COMPONENT rr_core)
 endif(INSTALL_CXX_API)
 
-install(FILES README.txt LICENSE.txt AUTHORS.txt FUNDING.txt
+install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
         DESTINATION .
         COMPONENT info
         )
