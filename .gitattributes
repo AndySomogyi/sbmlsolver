@@ -1,40 +1,40 @@
 # Set the deifault behavior, in case people don't have core.autocrlf set.
-* text=auto
+*        text=auto
 
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout.
 
 # C/C++
-*.c   text
-*.cpp text
-*.cxx text
-*.cc  text
-*.h   text
-*.hpp text
+*.c      text
+*.cpp    text
+*.cxx    text
+*.cc     text
+*.h      text
+*.hpp    text
 
 # Object Pascal
-*.pas text
+*.pas    text
 
 # Markdown
-*.md
+*.md     text
 
 # CMake
-*.cmake
+*.cmake  text
 
 # Data
-*.xml
-*.dat
+*.xml    text
+*.dat    text
 
 # Misc Windows files
-*.def text
-*.txt text
-*.bat text
+*.def    text
+*.txt    text
+*.bat    text
 
 # Doxygen
-*.doxy text
+*.doxy   text
 
 # Installer scripts (Inno?)
-*.iss
+*.iss    text
 
 # RoadRunner custom
 *.rrtest text
