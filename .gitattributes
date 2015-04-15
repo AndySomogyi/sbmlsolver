@@ -3,6 +3,7 @@
 
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout.
+# C/C++
 *.c   text
 *.cpp text
 *.cxx text
@@ -10,3 +11,29 @@
 *.h   text
 *.hpp text
 
+# Object Pascal
+*.pas text
+
+# Markdown
+*.md
+
+# CMake
+*.cmake
+
+# Data
+*.xml
+*.dat
+
+# Misc Windows files
+*.def text
+*.txt text
+*.bat text
+
+# Doxygen
+*.doxy text
+
+# Installer scripts (Inno?)
+*.iss
+
+# RoadRunner custom
+*.rrtest text
