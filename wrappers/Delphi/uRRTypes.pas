@@ -5,7 +5,7 @@ interface
 type
   TDoubleArray = array of double;
   T2DDoubleArray = array of TDoubleArray;
-
+
   // Result tpe returned by simulate() and simulateEx()
   TRRResult = record
      RSize : integer;
