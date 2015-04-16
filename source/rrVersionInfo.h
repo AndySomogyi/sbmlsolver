@@ -29,7 +29,7 @@ namespace rr {
 #if defined (_MSC_VER)
     #if (_MSC_VER == 1800)
         #define RR_COMPILER "Microsoft Visual Studio 2013"
-    #if (_MSC_VER == 1700)
+    #elif (_MSC_VER == 1700)
         #define RR_COMPILER "Microsoft Visual Studio 2012"
     #elif (_MSC_VER == 1600)
         #define RR_COMPILER "Microsoft Visual Studio 2010"
