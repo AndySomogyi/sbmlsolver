@@ -12,6 +12,9 @@
 *.h      text
 *.hpp    text
 
+# Python
+*.py     text
+
 # Object Pascal
 *.pas    text
 
