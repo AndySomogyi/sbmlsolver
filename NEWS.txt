@@ -1,3 +1,13 @@
+-- Version 1.3.2
+
+* Fix conserved moieties bug (wcopeland)
+
+-- Version 1.3.1
+
+* Fix #91 for negative spec amts in Gillespie
+
+* Fix #92 for internal bug in Python wrapper
+
 -- Version 1.3
 * New Python ND array type which inherits from the numpy ndarray, contains row/column name info, and
   prints the row/col names in nicely formatted output. 
