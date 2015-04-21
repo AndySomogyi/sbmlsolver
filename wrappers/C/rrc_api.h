@@ -60,7 +60,7 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstance(void);
 
 /*!
  \brief Initialize a new roadRunner instance and return a handle to it.
- \param[in] tempFolder set roadrunners temporary folder
+ \param[in] tempFolder set the roadrunner temporary folder
  \param[in] compiler may be NULL, if NULL, uses default compiler.
  If LLVM build is enabled, setting compiler to "llvm" enables llvm based
  model generation.
