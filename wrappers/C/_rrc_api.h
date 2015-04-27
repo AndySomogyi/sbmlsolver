@@ -1,13 +1,13 @@
 /**
  * @file rrc_api.h
- * @brief libRoadRunner C API 2012-2013
+ * @brief libRoadRunner C API 2012-2015
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
  * This file is part of libRoadRunner.
  * See http://code.google.com/p/roadrunnerlib/ for more details.
  *
- * Copyright (C) 2012
+ * Copyright (C) 2012-2015
  *   University of Washington, Seattle, WA, USA
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstance(void);
 
 /*!
  \brief Initialize a new roadRunner instance and return a handle to it.
- \param[in] tempFolder set roadrunners temporary folder
+ \param[in] tempFolder set the roadrunner temporary folder
  \param[in] compiler may be NULL, if NULL, uses default compiler.
  If LLVM build is enabled, setting compiler to "llvm" enables llvm based
  model generation.
@@ -467,51 +467,6 @@ C_DECL_SPEC bool rrcCallConv setConfigurationXML (RRHandle handle, const char* c
  \ingroup simulation
 */
 C_DECL_SPEC char* rrcCallConv getConfigurationXML(RRHandle handle);
-
-
-C_DECL_SPEC int rrcCallConv getNumberOfIntegrators (RRHandle handle);
-
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegrators();
-
-C_DECL_SPEC int rrcCallConv selectIntegrator (RRHandle handle, char *nameOfIntegrator);
-
-
-
-C_DECL_SPEC char* rrcCallConv getIntegratorDescription (RRHandle handle, char* nameOfIntegrator);
-
-C_DECL_SPEC char* rrcCallConv getIntegratorHint (RRHandle handle, char* nameOfIntegrator);
-
-C_DECL_SPEC int rrcCallConv getNumberOfIntegratorParameters (RRHandle handle);
-
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle, char* nameOfIntegrator);
-
-
-
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *parameterName);
-
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char *parameterName);
-
-
-C_DECL_SPEC int rrcCallConv getIntegratorParameterType (RRHandle handle, char *parameterName);
-
-
-C_DECL_SPEC int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *parameterName);
-
-C_DECL_SPEC int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
-
-C_DECL_SPEC double rrcCallConv getIntegratorParameterDouble (RRHandle handle, char *parameterName);
-
-C_DECL_SPEC int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char *parameterName, double value);
-
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterString (RRHandle handle, char *parameterName);
-
-C_DECL_SPEC int rrcCallConv setIntegratorParameterString (RRHandle handle, char *parameterName, char* value);
-
-C_DECL_SPEC int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char *parameterName);
-
-C_DECL_SPEC int rrcCallConv setIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
-
-
 
 
 /*!
@@ -1705,7 +1660,7 @@ C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
  * for systems and synthetic biology. To run a simple SBML model
  * and generate time series data we would write the following code:
  *
- \code
+\code
 #undef __cplusplus
 #define STATIC_RRC
 #include <stdio.h>
@@ -1725,13 +1680,13 @@ int main (int argc, char *argv[]) {
         exit (0);
     }
     result = simulateEx (rrHandle, 0, 10, 100);
-    printf (rrDataToString (result));
+    printf (rrCDataToString (result));
     freeRRCData(result);
 
     getchar ();
     exit (0);
 }
- \endcode
+\endcode
 
 More complex example, using C API:
 \code
@@ -1787,14 +1742,13 @@ int main (int argc, char *argv[]) {
    freeRRInstance (rrHandle);
    getchar ();
    exit (0);
-
+}
 \endcode
 
 Would create output as shown below:
 
 \code
 Starting Test Program: <File path Here>
-Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler.
      time            [S1]            [S2]            [S3]            [S4]
  0.000000        0.000000        0.000000        0.000000        0.000000
  1.111111        3.295975        1.677255        1.121418        1.074708
@@ -1813,7 +1767,7 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
  * Installation documentation is provided at libRoadRunner.org.
 
  * \section license_sec License
- * Copyright (C) 2012
+ * Copyright (C) 2012-2015
  *   University of Washington, Seattle, WA, USA
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
