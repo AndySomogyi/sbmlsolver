@@ -9,6 +9,7 @@
 #include "rrc_api.h"
 #include "rrc_cpp_support.h"
 #include "src/TestUtils.h"
+#include <algorithm>
 
 #include "Poco/Path.h"
 #include "Poco/Glob.h"
