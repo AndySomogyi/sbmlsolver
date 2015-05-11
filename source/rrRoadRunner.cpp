@@ -1757,6 +1757,7 @@ double RoadRunner::getVariableValue(const VariableType variableType,
     {
         double result = 0;
         impl->model->getReactionRates(1, &variableIndex, &result);
+        return result;
     }
     break;
 
