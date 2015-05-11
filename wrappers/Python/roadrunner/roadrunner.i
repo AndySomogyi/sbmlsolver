@@ -1301,14 +1301,16 @@ namespace std { class ostream{}; }
                                      "SimulateOptions object, recieved: {0}".format(str(args[1])))
 
 
-            # third arg is treated as number of steps
+            # third arg is treated as number of points
             if len(args) >= 3:
                 if type(args[2]) == list:
                     # its a selection list
                     self.selections = args[2]
                 elif isinstance(args[2], (int, float)):
                     # treat it as a number
-                    o.steps = args[2]
+                    o.steps = args[2]-1
+                    if o.steps < 2:
+                      raise RuntimeError('Number of points must be 2 or more')
                     haveSteps = True
                 else:
                     raise ValueError("argument 3 must be either a number, list or "
