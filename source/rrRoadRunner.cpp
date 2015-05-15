@@ -561,10 +561,12 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 {
 	vector<string> theList;
 	vector<string> oFloating  = getFloatingSpeciesIds();
-	int numIndSpecies = getNumberOfIndependentSpecies();
+	int numFloatingSpecies = oFloating.size();
+	//int numIndSpecies = getNumberOfIndependentSpecies();
 
 	theList.push_back("time");
-	for(int i = 0; i < numIndSpecies; i++)
+	//for(int i = 0; i < numIndSpecies; i++)
+	for (int i = 0; i < numFloatingSpecies; i++)
 	{
 		theList.push_back("[" + oFloating[i] + "]");
 	}
@@ -1781,9 +1783,12 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 	impl->mSteadyStateSelection.clear();
 	// default should be independent floating species only ...
 	vector<string> floatingSpecies = getFloatingSpeciesIds();
-	int numIndSpecies = getNumberOfIndependentSpecies();
-	impl->mSteadyStateSelection.resize(numIndSpecies);
-	for (int i = 0; i < numIndSpecies; i++)
+	int numFloatingSpecies = floatingSpecies.size();
+	//int numIndSpecies = getNumberOfIndependentSpecies();
+	//impl->mSteadyStateSelection.resize(numIndSpecies);
+	impl->mSteadyStateSelection.resize(numFloatingSpecies);
+	//for (int i = 0; i < numIndSpecies; i++)
+	for (int i = 0; i < numFloatingSpecies; i++)
 	{
 		SelectionRecord aRec;
 		aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
