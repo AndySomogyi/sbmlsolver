@@ -137,6 +137,8 @@ if(SWIG_FOUND)
 
   add_custom_target(jjrr ALL DEPENDS roadrunner_jar.jar)
 
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner_jar.jar DESTINATION java)
+
   add_subdirectory(roadrunner)
 else(SWIG_FOUND)
     message("could not find SWIG in your system")
