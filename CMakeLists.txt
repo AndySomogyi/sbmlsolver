@@ -89,6 +89,10 @@ set( PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages dire
 # should we build the swig Java wrapper?
 option (BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
 
+if(BUILD_JAVA_INTERFACE)
+  enable_testing()
+endif()
+
 if(BUILD_LLVM AND NOT LLVM_FOUND)
     message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM installation was found")
 endif()

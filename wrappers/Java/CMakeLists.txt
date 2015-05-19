@@ -114,6 +114,8 @@ if(SWIG_FOUND)
 #   add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
   add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED})
 
+  get_target_property(PRERR_JARFILE preroadrunner_jar JAR_FILE)
+
   # need to make this depend on the generated files as well
   add_dependencies(preroadrunner_jar jroadrunner)
 #   install_jar(preroadrunner_jar ${LIB_INSTALL_DIR}/java)
@@ -126,8 +128,8 @@ if(SWIG_FOUND)
   set(MANIFEST_FILE "MANIFEST")
 
   add_custom_command(OUTPUT roadrunner_jar.jar
-    DEPENDS preroadrunner_jar.jar
-    COMMAND ${CMAKE_COMMAND} -E copy preroadrunner_jar.jar roadrunner_jar.jar
+    DEPENDS ${PRERR_JARFILE}
+    COMMAND ${CMAKE_COMMAND} -E copy ${PRERR_JARFILE} roadrunner_jar.jar
     COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES}
     COMMAND ${JAVA_ARCHIVE} -uvf "roadrunner_jar.jar" "NATIVE"
     COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." >${MANIFEST_FILE}
@@ -140,6 +142,18 @@ if(SWIG_FOUND)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner_jar.jar DESTINATION java)
 
   add_subdirectory(roadrunner)
+
+  set(ROADRUNNER_ENABLE_JAVA_TESTING TRUE)
+  if(ROADRUNNER_ENABLE_JAVA_TESTING)
+
+    # http://stackoverflow.com/questions/18985726/cmake-to-compile-java-code
+#     add_test(NAME RoadRunner_JavaJNI_getVersion_C COMMAND ${Java_JAVAC_EXECUTABLE} -cp ${CMAKE_CURRENT_BINARY_DIR}/roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/roadrunner_test.java)
+    add_custom_command(OUTPUT roadrunner_javajni_test1.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner_javajni_test1.java)
+    add_custom_target(RoadRunner_JavaJNIT_1 ALL DEPENDS roadrunner_javajni_test1.class)
+    add_test(NAME pwd COMMAND pwd)
+    add_test(NAME RoadRunner_JavaJNI_1 COMMAND ${Java_JAVA_EXECUTABLE} -cp roadrunner_jar.jar roadrunner_javajni_test1)
+  endif()
+
 else(SWIG_FOUND)
     message("could not find SWIG in your system")
 endif(SWIG_FOUND)
