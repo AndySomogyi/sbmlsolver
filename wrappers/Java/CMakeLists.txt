@@ -88,6 +88,8 @@ if(SWIG_FOUND)
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/VersionStrOptions.java
     )
 
+  set_source_files_properties(${ROADRUNNER_JAVA_GENERATED} PROPERTIES GENERATED TRUE)
+
   set_property(TARGET jroadrunner
       PROPERTY  COMPILE_DEFINITIONS
       LIBSBML_STATIC
@@ -108,14 +110,14 @@ if(SWIG_FOUND)
       )
 
   set(CMAKE_JNI_TARGET TRUE)
-#   add_jar(roadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
-#   add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
-  add_jar(roadrunner_jar ${ROADRUNNER_JAVA_GENERATED})
+#   add_jar(preroadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
+#   add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
+  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED})
 
   # need to make this depend on the generated files as well
-  add_dependencies(roadrunner_jar jroadrunner)
-#   install_jar(roadrunner_jar ${LIB_INSTALL_DIR}/java)
-#   install_jni_symlink(roadrunner_jar .)
+  add_dependencies(preroadrunner_jar jroadrunner)
+#   install_jar(preroadrunner_jar ${LIB_INSTALL_DIR}/java)
+#   install_jni_symlink(preroadrunner_jar .)
 
   set(JAVA_BUNDLE "${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/java_bundle.sh")
 
@@ -123,15 +125,19 @@ if(SWIG_FOUND)
 
   set(MANIFEST_FILE "MANIFEST")
 
-  add_custom_command(TARGET jjroadrunner
-    POST_BUILD
-    DEPEND roadrunner_jar
+  add_custom_command(OUTPUT roadrunner_jar.jar
+    DEPENDS preroadrunner_jar.jar
+    COMMAND ${CMAKE_COMMAND} -E copy preroadrunner_jar.jar roadrunner_jar.jar
     COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES}
     COMMAND ${JAVA_ARCHIVE} -uvf "roadrunner_jar.jar" "NATIVE"
     COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." >${MANIFEST_FILE}
     COMMAND ${JAVA_ARCHIVE} -uvmf "MANIFEST" "roadrunner_jar.jar"
     COMMAND ${CMAKE_COMMAND} -E remove ${MANIFEST_FILE}
     )
+
+  add_custom_target(jjrr ALL DEPENDS roadrunner_jar.jar)
+
+#   add_custom_target(jjrr2 ALL COMMAND ${JAVA_BUNDLE} "preroadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES})
 
   add_subdirectory(roadrunner)
 else(SWIG_FOUND)
