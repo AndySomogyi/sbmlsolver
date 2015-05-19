@@ -137,8 +137,6 @@ if(SWIG_FOUND)
 
   add_custom_target(jjrr ALL DEPENDS roadrunner_jar.jar)
 
-#   add_custom_target(jjrr2 ALL COMMAND ${JAVA_BUNDLE} "preroadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES})
-
   add_subdirectory(roadrunner)
 else(SWIG_FOUND)
     message("could not find SWIG in your system")
