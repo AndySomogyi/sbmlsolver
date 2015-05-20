@@ -407,7 +407,7 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 %ignore rr::RoadRunner::getOptions;
 
-%ignore rr::RoadRunner::simulate;
+//%ignore rr::RoadRunner::simulate;
 
 %rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
 %rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
