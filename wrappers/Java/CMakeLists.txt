@@ -147,12 +147,13 @@ if(SWIG_FOUND)
   if(ROADRUNNER_ENABLE_JAVA_TESTING)
     # http://stackoverflow.com/questions/18985726/cmake-to-compile-java-code
     function(ROADRUNNER_JNI_ADD_TEST TEST_NAME)
-      add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java)
+      add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java)
       add_custom_target(${TEST_NAME}_T1 ALL DEPENDS ${TEST_NAME}.class roadrunner_jar.jar)
       add_test(NAME ${TEST_NAME}_Test COMMAND ${Java_JAVA_EXECUTABLE} -cp roadrunner_jar.jar ${TEST_NAME})
     endfunction()
 
     ROADRUNNER_JNI_ADD_TEST(roadrunner_javajni_test1)
+    ROADRUNNER_JNI_ADD_TEST(roadrunner_java_sim_test1)
   endif()
 
 else(SWIG_FOUND)
