@@ -128,7 +128,7 @@ if(SWIG_FOUND)
   set(MANIFEST_FILE "MANIFEST")
 
   add_custom_command(OUTPUT roadrunner_jar.jar
-    DEPENDS preroadrunner_jar
+    DEPENDS ${PRERR_JARFILE}
     COMMAND ${CMAKE_COMMAND} -E copy ${PRERR_JARFILE} roadrunner_jar.jar
     COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES}
     COMMAND ${JAVA_ARCHIVE} -uvf "roadrunner_jar.jar" "NATIVE"
