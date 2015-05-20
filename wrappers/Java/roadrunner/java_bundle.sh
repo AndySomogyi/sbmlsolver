@@ -42,7 +42,8 @@ EOF
 esac
 
 # prepare directory
-rm -fr NATIVE
+rm -rf NATIVE
+rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 mkdir -p "$JSG_BUNDLE"
 
 if [ "$1" = "-so" ]; then
