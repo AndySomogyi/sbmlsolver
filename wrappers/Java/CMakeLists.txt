@@ -128,13 +128,13 @@ if(SWIG_FOUND)
   set(MANIFEST_FILE "MANIFEST")
 
   add_custom_command(OUTPUT roadrunner_jar.jar
-    DEPENDS ${PRERR_JARFILE} jroadrunner roadrunner/java_bundle.sh
     COMMAND ${CMAKE_COMMAND} -E copy ${PRERR_JARFILE} roadrunner_jar.jar
     COMMAND ${JAVA_BUNDLE} "roadrunner_jar.jar" "${Java_JAVA_EXECUTABLE}" "roadrunner/NativeLib" "${CMAKE_STRIP}" -so ${JAVA_BUNDLE_SO_FILES}
     COMMAND ${JAVA_ARCHIVE} -uvf "roadrunner_jar.jar" "NATIVE"
     COMMAND ${CMAKE_COMMAND} -E echo "Class-Path: ." >${MANIFEST_FILE}
     COMMAND ${JAVA_ARCHIVE} -uvmf "MANIFEST" "roadrunner_jar.jar"
     COMMAND ${CMAKE_COMMAND} -E remove ${MANIFEST_FILE}
+    DEPENDS ${PRERR_JARFILE} preroadrunner_jar jroadrunner roadrunner/java_bundle.sh
     )
 
   add_custom_target(jjrr ALL DEPENDS roadrunner_jar.jar)
@@ -148,7 +148,7 @@ if(SWIG_FOUND)
     # http://stackoverflow.com/questions/18985726/cmake-to-compile-java-code
     function(ROADRUNNER_JNI_ADD_TEST TEST_NAME)
       add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java roadrunner_jar.jar)
-      add_custom_target(${TEST_NAME}_T1 ALL DEPENDS ${TEST_NAME}.class roadrunner_jar.jar)
+      add_custom_target(${TEST_NAME}_T1 ALL DEPENDS ${TEST_NAME}.class jjrr)
       add_test(NAME ${TEST_NAME}_Test COMMAND ${Java_JAVA_EXECUTABLE} -cp roadrunner_jar.jar ${TEST_NAME})
     endfunction()
 
