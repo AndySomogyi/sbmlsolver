@@ -36,6 +36,9 @@ else()
     set(ROADRUNNER_GIT_LAST_COMMIT "git not found, unknown git commit")
 endif(GIT)
 
+# Add semantic version info set in root-level CMake script
+configure_file(rrVersionInfo.h.in rrVersionInfo.h @ONLY)
+
 # writes the results of the git commands to GitInfo.h
 message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
 message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
@@ -75,7 +78,7 @@ set(rrCoreSources
     rrRoadRunnerData
     rrSelectionRecord
     ExecutableModelFactory
-    rrVersionInfo
+    rrVersionInfo.cpp
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
@@ -92,6 +95,8 @@ set(rrCoreSources
     )
 
 set(rrSources ${rrCoreSources})
+
+set_source_files_properties(rrVersionInfo.h PROPERTIES GENERATED TRUE)
 
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)

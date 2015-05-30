@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 project(rr)
 
+# libRoadRunner semantic versioning (http://semver.org/) - used to generate
+# source files expose library version information
+
+set(ROADRUNNER_VERSION_MAJOR 1)
+set(ROADRUNNER_VERSION_MINOR 3)
+set(ROADRUNNER_VERSION_PATCH 3)
+
 # These will be the defaults ...
 if(WIN32)
     SET(RR_BUILDS_ROOT      "c:/builds")
