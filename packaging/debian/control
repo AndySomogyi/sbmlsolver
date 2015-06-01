@@ -1,0 +1,23 @@
+Source: libroadrunner
+Priority: optional
+Maintainer: Kyle Medley <0u812github@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Section: libs
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://git.debian.org/collab-maint/libroadrunner.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/libroadrunner.git;a=summary
+
+Package: libroadrunner-dev
+Section: libdevel
+Architecture: any
+Depends: libroadrunnerBROKEN (= ${binary:Version})
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
+Package: libroadrunnerBROKEN
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
