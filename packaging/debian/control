@@ -11,13 +11,15 @@ Homepage: <insert the upstream URL, if relevant>
 Package: libroadrunner-dev
 Section: libdevel
 Architecture: any
-Depends: libroadrunnerBROKEN (= ${binary:Version})
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends: libroadrunner1 (= ${binary:Version})
+Description: Simulation library for SBML
+ libRoadRunner is a ODE/stochastic simulation and
+ modeling environment for SBML
 
-Package: libroadrunnerBROKEN
+Package: libroadrunner1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: Simulation library for SBML
+ libRoadRunner is a ODE/stochastic simulation and
+ modeling environment for SBML
