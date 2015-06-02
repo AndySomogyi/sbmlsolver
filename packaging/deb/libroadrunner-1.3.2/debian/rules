@@ -16,3 +16,10 @@ DEB_SRCDIR = ../../../third_party
 CFLAGS   = -Wno-error
 CPPFLAGS = -Wno-error
 CXXFLAGS = -Wno-error
+
+DEB_CMAKE_NORMAL_ARGS += -DLLVM_CONFIG_EXECUTABLE=/usr/lib/llvm-3.5/bin/llvm-config
+
+common-configure-impl:: $(DEB_BUILDDIR)/CMakeCache.txt $(DEB_BUILDDIR)/rr/CMakeCache.txt
+
+$(DEB_BUILDDIR)/rr/CMakeCache.txt:
+	mkdir $(DEB_BUILDDIR)/rr && cd $(DEB_BUILDDIR)/rr && $(CMAKE) $(CURDIR)/$(DEB_SRCDIR)/.. $(DEB_CMAKE_NORMAL_ARGS) $(DEB_CMAKE_EXTRA_FLAGS)
