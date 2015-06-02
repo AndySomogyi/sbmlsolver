@@ -8,16 +8,16 @@ version=3
 
 # Uncomment to examine a Webpage
 # <Webpage URL> <string match>
-#http://www.example.com/downloads.php libroadrunner-(.*)\.tar\.gz
+#http://www.example.com/downloads.php libroadrunner-deps-(.*)\.tar\.gz
 
 # Uncomment to examine a Webserver directory
-#http://www.example.com/pub/libroadrunner-(.*)\.tar\.gz
+#http://www.example.com/pub/libroadrunner-deps-(.*)\.tar\.gz
 
 # Uncommment to examine a FTP server
-#ftp://ftp.example.com/pub/libroadrunner-(.*)\.tar\.gz debian uupdate
+#ftp://ftp.example.com/pub/libroadrunner-deps-(.*)\.tar\.gz debian uupdate
 
 # Uncomment to find new files on sourceforge, for devscripts >= 2.9
-# http://sf.net/libroadrunner/libroadrunner-(.*)\.tar\.gz
+# http://sf.net/libroadrunner-deps/libroadrunner-deps-(.*)\.tar\.gz
 
 # Uncomment to find new files on GooglePages
-# http://example.googlepages.com/foo.html libroadrunner-(.*)\.tar\.gz
+# http://example.googlepages.com/foo.html libroadrunner-deps-(.*)\.tar\.gz

@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for libroadrunner
+# prerm script for libroadrunner-deps
 #
 # see: dh_installdeb(1)
 

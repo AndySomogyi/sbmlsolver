@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          libroadrunner
+# Provides:          libroadrunner-deps
 # Required-Start:    $local_fs $network $remote_fs $syslog
 # Required-Stop:     $local_fs $network $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -17,9 +17,9 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="libroadrunner"
-NAME=libroadrunner
-DAEMON=/usr/sbin/libroadrunner
+DESC="libroadrunner-deps"
+NAME=libroadrunner-deps
+DAEMON=/usr/sbin/libroadrunner-deps
 DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME

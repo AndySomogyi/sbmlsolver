@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for libroadrunner
+# postinst script for libroadrunner-deps
 #
 # see: dh_installdeb(1)
 
