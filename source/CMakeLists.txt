@@ -44,6 +44,11 @@ message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
 message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 configure_file(GitInfo.h.in GitInfo.h @ONLY)
 
+set(ROADRUNNER_SHARED_DEPS xml2)
+
+configure_file(roadrunner.pc.in roadrunner.pc @ONLY)
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig )
+
 include_directories(
     .
     ${THIRD_PARTY_INSTALL_FOLDER}/include
