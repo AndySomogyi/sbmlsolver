@@ -189,6 +189,8 @@ if(RR_BUILD_SHARED_CORE)
     #Link with static libs
     add_library(${target} SHARED ${rrSources})
 
+    set_target_properties( ${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
+
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RR
@@ -276,6 +278,8 @@ endif(RR_BUILD_SHARED_CORE)
 # static allways gets build
 
 add_library(${target}-static STATIC ${rrSources})
+
+set_target_properties( ${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
 
 set_property(TARGET ${target}-static
     PROPERTY COMPILE_DEFINITIONS
