@@ -10,3 +10,9 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/cmake.mk
 
 DEB_SRCDIR = ../../../third_party
+
+# Whatever knucklehead set this by default should be forced to clean up
+# every single warning in clapack
+CFLAGS   = -Wno-error
+CPPFLAGS = -Wno-error
+CXXFLAGS = -Wno-error
