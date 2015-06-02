@@ -9,7 +9,7 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/cmake.mk
 
-DEB_SRCDIR = ../../../third_party
+DEB_SRCDIR = ../../..
 
 # Whatever knucklehead set this default behavior should be forced to clean up
 # every single warning in clapack
