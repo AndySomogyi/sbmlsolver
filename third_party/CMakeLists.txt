@@ -69,7 +69,7 @@ set(BUILD_IDAS          OFF CACHE BOOL "")
 set(BUILD_KINSOL        OFF CACHE BOOL "")
 set(BUILD_UNIT_TEST     OFF CACHE BOOL "")
 
-configure_file(roadrunner-deps.pc.in roadrunne-depsr.pc @ONLY)
+configure_file(roadrunner-deps.pc.in roadrunner-deps.pc @ONLY)
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner-deps.pc DESTINATION lib/pkgconfig )
 
 #LIBXML stuff
