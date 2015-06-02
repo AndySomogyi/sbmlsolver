@@ -8,13 +8,13 @@ Homepage: http://libroadrunner.org/
 Vcs-Git: git@github.com:sys-bio/roadrunner.git
 Vcs-Browser: https://github.com/sys-bio/roadrunner
 
-Package: libroadrunner1.3.2-deps-dev
+Package: libroadrunner1-deps-dev
 Section: libdevel
 Architecture: any
-Depends: libroadrunner1.3.2-deps (= ${binary:Version})
+Depends: libroadrunner1-deps (= ${binary:Version})
 Description: Dependencies for libroadrunner
 
-Package: libroadrunner1.3.2-deps
+Package: libroadrunner1-deps
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
