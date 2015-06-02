@@ -1,25 +1,21 @@
-Source: libroadrunner
+Source: libroadrunner-deps
 Priority: optional
 Maintainer: Kyle Medley <0u812github@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake, llvm-3.5-dev, libxml2-dev, ncurses-dev, libz-dev
+Build-Depends: debhelper (>= 8.0.0), cmake, libxml2-dev
 Standards-Version: 3.9.4
 Section: libs
 Homepage: http://libroadrunner.org/
 Vcs-Git: git@github.com:sys-bio/roadrunner.git
 Vcs-Browser: https://github.com/sys-bio/roadrunner
 
-Package: libroadrunner-dev
+Package: libroadrunner1.3.2-deps-dev
 Section: libdevel
 Architecture: any
-Depends: libroadrunner1 (= ${binary:Version})
-Description: Simulation library for SBML
- libRoadRunner is a ODE/stochastic simulation and
- modeling environment for SBML
+Depends: libroadrunner1.3.2-deps (= ${binary:Version})
+Description: Dependencies for libroadrunner
 
-Package: libroadrunner1
+Package: libroadrunner1.3.2-deps
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Simulation library for SBML
- libRoadRunner is a ODE/stochastic simulation and
- modeling environment for SBML
+Description: Dependencies for libroadrunner
