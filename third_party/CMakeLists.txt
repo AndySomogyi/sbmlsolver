@@ -71,6 +71,8 @@ set(BUILD_UNIT_TEST     OFF CACHE BOOL "")
 
 configure_file(roadrunner-deps.pc.in roadrunner-deps.pc @ONLY)
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner-deps.pc DESTINATION lib/pkgconfig )
+# gotta love debian
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner-deps.pc DESTINATION share/pkgconfig )
 
 #LIBXML stuff
 
