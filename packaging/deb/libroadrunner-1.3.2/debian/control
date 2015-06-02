@@ -1,7 +1,7 @@
 Source: libroadrunner
 Priority: optional
 Maintainer: Kyle Medley <0u812github@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake, llvm-3.5-dev
+Build-Depends: debhelper (>= 8.0.0), cmake, llvm-3.5-dev, libxml2-dev
 Standards-Version: 3.9.4
 Section: libs
 Homepage: http://libroadrunner.org/
