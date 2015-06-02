@@ -22,4 +22,7 @@ DEB_CMAKE_NORMAL_ARGS += -DLLVM_CONFIG_EXECUTABLE=/usr/lib/llvm-3.5/bin/llvm-con
 common-configure-impl:: $(DEB_BUILDDIR)/CMakeCache.txt $(DEB_BUILDDIR)/rr/CMakeCache.txt
 
 $(DEB_BUILDDIR)/rr/CMakeCache.txt:
-	mkdir $(DEB_BUILDDIR)/rr && cd $(DEB_BUILDDIR)/rr && $(CMAKE) $(CURDIR)/$(DEB_SRCDIR)/.. $(DEB_CMAKE_NORMAL_ARGS) $(DEB_CMAKE_EXTRA_FLAGS)
+	mkdir $(DEB_BUILDDIR)/rr && cd $(DEB_BUILDDIR)/rr && $(CMAKE) -DTHIRD_PARTY_INSTALL_FOLDER=/usr $(CURDIR)/$(DEB_SRCDIR)/.. $(DEB_CMAKE_NORMAL_ARGS) $(DEB_CMAKE_EXTRA_FLAGS)
+
+common-build-arch common-build-indep::
+	cd $(DEB_BUILDDIR)/rr && make -j4
