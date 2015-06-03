@@ -5,6 +5,8 @@ set(target roadrunner)
 configure_file(rrConfigure.h.in rrConfigure.h)
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/rrConfigure.h DESTINATION include/rr )
+
 OPTION(USE_POCO_NET "Use poco net library" ON)
 
 # pre-process the GitInfo.h.in file and insert the response from git about
@@ -39,10 +41,14 @@ endif(GIT)
 # Add semantic version info set in root-level CMake script
 configure_file(rrVersionInfo.h.in rrVersionInfo.h @ONLY)
 
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h DESTINATION include/rr )
+
 # writes the results of the git commands to GitInfo.h
 message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
 message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 configure_file(GitInfo.h.in GitInfo.h @ONLY)
+
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h DESTINATION include/rr )
 
 set(ROADRUNNER_SHARED_DEPS xml2)
 
