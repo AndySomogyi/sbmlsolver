@@ -5,6 +5,8 @@ set(target roadrunner)
 configure_file(rrConfigure.h.in rrConfigure.h)
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/rrConfigure.h DESTINATION include/rr )
+
 OPTION(USE_POCO_NET "Use poco net library" ON)
 
 # pre-process the GitInfo.h.in file and insert the response from git about
@@ -39,10 +41,20 @@ endif(GIT)
 # Add semantic version info set in root-level CMake script
 configure_file(rrVersionInfo.h.in rrVersionInfo.h @ONLY)
 
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h DESTINATION include/rr )
+
 # writes the results of the git commands to GitInfo.h
 message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
 message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 configure_file(GitInfo.h.in GitInfo.h @ONLY)
+
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h DESTINATION include/rr )
+
+set(ROADRUNNER_SHARED_DEPS xml2)
+
+configure_file(roadrunner.pc.in roadrunner.pc @ONLY)
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig )
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig )
 
 include_directories(
     .
@@ -183,6 +195,8 @@ if(RR_BUILD_SHARED_CORE)
     #Link with static libs
     add_library(${target} SHARED ${rrSources})
 
+    set_target_properties( ${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
+
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RR
@@ -270,6 +284,8 @@ endif(RR_BUILD_SHARED_CORE)
 # static allways gets build
 
 add_library(${target}-static STATIC ${rrSources})
+
+set_target_properties( ${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
 
 set_property(TARGET ${target}-static
     PROPERTY COMPILE_DEFINITIONS

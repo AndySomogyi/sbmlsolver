@@ -8,6 +8,8 @@ set(ROADRUNNER_VERSION_MAJOR 1)
 set(ROADRUNNER_VERSION_MINOR 3)
 set(ROADRUNNER_VERSION_PATCH 3)
 
+set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
+
 # These will be the defaults ...
 if(WIN32)
     SET(RR_BUILDS_ROOT      "c:/builds")
@@ -82,6 +84,7 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
 
 # should we build the swig python wrapper?
 option (BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
+set( PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages directory" )
 
 # should we build the swig Java wrapper?
 option (BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
