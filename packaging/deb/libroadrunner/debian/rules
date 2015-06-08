@@ -17,4 +17,4 @@ CFLAGS   = -Wno-error
 CPPFLAGS = -Wno-error
 CXXFLAGS = -Wno-error
 
-DEB_CMAKE_NORMAL_ARGS += -DLLVM_CONFIG_EXECUTABLE=/usr/lib/llvm-3.5/bin/llvm-config -DTHIRD_PARTY_INSTALL_FOLDER=/home/user/devel/install/roadrunner-deps
+DEB_CMAKE_NORMAL_ARGS += -DLLVM_CONFIG_EXECUTABLE=/usr/lib/llvm-3.5/bin/llvm-config -DTHIRD_PARTY_INSTALL_FOLDER=/home/user/devel/install/roadrunner-deps -DBUILD_PYTHON=TRUE

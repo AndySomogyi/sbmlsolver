@@ -106,11 +106,11 @@ else(WIN32)
 
 endif(WIN32)
 
-set(RR_PACKAGE_DIR site-packages/roadrunner)
+set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
 
 install(
     TARGETS _roadrunner
-    DESTINATION ${RR_PACKAGE_DIR}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
 )
 
 set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
@@ -131,29 +131,29 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
 
 install(
     FILES ${python_files_path}/roadrunner.py
-    DESTINATION ${RR_PACKAGE_DIR}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
 )
 
 install(
     FILES __init__.py
-    DESTINATION ${RR_PACKAGE_DIR}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
 )
 
 install(
     DIRECTORY testing
-    DESTINATION ${RR_PACKAGE_DIR}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
     FILES_MATCHING PATTERN "*.*"
 )
 
 install(
     DIRECTORY stochastic
-    DESTINATION ${RR_PACKAGE_DIR}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
     FILES_MATCHING PATTERN "*.*"
 )
 
 file(GLOB rrtest_files "${RR_ROOT}/testing/*.rrtest")
 install(
     FILES ${rrtest_files} 
-    DESTINATION ${RR_PACKAGE_DIR}/testing/test_data
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
 

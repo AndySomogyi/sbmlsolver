@@ -11,10 +11,10 @@ Vcs-Browser: https://github.com/sys-bio/roadrunner
 Package: libroadrunner-deps-dev
 Section: libdevel
 Architecture: any
-Depends: libroadrunner-deps1 (= ${binary:Version})
+Depends: libroadrunner-deps (= ${binary:Version})
 Description: Dependencies for libroadrunner
 
-Package: libroadrunner-deps1
+Package: libroadrunner-deps
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
