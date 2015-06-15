@@ -42,6 +42,9 @@ if(SWIG_FOUND)
 
   swig_add_module(jroadrunner java roadrunner/jroadrunner.i)
 
+  # use swig in C++ mode (http://www.cmake.org/cmake/help/v3.2/module/UseSWIG.html)
+  set_property(SOURCE roadrunner/jroadrunner.i PROPERTY CPLUSPLUS ON)
+
   set(ROADRUNNER_JAVA_GENERATED
     ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/NativeLib.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/BasicDictionary.java
