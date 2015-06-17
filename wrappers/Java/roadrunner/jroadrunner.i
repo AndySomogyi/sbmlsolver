@@ -68,7 +68,7 @@
 // C++ std::map handling
 %include "std_map.i"
 
-// C++ std::map handling
+// C++ std::vector handling
 %include "std_vector.i"
 
 // not for java
