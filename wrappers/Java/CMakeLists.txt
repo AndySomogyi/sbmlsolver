@@ -10,6 +10,10 @@ include(UseJava)
 
 set(RR_JAVA_ENABLE_LA4J TRUE)
 
+if(RR_JAVA_ENABLE_LA4J)
+  add_definitions(-DRR_JAVA_ENABLE_LA4J)
+endif()
+
 message("Java includes: ${Java_INCLUDE_DIRS}")
 message("Java libs: ${Java_LIBRARIES}")
 message("JNI includes: ${JNI_INCLUDE_DIRS}")
