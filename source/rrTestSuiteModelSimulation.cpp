@@ -72,8 +72,10 @@ bool TestSuiteModelSimulation::LoadSettingsEx(const string& settingsFName)
 
     if (mEngine)
     {
-        mEngine->setSimulateOptions(SimulateOptions(mModelSettingsFileName));
-        result = true;
+		SimulateOptions opt = SimulateOptions();
+		opt.loadSBMLSettings(mModelSettingsFileName);
+		mEngine->setSimulateOptions(opt);
+		result = true;
     }
     return result;
 }
@@ -152,7 +154,9 @@ bool TestSuiteModelSimulation::CreateErrorData()
             double error = fabsl(mResultData(row, col) - mReferenceData(row,col));
             mErrorData(row, col) = error;
 
-            if(error > mSettings.absolute + mSettings.relative*fabs(mReferenceData(row,col)))
+			double absTol = mEngine->getIntegrator()->getValue("absolute_tolerance").convert<double>();
+			double relTol = mEngine->getIntegrator()->getValue("relative_tolerance").convert<double>();
+            if(error > absTol + relTol*fabs(mReferenceData(row,col)))
             {
                 mNrOfFailingPoints++;;
             }

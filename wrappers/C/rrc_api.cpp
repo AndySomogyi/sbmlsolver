@@ -2019,8 +2019,9 @@ vector<double> rr_getRatesOfChange(RoadRunner* rr)
 C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
     start_try
         RoadRunner *r = (RoadRunner*)h;
-        Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
-        *result = intg->getItem("seed").convert<long>();
+        //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
+		//*result = intg->getItem("seed").convert<long>();	
+		*result = r->getIntegrator()->getValue("seed").convert<long>();
         return true;
     catch_bool_macro;
 }
@@ -2028,8 +2029,18 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
 C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
     start_try
         RoadRunner *r = (RoadRunner*)h;
-        Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
-        intg->setItem("seed", result);
+        //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
+        //intg->setItem("seed", result);
+		Integrator *intg = r->getIntegrator();
+		if (intg->getIntegratorName() == "gillespie")
+		{
+			intg->setValue("seed", result);
+		}
+		else
+		{
+			Integrator *intg = IntegratorFactory::New("gillespie", r->getModel());
+			intg->setValue("seed", result);
+		}
         return true;
     catch_bool_macro
 }
@@ -2038,8 +2049,10 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle) {
     start_try
         RoadRunner *r = (RoadRunner*)handle;
         SimulateOptions& o = r->getSimulateOptions();
-        o.integrator = Integrator::GILLESPIE;
-        o.integratorFlags |= Integrator::VARIABLE_STEP;
+        //o.integrator = Integrator::GILLESPIE;
+        //o.integratorFlags |= Integrator::VARIABLE_STEP;
+		o.integrator = "gillespie";
+		r->getIntegrator()->setValue("variable_step_size", false);
         r->simulate();
         return createRRCData(*r);
     catch_ptr_macro
@@ -2057,8 +2070,10 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle) {
     start_try
         RoadRunner *r = (RoadRunner*)handle;
         SimulateOptions& o = r->getSimulateOptions();
-        o.integrator = Integrator::GILLESPIE;
-        o.integratorFlags &= !Integrator::VARIABLE_STEP;
+        //o.integrator = Integrator::GILLESPIE;
+        //o.integratorFlags &= !Integrator::VARIABLE_STEP;
+		o.integrator = "gillespie";
+		r->getIntegrator()->setValue("variable_step_size", false);
         r->simulate();
         return createRRCData(*r);
     catch_ptr_macro
@@ -2078,8 +2093,10 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
         // Standard gillespieOnGrid setup
         RoadRunner *r = (RoadRunner*)handle;
         SimulateOptions& o = r->getSimulateOptions();
-        o.integrator = Integrator::GILLESPIE;
-        o.integratorFlags &= !Integrator::VARIABLE_STEP;
+        //o.integrator = Integrator::GILLESPIE;
+        //o.integratorFlags &= !Integrator::VARIABLE_STEP;
+		o.integrator = "gillespie";
+		r->getIntegrator()->setValue("variable_step_size", false);
 
         double steps = o.steps;
 
@@ -2144,8 +2161,9 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
         // Standard gillespieOnGrid setup
         RoadRunner *r = (RoadRunner*)handle;
         SimulateOptions& o = r->getSimulateOptions();
-        o.integrator = Integrator::GILLESPIE;
-        o.integratorFlags &= !Integrator::VARIABLE_STEP;
+		o.integrator = "gillespie";
+		//o.integratorFlags &= !Integrator::VARIABLE_STEP;
+		r->getIntegrator()->setValue("variable_step_size", false);
 
         double steps = o.steps;
 

@@ -21,8 +21,8 @@ mCompileIfDllExists(true),
 mTempDataFolder(tempDataFilePath),
 mEngine(NULL)
 {
-    mSettings.absolute    = 1.e-7;
-    mSettings.relative    = 1.e-4;
+    // TODO mSettings.absolute    = 1.e-7;
+    // TODO mSettings.relative    = 1.e-4;
 }
 
 SBMLModelSimulation::~SBMLModelSimulation()
@@ -121,13 +121,19 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         return false;
     }
 
-    mSettings = SimulateOptions(fName);
+    mSettings = SimulateOptions();
+	mSettings.loadSBMLSettings(fName);
 
     if(mEngine)
     {
+		mEngine->getIntegrator()->loadSBMLSettings(fName);
         // make a copy and tweak tolerances for integrator
         SimulateOptions opt = mSettings;
-        opt.tweakTolerances();
+		if (mEngine->getIntegrator()->getIntegratorName() == "cvode")
+		{
+			// Do the tolerance tweaking here.
+			opt.tweakTolerances();
+		}
         mEngine->setSimulateOptions(opt);
     }
 

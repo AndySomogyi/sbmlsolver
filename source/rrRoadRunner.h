@@ -112,12 +112,6 @@ public:
      */
     Integrator *getIntegrator();
 
-    /**
-     * gets a pointer to a specific integrator.
-     *
-     * Throws a std::invalid_argument if intg is not valid.
-     */
-    Integrator *getIntegrator(Integrator::IntegratorId intg);
 
     bool isModelLoaded();
 
