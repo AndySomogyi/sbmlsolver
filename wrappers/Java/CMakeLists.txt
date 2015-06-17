@@ -8,6 +8,8 @@ find_package(JNI REQUIRED)
 include(UseSWIG)
 include(UseJava)
 
+set(RR_JAVA_ENABLE_LA4J TRUE)
+
 message("Java includes: ${Java_INCLUDE_DIRS}")
 message("Java libs: ${Java_LIBRARIES}")
 message("JNI includes: ${JNI_INCLUDE_DIRS}")
@@ -146,11 +148,24 @@ if(SWIG_FOUND)
 
   add_subdirectory(roadrunner)
 
+  set(RR_JAVA_TESTS_CLASSPATH "roadrunner_jar.jar")
+  if(WIN32)
+    set(RR_JAVA_CP_SEP ";")
+  else()
+    set(RR_JAVA_CP_SEP ":")
+  endif()
+
+  # copy la4j to build folder so it can be added to classpath when running tests
+  if(RR_JAVA_ENABLE_LA4J)
+    configure_file(la4j-0.5.5.jar la4j-0.5.5.jar COPYONLY)
+    set(RR_JAVA_TESTS_CLASSPATH "${RR_JAVA_TESTS_CLASSPATH}${RR_JAVA_CP_SEP}la4j-0.5.5.jar")
+  endif()
+
   set(ROADRUNNER_ENABLE_JAVA_TESTING TRUE)
   if(ROADRUNNER_ENABLE_JAVA_TESTING)
     # http://stackoverflow.com/questions/18985726/cmake-to-compile-java-code
     function(ROADRUNNER_JNI_ADD_TEST TEST_NAME)
-      add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java roadrunner_jar.jar)
+      add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp \"${RR_JAVA_TESTS_CLASSPATH}\" ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java roadrunner_jar.jar)
       add_custom_target(${TEST_NAME}_T1 ALL DEPENDS ${TEST_NAME}.class jjrr)
       add_test(NAME ${TEST_NAME}_Test COMMAND ${Java_JAVA_EXECUTABLE} -cp roadrunner_jar.jar ${TEST_NAME})
     endfunction()
