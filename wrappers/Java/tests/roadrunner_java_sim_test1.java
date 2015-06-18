@@ -8,7 +8,7 @@ public class roadrunner_java_sim_test1 {
     RoadRunner rr = new RoadRunner("/home/poltergeist/devel/models/decayModel.xml");
     System.out.println(rr.getExtendedVersionInfo());
     System.out.println("- Loaded rr");
-    Matrix x = rr.simulate();
+    Matrix x = rr.simulate(0, 10, 100);
     System.out.println("- Simulate called");
     System.out.println(x);
   }

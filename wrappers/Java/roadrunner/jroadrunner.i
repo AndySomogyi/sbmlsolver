@@ -602,7 +602,7 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %}
 
 %typemap(javacode) rr::RoadRunner %{
-  public Matrix simulate() {
+  public Matrix simulate(double tstart, double tend, int n) {
     Matrix a = DenseMatrix.diagonal(4, 1.);
     return a;
   }
