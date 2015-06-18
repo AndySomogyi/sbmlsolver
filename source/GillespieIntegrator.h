@@ -25,9 +25,6 @@ public:
     GillespieIntegrator(ExecutableModel* model);
     virtual ~GillespieIntegrator();
 
-
-	void loadConfigSettings();
-	void loadSBMLSettings(const std::string& filename);
 	std::string getIntegratorName() const;
 	std::string getIntegratorDescription() const;
 	std::string getIntegratorHint() const;

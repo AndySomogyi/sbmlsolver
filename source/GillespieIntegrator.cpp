@@ -89,9 +89,6 @@ GillespieIntegrator::~GillespieIntegrator()
     delete[] stoichData;
 }
 
-
-
-
 double GillespieIntegrator::integrate(double t, double hstep)
 {
     double tf = 0;

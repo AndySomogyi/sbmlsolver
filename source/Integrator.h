@@ -63,7 +63,7 @@ namespace rr
 		virtual ~Integrator() {};
 
 		virtual void loadConfigSettings();
-		virtual void loadSBMLSettings(const std::string& filename) = 0;
+		virtual void loadSBMLSettings(const std::string& filename);
 		virtual std::string getIntegratorName() const = 0;
 		virtual std::string getIntegratorDescription() const = 0;
 		virtual std::string getIntegratorHint() const = 0;

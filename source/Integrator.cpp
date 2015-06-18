@@ -61,7 +61,7 @@ namespace rr
 
 	void Integrator::loadSBMLSettings(const std::string& filename)
 	{
-
+		// Stub for loading SBML settings (can override in derived classes).
 	}
 
 	std::vector<string> Integrator::getSettings()
