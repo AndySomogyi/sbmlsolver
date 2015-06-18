@@ -5,6 +5,7 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
+#include "CVODEIntegrator.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -132,7 +133,16 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 		if (mEngine->getIntegrator()->getIntegratorName() == "cvode")
 		{
 			// Do the tolerance tweaking here.
-			opt.tweakTolerances();
+			//opt.tweakTolerances();
+			CVODEIntegrator* cvode_integrator = dynamic_cast<CVODEIntegrator*>(mEngine->getIntegrator());
+			if (cvode_integrator)
+			{
+				cvode_integrator->tweakTolerances();
+			}
+			else
+			{
+				throw std::runtime_error("Cannot tweak tolerances of integrator because it is not CVODE."); 
+			}
 		}
         mEngine->setSimulateOptions(opt);
     }

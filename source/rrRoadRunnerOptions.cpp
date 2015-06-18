@@ -274,30 +274,7 @@ namespace rr
 		return ss.str();
 	}
 
-	SimulateOptions::SimulateOptions(const Dictionary* dict) :
-		steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
-		start(0),
-		duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
-		integrator("cvode"),
-		initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
-		minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
-		maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
-		maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
-
-	{
-		getConfigValues(this);
-		const SimulateOptions *o = dynamic_cast<const SimulateOptions*>(dict);
-		if (o) {
-			*this = *o;
-		}
-		else if (dict) {
-			for (int i = KEY_INTEGRATOR; i <= KEY_VARIABLESTEP; ++i) {
-				if (dict->hasKey(SimulateOptionsKeys[i])) {
-					setItemWithIndex(*this, i, dict->getItem(SimulateOptionsKeys[i]));
-				}
-			}
-		}
-	}
+	
 
 
 	void LoadSBMLOptions::setItem(const std::string& key, const rr::Variant& value)

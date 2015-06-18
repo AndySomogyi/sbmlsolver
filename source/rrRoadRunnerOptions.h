@@ -259,7 +259,7 @@ namespace rr
 		* Copy constructor, initializes a new SimulateOptions object
 		* using the values from an existing Dictionary.
 		*/
-		SimulateOptions(const Dictionary*);
+		//SimulateOptions(const Dictionary*);
 
 
 		std::string integrator;

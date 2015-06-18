@@ -477,7 +477,10 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
         }
 
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->setSimulateOptions(SimulateOptions(fileName));
+		SimulateOptions opts = rri->getSimulateOptions();
+		opts.loadSBMLSettings(fileName);
+		Integrator* integrator = rri->getIntegrator();
+		integrator->loadSBMLSettings(fileName);
         return true;
     catch_bool_macro
 }
@@ -1363,8 +1366,7 @@ char* rrcCallConv getIntegratorDescription (RRHandle handle, char* nameOfIntegra
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-       const Dictionary *d = IntegratorFactory::getIntegratorOptions (nameOfIntegrator);
-       string str = d->getItem ("integrator.description");
+	   std::string str = rri->getIntegrator()->getIntegratorDescription();
        return (rr::createText (str));
     catch_ptr_macro
 }
@@ -1374,8 +1376,7 @@ char* rrcCallConv getIntegratorHint (RRHandle handle, char* nameOfIntegrator)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-       const Dictionary *d = IntegratorFactory::getIntegratorOptions (nameOfIntegrator);
-       string str = d->getItem ("integrator.hint");
+	   std::string str = rri->getIntegrator()->getIntegratorHint();
        return (rr::createText (str));
     catch_ptr_macro
 }
@@ -1383,21 +1384,21 @@ char* rrcCallConv getIntegratorHint (RRHandle handle, char* nameOfIntegrator)
 
 int rrcCallConv getNumberOfIntegratorParameters (RRHandle handle)
 {
-    start_try
-       vector<const Dictionary*> opts = IntegratorFactory::getIntegratorOptions();
-       return opts.size();
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+	    vector<std::string> keys = rri->getIntegrator()->getSettings();
+		return keys.size();
     catch_ptr_macro
 }
 
 RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle, char* nameOfIntegrator)
 {
-    start_try
-       const Dictionary* opts = IntegratorFactory::getIntegratorOptions(nameOfIntegrator);
-       vector<string> keys = opts->getKeys();
-       return createList(keys);
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		vector<std::string> keys = rri->getIntegrator()->getSettings();
+		return createList(keys);
     catch_ptr_macro
 }
-
 
 char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *parameterName)
 {

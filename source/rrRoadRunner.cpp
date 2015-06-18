@@ -2883,6 +2883,7 @@ vector<double> RoadRunner::getReactionRates()
 Integrator* RoadRunner::getIntegrator()
 {
     //updateSimulateOptions();
+	updateIntegrator();
     return impl->integrator;
 }
 

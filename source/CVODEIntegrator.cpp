@@ -293,7 +293,7 @@ namespace rr
 			itask = CV_NORMAL;
 		}
 
-		if (getValue("variable_time_step").convert<bool>())
+		if (getValue("variable_step_size").convert<bool>())
 		{
 			itask = CV_NORMAL;
 		}

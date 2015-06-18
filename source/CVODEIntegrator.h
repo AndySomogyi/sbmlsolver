@@ -37,7 +37,7 @@ namespace rr
 		std::string getIntegratorDescription() const;
 		std::string getIntegratorHint() const;
 		IntegrationMethod getIntegrationMethod() const;
-		void setValue(string setting, const Variant& value);
+		void setValue(std::string setting, const Variant& value);
 		
 		double integrate(double t0, double tf);
 		void restart(double timeStart);

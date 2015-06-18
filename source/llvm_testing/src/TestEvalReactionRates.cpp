@@ -82,7 +82,7 @@ void testStoch(const char* fname)
 
     SimulateOptions o = SimulateOptions();
 
-    o.integrator = Integrator::GILLESPIE;
+	o.integrator = "gillespie";
 
     r.simulate(&o);
 
