@@ -191,22 +191,22 @@ namespace rr
 		}
 	}
 
-	std::string getIntegratorName()
+	std::string CVODEIntegrator::getIntegratorName() const
 	{
 		return "cvode";
 	}
 
-	std::string getIntegratorDescription()
+	std::string CVODEIntegrator::getIntegratorDescription() const
 	{
 		return "CVODE description.";
 	}
 
-	std::string getIntegratorHint()
+	std::string CVODEIntegrator::getIntegratorHint() const
 	{
 		return "CVODE hint.";
 	}
 
-	Integrator::IntegrationMethod getIntegrationMethod()
+	Integrator::IntegrationMethod CVODEIntegrator::getIntegrationMethod() const
 	{
 		return Integrator::IntegrationMethod::Deterministic;
 	}
@@ -763,11 +763,6 @@ namespace rr
 		model->getEventRoots(time, y, gout);
 
 		return CV_SUCCESS;
-	}
-
-	Integrator::IntegrationMethod CVODEIntegrator::getIntegrationMethod() const
-	{
-		return Integrator::IntegrationMethod::Deterministic;
 	}
 
 

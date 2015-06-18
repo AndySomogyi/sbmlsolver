@@ -35,12 +35,12 @@ namespace rr
 			(1) What happens if variable_step_size does not exist in settings?
 		*/
 		bool bVal = false;
-		if (Integrator::getIntegrationMethod() == Integrator::IntegrationMethod::Deterministic)
+		if (getIntegrationMethod() == Integrator::IntegrationMethod::Deterministic)
 		{
 			bVal = Config::getBool(Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
 			Integrator::setValue("variable_step_size", bVal);
 		}
-		else if (Integrator::getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
+		else if (getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
 		{
 			bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
 			Integrator::setValue("variable_step_size", bVal);
@@ -57,6 +57,11 @@ namespace rr
 		// ABSOLUTE TOLERANCE
 		Integrator::setValue("absolute_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE));
 		Integrator::setValue("relative_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE));
+	}
+
+	void Integrator::loadSBMLSettings(const std::string& filename)
+	{
+
 	}
 
 	std::vector<string> Integrator::getSettings()
