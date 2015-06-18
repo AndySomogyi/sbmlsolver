@@ -224,22 +224,22 @@ void GillespieIntegrator::restart(double t0)
 }
 
 
-std::string getIntegratorName()
+std::string GillespieIntegrator::getIntegratorName() const
 {
 	return "gillespie";
 }
 
-std::string getIntegratorDescription()
+std::string GillespieIntegrator::getIntegratorDescription() const
 {
 	return "gillespie integrator description.";
 }
 
-std::string getIntegratorHint()
+std::string GillespieIntegrator::getIntegratorHint() const
 {
 	return "gillespie integrator hint.";
 }
 
-Integrator::IntegrationMethod getIntegrationMethod()
+Integrator::IntegrationMethod GillespieIntegrator::getIntegrationMethod() const
 {
 	return Integrator::IntegrationMethod::Deterministic;
 }
