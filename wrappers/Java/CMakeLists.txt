@@ -121,7 +121,7 @@ if(SWIG_FOUND)
   set(CMAKE_JNI_TARGET TRUE)
 #   add_jar(preroadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
 #   add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
-  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED})
+  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} INCLUDE_JARS la4j-0.5.5.jar)
 
   get_target_property(PRERR_JARFILE preroadrunner_jar JAR_FILE)
 
@@ -175,7 +175,7 @@ if(SWIG_FOUND)
     endfunction()
 
     ROADRUNNER_JNI_ADD_TEST(roadrunner_javajni_test1)
-#     ROADRUNNER_JNI_ADD_TEST(roadrunner_java_sim_test1)
+    ROADRUNNER_JNI_ADD_TEST(roadrunner_java_sim_test1)
   endif()
 
 else(SWIG_FOUND)

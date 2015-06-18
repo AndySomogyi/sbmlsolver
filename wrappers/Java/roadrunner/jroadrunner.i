@@ -592,12 +592,17 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %ignore operator<<(ostream&, const rr::SelectionRecord& rec);
 %ignore operator<<(rr::ostream&, const rr::SelectionRecord& rec);
 
+// RoadRunner class proxies
+
 %typemap(javacode) rr::RoadRunner %{
   public int simulate() {
     return 0;
   }
 %}
 
+%typemap(javaimports) rr::RoadRunner %{
+  //import la4j.MatrixFactory;
+%}
 
 
 //%ignore rr::DictionaryImpl;
