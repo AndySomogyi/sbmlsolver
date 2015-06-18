@@ -594,14 +594,18 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 // RoadRunner class proxies
 
-%typemap(javacode) rr::RoadRunner %{
-  public int simulate() {
-    return 0;
-  }
-%}
-
 %typemap(javaimports) rr::RoadRunner %{
   import org.la4j.Matrices;
+  import org.la4j.matrix.MatrixFactory;
+  import org.la4j.Matrix;
+  import org.la4j.matrix.DenseMatrix;
+%}
+
+%typemap(javacode) rr::RoadRunner %{
+  public Matrix simulate() {
+    Matrix a = DenseMatrix.diagonal(4, 1.);
+    return a;
+  }
 %}
 
 
