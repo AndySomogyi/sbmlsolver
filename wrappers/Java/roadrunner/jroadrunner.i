@@ -386,7 +386,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 //%ignore rr::RoadRunner::setValue;
 %ignore rr::RoadRunner::getNumberOfIndependentSpecies;
 //%ignore rr::RoadRunner::getUnscaledSpeciesElasticity;
-//%ignore rr::RoadRunner::simulate;
 //%ignore rr::RoadRunner::getExtendedVersionInfo;
 %ignore rr::RoadRunner::getNumberOfReactions;
 //%ignore rr::RoadRunner::getValue;
@@ -407,7 +406,7 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 %ignore rr::RoadRunner::getOptions;
 
-//%ignore rr::RoadRunner::simulate;
+%ignore rr::RoadRunner::simulate;
 
 %rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
 %rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
@@ -592,6 +591,12 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %ignore std::ostream;
 %ignore operator<<(ostream&, const rr::SelectionRecord& rec);
 %ignore operator<<(rr::ostream&, const rr::SelectionRecord& rec);
+
+%typemap(javacode) rr::RoadRunner %{
+  public int simulate() {
+    return 0;
+  }
+%}
 
 
 

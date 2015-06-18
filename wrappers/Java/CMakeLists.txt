@@ -175,7 +175,7 @@ if(SWIG_FOUND)
     endfunction()
 
     ROADRUNNER_JNI_ADD_TEST(roadrunner_javajni_test1)
-    ROADRUNNER_JNI_ADD_TEST(roadrunner_java_sim_test1)
+#     ROADRUNNER_JNI_ADD_TEST(roadrunner_java_sim_test1)
   endif()
 
 else(SWIG_FOUND)
