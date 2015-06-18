@@ -601,7 +601,7 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %}
 
 %typemap(javaimports) rr::RoadRunner %{
-  //import la4j.MatrixFactory;
+  import org.la4j.Matrices;
 %}
 
 
@@ -654,36 +654,40 @@ namespace std { class ostream{}; }
 
 %extend rr::RoadRunner
 {
-    // attributes
+  // attributes
 
-    /**
-     * make some of these const so SWIG would not allow setting.
-     */
-    const rr::SimulateOptions *simulateOptions;
+  /**
+    * make some of these const so SWIG would not allow setting.
+    */
+  const rr::SimulateOptions *simulateOptions;
 
-    rr::RoadRunnerOptions *options;
+  rr::RoadRunnerOptions *options;
 
-    std::string __repr__() {
-        std::stringstream s;
-        s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
-        return s.str();
-    }
+  std::string __repr__() {
+      std::stringstream s;
+      s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
+      return s.str();
+  }
 
-    std::string __str__() {
-        return $self->getInfo();
-    }
+  std::string __str__() {
+      return $self->getInfo();
+  }
 
-    double getValue(const rr::SelectionRecord* pRecord) {
-        return $self->getValue(*pRecord);
-    }
+  double getValue(const rr::SelectionRecord* pRecord) {
+      return $self->getValue(*pRecord);
+  }
 
-    double __getitem__(const std::string& id) {
-        return ($self)->getValue(id);
-    }
+  double __getitem__(const std::string& id) {
+      return ($self)->getValue(id);
+  }
 
-    void __setitem__(const std::string& id, double value) {
-        ($self)->setValue(id, value);
-    }
+  void __setitem__(const std::string& id, double value) {
+      ($self)->setValue(id, value);
+  }
+
+  int _simulate() {
+    return 0;
+  }
 }
 
 %{
