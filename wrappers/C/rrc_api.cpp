@@ -1331,18 +1331,16 @@ char* rrcCallConv getConfigurationXML(RRHandle handle)
 
 int rrcCallConv getNumberOfIntegrators()
 {
-    start_try
-       vector<std::string> listOfIntegratorNames =  IntegratorFactory::getIntegratorNames();
-       return (listOfIntegratorNames.size());
+	start_try
+		throw std::runtime_error("TODO: implement getNumberOfIntegrators");
     catch_ptr_macro
 }
 
 
 RRStringArrayPtr rrcCallConv getListOfIntegrators()
 {
-    start_try
-       vector<std::string> listOfIntegratorNames =  IntegratorFactory::getIntegratorNames();
-       return createList(listOfIntegratorNames);
+	start_try
+		throw std::runtime_error("TODO: implement getListOfIntegrators");
     catch_ptr_macro
 }
 
