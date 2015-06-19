@@ -51,8 +51,12 @@ if(SWIG_FOUND)
   # use swig in C++ mode (http://www.cmake.org/cmake/help/v3.2/module/UseSWIG.html)
   set_property(SOURCE roadrunner/jroadrunner.i PROPERTY CPLUSPLUS ON)
 
-  set(ROADRUNNER_JAVA_GENERATED
+  set(ROADRUNNER_JAVA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/NativeLib.java
+    ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/LabeledData.java
+    )
+
+  set(ROADRUNNER_JAVA_GENERATED
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/BasicDictionary.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/roadrunnerJNI.java
 #     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/RoadrunnerJNI.java
@@ -121,7 +125,7 @@ if(SWIG_FOUND)
   set(CMAKE_JNI_TARGET TRUE)
 #   add_jar(preroadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
 #   add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
-  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} INCLUDE_JARS la4j-0.5.5.jar)
+  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_SRC} ${ROADRUNNER_JAVA_GENERATED} INCLUDE_JARS la4j-0.5.5.jar)
 
   get_target_property(PRERR_JARFILE preroadrunner_jar JAR_FILE)
 

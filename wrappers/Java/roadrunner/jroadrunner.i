@@ -594,18 +594,18 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 // RoadRunner class proxies
 
-%typemap(javaimports) rr::RoadRunner %{
-  import org.la4j.Matrices;
-  import org.la4j.matrix.MatrixFactory;
-  import org.la4j.Matrix;
-  import org.la4j.matrix.DenseMatrix;
-%}
+//%typemap(javaimports) rr::RoadRunner %{
+//  import org.la4j.Matrices;
+//  import org.la4j.matrix.MatrixFactory;
+//  import org.la4j.Matrix;
+//  import org.la4j.matrix.DenseMatrix;
+//%}
 
 %typemap(javacode) rr::RoadRunner %{
-  public Matrix simulate(double tstart, double tend, int n) {
+  public LabeledData simulate(double tstart, double tend, int n) {
     double[][] simresult = (double[][])roadrunner.jrr_simulate_(this, tstart, tend, n);
-    Matrix a = DenseMatrix.from2DArray(simresult);
-    return a;
+    LabeledData d = new LabeledData(simresult);
+    return d;
   }
 %}
 
