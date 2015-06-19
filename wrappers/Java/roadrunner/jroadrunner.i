@@ -604,9 +604,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %typemap(javacode) rr::RoadRunner %{
   public Matrix simulate(double tstart, double tend, int n) {
     double[][] simresult = (double[][])roadrunner.jrr_simulate_(this, tstart, tend, n);
-    System.out.println(simresult.length);
-    System.out.println(simresult);
-    // Matrix a = DenseMatrix.diagonal(4, 1.);
     Matrix a = DenseMatrix.from2DArray(simresult);
     return a;
   }
