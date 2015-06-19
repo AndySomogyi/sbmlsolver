@@ -603,6 +603,8 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 %typemap(javacode) rr::RoadRunner %{
   public Matrix simulate(double tstart, double tend, int n) {
+    int simresult = roadrunner.jrr_simulate_(this, tstart, tend, n);
+    System.out.println(simresult);
     Matrix a = DenseMatrix.diagonal(4, 1.);
     return a;
   }
@@ -655,6 +657,51 @@ namespace std { class ostream{}; }
 %include <SBMLValidator.h>
 %include <rrSBMLReader.h>
 
+// TODO: instead use pragmas to insert code into proxy classes (see http://swig-user.narkive.com/aiRVVhtk/including-custom-java-code)
+%native(jrr_simulate_) int jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
+//%inline %{
+//  int jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
+//%}
+
+%{
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+SWIGEXPORT jint JNICALL Java_roadrunner_roadrunnerJNI_jrr_1simulate_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2, jdouble jarg3, jint jarg4) {
+  jint jresult = 0 ;
+  rr::RoadRunner *arg1 = (rr::RoadRunner *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  int result;
+
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(rr::RoadRunner **)&jarg1;
+  arg2 = (double)jarg2;
+  arg3 = (double)jarg3;
+  arg4 = (int)jarg4;
+  {
+    try {
+      result = 123;
+    } catch (const std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0;
+      };
+    }
+  }
+  jresult = (jint)result;
+  return jresult;
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+%}
 
 %extend rr::RoadRunner
 {
@@ -689,7 +736,7 @@ namespace std { class ostream{}; }
       ($self)->setValue(id, value);
   }
 
-  int _simulate() {
+  int simulate_() {
     return 0;
   }
 }
