@@ -658,7 +658,9 @@ namespace std { class ostream{}; }
 %include <rrSBMLReader.h>
 
 // TODO: instead use pragmas to insert code into proxy classes (see http://swig-user.narkive.com/aiRVVhtk/including-custom-java-code)
-%native(jrr_simulate_) int jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
+// http://stackoverflow.com/questions/10112934/return-java-lang-object-using-swig-native-function
+// http://stackoverflow.com/questions/6143134/return-a-2d-primitive-array-from-c-to-java-from-jni-ndk
+%native(jrr_simulate_) jobjectArray jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
 //%inline %{
 //  int jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
 //%}
@@ -669,31 +671,62 @@ namespace std { class ostream{}; }
 extern "C" {
 #endif
 
-SWIGEXPORT jint JNICALL Java_roadrunner_roadrunnerJNI_jrr_1simulate_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2, jdouble jarg3, jint jarg4) {
-  jint jresult = 0 ;
-  rr::RoadRunner *arg1 = (rr::RoadRunner *) 0 ;
-  double arg2 ;
-  double arg3 ;
-  int arg4 ;
-  int result;
+SWIGEXPORT jobjectArray JNICALL Java_roadrunner_roadrunnerJNI_jrr_1simulate_1(JNIEnv *jenv, jclass jcls, jlong jr, jobject jr_, jdouble jtstart, jdouble jtend, jint jn) {
+  jobjectArray jresult = 0 ;
+  rr::RoadRunner *r = (rr::RoadRunner *) 0 ;
+  double tstart ;
+  double tend ;
+  int n;
+  const DoubleMatrix* mat;
+
+  int rows, cols;
 
   (void)jenv;
   (void)jcls;
-  (void)jarg1_;
-  arg1 = *(rr::RoadRunner **)&jarg1;
-  arg2 = (double)jarg2;
-  arg3 = (double)jarg3;
-  arg4 = (int)jarg4;
+  (void)jr_;
+  r = *(rr::RoadRunner **)&jr;
+  tstart = (double)jtstart;
+  tend = (double)jtend;
+  n = (int)jn;
+
+  rr::SimulateOptions& opt = r->getSimulateOptions();
+  opt.start = tstart;
+  opt.duration = tend - tstart;
+  opt.steps = n;
+  //if(variable step?) {
+  //  opt.integratorFlags |= Integrator::VARIABLE_STEP;
+  //}
+
+  // call RoadRunner method
   {
     try {
-      result = 123;
+      mat = r->simulate();
     } catch (const std::exception& e) {
       {
         SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0;
       };
     }
   }
-  jresult = (jint)result;
+
+  // copy output to Java array
+
+  rows = mat->numRows();
+  cols = mat->numCols();
+
+  jclass doubleArrayClass = jenv->FindClass("[D");
+  if(!doubleArrayClass) {
+    return NULL;
+  }
+
+  jresult = (jobjectArray) jenv->NewObjectArray(rows, doubleArrayClass, NULL);
+  for(int k=0; k<rows; ++k) {
+    // LS Matrix operator[] gets row
+    jdoubleArray subarray = jenv->NewDoubleArray(cols);
+    jenv->SetDoubleArrayRegion(subarray, (jsize)0, (jsize) cols, (jdouble*)(*mat)[k]);
+    jenv->SetObjectArrayElement(jresult, (jsize)k, subarray);
+    jenv->DeleteLocalRef(subarray);
+  }
+
   return jresult;
 }
 
