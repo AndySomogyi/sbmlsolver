@@ -68,7 +68,7 @@
 // C++ std::map handling
 %include "std_map.i"
 
-// C++ std::map handling
+// C++ std::vector handling
 %include "std_vector.i"
 
 // not for java
@@ -386,7 +386,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 //%ignore rr::RoadRunner::setValue;
 %ignore rr::RoadRunner::getNumberOfIndependentSpecies;
 //%ignore rr::RoadRunner::getUnscaledSpeciesElasticity;
-//%ignore rr::RoadRunner::simulate;
 //%ignore rr::RoadRunner::getExtendedVersionInfo;
 %ignore rr::RoadRunner::getNumberOfReactions;
 //%ignore rr::RoadRunner::getValue;
@@ -407,7 +406,7 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 %ignore rr::RoadRunner::getOptions;
 
-//%ignore rr::RoadRunner::simulate;
+%ignore rr::RoadRunner::simulate;
 
 %rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
 %rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
@@ -593,6 +592,22 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %ignore operator<<(ostream&, const rr::SelectionRecord& rec);
 %ignore operator<<(rr::ostream&, const rr::SelectionRecord& rec);
 
+// RoadRunner class proxies
+
+//%typemap(javaimports) rr::RoadRunner %{
+//  import org.la4j.Matrices;
+//  import org.la4j.matrix.MatrixFactory;
+//  import org.la4j.Matrix;
+//  import org.la4j.matrix.DenseMatrix;
+//%}
+
+%typemap(javacode) rr::RoadRunner %{
+  public LabeledData simulate(double tstart, double tend, int n) {
+    double[][] simresult = (double[][])roadrunner.jrr_simulate_(this, tstart, tend, n);
+    LabeledData d = new LabeledData(simresult);
+    return d;
+  }
+%}
 
 
 //%ignore rr::DictionaryImpl;
@@ -641,39 +656,121 @@ namespace std { class ostream{}; }
 %include <SBMLValidator.h>
 %include <rrSBMLReader.h>
 
+// TODO: instead use pragmas to insert code into proxy classes (see http://swig-user.narkive.com/aiRVVhtk/including-custom-java-code)
+// http://stackoverflow.com/questions/10112934/return-java-lang-object-using-swig-native-function
+// http://stackoverflow.com/questions/6143134/return-a-2d-primitive-array-from-c-to-java-from-jni-ndk
+%native(jrr_simulate_) jobjectArray jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
+//%inline %{
+//  int jrr_simulate_(rr::RoadRunner* rr, double tstart, double tend, int n);
+//%}
+
+%{
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+SWIGEXPORT jobjectArray JNICALL Java_roadrunner_roadrunnerJNI_jrr_1simulate_1(JNIEnv *jenv, jclass jcls, jlong jr, jobject jr_, jdouble jtstart, jdouble jtend, jint jn) {
+  jobjectArray jresult = 0 ;
+  rr::RoadRunner *r = (rr::RoadRunner *) 0 ;
+  double tstart ;
+  double tend ;
+  int n;
+  const DoubleMatrix* mat;
+
+  int rows, cols;
+
+  (void)jenv;
+  (void)jcls;
+  (void)jr_;
+  r = *(rr::RoadRunner **)&jr;
+  tstart = (double)jtstart;
+  tend = (double)jtend;
+  n = (int)jn;
+
+  rr::SimulateOptions& opt = r->getSimulateOptions();
+  opt.start = tstart;
+  opt.duration = tend - tstart;
+  opt.steps = n;
+  //if(variable step?) {
+  //  opt.integratorFlags |= Integrator::VARIABLE_STEP;
+  //}
+
+  // call RoadRunner method
+  {
+    try {
+      mat = r->simulate();
+    } catch (const std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0;
+      };
+    }
+  }
+
+  // copy output to Java array
+
+  rows = mat->numRows();
+  cols = mat->numCols();
+
+  jclass doubleArrayClass = jenv->FindClass("[D");
+  if(!doubleArrayClass) {
+    return NULL;
+  }
+
+  jresult = (jobjectArray) jenv->NewObjectArray(rows, doubleArrayClass, NULL);
+  for(int k=0; k<rows; ++k) {
+    // LS Matrix operator[] gets row
+    jdoubleArray subarray = jenv->NewDoubleArray(cols);
+    jenv->SetDoubleArrayRegion(subarray, (jsize)0, (jsize) cols, (jdouble*)(*mat)[k]);
+    jenv->SetObjectArrayElement(jresult, (jsize)k, subarray);
+    jenv->DeleteLocalRef(subarray);
+  }
+
+  return jresult;
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+%}
 
 %extend rr::RoadRunner
 {
-    // attributes
+  // attributes
 
-    /**
-     * make some of these const so SWIG would not allow setting.
-     */
-    const rr::SimulateOptions *simulateOptions;
+  /**
+    * make some of these const so SWIG would not allow setting.
+    */
+  const rr::SimulateOptions *simulateOptions;
 
-    rr::RoadRunnerOptions *options;
+  rr::RoadRunnerOptions *options;
 
-    std::string __repr__() {
-        std::stringstream s;
-        s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
-        return s.str();
-    }
+  std::string __repr__() {
+      std::stringstream s;
+      s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
+      return s.str();
+  }
 
-    std::string __str__() {
-        return $self->getInfo();
-    }
+  std::string __str__() {
+      return $self->getInfo();
+  }
 
-    double getValue(const rr::SelectionRecord* pRecord) {
-        return $self->getValue(*pRecord);
-    }
+  double getValue(const rr::SelectionRecord* pRecord) {
+      return $self->getValue(*pRecord);
+  }
 
-    double __getitem__(const std::string& id) {
-        return ($self)->getValue(id);
-    }
+  double __getitem__(const std::string& id) {
+      return ($self)->getValue(id);
+  }
 
-    void __setitem__(const std::string& id, double value) {
-        ($self)->setValue(id, value);
-    }
+  void __setitem__(const std::string& id, double value) {
+      ($self)->setValue(id, value);
+  }
+
+  int simulate_() {
+    return 0;
+  }
 }
 
 %{

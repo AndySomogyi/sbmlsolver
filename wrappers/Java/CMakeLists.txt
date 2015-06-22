@@ -8,6 +8,12 @@ find_package(JNI REQUIRED)
 include(UseSWIG)
 include(UseJava)
 
+set(RR_JAVA_ENABLE_LA4J TRUE)
+
+if(RR_JAVA_ENABLE_LA4J)
+  add_definitions(-DRR_JAVA_ENABLE_LA4J)
+endif()
+
 message("Java includes: ${Java_INCLUDE_DIRS}")
 message("Java libs: ${Java_LIBRARIES}")
 message("JNI includes: ${JNI_INCLUDE_DIRS}")
@@ -45,8 +51,12 @@ if(SWIG_FOUND)
   # use swig in C++ mode (http://www.cmake.org/cmake/help/v3.2/module/UseSWIG.html)
   set_property(SOURCE roadrunner/jroadrunner.i PROPERTY CPLUSPLUS ON)
 
-  set(ROADRUNNER_JAVA_GENERATED
+  set(ROADRUNNER_JAVA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/NativeLib.java
+    ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner/LabeledData.java
+    )
+
+  set(ROADRUNNER_JAVA_GENERATED
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/BasicDictionary.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/roadrunnerJNI.java
 #     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/RoadrunnerJNI.java
@@ -115,7 +125,7 @@ if(SWIG_FOUND)
   set(CMAKE_JNI_TARGET TRUE)
 #   add_jar(preroadrunner_jar ${CMAKE_CURRENT_BINARY_DIR}/ValidateSBML.java VERSION 1.3.0 ENTRY_POINT roadrunner)
 #   add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED} ENTRY_POINT roadrunner.NativeLib)
-  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_GENERATED})
+  add_jar(preroadrunner_jar ${ROADRUNNER_JAVA_SRC} ${ROADRUNNER_JAVA_GENERATED} INCLUDE_JARS la4j-0.5.5.jar)
 
   get_target_property(PRERR_JARFILE preroadrunner_jar JAR_FILE)
 
@@ -146,13 +156,26 @@ if(SWIG_FOUND)
 
   add_subdirectory(roadrunner)
 
+  if(WIN32)
+    set(RR_JAVA_CP_SEP ";")
+  else()
+    set(RR_JAVA_CP_SEP ":")
+  endif()
+  set(RR_JAVA_TESTS_CLASSPATH ".${RR_JAVA_CP_SEP}roadrunner_jar.jar")
+
+  # copy la4j to build folder so it can be added to classpath when running tests
+  if(RR_JAVA_ENABLE_LA4J)
+    configure_file(la4j-0.5.5.jar la4j-0.5.5.jar COPYONLY)
+    set(RR_JAVA_TESTS_CLASSPATH "${RR_JAVA_TESTS_CLASSPATH}${RR_JAVA_CP_SEP}la4j-0.5.5.jar")
+  endif()
+
   set(ROADRUNNER_ENABLE_JAVA_TESTING TRUE)
   if(ROADRUNNER_ENABLE_JAVA_TESTING)
     # http://stackoverflow.com/questions/18985726/cmake-to-compile-java-code
     function(ROADRUNNER_JNI_ADD_TEST TEST_NAME)
-      add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp roadrunner_jar.jar ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java roadrunner_jar.jar)
+      add_custom_command(OUTPUT ${TEST_NAME}.class COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} -cp ${RR_JAVA_TESTS_CLASSPATH} ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_NAME}.java roadrunner_jar.jar)
       add_custom_target(${TEST_NAME}_T1 ALL DEPENDS ${TEST_NAME}.class jjrr)
-      add_test(NAME ${TEST_NAME}_Test COMMAND ${Java_JAVA_EXECUTABLE} -cp roadrunner_jar.jar ${TEST_NAME})
+      add_test(NAME ${TEST_NAME}_Test COMMAND ${Java_JAVA_EXECUTABLE} -cp ${RR_JAVA_TESTS_CLASSPATH} ${TEST_NAME} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     endfunction()
 
     ROADRUNNER_JNI_ADD_TEST(roadrunner_javajni_test1)
