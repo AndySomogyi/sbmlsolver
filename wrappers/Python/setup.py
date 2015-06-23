@@ -88,8 +88,8 @@ def _copyDistFiles():
         print("copying windows dlls...")
         
         shutil.copyfile("bin/iconv.dll",      "site-packages/roadrunner/iconv.dll")
-        shutil.copyfile("bin/msvcp100.dll",   "site-packages/roadrunner/msvcp100.dll")
-        shutil.copyfile("bin/msvcr100.dll",   "site-packages/roadrunner/msvcr100.dll")
+        shutil.copyfile("bin/msvcp120.dll",   "site-packages/roadrunner/msvcp120.dll")
+        shutil.copyfile("bin/msvcr120.dll",   "site-packages/roadrunner/msvcr120.dll")
         shutil.copyfile("bin/libxml2.DLL",    "site-packages/roadrunner/libxml2.dll")
         shutil.copyfile("bin/zlib1.dll",      "site-packages/roadrunner/zlib1.dll")
 
