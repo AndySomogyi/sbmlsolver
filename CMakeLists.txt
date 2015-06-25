@@ -332,10 +332,12 @@ foreach(runtime ${RUNTIMES})
 endforeach()
 endif()
 
+configure_file(VERSION.txt.in VERSION.txt @ONLY)
+
 install(
     FILES     
     NOTICE.txt
-    VERSION.txt
+    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
     NEWS.txt
     DESTINATION .
 )
