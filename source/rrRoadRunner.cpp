@@ -229,8 +229,8 @@ public:
 
     RoadRunnerImpl(const std::string& uriOrSBML,
             const Dictionary* dict) :
-                mDiffStepSize(0.05),
-                mSteadyStateThreshold(1.E-2),
+                mDiffStepSize(0.0001),
+                mSteadyStateThreshold(1.E-6),
                 simulationResult(),
                 integrator(0),
                 mSelectionList(),
@@ -250,8 +250,8 @@ public:
 
     RoadRunnerImpl(const string& _compiler, const string& _tempDir,
             const string& _supportCodeDir) :
-                mDiffStepSize(0.05),
-                mSteadyStateThreshold(1.E-2),
+                mDiffStepSize(0.0001),
+                mSteadyStateThreshold(1.E-6),
                 simulationResult(),
                 integrator(0),
                 mSelectionList(),
