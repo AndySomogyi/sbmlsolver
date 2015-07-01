@@ -314,6 +314,7 @@ def checkLinkMatrix(rrInstance, testId):
 
 def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
+    Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     print string.ljust ("Check " + testId, rpadding),
     st = rrInstance.getUnscaledConcentrationControlCoefficientMatrix();
     checkMatrixVsUpcomingText(st)
@@ -321,6 +322,7 @@ def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
 
 def checkScaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
+    Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     print string.ljust ("Check " + testId, rpadding),
     st = rrInstance.getScaledConcentrationControlCoefficientMatrix();
     checkMatrixVsUpcomingText(st)
