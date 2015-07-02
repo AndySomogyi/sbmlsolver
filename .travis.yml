@@ -72,3 +72,4 @@ before_script:
 script:
   - cd ~/build/roadrunner
   - make -j2 && make install
+  - ctest -VV
