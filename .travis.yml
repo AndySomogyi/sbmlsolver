@@ -2,6 +2,10 @@
 
 language: cpp
 
+notifications:
+  email:
+      - jkmtravisnotify@gmail.com
+
 compiler: gcc
 
 branches:
