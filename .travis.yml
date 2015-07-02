@@ -37,6 +37,10 @@ before_install:
   - sudo apt-get install swig
   # install python headers
   - sudo apt-get install python-dev
+  # install pip
+  - sudo apt-get install python-pip
+  # install numpy
+  - pip install numpy
   - mkdir ~/install
 
   # setup CMake 3.2.1
