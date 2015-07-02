@@ -1,0 +1,2803 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created on: 1/11/2014 8:29:19 AM-->
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1" xmlns:jd2="http://www.sys-bio.org/sbml/jd2">
+  <!--                     -->
+  <!--  Model Starts Here  -->
+  <!--                     -->
+  <model id="Jana_WolfGlycolysis" name="JanaWolf Glycolysis">
+    <annotation>
+      <jd2:JDesignerLayout version="2.0" MajorVersion="2" MinorVersion="3" BuildVersion="45" xmlns:jd2="http://www.sys-bio.org/sbml/jd2">
+        <jd2:header>
+          <jd2:VersionHeader JDesignerVersion="1.0" />
+          <jd2:ModelHeader Author="" ModelVersion="" ModelTitle="JanaWolf Glycolysis" />
+          <jd2:TimeCourseDetails timeStart="0" timeEnd="5" numberOfPoints="500" />
+        </jd2:header>
+        <jd2:JDGraphicsHeader BackGroundColor="FFFFFFEF" />
+        <jd2:listOfCompartments>
+          <jd2:compartment id="compartment" size="1" visible="false">
+            <jd2:boundingBox x="0" y="0" w="0" h="0" />
+            <jd2:membraneStyle thickness="12" color="FF00A5FF" />
+            <jd2:interiorStyle color="FFEEEEFF" />
+            <jd2:text value="compartment" visible="true">
+              <jd2:position rx="-31" ry="-16" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+          </jd2:compartment>
+        </jd2:listOfCompartments>
+        <jd2:listOfSpecies>
+          <jd2:species id="Glucose" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="280" y="84" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="Glucose" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="54" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="54" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="21" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="fructose_1_6_bisphosphate" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="293" y="202" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="fructose_1_6_bisphosphate" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="150" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="150" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="69" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="glyceraldehyde_3_phosphate" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="286" y="314" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="glyceraldehyde_3_phosphate" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="157" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="157" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="72" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="glycerate_3_phosphate" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="302" y="438" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="glycerate_3_phosphate" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="128" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="128" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="58" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="pyruvate" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="333" y="569" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="pyruvate" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="57" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="57" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="22" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="Acetyladehyde" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="320" y="652" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="Acetyladehyde" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="87" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="87" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="37" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="External_acetaldehyde" boundaryCondition="false" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="425" y="722" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="External_acetaldehyde" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="124" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="124" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="56" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="ATP" boundaryCondition="false" compartment="compartment" initialConcentration="3">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="509" y="79" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="ATP" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="34" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="34" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="11" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtNone" startColor="FFFF7FAA" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+            <jd2:listOfAliasNodes>
+              <jd2:alias name="___ATP_0" x="486" y="530" />
+              <jd2:alias name="___ATP_1" x="486" y="415" />
+            </jd2:listOfAliasNodes>
+          </jd2:species>
+          <jd2:species id="ADP" boundaryCondition="false" compartment="compartment" initialConcentration="1">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="506" y="172" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="ADP" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="35" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="35" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="11" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtNone" startColor="FFFFD4D4" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+            <jd2:listOfAliasNodes>
+              <jd2:alias name="___ADP_0" x="481" y="475" />
+              <jd2:alias name="___ADP_1" x="477" y="351" />
+            </jd2:listOfAliasNodes>
+          </jd2:species>
+          <jd2:species id="NAD" boundaryCondition="false" compartment="compartment" initialConcentration="0.5">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="138" y="247" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="NAD" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="36" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="36" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="12" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtNone" startColor="FF7FFF55" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FFC0C0C0" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+            <jd2:listOfAliasNodes>
+              <jd2:alias name="___NAD_0" x="127" y="638" />
+              <jd2:alias name="___NAD_1" x="232" y="356" />
+            </jd2:listOfAliasNodes>
+          </jd2:species>
+          <jd2:species id="NADH" boundaryCondition="false" compartment="compartment" initialConcentration="0.5">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="217" y="598" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="NADH" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="43" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="43" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="15" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtNone" startColor="FFD4FFAA" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+            <jd2:listOfAliasNodes>
+              <jd2:alias name="___NADH_0" x="253" y="248" />
+              <jd2:alias name="___NADH_1" x="228" y="397" />
+            </jd2:listOfAliasNodes>
+          </jd2:species>
+          <jd2:species id="External_glucose" boundaryCondition="true" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="121" y="61" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="External_glucose" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="97" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="97" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="42" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="ethanol" boundaryCondition="true" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="137" y="738" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="ethanol" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="49" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="49" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="18" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="Glycerol" boundaryCondition="true" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="119" y="319" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="Glycerol" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="54" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="54" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="21" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="Sink" boundaryCondition="true" compartment="compartment" initialConcentration="0">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="574" y="777" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="Sink" visible="true">
+              <jd2:position rx="5" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="34" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="34" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="11" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+        </jd2:listOfSpecies>
+        <jd2:listOfReactions>
+          <jd2:reaction id="J0" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="External_glucose" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="Glucose" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J0_inputFlux" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="169" y="73" type="substrate" speciesRef="External_glucose" />
+                  <jd2:pt x="246" y="91" type="controlPoint" />
+                  <jd2:pt x="247" y="92" type="controlPoint" />
+                  <jd2:pt x="307" y="96" type="product" speciesRef="Glucose" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J1" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="Glucose" stoichiometry="1" />
+              <jd2:speciesReference species="ATP" stoichiometry="2" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="fructose_1_6_bisphosphate" stoichiometry="1" />
+              <jd2:speciesReference species="ADP" stoichiometry="2" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges>
+              <jd2:modifierEdge>
+                <jd2:speciesReference species="ATP" />
+                <jd2:destinationReaction name="J1" regulatorType="rtNegative" relativePosition="0.247058823529412" destinationArcId="2" destinationLineSegmentId="0" />
+                <jd2:display lineThickness="2" lineColor="FF0000FF" lineDashStyle="dsSolid" negativeMarkerStyle="rmBar">
+                  <jd2:lineType type="ltLine">
+                    <jd2:pt x="526" y="91" type="modifier" speciesRef="ATP" />
+                    <jd2:pt x="435" y="155" />
+                  </jd2:lineType>
+                </jd2:display>
+              </jd2:modifierEdge>
+            </jd2:listOfModifierEdges>
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J1_k1*Glucose*ATP*(1/(1+pow(ATP/J1_Ki,J1_n)))" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:edgeCenter x="408" y="138" />
+              <jd2:lineType type="ltBezier">
+                <jd2:edge type="substrate">
+                  <jd2:pt x="307" y="96" type="substrate" speciesRef="Glucose" />
+                  <jd2:pt x="372" y="105" type="controlPoint" />
+                  <jd2:pt x="360" y="89" type="controlPoint" />
+                  <jd2:pt x="408" y="138" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="substrate">
+                  <jd2:pt x="526" y="91" type="substrate" speciesRef="ATP" />
+                  <jd2:pt x="449" y="87" type="controlPoint" />
+                  <jd2:pt x="360" y="89" type="controlPoint" />
+                  <jd2:pt x="408" y="138" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="408" y="138" type="centerPoint" />
+                  <jd2:pt x="456" y="187" type="controlPoint" />
+                  <jd2:pt x="413" y="178" type="controlPoint" />
+                  <jd2:pt x="368" y="214" type="product" speciesRef="fructose_1_6_bisphosphate" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="408" y="138" type="centerPoint" />
+                  <jd2:pt x="456" y="187" type="controlPoint" />
+                  <jd2:pt x="456" y="201" type="controlPoint" />
+                  <jd2:pt x="523" y="184" type="product" speciesRef="ADP" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J2" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="fructose_1_6_bisphosphate" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+              <jd2:speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="immUBi" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J2_k" value="9.8" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:edgeCenter x="359" y="258" />
+              <jd2:lineType type="ltBezier">
+                <jd2:edge type="substrate">
+                  <jd2:pt x="368" y="214" type="substrate" speciesRef="fructose_1_6_bisphosphate" />
+                  <jd2:pt x="361" y="240" type="controlPoint" />
+                  <jd2:pt x="359" y="241" type="controlPoint" />
+                  <jd2:pt x="359" y="258" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="359" y="258" type="centerPoint" />
+                  <jd2:pt x="359" y="275" type="controlPoint" />
+                  <jd2:pt x="321" y="258" type="controlPoint" />
+                  <jd2:pt x="364" y="326" type="product" speciesRef="glyceraldehyde_3_phosphate" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="359" y="258" type="centerPoint" />
+                  <jd2:pt x="359" y="275" type="controlPoint" />
+                  <jd2:pt x="395" y="261" type="controlPoint" />
+                  <jd2:pt x="364" y="326" type="product" speciesRef="glyceraldehyde_3_phosphate" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J3" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+              <jd2:speciesReference species="NADH" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___NADH_0" />
+              </jd2:speciesReference>
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="NAD" stoichiometry="1" />
+              <jd2:speciesReference species="Glycerol" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="immBiBi" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J3_k" value="85.7" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:edgeCenter x="227" y="313" />
+              <jd2:lineType type="ltBezier">
+                <jd2:edge type="substrate">
+                  <jd2:pt x="364" y="326" type="substrate" speciesRef="glyceraldehyde_3_phosphate" />
+                  <jd2:pt x="238" y="312" type="controlPoint" />
+                  <jd2:pt x="260" y="311" type="controlPoint" />
+                  <jd2:pt x="227" y="313" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="substrate">
+                  <jd2:pt x="274" y="260" type="substrate" speciesRef="NADH" />
+                  <jd2:pt x="270" y="296" type="controlPoint" />
+                  <jd2:pt x="260" y="311" type="controlPoint" />
+                  <jd2:pt x="227" y="313" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="227" y="313" type="centerPoint" />
+                  <jd2:pt x="194" y="315" type="controlPoint" />
+                  <jd2:pt x="176" y="304" type="controlPoint" />
+                  <jd2:pt x="156" y="259" type="product" speciesRef="NAD" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="227" y="313" type="centerPoint" />
+                  <jd2:pt x="194" y="315" type="controlPoint" />
+                  <jd2:pt x="195" y="318" type="controlPoint" />
+                  <jd2:pt x="146" y="331" type="product" speciesRef="Glycerol" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J4" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+              <jd2:speciesReference species="ADP" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___ADP_1" />
+              </jd2:speciesReference>
+              <jd2:speciesReference species="NAD" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___NAD_1" />
+              </jd2:speciesReference>
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="ATP" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___ATP_1" />
+              </jd2:speciesReference>
+              <jd2:speciesReference species="glycerate_3_phosphate" stoichiometry="1" />
+              <jd2:speciesReference species="NADH" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___NADH_1" />
+              </jd2:speciesReference>
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="(J4_kg*J4_kp*glyceraldehyde_3_phosphate*NAD*ADP-J4_ka*J4_kk*glycerate_3_phosphate*ATP*NADH)/(J4_ka*NADH+J4_kp*ADP)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:edgeCenter x="359" y="384" />
+              <jd2:lineType type="ltBezier">
+                <jd2:edge type="substrate">
+                  <jd2:pt x="364" y="326" type="substrate" speciesRef="glyceraldehyde_3_phosphate" />
+                  <jd2:pt x="359" y="345" type="controlPoint" />
+                  <jd2:pt x="359" y="353" type="controlPoint" />
+                  <jd2:pt x="359" y="384" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="substrate">
+                  <jd2:pt x="494" y="363" type="substrate" speciesRef="ADP" />
+                  <jd2:pt x="459" y="385" type="controlPoint" />
+                  <jd2:pt x="359" y="353" type="controlPoint" />
+                  <jd2:pt x="359" y="384" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="substrate">
+                  <jd2:pt x="250" y="368" type="substrate" speciesRef="NAD" />
+                  <jd2:pt x="289" y="389" type="controlPoint" />
+                  <jd2:pt x="359" y="353" type="controlPoint" />
+                  <jd2:pt x="359" y="384" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="359" y="384" type="centerPoint" />
+                  <jd2:pt x="359" y="415" type="controlPoint" />
+                  <jd2:pt x="418" y="383" type="controlPoint" />
+                  <jd2:pt x="503" y="427" type="product" speciesRef="ATP" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="359" y="384" type="centerPoint" />
+                  <jd2:pt x="359" y="415" type="controlPoint" />
+                  <jd2:pt x="359" y="400" type="controlPoint" />
+                  <jd2:pt x="366" y="450" type="product" speciesRef="glycerate_3_phosphate" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="359" y="384" type="centerPoint" />
+                  <jd2:pt x="359" y="415" type="controlPoint" />
+                  <jd2:pt x="323" y="396" type="controlPoint" />
+                  <jd2:pt x="249" y="409" type="product" speciesRef="NADH" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J5" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="glycerate_3_phosphate" stoichiometry="1" />
+              <jd2:speciesReference species="ADP" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___ADP_0" />
+              </jd2:speciesReference>
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="ATP" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___ATP_0" />
+              </jd2:speciesReference>
+              <jd2:speciesReference species="pyruvate" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="immBiBi" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J5_k" value="80" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:edgeCenter x="355" y="514" />
+              <jd2:lineType type="ltBezier">
+                <jd2:edge type="substrate">
+                  <jd2:pt x="366" y="450" type="substrate" speciesRef="glycerate_3_phosphate" />
+                  <jd2:pt x="355" y="481" type="controlPoint" />
+                  <jd2:pt x="355" y="470" type="controlPoint" />
+                  <jd2:pt x="355" y="514" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="substrate">
+                  <jd2:pt x="498" y="487" type="substrate" speciesRef="ADP" />
+                  <jd2:pt x="431" y="487" type="controlPoint" />
+                  <jd2:pt x="355" y="470" type="controlPoint" />
+                  <jd2:pt x="355" y="514" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="355" y="514" type="centerPoint" />
+                  <jd2:pt x="355" y="558" type="controlPoint" />
+                  <jd2:pt x="424" y="534" type="controlPoint" />
+                  <jd2:pt x="503" y="542" type="product" speciesRef="ATP" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="355" y="514" type="centerPoint" />
+                  <jd2:pt x="355" y="558" type="controlPoint" />
+                  <jd2:pt x="355" y="540" type="controlPoint" />
+                  <jd2:pt x="361" y="581" type="product" speciesRef="pyruvate" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J6" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="pyruvate" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="Acetyladehyde" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="imm" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J6_k" value="9.7" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="361" y="581" type="substrate" speciesRef="pyruvate" />
+                  <jd2:pt x="355" y="617" type="controlPoint" />
+                  <jd2:pt x="355" y="617" type="controlPoint" />
+                  <jd2:pt x="363" y="664" type="product" speciesRef="Acetyladehyde" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J7" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="Acetyladehyde" stoichiometry="1" />
+              <jd2:speciesReference species="NADH" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="NAD" stoichiometry="1">
+                <jd2:aliasRef aliasRef="___NAD_0" />
+              </jd2:speciesReference>
+              <jd2:speciesReference species="ethanol" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="immBiBi" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J7_k" value="2000" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:edgeCenter x="230" y="680" />
+              <jd2:lineType type="ltBezier">
+                <jd2:edge type="substrate">
+                  <jd2:pt x="363" y="664" type="substrate" speciesRef="Acetyladehyde" />
+                  <jd2:pt x="280" y="666" type="controlPoint" />
+                  <jd2:pt x="274" y="662" type="controlPoint" />
+                  <jd2:pt x="230" y="680" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="substrate">
+                  <jd2:pt x="238" y="610" type="substrate" speciesRef="NADH" />
+                  <jd2:pt x="250" y="641" type="controlPoint" />
+                  <jd2:pt x="274" y="662" type="controlPoint" />
+                  <jd2:pt x="230" y="680" type="centerPoint" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="230" y="680" type="centerPoint" />
+                  <jd2:pt x="186" y="698" type="controlPoint" />
+                  <jd2:pt x="181" y="681" type="controlPoint" />
+                  <jd2:pt x="145" y="650" type="product" speciesRef="NAD" />
+                </jd2:edge>
+                <jd2:edge type="product">
+                  <jd2:pt x="230" y="680" type="centerPoint" />
+                  <jd2:pt x="186" y="698" type="controlPoint" />
+                  <jd2:pt x="176" y="702" type="controlPoint" />
+                  <jd2:pt x="161" y="750" type="product" speciesRef="ethanol" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J8" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="Acetyladehyde" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="External_acetaldehyde" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="rmm" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J8_k1" value="375" />
+                <jd2:parameter id="J8_k2" value="375" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="363" y="664" type="substrate" speciesRef="Acetyladehyde" />
+                  <jd2:pt x="418" y="694" type="controlPoint" />
+                  <jd2:pt x="418" y="694" type="controlPoint" />
+                  <jd2:pt x="487" y="734" type="product" speciesRef="External_acetaldehyde" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J9" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="ATP" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="ADP" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="imm" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J9_k" value="28" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="526" y="91" type="substrate" speciesRef="ATP" />
+                  <jd2:pt x="604" y="133" type="controlPoint" />
+                  <jd2:pt x="607" y="136" type="controlPoint" />
+                  <jd2:pt x="523" y="184" type="product" speciesRef="ADP" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J10" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="External_acetaldehyde" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="Sink" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="builtin">
+              <jd2:rateEquation value="imm" />
+              <jd2:listOfSymbols>
+                <jd2:parameter id="J10_k" value="80" />
+              </jd2:listOfSymbols>
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FF969696" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="487" y="734" type="substrate" speciesRef="External_acetaldehyde" />
+                  <jd2:pt x="532" y="756" type="controlPoint" />
+                  <jd2:pt x="532" y="756" type="controlPoint" />
+                  <jd2:pt x="591" y="789" type="product" speciesRef="Sink" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+        </jd2:listOfReactions>
+      </jd2:JDesignerLayout>
+      <listOfLayouts xmlns="http://projects.eml.org/bcb/sbml/level2">
+        <layout id="JDesigner2_0" xmlns="http://projects.eml.org/bcb/sbml/level2">
+          <!--Created by SBW SBML LayoutViewer/Manipulator-->
+          <annotation>
+            <listOfRenderStyles xmlns="http://sys-bio.org/xml/render/level1">
+              <renderStyle id="RenderStyle_0">
+                <fillStyle fillType="Solid" startColor="ffffffef" />
+                <listOfSpeciesStyles>
+                  <speciesStyle id="sStyle_0" reference="sGlyph_0">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="54" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_1" reference="sGlyph_1">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="150" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_2" reference="sGlyph_2">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="157" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_3" reference="sGlyph_3">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="128" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_4" reference="sGlyph_4">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="57" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_5" reference="sGlyph_5">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="87" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_6" reference="sGlyph_6">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="124" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_7" reference="sGlyph_7">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffff7faa" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="34" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_8" reference="sGlyph_8">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffffd4d4" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="35" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_9" reference="sGlyph_9">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ff7fff55" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="36" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ffc0c0c0" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_10" reference="sGlyph_10">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffd4ffaa" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="43" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_11" reference="sGlyph_11">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="97" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff000000" thickness="3" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_12" reference="sGlyph_12">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="49" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff000000" thickness="3" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_13" reference="sGlyph_13">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="54" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff000000" thickness="3" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_14" reference="sGlyph_14">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="34" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff000000" thickness="3" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_7_alias_0" reference="sGlyph_7_alias_0">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffff7faa" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="34" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_7_alias_1" reference="sGlyph_7_alias_1">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffff7faa" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="34" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_8_alias_2" reference="sGlyph_8_alias_2">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffffd4d4" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="35" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_8_alias_3" reference="sGlyph_8_alias_3">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffffd4d4" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="35" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_9_alias_4" reference="sGlyph_9_alias_4">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ff7fff55" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="36" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ffc0c0c0" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_9_alias_5" reference="sGlyph_9_alias_5">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ff7fff55" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="36" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ffc0c0c0" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_10_alias_6" reference="sGlyph_10_alias_6">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffd4ffaa" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="43" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_10_alias_7" reference="sGlyph_10_alias_7">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="Solid" startColor="ffd4ffaa" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="43" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                </listOfSpeciesStyles>
+                <listOfReactionStyles>
+                  <reactionStyle id="rStyle_0" reference="rGlyph_0">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_1" reference="rGlyph_1">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_2" reference="rGlyph_2">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_3" reference="rGlyph_3">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_4" reference="rGlyph_4">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_5" reference="rGlyph_5">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_6" reference="rGlyph_6">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_7" reference="rGlyph_7">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_8" reference="rGlyph_8">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_9" reference="rGlyph_9">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_10" reference="rGlyph_10">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ff969696" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                </listOfReactionStyles>
+                <listOfTextStyles>
+                  <textStyle>
+                    <fontStyle id="tStyle_0" reference="tGlyph_0" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_1" reference="tGlyph_1" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_2" reference="tGlyph_2" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_3" reference="tGlyph_3" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_4" reference="tGlyph_4" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_5" reference="tGlyph_5" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_6" reference="tGlyph_6" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_7" reference="tGlyph_7" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_8" reference="tGlyph_10" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_9" reference="tGlyph_13" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_10" reference="tGlyph_16" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_11" reference="tGlyph_19" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_12" reference="tGlyph_20" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_13" reference="tGlyph_21" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_14" reference="tGlyph_22" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_0" reference="sGlyph_7_alias_0_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_1" reference="sGlyph_7_alias_1_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_2" reference="sGlyph_8_alias_2_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_3" reference="sGlyph_8_alias_3_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_4" reference="sGlyph_9_alias_4_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_5" reference="sGlyph_9_alias_5_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_6" reference="sGlyph_10_alias_6_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="_alias_7" reference="sGlyph_10_alias_7_text" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                </listOfTextStyles>
+                <listOfGroups>
+                  <group groupName="alias">
+                    <reference id="___ATP_0" reference="tGlyph_7" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_7" SReferenceStyle="sStyle_7">
+                      <boundingBox>
+                        <position x="486" y="530" />
+                        <dimensions width="34" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___ATP_1" reference="tGlyph_7" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_7" SReferenceStyle="sStyle_7">
+                      <boundingBox>
+                        <position x="486" y="415" />
+                        <dimensions width="34" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___ADP_0" reference="tGlyph_10" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_8" SReferenceStyle="sStyle_8">
+                      <boundingBox>
+                        <position x="481" y="475" />
+                        <dimensions width="35" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___ADP_1" reference="tGlyph_10" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_8" SReferenceStyle="sStyle_8">
+                      <boundingBox>
+                        <position x="477" y="351" />
+                        <dimensions width="35" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___NAD_0" reference="tGlyph_13" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_9" SReferenceStyle="sStyle_9">
+                      <boundingBox>
+                        <position x="127" y="638" />
+                        <dimensions width="36" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___NAD_1" reference="tGlyph_13" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_9" SReferenceStyle="sStyle_9">
+                      <boundingBox>
+                        <position x="232" y="356" />
+                        <dimensions width="36" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___NADH_0" reference="tGlyph_16" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_10" SReferenceStyle="sStyle_10">
+                      <boundingBox>
+                        <position x="253" y="248" />
+                        <dimensions width="43" height="24" />
+                      </boundingBox>
+                    </reference>
+                    <reference id="___NADH_1" reference="tGlyph_16" glyphType="SpeciesGlyph" SReferenceGlyph="sGlyph_10" SReferenceStyle="sStyle_10">
+                      <boundingBox>
+                        <position x="228" y="397" />
+                        <dimensions width="43" height="24" />
+                      </boundingBox>
+                    </reference>
+                  </group>
+                </listOfGroups>
+              </renderStyle>
+            </listOfRenderStyles>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+              <renderInformation id="ConvertedRenderStyle" programName="SBML Layout Viewer - SBW version" programVersion="2.7.5121.21120 Compiled on: 1/9/2014 11:44:00 AM">
+                <listOfColorDefinitions>
+                  <colorDefinition id="Color_0" value="#969696" />
+                  <colorDefinition id="Color_1" value="#ff7faa" />
+                  <colorDefinition id="Color_2" value="#ffd4d4" />
+                  <colorDefinition id="Color_3" value="#7fff55" />
+                  <colorDefinition id="Color_4" value="#c0c0c0" />
+                  <colorDefinition id="Color_5" value="#d4ffaa" />
+                  <colorDefinition id="Color_6" value="#000000" />
+                  <colorDefinition id="Color_7" value="#ff9900" />
+                </listOfColorDefinitions>
+                <listOfGradientDefinitions>
+                  <linearGradient x1="0%" y1="0%" z1="0%" x2="100%" y2="0%" z2="100%" id="LinearGradient_0" spreadMethod="reflect">
+                    <stop offset="0%" stop-color="#ccffff" />
+                    <stop offset="100%" stop-color="#ffffff" />
+                  </linearGradient>
+                </listOfGradientDefinitions>
+                <listOfLineEndings>
+                  <lineEnding id="product" enableRotationalMapping="true">
+                    <boundingBox>
+                      <position x="-10" y="-5" />
+                      <dimensions width="10" height="10" />
+                    </boundingBox>
+                    <g stroke="Color_7" stroke-width="0.001" fill="Color_7" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <polygon>
+                        <listOfCurveSegments>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="0%" y="0%" />
+                            <end x="100%" y="50%" />
+                          </curveSegment>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="100%" y="50%" />
+                            <end x="0%" y="100%" />
+                          </curveSegment>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="0%" y="100%" />
+                            <end x="33%" y="50%" />
+                          </curveSegment>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="33%" y="50%" />
+                            <end x="0%" y="0%" />
+                          </curveSegment>
+                        </listOfCurveSegments>
+                      </polygon>
+                    </g>
+                  </lineEnding>
+                  <lineEnding id="inhibitor" enableRotationalMapping="true">
+                    <boundingBox>
+                      <position x="-0.5" y="-4" />
+                      <dimensions width="0.6" height="8" />
+                    </boundingBox>
+                    <g stroke="Color_7" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <polygon>
+                        <listOfElements>
+                          <element xsi:type="RenderPoint" x="0" y="0" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                          <element xsi:type="RenderPoint" x="0.3" y="0" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                          <element xsi:type="RenderPoint" x="0.3" y="8" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                          <element xsi:type="RenderPoint" x="0" y="8" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                        </listOfElements>
+                      </polygon>
+                    </g>
+                  </lineEnding>
+                </listOfLineEndings>
+                <listOfStyles>
+                  <style idList="sGlyph_0">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="54" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_1">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="150" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_2">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="157" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_3">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="128" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_4">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="57" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_5">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="87" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_6">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="124" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_7 sGlyph_7_alias_0 sGlyph_7_alias_1">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="Color_1" x="0" y="0" width="34" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_8 sGlyph_8_alias_2 sGlyph_8_alias_3">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="Color_2" x="0" y="0" width="35" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_9 sGlyph_9_alias_4 sGlyph_9_alias_5">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_4" stroke-width="1" fill="Color_3" x="0" y="0" width="36" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_10 sGlyph_10_alias_6 sGlyph_10_alias_7">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="Color_5" x="0" y="0" width="43" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_11">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_6" stroke-width="3" fill="LinearGradient_0" x="0" y="0" width="97" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_12">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_6" stroke-width="3" fill="LinearGradient_0" x="0" y="0" width="49" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_13">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_6" stroke-width="3" fill="LinearGradient_0" x="0" y="0" width="54" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_14">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_6" stroke-width="3" fill="LinearGradient_0" x="0" y="0" width="34" height="24" rx="5" ry="5" />
+                    </g>
+                  </style>
+                  <style roleList=" product">
+                    <g stroke="Color_7" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" endHead="product" />
+                  </style>
+                  <style roleList="substrate sidesubstrate" idList="rGlyph_0 rGlyph_1 rGlyph_2 rGlyph_3 rGlyph_4 rGlyph_5 rGlyph_6 rGlyph_7 rGlyph_8 rGlyph_9 rGlyph_10">
+                    <g stroke="Color_7" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" />
+                  </style>
+                  <style roleList=" inhibitor">
+                    <g stroke="Color_7" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" endHead="inhibitor" />
+                  </style>
+                  <style idList="tGlyph_0 tGlyph_1 tGlyph_2 tGlyph_3 tGlyph_4 tGlyph_5 tGlyph_6 tGlyph_7 tGlyph_10 tGlyph_13 tGlyph_16 tGlyph_19 tGlyph_20 tGlyph_21 tGlyph_22 sGlyph_7_alias_0_text sGlyph_7_alias_1_text sGlyph_8_alias_2_text sGlyph_8_alias_3_text sGlyph_9_alias_4_text sGlyph_9_alias_5_text sGlyph_10_alias_6_text sGlyph_10_alias_7_text">
+                    <g stroke="Color_6" font-family="Arial" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" vtext-anchor="top" />
+                  </style>
+                </listOfStyles>
+              </renderInformation>
+            </listOfRenderInformation>
+          </annotation>
+          <dimensions width="727" height="862.5" />
+          <listOfSpeciesGlyphs>
+            <speciesGlyph id="sGlyph_0" species="Glucose">
+              <boundingBox>
+                <position x="280" y="84" />
+                <dimensions width="54" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_1" species="fructose_1_6_bisphosphate">
+              <boundingBox>
+                <position x="293" y="202" />
+                <dimensions width="150" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_2" species="glyceraldehyde_3_phosphate">
+              <boundingBox>
+                <position x="286" y="314" />
+                <dimensions width="157" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_3" species="glycerate_3_phosphate">
+              <boundingBox>
+                <position x="302" y="438" />
+                <dimensions width="128" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_4" species="pyruvate">
+              <boundingBox>
+                <position x="333" y="569" />
+                <dimensions width="57" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_5" species="Acetyladehyde">
+              <boundingBox>
+                <position x="320" y="652" />
+                <dimensions width="87" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_6" species="External_acetaldehyde">
+              <boundingBox>
+                <position x="425" y="722" />
+                <dimensions width="124" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_7" species="ATP">
+              <boundingBox>
+                <position x="509" y="79" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_8" species="ADP">
+              <boundingBox>
+                <position x="506" y="172" />
+                <dimensions width="35" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_9" species="NAD">
+              <boundingBox>
+                <position x="138" y="247" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_10" species="NADH">
+              <boundingBox>
+                <position x="217" y="598" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_11" species="External_glucose">
+              <boundingBox>
+                <position x="121" y="61" />
+                <dimensions width="97" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_12" species="ethanol">
+              <boundingBox>
+                <position x="137" y="738" />
+                <dimensions width="49" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_13" species="Glycerol">
+              <boundingBox>
+                <position x="119" y="319" />
+                <dimensions width="54" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_14" species="Sink">
+              <boundingBox>
+                <position x="574" y="777" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_7_alias_0" species="ATP">
+              <boundingBox>
+                <position x="486" y="530" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_7_alias_1" species="ATP">
+              <boundingBox>
+                <position x="486" y="415" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_8_alias_2" species="ADP">
+              <boundingBox>
+                <position x="481" y="475" />
+                <dimensions width="35" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_8_alias_3" species="ADP">
+              <boundingBox>
+                <position x="477" y="351" />
+                <dimensions width="35" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_9_alias_4" species="NAD">
+              <boundingBox>
+                <position x="127" y="638" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_9_alias_5" species="NAD">
+              <boundingBox>
+                <position x="232" y="356" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_10_alias_6" species="NADH">
+              <boundingBox>
+                <position x="253" y="248" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_10_alias_7" species="NADH">
+              <boundingBox>
+                <position x="228" y="397" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+          </listOfSpeciesGlyphs>
+          <listOfReactionGlyphs>
+            <reactionGlyph id="rGlyph_0" reaction="J0">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J0_0" render:objectRole="product" speciesReference="Glucose" speciesGlyph="sGlyph_0" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="225" y="85.4117647058823" />
+                        <end x="273" y="94.2" />
+                        <basePoint1 x="246" y="91" />
+                        <basePoint2 x="247" y="92" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J0_2" render:objectRole="substrate" speciesReference="External_glucose" speciesGlyph="sGlyph_11" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_1" reaction="J1">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J1_0" render:objectRole="product" speciesReference="fructose_1_6_bisphosphate" speciesGlyph="sGlyph_1" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="408" y="138" />
+                        <end x="389" y="198" />
+                        <basePoint1 x="456" y="187" />
+                        <basePoint2 x="413" y="178" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J1_1" render:objectRole="product" speciesReference="ADP" speciesGlyph="sGlyph_8" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="408" y="138" />
+                        <end x="499" y="189.407407407407" />
+                        <basePoint1 x="456" y="187" />
+                        <basePoint2 x="456" y="201" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J1_3" render:objectRole="substrate" speciesReference="Glucose" speciesGlyph="sGlyph_0" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="341" y="100.738461538462" />
+                        <end x="408" y="138" />
+                        <basePoint1 x="372" y="105" />
+                        <basePoint2 x="360" y="89" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J1_4" render:objectRole="substrate" speciesReference="ATP" speciesGlyph="sGlyph_7" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="502" y="90.1168831168831" />
+                        <end x="408" y="138" />
+                        <basePoint1 x="449" y="87" />
+                        <basePoint2 x="360" y="89" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J1_5" render:objectRole="inhibitor" speciesReference="ATP" speciesGlyph="sGlyph_7" role="inhibitor" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="503" y="106.956043956044" />
+                        <end x="435" y="155" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_2" reaction="J2">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J2_0" render:objectRole="product" speciesReference="glyceraldehyde_3_phosphate" speciesGlyph="sGlyph_2" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359" y="258" />
+                        <end x="352.823529411765" y="308" />
+                        <basePoint1 x="359" y="275" />
+                        <basePoint2 x="321" y="258" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J2_1" render:objectRole="product" speciesReference="glyceraldehyde_3_phosphate" speciesGlyph="sGlyph_2" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359" y="258" />
+                        <end x="373.130769230769" y="307" />
+                        <basePoint1 x="359" y="275" />
+                        <basePoint2 x="395" y="261" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J2_3" render:objectRole="substrate" speciesReference="fructose_1_6_bisphosphate" speciesGlyph="sGlyph_1" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="362.769230769231" y="233" />
+                        <end x="359" y="258" />
+                        <basePoint1 x="361" y="240" />
+                        <basePoint2 x="359" y="241" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_3" reaction="J3">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J3_0" render:objectRole="product" speciesReference="NAD" speciesGlyph="sGlyph_9" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="227" y="313" />
+                        <end x="164.333333333333" y="278" />
+                        <basePoint1 x="194" y="315" />
+                        <basePoint2 x="176" y="304" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J3_1" render:objectRole="product" speciesReference="Glycerol" speciesGlyph="sGlyph_13" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="227" y="313" />
+                        <end x="180" y="321.836734693878" />
+                        <basePoint1 x="194" y="315" />
+                        <basePoint2 x="195" y="318" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J3_3" render:objectRole="substrate" speciesReference="glyceraldehyde_3_phosphate" speciesGlyph="sGlyph_2" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="279" y="317.312252964427" />
+                        <end x="227" y="313" />
+                        <basePoint1 x="238" y="312" />
+                        <basePoint2 x="260" y="311" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J3_4" render:objectRole="substrate" speciesReference="NADH" speciesGlyph="sGlyph_10_alias_6" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="273" y="279" />
+                        <end x="227" y="313" />
+                        <basePoint1 x="270" y="296" />
+                        <basePoint2 x="260" y="311" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_4" reaction="J4">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J4_0" render:objectRole="product" speciesReference="ATP" speciesGlyph="sGlyph_7_alias_1" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359" y="384" />
+                        <end x="479" y="415.2" />
+                        <basePoint1 x="359" y="415" />
+                        <basePoint2 x="418" y="383" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J4_1" render:objectRole="product" speciesReference="glycerate_3_phosphate" speciesGlyph="sGlyph_3" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359" y="384" />
+                        <end x="363.32" y="431" />
+                        <basePoint1 x="359" y="415" />
+                        <basePoint2 x="359" y="400" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J4_2" render:objectRole="product" speciesReference="NADH" speciesGlyph="sGlyph_10_alias_7" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359" y="384" />
+                        <end x="278" y="404.197278911565" />
+                        <basePoint1 x="359" y="415" />
+                        <basePoint2 x="323" y="396" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J4_4" render:objectRole="substrate" speciesReference="glyceraldehyde_3_phosphate" speciesGlyph="sGlyph_2" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359.026315789474" y="345" />
+                        <end x="359" y="384" />
+                        <basePoint1 x="359" y="345" />
+                        <basePoint2 x="359" y="353" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J4_5" render:objectRole="substrate" speciesReference="ADP" speciesGlyph="sGlyph_8_alias_3" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="471" y="377.845070422535" />
+                        <end x="359" y="384" />
+                        <basePoint1 x="459" y="385" />
+                        <basePoint2 x="359" y="353" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J4_6" render:objectRole="substrate" speciesReference="NAD" speciesGlyph="sGlyph_9_alias_5" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="275" y="380.692307692308" />
+                        <end x="359" y="384" />
+                        <basePoint1 x="289" y="389" />
+                        <basePoint2 x="359" y="353" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_5" reaction="J5">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J5_0" render:objectRole="product" speciesReference="ATP" speciesGlyph="sGlyph_7_alias_0" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="355" y="514" />
+                        <end x="479" y="540.278481012658" />
+                        <basePoint1 x="355" y="558" />
+                        <basePoint2 x="424" y="534" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J5_1" render:objectRole="product" speciesReference="pyruvate" speciesGlyph="sGlyph_4" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="355" y="514" />
+                        <end x="358.59756097561" y="562" />
+                        <basePoint1 x="355" y="558" />
+                        <basePoint2 x="355" y="540" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J5_3" render:objectRole="substrate" speciesReference="glycerate_3_phosphate" speciesGlyph="sGlyph_3" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="359.741935483871" y="469" />
+                        <end x="355" y="514" />
+                        <basePoint1 x="355" y="481" />
+                        <basePoint2 x="355" y="470" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J5_4" render:objectRole="substrate" speciesReference="ADP" speciesGlyph="sGlyph_8_alias_2" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="473" y="487" />
+                        <end x="355" y="514" />
+                        <basePoint1 x="431" y="487" />
+                        <basePoint2 x="355" y="470" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_6" reaction="J6">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J6_0" render:objectRole="product" speciesReference="Acetyladehyde" speciesGlyph="sGlyph_5" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="358.333333333333" y="600" />
+                        <end x="360.329787234043" y="645" />
+                        <basePoint1 x="355" y="617" />
+                        <basePoint2 x="355" y="617" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J6_2" render:objectRole="substrate" speciesReference="pyruvate" speciesGlyph="sGlyph_4" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_7" reaction="J7">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J7_0" render:objectRole="product" speciesReference="NAD" speciesGlyph="sGlyph_9_alias_4" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="230" y="680" />
+                        <end x="164.935483870968" y="667" />
+                        <basePoint1 x="186" y="698" />
+                        <basePoint2 x="181" y="681" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J7_1" render:objectRole="product" speciesReference="ethanol" speciesGlyph="sGlyph_12" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="230" y="680" />
+                        <end x="167.125" y="731" />
+                        <basePoint1 x="186" y="698" />
+                        <basePoint2 x="176" y="702" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J7_3" render:objectRole="substrate" speciesReference="Acetyladehyde" speciesGlyph="sGlyph_5" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="313" y="665.041916167665" />
+                        <end x="230" y="680" />
+                        <basePoint1 x="280" y="666" />
+                        <basePoint2 x="274" y="662" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J7_4" render:objectRole="substrate" speciesReference="NADH" speciesGlyph="sGlyph_10" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="244.951612903226" y="629" />
+                        <end x="230" y="680" />
+                        <basePoint1 x="250" y="641" />
+                        <basePoint2 x="274" y="662" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_8" reaction="J8">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J8_0" render:objectRole="product" speciesReference="External_acetaldehyde" speciesGlyph="sGlyph_6" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="392.3" y="679" />
+                        <end x="460.3" y="718" />
+                        <basePoint1 x="418" y="694" />
+                        <basePoint2 x="418" y="694" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J8_2" render:objectRole="substrate" speciesReference="Acetyladehyde" speciesGlyph="sGlyph_5" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_9" reaction="J9">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J9_0" render:objectRole="product" speciesReference="ADP" speciesGlyph="sGlyph_8" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="550" y="103.153846153846" />
+                        <end x="547" y="170.940119760479" />
+                        <basePoint1 x="604" y="133" />
+                        <basePoint2 x="607" y="136" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J9_2" render:objectRole="substrate" speciesReference="ATP" speciesGlyph="sGlyph_7" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_10" reaction="J10">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J10_0" render:objectRole="product" speciesReference="Sink" speciesGlyph="sGlyph_14" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="518.545454545455" y="749" />
+                        <end x="568" y="776.491525423729" />
+                        <basePoint1 x="532" y="756" />
+                        <basePoint2 x="532" y="756" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J10_2" render:objectRole="substrate" speciesReference="External_acetaldehyde" speciesGlyph="sGlyph_6" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+          </listOfReactionGlyphs>
+          <listOfTextGlyphs>
+            <textGlyph id="tGlyph_0" graphicalObject="sGlyph_0" text="Glucose">
+              <boundingBox>
+                <position x="280" y="84" />
+                <dimensions width="54" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_1" graphicalObject="sGlyph_1" text="fructose_1_6_bisphosphate">
+              <boundingBox>
+                <position x="293" y="202" />
+                <dimensions width="150" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_2" graphicalObject="sGlyph_2" text="glyceraldehyde_3_phosphate">
+              <boundingBox>
+                <position x="286" y="314" />
+                <dimensions width="157" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_3" graphicalObject="sGlyph_3" text="glycerate_3_phosphate">
+              <boundingBox>
+                <position x="302" y="438" />
+                <dimensions width="128" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_4" graphicalObject="sGlyph_4" text="pyruvate">
+              <boundingBox>
+                <position x="333" y="569" />
+                <dimensions width="57" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_5" graphicalObject="sGlyph_5" text="Acetyladehyde">
+              <boundingBox>
+                <position x="320" y="652" />
+                <dimensions width="87" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_6" graphicalObject="sGlyph_6" text="External_acetaldehyde">
+              <boundingBox>
+                <position x="425" y="722" />
+                <dimensions width="124" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_7_alias_0_text" graphicalObject="sGlyph_7_alias_0" text="ATP">
+              <boundingBox>
+                <position x="486" y="530" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_7_alias_1_text" graphicalObject="sGlyph_7_alias_1" text="ATP">
+              <boundingBox>
+                <position x="486" y="415" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_7" graphicalObject="sGlyph_7" text="ATP">
+              <boundingBox>
+                <position x="509" y="79" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_8_alias_2_text" graphicalObject="sGlyph_8_alias_2" text="ADP">
+              <boundingBox>
+                <position x="481" y="475" />
+                <dimensions width="35" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_8_alias_3_text" graphicalObject="sGlyph_8_alias_3" text="ADP">
+              <boundingBox>
+                <position x="477" y="351" />
+                <dimensions width="35" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_10" graphicalObject="sGlyph_8" text="ADP">
+              <boundingBox>
+                <position x="506" y="172" />
+                <dimensions width="35" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_9_alias_4_text" graphicalObject="sGlyph_9_alias_4" text="NAD">
+              <boundingBox>
+                <position x="127" y="638" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_9_alias_5_text" graphicalObject="sGlyph_9_alias_5" text="NAD">
+              <boundingBox>
+                <position x="232" y="356" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_13" graphicalObject="sGlyph_9" text="NAD">
+              <boundingBox>
+                <position x="138" y="247" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_10_alias_6_text" graphicalObject="sGlyph_10_alias_6" text="NADH">
+              <boundingBox>
+                <position x="253" y="248" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="sGlyph_10_alias_7_text" graphicalObject="sGlyph_10_alias_7" text="NADH">
+              <boundingBox>
+                <position x="228" y="397" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_16" graphicalObject="sGlyph_10" text="NADH">
+              <boundingBox>
+                <position x="217" y="598" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_19" graphicalObject="sGlyph_11" text="External_glucose">
+              <boundingBox>
+                <position x="121" y="61" />
+                <dimensions width="97" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_20" graphicalObject="sGlyph_12" text="ethanol">
+              <boundingBox>
+                <position x="137" y="738" />
+                <dimensions width="49" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_21" graphicalObject="sGlyph_13" text="Glycerol">
+              <boundingBox>
+                <position x="119" y="319" />
+                <dimensions width="54" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_22" graphicalObject="sGlyph_14" text="Sink">
+              <boundingBox>
+                <position x="574" y="777" />
+                <dimensions width="34" height="24" />
+              </boundingBox>
+            </textGlyph>
+          </listOfTextGlyphs>
+        </layout>
+      </listOfLayouts>
+    </annotation>
+    <listOfCompartments>
+      <compartment id="compartment" size="1" />
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="Glucose" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="fructose_1_6_bisphosphate" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="glyceraldehyde_3_phosphate" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="glycerate_3_phosphate" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="pyruvate" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="Acetyladehyde" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="External_acetaldehyde" boundaryCondition="false" initialConcentration="0" compartment="compartment" />
+      <species id="ATP" boundaryCondition="false" initialConcentration="3" compartment="compartment" />
+      <species id="ADP" boundaryCondition="false" initialConcentration="1" compartment="compartment" />
+      <species id="NAD" boundaryCondition="false" initialConcentration="0.5" compartment="compartment" />
+      <species id="NADH" boundaryCondition="false" initialConcentration="0.5" compartment="compartment" />
+      <species id="External_glucose" boundaryCondition="true" initialConcentration="0" compartment="compartment" />
+      <species id="ethanol" boundaryCondition="true" initialConcentration="0" compartment="compartment" />
+      <species id="Glycerol" boundaryCondition="true" initialConcentration="0" compartment="compartment" />
+      <species id="Sink" boundaryCondition="true" initialConcentration="0" compartment="compartment" />
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="J0_inputFlux" value="50" />
+      <parameter id="J1_k1" value="550" />
+      <parameter id="J1_Ki" value="1" />
+      <parameter id="J1_n" value="4" />
+      <parameter id="J2_J2_k" value="9.8" />
+      <parameter id="J3_J3_k" value="85.7" />
+      <parameter id="J4_kg" value="323.8" />
+      <parameter id="J4_kp" value="76411.1" />
+      <parameter id="J4_ka" value="57823.1" />
+      <parameter id="J4_kk" value="23.7" />
+      <parameter id="J5_J5_k" value="80" />
+      <parameter id="J6_J6_k" value="9.7" />
+      <parameter id="J7_J7_k" value="2000" />
+      <parameter id="J8_J8_k1" value="375" />
+      <parameter id="J8_J8_k2" value="375" />
+      <parameter id="J9_J9_k" value="28" />
+      <parameter id="J10_J10_k" value="80" />
+      <parameter id="J2_k" value="9.8" />
+      <parameter id="J3_k" value="85.7" />
+      <parameter id="J5_k" value="80" />
+      <parameter id="J6_k" value="9.7" />
+      <parameter id="J7_k" value="2000" />
+      <parameter id="J8_k1" value="375" />
+      <parameter id="J8_k2" value="375" />
+      <parameter id="J9_k" value="28" />
+      <parameter id="J10_k" value="80" />
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="J0" reversible="false">
+        <listOfReactants>
+          <speciesReference species="External_glucose" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Glucose" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci>
+                        J0_inputFlux
+                  </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Glucose" stoichiometry="1" />
+          <speciesReference species="ATP" stoichiometry="2" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="fructose_1_6_bisphosphate" stoichiometry="1" />
+          <speciesReference species="ADP" stoichiometry="2" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J1_k1
+                     </ci>
+              <ci>
+                           Glucose
+                     </ci>
+              <ci>
+                           ATP
+                     </ci>
+              <apply>
+                <divide />
+                <cn type="integer">
+                              1
+                        </cn>
+                <apply>
+                  <plus />
+                  <cn type="integer">
+                                 1
+                           </cn>
+                  <apply>
+                    <power />
+                    <apply>
+                      <divide />
+                      <ci>
+                                       ATP
+                                 </ci>
+                      <ci>
+                                       J1_Ki
+                                 </ci>
+                    </apply>
+                    <ci>
+                                    J1_n
+                              </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="fructose_1_6_bisphosphate" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+          <speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J2_J2_k
+                     </ci>
+              <ci>
+                           fructose_1_6_bisphosphate
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J3" reversible="false">
+        <listOfReactants>
+          <speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+          <speciesReference species="NADH" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="NAD" stoichiometry="1" />
+          <speciesReference species="Glycerol" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J3_J3_k
+                     </ci>
+              <ci>
+                           glyceraldehyde_3_phosphate
+                     </ci>
+              <ci>
+                           NADH
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J4" reversible="false">
+        <listOfReactants>
+          <speciesReference species="glyceraldehyde_3_phosphate" stoichiometry="1" />
+          <speciesReference species="ADP" stoichiometry="1" />
+          <speciesReference species="NAD" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ATP" stoichiometry="1" />
+          <speciesReference species="glycerate_3_phosphate" stoichiometry="1" />
+          <speciesReference species="NADH" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <minus />
+                <apply>
+                  <times />
+                  <ci>
+                                 J4_kg
+                           </ci>
+                  <ci>
+                                 J4_kp
+                           </ci>
+                  <ci>
+                                 glyceraldehyde_3_phosphate
+                           </ci>
+                  <ci>
+                                 NAD
+                           </ci>
+                  <ci>
+                                 ADP
+                           </ci>
+                </apply>
+                <apply>
+                  <times />
+                  <ci>
+                                 J4_ka
+                           </ci>
+                  <ci>
+                                 J4_kk
+                           </ci>
+                  <ci>
+                                 glycerate_3_phosphate
+                           </ci>
+                  <ci>
+                                 ATP
+                           </ci>
+                  <ci>
+                                 NADH
+                           </ci>
+                </apply>
+              </apply>
+              <apply>
+                <plus />
+                <apply>
+                  <times />
+                  <ci>
+                                 J4_ka
+                           </ci>
+                  <ci>
+                                 NADH
+                           </ci>
+                </apply>
+                <apply>
+                  <times />
+                  <ci>
+                                 J4_kp
+                           </ci>
+                  <ci>
+                                 ADP
+                           </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J5" reversible="false">
+        <listOfReactants>
+          <speciesReference species="glycerate_3_phosphate" stoichiometry="1" />
+          <speciesReference species="ADP" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ATP" stoichiometry="1" />
+          <speciesReference species="pyruvate" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J5_J5_k
+                     </ci>
+              <ci>
+                           glycerate_3_phosphate
+                     </ci>
+              <ci>
+                           ADP
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J6" reversible="false">
+        <listOfReactants>
+          <speciesReference species="pyruvate" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Acetyladehyde" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J6_J6_k
+                     </ci>
+              <ci>
+                           pyruvate
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J7" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Acetyladehyde" stoichiometry="1" />
+          <speciesReference species="NADH" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="NAD" stoichiometry="1" />
+          <speciesReference species="ethanol" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J7_J7_k
+                     </ci>
+              <ci>
+                           Acetyladehyde
+                     </ci>
+              <ci>
+                           NADH
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J8" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Acetyladehyde" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="External_acetaldehyde" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus />
+              <apply>
+                <times />
+                <ci>
+                              J8_J8_k1
+                        </ci>
+                <ci>
+                              Acetyladehyde
+                        </ci>
+              </apply>
+              <apply>
+                <times />
+                <ci>
+                              J8_J8_k2
+                        </ci>
+                <ci>
+                              External_acetaldehyde
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J9" reversible="false">
+        <listOfReactants>
+          <speciesReference species="ATP" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ADP" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J9_J9_k
+                     </ci>
+              <ci>
+                           ATP
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J10" reversible="false">
+        <listOfReactants>
+          <speciesReference species="External_acetaldehyde" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Sink" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times />
+              <ci>
+                           J10_J10_k
+                     </ci>
+              <ci>
+                           External_acetaldehyde
+                     </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
