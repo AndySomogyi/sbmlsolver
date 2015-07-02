@@ -1329,34 +1329,45 @@ char* rrcCallConv getConfigurationXML(RRHandle handle)
 // Replacement methods for supporting solver configuration
 // ----------------------------------------------------------------------
 
-int rrcCallConv getNumberOfIntegrators()
+int rrcCallConv getNumberOfIntegrators(RRHandle handle)
 {
 	start_try
-		throw std::runtime_error("TODO: implement getNumberOfIntegrators");
+		RoadRunner* rri = castToRoadRunner(handle);
+		return rri->getExistingIntegratorNames().size();
     catch_ptr_macro
 }
 
 
-RRStringArrayPtr rrcCallConv getListOfIntegrators()
+RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle)
 {
 	start_try
-		throw std::runtime_error("TODO: implement getListOfIntegrators");
+		RoadRunner* rri = castToRoadRunner(handle);
+		StringList intgNames = rri->getExistingIntegratorNames();
+		if (!intgNames.Count())
+		{
+			return NULL;
+		}
+		return createList(intgNames);
     catch_ptr_macro
 }
 
 
 int rrcCallConv selectIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
-    start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        rri->getSimulateOptions().setItem ("integrator", nameOfIntegrator);
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream ss;
+		ss << nameOfIntegrator;
+		rri->setIntegrator(ss.str());
+		return true;
 
+		//RoadRunner* rri = castToRoadRunner(handle);
+        //rri->getSimulateOptions().setItem ("integrator", nameOfIntegrator);
         //if (strcmp (topLevelSolver, listOfSteadyStateSolvers) == 0) {
         //   currentTopLevelSolver = listOfSteadyStateSolvers;
         //   return (1);
         //}
-
-        return true;
+        //return true;
     catch_ptr_macro
 }
 
@@ -1393,19 +1404,19 @@ RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle,
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		vector<std::string> keys = rri->getIntegrator()->getSettings();
-		return createList(keys);
+		StringList settingsList = rri->getIntegrator()->getSettings();
+		return createList(settingsList);
     catch_ptr_macro
 }
 
 char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *parameterName)
 {
     start_try
-      RoadRunner* rri = castToRoadRunner(handle);
-      stringstream fullParameterName;
-      fullParameterName<< parameterName << ".description";
-      string str = rri->getSimulateOptions().getItem (fullParameterName.str());
-      return (rr::createText (str));
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		std::string str = rri->getIntegrator()->getDescription(key.str());
+		return (rr::createText (str));
     catch_ptr_macro
 }
 
@@ -1413,20 +1424,22 @@ char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *para
 char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char *parameterName)
 {
     start_try
-       RoadRunner* rri = castToRoadRunner(handle);
-       stringstream fullParameterName;
-       fullParameterName<< parameterName << ".hint";
-       string str = rri->getSimulateOptions().getItem (fullParameterName.str());
-       return (rr::createText (str));
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		std::string str = rri->getIntegrator()->getHint(key.str());
+		return (rr::createText (str));
     catch_ptr_macro
 }
 
 
 int rrcCallConv getIntegratorParameterType (RRHandle handle, char *parameterName)
 {
-    start_try
-      RoadRunner* rri = castToRoadRunner(handle);
-      return (int) rri->getSimulateOptions().getItem (parameterName).type();
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		return (int) rri->getIntegrator()->getType(key.str());
     catch_ptr_macro
 }
 
@@ -1437,8 +1450,10 @@ int rrcCallConv getIntegratorParameterType (RRHandle handle, char *parameterName
 int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *parameterName)
 {
     start_try
-      RoadRunner* rri = castToRoadRunner(handle);
-      return rri->getSimulateOptions().getItem (parameterName);
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		return rri->getIntegrator()->getValueAsInt(key.str());
     catch_ptr_macro
 }
 
@@ -1446,8 +1461,10 @@ int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *parameterName)
 int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName, int value)
 {
     start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        rri->getSimulateOptions().setItem (parameterName, value);
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		rri->getIntegrator()->setValue(key.str(), value);
         return true;
     catch_ptr_macro
 }
@@ -1455,59 +1472,71 @@ int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName,
 
 double rrcCallConv getIntegratorParameterDouble (RRHandle handle, char *parameterName)
 {
-    start_try
-      RoadRunner* rri = castToRoadRunner(handle);
-      return rri->getSimulateOptions().getItem (parameterName);
-    catch_ptr_macro
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		return rri->getIntegrator()->getValueAsDouble(key.str());
+	catch_ptr_macro
 }
 
 
 int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char *parameterName, double value)
 {
-    start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        rri->getSimulateOptions().setItem (parameterName, value);
-        return true;
-     catch_ptr_macro
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		rri->getIntegrator()->setValue(key.str(), value);
+		return true;
+	catch_ptr_macro
 }
 
 
 char* rrcCallConv getIntegratorParameterString (RRHandle handle, char *parameterName)
 {
     start_try
-      RoadRunner* rri = castToRoadRunner(handle);
-      string str = rri->getSimulateOptions().getItem (parameterName);
-      return (rr::createText (str));
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		std::string str = rri->getIntegrator()->getValueAsString(key.str());
+		return (rr::createText (str));
     catch_ptr_macro
 }
 
 
 int rrcCallConv setIntegratorParameterString (RRHandle handle, char *parameterName, char* value)
 {
-    start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        rri->getSimulateOptions().setItem (parameterName, value);
-        return true;
-    catch_ptr_macro
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		rri->getIntegrator()->setValue(key.str(), value);
+		return true;
+	catch_ptr_macro
 }
 
 
 int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char *parameterName)
 {
-    start_try
-      RoadRunner* rri = castToRoadRunner(handle);
-      return rri->getSimulateOptions().getItem (parameterName);
-    catch_ptr_macro
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		return rri->getIntegrator()->getValueAsBool(key.str());
+	catch_ptr_macro
 }
 
 
 int rrcCallConv setIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value)
 {
-    start_try
-        RoadRunner* rri = castToRoadRunner(handle);
-        rri->getSimulateOptions().setItem (parameterName, value);
-        return true;
-    catch_ptr_macro
+	start_try
+		RoadRunner* rri = castToRoadRunner(handle);
+		stringstream key;
+		key << parameterName;
+		rri->getIntegrator()->setValue(key.str(), value);
+		return true;
+	catch_ptr_macro
 }
 
 

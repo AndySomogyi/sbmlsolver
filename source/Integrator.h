@@ -71,10 +71,20 @@ namespace rr
 		std::vector<std::string> getSettings();
 
 		virtual Variant getValue(std::string key);
+		virtual int getValueAsInt(std::string key);
+		virtual unsigned int getValueAsUInt(std::string key);
+		virtual long getValueAsLong(std::string key);
+		virtual unsigned long getValueAsULong(std::string key);
+		virtual float getValueAsFloat(std::string key);
+		virtual double getValueAsDouble(std::string key);
+		virtual char getValueAsChar(std::string key);
+		virtual unsigned char getValueAsUChar(std::string key);
+		virtual std::string getValueAsString(std::string key);
+		virtual bool getValueAsBool(std::string key);
 		virtual void setValue(std::string key, const Variant& value) = 0;
 		const std::string& getHint(std::string key) const;
 		const std::string& getDescription(std::string key) const;
-		const std::string& getType(std::string key) const;
+		const Variant::TypeId getType(std::string key);
 
 		virtual double integrate(double t0, double hstep) = 0;
 		virtual void restart(double t0) = 0;

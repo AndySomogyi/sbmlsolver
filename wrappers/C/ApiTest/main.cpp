@@ -35,14 +35,25 @@ int main(int argc, char* argv[])
 {
     cout << "RoadRunner C API Test" << endl;
 
-	string sbmlFilepath = "C:\\Users\\Wilbert\\Desktop\\model12-4.xml";
-	
+	//string sbmlFilepath = "C:\\Users\\Wilbert\\Desktop\\model12-4.xml";
+	string sbmlFilepath = "C:\\vs\\src\\roadrunner\\models\\feedback.xml";
+
 	RRHandle _handle = createRRInstance();
 	char*_s;
-	_s = getSBML(_handle);
+	
+	loadSBMLFromFile(_handle, sbmlFilepath.c_str());
+	//_s = getSBML(_handle);
+
+	RRCDataPtr result;
+
+	result = simulateEx(_handle, 0, 10, 100);
+	printf(rrCDataToString(result));
+	freeRRCData(result);
 
 	
-
+	char a;
+	cin >> a;
+	
     return 0;
 }
 

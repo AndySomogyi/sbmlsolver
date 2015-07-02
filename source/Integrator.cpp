@@ -13,6 +13,7 @@
 #include "rrStringUtils.h"
 #include "rrConfig.h"
 #include "rrUtils.h"
+#include <typeinfo>
 
 using namespace std;
 namespace rr
@@ -84,6 +85,56 @@ namespace rr
 		return option->second;
 	}
 
+	int Integrator::getValueAsInt(std::string key)
+	{
+		return getValue(key).convert<int>();
+	}
+
+	unsigned int Integrator::getValueAsUInt(std::string key)
+	{
+		return getValue(key).convert<unsigned int>();
+	}
+
+	long Integrator::getValueAsLong(std::string key)
+	{
+		return getValue(key).convert<long>();
+	}
+
+	unsigned long Integrator::getValueAsULong(std::string key)
+	{
+		return getValue(key).convert<unsigned long>();
+	}
+
+	float Integrator::getValueAsFloat(std::string key)
+	{
+		return getValue(key).convert<float>();
+	}
+
+	double Integrator::getValueAsDouble(std::string key)
+	{
+		return getValue(key).convert<double>();
+	}
+
+	char Integrator::getValueAsChar(std::string key)
+	{
+		return getValue(key).convert<char>();
+	}
+
+	unsigned char Integrator::getValueAsUChar(std::string key)
+	{
+		return getValue(key).convert<unsigned char>();
+	}
+
+	std::string Integrator::getValueAsString(std::string key)
+	{
+		return getValue(key).convert<std::string>();
+	}
+
+	bool Integrator::getValueAsBool(std::string key)
+	{
+		return getValue(key).convert<bool>();
+	}
+
 	void Integrator::setValue(std::string key, const Variant& value)
 	{
 		settings.insert({ key, value });
@@ -109,6 +160,11 @@ namespace rr
 		return option->second;
 	}
 
+	const Variant::TypeId Integrator::getType(std::string key)
+	{
+		return getValue(key).type();
+	}
+
 	/* TODO: Create getType() method. */
 
 	std::string Integrator::toString() const
@@ -118,26 +174,25 @@ namespace rr
 		return ss.str();
 	}
 
-
-
 	/********************************************************************************************
 	*	INTEGRATOR FACTORY
 	********************************************************************************************/
 
-
-	Integrator* IntegratorFactory::New(string name, ExecutableModel* m)
+	Integrator* IntegratorFactory::New(std::string name, ExecutableModel* m)
 	{
 		Integrator *result = 0;
-
 
 		if (name == "cvode")
 		{
 			result = new CVODEIntegrator(m);
 		}
+		else if (name == "gillespie")
+		{
+			result = new GillespieIntegrator(m);
+		}
 		else
 		{
-			// Defaulting to CVODE
-			result = new CVODEIntegrator(m);
+			throw std::invalid_argument("invalid integrator name was requested: " + name);
 		}
 
 		return result;

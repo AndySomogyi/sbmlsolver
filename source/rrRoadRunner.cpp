@@ -168,9 +168,11 @@ public:
      * Points to the current integrator. This is a pointer into the
      * integtators array.
      */
-    Integrator *integrator;
+    Integrator* integrator;
+	std::vector<Integrator*> integrators;
 
-    std::vector<SelectionRecord> mSelectionList;
+
+	std::vector<SelectionRecord> mSelectionList;
 
     /**
      * ModelGenerator obtained from the factory
@@ -268,10 +270,19 @@ public:
         delete model;
         delete mLS;
 
+		deleteIntegrators();
+
         mInstanceCount--;
     }
 
-
+	void deleteIntegrators()
+	{
+		for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+		{
+			delete *it;
+			*it = NULL;
+		}
+	}
 
     void setParameterValue(const ParameterType parameterType,
             const int parameterIndex, const double value)
@@ -422,7 +433,7 @@ vector<SelectionRecord> RoadRunner::getSelectionList()
 
 string RoadRunner::getInfo()
 {
-    updateSimulateOptions();
+    applySimulateOptions();
 
     stringstream ss;
     ss << "<roadrunner.RoadRunner() { " << std::endl;
@@ -599,25 +610,6 @@ string RoadRunner::getParamPromotedSBML(const string& sbml)
     delete doc;
 
     return stream.str();
-}
-
-/**
- * RoadRunner keeps all the created integrators around. If the requested integrator
- * has not been created, this method creates one, and sets self.integrator
- * to point to it.
- */
-void RoadRunner::updateIntegrator()
-{
-    get_self();
-
-	// Change the integrator if a new integrator has been specified in RoadRunner SimulateOptions.
-    if(self.model)
-    {
-		if (self.integrator->getIntegratorName() != self.simulateOpt.integrator)
-		{
-			self.integrator = IntegratorFactory::New(self.simulateOpt.integrator, self.model);
-		}
-    }
 }
 
 double RoadRunner::getValue(const SelectionRecord& record)
@@ -831,7 +823,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         throw;
     }
 
-    updateIntegrator();
+	setIntegrator(self.simulateOpt.integrator);
 
     reset();
 
@@ -1167,7 +1159,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         self.simulateOpt = *opt;
     }
 
-    updateSimulateOptions();
+    applySimulateOptions();
 
     const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
     const double timeStart = self.simulateOpt.start;
@@ -1360,7 +1352,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 {
     check_model();
-    updateSimulateOptions();
+    applySimulateOptions();
 
     try
     {
@@ -1379,7 +1371,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 {
     get_self();
     check_model();
-    updateSimulateOptions();
+    applySimulateOptions();
 
     try
     {
@@ -2882,9 +2874,60 @@ vector<double> RoadRunner::getReactionRates()
 
 Integrator* RoadRunner::getIntegrator()
 {
-    //updateSimulateOptions();
-	updateIntegrator();
+    //applySimulateOptions();
     return impl->integrator;
+}
+
+std::vector<std::string> RoadRunner::getExistingIntegratorNames()
+{
+	std::vector<std::string> result;
+	int i = 0;
+	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+	{
+		result.push_back(impl->integrators.at(i)->getIntegratorName());
+	}
+	return result;
+}
+
+void RoadRunner::setIntegrator(std::string name)
+{
+	// Try to set integrator from an existing reference.
+	if (integratorExists(name))
+	{
+		int i = 0;
+		for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+		{
+			if (impl->integrators.at(i)->getIntegratorName() == name)
+			{
+				impl->integrator = impl->integrators.at(i);
+				impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+				return;
+			}
+		}
+	}
+	// Otherwise, create a new integrator.
+	else
+	{
+		impl->integrator = IntegratorFactory::New(name, impl->model);
+		impl->integrators.push_back(impl->integrator);
+		impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+	}
+
+	return;
+}
+
+
+bool RoadRunner::integratorExists(std::string name)
+{
+	int i = 0;
+	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+	{
+		if (impl->integrators.at(i)->getIntegratorName() == name)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -3570,8 +3613,7 @@ const DoubleMatrix* RoadRunner::getSimulationData() const
     return &impl->simulationResult;
 }
 
-
-void RoadRunner::updateSimulateOptions()
+void RoadRunner::applySimulateOptions()
 {
     get_self();
 
@@ -3587,7 +3629,10 @@ void RoadRunner::updateSimulateOptions()
 
     // Updates the integrator based on the integrator name specified in SimulateOptions.
 	// If the integrator has not been changed, nothing happens.
-    updateIntegrator();
+	if (self.simulateOpt.integrator != self.integrator->getIntegratorName())
+	{
+		RoadRunner::setIntegrator(self.simulateOpt.integrator);
+	}
 
     if (self.simulateOpt.reset_model)
     {
