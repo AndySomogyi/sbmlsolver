@@ -29,6 +29,8 @@ before_install:
   # install gcc 4.8
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  # install swig
+  - sudo apt-get install swig
   # install python headers
   - sudo apt-get install python-dev
   - mkdir ~/install
