@@ -17,8 +17,9 @@ include_directories(
 
 
 
-
-
+# copy to /lib so we can import roadrunner in the build tree
+configure_file(__init__.py ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/__init__.py COPYONLY)
+# configure_file(roadrunner.py ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/roadrunner.py COPYONLY)
 
 SET_SOURCE_FILES_PROPERTIES(roadrunner.i PROPERTIES CPLUSPLUS ON)
 SET_SOURCE_FILES_PROPERTIES(roadrunner.i PROPERTIES SWIG_FLAGS "-threads")
@@ -29,11 +30,13 @@ if(USE_TR1_CXX_NS)
   set(CMAKE_SWIG_FLAGS "-DSWIG_SHARED_PTR_SUBNAMESPACE=tr1")
 endif()
 
+set(CMAKE_SWIG_OUTDIR ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner)
+
 SWIG_ADD_MODULE(roadrunner python roadrunner.i PyUtils PyLoggerStream)
 
 
 
-
+set_target_properties(_roadrunner PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/python/roadrunner LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner)
 
 if(WIN32)
     # changes dll name to pyd sop that it is compatible with new Python standard
@@ -130,7 +133,7 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
 #    DESTINATION site-packages/roadrunner )
 
 install(
-    FILES ${python_files_path}/roadrunner.py
+    FILES ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/roadrunner.py
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
 )
 

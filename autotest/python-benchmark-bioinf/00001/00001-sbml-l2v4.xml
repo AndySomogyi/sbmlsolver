@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model metaid="The_Brusselator" id="The_Brusselator" name="The_Brusselator">
+    <notes>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p>The famous Brusselator model in which a chemical species X
+                    catalyses</p>
+        <p>its own formation. In a certain region of parameter space the
+                    Brusselator</p>
+        <p>can function in a limit cycle regime around an unstable steady
+                    state.</p>
+        <p/>
+        <p>Run this simulation and then check the report file to see how
+                    Gepasi can find an unstable steady state, and calculate the
+                    eigenvalues of the Jacobian matrix.</p>
+      </body>
+    </notes>
+    <listOfUnitDefinitions>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="litre"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit kind="mole"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time">
+        <listOfUnits>
+          <unit kind="second"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="compartment" units="volume"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="A" compartment="compartment" initialAmount="0.8" substanceUnits="substance" boundaryCondition="true"/>
+      <species id="X" compartment="compartment" initialAmount="3" substanceUnits="substance"/>
+      <species id="Y" compartment="compartment" initialAmount="3" substanceUnits="substance"/>
+      <species id="B" compartment="compartment" initialAmount="3" substanceUnits="substance" boundaryCondition="true"/>
+      <species id="D" compartment="compartment" initialAmount="0" substanceUnits="substance" boundaryCondition="true"/>
+      <species id="E" compartment="compartment" initialAmount="0" substanceUnits="substance" boundaryCondition="true"/>
+      <species id="X1" compartment="compartment" initialAmount="3" substanceUnits="substance"/>
+      <species id="Y1" compartment="compartment" initialAmount="3" substanceUnits="substance"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="k1" name="k1" value="1"/>
+      <parameter id="k2" name="k2" value="1"/>
+      <parameter id="k3" name="k3" value="1"/>
+      <parameter id="k4" name="k4" value="1"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="R1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="A"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="X"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k1 </ci>
+              <ci> A </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="X" stoichiometry="2"/>
+          <speciesReference species="Y"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="X" stoichiometry="3"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k2 </ci>
+              <ci> X </ci>
+              <ci> X </ci>
+              <ci> Y </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R3" reversible="false">
+        <listOfReactants>
+          <speciesReference species="X"/>
+          <speciesReference species="B"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Y"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k3 </ci>
+              <ci> X </ci>
+              <ci> B </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R4" reversible="false">
+        <listOfReactants>
+          <speciesReference species="X"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k4 </ci>
+              <ci> X </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R1_1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="A"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="X1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k1 </ci>
+              <ci> A </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R2_1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="X1" stoichiometry="2"/>
+          <speciesReference species="Y1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="X1" stoichiometry="3"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k2 </ci>
+              <ci> X1 </ci>
+              <ci> X1 </ci>
+              <ci> Y1 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R3_1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="X1"/>
+          <speciesReference species="B"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Y1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k3 </ci>
+              <ci> X1 </ci>
+              <ci> B </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R4_1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="X1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k4 </ci>
+              <ci> X1 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
