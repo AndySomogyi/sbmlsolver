@@ -19,12 +19,12 @@ Config.setValue(Config.SIMULATEOPTIONS_ABSOLUTE, absolute_tol_default)
 Config.setValue(Config.SIMULATEOPTIONS_RELATIVE, rel_tol_default)
 
 tests = [ \
-  ('jean_marie', "./jean_marie/Jean_Marie_AMPA16_RobHow_v6.xml", 0.2, 0.0005),
+  ('jean_marie', "./jean_marie/Jean_Marie_AMPA16_RobHow_v6.xml", 0.2, 0.002),
   ('jana_wolf', "./jana_wolf/Jana_WolfGlycolysis.xml", 0.25, 0.3),
   ('biomod14', "./biomod14/BIOMD0000000014.xml", 0.8, 0.015),
   ('biomod33', "./biomod33/BIOMD0000000033.xml", 0.16, 0.06),
-  ('00001',   "./00001/00001-sbml-l2v4.xml", 0.2, 0.002),
-  ('00002',   "./00002/00002-sbml-l2v4.xml", 0.2, 0.002),
+  ('00001',   "./00001/00001-sbml-l2v4.xml", 0.2, 0.005),
+  ('00002',   "./00002/00002-sbml-l2v4.xml", 0.2, 0.005),
   ('00050',  "./00050/00050-sbml-l2v4.xml", 0.3, 0.007),
   ('00100', "./00100/00100-sbml-l2v4.xml", 0.9, 0.01),
   ('00150', "./00150/00150-sbml-l2v4.xml", 1.0, 0.015),
