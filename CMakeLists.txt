@@ -89,7 +89,7 @@ set( PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages dire
 # should we build the swig Java wrapper?
 option (BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
 
-if(BUILD_JAVA_INTERFACE)
+if(BUILD_TESTS OR BUILD_JAVA_INTERFACE)
   enable_testing()
 endif()
 
