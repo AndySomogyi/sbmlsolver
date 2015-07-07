@@ -359,4 +359,12 @@ rates=0.101 -0.08 -1.071
 [Get Rates of Change By Index]
 0.101 -0.08 -1.071
 
-[Amount/Concentration Jacobians]
+[Get Control Coefficient]
+"J1 kk1 0.715153"
+"J1 kk2 0.238384"
+"J1 kk3 0.0399294"
+"J1 kk4 0.00653389"
+"S1 kk1 0.715153"
+"S1 kk2 -0.5985"
+"S1 kk3 -0.100249"
+"S1 kk4 -0.0164043"
