@@ -11,8 +11,6 @@ compiler: gcc
 branches:
   only:
     - develop
-    - travis
-    - perfbench
 
 #addons:
   #apt:
