@@ -245,4 +245,12 @@ S3= -0.459983 0
 [Get Rates Of Change]
 0 0 0
 
-[Amount/Concentration Jacobians]
+[Get Control Coefficient]
+"J1 kk1 0.85479"
+"J1 kk2 0.0492391"
+"J1 kk3 0.0824754"
+"J1 kk4 0.013496"
+"S1 kk1 0.85479"
+"S1 kk2 -0.289848"
+"S1 kk3 -0.485496"
+"S1 kk4 -0.0794448"
