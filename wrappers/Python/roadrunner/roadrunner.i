@@ -2436,10 +2436,8 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
-        __swig_getmethods__["name"] = getName
         if _newclass:
             listener = property(getListener, setListener)
-            name = property(getName)
     %}
 }
 
