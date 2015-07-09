@@ -1553,15 +1553,11 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::STRUCTURED_RESULT;
+        return opt->structured_result;
     }
 
     void rr_SimulateOptions_structuredResult_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->flags |= SimulateOptions::STRUCTURED_RESULT;
-        } else {
-            opt->flags &= ~SimulateOptions::STRUCTURED_RESULT;
-        }
+        opt->structured_result = value;
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
