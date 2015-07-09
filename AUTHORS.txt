@@ -26,5 +26,17 @@ The C# backend was ported to C++ by
 The Plugin Framework was designed and developed by
 
     Totte Karlsson
+    
+with Tellurium integration and further enhancements by
 
-For more information visit libroadRunner.org
+    Kiri Choi
+    
+The continuous integration (CI) system and Java API were developed by
+
+    J Kyle Medley
+    
+Redesign of the integrator interface was done by
+
+    Wilbert Copeland
+
+For more information visit libroadrunner.org
