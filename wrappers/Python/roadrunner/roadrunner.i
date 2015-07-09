@@ -1395,8 +1395,7 @@ namespace std { class ostream{}; }
             """
             get a list of available integrator names.
             """
-            return [IntegratorFactory.getIntegratorNameFromId(i) \
-                for i in range(0, SimulateOptions.INTEGRATOR_END)]
+            return self.getExistingIntegratorNames()
 
 
         def plot(self, result=None, loc='upper left', show=True):
@@ -1515,20 +1514,6 @@ namespace std { class ostream{}; }
         SimulateOptions *other = new SimulateOptions(*pThis);
         return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
     }
-
-    std::string _getIntegrator() {
-        return IntegratorFactory::getIntegratorNameFromId(($self)->integrator);
-    }
-
-    void _setIntegrator(const std::string &str) {
-
-        ($self)->setItem("integrator", str);
-    }
-
-    rr::Integrator::IntegratorId getIntegratorId() {
-        return ($self)->integrator;
-    }
-
 
     %pythoncode %{
         def getListener(self):
