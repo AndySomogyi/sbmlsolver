@@ -635,7 +635,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::simulate;
 
 %rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
-%rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
 %rename (_load) rr::RoadRunner::load;
 
 
@@ -664,8 +663,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %nodefaultctor rr::BasicDictionary;
 %nodefaultdtor DictionaryImpl;
 
-
-%rename (_setIntegratorId) rr::SimulateOptions::setIntegrator;
 
 // ignore SimulateOptions key access methods,
 // these are replaced by python dictionary protocol.
@@ -1100,25 +1097,6 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def getIntegrator(self, iname=None):
-            """
-            Get the integrator based on its name.
-            """
-            if iname is None:
-                return self._getCurrentIntegrator()
-
-            id = IntegratorFactory.getIntegratorIdFromName(iname)
-            return self._getIntegrator(id)
-
-        def setIntegrator(self, iname):
-            """
-            set the default integrator.
-            """
-            self.simulateOptions.integrator = iname
-
-            if self.model is None:
-                Logger.log(Logger.LOG_WARNING, "Setting integrator without a model, changes will take effect when a model is loaded")
-
         def simulate(self, *args, **kwargs):
             """
             Simulate the optionally plot current SBML model. This is the one stop shopping method
@@ -1524,11 +1502,6 @@ namespace std { class ostream{}; }
                 self._clearListener()
             else:
                 self._setListener(listener)
-
-        __swig_getmethods__["integrator"] = _getIntegrator
-        __swig_setmethods__["integrator"] = _setIntegrator
-        if _newclass:
-            integrator = property(_getIntegrator, _setIntegrator)
     %}
 
 
