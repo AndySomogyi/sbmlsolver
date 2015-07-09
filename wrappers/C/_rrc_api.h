@@ -1,13 +1,13 @@
 /**
  * @file rrc_api.h
- * @brief libRoadRunner C API 2012-2013
+ * @brief libRoadRunner C API 2012-2015
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
  * This file is part of libRoadRunner.
  * See http://code.google.com/p/roadrunnerlib/ for more details.
  *
- * Copyright (C) 2012
+ * Copyright (C) 2012-2015
  *   University of Washington, Seattle, WA, USA
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstance(void);
 
 /*!
  \brief Initialize a new roadRunner instance and return a handle to it.
- \param[in] tempFolder set roadrunners temporary folder
+ \param[in] tempFolder set the roadrunner temporary folder
  \param[in] compiler may be NULL, if NULL, uses default compiler.
  If LLVM build is enabled, setting compiler to "llvm" enables llvm based
  model generation.
@@ -467,152 +467,6 @@ C_DECL_SPEC bool rrcCallConv setConfigurationXML (RRHandle handle, const char* c
  \ingroup simulation
 */
 C_DECL_SPEC char* rrcCallConv getConfigurationXML(RRHandle handle);
-
-
-/*!
-\brief Get the number of implemented integrators.
-\param[in] handle Handle to a RoadRunner instance.
-\return Returns an integer that corresponds to the number of currently implemented integrators.
-*/
-C_DECL_SPEC int rrcCallConv getNumberOfIntegrators (RRHandle handle);
-
-/*!
-\brief Get the names of implemented integrators.
-\param[in] handle Handle to a RoadRunner instance.
-\return Returns a list that contains the names of currently implemented integrators.
-*/
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle);
-
-/*!
-\brief Specify the current integrator to be used for simulation.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] nameOfIntegrator Name of the integrator to be used.
-\return Returns True if successful.
-*/
-C_DECL_SPEC int rrcCallConv setIntegrator (RRHandle handle, char *nameOfIntegrator);
-
-/*!
-\brief Obtain a description of the current integrator.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] nameOfIntegrator Name of the integrator to be used.
-\return Returns a description of the current integrator.
-*/
-C_DECL_SPEC char* rrcCallConv getIntegratorDescription (RRHandle handle);
-
-/*!
-\brief Obtain a short hint for the current integrator.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] nameOfIntegrator Name of the integrator to be used.
-\return Returns a short hint of the current integrator.
-*/
-C_DECL_SPEC char* rrcCallConv getIntegratorHint (RRHandle handle);
-
-/*!
-\brief Get the number of adjustable settings for the current integrator.
-\param[in] handle Handle to a RoadRunner instance.
-\return Returns an integer that corresponds to the number of adjustable integrator settings.
-*/
-C_DECL_SPEC int rrcCallConv getNumberOfIntegratorParameters (RRHandle handle);
-
-/*!
-\brief Get the names of adjustable settings for the current integrator.
-\param[in] handle Handle to a RoadRunner instance.
-\return Returns a list that contains the names of adjustable integrator settings.
-*/
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle);
-
-/*!
-\brief Get the description for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns a description for the integrator setting.
-*/
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *parameterName);
-
-/*!
-\brief Get the hint for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns a hint for the integrator setting.
-*/
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char *parameterName);
-
-/*!
-\brief Get the return type for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns a integer that indicates the return type for the integrator setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
-*/
-C_DECL_SPEC int rrcCallConv getIntegratorParameterType (RRHandle handle, char *parameterName);
-
-/*!
-\brief Get the integer value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns an integer value for the integrator setting.
-*/
-C_DECL_SPEC int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *parameterName);
-
-/*!
-\brief Set the integer value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\param[in] value The integer value for the integrator setting.
-\return Returns True if successful.
-*/
-C_DECL_SPEC int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
-
-/*!
-\brief Get the double value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns a double value for the integrator setting.
-*/
-C_DECL_SPEC double rrcCallConv getIntegratorParameterDouble (RRHandle handle, char *parameterName);
-
-/*!
-\brief Set the double value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\param[in] value The double value for the integrator setting.
-\return Returns True if successful.
-*/
-C_DECL_SPEC int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char *parameterName, double value);
-
-/*!
-\brief Get the string value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns a string value for the integrator setting.
-*/
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterString (RRHandle handle, char *parameterName);
-
-/*!
-\brief Set the string value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\param[in] value The string value for the integrator setting.
-\return Returns True if successful.
-*/
-C_DECL_SPEC int rrcCallConv setIntegratorParameterString (RRHandle handle, char *parameterName, char* value);
-
-/*!
-\brief Get the boolean value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\return Returns a boolean value for the integrator setting.
-*/
-C_DECL_SPEC int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char *parameterName);
-
-/*!
-\brief Set the boolean value for a specific integrator setting.
-\param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
-\param[in] value The boolean value for the integrator setting.
-\return Returns True if successful.
-*/
-C_DECL_SPEC int rrcCallConv setIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
-
 
 
 /*!
@@ -1806,7 +1660,7 @@ C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
  * for systems and synthetic biology. To run a simple SBML model
  * and generate time series data we would write the following code:
  *
- \code
+\code
 #undef __cplusplus
 #define STATIC_RRC
 #include <stdio.h>
@@ -1826,13 +1680,13 @@ int main (int argc, char *argv[]) {
         exit (0);
     }
     result = simulateEx (rrHandle, 0, 10, 100);
-    printf (rrDataToString (result));
+    printf (rrCDataToString (result));
     freeRRCData(result);
 
     getchar ();
     exit (0);
 }
- \endcode
+\endcode
 
 More complex example, using C API:
 \code
@@ -1888,14 +1742,13 @@ int main (int argc, char *argv[]) {
    freeRRInstance (rrHandle);
    getchar ();
    exit (0);
-
+}
 \endcode
 
 Would create output as shown below:
 
 \code
 Starting Test Program: <File path Here>
-Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler.
      time            [S1]            [S2]            [S3]            [S4]
  0.000000        0.000000        0.000000        0.000000        0.000000
  1.111111        3.295975        1.677255        1.121418        1.074708
@@ -1914,7 +1767,7 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
  * Installation documentation is provided at libRoadRunner.org.
 
  * \section license_sec License
- * Copyright (C) 2012
+ * Copyright (C) 2012-2015
  *   University of Washington, Seattle, WA, USA
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

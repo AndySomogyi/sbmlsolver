@@ -110,14 +110,17 @@ public:
      * get a pointer to the integrator which is currently being used to
      * time evolve the system.
      */
-    Integrator *getIntegrator();
+    Integrator* getIntegrator();
 
-    /**
-     * gets a pointer to a specific integrator.
-     *
-     * Throws a std::invalid_argument if intg is not valid.
-     */
-    Integrator *getIntegrator(Integrator::IntegratorId intg);
+	/* Return a list of the names of all existing integrators. */
+	std::vector<std::string> getExistingIntegratorNames();
+
+	// DEPRECATED
+	//Integrator* getIntegrator(std::string name);
+
+	void setIntegrator(std::string name);
+
+	bool integratorExists(std::string name);
 
     bool isModelLoaded();
 
@@ -875,7 +878,7 @@ private:
      * If the specified integrator does not exist, create it, and point the
      * integrator pointer to it.
      */
-    void updateIntegrator();
+    //void updateIntegrator();
 
     bool createDefaultSelectionLists();
 
@@ -885,9 +888,6 @@ private:
      */
     int createTimeCourseSelectionList();
 
-
-
-
     std::vector<SelectionRecord> getSelectionList();
 
     /**
@@ -895,7 +895,7 @@ private:
      * the integrators just before they are used with the
      * potentially changed options.
      */
-    void updateSimulateOptions();
+    void applySimulateOptions();
 
 
     enum JacobianMode {

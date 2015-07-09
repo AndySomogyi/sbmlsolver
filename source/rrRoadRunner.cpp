@@ -168,9 +168,11 @@ public:
      * Points to the current integrator. This is a pointer into the
      * integtators array.
      */
-    Integrator *integrator;
+    Integrator* integrator;
+	std::vector<Integrator*> integrators;
 
-    std::vector<SelectionRecord> mSelectionList;
+
+	std::vector<SelectionRecord> mSelectionList;
 
     /**
      * ModelGenerator obtained from the factory
@@ -211,17 +213,6 @@ public:
     std::string configurationXML;
 
     /**
-     * store the integrators in a map. When the integrator is switched,
-     * this way it saves the previous state. Usefull for correct
-     * stream of random numbers for stochastic integrators.
-     *
-     * This is an array of pointers which are allocated by createIntegrator(),
-     * these are freed in the dtor, but kept around for the lifetime of
-     * this object.
-     */
-    Integrator*  integrators[Integrator::INTEGRATOR_END];
-
-    /**
      * TODO get rid of this garbage
      */
     friend class aFinalizer;
@@ -244,7 +235,7 @@ public:
                 compiler(Compiler::New())
     {
         // have to init integrators the hard way in c++98
-        memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
+        //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
 
@@ -268,7 +259,7 @@ public:
         loadOpt.setItem("supportCodeDir", _supportCodeDir);
 
         // have to init integrators the hard way in c++98
-        memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
+        //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
     ~RoadRunnerImpl()
@@ -279,12 +270,19 @@ public:
         delete model;
         delete mLS;
 
-        deleteIntegrators();
+		deleteIntegrators();
 
         mInstanceCount--;
     }
 
-
+	void deleteIntegrators()
+	{
+		for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+		{
+			delete *it;
+			*it = NULL;
+		}
+	}
 
     void setParameterValue(const ParameterType parameterType,
             const int parameterIndex, const double value)
@@ -367,15 +365,6 @@ public:
         setParameterValue(parameterType, parameterIndex, originalValue + increment);
     }
 
-
-    void deleteIntegrators()
-    {
-        for (int i = 0; i < Integrator::INTEGRATOR_END; ++i)
-        {
-            delete integrators[i];
-            integrators[i] = 0;
-        }
-    }
 };
 
 
@@ -444,7 +433,7 @@ vector<SelectionRecord> RoadRunner::getSelectionList()
 
 string RoadRunner::getInfo()
 {
-    updateSimulateOptions();
+    applySimulateOptions();
 
     stringstream ss;
     ss << "<roadrunner.RoadRunner() { " << std::endl;
@@ -624,40 +613,6 @@ string RoadRunner::getParamPromotedSBML(const string& sbml)
 
     return stream.str();
 }
-
-/**
- * RoadRunner keeps all the created integrators around. If the requested integrator
- * has not been created, this method creates one, and sets self.integrator
- * to point to it.
- */
-void RoadRunner::updateIntegrator()
-{
-    get_self();
-
-    if(self.model)
-    {
-        // check if valid range
-        if (self.simulateOpt.integrator >= Integrator::INTEGRATOR_END)
-        {
-            std::stringstream ss;
-            ss << "Invalid integrator of " << self.simulateOpt.integrator
-                    << ", integrator must be >= 0 and < "
-                    << Integrator::INTEGRATOR_END;
-            throw std::invalid_argument(ss.str());
-        }
-
-        if (self.integrators[self.simulateOpt.integrator] == 0)
-        {
-            self.integrators[self.simulateOpt.integrator]
-                    = IntegratorFactory::New(&self.simulateOpt, self.model);
-        }
-
-        self.integrator = self.integrators[self.simulateOpt.integrator];
-
-        self.integrator->setSimulateOptions(&self.simulateOpt);
-    }
-}
-
 
 double RoadRunner::getValue(const SelectionRecord& record)
 {
@@ -852,8 +807,6 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         self.loadOpt = LoadSBMLOptions(dict);
     }
 
-    self.deleteIntegrators();
-
     // the following lines load and compile the model. If anything fails here,
     // we validate the model to provide explicit details about where it
     // failed. Its *VERY* expensive to pre-validate the model.
@@ -872,7 +825,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         throw;
     }
 
-    updateIntegrator();
+	setIntegrator(self.simulateOpt.integrator);
 
     reset();
 
@@ -1208,7 +1161,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         self.simulateOpt = *opt;
     }
 
-    updateSimulateOptions();
+    applySimulateOptions();
 
     const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
     const double timeStart = self.simulateOpt.start;
@@ -1217,7 +1170,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     self.model->getStateVectorRate(timeStart, 0, 0);
 
     // Variable Time Step Integration
-    if (self.simulateOpt.integratorFlags & Integrator::VARIABLE_STEP )
+	if (self.integrator->getValue("variable_step_size"))
     {
         Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
@@ -1275,8 +1228,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // Stochastic Fixed Step Integration
     // do fixed time step simulation, these are different for deterministic
     // and stochastic.
-    else if(IntegratorFactory::getIntegratorType(self.simulateOpt.integrator) ==
-            Integrator::STOCHASTIC)
+	else if (self.integrator->getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
     {
         Log(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
@@ -1402,7 +1354,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 {
     check_model();
-    updateSimulateOptions();
+    applySimulateOptions();
 
     try
     {
@@ -1421,7 +1373,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 {
     get_self();
     check_model();
-    updateSimulateOptions();
+    applySimulateOptions();
 
     try
     {
@@ -2928,8 +2880,60 @@ vector<double> RoadRunner::getReactionRates()
 
 Integrator* RoadRunner::getIntegrator()
 {
-    updateSimulateOptions();
+    //applySimulateOptions();
     return impl->integrator;
+}
+
+std::vector<std::string> RoadRunner::getExistingIntegratorNames()
+{
+	std::vector<std::string> result;
+	int i = 0;
+	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+	{
+		result.push_back(impl->integrators.at(i)->getIntegratorName());
+	}
+	return result;
+}
+
+void RoadRunner::setIntegrator(std::string name)
+{
+	// Try to set integrator from an existing reference.
+	if (integratorExists(name))
+	{
+		int i = 0;
+		for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+		{
+			if (impl->integrators.at(i)->getIntegratorName() == name)
+			{
+				impl->integrator = impl->integrators.at(i);
+				impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+				return;
+			}
+		}
+	}
+	// Otherwise, create a new integrator.
+	else
+	{
+		impl->integrator = IntegratorFactory::New(name, impl->model);
+		impl->integrators.push_back(impl->integrator);
+		impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+	}
+
+	return;
+}
+
+
+bool RoadRunner::integratorExists(std::string name)
+{
+	int i = 0;
+	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+	{
+		if (impl->integrators.at(i)->getIntegratorName() == name)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -3615,39 +3619,7 @@ const DoubleMatrix* RoadRunner::getSimulationData() const
     return &impl->simulationResult;
 }
 
-Integrator* RoadRunner::getIntegrator(Integrator::IntegratorId intg)
-{
-    get_self();
-
-    if(self.model)
-    {
-        // check if valid range
-        if (intg >= Integrator::INTEGRATOR_END)
-        {
-            std::stringstream ss;
-            ss << "Invalid integrator of " << self.simulateOpt.integrator
-                    << ", integrator must be >= 0 and < "
-                    << Integrator::INTEGRATOR_END;
-            throw std::invalid_argument(ss.str());
-        }
-
-        if (self.integrators[intg] == 0)
-        {
-            // make a copy and set the integrator
-            SimulateOptions opt = self.simulateOpt;
-            opt.integrator = intg;
-
-            self.integrators[intg]
-                    = IntegratorFactory::New(&opt, self.model);
-        }
-
-        return self.integrators[intg];
-    }
-
-    return 0;
-}
-
-void RoadRunner::updateSimulateOptions()
+void RoadRunner::applySimulateOptions()
 {
     get_self();
 
@@ -3661,13 +3633,17 @@ void RoadRunner::updateSimulateOptions()
     // uses values (potentially) from simulate options.
     createTimeCourseSelectionList();
 
-    // updates the integrator to what was specified by simulateOptions,
-    // no effect if already using this integrator.
-    updateIntegrator();
+    // Updates the integrator based on the integrator name specified in SimulateOptions.
+	// If the integrator has not been changed, nothing happens.
+	if (self.simulateOpt.integrator != self.integrator->getIntegratorName())
+	{
+		RoadRunner::setIntegrator(self.simulateOpt.integrator);
+	}
 
-    if (self.simulateOpt.flags & SimulateOptions::RESET_MODEL)
+    if (self.simulateOpt.reset_model)
     {
         reset(); // reset back to initial conditions
+		self.simulateOpt.reset_model = false;
     }
 }
 

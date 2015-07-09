@@ -51,22 +51,22 @@ using namespace rr;
 DoubleMatrix ensemble(RoadRunner &r, int n, unsigned long seed, double start, double stop, int npts) {
 
     // set the seed value of the integrator
-    Integrator *itg = r.getIntegrator(Integrator::GILLESPIE);
-    itg->setItem("seed", seed);
+	r.getSimulateOptions().integrator = "gillespie";
+    Integrator *itg = r.getIntegrator();
+	itg->setValue("seed", seed);
 
-    // setup the simulation
-    // create a sim opt obj, loads itself with
-    // default values in ctor.
-    SimulateOptions o;
-    o.start = start;
-    o.duration = stop;
-    o.steps = npts;
+	// setup the simulation
+	// create a sim opt obj, loads itself with
+	// default values in ctor.
+	SimulateOptions o;
+	o.start = start;
+	o.duration = stop;
+	o.steps = npts;
 
     // we should reset the model each time we simulate,
     // set the RESET_MODEL bit.
-    o.flags |= SimulateOptions::RESET_MODEL;
-
-    o.integrator = Integrator::GILLESPIE;
+	o.reset_model = true;
+	o.integrator = "gillespie";
 
     // make a result var
     DoubleMatrix result(npts+1, n+1);
@@ -409,22 +409,23 @@ int variant_test(int argc, char* argv[])
 
 int intparam_test(int argc, char* argv[])
 {
-    // get a list of all of the integrator options
-    vector<const Dictionary*> opts =
-            IntegratorFactory::getIntegratorOptions();
+	// Function suppressed by Wilbert Copeland on June 18, 2015.
 
-    // iterate through the integrator options
-    for(int i = 0; i < opts.size(); ++i) {
-        // each dictionary will contain all the keys that
-        // are valid for a particular integrator.
-        const Dictionary &d = *opts[i];
-        vector<string> keys = d.getKeys();
-        for(int j = 0; j < keys.size(); ++j) {
-            string key = keys[j];
-            string item = (string)d.getItem(key);
-            cout << "key: " << key << ", value: " << item << std::endl;
-        }
-    }
+    //// get a list of all of the integrator options
+    //vector<const Dictionary*> opts = IntegratorFactory::getIntegratorOptions();
+
+    //// iterate through the integrator options
+    //for(int i = 0; i < opts.size(); ++i) {
+    //    // each dictionary will contain all the keys that
+    //    // are valid for a particular integrator.
+    //    const Dictionary &d = *opts[i];
+    //    vector<string> keys = d.getKeys();
+    //    for(int j = 0; j < keys.size(); ++j) {
+    //        string key = keys[j];
+    //        string item = (string)d.getItem(key);
+    //        cout << "key: " << key << ", value: " << item << std::endl;
+    //    }
+    //}
 
     return 0;
 }

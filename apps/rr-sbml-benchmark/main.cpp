@@ -113,8 +113,8 @@ int main(int argc, char** argv)
     std::cout << "loading file: " << sbmlFile << std::endl;
     roadRunner.load(sbmlFile, &opt);
 
-    SimulateOptions settings(settingsFile);
-
+	SimulateOptions settings;
+	settings.loadSBMLSettings(settingsFile);
 
     // override steps
     if (argc > 6)
@@ -135,16 +135,16 @@ int main(int argc, char** argv)
 
     for (int i = 0; i < argc; ++i) {
         if (string(argv[i]).find("stiff") != string::npos) {
-            settings.integratorFlags |= Integrator::STIFF;
+			roadRunner.getIntegrator()->setValue("stiff", true);
         }
     }
 
     std::cout << "running for " << settings.steps << ", duration " << settings.duration << std::endl;
 
-    std::cout << "absolute: " << settings.absolute << std::endl;
-    std::cout << "relative: " << settings.relative << std::endl;
+    std::cout << "absolute: " << roadRunner.getIntegrator()->getValue("absolute_tolerance").convert<bool>() << std::endl;
+	std::cout << "relative: " << roadRunner.getIntegrator()->getValue("relative_tolerance").convert<bool>() << std::endl;
 
-    std::cout << "stiff: " << (settings.integratorFlags & Integrator::STIFF ? "True" : "False") << std::endl;
+	std::cout << "stiff: " << (roadRunner.getIntegrator()->getValue("stiff").convert<bool>() ? "True" : "False") << std::endl;
 
     roadRunner.setSimulateOptions(settings);
 

@@ -77,6 +77,7 @@ else() #Unix
 endif()
 
 add_subdirectory(Apps)
+add_subdirectory(ApiTest)
 if(INSTALL_EXAMPLES)
     add_subdirectory(Examples)
 endif()
