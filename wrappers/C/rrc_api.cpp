@@ -1337,7 +1337,6 @@ int rrcCallConv getNumberOfIntegrators(RRHandle handle)
     catch_ptr_macro
 }
 
-
 RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle)
 {
 	start_try
@@ -1351,8 +1350,7 @@ RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle)
     catch_ptr_macro
 }
 
-
-int rrcCallConv selectIntegrator (RRHandle handle, char *nameOfIntegrator)
+int rrcCallConv setIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -1360,7 +1358,6 @@ int rrcCallConv selectIntegrator (RRHandle handle, char *nameOfIntegrator)
 		ss << nameOfIntegrator;
 		rri->setIntegrator(ss.str());
 		return true;
-
 		//RoadRunner* rri = castToRoadRunner(handle);
         //rri->getSimulateOptions().setItem ("integrator", nameOfIntegrator);
         //if (strcmp (topLevelSolver, listOfSteadyStateSolvers) == 0) {
@@ -1371,7 +1368,7 @@ int rrcCallConv selectIntegrator (RRHandle handle, char *nameOfIntegrator)
     catch_ptr_macro
 }
 
-char* rrcCallConv getIntegratorDescription (RRHandle handle, char* nameOfIntegrator)
+char* rrcCallConv getIntegratorDescription (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
@@ -1381,7 +1378,7 @@ char* rrcCallConv getIntegratorDescription (RRHandle handle, char* nameOfIntegra
 }
 
 
-char* rrcCallConv getIntegratorHint (RRHandle handle, char* nameOfIntegrator)
+char* rrcCallConv getIntegratorHint (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
@@ -1400,7 +1397,7 @@ int rrcCallConv getNumberOfIntegratorParameters (RRHandle handle)
     catch_ptr_macro
 }
 
-RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle, char* nameOfIntegrator)
+RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -1420,7 +1417,6 @@ char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *para
     catch_ptr_macro
 }
 
-
 char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char *parameterName)
 {
     start_try
@@ -1431,7 +1427,6 @@ char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char *parameterNa
 		return (rr::createText (str));
     catch_ptr_macro
 }
-
 
 int rrcCallConv getIntegratorParameterType (RRHandle handle, char *parameterName)
 {
@@ -1457,7 +1452,6 @@ int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *parameterName)
     catch_ptr_macro
 }
 
-
 int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName, int value)
 {
     start_try
@@ -1469,7 +1463,6 @@ int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName,
     catch_ptr_macro
 }
 
-
 double rrcCallConv getIntegratorParameterDouble (RRHandle handle, char *parameterName)
 {
 	start_try
@@ -1479,7 +1472,6 @@ double rrcCallConv getIntegratorParameterDouble (RRHandle handle, char *paramete
 		return rri->getIntegrator()->getValueAsDouble(key.str());
 	catch_ptr_macro
 }
-
 
 int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char *parameterName, double value)
 {

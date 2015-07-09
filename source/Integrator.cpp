@@ -153,7 +153,7 @@ namespace rr
 	const std::string& Integrator::getDescription(std::string key) const
 	{
 		DescriptionMap::const_iterator option = Integrator::descriptions.find(key);
-		if (option == hints.end())
+		if (option == descriptions.end())
 		{
 			throw std::invalid_argument("invalid key: " + key);
 		}
