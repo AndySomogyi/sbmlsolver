@@ -634,7 +634,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::simulate;
 
-%rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
 %rename (_load) rr::RoadRunner::load;
 
 
@@ -985,14 +984,14 @@ namespace std { class ostream{}; }
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
         __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
         __swig_getmethods__["model"] = _getModel
-        __swig_getmethods__["integrator"] = _getCurrentIntegrator
+        __swig_getmethods__["integrator"] = getIntegrator
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
             model = property(getModel)
-            integrator = property(_getCurrentIntegrator)
+            integrator = property(getIntegrator)
 
 
         # static list of properties added to the RoadRunner
