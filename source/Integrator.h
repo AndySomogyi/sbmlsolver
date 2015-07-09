@@ -127,8 +127,6 @@ namespace rr
 
 		static Integrator* New(std::string name, ExecutableModel *m);
 
-		static std::vector<std::string> getIntegratorNames();
-
 	};
 
 }
