@@ -20,4 +20,5 @@ if(BUILD_PYTHON)
     COMMAND ${PYTHON_EXECUTABLE} rr_bench_ode.py
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/python-benchmark-bioinf)
   set_tests_properties(PythonBenchmarkODEBioinf2015 PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
+  message(STATUS "CTest: PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
 endif()

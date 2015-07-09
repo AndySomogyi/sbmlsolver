@@ -6,7 +6,7 @@
 # Usage: cd <this_dir> && python bench.py >rr-ode-results.csv
 
 from __future__ import print_function
-from roadrunner import *
+import roadrunner
 import time
 import csv
 from sys import stderr, stdout, exit
@@ -15,8 +15,8 @@ from sys import stderr, stdout, exit
 absolute_tol_default = 1.000000e-007
 rel_tol_default = 0.0001
 
-Config.setValue(Config.SIMULATEOPTIONS_ABSOLUTE, absolute_tol_default)
-Config.setValue(Config.SIMULATEOPTIONS_RELATIVE, rel_tol_default)
+roadrunner.Config.setValue(roadrunner.Config.SIMULATEOPTIONS_ABSOLUTE, absolute_tol_default)
+roadrunner.Config.setValue(roadrunner.Config.SIMULATEOPTIONS_RELATIVE, rel_tol_default)
 
 tests = [ \
   ('jean_marie', "./jean_marie/Jean_Marie_AMPA16_RobHow_v6.xml", 0.234, 0.024),
@@ -52,7 +52,7 @@ def timeit(name, path, loadTimeCap, runTimeCap):
   passFail = 'pass'
 
   # Load the model
-  r=RoadRunner(path)
+  r=roadrunner.RoadRunner(path)
   #if name == '00500':
     #time.sleep(1)
 
