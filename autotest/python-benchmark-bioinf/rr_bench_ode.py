@@ -70,8 +70,8 @@ def timeit(name, path, loadTimeCap, runTimeCap):
   csvwriter.writerow([name, loadTime-startTime, endTime-loadTime, endTime-startTime, passFail])
 
 # First row in output: Version info
-print(getVersionStr(), file=stderr)
-csvwriter.writerow([getVersionStr()])
+print(roadrunner.__version__, file=stderr)
+csvwriter.writerow([roadrunner.__version__])
 
 for n in range(1):
   print('Trial {}'.format(n+1), file=stderr)
