@@ -1354,8 +1354,8 @@ namespace std { class ostream{}; }
             # explicit options of variableStep trumps everything,
             # if not explicit, variableStep is if number of steps was specified,
             # if no steps, varStep = true, false otherwise.
-            if IntegratorFactory.getIntegratorType(o.getIntegratorId()) == \
-                Integrator.STOCHASTIC and not haveVariableStep:
+            if self.getIntegrator().getIntegrationMethod() == \
+                Integrator.Stochastic and not haveVariableStep:
                 o.variableStep = not haveSteps
 
             # the options are set up, now actually run the simuation...
