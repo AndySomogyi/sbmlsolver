@@ -169,7 +169,7 @@
 %typemap(out) ls::DoubleMatrix {
     // %typemap(out) ls::DoubleMatrix
     const ls::DoubleMatrix* mat = &($1);
-    $result = doublematrix_to_py(mat, SimulateOptions::COPY_RESULT);
+    $result = doublematrix_to_py(mat, false, true);
 }
 
 
@@ -180,7 +180,7 @@
 %typemap(out) const ls::DoubleMatrix* {
     // %typemap(out) const ls::DoubleMatrix*
     const ls::DoubleMatrix* mat = ($1);
-    $result = doublematrix_to_py(mat, 0);
+    $result = doublematrix_to_py(mat, false, false);
 }
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
@@ -893,7 +893,7 @@ namespace std { class ostream{}; }
         // its not const correct...
         ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
 
-        return doublematrix_to_py(result, opt->flags);
+        return doublematrix_to_py(result, opt->structured_result, opt->copy_result);
     }
 
     double getValue(const rr::SelectionRecord* pRecord) {

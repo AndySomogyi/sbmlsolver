@@ -299,10 +299,10 @@ PyObject* dictionary_contains(const Dictionary* dict, const char* key)
 
 
 static PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-        const ls::DoubleMatrix* mat, uint32_t flags);
+        const ls::DoubleMatrix* mat);
 
 
-PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
+PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, bool copy_result)
 {
     ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix*>(m);
 
@@ -313,7 +313,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
 
     // are we returning a structured array?
-    if (flags & SimulateOptions::STRUCTURED_RESULT) {
+    if (structured_result) {
 
         // get the column names
         //const std::vector<SelectionRecord>& sel = ($self)->getSelections();
@@ -384,7 +384,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
         int cols = mat->numCols();
         PyObject *pArray = NULL;
 
-        if (flags & SimulateOptions::COPY_RESULT) {
+        if (copy_result) {
 
             Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
@@ -401,7 +401,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
                 pArray = NamedArray_New(nd, dims, NULL,
-                                     0, mat, flags);
+                                     0, mat);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -427,7 +427,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
                 pArray = NamedArray_New(nd, dims, data,
-                        NPY_CARRAY, mat, flags);
+                        NPY_CARRAY, mat);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -738,7 +738,7 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
                                      NPY_CARRAY | NPY_OWNDATA, NULL);
  */
 PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-        const ls::DoubleMatrix* mat, uint32_t flags)
+        const ls::DoubleMatrix* mat)
 {
     bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
 

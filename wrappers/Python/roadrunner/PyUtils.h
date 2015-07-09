@@ -36,7 +36,7 @@ void dictionary_delitem(Dictionary* dict, const char* key);
 
 PyObject *dictionary_contains(const Dictionary* dict, const char* key);
 
-PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, uint32_t flags);
+PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, bool structured_result, bool copy_result);
 
 PyObject *stringvector_to_py(const std::vector<std::string>& vec);
 
