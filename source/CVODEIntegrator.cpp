@@ -301,19 +301,19 @@ namespace rr
 		int strikes = 3;
 
 		// Set itask based on step size settings.
-			int itask = CV_NORMAL;
+		int itask = CV_NORMAL;
 
-			if (getValueAsBool("multiple_steps") || getValueAsBool("variable_step_size"))
-			{
-				itask = CV_ONE_STEP;
-			}
+		if (getValueAsBool("multiple_steps") || getValueAsBool("variable_step_size"))
+		{
+			itask = CV_ONE_STEP;
+		}
 
 
-			// TODO: CONFIRM THIS WITH HERBERT, BUT I THINK THAT THIS WAS SET UP INCORRECTLY.
-			/*
-			const int itask = ((options.integratorFlags & MULTI_STEP)
-			|| (options.integratorFlags & VARIABLE_STEP))
-			? CV_ONE_STEP : CV_NORMAL;*/
+		// TODO: CONFIRM THIS WITH HERBERT, BUT I THINK THAT THIS WAS SET UP INCORRECTLY.
+		/*
+		const int itask = ((options.integratorFlags & MULTI_STEP)
+		|| (options.integratorFlags & VARIABLE_STEP))
+		? CV_ONE_STEP : CV_NORMAL;*/
 
 		// loop until machine epislon
 		while (tout - timeEnd >= epsilon)
