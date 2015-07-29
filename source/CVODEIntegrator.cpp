@@ -344,7 +344,6 @@ namespace rr
         {
             Log(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
 
-            std::cerr << "CVODE options.relative = " << getValueAsDouble("relative_tolerance") << "\n";
             bool tooCloseToStart = fabs(timeEnd - lastEventTime) > getValueAsDouble("relative_tolerance");
 
             if(tooCloseToStart)
