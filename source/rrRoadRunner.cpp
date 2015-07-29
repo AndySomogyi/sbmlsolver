@@ -1170,7 +1170,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     self.model->getStateVectorRate(timeStart, 0, 0);
 
     // Variable Time Step Integration
-	if (self.integrator->getValue("variable_step_size"))
+	if (self.integrator->getValueAsBool("variable_step_size"))
     {
         Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
