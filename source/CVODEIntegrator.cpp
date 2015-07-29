@@ -111,8 +111,8 @@ namespace rr
 		AddSetting("maximum_num_steps", mDefaultMaxNumSteps, "Maximum number of steps hint.", "Maximum number of steps description.");
 		AddSetting("maximum_adams_order", mDefaultMaxAdamsOrder, "Maximum Adams Order hint. (int)", "Maximum Adams Order description.");
 		AddSetting("maximum_bdf_order", mDefaultMaxBDFOrder, "Maximum BDF Order hint. (int)", "Maximum BDF Order description.");
-		AddSetting("relative_tolerance", 1e-6, "Relative tolerance hint.", "Relative tolerance description.");
-		AddSetting("absolute_tolerance", 1e-12, "Absolute tolerance hint.", "Absolute tolerance description.");
+		AddSetting("relative_tolerance", 1e-5, "Relative tolerance hint.", "Relative tolerance description.");
+		AddSetting("absolute_tolerance", 1e-10, "Absolute tolerance hint.", "Absolute tolerance description.");
 		CVODEIntegrator::loadConfigSettings();
 
 		if (aModel)
@@ -284,175 +284,158 @@ namespace rr
 	}
 
 	double CVODEIntegrator::integrate(double timeStart, double hstep)
-	{
-		static const double epsilon = std::numeric_limits<double>::epsilon();
+{
+    static const double epsilon = std::numeric_limits<double>::epsilon();
+    // CVODE root tolerance, used for backing up when an event fires (see CVODE User Doc pp. 13)
+    static const double roottol = 100.*(32.*epsilon) * ( fabs(timeStart) + fabs(hstep) );
 
-		Log(Logger::LOG_DEBUG) << "CVODEIntegrator::integrate(" << timeStart << ", " << hstep << ")";
+    Log(Logger::LOG_DEBUG) << "CVODEIntegrator::integrate("
+            << timeStart <<", " << hstep << ")";
 
-		if (variableStepPendingEvent || variableStepTimeEndEvent)
-		{
-			return applyVariableStepPendingEvents();
-		}
+    if(variableStepPendingEvent || variableStepTimeEndEvent) {
+        return applyVariableStepPendingEvents() + roottol;
+    }
 
-		double timeEnd = 0.0;
-		double tout = timeStart + hstep;
-		int strikes = 3;
+    double timeEnd = 0.0;
+    double tout = timeStart + hstep;
+    int strikes = 3;
 
-		// Set itask based on step size settings.
-		int itask = CV_ONE_STEP;
+    const int itask = CV_NORMAL;
 
-		if (getValueAsBool("multiple_steps"))
-		{
-			itask = CV_NORMAL;
-		}
+    // loop until machine epislon
+    while (tout - timeEnd >= epsilon)
+    {
+        // here we bail in case we have no ODEs set up with CVODE ... though we should
+        // still at least evaluate the model function
+        if (!haveVariables() && mModel->getNumEvents() == 0)
+        {
+            mModel->getStateVectorRate(tout, 0, 0);
+            return tout;
+        }
 
-		if (getValueAsBool("variable_step_size"))
-		{
-			itask = CV_NORMAL;
-		}
+        double nextTargetEndTime = tout;
 
+        if (mModel->getPendingEventSize() > 0 &&
+                mModel->getNextPendingEventTime(false) < nextTargetEndTime)
+        {
+            nextTargetEndTime = mModel->getNextPendingEventTime(true);
+        }
 
-		// TODO: CONFIRM THIS WITH HERBERT, BUT I THINK THAT THIS WAS SET UP INCORRECTLY.
-		/*
-		const int itask = ((options.integratorFlags & MULTI_STEP)
-		|| (options.integratorFlags & VARIABLE_STEP))
-		? CV_ONE_STEP : CV_NORMAL;*/
+        // event status before time step
+        mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.size() == 0 ? NULL : &eventStatus[0]);
 
-		// loop until machine epislon
-		while (tout - timeEnd >= epsilon)
-		{
-			// here we bail in case we have no ODEs set up with CVODE ... though we should
-			// still at least evaluate the model function
-			if (!haveVariables() && mModel->getNumEvents() == 0)
-			{
-				mModel->getStateVectorRate(tout, 0, 0);
-				return tout;
-			}
+        // time step
+        int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, itask);
 
-			double nextTargetEndTime = tout;
+        if (nResult == CV_ROOT_RETURN)
+        {
+            Log(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
 
-			if (mModel->getPendingEventSize() > 0 && mModel->getNextPendingEventTime(false) < nextTargetEndTime)
-			{
-				nextTargetEndTime = mModel->getNextPendingEventTime(true);
-			}
+            std::cerr << "CVODE options.relative = " << 1e-5 << "\n";
+            bool tooCloseToStart = fabs(timeEnd - lastEventTime) > 1e-5;
 
-			// event status before time step
-			mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.size() == 0 ? NULL : &eventStatus[0]);
+            if(tooCloseToStart)
+            {
+                strikes =  3;
+            }
+            else
+            {
+                strikes--;
+            }
 
-			// time step
-			int nResult = CVode(mCVODE_Memory, nextTargetEndTime, mStateVector, &timeEnd, itask);
+            // the condition that we are to evaluate and apply events
+            if (tooCloseToStart || strikes > 0)
+            {
+                lastEventTime = timeEnd;
 
-			if (nResult == CV_ROOT_RETURN)
-			{
-				Log(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
+                if((false)                                  // var step
+                        && (timeEnd - timeStart > 2. * epsilon)) {
+                    variableStepPendingEvent = true;
+                    assignResultsToModel();
+                    mModel->setTime(timeEnd - epsilon);
+                    if (listener) {
+                        listener->onTimeStep(this, mModel, timeEnd);
+                    }
+                    return timeEnd - roottol;
+                }
 
-				bool tooCloseToStart = fabs(timeEnd - lastEventTime) > getValueAsBool("relative_tolerance");
+                // apply events, copy post event status into integrator state vector.
+                applyEvents(timeEnd, eventStatus);
 
-				if (tooCloseToStart)
-				{
-					strikes = 3;
-				}
-				else
-				{
-					strikes--;
-				}
-
-				// the condition that we are to evaluate and apply events
-				if (tooCloseToStart || strikes > 0)
-				{
-					lastEventTime = timeEnd;
-
-					if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
-					{
-						variableStepPendingEvent = true;
-						assignResultsToModel();
-						mModel->setTime(timeEnd - epsilon);
-						if (listener)
-						{
-							listener->onTimeStep(this, mModel, timeEnd);
-						}
-						return timeEnd - epsilon;
-					}
-
-					// apply events, copy post event status into integrator state vector.
-					applyEvents(timeEnd, eventStatus);
-
-					if (listener)
-					{
-						listener->onEvent(this, mModel, timeEnd);
-					}
-				}
-			}
-			else if (nResult == CV_SUCCESS)
-			{
-				// copy integrator state vector into model
-				assignResultsToModel();
+                if (listener)
+                {
+                    listener->onEvent(this, mModel, timeEnd);
+                }
+            }
+        }
+        else if (nResult == CV_SUCCESS)
+        {
+            // copy integrator state vector into model
+            assignResultsToModel();
 
 
-				// need to check if an event occured at the exact time step,
-				// if so, add an extra point if we're doing variable step
-				if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
-				{
-					// event status before time step
-					mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
-					// apply events and write state to variableStepPostEventState
-					// model state is updated by events.
-					int handled = mModel->applyEvents(timeEnd, &eventStatus[0],
-						NULL, variableStepPostEventState);
-					if (handled > 0) {
-						// write original state back to model
-						mModel->setTime(timeEnd - epsilon);
-						assignResultsToModel();
-						variableStepTimeEndEvent = true;
-						lastEventTime = timeEnd;
-						return timeEnd - epsilon;
-					}
-				}
-				else {
+            // need to check if an event occured at the exact time step,
+            // if so, add an extra point if we're doing variable step
+            if((false)                                  // var step
+                    && (timeEnd - timeStart > 2. * epsilon)) {
+                // event status before time step
+                mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
+                // apply events and write state to variableStepPostEventState
+                // model state is updated by events.
+                int handled = mModel->applyEvents(timeEnd, &eventStatus[0],
+                        NULL, variableStepPostEventState);
+                if(handled > 0) {
+                    // write original state back to model
+                    mModel->setTime(timeEnd - epsilon);
+                    assignResultsToModel();
+                    variableStepTimeEndEvent = true;
+                    lastEventTime = timeEnd;
+                    return timeEnd - epsilon;
+                }
+            } else {
 
 
-					mModel->setTime(timeEnd);
+            mModel->setTime(timeEnd);
 
-					// only needs to be called after a reg time step completes, the applyEvents
-					// called when a event root is found clears out all pending events and applies
-					// them.
-					applyPendingEvents(timeEnd);
-				}
+            // only needs to be called after a reg time step completes, the applyEvents
+            // called when a event root is found clears out all pending events and applies
+            // them.
+            applyPendingEvents(timeEnd);
+            }
 
-				if (listener)
-				{
-					listener->onTimeStep(this, mModel, timeEnd);
-				}
-			}
-			else
-			{
-				handleCVODEError(nResult);
-			}
+            if (listener)
+            {
+                listener->onTimeStep(this, mModel, timeEnd);
+            }
+        }
+        else
+        {
+            handleCVODEError(nResult);
+        }
 
-			try
-			{
-				mModel->testConstraints();
-			}
-			catch (const std::exception& e)
-			{
-				Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
-			}
+        try
+        {
+            mModel->testConstraints();
+        }
+        catch (const std::exception& e)
+        {
+            Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
+        }
+
+        if (false && (timeEnd - timeStart > 2. * epsilon))  // var step
+        {
+            return timeEnd;
+        }
 
 
-			if (tout - timeEnd > epsilon)
-			{
-				timeStart = timeEnd;
-			}
-			Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
-
-			//if (options.integratorFlags & VARIABLE_STEP)
-			if ((bool)getValue("variable_step_size"))
-			{
-				return timeEnd;
-			}
-		}
-		return timeEnd;
-	}
+        if (tout - timeEnd > epsilon)
+        {
+            timeStart = timeEnd;
+        }
+        Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
+    }
+    return timeEnd;
+}
 
 	void CVODEIntegrator::tweakTolerances()
 	{
