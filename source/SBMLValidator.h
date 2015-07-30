@@ -59,6 +59,23 @@ enum ValidateSBML
 std::string validateSBML(const std::string src, unsigned opt
         = VALIDATE_IDENTIFIER | VALIDATE_GENERAL | VALIDATE_MATHML);
 
+/**
+* @author JKM
+* @brief Returns true if stoichiometry is defined for every species
+* in every reaction.
+* @details Missing stoichiometry is not handled by the integrator.
+* Must bail or results are undefined.
+*/
+bool isStoichDefined(const std::string sbml);
+
+/**
+* @author JKM
+* @brief Adds missing stoichiometry information.
+* Assumes unit stoichiometry where not specified
+* @return SBML string with stoich fixed
+*/
+std::string fixMissingStoich(const std::string sbml);
+
 } /* namespace rr */
 
 #endif /* SBMLVALIDATOR_H_ */

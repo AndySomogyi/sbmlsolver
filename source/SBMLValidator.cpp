@@ -65,4 +65,93 @@ std::string validateSBML(const std::string src, unsigned opt)
     return errors.str();
 }
 
+// Return true if stoichiometry is defined for this species reference
+static bool isStoichDefined(const SpeciesReference* s) {
+    if (!s)
+        return false;
+    return s->isSetStoichiometry();
+}
+
+// Return true if stoichiometry is defined for every reaction in the model
+bool isStoichDefined(const std::string sbml) {
+    SBMLDocument *doc = NULL;
+
+    try {
+        doc =  readSBMLFromString (sbml.c_str());
+
+        const Model *m = doc->getModel();
+
+        for (int j = 0; j<m->getNumReactions(); ++j) {
+            const Reaction* r = m->getReaction(j);
+            if (!r)
+                throw std::runtime_error("No reaction");
+
+            // check stoich defined on reactants / products
+            for (int k = 0; k<r->getNumReactants(); ++k) {
+                if (!isStoichDefined(r->getReactant(k)))
+                    return false;
+            }
+
+            for (int k = 0; k<r->getNumProducts(); ++k) {
+                if (!isStoichDefined(r->getProduct(k)))
+                    return false;
+            }
+
+            // modifiers have no stoichiometry
+        }
+
+    } catch(...) {
+        delete doc;
+        throw;
+    }
+
+    delete doc;
+    return true;
+}
+
+std::string fixMissingStoich(const std::string sbml) {
+    SBMLDocument *doc = NULL;
+
+    try {
+        doc =  readSBMLFromString (sbml.c_str());
+
+        Model *m = doc->getModel();
+
+        for (int j = 0; j<m->getNumReactions(); ++j) {
+            Reaction* r = m->getReaction(j);
+            if (!r)
+                throw std::runtime_error("No reaction");
+
+            // check stoich defined on reactants / products
+            for (int k = 0; k<r->getNumReactants(); ++k) {
+                SpeciesReference* s = r->getReactant(k);
+                if (!isStoichDefined(s))
+                    if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS)
+                        throw std::runtime_error("Unable to set stoichiometry");
+            }
+
+            for (int k = 0; k<r->getNumProducts(); ++k) {
+                SpeciesReference* s = r->getProduct(k);
+                if (!isStoichDefined(s))
+                    if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS)
+                        throw std::runtime_error("Unable to set stoichiometry");
+            }
+
+            // modifiers have no stoichiometry
+        }
+
+    } catch(...) {
+        delete doc;
+        throw;
+    }
+
+    SBMLWriter writer;
+
+    char* sbml_cstr = writer.writeSBMLToString(doc);
+    delete doc;
+    std::string result(sbml_cstr);
+    free(sbml_cstr);
+    return result;
+}
+
 } /* namespace rr */
