@@ -360,7 +360,7 @@ namespace rr
 				{
 					lastEventTime = timeEnd;
 
-					if((false)                                  // var step
+					if(getValueAsBool("variable_step_size")
 							&& (timeEnd - timeStart > 2. * epsilon)) {
 						variableStepPendingEvent = true;
 						assignResultsToModel();
@@ -388,7 +388,7 @@ namespace rr
 
 				// need to check if an event occured at the exact time step,
 				// if so, add an extra point if we're doing variable step
-				if((false)                                  // var step
+				if(getValueAsBool("variable_step_size")
 						&& (timeEnd - timeStart > 2. * epsilon)) {
 					// event status before time step
 					mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
@@ -434,7 +434,7 @@ namespace rr
 				Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
 			}
 
-			if (false && (timeEnd - timeStart > 2. * epsilon))  // var step
+			if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
 			{
 				return timeEnd;
 			}
