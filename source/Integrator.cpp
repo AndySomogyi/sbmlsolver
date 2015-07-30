@@ -137,7 +137,7 @@ namespace rr
 
 	void Integrator::setValue(std::string key, const Variant& value)
 	{
-		settings.insert({ key, value });
+		settings[key] = value;
 	}
 
 	const std::string& Integrator::getHint(std::string key) const

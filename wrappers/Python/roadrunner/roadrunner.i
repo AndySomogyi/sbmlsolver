@@ -665,8 +665,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 // ignore SimulateOptions key access methods,
 // these are replaced by python dictionary protocol.
-%ignore rr::Integrator::setValue;
-%ignore rr::Integrator::getValue;
+//%ignore rr::Integrator::setValue;
+//%ignore rr::Integrator::getValue;
 %ignore rr::Integrator::hasKey;
 %ignore rr::Integrator::deleteValue;
 %ignore rr::Integrator::getKeys;
@@ -1331,7 +1331,7 @@ namespace std { class ostream{}; }
                 # positional arg
                 if k == "variableStep":
                     haveVariableStep = True
-                    o.variableStep = v
+                    self.getIntegrator().setValue('variable_step_size', v)
                     continue
 
                 if k == "plot":

@@ -111,8 +111,8 @@ namespace rr
 		AddSetting("maximum_num_steps", mDefaultMaxNumSteps, "Maximum number of steps hint.", "Maximum number of steps description.");
 		AddSetting("maximum_adams_order", mDefaultMaxAdamsOrder, "Maximum Adams Order hint. (int)", "Maximum Adams Order description.");
 		AddSetting("maximum_bdf_order", mDefaultMaxBDFOrder, "Maximum BDF Order hint. (int)", "Maximum BDF Order description.");
-		AddSetting("relative_tolerance", 1e-6, "Relative tolerance hint.", "Relative tolerance description.");
-		AddSetting("absolute_tolerance", 1e-12, "Absolute tolerance hint.", "Absolute tolerance description.");
+		AddSetting("relative_tolerance", 1e-5, "Relative tolerance hint.", "Relative tolerance description.");
+		AddSetting("absolute_tolerance", 1e-10, "Absolute tolerance hint.", "Absolute tolerance description.");
 		CVODEIntegrator::loadConfigSettings();
 
 		if (aModel)
@@ -286,12 +286,14 @@ namespace rr
 	double CVODEIntegrator::integrate(double timeStart, double hstep)
 	{
 		static const double epsilon = std::numeric_limits<double>::epsilon();
+		// CVODE root tolerance, used for backing up when an event fires (see CVODE User Doc pp. 13)
+		static const double roottol = 100.*(32.*epsilon) * ( fabs(timeStart) + fabs(hstep) );
 
-		Log(Logger::LOG_DEBUG) << "CVODEIntegrator::integrate(" << timeStart << ", " << hstep << ")";
+		Log(Logger::LOG_DEBUG) << "CVODEIntegrator::integrate("
+				<< timeStart <<", " << hstep << ")";
 
-		if (variableStepPendingEvent || variableStepTimeEndEvent)
-		{
-			return applyVariableStepPendingEvents();
+		if(variableStepPendingEvent || variableStepTimeEndEvent) {
+			return applyVariableStepPendingEvents() + roottol;
 		}
 
 		double timeEnd = 0.0;
@@ -299,16 +301,11 @@ namespace rr
 		int strikes = 3;
 
 		// Set itask based on step size settings.
-		int itask = CV_ONE_STEP;
+		int itask = CV_NORMAL;
 
-		if (getValueAsBool("multiple_steps"))
+		if (getValueAsBool("multiple_steps") || getValueAsBool("variable_step_size"))
 		{
-			itask = CV_NORMAL;
-		}
-
-		if (getValueAsBool("variable_step_size"))
-		{
-			itask = CV_NORMAL;
+			itask = CV_ONE_STEP;
 		}
 
 
@@ -331,7 +328,8 @@ namespace rr
 
 			double nextTargetEndTime = tout;
 
-			if (mModel->getPendingEventSize() > 0 && mModel->getNextPendingEventTime(false) < nextTargetEndTime)
+			if (mModel->getPendingEventSize() > 0 &&
+					mModel->getNextPendingEventTime(false) < nextTargetEndTime)
 			{
 				nextTargetEndTime = mModel->getNextPendingEventTime(true);
 			}
@@ -340,17 +338,17 @@ namespace rr
 			mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.size() == 0 ? NULL : &eventStatus[0]);
 
 			// time step
-			int nResult = CVode(mCVODE_Memory, nextTargetEndTime, mStateVector, &timeEnd, itask);
+			int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, itask);
 
 			if (nResult == CV_ROOT_RETURN)
 			{
 				Log(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
 
-				bool tooCloseToStart = fabs(timeEnd - lastEventTime) > getValueAsBool("relative_tolerance");
+				bool tooCloseToStart = fabs(timeEnd - lastEventTime) > getValueAsDouble("relative_tolerance");
 
-				if (tooCloseToStart)
+				if(tooCloseToStart)
 				{
-					strikes = 3;
+					strikes =  3;
 				}
 				else
 				{
@@ -362,16 +360,15 @@ namespace rr
 				{
 					lastEventTime = timeEnd;
 
-					if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
-					{
+					if(getValueAsBool("variable_step_size")
+							&& (timeEnd - timeStart > 2. * epsilon)) {
 						variableStepPendingEvent = true;
 						assignResultsToModel();
 						mModel->setTime(timeEnd - epsilon);
-						if (listener)
-						{
+						if (listener) {
 							listener->onTimeStep(this, mModel, timeEnd);
 						}
-						return timeEnd - epsilon;
+						return timeEnd - roottol;
 					}
 
 					// apply events, copy post event status into integrator state vector.
@@ -391,15 +388,15 @@ namespace rr
 
 				// need to check if an event occured at the exact time step,
 				// if so, add an extra point if we're doing variable step
-				if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
-				{
+				if(getValueAsBool("variable_step_size")
+						&& (timeEnd - timeStart > 2. * epsilon)) {
 					// event status before time step
 					mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
 					// apply events and write state to variableStepPostEventState
 					// model state is updated by events.
 					int handled = mModel->applyEvents(timeEnd, &eventStatus[0],
-						NULL, variableStepPostEventState);
-					if (handled > 0) {
+							NULL, variableStepPostEventState);
+					if(handled > 0) {
 						// write original state back to model
 						mModel->setTime(timeEnd - epsilon);
 						assignResultsToModel();
@@ -407,16 +404,15 @@ namespace rr
 						lastEventTime = timeEnd;
 						return timeEnd - epsilon;
 					}
-				}
-				else {
+				} else {
 
 
-					mModel->setTime(timeEnd);
+				mModel->setTime(timeEnd);
 
-					// only needs to be called after a reg time step completes, the applyEvents
-					// called when a event root is found clears out all pending events and applies
-					// them.
-					applyPendingEvents(timeEnd);
+				// only needs to be called after a reg time step completes, the applyEvents
+				// called when a event root is found clears out all pending events and applies
+				// them.
+				applyPendingEvents(timeEnd);
 				}
 
 				if (listener)
@@ -438,18 +434,17 @@ namespace rr
 				Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
 			}
 
+			if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
+			{
+				return timeEnd;
+			}
+
 
 			if (tout - timeEnd > epsilon)
 			{
 				timeStart = timeEnd;
 			}
 			Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
-
-			//if (options.integratorFlags & VARIABLE_STEP)
-			if ((bool)getValue("variable_step_size"))
-			{
-				return timeEnd;
-			}
 		}
 		return timeEnd;
 	}
