@@ -172,7 +172,7 @@ static bool is_amount_rate(const std::string& str, std::string& p1)
     }
 }
 
-static const Poco::RegularExpression is_eigen_re("^\\s*(eigen|eigenr|eigenc)\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
+static const Poco::RegularExpression is_eigen_re("^\\s*(eigenReal|eigenImag)\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_eigen(const std::string& str, std::string& p1, bool& complex)
 {
     std::vector<std::string> matches;
@@ -183,7 +183,7 @@ static bool is_eigen(const std::string& str, std::string& p1, bool& complex)
     {
         p1 = matches[2];
 
-        if (matches[1] == "eigenc")
+        if (matches[1] == "eigenImag")
         {
             complex = true;
         }
@@ -397,10 +397,10 @@ std::string rr::SelectionRecord::to_string() const
         result = "ucc(" + p1 + ", " + p2 + ")";
         break;
     case EIGENVALUE:
-        result = "eigen(" + p1 + ")";
+        result = "eigenReal(" + p1 + ")";
         break;
     case EIGENVALUE_COMPLEX:
-        result = "eigenc(" + p1 + ")";
+        result = "eigenImag(" + p1 + ")";
         break;
     case INITIAL_AMOUNT:
         result = "init(" + p1 + ")";
