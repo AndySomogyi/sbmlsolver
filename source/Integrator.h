@@ -127,39 +127,28 @@ namespace rr
 			}
 	};
 
+    /**
+     * @author JKM, WBC
+     * @brief Handles constructing an integrator and contains meta
+     * information about it
+     */
     class RR_DECLSPEC IntegratorRegistrar
     {
     protected:
         typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
     public:
-        IntegratorRegistrar(std::string name, std::string description, std::string hint, IntegratorCtor ctor)
-            : mName(name), mDescription(description), mHint(hint), mCtor(ctor) {}
 
-        std::string getName() const
-        {
-            return mName;
-        }
+        virtual std::string getName() const = 0;
 
-        std::string getDescription() const
-        {
-            return mDescription;
-        }
+        virtual std::string getDescription() const = 0;
 
-        std::string getHint() const
-        {
-            return mHint;
-        }
+        virtual std::string getHint() const = 0;
 
-        Integrator *construct(ExecutableModel *model)
-        {
-            return mCtor(model);
-        }
-
-    private:
-        std::string mName;
-        std::string mDescription;
-        std::string mHint;
-        IntegratorCtor mCtor;
+        /**
+         * @author JKM, WBC
+         * @brief Constructs a new integrator of a given type
+         */
+        virtual Integrator *construct(ExecutableModel *model) const = 0;
     };
 
     /**
@@ -177,7 +166,7 @@ namespace rr
          * @brief Constructs a new integrator given the name
          * (e.g. cvode, gillespie)
          */
-        Integrator* New(std::string name, ExecutableModel *m);
+        Integrator* New(std::string name, ExecutableModel *m) const;
 
         /**
          * @author JKM, WBC
@@ -203,8 +192,13 @@ namespace rr
         }
 
     private:
+        /**
+         * @author JKM, WBC
+         * @brief Prevents external instantiation
+         */
         IntegratorFactory() {}
-        std::vector<IntegratorRegistrar> mRegisteredIntegrators;
+        typedef std::vector<IntegratorRegistrar> IntegratorRegistrars;
+        IntegratorRegistrars mRegisteredIntegrators;
     };
 
 }

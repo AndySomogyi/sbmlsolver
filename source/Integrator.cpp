@@ -174,28 +174,17 @@ namespace rr
 		return ss.str();
 	}
 
-	/********************************************************************************************
-	*	INTEGRATOR FACTORY
-	********************************************************************************************/
+    /********************************************************************************************
+    * INTEGRATOR FACTORY
+    ********************************************************************************************/
 
-	Integrator* IntegratorFactory::New(std::string name, ExecutableModel* m)
-	{
-		Integrator *result = 0;
-
-		if (name == "cvode")
-		{
-			result = new CVODEIntegrator(m);
-		}
-		else if (name == "gillespie")
-		{
-			result = new GillespieIntegrator(m);
-		}
-		else
-		{
-			throw std::invalid_argument("invalid integrator name was requested: " + name);
-		}
-
-		return result;
-	}
+    Integrator* IntegratorFactory::New(std::string name, ExecutableModel* m) const {
+        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
+            if (it->getName() == name) {
+                return it->construct(m);
+            }
+        }
+        throw InvalidKeyException("No such integrator: " + name);
+    }
 
 }

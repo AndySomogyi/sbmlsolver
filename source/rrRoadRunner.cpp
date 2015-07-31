@@ -2938,7 +2938,7 @@ void RoadRunner::setIntegrator(std::string name)
 	// Otherwise, create a new integrator.
 	else
 	{
-		impl->integrator = IntegratorFactory::New(name, impl->model);
+		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
 		impl->integrators.push_back(impl->integrator);
 		impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
 	}

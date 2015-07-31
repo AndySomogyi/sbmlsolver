@@ -64,4 +64,9 @@ NotImplementedException::NotImplementedException(const string& msg)
 Exception(msg)
 {}
 
+InvalidKeyException::InvalidKeyException(const string& msg)
+:
+Exception(msg)
+{}
+
 }

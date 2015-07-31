@@ -60,5 +60,11 @@ class RR_DECLSPEC NotImplementedException : public Exception
     public:
         NotImplementedException(const string& msg);
 };
+
+class RR_DECLSPEC InvalidKeyException : public Exception
+{
+    public:
+        InvalidKeyException(const string& msg);
+};
 }//namepsace rr
 #endif
