@@ -21,6 +21,7 @@
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 #include "Integrator.h"
+#include "IntegratorRegistration.h"
 #include "rrSteadyStateSolver.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
@@ -381,6 +382,9 @@ int RoadRunner::getInstanceID()
 
 RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 {
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
@@ -390,6 +394,9 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
         const Dictionary* options) :
             impl(new RoadRunnerImpl(uriOrSBML, options))
 {
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+
     load(uriOrSBML, options);
 
     //Increase instance count..
@@ -402,6 +409,9 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& supportCodeDir) :
         impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir))
 {
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+
     string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
     setTempDir(tempDir);
