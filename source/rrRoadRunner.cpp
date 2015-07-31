@@ -814,6 +814,8 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
     delete impl->model;
     impl->model = 0;
 
+    impl->deleteIntegrators();
+
 	delete impl->mLS;
 	impl->mLS = NULL;
 
