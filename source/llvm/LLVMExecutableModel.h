@@ -44,6 +44,16 @@ class RR_DECLSPEC LLVMExecutableModel: public rr::ExecutableModel
 public:
 
     /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Returns a human-readable description of the code generation backend,
+     * e.g. LLVM, legacy C, etc.
+     */
+    virtual std::string getExecutableModelDesc() const {
+        return "LLVM Executable Model";
+    }
+
+    /**
      * the default ctor just zeros out all our private bits, then
      * the main construction is handled by the model generator.
      */
@@ -126,6 +136,14 @@ public:
             double *values);
 
     virtual int getNumRateRules();
+
+    /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Gets the symbols defined by rate rules, i.e.
+     * returns all x such that x' = f(x) is a rule which defines parameter x.
+     */
+    virtual std::vector<std::string> getRateRuleSymbols() const;
 
     /**
      * copy (but do not evaluate) existing rate rules values into

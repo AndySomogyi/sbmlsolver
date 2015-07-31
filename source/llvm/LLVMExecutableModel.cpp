@@ -1431,6 +1431,15 @@ int LLVMExecutableModel::getNumRateRules()
     return modelData->numRateRules;
 }
 
+std::vector<std::string> LLVMExecutableModel::getRateRuleSymbols() const {
+    std::vector<std::string> result;
+
+    for (uint k = 0; k < symbols->getRateRuleSize(); ++k)
+        result.push_back(symbols->getRateRuleId(k));
+
+    return result;
+}
+
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
         double* values)
 {

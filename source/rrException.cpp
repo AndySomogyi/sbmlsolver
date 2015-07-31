@@ -59,4 +59,9 @@ CVODEException::CVODEException(const string& msg)
 Exception(msg)
 {}
 
+NotImplementedException::NotImplementedException(const string& msg)
+:
+Exception(msg)
+{}
+
 }

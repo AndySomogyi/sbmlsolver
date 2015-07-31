@@ -23,6 +23,17 @@ public:
 
 
 public:
+
+    /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Returns a human-readable description of the code generation backend,
+     * e.g. LLVM, legacy C, etc.
+     */
+    virtual std::string getExecutableModelDesc() const {
+        return "Enzyme Executable Model";
+    }
+
     /**
      * get the name of the model
      */

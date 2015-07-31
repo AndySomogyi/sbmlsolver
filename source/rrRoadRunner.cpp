@@ -548,26 +548,40 @@ string RoadRunner::getTempDir()
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
 {
-	vector<string> theList;
-	vector<string> oFloating  = getFloatingSpeciesIds();
-	int numFloatingSpecies = oFloating.size();
-	//int numIndSpecies = getNumberOfIndependentSpecies();
+    vector<string> theList;
+    vector<string> oFloating  = getFloatingSpeciesIds();
+    int numFloatingSpecies = oFloating.size();
+    //int numIndSpecies = getNumberOfIndependentSpecies();
 
-	theList.push_back("time");
-	//for(int i = 0; i < numIndSpecies; i++)
-	for (int i = 0; i < numFloatingSpecies; i++)
-	{
-		theList.push_back("[" + oFloating[i] + "]");
-	}
+    // add floating species to the default selection
 
-	setSelections(theList);
+    theList.push_back("time");
+    //for(int i = 0; i < numIndSpecies; i++)
+    for (int i = 0; i < numFloatingSpecies; i++)
+    {
+        theList.push_back("[" + oFloating[i] + "]");
+    }
 
-	Log(lDebug)<<"The following is selected:";
-	for(int i = 0; i < impl->mSelectionList.size(); i++)
-	{
-		Log(lDebug)<<impl->mSelectionList[i];
-	}
-	return impl->mSelectionList.size();
+    // add parameters defined by rate rules to the default selection
+
+    try {
+        vector<string> raterule_symbols = impl->model->getRateRuleSymbols();
+        for (vector<string>::iterator i = raterule_symbols.begin(); i != raterule_symbols.end(); ++i)
+            theList.push_back(*i);
+    } catch (NotImplementedException) {
+        Log(Logger::LOG_WARNING) << "Querying rate rule symbols not supported with this executable model";
+    }
+
+    // apply selection
+
+    setSelections(theList);
+
+    Log(lDebug)<<"The following is selected:";
+    for(int i = 0; i < impl->mSelectionList.size(); i++)
+    {
+        Log(lDebug)<<impl->mSelectionList[i];
+    }
+    return impl->mSelectionList.size();
 }
 
 int RoadRunner::createTimeCourseSelectionList()

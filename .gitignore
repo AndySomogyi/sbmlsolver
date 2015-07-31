@@ -6,6 +6,8 @@
 *.orig
 *.kate-swp
 
+**/.swp
+
 # Merge backups (kdiff3?)
 *.BACKUP*
 *.BASE*
