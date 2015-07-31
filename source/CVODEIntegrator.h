@@ -43,6 +43,8 @@ namespace rr
          */
         virtual ~CVODEIntegrator();
 
+        // ** Loading Settings *************************************************
+
         void loadConfigSettings();
 
         /**
@@ -51,6 +53,8 @@ namespace rr
          * @note Can assign relative and absolute tolerances
          */
         void loadSBMLSettings(const std::string& filename);
+
+        // ** Meta Info ********************************************************
 
         /**
          * @author WBC
@@ -70,6 +74,8 @@ namespace rr
          */
         std::string getIntegratorHint() const;
 
+        // ** Getters / Setters ************************************************
+
         /**
          * @author WBC, ETS, MTK
          * @brief Always deterministic for CVODE
@@ -81,6 +87,17 @@ namespace rr
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
         void setValue(std::string setting, const Variant& value);
+
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Sets tolerances based on config values
+         * @details Sets absolute and relative tolerances to the minimum
+         * of Config::CVODE_MIN_ABSOLUTE, Config::CVODE_MIN_RELATIVE and
+         * their respective current values
+         */
+        void tweakTolerances();
+
+        // ** Integration Routines *********************************************
 
         /**
          * @author WBC, ETS, MTK
@@ -96,24 +113,16 @@ namespace rr
          */
         void restart(double timeStart);
 
-        /**
-         * @author WBC, ETS, MTK
-         * @brief Sets tolerances based on config values
-         * @details Sets absolute and relative tolerances to the minimum
-         * of Config::CVODE_MIN_ABSOLUTE, Config::CVODE_MIN_RELATIVE and
-         * their respective current values
-         */
-        void tweakTolerances();
-
+        // ** Listeners ********************************************************
 
         /**
-         * @author WBC
+         * @author WBC, ETS
          * @brief Gets the integrator listener
          */
         IntegratorListenerPtr getListener();
 
         /**
-         * @author WBC
+         * @author WBC, ETS
          * @brief Sets the integrator listener
          */
         void setListener(IntegratorListenerPtr);
