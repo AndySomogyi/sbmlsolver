@@ -31,7 +31,16 @@ namespace rr
     {
 
     public:
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Constructor: takes an executable model, does not own
+         */
         CVODEIntegrator(ExecutableModel* oModel);
+
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Destructor
+         */
         virtual ~CVODEIntegrator();
 
         void loadConfigSettings();
@@ -39,7 +48,7 @@ namespace rr
         /**
          * @author WBC
          * @brief Load an SBML settings file and apply the configuration options
-         * @details
+         * @note Can assign relative and absolute tolerances
          */
         void loadSBMLSettings(const std::string& filename);
 
