@@ -11,8 +11,10 @@
 * @brief Contains the base class for RoadRunner integrators
 **/
 
-#ifndef INTEGRATOR_H_
-#define INTEGRATOR_H_
+#ifndef RR_INTEGRATOR_H_
+#define RR_INTEGRATOR_H_
+
+// == INCLUDES ================================================
 
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
@@ -139,10 +141,22 @@ namespace rr
     public:
         virtual ~IntegratorRegistrar();
 
+        /**
+         * @author JKM, WBC
+         * @brief Gets the name associated with this integrator type
+         */
         virtual std::string getName() const = 0;
 
+        /**
+         * @author JKM, WBC
+         * @brief Gets the description associated with this integrator type
+         */
         virtual std::string getDescription() const = 0;
 
+        /**
+         * @author JKM, WBC
+         * @brief Gets the hint associated with this integrator type
+         */
         virtual std::string getHint() const = 0;
 
         /**
@@ -176,11 +190,8 @@ namespace rr
          * @brief Registers a new integrator with the factory
          * so that it can be constructed
          * @details Should be called at startup for new integrators.
-         * The result can be stored in a static int at global scope
-         * to ensure that the integrator is registered before the
-         * user has a chance to interact with the library
          */
-        int registerIntegrator(IntegratorRegistrar* i);
+        void registerIntegrator(IntegratorRegistrar* i);
 
         /**
          * @author JKM, WBC
@@ -200,4 +211,4 @@ namespace rr
 
 }
 
-#endif /* INTEGRATOR_H_ */
+#endif /* RR_INTEGRATOR_H_ */

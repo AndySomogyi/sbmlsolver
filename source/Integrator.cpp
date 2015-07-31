@@ -1,19 +1,29 @@
-/*
-* Integrator.cpp
-*
-*  Created on: Apr 25, 2014
-*      Author: andy
-*/
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file Integrator.cpp
+* @author ETS, WBC, JKM
+* @date Apr 25, 2014
+* @copyright Apache License, Version 2.0
+* @brief Contains the base class for RoadRunner integrators
+**/
+
+// == INCLUDES ================================================
 
 #include "Integrator.h"
-#include "CVODEIntegrator.h"
-#include "GillespieIntegrator.h"
-#include "RK4Integrator.h"
-#include "EulerIntegrator.h"
+// #include "CVODEIntegrator.h"
+// #include "GillespieIntegrator.h"
+// #include "RK4Integrator.h"
+// #include "EulerIntegrator.h"
 #include "rrStringUtils.h"
 #include "rrConfig.h"
 #include "rrUtils.h"
 #include <typeinfo>
+
+// == CODE ====================================================
 
 using namespace std;
 namespace rr
@@ -170,10 +180,10 @@ namespace rr
 	std::string Integrator::toString() const
 	{
 		std::stringstream ss;
-		ss << "< roadrunner.CVODEIntegrator() >" << endl;
+		ss << "< roadrunner.Integrator() >" << endl;
 		return ss.str();
-	}
 
+	}
 	IntegratorRegistrar::~IntegratorRegistrar() {}
 
     /********************************************************************************************
@@ -195,11 +205,10 @@ namespace rr
         throw InvalidKeyException("No such integrator: " + name);
     }
 
-    int IntegratorFactory::registerIntegrator(IntegratorRegistrar* i) {
+    void IntegratorFactory::registerIntegrator(IntegratorRegistrar* i) {
         if (!i)
             throw CoreException("Registrar is null");
         mRegisteredIntegrators.push_back(i);
-        return 0;
     }
 
     IntegratorFactory& IntegratorFactory::getInstance() {
