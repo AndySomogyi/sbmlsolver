@@ -189,19 +189,28 @@ namespace rr
 		}
 	}
 
-	std::string CVODEIntegrator::getIntegratorName() const
-	{
-		return "cvode";
+	std::string CVODEIntegrator::getIntegratorName() const {
+        return CVODEIntegrator::getName();
 	}
 
-	std::string CVODEIntegrator::getIntegratorDescription() const
-	{
-		return "CVODE description.";
+	std::string CVODEIntegrator::getName() {
+        return "cvode";
 	}
 
-	std::string CVODEIntegrator::getIntegratorHint() const
-	{
-		return "CVODE hint.";
+	std::string CVODEIntegrator::getIntegratorDescription() const {
+        return CVODEIntegrator::getDescription();
+	}
+
+	std::string CVODEIntegrator::getDescription() {
+        return "CVODE description.";
+	}
+
+	std::string CVODEIntegrator::getIntegratorHint() const {
+        return CVODEIntegrator::getHint();
+	}
+
+	std::string CVODEIntegrator::getHint() {
+        return "CVODE hint.";
 	}
 
 	Integrator::IntegrationMethod CVODEIntegrator::getIntegrationMethod() const

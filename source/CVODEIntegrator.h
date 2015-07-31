@@ -78,17 +78,23 @@ namespace rr
          */
         std::string getIntegratorName() const;
 
+        static std::string getName();
+
         /**
          * @author WBC
          * @brief Get the description for this integrator
          */
         std::string getIntegratorDescription() const;
 
+        static std::string getDescription();
+
         /**
          * @author WBC
          * @brief Get the hint for this integrator
          */
         std::string getIntegratorHint() const;
+
+        static std::string getHint();
 
         // ** Getters / Setters ************************************************
 
@@ -177,6 +183,45 @@ namespace rr
 
         friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
+    };
+
+
+    // ** Registration *********************************************************
+
+
+    class CVODEIntegratorRegistrar : public IntegratorRegistrar {
+        public:
+            /**
+            * @author JKM
+            * @brief Gets the name associated with this integrator type
+            */
+            virtual std::string getName() const {
+                return CVODEIntegrator::getName();
+            }
+
+            /**
+            * @author JKM
+            * @brief Gets the description associated with this integrator type
+            */
+            virtual std::string getDescription() const {
+                return CVODEIntegrator::getDescription();
+            }
+
+            /**
+            * @author JKM
+            * @brief Gets the hint associated with this integrator type
+            */
+            virtual std::string getHint() const {
+                return CVODEIntegrator::getHint();
+            }
+
+            /**
+            * @author JKM
+            * @brief Constructs a new integrator of a given type
+            */
+            virtual Integrator* construct(ExecutableModel *model) const {
+                return new CVODEIntegrator(model);
+            }
     };
 }
 
