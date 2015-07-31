@@ -13,6 +13,8 @@
 
 // == INCLUDES ================================================
 
+# include "rrConfigure.h"
+# include "IntegratorRegistration.h"
 # include "Integrator.h"
 # include "CVODEIntegrator.h"
 # include "GillespieIntegrator.h"

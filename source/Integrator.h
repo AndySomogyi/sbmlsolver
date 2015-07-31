@@ -11,16 +11,18 @@
 * @brief Contains the base class for RoadRunner integrators
 **/
 
-#ifndef RR_INTEGRATOR_H_
-#define RR_INTEGRATOR_H_
+# ifndef RR_INTEGRATOR_H_
+# define RR_INTEGRATOR_H_
 
 // == INCLUDES ================================================
 
-#include "rrLogger.h"
-#include "rrOSSpecifics.h"
-#include "Dictionary.h"
-#include "tr1proxy/rr_memory.h"
-#include <stdexcept>
+# include "rrLogger.h"
+# include "rrOSSpecifics.h"
+# include "Dictionary.h"
+# include "rrException.h"
+
+# include "tr1proxy/rr_memory.h"
+# include <stdexcept>
 
 // == CODE ====================================================
 
@@ -211,4 +213,4 @@ namespace rr
 
 }
 
-#endif /* RR_INTEGRATOR_H_ */
+# endif /* RR_INTEGRATOR_H_ */

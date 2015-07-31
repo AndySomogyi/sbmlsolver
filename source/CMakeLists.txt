@@ -77,6 +77,7 @@ set(rrCoreSources
     rrStringUtils
     rrUtils
     Integrator
+    IntegratorRegistration
     CVODEIntegrator
     Dictionary
     GillespieIntegrator

@@ -16,12 +16,6 @@
 
 // == INCLUDES ================================================
 
-# include "rrLogger.h"
-# include "rrOSSpecifics.h"
-# include "Dictionary.h"
-# include "tr1proxy/rr_memory.h"
-# include <stdexcept>
-
 // == CODE ====================================================
 
 namespace rr

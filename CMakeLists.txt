@@ -42,7 +42,7 @@ endif(WIN32)
 # add cmake files to find things, prepend with our path
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
-set(RR_USE_CXX11 CACHE BOOL FALSE "Set to TRUE to enable C++11 features")
+set(RR_USE_CXX11 FALSE CACHE BOOL "Set to TRUE to enable C++11 features")
 
 set(LLVM_INSTALL_PREFIX CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
 
