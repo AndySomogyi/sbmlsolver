@@ -116,7 +116,11 @@ set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 # new clang on OSX and msvc use std namespace. 
-option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
+if(RR_USE_CXX11)
+    option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" OFF)
+else()
+    option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
+endif()
 OPTION (INSTALL_CXX_API         "Generate C++ api"                               ON )
 OPTION (INSTALL_C_API           "Generate C API"                                 ON )
 OPTION (INSTALL_C_API_PYTHON    "Package ctypes  Python wrapper for the C API"   ON )
@@ -171,10 +175,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/bin)
 
 # Set C++11 flags
 if(RR_USE_CXX11)
-    IF(NOT ${MSVC})
+    IF(NOT MSVC)
         set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
     else()
-        message(WARNING "RR_USE_CXX11 enable but has no effect on Microsoft compilers")
+        message(WARNING "RR_USE_CXX11 enabled but has no effect on Microsoft compilers")
     endif()
 endif()
 
