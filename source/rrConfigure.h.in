@@ -9,4 +9,6 @@
 
 #define RR_HAVE_LLVM                        @RR_HAVE_LLVM@
 
+#define RR_USE_CXX11                        @RR_USE_CXX11@
+
 #endif //#ifndef __RR_ROADRUNNER_CONFIGURE_HEADER__

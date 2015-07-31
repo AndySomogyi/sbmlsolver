@@ -10,6 +10,8 @@ set(ROADRUNNER_VERSION_PATCH 6)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 
+# ** Configuration Options *****************************************************
+
 # These will be the defaults ...
 if(WIN32)
     SET(RR_BUILDS_ROOT      "c:/builds")
@@ -40,6 +42,7 @@ endif(WIN32)
 # add cmake files to find things, prepend with our path
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
+set(RR_USE_CXX11 CACHE BOOL FALSE "Set to TRUE to enable C++11 features")
 
 set(LLVM_INSTALL_PREFIX CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
 
@@ -104,6 +107,7 @@ mark_as_advanced(
     INSTALL_C_API
     INSTALL_C_API_PYTHON
     INSTALL_STATIC_LIB
+    RR_USE_CXX11
     )
 
 set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
@@ -162,6 +166,17 @@ ENDIF(WIN32)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/bin)
+
+#** Apply Project/Compiler Settings ********************************************
+
+# Set C++11 flags
+if(RR_USE_CXX11)
+    IF(NOT ${MSVC})
+        set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+    else()
+        message(WARNING "RR_USE_CXX11 enable but has no effect on Microsoft compilers")
+    endif()
+endif()
 
 include_directories(
     ${RR_ROOT}
