@@ -1,11 +1,27 @@
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file CVODEIntegrator.h
+* @author WBC, ETS, MTK, JKM
+* @copyright Apache License, Version 2.0
+* @brief Contains the RoadRunner CVODE integrator interface
+**/
+
 #ifndef rrCvodeInterfaceH
 #define rrCvodeInterfaceH
+
+// == INCLUDES ================================================
 
 #include "Integrator.h"
 #include "rrRoadRunnerOptions.h"
 
 #include <string>
 #include <vector>
+
+// == CODE ====================================================
 
 /**
 * CVode vector struct
