@@ -137,6 +137,7 @@ namespace rr
     protected:
         typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
     public:
+        virtual ~IntegratorRegistrar();
 
         virtual std::string getName() const = 0;
 
@@ -148,7 +149,7 @@ namespace rr
          * @author JKM, WBC
          * @brief Constructs a new integrator of a given type
          */
-        virtual Integrator *construct(ExecutableModel *model) const = 0;
+        virtual Integrator* construct(ExecutableModel *model) const = 0;
     };
 
     /**
@@ -161,6 +162,8 @@ namespace rr
     class RR_DECLSPEC IntegratorFactory
     {
     public:
+        virtual ~IntegratorFactory();
+
         /**
          * @author JKM, WBC
          * @brief Constructs a new integrator given the name
@@ -177,19 +180,13 @@ namespace rr
          * to ensure that the integrator is registered before the
          * user has a chance to interact with the library
          */
-        int registerIntegrator(const IntegratorRegistrar& i);
-        std::vector<std::string> getRegisteredIntegratorNames();
+        int registerIntegrator(IntegratorRegistrar* i);
 
         /**
          * @author JKM, WBC
          * @brief Returns the singleton instance of the integrator factory
          */
-        static IntegratorFactory& getInstance()
-        {
-            // FIXME: not thread safe -- JKM, July 24, 2015.
-            static IntegratorFactory factory;
-            return factory;
-        }
+        static IntegratorFactory& getInstance();
 
     private:
         /**
@@ -197,7 +194,7 @@ namespace rr
          * @brief Prevents external instantiation
          */
         IntegratorFactory() {}
-        typedef std::vector<IntegratorRegistrar> IntegratorRegistrars;
+        typedef std::vector<IntegratorRegistrar*> IntegratorRegistrars;
         IntegratorRegistrars mRegisteredIntegrators;
     };
 

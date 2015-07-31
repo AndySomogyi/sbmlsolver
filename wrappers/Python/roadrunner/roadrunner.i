@@ -806,6 +806,11 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::Integrator::addIntegratorListener;
 //%ignore rr::Integrator::removeIntegratorListener;
 
+// ignore integrator registration
+
+%ignore rr::IntegratorRegistrar;
+%ignore rr::IntegratorFactory;
+
 %rename rr::conversion::ConservedMoietyConverter PyConservedMoietyConverter;
 
 %ignore rr::ostream;
