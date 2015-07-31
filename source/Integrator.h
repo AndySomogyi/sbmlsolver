@@ -1,9 +1,15 @@
-/*
-* Integrator.h
-*
-*  Created on: Sep 7, 2013
-*      Author: andy
-*/
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file Integrator.h
+* @author ETS, WBC, JKM
+* @date Sep 7, 2013
+* @copyright Apache License, Version 2.0
+* @brief Contains the base class for RoadRunner integrators
+**/
 
 #ifndef INTEGRATOR_H_
 #define INTEGRATOR_H_
@@ -14,6 +20,7 @@
 #include "tr1proxy/rr_memory.h"
 #include <stdexcept>
 
+// == CODE ====================================================
 
 namespace rr
 {
@@ -120,14 +127,85 @@ namespace rr
 			}
 	};
 
-	/* */
-	class RR_DECLSPEC IntegratorFactory
-	{
-	public:
+    class RR_DECLSPEC IntegratorRegistrar
+    {
+    protected:
+        typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
+    public:
+        IntegratorRegistrar(std::string name, std::string description, std::string hint, IntegratorCtor ctor)
+            : mName(name), mDescription(description), mHint(hint), mCtor(ctor) {}
 
-		static Integrator* New(std::string name, ExecutableModel *m);
+        std::string getName() const
+        {
+            return mName;
+        }
 
-	};
+        std::string getDescription() const
+        {
+            return mDescription;
+        }
+
+        std::string getHint() const
+        {
+            return mHint;
+        }
+
+        Integrator *construct(ExecutableModel *model)
+        {
+            return mCtor(model);
+        }
+
+    private:
+        std::string mName;
+        std::string mDescription;
+        std::string mHint;
+        IntegratorCtor mCtor;
+    };
+
+    /**
+     * @author JKM, WBC
+     * @brief Constructs new integrators
+     * @details Implements the factory and singleton patterns.
+     * Constructs a new integrator given the name (e.g. cvode, gillespie)
+     * and returns a base pointer to @ref rr::Integrator.
+     */
+    class RR_DECLSPEC IntegratorFactory
+    {
+    public:
+        /**
+         * @author JKM, WBC
+         * @brief Constructs a new integrator given the name
+         * (e.g. cvode, gillespie)
+         */
+        Integrator* New(std::string name, ExecutableModel *m);
+
+        /**
+         * @author JKM, WBC
+         * @brief Registers a new integrator with the factory
+         * so that it can be constructed
+         * @details Should be called at startup for new integrators.
+         * The result can be stored in a static int at global scope
+         * to ensure that the integrator is registered before the
+         * user has a chance to interact with the library
+         */
+        int registerIntegrator(const IntegratorRegistrar& i);
+        std::vector<std::string> getRegisteredIntegratorNames();
+
+        /**
+         * @author JKM, WBC
+         * @brief Returns the singleton instance of the integrator factory
+         */
+        static IntegratorFactory& getInstance()
+        {
+            // FIXME: not thread safe -- JKM, July 24, 2015.
+            static IntegratorFactory factory;
+            return factory;
+        }
+
+    private:
+        IntegratorFactory() {}
+        std::vector<IntegratorRegistrar> mRegisteredIntegrators;
+    };
 
 }
 
