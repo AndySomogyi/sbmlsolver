@@ -212,7 +212,12 @@ namespace rr
          * @brief Get the description for this integrator
          */
         static std::string getDescription() {
-            return "Euler description";
+            return "The Euler method is one of the simplest approaches to "
+                "solving a first order ODE. Given the rate of change of "
+                "function f at time t, it computes the new value of f as "
+                "f(t+h) = f(t) + h*f'(t), where h is the time step. "
+                "Euler's method is rarely used in practice due to poor "
+                "numerical robustness.";
         }
 
         /**
@@ -229,7 +234,7 @@ namespace rr
          * @brief Get the hint for this integrator
          */
         static std::string getHint() {
-            return "Euler hint";
+            return "An elementary (my dear Watson) Euler integrator";
         }
 
         /**
