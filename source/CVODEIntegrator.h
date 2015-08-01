@@ -75,25 +75,40 @@ namespace rr
         /**
          * @author WBC
          * @brief Get the name for this integrator
+         * @note Delegates to @ref getName
          */
         std::string getIntegratorName() const;
 
+        /**
+         * @author JKM
+         * @brief Get the name for this integrator
+         */
         static std::string getName();
 
         /**
          * @author WBC
          * @brief Get the description for this integrator
+         * @note Delegates to @ref getDescription
          */
         std::string getIntegratorDescription() const;
 
+        /**
+         * @author JKM
+         * @brief Get the description for this integrator
+         */
         static std::string getDescription();
 
         /**
          * @author WBC
          * @brief Get the hint for this integrator
+         * @note Delegates to @ref getHint
          */
         std::string getIntegratorHint() const;
 
+        /**
+         * @author JKM
+         * @brief Get the hint for this integrator
+         */
         static std::string getHint();
 
         // ** Getters / Setters ************************************************
