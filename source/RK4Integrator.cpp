@@ -49,10 +49,6 @@ RK4Integrator::~RK4Integrator()
     delete []ytmp;
 }
 
-void RK4Integrator::setSimulateOptions(const SimulateOptions* options)
-{
-}
-
 double RK4Integrator::integrate(double t0, double h)
 {
     if (!model) {

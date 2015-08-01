@@ -59,11 +59,6 @@ public:
 public:
 
     /**
-     * Set the configuration parameters the integrator uses.
-     */
-    virtual void setSimulateOptions(const SimulateOptions* options);
-
-    /**
      * integrates the model from t0 to tf.
      */
     virtual double integrate(double t0, double tf);
