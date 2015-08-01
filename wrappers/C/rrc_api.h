@@ -627,7 +627,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle
 \return Returns a boolean value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName);
 
 /*!
 \brief Set the boolean value for a specific integrator setting.
@@ -637,7 +637,7 @@ C_DECL_SPEC int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
 
 
 

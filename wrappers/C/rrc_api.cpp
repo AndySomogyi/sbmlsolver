@@ -1509,7 +1509,7 @@ int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *para
 }
 
 
-int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -1520,7 +1520,7 @@ int rrcCallConv getIntegratorParameterBoolean (RRHandle handle, char *parameterN
 }
 
 
-int rrcCallConv setIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value)
+int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
