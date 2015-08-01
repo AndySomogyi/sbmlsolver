@@ -147,7 +147,10 @@ namespace rr
     }
 
     std::string RK4Integrator::getDescription() {
-        return "RK4 description.";
+        return "Runge-Kutta methods are a family of algorithms for solving "
+            "ODEs. They have considerably better accuracy than the Euler "
+            "method. This integrator is a standard 4th order Runge-Kutta "
+            "solver.";
     }
 
     std::string RK4Integrator::getIntegratorHint() const {
@@ -155,7 +158,7 @@ namespace rr
     }
 
     std::string RK4Integrator::getHint() {
-        return "RK4 hint.";
+        return "Internal RK4 ODE solver";
     }
 
     Integrator::IntegrationMethod RK4Integrator::getIntegrationMethod() const
