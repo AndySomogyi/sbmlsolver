@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 
 
 
-    printf("****\n");
+    printf("\n****\n\n");
 
 
     // Grab info on all implemented integrators.
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
     }
 
 
-    printf("****\n");
+    printf("\n****\n\n");
 
     printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
 	}
 
 
-    printf("****\n");
+    printf("\n****\n\n");
 
 
 	// Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
@@ -127,8 +127,6 @@ int main(int argc, char* argv[])
 	printf(rrCDataToString(result));
 	freeRRCData(result);
 	
-	char a;
-	cin >> a;
     return 0;
 }
 
