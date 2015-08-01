@@ -65,17 +65,17 @@ int main(int argc, char* argv[])
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
 	// Probe default (CVODE) integrator
-	printf("%s \n", getIntegratorDescription(_handle));
-	printf("%s \n", getIntegratorHint(_handle));
-	printf("%d \n", getNumberOfIntegratorParameters(_handle));
+	printf("%s \n", getCurrentIntegratorDescription(_handle));
+	printf("%s \n", getCurrentIntegratorHint(_handle));
+	printf("%d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
-	strArray = getListOfIntegratorParameterNames(_handle);
+	strArray = getListOfCurrentIntegratorParameterNames(_handle);
 	for (int i = 0; i < strArray->Count; ++i)
 	{
 		settingName = strArray->String[i];
-		settingDesc = getIntegratorParameterDescription(_handle, settingName);
-		settingHint = getIntegratorParameterHint(_handle, settingName);
-		settingType = getIntegratorParameterType(_handle, settingName);
+		settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+		settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+		settingType = getCurrentIntegratorParameterType(_handle, settingName);
 
 		printf("%s\n", settingName);
 		printf("Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);
@@ -88,17 +88,17 @@ int main(int argc, char* argv[])
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
 	// Probe Gillespie integrator
-	printf("%s \n", getIntegratorDescription(_handle));
-	printf("%s \n", getIntegratorHint(_handle));
-	printf("%d \n", getNumberOfIntegratorParameters(_handle));
+	printf("%s \n", getCurrentIntegratorDescription(_handle));
+	printf("%s \n", getCurrentIntegratorHint(_handle));
+	printf("%d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
-	strArray = getListOfIntegratorParameterNames(_handle);
+	strArray = getListOfCurrentIntegratorParameterNames(_handle);
 	for (int i = 0; i < strArray->Count; ++i)
 	{
 		settingName = strArray->String[i];
-		settingDesc = getIntegratorParameterDescription(_handle, settingName);
-		settingHint = getIntegratorParameterHint(_handle, settingName);
-		settingType = getIntegratorParameterType(_handle, settingName);
+		settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+		settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+		settingType = getCurrentIntegratorParameterType(_handle, settingName);
 
 		printf("%s\n", settingName);
 		printf("Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);

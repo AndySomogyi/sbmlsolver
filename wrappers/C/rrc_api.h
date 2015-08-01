@@ -500,7 +500,16 @@ C_DECL_SPEC int rrcCallConv setIntegrator (RRHandle handle, char *nameOfIntegrat
 \return Returns a description of the current integrator.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getIntegratorDescription (RRHandle handle);
+C_DECL_SPEC char* rrcCallConv getIntegratorName (RRHandle handle);
+
+/*!
+\brief Obtain a description of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] nameOfIntegrator Name of the integrator to be used.
+\return Returns a description of the current integrator.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorDescription (RRHandle handle);
 
 /*!
 \brief Obtain a short hint for the current integrator.
@@ -509,7 +518,7 @@ C_DECL_SPEC char* rrcCallConv getIntegratorDescription (RRHandle handle);
 \return Returns a short hint of the current integrator.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getIntegratorHint (RRHandle handle);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorHint (RRHandle handle);
 
 /*!
 \brief Get the number of adjustable settings for the current integrator.
@@ -517,7 +526,7 @@ C_DECL_SPEC char* rrcCallConv getIntegratorHint (RRHandle handle);
 \return Returns an integer that corresponds to the number of adjustable integrator settings.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getNumberOfIntegratorParameters (RRHandle handle);
+C_DECL_SPEC int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle);
 
 /*!
 \brief Get the names of adjustable settings for the current integrator.
@@ -525,7 +534,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfIntegratorParameters (RRHandle handle);
 \return Returns a list that contains the names of adjustable integrator settings.
 \ingroup simopts
 */
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterNames (RRHandle handle);
 
 /*!
 \brief Get the description for a specific integrator setting.
@@ -534,7 +543,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegratorParameterNames (RRHa
 \return Returns a description for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterDescription (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, char *parameterName);
 
 /*!
 \brief Get the hint for a specific integrator setting.
@@ -543,7 +552,7 @@ C_DECL_SPEC char* rrcCallConv getIntegratorParameterDescription (RRHandle handle
 \return Returns a hint for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, char *parameterName);
 
 /*!
 \brief Get the return type for a specific integrator setting.
@@ -552,7 +561,7 @@ C_DECL_SPEC char* rrcCallConv getIntegratorParameterHint (RRHandle handle, char 
 \return Returns a integer that indicates the return type for the integrator setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getIntegratorParameterType (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parameterName);
 
 /*!
 \brief Get the integer value for a specific integrator setting.
@@ -561,7 +570,7 @@ C_DECL_SPEC int rrcCallConv getIntegratorParameterType (RRHandle handle, char *p
 \return Returns an integer value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *parameterName);
 
 /*!
 \brief Set the integer value for a specific integrator setting.
@@ -571,7 +580,7 @@ C_DECL_SPEC int rrcCallConv getIntegratorParameterInt (RRHandle handle, char *pa
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
 
 /*!
 \brief Get the double value for a specific integrator setting.
@@ -580,7 +589,7 @@ C_DECL_SPEC int rrcCallConv setIntegratorParameterInt (RRHandle handle, char *pa
 \return Returns a double value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC double rrcCallConv getIntegratorParameterDouble (RRHandle handle, char *parameterName);
+C_DECL_SPEC double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName);
 
 /*!
 \brief Set the double value for a specific integrator setting.
@@ -590,7 +599,7 @@ C_DECL_SPEC double rrcCallConv getIntegratorParameterDouble (RRHandle handle, ch
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char *parameterName, double value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName, double value);
 
 /*!
 \brief Get the string value for a specific integrator setting.
@@ -599,7 +608,7 @@ C_DECL_SPEC int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char 
 \return Returns a string value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getIntegratorParameterString (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, char *parameterName);
 
 /*!
 \brief Set the string value for a specific integrator setting.
@@ -609,7 +618,7 @@ C_DECL_SPEC char* rrcCallConv getIntegratorParameterString (RRHandle handle, cha
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setIntegratorParameterString (RRHandle handle, char *parameterName, char* value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *parameterName, char* value);
 
 /*!
 \brief Get the boolean value for a specific integrator setting.
