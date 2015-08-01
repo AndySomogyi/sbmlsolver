@@ -202,7 +202,10 @@ namespace rr
 	}
 
 	std::string CVODEIntegrator::getDescription() {
-        return "CVODE description.";
+        return "CVODE is a deterministic ODE solver from the SUNDIALS suite "
+            " of timecourse integrators. It implements an Adams-Moulton solver "
+            "for non-stiff problems and a backward differentiation formula "
+            "(BDF) solver for stiff problems.";
 	}
 
 	std::string CVODEIntegrator::getIntegratorHint() const {
@@ -210,7 +213,7 @@ namespace rr
 	}
 
 	std::string CVODEIntegrator::getHint() {
-        return "CVODE hint.";
+        return "Deterministic ODE solver";
 	}
 
 	Integrator::IntegrationMethod CVODEIntegrator::getIntegrationMethod() const
