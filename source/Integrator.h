@@ -92,7 +92,7 @@ namespace rr
 		virtual unsigned char getValueAsUChar(std::string key);
 		virtual std::string getValueAsString(std::string key);
 		virtual bool getValueAsBool(std::string key);
-		virtual void setValue(std::string key, const Variant& value) = 0;
+		virtual void setValue(std::string key, const Variant& value);
 		const std::string& getHint(std::string key) const;
 		const std::string& getDescription(std::string key) const;
 		const Variant::TypeId getType(std::string key);

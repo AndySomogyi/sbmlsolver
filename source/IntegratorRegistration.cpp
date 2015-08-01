@@ -32,6 +32,7 @@ namespace rr
     static void register_integrators_at_init() {
         IntegratorFactory::getInstance().registerIntegrator(new CVODEIntegratorRegistrar());
         IntegratorFactory::getInstance().registerIntegrator(new GillespieIntegratorRegistrar());
+        IntegratorFactory::getInstance().registerIntegrator(new EulerIntegratorRegistrar());
     }
 
     void IntegratorRegistrationMgr::Register() {
