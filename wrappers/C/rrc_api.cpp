@@ -1329,11 +1329,51 @@ char* rrcCallConv getConfigurationXML(RRHandle handle)
 // Replacement methods for supporting solver configuration
 // ----------------------------------------------------------------------
 
-int rrcCallConv getNumberOfIntegrators(RRHandle handle)
+int rrcCallConv getNumRegisteredIntegrators()
 {
-	start_try
-		RoadRunner* rri = castToRoadRunner(handle);
-		return rri->getExistingIntegratorNames().size();
+	start_try;
+		return IntegratorFactory::getInstance().getNumIntegrators();
+    catch_ptr_macro
+}
+
+char* rrcCallConv getRegisteredIntegratorName(int n)
+{
+    start_try;
+        if (n < 0) {
+            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            n = 0;
+        }
+        return rr::createText(IntegratorFactory::getInstance().getIntegratorName(n));
+    catch_ptr_macro
+}
+
+char* rrcCallConv getRegisteredIntegratorHint(int n)
+{
+    start_try;
+        if (n < 0) {
+            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            n = 0;
+        }
+        return rr::createText(IntegratorFactory::getInstance().getIntegratorHint(n));
+    catch_ptr_macro
+}
+
+char* rrcCallConv getRegisteredIntegratorDesc(int n)
+{
+    start_try;
+        if (n < 0) {
+            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            n = 0;
+        }
+        return rr::createText(IntegratorFactory::getInstance().getIntegratorDescription(n));
+    catch_ptr_macro
+}
+
+int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        return rri->getExistingIntegratorNames().size();
     catch_ptr_macro
 }
 

@@ -201,6 +201,16 @@ namespace rr
          */
         static IntegratorFactory& getInstance();
 
+        // ** Indexing *********************************************************
+
+        std::size_t getNumIntegrators() const;
+
+        std::string getIntegratorName(std::size_t n) const;
+
+        std::string getIntegratorHint(std::size_t n) const;
+
+        std::string getIntegratorDescription(std::size_t n) const;
+
     private:
         /**
          * @author JKM, WBC

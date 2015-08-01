@@ -217,4 +217,20 @@ namespace rr
         return factory;
     }
 
+    std::size_t IntegratorFactory::getNumIntegrators() const {
+        return mRegisteredIntegrators.size();
+    }
+
+    std::string IntegratorFactory::getIntegratorName(std::size_t n) const {
+        return mRegisteredIntegrators.at(n)->getName();
+    }
+
+    std::string IntegratorFactory::getIntegratorHint(std::size_t n) const {
+        return mRegisteredIntegrators.at(n)->getHint();
+    }
+
+    std::string IntegratorFactory::getIntegratorDescription(std::size_t n) const {
+        return mRegisteredIntegrators.at(n)->getDescription();
+    }
+
 }

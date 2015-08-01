@@ -47,6 +47,8 @@ int main(int argc, char* argv[])
 	//string sbmlFilepath = "C:\\Users\\Wilbert\\Desktop\\BIOMD0000000009.xml";
 	//string sbmlFilepath = "C:\\Users\\Wilbert\\Desktop\\BIOMD0000000203.xml";
 
+
+    printf("Initializing RoadRunner...\n");
 	RRHandle _handle = createRRInstance();
 	loadSBML(_handle, feedback_sbml);
 
@@ -54,14 +56,26 @@ int main(int argc, char* argv[])
 	RRStringArray *strArray;
 	char *settingName, *settingDesc, *settingHint;
 	char *_intgList;
-	int numIntgs;
 	int settingType;
 
 
 
-	// Grab info on all implemented integrators.
-	numIntgs = getNumberOfIntegrators(_handle);
-	printf("Number of integrators:\t %d\n", numIntgs);
+    printf("****\n");
+
+
+    // Grab info on all implemented integrators.
+    printf("Number of registered integrators:\t %d\n", getNumRegisteredIntegrators());
+    for (int k = 0; k < getNumRegisteredIntegrators(); ++k) {
+        printf("  %d:\n", k);
+        printf("   Name: %s\n", getRegisteredIntegratorName(k));
+        printf("   Hint: %s\n", getRegisteredIntegratorHint(k));
+        printf("   Desc: %s\n", getRegisteredIntegratorDesc(k));
+    }
+
+
+    printf("****\n");
+
+    printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
 	// Probe default (CVODE) integrator
@@ -81,10 +95,13 @@ int main(int argc, char* argv[])
 		printf("Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);
 	}
 
+
+    printf("****\n");
+
+
 	// Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
 	setIntegrator(_handle, "gillespie");
-	numIntgs = getNumberOfIntegrators(_handle);
-	printf("Number of integrators:\t %d\n", numIntgs);
+    printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
 	// Probe Gillespie integrator
