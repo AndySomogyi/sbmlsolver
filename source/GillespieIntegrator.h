@@ -1,69 +1,193 @@
-/*
- * GillespieIntegrator.h
- *
- *  Created on: Apr 23, 2014
- *      Author: andy
- */
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file Integrator.h
+* @author ETS, WBC, JKM
+* @date Apr 23, 2014
+* @copyright Apache License, Version 2.0
+* @brief RoadRunner's Gillespie SSA integrator
+**/
 
 #ifndef GILLESPIEINTEGRATOR_H_
 #define GILLESPIEINTEGRATOR_H_
+
+// == INCLUDES ================================================
 
 #include "Integrator.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrExecutableModel.h"
 #include "tr1proxy/rr_random.h"
 
+// == CODE ====================================================
 
 namespace rr
 {
 
-class ExecutableModel;
+    class ExecutableModel;
 
-class GillespieIntegrator: public Integrator
-{
-public:
-    GillespieIntegrator(ExecutableModel* model);
-    virtual ~GillespieIntegrator();
+    /**
+     * @author WBC, ETS
+     * @brief RoadRunner's implementation of the Gillespie SSA
+     */
+    class GillespieIntegrator: public Integrator
+    {
+    public:
+        GillespieIntegrator(ExecutableModel* model);
+        virtual ~GillespieIntegrator();
 
-	std::string getIntegratorName() const;
-	std::string getIntegratorDescription() const;
-	std::string getIntegratorHint() const;
-	IntegrationMethod getIntegrationMethod() const;
-	void setValue(std::string setting, const Variant& value);
+        // ** Meta Info ********************************************************
 
-	double integrate(double t0, double tf);
-	void restart(double timeStart);
-	IntegratorListenerPtr getListener();
-	void setListener(IntegratorListenerPtr);
+        /**
+         * @author WBC
+         * @brief Get the name for this integrator
+         * @note Delegates to @ref getName
+         */
+        std::string getIntegratorName() const;
 
-private:
-    ExecutableModel *model;
-    cxx11_ns::mt19937 engine;
-	//unsigned long seed;
-    double timeScale;
-    double stoichScale;
-    int nReactions;
-    int floatingSpeciesStart;		// starting index of floating species
-    double* reactionRates;
-    double* reactionRatesBuffer;
-    int stateVectorSize;
-    double* stateVector;
-    double* stateVectorRate;
-    // m rows x n cols
-    // offset = row*NUMCOLS + column
-    int stoichRows;
-    int stoichCols;
-    double* stoichData;
+        /**
+         * @author JKM
+         * @brief Get the name for this integrator
+         */
+        static std::string getName();
 
-    double urand();
-	void setEngineSeed(unsigned long seed);
-    unsigned long getSeed() const;
+        /**
+         * @author WBC
+         * @brief Get the description for this integrator
+         * @note Delegates to @ref getDescription
+         */
+        std::string getIntegratorDescription() const;
 
-	inline double getStoich(uint species, uint reaction)
-	{
-		return stoichData[species * stoichCols + reaction];
-	}
-};
+        /**
+         * @author JKM
+         * @brief Get the description for this integrator
+         */
+        static std::string getDescription();
+
+        /**
+         * @author WBC
+         * @brief Get the hint for this integrator
+         * @note Delegates to @ref getHint
+         */
+        std::string getIntegratorHint() const;
+
+        /**
+         * @author JKM
+         * @brief Get the hint for this integrator
+         */
+        static std::string getHint();
+
+        // ** Getters / Setters ************************************************
+
+        /**
+         * @author WBC, ETS
+         * @brief Always stochastic for Gillespie
+         */
+        IntegrationMethod getIntegrationMethod() const;
+
+        /**
+         * @author WBC, ETS
+         * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
+         */
+        void setValue(std::string setting, const Variant& value);
+
+        // ** Integration Routines *********************************************
+
+        /**
+         * @author WBC, ETS
+         * @brief Main integration routine
+         */
+        double integrate(double t0, double tf);
+
+        /**
+         * @author WBC, ETS
+         * @brief Reset time to zero and reinitialize model
+         */
+        void restart(double timeStart);
+
+        // ** Listeners ********************************************************
+
+        /**
+         * @author WBC, ETS
+         * @brief Gets the integrator listener
+         */
+        IntegratorListenerPtr getListener();
+
+        /**
+         * @author WBC, ETS
+         * @brief Sets the integrator listener
+         */
+        void setListener(IntegratorListenerPtr);
+
+    private:
+        ExecutableModel *model;
+        cxx11_ns::mt19937 engine;
+        //unsigned long seed;
+        double timeScale;
+        double stoichScale;
+        int nReactions;
+        int floatingSpeciesStart;		// starting index of floating species
+        double* reactionRates;
+        double* reactionRatesBuffer;
+        int stateVectorSize;
+        double* stateVector;
+        double* stateVectorRate;
+        // m rows x n cols
+        // offset = row*NUMCOLS + column
+        int stoichRows;
+        int stoichCols;
+        double* stoichData;
+
+        double urand();
+        void setEngineSeed(unsigned long seed);
+        unsigned long getSeed() const;
+
+        inline double getStoich(uint species, uint reaction)
+        {
+            return stoichData[species * stoichCols + reaction];
+        }
+    };
+
+
+    // ** Registration *********************************************************
+
+
+    class GillespieIntegratorRegistrar : public IntegratorRegistrar {
+        public:
+            /**
+            * @author JKM
+            * @brief Gets the name associated with this integrator type
+            */
+            virtual std::string getName() const {
+                return GillespieIntegrator::getName();
+            }
+
+            /**
+            * @author JKM
+            * @brief Gets the description associated with this integrator type
+            */
+            virtual std::string getDescription() const {
+                return GillespieIntegrator::getDescription();
+            }
+
+            /**
+            * @author JKM
+            * @brief Gets the hint associated with this integrator type
+            */
+            virtual std::string getHint() const {
+                return GillespieIntegrator::getHint();
+            }
+
+            /**
+            * @author JKM
+            * @brief Constructs a new integrator of a given type
+            */
+            virtual Integrator* construct(ExecutableModel *model) const {
+                return new GillespieIntegrator(model);
+            }
+    };
 
 } /* namespace rr */
 
