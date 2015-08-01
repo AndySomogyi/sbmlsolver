@@ -31,6 +31,7 @@ namespace rr
     // call exactly once
     static void register_integrators_at_init() {
         IntegratorFactory::getInstance().registerIntegrator(new CVODEIntegratorRegistrar());
+        IntegratorFactory::getInstance().registerIntegrator(new GillespieIntegratorRegistrar());
     }
 
     void IntegratorRegistrationMgr::Register() {

@@ -88,20 +88,29 @@ namespace rr
 		delete[] stoichData;
 	}
 
-	std::string GillespieIntegrator::getIntegratorName() const
-	{
-		return "gillespie";
-	}
+    std::string GillespieIntegrator::getIntegratorName() const {
+        return GillespieIntegrator::getName();
+    }
 
-	std::string GillespieIntegrator::getIntegratorDescription() const
-	{
-		return "gillespie integrator description.";
-	}
+    std::string GillespieIntegrator::getName() {
+        return "gillespie";
+    }
 
-	std::string GillespieIntegrator::getIntegratorHint() const
-	{
-		return "gillespie integrator hint.";
-	}
+    std::string GillespieIntegrator::getIntegratorDescription() const {
+        return GillespieIntegrator::getDescription();
+    }
+
+    std::string GillespieIntegrator::getDescription() {
+        return "Gillespie description.";
+    }
+
+    std::string GillespieIntegrator::getIntegratorHint() const {
+        return GillespieIntegrator::getHint();
+    }
+
+    std::string GillespieIntegrator::getHint() {
+        return "Gillespie hint.";
+    }
 
 	Integrator::IntegrationMethod GillespieIntegrator::getIntegrationMethod() const
 	{
