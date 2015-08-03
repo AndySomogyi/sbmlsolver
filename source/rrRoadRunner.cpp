@@ -286,6 +286,14 @@ public:
 		integrators.clear();
 	}
 
+    void syncIntegratorsWithModel(ExecutableModel* m)
+    {
+        for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            (*it)->syncWithModel(m);
+        }
+    }
+
     void setParameterValue(const ParameterType parameterType,
             const int parameterIndex, const double value)
     {
@@ -825,8 +833,6 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
     delete impl->model;
     impl->model = 0;
 
-    impl->deleteIntegrators();
-
 	delete impl->mLS;
 	impl->mLS = NULL;
 
@@ -859,6 +865,8 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         // re-throw the exception
         throw;
     }
+
+    impl->syncIntegratorsWithModel(impl->model);
 
 	setIntegrator(self.simulateOpt.integrator);
 

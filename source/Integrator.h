@@ -73,6 +73,13 @@ namespace rr
 
 		virtual ~Integrator() {};
 
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
+
 		virtual void loadConfigSettings();
 		virtual void loadSBMLSettings(const std::string& filename);
 		virtual std::string getIntegratorName() const = 0;

@@ -42,13 +42,37 @@ namespace rr
 		return (unsigned long)seed;
 	}
 
+	void GillespieIntegrator::initializeFromModel() {
+     std::cerr << "this = " <<  this << "\n";
+     std::cerr << "model = " << (void*)model << "\n";
+        nReactions = model->getNumReactions();
+        reactionRates = new double[nReactions];
+        reactionRatesBuffer = new double[nReactions];
+        stateVectorSize = model->getStateVector(0);
+        stateVector = new double[stateVectorSize];
+        stateVectorRate = new double[stateVectorSize];
+
+        floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
+
+        assert(floatingSpeciesStart >= 0);
+
+        // get rows and columns
+        model->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
+        stoichData = new double[stoichRows * stoichCols];
+
+        // fill stoichData
+        model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
+
+        setEngineSeed(getValue("seed").convert<unsigned long>());
+	}
+
 	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m) :
 			model(m),
 			timeScale(1.0),
 			stoichScale(1.0),
 			stoichRows(0),
 			stoichCols(0),
-			stoichData(0)
+			stoichData(NULL)
 	{
 		// Set default integrator settings.
 		addSetting("seed", defaultSeed(), "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
@@ -57,26 +81,7 @@ namespace rr
 		addSetting("minimum_time_step", 0.0, "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
 		addSetting("maximum_time_step", 0.0, "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
 
-
-		nReactions = model->getNumReactions();
-		reactionRates = new double[nReactions];
-		reactionRatesBuffer = new double[nReactions];
-		stateVectorSize = model->getStateVector(0);
-		stateVector = new double[stateVectorSize];
-		stateVectorRate = new double[stateVectorSize];
-
-		floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
-
-		assert(floatingSpeciesStart >= 0);
-
-		// get rows and columns
-		model->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
-		stoichData = new double[stoichRows * stoichCols];
-
-		// fill stoichData
-		model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
-
-		setEngineSeed(getValue("seed").convert<unsigned long>());
+        initializeFromModel();
 	}
 
 	GillespieIntegrator::~GillespieIntegrator()
@@ -87,6 +92,26 @@ namespace rr
 		delete[] stateVectorRate;
 		delete[] stoichData;
 	}
+
+    void GillespieIntegrator::syncWithModel(ExecutableModel* m)
+    {
+        delete[] reactionRates;
+        delete[] reactionRatesBuffer;
+        delete[] stateVector;
+        delete[] stateVectorRate;
+        delete[] stoichData;
+
+        model = m;
+
+        timeScale = 1.;
+        stoichScale = 1.;
+
+        stoichRows = 0;
+        stoichCols = 0;
+        stoichData = NULL;
+
+        initializeFromModel();
+    }
 
     std::string GillespieIntegrator::getIntegratorName() const {
         return GillespieIntegrator::getName();

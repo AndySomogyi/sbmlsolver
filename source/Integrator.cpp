@@ -18,6 +18,7 @@
 // #include "GillespieIntegrator.h"
 // #include "RK4Integrator.h"
 // #include "EulerIntegrator.h"
+#include "rrExecutableModel.h"
 #include "rrStringUtils.h"
 #include "rrConfig.h"
 #include "rrUtils.h"
@@ -38,6 +39,8 @@ namespace rr
 		hints.insert({ name, hint });
 		descriptions.insert({ name, description });
 	}
+
+	void Integrator::syncWithModel(ExecutableModel* m) {}
 
 	void Integrator::loadConfigSettings()
 	{

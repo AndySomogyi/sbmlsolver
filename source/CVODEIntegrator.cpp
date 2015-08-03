@@ -143,6 +143,30 @@ namespace rr
 		freeCVode();
 	}
 
+    void CVODEIntegrator::syncWithModel(ExecutableModel* m)
+    {
+        freeCVode();
+
+        mModel = m;
+
+        lastEventTime = 0;
+        stateVectorVariables = false;
+        variableStepPendingEvent = false;
+        variableStepTimeEndEvent = false;
+        variableStepPostEventState = NULL;
+
+        if (m)
+        {
+            createCVode();
+
+            // allocate space for the event status array
+            eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
+        }
+
+        // Update parameter settings within CVODE.
+        updateCVODE();
+    }
+
 	void CVODEIntegrator::loadConfigSettings()
 	{
 		Integrator::loadConfigSettings();

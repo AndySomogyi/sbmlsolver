@@ -38,6 +38,13 @@ namespace rr
         GillespieIntegrator(ExecutableModel* model);
         virtual ~GillespieIntegrator();
 
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
+
         // ** Meta Info ********************************************************
 
         /**
@@ -154,6 +161,14 @@ namespace rr
         {
             return stoichData[species * stoichCols + reaction];
         }
+
+        /**
+        * @author JKM
+        * @brief Initialize model-specific variables
+        * @details Called whenever a model is loaded or a Gillespie
+        * integrator is constructed
+        */
+        void initializeFromModel();
     };
 
 

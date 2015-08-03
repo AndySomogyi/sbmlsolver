@@ -59,6 +59,13 @@ namespace rr
          */
         virtual ~CVODEIntegrator();
 
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
+
         // ** Loading Settings *************************************************
 
         void loadConfigSettings();
