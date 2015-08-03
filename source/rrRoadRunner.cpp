@@ -283,6 +283,7 @@ public:
 			delete *it;
 			*it = NULL;
 		}
+		integrators.clear();
 	}
 
     void setParameterValue(const ParameterType parameterType,
