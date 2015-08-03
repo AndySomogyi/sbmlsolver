@@ -49,38 +49,38 @@ int main(int argc, char* argv[])
     enableLoggingToFile();
     {
         char* t = getLogFileName();
-        printf("Enabling logging to %s\n", t);
+        fprintf(stderr,"Enabling logging to %s\n", t);
         free(t);
     }
 
-    printf("Initializing RoadRunner...\n");
-	RRHandle _handle = createRRInstance();
-	loadSBML(_handle, feedback_sbml);
+    fprintf(stderr,"Initializing RoadRunner...\n");
+    RRHandle _handle = createRRInstance();
+    loadSBML(_handle, feedback_sbml);
 
 
-	struct RRStringArray *strArray;
-	char *settingName, *settingDesc, *settingHint;
-	char *_intgList;
-	int settingType;
+    struct RRStringArray *strArray;
+    char *settingName, *settingDesc, *settingHint;
+    char *_intgList;
+    int settingType;
 
 
 
-    printf("\n****\n\n");
+    fprintf(stderr,"\n****\n\n");
 
 
     // Grab info on all implemented integrators.
-    printf("Number of registered integrators:\t %d\n", getNumRegisteredIntegrators());
+    fprintf(stderr,"Number of registered integrators:\t %d\n", getNumRegisteredIntegrators());
     for (int k = 0; k < getNumRegisteredIntegrators(); ++k) {
-        printf("  %d:\n", k);
-        printf("   Name: %s\n", getRegisteredIntegratorName(k));
-        printf("   Hint: %s\n", getRegisteredIntegratorHint(k));
-        printf("   Desc: %s\n", getRegisteredIntegratorDescription(k));
+        fprintf(stderr,"  %d:\n", k);
+        fprintf(stderr,"   Name: %s\n", getRegisteredIntegratorName(k));
+        fprintf(stderr,"   Hint: %s\n", getRegisteredIntegratorHint(k));
+        fprintf(stderr,"   Desc: %s\n", getRegisteredIntegratorDescription(k));
     }
 
 
-    printf("\n****\n\n");
+    fprintf(stderr,"\n****\n\n");
 
-    printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+    fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 
     // Probe default (CVODE) integrator
 
@@ -93,62 +93,62 @@ int main(int argc, char* argv[])
         }
         free(name);
     }
-	printf("%s \n", getCurrentIntegratorDescription(_handle));
-	printf("%s \n", getCurrentIntegratorHint(_handle));
-	printf("%d \n", getNumberOfCurrentIntegratorParameters(_handle));
+    fprintf(stderr,"%s \n", getCurrentIntegratorDescription(_handle));
+    fprintf(stderr,"%s \n", getCurrentIntegratorHint(_handle));
+    fprintf(stderr,"%d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
-	strArray = getListOfCurrentIntegratorParameterNames(_handle);
-	for (int i = 0; i < strArray->Count; ++i)
-	{
-		settingName = strArray->String[i];
-		settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-		settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-		settingType = getCurrentIntegratorParameterType(_handle, settingName);
+    strArray = getListOfCurrentIntegratorParameterNames(_handle);
+    for (int i = 0; i < strArray->Count; ++i)
+    {
+        settingName = strArray->String[i];
+        settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+        settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+        settingType = getCurrentIntegratorParameterType(_handle, settingName);
 
-		printf("%s\n", settingName);
-		printf("Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);
-	}
+        fprintf(stderr,"%s\n", settingName);
+        fprintf(stderr,"Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);
+    }
 
 
-    printf("\n****\n\n");
+    fprintf(stderr,"\n****\n\n");
 
-    printf("Set absolute tolerance to 1e-7\n");
+    fprintf(stderr,"Set absolute tolerance to 1e-7\n");
     setCurrentIntegratorParameterDouble(_handle, "absolute_tolerance", 1e-7);
-    printf("Result: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
+    fprintf(stderr,"Result: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
 
-    printf("Reset all integrator settings\n");
+    fprintf(stderr,"Reset all integrator settings\n");
     resetCurrentIntegratorParameters(_handle);
-    printf("Current value of absolute_tolerance: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
+    fprintf(stderr,"Current value of absolute_tolerance: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
 
-    printf("\n****\n\n");
+    fprintf(stderr,"\n****\n\n");
 
 
-	// Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
-	setCurrentIntegrator(_handle, "gillespie");
-    printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+    // Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
+    setCurrentIntegrator(_handle, "gillespie");
+    fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 
-	// Probe Gillespie integrator
-	printf("%s \n", getCurrentIntegratorDescription(_handle));
-	printf("%s \n", getCurrentIntegratorHint(_handle));
-	printf("%d \n", getNumberOfCurrentIntegratorParameters(_handle));
+    // Probe Gillespie integrator
+    fprintf(stderr,"%s \n", getCurrentIntegratorDescription(_handle));
+    fprintf(stderr,"%s \n", getCurrentIntegratorHint(_handle));
+    fprintf(stderr,"%d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
-	strArray = getListOfCurrentIntegratorParameterNames(_handle);
-	for (int i = 0; i < strArray->Count; ++i)
-	{
-		settingName = strArray->String[i];
-		settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-		settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-		settingType = getCurrentIntegratorParameterType(_handle, settingName);
+    strArray = getListOfCurrentIntegratorParameterNames(_handle);
+    for (int i = 0; i < strArray->Count; ++i)
+    {
+        settingName = strArray->String[i];
+        settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+        settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+        settingType = getCurrentIntegratorParameterType(_handle, settingName);
 
-		printf("%s\n", settingName);
-		printf("Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);
-	}
+        fprintf(stderr,"%s\n", settingName);
+        fprintf(stderr,"Type: %d\nDescription: %s\nHint: %s\n\n", settingType, settingDesc, settingHint);
+    }
 
-	// Simulate
-	RRCDataPtr result;
-	result = simulateEx(_handle, 0, 10, 100);
-	printf(rrCDataToString(result));
-	freeRRCData(result);
+    // Simulate
+    RRCDataPtr result;
+    result = simulateEx(_handle, 0, 10, 100);
+    fprintf(stderr,rrCDataToString(result));
+    freeRRCData(result);
 	
     return 0;
 }
