@@ -111,7 +111,7 @@ namespace rr
 		HintMap hints;
 		DescriptionMap descriptions;
 
-		void AddSetting(std::string name, Variant val, std::string hint, std::string description);
+		void addSetting(std::string name, Variant val, std::string hint, std::string description);
 	};
 
 

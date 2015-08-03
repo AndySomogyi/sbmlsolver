@@ -32,7 +32,7 @@ namespace rr
 		INTEGRATOR
 	  ------------------------------------------------------------------------------------------*/
 
-	void Integrator::AddSetting(string name, Variant val, string hint, string description)
+	void Integrator::addSetting(string name, Variant val, string hint, string description)
 	{
 		settings.insert({ name, val });
 		hints.insert({ name, hint });
