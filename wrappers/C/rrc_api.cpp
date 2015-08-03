@@ -1347,7 +1347,7 @@ char* rrcCallConv getRegisteredIntegratorHint(int n)
     catch_ptr_macro
 }
 
-char* rrcCallConv getRegisteredIntegratorDesc(int n)
+char* rrcCallConv getRegisteredIntegratorDescription(int n)
 {
     start_try;
         if (n < 0) {

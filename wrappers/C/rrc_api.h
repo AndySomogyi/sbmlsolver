@@ -499,7 +499,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorHint (int n);
 \note Callee owns memory
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDesc (int n);
+C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDescription (int n);
 
 /* Instantiated Integrators ***************************************************/
 
