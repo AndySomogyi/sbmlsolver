@@ -468,10 +468,10 @@ C_DECL_SPEC bool rrcCallConv setConfigurationXML (RRHandle handle, const char* c
 */
 C_DECL_SPEC char* rrcCallConv getConfigurationXML(RRHandle handle);
 
-/** Registered Integrators ****************************************************/
+/* Registered Integrators *****************************************************/
 
 /*!
-\brief Get the number of supported integrators.
+\brief Get the number of registered integrators.
 \return Returns an integer that corresponds to the number of currently registered integrators.
 \ingroup simopts
 */
@@ -501,7 +501,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorHint (int n);
 */
 C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDesc (int n);
 
-/** Instantiated Integrators **************************************************/
+/* Instantiated Integrators ***************************************************/
 
 /*!
 \brief Get the number of instantiated integrators.
