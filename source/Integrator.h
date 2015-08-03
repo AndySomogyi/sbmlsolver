@@ -85,7 +85,7 @@ namespace rr
         * @author JKM
         * @brief Reset all integrator settings to their respective default values
         */
-        virtual void resetSettings();
+        virtual void resetSettings() = 0;
 
 		virtual Variant getValue(std::string key);
 		virtual int getValueAsInt(std::string key);

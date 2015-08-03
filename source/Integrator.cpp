@@ -85,12 +85,12 @@ namespace rr
 		return keys;
 	}
 
-    void Integrator::resetSettings()
-    {
-        settings.clear();
-        hints.clear();
-        descriptions.clear();
-    }
+//     void Integrator::resetSettings()
+//     {
+//         settings.clear();
+//         hints.clear();
+//         descriptions.clear();
+//     }
 
 	Variant Integrator::getValue(std::string key)
 	{

@@ -128,6 +128,12 @@ namespace rr
          */
         IntegrationMethod getIntegrationMethod() const;
 
+        /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        void resetSettings();
+
         // ** Listeners ********************************************************
 
         /**

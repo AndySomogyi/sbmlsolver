@@ -1397,6 +1397,15 @@ int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
     catch_ptr_macro
 }
 
+char* rrcCallConv getCurrentIntegratorName (RRHandle handle)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       std::string str = rri->getIntegrator()->getIntegratorName();
+       return (rr::createText (str));
+    catch_ptr_macro
+}
+
 char* rrcCallConv getCurrentIntegratorDescription (RRHandle handle)
 {
     start_try
@@ -1431,7 +1440,8 @@ int rrcCallConv resetCurrentIntegratorParameters (RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return false;
+        rri->getIntegrator()->resetSettings();
+        return true;
     catch_ptr_macro
 }
 

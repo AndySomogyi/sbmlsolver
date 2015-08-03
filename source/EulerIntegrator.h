@@ -239,6 +239,19 @@ namespace rr
 
         /**
          * @author JKM
+         * @brief Reset all integrator settings to their respective default values
+         */
+        void resetSettings()
+        {
+            settings.clear();
+            hints.clear();
+            descriptions.clear();
+
+            // Euler integrator has no settings
+        }
+
+        /**
+         * @author JKM
          * @brief Always deterministic for Euler
          */
         IntegrationMethod getIntegrationMethod() const {

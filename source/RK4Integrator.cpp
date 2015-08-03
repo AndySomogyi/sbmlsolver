@@ -166,6 +166,15 @@ namespace rr
         return Integrator::IntegrationMethod::Deterministic;
     }
 
+    void RK4Integrator::resetSettings()
+    {
+        settings.clear();
+        hints.clear();
+        descriptions.clear();
+
+        // TODO: RK4 settings not exposed through new integrator interface? -JKM
+    }
+
     void RK4Integrator::setItem(const std::string& key,
             const rr::Variant& value)
     {

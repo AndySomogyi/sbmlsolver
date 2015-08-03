@@ -93,6 +93,12 @@ namespace rr
          */
         void setValue(std::string setting, const Variant& value);
 
+        /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        void resetSettings();
+
         // ** Integration Routines *********************************************
 
         /**

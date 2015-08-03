@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 // #include "Suite_TestModel.h"
 
@@ -81,7 +82,17 @@ int main(int argc, char* argv[])
     printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
-	// Probe default (CVODE) integrator
+    // Probe default (CVODE) integrator
+
+    // test name
+    {
+        char* name = getCurrentIntegratorName(_handle);
+        if (strcmp(name,"cvode")) {
+            fprintf(stderr, "Expected integrator name to be 'cvode'\n");
+            return 1;
+        }
+        free(name);
+    }
 	printf("%s \n", getCurrentIntegratorDescription(_handle));
 	printf("%s \n", getCurrentIntegratorHint(_handle));
 	printf("%d \n", getNumberOfCurrentIntegratorParameters(_handle));
