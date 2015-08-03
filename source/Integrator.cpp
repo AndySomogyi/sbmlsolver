@@ -100,7 +100,7 @@ namespace rr
 		std::unordered_map<string, Variant>::const_iterator option = settings.find(key);
 		if (option == settings.end())
 		{
-			throw std::invalid_argument("invalid key: " + key);
+			throw std::invalid_argument("Integrator::getValue: invalid key: " + key);
 		}
 		return option->second;
 	}

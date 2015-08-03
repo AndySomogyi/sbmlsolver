@@ -43,8 +43,6 @@ namespace rr
 	}
 
 	void GillespieIntegrator::initializeFromModel() {
-     std::cerr << "this = " <<  this << "\n";
-     std::cerr << "model = " << (void*)model << "\n";
         nReactions = model->getNumReactions();
         reactionRates = new double[nReactions];
         reactionRatesBuffer = new double[nReactions];
