@@ -167,14 +167,45 @@ namespace rr
         updateCVODE();
     }
 
-	void CVODEIntegrator::loadConfigSettings()
-	{
-		Integrator::loadConfigSettings();
-		// Load settings specific to CVODE integrator
+// 	void CVODEIntegrator::loadConfigSettings()
+// 	{
+// 		Integrator::loadConfigSettings();
+// 		// Load settings specific to CVODE integrator
+//
+// 		CVODEIntegrator::setValue("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE));
+// 		CVODEIntegrator::setValue("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE));
+// 	}
 
-		CVODEIntegrator::setValue("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE));
-		CVODEIntegrator::setValue("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE));
-	}
+    void CVODEIntegrator::loadConfigSettings()
+    {
+        //  VARIABLE STEP SIZE
+        bool bVal = false;
+        if (getIntegrationMethod() == Integrator::IntegrationMethod::Deterministic)
+        {
+            bVal = Config::getBool(Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
+            Integrator::setValue("variable_step_size", bVal);
+        }
+        else if (getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
+        {
+            bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
+            Integrator::setValue("variable_step_size", bVal);
+        }
+
+        // STIFFNESS
+        bVal = Config::getBool(Config::SIMULATEOPTIONS_STIFF);
+        Integrator::setValue("stiff", bVal);
+
+        // MULTIPLE STEPS
+        bVal = Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP);
+        Integrator::setValue("multiple_steps", bVal);
+
+        // ABSOLUTE TOLERANCE
+//         Integrator::setValue("absolute_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE));
+//         Integrator::setValue("relative_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE));
+
+        CVODEIntegrator::setValue("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE));
+        CVODEIntegrator::setValue("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE));
+    }
 
 	void CVODEIntegrator::loadSBMLSettings(std::string const& filename)
 	{

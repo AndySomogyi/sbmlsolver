@@ -42,36 +42,7 @@ namespace rr
 
 	void Integrator::syncWithModel(ExecutableModel* m) {}
 
-	void Integrator::loadConfigSettings()
-	{
-		//	VARIABLE STEP SIZE
-		/*	Need better error handling.
-			(1) What happens if variable_step_size does not exist in settings?
-		*/
-		bool bVal = false;
-		if (getIntegrationMethod() == Integrator::IntegrationMethod::Deterministic)
-		{
-			bVal = Config::getBool(Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
-			Integrator::setValue("variable_step_size", bVal);
-		}
-		else if (getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
-		{
-			bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
-			Integrator::setValue("variable_step_size", bVal);
-		}
-
-		// STIFFNESS
-		bVal = Config::getBool(Config::SIMULATEOPTIONS_STIFF);
-		Integrator::setValue("stiff", bVal);
-
-		// MULTIPLE STEPS
-		bVal = Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP);
-		Integrator::setValue("multiple_steps", bVal);
-
-		// ABSOLUTE TOLERANCE
-		Integrator::setValue("absolute_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE));
-		Integrator::setValue("relative_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE));
-	}
+	void Integrator::loadConfigSettings() {}
 
 	void Integrator::loadSBMLSettings(const std::string& filename)
 	{

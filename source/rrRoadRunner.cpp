@@ -840,6 +840,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         self.loadOpt = LoadSBMLOptions(dict);
     }
 
+    // TODO: streamline so SBML document is not read several times
     // check that stoichiometry is defined
     if (!isStoichDefined(self.mCurrentSBML)) {
         // if any reactions are missing stoich, the simulation results will be wrong
@@ -867,8 +868,6 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
     }
 
     impl->syncIntegratorsWithModel(impl->model);
-
-	setIntegrator(self.simulateOpt.integrator);
 
     reset();
 

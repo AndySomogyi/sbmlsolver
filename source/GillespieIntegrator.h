@@ -153,6 +153,9 @@ namespace rr
         int stoichCols;
         double* stoichData;
 
+        void testRootsAtInitialTime();
+        void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
+
         double urand();
         void setEngineSeed(unsigned long seed);
         unsigned long getSeed() const;

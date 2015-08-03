@@ -70,7 +70,11 @@ namespace rr
 			stoichScale(1.0),
 			stoichRows(0),
 			stoichCols(0),
-			stoichData(NULL)
+			stoichData(NULL),
+			reactionRates(NULL),
+			reactionRatesBuffer(NULL),
+			stateVector(NULL),
+			stateVectorRate(NULL)
 	{
 		// Set default integrator settings.
 		addSetting("seed", defaultSeed(), "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
@@ -79,7 +83,8 @@ namespace rr
 		addSetting("minimum_time_step", 0.0, "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
 		addSetting("maximum_time_step", 0.0, "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
 
-        initializeFromModel();
+        if (model)
+            initializeFromModel();
 	}
 
 	GillespieIntegrator::~GillespieIntegrator()
@@ -89,17 +94,32 @@ namespace rr
 		delete[] stateVector;
 		delete[] stateVectorRate;
 		delete[] stoichData;
+        reactionRates = NULL;
+        reactionRatesBuffer = NULL;
+        stateVector = NULL;
+        stateVectorRate = NULL;
+        stoichData = NULL;
 	}
 
     void GillespieIntegrator::syncWithModel(ExecutableModel* m)
     {
+        resetSettings();
         delete[] reactionRates;
         delete[] reactionRatesBuffer;
         delete[] stateVector;
         delete[] stateVectorRate;
         delete[] stoichData;
+        reactionRates = NULL;
+        reactionRatesBuffer = NULL;
+        stateVector = NULL;
+        stateVectorRate = NULL;
+        stoichData = NULL;
 
         model = m;
+        model->reset();
+
+        nReactions = 0;
+        stateVectorSize = 0;
 
         timeScale = 1.;
         stoichScale = 1.;
@@ -311,8 +331,40 @@ namespace rr
 		return t;
 	}
 
+    void GillespieIntegrator::testRootsAtInitialTime()
+    {
+        vector<unsigned char> initialEventStatus(model->getEventTriggers(0, 0, 0), false);
+        model->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+        applyEvents(0, initialEventStatus);
+    }
+
+    void GillespieIntegrator::applyEvents(double timeEnd, vector<unsigned char> &previousEventStatus)
+    {
+        model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateVector, stateVector);
+    }
+
 	void GillespieIntegrator::restart(double t0)
 	{
+        if (!model) {
+            return;
+        }
+
+        if (t0 <= 0.0) {
+            if (stateVector)
+            {
+                model->getStateVector(stateVector);
+            }
+
+            testRootsAtInitialTime();
+        }
+
+        model->setTime(t0);
+
+        // copy state vector into memory
+        if (stateVector)
+        {
+            model->getStateVector(stateVector);
+        }
 	}
 
 	void GillespieIntegrator::setListener(IntegratorListenerPtr)
