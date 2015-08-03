@@ -6,6 +6,7 @@
 // #include "unit_test/XmlTestReporter.h"
 // #include "unit_test/TestReporterStdout.h"
 #include "rrc_api.h"
+#include "rrc_logging_api.h"
 // #include "rrGetOptions.h"
 // #include "src/Args.h"
 // #include "rrRoadRunner.h"
@@ -42,15 +43,9 @@ static const char* bistable_sbml =
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
-//     cout << "RoadRunner C API Test" << endl;
 
-// 	string sbmlFilepath = "C:\\vs\\src\\roadrunner\\models\\feedback.xml";
-	//string sbmlFilepath = "C:\\vs\\src\\roadrunner\\models\\bistable.xml";
-	//string sbmlFilepath = "C:\\vs\\src\\roadrunner\\models\\simple.xml";
-	//string sbmlFilepath = "C:\\vs\\src\\roadrunner\\models\\squareWaveModel.xml";
-	//string sbmlFilepath = "C:\\Users\\Wilbert\\Desktop\\BIOMD0000000009.xml";
-	//string sbmlFilepath = "C:\\Users\\Wilbert\\Desktop\\BIOMD0000000203.xml";
-
+    // enable logging
+    setLogLevel("debug");
 
     printf("Initializing RoadRunner...\n");
 	RRHandle _handle = createRRInstance();
