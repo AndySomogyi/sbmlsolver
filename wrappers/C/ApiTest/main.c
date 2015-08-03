@@ -56,20 +56,22 @@ int main(int argc, char* argv[])
     fprintf(stderr,"Initializing RoadRunner...\n");
     RRHandle _handle = createRRInstance();
 
+    // set integrator to gillespie before loading a model to test for crashing
+    setCurrentIntegrator(_handle, "gillespie");
+
     for(n = 0; n<2; ++n) {
+        struct RRStringArray *strArray;
+        char *settingName, *settingDesc, *settingHint;
+        char *_intgList;
+        int settingType;
+
+        // load the model
         {
             const char* modelstr = (n == 0) ? feedback_sbml : bistable_sbml;
             const char* modeldsc = (n == 0) ? "feedback" : "bistable";
             fprintf(stderr,"\n  **** Loading model '%s'\n\n", modeldsc);
             loadSBML(_handle, modelstr);
         }
-
-
-        struct RRStringArray *strArray;
-        char *settingName, *settingDesc, *settingHint;
-        char *_intgList;
-        int settingType;
-
 
 
         fprintf(stderr,"\n  ****\n\n");

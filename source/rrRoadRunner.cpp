@@ -2949,19 +2949,19 @@ void RoadRunner::setIntegrator(std::string name)
 		{
 			if (impl->integrators.at(i)->getIntegratorName() == name)
 			{
+                Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
 				impl->integrator = impl->integrators.at(i);
 				impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
-                Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
 			}
 		}
 	}
 	// Otherwise, create a new integrator.
 	else
 	{
+        Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
 		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
 		impl->integrators.push_back(impl->integrator);
 		impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
-        Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
 	}
 }
 
