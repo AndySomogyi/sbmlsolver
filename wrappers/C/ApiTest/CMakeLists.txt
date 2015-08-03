@@ -12,11 +12,11 @@ set(tests
     )
 
 add_executable( ${target}
-    main.cpp
-    src/Args.cpp
-    src/TestUtils
-    src/rrSBMLTestSuiteSimulation_CAPI
-    ${tests}
+    main.c
+#     src/Args.cpp
+#     src/TestUtils
+#     src/rrSBMLTestSuiteSimulation_CAPI
+#     ${tests}
     )
 
 set_property(TARGET ${target}
