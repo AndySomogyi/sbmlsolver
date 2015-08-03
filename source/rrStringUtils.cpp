@@ -22,7 +22,7 @@ char* createText(const string& str)
         return NULL;
     }
 
-    char* text = new char[str.size() + 1];
+    char* text = (char*)malloc((str.size() + 1)*sizeof(char));
     std::copy(str.begin(), str.end(), text);
     text[str.size()] = '\0'; //terminating NULL!
     return text;
@@ -35,7 +35,7 @@ char* createText(const int& count)
         return NULL;
     }
 
-    char* text = new char[count + 1];
+    char* text = (char*)malloc((count + 1)*sizeof(char));
     text[count] = '\0'; //terminating NULL!
     return text;
 }
