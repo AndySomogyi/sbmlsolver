@@ -505,6 +505,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDesc (int n);
 
 /*!
 \brief Get the number of instantiated integrators.
+\description To instantiate an integrator, use @ref setCurrentIntegrator.
 \param[in] handle Handle to a RoadRunner instance.
 \return Returns an integer that corresponds to the number of currently registered integrators.
 \ingroup simopts
@@ -520,6 +521,8 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle);
 
 /*!
 \brief Specify the current integrator to be used for simulation.
+\description This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
+one does not currently exist. Otherwise, the existing integrator of this type is used.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] nameOfIntegrator Name of the integrator to be used.
 \return Returns True if successful.
