@@ -46,6 +46,12 @@ int main(int argc, char* argv[])
 
     // enable logging
     setLogLevel("debug");
+    enableLoggingToFile();
+    {
+        char* t = getLogFileName();
+        printf("Enabling logging to %s\n", t);
+        free(t);
+    }
 
     printf("Initializing RoadRunner...\n");
 	RRHandle _handle = createRRInstance();
