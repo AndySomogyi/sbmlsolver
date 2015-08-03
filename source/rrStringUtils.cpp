@@ -42,7 +42,7 @@ char* createText(const int& count)
 
 bool freeText(char* str)
 {
-    delete [] str;
+    free(str);
     return true;
 }
 

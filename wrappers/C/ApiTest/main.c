@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 {
 
     // enable logging
-    setLogLevel("debug");
+//     setLogLevel("debug");
     enableLoggingToFile();
     {
         char* t = getLogFileName();

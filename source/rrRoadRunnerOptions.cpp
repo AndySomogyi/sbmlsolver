@@ -88,6 +88,9 @@ namespace rr
 		else {
 			s->copy_result = false;
 		}
+
+		// initially false, set to true to reset model
+		s->reset_model = false;
 	}
 	
 
