@@ -234,7 +234,8 @@ namespace rr
          * @brief Get the hint for this integrator
          */
         static std::string getHint() {
-            return "An elementary (my dear Watson) Euler integrator";
+//             return "An elementary (my dear Watson) Euler integrator";
+            return "A simple Euler integrator";
         }
 
         /**

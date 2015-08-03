@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         {
             const char* modelstr = (n == 0) ? feedback_sbml : bistable_sbml;
             const char* modeldsc = (n == 0) ? "feedback" : "bistable";
-            fprintf(stderr,"\n  **** Loading model %s\n\n", modeldsc);
+            fprintf(stderr,"\n  **** Loading model '%s'\n\n", modeldsc);
             loadSBML(_handle, modelstr);
         }
 
@@ -89,8 +89,14 @@ int main(int argc, char* argv[])
 
         fprintf(stderr,"  Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 
-        // Probe default (CVODE) integrator
+        // instantiate all integrators to test for problems
         setCurrentIntegrator(_handle, "cvode");
+        setCurrentIntegrator(_handle, "rk4");
+        setCurrentIntegrator(_handle, "euler");
+        setCurrentIntegrator(_handle, "gillespie");
+        setCurrentIntegrator(_handle, "cvode");
+
+        // Probe default (CVODE) integrator
 
         // test name
         {
