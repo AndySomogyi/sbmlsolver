@@ -1369,10 +1369,9 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
 int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
 	start_try
+        Log(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
 		RoadRunner* rri = castToRoadRunner(handle);
-		stringstream ss;
-		ss << nameOfIntegrator;
-		rri->setIntegrator(ss.str());
+		rri->setIntegrator(std::string(nameOfIntegrator));
 		return true;
 		//RoadRunner* rri = castToRoadRunner(handle);
         //rri->getSimulateOptions().setItem ("integrator", nameOfIntegrator);

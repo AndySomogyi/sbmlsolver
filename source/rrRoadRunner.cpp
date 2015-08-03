@@ -2932,6 +2932,7 @@ std::vector<std::string> RoadRunner::getExistingIntegratorNames()
 
 void RoadRunner::setIntegrator(std::string name)
 {
+    Log(Logger::LOG_DEBUG) << "Setting integrator to " << name;
 	// Try to set integrator from an existing reference.
 	if (integratorExists(name))
 	{
@@ -2942,7 +2943,7 @@ void RoadRunner::setIntegrator(std::string name)
 			{
 				impl->integrator = impl->integrators.at(i);
 				impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
-				return;
+                Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
 			}
 		}
 	}
@@ -2952,9 +2953,8 @@ void RoadRunner::setIntegrator(std::string name)
 		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
 		impl->integrators.push_back(impl->integrator);
 		impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+        Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
 	}
-
-	return;
 }
 
 

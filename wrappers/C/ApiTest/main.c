@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
         printf("  %d:\n", k);
         printf("   Name: %s\n", getRegisteredIntegratorName(k));
         printf("   Hint: %s\n", getRegisteredIntegratorHint(k));
-        printf("   Desc: %s\n", getRegisteredIntegratorDesc(k));
+        printf("   Desc: %s\n", getRegisteredIntegratorDescription(k));
     }
 
 
