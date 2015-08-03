@@ -471,7 +471,7 @@ C_DECL_SPEC char* rrcCallConv getConfigurationXML(RRHandle handle);
 /** Registered Integrators ****************************************************/
 
 /*!
-\brief Get the number of implemented integrators.
+\brief Get the number of supported integrators.
 \return Returns an integer that corresponds to the number of currently registered integrators.
 \ingroup simopts
 */
@@ -479,7 +479,6 @@ C_DECL_SPEC int rrcCallConv getNumRegisteredIntegrators ();
 
 /*!
 \brief Get the name of a registered integrator (e.g. cvode etc.)
-\param[in] handle Handle to a RoadRunner instance.
 \param[in] n The index of the registered integrator
 \note Callee owns memory
 \ingroup simopts
@@ -488,7 +487,6 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorName (int n);
 
 /*!
 \brief Get the hint of a registered integrator (e.g. cvode etc.)
-\param[in] handle Handle to a RoadRunner instance.
 \param[in] n The index of the registered integrator
 \note Callee owns memory
 \ingroup simopts
@@ -497,7 +495,6 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorHint (int n);
 
 /*!
 \brief Get the description of a registered integrator (e.g. cvode etc.)
-\param[in] handle Handle to a RoadRunner instance.
 \param[in] n The index of the registered integrator
 \note Callee owns memory
 \ingroup simopts
