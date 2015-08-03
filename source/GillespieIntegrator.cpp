@@ -101,11 +101,11 @@ namespace rr
     }
 
     std::string GillespieIntegrator::getDescription() {
-        return "RoadRunner implementation of the standard Gillespie Direct "
-            "Method SSA. The granularity of this simulator is individual"
+        return "RoadRunner's implementation of the standard Gillespie Direct "
+            "Method SSA. The granularity of this simulator is individual "
             "molecules and kinetic processes are stochastic. "
             "Results will, in general, be different in each run, but "
-            "a sufficiently large ensemble should be statistically correct.";
+            "a sufficiently large ensemble of runs should be statistically correct.";
     }
 
     std::string GillespieIntegrator::getIntegratorHint() const {
