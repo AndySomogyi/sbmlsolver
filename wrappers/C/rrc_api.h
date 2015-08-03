@@ -513,13 +513,6 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDesc (int n);
 C_DECL_SPEC int rrcCallConv getNumInstantiatedIntegrators (RRHandle handle);
 
 /*!
-\brief Get the names of implemented integrators.
-\param[in] handle Handle to a RoadRunner instance.
-\return Returns a list that contains the names of currently implemented integrators.
-*/
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle);
-
-/*!
 \brief Specify the current integrator to be used for simulation.
 \description This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
 one does not currently exist. Otherwise, the existing integrator of this type is used.

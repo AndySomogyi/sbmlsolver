@@ -1366,19 +1366,6 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
     catch_ptr_macro
 }
 
-RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle)
-{
-	start_try
-		RoadRunner* rri = castToRoadRunner(handle);
-		StringList intgNames = rri->getExistingIntegratorNames();
-		if (!intgNames.Count())
-		{
-			return NULL;
-		}
-		return createList(intgNames);
-    catch_ptr_macro
-}
-
 int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
 	start_try
