@@ -525,7 +525,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle);
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setIntegrator (RRHandle handle, char *nameOfIntegrator);
+C_DECL_SPEC int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator);
 
 /*!
 \brief Obtain a description of the current integrator.
@@ -534,7 +534,7 @@ C_DECL_SPEC int rrcCallConv setIntegrator (RRHandle handle, char *nameOfIntegrat
 \return Returns a description of the current integrator.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getIntegratorName (RRHandle handle);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorName (RRHandle handle);
 
 /*!
 \brief Obtain a description of the current integrator.

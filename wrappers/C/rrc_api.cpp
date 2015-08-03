@@ -1379,7 +1379,7 @@ RRStringArrayPtr rrcCallConv getListOfIntegrators(RRHandle handle)
     catch_ptr_macro
 }
 
-int rrcCallConv setIntegrator (RRHandle handle, char *nameOfIntegrator)
+int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);

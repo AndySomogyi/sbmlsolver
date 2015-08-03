@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 
 
 	// Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
-	setIntegrator(_handle, "gillespie");
+	setCurrentIntegrator(_handle, "gillespie");
     printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
