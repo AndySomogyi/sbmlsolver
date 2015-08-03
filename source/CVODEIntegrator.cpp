@@ -684,6 +684,7 @@ namespace rr
 		if (mCVODE_Memory)
 		{
 			reInit(time);
+			// FIXME: Passing setting to CVODE? -JKM
 		}
 	}
 
