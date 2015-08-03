@@ -1508,7 +1508,7 @@ double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *p
 	catch_ptr_macro
 }
 
-int rrcCallConv setIntegratorParameterDouble (RRHandle handle, char *parameterName, double value)
+int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName, double value)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);

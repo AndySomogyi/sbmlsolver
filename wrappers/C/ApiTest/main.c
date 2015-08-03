@@ -80,7 +80,6 @@ int main(int argc, char* argv[])
     printf("\n****\n\n");
 
     printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
-	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
     // Probe default (CVODE) integrator
 
@@ -112,11 +111,20 @@ int main(int argc, char* argv[])
 
     printf("\n****\n\n");
 
+    printf("Set absolute tolerance to 1e-7\n");
+    setCurrentIntegratorParameterDouble(_handle, "absolute_tolerance", 1e-7);
+    printf("Result: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
+
+    printf("Reset all integrator settings\n");
+    resetCurrentIntegratorParameters(_handle);
+    printf("Current value of absolute_tolerance: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
+
+    printf("\n****\n\n");
+
 
 	// Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
 	setCurrentIntegrator(_handle, "gillespie");
     printf("Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
-	_intgList = stringArrayToString(getListOfIntegrators(_handle));
 
 	// Probe Gillespie integrator
 	printf("%s \n", getCurrentIntegratorDescription(_handle));
