@@ -1426,6 +1426,15 @@ int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle)
     catch_ptr_macro
 }
 
+
+int rrcCallConv resetCurrentIntegratorParameters (RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        return false;
+    catch_ptr_macro
+}
+
 RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterNames (RRHandle handle)
 {
 	start_try

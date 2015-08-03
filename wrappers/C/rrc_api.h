@@ -530,7 +530,6 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfI
 /*!
 \brief Obtain a description of the current integrator.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] nameOfIntegrator Name of the integrator to be used.
 \return Returns a description of the current integrator.
 \ingroup simopts
 */
@@ -539,7 +538,6 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorName (RRHandle handle);
 /*!
 \brief Obtain a description of the current integrator.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] nameOfIntegrator Name of the integrator to be used.
 \return Returns a description of the current integrator.
 \ingroup simopts
 */
@@ -548,7 +546,6 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorDescription (RRHandle handle);
 /*!
 \brief Obtain a short hint for the current integrator.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] nameOfIntegrator Name of the integrator to be used.
 \return Returns a short hint of the current integrator.
 \ingroup simopts
 */
@@ -561,6 +558,14 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorHint (RRHandle handle);
 \ingroup simopts
 */
 C_DECL_SPEC int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle);
+
+/*!
+\brief Reset the integrator parameters to their default values.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv resetCurrentIntegratorParameters (RRHandle handle);
 
 /*!
 \brief Get the names of adjustable settings for the current integrator.
