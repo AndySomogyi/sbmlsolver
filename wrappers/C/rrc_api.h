@@ -2087,6 +2087,9 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
 
  \defgroup reset Reset methods
  \brief Methods for resetting instances to various initial states
+
+ \defgroup simopts Solver options API
+ \brief Reflective API for interacting with steady state solvers and integrators
 */
 
 
