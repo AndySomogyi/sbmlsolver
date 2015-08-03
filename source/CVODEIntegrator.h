@@ -126,6 +126,12 @@ namespace rr
         void setValue(std::string setting, const Variant& value);
 
         /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        void resetSettings();
+
+        /**
          * @author WBC, ETS, MTK
          * @brief Sets tolerances based on config values
          * @details Sets absolute and relative tolerances to the minimum

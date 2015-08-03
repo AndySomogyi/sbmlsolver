@@ -85,6 +85,13 @@ namespace rr
 		return keys;
 	}
 
+    void Integrator::resetSettings()
+    {
+        settings.clear();
+        hints.clear();
+        descriptions.clear();
+    }
+
 	Variant Integrator::getValue(std::string key)
 	{
 		std::unordered_map<string, Variant>::const_iterator option = settings.find(key);

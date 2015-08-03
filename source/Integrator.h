@@ -81,6 +81,12 @@ namespace rr
 		virtual IntegrationMethod getIntegrationMethod() const = 0;
 		std::vector<std::string> getSettings();
 
+        /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        virtual void resetSettings();
+
 		virtual Variant getValue(std::string key);
 		virtual int getValueAsInt(std::string key);
 		virtual unsigned int getValueAsUInt(std::string key);
