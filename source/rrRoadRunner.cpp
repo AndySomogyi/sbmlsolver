@@ -23,6 +23,7 @@
 #include "Integrator.h"
 #include "IntegratorRegistration.h"
 #include "Solver.h"
+#include "SolverRegistration.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 #include "SBMLValidator.h"
@@ -399,6 +400,8 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 {
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
 
     //Increase instance count..
     mInstanceCount++;
@@ -407,7 +410,7 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
     // make CVODE the default integrator
     setIntegrator("cvode");
     // make NLEQ the default steady state solver
-    setIntegrator("nleq");
+    setSteadyStateSolver("nleq");
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
@@ -416,11 +419,13 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 {
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
 
     // make CVODE the default integrator
     setIntegrator("cvode");
     // make NLEQ the default steady state solver
-    setIntegrator("nleq");
+    setSteadyStateSolver("nleq");
 
     load(uriOrSBML, options);
 
@@ -436,6 +441,8 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 {
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
 
     string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
@@ -448,7 +455,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     // make CVODE the default integrator
     setIntegrator("cvode");
     // make NLEQ the default steady state solver
-    setIntegrator("nleq");
+    setSteadyStateSolver("nleq");
 }
 
 RoadRunner::~RoadRunner()
@@ -991,6 +998,7 @@ std::vector<rr::SelectionRecord>& RoadRunner::getSelections()
 
 double RoadRunner::steadyState(const Dictionary* dict)
 {
+    Log(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
     if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
@@ -1014,6 +1022,9 @@ double RoadRunner::steadyState(const Dictionary* dict)
         Log(Logger::LOG_ERROR)<<"No steady state solver";
         throw std::runtime_error("No steady state solver");
     }
+
+    Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getSolverName() << "'...";
+
     double ss = impl->steady_state_solver->solve(someAmounts);
     if(ss < 0)
     {

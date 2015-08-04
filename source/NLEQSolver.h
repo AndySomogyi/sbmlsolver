@@ -35,7 +35,6 @@ public:
     ~NLEQSolver();
 
 	void loadConfigSettings();
-	void loadSBMLSettings(const std::string& filename);
 
 	/**
 	* @author WBC
@@ -84,12 +83,6 @@ public:
 	*/
 	SolverMethod getSolverMethod() const;
 
-	/**
-	* @author WBC, ETS, MTK
-	* @brief Sets the value of an Solver setting (e.g. maximum_iterations)
-	*/
-	void setValue(std::string setting, const Variant& value);
-
 
 	// ** Solver routines
 	double solve(const vector<double>& yin);
@@ -97,6 +90,45 @@ public:
 private:
 	ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function
 };
+
+
+    // ** Registration *********************************************************
+
+
+    class NLEQSolverRegistrar : public SolverRegistrar {
+        public:
+            /**
+            * @author JKM
+            * @brief Gets the name associated with this integrator type
+            */
+            virtual std::string getName() const {
+                return NLEQSolver::getName();
+            }
+
+            /**
+            * @author JKM
+            * @brief Gets the description associated with this integrator type
+            */
+            virtual std::string getDescription() const {
+                return NLEQSolver::getDescription();
+            }
+
+            /**
+            * @author JKM
+            * @brief Gets the hint associated with this integrator type
+            */
+            virtual std::string getHint() const {
+                return NLEQSolver::getHint();
+            }
+
+            /**
+            * @author JKM
+            * @brief Constructs a new integrator of a given type
+            */
+            virtual Solver* construct(ExecutableModel *model) const {
+                return new NLEQSolver(model);
+            }
+    };
 }
 
 #endif

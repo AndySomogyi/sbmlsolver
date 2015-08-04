@@ -66,7 +66,6 @@ include_directories(
 
 set(rrCoreSources
     rrConfig
-    Solver
     rrSteadyStateSolver
     rrConstants
     rrException
@@ -98,6 +97,8 @@ set(rrCoreSources
     rrSBMLModelSimulation
     rrSBMLReader
     SBMLValidator
+    Solver
+    SolverRegistration
     Variant
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin

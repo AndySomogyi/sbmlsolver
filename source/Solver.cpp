@@ -40,11 +40,6 @@ namespace rr
 		// empty
 	}
 
-	void Solver::loadSBMLSettings(const std::string& filename)
-	{
-		// Stub for loading SBML settings (can override in derived classes).
-	}
-
 	std::vector<string> Solver::getSettings()
 	{
 		std::vector<string> keys;
@@ -163,6 +158,7 @@ namespace rr
                 return (*it)->construct(m);
             }
         }
+        Log(Logger::LOG_ERROR) << "No such Solver '" << name << "'";
         throw InvalidKeyException("No such Solver: " + name);
     }
 

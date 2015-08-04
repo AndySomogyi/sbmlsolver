@@ -32,13 +32,14 @@ int main(int argc, char* argv[])
 {
     int n;
     // enable logging
-//     setLogLevel("debug");
-    enableLoggingToFile();
-    {
-        char* t = getLogFileName();
-        fprintf(stderr,"Enabling logging to %s\n", t);
-        freeText(t);
-    }
+    setLogLevel("debug");
+//     setLogLevel("warning");
+//     enableLoggingToFile();
+//     {
+//         char* t = getLogFileName();
+//         fprintf(stderr,"Enabling logging to %s\n", t);
+//         freeText(t);
+//     }
 
     // print version
     {
@@ -81,22 +82,26 @@ int main(int argc, char* argv[])
         {
             RRStringArrayPtr floatingspcids = getFloatingSpeciesIds(_handle);
 
-            for(k=0; k<floatingspcids->Count; ++k) {
-                fprintf(stderr, "%s ", floatingspcids->String[k]);
+            if(floatingspcids) {
+                for(k=0; k<floatingspcids->Count; ++k) {
+                    fprintf(stderr, "%s ", floatingspcids->String[k]);
+                }
+                fprintf(stderr, "\n");
+                freeStringArray(floatingspcids);
             }
-            fprintf(stderr, "\n");
-            freeStringArray(floatingspcids);
         }
 
         // print the floating species values at steady state
         {
             RRVectorPtr floatingspc = getFloatingSpeciesConcentrations(_handle);
 
-            for(k=0; k<floatingspc->Count; ++k) {
-                fprintf(stderr, "%lf ", floatingspc->Data[k]);
+            if(floatingspc) {
+                for(k=0; k<floatingspc->Count; ++k) {
+                    fprintf(stderr, "%lf ", floatingspc->Data[k]);
+                }
+                fprintf(stderr, "\n");
+                freeVector(floatingspc);
             }
-            fprintf(stderr, "\n");
-            freeVector(floatingspc);
         }
     }
 

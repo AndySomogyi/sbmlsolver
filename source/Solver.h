@@ -51,7 +51,6 @@ namespace rr
         virtual double solve(const std::vector<double>& yin) = 0;
 
 		virtual void loadConfigSettings();
-		virtual void loadSBMLSettings(const std::string& filename);
 		virtual std::string getSolverName() const = 0;
 		virtual std::string getSolverDescription() const = 0;
 		virtual std::string getSolverHint() const = 0;
