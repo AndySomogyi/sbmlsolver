@@ -278,24 +278,34 @@ public:
         delete model;
         delete mLS;
 
-		deleteIntegrators();
+		deleteAllSolvers();
 
         mInstanceCount--;
     }
 
-	void deleteIntegrators()
-	{
-		for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
-		{
-			delete *it;
-			*it = NULL;
-		}
-		integrators.clear();
-	}
-
-    void syncIntegratorsWithModel(ExecutableModel* m)
+    void deleteAllSolvers()
     {
         for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            delete *it;
+            *it = NULL;
+        }
+        integrators.clear();
+        for (std::vector<Solver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
+        {
+            delete *it;
+            *it = NULL;
+        }
+        steady_state_solvers.clear();
+	}
+
+    void syncAllSolversWithModel(ExecutableModel* m)
+    {
+        for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            (*it)->syncWithModel(m);
+        }
+        for (std::vector<Solver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
         {
             (*it)->syncWithModel(m);
         }
@@ -895,7 +905,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         throw;
     }
 
-    impl->syncIntegratorsWithModel(impl->model);
+    impl->syncAllSolversWithModel(impl->model);
 
     reset();
 
