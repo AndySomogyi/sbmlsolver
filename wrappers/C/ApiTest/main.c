@@ -53,6 +53,13 @@ int main(int argc, char* argv[])
         freeCText(t);
     }
 
+    // print version
+    {
+        char* t = getVersionStr();
+        fprintf(stderr,"RoadRunner version %s\n", t);
+        freeCText(t);
+    }
+
     fprintf(stderr,"Initializing RoadRunner...\n");
     RRHandle _handle = createRRInstance();
 
@@ -204,7 +211,7 @@ int main(int argc, char* argv[])
 
         // Simulate
         RRCDataPtr result;
-        result = simulateEx(_handle, 0, 10, 100);
+        result = simulateEx(_handle, 0, 10, 10);
         fprintf(stderr,rrCDataToString(result));
         freeRRCData(result);
     }
