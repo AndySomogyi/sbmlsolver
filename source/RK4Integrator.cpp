@@ -21,6 +21,20 @@ namespace rr
     RK4Integrator::RK4Integrator(ExecutableModel *m)
     {
         Log(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
+        stateVectorSize = 0;
+        k1 = k2 = k3 = k4 = y = ytmp = NULL;
+        syncWithModel(m);
+    }
+
+    void RK4Integrator::syncWithModel(ExecutableModel* m)
+    {
+        // free existing memory
+        delete []k1;
+        delete []k2;
+        delete []k3;
+        delete []k4;
+        delete []y;
+        delete []ytmp;
 
         model = m;
 
@@ -36,6 +50,8 @@ namespace rr
             stateVectorSize = 0;
             k1 = k2 = k3 = k4 = y = NULL;
         }
+
+        resetSettings();
     }
 
     RK4Integrator::~RK4Integrator()
@@ -50,6 +66,7 @@ namespace rr
 
     double RK4Integrator::integrate(double t, double h)
     {
+        static const double epsilon = 1e-12;
         double tf = 0;
         bool singleStep;
 
@@ -134,8 +151,40 @@ namespace rr
         return t + h;
     }
 
+    void RK4Integrator::testRootsAtInitialTime()
+    {
+        std::vector<unsigned char> initialEventStatus(model->getEventTriggers(0, 0, 0), false);
+        model->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+        applyEvents(0, initialEventStatus);
+    }
+
+    void RK4Integrator::applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus)
+    {
+        model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], y, y);
+    }
+
     void RK4Integrator::restart(double t0)
     {
+        if (!model) {
+            return;
+        }
+
+        if (t0 <= 0.0) {
+            if (y)
+            {
+                model->getStateVector(y);
+            }
+
+            testRootsAtInitialTime();
+        }
+
+        model->setTime(t0);
+
+        // copy state vector into memory
+        if (y)
+        {
+            model->getStateVector(y);
+        }
     }
 
     void RK4Integrator::setListener(IntegratorListenerPtr)
@@ -187,6 +236,14 @@ namespace rr
         return "Internal RK4 ODE solver";
     }
 
+    Variant RK4Integrator::getValue(std::string key)
+    {
+        if (key == "variable_step_size")
+            return false;
+        else
+            return Integrator::getValue(key);
+    }
+
     Integrator::IntegrationMethod RK4Integrator::getIntegrationMethod() const
     {
         return Integrator::IntegrationMethod::Deterministic;
@@ -198,33 +255,38 @@ namespace rr
         hints.clear();
         descriptions.clear();
 
-        // TODO: RK4 settings not exposed through new integrator interface? -JKM
+        // Set default integrator settings.
+        addSetting("multiple_steps", false, "Perform a multiple time step simulation. (bool)", "(bool) Perform a multiple time step simulation.");
+        addSetting("initial_time_step", 0.0, "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
+        addSetting("minimum_time_step", 0.0, "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("maximum_time_step", 0.0, "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("maximum_num_steps", 1000, "Specifies the maximum number of steps to be taken by the CVODE solver in its attempt to reach tout. (int)", "(int) Maximum number of steps to be taken by the CVODE solver in its attempt to reach tout.");
     }
 
-    void RK4Integrator::setItem(const std::string& key,
-            const rr::Variant& value)
-    {
-        throw std::invalid_argument("invalid key");
-    }
-
-    Variant RK4Integrator::getItem(const std::string& key) const
-    {
-        throw std::invalid_argument("invalid key");
-    }
-
-    bool RK4Integrator::hasKey(const std::string& key) const
-    {
-        return false;
-    }
-
-    int RK4Integrator::deleteItem(const std::string& key)
-    {
-        return -1;
-    }
-
-    std::vector<std::string> RK4Integrator::getKeys() const
-    {
-        return std::vector<std::string>();
-    }
+//     void RK4Integrator::setItem(const std::string& key,
+//             const rr::Variant& value)
+//     {
+//         throw std::invalid_argument("invalid key");
+//     }
+//
+//     Variant RK4Integrator::getItem(const std::string& key) const
+//     {
+//         throw std::invalid_argument("invalid key");
+//     }
+//
+//     bool RK4Integrator::hasKey(const std::string& key) const
+//     {
+//         return false;
+//     }
+//
+//     int RK4Integrator::deleteItem(const std::string& key)
+//     {
+//         return -1;
+//     }
+//
+//     std::vector<std::string> RK4Integrator::getKeys() const
+//     {
+//         return std::vector<std::string>();
+//     }
 
 } /* namespace rr */

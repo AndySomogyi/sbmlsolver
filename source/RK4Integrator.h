@@ -52,6 +52,13 @@ namespace rr
         */
         virtual ~RK4Integrator();
 
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
+
 
         /**
         * implement Integrator interface
@@ -122,6 +129,8 @@ namespace rr
 
         // ** Getters / Setters ************************************************
 
+        virtual Variant getValue(std::string key);
+
         /**
          * @author JKM
          * @brief Always deterministic for RK4
@@ -152,27 +161,27 @@ namespace rr
         /**
         * set an arbitrary key
         */
-        virtual void setItem(const std::string& key, const rr::Variant& value);
+//         virtual void setItem(const std::string& key, const rr::Variant& value);
 
         /**
         * get a value. Variants are POD.
         */
-        virtual Variant getItem(const std::string& key) const;
+//         virtual Variant getItem(const std::string& key) const;
 
         /**
         * is there a key matching this name.
         */
-        virtual bool hasKey(const std::string& key) const;
+//         virtual bool hasKey(const std::string& key) const;
 
         /**
         * remove a value
         */
-        virtual int deleteItem(const std::string& key);
+//         virtual int deleteItem(const std::string& key);
 
         /**
         * list of keys in this object.
         */
-        virtual std::vector<std::string> getKeys() const;
+//         virtual std::vector<std::string> getKeys() const;
 
 
     private:
@@ -184,6 +193,9 @@ namespace rr
         * arrays to store function eval values.
         */
         double *k1, *k2, *k3, *k4, *y, *ytmp;
+
+        void testRootsAtInitialTime();
+        void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
 
     };
 
