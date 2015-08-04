@@ -76,6 +76,32 @@ namespace rr
 		return option->second;
 	}
 
+    std::string Integrator::getParamName(int n) const
+    {
+        std::unordered_map<string, Variant>::const_iterator i = settings.begin();
+        int k;
+        while (k<n) {
+            if (i == settings.end()) {
+                std::stringstream ss;
+                ss << "Unable to get parameter name for index " << n << "\n";
+                throw std::runtime_error(ss.str());
+            }
+            ++i;
+            ++k;
+        }
+        return i->first;
+    }
+
+    std::string Integrator::getParamHint(int n) const
+    {
+        return getHint(getParamName(n));
+    }
+
+    std::string Integrator::getParamDesc(int n) const
+    {
+        return getDescription(getParamName(n));
+    }
+
 	int Integrator::getValueAsInt(std::string key)
 	{
 		return getValue(key).convert<int>();

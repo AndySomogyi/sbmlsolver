@@ -95,6 +95,29 @@ namespace rr
         virtual void resetSettings() = 0;
 
 		virtual Variant getValue(std::string key);
+
+        /**
+        * @author JKM
+        * @brief Get the name of the parameter at index n (stored in an
+        * unordered container)
+        */
+        virtual std::string getParamName(int n) const;
+
+        /**
+        * @author JKM
+        * @brief Get the hint of the parameter at index n (stored in an
+        * unordered container)
+        */
+        virtual std::string getParamHint(int n) const;
+
+        /**
+        * @author JKM
+        * @brief Get the description of the parameter at index n (stored in an
+        * unordered container)
+        */
+        virtual std::string getParamDesc(int n) const;
+
+
 		virtual int getValueAsInt(std::string key);
 		virtual unsigned int getValueAsUInt(std::string key);
 		virtual long getValueAsLong(std::string key);

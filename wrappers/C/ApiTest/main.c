@@ -109,20 +109,33 @@ int main(int argc, char* argv[])
             }
             free(name);
         }
-        fprintf(stderr,"    %s \n", getCurrentIntegratorDescription(_handle));
-        fprintf(stderr,"    %s \n", getCurrentIntegratorHint(_handle));
-        fprintf(stderr,"    %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+        fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
+        fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
+//         fprintf(stderr,"    Number of parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
-        strArray = getListOfCurrentIntegratorParameterNames(_handle);
-        for (int i = 0; i < strArray->Count; ++i)
+//         strArray = getListOfCurrentIntegratorParameterNames(_handle);
+//         for (int i = 0; i < strArray->Count; ++i)
+//         {
+//             settingName = strArray->String[i];
+//             settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+//             settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+//             settingType = getCurrentIntegratorParameterType(_handle, settingName);
+//
+//             fprintf(stderr,"    %s\n", settingName);
+//             fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+//         }
         {
-            settingName = strArray->String[i];
-            settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-            settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-            settingType = getCurrentIntegratorParameterType(_handle, settingName);
+            int nparams = getNumberOfCurrentIntegratorParameters(_handle);
+            fprintf(stderr, "    Number of parameters: %d\n", nparams);
+            for (int i = 0; i < nparams; ++i)
+            {
+                settingName = getCurrentIntegratorNthParameterName(_handle, i);
+                settingDesc = getCurrentIntegratorNthParameterDescription(_handle, i);
+                settingHint = getCurrentIntegratorNthParameterHint(_handle, i);
 
-            fprintf(stderr,"    %s\n", settingName);
-            fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+                fprintf(stderr,"    %s\n", settingName);
+                fprintf(stderr,"      Description: %s\n    Hint: %s\n", settingDesc, settingHint);
+            }
         }
 
 

@@ -1422,6 +1422,36 @@ int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle)
 }
 
 
+char* rrcCallConv getCurrentIntegratorNthParameterName (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       std::string str = rri->getIntegrator()->getParamName(n);
+       return (rr::createText (str));
+    catch_ptr_macro
+}
+
+
+char* rrcCallConv getCurrentIntegratorNthParameterHint (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       std::string str = rri->getIntegrator()->getParamHint(n);
+       return (rr::createText (str));
+    catch_ptr_macro
+}
+
+
+char* rrcCallConv getCurrentIntegratorNthParameterDescription (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       std::string str = rri->getIntegrator()->getParamDesc(n);
+       return (rr::createText (str));
+    catch_ptr_macro
+}
+
+
 int rrcCallConv resetCurrentIntegratorParameters (RRHandle handle)
 {
     start_try
