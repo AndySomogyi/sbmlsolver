@@ -36,14 +36,14 @@ int main(int argc, char* argv[])
     {
         char* t = getLogFileName();
         fprintf(stderr,"Enabling logging to %s\n", t);
-        freeCText(t);
+        freeText(t);
     }
 
     // print version
     {
         char* t = getVersionStr();
         fprintf(stderr,"RoadRunner version %s\n", t);
-        freeCText(t);
+        freeText(t);
     }
 
     fprintf(stderr,"Initializing RoadRunner...\n");
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
     {
         char* t = getCurrentIntegratorName(_handle);
         fprintf(stderr, "  Default integrator is %s\n", t);
-        freeCText(t);
+        freeText(t);
     }
 
     for(n = 0; n<1; ++n) {

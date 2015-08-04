@@ -50,14 +50,14 @@ int main(int argc, char* argv[])
     {
         char* t = getLogFileName();
         fprintf(stderr,"Enabling logging to %s\n", t);
-        freeCText(t);
+        freeText(t);
     }
 
     // print version
     {
         char* t = getVersionStr();
         fprintf(stderr,"RoadRunner version %s\n", t);
-        freeCText(t);
+        freeText(t);
     }
 
     fprintf(stderr,"Initializing RoadRunner...\n");
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
     {
         char* t = getCurrentIntegratorName(_handle);
         fprintf(stderr, "  Default integrator is %s\n", t);
-        freeCText(t);
+        freeText(t);
     }
 
     // set integrator to gillespie before loading a model to test for crashing
@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
                 fprintf(stderr, "!! Expected integrator name to be 'cvode'\n");
                 return 1;
             }
-            freeCText(name);
+            freeText(name);
         }
         fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
         fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
