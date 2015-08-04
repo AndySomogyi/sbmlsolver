@@ -46,6 +46,185 @@ static const char* sbml_desc[3] = {
     "bistable"
 };
 
+int run_test_with_cvode(RRHandle _handle) {
+    char *settingName, *settingDesc, *settingHint;
+    int settingType;
+    struct RRStringArray *strArray;
+
+    // Probe default (CVODE) integrator
+
+    // test name
+    {
+        char* name = getCurrentIntegratorName(_handle);
+        if (strcmp(name,"cvode")) {
+            fprintf(stderr, "!! Expected integrator name to be 'cvode'\n");
+            return 1;
+        }
+        freeText(name);
+    }
+    fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
+    fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
+//         fprintf(stderr,"    Number of parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+
+//         strArray = getListOfCurrentIntegratorParameterNames(_handle);
+//         for (int i = 0; i < strArray->Count; ++i)
+//         {
+//             settingName = strArray->String[i];
+//             settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+//             settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+//             settingType = getCurrentIntegratorParameterType(_handle, settingName);
+//
+//             fprintf(stderr,"    %s\n", settingName);
+//             fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+//         }
+    {
+        int nparams = getNumberOfCurrentIntegratorParameters(_handle);
+        fprintf(stderr, "    Number of parameters: %d\n", nparams);
+        for (int i = 0; i < nparams; ++i)
+        {
+            settingName = getCurrentIntegratorNthParameterName(_handle, i);
+            settingDesc = getCurrentIntegratorNthParameterDescription(_handle, i);
+            settingHint = getCurrentIntegratorNthParameterHint(_handle, i);
+
+            fprintf(stderr,"    %s\n", settingName);
+            fprintf(stderr,"      Description: %s\n    Hint: %s\n", settingDesc, settingHint);
+        }
+    }
+
+
+    fprintf(stderr,"\n  **** Test resetting parameters ****\n\n");
+
+    fprintf(stderr,"    Set absolute tolerance to 1e-7\n");
+    setCurrentIntegratorParameterDouble(_handle, "absolute_tolerance", 1e-7);
+    fprintf(stderr,"    Result: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
+
+    fprintf(stderr,"    Reset all integrator settings\n");
+    resetCurrentIntegratorParameters(_handle);
+    fprintf(stderr,"    Current value of absolute_tolerance: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
+
+
+    fprintf(stderr,"\n  **** Test boolean parameters ****\n\n");
+
+    fprintf(stderr,"    Initial value of multiple_steps: %d\n", getCurrentIntegratorParameterBoolean(_handle, "multiple_steps"));
+    fprintf(stderr,"    Set multiple_steps to true\n");
+    setCurrentIntegratorParameterBoolean(_handle, "multiple_steps", 1);
+
+    fprintf(stderr,"    Current value of multiple_steps: %d\n", getCurrentIntegratorParameterBoolean(_handle, "multiple_steps"));
+
+    fprintf(stderr,"    New list of parameters:\n");
+
+    strArray = getListOfCurrentIntegratorParameterNames(_handle);
+    for (int i = 0; i < strArray->Count; ++i)
+    {
+        settingName = strArray->String[i];
+        settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+        settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+        settingType = getCurrentIntegratorParameterType(_handle, settingName);
+
+        fprintf(stderr,"    %s\n", settingName);
+        fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+    }
+
+    fprintf(stderr,"\n  **** CVODE Simulation ****\n\n");
+
+    // Simulate
+    {
+        RRCDataPtr result;
+        result = simulateEx(_handle, 0, 10, 11);
+        fprintf(stderr,rrCDataToString(result));
+        freeRRCData(result);
+    }
+
+    return 0;
+}
+
+int run_test_with_gillespie(RRHandle _handle) {
+    char *settingName, *settingDesc, *settingHint;
+    int settingType;
+    struct RRStringArray *strArray;
+
+    fprintf(stderr,"\n  **** Test stochastic simulation ****\n\n");
+
+    // reset the model
+    resetToOrigin(_handle);
+
+    // Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
+    setCurrentIntegrator(_handle, "gillespie");
+    fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+
+    // Probe Gillespie integrator
+    fprintf(stderr,"    %s \n", getCurrentIntegratorDescription(_handle));
+    fprintf(stderr,"    %s \n", getCurrentIntegratorHint(_handle));
+    fprintf(stderr,"    %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+
+    strArray = getListOfCurrentIntegratorParameterNames(_handle);
+    for (int i = 0; i < strArray->Count; ++i)
+    {
+        settingName = strArray->String[i];
+        settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+        settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+        settingType = getCurrentIntegratorParameterType(_handle, settingName);
+
+        fprintf(stderr,"    %s\n", settingName);
+        fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+    }
+
+    fprintf(stderr,"\n  **** Gillespie Simulation ****\n\n");
+
+    // Simulate
+    {
+        RRCDataPtr result;
+        result = simulateEx(_handle, 0, 10, 11);
+        fprintf(stderr,rrCDataToString(result));
+        freeRRCData(result);
+    }
+
+    return 0;
+}
+
+int run_test_with_rk4(RRHandle _handle) {
+    char *settingName, *settingDesc, *settingHint;
+    int settingType;
+    struct RRStringArray *strArray;
+
+    // Simulate with RK4
+
+    setCurrentIntegrator(_handle, "rk4");
+    fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+
+    // Probe Gillespie integrator
+    fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
+    fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
+    fprintf(stderr,"    Parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+
+    strArray = getListOfCurrentIntegratorParameterNames(_handle);
+    for (int i = 0; i < strArray->Count; ++i)
+    {
+        settingName = strArray->String[i];
+        settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+        settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+        settingType = getCurrentIntegratorParameterType(_handle, settingName);
+
+        fprintf(stderr,"    %s\n", settingName);
+        fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+    }
+
+    fprintf(stderr,"\n  **** RK4 Simulation ****\n\n");
+
+    // reset the model
+    resetToOrigin(_handle);
+
+    // Simulate
+    {
+        RRCDataPtr result;
+        result = simulateEx(_handle, 0, 10, 11);
+        fprintf(stderr,rrCDataToString(result));
+        freeRRCData(result);
+    }
+
+    return 0;
+}
+
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
@@ -117,160 +296,14 @@ int main(int argc, char* argv[])
         setCurrentIntegrator(_handle, "gillespie");
         setCurrentIntegrator(_handle, "cvode");
 
-        // Probe default (CVODE) integrator
+        if(run_test_with_cvode(_handle))
+            return 1;
 
-        // test name
-        {
-            char* name = getCurrentIntegratorName(_handle);
-            if (strcmp(name,"cvode")) {
-                fprintf(stderr, "!! Expected integrator name to be 'cvode'\n");
-                return 1;
-            }
-            freeText(name);
-        }
-        fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
-        fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
-//         fprintf(stderr,"    Number of parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+        if(run_test_with_gillespie(_handle))
+            return 1;
 
-//         strArray = getListOfCurrentIntegratorParameterNames(_handle);
-//         for (int i = 0; i < strArray->Count; ++i)
-//         {
-//             settingName = strArray->String[i];
-//             settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-//             settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-//             settingType = getCurrentIntegratorParameterType(_handle, settingName);
-//
-//             fprintf(stderr,"    %s\n", settingName);
-//             fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
-//         }
-        {
-            int nparams = getNumberOfCurrentIntegratorParameters(_handle);
-            fprintf(stderr, "    Number of parameters: %d\n", nparams);
-            for (int i = 0; i < nparams; ++i)
-            {
-                settingName = getCurrentIntegratorNthParameterName(_handle, i);
-                settingDesc = getCurrentIntegratorNthParameterDescription(_handle, i);
-                settingHint = getCurrentIntegratorNthParameterHint(_handle, i);
-
-                fprintf(stderr,"    %s\n", settingName);
-                fprintf(stderr,"      Description: %s\n    Hint: %s\n", settingDesc, settingHint);
-            }
-        }
-
-
-        fprintf(stderr,"\n  **** Test resetting parameters ****\n\n");
-
-        fprintf(stderr,"    Set absolute tolerance to 1e-7\n");
-        setCurrentIntegratorParameterDouble(_handle, "absolute_tolerance", 1e-7);
-        fprintf(stderr,"    Result: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
-
-        fprintf(stderr,"    Reset all integrator settings\n");
-        resetCurrentIntegratorParameters(_handle);
-        fprintf(stderr,"    Current value of absolute_tolerance: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
-
-
-        fprintf(stderr,"\n  **** Test boolean parameters ****\n\n");
-
-        fprintf(stderr,"    Initial value of multiple_steps: %d\n", getCurrentIntegratorParameterBoolean(_handle, "multiple_steps"));
-        fprintf(stderr,"    Set multiple_steps to true\n");
-        setCurrentIntegratorParameterBoolean(_handle, "multiple_steps", 1);
-
-        fprintf(stderr,"    Current value of multiple_steps: %d\n", getCurrentIntegratorParameterBoolean(_handle, "multiple_steps"));
-
-        fprintf(stderr,"    New list of parameters:\n");
-
-        strArray = getListOfCurrentIntegratorParameterNames(_handle);
-        for (int i = 0; i < strArray->Count; ++i)
-        {
-            settingName = strArray->String[i];
-            settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-            settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-            settingType = getCurrentIntegratorParameterType(_handle, settingName);
-
-            fprintf(stderr,"    %s\n", settingName);
-            fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
-        }
-
-        fprintf(stderr,"\n  **** CVODE Simulation ****\n\n");
-
-        // Simulate
-        {
-            RRCDataPtr result;
-            result = simulateEx(_handle, 0, 10, 11);
-            fprintf(stderr,rrCDataToString(result));
-            freeRRCData(result);
-        }
-
-        fprintf(stderr,"\n  **** Test stochastic simulation ****\n\n");
-
-        // reset the model
-        resetToOrigin(_handle);
-
-        // Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
-        setCurrentIntegrator(_handle, "gillespie");
-        fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
-
-        // Probe Gillespie integrator
-        fprintf(stderr,"    %s \n", getCurrentIntegratorDescription(_handle));
-        fprintf(stderr,"    %s \n", getCurrentIntegratorHint(_handle));
-        fprintf(stderr,"    %d \n", getNumberOfCurrentIntegratorParameters(_handle));
-
-        strArray = getListOfCurrentIntegratorParameterNames(_handle);
-        for (int i = 0; i < strArray->Count; ++i)
-        {
-            settingName = strArray->String[i];
-            settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-            settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-            settingType = getCurrentIntegratorParameterType(_handle, settingName);
-
-            fprintf(stderr,"    %s\n", settingName);
-            fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
-        }
-
-        fprintf(stderr,"\n  **** Gillespie Simulation ****\n\n");
-
-        // Simulate
-        {
-            RRCDataPtr result;
-            result = simulateEx(_handle, 0, 10, 11);
-            fprintf(stderr,rrCDataToString(result));
-            freeRRCData(result);
-        }
-
-        // Simulate with RK4
-
-        setCurrentIntegrator(_handle, "rk4");
-        fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
-
-        // Probe Gillespie integrator
-        fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
-        fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
-        fprintf(stderr,"    Parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
-
-        strArray = getListOfCurrentIntegratorParameterNames(_handle);
-        for (int i = 0; i < strArray->Count; ++i)
-        {
-            settingName = strArray->String[i];
-            settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-            settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-            settingType = getCurrentIntegratorParameterType(_handle, settingName);
-
-            fprintf(stderr,"    %s\n", settingName);
-            fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
-        }
-
-        fprintf(stderr,"\n  **** RK4 Simulation ****\n\n");
-
-        // reset the model
-        resetToOrigin(_handle);
-
-        // Simulate
-        {
-            RRCDataPtr result;
-            result = simulateEx(_handle, 0, 10, 11);
-            fprintf(stderr,rrCDataToString(result));
-            freeRRCData(result);
-        }
+        if(run_test_with_rk4(_handle))
+            return 1;
     }
 
     freeRRInstance(_handle);
