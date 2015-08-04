@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
 
     for(n = 0; n<1; ++n) {
         double ss_deviation = 0.;
+        int k;
 
         // load the model
         {
@@ -70,9 +71,32 @@ int main(int argc, char* argv[])
         fprintf(stderr,"\n  **** Calculating Steady State ****\n\n");
 
 
+        // find steady state
         steadyState(_handle, &ss_deviation);
 
         fprintf(stderr, "Steady state reached to within %e\n", ss_deviation);
+
+        // print the floating species ids
+        {
+            RRStringArrayPtr floatingspcids = getFloatingSpeciesIds(_handle);
+
+            for(k=0; k<floatingspcids->Count; ++k) {
+                fprintf(stderr, "%s ", floatingspcids->String[k]);
+            }
+            fprintf(stderr, "\n");
+            freeStringArray(floatingspcids);
+        }
+
+        // print the floating species values at steady state
+        {
+            RRVectorPtr floatingspc = getFloatingSpeciesConcentrations(_handle);
+
+            for(k=0; k<floatingspc->Count; ++k) {
+                fprintf(stderr, "%lf ", floatingspc->Data[k]);
+            }
+            fprintf(stderr, "\n");
+            freeVector(floatingspc);
+        }
     }
 
     freeRRInstance(_handle);
