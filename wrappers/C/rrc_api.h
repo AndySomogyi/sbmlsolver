@@ -1876,6 +1876,13 @@ C_DECL_SPEC bool rrcCallConv resetAll(RRHandle handle);
 */
 C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
 
+/*!
+ \brief Frees any string allocated by RoadRunner
+ \param[in] s The string data to free
+ \ingroup freeRoutines
+*/
+C_DECL_SPEC int  freeCText(char* s);
+
 #if defined( __cplusplus)
 }
 }//namespace

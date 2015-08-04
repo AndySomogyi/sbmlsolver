@@ -2345,4 +2345,9 @@ bool rrcCallConv resetToOrigin(RRHandle handle)
     catch_bool_macro
 }
 
+C_DECL_SPEC int freeCText(char* s)
+{
+    return freeText(s);
+}
+
 }
