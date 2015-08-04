@@ -196,7 +196,7 @@ int main(int argc, char* argv[])
         // Simulate
         {
             RRCDataPtr result;
-            result = simulateEx(_handle, 0, 10, 10);
+            result = simulateEx(_handle, 0, 10, 11);
             fprintf(stderr,rrCDataToString(result));
             freeRRCData(result);
         }
@@ -232,7 +232,7 @@ int main(int argc, char* argv[])
         // Simulate
         {
             RRCDataPtr result;
-            result = simulateEx(_handle, 0, 10, 10);
+            result = simulateEx(_handle, 0, 10, 11);
             fprintf(stderr,rrCDataToString(result));
             freeRRCData(result);
         }
