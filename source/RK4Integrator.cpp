@@ -71,25 +71,8 @@ namespace rr
         bool singleStep;
 
         assert(h > 0 && "h must be > 0");
-
-        if (getValue("variable_step_size").convert<bool>())
-        {
-            if (getValue("minimum_time_step").convert<double>() > 0.0)
-            {
-                tf = t + getValue("minimum_time_step").convert<double>();
-                singleStep = false;
-            }
-            else
-            {
-                tf = t + h;
-                singleStep = true;
-            }
-        }
-        else
-        {
-            tf = t + h;
-            singleStep = false;
-        }
+        tf = t + h;
+        singleStep = false;
 
         if (!model) {
             throw std::runtime_error("RK4Integrator::integrate: No model");
@@ -254,13 +237,6 @@ namespace rr
         settings.clear();
         hints.clear();
         descriptions.clear();
-
-        // Set default integrator settings.
-        addSetting("multiple_steps", false, "Perform a multiple time step simulation. (bool)", "(bool) Perform a multiple time step simulation.");
-        addSetting("initial_time_step", 0.0, "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
-        addSetting("minimum_time_step", 0.0, "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
-        addSetting("maximum_time_step", 0.0, "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("maximum_num_steps", 1000, "Specifies the maximum number of steps to be taken by the CVODE solver in its attempt to reach tout. (int)", "(int) Maximum number of steps to be taken by the CVODE solver in its attempt to reach tout.");
     }
 
 //     void RK4Integrator::setItem(const std::string& key,
