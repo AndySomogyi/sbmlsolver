@@ -1387,8 +1387,12 @@ char* rrcCallConv getCurrentIntegratorName (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-       std::string str = rri->getIntegrator()->getIntegratorName();
-       return (rr::createText (str));
+       if (rri->getIntegrator()) {
+            std::string str = rri->getIntegrator()->getIntegratorName();
+            return (rr::createText (str));
+       } else {
+           return rr::createText("");
+       }
     catch_ptr_macro
 }
 
