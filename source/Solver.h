@@ -64,6 +64,33 @@ namespace rr
 		virtual SolverMethod getSolverMethod() const = 0;
 		std::vector<std::string> getSettings();
 
+        /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        virtual void resetSettings() = 0;
+
+        /**
+        * @author JKM
+        * @brief Get the name of the parameter at index n (stored in an
+        * unordered container)
+        */
+        virtual std::string getParamName(int n) const;
+
+        /**
+        * @author JKM
+        * @brief Get the hint of the parameter at index n (stored in an
+        * unordered container)
+        */
+        virtual std::string getParamHint(int n) const;
+
+        /**
+        * @author JKM
+        * @brief Get the description of the parameter at index n (stored in an
+        * unordered container)
+        */
+        virtual std::string getParamDesc(int n) const;
+
 		virtual Variant getValue(std::string key);
 		virtual int getValueAsInt(std::string key);
 		virtual unsigned int getValueAsUInt(std::string key);
@@ -78,7 +105,7 @@ namespace rr
 		virtual void setValue(std::string key, const Variant& value);
 		const std::string& getHint(std::string key) const;
 		const std::string& getDescription(std::string key) const;
-		const Variant::TypeId getType(std::string key);;
+		const Variant::TypeId getType(std::string key);
 		
 
 	protected:

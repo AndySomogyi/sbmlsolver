@@ -66,16 +66,6 @@ namespace rr
 //         descriptions.clear();
 //     }
 
-	Variant Integrator::getValue(std::string key)
-	{
-		SettingsMap::const_iterator option = settings.find(key);
-		if (option == settings.end())
-		{
-			throw std::invalid_argument("Integrator::getValue: invalid key: " + key);
-		}
-		return option->second;
-	}
-
     std::string Integrator::getParamName(int n) const
     {
         SettingsMap::const_iterator i = settings.begin();
@@ -101,6 +91,16 @@ namespace rr
     {
         return getDescription(getParamName(n));
     }
+
+	Variant Integrator::getValue(std::string key)
+	{
+		SettingsMap::const_iterator option = settings.find(key);
+		if (option == settings.end())
+		{
+			throw std::invalid_argument("Integrator::getValue: invalid key: " + key);
+		}
+		return option->second;
+	}
 
 	int Integrator::getValueAsInt(std::string key)
 	{

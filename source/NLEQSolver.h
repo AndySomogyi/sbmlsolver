@@ -43,6 +43,12 @@ class RR_DECLSPEC NLEQSolver : public Solver
         void loadConfigSettings();
 
         /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        void resetSettings();
+
+        /**
         * @author WBC
         * @brief Get the name for this Solver
         * @note Delegates to @ref getName

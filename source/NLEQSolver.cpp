@@ -22,10 +22,7 @@ namespace rr
 NLEQSolver::NLEQSolver(ExecutableModel *_model) :
     model(_model)
 {
-	addSetting("maximum_iterations", 100, "Specifies ... (int)", "(int) ...");
-	addSetting("minimum_damping", 1e-4, "Specifies ... (double).", "(double) ...");
-	addSetting("relative_tolerance", 1e-16, "Specifies ... (double).", "(double) ...");
-	NLEQSolver::loadConfigSettings();
+    resetSettings();
 }
 
 NLEQSolver::~NLEQSolver()
@@ -45,6 +42,19 @@ void NLEQSolver::loadConfigSettings()
 	NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
 	NLEQSolver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
 	NLEQSolver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
+}
+
+void NLEQSolver::resetSettings()
+{
+    settings.clear();
+    hints.clear();
+    descriptions.clear();
+
+    // Set default settings.
+    addSetting("maximum_iterations", 100, "Specifies ... (int)", "(int) ...");
+    addSetting("minimum_damping", 1e-4, "Specifies ... (double).", "(double) ...");
+    addSetting("relative_tolerance", 1e-16, "Specifies ... (double).", "(double) ...");
+    NLEQSolver::loadConfigSettings();
 }
 
 std::string NLEQSolver::getSolverName() const {

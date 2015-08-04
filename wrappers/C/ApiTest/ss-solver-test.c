@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 {
     int n;
     // enable logging
-    setLogLevel("debug");
+//     setLogLevel("debug");
 //     setLogLevel("warning");
 //     enableLoggingToFile();
 //     {
@@ -67,6 +67,47 @@ int main(int argc, char* argv[])
             const char* modeldsc = sbml_desc[n];
             fprintf(stderr,"\n  **** Loading model '%s'\n\n", modeldsc);
             loadSBML(_handle, modelstr);
+        }
+
+        // print info for current steady state solver
+        {
+            char* t = getCurrentSteadyStateSolverName(_handle);
+            fprintf(stderr, "  Current steady state solver: %s\n", t);
+            freeText(t);
+        }
+
+        {
+            char* t = getCurrentSteadyStateSolverDescription(_handle);
+            fprintf(stderr, "    Descrption: %s\n", t);
+            freeText(t);
+        }
+
+        {
+            char* t = getCurrentSteadyStateSolverHint(_handle);
+            fprintf(stderr, "    Hint: %s\n", t);
+            freeText(t);
+        }
+
+
+        fprintf(stderr, "    Params: %d\n", getNumberOfCurrentSteadyStateSolverParameters(_handle));
+
+        for(k=0; k<getNumberOfCurrentSteadyStateSolverParameters(_handle); ++k) {
+            fprintf(stderr, "    Param: %d\n", k);
+            {
+                char* t = getCurrentSteadyStateSolverNthParameterName(_handle, k);
+                fprintf(stderr, "      Name: %s\n", t);
+                freeText(t);
+            }
+            {
+                char* t = getCurrentSteadyStateSolverNthParameterDescription(_handle, k);
+                fprintf(stderr, "      Descrption: %s\n", t);
+                freeText(t);
+            }
+            {
+                char* t = getCurrentSteadyStateSolverNthParameterHint(_handle, k);
+                fprintf(stderr, "      Hint: %s\n", t);
+                freeText(t);
+            }
         }
 
 

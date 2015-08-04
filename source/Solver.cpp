@@ -50,6 +50,32 @@ namespace rr
 		return keys;
 	}
 
+    std::string Solver::getParamName(int n) const
+    {
+        SettingsMap::const_iterator i = settings.begin();
+        int k;
+        while (k<n) {
+            if (i == settings.end()) {
+                std::stringstream ss;
+                ss << "Unable to get parameter name for index " << n << "\n";
+                throw std::runtime_error(ss.str());
+            }
+            ++i;
+            ++k;
+        }
+        return i->first;
+    }
+
+    std::string Solver::getParamHint(int n) const
+    {
+        return getHint(getParamName(n));
+    }
+
+    std::string Solver::getParamDesc(int n) const
+    {
+        return getDescription(getParamName(n));
+    }
+
 	Variant Solver::getValue(std::string key)
 	{
 		std::unordered_map<string, Variant>::const_iterator option = settings.find(key);
