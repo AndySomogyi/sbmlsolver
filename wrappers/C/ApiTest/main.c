@@ -156,7 +156,7 @@ int run_test_with_gillespie(RRHandle _handle) {
 
     // Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
     setCurrentIntegrator(_handle, "gillespie");
-    fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+    fprintf(stderr,"  Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 
     // Probe Gillespie integrator
     fprintf(stderr,"    %s \n", getCurrentIntegratorDescription(_handle));
@@ -174,6 +174,9 @@ int run_test_with_gillespie(RRHandle _handle) {
         fprintf(stderr,"    %s\n", settingName);
         fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
     }
+
+    fprintf(stderr, "Set Gillespie random seed to 12345\n");
+    setCurrentIntegratorParameterUInt(_handle, "seed", 12345u);
 
     fprintf(stderr,"\n  **** Gillespie Simulation ****\n\n");
 
