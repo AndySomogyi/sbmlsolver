@@ -26,69 +26,75 @@ namespace rr
  */
 class RR_DECLSPEC NLEQSolver : public Solver
 {
+    public:
+        /**
+        * Creates a new Instance of NLEQ for the given Model
+        */
+        NLEQSolver(ExecutableModel *_model = NULL);
+        ~NLEQSolver();
 
-public:
-    /**
-     * Creates a new Instance of NLEQ for the given Model
-     */
-    NLEQSolver(ExecutableModel *_model = NULL);
-    ~NLEQSolver();
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
 
-	void loadConfigSettings();
+        void loadConfigSettings();
 
-	/**
-	* @author WBC
-	* @brief Get the name for this Solver
-	* @note Delegates to @ref getName
-	*/
-	std::string getSolverName() const;
+        /**
+        * @author WBC
+        * @brief Get the name for this Solver
+        * @note Delegates to @ref getName
+        */
+        std::string getSolverName() const;
 
-	/**
-	* @author JKM
-	* @brief Get the name for this Solver
-	*/
-	static std::string getName();
+        /**
+        * @author JKM
+        * @brief Get the name for this Solver
+        */
+        static std::string getName();
 
-	/**
-	* @author WBC
-	* @brief Get the description for this Solver
-	* @note Delegates to @ref getDescription
-	*/
-	std::string getSolverDescription() const;
+        /**
+        * @author WBC
+        * @brief Get the description for this Solver
+        * @note Delegates to @ref getDescription
+        */
+        std::string getSolverDescription() const;
 
-	/**
-	* @author JKM
-	* @brief Get the description for this Solver
-	*/
-	static std::string getDescription();
+        /**
+        * @author JKM
+        * @brief Get the description for this Solver
+        */
+        static std::string getDescription();
 
-	/**
-	* @author WBC
-	* @brief Get the hint for this Solver
-	* @note Delegates to @ref getHint
-	*/
-	std::string getSolverHint() const;
+        /**
+        * @author WBC
+        * @brief Get the hint for this Solver
+        * @note Delegates to @ref getHint
+        */
+        std::string getSolverHint() const;
 
-	/**
-	* @author JKM
-	* @brief Get the hint for this Solver
-	*/
-	static std::string getHint();
+        /**
+        * @author JKM
+        * @brief Get the hint for this Solver
+        */
+        static std::string getHint();
 
-	// ** Getters / Setters ************************************************
+        // ** Getters / Setters ************************************************
 
-	/**
-	* @author WBC, ETS, MTK
-	* @brief Always deterministic for CVODE
-	*/
-	SolverMethod getSolverMethod() const;
+        /**
+        * @author WBC, ETS, MTK
+        * @brief Always deterministic for CVODE
+        */
+        SolverMethod getSolverMethod() const;
 
 
-	// ** Solver routines
-	double solve(const vector<double>& yin);
+        // ** Solver routines
+        double solve(const vector<double>& yin);
 
-private:
-	ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function
+    private:
+        ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function
 };
 
 

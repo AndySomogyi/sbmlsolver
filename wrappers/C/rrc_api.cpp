@@ -1134,7 +1134,7 @@ bool rrcCallConv steadyState(RRHandle handle, double* value)
         RoadRunner* rri = castToRoadRunner(handle);
         std::cerr << "rrcCallConv steadyState\n";
         Log(Logger::LOG_DEBUG) << "rrcCallConv steadyState ";
-//         *value = rri->steadyState();
+        *value = rri->steadyState();
         return true;
     catch_bool_macro
 }

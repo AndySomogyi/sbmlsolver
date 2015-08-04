@@ -32,6 +32,11 @@ NLEQSolver::~NLEQSolver()
 {
 }
 
+void NLEQSolver::syncWithModel(ExecutableModel* m)
+{
+    model = m;
+}
+
 void NLEQSolver::loadConfigSettings()
 {
 	Solver::loadConfigSettings();
@@ -77,7 +82,7 @@ Solver::SolverMethod NLEQSolver::getSolverMethod() const
 double NLEQSolver::solve(const vector<double>& yin)
 {
     Log(Logger::LOG_DEBUG) << "NLEQSolver::solve";
-    
+
     NLEQInterface* nleq = new NLEQInterface(model);
 
 //     nleq->maxIterations = getValue("maximum_iterations");
