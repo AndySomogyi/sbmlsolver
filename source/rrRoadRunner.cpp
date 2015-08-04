@@ -22,7 +22,7 @@
 #include "rrVersionInfo.h"
 #include "Integrator.h"
 #include "IntegratorRegistration.h"
-#include "rrSteadyStateSolver.h"
+#include "Solver.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 #include "SBMLValidator.h"
@@ -171,6 +171,12 @@ public:
      */
     Integrator* integrator;
 	std::vector<Integrator*> integrators;
+
+    /**
+     * Points to the current steady state solver
+     */
+    Solver* steady_state_solver;
+    std::vector<Solver*> steady_state_solvers;
 
 
 	std::vector<SelectionRecord> mSelectionList;
@@ -400,6 +406,8 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 
     // make CVODE the default integrator
     setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setIntegrator("nleq");
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
@@ -411,6 +419,8 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 
     // make CVODE the default integrator
     setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setIntegrator("nleq");
 
     load(uriOrSBML, options);
 
@@ -437,6 +447,8 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 
     // make CVODE the default integrator
     setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setIntegrator("nleq");
 }
 
 RoadRunner::~RoadRunner()
@@ -994,20 +1006,19 @@ double RoadRunner::steadyState(const Dictionary* dict)
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
-    SteadyStateSolver *steadyStateSolver = SteadyStateSolverFactory::New(dict, impl->model);
-
     //Get a std vector for the solver
     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
-    double ss = steadyStateSolver->solve(someAmounts);
+    if (!impl->steady_state_solver) {
+        Log(Logger::LOG_ERROR)<<"No steady state solver";
+        throw std::runtime_error("No steady state solver");
+    }
+    double ss = impl->steady_state_solver->solve(someAmounts);
     if(ss < 0)
     {
         Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
     }
-
-
-    delete steadyStateSolver;
 
     return ss;
 }
@@ -2937,6 +2948,11 @@ Integrator* RoadRunner::getIntegrator()
     return impl->integrator;
 }
 
+Solver* RoadRunner::getSteadyStateSolver()
+{
+    return impl->steady_state_solver;
+}
+
 std::vector<std::string> RoadRunner::getExistingIntegratorNames()
 {
 	std::vector<std::string> result;
@@ -2987,6 +3003,45 @@ bool RoadRunner::integratorExists(std::string name)
 		}
 	}
 	return false;
+}
+
+void RoadRunner::setSteadyStateSolver(std::string name)
+{
+    Log(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
+    // Try to set steady_state_solver from an existing reference.
+    if (steadyStateSolverExists(name))
+    {
+        int i = 0;
+        for (std::vector<Solver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+        {
+            if (impl->steady_state_solvers.at(i)->getSolverName() == name)
+            {
+                Log(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
+                impl->steady_state_solver = impl->steady_state_solvers.at(i);
+            }
+        }
+    }
+    // Otherwise, create a new steady state solver.
+    else
+    {
+        Log(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
+        impl->steady_state_solver = SolverFactory::getInstance().New(name, impl->model);
+        impl->steady_state_solvers.push_back(impl->steady_state_solver);
+    }
+}
+
+
+bool RoadRunner::steadyStateSolverExists(std::string name)
+{
+    int i = 0;
+    for (std::vector<Solver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+    {
+        if (impl->steady_state_solvers.at(i)->getSolverName() == name)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 

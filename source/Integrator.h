@@ -54,8 +54,6 @@ namespace rr
 	};
 
 	typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
-	typedef std::unordered_map<std::string, std::string> HintMap;
-	typedef std::unordered_map<std::string, std::string> DescriptionMap;
 
 	/*-------------------------------------------------------------------------------------------
 		Integrator is an abstract base class that provides an interface to specific integrator
@@ -145,6 +143,9 @@ namespace rr
 
 	protected:
         typedef RR_UNORDERED_MAP<std::string, Variant> SettingsMap;
+        typedef std::unordered_map<std::string, std::string> HintMap;
+        typedef std::unordered_map<std::string, std::string> DescriptionMap;
+
 		SettingsMap settings;
 		HintMap hints;
 		DescriptionMap descriptions;

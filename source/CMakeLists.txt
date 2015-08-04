@@ -66,6 +66,7 @@ include_directories(
 
 set(rrCoreSources
     rrConfig
+    Solver
     rrSteadyStateSolver
     rrConstants
     rrException
@@ -82,6 +83,7 @@ set(rrCoreSources
     Dictionary
     GillespieIntegrator
     RK4Integrator
+    NLEQSolver
     rrNLEQInterface
     rrTestSuiteModelSimulation
     rrIniKey
