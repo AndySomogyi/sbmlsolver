@@ -22,7 +22,8 @@
 #include "rrVersionInfo.h"
 #include "Integrator.h"
 #include "IntegratorRegistration.h"
-#include "rrSteadyStateSolver.h"
+#include "Solver.h"
+#include "SolverRegistration.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 #include "SBMLValidator.h"
@@ -172,6 +173,12 @@ public:
     Integrator* integrator;
 	std::vector<Integrator*> integrators;
 
+    /**
+     * Points to the current steady state solver
+     */
+    Solver* steady_state_solver;
+    std::vector<Solver*> steady_state_solvers;
+
 
 	std::vector<SelectionRecord> mSelectionList;
 
@@ -271,24 +278,34 @@ public:
         delete model;
         delete mLS;
 
-		deleteIntegrators();
+		deleteAllSolvers();
 
         mInstanceCount--;
     }
 
-	void deleteIntegrators()
-	{
-		for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
-		{
-			delete *it;
-			*it = NULL;
-		}
-		integrators.clear();
-	}
-
-    void syncIntegratorsWithModel(ExecutableModel* m)
+    void deleteAllSolvers()
     {
         for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            delete *it;
+            *it = NULL;
+        }
+        integrators.clear();
+        for (std::vector<Solver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
+        {
+            delete *it;
+            *it = NULL;
+        }
+        steady_state_solvers.clear();
+	}
+
+    void syncAllSolversWithModel(ExecutableModel* m)
+    {
+        for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            (*it)->syncWithModel(m);
+        }
+        for (std::vector<Solver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
         {
             (*it)->syncWithModel(m);
         }
@@ -393,6 +410,8 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 {
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
 
     //Increase instance count..
     mInstanceCount++;
@@ -400,6 +419,8 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 
     // make CVODE the default integrator
     setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setSteadyStateSolver("nleq");
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
@@ -408,9 +429,13 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 {
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
 
     // make CVODE the default integrator
     setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setSteadyStateSolver("nleq");
 
     load(uriOrSBML, options);
 
@@ -426,6 +451,8 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 {
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
 
     string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
@@ -437,6 +464,8 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 
     // make CVODE the default integrator
     setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setSteadyStateSolver("nleq");
 }
 
 RoadRunner::~RoadRunner()
@@ -876,7 +905,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         throw;
     }
 
-    impl->syncIntegratorsWithModel(impl->model);
+    impl->syncAllSolversWithModel(impl->model);
 
     reset();
 
@@ -979,6 +1008,7 @@ std::vector<rr::SelectionRecord>& RoadRunner::getSelections()
 
 double RoadRunner::steadyState(const Dictionary* dict)
 {
+    Log(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
     if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
@@ -994,20 +1024,22 @@ double RoadRunner::steadyState(const Dictionary* dict)
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
-    SteadyStateSolver *steadyStateSolver = SteadyStateSolverFactory::New(dict, impl->model);
-
     //Get a std vector for the solver
     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
-    double ss = steadyStateSolver->solve(someAmounts);
+    if (!impl->steady_state_solver) {
+        Log(Logger::LOG_ERROR)<<"No steady state solver";
+        throw std::runtime_error("No steady state solver");
+    }
+
+    Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getSolverName() << "'...";
+
+    double ss = impl->steady_state_solver->solve(someAmounts);
     if(ss < 0)
     {
         Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
     }
-
-
-    delete steadyStateSolver;
 
     return ss;
 }
@@ -2937,6 +2969,11 @@ Integrator* RoadRunner::getIntegrator()
     return impl->integrator;
 }
 
+Solver* RoadRunner::getSteadyStateSolver()
+{
+    return impl->steady_state_solver;
+}
+
 std::vector<std::string> RoadRunner::getExistingIntegratorNames()
 {
 	std::vector<std::string> result;
@@ -2987,6 +3024,45 @@ bool RoadRunner::integratorExists(std::string name)
 		}
 	}
 	return false;
+}
+
+void RoadRunner::setSteadyStateSolver(std::string name)
+{
+    Log(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
+    // Try to set steady_state_solver from an existing reference.
+    if (steadyStateSolverExists(name))
+    {
+        int i = 0;
+        for (std::vector<Solver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+        {
+            if (impl->steady_state_solvers.at(i)->getSolverName() == name)
+            {
+                Log(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
+                impl->steady_state_solver = impl->steady_state_solvers.at(i);
+            }
+        }
+    }
+    // Otherwise, create a new steady state solver.
+    else
+    {
+        Log(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
+        impl->steady_state_solver = SolverFactory::getInstance().New(name, impl->model);
+        impl->steady_state_solvers.push_back(impl->steady_state_solver);
+    }
+}
+
+
+bool RoadRunner::steadyStateSolverExists(std::string name)
+{
+    int i = 0;
+    for (std::vector<Solver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+    {
+        if (impl->steady_state_solvers.at(i)->getSolverName() == name)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 

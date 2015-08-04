@@ -82,6 +82,7 @@ set(rrCoreSources
     Dictionary
     GillespieIntegrator
     RK4Integrator
+    NLEQSolver
     rrNLEQInterface
     rrTestSuiteModelSimulation
     rrIniKey
@@ -96,6 +97,8 @@ set(rrCoreSources
     rrSBMLModelSimulation
     rrSBMLReader
     SBMLValidator
+    Solver
+    SolverRegistration
     Variant
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin

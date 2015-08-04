@@ -4,15 +4,15 @@
 
 // == FILEDOC =================================================
 
-/** @file Integrator.h
+/** @file Solver.h
 * @author ETS, WBC, JKM
 * @date Sep 7, 2013
 * @copyright Apache License, Version 2.0
-* @brief Contains the base class for RoadRunner integrators
+* @brief Contains the base class for RoadRunner solvers
 **/
 
-# ifndef RR_INTEGRATOR_H_
-# define RR_INTEGRATOR_H_
+# ifndef RR_SOLVER_H_
+# define RR_SOLVER_H_
 
 // == INCLUDES ================================================
 
@@ -22,7 +22,6 @@
 # include "rrException.h"
 
 # include "tr1proxy/rr_memory.h"
-# include "tr1proxy/rr_unordered_map.h"
 # include <stdexcept>
 
 // == CODE ====================================================
@@ -30,70 +29,46 @@
 namespace rr
 {
 
-	class Integrator;
+	class Solver;
 	class ExecutableModel;
 
-	/*-------------------------------------------------------------------------------------------
-		IntegratorListener listens for integrator events.
-	---------------------------------------------------------------------------------------------*/
-	class IntegratorListener
-	{
-	public:
-
-		/**
-		* is called after the internal integrator completes each internal time step.
-		*/
-		virtual uint onTimeStep(Integrator* integrator, ExecutableModel* model, double time) = 0;
-
-		/**
-		* whenever model event occurs and after it is procesed.
-		*/
-		virtual uint onEvent(Integrator* integrator, ExecutableModel* model, double time) = 0;
-
-		virtual ~IntegratorListener() {};
-	};
-
-	typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
 
 	/*-------------------------------------------------------------------------------------------
-		Integrator is an abstract base class that provides an interface to specific integrator
+		Solver is an abstract base class that provides an interface to specific steady-state solver
 		class implementations.
 	---------------------------------------------------------------------------------------------*/
-	class RR_DECLSPEC Integrator
+	class RR_DECLSPEC Solver
 	{
 	public:
-		enum IntegrationMethod
+		enum SolverMethod
 		{
-			Deterministic,
-			Stochastic,
-			Hybrid,
+			SteadyState,
 			Other
 		};
 
-		virtual ~Integrator() {};
+		virtual ~Solver() {};
 
         /**
         * @author JKM
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m);
+        virtual void syncWithModel(ExecutableModel* m) = 0;
+
+        virtual double solve(const std::vector<double>& yin) = 0;
 
 		virtual void loadConfigSettings();
-		virtual void loadSBMLSettings(const std::string& filename);
-		virtual std::string getIntegratorName() const = 0;
-		virtual std::string getIntegratorDescription() const = 0;
-		virtual std::string getIntegratorHint() const = 0;
-		virtual IntegrationMethod getIntegrationMethod() const = 0;
-		std::vector<std::string> getSettings() const;
+		virtual std::string getSolverName() const = 0;
+		virtual std::string getSolverDescription() const = 0;
+		virtual std::string getSolverHint() const = 0;
+		virtual SolverMethod getSolverMethod() const = 0;
+		std::vector<std::string> getSettings();
 
         /**
         * @author JKM
         * @brief Reset all integrator settings to their respective default values
         */
         virtual void resetSettings() = 0;
-
-		virtual Variant getValue(std::string key);
 
         /**
         * @author JKM
@@ -116,7 +91,7 @@ namespace rr
         */
         virtual std::string getParamDesc(int n) const;
 
-
+		virtual Variant getValue(std::string key);
 		virtual int getValueAsInt(std::string key);
 		virtual unsigned int getValueAsUInt(std::string key);
 		virtual long getValueAsLong(std::string key);
@@ -131,18 +106,10 @@ namespace rr
 		const std::string& getHint(std::string key) const;
 		const std::string& getDescription(std::string key) const;
 		const Variant::TypeId getType(std::string key);
-
-		virtual double integrate(double t0, double hstep) = 0;
-		virtual void restart(double t0) = 0;
-
-		/* CARRYOVER METHODS */
-		virtual void setListener(IntegratorListenerPtr) = 0;
-		virtual IntegratorListenerPtr getListener() = 0;
-		std::string toString() const;
-		/* !-- END OF CARRYOVER METHODS */
+		
 
 	protected:
-        typedef RR_UNORDERED_MAP<std::string, Variant> SettingsMap;
+        typedef std::unordered_map<std::string, Variant> SettingsMap;
         typedef std::unordered_map<std::string, std::string> HintMap;
         typedef std::unordered_map<std::string, std::string> DescriptionMap;
 
@@ -154,7 +121,7 @@ namespace rr
 	};
 
 
-	class IntegratorException : public std::runtime_error
+	/*class IntegratorException : public std::runtime_error
 	{
 	public:
 		explicit IntegratorException(const std::string& what) :
@@ -168,19 +135,19 @@ namespace rr
 		{
 				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
 			}
-	};
+	};*/
 
     /**
      * @author JKM, WBC
      * @brief Handles constructing an integrator and contains meta
      * information about it
      */
-    class RR_DECLSPEC IntegratorRegistrar
+    class RR_DECLSPEC SolverRegistrar
     {
     protected:
-        typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
+        typedef Solver* (*SolverCtor)(ExecutableModel *model);
     public:
-        virtual ~IntegratorRegistrar();
+        virtual ~SolverRegistrar();
 
         /**
          * @author JKM, WBC
@@ -204,7 +171,7 @@ namespace rr
          * @author JKM, WBC
          * @brief Constructs a new integrator of a given type
          */
-        virtual Integrator* construct(ExecutableModel *model) const = 0;
+        virtual Solver* construct(ExecutableModel *model) const = 0;
     };
 
     /**
@@ -212,54 +179,56 @@ namespace rr
      * @brief Constructs new integrators
      * @details Implements the factory and singleton patterns.
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
-     * and returns a base pointer to @ref rr::Integrator.
+     * and returns a base pointer to @ref rr::Solver.
      */
-    class RR_DECLSPEC IntegratorFactory
+    class RR_DECLSPEC SolverFactory
     {
     public:
-        virtual ~IntegratorFactory();
+        virtual ~SolverFactory();
 
         /**
          * @author JKM, WBC
-         * @brief Constructs a new integrator given the name
+         * @brief Constructs a new solver given the name
          * (e.g. cvode, gillespie)
          */
-        Integrator* New(std::string name, ExecutableModel *m) const;
+        Solver* New(std::string name, ExecutableModel *m) const;
 
         /**
          * @author JKM, WBC
-         * @brief Registers a new integrator with the factory
+         * @brief Registers a new solver with the factory
          * so that it can be constructed
-         * @details Should be called at startup for new integrators.
+         * @details Should be called at startup for new solvers.
          */
-        void registerIntegrator(IntegratorRegistrar* i);
+        void registerSolver(SolverRegistrar* i);
 
         /**
          * @author JKM, WBC
-         * @brief Returns the singleton instance of the integrator factory
+         * @brief Returns the singleton instance of the solver factory
          */
-        static IntegratorFactory& getInstance();
+        static SolverFactory& getInstance();
 
         // ** Indexing *********************************************************
 
-        std::size_t getNumIntegrators() const;
+        std::size_t getNumSolvers() const;
 
-        std::string getIntegratorName(std::size_t n) const;
+		std::vector<std::string> getListSolverNames();
 
-        std::string getIntegratorHint(std::size_t n) const;
+        std::string getSolverName(std::size_t n) const;
 
-        std::string getIntegratorDescription(std::size_t n) const;
+        std::string getSolverHint(std::size_t n) const;
+
+        std::string getSolverDescription(std::size_t n) const;
 
     private:
         /**
          * @author JKM, WBC
          * @brief Prevents external instantiation
          */
-        IntegratorFactory() {}
-        typedef std::vector<IntegratorRegistrar*> IntegratorRegistrars;
-        IntegratorRegistrars mRegisteredIntegrators;
+        SolverFactory() {}
+        typedef std::vector<SolverRegistrar*> SolverRegistrars;
+        SolverRegistrars mRegisteredSolvers;
     };
 
 }
 
-# endif /* RR_INTEGRATOR_H_ */
+# endif /* RR_SOLVER_H_ */

@@ -127,7 +127,7 @@ private:
 
     double                          computeSumsOfSquares();
 
-
+    friend class NLEQSolver;
 
 };
 }
