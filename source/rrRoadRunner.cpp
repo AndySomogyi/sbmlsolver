@@ -409,14 +409,14 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();
 
+    // make CVODE the default integrator
+    setIntegrator("cvode");
+
     load(uriOrSBML, options);
 
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
-
-    // make CVODE the default integrator
-    setIntegrator("cvode");
 }
 
 
@@ -943,6 +943,8 @@ void RoadRunner::reset(int options)
         // model gets set to before time = 0
         impl->model->reset(options);
 
+        if (!impl->integrator)
+            throw std::runtime_error("No integrator set");
         impl->integrator->restart(0.0);
 
         try

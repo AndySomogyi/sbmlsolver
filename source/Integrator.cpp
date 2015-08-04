@@ -49,12 +49,12 @@ namespace rr
 		// Stub for loading SBML settings (can override in derived classes).
 	}
 
-	std::vector<string> Integrator::getSettings()
+	std::vector<string> Integrator::getSettings() const
 	{
 		std::vector<string> keys;
-		for (auto entry : settings)
+		for (SettingsMap::const_iterator i = settings.begin(); i != settings.end(); ++i)
 		{
-			keys.push_back(entry.first);
+			keys.push_back(i->first);
 		}
 		return keys;
 	}
@@ -68,7 +68,7 @@ namespace rr
 
 	Variant Integrator::getValue(std::string key)
 	{
-		std::unordered_map<string, Variant>::const_iterator option = settings.find(key);
+		SettingsMap::const_iterator option = settings.find(key);
 		if (option == settings.end())
 		{
 			throw std::invalid_argument("Integrator::getValue: invalid key: " + key);
@@ -78,7 +78,7 @@ namespace rr
 
     std::string Integrator::getParamName(int n) const
     {
-        std::unordered_map<string, Variant>::const_iterator i = settings.begin();
+        SettingsMap::const_iterator i = settings.begin();
         int k;
         while (k<n) {
             if (i == settings.end()) {

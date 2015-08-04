@@ -22,6 +22,7 @@
 # include "rrException.h"
 
 # include "tr1proxy/rr_memory.h"
+# include "tr1proxy/rr_unordered_map.h"
 # include <stdexcept>
 
 // == CODE ====================================================
@@ -86,7 +87,7 @@ namespace rr
 		virtual std::string getIntegratorDescription() const = 0;
 		virtual std::string getIntegratorHint() const = 0;
 		virtual IntegrationMethod getIntegrationMethod() const = 0;
-		std::vector<std::string> getSettings();
+		std::vector<std::string> getSettings() const;
 
         /**
         * @author JKM
@@ -143,7 +144,8 @@ namespace rr
 		/* !-- END OF CARRYOVER METHODS */
 
 	protected:
-		std::unordered_map<std::string, Variant> settings;
+        typedef RR_UNORDERED_MAP<std::string, Variant> SettingsMap;
+		SettingsMap settings;
 		HintMap hints;
 		DescriptionMap descriptions;
 

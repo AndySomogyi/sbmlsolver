@@ -209,11 +209,47 @@ int main(int argc, char* argv[])
             fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
         }
 
+        fprintf(stderr,"\n  **** Gillespie Simulation ****\n\n");
+
         // Simulate
-        RRCDataPtr result;
-        result = simulateEx(_handle, 0, 10, 10);
-        fprintf(stderr,rrCDataToString(result));
-        freeRRCData(result);
+        {
+            RRCDataPtr result;
+            result = simulateEx(_handle, 0, 10, 10);
+            fprintf(stderr,rrCDataToString(result));
+            freeRRCData(result);
+        }
+
+        // Simulate with RK4
+
+        setCurrentIntegrator(_handle, "rk4");
+        fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+
+        // Probe Gillespie integrator
+        fprintf(stderr,"    %s \n", getCurrentIntegratorDescription(_handle));
+        fprintf(stderr,"    %s \n", getCurrentIntegratorHint(_handle));
+        fprintf(stderr,"    %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+
+        strArray = getListOfCurrentIntegratorParameterNames(_handle);
+        for (int i = 0; i < strArray->Count; ++i)
+        {
+            settingName = strArray->String[i];
+            settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+            settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+            settingType = getCurrentIntegratorParameterType(_handle, settingName);
+
+            fprintf(stderr,"    %s\n", settingName);
+            fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+        }
+
+        fprintf(stderr,"\n  **** RK4 Simulation ****\n\n");
+
+        // Simulate
+        {
+            RRCDataPtr result;
+            result = simulateEx(_handle, 0, 10, 10);
+            fprintf(stderr,rrCDataToString(result));
+            freeRRCData(result);
+        }
     }
 
     freeRRInstance(_handle);
