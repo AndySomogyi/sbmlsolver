@@ -1881,7 +1881,7 @@ C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
  \param[in] s The string data to free
  \ingroup freeRoutines
 */
-C_DECL_SPEC int  freeCText(char* s);
+// C_DECL_SPEC int  freeCText(char* s);
 
 #if defined( __cplusplus)
 }
