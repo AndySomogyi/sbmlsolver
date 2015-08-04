@@ -642,6 +642,25 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, c
 C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
 
 /*!
+\brief Get the unsigned integer value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns an integer value for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the unsigned integer value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\param[in] value The integer value for the integrator setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName, unsigned int value);
+
+/*!
 \brief Get the double value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] paramterName Name of the integrator setting.

@@ -1531,6 +1531,27 @@ int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *paramet
     catch_ptr_macro
 }
 
+unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        stringstream key;
+        key << parameterName;
+        return rri->getIntegrator()->getValueAsInt(key.str());
+    catch_ptr_macro
+}
+
+int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName, unsigned int value)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        stringstream key;
+        key << parameterName;
+        rri->getIntegrator()->setValue(key.str(), value);
+        return true;
+    catch_ptr_macro
+}
+
 double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName)
 {
 	start_try
