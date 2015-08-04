@@ -203,6 +203,8 @@ int main(int argc, char* argv[])
 
         fprintf(stderr,"\n  **** Test stochastic simulation ****\n\n");
 
+        // reset the model
+        resetToOrigin(_handle);
 
         // Add Gillespie Integrator to the mix and then grab updated info on all implemented integrators.
         setCurrentIntegrator(_handle, "gillespie");
@@ -259,10 +261,13 @@ int main(int argc, char* argv[])
 
         fprintf(stderr,"\n  **** RK4 Simulation ****\n\n");
 
+        // reset the model
+        resetToOrigin(_handle);
+
         // Simulate
         {
             RRCDataPtr result;
-            result = simulateEx(_handle, 0, 10, 10);
+            result = simulateEx(_handle, 0, 10, 11);
             fprintf(stderr,rrCDataToString(result));
             freeRRCData(result);
         }
