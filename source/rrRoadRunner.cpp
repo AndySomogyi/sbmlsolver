@@ -397,6 +397,9 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
+    // make CVODE the default integrator
+    setIntegrator("cvode");
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
@@ -411,6 +414,9 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
+    // make CVODE the default integrator
+    setIntegrator("cvode");
 }
 
 
@@ -428,6 +434,9 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
+    // make CVODE the default integrator
+    setIntegrator("cvode");
 }
 
 RoadRunner::~RoadRunner()
