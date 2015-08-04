@@ -50,11 +50,25 @@ include_directories(
 ${THIRD_PARTY_FOLDER}/rr-libstruct
 )
 
-add_subdirectory(utils)
-
 install (TARGETS ${target}
     DESTINATION bin COMPONENT testing
     )
+
+# Steady state solver test
+add_executable(ss-solver-test ss-solver-test.c)
+install(TARGETS ss-solver-test DESTINATION bin COMPONENT testing)
+target_link_libraries (ss-solver-test roadrunner_c_api PocoXML)
+
+set_property(TARGET ss-solver-test
+    PROPERTY  COMPILE_DEFINITIONS
+    STATIC_LIBSTRUCT
+    STATIC_RR
+    POCO_STATIC
+    XML_STATIC
+    POCO_NO_AUTOMATIC_LIBS
+    )
+
+add_subdirectory(utils)
 
 
 
