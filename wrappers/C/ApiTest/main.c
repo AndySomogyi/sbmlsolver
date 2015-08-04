@@ -51,6 +51,9 @@ int run_test_with_cvode(RRHandle _handle) {
     int settingType;
     struct RRStringArray *strArray;
 
+    // make CVODE active
+    setCurrentIntegrator(_handle, "cvode");
+
     // Probe default (CVODE) integrator
 
     // test name
@@ -126,6 +129,9 @@ int run_test_with_cvode(RRHandle _handle) {
     }
 
     fprintf(stderr,"\n  **** CVODE Simulation ****\n\n");
+
+    // reset the model
+    resetToOrigin(_handle);
 
     // Simulate
     {
@@ -296,13 +302,13 @@ int main(int argc, char* argv[])
         setCurrentIntegrator(_handle, "gillespie");
         setCurrentIntegrator(_handle, "cvode");
 
+        if(run_test_with_rk4(_handle))
+            return 1;
+
         if(run_test_with_cvode(_handle))
             return 1;
 
         if(run_test_with_gillespie(_handle))
-            return 1;
-
-        if(run_test_with_rk4(_handle))
             return 1;
     }
 
