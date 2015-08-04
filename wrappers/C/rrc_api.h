@@ -718,6 +718,245 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handl
 C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
 
 
+/* Steady State Solvers *******************************************************/
+
+/*!
+\brief Get the number of registered steady state solvers.
+\return Returns an integer that corresponds to the number of currently registered steady state solvers.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumRegisteredSteadyStateSolvers ();
+
+/*!
+\brief Get the name of a registered steady state solver (e.g. cvode etc.)
+\param[in] n The index of the registered steady state solver
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverName (int n);
+
+/*!
+\brief Get the hint of a registered steady state solver (e.g. cvode etc.)
+\param[in] n The index of the registered steady state solver
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverHint (int n);
+
+/*!
+\brief Get the description of a registered steady state solver (e.g. cvode etc.)
+\param[in] n The index of the registered steady state solver
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverDescription (int n);
+
+
+/*!
+\brief Specify the current steady state solver to be used for simulation.
+\description This method instantiates a new steady state solver of the given type (e.g. cvode, gillespie) if
+one does not currently exist. Otherwise, the existing steady state solver of this type is used.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] nameOfSteadyStateSolver Name of the steady state solver to be used.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver);
+
+/*!
+\brief Obtain a description of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a description of the current steady state solver.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverName (RRHandle handle);
+
+/*!
+\brief Obtain a description of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a description of the current steady state solver.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverDescription (RRHandle handle);
+
+/*!
+\brief Obtain a short hint for the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a short hint of the current steady state solver.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverHint (RRHandle handle);
+
+/*!
+\brief Get the number of adjustable settings for the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns an integer that corresponds to the number of adjustable steady state solver settings.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumberOfCurrentSteadyStateSolverParameters (RRHandle handle);
+
+/*!
+\brief Get the name of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterName (RRHandle handle, int n);
+
+/*!
+\brief Get the description of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterDescription (RRHandle handle, int n);
+
+/*!
+\brief Get the hint of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterHint (RRHandle handle, int n);
+
+/*!
+\brief Reset the steady state solver parameters to their default values.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle handle);
+
+/*!
+\brief Get the names of adjustable settings for the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a list that contains the names of adjustable steady state solver settings.
+\ingroup simopts
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParameterNames (RRHandle handle);
+
+/*!
+\brief Get the description for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a description for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the hint for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a hint for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the return type for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a integer that indicates the return type for the steady state solver setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns an integer value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The integer value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName, int value);
+
+/*!
+\brief Get the unsigned integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns an integer value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the unsigned integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The integer value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName, unsigned int value);
+
+/*!
+\brief Get the double value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a double value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the double value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The double value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName, double value);
+
+/*!
+\brief Get the string value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a string value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the string value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The string value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName, char* value);
+
+/*!
+\brief Get the boolean value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a boolean value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the boolean value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The boolean value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName, int value);
+
 
 /*!
  \brief Set the time start for a time course simulation
