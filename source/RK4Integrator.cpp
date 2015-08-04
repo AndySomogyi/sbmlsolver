@@ -8,6 +8,8 @@
 #include <RK4Integrator.h>
 #include <rrExecutableModel.h>
 
+#include <cassert>
+
 extern "C" {
 #include <clapack/f2c.h>
 #include <clapack/clapack.h>
@@ -46,44 +48,68 @@ namespace rr
         delete []ytmp;
     }
 
-    double RK4Integrator::integrate(double t0, double h)
+    double RK4Integrator::integrate(double t, double h)
     {
+        double tf = 0;
+        bool singleStep;
+
+        assert(h > 0 && "h must be > 0");
+
+        if (getValue("variable_step_size").convert<bool>())
+        {
+            if (getValue("minimum_time_step").convert<double>() > 0.0)
+            {
+                tf = t + getValue("minimum_time_step").convert<double>();
+                singleStep = false;
+            }
+            else
+            {
+                tf = t + h;
+                singleStep = true;
+            }
+        }
+        else
+        {
+            tf = t + h;
+            singleStep = false;
+        }
+
         if (!model) {
-            return -1;
+            throw std::runtime_error("RK4Integrator::integrate: No model");
         }
 
         Log(Logger::LOG_DEBUG) <<
-                "RK4Integrator::integrate(" << t0 << ", " << h << ")";
+                "RK4Integrator::integrate(" << t << ", " << h << ")";
 
         // blas daxpy: y -> y + \alpha x
         integer n = stateVectorSize;
         integer inc = 1;
         double alpha = 0;
 
-        model->setTime(t0);
+        model->setTime(t);
 
         model->getStateVector(y);
 
         // k1 = f(t_n, y_n)
-        model->getStateVectorRate(t0, y, k1);
+        model->getStateVectorRate(t, y, k1);
 
         // k2 = f(t_n + h/2, y_n + (h/2) * k_1)
         alpha = h/2.;
         dcopy_(&n, y, &inc, ytmp, &inc);
         daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        model->getStateVectorRate(t0 + alpha, ytmp, k2);
+        model->getStateVectorRate(t + alpha, ytmp, k2);
 
         // k3 = f(t_n + h/2, y_n + (h/2) * k_2)
         alpha = h/2.;
         dcopy_(&n, y, &inc, ytmp, &inc);
         daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
-        model->getStateVectorRate(t0 + alpha, ytmp, k3);
+        model->getStateVectorRate(t + alpha, ytmp, k3);
 
         // k4 = f(t_n + h, y_n + (h) * k_3)
         alpha = h;
         dcopy_(&n, y, &inc, ytmp, &inc);
         daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
-        model->getStateVectorRate(t0 + alpha, ytmp, k4);
+        model->getStateVectorRate(t + alpha, ytmp, k4);
 
         // k_1 = k_1 + 2 k_2
         alpha = 2.;
@@ -102,10 +128,10 @@ namespace rr
 
         daxpy_(&n, &alpha, k1, &inc, y, &inc);
 
-        model->setTime(t0 + h);
+        model->setTime(t + h);
         model->setStateVector(y);
 
-        return t0 + h;
+        return t + h;
     }
 
     void RK4Integrator::restart(double t0)

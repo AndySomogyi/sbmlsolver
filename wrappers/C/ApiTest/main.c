@@ -225,9 +225,9 @@ int main(int argc, char* argv[])
         fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
 
         // Probe Gillespie integrator
-        fprintf(stderr,"    %s \n", getCurrentIntegratorDescription(_handle));
-        fprintf(stderr,"    %s \n", getCurrentIntegratorHint(_handle));
-        fprintf(stderr,"    %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+        fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
+        fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
+        fprintf(stderr,"    Parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
         strArray = getListOfCurrentIntegratorParameterNames(_handle);
         for (int i = 0; i < strArray->Count; ++i)
