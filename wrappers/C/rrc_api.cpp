@@ -1560,7 +1560,7 @@ int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		rri->getIntegrator()->setValue(key.str(), value);
+		rri->getIntegrator()->setValue(key.str(), (bool)value);
 		return true;
 	catch_ptr_macro
 }

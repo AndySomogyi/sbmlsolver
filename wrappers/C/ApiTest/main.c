@@ -136,6 +136,29 @@ int main(int argc, char* argv[])
         resetCurrentIntegratorParameters(_handle);
         fprintf(stderr,"    Current value of absolute_tolerance: %e\n", getCurrentIntegratorParameterDouble(_handle, "absolute_tolerance"));
 
+
+        fprintf(stderr,"\n  **** Test boolean parameters ****\n\n");
+
+        fprintf(stderr,"    Initial value of multiple_steps: %d\n", getCurrentIntegratorParameterBoolean(_handle, "multiple_steps"));
+        fprintf(stderr,"    Set multiple_steps to true\n");
+        setCurrentIntegratorParameterBoolean(_handle, "multiple_steps", 1);
+
+        fprintf(stderr,"    Current value of multiple_steps: %d\n", getCurrentIntegratorParameterBoolean(_handle, "multiple_steps"));
+
+        fprintf(stderr,"    New list of parameters:\n");
+
+        strArray = getListOfCurrentIntegratorParameterNames(_handle);
+        for (int i = 0; i < strArray->Count; ++i)
+        {
+            settingName = strArray->String[i];
+            settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+            settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+            settingType = getCurrentIntegratorParameterType(_handle, settingName);
+
+            fprintf(stderr,"    %s\n", settingName);
+            fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+        }
+
         fprintf(stderr,"\n  **** Test stochastic simulation ****\n\n");
 
 
