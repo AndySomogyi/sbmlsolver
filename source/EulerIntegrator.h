@@ -256,7 +256,7 @@ namespace rr
          * @brief Always deterministic for Euler
          */
         IntegrationMethod getIntegrationMethod() const {
-            return Integrator::IntegrationMethod::Deterministic;
+            return Integrator::Deterministic;
         }
 
         /**

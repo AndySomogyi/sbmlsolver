@@ -22,6 +22,7 @@
 # include "rrException.h"
 
 # include "tr1proxy/rr_memory.h"
+# include "tr1proxy/rr_unordered_map.h"
 # include <stdexcept>
 
 // == CODE ====================================================
@@ -62,7 +63,7 @@ namespace rr
 		virtual std::string getSolverDescription() const = 0;
 		virtual std::string getSolverHint() const = 0;
 		virtual SolverMethod getSolverMethod() const = 0;
-		std::vector<std::string> getSettings();
+		std::vector<std::string> getSettings() const;
 
         /**
         * @author JKM
@@ -109,9 +110,9 @@ namespace rr
 		
 
 	protected:
-        typedef std::unordered_map<std::string, Variant> SettingsMap;
-        typedef std::unordered_map<std::string, std::string> HintMap;
-        typedef std::unordered_map<std::string, std::string> DescriptionMap;
+        typedef RR_UNORDERED_MAP<std::string, Variant> SettingsMap;
+        typedef RR_UNORDERED_MAP<std::string, std::string> HintMap;
+        typedef RR_UNORDERED_MAP<std::string, std::string> DescriptionMap;
 
 		SettingsMap settings;
 		HintMap hints;

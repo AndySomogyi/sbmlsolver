@@ -30,9 +30,9 @@ namespace rr
 
 	void Solver::addSetting(string name, Variant val, string hint, string description)
 	{
-		settings.insert({ name, val });
-		hints.insert({ name, hint });
-		descriptions.insert({ name, description });
+		settings[name] = val;
+		hints[name] = hint;
+		descriptions[name] = description;
 	}
 
 	void Solver::loadConfigSettings()
@@ -40,12 +40,12 @@ namespace rr
 		// empty
 	}
 
-	std::vector<string> Solver::getSettings()
+	std::vector<string> Solver::getSettings() const
 	{
 		std::vector<string> keys;
-		for (auto entry : settings)
+		for (SettingsMap::const_iterator i = settings.begin(); i != settings.end(); ++i)
 		{
-			keys.push_back(entry.first);
+			keys.push_back(i->first);
 		}
 		return keys;
 	}
@@ -78,7 +78,7 @@ namespace rr
 
 	Variant Solver::getValue(std::string key)
 	{
-		std::unordered_map<string, Variant>::const_iterator option = settings.find(key);
+		SettingsMap::const_iterator option = settings.find(key);
 		if (option == settings.end())
 		{
 			throw std::invalid_argument("invalid key: " + key);

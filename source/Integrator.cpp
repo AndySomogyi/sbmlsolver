@@ -35,9 +35,9 @@ namespace rr
 
 	void Integrator::addSetting(string name, Variant val, string hint, string description)
 	{
-		settings.insert({ name, val });
-		hints.insert({ name, hint });
-		descriptions.insert({ name, description });
+		settings[name] = val;
+		hints[name] = hint;
+		descriptions[name] = description;
 	}
 
 	void Integrator::syncWithModel(ExecutableModel* m) {}

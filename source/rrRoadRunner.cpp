@@ -1313,7 +1313,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // Stochastic Fixed Step Integration
     // do fixed time step simulation, these are different for deterministic
     // and stochastic.
-	else if (self.integrator->getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
+	else if (self.integrator->getIntegrationMethod() == Integrator::Stochastic)
     {
         Log(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "

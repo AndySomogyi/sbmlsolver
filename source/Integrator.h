@@ -142,9 +142,9 @@ namespace rr
 		/* !-- END OF CARRYOVER METHODS */
 
 	protected:
-        typedef RR_UNORDERED_MAP<std::string, Variant> SettingsMap;
-        typedef std::unordered_map<std::string, std::string> HintMap;
-        typedef std::unordered_map<std::string, std::string> DescriptionMap;
+        typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
+        typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
+        typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
 
 		SettingsMap settings;
 		HintMap hints;

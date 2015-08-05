@@ -229,7 +229,7 @@ namespace rr
 
     Integrator::IntegrationMethod RK4Integrator::getIntegrationMethod() const
     {
-        return Integrator::IntegrationMethod::Deterministic;
+        return Integrator::Deterministic;
     }
 
     void RK4Integrator::resetSettings()

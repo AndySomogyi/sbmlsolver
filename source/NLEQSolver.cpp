@@ -14,7 +14,7 @@
 #include <assert.h>
 #include <math.h>
 #include <vector>
-#include <unordered_map>
+#include "tr1proxy/rr_unordered_map.h"
 
 namespace rr
 {
@@ -84,7 +84,7 @@ std::string NLEQSolver::getHint() {
 
 Solver::SolverMethod NLEQSolver::getSolverMethod() const
 {
-	return Solver::SolverMethod::SteadyState;
+	return Solver::SteadyState;
 }
 
 double NLEQSolver::solve(const vector<double>& yin)

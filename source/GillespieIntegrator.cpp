@@ -161,7 +161,7 @@ namespace rr
 
 	Integrator::IntegrationMethod GillespieIntegrator::getIntegrationMethod() const
 	{
-		return Integrator::IntegrationMethod::Deterministic;
+		return Integrator::Deterministic;
 	}
 
 	void GillespieIntegrator::setValue(string key, const Variant& val)

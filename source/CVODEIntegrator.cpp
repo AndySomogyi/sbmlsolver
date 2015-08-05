@@ -180,12 +180,12 @@ namespace rr
     {
         //  VARIABLE STEP SIZE
         bool bVal = false;
-        if (getIntegrationMethod() == Integrator::IntegrationMethod::Deterministic)
+        if (getIntegrationMethod() == Integrator::Deterministic)
         {
             bVal = Config::getBool(Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
             Integrator::setValue("variable_step_size", bVal);
         }
-        else if (getIntegrationMethod() == Integrator::IntegrationMethod::Stochastic)
+        else if (getIntegrationMethod() == Integrator::Stochastic)
         {
             bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
             Integrator::setValue("variable_step_size", bVal);
@@ -283,7 +283,7 @@ namespace rr
 
 	Integrator::IntegrationMethod CVODEIntegrator::getIntegrationMethod() const
 	{
-		return Integrator::IntegrationMethod::Deterministic;
+		return Integrator::Deterministic;
 	}
 
 	void CVODEIntegrator::setValue(string key, const Variant& val)
@@ -331,8 +331,6 @@ namespace rr
 		{
 			return;
 		}
-
-		std::unordered_map<string, Variant>::const_iterator option;
 
 		CVodeSetInitStep(mCVODE_Memory, getValueAsDouble("initial_time_step"));
 		CVodeSetMinStep(mCVODE_Memory, getValueAsDouble("minimum_time_step"));
