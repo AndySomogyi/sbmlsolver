@@ -580,6 +580,14 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterDescription (RRHan
 C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterHint (RRHandle handle, int n);
 
 /*!
+\brief Get the type of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorNthParameterType (RRHandle handle, int n);
+
+/*!
 \brief Reset the integrator parameters to their default values.
 \param[in] handle Handle to a RoadRunner instance.
 \return Returns True if successful.
@@ -820,12 +828,29 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterDescription
 C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterHint (RRHandle handle, int n);
 
 /*!
+\brief Get the type of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverNthParameterType (RRHandle handle, int n);
+
+/*!
 \brief Reset the steady state solver parameters to their default values.
 \param[in] handle Handle to a RoadRunner instance.
 \return Returns True if successful.
 \ingroup simopts
 */
 C_DECL_SPEC int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle handle);
+
+/*!
+\brief Get a string description of the type [STATIC MEMORY - DO NOT FREE]
+\description Can call on return value of e.g. @ref getCurrentSteadyStateSolverNthParameterType
+to retrieve human-readable string representation.
+\param[in] code Type code for the parameter
+\ingroup simopts
+*/
+C_DECL_SPEC const char* rrcCallConv solverTypeToString (int code);
 
 /*!
 \brief Get the names of adjustable settings for the current steady state solver.

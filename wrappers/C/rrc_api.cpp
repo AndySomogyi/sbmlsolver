@@ -1449,6 +1449,15 @@ char* rrcCallConv getCurrentIntegratorNthParameterHint (RRHandle handle, int n)
 }
 
 
+int rrcCallConv getCurrentIntegratorNthParameterType (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       return (int) rri->getIntegrator()->getType(rri->getIntegrator()->getParamName(n));
+    catch_int_macro
+}
+
+
 char* rrcCallConv getCurrentIntegratorNthParameterDescription (RRHandle handle, int n)
 {
     start_try
@@ -1750,6 +1759,15 @@ char* rrcCallConv getCurrentSteadyStateSolverNthParameterHint (RRHandle handle, 
 }
 
 
+int rrcCallConv getCurrentSteadyStateSolverNthParameterType (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       return (int) rri->getSteadyStateSolver()->getType(rri->getSteadyStateSolver()->getParamName(n));
+    catch_int_macro
+}
+
+
 char* rrcCallConv getCurrentSteadyStateSolverNthParameterDescription (RRHandle handle, int n)
 {
     start_try
@@ -1767,6 +1785,35 @@ int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle handle)
         rri->getSteadyStateSolver()->resetSettings();
         return true;
     catch_int_macro
+}
+
+
+const char* rrcCallConv solverTypeToString (int code)
+{
+    switch (Variant::TypeId(code)) {
+        case Variant::STRING:
+            return "string";
+        case Variant::BOOL:
+            return "bool";
+        case Variant::INT32:
+            return "int32";
+        case Variant::UINT32:
+            return "uint32";
+        case Variant::INT64:
+            return "int64";
+        case Variant::FLOAT:
+            return "float";
+        case Variant::DOUBLE:
+            return "double";
+        case Variant::CHAR:
+            return "char";
+        case Variant::UCHAR:
+            return "uchar";
+        case Variant::EMPTY:
+            return "empty";
+        default:
+            return "<invalid>";
+    }
 }
 
 RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParameterNames (RRHandle handle)

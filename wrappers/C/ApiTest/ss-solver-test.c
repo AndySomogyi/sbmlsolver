@@ -108,7 +108,19 @@ int main(int argc, char* argv[])
                 fprintf(stderr, "      Hint: %s\n", t);
                 freeText(t);
             }
+            fprintf(stderr, "      Type: %d\n", getCurrentSteadyStateSolverNthParameterType(_handle, k));
         }
+
+        // check types
+
+        fprintf(stderr, "    Type (minimum_damping): %d\n", getCurrentSteadyStateSolverParameterType(_handle, "minimum_damping"));
+
+        fprintf(stderr, "    Type (maximum_iterations): %d\n", getCurrentSteadyStateSolverParameterType(_handle, "minimum_damping"));
+
+        fprintf(stderr, "    Type str (minimum_damping): %s\n", solverTypeToString(getCurrentSteadyStateSolverParameterType(_handle, "minimum_damping")));
+
+        fprintf(stderr, "    Type str (maximum_iterations): %s\n", solverTypeToString(getCurrentSteadyStateSolverParameterType(_handle, "minimum_damping")));
+
 
 
         fprintf(stderr,"\n  **** Calculating Steady State ****\n\n");
