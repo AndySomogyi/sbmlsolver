@@ -624,7 +624,7 @@ SUITE(TEST_MODEL)
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
-            string eigenValueLabel ="eigen(" + aKey->mKey + ")";
+            string eigenValueLabel ="eigenReal(" + aKey->mKey + ")";
             double val = rri->getValue(eigenValueLabel.c_str());
 
             clog<<"EigenValue "<<i<<": "<<val<<endl;
