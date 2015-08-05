@@ -52,9 +52,29 @@ int main(int argc, char* argv[])
     RRHandle _handle = createRRInstance();
 
     {
-        char* t = getCurrentIntegratorName(_handle);
-        fprintf(stderr, "  Default integrator is %s\n", t);
+        char* t = getCurrentSteadyStateSolverName(_handle);
+        fprintf(stderr, "  Default steady statesolver is %s\n", t);
         freeText(t);
+    }
+
+    fprintf(stderr, "  Number of registered steady state solvers: %d\n", getNumRegisteredSteadyStateSolvers());
+    for(n=0; n<getNumRegisteredSteadyStateSolvers(); ++n) {
+        fprintf(stderr, "  Solver %d:\n", n);
+        {
+            char* t = getRegisteredSteadyStateSolverName(n);
+            fprintf(stderr, "    Name: %s\n", t);
+            freeText(t);
+        }
+        {
+            char* t = getRegisteredSteadyStateSolverHint(n);
+            fprintf(stderr, "    Hint: %s\n", t);
+            freeText(t);
+        }
+        {
+            char* t = getRegisteredSteadyStateSolverDescription(n);
+            fprintf(stderr, "    Desc: %s\n", t);
+            freeText(t);
+        }
     }
 
     for(n = 0; n<(sizeof(raw_sbml)/sizeof(raw_sbml[0])); ++n) {
