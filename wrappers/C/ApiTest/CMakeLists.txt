@@ -3,20 +3,8 @@ PROJECT(RR_C_API_Tests)
 
 set(target test_new_api)
 
-set(tests
-    Suite_Core_Tests
-    Suite_TestModel
-    Suite_SBML_Tests
-    Suite_NOM_Tests
-    Suite_LibStruct_Tests
-    )
-
 add_executable( ${target}
     main.c
-#     src/Args.cpp
-#     src/TestUtils
-#     src/rrSBMLTestSuiteSimulation_CAPI
-#     ${tests}
     )
 
 set_property(TARGET ${target}
@@ -67,8 +55,6 @@ set_property(TARGET ss-solver-test
     XML_STATIC
     POCO_NO_AUTOMATIC_LIBS
     )
-
-add_subdirectory(utils)
 
 
 
