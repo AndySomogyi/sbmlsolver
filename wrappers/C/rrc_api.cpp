@@ -1801,6 +1801,8 @@ const char* rrcCallConv solverTypeToString (int code)
             return "uint32";
         case Variant::INT64:
             return "int64";
+        case Variant::UINT64:
+            return "uint64";
         case Variant::FLOAT:
             return "float";
         case Variant::DOUBLE:
