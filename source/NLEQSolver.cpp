@@ -70,10 +70,8 @@ std::string NLEQSolver::getSolverDescription() const {
 }
 
 std::string NLEQSolver::getDescription() {
-	return "CVODE is a deterministic ODE solver from the SUNDIALS suite "
-		"of timecourse integrators. It implements an Adams-Moulton solver "
-		"for non-stiff problems and a backward differentiation formula "
-		"(BDF) solver for stiff problems.";
+	return "NLEQ is a non-linear equation solver which uses a global Newton "
+     "method with adaptive damping strategies (see http://www.zib.de/weimann/NewtonLib/index.html)";
 }
 
 std::string NLEQSolver::getSolverHint() const {
