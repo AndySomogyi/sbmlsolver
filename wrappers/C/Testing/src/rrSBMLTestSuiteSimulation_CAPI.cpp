@@ -266,8 +266,8 @@ bool RunTest(const string& version, int caseNumber)
 
         simulation.CreateErrorData();
         result = simulation.Pass();
-        result = result && simulation.SaveAllData();
-        result = result && simulation.SaveModelAsXML(dataOutputFolder);
+        result = simulation.SaveAllData() && result;
+        result = simulation.SaveModelAsXML(dataOutputFolder) && result;
         if(!result)
         {
             clog<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";

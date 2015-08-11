@@ -54,6 +54,7 @@ class RR_DECLSPEC SBMLModelSimulation
         virtual bool            LoadSBMLFromFile();                    //Use current file information to load sbml from file
         virtual bool            Simulate();
         virtual bool            SaveResult();
+        void                    loadSBMLTolerances(std::string const& filename);
         virtual bool            LoadSettings(const string& fName = "");
         virtual RoadRunnerData  GetResult();
 
@@ -65,6 +66,11 @@ class RR_DECLSPEC SBMLModelSimulation
         bool                    GenerateModelCode();
         bool                    CompileModel();
         bool                    GenerateAndCompileModel();
+
+        /// absolute tolerance for residual comparison, does not affect integrator
+        double mAbsolute;
+        /// relative tolerance for residual comparison, does not affect integrator
+        double mRelative;
 };
 
 }

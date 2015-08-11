@@ -605,33 +605,40 @@ string RoadRunner::getTempDir()
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
 {
-    vector<string> theList;
+    vector<string> selections;
     vector<string> oFloating  = getFloatingSpeciesIds();
     int numFloatingSpecies = oFloating.size();
     //int numIndSpecies = getNumberOfIndependentSpecies();
 
     // add floating species to the default selection
 
-    theList.push_back("time");
+    selections.push_back("time");
     //for(int i = 0; i < numIndSpecies; i++)
     for (int i = 0; i < numFloatingSpecies; i++)
     {
-        theList.push_back("[" + oFloating[i] + "]");
+        selections.push_back("[" + oFloating[i] + "]");
     }
 
     // add parameters defined by rate rules to the default selection
 
+    vector<string> selections_with_ratelaws(selections);
     try {
         vector<string> raterule_symbols = impl->model->getRateRuleSymbols();
         for (vector<string>::iterator i = raterule_symbols.begin(); i != raterule_symbols.end(); ++i)
-            theList.push_back(*i);
+            selections_with_ratelaws.push_back(*i);
     } catch (NotImplementedException) {
         Log(Logger::LOG_WARNING) << "Querying rate rule symbols not supported with this executable model";
     }
 
-    // apply selection
-
-    setSelections(theList);
+    // try to apply selections including rate laws,
+    // fall back if unable to use rate laws
+    // see https://github.com/sys-bio/roadrunner/issues/88
+    try {
+        setSelections(selections_with_ratelaws);
+    } catch (...) {
+        Log(Logger::LOG_WARNING) << "Rate laws exist but cannot be added to default selections";
+        setSelections(selections);
+    }
 
     Log(lDebug)<<"The following is selected:";
     for(int i = 0; i < impl->mSelectionList.size(); i++)
@@ -880,12 +887,12 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
 
     // TODO: streamline so SBML document is not read several times
     // check that stoichiometry is defined
-    if (!isStoichDefined(self.mCurrentSBML)) {
-        // if any reactions are missing stoich, the simulation results will be wrong
-        // fix sbml by assuming unit stoich where missing
-        self.mCurrentSBML = fixMissingStoich(self.mCurrentSBML);
-        Log(Logger::LOG_WARNING)<<"Stoichiometry is not defined for all reactions; assuming unit stoichiometry where missing";
-    }
+//     if (!isStoichDefined(self.mCurrentSBML)) {
+//         // if any reactions are missing stoich, the simulation results will be wrong
+//         // fix sbml by assuming unit stoich where missing
+//         self.mCurrentSBML = fixMissingStoich(self.mCurrentSBML);
+//         Log(Logger::LOG_WARNING)<<"Stoichiometry is not defined for all reactions; assuming unit stoichiometry where missing";
+//     }
 
     // the following lines load and compile the model. If anything fails here,
     // we validate the model to provide explicit details about where it

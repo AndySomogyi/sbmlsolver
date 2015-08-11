@@ -290,33 +290,42 @@ namespace rr
 	{
 		Integrator::setValue(key, val);
 
-		/*	In addition to typically value-setting behavior, some settings require further changes 
-			within CVODE. */
-		if (key == "maximum_bdf_order")
-		{
-			CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_bdf_order"));
-		}
-		else if (key == "maximum_adams_order")
-		{
-			CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_adams_order"));
-		}
-		else if (key == "initial_time_step")
-		{
-			CVodeSetInitStep(mCVODE_Memory, getValueAsDouble("initial_time_step"));
-		}
-		else if (key == "minimum_time_step")
-		{
-			CVodeSetMinStep(mCVODE_Memory, getValueAsDouble("minimum_time_step"));
-		}
-		else if (key == "maximum_time_step")
-		{
-			CVodeSetMaxStep(mCVODE_Memory, getValueAsDouble("maximum_time_step"));
-		}
-		else if (key == "maximum_num_steps")
-		{
-			CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
-		}
-		else if (key == "stiff")
+		/// Values and keys are stored in the settings map, which is updated
+		/// in every call to @ref setValue. In addition, changing CVODE-specific
+		/// parameters requires a call into the CVODE library to synchronize
+		/// CVODE's internal memory with the settings map.
+        if (mCVODE_Memory) {
+            if (key == "maximum_bdf_order")
+            {
+                CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_bdf_order"));
+            }
+            else if (key == "maximum_adams_order")
+            {
+                CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_adams_order"));
+            }
+            else if (key == "initial_time_step")
+            {
+                CVodeSetInitStep(mCVODE_Memory, getValueAsDouble("initial_time_step"));
+            }
+            else if (key == "minimum_time_step")
+            {
+                CVodeSetMinStep(mCVODE_Memory, getValueAsDouble("minimum_time_step"));
+            }
+            else if (key == "maximum_time_step")
+            {
+                CVodeSetMaxStep(mCVODE_Memory, getValueAsDouble("maximum_time_step"));
+            }
+            else if (key == "maximum_num_steps")
+            {
+                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
+            }
+            else if (key == "absolute_tolerance" || key == "relative_tolerance")
+            {
+                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
+                setCVODETolerances();
+            }
+        }
+		if (key == "stiff")
 		{
 			// If the integrator is changed from stiff to standard, we must re-create CVode.
 			Log(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
@@ -327,7 +336,7 @@ namespace rr
 
 	void CVODEIntegrator::updateCVODE()
 	{
-		if (mCVODE_Memory == 0)
+		if (mCVODE_Memory == NULL)
 		{
 			return;
 		}

@@ -112,6 +112,53 @@ bool SBMLModelSimulation::CompileModel()
     return true;
 }
 
+void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
+{
+    if (!filename.size())
+    {
+        Log(Logger::LOG_ERROR) << "Empty file name for settings file";
+    }
+    else
+    {
+        map<string, string> options;
+        map<string, string>::iterator it;
+        //Read each line in the settings file
+        vector<string> lines = getLinesInFile(filename);
+        for (int i = 0; i < lines.size(); i++)
+        {
+            vector<string> line = splitString(lines[i], ":");
+            if (line.size() == 2)
+            {
+                options.insert(pair<string, string>(line[0], line[1]));
+            }
+            else
+            {
+                Log(Logger::LOG_DEBUG) << "Empty line in settings file: " << lines[i];
+            }
+        }
+
+        Log(Logger::LOG_DEBUG) << "Settings File =============";
+        for (it = options.begin(); it != options.end(); it++)
+        {
+            Log(Logger::LOG_DEBUG) << (*it).first << " => " << (*it).second;
+        }
+        Log(Logger::LOG_DEBUG) << "===========================";
+
+        //Assign values
+        it = options.find("absolute");
+        if (it != options.end())
+        {
+            mAbsolute = std::abs(toDouble((*it).second));
+        }
+
+        it = options.find("relative");
+        if (it != options.end())
+        {
+            mRelative = std::abs(toDouble((*it).second));
+        }
+    }
+}
+
 bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 {
     string fName(settingsFName);
@@ -121,6 +168,10 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         Log(Logger::LOG_ERROR)<<"Empty file name for setings file";
         return false;
     }
+
+    mAbsolute = 1e-10;
+    mRelative = 1e-5;
+    loadSBMLTolerances(fName);
 
     mSettings = SimulateOptions();
 	mSettings.loadSBMLSettings(fName);

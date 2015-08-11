@@ -154,8 +154,8 @@ bool TestSuiteModelSimulation::CreateErrorData()
             double error = fabsl(mResultData(row, col) - mReferenceData(row,col));
             mErrorData(row, col) = error;
 
-			double absTol = mEngine->getIntegrator()->getValue("absolute_tolerance").convert<double>();
-			double relTol = mEngine->getIntegrator()->getValue("relative_tolerance").convert<double>();
+			double absTol = mAbsolute;
+			double relTol = mRelative;
             if(error > absTol + relTol*fabs(mReferenceData(row,col)))
             {
                 mNrOfFailingPoints++;;

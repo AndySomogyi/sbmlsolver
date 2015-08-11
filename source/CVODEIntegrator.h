@@ -49,7 +49,7 @@ namespace rr
     public:
         /**
          * @author WBC, ETS, MTK
-         * @brief Constructor: takes an executable model, does not own
+         * @brief Constructor: takes an executable model, does not own the pointer
          */
         CVODEIntegrator(ExecutableModel* oModel);
 
@@ -139,11 +139,12 @@ namespace rr
         void resetSettings();
 
         /**
-         * @author WBC, ETS, MTK
-         * @brief Sets tolerances based on config values
-         * @details Sets absolute and relative tolerances to the minimum
-         * of Config::CVODE_MIN_ABSOLUTE, Config::CVODE_MIN_RELATIVE and
-         * their respective current values
+         * @author JKM, WBC, ETS, MTK
+         * @brief Fix tolerances for SBML tests
+         * @details In order to ensure that the results of the SBML test suite
+         * remain valid, this method enforces a lower bound on tolerance values.
+         * Sets minimum absolute and relative tolerances to
+         * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
          */
         void tweakTolerances();
 
@@ -196,9 +197,24 @@ namespace rr
         void testRootsAtInitialTime();
         bool haveVariables();
         void assignResultsToModel();
+        /**
+         * @author WBC, ETS, JKM
+         * @brief Propagates changes in the "absolute_tolerance" and
+         * "relative_tolerance" settings to the CVODE library.
+         */
         void setCVODETolerances();
         void reInit(double t0);
 
+        /**
+         * @author WBC, ETS, JKM
+         * @brief Propagates changes in the following settings to CVODE:\n
+         * *  initial_time_step \n
+         * *  minimum_time_step \n
+         * *  maximum_time_step \n
+         * *  maximum_num_steps \n
+         * *  absolute_tolerance (via @ref setCVODETolerances) \n
+         * *  relative_tolerance (via @ref setCVODETolerances) \n
+         */
         void updateCVODE();
         void applyPendingEvents(double timeEnd);
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
