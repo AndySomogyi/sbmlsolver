@@ -65,10 +65,43 @@ std::string validateSBML(const std::string src, unsigned opt)
     return errors.str();
 }
 
+// Return true if this species reference has an initial assignment
+static bool hasInitialAssignment(const SpeciesReference* s) {
+    const Model* m = s->getModel();
+    const ListOfInitialAssignments *assn = m->getListOfInitialAssignments();
+
+    for (unsigned i = 0; i < assn->size(); ++i) {
+        const InitialAssignment *a = assn->get(i);
+        if (a->getSymbol() == s->getId())
+            return true;
+    }
+
+    return false;
+}
+
+// Return true if this species reference has an assignment rule
+static bool hasAssignmentRule(const SpeciesReference* s) {
+    const Model* m = s->getModel();
+    const ListOfRules* rules = m->getListOfRules();
+
+    for (unsigned i = 0; i < rules->size(); ++i) {
+        const Rule *rule = rules->get(i);
+        if (const AssignmentRule* a = dynamic_cast<const AssignmentRule*>(rule))
+            if (a->getVariable() ==  s->getId())
+                return true;
+    }
+
+    return false;
+}
+
 // Return true if stoichiometry is defined for this species reference
 static bool isStoichDefined(const SpeciesReference* s) {
     if (!s)
+        // null ref
         return false;
+    if (hasInitialAssignment(s) || hasAssignmentRule(s))
+        // stoich can be set by assignments
+        return true;
     return s->isSetStoichiometry();
 }
 
@@ -78,6 +111,9 @@ bool isStoichDefined(const std::string sbml) {
 
     try {
         doc =  readSBMLFromString (sbml.c_str());
+
+        if (doc->getLevel() < 3)
+            return true;                                    // stoichiometry has a default value in level 1 & 2
 
         const Model *m = doc->getModel();
 

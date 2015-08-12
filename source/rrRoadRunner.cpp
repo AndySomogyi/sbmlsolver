@@ -887,12 +887,12 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
 
     // TODO: streamline so SBML document is not read several times
     // check that stoichiometry is defined
-//     if (!isStoichDefined(self.mCurrentSBML)) {
-//         // if any reactions are missing stoich, the simulation results will be wrong
-//         // fix sbml by assuming unit stoich where missing
-//         self.mCurrentSBML = fixMissingStoich(self.mCurrentSBML);
-//         Log(Logger::LOG_WARNING)<<"Stoichiometry is not defined for all reactions; assuming unit stoichiometry where missing";
-//     }
+    if (!isStoichDefined(self.mCurrentSBML)) {
+        // if any reactions are missing stoich, the simulation results will be wrong
+        // fix sbml by assuming unit stoich where missing
+        self.mCurrentSBML = fixMissingStoich(self.mCurrentSBML);
+        Log(Logger::LOG_WARNING)<<"Stoichiometry is not defined for all reactions; assuming unit stoichiometry where missing";
+    }
 
     // the following lines load and compile the model. If anything fails here,
     // we validate the model to provide explicit details about where it
