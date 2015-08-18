@@ -68,7 +68,6 @@ if(SWIG_FOUND)
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/ExecutableModelFactory.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/ExecutableModel.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/IntegratorException.java
-    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/IntegratorFactory.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/Integrator.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/IntVector.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/LoadSBMLOptions.java
@@ -85,7 +84,6 @@ if(SWIG_FOUND)
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_cxx11_ns__shared_ptrT_rr__EventListener_t.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_cxx11_ns__shared_ptrT_rr__IntegratorListener_t.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_double.java
-    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_Integrator__IntegratorId.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_int.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_ls__DoubleMatrix.java
   #   ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_PyObject.java
@@ -93,7 +91,6 @@ if(SWIG_FOUND)
   #   ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_rr__PyIntegratorListenerPtr.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_std__vectorT_double_t.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_std__vectorT_ls__Complex_t.java
-    ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_std__vectorT_rr__Dictionary_const_p_t.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_string.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_unsigned_char.java
     ${CMAKE_CURRENT_BINARY_DIR}/roadrunner/SWIGTYPE_p_Variant.java

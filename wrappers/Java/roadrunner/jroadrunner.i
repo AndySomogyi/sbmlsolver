@@ -408,8 +408,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 %ignore rr::RoadRunner::simulate;
 
-%rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
-%rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
 %rename (_load) rr::RoadRunner::load;
 
 
@@ -437,9 +435,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 %nodefaultdtor Dictionary;
 %nodefaultctor rr::BasicDictionary;
 %nodefaultdtor DictionaryImpl;
-
-
-%rename (_setIntegratorId) rr::SimulateOptions::setIntegrator;
 
 // ignore SimulateOptions key access methods,
 // these are replaced by python dictionary protocol.
@@ -584,7 +579,12 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 //%ignore rr::Integrator::addIntegratorListener;
 //%ignore rr::Integrator::removeIntegratorListener;
 
-%rename rr::conversion::ConservedMoietyConverter PyConservedMoietyConverter;
+// ignore integrator registration
+
+%ignore rr::IntegratorRegistrar;
+%ignore rr::IntegratorFactory;
+
+%rename rr::conversion::ConservedMoietyConverter JConservedMoietyConverter;
 
 %ignore rr::ostream;
 %ignore ostream;
@@ -823,22 +823,6 @@ SWIGEXPORT jobjectArray JNICALL Java_roadrunner_roadrunnerJNI_jrr_1simulate_1(JN
     std::string __str__() {
         return ($self)->toString();
     }
-
-    std::string _getIntegrator() {
-        return IntegratorFactory::getIntegratorNameFromId(($self)->integrator);
-    }
-
-    void _setIntegrator(const std::string &str) {
-
-        ($self)->setItem("integrator", str);
-    }
-
-    rr::Integrator::IntegratorId getIntegratorId() {
-        return ($self)->integrator;
-    }
-
-
-
 }
 
 %{
@@ -859,15 +843,11 @@ SWIGEXPORT jobjectArray JNICALL Java_roadrunner_roadrunnerJNI_jrr_1simulate_1(JN
     }
 
     bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::STRUCTURED_RESULT;
+        return opt->structured_result;
     }
 
     void rr_SimulateOptions_structuredResult_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->flags |= SimulateOptions::STRUCTURED_RESULT;
-        } else {
-            opt->flags &= ~SimulateOptions::STRUCTURED_RESULT;
-        }
+        opt->structured_result = value;
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
