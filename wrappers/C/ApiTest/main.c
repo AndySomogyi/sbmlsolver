@@ -274,6 +274,7 @@ int main(int argc, char* argv[])
         char *settingName, *settingDesc, *settingHint;
         char *_intgList;
         int settingType;
+        int k;
 
         // load the model
         {
@@ -289,7 +290,7 @@ int main(int argc, char* argv[])
 
         // Grab info on all implemented integrators.
         fprintf(stderr,"  Number of registered integrators:\t %d\n", getNumRegisteredIntegrators());
-        for (int k = 0; k < getNumRegisteredIntegrators(); ++k) {
+        for (k = 0; k < getNumRegisteredIntegrators(); ++k) {
             fprintf(stderr,"    %d:\n", k);
             fprintf(stderr,"     Name: %s\n", getRegisteredIntegratorName(k));
             fprintf(stderr,"     Hint: %s\n", getRegisteredIntegratorHint(k));
