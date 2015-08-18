@@ -49,6 +49,7 @@ static const char* sbml_desc[3] = {
 int run_test_with_cvode(RRHandle _handle) {
     char *settingName, *settingDesc, *settingHint;
     int settingType;
+    int i;
     struct RRStringArray *strArray;
 
     // make CVODE active
@@ -83,7 +84,7 @@ int run_test_with_cvode(RRHandle _handle) {
     {
         int nparams = getNumberOfCurrentIntegratorParameters(_handle);
         fprintf(stderr, "    Number of parameters: %d\n", nparams);
-        for (int i = 0; i < nparams; ++i)
+        for (i = 0; i < nparams; ++i)
         {
             settingName = getCurrentIntegratorNthParameterName(_handle, i);
             settingDesc = getCurrentIntegratorNthParameterDescription(_handle, i);
@@ -117,7 +118,7 @@ int run_test_with_cvode(RRHandle _handle) {
     fprintf(stderr,"    New list of parameters:\n");
 
     strArray = getListOfCurrentIntegratorParameterNames(_handle);
-    for (int i = 0; i < strArray->Count; ++i)
+    for (i = 0; i < strArray->Count; ++i)
     {
         settingName = strArray->String[i];
         settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
@@ -147,6 +148,7 @@ int run_test_with_cvode(RRHandle _handle) {
 int run_test_with_gillespie(RRHandle _handle) {
     char *settingName, *settingDesc, *settingHint;
     int settingType;
+    int i;
     struct RRStringArray *strArray;
 
     fprintf(stderr,"\n  **** Test stochastic simulation ****\n\n");
@@ -164,7 +166,7 @@ int run_test_with_gillespie(RRHandle _handle) {
     fprintf(stderr,"    %d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
     strArray = getListOfCurrentIntegratorParameterNames(_handle);
-    for (int i = 0; i < strArray->Count; ++i)
+    for (i = 0; i < strArray->Count; ++i)
     {
         settingName = strArray->String[i];
         settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
@@ -194,6 +196,7 @@ int run_test_with_gillespie(RRHandle _handle) {
 int run_test_with_rk4(RRHandle _handle) {
     char *settingName, *settingDesc, *settingHint;
     int settingType;
+    int i;
     struct RRStringArray *strArray;
 
     // Simulate with RK4
@@ -207,7 +210,7 @@ int run_test_with_rk4(RRHandle _handle) {
     fprintf(stderr,"    Parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
     strArray = getListOfCurrentIntegratorParameterNames(_handle);
-    for (int i = 0; i < strArray->Count; ++i)
+    for (i = 0; i < strArray->Count; ++i)
     {
         settingName = strArray->String[i];
         settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
