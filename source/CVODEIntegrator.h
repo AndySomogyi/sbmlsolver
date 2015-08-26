@@ -178,6 +178,17 @@ namespace rr
          */
         void setListener(IntegratorListenerPtr);
 
+        /**
+         * @author JKM
+         * @brief Does a RT type check which throws if it fails, EVEN IF RTTI IS DISABLED
+         */
+        void checkType() const;
+
+        /**
+         * @brief decode the cvode error code to a string
+         */
+        std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
+
     private:
         static const int mDefaultMaxNumSteps;
         static const int mDefaultMaxAdamsOrder;
@@ -227,6 +238,8 @@ namespace rr
 
         friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
+
+        unsigned long typecode_;
     };
 
 

@@ -20,11 +20,12 @@
 #include <assert.h>
 #include <Poco/Logger.h>
 
+#define CVODE_INT_TYPECODE 0x7799ff00
 
 using namespace std;
 namespace rr
 {
-	const int CVODEIntegrator::mDefaultMaxNumSteps = 10000;
+	const int CVODEIntegrator::mDefaultMaxNumSteps = 20000;
 	const int CVODEIntegrator::mDefaultMaxAdamsOrder = 12;
 	const int CVODEIntegrator::mDefaultMaxBDFOrder = 5;
 
@@ -66,11 +67,6 @@ namespace rr
 	static void cvodeErrHandler(int error_code, const char *module, const char *function, char *msg, void *eh_data);
 
 	/**
-	* decode the cvode error code to a string
-	*/
-	static std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
-
-	/**
 	* macro to throw a (hopefully) usefull error message
 	*/
 #define handleCVODEError(errCode) \
@@ -87,6 +83,11 @@ namespace rr
 	{
 		return listener;
 	}
+
+    void CVODEIntegrator::checkType() const {
+        if (typecode_ != CVODE_INT_TYPECODE)
+            throw std::runtime_error("CVODEIntegrator::checkType failed, memory bug");
+    }
 
     void CVODEIntegrator::resetSettings()
     {
@@ -119,7 +120,8 @@ namespace rr
 		stateVectorVariables(false),
 		variableStepPendingEvent(false),
 		variableStepTimeEndEvent(false),
-		variableStepPostEventState(0)
+		variableStepPostEventState(0),
+		typecode_(CVODE_INT_TYPECODE)
 	{
 		Log(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
 
@@ -605,7 +607,7 @@ namespace rr
 
 		assert(mCVODE_Memory && "could not create Cvode, CVodeCreate failed");
 
-		if ((err = CVodeSetErrHandlerFn(mCVODE_Memory, cvodeErrHandler, NULL)) != CV_SUCCESS)
+		if ((err = CVodeSetErrHandlerFn(mCVODE_Memory, cvodeErrHandler, this)) != CV_SUCCESS)
 		{
 			handleCVODEError(err);
 		}
@@ -846,9 +848,12 @@ namespace rr
 		return CV_SUCCESS;
 	}
 
-	static std::string cvodeDecodeError(int cvodeError, bool exInfo)
+	std::string CVODEIntegrator::cvodeDecodeError(int cvodeError, bool exInfo)
 	{
 		std::string result;
+		std::stringstream ss;
+		ss << getValueAsInt("maximum_num_steps");
+		std::string max_steps = ss.str();
 
 		switch (cvodeError)
 		{
@@ -856,9 +861,8 @@ namespace rr
 			result = "CV_TOO_MUCH_WORK";
 			if (exInfo)
 			{
-				result += ": The solver took mxstep internal steps but "
-					"could not reach tout. The default value for "
-					"mxstep is MXSTEP_DEFAULT = 500.";
+				result += ": The solver took mxstep (" + max_steps + ") internal steps but " +
+					"could not reach tout.";
 			}
 			break;
 		case CV_TOO_MUCH_ACC:
@@ -1018,8 +1022,11 @@ namespace rr
 	void cvodeErrHandler(int error_code, const char *module, const char *function,
 		char *msg, void *eh_data)
 	{
+        CVODEIntegrator* i = (CVODEIntegrator*)eh_data;
+        i->checkType();
+
 		if (error_code < 0) {
-			Log(Logger::LOG_ERROR) << "CVODE Error: " << cvodeDecodeError(error_code, false)
+			Log(Logger::LOG_ERROR) << "CVODE Error: " << i->cvodeDecodeError(error_code, false)
 				<< ", Module: " << module << ", Function: " << function
 				<< ", Message: " << msg;
 
