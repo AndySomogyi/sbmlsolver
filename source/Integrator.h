@@ -93,7 +93,19 @@ namespace rr
         */
         virtual void resetSettings() = 0;
 
+        /**
+        * @author WBC
+        * @brief Get the value of an integrator setting
+        * @note Use one of the type-concrete versions like @ref getValueAsInt
+        * to avoid type conversion gotchas
+        */
 		virtual Variant getValue(std::string key);
+
+        /**
+        * @author JKM
+        * @brief Return true if this setting is supported by the integrator
+        */
+        virtual Variant hasValue(std::string key) const;
 
         /**
         * @author JKM
@@ -117,16 +129,67 @@ namespace rr
         virtual std::string getParamDesc(int n) const;
 
 
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual int getValueAsInt(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual unsigned int getValueAsUInt(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual long getValueAsLong(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual unsigned long getValueAsULong(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual float getValueAsFloat(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual double getValueAsDouble(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual char getValueAsChar(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual unsigned char getValueAsUChar(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual std::string getValueAsString(std::string key);
+
+        /**
+        * @author WBC
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
 		virtual bool getValueAsBool(std::string key);
+
+
 		virtual void setValue(std::string key, const Variant& value);
 		const std::string& getHint(std::string key) const;
 		const std::string& getDescription(std::string key) const;

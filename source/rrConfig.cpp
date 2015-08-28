@@ -97,7 +97,7 @@ static Variant values[] =  {
     Variant(1.e-10),   // SIMULATEOPTIONS_ABSOLUTE,
     Variant(1.e-5),    // SIMULATEOPTIONS_RELATIVE,
     Variant(false),    // SIMULATEOPTIONS_STRUCTURED_RESULT,
-    Variant(false),    // SIMULATEOPTIONS_STIFF,
+    Variant(true),     // SIMULATEOPTIONS_STIFF,
     Variant(false),    // SIMULATEOPTIONS_MULTI_STEP,
     Variant(false),    // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
     Variant(true),     // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,

@@ -1246,6 +1246,9 @@ namespace std { class ostream{}; }
             doPlot = False
             showPlot = True
 
+            # cleanup tasks
+            post_tasks = []
+
             # user specified number of steps via 3rd arg or steps=xxx
             haveSteps = False
 
@@ -1347,6 +1350,14 @@ namespace std { class ostream{}; }
                     showPlot = v
                     continue
 
+                if k == "stiff" and self.getIntegrator().hasValue('stiff'):
+                    def stiff_restore(v):
+                        def f():
+                            self.getIntegrator().setValue('stiff', v)
+                        return f
+                    self.getIntegrator().setValue('stiff', kwargs[k])
+                    post_tasks.append(stiff_restore(self.getIntegrator().getValue('stiff')))
+
                 # if its not one of these, just set the item on the dict, and
                 # if the inegrator cares about it, it will use it.
                 # if its one of these, set it.
@@ -1370,6 +1381,10 @@ namespace std { class ostream{}; }
 
             if doPlot:
                 self.plot(result=None, loc='upper left', show=showPlot)
+
+            # revert any settings we changed
+            for x in post_tasks:
+                x()
 
             return result
 

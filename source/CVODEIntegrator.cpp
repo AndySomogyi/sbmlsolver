@@ -96,7 +96,7 @@ namespace rr
         descriptions.clear();
 
         // Set default integrator settings.
-        addSetting("stiff", false, "Specifies whether the integrator attempts to solve stiff equations. (bool)", "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
+        addSetting("stiff", true, "Specifies whether the integrator attempts to solve stiff equations. (bool)", "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
         addSetting("variable_step_size", false, "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
         addSetting("multiple_steps", false, "Perform a multiple time step simulation. (bool)", "(bool) Perform a multiple time step simulation.");
         addSetting("initial_time_step", 0.0, "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
@@ -347,6 +347,10 @@ namespace rr
 		CVodeSetMinStep(mCVODE_Memory, getValueAsDouble("minimum_time_step"));
 		CVodeSetMaxStep(mCVODE_Memory, getValueAsDouble("maximum_time_step"));
 		CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps") > 0 ? getValueAsInt("maximum_num_steps") : mDefaultMaxNumSteps);
+		if (getValueAsBool("stiff"))
+            CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_bdf_order"));
+        else
+            CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_adams_order"));
 		setCVODETolerances();
 	}
 

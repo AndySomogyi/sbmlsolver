@@ -102,6 +102,11 @@ namespace rr
 		return option->second;
 	}
 
+    Variant Integrator::hasValue(std::string key) const
+    {
+        return settings.find(key) != settings.end();
+    }
+
 	int Integrator::getValueAsInt(std::string key)
 	{
 		return getValue(key).convert<int>();
@@ -154,6 +159,8 @@ namespace rr
 
 	void Integrator::setValue(std::string key, const Variant& value)
 	{
+        if (settings.find(key) ==  settings.end())
+            throw std::invalid_argument(getIntegratorName() + " invalid key: " + key);
 		settings[key] = value;
 	}
 
