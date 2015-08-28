@@ -105,8 +105,8 @@ namespace rr
         addSetting("maximum_num_steps", mDefaultMaxNumSteps, "Specifies the maximum number of steps to be taken by the CVODE solver in its attempt to reach tout. (int)", "(int) Maximum number of steps to be taken by the CVODE solver in its attempt to reach tout.");
         addSetting("maximum_adams_order", mDefaultMaxAdamsOrder, "Specifies the maximum order for Adams-Moulton intergration. (int)", "(int) Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.");
         addSetting("maximum_bdf_order", mDefaultMaxBDFOrder, "Specifies the maximum order for Backward Differentiation Formula integration. (int)", "(int) Specifies the maximum order for Backward Differentiation Formula integration. This integration method is used for stiff problems. Default value is 5.");
-        addSetting("relative_tolerance", 1e-5, "Specifies the scalar relative tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
-        addSetting("absolute_tolerance", 1e-10, "Specifies the scalar absolute tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
+        addSetting("relative_tolerance", 1e-6, "Specifies the scalar relative tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
+        addSetting("absolute_tolerance", 1e-15, "Specifies the scalar absolute tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
         CVODEIntegrator::loadConfigSettings();
     }
 
