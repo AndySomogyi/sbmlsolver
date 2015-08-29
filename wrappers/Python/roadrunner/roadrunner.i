@@ -1445,6 +1445,16 @@ namespace std { class ostream{}; }
 
             if show:
                 p.show()
+
+        @property
+        def integrator(self):
+            '''The current integrator'''
+            return self.getIntegrator()
+
+        @property
+        def steadyStateSolver(self):
+            '''The current steady state solver'''
+            return self.getSteadyStateSolver()
     %}
 }
 
@@ -2457,6 +2467,38 @@ namespace std { class ostream{}; }
         __swig_setmethods__["listener"] = setListener
         if _newclass:
             listener = property(getListener, setListener)
+
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            return self.getValue(name)
+
+        def __setattr__(self, name, value):
+            if(name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                raise AttributeError('No such key "{}"'.format(name))
+    %}
+}
+
+%extend rr::Solver {
+    %pythoncode %{
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            return self.getValue(name)
+
+        def __setattr__(self, name, value):
+            if(name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                raise AttributeError('No such key "{}"'.format(name))
     %}
 }
 
