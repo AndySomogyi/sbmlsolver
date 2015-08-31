@@ -139,6 +139,12 @@ public:
      */
     std::string getModelName();
 
+    /**
+     * @brief Clears the currently loaded model and all associated memory
+     * @details Deletes jitted code and libStruct data
+     * @returns True if memory was freed, false if no model was loaded
+     * in the first place
+     */
     bool clearModel();
 
 
