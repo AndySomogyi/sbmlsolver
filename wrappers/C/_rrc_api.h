@@ -372,7 +372,7 @@ C_DECL_SPEC bool rrcCallConv loadSBMLFromFileE(RRHandle handle, const char* file
  \return Returns true if successful
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrcCallConv unLoadModel(RRHandle handle);
+C_DECL_SPEC bool rrcCallConv clearModel(RRHandle handle);
 
 /*!
  \brief check if a model is loaded

@@ -502,11 +502,11 @@ bool rrcCallConv isModelLoaded(RRHandle handle)
     catch_bool_macro
 }
 
-bool rrcCallConv unLoadModel(RRHandle handle)
+bool rrcCallConv clearModel(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->unLoadModel();
+        return rri->clearModel();
     catch_bool_macro
 }
 

@@ -950,7 +950,7 @@ bool RoadRunner::createDefaultSelectionLists()
     return result;
 }
 
-bool RoadRunner::unLoadModel()
+bool RoadRunner::clearModel()
 {
     // The model owns the shared library (if it exists), when the model is deleted,
     // its dtor unloads the shared lib.

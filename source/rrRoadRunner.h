@@ -139,7 +139,7 @@ public:
      */
     std::string getModelName();
 
-    bool unLoadModel();
+    bool clearModel();
 
 
     /**
