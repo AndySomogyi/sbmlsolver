@@ -246,7 +246,8 @@ void ArrayList::Add(const string& lbl, const StringList& list)
 {
     ArrayList temp;
     temp.Add(lbl);
-    temp.Add(list);
+    if (list.Count())
+        temp.Add(list);
     Add(temp);
 }
 
@@ -254,7 +255,8 @@ void ArrayList::Add(const string& lbl, const ArrayList& lists)
 {
     ArrayList temp;
     temp.Add(lbl);
-    temp.Add(lists);
+    if (lists.Count())
+        temp.Add(lists);
     Add(temp);
 }
 
