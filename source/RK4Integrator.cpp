@@ -212,7 +212,7 @@ namespace rr
     }
 
     std::string RK4Integrator::getHint() const {
-        return RK4Integrator::getHint();
+        return RK4Integrator::getRK4Hint();
     }
 
     std::string RK4Integrator::getRK4Hint() {

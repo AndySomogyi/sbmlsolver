@@ -263,7 +263,7 @@ namespace rr
 	}
 
 	std::string CVODEIntegrator::getDescription() const {
-        return CVODEIntegrator::getDescription();
+        return CVODEIntegrator::getCVODEIntegratorDescription();
 	}
 
 	std::string CVODEIntegrator::getCVODEIntegratorDescription() {
@@ -274,7 +274,7 @@ namespace rr
 	}
 
 	std::string CVODEIntegrator::getHint() const {
-        return CVODEIntegrator::getHint();
+        return CVODEIntegrator::getCVODEIntegratorHint();
 	}
 
 	std::string CVODEIntegrator::getCVODEIntegratorHint() {
