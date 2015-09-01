@@ -8,27 +8,27 @@ namespace rr
 {
 
 
-SteadyStateSolver* SteadyStateSolverFactory::New(const Dictionary* doct,
+rrSteadyStateSolver* rrSteadyStateSolverFactory::New(const Dictionary* doct,
         ExecutableModel* model)
 {
     return new NLEQInterface(model);
 }
 
-std::vector<std::string> rr::SteadyStateSolverFactory::getSteadyStateNames()
+std::vector<std::string> rr::rrSteadyStateSolverFactory::getSteadyStateNames()
 {
     std::vector<std::string> res;
     res.push_back("NLEQ");
     return res;
 }
 
-std::vector<const Dictionary*> rr::SteadyStateSolverFactory::getSteadyStateOptions()
+std::vector<const Dictionary*> rr::rrSteadyStateSolverFactory::getSteadyStateOptions()
 {
     std::vector<const Dictionary*> res;
     res.push_back(NLEQInterface::getSteadyStateOptions());
     return res;
 }
 
-const Dictionary* rr::SteadyStateSolverFactory::getSteadyStateOptions(
+const Dictionary* rr::rrSteadyStateSolverFactory::getSteadyStateOptions(
         const std::string& name)
 {
     return NLEQInterface::getSteadyStateOptions();;

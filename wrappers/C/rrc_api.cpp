@@ -57,7 +57,7 @@
 #include "rrc_utilities.h"     //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"   //Support functions, not exposed as api functions and or data
 #include "Integrator.h"
-#include "Solver.h"
+#include "SteadyStateSolver.h"
 #include "Dictionary.h"
 
 
@@ -1391,7 +1391,7 @@ char* rrcCallConv getCurrentIntegratorName (RRHandle handle)
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
        if (rri->getIntegrator()) {
-            std::string str = rri->getIntegrator()->getIntegratorName();
+            std::string str = rri->getIntegrator()->getName();
             return (rr::createText (str));
        } else {
            return rr::createText("");
@@ -1403,7 +1403,7 @@ char* rrcCallConv getCurrentIntegratorDescription (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-	   std::string str = rri->getIntegrator()->getIntegratorDescription();
+	   std::string str = rri->getIntegrator()->getDescription();
        return (rr::createText (str));
     catch_ptr_macro
 }
@@ -1413,7 +1413,7 @@ char* rrcCallConv getCurrentIntegratorHint (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-	   std::string str = rri->getIntegrator()->getIntegratorHint();
+	   std::string str = rri->getIntegrator()->getHint();
        return (rr::createText (str));
     catch_ptr_macro
 }
@@ -1642,7 +1642,7 @@ int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 int rrcCallConv getNumRegisteredSteadyStateSolvers()
 {
     start_try;
-        return SolverFactory::getInstance().getNumSolvers();
+        return SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers();
     catch_int_macro
 }
 
@@ -1653,7 +1653,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverName(int n)
             Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SolverFactory::getInstance().getSolverName(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
     catch_ptr_macro
 }
 
@@ -1664,7 +1664,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverHint(int n)
             Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SolverFactory::getInstance().getSolverHint(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverHint(n));
     catch_ptr_macro
 }
 
@@ -1675,7 +1675,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
             Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SolverFactory::getInstance().getSolverDescription(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverDescription(n));
     catch_ptr_macro
 }
 
@@ -1701,7 +1701,7 @@ char* rrcCallConv getCurrentSteadyStateSolverName (RRHandle handle)
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
        if (rri->getSteadyStateSolver()) {
-            std::string str = rri->getSteadyStateSolver()->getSolverName();
+            std::string str = rri->getSteadyStateSolver()->getName();
             return (rr::createText (str));
        } else {
            return rr::createText("");
@@ -1713,7 +1713,7 @@ char* rrcCallConv getCurrentSteadyStateSolverDescription (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-       std::string str = rri->getSteadyStateSolver()->getSolverDescription();
+       std::string str = rri->getSteadyStateSolver()->getDescription();
        return (rr::createText (str));
     catch_ptr_macro
 }
@@ -1723,7 +1723,7 @@ char* rrcCallConv getCurrentSteadyStateSolverHint (RRHandle handle)
 {
     start_try
        RoadRunner* rri = castToRoadRunner(handle);
-       std::string str = rri->getSteadyStateSolver()->getSolverHint();
+       std::string str = rri->getSteadyStateSolver()->getHint();
        return (rr::createText (str));
     catch_ptr_macro
 }
@@ -2494,7 +2494,7 @@ C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
         //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
         //intg->setItem("seed", result);
 		Integrator *intg = r->getIntegrator();
-		if (intg->getIntegratorName() == "gillespie")
+		if (intg->getName() == "gillespie")
 		{
 			intg->setValue("seed", result);
 		}

@@ -27,7 +27,7 @@ namespace rr
 {
     // call exactly once
     static void register_solvers_at_init() {
-        SolverFactory::getInstance().registerSolver(new NLEQSolverRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQSolverRegistrar());
     }
 
     void SolverRegistrationMgr::Register() {

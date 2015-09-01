@@ -131,19 +131,19 @@ namespace rr
         initializeFromModel();
     }
 
-    std::string GillespieIntegrator::getIntegratorName() const {
-        return GillespieIntegrator::getName();
+    std::string GillespieIntegrator::getName() const {
+        return GillespieIntegrator::getGillespieName();
     }
 
-    std::string GillespieIntegrator::getName() {
+    std::string GillespieIntegrator::getGillespieName() {
         return "gillespie";
     }
 
-    std::string GillespieIntegrator::getIntegratorDescription() const {
-        return GillespieIntegrator::getDescription();
+    std::string GillespieIntegrator::getDescription() const {
+        return GillespieIntegrator::getGillespieDescription();
     }
 
-    std::string GillespieIntegrator::getDescription() {
+    std::string GillespieIntegrator::getGillespieDescription() {
         return "RoadRunner's implementation of the standard Gillespie Direct "
             "Method SSA. The granularity of this simulator is individual "
             "molecules and kinetic processes are stochastic. "
@@ -151,11 +151,11 @@ namespace rr
             "a sufficiently large ensemble of runs should be statistically correct.";
     }
 
-    std::string GillespieIntegrator::getIntegratorHint() const {
-        return GillespieIntegrator::getHint();
+    std::string GillespieIntegrator::getHint() const {
+        return GillespieIntegrator::getGillespieHint();
     }
 
-    std::string GillespieIntegrator::getHint() {
+    std::string GillespieIntegrator::getGillespieHint() {
         return "Gillespie Direct Method SSA";
     }
 

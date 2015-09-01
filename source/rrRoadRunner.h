@@ -22,7 +22,7 @@ class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
 class Integrator;
-class Solver;
+class SteadyStateSolver;
 
 /**
  * The main RoadRunner class.
@@ -116,7 +116,7 @@ public:
     /**
      * get a pointer to the current steady state solver
      */
-    Solver* getSteadyStateSolver();
+    SteadyStateSolver* getSteadyStateSolver();
 
 	/* Return a list of the names of all existing integrators. */
 	std::vector<std::string> getExistingIntegratorNames();

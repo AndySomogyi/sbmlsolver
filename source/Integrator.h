@@ -20,6 +20,7 @@
 # include "rrOSSpecifics.h"
 # include "Dictionary.h"
 # include "rrException.h"
+# include "Solver.h"
 
 # include "tr1proxy/rr_memory.h"
 # include "tr1proxy/rr_unordered_map.h"
@@ -59,7 +60,7 @@ namespace rr
 		Integrator is an abstract base class that provides an interface to specific integrator
 		class implementations.
 	---------------------------------------------------------------------------------------------*/
-	class RR_DECLSPEC Integrator
+	class RR_DECLSPEC Integrator : public Solver
 	{
 	public:
 		enum IntegrationMethod
@@ -72,6 +73,8 @@ namespace rr
 
 		virtual ~Integrator() {};
 
+        virtual IntegrationMethod getIntegrationMethod() const = 0;
+
         /**
         * @author JKM
         * @brief Called whenever a new model is loaded to allow integrator
@@ -81,119 +84,6 @@ namespace rr
 
 		virtual void loadConfigSettings();
 		virtual void loadSBMLSettings(const std::string& filename);
-		virtual std::string getIntegratorName() const = 0;
-		virtual std::string getIntegratorDescription() const = 0;
-		virtual std::string getIntegratorHint() const = 0;
-		virtual IntegrationMethod getIntegrationMethod() const = 0;
-		std::vector<std::string> getSettings() const;
-
-        /**
-        * @author JKM
-        * @brief Reset all integrator settings to their respective default values
-        */
-        virtual void resetSettings() = 0;
-
-        /**
-        * @author WBC
-        * @brief Get the value of an integrator setting
-        * @note Use one of the type-concrete versions like @ref getValueAsInt
-        * to avoid type conversion gotchas
-        */
-		virtual Variant getValue(std::string key);
-
-        /**
-        * @author JKM
-        * @brief Return true if this setting is supported by the integrator
-        */
-        virtual Variant hasValue(std::string key) const;
-
-        /**
-        * @author JKM
-        * @brief Get the name of the parameter at index n (stored in an
-        * unordered container)
-        */
-        virtual std::string getParamName(int n) const;
-
-        /**
-        * @author JKM
-        * @brief Get the hint of the parameter at index n (stored in an
-        * unordered container)
-        */
-        virtual std::string getParamHint(int n) const;
-
-        /**
-        * @author JKM
-        * @brief Get the description of the parameter at index n (stored in an
-        * unordered container)
-        */
-        virtual std::string getParamDesc(int n) const;
-
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual int getValueAsInt(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual unsigned int getValueAsUInt(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual long getValueAsLong(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual unsigned long getValueAsULong(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual float getValueAsFloat(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual double getValueAsDouble(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual char getValueAsChar(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual unsigned char getValueAsUChar(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual std::string getValueAsString(std::string key);
-
-        /**
-        * @author WBC
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-		virtual bool getValueAsBool(std::string key);
-
-
-		virtual void setValue(std::string key, const Variant& value);
-		const std::string& getHint(std::string key) const;
-		const std::string& getDescription(std::string key) const;
-		const Variant::TypeId getType(std::string key);
 
 		virtual double integrate(double t0, double hstep) = 0;
 		virtual void restart(double t0) = 0;
@@ -203,17 +93,6 @@ namespace rr
 		virtual IntegratorListenerPtr getListener() = 0;
 		std::string toString() const;
 		/* !-- END OF CARRYOVER METHODS */
-
-	protected:
-        typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
-
-		SettingsMap settings;
-		HintMap hints;
-		DescriptionMap descriptions;
-
-		void addSetting(std::string name, Variant val, std::string hint, std::string description);
 	};
 
 

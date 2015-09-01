@@ -52,39 +52,39 @@ namespace rr
          * @brief Get the name for this integrator
          * @note Delegates to @ref getName
          */
-        std::string getIntegratorName() const;
+        std::string getName() const;
 
         /**
          * @author JKM
          * @brief Get the name for this integrator
          */
-        static std::string getName();
+        static std::string getGillespieName();
 
         /**
          * @author WBC
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getIntegratorDescription() const;
+        std::string getDescription() const;
 
         /**
          * @author JKM
          * @brief Get the description for this integrator
          */
-        static std::string getDescription();
+        static std::string getGillespieDescription();
 
         /**
          * @author WBC
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getIntegratorHint() const;
+        std::string getHint() const;
 
         /**
          * @author JKM
          * @brief Get the hint for this integrator
          */
-        static std::string getHint();
+        static std::string getGillespieHint();
 
         // ** Getters / Setters ************************************************
 
@@ -185,7 +185,7 @@ namespace rr
             * @brief Gets the name associated with this integrator type
             */
             virtual std::string getName() const {
-                return GillespieIntegrator::getName();
+                return GillespieIntegrator::getGillespieName();
             }
 
             /**
@@ -193,7 +193,7 @@ namespace rr
             * @brief Gets the description associated with this integrator type
             */
             virtual std::string getDescription() const {
-                return GillespieIntegrator::getDescription();
+                return GillespieIntegrator::getGillespieDescription();
             }
 
             /**
@@ -201,7 +201,7 @@ namespace rr
             * @brief Gets the hint associated with this integrator type
             */
             virtual std::string getHint() const {
-                return GillespieIntegrator::getHint();
+                return GillespieIntegrator::getGillespieHint();
             }
 
             /**

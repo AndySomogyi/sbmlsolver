@@ -186,15 +186,15 @@ namespace rr
         /**
         * get the name of this integrator
         */
-        virtual std::string getIntegratorName() const {
-            return getName();
+        virtual std::string getName() const {
+            return getEulerName();
         }
 
         /**
          * @author JKM
          * @brief Get the name for this integrator
          */
-        static std::string getName() {
+        static std::string getEulerName() {
             return "euler";
         }
 
@@ -203,15 +203,15 @@ namespace rr
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getIntegratorDescription() const {
-            return getDescription();
+        std::string getDescription() const {
+            return getEulerDescription();
         }
 
         /**
          * @author JKM
          * @brief Get the description for this integrator
          */
-        static std::string getDescription() {
+        static std::string getEulerDescription() {
             return "The Euler method is one of the simplest approaches to "
                 "solving a first order ODE. Given the rate of change of "
                 "function f at time t, it computes the new value of f as "
@@ -225,15 +225,15 @@ namespace rr
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getIntegratorHint() const {
-            return getHint();
+        std::string getHint() const {
+            return getEulerHint();
         }
 
         /**
          * @author JKM
          * @brief Get the hint for this integrator
          */
-        static std::string getHint() {
+        static std::string getEulerHint() {
 //             return "An elementary (my dear Watson) Euler integrator";
             return "A simple Euler integrator";
         }
@@ -407,7 +407,7 @@ namespace rr
             * @brief Gets the name associated with this integrator type
             */
             virtual std::string getName() const {
-                return EulerIntegrator::getName();
+                return EulerIntegrator::getEulerName();
             }
 
             /**
@@ -415,7 +415,7 @@ namespace rr
             * @brief Gets the description associated with this integrator type
             */
             virtual std::string getDescription() const {
-                return EulerIntegrator::getDescription();
+                return EulerIntegrator::getEulerDescription();
             }
 
             /**
@@ -423,7 +423,7 @@ namespace rr
             * @brief Gets the hint associated with this integrator type
             */
             virtual std::string getHint() const {
-                return EulerIntegrator::getHint();
+                return EulerIntegrator::getEulerHint();
             }
 
             /**
