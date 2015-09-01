@@ -97,6 +97,7 @@ set(rrCoreSources
     rrSBMLModelSimulation
     rrSBMLReader
     SBMLValidator
+    SteadyStateSolver
     Solver
     SolverRegistration
     Variant

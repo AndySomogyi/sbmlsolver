@@ -181,7 +181,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 		mEngine->getIntegrator()->loadSBMLSettings(fName);
         // make a copy and tweak tolerances for integrator
         SimulateOptions opt = mSettings;
-		if (mEngine->getIntegrator()->getIntegratorName() == "cvode")
+		if (mEngine->getIntegrator()->getName() == "cvode")
 		{
 			// Do the tolerance tweaking here.
 			//opt.tweakTolerances();

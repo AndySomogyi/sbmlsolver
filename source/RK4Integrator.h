@@ -93,39 +93,39 @@ namespace rr
          * @brief Get the name for this integrator
          * @note Delegates to @ref getName
          */
-        std::string getIntegratorName() const;
+        std::string getName() const;
 
         /**
          * @author JKM
          * @brief Get the name for this integrator
          */
-        static std::string getName();
+        static std::string getRK4Name();
 
         /**
          * @author JKM
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getIntegratorDescription() const;
+        std::string getDescription() const;
 
         /**
          * @author JKM
          * @brief Get the description for this integrator
          */
-        static std::string getDescription();
+        static std::string getRK4Description();
 
         /**
          * @author WBC
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getIntegratorHint() const;
+        std::string getHint() const;
 
         /**
          * @author JKM
          * @brief Get the hint for this integrator
          */
-        static std::string getHint();
+        static std::string getRK4Hint();
 
         // ** Getters / Setters ************************************************
 
@@ -210,7 +210,7 @@ namespace rr
             * @brief Gets the name associated with this integrator type
             */
             virtual std::string getName() const {
-                return RK4Integrator::getName();
+                return RK4Integrator::getRK4Name();
             }
 
             /**
@@ -218,7 +218,7 @@ namespace rr
             * @brief Gets the description associated with this integrator type
             */
             virtual std::string getDescription() const {
-                return RK4Integrator::getDescription();
+                return RK4Integrator::getRK4Description();
             }
 
             /**
@@ -226,7 +226,7 @@ namespace rr
             * @brief Gets the hint associated with this integrator type
             */
             virtual std::string getHint() const {
-                return RK4Integrator::getHint();
+                return RK4Integrator::getRK4Hint();
             }
 
             /**

@@ -84,39 +84,39 @@ namespace rr
          * @brief Get the name for this integrator
          * @note Delegates to @ref getName
          */
-        std::string getIntegratorName() const;
+        std::string getName() const;
 
         /**
          * @author JKM
          * @brief Get the name for this integrator
          */
-        static std::string getName();
+        static std::string getCVODEIntegratorName();
 
         /**
          * @author WBC
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getIntegratorDescription() const;
+        std::string getDescription() const;
 
         /**
          * @author JKM
          * @brief Get the description for this integrator
          */
-        static std::string getDescription();
+        static std::string getCVODEIntegratorDescription();
 
         /**
          * @author WBC
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getIntegratorHint() const;
+        std::string getHint() const;
 
         /**
          * @author JKM
          * @brief Get the hint for this integrator
          */
-        static std::string getHint();
+        static std::string getCVODEIntegratorHint();
 
         // ** Getters / Setters ************************************************
 
@@ -253,7 +253,7 @@ namespace rr
             * @brief Gets the name associated with this integrator type
             */
             virtual std::string getName() const {
-                return CVODEIntegrator::getName();
+                return CVODEIntegrator::getCVODEIntegratorName();
             }
 
             /**
@@ -261,7 +261,7 @@ namespace rr
             * @brief Gets the description associated with this integrator type
             */
             virtual std::string getDescription() const {
-                return CVODEIntegrator::getDescription();
+                return CVODEIntegrator::getCVODEIntegratorDescription();
             }
 
             /**
@@ -269,7 +269,7 @@ namespace rr
             * @brief Gets the hint associated with this integrator type
             */
             virtual std::string getHint() const {
-                return CVODEIntegrator::getHint();
+                return CVODEIntegrator::getCVODEIntegratorHint();
             }
 
             /**

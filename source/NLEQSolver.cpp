@@ -36,7 +36,7 @@ void NLEQSolver::syncWithModel(ExecutableModel* m)
 
 void NLEQSolver::loadConfigSettings()
 {
-	Solver::loadConfigSettings();
+	SteadyStateSolver::loadConfigSettings();
 	// Load settings specific to solver integrator
 
 	NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
@@ -57,34 +57,29 @@ void NLEQSolver::resetSettings()
     NLEQSolver::loadConfigSettings();
 }
 
-std::string NLEQSolver::getSolverName() const {
-	return NLEQSolver::getName();
+std::string NLEQSolver::getName() const {
+	return NLEQSolver::getNLEQName();
 }
 
-std::string NLEQSolver::getName() {
+std::string NLEQSolver::getNLEQName() {
 	return "nleq";
 }
 
-std::string NLEQSolver::getSolverDescription() const {
-	return NLEQSolver::getDescription();
+std::string NLEQSolver::getDescription() const {
+	return NLEQSolver::getNLEQDescription();
 }
 
-std::string NLEQSolver::getDescription() {
+std::string NLEQSolver::getNLEQDescription() {
 	return "NLEQ is a non-linear equation solver which uses a global Newton "
      "method with adaptive damping strategies (see http://www.zib.de/weimann/NewtonLib/index.html)";
 }
 
-std::string NLEQSolver::getSolverHint() const {
-	return NLEQSolver::getHint();
+std::string NLEQSolver::getHint() const {
+	return NLEQSolver::getNLEQHint();
 }
 
-std::string NLEQSolver::getHint() {
+std::string NLEQSolver::getNLEQHint() {
 	return "Steady-state nonlinear systems of equations solver";
-}
-
-Solver::SolverMethod NLEQSolver::getSolverMethod() const
-{
-	return Solver::SteadyState;
 }
 
 double NLEQSolver::solve(const vector<double>& yin)

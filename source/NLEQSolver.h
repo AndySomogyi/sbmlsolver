@@ -14,7 +14,7 @@
 #ifndef rrNLEQSolverH
 #define rrNLEQSolverH
 #include <vector>
-#include "Solver.h"
+#include "SteadyStateSolver.h"
 #include "rrExecutableModel.h"
 using std::vector;
 
@@ -24,7 +24,7 @@ namespace rr
 /**
  * @internal
  */
-class RR_DECLSPEC NLEQSolver : public Solver
+class RR_DECLSPEC NLEQSolver : public SteadyStateSolver
 {
     public:
         /**
@@ -49,52 +49,43 @@ class RR_DECLSPEC NLEQSolver : public Solver
         void resetSettings();
 
         /**
-        * @author WBC
+        * @author WBC, JKM
         * @brief Get the name for this Solver
         * @note Delegates to @ref getName
         */
-        std::string getSolverName() const;
+        std::string getName() const;
 
         /**
         * @author JKM
         * @brief Get the name for this Solver
         */
-        static std::string getName();
+        static std::string getNLEQName();
 
         /**
         * @author WBC
         * @brief Get the description for this Solver
         * @note Delegates to @ref getDescription
         */
-        std::string getSolverDescription() const;
+        std::string getDescription() const;
 
         /**
         * @author JKM
         * @brief Get the description for this Solver
         */
-        static std::string getDescription();
+        static std::string getNLEQDescription();
 
         /**
         * @author WBC
         * @brief Get the hint for this Solver
         * @note Delegates to @ref getHint
         */
-        std::string getSolverHint() const;
+        std::string getHint() const;
 
         /**
         * @author JKM
         * @brief Get the hint for this Solver
         */
-        static std::string getHint();
-
-        // ** Getters / Setters ************************************************
-
-        /**
-        * @author WBC, ETS, MTK
-        * @brief Always deterministic for CVODE
-        */
-        SolverMethod getSolverMethod() const;
-
+        static std::string getNLEQHint();
 
         // ** Solver routines
         double solve(const vector<double>& yin);
@@ -107,14 +98,14 @@ class RR_DECLSPEC NLEQSolver : public Solver
     // ** Registration *********************************************************
 
 
-    class NLEQSolverRegistrar : public SolverRegistrar {
+    class NLEQSolverRegistrar : public SteadyStateSolverRegistrar {
         public:
             /**
             * @author JKM
             * @brief Gets the name associated with this integrator type
             */
             virtual std::string getName() const {
-                return NLEQSolver::getName();
+                return NLEQSolver::getNLEQName();
             }
 
             /**
@@ -122,7 +113,7 @@ class RR_DECLSPEC NLEQSolver : public Solver
             * @brief Gets the description associated with this integrator type
             */
             virtual std::string getDescription() const {
-                return NLEQSolver::getDescription();
+                return NLEQSolver::getNLEQDescription();
             }
 
             /**
@@ -130,14 +121,14 @@ class RR_DECLSPEC NLEQSolver : public Solver
             * @brief Gets the hint associated with this integrator type
             */
             virtual std::string getHint() const {
-                return NLEQSolver::getHint();
+                return NLEQSolver::getNLEQHint();
             }
 
             /**
             * @author JKM
             * @brief Constructs a new integrator of a given type
             */
-            virtual Solver* construct(ExecutableModel *model) const {
+            virtual SteadyStateSolver* construct(ExecutableModel *model) const {
                 return new NLEQSolver(model);
             }
     };

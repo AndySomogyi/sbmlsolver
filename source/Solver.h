@@ -5,8 +5,8 @@
 // == FILEDOC =================================================
 
 /** @file Solver.h
-* @author ETS, WBC, JKM
-* @date Sep 7, 2013
+* @author JKM
+* @date 09/01/2015
 * @copyright Apache License, Version 2.0
 * @brief Contains the base class for RoadRunner solvers
 **/
@@ -29,47 +29,59 @@
 
 namespace rr
 {
+    /**
+     * @author JKM
+     * @brief Base class for all integrators and steady state solvers
+     */
+    class RR_DECLSPEC Solver
+    {
+    public:
 
-	class Solver;
-	class ExecutableModel;
-
-
-	/*-------------------------------------------------------------------------------------------
-		Solver is an abstract base class that provides an interface to specific steady-state solver
-		class implementations.
-	---------------------------------------------------------------------------------------------*/
-	class RR_DECLSPEC Solver
-	{
-	public:
-		enum SolverMethod
-		{
-			SteadyState,
-			Other
-		};
-
-		virtual ~Solver() {};
+        virtual ~Solver() {};
 
         /**
         * @author JKM
-        * @brief Called whenever a new model is loaded to allow integrator
-        * to reset internal state
+        * @brief Get the name of this solver
         */
-        virtual void syncWithModel(ExecutableModel* m) = 0;
-
-        virtual double solve(const std::vector<double>& yin) = 0;
-
-		virtual void loadConfigSettings();
-		virtual std::string getSolverName() const = 0;
-		virtual std::string getSolverDescription() const = 0;
-		virtual std::string getSolverHint() const = 0;
-		virtual SolverMethod getSolverMethod() const = 0;
-		std::vector<std::string> getSettings() const;
+        virtual std::string getName() const = 0;
 
         /**
         * @author JKM
-        * @brief Reset all integrator settings to their respective default values
+        * @brief Get the description of this solver
         */
-        virtual void resetSettings() = 0;
+        virtual std::string getDescription() const = 0;
+
+        /**
+        * @author JKM
+        * @brief Get a (user-readable) hint for this solver
+        */
+        virtual std::string getHint() const = 0;
+
+        /**
+        * @author JKM
+        * @brief Get a list of all settings for this solver
+        */
+        std::vector<std::string> getSettings() const;
+
+        /**
+        * @author JKM
+        * @brief Reset all settings to their respective default values
+        */
+        virtual void resetSettings();
+
+        /**
+        * @author JKM, WBC
+        * @brief Get the value of an integrator setting
+        * @note Use one of the type-concrete versions like @ref getValueAsInt
+        * to avoid type conversion gotchas
+        */
+        virtual Variant getValue(std::string key);
+
+        /**
+        * @author JKM
+        * @brief Return true if this setting is supported by the integrator
+        */
+        virtual Variant hasValue(std::string key) const;
 
         /**
         * @author JKM
@@ -92,144 +104,87 @@ namespace rr
         */
         virtual std::string getParamDesc(int n) const;
 
-		virtual Variant getValue(std::string key);
-		virtual int getValueAsInt(std::string key);
-		virtual unsigned int getValueAsUInt(std::string key);
-		virtual long getValueAsLong(std::string key);
-		virtual unsigned long getValueAsULong(std::string key);
-		virtual float getValueAsFloat(std::string key);
-		virtual double getValueAsDouble(std::string key);
-		virtual char getValueAsChar(std::string key);
-		virtual unsigned char getValueAsUChar(std::string key);
-		virtual std::string getValueAsString(std::string key);
-		virtual bool getValueAsBool(std::string key);
-		virtual void setValue(std::string key, const Variant& value);
-		const std::string& getHint(std::string key) const;
-		const std::string& getDescription(std::string key) const;
-		const Variant::TypeId getType(std::string key);
-		
 
-	protected:
-        typedef RR_UNORDERED_MAP<std::string, Variant> SettingsMap;
-        typedef RR_UNORDERED_MAP<std::string, std::string> HintMap;
-        typedef RR_UNORDERED_MAP<std::string, std::string> DescriptionMap;
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual int getValueAsInt(std::string key);
 
-		SettingsMap settings;
-		HintMap hints;
-		DescriptionMap descriptions;
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual unsigned int getValueAsUInt(std::string key);
 
-		void addSetting(std::string name, Variant val, std::string hint, std::string description);
-	};
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual long getValueAsLong(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual unsigned long getValueAsULong(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual float getValueAsFloat(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual double getValueAsDouble(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual char getValueAsChar(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual unsigned char getValueAsUChar(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual std::string getValueAsString(std::string key);
+
+        /**
+        * @author WBC, JKM
+        * @brief Wrapper for @ref getValue which converts output to a specific type
+        */
+        virtual bool getValueAsBool(std::string key);
 
 
-	/*class IntegratorException : public std::runtime_error
-	{
-	public:
-		explicit IntegratorException(const std::string& what) :
-			std::runtime_error(what)
-		{
-				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
-			}
+        virtual void setValue(std::string key, const Variant& value);
+        const std::string& getHint(std::string key) const;
+        const std::string& getDescription(std::string key) const;
+        const Variant::TypeId getType(std::string key);
 
-		explicit IntegratorException(const std::string& what, const std::string &where) :
-			std::runtime_error(what + "; In " + where)
-		{
-				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
-			}
-	};*/
-
-    /**
-     * @author JKM, WBC
-     * @brief Handles constructing an integrator and contains meta
-     * information about it
-     */
-    class RR_DECLSPEC SolverRegistrar
-    {
     protected:
-        typedef Solver* (*SolverCtor)(ExecutableModel *model);
-    public:
-        virtual ~SolverRegistrar();
+        typedef std::vector<std::string> SettingsList;
+        typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
+        typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
+        typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
 
-        /**
-         * @author JKM, WBC
-         * @brief Gets the name associated with this integrator type
-         */
-        virtual std::string getName() const = 0;
+        SettingsList sorted_settings;
+        SettingsMap settings;
+        HintMap hints;
+        DescriptionMap descriptions;
 
-        /**
-         * @author JKM, WBC
-         * @brief Gets the description associated with this integrator type
-         */
-        virtual std::string getDescription() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the hint associated with this integrator type
-         */
-        virtual std::string getHint() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new integrator of a given type
-         */
-        virtual Solver* construct(ExecutableModel *model) const = 0;
-    };
-
-    /**
-     * @author JKM, WBC
-     * @brief Constructs new integrators
-     * @details Implements the factory and singleton patterns.
-     * Constructs a new integrator given the name (e.g. cvode, gillespie)
-     * and returns a base pointer to @ref rr::Solver.
-     */
-    class RR_DECLSPEC SolverFactory
-    {
-    public:
-        virtual ~SolverFactory();
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new solver given the name
-         * (e.g. cvode, gillespie)
-         */
-        Solver* New(std::string name, ExecutableModel *m) const;
-
-        /**
-         * @author JKM, WBC
-         * @brief Registers a new solver with the factory
-         * so that it can be constructed
-         * @details Should be called at startup for new solvers.
-         */
-        void registerSolver(SolverRegistrar* i);
-
-        /**
-         * @author JKM, WBC
-         * @brief Returns the singleton instance of the solver factory
-         */
-        static SolverFactory& getInstance();
-
-        // ** Indexing *********************************************************
-
-        std::size_t getNumSolvers() const;
-
-		std::vector<std::string> getListSolverNames();
-
-        std::string getSolverName(std::size_t n) const;
-
-        std::string getSolverHint(std::size_t n) const;
-
-        std::string getSolverDescription(std::size_t n) const;
-
-    private:
-        /**
-         * @author JKM, WBC
-         * @brief Prevents external instantiation
-         */
-        SolverFactory() {}
-        typedef std::vector<SolverRegistrar*> SolverRegistrars;
-        SolverRegistrars mRegisteredSolvers;
+        void addSetting(std::string name, Variant val, std::string hint, std::string description);
     };
 
 }
 
-# endif /* RR_SOLVER_H_ */
+# endif /* RR_INTEGRATOR_H_ */

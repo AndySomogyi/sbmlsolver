@@ -22,7 +22,7 @@
 #include "rrVersionInfo.h"
 #include "Integrator.h"
 #include "IntegratorRegistration.h"
-#include "Solver.h"
+#include "SteadyStateSolver.h"
 #include "SolverRegistration.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
@@ -176,8 +176,8 @@ public:
     /**
      * Points to the current steady state solver
      */
-    Solver* steady_state_solver;
-    std::vector<Solver*> steady_state_solvers;
+    SteadyStateSolver* steady_state_solver;
+    std::vector<SteadyStateSolver*> steady_state_solvers;
 
 
 	std::vector<SelectionRecord> mSelectionList;
@@ -291,7 +291,7 @@ public:
             *it = NULL;
         }
         integrators.clear();
-        for (std::vector<Solver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
+        for (std::vector<SteadyStateSolver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
         {
             delete *it;
             *it = NULL;
@@ -305,7 +305,7 @@ public:
         {
             (*it)->syncWithModel(m);
         }
-        for (std::vector<Solver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
+        for (std::vector<SteadyStateSolver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
         {
             (*it)->syncWithModel(m);
         }
@@ -1040,7 +1040,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
         throw std::runtime_error("No steady state solver");
     }
 
-    Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getSolverName() << "'...";
+    Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
 
     double ss = impl->steady_state_solver->solve(someAmounts);
     if(ss < 0)
@@ -2976,7 +2976,7 @@ Integrator* RoadRunner::getIntegrator()
     return impl->integrator;
 }
 
-Solver* RoadRunner::getSteadyStateSolver()
+SteadyStateSolver* RoadRunner::getSteadyStateSolver()
 {
     return impl->steady_state_solver;
 }
@@ -2987,7 +2987,7 @@ std::vector<std::string> RoadRunner::getExistingIntegratorNames()
 	int i = 0;
 	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
 	{
-		result.push_back(impl->integrators.at(i)->getIntegratorName());
+		result.push_back(impl->integrators.at(i)->getName());
 	}
 	return result;
 }
@@ -3001,11 +3001,11 @@ void RoadRunner::setIntegrator(std::string name)
 		int i = 0;
 		for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
 		{
-			if (impl->integrators.at(i)->getIntegratorName() == name)
+			if (impl->integrators.at(i)->getName() == name)
 			{
                 Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
 				impl->integrator = impl->integrators.at(i);
-				impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+				impl->simulateOpt.integrator = impl->integrator->getName();
 			}
 		}
 	}
@@ -3015,7 +3015,7 @@ void RoadRunner::setIntegrator(std::string name)
         Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
 		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
 		impl->integrators.push_back(impl->integrator);
-		impl->simulateOpt.integrator = impl->integrator->getIntegratorName();
+		impl->simulateOpt.integrator = impl->integrator->getName();
 	}
 }
 
@@ -3025,7 +3025,7 @@ bool RoadRunner::integratorExists(std::string name)
 	int i = 0;
 	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
 	{
-		if (impl->integrators.at(i)->getIntegratorName() == name)
+		if (impl->integrators.at(i)->getName() == name)
 		{
 			return true;
 		}
@@ -3040,9 +3040,9 @@ void RoadRunner::setSteadyStateSolver(std::string name)
     if (steadyStateSolverExists(name))
     {
         int i = 0;
-        for (std::vector<Solver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+        for (std::vector<SteadyStateSolver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
         {
-            if (impl->steady_state_solvers.at(i)->getSolverName() == name)
+            if (impl->steady_state_solvers.at(i)->getName() == name)
             {
                 Log(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
                 impl->steady_state_solver = impl->steady_state_solvers.at(i);
@@ -3053,7 +3053,7 @@ void RoadRunner::setSteadyStateSolver(std::string name)
     else
     {
         Log(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
-        impl->steady_state_solver = SolverFactory::getInstance().New(name, impl->model);
+        impl->steady_state_solver = SteadyStateSolverFactory::getInstance().New(name, impl->model);
         impl->steady_state_solvers.push_back(impl->steady_state_solver);
     }
 }
@@ -3062,9 +3062,9 @@ void RoadRunner::setSteadyStateSolver(std::string name)
 bool RoadRunner::steadyStateSolverExists(std::string name)
 {
     int i = 0;
-    for (std::vector<Solver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+    for (std::vector<SteadyStateSolver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
     {
-        if (impl->steady_state_solvers.at(i)->getSolverName() == name)
+        if (impl->steady_state_solvers.at(i)->getName() == name)
         {
             return true;
         }
@@ -3771,7 +3771,7 @@ void RoadRunner::applySimulateOptions()
 
     // Updates the integrator based on the integrator name specified in SimulateOptions.
 	// If the integrator has not been changed, nothing happens.
-	if (self.simulateOpt.integrator != self.integrator->getIntegratorName())
+	if (self.simulateOpt.integrator != self.integrator->getName())
 	{
 		RoadRunner::setIntegrator(self.simulateOpt.integrator);
 	}
