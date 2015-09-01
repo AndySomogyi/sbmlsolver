@@ -69,7 +69,7 @@ namespace rr
     std::string Integrator::getParamName(int n) const
     {
         SettingsMap::const_iterator i = settings.begin();
-        int k;
+        int k=0;
         while (k<n) {
             if (i == settings.end()) {
                 std::stringstream ss;
