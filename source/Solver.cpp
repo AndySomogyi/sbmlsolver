@@ -14,9 +14,7 @@
 // == INCLUDES ================================================
 
 #include "Solver.h"
-// #include "rrStringUtils.h"
 #include "rrConfig.h"
-// #include "rrUtils.h"
 #include <typeinfo>
 
 // == CODE ====================================================
@@ -26,6 +24,7 @@ namespace rr
 {
     void Solver::addSetting(string name, Variant val, string hint, string description)
     {
+        sorted_settings.push_back(name);
         settings[name] = val;
         hints[name] = hint;
         descriptions[name] = description;
@@ -34,27 +33,26 @@ namespace rr
     std::vector<string> Solver::getSettings() const
     {
         std::vector<string> keys;
-        for (SettingsMap::const_iterator i = settings.begin(); i != settings.end(); ++i)
+        for (SettingsList::const_iterator i = sorted_settings.begin(); i != sorted_settings.end(); ++i)
         {
-            keys.push_back(i->first);
+            keys.push_back(*i);
         }
         return keys;
     }
 
+    void Solver::resetSettings()
+    {
+        sorted_settings.clear();
+        settings.clear();
+        hints.clear();
+        descriptions.clear();
+    }
+
     std::string Solver::getParamName(int n) const
     {
-        SettingsMap::const_iterator i = settings.begin();
-        int k=0;
-        while (k<n) {
-            if (i == settings.end()) {
-                std::stringstream ss;
-                ss << "Unable to get parameter name for index " << n << "\n";
-                throw std::runtime_error(ss.str());
-            }
-            ++i;
-            ++k;
-        }
-        return i->first;
+        if (sorted_settings.size() != settings.size())
+            throw std::runtime_error("Setting count inconsistency");
+        return sorted_settings.at(n);
     }
 
     std::string Solver::getParamHint(int n) const

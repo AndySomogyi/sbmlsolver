@@ -67,7 +67,7 @@ namespace rr
         * @author JKM
         * @brief Reset all settings to their respective default values
         */
-        virtual void resetSettings() = 0;
+        virtual void resetSettings();
 
         /**
         * @author JKM, WBC
@@ -172,10 +172,12 @@ namespace rr
         const Variant::TypeId getType(std::string key);
 
     protected:
+        typedef std::vector<std::string> SettingsList;
         typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
 
+        SettingsList sorted_settings;
         SettingsMap settings;
         HintMap hints;
         DescriptionMap descriptions;

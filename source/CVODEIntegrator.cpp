@@ -91,9 +91,7 @@ namespace rr
 
     void CVODEIntegrator::resetSettings()
     {
-        settings.clear();
-        hints.clear();
-        descriptions.clear();
+        Solver::resetSettings();
 
         // Set default integrator settings.
         addSetting("relative_tolerance", 1e-6, "Specifies the scalar relative tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
