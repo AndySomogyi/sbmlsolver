@@ -192,9 +192,7 @@ namespace rr
 
     void GillespieIntegrator::resetSettings()
     {
-        settings.clear();
-        hints.clear();
-        descriptions.clear();
+        Solver::resetSettings();
 
         // Set default integrator settings.
         addSetting("seed", defaultSeed(), "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");

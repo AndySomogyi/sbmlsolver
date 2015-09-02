@@ -46,9 +46,7 @@ void NLEQSolver::loadConfigSettings()
 
 void NLEQSolver::resetSettings()
 {
-    settings.clear();
-    hints.clear();
-    descriptions.clear();
+    Solver::resetSettings();
 
     // Set default settings.
     addSetting("maximum_iterations", 100, "The maximum number of iterations the solver is allowed to use (int)", "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");

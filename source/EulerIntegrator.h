@@ -244,9 +244,7 @@ namespace rr
          */
         void resetSettings()
         {
-            settings.clear();
-            hints.clear();
-            descriptions.clear();
+            Solver::resetSettings();
 
             // Euler integrator has no settings
         }

@@ -234,9 +234,7 @@ namespace rr
 
     void RK4Integrator::resetSettings()
     {
-        settings.clear();
-        hints.clear();
-        descriptions.clear();
+        Solver::resetSettings();
     }
 
 //     void RK4Integrator::setItem(const std::string& key,
