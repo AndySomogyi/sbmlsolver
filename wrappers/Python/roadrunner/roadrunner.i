@@ -692,6 +692,10 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %rename (_getConservedMoietyAnalysis) getConservedMoietyAnalysis();
 %rename (_setConservedMoietyAnalysis) setConservedMoietyAnalysis(bool);
 
+// Swig wraps C++ vectors to tuples, need to wrap lists instead on some methods
+%rename (_getIndependentFloatingSpeciesIds) rr::RoadRunner::getIndependentFloatingSpeciesIds();
+%rename (_getDependentFloatingSpeciesIds) rr::RoadRunner::getDependentFloatingSpeciesIds();
+
 %ignore rr::LoggingBuffer;
 %ignore rr::LogLevel;
 %ignore rr::getLogger;
@@ -1448,6 +1452,12 @@ namespace std { class ostream{}; }
 
             if show:
                 p.show()
+
+        def getIndependentFloatingSpeciesIds(self):
+            return list(self._getIndependentFloatingSpeciesIds())
+
+        def getDependentFloatingSpeciesIds(self):
+            return list(self._getDependentFloatingSpeciesIds())
 
         @property
         def integrator(self):

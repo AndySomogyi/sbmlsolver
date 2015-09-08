@@ -3637,6 +3637,16 @@ void RoadRunner::getIds(int types, std::list<std::string>& ids)
     }
 }
 
+vector<string> RoadRunner::getIndependentFloatingSpeciesIds()
+{
+    return getLibStruct()->getIndependentSpecies();
+}
+
+vector<string> RoadRunner::getDependentFloatingSpeciesIds()
+{
+    return getLibStruct()->getDependentSpecies();
+}
+
 int RoadRunner::getSupportedIdTypes()
 {
     int types = impl->model ? impl->model->getSupportedIdTypes() : 0;
@@ -3704,28 +3714,6 @@ vector<string> RoadRunner::getFloatingSpeciesIds()
 
     if (impl->model) {
         impl->model->getIds(SelectionRecord::FLOATING_AMOUNT, list);
-    }
-
-    return std::vector<std::string>(list.begin(), list.end());
-}
-
-vector<string> RoadRunner::getIndependentFloatingSpeciesIds()
-{
-    std::list<std::string> list;
-
-    if (impl->model) {
-        impl->model->getIds(SelectionRecord::INDEPENDENT_FLOATING_AMOUNT, list);
-    }
-
-    return std::vector<std::string>(list.begin(), list.end());
-}
-
-vector<string> RoadRunner::getDependentFloatingSpeciesIds()
-{
-    std::list<std::string> list;
-
-    if (impl->model) {
-        impl->model->getIds(SelectionRecord::DEPENDENT_FLOATING_AMOUNT, list);
     }
 
     return std::vector<std::string>(list.begin(), list.end());

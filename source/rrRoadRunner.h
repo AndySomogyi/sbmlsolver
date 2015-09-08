@@ -358,6 +358,24 @@ public:
     void getIds(int types, std::list<std::string> &ids);
 
     /**
+      * @author JKM
+      * @brief Gets the ids for all independent floating species
+      * @details Independent means (in this case) that the species is unique
+      * up to a conserved cycle, i.e. each conserved cycle counts for only
+      * one species. See Sauro, Systems Biology: Introduction to Pathway
+      * Modeling, 1st ed. pp. 60.
+      */
+    std::vector<std::string> getIndependentFloatingSpeciesIds();
+
+    /**
+      * @author JKM
+      * @brief Gets the ids for all dependent floating species
+      * @details See @ref getIndependentFloatingSpeciesIds for an explanation
+      * of independent vs. dependent.
+      */
+    std::vector<std::string> getDependentFloatingSpeciesIds();
+
+    /**
      * returns a bit field of the ids that this class supports.
      */
     int getSupportedIdTypes();
@@ -758,18 +776,6 @@ public:
      * @deprecated
      */
     RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesIds());
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(std::vector<std::string> getIndependentFloatingSpeciesIds());
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(std::vector<std::string> getDependentFloatingSpeciesIds());
 
     /**
      * @internal
