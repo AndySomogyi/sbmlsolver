@@ -624,6 +624,12 @@ public:
     #if (1) /**********************************************************************/
     /******************************************************************************/
 
+    /**
+     * @author MTK, JKM
+     * @brief Returns the sum of each conserved cycle
+     */
+    std::vector<double> getConservedMoietyValues();
+
     #ifndef SWIG // deprecated methods not SWIG'ed
 
     /**
@@ -655,12 +661,6 @@ public:
      * @deprecated
      */
     RR_DEPRECATED(std::vector<std::string> getConservedMoietyIds());
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(std::vector<double> getConservedMoietyValues());
 
     /**
      * @internal

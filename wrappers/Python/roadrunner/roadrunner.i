@@ -586,7 +586,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getNrMatrix;
 //%ignore rr::RoadRunner::getTimeCourseSelectionList;
 %ignore rr::RoadRunner::setSimulationSettings;
-%ignore rr::RoadRunner::getConservedMoietyValues;
 %ignore rr::RoadRunner::getNumPoints;
 %ignore rr::RoadRunner::getTimeEnd;
 //%ignore rr::RoadRunner::setSteadyStateSelectionList;
