@@ -10,6 +10,7 @@
 #include "ASTNodeCodeGen.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
+#include "rrException.h"
 
 #include "conservation/ConservationExtension.h"
 
@@ -72,6 +73,9 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
                 Log(Logger::LOG_WARNING) << "This probably is NOT what you want "
                         "with global parameter \'" << param->getId() << "\'.";
                 value->setValue(0.0);
+                std::stringstream ss;
+                ss << "Global parameter '" << param->getId() << "' missing value and missing init assignment and assignment rule!";
+                rr::UninitializedValue(ss.str());
             }
             else
             {

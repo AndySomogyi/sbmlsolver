@@ -69,4 +69,13 @@ InvalidKeyException::InvalidKeyException(const string& msg)
 Exception(msg)
 {}
 
+UninitializedValueException::UninitializedValueException(const string& msg)
+:
+Exception(msg)
+{}
+
+void UninitializedValue(const string& msg) {
+    throw UninitializedValueException(msg);
+}
+
 }
