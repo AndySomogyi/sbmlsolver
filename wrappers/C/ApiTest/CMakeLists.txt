@@ -1,10 +1,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_C_API_Tests)
 
-set(target test_new_api)
+set(target test_integrator_api)
 
 add_executable( ${target}
-    main.c
+    test-integrator-api.c
     )
 
 set_property(TARGET ${target}

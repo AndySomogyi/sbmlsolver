@@ -1,38 +1,18 @@
-// #include <iostream>
-// #include <fstream>
-// #include "rrLogger.h"
-// #include "rrUtils.h"
-// #include "unit_test/UnitTest++.h"
-// #include "unit_test/XmlTestReporter.h"
-// #include "unit_test/TestReporterStdout.h"
+// == FILEDOC =================================================
+
+/** @file test-integrator-api.c
+* @author WBC, JKM
+* @date July 2015
+* @copyright Apache License, Version 2.0
+* @brief Tests the RoadRunner integrator C API
+**/
+
 #include "rrc_api.h"
 #include "rrc_logging_api.h"
-// #include "rrGetOptions.h"
-// #include "src/Args.h"
-// #include "rrRoadRunner.h"
-// #include "rrConfig.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-// #include "Suite_TestModel.h"
-
-// using namespace std;
-// using namespace rr;
-// using namespace rrc;
-// using namespace UnitTest;
-// using std::string;
-
-// string     gTempFolder              = "";
-// string     gRRInstallFolder         = "";
-// string     gTestDataFolder          = "";
-// bool       gDebug                   = false;
-// string     gTSModelsPath;
-// string     gCompiler                = "";
-//
-// void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
-// bool setup(Args& args);
 
 static const char* raw_sbml[3] = {
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!-- Created by XMLPrettyPrinter on 7/11/2014 from JDesigner 2.4.32 -->\r\n<sbml xmlns = \"http://www.sbml.org/sbml/level2\" level = \"2\" version = \"1\" xmlns:jd2 = \"http://www.sys-bio.org/sbml/jd2\">\r\n   <!--                     -->\r\n   <!--  Model Starts Here  -->\r\n   <!--                     -->\r\n   <model id = \"untitled\">\r\n      <listOfCompartments>\r\n         <compartment id = \"compartment\" size = \"1\"/>\r\n      </listOfCompartments>\r\n      <listOfSpecies>\r\n         <species id = \"Node0\" boundaryCondition = \"false\" initialConcentration = \"10\" compartment = \"compartment\"/>\r\n         <species id = \"Node1\" boundaryCondition = \"false\" initialConcentration = \"0\" compartment = \"compartment\"/>\r\n      </listOfSpecies>\r\n      <listOfParameters>\r\n         <parameter id = \"J0_k\" value = \"0.1\"/>\r\n      </listOfParameters>\r\n      <listOfReactions>\r\n         <reaction id = \"J0\" reversible = \"false\">\r\n            <listOfReactants>\r\n               <speciesReference species = \"Node0\" stoichiometry = \"1\"/>\r\n            </listOfReactants>\r\n            <listOfProducts>\r\n               <speciesReference species = \"Node1\" stoichiometry = \"1\"/>\r\n            </listOfProducts>\r\n            <kineticLaw>\r\n               <math xmlns = \"http://www.w3.org/1998/Math/MathML\">\r\n                  <apply>\r\n                     <times/>\r\n                     <ci>\r\n                           J0_k\r\n                     </ci>\r\n                     <ci>\r\n                           Node0\r\n                     </ci>\r\n                  </apply>\r\n               </math>\r\n            </kineticLaw>\r\n         </reaction>\r\n      </listOfReactions>\r\n   </model>\r\n</sbml>\r\n",
@@ -47,17 +27,17 @@ static const char* sbml_desc[3] = {
 };
 
 int run_test_with_cvode(RRHandle _handle) {
-    char *settingName, *settingDesc, *settingHint;
+    char *settingName, *settingDisplayName, *settingDesc, *settingHint;
     int settingType;
     int i;
     struct RRStringArray *strArray;
 
-    // make CVODE active
+    // set active integrator to CVODE
     setCurrentIntegrator(_handle, "cvode");
 
     // Probe default (CVODE) integrator
 
-    // test name
+    // Check that name == cvode
     {
         char* name = getCurrentIntegratorName(_handle);
         if (strcmp(name,"cvode")) {
@@ -68,19 +48,7 @@ int run_test_with_cvode(RRHandle _handle) {
     }
     fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
     fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
-//         fprintf(stderr,"    Number of parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
 
-//         strArray = getListOfCurrentIntegratorParameterNames(_handle);
-//         for (int i = 0; i < strArray->Count; ++i)
-//         {
-//             settingName = strArray->String[i];
-//             settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
-//             settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
-//             settingType = getCurrentIntegratorParameterType(_handle, settingName);
-//
-//             fprintf(stderr,"    %s\n", settingName);
-//             fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
-//         }
     {
         int nparams = getNumberOfCurrentIntegratorParameters(_handle);
         fprintf(stderr, "    Number of parameters: %d\n", nparams);
@@ -89,9 +57,14 @@ int run_test_with_cvode(RRHandle _handle) {
             settingName = getCurrentIntegratorNthParameterName(_handle, i);
             settingDesc = getCurrentIntegratorNthParameterDescription(_handle, i);
             settingHint = getCurrentIntegratorNthParameterHint(_handle, i);
+            settingDisplayName = getCurrentIntegratorNthParameterDisplayName(_handle, i);
 
             fprintf(stderr,"    %s\n", settingName);
-            fprintf(stderr,"      Description: %s\n    Hint: %s\n", settingDesc, settingHint);
+            fprintf(stderr,"      Description: %s\n      Hint: %s\n      Display Name: %s\n", settingDesc, settingHint, settingDisplayName);
+
+            freeText(settingName);
+            freeText(settingDesc);
+            freeText(settingDisplayName);
         }
     }
 
