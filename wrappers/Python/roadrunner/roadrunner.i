@@ -985,8 +985,8 @@ namespace std { class ostream{}; }
         def getModel(self):
             return self._getModel()
 
-        __swig_getmethods__["selections"] = _getSelections
-        __swig_setmethods__["selections"] = _setSelections
+        __swig_getmethods__["timeCourseSelections"] = _getSelections
+        __swig_setmethods__["timeCourseSelections"] = _setSelections
         __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
         __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
@@ -995,7 +995,7 @@ namespace std { class ostream{}; }
         __swig_getmethods__["integrator"] = getIntegrator
 
         if _newclass:
-            selections = property(_getSelections, _setSelections)
+            timeCourseSelections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
             model = property(getModel)
@@ -1268,7 +1268,7 @@ namespace std { class ostream{}; }
                     o = args[0]
                 elif type(args[0]) == list:
                     # its a selection list
-                    self.selections = args[0]
+                    self.timeCourseSelections = args[0]
                 elif isinstance(args[0], (int, float)):
                     # treat it as a number
                     o.start = args[0]
@@ -1280,7 +1280,7 @@ namespace std { class ostream{}; }
             if len(args) >= 2:
                 if type(args[1]) == list:
                     # its a selection list
-                    self.selections = args[1]
+                    self.timeCourseSelections = args[1]
                 elif isinstance(args[1], (int, float)):
                     # treat it as a number
                     o.end = args[1]
@@ -1293,7 +1293,7 @@ namespace std { class ostream{}; }
             if len(args) >= 3:
                 if type(args[2]) == list:
                     # its a selection list
-                    self.selections = args[2]
+                    self.timeCourseSelections = args[2]
                 elif isinstance(args[2], (int, float)):
                     # treat it as a number
                     o.steps = args[2]-1
@@ -1308,9 +1308,9 @@ namespace std { class ostream{}; }
             if len(args) >= 4:
                 if type(args[3]) == list:
                     # its a selection list
-                    self.selections = args[3]
+                    self.timeCourseSelections = args[3]
                 else:
-                    raise ValueError("argument 4 (if given) must be a list of selections "
+                    raise ValueError("argument 4 (if given) must be a list of timeCourseSelections "
                                      ", recieved: {0}".format(str(args[3])))
 
 
@@ -1328,9 +1328,9 @@ namespace std { class ostream{}; }
                         raise Exception("{0} is invalid argument for integrator, integrator name must be a string.".format(v))
                     continue
 
-                # specifying selections:
-                if k == "selections" or k == "sel":
-                    self.selections = v
+                # specifying timeCourseSelections:
+                if k == "timeCourseSelections" or k == "sel":
+                    self.timeCourseSelections = v
                     continue
 
                 # reset model, also accept 'reset'
@@ -1422,16 +1422,16 @@ namespace std { class ostream{}; }
             # check if standard numpy array
             if result.dtype.names is None:
 
-                selections = self.selections
+                timeCourseSelections = self.timeCourseSelections
 
-                if len(result.shape) != 2 or result.shape[1] != len(selections):
+                if len(result.shape) != 2 or result.shape[1] != len(timeCourseSelections):
                     raise Exception("simulation result columns not equal to number of selections, likely a simulation has not been run")
 
                 times = result[:,0]
 
-                for i in range(1, len(selections)):
+                for i in range(1, len(timeCourseSelections)):
                     series = result[:,i]
-                    name = selections[i]
+                    name = timeCourseSelections[i]
                     p.plot(times, series, label=str(name))
 
             # result is structured array
