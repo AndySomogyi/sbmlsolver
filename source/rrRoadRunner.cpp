@@ -3709,6 +3709,17 @@ vector<string> RoadRunner::getFloatingSpeciesIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
+vector<string> RoadRunner::getIndependentFloatingSpeciesIds()
+{
+    std::list<std::string> list;
+
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::INDEPENDENT_FLOATING_AMOUNT, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
 vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
 {
     std::list<std::string> list;

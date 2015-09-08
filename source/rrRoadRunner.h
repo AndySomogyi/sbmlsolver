@@ -763,6 +763,12 @@ public:
      * @internal
      * @deprecated
      */
+    RR_DEPRECATED(std::vector<std::string> getIndependentFloatingSpeciesIds());
+
+    /**
+     * @internal
+     * @deprecated
+     */
     RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesInitialConditionIds());
 
     /**
