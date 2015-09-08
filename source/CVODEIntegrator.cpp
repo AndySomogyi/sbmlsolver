@@ -94,8 +94,8 @@ namespace rr
         Solver::resetSettings();
 
         // Set default integrator settings.
-        addSetting("relative_tolerance", 1e-6, "Specifies the scalar relative tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
-        addSetting("absolute_tolerance", 1e-15, "Specifies the scalar absolute tolerance (double).", "CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
+        addSetting("relative_tolerance", 1e-6, "Specifies the scalar relative tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
+        addSetting("absolute_tolerance", 1e-15, "Specifies the scalar absolute tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
         addSetting("stiff", true, "Specifies whether the integrator attempts to solve stiff equations. (bool)", "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
         addSetting("maximum_bdf_order", mDefaultMaxBDFOrder, "Specifies the maximum order for Backward Differentiation Formula integration. (int)", "(int) Specifies the maximum order for Backward Differentiation Formula integration. This integration method is used for stiff problems. Default value is 5.");
         addSetting("maximum_adams_order", mDefaultMaxAdamsOrder, "Specifies the maximum order for Adams-Moulton intergration. (int)", "(int) Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.");
