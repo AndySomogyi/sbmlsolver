@@ -119,6 +119,11 @@ int main(int argc, char* argv[])
                 freeText(t);
             }
             {
+                char* t = getCurrentSteadyStateSolverNthParameterDisplayName(_handle, k);
+                fprintf(stderr, "      DisplayName: %s\n", t);
+                freeText(t);
+            }
+            {
                 char* t = getCurrentSteadyStateSolverNthParameterDescription(_handle, k);
                 fprintf(stderr, "      Descrption: %s\n", t);
                 freeText(t);

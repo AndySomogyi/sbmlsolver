@@ -572,6 +572,14 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterName (RRHandle han
 C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterDescription (RRHandle handle, int n);
 
 /*!
+\brief Get the display name of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterDisplayName (RRHandle handle, int n);
+
+/*!
 \brief Get the hint of a parameter of the current integrator.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
@@ -810,6 +818,14 @@ C_DECL_SPEC int rrcCallConv getNumberOfCurrentSteadyStateSolverParameters (RRHan
 \ingroup simopts
 */
 C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterName (RRHandle handle, int n);
+
+/*!
+\brief Get the display name of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterDisplayName (RRHandle handle, int n);
 
 /*!
 \brief Get the description of a parameter of the current steady state solver.

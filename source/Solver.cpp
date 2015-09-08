@@ -26,6 +26,7 @@ namespace rr
     {
         sorted_settings.push_back(name);
         settings[name] = val;
+        display_names_[name] = display_name;
         hints[name] = hint;
         descriptions[name] = description;
     }
@@ -53,6 +54,11 @@ namespace rr
         if (sorted_settings.size() != settings.size())
             throw std::runtime_error("Setting count inconsistency");
         return sorted_settings.at(n);
+    }
+
+    std::string Solver::getParamDisplayName(int n) const
+    {
+        return getDisplayName(getParamName(n));
     }
 
     std::string Solver::getParamHint(int n) const
@@ -135,6 +141,16 @@ namespace rr
         if (settings.find(key) ==  settings.end())
             throw std::invalid_argument(getName() + " invalid key: " + key);
         settings[key] = value;
+    }
+
+    const std::string& Solver::getDisplayName(std::string key) const
+    {
+        DisplayNameMap::const_iterator option = Solver::display_names_.find(key);
+        if (option == display_names_.end())
+        {
+            throw std::invalid_argument("invalid key: " + key);
+        }
+        return option->second;
     }
 
     const std::string& Solver::getHint(std::string key) const

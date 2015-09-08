@@ -1439,6 +1439,16 @@ char* rrcCallConv getCurrentIntegratorNthParameterName (RRHandle handle, int n)
 }
 
 
+char* rrcCallConv getCurrentIntegratorNthParameterDisplayName (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       std::string str = rri->getIntegrator()->getParamDisplayName(n);
+       return (rr::createText (str));
+    catch_ptr_macro
+}
+
+
 char* rrcCallConv getCurrentIntegratorNthParameterHint (RRHandle handle, int n)
 {
     start_try
@@ -1765,6 +1775,16 @@ int rrcCallConv getCurrentSteadyStateSolverNthParameterType (RRHandle handle, in
        RoadRunner* rri = castToRoadRunner(handle);
        return (int) rri->getSteadyStateSolver()->getType(rri->getSteadyStateSolver()->getParamName(n));
     catch_int_macro
+}
+
+
+char* rrcCallConv getCurrentSteadyStateSolverNthParameterDisplayName (RRHandle handle, int n)
+{
+    start_try
+       RoadRunner* rri = castToRoadRunner(handle);
+       std::string str = rri->getSteadyStateSolver()->getParamDisplayName(n);
+       return (rr::createText (str));
+    catch_ptr_macro
 }
 
 

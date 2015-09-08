@@ -85,22 +85,25 @@ namespace rr
 
         /**
         * @author JKM
-        * @brief Get the name of the parameter at index n (stored in an
-        * unordered container)
+        * @brief Get the name of the parameter at index n
         */
         virtual std::string getParamName(int n) const;
 
         /**
         * @author JKM
-        * @brief Get the hint of the parameter at index n (stored in an
-        * unordered container)
+        * @brief Get the display name of the parameter at index n
+        */
+        virtual std::string getParamDisplayName(int n) const;
+
+        /**
+        * @author JKM
+        * @brief Get the hint of the parameter at index n
         */
         virtual std::string getParamHint(int n) const;
 
         /**
         * @author JKM
-        * @brief Get the description of the parameter at index n (stored in an
-        * unordered container)
+        * @brief Get the description of the parameter at index n
         */
         virtual std::string getParamDesc(int n) const;
 
@@ -167,18 +170,41 @@ namespace rr
 
 
         virtual void setValue(std::string key, const Variant& value);
+
+        /**
+        * @author WBC
+        * @brief Gets the hint associated with a given key
+        */
+        const std::string& getDisplayName(std::string key) const;
+
+        /**
+        * @author WBC
+        * @brief Gets the hint associated with a given key
+        */
         const std::string& getHint(std::string key) const;
+
+        /**
+        * @author WBC
+        * @brief Gets the description associated with a given key
+        */
         const std::string& getDescription(std::string key) const;
+
+        /**
+        * @author WBC
+        * @brief Gets the type associated with a given key
+        */
         const Variant::TypeId getType(std::string key);
 
     protected:
         typedef std::vector<std::string> SettingsList;
         typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
+        typedef RR_UNORDERED_MAP <std::string, std::string> DisplayNameMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
 
         SettingsList sorted_settings;
         SettingsMap settings;
+        DisplayNameMap display_names_;
         HintMap hints;
         DescriptionMap descriptions;
 
