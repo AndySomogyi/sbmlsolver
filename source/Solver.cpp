@@ -22,7 +22,7 @@
 using namespace std;
 namespace rr
 {
-    void Solver::addSetting(string name, Variant val, string hint, string description)
+    void Solver::addSetting(string name, Variant val, string display_name, string hint, string description)
     {
         sorted_settings.push_back(name);
         settings[name] = val;

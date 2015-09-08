@@ -49,9 +49,9 @@ void NLEQSolver::resetSettings()
     Solver::resetSettings();
 
     // Set default settings.
-    addSetting("maximum_iterations", 100, "The maximum number of iterations the solver is allowed to use (int)", "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");
-    addSetting("minimum_damping", 1e-4, "The minimum damping factor (double).", "(double) Minumum damping factor used by the algorithm");
-    addSetting("relative_tolerance", 1e-16, "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
+    addSetting("maximum_iterations", 100, "Maximum Iterations", "The maximum number of iterations the solver is allowed to use (int)", "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");
+    addSetting("minimum_damping", 1e-4, "Minimum Damping", "The minimum damping factor (double).", "(double) Minumum damping factor used by the algorithm");
+    addSetting("relative_tolerance", 1e-16, "Relative Tolerance", "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
     NLEQSolver::loadConfigSettings();
 }
 
