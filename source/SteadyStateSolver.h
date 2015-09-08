@@ -30,8 +30,6 @@
 
 namespace rr
 {
-
-    class SteadyStateSolver;
     class ExecutableModel;
 
 
@@ -151,4 +149,4 @@ namespace rr
 
 }
 
-# endif /* RR_SOLVER_H_ */
+# endif /* RR_STEADY_STATE_SOLVER_H_ */

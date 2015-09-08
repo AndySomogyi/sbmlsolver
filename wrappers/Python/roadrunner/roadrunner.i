@@ -36,6 +36,7 @@
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
+    #include <SteadyStateSolver.h>
     #include <rrLogger.h>
     #include <rrConfig.h>
     #include <conservation/ConservationExtension.h>
@@ -860,7 +861,9 @@ namespace std { class ostream{}; }
 
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
+%include <Solver.h>
 %include <Integrator.h>
+%include <SteadyStateSolver.h>
 
 %include "PyEventListener.h"
 %include "PyIntegratorListener.h"
@@ -2474,7 +2477,25 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            return self.getValue(name)
+            return Solver.getValue(self, name)
+
+        def __setattr__(self, name, value):
+            if(name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                raise AttributeError('No such key "{}"'.format(name))
+    %}
+}
+
+%extend rr::SteadyStateSolver {
+    %pythoncode %{
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            return Solver.getValue(self, name)
 
         def __setattr__(self, name, value):
             if(name in self.getSettings()):
@@ -2492,7 +2513,7 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            return self.getValue(name)
+            return Solver.getValue(self, name)
 
         def __setattr__(self, name, value):
             if(name in self.getSettings()):
