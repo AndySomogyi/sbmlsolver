@@ -59,6 +59,8 @@ int main(int argc, char* argv[])
 
     dispConfigFile();
 
+    Config::setValue(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES, false);
+
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
     setup(args);
