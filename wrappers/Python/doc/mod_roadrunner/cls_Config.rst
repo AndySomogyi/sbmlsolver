@@ -3,22 +3,10 @@ _____________
 
 Many of RoadRunner classes use a number of configuration parameters. Most of these can be set using
 the Config class. The values stored in the Config class only determine the *default* values of
-parameters. Most methods let specify explicit values for parameters. For example, if one ran a time
-series simulation, they could specify various parameter via the optional SimulateOptions object::
-
-  import roadrunner
-  opt = roadrunner.SimulateOptions()
-  opt.relative = 1.3e-5
-  opt.absolute = 3e-12
-  opt.steps = 100
-  opt.duration = 1.1
-  r = roadrunner.RoadRunner('/Users/andy/test.xml')
-  r.simulate(opt)
-
-If no SimulateOptions object is given, then the default configuration parameters are used. The
-Config class will look in the following locations for the config file, and will load the values from
-the first config file it finds. If it does not find a config file in one of the following locations,
-a default set of configuration parameters are used. The search locations of the config file are:
+parameters. The Config class will look in the following locations for the config file, and will
+load the values from the first config file it finds. If it does not find a config file in one of
+the following locations, a default set of configuration parameters are used. The search locations
+of the config file are:
 
 #1: the ROADRUNNER_CONFIG environment variable
 
