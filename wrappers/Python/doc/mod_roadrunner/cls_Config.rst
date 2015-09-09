@@ -226,65 +226,6 @@ here. The variable type of the parameter is listed after the key name.
    original JIT engine. Does NOT work on LLVM 3.1
 
 
-
-.. attribute:: Config.SIMULATEOPTIONS_STEPS
-   :module: roadrunner
-   :annotation: int
-
-   The number of steps at which the output is sampled. The samples are evenly spaced.
-   When a simulation system calculates the data points to record, it will typically
-   divide the duration by the number of time steps. Thus, for N steps, the output
-   will have N+1 data rows.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_DURATION
-   :module: roadrunner
-   :annotation: double
-
-   The duration of the simulation run, in the model's units of time. Note, 
-   setting the duration automatically sets the end time and visa versa.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_ABSOLUTE
-   :module: roadrunner
-   :annotation: double
-
-   The absolute error tolerance used by the integrator. 
-
-   A number representing the absolute difference permitted for the integrator
-   tolerance. Defaults to 1.000000e-10.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_RELATIVE
-   :module: roadrunner
-   :annotation: double
-
-   The relative error tolerance used by the integrator. 
-
-   A float-point number representing the relative difference permitted.
-   Defaults to 1.000000e-05.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_STRUCTURED_RESULT
-   :module: roadrunner
-   :annotation: bool
-
-   A boolean option to return a structured array from the RoadRunner.simulate method. Structured
-   arrays contain column names and other data. A structured array needs to be converted into regular
-   arrays before they can be used in numpy functions. 
-
-
-
-.. attribute:: Config.SIMULATEOPTIONS_STIFF
-   :module: roadrunner
-   :annotation: bool
-
-   Is the model a stiff system? setting this to stiff causes
-   RoadRunner to load a stiff solver which could potentially be
-   extremly slow
-
-
-
 .. attribute:: Config.SIMULATEOPTIONS_MULTI_STEP
    :module: roadrunner
    :annotation: bool
@@ -302,38 +243,6 @@ here. The variable type of the parameter is listed after the key name.
    will by notified at each step.
   
    Highly Experimental!!!
-
-
-.. attribute:: Config.SIMULATEOPTIONS_INITIAL_TIMESTEP
-   :module: roadrunner
-   :annotation: double
-
-   A user specified initial time step. If this is <=  0, the integrator
-   will attempt to determine a safe initial time step.
-  
-   Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
-   the internal integrator may take many many steps to reach one of the external time
-   steps. This value specifies an initial value for the internal integrator
-   time step.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP
-   :module: roadrunner
-   :annotation: double
-
-   Specify The Minimum Time Step That The Internal Integrator
-   Will Use. Uses Integrator Estimated Value If <= 0.
-
-
-
-.. attribute:: Config.SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-   :module: roadrunner
-   :annotation: int
-
-   Specify The Maximum Number Of Steps The Internal Integrator Will Use
-   Before Reaching The User Specified Time Span. Uses The Integrator
-   Default Value If <= 0.
-
 
 
 .. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
