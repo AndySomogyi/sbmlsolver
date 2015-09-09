@@ -48,18 +48,16 @@ Configuration Functions
    :module: roadrunner
 
    Set the value of a configuration key. The value must be either a string, integer, double or
-   boolean. If one wanted to change the value of the default integrator tolerances, one would::
+   boolean. If one wanted to turn off moiety conservation (this will not have an effect on
+   already loaded models)::
 
      from roadrunner import Config
-     Config.setValue(Config.SIMULATEOPTIONS_ABSOLUTE, 3.14e-12)
-     Config.setValue(Config.SIMULATEOPTIONS_RELATIVE, 2.78e-5)
+     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False)
 
 
-   Or, other options may be set to Boolean or integer values. To enable an optimization features,
-   or to set default simulation time steps::
+   Or, other options may be set to Boolean or integer values. To enable an optimization features::
 
      Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, True)
-     Config.setValue(Config.SIMULATEOPTIONS_STEPS, 100)
 
 
 .. staticmethod:: Config.getConfigFilePath()
