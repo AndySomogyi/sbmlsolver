@@ -1306,7 +1306,7 @@ namespace std { class ostream{}; }
                         # this automatically sets the variable / fixed time step
                         # according to integrator type, raises exception if invalid
                         # integrator string.
-                        o.integrator = v
+                        self.setIntegrator(v)
                     else:
                         raise Exception("{0} is invalid argument for integrator, integrator name must be a string.".format(v))
                     continue

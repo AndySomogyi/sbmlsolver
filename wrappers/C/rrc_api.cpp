@@ -2533,7 +2533,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle) {
         SimulateOptions& o = r->getSimulateOptions();
         //o.integrator = Integrator::GILLESPIE;
         //o.integratorFlags |= Integrator::VARIABLE_STEP;
-		o.integrator = "gillespie";
+		r->setIntegrator("gillespie");
 		r->getIntegrator()->setValue("variable_step_size", false);
         r->simulate();
         return createRRCData(*r);
@@ -2554,7 +2554,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle) {
         SimulateOptions& o = r->getSimulateOptions();
         //o.integrator = Integrator::GILLESPIE;
         //o.integratorFlags &= !Integrator::VARIABLE_STEP;
-		o.integrator = "gillespie";
+        r->setIntegrator("gillespie");
 		r->getIntegrator()->setValue("variable_step_size", false);
         r->simulate();
         return createRRCData(*r);
@@ -2577,7 +2577,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
         SimulateOptions& o = r->getSimulateOptions();
         //o.integrator = Integrator::GILLESPIE;
         //o.integratorFlags &= !Integrator::VARIABLE_STEP;
-		o.integrator = "gillespie";
+        r->setIntegrator("gillespie");
 		r->getIntegrator()->setValue("variable_step_size", false);
 
         double steps = o.steps;
@@ -2643,7 +2643,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
         // Standard gillespieOnGrid setup
         RoadRunner *r = (RoadRunner*)handle;
         SimulateOptions& o = r->getSimulateOptions();
-		o.integrator = "gillespie";
+        r->setIntegrator("gillespie");
 		//o.integratorFlags &= !Integrator::VARIABLE_STEP;
 		r->getIntegrator()->setValue("variable_step_size", false);
 

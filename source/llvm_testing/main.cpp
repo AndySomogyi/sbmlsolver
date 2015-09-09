@@ -51,7 +51,7 @@ using namespace rr;
 DoubleMatrix ensemble(RoadRunner &r, int n, unsigned long seed, double start, double stop, int npts) {
 
     // set the seed value of the integrator
-	r.getSimulateOptions().integrator = "gillespie";
+	r.setIntegrator("gillespie");
     Integrator *itg = r.getIntegrator();
 	itg->setValue("seed", seed);
 
@@ -66,7 +66,7 @@ DoubleMatrix ensemble(RoadRunner &r, int n, unsigned long seed, double start, do
     // we should reset the model each time we simulate,
     // set the RESET_MODEL bit.
 	o.reset_model = true;
-	o.integrator = "gillespie";
+	r.setIntegrator("gillespie");
 
     // make a result var
     DoubleMatrix result(npts+1, n+1);

@@ -3056,7 +3056,6 @@ void RoadRunner::setIntegrator(std::string name)
 			{
                 Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
 				impl->integrator = impl->integrators.at(i);
-				impl->simulateOpt.integrator = impl->integrator->getName();
 			}
 		}
 	}
@@ -3066,7 +3065,6 @@ void RoadRunner::setIntegrator(std::string name)
         Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
 		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
 		impl->integrators.push_back(impl->integrator);
-		impl->simulateOpt.integrator = impl->integrator->getName();
 	}
 }
 
@@ -3829,13 +3827,6 @@ void RoadRunner::applySimulateOptions()
     // This one creates the list of what we will look at in the result
     // uses values (potentially) from simulate options.
     createTimeCourseSelectionList();
-
-    // Updates the integrator based on the integrator name specified in SimulateOptions.
-	// If the integrator has not been changed, nothing happens.
-	if (self.simulateOpt.integrator != self.integrator->getName())
-	{
-		RoadRunner::setIntegrator(self.simulateOpt.integrator);
-	}
 
     if (self.simulateOpt.reset_model)
     {

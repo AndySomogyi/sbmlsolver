@@ -67,21 +67,6 @@ namespace rr
 			s->structured_result = false;
 		}
 
-		// set the variable step based on if we are using a stochastic or deterministic
-		// integrator
-		if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "CVODE") {
-			s->integrator = "cvode";
-		}
-		//else if (Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR) == "GILLESPIE") {
-		//	s->integrator = Integrator::GILLESPIE;
-		//}
-		else {
-			Log(Logger::LOG_WARNING) << "Invalid integrator specified in configuration: "
-				<< Config::getString(Config::SIMULATEOPTIONS_INTEGRATOR)
-				<< std::endl << "Defaulting to CVODE";
-			s->integrator = "cvode";
-		}
-
 		if (rr::Config::getBool(rr::Config::SIMULATEOPTIONS_COPY_RESULT)) {
 			s->copy_result = true;
 		}
@@ -98,8 +83,7 @@ namespace rr
 		:
 		steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
 		start(0),
-		duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
-		integrator("cvode")
+		duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
 // 		initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
 // 		minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
 // 		maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
@@ -214,19 +198,6 @@ namespace rr
 
 		ss << "< roadrunner.SimulateOptions() " << endl << "{ "
 			<< endl << "'this' : " << (void*)this << ", " << std::endl;
-
-		ss << "integrator: ";
-		if (integrator == "cvode") {
-			ss << "\"cvode\"," << std::endl;
-		}
-
-		else if (integrator == "gillespie") {
-			ss << "\"gillespie\"," << std::endl;
-		}
-
-		else {
-			ss << "\"unknown\"," << std::endl;
-		}
 
 		ss << "'reset' : " << reset_model << "," << std::endl;
 
