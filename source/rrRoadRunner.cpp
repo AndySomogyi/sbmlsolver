@@ -1506,6 +1506,50 @@ std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::Jacob
     return ls::getEigenValues(mat);
 }
 
+DoubleMatrix RoadRunner::getFloatingSpeciesAmounts()
+{
+    check_model();
+
+    int l = impl->model->getStateVector(NULL);
+
+    double* vals = new double[l];
+    impl->model->getFloatingSpeciesAmounts(l, NULL, vals);
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix v(1, l);
+
+    for (int i = 0; i<l; ++i)
+        v(0, i) = vals[i];
+
+    delete vals;
+
+    v.setColNames(getFloatingSpeciesIds());
+
+    return v;
+}
+
+DoubleMatrix RoadRunner::getFloatingSpeciesConcentrations()
+{
+    check_model();
+
+    int l = impl->model->getStateVector(NULL);
+
+    double* vals = new double[l];
+    impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix v(1, l);
+
+    for (int i = 0; i<l; ++i)
+        v(0, i) = vals[i];
+
+    delete vals;
+
+    v.setColNames(getFloatingSpeciesIds());
+
+    return v;
+}
+
 DoubleMatrix RoadRunner::getFullJacobian()
 {
     check_model();
@@ -2150,7 +2194,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int index)
 }
 
 // Help("Returns an array of floating species concentrations")
-vector<double> RoadRunner::getFloatingSpeciesConcentrations()
+vector<double> RoadRunner::getFloatingSpeciesConcentrationsV()
 {
     if (!impl->model)
     {
@@ -2714,6 +2758,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
     // Finally include the dependent set as well.
     DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
+
+    T4.setRowNames(getFloatingSpeciesIds());
+    T4.setColNames(getReactionIds());
+
     return T4;
 }
 
@@ -2761,6 +2809,9 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
     for (int i=0; i<T1.RSize(); i++) {
         T1[i][i] = T1[i][i] + 1;
     }
+
+    T1.setRowNames(getReactionIds());
+    T1.setColNames(getReactionIds());
 
     return T1;
 }

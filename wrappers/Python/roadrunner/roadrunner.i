@@ -622,7 +622,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getParameterValue;
 //%ignore rr::RoadRunner::getVersion;
 %ignore rr::RoadRunner::unLoadModel;
-%ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
+//%ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
 %ignore rr::RoadRunner::getRateOfChange;
 //%ignore rr::RoadRunner::getlibSBMLVersion;
 //%ignore rr::RoadRunner::writeSBML;

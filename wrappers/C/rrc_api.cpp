@@ -914,7 +914,7 @@ RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        vector<double> vec =  rri->getFloatingSpeciesConcentrations();
+        vector<double> vec =  rri->getFloatingSpeciesConcentrationsV();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
     catch_ptr_macro

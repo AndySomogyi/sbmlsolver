@@ -393,6 +393,18 @@ public:
 /******************************************************************************/
 
     /**
+     * @author JKM
+     * @brief Returns the floating species amounts as a named array
+     */
+    ls::DoubleMatrix getFloatingSpeciesAmounts();
+
+    /**
+     * @author JKM
+     * @brief Returns the floating species concentrations as a named array
+     */
+    ls::DoubleMatrix getFloatingSpeciesConcentrations();
+
+    /**
      * compute the full Jacobian at the current operating point
      */
     ls::DoubleMatrix getFullJacobian();
@@ -744,7 +756,7 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrations());
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrationsV());
 
     /**
      * @internal
