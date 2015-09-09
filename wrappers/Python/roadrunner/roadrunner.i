@@ -1218,26 +1218,6 @@ namespace std { class ostream{}; }
                 Perform a multi-step simulation. In multi-step simulation, one may monitor the
                 variable time stepping via the IntegratorListener events system.
 
-            initialTimeStep
-                A user specified initial time step. If this is <= 0, the integrator will attempt
-                to determine a safe initial time step.
-
-                Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
-                the internal integrator may take many many steps to reach one of the external time steps.
-                This value specifies an initial value for the internal integrator time step.
-
-            minimumTimeStep
-                Specify the minimum time step that the internal integrator will use.
-                Uses integrator estimated value if <= 0.
-
-            maximumTimeStep
-                Specify the maximum time step size that the internal integrator will use.
-                Uses integrator estimated value if <= 0.
-
-            maximumNumSteps
-                Specify the maximum number of steps the internal integrator will use before
-                reaching the user specified time span. Uses the integrator default value if <= 0.
-
             seed
                 Specify a seed to use for the random number generator for stochastic simulations.
                 The seed is used whenever the integrator is reset, i.e. `r.reset()`.

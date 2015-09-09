@@ -99,11 +99,11 @@ namespace rr
 		steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
 		start(0),
 		duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)),
-		integrator("cvode"),
-		initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
-		minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
-		maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
-		maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
+		integrator("cvode")
+// 		initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
+// 		minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
+// 		maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
+// 		maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 	{
 		getConfigValues(this);
 	}
@@ -238,15 +238,15 @@ namespace rr
 
 		ss << "'start' : " << start << "," << std::endl;
 
-		ss << "'duration' : " << duration << "," << std::endl;
+		ss << "'duration' : " << duration;
 
-		ss << "'initialTimeStep' : " << initialTimeStep << "," << std::endl;
+// 		ss << "'initialTimeStep' : " << initialTimeStep << "," << std::endl;
 
-		ss << "'minimumTimeStep' : " << minimumTimeStep << "," << std::endl;
+// 		ss << "'minimumTimeStep' : " << minimumTimeStep << "," << std::endl;
 
-		ss << "'maximumTimeStep' : " << maximumTimeStep << "," << std::endl;
+// 		ss << "'maximumTimeStep' : " << maximumTimeStep << "," << std::endl;
 
-		ss << "'maximumNumSteps' : " << maximumNumSteps;
+// 		ss << "'maximumNumSteps' : " << maximumNumSteps;
 
 		std::vector<std::string> keys = getKeys();
 

@@ -262,7 +262,7 @@ namespace rr
 		//SimulateOptions(const Dictionary*);
 
 
-		std::string integrator;
+// 		std::string integrator;
 
 		/**
 		* The number of steps at which the output is sampled. The samples are evenly spaced.
@@ -322,26 +322,26 @@ namespace rr
 		* steps. This value specifies an initial value for the internal integrator
 		* time step.
 		*/
-		double initialTimeStep;
+// 		double initialTimeStep;
 
 		/**
 		* Specfify the minimum time step that the internal integrator
 		* will use. Uses integrator estimated value if <= 0.
 		*/
-		double minimumTimeStep;
+// 		double minimumTimeStep;
 
 		/**
 		* Specify the maximum time step size that the internaal integrator
 		* will use. Uses integrator estimated value if <= 0.
 		*/
-		double maximumTimeStep;
+// 		double maximumTimeStep;
 
 		/**
 		* Specify the maximum number of steps the internal integrator will use
 		* before reaching the user specified time span. Uses the integrator
 		* default value if <= 0.
 		*/
-		int maximumNumSteps;
+// 		int maximumNumSteps;
 
 		/**
 		* get a description of this object, compatable with python __str__
