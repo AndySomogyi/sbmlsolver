@@ -288,5 +288,50 @@ Initial conditions can be set using the two methods for all species in one call:
   >>> r.model.setFloatingSpeciesInitConcentrations ([6.7, 0.1])
 
 
+Solvers
+---------------------------
+
+
+RoadRunner has two types of solvers: integrators and steady-state solvers.
+Integrators control numerical timecourse integration via the `simulate` method.
+By default, RoadRunner uses CVODE, a real differential equation solver from the
+SUNDIALS suite. Internally, CVODE features an adaptive timestep. However, unless `variableStep`
+is specified in the call to `simulate`, the output will contain evenly spaced intervals.
+
+  >>>  r.simulate(0, 10, 10)
+  # Output will contain evenly spaced intervals
+  >>>  r.simulate(variableStep=True)
+  # Intervals will vary according to CVODE step size
+
+RoadRunner also contains a basic 4th-order Runge-Kutta integrator, which can be selected
+with a call to `setIntegrator`:
+
+  >>>  r.setIntegrator('rk4')
+
+Runge-Kutta always uses a fixed step size, and does not support events.
+
+Some integrators, such as CVODE, have parameters which can be set by the user.
+To see a list of these settings, use `getSettings`:
+
+  >>>  r.getIntegrator().getSettings()
+  ('relative_tolerance', 'absolute_tolerance', 'stiff', 'maximum_bdf_order', 'maximum_adams_order', 'maximum_num_steps', 'maximum_time_step', 'minimum_time_step', 'initial_time_step', 'multiple_steps', 'variable_step_size')
+
+To set a parameter, use one of the two alternative methods:
+
+  >>>  r.getIntegrator().relative_tolerance = 1e-10
+  >>>  r.getIntegrator().setValue('relative_tolerance', 1e-10)
+
+Be sure to set the parameter to the correct type, which can be obtained from
+the parameter's hint or description:
+
+  >>>  r.getIntegrator().getHint('relative_tolerance')
+  'Specifies the scalar relative tolerance (double).'
+  >>>  r.getIntegrator().getDescription('relative_tolerance')
+  '(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.'
+
+Parameters also have a display name:
+
+  >>>  r.getIntegrator().getDisplayName('relative_tolerance')
+  'Relative Tolerance'
 
 .. highlight:: python
