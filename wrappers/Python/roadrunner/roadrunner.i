@@ -1446,10 +1446,18 @@ namespace std { class ostream{}; }
             '''The current integrator'''
             return self.getIntegrator()
 
+        @integrator.setter
+        def integrator(self, v):
+            self.setIntegrator(v)
+
         @property
         def steadyStateSolver(self):
             '''The current steady state solver'''
             return self.getSteadyStateSolver()
+
+        steadyStateSolver.setter
+        def steadyStateSolver(self, v):
+            self.setSteadyStateSolver(v)
     %}
 }
 
