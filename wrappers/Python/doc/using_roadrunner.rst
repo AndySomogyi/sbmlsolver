@@ -334,4 +334,16 @@ Parameters also have a display name:
   >>>  r.getIntegrator().getDisplayName('relative_tolerance')
   'Relative Tolerance'
 
+The other type of solver is a steady-state solver, which works in essentially the same way:
+
+  >>>  r.getSteadyStateSolver().getSettings()
+  ('maximum_iterations', 'minimum_damping', 'relative_tolerance')
+  >>>  r.getSteadyStateSolver().getHint('maximum_iterations')
+  'The maximum number of iterations the solver is allowed to use (int)'
+  >>>  r.getSteadyStateSolver().getDescription('maximum_iterations')
+  '(int) Iteration caps off at the maximum, regardless of whether a solution has been reached'
+
+The steady state solver is invoked by a call to `r.steadyState()`.
+RoadRunner only has a single steady state solver (NLEQ).
+
 .. highlight:: python
