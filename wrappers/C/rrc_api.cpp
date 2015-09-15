@@ -90,6 +90,7 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
+static vector<string>    sel_getTime(RoadRunner* rr);
 static ArrayList         sel_getFluxControlCoefficientIds(RoadRunner* rr);
 static ArrayList         sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
 static ArrayList         sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
@@ -2247,7 +2248,7 @@ ArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr)
 ArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr)
 {
     ArrayList oResult;
-    oResult.Add("Floating Species",                 sel_getFloatingSpeciesConcSymbols(rr) );
+    oResult.Add("Time",                             sel_getTime(rr) );
     oResult.Add("Boundary Species",                 sel_getBoundarySpeciesConcSymbols(rr) );
     oResult.Add("Floating Species (amount)",        rr->getFloatingSpeciesIds() );
     oResult.Add("Boundary Species (amount)",        rr->getBoundarySpeciesIds() );
@@ -2456,6 +2457,15 @@ ArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
     return oResult;
 }
 
+vector<string> sel_getTime(RoadRunner* rr)
+{
+    vector<string> ids = rr->getFloatingSpeciesIds();
+    vector<string> result;
+
+    result.push_back("time");
+
+    return result;
+}
 
 vector<string> sel_getFloatingSpeciesConcSymbols(RoadRunner* rr)
 {
