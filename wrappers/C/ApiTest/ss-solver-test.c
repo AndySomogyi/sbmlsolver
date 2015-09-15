@@ -89,6 +89,42 @@ int main(int argc, char* argv[])
             loadSBML(_handle, modelstr);
         }
 
+        // print info on available time course symbols
+        {
+            RRListPtr syms = getAvailableTimeCourseSymbols(_handle);
+            fprintf(stderr, "\n  Time Course Selections\n");
+            if(syms) {
+                for(k=0; k<syms->Count; ++k) {
+                    RRListItemPtr i = getListItem(syms, k);
+                    if(isListItemList(i)) {
+                        int o;
+                        RRListPtr l = getList(i);
+                        RRListItemPtr j = getListItem(l, 0);
+                        RRListPtr r_ = getListItem(l, 1);
+                        RRListPtr r = getList(r_);
+                        fprintf(stderr, "    %s\n", getStringListItem(j));
+                        for(o=0; o<r->Count; ++o) {
+                            int p;
+                            RRListItemPtr z_ = getListItem(r, o);
+                            if(isListItemList(z_)) {
+                                RRListPtr z = getList(getListItem(r, o));
+                                fprintf(stderr, "      ");
+                                for(p=0; p<z->Count; ++p) {
+                                    double d;
+                                    getDoubleListItem(getListItem(z,p), &d);
+                                    fprintf(stderr, "%f ", d);
+                                }
+                                fprintf(stderr, "\n");
+                            }
+                        }
+                    }
+                }
+                fprintf(stderr, "\n");
+                freeStringArray(syms);
+            }
+//             freeRRList(syms);
+        }
+
         // print info for current steady state solver
         {
             char* t = getCurrentSteadyStateSolverName(_handle);
