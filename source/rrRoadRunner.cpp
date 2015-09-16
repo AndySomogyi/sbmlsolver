@@ -161,9 +161,9 @@ class RoadRunnerImpl {
 public:
 
     int mInstanceID;
-    const double mDiffStepSize;
+    double mDiffStepSize;
 
-    const double mSteadyStateThreshold;
+    double mSteadyStateThreshold;
     ls::DoubleMatrix simulationResult;
 
     /**
@@ -1137,6 +1137,33 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     return getuEE(reactionName, parameterName, computeSteadyState) * parameterValue / variableValue;
 }
 
+double RoadRunner::getDiffStepSize() const
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    return impl->mDiffStepSize;
+}
+
+void RoadRunner::setDiffStepSize(double val)
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    impl->mDiffStepSize = val;
+}
+
+double RoadRunner::getSteadyStateThreshold() const
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    return impl->mSteadyStateThreshold;
+}
+
+void RoadRunner::setSteadyStateThreshold(double val)
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    impl->mSteadyStateThreshold = val;
+}
 
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName)
 {

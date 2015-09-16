@@ -1455,9 +1455,36 @@ namespace std { class ostream{}; }
             '''The current steady state solver'''
             return self.getSteadyStateSolver()
 
-        steadyStateSolver.setter
+        @steadyStateSolver.setter
         def steadyStateSolver(self, v):
             self.setSteadyStateSolver(v)
+
+        def _diffstep_getter(self):
+            '''Differential step size used in MCA'''
+            return self.getDiffStepSize()
+
+        def _diffstep_stter(self, v):
+            print('diffstep.setter')
+            self.setDiffStepSize(v)
+
+        __swig_getmethods__['diffstep'] = _diffstep_getter
+        __swig_setmethods__['diffstep'] = _diffstep_stter
+
+        if _newclass:
+            diffstep = property(_diffstep_getter, _diffstep_stter)
+
+        def _steadyStateThresh_getter(self):
+            '''Steady state threshold used in MCA'''
+            return self.getSteadyStateThreshold()
+
+        def _steadyStateThresh_setter(self, v):
+            self.setSteadyStateThreshold(v)
+
+        __swig_getmethods__['steadyStateThresh'] = _steadyStateThresh_getter
+        __swig_setmethods__['steadyStateThresh'] = _steadyStateThresh_setter
+
+        if _newclass:
+            steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
     %}
 }
 

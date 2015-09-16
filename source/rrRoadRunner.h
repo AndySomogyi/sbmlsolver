@@ -516,6 +516,34 @@ public:
 
 
     /**
+     * @author JKM
+     * @brief Set the differential step size used in MCA routines like @ref getCC
+     */
+    double getDiffStepSize() const;
+
+    /**
+     * @author JKM
+     * @brief Set the differential step size used in MCA routines like @ref getCC
+     */
+    void setDiffStepSize(double val);
+
+    /**
+     * @author JKM
+     * @brief Get the steady state threshold used in getCC
+     * @details In the MCA routines, RoadRunner will keep trying to
+     * converge to a steady state until this threshold is met
+     */
+    double getSteadyStateThreshold() const;
+
+    /**
+     * @author JKM
+     * @brief Set the steady state threshold used in getCC
+     * @details In the MCA routines, RoadRunner will keep trying to
+     * converge to a steady state until this threshold is met
+     */
+    void setSteadyStateThreshold(double val);
+
+    /**
      * Get unscaled control coefficient with respect to a global parameter
      *
      * variableName must be either a reaction or floating species.
