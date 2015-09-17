@@ -1441,6 +1441,9 @@ namespace std { class ostream{}; }
         def getFloatingSpeciesAmountRates(self):
             return self.model.getFloatingSpeciesAmountRates()
 
+        def getReactionRates(self):
+            return self.getModel().getReactionRates()
+
         @property
         def integrator(self):
             '''The current integrator'''
