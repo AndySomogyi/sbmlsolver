@@ -688,8 +688,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
 
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
-%rename (_getConservedMoietyAnalysis) getConservedMoietyAnalysis();
-%rename (_setConservedMoietyAnalysis) setConservedMoietyAnalysis(bool);
+%rename (_getConservedMoietyAnalysis) rr::RoadRunner::getConservedMoietyAnalysis();
+%rename (_setConservedMoietyAnalysis) rr::RoadRunner::setConservedMoietyAnalysis(bool);
 
 // Swig wraps C++ vectors to tuples, need to wrap lists instead on some methods
 %rename (_getIndependentFloatingSpeciesIds) rr::RoadRunner::getIndependentFloatingSpeciesIds();
