@@ -81,7 +81,7 @@ static std::string strip(const std::string& in)
 
 
 static Variant values[] =  {
-    Variant(true),     // LOADSBMLOPTIONS_CONSERVED_MOIETIES
+    Variant(false),     // LOADSBMLOPTIONS_CONSERVED_MOIETIES
     Variant(false),    // LOADSBMLOPTIONS_RECOMPILE
     Variant(false),    // LOADSBMLOPTIONS_READ_ONLY
     Variant(true),     // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
