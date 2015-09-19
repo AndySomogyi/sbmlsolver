@@ -16,6 +16,7 @@
 #include "LLVMIncludes.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
+#include "rrConfig.h"
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
@@ -47,7 +48,8 @@ std::string to_string(const libsbml::ASTNode *ast)
 
 ASTNodeCodeGen::ASTNodeCodeGen(llvm::IRBuilder<> &builder,
         LoadSymbolResolver &resolver) :
-        builder(builder), resolver(resolver)
+        builder(builder), resolver(resolver),
+        scalar_mode_(false)
 {
 }
 
@@ -109,43 +111,49 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_PLUS:                  /* '+' */
     case AST_MINUS:                 /* '-' */
     case AST_TIMES:                 /* '*' */
-    case AST_DIVIDE:                /* '/' */
+    case AST_DIVIDE: {              /* '/' */
+        ASTNodeCodeGenScalarTicket t(*this, true);
         result = applyArithmeticCodeGen(ast);
         break;
-    case AST_INTEGER:
+    }
+    case AST_INTEGER: {
         result = integerCodeGen(ast);
         break;
+    }
     case AST_REAL:
     case AST_REAL_E:
-    case AST_RATIONAL:
+    case AST_RATIONAL: {
+        ASTNodeCodeGenScalarTicket t(*this, true);
         result = realExprCodeGen(ast);
         break;
+    }
     case AST_NAME:
     case AST_NAME_AVOGADRO:
-    case AST_NAME_TIME:
+    case AST_NAME_TIME: {
         result = nameExprCodeGen(ast);
         break;
-
+    }
     case  AST_RELATIONAL_EQ:
     case  AST_RELATIONAL_GEQ:
     case  AST_RELATIONAL_GT:
     case  AST_RELATIONAL_LEQ:
     case  AST_RELATIONAL_LT:
     case  AST_RELATIONAL_NEQ:
-        result = applyRelationalCodeGen(ast);
+        result = scalar_mode_ ? applyScalarRelationalCodeGen(ast) : applyRelationalCodeGen(ast);
         break;
 
     case  AST_LOGICAL_AND:
     case  AST_LOGICAL_NOT:
     case  AST_LOGICAL_OR:
-    case  AST_LOGICAL_XOR:
+    case  AST_LOGICAL_XOR: {
         result = applyLogicalCodeGen(ast);
         break;
-
-    case AST_FUNCTION:
+    }
+    case AST_FUNCTION: {
+        ASTNodeCodeGenScalarTicket t(*this, true);
         result = functionCallCodeGen(ast);
         break;
-
+    }
     case AST_POWER:                 // '^' sbml considers this an operator,
                                     // left and right child nodes are the first
                                     // 2 child nodes for args.
@@ -181,10 +189,11 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_SIN:
     case AST_FUNCTION_SINH:
     case AST_FUNCTION_TAN:
-    case AST_FUNCTION_TANH:
+    case AST_FUNCTION_TANH: {
+        ASTNodeCodeGenScalarTicket t(*this, true);
         result = intrinsicCallCodeGen(ast);
         break;
-
+    }
     case AST_FUNCTION_PIECEWISE:
         result = piecewiseCodeGen(ast);
         break;
@@ -373,6 +382,44 @@ llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast)
         break;
     case AST_RELATIONAL_NEQ:
         result = builder.CreateFCmpUNE(left, right);
+        break;
+    default:
+        result = 0;
+        break;
+    }
+
+    assert(result);
+
+    return result;
+}
+
+llvm::Value* ASTNodeCodeGen::applyScalarRelationalCodeGen(const libsbml::ASTNode* ast)
+{
+    if (!rr::Config::getBool(rr::Config::LOADSBMLOPTIONS_PERMISSIVE)) {
+        return applyRelationalCodeGen(ast);
+    }
+    Value *left = toDouble(codeGen(ast->getLeftChild()));
+    Value *right = toDouble(codeGen(ast->getRightChild()));
+    Value *result = 0;
+    switch (ast->getType())
+    {
+    case AST_RELATIONAL_EQ:
+        result = builder.CreateSIToFP(builder.CreateFCmpUEQ(left, right), Type::getDoubleTy(builder.getContext()));
+        break;
+    case AST_RELATIONAL_GEQ:
+        result = builder.CreateSIToFP(builder.CreateFCmpUGE(left, right), Type::getDoubleTy(builder.getContext()));
+        break;
+    case AST_RELATIONAL_GT:
+        result = builder.CreateSIToFP(builder.CreateFCmpUGT(left, right), Type::getDoubleTy(builder.getContext()));
+        break;
+    case AST_RELATIONAL_LEQ:
+        result = builder.CreateSIToFP(builder.CreateFCmpULE(left, right), Type::getDoubleTy(builder.getContext()));
+        break;
+    case AST_RELATIONAL_LT:
+        result = builder.CreateSIToFP(builder.CreateFCmpULT(left, right), Type::getDoubleTy(builder.getContext()));
+        break;
+    case AST_RELATIONAL_NEQ:
+        result = builder.CreateSIToFP(builder.CreateFCmpUNE(left, right), Type::getDoubleTy(builder.getContext()));
         break;
     default:
         result = 0;
@@ -798,6 +845,9 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
         // the then value
         builder.SetInsertPoint(thenBB);
 
+        // turn on scalar mode since this is a scalar expression
+        ASTNodeCodeGenScalarTicket t(*this, true);
+
         resolver.pushCacheBlock();
         Value *thenVal = toDouble(codeGen(thenNode));
         resolver.popCacheBlock();
@@ -822,6 +872,9 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     {
         // we have an otherwise block
         assert((i+1) == nchild);
+
+        // turn on scalar mode since this is a scalar expression
+        ASTNodeCodeGenScalarTicket t(*this, true);
 
         const ASTNode *ow = ast->getChild(i);
         resolver.pushCacheBlock();
@@ -873,6 +926,17 @@ static bool isNegative(const libsbml::ASTNode *ast)
         }
     }
     return false;
+}
+
+ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket(ASTNodeCodeGen& gen, bool val, std::string n)
+    : z_(gen), v_(gen.scalar_mode_), n_(n) {
+    z_.scalar_mode_ = val;
+    std::cerr << "ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket" << n_ << "\n";
+}
+
+ASTNodeCodeGenScalarTicket::~ASTNodeCodeGenScalarTicket() {
+    z_.scalar_mode_ = v_;
+    std::cerr << "ASTNodeCodeGenScalarTicket::~ASTNodeCodeGenScalarTicket" << n_ << "\n";
 }
 
 } /* namespace rr */

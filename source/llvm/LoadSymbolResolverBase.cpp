@@ -56,6 +56,7 @@ llvm::Value* LoadSymbolResolverBase::loadReactionRate(
     KineticLawParameterResolver lpResolver(*this, *kinetic, builder);
     ASTNodeCodeGen astCodeGen(builder, lpResolver);
 
+    ASTNodeCodeGenScalarTicket t(astCodeGen, true);
     return astCodeGen.codeGen(math);
 }
 

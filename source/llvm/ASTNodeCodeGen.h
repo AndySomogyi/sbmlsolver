@@ -64,6 +64,9 @@ private:
 
     llvm::Value *applyRelationalCodeGen(const libsbml::ASTNode *ast);
 
+    // JKM: NOTE: Not SBML-compliant, needed for idiosyncrasies in some legacy JDesigner models
+    llvm::Value *applyScalarRelationalCodeGen(const libsbml::ASTNode *ast);
+
     llvm::Value *applyLogicalCodeGen(const libsbml::ASTNode *ast);
 
     llvm::Value *functionCallCodeGen(const libsbml::ASTNode *ast);
@@ -99,12 +102,26 @@ private:
      * @returns a module on success, throws exeption on failure.
      */
     llvm::Module *getModule();
+
+    bool scalar_mode_;
+
+    friend class ASTNodeCodeGenScalarTicket;
 };
 
 std::string to_string(const libsbml::ASTNode *ast);
 
+class ASTNodeCodeGenScalarTicket {
+    public:
+        ASTNodeCodeGenScalarTicket(ASTNodeCodeGen& gen, bool val, std::string n = "");
+
+        ~ASTNodeCodeGenScalarTicket();
+
+    private:
+        ASTNodeCodeGen& z_;
+        bool v_;
+        std::string n_;
+};
+
 } /* namespace rr */
-
-
 
 #endif /* ASTNodeCodeGenH */
