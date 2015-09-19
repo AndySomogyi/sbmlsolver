@@ -125,7 +125,8 @@ static Variant values[] =  {
     Variant(-1),                              // RANDOM_SEED
     Variant(true),      // PYTHON_ENABLE_NAMED_MATRIX
     Variant(true),      // LLVM_SYMBOL_CACHE
-    Variant(true)       // OPTIMIZE_REACTION_RATE_SELECTION
+    Variant(true),      // OPTIMIZE_REACTION_RATE_SELECTION
+    Variant(false)      // LOADSBMLOPTIONS_PERMISSIVE
     // add space after develop keys to clean up merging
 
 
@@ -225,6 +226,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["PYTHON_ENABLE_NAMED_MATRIX"] = rr::Config::PYTHON_ENABLE_NAMED_MATRIX;
     keys["LLVM_SYMBOL_CACHE"] = rr::Config::LLVM_SYMBOL_CACHE;
     keys["OPTIMIZE_REACTION_RATE_SELECTION"] = rr::Config::OPTIMIZE_REACTION_RATE_SELECTION;
+    keys["LOADSBMLOPTIONS_PERMISSIVE"] = rr::Config::LOADSBMLOPTIONS_PERMISSIVE;
 
 
 

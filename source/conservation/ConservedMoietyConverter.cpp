@@ -294,6 +294,9 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
         ConversionProperties versionProps = versionConverter.getDefaultProperties();
 
+        versionProps.addOption("strict", false);
+        std::cerr << "ConservedMoietyConverter::setDocument\n";
+
         versionConverter.setProperties(&versionProps);
 
         // need to set what checks the converter does. The const doc arg is fixed in 5.10, but
@@ -321,45 +324,47 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     }
     else
     {
-        // need to set what checks the converter does. The const doc arg is fixed in 5.10, but
-        // we work with 5.9 for now.
+        if (!rr::Config::getBool(rr::Config::LOADSBMLOPTIONS_PERMISSIVE)) {
+            // need to set what checks the converter does. The const doc arg is fixed in 5.10, but
+            // we work with 5.9 for now.
 
-        libsbml::SBMLDocument* pdoc = const_cast<libsbml::SBMLDocument*>(doc);
-        pdoc->setApplicableValidators((unsigned char)Config::getInt(
-                Config::SBML_APPLICABLEVALIDATORS));
+            libsbml::SBMLDocument* pdoc = const_cast<libsbml::SBMLDocument*>(doc);
+            pdoc->setApplicableValidators((unsigned char)Config::getInt(
+                    Config::SBML_APPLICABLEVALIDATORS));
 
 
-        /* use validators that the user has selected
-         */
-        /* hack to catch errors caught at read time */
-        char* docStr = writeSBMLToString(pdoc);
-        SBMLDocument *d = readSBMLFromString(docStr);
-        util_free(docStr);
-        unsigned int errors = d->getNumErrors();
+            /* use validators that the user has selected
+            */
+            /* hack to catch errors caught at read time */
+            char* docStr = writeSBMLToString(pdoc);
+            SBMLDocument *d = readSBMLFromString(docStr);
+            util_free(docStr);
+            unsigned int errors = d->getNumErrors();
 
-        for (unsigned int i = 0; i < errors; i++)
-        {
-            pdoc->getErrorLog()->add(*(d->getError(i)));
+            for (unsigned int i = 0; i < errors; i++)
+            {
+                pdoc->getErrorLog()->add(*(d->getError(i)));
+            }
+            delete d;
+
+            errors += pdoc->checkConsistency();
+            errors = pdoc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR);
+
+            /* if the current model is not valid dont convert and dont set
+            */
+            if (errors > 0)
+            {
+                Log(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
+
+                const SBMLErrorLog *log = pdoc->getErrorLog();
+                string errors = log ? log->toString() : string(" NULL SBML Error Log");
+                Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+
+                return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
+            }
+
+            pdoc->getErrorLog()->clearLog();
         }
-        delete d;
-
-        errors += pdoc->checkConsistency();
-        errors = pdoc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR);
-
-        /* if the current model is not valid dont convert and dont set
-         */
-        if (errors > 0)
-        {
-            Log(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
-
-            const SBMLErrorLog *log = pdoc->getErrorLog();
-            string errors = log ? log->toString() : string(" NULL SBML Error Log");
-            Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
-
-            return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
-        }
-
-        pdoc->getErrorLog()->clearLog();
 
     }
 

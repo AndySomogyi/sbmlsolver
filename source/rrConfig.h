@@ -431,6 +431,19 @@ public:
         OPTIMIZE_REACTION_RATE_SELECTION,
 
 
+        /**
+         * Relax SBML resrictions.
+         *
+         * Allows some idiosyncrasies of e.g. JDesigner that libSBML does not
+         * officially support. See:
+         * https://groups.google.com/forum/#!topic/sbml-discuss/u3NK14RUHvE
+         *
+         * Specifics: allows use time in user-defined functions, allows use of
+         * booleans in scalars
+         */
+        LOADSBMLOPTIONS_PERMISSIVE,
+
+
         // add lots of space so not to conflict with other branches.
 
 
