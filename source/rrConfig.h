@@ -534,6 +534,8 @@ public:
      * file are cleared and the new values written.
      */
     static void writeConfigFile(const std::string& path);
+
+    static Keys stringToKey(const std::string& key);
 };
 
 } /* namespace rr */

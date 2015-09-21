@@ -430,4 +430,97 @@ void Config::writeConfigFile(const std::string& path)
     }
 }
 
+Config::Keys Config::stringToKey(const std::string& key) {
+    if (key == "LOADSBMLOPTIONS_CONSERVED_MOIETIES")
+        return Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES;
+    else if (key == "LOADSBMLOPTIONS_RECOMPILE")
+        return Config::LOADSBMLOPTIONS_RECOMPILE;
+    else if (key == "LOADSBMLOPTIONS_READ_ONLY")
+        return Config::LOADSBMLOPTIONS_READ_ONLY;
+    else if (key == "LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS")
+        return Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS;
+    else if (key == "LOADSBMLOPTIONS_OPTIMIZE_GVN")
+        return Config::LOADSBMLOPTIONS_OPTIMIZE_GVN;
+    else if (key == "LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION")
+        return Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION;
+    else if (key == "LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING")
+        return Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING;
+    else if (key == "LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION")
+        return Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION;
+    else if (key == "LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION")
+        return Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION;
+    else if (key == "LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER")
+        return Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER;
+    else if (key == "LOADSBMLOPTIONS_USE_MCJIT")
+        return Config::LOADSBMLOPTIONS_USE_MCJIT;
+    else if (key == "SIMULATEOPTIONS_STEPS")
+        return Config::SIMULATEOPTIONS_STEPS;
+    else if (key == "SIMULATEOPTIONS_DURATION")
+        return Config::SIMULATEOPTIONS_DURATION;
+    else if (key == "SIMULATEOPTIONS_ABSOLUTE")
+        return Config::SIMULATEOPTIONS_ABSOLUTE;
+    else if (key == "SIMULATEOPTIONS_RELATIVE")
+        return Config::SIMULATEOPTIONS_RELATIVE;
+    else if (key == "SIMULATEOPTIONS_STRUCTURED_RESULT")
+        return Config::SIMULATEOPTIONS_STRUCTURED_RESULT;
+    else if (key == "SIMULATEOPTIONS_STIFF")
+        return Config::SIMULATEOPTIONS_STIFF;
+    else if (key == "SIMULATEOPTIONS_MULTI_STEP")
+        return Config::SIMULATEOPTIONS_MULTI_STEP;
+    else if (key == "SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP")
+        return Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP;
+    else if (key == "SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP")
+        return Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP;
+    else if (key == "SIMULATEOPTIONS_INTEGRATOR")
+        return Config::SIMULATEOPTIONS_INTEGRATOR;
+    else if (key == "SIMULATEOPTIONS_INITIAL_TIMESTEP")
+        return Config::SIMULATEOPTIONS_INITIAL_TIMESTEP;
+    else if (key == "SIMULATEOPTIONS_MINIMUM_TIMESTEP")
+        return Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP;
+    else if (key == "SIMULATEOPTIONS_MAXIMUM_TIMESTEP")
+        return Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP;
+    else if (key == "SIMULATEOPTIONS_MAXIMUM_NUM_STEPS")
+        return Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
+    else if (key == "ROADRUNNER_DISABLE_WARNINGS")
+        return Config::ROADRUNNER_DISABLE_WARNINGS;
+    else if (key == "ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES")
+        return Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+    else if (key == "SBML_APPLICABLEVALIDATORS")
+        return Config::SBML_APPLICABLEVALIDATORS;
+    else if (key == "ROADRUNNER_JACOBIAN_STEP_SIZE")
+        return Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
+    else if (key == "MODEL_RESET")
+        return Config::MODEL_RESET;
+    else if (key == "CVODE_MIN_ABSOLUTE")
+        return Config::CVODE_MIN_ABSOLUTE;
+    else if (key == "CVODE_MIN_RELATIVE")
+        return Config::CVODE_MIN_RELATIVE;
+    else if (key == "SIMULATEOPTIONS_COPY_RESULT")
+        return Config::SIMULATEOPTIONS_COPY_RESULT;
+    else if (key == "STEADYSTATE_RELATIVE")
+        return Config::STEADYSTATE_RELATIVE;
+    else if (key == "STEADYSTATE_MAXIMUM_NUM_STEPS")
+        return Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
+    else if (key == "STEADYSTATE_MINIMUM_DAMPING")
+        return Config::STEADYSTATE_MINIMUM_DAMPING;
+    else if (key == "ROADRUNNER_JACOBIAN_MODE")
+        return Config::ROADRUNNER_JACOBIAN_MODE;
+    else if (key == "TEMP_DIR_PATH")
+        return Config::TEMP_DIR_PATH;
+    else if (key == "LOGGER_LOG_FILE_PATH")
+        return Config::LOGGER_LOG_FILE_PATH;
+    else if (key == "RANDOM_SEED")
+        return Config::RANDOM_SEED;
+    else if (key == "PYTHON_ENABLE_NAMED_MATRIX")
+        return Config::PYTHON_ENABLE_NAMED_MATRIX;
+    else if (key == "LLVM_SYMBOL_CACHE")
+        return Config::LLVM_SYMBOL_CACHE;
+    else if (key == "OPTIMIZE_REACTION_RATE_SELECTION")
+        return Config::OPTIMIZE_REACTION_RATE_SELECTION;
+    else if (key == "LOADSBMLOPTIONS_PERMISSIVE")
+        return Config::LOADSBMLOPTIONS_PERMISSIVE;
+    else
+        throw std::runtime_error("No such config key: '" + key + "'");
+}
+
 }

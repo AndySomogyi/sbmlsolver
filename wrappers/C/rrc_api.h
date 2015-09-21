@@ -2176,11 +2176,55 @@ C_DECL_SPEC bool rrcCallConv resetAll(RRHandle handle);
 C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
 
 /*!
- \brief Frees any string allocated by RoadRunner
- \param[in] s The string data to free
- \ingroup freeRoutines
+ \brief Set a boolean configuration value
+
+ \param[in] key The configuration key
+ \param[in] value The value to assign to the configuration key
+ \ingroup config
 */
-// C_DECL_SPEC int  freeCText(char* s);
+C_DECL_SPEC int rrcCallConv setConfigBool(const char* key, int value);
+
+/*!
+ \brief Get a boolean configuration value
+
+ \param[in] key The configuration key
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv getConfigBool(const char* key);
+
+/*!
+ \brief Set an integer configuration value
+
+ \param[in] key The configuration key
+ \param[in] value The value to assign to the configuration key
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv setConfigInt(const char* key, int value);
+
+/*!
+ \brief Get an integer configuration value
+
+ \param[in] key The configuration key
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv getConfigInt(const char* key);
+
+/*!
+ \brief Set a double configuration value
+
+ \param[in] key The configuration key
+ \param[in] value The value to assign to the configuration key
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
+
+/*!
+ \brief Get a double configuration value
+
+ \param[in] key The configuration key
+ \ingroup config
+*/
+C_DECL_SPEC double rrcCallConv getConfigDouble(const char* key);
 
 #if defined( __cplusplus)
 }
