@@ -931,12 +931,10 @@ static bool isNegative(const libsbml::ASTNode *ast)
 ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket(ASTNodeCodeGen& gen, bool val, std::string n)
     : z_(gen), v_(gen.scalar_mode_), n_(n) {
     z_.scalar_mode_ = val;
-    std::cerr << "ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket" << n_ << "\n";
 }
 
 ASTNodeCodeGenScalarTicket::~ASTNodeCodeGenScalarTicket() {
     z_.scalar_mode_ = v_;
-    std::cerr << "ASTNodeCodeGenScalarTicket::~ASTNodeCodeGenScalarTicket" << n_ << "\n";
 }
 
 } /* namespace rr */
