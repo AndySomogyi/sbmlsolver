@@ -2753,37 +2753,40 @@ bool rrcCallConv resetToOrigin(RRHandle handle)
 int rrcCallConv setConfigBool(const char* key, int value) {
     start_try
         rr::Config::setValue(rr::Config::stringToKey(key), (bool)value);
-    catch_bool_macro
+        return true;
+    catch_int_macro
 }
 
 int rrcCallConv getConfigBool(const char* key) {
     start_try
         return rr::Config::getValue(rr::Config::stringToKey(key));
-    catch_bool_macro
+    catch_int_macro
 }
 
 int rrcCallConv setConfigInt(const char* key, int value) {
     start_try
         rr::Config::setValue(rr::Config::stringToKey(key), value);
-    catch_bool_macro
+        return true;
+    catch_int_macro
 }
 
 int rrcCallConv getConfigInt(const char* key) {
     start_try
         return rr::Config::getValue(rr::Config::stringToKey(key));
-    catch_bool_macro
+    catch_int_macro
 }
 
 int rrcCallConv setConfigDouble(const char* key, double value) {
     start_try
         rr::Config::setValue(rr::Config::stringToKey(key), value);
-    catch_bool_macro
+        return true;
+    catch_int_macro
 }
 
 double rrcCallConv getConfigDouble(const char* key) {
     start_try
         return rr::Config::getValue(rr::Config::stringToKey(key));
-    catch_bool_macro
+    catch_int_macro
 }
 
 // C_DECL_SPEC int freeCText(char* s)

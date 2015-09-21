@@ -2462,6 +2462,9 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
 
  \defgroup simopts Solver options API
  \brief Reflective API for interacting with steady state solvers and integrators
+
+ \defgroup config Configuration keys/values
+ \brief Loads and sets configuration options
 */
 
 
