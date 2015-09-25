@@ -2180,6 +2180,7 @@ C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
 
  \param[in] key The configuration key
  \param[in] value The value to assign to the configuration key
+ \return Returns positive if successful
  \ingroup config
 */
 C_DECL_SPEC int rrcCallConv setConfigBool(const char* key, int value);
@@ -2197,6 +2198,7 @@ C_DECL_SPEC int rrcCallConv getConfigBool(const char* key);
 
  \param[in] key The configuration key
  \param[in] value The value to assign to the configuration key
+ \return Returns positive if successful
  \ingroup config
 */
 C_DECL_SPEC int rrcCallConv setConfigInt(const char* key, int value);
@@ -2214,6 +2216,7 @@ C_DECL_SPEC int rrcCallConv getConfigInt(const char* key);
 
  \param[in] key The configuration key
  \param[in] value The value to assign to the configuration key
+ \return Returns positive if successful
  \ingroup config
 */
 C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
