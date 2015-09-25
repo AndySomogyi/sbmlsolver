@@ -126,7 +126,7 @@ static Variant values[] =  {
     Variant(true),      // PYTHON_ENABLE_NAMED_MATRIX
     Variant(true),      // LLVM_SYMBOL_CACHE
     Variant(true),      // OPTIMIZE_REACTION_RATE_SELECTION
-    Variant(false)      // LOADSBMLOPTIONS_PERMISSIVE
+    Variant(true)      // LOADSBMLOPTIONS_PERMISSIVE
     // add space after develop keys to clean up merging
 
 
