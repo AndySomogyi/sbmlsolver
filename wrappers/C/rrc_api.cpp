@@ -2789,9 +2789,20 @@ double rrcCallConv getConfigDouble(const char* key) {
     catch_int_macro
 }
 
-// C_DECL_SPEC int freeCText(char* s)
-// {
-//     return freeText(s);
-// }
+RRStringArrayPtr rrcCallConv getListOfConfigKeys()
+{
+    start_try
+        vector<string> list = Config::getKeyList();
+
+        StringList sNames = list;
+
+        if(!sNames.Count())
+        {
+            return NULL;
+        }
+
+        return createList(sNames);
+    catch_ptr_macro
+}
 
 }

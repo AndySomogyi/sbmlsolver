@@ -2226,6 +2226,15 @@ C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
 */
 C_DECL_SPEC double rrcCallConv getConfigDouble(const char* key);
 
+/*!
+ \brief Get the current selection list for simulate(void) or simulateEx(void)
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return A list of symbol Ids indicating the current selection list
+ \ingroup simulation
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
+
 #if defined( __cplusplus)
 }
 }//namespace

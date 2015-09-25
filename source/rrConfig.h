@@ -11,6 +11,7 @@
 #include <string>
 #include "rrExporter.h"
 #include "Variant.h"
+#include <vector>
 
 namespace rr
 {
@@ -536,6 +537,8 @@ public:
     static void writeConfigFile(const std::string& path);
 
     static Keys stringToKey(const std::string& key);
+
+    static std::vector<std::string> getKeyList();
 };
 
 } /* namespace rr */

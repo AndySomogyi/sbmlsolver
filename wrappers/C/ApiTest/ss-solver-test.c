@@ -28,6 +28,15 @@ static const char* sbml_desc[2] = {
     "jacobian_1"
 };
 
+void print_config_keys() {
+  RRStringArrayPtr keys = getListOfConfigKeys();
+  int n;
+  fprintf(stderr, "List of config keys:\n");
+  for(n = 0; n<keys->Count; ++n) {
+    fprintf(stderr, "  %s\n", keys->String[n]);
+  }
+}
+
 int main(int argc, char* argv[])
 {
     int n;
@@ -47,6 +56,10 @@ int main(int argc, char* argv[])
         fprintf(stderr,"RoadRunner version %s\n", t);
         freeText(t);
     }
+
+    // print config keys
+
+    print_config_keys();
 
     fprintf(stderr,"Initializing RoadRunner...\n");
     RRHandle _handle = createRRInstance();

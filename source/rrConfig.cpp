@@ -263,6 +263,30 @@ static void getKeyNames(StringIntMap& keys)
             "number of keys in map does not match static values");
 }
 
+static std::string reverseLookup(StringIntMap& keys, Config::Keys k) {
+    for (StringIntMap::iterator i=keys.begin(); i!= keys.end(); ++i) {
+        if (i->second == k)
+            return i->first;
+    }
+    throw std::runtime_error("No such key");
+}
+
+std::vector<string> Config::getKeyList() {
+    std::vector<string> result;
+    StringIntMap m;
+
+    getKeyNames(m);
+
+    for(int n=0; n<CONFIG_END;++n) {
+        try {
+            std::string key_str = reverseLookup(m,(Config::Keys)n);
+            result.push_back(key_str);
+        } catch(std::runtime_error) {}
+    }
+
+    return result;
+}
+
 
 std::string Config::getString(Keys key)
 {
