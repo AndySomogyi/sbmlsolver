@@ -2189,6 +2189,7 @@ C_DECL_SPEC int rrcCallConv setConfigBool(const char* key, int value);
  \brief Get a boolean configuration value
 
  \param[in] key The configuration key
+ \note On error, sets an error message which can be retrieved via @ref getLastError
  \ingroup config
 */
 C_DECL_SPEC int rrcCallConv getConfigBool(const char* key);
@@ -2207,6 +2208,7 @@ C_DECL_SPEC int rrcCallConv setConfigInt(const char* key, int value);
  \brief Get an integer configuration value
 
  \param[in] key The configuration key
+ \note On error, sets an error message which can be retrieved via @ref getLastError
  \ingroup config
 */
 C_DECL_SPEC int rrcCallConv getConfigInt(const char* key);
@@ -2225,6 +2227,7 @@ C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
  \brief Get a double configuration value
 
  \param[in] key The configuration key
+ \note On error, sets an error message which can be retrieved via @ref getLastError
  \ingroup config
 */
 C_DECL_SPEC double rrcCallConv getConfigDouble(const char* key);
