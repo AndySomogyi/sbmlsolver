@@ -554,9 +554,9 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
-    Log(Logger::LOG_TRACE) << "\t{" + rr::toString(row) + ", " + rr::toString(col) +
-            "}, #reactants: " + rr::toString(reactantList.size()) + " #products: " +
-            rr::toString(productList.size());
+    Log(Logger::LOG_TRACE) << "\t{" + rr::toString((int)row) + ", " + rr::toString((int)col) +
+            "}, #reactants: " + rr::toString((int)reactantList.size()) + " #products: " +
+            rr::toString((int)productList.size());
 
     if (reactantList.size())
     {
