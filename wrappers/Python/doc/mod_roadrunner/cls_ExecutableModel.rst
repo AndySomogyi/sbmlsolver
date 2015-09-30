@@ -15,7 +15,7 @@ a number of selection strings described in the Selections section.
    Get a list of all the keys that this model has. This is a very good way of looking at all the
    available symbols and selection strings:
 
-   >>>  r.model.keys()
+   >>> r.model.keys()
    [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',  
      'reaction1',  'init([S1])',  'init([S2])', 'init(S1)',  
      'init(S2)',  "S1'"]
@@ -24,8 +24,14 @@ a number of selection strings described in the Selections section.
 .. method:: ExecutableModel.items()
    :module: roadrunner
 
-   Get a list of key / value pairs of all the selections / values in this model. 
+   Get a list of key / value pairs of all the selections / values in the model. 
 
+   >>> r.model.items()
+   [('S1', 0.5), ('S2', 9.99954570660308), ('[S1]', 0.5), ('[S2]', 9.99954570660308),
+   ('default_compartment', 1.0), ('k1', 1.0), ('init(k1)', 1.0), ('_J0', 0.5), ('init([S1])', 10.0),
+   ('init([S2])', 0.0), ('init(S1)', 10.0), ('init(S2)', 0.0), ("S1'", -0.5), ("S2'", 0.5)]
+   
+   
 .. method:: ExecutableModel.__getitem__
    :module: roadrunner
 
@@ -34,12 +40,26 @@ a number of selection strings described in the Selections section.
      >>> r.model["S1"]
      0.0
 
+   Following notation is also accepted::
+   
+     >>> r.S1
+     0.0
+	 
+
 .. method:: ExecutableModel.__setitem__
    :module: roadrunner
 
    Implements the python ``[]`` indexing operator for setting values::
 
-     >>> r.model["S1"] = 12.3
+	   >>> r.model["S1]
+	   0.0
+	   >>> r.model["S1"] = 1.3
+	   >>> r.model["S1"]
+	   1.3
+
+   Following notation is also accepted::
+
+   >>> r.S1 = 1.0   
 
    Note, some keys are read only such as values defined by rules, or calculated values such as
    species amount rates or reaction rates. If one attempts to set the value of a read-only symbol,
@@ -50,17 +70,23 @@ a number of selection strings described in the Selections section.
 Floating Species
 ----------------
 
+.. method:: ExecutableModel.getFloatingSpeciesIds()
+
+   Return a list of floating species SBML ids.
+   
+   >>> r.getFloatingSpeciesIds()
+   ['S1', 'S2']
+
+   
 .. method:: ExecutableModel.getNumFloatingSpecies()
    :module: roadrunner
 
    Returns the number of floating species in the model.
-
-
-.. method:: ExecutableModel.getFloatingSpeciesIds()
-
-   Return a list of floating species sbml ids.
-
-
+   
+   >>> r.getFloatingSpeciesIds()
+   2
+	 
+   
 .. method:: ExecutableModel.getFloatingSpeciesAmountRates([index])
 
    Return a vector of the amount rate of change of the floating species.
@@ -70,6 +96,9 @@ Floating Species
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of the rates of change of the floating species amounts.
    :rtype: numpy.ndarray
+   
+   >>> r.model.getFloatingSpeciesAmountRates()
+   array([-0.00045429,  0.00045429])
 
 
 .. method:: ExecutableModel.getFloatingSpeciesAmounts([index])
@@ -78,20 +107,19 @@ Floating Species
    Get the list of floating species amounts. If no arguments are given, this
    returns all floating species amounts.
 
-   :param index: an optional array of desired floating species indices. i.e. if this model has
-                 4 floating species and we want the amounts for the last and first, we
-                 would use [3,0] for the index array.
-   :type name: numpy.ndarray
+   :param numpy.ndarray index: (optional) an optional array of desired floating species indices.
+   :retuns: an array of floating species amounts.
+   :rtype: numpy.ndarray
 
-   get all the amounts::
-
-     >>> e.getFloatingSpeciesAmounts()
-     [15,2,3,20]
-
-   get amounts 3 and 0::
-
-     >>> getFloatingSpeciesAmounts([3,0])
-     [10,15]
+   To get all the amounts::
+   
+     >>> r.model.getFloatingSpeciesAmounts()
+     array([ 0.97390578,  1.56331018,  1.15301155,  1.22717548])
+   
+   To get amounts from index 0 and 1::
+   
+     >>> r.model.getFloatingSpeciesAmounts([0,1])
+     array([ 0.97390578,  1.56331018])
 
 
 .. method:: ExecutableModel.setFloatingSpeciesAmounts([index], values)
@@ -105,8 +133,26 @@ Floating Species
                                an array of all the values to set.
    :param numpy.ndarray values: the values to set.
 
+   >>> r.model.getFloatingSpeciesAmounts([0,1])
+   array([ 0.97390578,  1.56331018])
+   >>> r.model.setFloatingSpeciesAmounts([0,1], [1.0, 1.5])
+   >>> r.model.getFloatingSpeciesAmounts([0,1])
+   array([ 1. ,  1.5])
 
+	 
+.. method:: ExecutableModel.getFloatingSpeciesConcentrations([index])
 
+   Returns a vector of floating species concentrations. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of floating species concentrations.
+   :rtype: numpy.ndarray
+
+   >>> r.model.getFloatingSpeciesConcentrations()
+   array([  4.54293397e-04,   9.99954571e+00])
+   
+   
 .. method:: ExecutableModel.setFloatingSpeciesConcentrations([index], values)
    :module: roadrunner
 
@@ -119,17 +165,13 @@ Floating Species
                                array of all the  values to set.
    :param numpy.ndarray values: the values to set.
 
-
-
-.. method:: ExecutableModel.getFloatingSpeciesConcentrations([index])
-
-   Returns a vector of floating species concentrations. The order of species is
-   given by the order of Ids returned by getFloatingSpeciesIds()
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :returns: an array of floating species concentrations.
-   :rtype: numpy.ndarray
-
+   >>> r.model.getFloatingSpeciesConcentrations()
+   array([  4.54293397e-04,   9.99954571e+00])
+   >>> r.model.setFloatingSpeciesConcentrations([0],[0.5])
+   >>> r.model.getFloatingSpeciesConcentrations()
+   array([ 0.5       ,  9.99954571])
+   
+   
 Floating Species Initial Conditions
 -----------------------------------
 RoadRunner stores all initial conditions separately from the model state variables. This means that
@@ -143,12 +185,19 @@ The following methods allow access to the floating species initial condition val
    :module: roadrunner
 
    get a list of the floating species amount initial amount selection symbols.
+   
+   >>> r.model.getFloatingSpeciesInitAmountIds()
+   ['init(S1)', 'init(S2)']
+	 
 
 .. method:: ExecutableModel.getFloatingSpeciesInitConcentrationIds()
    :module: roadrunner
 
    get a list of the floating species amount initial concentration selection symbols.
 
+   >>> r.model.getFloatingSpeciesInitConcentrationIds()
+   ['init([S1])', 'init([S2])']
+	 
 
 .. method:: ExecutableModel.getFloatingSpeciesInitConcentrations([index])    
    :module: roadrunner
@@ -160,6 +209,11 @@ The following methods allow access to the floating species initial condition val
    :returns: an array of floating species initial concentrations.
    :rtype: numpy.ndarray
 
+   
+   >>> r.model.getFloatingSpeciesInitConcentrations()
+   array([ 10.,   0.])
+	 
+	 
 .. method:: ExecutableModel.setFloatingSpeciesInitConcentrations([index], values)
    :module: roadrunner
 
@@ -167,8 +221,13 @@ The following methods allow access to the floating species initial condition val
    given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
-
-
+   
+   
+   >>> r.model.setFloatingSpeciesInitConcentrations([0], [1])
+   >>> r.model.getFloatingSpeciesInitConcentrations()
+   array([ 1.,  0.])
+   
+   
 .. method:: ExecutableModel.getFloatingSpeciesInitAmounts([index])    
    :module: roadrunner
 
@@ -179,7 +238,11 @@ The following methods allow access to the floating species initial condition val
    :returns: an array of floating species initial amounts.
    :rtype: numpy.ndarray
 
+   
+   >>> r.model.getFloatingSpeciesInitAmounts()
+   array([ 10.,   0.])
 
+   
 .. method:: ExecutableModel.setFloatingSpeciesInitAmounts([index], values)
    :module: roadrunner
 
@@ -187,8 +250,11 @@ The following methods allow access to the floating species initial condition val
    given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
-
-
+   
+   
+   >>> r.model.setFloatingSpeciesInitAmounts([0], [0.1])
+   >>> r.model.getFloatingSpeciesInitAmounts()
+   array([ 0.1,  0. ])
 
 
 Boundary Species
@@ -209,7 +275,11 @@ Boundary Species
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of the boundary species amounts.
    :rtype: numpy.ndarray.
-
+   
+   
+   >>> r.model.getBoundarySpeciesAmounts()
+   array([ 15.,   0.])
+   
 
 .. method:: ExecutableModel.getBoundarySpeciesConcentrations([index])
    :module: roadrunner
@@ -227,7 +297,10 @@ Boundary Species
    :returns: an array of the boundary species concentrations.
    :rtype: numpy.ndarray.
 
-
+   
+   >>> r.getBoundarySpeciesConcentrations()
+   array([ 0.5,   0.])
+   
 
 .. method:: ExecutableModel.getBoundarySpeciesIds()
    :module: roadrunner
@@ -236,12 +309,20 @@ Boundary Species
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: a list of boundary species ids.
+   
+   
+   >>> r.getBoundarySpeciesIds()
+   ['X0', 'X1']
 
 
 .. method:: ExecutableModel.getNumBoundarySpecies()
    :module: roadrunner
 
    Returns the number of boundary species in the model.
+   
+   
+   >>> r.getNumBoundarySpecies()
+   2
 
 
 .. method:: ExecutableModel.setBoundarySpeciesConcentrations([index], values)
@@ -255,6 +336,12 @@ Boundary Species
                                array of all the  values to set.
 
    :param numpy.ndarray values: the values to set.
+   
+   
+   >>> r.model.setBoundarySpeciesConcentrations([0], [1])
+   >>> r.getBoundarySpeciesConcentrations()
+   array([ 1.,  0.])
+	 
 
 Compartments
 ------------
@@ -266,6 +353,11 @@ Compartments
    :param index: A array of compartment indices indicating which compartment ids to return.
    :type index: None or numpy.ndarray
    :returns: a list of compartment ids.
+   
+   
+   >>> r.getCompartmentIds()
+   ['compartment1']
+	 
 
 .. method:: ExecutableModel.getCompartmentVolumes([index])
 
@@ -275,12 +367,21 @@ Compartments
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of compartment volumes.
    :rtype: numpy.ndarray.
+   
+   
+   >>> r.getCompartmentVolumes()
+   array([ 1.])
+
 
 .. method:: ExecutableModel.getNumCompartments()
 
    Returns the number of compartments in the model.
 
    :rtype: int
+   
+   
+   >>> r.getNumCompartments()
+   1
 
 
 .. method:: ExecutableModel.setCompartmentVolumes([index], values)
@@ -297,6 +398,10 @@ Compartments
 
    :param numpy.ndarray values: the values to set.
 
+   
+   >>> r.model.setCompartmentVolumes([0], [2.5])
+   >>> r.getCompartmentVolumes()
+   array([ 2.5])
 
 
 Global Parameters
@@ -312,6 +417,10 @@ Global Parameters
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of global parameter values.
    :rtype: numpy.ndarray.
+   
+   
+   >>> r.getGlobalParameterValues()
+   array([ 10. ,  10. ,  10. ,   2.5,   0.5])
 
 
 .. method:: ExecutableModel.getNumGlobalParameters()
@@ -319,6 +428,9 @@ Global Parameters
 
 
    Returns the number of global parameters in the model.
+   
+   >>> r.getNumGlobalParameters()
+   5
 
 
 .. method:: ExecutableModel.setGlobalParameterValues([index], values)
@@ -332,6 +444,12 @@ Global Parameters
                                or if no index array is given, the first param should be an
                                array of all the values to set.
    :param numpy.ndarray values: the values to set.
+   
+   
+   >>> r.model.setGlobalParameterValues([0], [1.5])
+   >>> r.getGlobalParameterValues()
+   array([  1.5,  10. ,  10. ,   2.5,   0.5])
+	 
 
 Reactions
 ---------
@@ -340,6 +458,10 @@ Reactions
    :module: roadrunner
 
    Returns the number of reactions in the model.
+   
+   
+   >>> r.getNumReactions()
+   5
 
 
 .. method:: ExecutableModel.getReactionIds()
@@ -349,7 +471,10 @@ Reactions
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: a list of reaction ids.
-
+   
+   
+   >>> r.getReactionIds()
+   ['J0', 'J1', 'J2', 'J3', 'J4']
 
 
 .. method:: ExecutableModel.getReactionRates([index])
@@ -361,7 +486,10 @@ Reactions
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of reaction rates.
    :rtype: numpy.ndarray
-
+   
+   
+   >>> r.getReactionRates()
+   array([ 0.14979613,  2.37711263,  2.68498886,  2.41265507,  1.89417737])
 
 
 Stoichiometry
@@ -377,7 +505,10 @@ Stoichiometry
 
    :param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
    :param reactionIndex: a reaction index from :meth:`getReactionIds`
-
+   
+   
+   >>> r.model.getStoichiometry(1, 3)
+   1.0
 
 
 State Vector
@@ -402,6 +533,10 @@ State Vector
                        This should be the same length as the model state vector. 
    :rtype: numpy.ndarray
 
+   
+   >>> r.model.getStateVector()
+   array([ 0.97390578,  1.56331018,  1.15301155,  1.22717548])
+   
                
 .. method:: ExecutableModel.getStateVectorId(index)
 
@@ -409,13 +544,23 @@ State Vector
 
    :param int index: the index of the desired state vector item
    :rtype: str
-
+   
+   
+   >>> r.model.getStateVectorId(0)
+   'S1'
+	 
+   
 .. method:: ExecutableModel.getStateVectorIds()
 
    Returns a list of all state vector ids
 
    :rtype: list
-
+   
+   
+   >>> r.model.getStateVectorIds()
+   ['S1', 'S4', 'S2', 'S3']
+	 
+	 
 .. method:: ExecutableModel.getStateVectorRate(time, [stateVector], [stateVectorRate])
 
    Calculates the rate of change of all state vector variables. 
@@ -432,6 +577,10 @@ State Vector
 
    :returns: an array of the rates of change of all state vector variables.
    :rtype: numpy.ndarray
+   
+   
+   >>> r.model.getStateVectorRate(10)
+   array([-1.37847178,  0.5184777 , -0.30787622,  0.27233378])
 
 
 Conserved Moieties
@@ -443,16 +592,24 @@ Conserved Moieties
    Returns the number of conserved moieties in the model.
 
    :rtype: int
+   
+   
+   >>> r.getNumConservedMoieties()
+   1
 
 
 .. method:: ExecutableModel.getConservedMoietyIds([index])
 
    Returns a vector of conserved moiety identifier symbols.
 
-
    :param index: A array of compartment indices indicating which compartment ids to return.
    :type index: None or numpy.ndarray
    :returns: a list of compartment ids.
+   
+   
+   >>> r.getConservedMoietyIds()
+   ['cm_1']
+	 
 
 .. method:: ExecutableModel.getConservedMoietyValues([index])
 
@@ -462,6 +619,11 @@ Conserved Moieties
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of conserved moiety values.
    :rtype: numpy.ndarray.
+   
+   
+   >>> r.getConservedMoietyValues()
+   array([ 2.])
+   
 
 .. method:: ExecutableModel.setConservedMoietyValues([index], values)
 
@@ -478,6 +640,11 @@ Conserved Moieties
                                or if no index array is given, the first param should be an
                                array of all the  values to set.
    :param numpy.ndarray values: the values to set.
+   
+   
+   >>> r.model.setConservedMoietyValues([0], [5])
+   >>> r.getConservedMoietyValues()
+   array([ 5.])
 
 
 Misc
@@ -488,11 +655,45 @@ Misc
    :module: roadrunner
 
    get various info about the model.
+   
+   
+   >>> print r.getInfo()
+   <roadrunner.RoadRunner() { 
+   'this' : 0056AC30
+   'modelLoaded' : true
+   'modelName' : pathway
+   'libSBMLVersion' : LibSBML Version: 5.11.0
+   'jacobianStepSize' : 1e-005
+   'conservedMoietyAnalysis' : false
+   'simulateOptions' : 
+   < roadrunner.SimulateOptions() 
+   { 
+   'this' : 10590170, 
+   integrator: "cvode",
+   'reset' : 0,
+   'structuredResult' : 0,
+   'copyResult' : 1,
+   'steps' : 99,
+   'start' : 0,
+   'duration' : 10,
+   'initialTimeStep' : -1,
+   'minimumTimeStep' : -1,
+   'maximumTimeStep' : -1,
+   'maximumNumSteps' : -1
+   }>, 
+   'integrator' : 
+   < roadrunner.Integrator() >
+   }>
+   
 
 .. method:: ExecutableModel.getModelName()
    :module: roadrunner
 
    Get the model name specified in the SBML.
+   
+   
+   >>> r.model.getModelName()
+   'feedback'
 
 
 .. method:: ExecutableModel.getTime()
@@ -501,6 +702,9 @@ Misc
    Get the model time. The model originally start at time t=0 and is advaced forward in time by the
    integrator. So, if one ran a simulation from time = 0 to time = 10, the model will then have it's
    time = 10. 
+   
+   >>> r.model.getTime()
+   40.0
 
 
 .. method:: ExecutableModel.reset()
@@ -516,6 +720,11 @@ Misc
    Set the model time variable. 
 
    :param time: time the time value to set.
+   
+   
+   >>> rr.model.setTime(20.)
+   >>> rr.model.getTime()
+   20.0
 
 
 

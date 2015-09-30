@@ -20,33 +20,13 @@ _______________________________
    :param sbmlSettingFilePath: (optional) if this is given, the settings are read 
                                from this settings file, if not, the default values are set.
    
-.. attribute:: SimulateOptions.integratorFlags
+.. attribute:: SimulateOptions.integrator
    :module: roadrunner
 
    A bitfield which may contain the following options. In python these options are
    also available as separate properties which set the integratorFlags bitfield.
 
-.. attribute:: SimulateOptions.STIFF
-   :module: roadrunner
 
-   Use the stiff (implicit) integrator. Defaults to off. 
-
-.. attribute:: SimulateOptions.MULTI_STEP
-   :module: roadrunner
-   
-   * Experimental *
-
-   Perform a multi-step simulation. In multi-step simulation, one may monitor
-   the variable time stepping via the IntegratorListener events system. 
-
-   
-.. attribute:: SimulateOptions.absolute
-   :module: roadrunner
-            
-   A number representing the absolute difference permitted for the integrator
-   tolerance.
-      
-   
 .. attribute:: SimulateOptions.amounts
    :module: roadrunner
       
@@ -80,23 +60,7 @@ _______________________________
    The simulation end time. Note, setting the end time automatically sets the 
    duration accordingly and visa versa.
       
-   
-.. attribute:: SimulateOptions.flags
-   :module: roadrunner
-      
-   
-   can be set to ResetModel so that the model is reset to its initial state
-   when the simulation is run. 
-      
-   
-.. attribute:: SimulateOptions.relative
-   :module: roadrunner
-      
-   
-   A float-point number representing the relative difference permitted.
-   Defaults 0.0001
-      
-   
+	  
 .. attribute:: SimulateOptions.resetModel
    :module: roadrunner
       
@@ -121,78 +85,4 @@ _______________________________
    When a simulation system calculates the data points to record, it will typically
    divide the duration by the number of time steps. Thus, for N steps, the output
    will have N+1 data rows.
-      
-   
-.. attribute:: SimulateOptions.stiff
-   :module: roadrunner
-      
-   
-   Use the stiff integrator. Only use this if the model is stiff and causes issues with the regular
-   integrator. The stiff integrator is slower than the conventional integrator.
-
-
-.. attribute:: SimulateOptions.multiStep
-   :module: roadrunner
-
-   Perform a multi step integration.
-
-   * Experimental *
-
-   Perform a multi-step simulation. In multi-step simulation, one may monitor
-   the variable time stepping via the IntegratorListener events system. 
-
-      
-   
-.. attribute:: SimulateOptions.variables
-   :module: roadrunner
-      
-   
-   The variables (in addition to time) whose values will be saved in the result.
-   These are SBML model id's. Order is significant, as this determines the order
-   of the columns in the result matrix.
-      
-   Important: if a symbol in this list refers to a species in the model,
-   then that symbol should also be listed in either the amount or concentration
-   lists below. If a species symbol is listed in variables, but is not listed
-   in either amounts or concentrations, then it defaults to an amount value. 
-   
-   The ordering of the symbols in variable is what determines the output 
-   ordering. The order of symbols in either amounts or concentrations do not
-   effect the output ordering.
-      
-   NOTE:If a listed variable has two underscores in it ('__'), that variable
-   is actually present only in a submodel of the main model, from the
-   Hierarchical Model Composition package, in the format submodelID__variableID.
-   If the model is flattened, the variable will appear automatically.
-
-.. attribute:: SimulateOptions.initialTimeStep
-   :module: roadrunner
-
-   A user specified initial time step. If this is <=  0, the integrator
-   will attempt to determine a safe initial time step.
-
-   Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
-   the internal integrator may take many many steps to reach one of the external time
-   steps. This value specifies an initial value for the internal integrator
-   time step.
-     
-.. attribute:: SimulateOptions.minimumTimeStep
-   :module: roadrunner
-
-   Specify the minimum time step that the internal integrator
-   will use. Uses integrator estimated value if <= 0.
-     
-.. attribute:: SimulateOptions.maximumTimeStep
-   :module: roadrunner
-
-   Specify the maximum time step size that the internal integrator
-   will use. Uses integrator estimated value if <= 0.
-
-
-.. attribute:: SimulateOptions.maximumNumSteps
-   :module: roadrunner
-
-   Specify the maximum number of steps the internal integrator will use
-   before reaching the user specified time span. Uses the integrator
-   default value if <= 0.
 

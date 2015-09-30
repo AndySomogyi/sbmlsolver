@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'libRoadRunner'
-copyright = u'2013-2014, Andy Somogyi, Herbert Suaro'
+copyright = u'2013-2015, Andy Somogyi, Herbert Suaro'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

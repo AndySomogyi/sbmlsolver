@@ -62,7 +62,7 @@ Reactions
    ExecutableModel.getReactionIds
 
 
-Rates Of Change
+Reaction Rates
 ---------------
 
 .. autosummary::

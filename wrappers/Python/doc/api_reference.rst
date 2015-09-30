@@ -17,7 +17,7 @@ This is the API Reference page for the module: :mod:`roadrunner`
 .. moduleauthor:: Herbert Suaro <hsauro@u.washington.edu>
 
 The RoadRunner SBML Simulation Engine Python API,
-(c) 2009-2014 Endre Somogyi and Herbert Sauro
+(c) 2009-2015 Endre Somogyi and Herbert Sauro
 
    
 .. include:: mod_roadrunner/cls_Config.rst
