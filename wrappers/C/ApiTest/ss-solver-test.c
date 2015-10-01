@@ -59,10 +59,14 @@ int main(int argc, char* argv[])
 
     // print config keys
 
-    print_config_keys();
+//     print_config_keys();
 
     fprintf(stderr,"Initializing RoadRunner...\n");
     RRHandle _handle = createRRInstance();
+
+    loadSBML(_handle, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><sbml xmlns=\"http://www.sbml.org/sbml/level2\" level=\"2\" version=\"1\"><model><listOfCompartments><compartment id=\"uVol\" size=\"1\"/></listOfCompartments><listOfSpecies><species id=\"input\" compartment=\"uVol\" initialConcentration=\"16\" boundaryCondition=\"true\"/><species id=\"output\" compartment=\"uVol\" initialConcentration=\"0\"/><species id=\"X4\" compartment=\"uVol\" initialConcentration=\"14\"/></listOfSpecies><listOfReactions><reaction id=\"R1\" reversible=\"false\"><listOfReactants><speciesReference species=\"input\"/></listOfReactants><listOfProducts><speciesReference species=\"output\"/></listOfProducts><kineticLaw><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><apply><times/><ci> k </ci><ci> input </ci></apply></math><listOfParameters><parameter id=\"k\" name=\"0_100000000_\" value=\"7.0370457\"/></listOfParameters></kineticLaw></reaction></listOfReactions></model></sbml>");
+    fprintf(stderr, "has error? %d\n", hasError());
+    fprintf(stderr, "err: %s\n", getLastError());
 
     {
         char* t = getCurrentSteadyStateSolverName(_handle);
