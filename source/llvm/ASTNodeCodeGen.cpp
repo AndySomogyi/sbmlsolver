@@ -404,22 +404,22 @@ llvm::Value* ASTNodeCodeGen::applyScalarRelationalCodeGen(const libsbml::ASTNode
     switch (ast->getType())
     {
     case AST_RELATIONAL_EQ:
-        result = builder.CreateSIToFP(builder.CreateFCmpUEQ(left, right), Type::getDoubleTy(builder.getContext()));
+        result = toDouble(builder.CreateFCmpUEQ(left, right));
         break;
     case AST_RELATIONAL_GEQ:
-        result = builder.CreateSIToFP(builder.CreateFCmpUGE(left, right), Type::getDoubleTy(builder.getContext()));
+        result = toDouble(builder.CreateFCmpUGE(left, right));
         break;
     case AST_RELATIONAL_GT:
-        result = builder.CreateSIToFP(builder.CreateFCmpUGT(left, right), Type::getDoubleTy(builder.getContext()));
+        result = toDouble(builder.CreateFCmpUGT(left, right));
         break;
     case AST_RELATIONAL_LEQ:
-        result = builder.CreateSIToFP(builder.CreateFCmpULE(left, right), Type::getDoubleTy(builder.getContext()));
+        result = toDouble(builder.CreateFCmpULE(left, right));
         break;
     case AST_RELATIONAL_LT:
-        result = builder.CreateSIToFP(builder.CreateFCmpULT(left, right), Type::getDoubleTy(builder.getContext()));
+        result = toDouble(builder.CreateFCmpULT(left, right));
         break;
     case AST_RELATIONAL_NEQ:
-        result = builder.CreateSIToFP(builder.CreateFCmpUNE(left, right), Type::getDoubleTy(builder.getContext()));
+        result = toDouble(builder.CreateFCmpUNE(left, right));
         break;
     default:
         result = 0;
