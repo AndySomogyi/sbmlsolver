@@ -1,4 +1,4 @@
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 ***********************
 Stoichiometric Analysis

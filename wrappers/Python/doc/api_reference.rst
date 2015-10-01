@@ -2,7 +2,7 @@
 RoadRunner API Reference
 ************************
 
-.. py:currentmodule:: roadrunner
+.. py:currentmodule:: RoadRunner
 
 This is the API Reference page for the module: :mod:`roadrunner`
 

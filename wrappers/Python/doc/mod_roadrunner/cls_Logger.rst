@@ -47,47 +47,47 @@ Logging Levels
 The Logger has the following logging levels:  
 
 .. attribute:: Logger.LOG_CURRENT
-   :module: roadrunner
+   :module: RoadRunner
 
    Use the current level -- don't change the level from what it is.
 
 .. attribute:: Logger.LOG_FATAL 
-   :module: roadrunner
+   :module: RoadRunner
 
    A fatal error. The application will most likely terminate. This is the highest priority.
 
 .. attribute:: Logger.LOG_CRITICAL 
-   :module: roadrunner
+   :module: RoadRunner
 
    A critical error. The application might not be able to continue running successfully.
 
 .. attribute:: Logger.LOG_ERROR 
-   :module: roadrunner
+   :module: RoadRunner
 
    An error. An operation did not complete successfully, but the application as a whole is not affected.
 
 .. attribute:: Logger.LOG_WARNING 
-   :module: roadrunner
+   :module: RoadRunner
 
    A warning. An operation completed with an unexpected result.
 
 .. attribute:: Logger.LOG_NOTICE 
-   :module: roadrunner
+   :module: RoadRunner
 
    A notice, which is an information with just a higher priority.
 
 .. attribute:: Logger.LOG_INFORMATION 
-   :module: roadrunner
+   :module: RoadRunner
 
    An informational message, usually denoting the successful completion of an operation.
 
 .. attribute:: Logger.LOG_DEBUG 
-   :module: roadrunner
+   :module: RoadRunner
 
    A debugging message.
 
 .. attribute:: Logger.LOG_TRACE
-   :module: roadrunner
+   :module: RoadRunner
 
    A tracing message. This is the lowest priority.
 
@@ -95,7 +95,7 @@ Logging Methods
 ---------------
 
 .. staticmethod:: Logger.setLevel([level])
-   :module: roadrunner
+   :module: RoadRunner
 
    sets the logging level to one a value from Logger::Level
 
@@ -103,28 +103,28 @@ Logging Methods
 
 
 .. staticmethod:: Logger.getLevel()
-   :module: roadrunner
+   :module: RoadRunner
 
    get the current logging level.
 
 
 
 .. staticmethod:: Logger.disableLogging()
-   :module: roadrunner
+   :module: RoadRunner
 
    Suppresses all logging output
 
 
 
 .. staticmethod:: Logger.disableConsoleLogging()
-   :module: roadrunner
+   :module: RoadRunner
 
    stops logging to the console, but file logging may continue.
 
 
 
 .. staticmethod:: Logger.enableConsoleLogging(level)
-   :module: roadrunner
+   :module: RoadRunner
 
    turns on console logging (stderr) at the given level.
 
@@ -132,7 +132,7 @@ Logging Methods
 
 
 .. staticmethod:: Logger.enableFileLogging(fileName, [level])
-   :module: roadrunner
+   :module: RoadRunner
 
    turns on file logging to the given file as the given level.
 
@@ -141,28 +141,28 @@ Logging Methods
 
 
 .. staticmethod:: Logger.disableFileLogging()
-   :module: roadrunner
+   :module: RoadRunner
 
    turns off file logging, but has no effect on console logging.
 
 
 
 .. staticmethod:: Logger.getCurrentLevelAsString()
-   :module: roadrunner
+   :module: RoadRunner
 
    get the textural form of the current logging level.
 
 
 
 .. staticmethod:: Logger.getFileName()
-   :module: roadrunner
+   :module: RoadRunner
 
    get the name of the currently used log file.
 
 
 
 .. staticmethod:: Logger.setFormattingPattern(format)
-   :module: roadrunner
+   :module: RoadRunner
 
    Internally, RoadRunner uses the Poco logging framework, so we
    can custom format logging output based on a formatting pattern
@@ -225,14 +225,14 @@ Logging Methods
    :param str format: the logging format string. Must be formatted using the above specifiers. 
 
 .. staticmethod:: Logger.getFormattingPattern()
-   :module: roadrunner
+   :module: RoadRunner
 
    get the currently set formatting pattern.
 
 
 
 .. staticmethod:: Logger.levelToString(level)
-   :module: roadrunner
+   :module: RoadRunner
 
    gets the textual form of a logging level Enum for a given value.
 
@@ -241,7 +241,7 @@ Logging Methods
 
 
 .. staticmethod:: Logger.stringToLevel(s)
-   :module: roadrunner
+   :module: RoadRunner
 
    parses a string and returns a Logger::Level
 
@@ -250,14 +250,14 @@ Logging Methods
 
 
 .. staticmethod:: Logger.getColoredOutput()
-   :module: roadrunner
+   :module: RoadRunner
 
    check if we have colored logging enabled.
 
 
 
 .. staticmethod:: Logger.setColoredOutput(b)
-   :module: roadrunner
+   :module: RoadRunner
 
    enable / disable colored output
 
@@ -265,7 +265,7 @@ Logging Methods
 
 
 .. staticmethod:: Logger.setProperty(name, value)
-   :module: roadrunner
+   :module: RoadRunner
 
    Set the color of the output logging messages.
       
@@ -309,7 +309,7 @@ Logging Methods
 
 
 .. staticmethod:: Logger.log(level, msg)
-   :module: roadrunner
+   :module: RoadRunner
 
    logs a message to the log.
 

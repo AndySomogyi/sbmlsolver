@@ -3,12 +3,12 @@ ___________________________
 
 
 .. class::PyConservedMoietyConverter()
-   :module: roadrunner
+   :module: RoadRunner
 
    Create a new conserved moiety converter. 
 
 .. method:: PyConservedMoietyConverter.setDocument(sbmlOrURI)
-   :module: roadrunner
+   :module: RoadRunner
 
    Sets the source document. This may be either the contents of an sbml docment
    as a string, or the path the the file.
@@ -19,7 +19,7 @@ ___________________________
 
 
 .. method:: PyConservedMoietyConverter.convert()
-   :module: roadrunner
+   :module: RoadRunner
 
    Perform the document conversion.
 
@@ -29,7 +29,7 @@ ___________________________
 
 
 .. method:: PyConservedMoietyConverter.getDocument()
-   :module: roadrunner
+   :module: RoadRunner
 
    Get the converted document contents.
 

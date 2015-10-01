@@ -2,7 +2,7 @@
 Simulation and Integration
 **************************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 Preliminaries
 -------------

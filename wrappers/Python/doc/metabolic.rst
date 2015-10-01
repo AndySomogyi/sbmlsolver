@@ -2,7 +2,7 @@
 Metabolic Control Analysis
 **************************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 Preliminaries
 -------------

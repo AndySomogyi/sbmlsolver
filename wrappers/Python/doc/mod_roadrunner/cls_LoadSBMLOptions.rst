@@ -2,7 +2,7 @@ SBML Compile Options
 _______________________________
 
 .. class:: LoadSBMLOptions()
-   :module: roadrunner
+   :module: RoadRunner
 
    The LoadSBMLOptions object allows tuning a variety of SBML loading and compilations options.
    
@@ -11,7 +11,7 @@ _______________________________
 
 
 .. attribute:: LoadSBMLOptions.conservedMoieties
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    perform conservation analysis.
@@ -25,7 +25,7 @@ _______________________________
   
 
 .. attribute:: LoadSBMLOptions.mutableInitialConditions
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Generate accessor functions to allow changing of initial
@@ -33,13 +33,13 @@ _______________________________
 
 
 .. attribute:: LoadSBMLOptions.noDefaultSelections
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Do not create a default selection list when the model is loaded.
 
 .. attribute:: LoadSBMLOptions.readOnly
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Should the model be recompiled?
@@ -54,7 +54,7 @@ _______________________________
 
 
 .. attribute:: LoadSBMLOptions.recompile
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    If this is set, then a read-only model is generated. A read-only

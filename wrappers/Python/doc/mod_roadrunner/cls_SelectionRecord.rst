@@ -1,5 +1,5 @@
 .. class:: SelectionRecord(str)
-   :module: roadrunner
+   :module: RoadRunner
 
    RoadRunner provides a range of flexible ways of selecting values from
    a simulation. These values can not only be calculated directly via
@@ -103,21 +103,21 @@
 
 
 .. attribute:: SelectionRecord.index
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: int
 
 
 .. attribute:: SelectionRecord.p1
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: str
 
 
 .. attribute:: SelectionRecord.p2
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: str
 
 
 .. attribute:: SelectionRecord.selectionType
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: int
 

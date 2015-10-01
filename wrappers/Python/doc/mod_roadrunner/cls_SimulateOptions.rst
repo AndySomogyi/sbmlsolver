@@ -2,7 +2,7 @@ Controlling Simulation Settings
 _______________________________
 
 .. class:: SimulateOptions(*args)
-   :module: roadrunner
+   :module: RoadRunner
 
    The SimulateOptions object allows tuning a variety of simulation and integration 
    options such as tolerances and time step size. 
@@ -21,14 +21,14 @@ _______________________________
                                from this settings file, if not, the default values are set.
    
 .. attribute:: SimulateOptions.integrator
-   :module: roadrunner
+   :module: RoadRunner
 
    A bitfield which may contain the following options. In python these options are
    also available as separate properties which set the integratorFlags bitfield.
 
 
 .. attribute:: SimulateOptions.amounts
-   :module: roadrunner
+   :module: RoadRunner
       
    
    A list of the variable whose output in the results file is in amount
@@ -37,7 +37,7 @@ _______________________________
       
    
 .. attribute:: SimulateOptions.concentrations
-   :module: roadrunner
+   :module: RoadRunner
       
    
    A list of the variable whose output in the results file is in concentration
@@ -46,7 +46,7 @@ _______________________________
       
    
 .. attribute:: SimulateOptions.duration
-   :module: roadrunner
+   :module: RoadRunner
       
    
    The duration of the simulation run, in the model's units of time. Note, 
@@ -54,7 +54,7 @@ _______________________________
       
    
 .. attribute:: SimulateOptions.end
-   :module: roadrunner
+   :module: RoadRunner
       
    
    The simulation end time. Note, setting the end time automatically sets the 
@@ -62,7 +62,7 @@ _______________________________
       
 	  
 .. attribute:: SimulateOptions.resetModel
-   :module: roadrunner
+   :module: RoadRunner
       
    
    Causes the model to be reset to the original conditions specified
@@ -70,7 +70,7 @@ _______________________________
       
    
 .. attribute:: SimulateOptions.start
-   :module: roadrunner
+   :module: RoadRunner
       
    
    The start time of the simulation time-series data.
@@ -78,7 +78,7 @@ _______________________________
       
    
 .. attribute:: SimulateOptions.steps
-   :module: roadrunner
+   :module: RoadRunner
       
    
    The number of steps at which the output is sampled. The samples are evenly spaced.

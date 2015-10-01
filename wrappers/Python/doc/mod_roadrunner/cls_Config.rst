@@ -45,7 +45,7 @@ Configuration Functions
 -----------------------
 
 .. staticmethod:: Config.setValue(key, value)
-   :module: roadrunner
+   :module: RoadRunner
 
    Set the value of a configuration key. The value must be either a string, integer, double or
    boolean. If one wanted to turn off moiety conservation (this will not have an effect on
@@ -61,14 +61,14 @@ Configuration Functions
 
 
 .. staticmethod:: Config.getConfigFilePath()
-   :module: roadrunner
+   :module: RoadRunner
 
    If roadrunner was able to find a configuration file on the file system, its full path is returned
    here. If no file was found, this returns a empty string. 
 
 
 .. staticmethod:: Config.readConfigFile(path)
-   :module: roadrunner
+   :module: RoadRunner
 
    Read all of the values from a configuration file at the given path. This overrides any previously
    stored configuration. This allows users to have any number of configuration files and load them
@@ -81,7 +81,7 @@ Configuration Functions
    need to use a double back slash, "\\\\".
 
 .. staticmethod:: Config.writeConfigFile(path)
-   :module: roadrunner
+   :module: RoadRunner
 
    Write all of the current configuration values to a file. This could be written to one of the
    default locations, or to any other location, and re-loaded at a later time. 
@@ -95,7 +95,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    perform conservation analysis.
@@ -114,7 +114,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_RECOMPILE
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Should the model be recompiled?
@@ -129,7 +129,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_READ_ONLY
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    If this is set, then a read-only model is generated. A read-only
@@ -142,7 +142,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Generate accessors functions to allow changing of initial
@@ -151,7 +151,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_GVN
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    GVN - This pass performs global value numbering and redundant load
@@ -161,7 +161,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    CFGSimplification - Merge basic blocks, eliminate unreachable blocks,
@@ -171,7 +171,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    InstructionCombining - Combine instructions to form fewer, simple
@@ -182,7 +182,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    DeadInstElimination - This pass quickly removes trivially dead instructions
@@ -193,7 +193,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    DeadCodeElimination - This pass is more powerful than DeadInstElimination,
@@ -203,7 +203,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
 
@@ -211,7 +211,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_USE_MCJIT
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Currently disabled. 
@@ -225,7 +225,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.SIMULATEOPTIONS_MULTI_STEP
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    The MULTI_STEP option tells the solver to take a series of internal steps
@@ -244,7 +244,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: int
 
    RoadRunner by default dynamically generates accessors properties
@@ -255,7 +255,7 @@ here. The variable type of the parameter is listed after the key name.
          
 
 .. attribute:: Config.ROADRUNNER_DISABLE_WARNINGS,
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: int
 
    disable SBML conserved moiety warnings.

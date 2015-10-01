@@ -2,7 +2,7 @@
 Basic Tutorial
 **************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 Import RoadRunner
 -----------------

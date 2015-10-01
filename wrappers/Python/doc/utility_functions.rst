@@ -2,7 +2,7 @@
 Utility Functions
 *****************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 The following methodsprovide basic information about the current roadRunner installation.
 

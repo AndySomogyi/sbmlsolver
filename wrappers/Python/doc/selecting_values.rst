@@ -4,7 +4,7 @@
 Selecting Values
 ****************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 RoadRunner support a wide range of options for selecting SBML and derivative values. Selections can
 be used to either retrive or in many cases, store values. We define SBML values as any element
@@ -77,11 +77,11 @@ Stoichiometry
 
 Experimenting With Selections
 -----------------------------
-One my try individual selection string using the :meth:`RoadRunner.getSelectionValue` method. This
+One my try individual selection string using the :meth:`RoadRunner.getValue` method. This
 takes a selection string, determines if it is valid, and returns the value it selects. For example::
 
 
-    >>> rr.getSelectionValue("cc(S1, J4_KS4)")
+    >>> rr.getValue("cc(S1, J4_KS4)")
         -0.42955738179207886
 
 Even though they are almost always specified by a string, RoadRunner selections are actually

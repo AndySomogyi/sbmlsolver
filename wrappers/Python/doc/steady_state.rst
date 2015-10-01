@@ -2,7 +2,7 @@
 Steady State Analysis
 *********************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 The dynamics of a biochemical network is described by the system equation
 
@@ -36,13 +36,11 @@ decide what values to return. For example the following would retrieve a single 
      array([ 0.54314239])
 
 
-The following methods deal wth steady state analysis:
+The following methods deal with steady state analysis:
 
 .. autosummary::
 
    RoadRunner.steadyStateSelections
-
    RoadRunner.steadyState
-
    RoadRunner.getSteadyStateValues
    
