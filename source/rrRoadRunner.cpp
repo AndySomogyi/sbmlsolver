@@ -878,8 +878,8 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
     delete impl->model;
     impl->model = 0;
 
-	delete impl->mLS;
-	impl->mLS = NULL;
+    delete impl->mLS;
+    impl->mLS = NULL;
 
     if(dict) {
         self.loadOpt = LoadSBMLOptions(dict);
