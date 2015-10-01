@@ -192,7 +192,7 @@ std::string SBMLReader::read(const std::string& str)
         if(has_comp(str))
         {
             Log(Logger::LOG_WARNING) <<
-                    "Unable to flatten odel read from string which has comp "
+                    "Unable to flatten model read from string which has comp "
                     "extension, libSBML needs the full file path for flatening "
                     "to work, ";
         }
