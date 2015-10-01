@@ -97,6 +97,13 @@ C_DECL_SPEC bool rrcCallConv disableLoggingToConsole(void);
 C_DECL_SPEC bool rrcCallConv enableLoggingToFile();
 
 /*!
+ \brief Enable logging to a log file with the specified path
+ \return Returns true if successful, false otherwise
+ \ingroup logging
+*/
+C_DECL_SPEC bool rrcCallConv enableLoggingToFileWithPath(const char* path);
+
+/*!
  \brief Disable logging to logFile
  \return Returns true if successful, false otherwise
  \ingroup logging

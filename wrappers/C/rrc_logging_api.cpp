@@ -36,6 +36,14 @@ bool rrcCallConv enableLoggingToFile()
     catch_bool_macro
 }
 
+bool rrcCallConv enableLoggingToFileWithPath(const char* path)
+{
+    start_try
+        Logger::enableFileLogging(path);
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv disableLoggingToFile()
 {
     start_try

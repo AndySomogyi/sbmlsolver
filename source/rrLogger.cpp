@@ -289,6 +289,8 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         if (fileName.length() == 0) {
             // none given, use one from config.
             realName = Config::getString(Config::LOGGER_LOG_FILE_PATH);
+        } else {
+            realName = fileName;
         }
 
         if (realName.length() == 0) {

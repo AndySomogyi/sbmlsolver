@@ -44,6 +44,7 @@ int main(int argc, char* argv[])
 //     setLogLevel("debug");
 //     setLogLevel("warning");
 //     enableLoggingToFile();
+//     enableLoggingToFileWithPath("/tmp/myrrlog.txt");
 //     {
 //         char* t = getLogFileName();
 //         fprintf(stderr,"Enabling logging to %s\n", t);
