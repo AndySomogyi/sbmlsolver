@@ -220,7 +220,12 @@ std::string SBMLReader::read(const std::string& str)
     // and creates appropriate stream
     Poco::URIStreamOpener &opener = Poco::URIStreamOpener::defaultOpener();
 
-    std::istream* stream = opener.open(str);
+    std::istream* stream = NULL;
+    try {
+      stream = opener.open(str);
+    } catch(Poco::Exception) {
+      // stream should still be NULL
+    }
     if (stream)
     {
         // read the entire http stream into a string and return it.
