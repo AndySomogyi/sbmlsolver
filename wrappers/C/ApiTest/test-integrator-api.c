@@ -210,6 +210,50 @@ int run_test_with_rk4(RRHandle _handle) {
     return 0;
 }
 
+int run_test_with_rk45(RRHandle _handle) {
+    char *settingName, *settingDesc, *settingHint;
+    int settingType;
+    int i;
+    struct RRStringArray *strArray;
+
+    // Simulate with RK4
+
+    setCurrentIntegrator(_handle, "rk45");
+    fprintf(stderr,"Number of instantiated integrators:\t %d\n", getNumInstantiatedIntegrators(_handle));
+
+    // Probe Gillespie integrator
+    fprintf(stderr,"    Description: %s \n", getCurrentIntegratorDescription(_handle));
+    fprintf(stderr,"    Hint: %s \n", getCurrentIntegratorHint(_handle));
+    fprintf(stderr,"    Parameters: %d \n", getNumberOfCurrentIntegratorParameters(_handle));
+
+    strArray = getListOfCurrentIntegratorParameterNames(_handle);
+    for (i = 0; i < strArray->Count; ++i)
+    {
+        settingName = strArray->String[i];
+        settingDesc = getCurrentIntegratorParameterDescription(_handle, settingName);
+        settingHint = getCurrentIntegratorParameterHint(_handle, settingName);
+        settingType = getCurrentIntegratorParameterType(_handle, settingName);
+
+        fprintf(stderr,"    %s\n", settingName);
+        fprintf(stderr,"    Type: %d\n    Description: %s\n    Hint: %s\n\n", settingType, settingDesc, settingHint);
+    }
+
+    fprintf(stderr,"\n  **** RK45 Simulation ****\n\n");
+
+    // reset the model
+    resetToOrigin(_handle);
+
+    // Simulate
+    {
+        RRCDataPtr result;
+        result = simulateEx(_handle, 0, 10, 11);
+        fprintf(stderr,rrCDataToString(result));
+        freeRRCData(result);
+    }
+
+    return 0;
+}
+
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
@@ -289,6 +333,9 @@ int main(int argc, char* argv[])
             return 1;
 
         if(run_test_with_gillespie(_handle))
+            return 1;
+
+        if(run_test_with_rk45(_handle))
             return 1;
     }
 

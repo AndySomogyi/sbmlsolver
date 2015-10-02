@@ -20,6 +20,7 @@
 # include "GillespieIntegrator.h"
 # include "RK4Integrator.h"
 # include "EulerIntegrator.h"
+# include "RK45Integrator.h"
 
 # if RR_USE_CXX11
 #   include <mutex>
@@ -33,6 +34,7 @@ namespace rr
         IntegratorFactory::getInstance().registerIntegrator(new CVODEIntegratorRegistrar());
         IntegratorFactory::getInstance().registerIntegrator(new GillespieIntegratorRegistrar());
         IntegratorFactory::getInstance().registerIntegrator(new RK4IntegratorRegistrar());
+        IntegratorFactory::getInstance().registerIntegrator(new RK45IntegratorRegistrar());
 //         IntegratorFactory::getInstance().registerIntegrator(new EulerIntegratorRegistrar());
     }
 
