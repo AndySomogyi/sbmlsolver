@@ -769,7 +769,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             if(species && !species->getBoundaryCondition())
             {
                 string msg = "Cannot perform moeity conversion when floating "
-                        "species are have events. The floating species, "
+                        "species have events. The floating species, "
                         + species->getId() + " has event " + event->getId() + ".";
                 conservedMoietyException(msg);
             }
