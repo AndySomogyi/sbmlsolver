@@ -82,6 +82,7 @@ set(rrCoreSources
     Dictionary
     GillespieIntegrator
     RK4Integrator
+    RK45Integrator
     NLEQSolver
     rrNLEQInterface
     rrTestSuiteModelSimulation
