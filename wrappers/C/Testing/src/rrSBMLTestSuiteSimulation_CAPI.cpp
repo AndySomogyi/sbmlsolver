@@ -203,6 +203,8 @@ bool RunTest(const string& version, int caseNumber)
         string logFileName;
         string settingsFileName;
 
+        setCurrentIntegratorParameterBoolean(gRR, "stiff", 0);
+
         //Create a log file name
         createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
 
