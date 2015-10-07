@@ -998,18 +998,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getFloatingSpeciesIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(BOUNDARY_SPECIES_IDS)
@@ -1026,18 +1029,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getBoundarySpeciesIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(GLOBAL_PARAMETER_IDS)
@@ -1054,18 +1060,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getGlobalParameterIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(COMPARTMENT_IDS)
@@ -1110,18 +1119,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getReactionIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(SPECIES_INITIAL_CONDITION_IDS)
