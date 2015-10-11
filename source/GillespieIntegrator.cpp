@@ -192,9 +192,10 @@ namespace rr
         // Set default integrator settings.
         addSetting("seed",              defaultSeed(), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
         addSetting("variable_step_size",false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
-        addSetting("initial_time_step", 0.0, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
-        addSetting("minimum_time_step", 0.0, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
-        addSetting("maximum_time_step", 0.0, "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("initial_time_step", 0.0,   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
+        addSetting("minimum_time_step", 0.0,   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("maximum_time_step", 0.0,   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("nonnegative",       false, "Non-negative species only", "Prevents species amounts from going negative during a simulation. (bool)", "(bool) Enforce non-negative species constraint.");
     }
 
 	double GillespieIntegrator::integrate(double t, double hstep)
@@ -295,19 +296,34 @@ namespace rr
 			double sign = (reactionRates[reaction] > 0)
 				- (reactionRates[reaction] < 0);
 
+			bool skip = false;
 
-			for (int i = floatingSpeciesStart; i < stateVectorSize; ++i)
-			{
-				stateVector[i] = stateVector[i]
-					+ getStoich(i - floatingSpeciesStart, reaction)
-					* stoichScale * sign;
+			if (getValueAsBool("nonnegative")) {
+				// skip reactions which cause species amts to become negative
+				for (int i = floatingSpeciesStart; i < stateVectorSize; ++i) {
+					if (stateVector[i]
+						+ getStoich(i - floatingSpeciesStart, reaction)
+						* stoichScale * sign < 0.0) {
+							skip = true;
+							break;
+						}
+				}
+			}
 
-				if (stateVector[i] < 0.0) {
-					Log(Logger::LOG_WARNING) << "Error, negative value of "
-						<< stateVector[i]
-						<< " encountred for floating species "
-						<< model->getFloatingSpeciesId(i - floatingSpeciesStart);
-					t = std::numeric_limits<double>::infinity();
+			if (!skip) {
+				for (int i = floatingSpeciesStart; i < stateVectorSize; ++i)
+				{
+					stateVector[i] = stateVector[i]
+						+ getStoich(i - floatingSpeciesStart, reaction)
+						* stoichScale * sign;
+
+					if (stateVector[i] < 0.0) {
+						Log(Logger::LOG_WARNING) << "Error, negative value of "
+							<< stateVector[i]
+							<< " encountred for floating species "
+							<< model->getFloatingSpeciesId(i - floatingSpeciesStart);
+						t = std::numeric_limits<double>::infinity();
+					}
 				}
 			}
 
@@ -383,5 +399,3 @@ namespace rr
 	}
 
 	} /* namespace rr */
-
-
