@@ -1,8 +1,17 @@
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file LLVMExecutableModel.h
+* @author ETS
+* @copyright Apache License, Version 2.0
+* @date Jun 3, 2013
+* @brief LLVM executable model interface
+**/
+
 /*
- * LLVMExecutableModel.h
- *
- *  Created on: Jun 3, 2013
- *
  * Author: Andy Somogyi,
  *     email decode: V1 = "."; V2 = "@"; V3 = V1;
  *     andy V1 somogyi V2 gmail V3 com
@@ -39,6 +48,11 @@ namespace rrllvm
 
 class ModelResources;
 
+/**
+ * @author ETS
+ * @brief LLVM executable model
+ * @details Interface to LLVM executable model.
+ */
 class RR_DECLSPEC LLVMExecutableModel: public rr::ExecutableModel
 {
 public:
@@ -425,6 +439,15 @@ public:
 public:
     virtual int getNumEvents();
 
+    /**
+     * @brief Get status of event triggers
+     * @author ETS
+     * @details When len <= 0, returns number of events.
+     * Otherwise, sets bits in @ref eventState to the corresponding trigger.
+     * @param[in] len The length of @ref indx
+     * @param[in] indx An index into @ref eventState
+     * @param[out] eventState The state of the event triggers
+     */
     virtual int getEventTriggers(int len, const int *indx, unsigned char *eventState);
 
     /**
