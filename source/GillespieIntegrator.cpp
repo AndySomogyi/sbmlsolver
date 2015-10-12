@@ -50,6 +50,10 @@ namespace rr
         stateVector = new double[stateVectorSize];
         stateVectorRate = new double[stateVectorSize];
 
+        eventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
+        previousEventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
+        eventRoots =  std::vector<double>(model->getEventTriggers(0, 0, 0), 1.);
+
         floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
 
         assert(floatingSpeciesStart >= 0);
@@ -330,6 +334,29 @@ namespace rr
 			// rates could be time dependent
 			model->setTime(t);
 			model->setStateVector(stateVector);
+
+      // events
+      bool triggered = false;
+
+      model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+      model->getEventRoots(t, NULL, eventRoots.size() ? &eventRoots[0] : NULL);
+      std::stringstream ss;
+      for(int k_=0; k_<eventStatus.size(); ++k_) {
+        ss << (int)eventStatus.at(k_) << " ";
+        if (eventStatus.at(k_))
+          triggered = true;
+      }
+      Log(Logger::LOG_DEBUG) << "n events: " << eventStatus.size();
+      Log(Logger::LOG_DEBUG) << ss.str();
+
+      if (triggered) {
+        applyEvents(t, previousEventStatus);
+        Log(Logger::LOG_DEBUG) << "APPLY EVENTS";
+      }
+
+      if (eventStatus.size())
+        memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size()*sizeof(unsigned char));
+
 
 			if (singleStep)
 			{
