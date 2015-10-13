@@ -154,7 +154,6 @@ namespace rr
         double* stoichData;
         std::vector<unsigned char> eventStatus;
         std::vector<unsigned char> previousEventStatus;
-        std::vector<double> eventRoots;
 
         void testRootsAtInitialTime();
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);

@@ -52,7 +52,6 @@ namespace rr
 
         eventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
         previousEventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
-        eventRoots =  std::vector<double>(model->getEventTriggers(0, 0, 0), 1.);
 
         floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
 
@@ -339,19 +338,13 @@ namespace rr
       bool triggered = false;
 
       model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
-      model->getEventRoots(t, NULL, eventRoots.size() ? &eventRoots[0] : NULL);
-      std::stringstream ss;
       for(int k_=0; k_<eventStatus.size(); ++k_) {
-        ss << (int)eventStatus.at(k_) << " ";
         if (eventStatus.at(k_))
           triggered = true;
       }
-      Log(Logger::LOG_DEBUG) << "n events: " << eventStatus.size();
-      Log(Logger::LOG_DEBUG) << ss.str();
 
       if (triggered) {
         applyEvents(t, previousEventStatus);
-        Log(Logger::LOG_DEBUG) << "APPLY EVENTS";
       }
 
       if (eventStatus.size())
