@@ -256,6 +256,10 @@ Model Access
    is converted using the ConservedMoietyConverter. All of the linearly dependent 
    species are replaced with assignment rules and a new set of conserved moiety 
    parameters are introduced. 
+   
+   To enable, type:
+   
+   >>> r.conservedMoietyAnalysis = True
 
 
 Simulation

@@ -598,6 +598,7 @@ State Vector
 Conserved Moieties
 ------------------
 
+Refer to :attr:`RoadRunner.conservedMoietyAnalysis` and :attr:`Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES` for more information.
 
 .. method:: ExecutableModel.getNumConservedMoieties()
    :module: RoadRunner

@@ -98,7 +98,7 @@ here. The variable type of the parameter is listed after the key name.
    :module: RoadRunner
    :annotation: bool
 
-   perform conservation analysis.
+   Perform conservation analysis. By default, this attribute is set as False.
       
    This causes a re-ordering of the species, so results generated
    with this flag enabled can not be compared index wise to results
@@ -110,7 +110,10 @@ here. The variable type of the parameter is listed after the key name.
    Moiety conservation may cause unexpected results, be aware of what it is before enableing. 
 
    Not recommended for time series simulations.
-  
+   
+   To enable, type:
+   
+   >>> roadrunner.Config.setValue(roadrunner.Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, True)  
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_RECOMPILE
