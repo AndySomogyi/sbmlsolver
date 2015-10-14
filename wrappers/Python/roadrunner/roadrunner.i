@@ -1245,6 +1245,12 @@ namespace std { class ostream{}; }
             haveVariableStep = False
             o = self.simulateOptions
 
+            def steps_restore(v):
+                def f():
+                    o.steps = v
+                return f
+            post_tasks.append(steps_restore(o.steps))
+
             # did the options originally have a seed, if so, don't delete it when we're done
             hadSeed = "seed" in o
 
