@@ -1033,7 +1033,7 @@ namespace std { class ostream{}; }
             def mk_fget(sel): return lambda self: self.getModel().__getitem__(sel)
             def mk_fset(sel): return lambda self, val: self.getModel().__setitem__(sel, val)
 
-             
+
             def makeProperty(name, sel):
                 fget = mk_fget(sel)
                 fset = mk_fset(sel)
@@ -1314,6 +1314,10 @@ namespace std { class ostream{}; }
                 # specifying timeCourseSelections:
                 if k == "timeCourseSelections" or k == "sel":
                     self.timeCourseSelections = v
+                    continue
+
+                if k == "steps":
+                    o.steps = v
                     continue
 
                 # reset model, also accept 'reset'
@@ -2576,7 +2580,3 @@ namespace std { class ostream{}; }
         if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
      %}
 }
-
-
-
-
