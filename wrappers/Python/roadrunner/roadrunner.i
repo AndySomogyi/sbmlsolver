@@ -988,6 +988,8 @@ namespace std { class ostream{}; }
         def getModel(self):
             return self._getModel()
 
+        __swig_getmethods__["selections"] = _getSelections # DEPRECATED
+        __swig_setmethods__["selections"] = _setSelections # DEPRECATED
         __swig_getmethods__["timeCourseSelections"] = _getSelections
         __swig_setmethods__["timeCourseSelections"] = _setSelections
         __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
@@ -998,6 +1000,7 @@ namespace std { class ostream{}; }
         __swig_getmethods__["integrator"] = getIntegrator
 
         if _newclass:
+            selections = property(_getSelections, _setSelections)
             timeCourseSelections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
