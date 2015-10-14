@@ -1309,7 +1309,10 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
             // optimiziation for certain getValue operations.
             self.model->setIntegration(true);
 
-            while(tout < timeEnd)
+            int n=0;
+
+            while( tout < timeEnd &&
+              ( !self.simulateOpt.steps || n < self.simulateOpt.steps) )
             {
                 Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
@@ -1325,6 +1328,8 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                 }
                 getSelectedValues(row, tout);
                 results.push_back(row);
+
+                ++n;
             }
         }
         catch (EventListenerException& e)
@@ -3883,5 +3888,3 @@ static void metabolicControlCheck(ExecutableModel *model)
 #if defined(_WIN32)
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this
 #endif
-
-
