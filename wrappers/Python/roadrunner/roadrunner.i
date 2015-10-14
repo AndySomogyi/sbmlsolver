@@ -1320,6 +1320,14 @@ namespace std { class ostream{}; }
                     o.steps = v
                     continue
 
+                if k == "start":
+                    o.start = v
+                    continue
+
+                if k == "end":
+                    o.end = v
+                    continue
+
                 # reset model, also accept 'reset'
                 if k == "reset" or k == "resetModel":
                     o.resetModel = v
