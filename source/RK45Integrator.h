@@ -24,7 +24,8 @@ namespace rr
     /**
      * @author KC
      * @brief A Runge-Kutta Fehlberg method for roadrunner
-     * @details Kiri, please fill this in
+     * @details Uses the Fehlberg method, an adaptive step
+     * method, to integrate models.
      */
     class RK45Integrator: public Integrator
     {
@@ -55,9 +56,17 @@ namespace rr
     public:
 
         /**
-         * @brief Integrates the model from t0 to tf.
+         * @author CC
+         * @brief Integrates the model from t to t + h.
+         * @details Attempts to find the state vector at
+         * t + h, and returns time t + h if successful.
+         * If the integrator does not find a convergent
+         * solution, the state vector is not updated and 
+         * t is returned.
+         * Also calculates a new timestep and saves it 
+         * to a member variable for future use.
          */
-        virtual double integrate(double t0, double tf);
+        virtual double integrate(double t, double h);
 
         /**
          * @brief Restarts the integrator
