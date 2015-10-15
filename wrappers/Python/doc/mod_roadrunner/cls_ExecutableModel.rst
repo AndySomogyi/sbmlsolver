@@ -289,14 +289,7 @@ Boundary Species
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of the boundary species amounts.
-   :rtype: numpy.ndarray.
-
-   given by the order of Ids returned by getBoundarySpeciesIds()
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :returns: an array of the boundary species amounts.
-   :rtype: numpy.ndarray.
-   
+   :rtype: numpy.ndarray
    
    >>> r.model.getBoundarySpeciesAmounts()
    array([ 15.,   0.])
@@ -310,14 +303,7 @@ Boundary Species
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: an array of the boundary species concentrations.
-   :rtype: numpy.ndarray.
-
-   given by the order of Ids returned by getBoundarySpeciesIds()
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :returns: an array of the boundary species concentrations.
-   :rtype: numpy.ndarray.
-
+   :rtype: numpy.ndarray
    
    >>> r.getBoundarySpeciesConcentrations()
    array([ 0.5,   0.])

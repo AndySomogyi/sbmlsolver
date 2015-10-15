@@ -72,7 +72,7 @@ Configuration Functions
 
    Read all of the values from a configuration file at the given path. This overrides any previously
    stored configuration. This allows users to have any number of configuration files and load them
-   at any time. Say someone had to use Windows, and they had a file in thier C: drive, this would be
+   at any time. Say someone had to use Windows, and they had a file in their C: drive, this would be
    loaded via::
      
      Config.readConfigFile("C:/my_config_file.txt")
@@ -104,10 +104,10 @@ here. The variable type of the parameter is listed after the key name.
    with this flag enabled can not be compared index wise to results
    generated otherwise.
 
-   Moiety conservation is only compatable with simple models which do NOT have any events or rules
+   Moiety conservation is only compatible with simple models which do NOT have any events or rules
    which define or alter any floating species, and which have simple constant stoichiometries. 
 
-   Moiety conservation may cause unexpected results, be aware of what it is before enableing. 
+   Moiety conservation may cause unexpected results, be aware of what it is before enabling. 
 
    Not recommended for time series simulations.
    
@@ -158,7 +158,7 @@ here. The variable type of the parameter is listed after the key name.
    :annotation: bool
 
    GVN - This pass performs global value numbering and redundant load
-   elimination cotemporaneously.
+   elimination contemporaneously.
 
 
 
@@ -240,13 +240,13 @@ here. The variable type of the parameter is listed after the key name.
    This is intended to be used in combination with the
    IntegratorListener. It this option is set, and there is a
    IntegratorListener set, RoadRunner::integrate will run the
-   integrator in a series of internal steps, and the listner
+   integrator in a series of internal steps, and the listener
    will by notified at each step.
   
    Highly Experimental!!!
 
 
-.. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
+.. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
    :module: RoadRunner
    :annotation: int
 
@@ -257,7 +257,7 @@ here. The variable type of the parameter is listed after the key name.
    can be disabled here.
          
 
-.. attribute:: Config.ROADRUNNER_DISABLE_WARNINGS,
+.. attribute:: Config.ROADRUNNER_DISABLE_WARNINGS
    :module: RoadRunner
    :annotation: int
 
