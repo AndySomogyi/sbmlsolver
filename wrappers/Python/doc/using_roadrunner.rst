@@ -139,23 +139,23 @@ It is possible to change the simulation result values by changing the selection 
 For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type::
 
-   rr.selections = ['time', 'S2']
+   rr.timeCourseSelections = ['time', 'S2']
    result = rr.simulate (0, 10, 100)
 
 In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we
 type the following::
 
-   rr.selections = ['S1', 'S2']
+   rr.timeCourseSelections = ['S1', 'S2']
    result = rr.simulate(0, 10, 100)
 
 Some additional examples include:
 
    # Select time and two rates of change (dS1/dt and dS2/dt)
-   rr.selections = ['time, 'S1''', 'S2''']
+   rr.timeCourseSelections = ['time, 'S1''', 'S2''']
 
    # By default species names yield amounts, concentrations can be obtained
    # using square brackets, e.g.
-   rr.selections = ['time', '[S1]', '[S2]']
+   rr.timeCourseSelections = ['time', '[S1]', '[S2]']
 
 .. seealso:: More details on :doc:`selecting_values`
 
@@ -203,7 +203,7 @@ object instance, and the second is a flag which tells the method to show the plo
 
       # assume result is a standard numpy array
 
-      selections = r.selections
+      selections = r.timeCourseSelections
 
       if len(result.shape) != 2 or result.shape[1] != len(selections):
           raise Exception("simulation result columns not equal to number of selections,"

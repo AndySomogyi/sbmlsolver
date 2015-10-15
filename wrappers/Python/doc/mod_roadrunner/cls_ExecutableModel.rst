@@ -73,10 +73,28 @@ Floating Species
 .. method:: ExecutableModel.getFloatingSpeciesIds()
    :module: RoadRunner
 	
-   Return a list of floating species SBML ids.
+   Return a list of all floating species SBML ids.
    
    >>> r.getFloatingSpeciesIds()
-   ['S1', 'S2']
+   ['S1', 'S2', 'S3', 'S4']
+   
+
+.. method:: ExecutableModel.getDependentFloatingSpeciesIds()
+   :module: RoadRunner
+   
+   Return a list of dependent floating species SBML ids.
+   
+   >>> r.getDependentFloatingSpeciesIds()
+   ['S4']
+   
+
+.. method:: ExecutableModel.getIndependentFloatingSpeciesIds()
+   :module: RoadRunner
+   
+   Return a list of independent floating species SBML ids.
+   
+   >>> r.getIndependentFloatingSpeciesIds()
+   ['S1', 'S2', 'S3']
 
    
 .. method:: ExecutableModel.getNumFloatingSpecies()
@@ -84,7 +102,7 @@ Floating Species
 
    Return the number of floating species in the model.
    
-   >>> r.getFloatingSpeciesIds()
+   >>> r.getNumFloatingSpecies()
    2
 	 
    
@@ -415,10 +433,18 @@ Global Parameters
 -----------------
 
 
+.. method:: ExecutableModel.getGlobalParameterIds()
+   :module: RoadRunner
+
+   Return a list of global parameter ids.
+
+   :returns: a list of global parameter ids.
+   
+
 .. method:: ExecutableModel.getGlobalParameterValues([index])
    :module: RoadRunner
 
-   Return a vector of global parameter values. The order of species is
+   Returns a vector of global parameter values. The order of species is
    given by the order of Ids returned by getGlobalParameterIds()
 
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
@@ -434,7 +460,7 @@ Global Parameters
    :module: RoadRunner
 
 
-   Return the number of global parameters in the model.
+   Returns the number of global parameters in the model.
    
    >>> r.getNumGlobalParameters()
    5
@@ -443,7 +469,7 @@ Global Parameters
 .. method:: ExecutableModel.setGlobalParameterValues([index], values)
    :module: RoadRunner
 
-   Use this to set the entire set of global parameters in one call.
+   Sets the entire set of global parameters.
    The order of parameters is given by the order of Ids returned by getGlobalParameterIds()
 
 
@@ -498,6 +524,29 @@ Reactions
    >>> r.getReactionRates()
    array([ 0.14979613,  2.37711263,  2.68498886,  2.41265507,  1.89417737])
 
+Events
+------
+
+.. method:: ExecutableModel.getNumEvents()
+   :module: RoadRunner
+   
+   Returns the number of events.
+   
+   >>> r.getNumEvents()
+   1
+   
+   
+Rate Rules
+----------
+
+.. method:: ExecutableModel.getNumRateRules()
+   :module: RoadRunner
+
+   Returns the number of rate rules.
+   
+   >>> r.getNumRateRules()
+   1
+   
 
 Stoichiometry
 -------------
@@ -723,14 +772,7 @@ Misc
    >>> r.model.getTime()
    40.0
 
-
-.. method:: ExecutableModel.reset()
-   :module: RoadRunner
-
-   Reset the floating species concentration to their initial conditions.
-
-
-
+   
 .. method:: ExecutableModel.setTime(time)
    :module: RoadRunner
 
@@ -742,7 +784,24 @@ Misc
    >>> rr.model.setTime(20.)
    >>> rr.model.getTime()
    20.0
+   
+
+.. method:: ExecutableModel.reset()
+   :module: RoadRunner
+
+   Resets all the floating species concentrations to their initial values.
+   
+
+.. method:: ExecutableModel.resetAll()
+   :module: RoadRunner
+
+   Resets all variables, species, etc. to the CURRENT initial values. 
+   It also resets all parameter back to the values they had when the model was first loaded
 
 
+.. method:: ExecutableModel.resetToOrigin()
+   :module: RoadRunner
 
+   Resets the model back to the state is was when it was FIRST loaded.
+   The scope of reset includes all initial values and parameters, etc.
 

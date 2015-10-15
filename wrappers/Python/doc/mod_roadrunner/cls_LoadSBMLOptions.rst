@@ -14,7 +14,7 @@ _______________________________
    :module: RoadRunner
    :annotation: bool
 
-   perform conservation analysis.
+   Performs conservation analysis.
       
    This causes a re-ordering of the species, so results generated
    with this flag enabled can not be compared index wise to results
@@ -28,7 +28,7 @@ _______________________________
    :module: RoadRunner
    :annotation: bool
 
-   Generate accessor functions to allow changing of initial
+   Generates accessor functions to allow changing of initial
    conditions.
 
 
@@ -36,20 +36,20 @@ _______________________________
    :module: RoadRunner
    :annotation: bool
 
-   Do not create a default selection list when the model is loaded.
+   If True, do not create a default selection list when the model is loaded.
 
 .. attribute:: LoadSBMLOptions.readOnly
    :module: RoadRunner
    :annotation: bool
 
    Should the model be recompiled?
-   The LLVM ModelGenerator maintins a hash table of currently running
+   The LLVM ModelGenerator maintains a hash table of currently running
    models. If this flag is NOT set, then the generator will look to see
    if there is already a running instance of the given model and
    use the generated code from that one.
   
    If only a single instance of a model is run, there is no
-   need to cache the models, and this can safetly be enabled,
+   need to cache the models, and this can safely be enabled,
    realizing some performance gains.
 
 
