@@ -9,6 +9,7 @@
 #include <rrExecutableModel.h>
 
 #include <cassert>
+#include <math.h>
 
 extern "C" {
 #include <clapack/f2c.h>

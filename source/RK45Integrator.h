@@ -166,6 +166,11 @@ namespace rr
         */
         double *k1, *k2, *k3, *k4, *y, *ytmp;
 
+        // new scalars for RK45
+        double hCurrent, hmin, hmax;
+
+        double *k5, *k6, *err;
+
         void testRootsAtInitialTime();
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
 
