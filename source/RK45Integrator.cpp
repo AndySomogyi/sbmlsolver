@@ -53,7 +53,9 @@ namespace rr
             err = new double[stateVectorSize];
             y = new double[stateVectorSize];
             ytmp = new double[stateVectorSize];
-            hCurrent = hmin = hmax = 0;
+            hCurrent = 0.;
+            hmin = 1e-12;
+            hmax = 1.0;
         } else {
             stateVectorSize = hCurrent = hmin = hmax = 0;
             k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
@@ -77,13 +79,15 @@ namespace rr
 
     double RK45Integrator::integrate(double t, double h)
     {
+        if (hCurrent != 0.)
+          h = hCurrent;
         // NOTE: @kirichoi, please implement rk45 here
-        static const double epsilon = 1e-12;
-        double tf = 0;
+        static const double epsilon = 1e-6;
+//         double tf = 0;
         bool singleStep;
 
         assert(h > hmin && "h must be > hmin");
-        tf = t + h;
+//         tf = t + h;
         singleStep = false;
 
         if (!model) {
@@ -98,116 +102,139 @@ namespace rr
         integer inc = 1;
         double alpha = 0;
 
-        model->setTime(t);
+        double error, q;
 
-        model->getStateVector(y);
+        do {
+          assert(h > 1e-13);
 
-        // k1 = f(t_n, y_n)
-        model->getStateVectorRate(t, y, k1);
+          model->setTime(t);
 
-        // k2 = f(t_n + h/4, y_n + (h/4) * k_1)
-        alpha = h/4.;
-        dcopy_(&n, y, &inc, ytmp, &inc);
-        daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        model->getStateVectorRate(t + alpha, ytmp, k2);
+          model->getStateVector(y);
 
-        // k3 = f(t_n + 3*h/8, y_n + (3*h/32) * k_1 + (9*h/32) * k_2)
-        alpha = 3*h/32.;
-        dcopy_(&n, y, &inc, ytmp, &inc);
-        daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        alpha = 9*h/32.;
-        daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
-        alpha = 3*h/8.;
-        model->getStateVectorRate(t + alpha, ytmp, k3);
+          // k1 = f(t_n, y_n)
+          model->getStateVectorRate(t, y, k1);
 
-        // k4 = f(t_n + 12*h/13, y_n + (1932*h/2197) * k_1 - (7200*h/2197) * k_2 + (7296*h/2197) * k_3)
-        alpha = 1932*h/2197.;
-        dcopy_(&n, y, &inc, ytmp, &inc);
-        daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        alpha = -7200*h/2197.;
-        daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
-        alpha = 7296*h/2197.;
-        daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
-        alpha = 12*h/13.;
-        model->getStateVectorRate(t + alpha, ytmp, k4);
+          // k2 = f(t_n + h/4, y_n + (h/4) * k_1)
+          alpha = h/4.;
+          dcopy_(&n, y, &inc, ytmp, &inc);
+          daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
+          model->getStateVectorRate(t + alpha, ytmp, k2);
 
-        // k5 = f(t_n + h, y_n + (439*h/216) * k_1 - (8*h) * k_2 + (3680*h/513) * k_3 - (845*h/4104) * k_4)
-        alpha = 439*h/216.;
-        dcopy_(&n, y, &inc, ytmp, &inc);
-        daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        alpha = -8.*h;
-        daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
-        alpha = 3680*h/513.;
-        daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
-        alpha = -845*h/4104.;
-        daxpy_(&n, &alpha, k4, &inc, ytmp, &inc);
-        alpha = h;
-        model->getStateVectorRate(t + alpha, ytmp, k5);
+          // k3 = f(t_n + 3*h/8, y_n + (3*h/32) * k_1 + (9*h/32) * k_2)
+          alpha = 3*h/32.;
+          dcopy_(&n, y, &inc, ytmp, &inc);
+          daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
+          alpha = 9*h/32.;
+          daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
+          alpha = 3*h/8.;
+          model->getStateVectorRate(t + alpha, ytmp, k3);
 
-        // k6 = f(t_n + h/2, y_n - (8*h/27) * k_1 + (2*h) * k_2 - (3544*h/2565) * k_3 + (1859*h/4104) * k_4 - (11*h/40) * k_5)
-        alpha = -8*h/27.;
-        dcopy_(&n, y, &inc, ytmp, &inc);
-        daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        alpha = 2.*h;
-        daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
-        alpha = -3544*h/2565.;
-        daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
-        alpha = 1859*h/4104.;
-        daxpy_(&n, &alpha, k4, &inc, ytmp, &inc);
-        alpha = -11*h/40.;
-        daxpy_(&n, &alpha, k5, &inc, ytmp, &inc);
-        alpha = h/2.;
-        model->getStateVectorRate(t + alpha, ytmp, k6);
+          // k4 = f(t_n + 12*h/13, y_n + (1932*h/2197) * k_1 - (7200*h/2197) * k_2 + (7296*h/2197) * k_3)
+          alpha = 1932*h/2197.;
+          dcopy_(&n, y, &inc, ytmp, &inc);
+          daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
+          alpha = -7200*h/2197.;
+          daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
+          alpha = 7296*h/2197.;
+          daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
+          alpha = 12*h/13.;
+          model->getStateVectorRate(t + alpha, ytmp, k4);
 
-        // E = abs(k1/360 - (128/4275)*k3 - (2197/75240)*k4 + (1/50)*k5 + (2/55)*k6)
-        alpha = 1./360;
-        daxpy_(&n, &alpha, k1, &inc, err, &inc);
-        alpha = -128./4275;
-        daxpy_(&n, &alpha, k3, &inc, err, &inc);
-        alpha = -2197./75240;
-        daxpy_(&n, &alpha, k4, &inc, err, &inc);
-        alpha = 1./50;
-        daxpy_(&n, &alpha, k5, &inc, err, &inc);
-        alpha = 2./55;
-        daxpy_(&n, &alpha, k6, &inc, err, &inc);
-        double error = dnrm2_(&n, err, &inc);
-        double q = 0.84*pow(epsilon/error, 0.25);
+          // k5 = f(t_n + h, y_n + (439*h/216) * k_1 - (8*h) * k_2 + (3680*h/513) * k_3 - (845*h/4104) * k_4)
+          alpha = 439*h/216.;
+          dcopy_(&n, y, &inc, ytmp, &inc);
+          daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
+          alpha = -8.*h;
+          daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
+          alpha = 3680*h/513.;
+          daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
+          alpha = -845*h/4104.;
+          daxpy_(&n, &alpha, k4, &inc, ytmp, &inc);
+          alpha = h;
+          model->getStateVectorRate(t + alpha, ytmp, k5);
 
-        if (error <= epsilon) {
+          // k6 = f(t_n + h/2, y_n - (8*h/27) * k_1 + (2*h) * k_2 - (3544*h/2565) * k_3 + (1859*h/4104) * k_4 - (11*h/40) * k_5)
+          alpha = -8*h/27.;
+          dcopy_(&n, y, &inc, ytmp, &inc);
+          daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
+          alpha = 2.*h;
+          daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
+          alpha = -3544*h/2565.;
+          daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
+          alpha = 1859*h/4104.;
+          daxpy_(&n, &alpha, k4, &inc, ytmp, &inc);
+          alpha = -11*h/40.;
+          daxpy_(&n, &alpha, k5, &inc, ytmp, &inc);
+          alpha = h/2.;
+          model->getStateVectorRate(t + alpha, ytmp, k6);
 
-          // k_1 = k_1 + (1408/1565)*(216/25) k_3
-          alpha = (1408./2565)*(216./25);
-          daxpy_(&n, &alpha, k3, &inc, k1, &inc);
+          // E = abs(k1/360 - (128/4275)*k3 - (2197/75240)*k4 + (1/50)*k5 + (2/55)*k6)
+          alpha = 1./360;
+          daxpy_(&n, &alpha, k1, &inc, err, &inc);
+          alpha = -128./4275;
+          daxpy_(&n, &alpha, k3, &inc, err, &inc);
+          alpha = -2197./75240;
+          daxpy_(&n, &alpha, k4, &inc, err, &inc);
+          alpha = 1./50;
+          daxpy_(&n, &alpha, k5, &inc, err, &inc);
+          alpha = 2./55;
+          daxpy_(&n, &alpha, k6, &inc, err, &inc);
+          error = dnrm2_(&n, err, &inc);
+          q = 0.84*pow(epsilon/error, 0.25);
 
-          // k_1 = (k_1 + (1408/2565)*(216/25) k_3) + (2197/4104)*(216/25) k_4
-          alpha = (2197./4104)*(216./25);
-          daxpy_(&n, &alpha, k4, &inc, k1, &inc);
+          Log(Logger::LOG_DEBUG) <<
+                "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << epsilon << ", h = " << h;
+          if (error <= epsilon) {
+
+            Log(Logger::LOG_DEBUG) <<
+                  "RK45: Update state vector";
+
+            // k_1 = k_1 + (1408/1565)*(216/25) k_3
+            alpha = (1408./2565)*(216./25);
+            daxpy_(&n, &alpha, k3, &inc, k1, &inc);
+
+            // k_1 = (k_1 + (1408/2565)*(216/25) k_3) + (2197/4104)*(216/25) k_4
+            alpha = (2197./4104)*(216./25);
+            daxpy_(&n, &alpha, k4, &inc, k1, &inc);
 
 
-          // k_1 = (k_1 + (1408/2565)*(216/25) k_3 + (2197/4104)*(216/25) k_4) - (1/5)*(216/25) k_5
-          alpha = (-1./5)*(216./25);
-          daxpy_(&n, &alpha, k5, &inc, k1, &inc);
+            // k_1 = (k_1 + (1408/2565)*(216/25) k_3 + (2197/4104)*(216/25) k_4) - (1/5)*(216/25) k_5
+            alpha = (-1./5)*(216./25);
+            daxpy_(&n, &alpha, k5, &inc, k1, &inc);
 
-          // y_{n+1} = y + h*((25/216)*k_1 + (1408/2565)*k_3 + (2197/4104)*k_4 - (1/5)*k_5);
-          alpha = h*(25./216);
+            // y_{n+1} = y + h*((25/216)*k_1 + (1408/2565)*k_3 + (2197/4104)*k_4 - (1/5)*k_5);
+            alpha = h*(25./216);
 
-          daxpy_(&n, &alpha, k1, &inc, y, &inc);
+            daxpy_(&n, &alpha, k1, &inc, y, &inc);
 
-          model->setTime(t + h);
-          model->setStateVector(y);
-          t = t + h;
-	}
-        
-        if (q <= 0.1) {
-          h = 0.1*h;
-        } else if (q > 4) {
-          h = 4*h;
-	} else {
-          h = q*h;
-	}
-        if (h > hmax) { h = hmax; }
+            model->setTime(t + h);
+            model->setStateVector(y);
+            t = t + h;
+
+            int sv_size = 2;
+            double* values_x_ = new double[sv_size];
+            model->getFloatingSpeciesConcentrations(sv_size, NULL, values_x_);
+            for(int i=0; i<sv_size; ++i) {
+              Log(Logger::LOG_DEBUG) << "  " << values_x_[i];
+            }
+          }
+
+          if (q <= 0.1) {
+            h = 0.1*h;
+          } else if (q > 4) {
+            h = 4*h;
+          } else {
+            h = q*h;
+          }
+
+          if (h > hmax) { h = hmax; }
+
+        } while ( error > epsilon );
+
         hCurrent = h;
 
+          Log(Logger::LOG_DEBUG) <<
+                "RK45: end of step";
         return t;
     }
 
