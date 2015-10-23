@@ -56,6 +56,7 @@ namespace rr
             hCurrent = 0.;
             hmin = 1e-12;
             hmax = 1.0;
+            initial_hStep = 0.1;
         } else {
             stateVectorSize = hCurrent = hmin = hmax = 0;
             k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
@@ -77,8 +78,9 @@ namespace rr
         delete []ytmp;
     }
 
-    double RK45Integrator::integrate(double t, double h)
+    double RK45Integrator::integrate(double t, double tEnd)
     {
+        double h = initial_hStep;
         if (hCurrent != 0.)
           h = hCurrent;
         // NOTE: @kirichoi, please implement rk45 here
