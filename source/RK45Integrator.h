@@ -171,8 +171,6 @@ namespace rr
 
         double *k5, *k6, *err;
 
-        double initial_hStep;
-
         void testRootsAtInitialTime();
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
 

@@ -42,6 +42,8 @@ namespace rr
 
         model = m;
 
+        resetSettings();
+
         if (model) {
             stateVectorSize = model->getStateVector(NULL);
             k1 = new double[stateVectorSize];
@@ -54,15 +56,12 @@ namespace rr
             y = new double[stateVectorSize];
             ytmp = new double[stateVectorSize];
             hCurrent = 0.;
-            hmin = 1e-12;
-            hmax = 1.0;
-            initial_hStep = 0.1;
+            hmin = getValueAsDouble("minimum_time_step"); // TODO: replace hmin with getValueAsDouble("minimum_time_step")
+            hmax = getValueAsDouble("maximum_time_step"); // TODO: replace hmax with getValueAsDouble("maximum_time_step")
         } else {
             stateVectorSize = hCurrent = hmin = hmax = 0;
             k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
         }
-
-        resetSettings();
     }
 
     RK45Integrator::~RK45Integrator()
@@ -80,11 +79,11 @@ namespace rr
 
     double RK45Integrator::integrate(double t, double tEnd)
     {
-        double h = initial_hStep;
+        double h = getValueAsDouble("initial_time_step");
         if (hCurrent != 0.)
           h = hCurrent;
         // NOTE: @kirichoi, please implement rk45 here
-        static const double epsilon = 1e-6;
+//         static const double epsilon = 1e-3;
 //         double tf = 0;
         bool singleStep;
 
@@ -182,11 +181,11 @@ namespace rr
           alpha = 2./55;
           daxpy_(&n, &alpha, k6, &inc, err, &inc);
           error = dnrm2_(&n, err, &inc);
-          q = 0.84*pow(epsilon/error, 0.25);
+          q = 0.84*pow(getValueAsDouble("epsilon")/error, 0.25);
 
           Log(Logger::LOG_DEBUG) <<
-                "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << epsilon << ", h = " << h;
-          if (error <= epsilon) {
+                "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
+          if (error <= getValueAsDouble("epsilon")) {
 
             Log(Logger::LOG_DEBUG) <<
                   "RK45: Update state vector";
@@ -231,7 +230,7 @@ namespace rr
 
           if (h > hmax) { h = hmax; }
 
-        } while ( error > epsilon );
+        } while ( error > getValueAsDouble("epsilon") );
 
         hCurrent = h;
 
@@ -325,7 +324,7 @@ namespace rr
     Variant RK45Integrator::getValue(std::string key)
     {
         if (key == "variable_step_size")
-            return false;
+            return true;
         else
             return Integrator::getValue(key);
     }
@@ -338,6 +337,12 @@ namespace rr
     void RK45Integrator::resetSettings()
     {
         Solver::resetSettings();
+
+        addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
+        addSetting("initial_time_step",  0.5, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
+        addSetting("minimum_time_step",  1e-12, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("maximum_time_step",  1.0, "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("epsilon",  1e-3, "Maximum error", "TODO: fill in. (double)", "(double) TODO: fill in.");
     }
 
 } /* namespace rr */
