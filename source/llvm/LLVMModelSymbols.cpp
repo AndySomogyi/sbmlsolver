@@ -180,7 +180,8 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
     const Species *species = 0;
     const SpeciesReference *reference = 0;
 
-    assert(element && "element must not be NULL");
+    if (!element)
+        throw LLVMException("LLVMModelSymbols: Unable to process element");
 
     if ((comp = dynamic_cast<const Compartment*>(element)))
     {
