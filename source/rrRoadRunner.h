@@ -376,6 +376,13 @@ public:
     std::vector<std::string> getDependentFloatingSpeciesIds();
 
     /**
+      * @brief Gets the ids for all initial floating species concentrations
+      * @details See @ref getIndependentFloatingSpeciesIds for an explanation
+      * of independent vs. dependent.
+      */
+    std::vector<std::string> getFloatingSpeciesInitialConcentrationIds();
+
+    /**
      * returns a bit field of the ids that this class supports.
      */
     int getSupportedIdTypes();

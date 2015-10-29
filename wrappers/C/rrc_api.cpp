@@ -1274,6 +1274,15 @@ RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle hand
     catch_ptr_macro
 }
 
+RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConcentrationIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        StringList aList = rri->getFloatingSpeciesInitialConcentrationIds();
+        return createList(aList);
+    catch_ptr_macro
+}
+
 RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr vec)
 {
     start_try

@@ -3811,6 +3811,17 @@ vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
+vector<string> RoadRunner::getFloatingSpeciesInitialConcentrationIds()
+{
+    std::list<std::string> list;
+
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::INITIAL_FLOATING_CONCENTRATION, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
 vector<string> RoadRunner::getReactionIds()
 {
     std::list<std::string> list;

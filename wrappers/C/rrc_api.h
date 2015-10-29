@@ -1535,6 +1535,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle h
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations (RRHandle handle);
 
 /*!
+ \deprecated Use @ref getFloatingSpeciesInitialConcentrationIds
  \brief Get the initial floating species Ids
 
  Example: \code vec = getFloatingSpeciesInitialConditionIds (RRHandle handle); \endcode
@@ -1544,6 +1545,18 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations (RRH
  \ingroup initialConditions
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle);
+
+/*!
+ \brief Get the initial floating species Ids
+
+ Example: \code vec = getFloatingSpeciesInitialConcentrationIds (RRHandle handle); \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails otherwise returns a vector containing names of the floating species
+ \ingroup initialConditions
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConcentrationIds(RRHandle handle);
+
 
 // --------------------------------------------------------------------------------
 // Reaction rates
