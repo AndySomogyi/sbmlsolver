@@ -109,13 +109,22 @@ static bool isStoichDefined(const SpeciesReference* s) {
 bool isStoichDefined(const std::string sbml) {
     SBMLDocument *doc = NULL;
 
+    if(sbml.substr(0,5) != "<?xml")
+      throw std::runtime_error("SBML document must begin with an XML declaration");
+
     try {
         doc =  readSBMLFromString (sbml.c_str());
+
+        if (!doc)
+          throw std::runtime_error("Unable to read SBML");
 
         if (doc->getLevel() < 3)
             return true;                                    // stoichiometry has a default value in level 1 & 2
 
         const Model *m = doc->getModel();
+
+        if (!m)
+          throw std::runtime_error("SBML string invalid or missing model");
 
         for (int j = 0; j<m->getNumReactions(); ++j) {
             const Reaction* r = m->getReaction(j);
