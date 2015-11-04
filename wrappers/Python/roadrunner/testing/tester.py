@@ -238,8 +238,8 @@ def checkIndividualEigenvalues(rrInstance, testId):
         for i in range(0,m):
             words = divide(readLine())
             eigenvalueName = words[0]
-            calc = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
-            calc = complex(calc, rrInstance.getValue('eigenc(' + eigenvalueName + ')'))
+            calc = rrInstance.getValue ('eigenReal(' + eigenvalueName + ')')
+            calc = complex(calc, rrInstance.getValue('eigenImag(' + eigenvalueName + ')'))
             expected = complex(float(words[1]), float(words[2]))
 
             if expectApproximately (calc, expected, abs(calc+1e-7)*1E-4) == False:
@@ -260,7 +260,7 @@ def checkIndividualAmountEigenvalues(rrInstance, testId):
         for i in range(0,m):
             words = divide(readLine())
             eigenvalueName = words[0]
-            realPart = rrInstance.getValue ('eigen(' + eigenvalueName + ')')
+            realPart = rrInstance.getValue ('eigenReal(' + eigenvalueName + ')')
             realPart = float (realPart)
 
             if expectApproximately (realPart, float(words[1]), 1E-5) == False:
