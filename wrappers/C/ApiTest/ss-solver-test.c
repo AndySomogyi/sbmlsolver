@@ -178,10 +178,18 @@ int main(int argc, char* argv[])
         // print info on available time course symbols
         {
             RRListPtr syms = getAvailableTimeCourseSymbols(_handle);
-            fprintf(stderr, "\n  Time Course Selections\n");
+            fprintf(stderr, "\n  Time Course Symbols\n");
             if(syms)
               print_list(stderr, syms, 4, 1);
 //             freeRRList(syms);
+        }
+
+        // print info on available steady state symbols
+        {
+            RRListPtr syms = getAvailableSteadyStateSymbols(_handle);
+            fprintf(stderr, "\n  Steady State Symbols\n");
+            if(syms)
+              print_list(stderr, syms, 4, 1);
         }
 
         // print info for current steady state solver
