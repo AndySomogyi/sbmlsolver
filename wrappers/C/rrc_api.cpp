@@ -2259,6 +2259,7 @@ ArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr)
 {
     ArrayList oResult;
     oResult.Add("Time",                             sel_getTime(rr) );
+    oResult.Add("Floating Species",                 sel_getFloatingSpeciesConcSymbols(rr) );
     oResult.Add("Boundary Species",                 sel_getBoundarySpeciesConcSymbols(rr) );
     oResult.Add("Floating Species (amount)",        rr->getFloatingSpeciesIds() );
     oResult.Add("Boundary Species (amount)",        rr->getBoundarySpeciesIds() );
