@@ -101,8 +101,8 @@ namespace rr
         // blas daxpy: y -> y + \alpha x
         integer n = stateVectorSize;
         integer inc = 1;
+        integer i;
         double alpha = 0;
-
         double error, q;
 
         do {
@@ -170,6 +170,9 @@ namespace rr
           model->getStateVectorRate(t + alpha, ytmp, k6);
 
           // E = abs(k1/360 - (128/4275)*k3 - (2197/75240)*k4 + (1/50)*k5 + (2/55)*k6)
+          for (i = 0; i < stateVectorSize; i++) {
+            err[i] = 0.;
+	  }
           alpha = 1./360;
           daxpy_(&n, &alpha, k1, &inc, err, &inc);
           alpha = -128./4275;
@@ -184,39 +187,35 @@ namespace rr
           q = 0.84*pow(getValueAsDouble("epsilon")/error, 0.25);
 
           Log(Logger::LOG_DEBUG) <<
-                "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
+	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
           if (error <= getValueAsDouble("epsilon")) {
 
             Log(Logger::LOG_DEBUG) <<
                   "RK45: Update state vector";
 
-            // k_1 = k_1 + (1408/1565)*(216/25) k_3
-            alpha = (1408./2565)*(216./25);
-            daxpy_(&n, &alpha, k3, &inc, k1, &inc);
+            // y = y + (1408*h/2565) k_3
+            alpha = 1408.*h/2565;
+            daxpy_(&n, &alpha, k3, &inc, y, &inc);
 
-            // k_1 = (k_1 + (1408/2565)*(216/25) k_3) + (2197/4104)*(216/25) k_4
-            alpha = (2197./4104)*(216./25);
-            daxpy_(&n, &alpha, k4, &inc, k1, &inc);
+            // y = y + (1408/2565)*h k_3) + (2197/4104)*h k_4
+            alpha = (2197./4104)*h;
+            daxpy_(&n, &alpha, k4, &inc, y, &inc);
 
 
-            // k_1 = (k_1 + (1408/2565)*(216/25) k_3 + (2197/4104)*(216/25) k_4) - (1/5)*(216/25) k_5
-            alpha = (-1./5)*(216./25);
-            daxpy_(&n, &alpha, k5, &inc, k1, &inc);
+            // y = (y + (1408/2565)*h k_3 + (2197/4104)*h k_4) - (1/5)*h k_5
+            alpha = (-1./5)*h;
+            daxpy_(&n, &alpha, k5, &inc, y, &inc);
 
-            // y_{n+1} = y + h*((25/216)*k_1 + (1408/2565)*k_3 + (2197/4104)*k_4 - (1/5)*k_5);
-            alpha = h*(25./216);
-
+            // y = y + (25/216)*h k_1 + (1408/2565)*h k_3 + (2197/4104)*h k_4 - (1/5)*h k_5
+            alpha = (25./216)*h;
             daxpy_(&n, &alpha, k1, &inc, y, &inc);
 
             model->setTime(t + h);
             model->setStateVector(y);
             t = t + h;
 
-            int sv_size = 2;
-            double* values_x_ = new double[sv_size];
-            model->getFloatingSpeciesConcentrations(sv_size, NULL, values_x_);
-            for(int i=0; i<sv_size; ++i) {
-              Log(Logger::LOG_DEBUG) << "  " << values_x_[i];
+            for(int i=0; i<stateVectorSize; ++i) {
+              Log(Logger::LOG_DEBUG) << "  " << y[i];
             }
           }
 
@@ -230,9 +229,11 @@ namespace rr
 
           if (h > hmax) { h = hmax; }
 
-        } while ( error > getValueAsDouble("epsilon") );
+        } while ( error > getValueAsDouble("epsilon") && h > hmin );
 
         hCurrent = h;
+        if (tEnd - t < hCurrent)
+          hCurrent = tEnd - t;
 
           Log(Logger::LOG_DEBUG) <<
                 "RK45: end of step";
@@ -342,7 +343,7 @@ namespace rr
         addSetting("initial_time_step",  0.5, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
         addSetting("minimum_time_step",  1e-12, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("maximum_time_step",  1.0, "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("epsilon",  1e-3, "Maximum error", "TODO: fill in. (double)", "(double) TODO: fill in.");
+        addSetting("epsilon",  1e-12, "Maximum error", "TODO: fill in. (double)", "(double) TODO: fill in.");
     }
 
 } /* namespace rr */
