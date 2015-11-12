@@ -10,7 +10,7 @@ The following methodsprovide basic information about the current roadRunner inst
 Information Group
 -----------------
 
-``rr.getInfo()`` returns useful information about libRoadRunner's current state::
+:meth:`RoadRunner.getInfo` returns useful information about libRoadRunner's current state::
 
    >>> print rr.getInfo()
    Model Loaded: false
@@ -22,7 +22,7 @@ Information Group
    Working Directory: C:\dev\eclipse
 
 
-``rr.getVersionStr`` returns specific information Strings based on arguments passed to it. 
+:meth:`roadrunner.getVersionStr` returns specific information Strings based on arguments passed to it. 
 For example to get the libSBML version used, you can::
 
    >>> import roadrunner

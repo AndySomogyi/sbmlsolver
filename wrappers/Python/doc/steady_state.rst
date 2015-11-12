@@ -28,11 +28,11 @@ The call to ``steadyState`` returns a value that represents the sum of squares o
 smaller this value the more likely the steady state solution has been found. Often a value less that 10E-6 indicates
 a steady state has been found. After a successful call all the species levels will be at their steady state values.
 
-Steady state values can be obtained using ``rr.getSteadyStateValues()`` and ``steadyStateSelections`` can be used to 
+Steady state values can be obtained using :meth:`RoadRunner.getSteadyStateValues` and :meth:`RoadRunner.steadyStateSelections` can be used to 
 decide what values to return. For example the following would retrieve a single value:
 
      >>> rr.steadyStateSelections = ['S1']
-     >>> rr.getSteadyStateValues ()
+     >>> rr.getSteadyStateValues()
      array([ 0.54314239])
 
 

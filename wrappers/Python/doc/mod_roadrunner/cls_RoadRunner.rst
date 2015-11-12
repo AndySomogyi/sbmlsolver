@@ -172,7 +172,8 @@ Selections
 
 .. method:: RoadRunner.getValue(sel)
 
-   Returns the value for a given selection.
+   Returns the value for a given selection. For more information on accepted selection types
+   see :ref:`Selecting Values <selecting-values>`.
 
    :param sel: a selection that is either a string or a SelectionRecord that was
                obtained from createSelection
@@ -193,6 +194,7 @@ Selections
    :module: RoadRunner
             
    Get or set the list of current selections used for the time course simulation result columns. 
+   For more information on accepted selection types, see :ref:`Selecting Values <selecting-values>`.
    
    >>> rr.timeCourseSelections = ['time', 'S1', 'S2']
    >>> rr.timeCourseSelections
