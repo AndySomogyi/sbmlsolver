@@ -254,7 +254,7 @@ SUITE(TEST_MODEL)
         CHECK(gRR!=NULL);
         bool res = setComputeAndAssignConservationLaws(gRR, true);
         CHECK(res);
-        clog<<"\nConversation laws: "<<res<<endl;
+        clog<<"\nConservation laws: "<<res<<endl;
     }
 
     TEST(SET_STEADY_STATE_SELECTION_LIST)
