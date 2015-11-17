@@ -390,6 +390,8 @@ namespace rr
 
 		// Set itask based on step size settings.
 		int itask = CV_NORMAL;
+		bool varstep = getValueAsBool("variable_step_size");
+		double relTol = getValueAsDouble("relative_tolerance");
 
 		if (getValueAsBool("multiple_steps") || getValueAsBool("variable_step_size"))
 		{
@@ -432,7 +434,7 @@ namespace rr
 			{
 				Log(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
 
-				bool tooCloseToStart = fabs(timeEnd - lastEventTime) > getValueAsDouble("relative_tolerance");
+				bool tooCloseToStart = fabs(timeEnd - lastEventTime) > relTol;
 
 				if(tooCloseToStart)
 				{
@@ -448,7 +450,7 @@ namespace rr
 				{
 					lastEventTime = timeEnd;
 
-					if(getValueAsBool("variable_step_size")
+					if(varstep
 							&& (timeEnd - timeStart > 2. * epsilon)) {
 						variableStepPendingEvent = true;
 						assignResultsToModel();
@@ -476,7 +478,7 @@ namespace rr
 
 				// need to check if an event occured at the exact time step,
 				// if so, add an extra point if we're doing variable step
-				if(getValueAsBool("variable_step_size")
+				if(varstep
 						&& (timeEnd - timeStart > 2. * epsilon)) {
 					// event status before time step
 					mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
@@ -522,7 +524,7 @@ namespace rr
 				Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
 			}
 
-			if (getValueAsBool("variable_step_size") && (timeEnd - timeStart > 2. * epsilon))
+			if (varstep && (timeEnd - timeStart > 2. * epsilon))
 			{
 				return timeEnd;
 			}
