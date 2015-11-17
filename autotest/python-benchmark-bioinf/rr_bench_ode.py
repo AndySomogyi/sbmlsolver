@@ -15,9 +15,6 @@ from sys import stderr, stdout, exit
 absolute_tol_default = 1.000000e-007
 rel_tol_default = 0.0001
 
-roadrunner.Config.setValue(roadrunner.Config.SIMULATEOPTIONS_ABSOLUTE, absolute_tol_default)
-roadrunner.Config.setValue(roadrunner.Config.SIMULATEOPTIONS_RELATIVE, rel_tol_default)
-
 tests = [ \
   ('jean_marie', "./jean_marie/Jean_Marie_AMPA16_RobHow_v6.xml", 0.234, 0.024),
   ('jana_wolf', "./jana_wolf/Jana_WolfGlycolysis.xml", 0.189, 0.357),
@@ -45,6 +42,9 @@ csvwriter = csv.writer(stdout, delimiter=',', quotechar='"', quoting=csv.QUOTE_M
 # set to true if performance regression detected
 regDetected = False
 
+def formatTime(t):
+  return round(t,4)
+
 def timeit(name, path, loadTimeCap, runTimeCap):
   print('Model: {}'.format(name), file=stderr)
   startTime = time.time()
@@ -53,8 +53,11 @@ def timeit(name, path, loadTimeCap, runTimeCap):
 
   # Load the model
   r=roadrunner.RoadRunner(path)
-  #if name == '00500':
-    #time.sleep(1)
+
+  # use these settings for consistent performance
+  r.getIntegrator().setValue('relative_tolerance', rel_tol_default)
+  r.getIntegrator().setValue('absolute_tolerance', absolute_tol_default)
+  r.getIntegrator().setValue('stiff', False)
 
   loadTime = time.time()
   if loadTime-startTime > loadTimeCap:
@@ -67,7 +70,7 @@ def timeit(name, path, loadTimeCap, runTimeCap):
     regDetected = True
     passFail = '***FAIL***'
 
-  csvwriter.writerow([name, loadTime-startTime, endTime-loadTime, endTime-startTime, passFail])
+  csvwriter.writerow([name, formatTime(loadTime-startTime), formatTime(endTime-loadTime), formatTime(endTime-startTime), passFail])
 
 # First row in output: Version info
 print(roadrunner.__version__, file=stderr)
