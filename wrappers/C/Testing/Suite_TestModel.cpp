@@ -77,6 +77,8 @@ void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
     {
         for (int j = 0; j < ref.CSize(); j++)
         {
+            if (abs(ref(i, j) - calc(i, j)) > abs((ref(i,j)+1e-7)*1e-4))
+              clog <<  "check close failed zzxx\n";
             CHECK_CLOSE(ref(i, j), calc(i, j), abs((ref(i,j)+1e-7)*1e-4));
         }
     }
