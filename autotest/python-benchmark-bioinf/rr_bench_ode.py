@@ -17,8 +17,8 @@ rel_tol_default = 0.0001
 
 tests = [ \
   ('jean_marie', "./jean_marie/Jean_Marie_AMPA16_RobHow_v6.xml", 0.25, 0.024),
-  ('jana_wolf', "./jana_wolf/Jana_WolfGlycolysis.xml", 0.25, 0.357),
-  ('biomod14', "./biomod14/BIOMD0000000014.xml", 0.886, 0.04),
+  ('jana_wolf', "./jana_wolf/Jana_WolfGlycolysis.xml", 0.3, 0.357),
+  ('biomod14', "./biomod14/BIOMD0000000014.xml", 1.000, 0.04),
   ('biomod33', "./biomod33/BIOMD0000000033.xml", 0.191, 0.09),
   ('00001',   "./00001/00001-sbml-l2v4.xml",     0.084, 0.03),
   ('00002',   "./00002/00002-sbml-l2v4.xml",     0.086, 0.03),
