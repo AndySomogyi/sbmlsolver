@@ -303,7 +303,7 @@ endif(INSTALL_CXX_API)
 
 add_subdirectory(wrappers)
 
-if(BUILD_TEST_TOOLS)
+if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     message(STATUS "building tests")
     add_subdirectory(testing)
     add_subdirectory(autotest)
