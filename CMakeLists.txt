@@ -305,6 +305,7 @@ add_subdirectory(wrappers)
 
 if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     message(STATUS "building tests")
+    file( COPY testing DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
     add_subdirectory(testing)
     add_subdirectory(autotest)
 else()

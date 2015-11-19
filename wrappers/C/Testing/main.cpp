@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
 
     //Finish outputs result to xml file
     runner1.Finish();
-    return 0;
+    return runner1.GetTestResults()->GetFailureCount();
 }
 
 bool setup(Args& args)

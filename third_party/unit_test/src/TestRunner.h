@@ -48,6 +48,8 @@ public:
 	}
 	int Finish() const;
 
+	TestResults* GetTestResults() { return m_result; }
+
 private:
 	TestReporter* m_reporter;
 	TestResults* m_result;

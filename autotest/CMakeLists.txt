@@ -7,8 +7,13 @@
 # @author JKM(0u812)
 # @date 07/01/2015
 # @copyright Apache License, Version 2.0
-# @brief Automated unit tests
+# @brief Unit tests
+# @details Tests can be run via ctest -VV
 
+# compiled test suite, including SBML benchmark
+add_subdirectory(compiled-test-suite)
+
+# performance benchmark (adapted from published benchmark in bioinformatics, 2015)
 if(BUILD_PYTHON)
   file(COPY python-benchmark-bioinf DESTINATION .)
 
