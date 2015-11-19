@@ -903,8 +903,7 @@ def checkControlCoefficient(rrInstance, testId):
 
 
 def scriptTests():
-    print
-    print("Testing Set and Get Functions")
+    print("\nTesting Set and Get Functions")
     print("-----------------------------")
     setGetValues(rrInstance.getFloatingSpeciesIds(), 'Set/Get Value (Floats)')
     setGetValues(rrInstance.getBoundarySpeciesIds(), 'Set/Get Value (Boundary)')
