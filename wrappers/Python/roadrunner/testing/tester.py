@@ -1063,3 +1063,5 @@ def runTester (testDir=None):
     print("\n\nTotal failed tests:\t", gFailedTests, \
     "\nTotal unknown tests:\t", unknownTests, \
     "\nTotal passed tests:\t", gPassedTests)
+
+    return gFailedTests

@@ -14,4 +14,4 @@ __version__ = getVersionStr()
 
 def runTests(testDir=None):
   import testing
-  testing.tester.runTester(testDir)
+  return testing.tester.runTester(testDir)
