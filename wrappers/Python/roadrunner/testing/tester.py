@@ -15,6 +15,7 @@
 # Change this line for different test files
 #nameOfResultsFile = 'results_roadRunnerTest_1.txt'
 
+from __future__ import print_function
 
 import random
 import string
@@ -173,7 +174,7 @@ def checkSpeciesConcentrations(rrInstance, testId):
         species.append (words)
 
     # Steady State Concentrations
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     for i in range (0,m):
         expectedValue =  float (species[i][1])
@@ -188,7 +189,7 @@ def checkSteadyStateFluxes(rrInstance, testId):
     fluxes = []
     # Steady State Fluxes
     print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState())
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.model.getNumReactions();
     for i in range (0,n):
@@ -206,7 +207,7 @@ def checkSteadyStateFluxes(rrInstance, testId):
 
 def checkFullJacobian(rrInstance, testId):
     # Jacobian
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     Jacobian = rrInstance.getFullJacobian()
     checkMatrixVsUpcomingText(Jacobian)
@@ -214,7 +215,7 @@ def checkFullJacobian(rrInstance, testId):
 
 def checkReducedJacobian(rrInstance, testId):
     # Jacobian
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     Jacobian = rrInstance.getReducedJacobian()
     checkMatrixVsUpcomingText(Jacobian)
@@ -222,7 +223,7 @@ def checkReducedJacobian(rrInstance, testId):
 
 def checkAmountJacobian(rrInstance, testId):
     # Jacobian
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     Jacobian = rrInstance.getFullJacobian()
     checkMatrixVsUpcomingText(Jacobian)
@@ -230,7 +231,7 @@ def checkAmountJacobian(rrInstance, testId):
 
 def checkIndividualEigenvalues(rrInstance, testId):
     # Eigenvalues
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     m = len(rrInstance.getEigenValueIds())
@@ -252,7 +253,7 @@ def checkIndividualEigenvalues(rrInstance, testId):
 
 def checkIndividualAmountEigenvalues(rrInstance, testId):
     # Eigenvalues
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     m = len(rrInstance.getEigenValueIds())
@@ -273,7 +274,7 @@ def checkIndividualAmountEigenvalues(rrInstance, testId):
 
 def checkEigenvalueMatrix(rrInstance, testId):
     # Eigenvalues
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     eigenvalues = rrInstance.getFullEigenValues()
     checkComplexVecVsUpcomingText(eigenvalues)
@@ -281,7 +282,7 @@ def checkEigenvalueMatrix(rrInstance, testId):
 
 def checkReducedEigenvalueMatrix(rrInstance, testId):
     # Eigenvalues
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     eigenvalues = rrInstance.getReducedEigenValues()
     checkComplexVecVsUpcomingText(eigenvalues)
@@ -289,33 +290,33 @@ def checkReducedEigenvalueMatrix(rrInstance, testId):
 
 def checkEigenvalueAmountMatrix(rrInstance, testId):
     # Eigenvalues
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     eigenvalues = rrInstance.getFullEigenValues()
     checkComplexVecVsUpcomingText(eigenvalues)
 
 def checkStoichiometryMatrix(rrInstance, testId):
     # Stoichiometry matrix
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getFullStoichiometryMatrix()
     checkMatrixVsUpcomingText(st)
 
 def checkReducedStoichiometryMatrix(rrInstance, testId):
     # Stoichiometry matrix
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getReducedStoichiometryMatrix()
     checkMatrixVsUpcomingText(st)
 
 def checkLinkMatrix(rrInstance, testId):
     # Link matrix
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getLinkMatrix()
     checkMatrixVsUpcomingText(st)
 
 def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
     Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getUnscaledConcentrationControlCoefficientMatrix();
     checkMatrixVsUpcomingText(st)
 
@@ -323,53 +324,53 @@ def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
 def checkScaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
     Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getScaledConcentrationControlCoefficientMatrix();
     checkMatrixVsUpcomingText(st)
 
 
 def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
     # Unscaled Flux Control matrix
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getUnscaledFluxControlCoefficientMatrix();
     checkMatrixVsUpcomingText(st)
 
 
 def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
     # Unscaled Flux Control matrix
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getScaledFluxControlCoefficientMatrix()
     checkMatrixVsUpcomingText(st)
 
 
 def checkUnscaledElasticityMatrix(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     uee = rrInstance.getUnscaledElasticityMatrix()
     checkMatrixVsUpcomingText(uee)
 
 def checkUnscaledElasticityAmountMatrix(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     uee = rrInstance.getUnscaledElasticityMatrix()
     checkMatrixVsUpcomingText(uee)
 
 def checkScaledElasticityMatrix(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     ee = rrInstance.getScaledElasticityMatrix()
     checkMatrixVsUpcomingText(ee)
 
 
 def checkScaledElasticityAmountMatrix(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     ee = rrInstance.getScaledElasticityMatrix()
     checkMatrixVsUpcomingText(ee)
 
 
 def checkGetFloatingSpeciesIds(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     line = readLine ()
     words = line.split()
@@ -382,7 +383,7 @@ def checkGetFloatingSpeciesIds(rrInstance, testId):
     print(passMsg (errorFlag))
 
 def checkGetBoundarySpeciesIds(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     line = readLine ()
     words = line.split()
@@ -396,7 +397,7 @@ def checkGetBoundarySpeciesIds(rrInstance, testId):
 
 
 def checkGetGlobalParameterIds (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     line = readLine ()
     words = line.split()
@@ -410,7 +411,7 @@ def checkGetGlobalParameterIds (rrInstance, testId):
 
 
 def checkGetCompartmentIds (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     line = readLine ()
     words = line.split()
@@ -424,7 +425,7 @@ def checkGetCompartmentIds (rrInstance, testId):
 
 
 def checkReactionIds (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     expected = rrInstance.model.getReactionIds()
@@ -437,7 +438,7 @@ def checkReactionIds (rrInstance, testId):
 
 
 def checkFloatingSpeciesInitialConcentrationIds (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
 
     words = divide(readLine())
 
@@ -448,7 +449,7 @@ def checkFloatingSpeciesInitialConcentrationIds (rrInstance, testId):
 
 
 def checkEigenValueIds (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     expected = rrInstance.getEigenValueIds()
@@ -461,7 +462,7 @@ def checkEigenValueIds (rrInstance, testId):
 
 
 def checkSetSteadyStateSelectionList(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     rrInstance.conservedMoietyAnalysis = True
@@ -474,7 +475,7 @@ def checkSetSteadyStateSelectionList(rrInstance, testId):
 
 
 def checkGetSteadyStateSelectionList(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     words = divide(readLine())
     result = str(rrInstance.steadyStateSelections)
 
@@ -482,7 +483,7 @@ def checkGetSteadyStateSelectionList(rrInstance, testId):
 
 
 def checkSetTimeCourseSelectionList(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     result = rrInstance.selections = words
@@ -492,38 +493,38 @@ def checkSetTimeCourseSelectionList(rrInstance, testId):
 
 
 def checkGetTimeCourseSelectionList(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     words = divide(readLine())
     result = str(rrInstance.selections)
 
     print(passMsg (result == words))
 
 def checkComputeSteadyStateValues(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     ss = rrInstance.getSteadyStateValues()
     compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkFloatingSpeciesConcentrations(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     ss = rrInstance.model.getFloatingSpeciesConcentrations()
     compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkBoundarySpeciesConcentrations(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     ss = rrInstance.model.getBoundarySpeciesConcentrations()
     compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkGlobalParameterValues(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     ss = rrInstance.model.getGlobalParameterValues()
     compareUpcomingValuesWith(ss, 1E-6)
 
 
 def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     ss = rrInstance.model.getFloatingSpeciesInitConcentrations()
 
     words = readLine().split()
@@ -535,13 +536,13 @@ def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
 
 
 def checkReactionRates(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     ss = rrInstance.model.getReactionRates()
     compareUpcomingValuesWith(ss, 1E-4)
 
 
 def checkGetReactionRatesByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = readLine().split()
     n = rrInstance.model.getNumReactions()
@@ -553,7 +554,7 @@ def checkGetReactionRatesByIndex(rrInstance, testId):
     print(passMsg (errorFlag))
 
 def checkGetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     n = rrInstance.model.getNumFloatingSpecies()
@@ -566,7 +567,7 @@ def checkGetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
 
 
 def checkSetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     n = rrInstance.model.getNumFloatingSpecies()
@@ -580,7 +581,7 @@ def checkSetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
 
 
 def checkSetSpeciesInitialConcentrations(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.model.getNumFloatingSpecies()
     for i in range (0,n):
@@ -595,7 +596,7 @@ def checkSetSpeciesInitialConcentrations(rrInstance, testId):
 
 
 def checkNumberOfDependentSpecies(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     value = int (readLine())
     n = rrInstance.model.getNumDepFloatingSpecies()
@@ -605,7 +606,7 @@ def checkNumberOfDependentSpecies(rrInstance, testId):
 
 
 def checkNumberOfIndependentSpecies(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     value = int (readLine())
     n = rrInstance.model.getNumIndFloatingSpecies()
@@ -615,7 +616,7 @@ def checkNumberOfIndependentSpecies(rrInstance, testId):
 
 
 def checkNumberOfRateRules(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     value = int (readLine())
     if rrInstance.model.getNumRateRules() != value:
@@ -624,7 +625,7 @@ def checkNumberOfRateRules(rrInstance, testId):
 
 
 def checkGetRatesOfChange(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     values = rrInstance.model.getFloatingSpeciesAmountRates()
@@ -635,7 +636,7 @@ def checkGetRatesOfChange(rrInstance, testId):
 
 
 def checkGetReactionRatesEx (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     inputConcs = asarray (divide(readLine()).remove("indexes"), dtype=float64)
     values = rrInstance.getReactionRatesEx (inputConcs)
@@ -646,7 +647,7 @@ def checkGetReactionRatesEx (rrInstance, testId):
 
 
 def checkGetRatesOfChangeEx (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     inputConcs = asarray (divide(readLine()).remove("indexes"), dtype=float64)
     values = rrInstance.model.getRatesOfChangeEx (inputConcs)
@@ -657,7 +658,7 @@ def checkGetRatesOfChangeEx (rrInstance, testId):
 
 
 def checkGetRateOfChangeByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.getNumRatesOfChange()
     words = readLine().split()
@@ -671,7 +672,7 @@ def checkGetRateOfChangeByIndex(rrInstance, testId):
 # ---------------------------------------------------------------------------
 
 def setGetValues(rrInstance, IdList, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     for i in range (len(IdList)):
         value = random.random()*10
@@ -683,7 +684,7 @@ def setGetValues(rrInstance, IdList, testId):
 
 
 def setGetTimeStart(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     value = random.random ()*10
     rrInstance.setTimeStart (value)
@@ -693,7 +694,7 @@ def setGetTimeStart(rrInstance, testId):
 
 
 def setGetTimeEnd(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     value = random.random ()*10
     rrInstance.setTimeEnd (value)
@@ -703,7 +704,7 @@ def setGetTimeEnd(rrInstance, testId):
 
 
 def setGetNumberOfPoints(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     value = random.randint (1, 100)
     rrInstance.setNumPoints (value)
@@ -713,7 +714,7 @@ def setGetNumberOfPoints(rrInstance, testId):
 
 
 def setGetTimeCourseSelectionList(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     myList = rrInstance.getFloatingSpeciesIds()
     newList = list (myList)
@@ -725,7 +726,7 @@ def setGetTimeCourseSelectionList(rrInstance, testId):
 
 
 def setGetSteadyStateSelectionList(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     myList = rrInstance.getFloatingSpeciesIds()
     newList = list (myList)
@@ -739,7 +740,7 @@ def setGetSteadyStateSelectionList(rrInstance, testId):
 
 
 def setGetFloatingSpeciesByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.getNumFloatingSpecies()
     for i in range (n):
@@ -752,7 +753,7 @@ def setGetFloatingSpeciesByIndex(rrInstance, testId):
 
 
 def setGetBoundarySpeciesByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.getNumBoundarySpecies()
     for i in range (n):
@@ -765,7 +766,7 @@ def setGetBoundarySpeciesByIndex(rrInstance, testId):
 
 
 def setGetCompartmentByIndex(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.getNumCompartments()
     for i in range (n):
@@ -778,7 +779,7 @@ def setGetCompartmentByIndex(rrInstance, testId):
 
 
 def setGetGlobalParameterByIndex (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.getNumberOfGlobalParameters()
     for i in range (n):
@@ -791,7 +792,7 @@ def setGetGlobalParameterByIndex (rrInstance, testId):
 
 
 def setGetFloatingSpeciesConcentrations (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     getArray = rrInstance.getFloatingSpeciesConcentrations()
     setArray = zeros(len(getArray))
@@ -805,7 +806,7 @@ def setGetFloatingSpeciesConcentrations (rrInstance, testId):
 
 
 def setGetBoundarySpeciesConcentrations (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     getArray = rrInstance.getBoundarySpeciesConcentrations()
     setArray = zeros(len(getArray))
@@ -819,7 +820,7 @@ def setGetBoundarySpeciesConcentrations (rrInstance, testId):
 
 
 def setGetInitialFloatingSpeciesConcentrations (rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     getArray = rrInstance.getFloatingSpeciesInitialConcentrations ()
     setArray = zeros(len(getArray))
@@ -833,7 +834,7 @@ def setGetInitialFloatingSpeciesConcentrations (rrInstance, testId):
 
 
 def setGetReset(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     values = zeros (rrInstance.getNumberOfFloatingSpecies())
     for i in range (len (values)):
@@ -850,7 +851,7 @@ def setGetReset(rrInstance, testId):
 
 def checkJacobian(rrInstance, testId):
     # TODO need to update python 2.x printing
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     import numpy as n
 
     errors = False
@@ -888,7 +889,7 @@ def checkJacobian(rrInstance, testId):
     print(passMsg(errors))
 	
 def checkControlCoefficient(rrInstance, testId):
-    print(string.ljust ("Check " + testId, rpadding),)
+    print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     n = rrInstance.getCC(words[0], words[1])
