@@ -1060,6 +1060,6 @@ def runTester (testDir=None):
                 print(string.ljust (testId, rpadding), 'UNKNOWN TEST')
             testId = jumpToNextTest()
         
-    print("\n\nTotal failed tests:\t", gFailedTests, \)
+    print("\n\nTotal failed tests:\t", gFailedTests, \
     "\nTotal unknown tests:\t", unknownTests, \
-    "\nTotal passed tests:\t", gPassedTests
+    "\nTotal passed tests:\t", gPassedTests)
