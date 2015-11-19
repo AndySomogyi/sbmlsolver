@@ -26,5 +26,12 @@ if(BUILD_PYTHON)
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/python-benchmark-bioinf)
   set_tests_properties(PythonBenchmarkODEBioinf2015 PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
 
-  
+  # update when source changes
+  configure_file(python-unit-tests/run.py
+    ${CMAKE_CURRENT_BINARY_DIR}/python-unit-tests/run.py COPYONLY)
+
+  add_test(NAME PythonUnitTests
+    COMMAND ${PYTHON_EXECUTABLE} run.py
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/python-unit-tests)
+  set_tests_properties(PythonUnitTests PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
 endif()

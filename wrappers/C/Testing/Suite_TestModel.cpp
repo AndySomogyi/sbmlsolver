@@ -1767,7 +1767,7 @@ SUITE(TEST_MODEL)
     {
         for(int i=0; i<iniFile.GetNumberOfSections(); i++)
         {
-            if (!iniFile.GetSection(i)->mIsUsed)
+            if (!iniFile.GetSection(i)->mIsUsed && iniFile.GetSection(i)->mName != "Conservation Laws")
             {
                 CHECK(false);
                 clog << "Unused section:\t" << iniFile.GetSection(i)->mName << endl;

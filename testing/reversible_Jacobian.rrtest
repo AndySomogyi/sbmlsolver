@@ -157,6 +157,9 @@
   </model>
 </sbml>
 
+[Conservation Laws]
+True
+
 [Steady State Fluxes]
 J0 = 0.397696
 J1 = 0.397696
