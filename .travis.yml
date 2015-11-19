@@ -26,6 +26,8 @@ branches:
 
 
 before_install:
+  # print the distro information
+  - lsb_release -a
   # https://github.com/travis-ci/travis-ci/issues/1379
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
