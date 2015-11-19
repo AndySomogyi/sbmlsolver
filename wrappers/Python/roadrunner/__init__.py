@@ -7,6 +7,11 @@ into existing simulation platforms or may be used a stand alone simulation and a
 package.
 """
 
+import roadrunner
 from roadrunner import *
 
 __version__ = getVersionStr()
+
+def runTests(testDir=None):
+  import testing
+  testing.tester.runTester(testDir)
