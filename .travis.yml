@@ -40,8 +40,10 @@ before_install:
   - sudo apt-get -y install swig
   # install python headers
   - sudo apt-get -y install python-dev
-  # install pip
-  - sudo apt-get -y install python-pip
+  # install numpy
+  - sudo apt-get -y install python-numpy
+  ## install pip
+  #- sudo apt-get -y install python-pip
   # install numpy
   - sudo pip install numpy
   - mkdir ~/install
