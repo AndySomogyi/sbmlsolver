@@ -30,7 +30,7 @@ before_install:
   - sudo sh -c 'echo "\n\ndeb http://cdn.rawgit.com/sys-bio/roadrunner-debs/master ./ \n\n" >> /etc/apt/sources.list'
   - sudo cat /etc/apt/sources.list
   - sudo apt-get update -qq
-  - sudo apt-get install libroadrunner-deps-dev
+  - sudo apt-get -y install libroadrunner-deps-dev
 
   - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
   # build roadrunner:
