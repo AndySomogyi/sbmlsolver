@@ -82,7 +82,7 @@ before_script:
   # roadrunner:
   - mkdir -p ~/build/roadrunner
   - cd ~/build/roadrunner
-  - ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=~/install/roadrunner-tp -DLLVM_CONFIG_EXECUTABLE=~/install/llvm-3.5.1/bin/llvm-config -DBUILD_PYTHON=ON -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON -DUSE_TR1_CXX_NS=ON -DBUILD_JAVA_INTERFACE=OFF "$TRAVIS_BUILD_DIR"
+  - ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=~/install/roadrunner-tp -DLLVM_CONFIG_EXECUTABLE=~/install/llvm-3.5.1/bin/llvm-config -DBUILD_PYTHON=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR2=/usr/include/x86_64-linux-gnu/ -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON -DUSE_TR1_CXX_NS=ON -DBUILD_JAVA_INTERFACE=OFF "$TRAVIS_BUILD_DIR"
 
 script:
   - cd ~/build/roadrunner
