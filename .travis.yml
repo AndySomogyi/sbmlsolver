@@ -25,12 +25,13 @@ before_install:
   - sudo apt-get -y install python-dev
   # install numpy
   - sudo apt-get -y install python-numpy
-  - mkdir ~/install
 
   # download LLVM 3.5.1 binaries
   - cd ~/install
   - wget http://sourceforge.net/projects/roadrunner-deps/files/ubuntu-12.04.5/llvm-3.5.1.tar.xz
   - tar xf llvm-3.5.1.tar.xz
+
+  - mkdir ~/install
 
   # install roadrunner dependencies via apt:
   - sudo -c 'echo -e "\n\ndeb http://cdn.rawgit.com/sys-bio/roadrunner-debs/master ./ \n\n" >> /etc/apt/sources.list'
