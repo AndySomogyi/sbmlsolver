@@ -50,6 +50,8 @@ install:
   - cd ~/build/roadrunner
   - make install
 
+before_script: true
+
 script:
   - cd ~/build/roadrunner
   - make -j2 && make install
