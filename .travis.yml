@@ -18,6 +18,8 @@ before_install:
   # print the distro information
   - lsb_release -a
 
+  - sudo apt-get update -qq
+
   # install cmake
   - sudo apt-get -y install cmake
   # install swig
