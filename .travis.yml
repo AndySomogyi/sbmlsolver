@@ -29,11 +29,11 @@ before_install:
   # print the distro information
   - lsb_release -a
   # https://github.com/travis-ci/travis-ci/issues/1379
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  #- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
-  # install gcc 4.8
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  ## install gcc 4.8
+  #- if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  #- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
   # install cmake
   - sudo apt-get -y install cmake
   # install swig
