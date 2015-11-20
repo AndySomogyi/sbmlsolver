@@ -230,7 +230,7 @@ bool setup(Args& args)
     }
     else
     {
-        Logger::setLevel(Logger::LOG_NOTICE);
+        Logger::setLevel(Logger::LOG_ERROR);
     }
 
     // set test suite model path (read from cmd line)

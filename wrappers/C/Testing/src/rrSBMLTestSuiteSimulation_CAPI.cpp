@@ -272,11 +272,11 @@ bool RunTest(const string& version, int caseNumber)
         result = simulation.SaveModelAsXML(dataOutputFolder) && result;
         if(!result)
         {
-            clog<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
+            Log(Logger::LOG_WARNING)<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
         }
         else
         {
-            clog<<"\t\tTest passed.\n";
+            Log(Logger::LOG_NOTICE)<<"\t\tTest passed.\n";
         }
     }
     catch(std::exception& ex)
