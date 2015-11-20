@@ -13,27 +13,10 @@ branches:
   only:
     - develop
 
-#addons:
-  #apt:
-    #sources:
-    #- llvm-toolchain-precise-3.5
-
-#addons:
-  #apt:
-    #packages:
-    #- cmake
-    #- llvm-3.4
-
 
 before_install:
   # print the distro information
   - lsb_release -a
-  # https://github.com/travis-ci/travis-ci/issues/1379
-  #- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  #- sudo apt-get update -qq
-  ## install gcc 4.8
-  #- if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
-  #- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
   # install cmake
   - sudo apt-get -y install cmake
   # install swig
@@ -42,29 +25,7 @@ before_install:
   - sudo apt-get -y install python-dev
   # install numpy
   - sudo apt-get -y install python-numpy
-  ## install pip
-  #- sudo apt-get -y install python-pip
-  ## install numpy via pip
-  #- sudo pip install numpy
   - mkdir ~/install
-
-  ## setup CMake 3.2.1
-  #- mkdir ~/install/cmake-3.2.1
-  #- cd ~/install/cmake-3.2.1
-  #- wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-Linux-x86_64.tar.Z
-  #- tar xf cmake-3.4.0-Linux-x86_64.tar.Z --strip-components=1
-
-  ## get LLVM 3.5.1 sources
-  #- mkdir -p ~/src/rr-deps/llvm-3.5.1
-  #- cd ~/src/rr-deps/llvm-3.5.1
-  #- wget http://llvm.org/releases/3.5.1/llvm-3.5.1.src.tar.xz
-  #- tar xf llvm-3.5.1.src.tar.xz
-  ## build LLVM 3.5.1
-  #- mkdir -p ~/build/llvm-3.5.1
-  #- cd ~/build/llvm-3.5.1
-  #- ~/install/cmake-3.2.1/bin/cmake --version
-  #- ~/install/cmake-3.2.1/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/llvm-3.5.1 ~/src/rr-deps/llvm-3.5.1/llvm-3.5.1.src
-  #- make -j2 && make install
 
   # download LLVM 3.5.1 binaries
   - cd ~/install
