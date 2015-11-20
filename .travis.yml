@@ -30,7 +30,7 @@ before_install:
   - lsb_release -a
   # https://github.com/travis-ci/travis-ci/issues/1379
   #- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
+  #- sudo apt-get update -qq
   ## install gcc 4.8
   #- if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   #- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
@@ -71,11 +71,10 @@ before_install:
   - wget http://sourceforge.net/projects/roadrunner-deps/files/ubuntu-12.04.5/llvm-3.5.1.tar.xz
   - tar xf llvm-3.5.1.tar.xz
 
-  # roadrunner third party:
-  - mkdir -p ~/build/roadrunner-tp
-  - cd ~/build/roadrunner-tp
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/roadrunner-tp $TRAVIS_BUILD_DIR/third_party
-  - make -j2
+  # install roadrunner dependencies via apt:
+  - sudo -c 'echo -e "\n\ndeb http://cdn.rawgit.com/sys-bio/roadrunner-debs/master ./ \n\n" >> /etc/apt/sources.list'
+  - sudo apt-get update -qq
+  - sudo apt-get install libroadrunner-deps-dev
 
 install:
   - cd ~/build/roadrunner-tp
@@ -86,7 +85,7 @@ before_script:
   # roadrunner:
   - mkdir -p ~/build/roadrunner
   - cd ~/build/roadrunner
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=~/install/roadrunner-tp -DLLVM_CONFIG_EXECUTABLE=~/install/llvm-3.5.1/bin/llvm-config -DBUILD_PYTHON=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON -DUSE_TR1_CXX_NS=ON -DBUILD_JAVA_INTERFACE=OFF "$TRAVIS_BUILD_DIR"
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr -DLLVM_CONFIG_EXECUTABLE=~/install/llvm-3.5.1/bin/llvm-config -DBUILD_PYTHON=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON -DUSE_TR1_CXX_NS=ON -DBUILD_JAVA_INTERFACE=OFF "$TRAVIS_BUILD_DIR"
 
 script:
   - cd ~/build/roadrunner
