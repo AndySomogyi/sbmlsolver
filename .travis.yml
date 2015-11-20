@@ -44,8 +44,8 @@ before_install:
   - sudo apt-get -y install python-numpy
   ## install pip
   #- sudo apt-get -y install python-pip
-  # install numpy
-  - sudo pip install numpy
+  ## install numpy via pip
+  #- sudo pip install numpy
   - mkdir ~/install
 
   ## setup CMake 3.2.1
