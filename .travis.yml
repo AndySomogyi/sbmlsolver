@@ -17,6 +17,7 @@ branches:
 before_install:
   # print the distro information
   - lsb_release -a
+
   # install cmake
   - sudo apt-get -y install cmake
   # install swig
