@@ -21,14 +21,8 @@ before_install:
   # cache refresh required to install packages
   - sudo apt-get update -qq
 
-  # install cmake
-  - sudo apt-get -y install cmake
-  # install swig
-  - sudo apt-get -y install swig
-  # install python headers
-  - sudo apt-get -y install python-dev
-  # install numpy
-  - sudo apt-get -y install python-numpy
+  # install dependencies
+  - sudo apt-get -y install cmake swig python-dev python-numpy
 
   - mkdir ~/install
 
