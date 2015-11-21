@@ -119,8 +119,8 @@ Often during a modeling experiment we will need to change parameter values, that
 kinetic constants in the model. If a model has a kinetic constants k1, then we can change or inspect the value using
 the following syntax::
 
-   print rr.model.k1
-   rr.model.k1 = 1.2
+   print rr.k1
+   rr.k1 = 1.2
 
 
 Selecting Simulation Output
