@@ -1107,12 +1107,12 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double time
 /*!
  \brief Carry out a one step integration of the model
 
- Example: \code status = OneStep (rrHandle, currentTime, timeStep, newTimeStep); \endcode
+ Example: \code status = OneStep (rrHandle, currentTime, stepSize, newTime); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
- \param[in] value The new time (currentTime + stepSize)
+ \param[in] newTimee The new time (currentTime + stepSize)
 
  \return Returns true if successful
  \ingroup simulation
