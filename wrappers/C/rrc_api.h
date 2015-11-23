@@ -1112,7 +1112,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double time
  \param[in] handle Handle to a RoadRunner instance
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
- \param[in] newTimee The new time (currentTime + stepSize)
+ \param[in] newTime The new time (currentTime + stepSize)
 
  \return Returns true if successful
  \ingroup simulation
