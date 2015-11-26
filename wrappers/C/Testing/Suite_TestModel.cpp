@@ -1,6 +1,6 @@
 #include <string>
 #include "Suite_TestModel.h"
-#include "UnitTest++.h"
+#include "unit_test/UnitTest++.h"
 #include "rrConfig.h"
 #include "rrIniFile.h"
 #include "rrLogger.h"

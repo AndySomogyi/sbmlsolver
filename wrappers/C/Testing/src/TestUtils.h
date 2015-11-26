@@ -1,7 +1,7 @@
 #ifndef TestUtilsH
 #define TestUtilsH
 #include <string>
-#include "lsMatrix.h"
+#include "rr-libstruct/lsMatrix.h"
 
 
 std::vector< std::complex<double> > getComplexVectorFromString(const std::string& text);
