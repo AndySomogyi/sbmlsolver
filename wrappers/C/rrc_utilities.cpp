@@ -346,6 +346,7 @@ int rrcCallConv freeVector(RRVectorPtr vector)
         {
            delete [] vector->Data;
         }
+        delete vector;
         return true;
     catch_bool_macro
 }
