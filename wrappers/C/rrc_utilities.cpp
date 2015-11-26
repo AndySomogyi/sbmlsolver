@@ -355,7 +355,10 @@ RRVectorPtr rrcCallConv createVector (int size)
 {
    RRVectorPtr list = new RRVector;
    list->Count = size;
-   list->Data = new double[list->Count];
+   if (size)
+     list->Data = new double[list->Count];
+   else
+     list->Data = NULL;
    return list;
 }
 
