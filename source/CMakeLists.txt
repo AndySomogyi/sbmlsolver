@@ -56,14 +56,6 @@ configure_file(roadrunner.pc.in roadrunner.pc @ONLY)
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig )
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig )
 
-include_directories(
-    .
-    ${THIRD_PARTY_INSTALL_FOLDER}/include
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/rr-libstruct
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/sbml
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
-    )
-
 set(rrCoreSources
     rrConfig
     rrSteadyStateSolver
