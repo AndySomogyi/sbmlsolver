@@ -365,16 +365,6 @@ if(${BORLAND})
     endforeach()
 endif()
 
-if(WIN32)
-#One day these may be statically linked
-set(RUNTIMES libxml2.DLL iconv.dll zlib1.dll)
-foreach(runtime ${RUNTIMES})
-    install(    FILES     ${THIRD_PARTY_FOLDER}/dependencies/libsbml/bin/${runtime}
-        DESTINATION bin
-        COMPONENT rr_core)
-endforeach()
-endif()
-
 configure_file(VERSION.txt.in VERSION.txt @ONLY)
 
 install(
