@@ -665,6 +665,43 @@ public:
     #endif /***********************************************************************/
     /******************************************************************************/
 
+    /*********              Used by rrplugins             *************************/
+    
+    /**
+     * @internal
+     * @deprecated
+     */
+    void setBoundarySpeciesByIndex(const int& index, const double& value);
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    int getNumberOfIndependentSpecies();
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterIds
+     */
+    std::vector<std::string> getGlobalParameterIds();
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    std::vector<std::string> getBoundarySpeciesIds();
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    double getBoundarySpeciesByIndex(const int& index);
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
+    double getGlobalParameterByIndex(const int& index);
 
 
     /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
@@ -743,18 +780,6 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(void setBoundarySpeciesByIndex(const int& index, const double& value));
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(double getBoundarySpeciesByIndex(const int& index));
-
-    /**
-     * @internal
-     * @deprecated
-     */
     RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrations());
 
     /**
@@ -762,12 +787,6 @@ public:
      * @deprecated
      */
     RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double>& values));
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(std::vector<std::string> getBoundarySpeciesIds());
 
     /**
      * @internal
@@ -846,19 +865,7 @@ public:
      * @internal
      * @deprecated use ExecutableModel::getGlobalParameterValues
      */
-    RR_DEPRECATED(double getGlobalParameterByIndex(const int& index));
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterValues
-     */
     RR_DEPRECATED(std::vector<double> getGlobalParameterValues());
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterIds
-     */
-    RR_DEPRECATED(std::vector<std::string> getGlobalParameterIds());
 
     /**
      * @internal
@@ -871,12 +878,6 @@ public:
      * @deprecated
      */
     RR_DEPRECATED(int getNumberOfDependentSpecies());
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(int getNumberOfIndependentSpecies());
 
 
     /**
