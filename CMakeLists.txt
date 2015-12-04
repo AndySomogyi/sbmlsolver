@@ -116,7 +116,7 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-# new clang on OSX and msvc use std namespace. 
+# new clang on OSX and msvc use std namespace.
 if(RR_USE_CXX11)
     option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" OFF)
 else()
@@ -197,7 +197,7 @@ if (WIN32)
 else()
     #UNIX
     find_package(LibXml2 REQUIRED)
-	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}") 
+	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}")
 	include_directories(${LIBXML2_INCLUDE_DIR})
 endif(WIN32)
 
@@ -223,11 +223,11 @@ if(${MSVC})
         -DCRT_NONSTDC_NO_DEPRECATE
         -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
         )
-        
+
     #  4251 About exporting std classes
     #  4018 Comparing unsigned/signed ints
-    #  4996 Deprecated functions   
-    add_definitions( "/wd4251 /wd4018 /wd4996 /nologo" )   
+    #  4996 Deprecated functions
+    add_definitions( "/wd4251 /wd4018 /wd4996 /nologo" )
 
     SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} /EHsc ")
     SET (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
@@ -331,7 +331,7 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     add_subdirectory(autotest)
 else()
     message(STATUS "NOT building tests")
-endif(BUILD_TEST_TOOLS)
+endif()
 
 
 #======================= INSTALL STUFF ========================================================
@@ -368,7 +368,7 @@ endif()
 configure_file(VERSION.txt.in VERSION.txt @ONLY)
 
 install(
-    FILES     
+    FILES
     NOTICE.txt
     ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
     NEWS.txt
