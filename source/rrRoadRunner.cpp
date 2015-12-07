@@ -3862,9 +3862,9 @@ void RoadRunner::applySimulateOptions()
     get_self();
 
     if (self.simulateOpt.duration < 0 || self.simulateOpt.start < 0
-            || self.simulateOpt.steps <= 0 )
+            || self.simulateOpt.steps < 0 )
     {
-        throw std::invalid_argument("duration, startTime and steps must be positive");
+        throw std::invalid_argument("duration, startTime and steps must be non-negative");
     }
 
     // This one creates the list of what we will look at in the result

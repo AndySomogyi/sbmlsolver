@@ -1251,6 +1251,8 @@ namespace std { class ostream{}; }
                 return f
             post_tasks.append(steps_restore(o.steps))
 
+            o.steps = 0
+
             # did the options originally have a seed, if so, don't delete it when we're done
             hadSeed = "seed" in o
 
