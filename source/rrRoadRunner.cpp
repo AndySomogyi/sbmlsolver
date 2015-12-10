@@ -1305,6 +1305,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
             self.integrator->restart(timeStart);
 
             double tout = timeStart;
+            double last_tout = tout;
 
             // optimiziation for certain getValue operations.
             self.model->setIntegration(true);
@@ -1327,6 +1328,19 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     break;
                 }
                 getSelectedValues(row, tout);
+
+                // use linear interpolation to ensure last time point is requested end time
+                if( tout > timeEnd ) {
+                    double alpha = (timeEnd - last_tout)/(tout - last_tout);
+                    Log(Logger::LOG_DEBUG) << "simulate: interpolate with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+
+                    for(int n = 0; n<row.size(); ++n) {
+                        row.at(n) = results.back().at(n) + alpha*(row.at(n) - results.back().at(n));
+                    }
+                } else {
+                    last_tout = tout;
+                }
+
                 results.push_back(row);
 
                 ++n;
