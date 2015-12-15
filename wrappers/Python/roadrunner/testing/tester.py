@@ -897,7 +897,14 @@ def checkControlCoefficient(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
-
+def checkVariableEndTime(rrInstance, testId):
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    words = divide(readLine())
+    n = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+    if expectApproximately(n[-1][0], float(words[1]), 1e-16) == False:
+        errorFlag = True
+    print(passMsg (errorFlag))
 
 
 
@@ -941,6 +948,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Full Jacobian]': checkFullJacobian,
              '[Get Control Coefficient]': checkControlCoefficient,
              '[Get Eigenvalue Ids]': checkEigenValueIds,
+             '[Get Variable End Time]': checkVariableEndTime,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
              '[Get Initial Floating Species Concs]': checkInitalFloatingSpeciesConcentations,
 #             '[Get Rate of Change by Index]': checkGetRateOfChangeByIndex,
