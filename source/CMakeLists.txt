@@ -248,7 +248,7 @@ if(RR_BUILD_SHARED_CORE)
     if(UNIX)
         target_link_libraries (${target}
             pthread
-            sbml
+            sbml-static
             dl
             f2c${staticLibExt}
             )
@@ -388,4 +388,3 @@ if(${INSTALL_CXX_API})
            COMPONENT rr_core)
     endforeach(subfolder)
 endif() #Install CXX API
-
