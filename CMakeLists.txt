@@ -10,6 +10,8 @@ set(ROADRUNNER_VERSION_PATCH 2)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 
+set(CMAKE_MACOSX_RPATH 1)
+
 # ** Configuration Options *****************************************************
 
 # These will be the defaults ...
