@@ -88,6 +88,16 @@ namespace rr
 		virtual double integrate(double t0, double hstep) = 0;
 		virtual void restart(double t0) = 0;
 
+    /**
+     * @author JKM, WBC, ETS, MTK
+     * @brief Fix tolerances for SBML tests
+     * @details In order to ensure that the results of the SBML test suite
+     * remain valid, this method enforces a lower bound on tolerance values.
+     * Sets minimum absolute and relative tolerances to
+     * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
+     */
+    virtual void tweakTolerances();
+
 		/* CARRYOVER METHODS */
 		virtual void setListener(IntegratorListenerPtr) = 0;
 		virtual IntegratorListenerPtr getListener() = 0;

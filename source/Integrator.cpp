@@ -51,6 +51,9 @@ namespace rr
 		return ss.str();
 
 	}
+
+  void Integrator::tweakTolerances() {}
+
 	IntegratorRegistrar::~IntegratorRegistrar() {}
 
     /********************************************************************************************
