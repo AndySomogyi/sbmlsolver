@@ -74,7 +74,7 @@ else(WIN32)
         # we do not link directly with python at at link time, so that at run time,
         # the hosting python would provice all the sybols, we only
         # link with the external libs that we uses.
-        SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+        SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" INSTALL_RPATH "@loader_path/../../lib" INSTALL_NAME_DIR "@rpath")
     endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     set_property(TARGET _roadrunner
@@ -86,7 +86,7 @@ else(WIN32)
         )
 
     SWIG_LINK_LIBRARIES ( roadrunner
-        roadrunner-static
+        roadrunner
         rr-libstruct-static
         nleq-static
         sbml-static
@@ -159,4 +159,3 @@ install(
     FILES ${rrtest_files} 
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
-
