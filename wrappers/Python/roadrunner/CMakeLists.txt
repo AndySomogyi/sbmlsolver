@@ -85,16 +85,29 @@ else(WIN32)
         STATIC_LIBSTRUCT
         )
 
-    SWIG_LINK_LIBRARIES ( roadrunner
-        roadrunner
-        rr-libstruct-static
-        nleq-static
-        sbml-static
-        lapack
-        blas
-        f2c
-#        ${PYTHON_LIBRARIES}
-        )
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        SWIG_LINK_LIBRARIES ( roadrunner
+            roadrunner
+            rr-libstruct-static
+            nleq-static
+            sbml-static
+            lapack
+            blas
+            f2c
+    #        ${PYTHON_LIBRARIES}
+            )
+    else()
+        SWIG_LINK_LIBRARIES ( roadrunner
+            roadrunner-static
+            rr-libstruct-static
+            nleq-static
+            sbml-static
+            lapack
+            blas
+            f2c
+    #        ${PYTHON_LIBRARIES}
+            )
+    endif()
 
     #        lapack
     #        blas
