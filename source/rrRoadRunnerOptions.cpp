@@ -84,10 +84,6 @@ namespace rr
 		steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
 		start(0),
 		duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
-// 		initialTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_INITIAL_TIMESTEP)),
-// 		minimumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP)),
-// 		maximumTimeStep(Config::getDouble(Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP)),
-// 		maximumNumSteps(Config::getInt(Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS))
 	{
 		getConfigValues(this);
 	}
@@ -210,14 +206,6 @@ namespace rr
 		ss << "'start' : " << start << "," << std::endl;
 
 		ss << "'duration' : " << duration;
-
-// 		ss << "'initialTimeStep' : " << initialTimeStep << "," << std::endl;
-
-// 		ss << "'minimumTimeStep' : " << minimumTimeStep << "," << std::endl;
-
-// 		ss << "'maximumTimeStep' : " << maximumTimeStep << "," << std::endl;
-
-// 		ss << "'maximumNumSteps' : " << maximumNumSteps;
 
 		std::vector<std::string> keys = getKeys();
 
