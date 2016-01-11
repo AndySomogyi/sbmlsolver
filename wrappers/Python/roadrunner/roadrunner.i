@@ -672,7 +672,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Integrator::getKeys;
 %ignore rr::Integrator::setSimulateOptions;
 %rename (__str__) rr::Integrator::toString;
-%rename (__repr__) rr::Integrator::toRepr;
+//%rename (__repr__) rr::Integrator::toRepr;
 
 
 // rename these, the injected python code will take care of
@@ -2537,6 +2537,9 @@ namespace std { class ostream{}; }
                 self.setValue(name, value)
             else:
                 raise AttributeError('No such key "{}"'.format(name))
+
+        def __repr__(self):
+            return self.toRepr()
     %}
 }
 

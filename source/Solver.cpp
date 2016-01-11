@@ -23,6 +23,7 @@
 using namespace std;
 namespace rr
 {
+
     void Solver::addSetting(string name, Variant val, string display_name, string hint, string description)
     {
         sorted_settings.push_back(name);
@@ -194,6 +195,14 @@ namespace rr
         return ss.str();
     }
 
+    std::string Solver::settingsPyDictRepr() const
+    {
+        std::stringstream ss;
+        for(int n=0; n<getNumParams(); ++n)
+            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
+        return ss.str();
+    }
+
     std::string Solver::toString() const
     {
         std::stringstream ss;
@@ -201,6 +210,12 @@ namespace rr
         ss << "  settings:\n";
         ss << getSettingsRepr();
         return ss.str();
+    }
 
+    std::string Solver::toRepr() const
+    {
+        std::stringstream ss;
+        ss << "< roadrunner.Solver() " << settingsPyDictRepr() << " >\n";
+        return ss.str();
     }
 }

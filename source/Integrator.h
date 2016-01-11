@@ -102,6 +102,12 @@ namespace rr
 		virtual void setListener(IntegratorListenerPtr) = 0;
 		virtual IntegratorListenerPtr getListener() = 0;
 		std::string toString() const;
+
+    /**
+    * @author JKM
+    * @brief Return string representation a la Python __repr__ method
+    */
+    virtual std::string toRepr() const;
 		/* !-- END OF CARRYOVER METHODS */
 	};
 

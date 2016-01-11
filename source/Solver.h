@@ -209,9 +209,21 @@ namespace rr
 
         /**
         * @author JKM
+        * @brief Python dictionary-style string representation of settings
+        */
+        std::string settingsPyDictRepr() const;
+
+        /**
+        * @author JKM
         * @brief Return a string representation of the solver
         */
         virtual std::string toString() const;
+
+        /**
+        * @author JKM
+        * @brief Return string representation a la Python __repr__ method
+        */
+        virtual std::string toRepr() const;
 
     protected:
         typedef std::vector<std::string> SettingsList;

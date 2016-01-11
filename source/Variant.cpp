@@ -179,6 +179,21 @@ std::string Variant::toString() const
     return Var::toString(self->var);
 }
 
+std::string Variant::pythonRepr() const
+{
+    if (isBool()) {
+        switch (convert<bool>()) {
+          case true:
+              return "True";
+          case false:
+              return "False";
+        };
+    } else if (isString()) {
+        return "'" + toString() + "'";
+    } else
+        return toString();
+}
+
 bool Variant::isString() const
 {
     return self->var.isString();

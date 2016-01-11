@@ -54,6 +54,13 @@ namespace rr
 
     }
 
+    std::string Integrator::toRepr() const
+    {
+        std::stringstream ss;
+        ss << "< roadrunner.Integrator() " << settingsPyDictRepr() << " >\n";
+        return ss.str();
+    }
+
     void Integrator::tweakTolerances() {}
 
     IntegratorRegistrar::~IntegratorRegistrar() {}
