@@ -218,6 +218,7 @@ namespace rr
 	};
 
 	/**
+  * @brief This class is frozen, no new features
 	* RoadRunner simulation options.
 	*
 	* This is the full set of options that determines how RoadRunner performs

@@ -1251,7 +1251,8 @@ namespace std { class ostream{}; }
                 return f
             post_tasks.append(steps_restore(o.steps))
 
-            o.steps = 0
+            o.steps = 50
+            stepsSpecified = False
 
             # did the options originally have a seed, if so, don't delete it when we're done
             hadSeed = "seed" in o
@@ -1291,6 +1292,7 @@ namespace std { class ostream{}; }
                 elif isinstance(args[2], (int, float)):
                     # treat it as a number
                     o.steps = args[2]-1
+                    stepsSpecified = True
                     if o.steps < 2:
                       raise RuntimeError('Number of points must be 2 or more')
                     haveSteps = True
@@ -1329,6 +1331,7 @@ namespace std { class ostream{}; }
 
                 if k == "steps":
                     o.steps = v
+                    stepsSpecified = True
                     continue
 
                 if k == "start":
@@ -1349,6 +1352,8 @@ namespace std { class ostream{}; }
                 if k == "variableStep":
                     haveVariableStep = True
                     self.getIntegrator().setValue('variable_step_size', v)
+                    if not stepsSpecified:
+                        o.steps = 0
                     continue
 
                 if k == "plot":
@@ -1380,7 +1385,7 @@ namespace std { class ostream{}; }
             # if no steps, varStep = true, false otherwise.
             if self.getIntegrator().getIntegrationMethod() == \
                 Integrator.Stochastic and not haveVariableStep:
-                o.variableStep = not haveSteps
+                self.getIntegrator().setValue('variable_step_size', not haveSteps)
 
             # the options are set up, now actually run the simuation...
             result = self._simulate(o)

@@ -23,6 +23,7 @@
 namespace rr {
 
 /**
+ * @brief This class is frozen, no new features
  * A dictionary interface that objects can implement. These are automatically
  * mapped to python dictionaries.
  */
@@ -132,6 +133,7 @@ public:                       // *mistakenly* complains in ONE instance.
 
 
 /**
+ * @brief This class is frozen, no new features
  * Basic implementation of the Dictionary interface which uses a
  * std unordered map to store the values.
  */
