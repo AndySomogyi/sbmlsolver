@@ -33,28 +33,30 @@ namespace rr
 		INTEGRATOR
 	  ------------------------------------------------------------------------------------------*/
 
-	void Integrator::syncWithModel(ExecutableModel* m) {}
+    void Integrator::syncWithModel(ExecutableModel* m) {}
 
-	void Integrator::loadConfigSettings() {}
+    void Integrator::loadConfigSettings() {}
 
-	void Integrator::loadSBMLSettings(const std::string& filename)
-	{
-		// Stub for loading SBML settings (can override in derived classes).
-	}
+    void Integrator::loadSBMLSettings(const std::string& filename)
+    {
+        // Stub for loading SBML settings (can override in derived classes).
+    }
 
-	/* TODO: Create getType() method. */
+    /* TODO: Create getType() method. */
 
-	std::string Integrator::toString() const
-	{
-		std::stringstream ss;
-		ss << "< roadrunner.Integrator() >" << endl;
-		return ss.str();
+    std::string Integrator::toString() const
+    {
+        std::stringstream ss;
+        ss << "< roadrunner.Integrator() >\n";
+        ss << "  settings:\n";
+        ss << getSettingsRepr();
+        return ss.str();
 
-	}
+    }
 
-  void Integrator::tweakTolerances() {}
+    void Integrator::tweakTolerances() {}
 
-	IntegratorRegistrar::~IntegratorRegistrar() {}
+    IntegratorRegistrar::~IntegratorRegistrar() {}
 
     /********************************************************************************************
     * INTEGRATOR FACTORY

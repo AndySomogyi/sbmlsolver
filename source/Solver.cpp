@@ -16,6 +16,7 @@
 #include "Solver.h"
 #include "rrConfig.h"
 #include <typeinfo>
+#include <iomanip>
 
 // == CODE ====================================================
 
@@ -49,6 +50,13 @@ namespace rr
         descriptions.clear();
     }
 
+    unsigned long Solver::getNumParams() const
+    {
+        if (sorted_settings.size() != settings.size())
+            throw std::runtime_error("Setting count inconsistency");
+        return sorted_settings.size();
+    }
+
     std::string Solver::getParamName(int n) const
     {
         if (sorted_settings.size() != settings.size())
@@ -71,7 +79,7 @@ namespace rr
         return getDescription(getParamName(n));
     }
 
-    Variant Solver::getValue(std::string key)
+    Variant Solver::getValue(std::string key) const
     {
         SettingsMap::const_iterator option = settings.find(key);
         if (option == settings.end())
@@ -176,5 +184,23 @@ namespace rr
     const Variant::TypeId Solver::getType(std::string key)
     {
         return getValue(key).type();
+    }
+
+    std::string Solver::getSettingsRepr() const
+    {
+        std::stringstream ss;
+        for(int n=0; n<getNumParams(); ++n)
+            ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
+        return ss.str();
+    }
+
+    std::string Solver::toString() const
+    {
+        std::stringstream ss;
+        ss << "< roadrunner.Solver() >\n";
+        ss << "  settings:\n";
+        ss << getSettingsRepr();
+        return ss.str();
+
     }
 }

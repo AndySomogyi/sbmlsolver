@@ -75,13 +75,19 @@ namespace rr
         * @note Use one of the type-concrete versions like @ref getValueAsInt
         * to avoid type conversion gotchas
         */
-        virtual Variant getValue(std::string key);
+        virtual Variant getValue(std::string key) const;
 
         /**
         * @author JKM
         * @brief Return true if this setting is supported by the integrator
         */
         virtual Variant hasValue(std::string key) const;
+
+        /**
+        * @author JKM
+        * @brief Get the number of parameters
+        */
+        virtual unsigned long getNumParams() const;
 
         /**
         * @author JKM
@@ -194,6 +200,18 @@ namespace rr
         * @brief Gets the type associated with a given key
         */
         const Variant::TypeId getType(std::string key);
+
+        /**
+        * @author JKM
+        * @brief Get the solver settings as a string
+        */
+        std::string getSettingsRepr() const;
+
+        /**
+        * @author JKM
+        * @brief Return a string representation of the solver
+        */
+        virtual std::string toString() const;
 
     protected:
         typedef std::vector<std::string> SettingsList;
