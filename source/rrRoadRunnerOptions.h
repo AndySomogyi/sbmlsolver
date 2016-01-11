@@ -251,19 +251,6 @@ namespace rr
 		*/
 		SimulateOptions();
 
-		/*	DEPRECATED: See loadSBMLSettings()
-		 */
-		//SimulateOptions(const std::string& sbmlSettingFilePath);
-
-		/**
-		* Copy constructor, initializes a new SimulateOptions object
-		* using the values from an existing Dictionary.
-		*/
-		//SimulateOptions(const Dictionary*);
-
-
-// 		std::string integrator;
-
 		/**
 		* The number of steps at which the output is sampled. The samples are evenly spaced.
 		* When a simulation system calculates the data points to record, it will typically
@@ -312,36 +299,6 @@ namespace rr
 		* listed in variables.
 		*/
 		std::vector<std::string> concentrations;
-
-		/**
-		* A useer specified initial time step. If this is <=  0, the integrator
-		* will attempt to determine a safe initial time stpe.
-		*
-		* Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
-		* the internal integrator may take many many steps to reach one of the external time
-		* steps. This value specifies an initial value for the internal integrator
-		* time step.
-		*/
-// 		double initialTimeStep;
-
-		/**
-		* Specfify the minimum time step that the internal integrator
-		* will use. Uses integrator estimated value if <= 0.
-		*/
-// 		double minimumTimeStep;
-
-		/**
-		* Specify the maximum time step size that the internaal integrator
-		* will use. Uses integrator estimated value if <= 0.
-		*/
-// 		double maximumTimeStep;
-
-		/**
-		* Specify the maximum number of steps the internal integrator will use
-		* before reaching the user specified time span. Uses the integrator
-		* default value if <= 0.
-		*/
-// 		int maximumNumSteps;
 
 		/**
 		* get a description of this object, compatable with python __str__
