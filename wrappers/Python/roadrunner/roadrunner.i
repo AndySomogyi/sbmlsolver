@@ -1193,10 +1193,13 @@ namespace std { class ostream{}; }
                 A float-point number representing the relative difference permitted.
                 Defaults 0.0001
 
-            resetModel (or just "reset"???)
+            resetModel
                 True or False
                 Causes the model to be reset to the original conditions specified in
                 the SBML when the simulation is run.
+
+            reset
+                Identical to resetModel
 
             start
                 The start time of the simulation time-series data. Often this is 0,

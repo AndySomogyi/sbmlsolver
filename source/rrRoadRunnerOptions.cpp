@@ -236,6 +236,13 @@ namespace rr
 		return ss.str();
 	}
 
+  void SimulateOptions::setItem(const std::string& key, const rr::Variant& value)
+	{
+		BasicDictionary::setItem(key, value);
+    if (key == "reset")
+        reset_model = true;
+	}
+
 	
 
 

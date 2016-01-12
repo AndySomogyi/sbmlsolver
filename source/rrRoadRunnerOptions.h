@@ -319,6 +319,8 @@ namespace rr
 		 */
 		void loadSBMLSettings(const std::string& filename);
 
+    virtual void setItem(const std::string& key, const rr::Variant& value);
+
 	};
 
 
