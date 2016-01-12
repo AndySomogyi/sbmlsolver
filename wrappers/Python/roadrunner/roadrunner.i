@@ -2575,6 +2575,12 @@ namespace std { class ostream{}; }
                 self.setValue(name, value)
             else:
                 raise AttributeError('No such key "{}"'.format(name))
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
     %}
 }
 
@@ -2593,6 +2599,12 @@ namespace std { class ostream{}; }
                 self.setValue(name, value)
             else:
                 raise AttributeError('No such key "{}"'.format(name))
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
     %}
 }
 
