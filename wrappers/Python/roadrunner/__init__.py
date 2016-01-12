@@ -10,7 +10,7 @@ package.
 import roadrunner
 from roadrunner import *
 
-__version__ = getVersionStr()
+__version__ = roadrunner.getVersionStr()
 
 def runTests(testDir=None):
   import testing

@@ -1314,7 +1314,7 @@ namespace std { class ostream{}; }
 
 
             # go through the list of keyword args
-            for k,v in kwargs.iteritems():
+            for k,v in kwargs.items():
 
                 # changing integrators.
                 if k == "integrator":
@@ -2548,6 +2548,12 @@ namespace std { class ostream{}; }
 
         def __repr__(self):
             return self.toRepr()
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
     %}
 }
 
