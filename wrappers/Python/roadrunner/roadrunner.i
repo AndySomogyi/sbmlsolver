@@ -1255,6 +1255,9 @@ namespace std { class ostream{}; }
             post_tasks.append(steps_restore(o.steps))
 
             o.steps = 50
+            if self.getIntegrator().hasValue('variable_step_size'):
+                if self.getIntegrator().getValue('variable_step_size') == True:
+                    o.steps = 0
             stepsSpecified = False
 
             # did the options originally have a seed, if so, don't delete it when we're done
