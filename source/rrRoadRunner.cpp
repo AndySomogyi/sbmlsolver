@@ -2903,7 +2903,7 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
     }
     catch (const Exception& e)
     {
-        throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()", e.Message());
+        throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix(): ", e.Message());
     }
 }
 
