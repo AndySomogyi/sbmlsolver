@@ -202,15 +202,48 @@ SUITE(TEST_MODEL)
 
         path.makeAbsolute();
 
-        Log(Logger::LOG_NOTICE) << "Looking in " << path.toString() << " for test files";
+        Log(Logger::LOG_WARNING) << "Looking in " << path.toString() << " for test files";
 
-        path.setFileName("*.rrtest");
+//         path.setFileName("*.rrtest");
 
-        std::set<std::string> files;
+//         std::set<std::string> files;
 
-        Poco::Glob::glob(path, files);
+//         Poco::Glob::glob(path, files);
 
-        return files;
+        const char* rrtest_files[] = {
+          "Bimolecular_end.rrtest",
+          "Comp.rrtest",
+          "Conserved_Cycle_and_Branch.rrtest",
+          "Conserved_Cycle.rrtest",
+          "Cycle_across_branches.rrtest",
+          "Cycle.rrtest",
+          "Cycle_to_Input_and_Branch.rrtest",
+          "Four_Steps.rrtest",
+          "Futile_Cycle.rrtest",
+          "jacobian_1.rrtest",
+          "Multibranch1.rrtest",
+          "MultiBranch2.rrtest",
+          "oscli.rrtest",
+          "reversible_Jacobian.rrtest",
+          "Simple_Branch.rrtest",
+          "Test_1.rrtest",
+          "Test_2.rrtest",
+          "Test_3.rrtest",
+          "Three_Steps.rrtest",
+          "Two_Cycles.rrtest",
+          "Two_Steps.rrtest"
+//           "variable_time_step.rrtest"
+        };
+
+        std::set<std::string> result;
+
+        for(int n = 0; n < sizeof(rrtest_files) / sizeof(rrtest_files[0]); ++n) {
+            Poco::Path testfile(path);
+            testfile.append(rrtest_files[n]);
+            result.insert(testfile.toString());
+        }
+
+        return result;
     }
 
     void setTestFile(const std::string& filePath)
