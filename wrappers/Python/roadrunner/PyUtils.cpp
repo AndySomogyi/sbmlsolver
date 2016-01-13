@@ -61,8 +61,8 @@ char* rr_strclone(const char* src) {
 }
 
 /// Imported from graphfab
-void rr_strfree(char* str) {
-    free(str);
+void rr_strfree(const char* str) {
+    free((void*)str);
 }
 
 /**
@@ -135,7 +135,7 @@ char* rrPyString_AsString(PyObject* s) {
     Py_XDECREF(bytes);
     return str;
 #else
-    return rr_strclone(rrPyString_AsString(s));
+    return rr_strclone(PyString_AsString(s));
 #endif
 }
 
@@ -679,7 +679,7 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
         int len = PySequence_Size(colSeq);
         for (int col = 0; col < len; col++) {
             PyObject *item = PySequence_Fast_GET_ITEM(colSeq, col);
-            const char* itemStr = rrPyString_AsString(item);
+            char* itemStr = rrPyString_AsString(item);
 
             if(strcmp(keyName, itemStr) == 0) {
 
@@ -702,6 +702,8 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
                 Py_DECREF(colSeq);
                 return result;
             }
+
+            rr_strfree(itemStr);
         }
 
         // did not find a col name, free the seq
@@ -713,7 +715,7 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
         len = PySequence_Size(rowSeq);
         for (int row = 0; row < len; ++row) {
             PyObject *item = PySequence_Fast_GET_ITEM(rowSeq, row);
-            const char* itemStr = rrPyString_AsString(item);
+            char* itemStr = rrPyString_AsString(item);
 
             if(strcmp(keyName, itemStr) == 0) {
 
@@ -736,6 +738,8 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
                 Py_DECREF(rowSeq);
                 return result;
             }
+
+            rr_strfree(itemStr);
         }
 
         // did not find a col name, free the seq
