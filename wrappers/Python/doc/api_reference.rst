@@ -24,6 +24,8 @@ The RoadRunner SBML Simulation Engine Python API,
 
 .. include:: mod_roadrunner/cls_RoadRunner.rst   
 
+.. include:: mod_roadrunner/cls_SelectionRecord.rst
+
 .. include:: mod_roadrunner/cls_LoadSBMLOptions.rst
 
 .. include:: mod_roadrunner/cls_ExecutableModel.rst

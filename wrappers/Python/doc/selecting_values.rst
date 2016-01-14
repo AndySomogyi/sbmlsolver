@@ -68,10 +68,10 @@ Eigenvalue: ``eigenReal()``, ``eigenImag()``
     Represents the eigenvalue of a floating species. ``eigenReal(identifier)`` is the real part of eigenvalue while
     ``eigenImag(identifier)`` is the imaginary part of eigenvalue.
 
-Initial Concentration: ``init()``
-    Represents the initial concentration of an identifier specified in the SBML document, i.e. ``init(S1)``.
+Initial Value: ``init()``
+    Represents the initial value of an identifier specified in the SBML document, i.e. ``init(S1)``.
 
-Stoichiometry
+Stoichiometry: ``stoich(ParameterId, ReactionId)``
     Represents the stoichiometric coefficient for a given species and reaction.
 
 Experimenting With Selections

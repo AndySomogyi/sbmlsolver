@@ -1,5 +1,8 @@
+SelectionRecord
+_______________
+
 .. class:: SelectionRecord(str)
-   :module: RoadRunner
+   :module: roadrunner
 
    RoadRunner provides a range of flexible ways of selecting values from
    a simulation. These values can not only be calculated directly via
@@ -9,98 +12,140 @@
    The SectionRecord.selectionType should be one of the constants listed
    here.
 
-   Most selection types only require the first symbol id, p1 to be set,
-   however certain ones such as [???] require both p1 and p2.
+   p1 and p2 may be required along with the attribute to set certain selection types that use one or more arguments.
+   
+   Below is the list of attributes which are FOR ADVANCED USERS ONLY. For simplified usage, refer to :ref:`Selecting Values <selecting-values>`.
+   
 
 .. method::SelectionRecord.__init__(str)
    Create a new selection record. This constructor really should not be called,
    SelectionRecords should be created by the RoadRunner.createSelection
 
-.. attribute:: SelectionRecord.TIME
+.. attribute:: SelectionRecord.ALL
 
-.. attribute:: SelectionRecord.CONCENTRATION
+.. attribute:: SelectionRecord.ALL_DEPENDENT
+
+.. attribute:: SelectionRecord.ALL_DEPENDENT_AMOUNT
+
+.. attribute:: SelectionRecord.ALL_DEPENDENT_CONCENTRATION
+
+.. attribute:: SelectionRecord.ALL_INDEPENDENT
+
+.. attribute:: SelectionRecord.ALL_INDEPENDENT_AMOUNT
+
+.. attribute:: SelectionRecord.ALL_INDEPENDENT_CONCENTRATION
 
 .. attribute:: SelectionRecord.AMOUNT
 
    species must have either a CONCENTRATION or AMOUNT
    modifer to distinguish it.
-   
-.. attribute:: SelectionRecord.RATE
 
 .. attribute:: SelectionRecord.BOUNDARY
 
-.. attribute:: SelectionRecord.FLOATING
+   species must have either a BOUNDARY or FLOATING modifiers.
 
-.. attribute:: SelectionRecord.REACTION
+.. attribute:: SelectionRecord.BOUNDARY_AMOUNT   
 
-.. attribute:: SelectionRecord.INITIAL
-
-.. attribute:: SelectionRecord.CURRENT
-
-.. attribute:: SelectionRecord.UNSCALED
-
-.. attribute:: SelectionRecord.ELASTICITY
-
-.. attribute:: SelectionRecord.CONTROL
-
-.. attribute:: SelectionRecord.EIGENVALUE
-
-.. attribute:: SelectionRecord.ELEMENT
-
-.. attribute:: SelectionRecord.STOICHIOMETRY
-
-.. attribute:: SelectionRecord.UNKNOWN
-
-.. attribute:: SelectionRecord.DEPENDENT
-
-.. attribute:: SelectionRecord.INDEPENDENT
-
-.. attribute:: SelectionRecord.CONSREVED_MOIETY
-
-.. attribute:: SelectionRecord.UNKNOWN_CONCENTRATION
-
-.. attribute:: SelectionRecord.COMPARTMENT
-
-.. attribute:: SelectionRecord.GLOBAL_PARAMETER
-
-.. attribute:: SelectionRecord.FLOATING_AMOUNT
-
-.. attribute:: SelectionRecord.BOUNDARY_AMOUNT
+   species must have either a BOUNDARY or FLOATING modifiers.
 
 .. attribute:: SelectionRecord.BOUNDARY_CONCENTRATION
 
-.. attribute:: SelectionRecord.FLOATING_CONCENTRATION
+   species must have either a BOUNDARY or FLOATING modifiers.
+   
+.. attribute:: SelectionRecord._COMPARTMENT
+
+   Compartments and parameters can be either current or initial values. These values with and underscore, '_' are intended to be used with either an CURRENT or INITIAL value modifier.
+
+.. attribute:: SelectionRecord.COMPARTMENT
+
+   the current compartment value   
+   
+.. attribute:: SelectionRecord.CONCENTRATION
+
+   species must have either a CONCENTRATION or AMOUNT
+   modifer to distinguish it.
+
+.. attribute:: SelectionRecord.CONSREVED_MOIETY   
+   
+.. attribute:: SelectionRecord.CONTROL   
+
+   scaled control coefficient of designated arguments.
+   
+.. attribute:: SelectionRecord.CURRENT
+
+.. attribute:: SelectionRecord.DEPENDENT
+
+.. attribute:: SelectionRecord.EIGENVALUE
+
+   real part of eigenvalue of designated identifier.
+
+.. attribute:: SelectionRecord.EIGENVALUE_COMPLEX
+
+   complex part of eigenvalue of designated identifier.
+
+.. attribute:: SelectionRecord.ELASTICITY
+
+   scaled elasticity coefficient of designated arguments.
+
+.. attribute:: SelectionRecord.ELEMENT
+
+.. attribute:: SelectionRecord.FLOATING
+
+.. attribute:: SelectionRecord.FLOATING_AMOUNT
+
+   current amounts.
 
 .. attribute:: SelectionRecord.FLOATING_AMOUNT_RATE
 
+.. attribute:: SelectionRecord.FLOATING_CONCENTRATION
+
+   current concentrations.
+
 .. attribute:: SelectionRecord.FLOATING_CONCENTRATION_RATE
 
-.. attribute:: SelectionRecord.REACTION_RATE
+.. attribute:: SelectionRecord.GLOBAL_PARAMETER
+
+   the current global parameter value
+
+.. attribute:: SelectionRecord.INDEPENDENT
+
+.. attribute:: SelectionRecord.INITIAL
 
 .. attribute:: SelectionRecord.INITIAL_FLOATING_AMOUNT
 
+   initial amount of designated identifier.
+
 .. attribute:: SelectionRecord.INITIAL_FLOATING_CONCENTRATION
 
-.. attribute:: SelectionRecord.UNSCALED_ELASTICITY
+   initial concentration of designated identifier.
 
-.. attribute:: SelectionRecord.UNSCALED_CONTROL
+.. attribute:: SelectionRecord.RATE
+
+.. attribute:: SelectionRecord.REACTION
+
+.. attribute:: SelectionRecord.REACTION_RATE
+
+.. attribute:: SelectionRecord.STOICHIOMETRY
+
+   stoichiometric coefficient of designated identifier and reaction.
+
+.. attribute:: SelectionRecord.TIME
+
+.. attribute:: SelectionRecord.UNKNOWN
+
+.. attribute:: SelectionRecord.UNKNOWN_CONCENTRATION
 
 .. attribute:: SelectionRecord.UNKNOWN_ELEMENT
 
-.. attribute:: SelectionRecord.ALL
+.. attribute:: SelectionRecord.UNSCALED
 
-.. attribute:: SelectionRecord.ALL_INDEPENDENT
+.. attribute:: SelectionRecord.UNSCALED_CONTROL
 
-.. attribute:: SelectionRecord.ALL_DEPENDENT
+   unscaled control coefficient of designated arguments.
 
-.. attribute:: SelectionRecord.ALL_INDEPENDENT_AMOUNT
+.. attribute:: SelectionRecord.UNSCALED_ELASTICITY
 
-.. attribute:: SelectionRecord.ALL_DEPENDENT_AMOUNT
-
-.. attribute:: SelectionRecord.ALL_INDEPENDENT_CONCENTRATION
-
-.. attribute:: SelectionRecord.ALL_DEPENDENT_CONCENTRATION
-
+   unscaled elasticity coefficient of designated arguments.
 
 .. attribute:: SelectionRecord.index
    :module: RoadRunner
@@ -111,10 +156,13 @@
    :module: RoadRunner
    :annotation: str
 
+   first of the arguments
 
 .. attribute:: SelectionRecord.p2
    :module: RoadRunner
    :annotation: str
+   
+   second of the arguments
 
 
 .. attribute:: SelectionRecord.selectionType
