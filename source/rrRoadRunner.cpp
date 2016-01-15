@@ -1328,9 +1328,6 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     break;
                 }
 
-                if(!self.simulateOpt.steps && tout > timeEnd)
-                  tout = timeEnd;
-
                 getSelectedValues(row, tout);
 
                 // use linear interpolation to ensure last time point is requested end time
