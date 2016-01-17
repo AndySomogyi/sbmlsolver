@@ -901,8 +901,22 @@ def checkVariableEndTime(rrInstance, testId):
     print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     words = divide(readLine())
-    n = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
-    if expectApproximately(n[-1][0], float(words[1]), 1e-16) == False:
+    n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+    rrInstance.getIntegrator().resetSettings()
+    rrInstance.getIntegrator().setValue('variable_step_size', True)
+    n2 = rrInstance.simulate(float(words[0]), float(words[1]))
+    if expectApproximately(n1[-1][0], float(words[1]), 1e-16) == False:
+        errorFlag = True
+    if expectApproximately(n2[-1][0], float(words[1]), 1e-16) == False:
+        errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkDefaultTimeStep(rrInstance, testId):
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    words = divide(readLine())
+    n = rrInstance.simulate(float(words[0]), float(words[1]))
+    if numpy.shape(n)[0] != int(words[2]):
         errorFlag = True
     print(passMsg (errorFlag))
 
@@ -938,6 +952,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Amount Jacobian]' : checkAmountJacobian,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Boundary Species Ids]': checkGetBoundarySpeciesIds,
+             '[Check Default Time Step]': checkDefaultTimeStep,
              '[Compartment Ids]': checkGetCompartmentIds,
              '[Compute Steady State Values]': checkComputeSteadyStateValues,
              '[Conservation Laws]': setConservationLaw,
