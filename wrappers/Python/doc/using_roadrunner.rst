@@ -59,39 +59,40 @@ There are a few additional models in the ``models/`` directory of the distributi
 Running Simulations
 -------------------
 
-Once a model is successfully loaded we can next run a time course simulation. To do this we use the
-simulate method::
+Once a model is successfully loaded we can run a time course simulation. To run a simulation we use the
+:meth:`RoadRunner.simulate()` method::
 
    result = rr.simulate()
 
-The variable result will be a Python numpy array. The first column will contain time and the remaining columns will include
-all the floating species. In the simulate method we didn't specify how long to do the simulation for or how many
-points to generate.  By default the time start is set to zero, time end to 40 time units and the number of points to 500.
-There are two ways to set these values to different values. The easiest is to add them to the called in the following
-way::
+The output will be in a Python numpy array. The first column will contain time points and the remaining columns will include
+all the floating species amounts/concentrations. In the simulate method we didn't specify how long to run the simulation or how many
+points to generate.  By default the starting time is set to zero, ending time to 10 and the number of points to 50.
+There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`RoadRunner.simulate()` 
+in the following manner::
 
-   result = rr.simulate (0, 10, 100)
+   result = rr.simulate (0, 10, 101)
 
-This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simulation points
-will be output in intervals of 0.1.
+This will set the starting time to zero, the ending time to 10 and generate 101 points. This means that the result will
+be out in time intervals of 0.1.
 
-The simulate method also accepts a number of keyword arguments. These may be uses like::
+The simulate method also accepts other keyword arguments::
 
-  result = rr.simulate(0, 10, 100, reset=True, stiff=True)
+  result = rr.simulate(0, 10, 101, reset=True, stiff=True)
 
-For more details of the simulate method see :meth:`RoadRunner.simulate()`
-The follow table summarizes the various options.
+For more details of the simulate method see :meth:`RoadRunner.simulate()`.
+The following table summarizes the various options.
 
 ================  =============
  Option           Description
 ================  =============
-start             Start time for simulation
-end               End time for simulation. Setting 'end' will automatically change 'duration'
-duration          Duration of the simulation. Setting 'duration' will automatically change 'end'
-steps             Number of steps to generate
+start             Starting time for simulation
+end               Ending time for simulation. Setting 'end' will automatically change 'duration'
+duration          Duration of the simulation in the model's units of time. Setting 'duration' will automatically change 'end'
+steps             Number of steps at which the output is sampled where the samples are evenly spaced
 absolute          Absolute tolerance for the CVODE integrator
 relative          Relative tolerance for the CVODE integrator
-stiff             Tells the integrator to use the fully implicit backward difference stiff solver
+stiff             Tells the integrator to use the fully implicit backward difference stiff solver.
+                  Only use this if the model is stiff.
 reset             Resets the SBML state to the original values specified in the SBML.
 structuredResult  If set (default is True), the result from simulate is a numpy structured array
                   with the column names set to the selections. This is required for plotting and
@@ -103,11 +104,11 @@ integrator        a string of either "cvode" for deterministic simulations, or "
 plot              True or False, plot the results of the simulation. 
 ================  =============
 
-One important point to note about simulate(). When simulate() is run, the concentration of
+One important point to note about simulate():: When simulate() is run, the concentration of
 the floating species will naturally change. If simulate() is called a second time, the simulation
 will start the simulation from the previous simulated values. This can be used to easily follow on
 simulations. However there will be times when we wish to run the same simulation again but perhaps
-with slightly different parameters values. To do this we must reset the initial conditions back to
+with slightly different parameters values. For this we must reset the initial conditions back to
 the original values. To do that we run the command reset::
 
    rr.reset()
