@@ -2,7 +2,7 @@
 Basic Tutorial
 **************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 Import RoadRunner
 -----------------
@@ -59,39 +59,40 @@ There are a few additional models in the ``models/`` directory of the distributi
 Running Simulations
 -------------------
 
-Once a model is successfully loaded we can next run a time course simulation. To do this we use the
-simulate method::
+Once a model is successfully loaded we can run a time course simulation. To run a simulation we use the
+:meth:`RoadRunner.simulate()` method::
 
    result = rr.simulate()
 
-The variable result will be a Python numpy array. The first column will contain time and the remaining columns will include
-all the floating species. In the simulate method we didn't specify how long to do the simulation for or how many
-points to generate.  By default the time start is set to zero, time end to 40 time units and the number of points to 500.
-There are two ways to set these values to different values. The easiest is to add them to the called in the following
-way::
+The output will be in a Python numpy array. The first column will contain time points and the remaining columns will include
+all the floating species amounts/concentrations. In the simulate method we didn't specify how long to run the simulation or how many
+points to generate.  By default the starting time is set to zero, ending time to 10 and the number of points to 50.
+There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`RoadRunner.simulate()` 
+in the following manner::
 
-   result = rr.simulate (0, 10, 100)
+   result = rr.simulate (0, 10, 101)
 
-This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simulation points
-will be output in intervals of 0.1.
+This will set the starting time to zero, the ending time to 10 and generate 101 points. This means that the result will
+be out in time intervals of 0.1.
 
-The simulate method also accepts a number of keyword arguments. These may be uses like::
+The simulate method also accepts other keyword arguments::
 
-  result = rr.simulate(0, 10, 100, reset=True, stiff=True)
+  result = rr.simulate(0, 10, 101, reset=True, stiff=True)
 
-For more details of the simulate method see :meth:`RoadRunner.simulate()`
-The follow table summarizes the various options.
+For more details of the simulate method see :meth:`RoadRunner.simulate()`.
+The following table summarizes the various options.
 
 ================  =============
  Option           Description
 ================  =============
-start             Start time for simulation
-end               End time for simulation. Setting 'end' will automatically change 'duration'
-duration          Duration of the simulation. Setting 'duration' will automatically change 'end'
-steps             Number of steps to generate
+start             Starting time for simulation
+end               Ending time for simulation. Setting 'end' will automatically change 'duration'
+duration          Duration of the simulation in the model's units of time. Setting 'duration' will automatically change 'end'
+steps             Number of steps at which the output is sampled where the samples are evenly spaced
 absolute          Absolute tolerance for the CVODE integrator
 relative          Relative tolerance for the CVODE integrator
-stiff             Tells the integrator to use the fully implicit backward difference stiff solver
+stiff             Tells the integrator to use the fully implicit backward difference stiff solver.
+                  Only use this if the model is stiff.
 reset             Resets the SBML state to the original values specified in the SBML.
 structuredResult  If set (default is True), the result from simulate is a numpy structured array
                   with the column names set to the selections. This is required for plotting and
@@ -103,11 +104,11 @@ integrator        a string of either "cvode" for deterministic simulations, or "
 plot              True or False, plot the results of the simulation. 
 ================  =============
 
-One important point to note about simulate(). When simulate() is run, the concentration of
+One important point to note about simulate():: When simulate() is run, the concentration of
 the floating species will naturally change. If simulate() is called a second time, the simulation
 will start the simulation from the previous simulated values. This can be used to easily follow on
 simulations. However there will be times when we wish to run the same simulation again but perhaps
-with slightly different parameters values. To do this we must reset the initial conditions back to
+with slightly different parameters values. For this we must reset the initial conditions back to
 the original values. To do that we run the command reset::
 
    rr.reset()
@@ -119,8 +120,8 @@ Often during a modeling experiment we will need to change parameter values, that
 kinetic constants in the model. If a model has a kinetic constants k1, then we can change or inspect the value using
 the following syntax::
 
-   print rr.model.k1
-   rr.model.k1 = 1.2
+   print rr.k1
+   rr.k1 = 1.2
 
 
 Selecting Simulation Output
@@ -139,23 +140,23 @@ It is possible to change the simulation result values by changing the selection 
 For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
 return time in the first column and S2 in the second column. To specify this we would type::
 
-   rr.selections = ['time', 'S2']
+   rr.timeCourseSelections = ['time', 'S2']
    result = rr.simulate (0, 10, 100)
 
 In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we
 type the following::
 
-   rr.selections = ['S1', 'S2']
+   rr.timeCourseSelections = ['S1', 'S2']
    result = rr.simulate(0, 10, 100)
 
 Some additional examples include:
 
    # Select time and two rates of change (dS1/dt and dS2/dt)
-   rr.selections = ['time, 'S1''', 'S2''']
+   rr.timeCourseSelections = ['time, 'S1''', 'S2''']
 
    # By default species names yield amounts, concentrations can be obtained
    # using square brackets, e.g.
-   rr.selections = ['time', '[S1]', '[S2]']
+   rr.timeCourseSelections = ['time', '[S1]', '[S2]']
 
 .. seealso:: More details on :doc:`selecting_values`
 
@@ -203,7 +204,7 @@ object instance, and the second is a flag which tells the method to show the plo
 
       # assume result is a standard numpy array
 
-      selections = r.selections
+      selections = r.timeCourseSelections
 
       if len(result.shape) != 2 or result.shape[1] != len(selections):
           raise Exception("simulation result columns not equal to number of selections,"
@@ -288,5 +289,62 @@ Initial conditions can be set using the two methods for all species in one call:
   >>> r.model.setFloatingSpeciesInitConcentrations ([6.7, 0.1])
 
 
+Solvers
+---------------------------
+
+
+RoadRunner has two types of solvers: integrators and steady-state solvers.
+Integrators control numerical timecourse integration via the `simulate` method.
+By default, RoadRunner uses CVODE, a real differential equation solver from the
+SUNDIALS suite. Internally, CVODE features an adaptive timestep. However, unless `variableStep`
+is specified in the call to `simulate`, the output will contain evenly spaced intervals.
+
+  >>>  r.simulate(0, 10, 10)
+  # Output will contain evenly spaced intervals
+  >>>  r.simulate(variableStep=True)
+  # Intervals will vary according to CVODE step size
+
+RoadRunner also contains a basic 4th-order Runge-Kutta integrator, which can be selected
+with a call to `setIntegrator`:
+
+  >>>  r.setIntegrator('rk4')
+
+Runge-Kutta always uses a fixed step size, and does not support events.
+
+Some integrators, such as CVODE, have parameters which can be set by the user.
+To see a list of these settings, use `getSettings`:
+
+  >>>  r.getIntegrator().getSettings()
+  ('relative_tolerance', 'absolute_tolerance', 'stiff', 'maximum_bdf_order', 'maximum_adams_order', 'maximum_num_steps', 'maximum_time_step', 'minimum_time_step', 'initial_time_step', 'multiple_steps', 'variable_step_size')
+
+To set a parameter, use one of the two alternative methods:
+
+  >>>  r.getIntegrator().relative_tolerance = 1e-10
+  >>>  r.getIntegrator().setValue('relative_tolerance', 1e-10)
+
+Be sure to set the parameter to the correct type, which can be obtained from
+the parameter's hint or description:
+
+  >>>  r.getIntegrator().getHint('relative_tolerance')
+  'Specifies the scalar relative tolerance (double).'
+  >>>  r.getIntegrator().getDescription('relative_tolerance')
+  '(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.'
+
+Parameters also have a display name:
+
+  >>>  r.getIntegrator().getDisplayName('relative_tolerance')
+  'Relative Tolerance'
+
+The other type of solver is a steady-state solver, which works in essentially the same way:
+
+  >>>  r.getSteadyStateSolver().getSettings()
+  ('maximum_iterations', 'minimum_damping', 'relative_tolerance')
+  >>>  r.getSteadyStateSolver().getHint('maximum_iterations')
+  'The maximum number of iterations the solver is allowed to use (int)'
+  >>>  r.getSteadyStateSolver().getDescription('maximum_iterations')
+  '(int) Iteration caps off at the maximum, regardless of whether a solution has been reached'
+
+The steady state solver is invoked by a call to `r.steadyState()`.
+RoadRunner only has a single steady state solver (NLEQ).
 
 .. highlight:: python

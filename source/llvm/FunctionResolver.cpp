@@ -92,7 +92,7 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         if (nchild - 1 != args.size())
         {
             string expected = rr::toString(nchild - 1);
-            string got = rr::toString(args.size());
+            string got = rr::toString((int)args.size());
 
             throw_llvm_exception(symbol + ", argument count does not match, expected " +
                     expected + ", recieved: " + got);

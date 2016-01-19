@@ -11,6 +11,7 @@
 #include <string>
 #include "rrExporter.h"
 #include "Variant.h"
+#include <vector>
 
 namespace rr
 {
@@ -431,6 +432,19 @@ public:
         OPTIMIZE_REACTION_RATE_SELECTION,
 
 
+        /**
+         * Relax SBML resrictions.
+         *
+         * Allows some idiosyncrasies of e.g. JDesigner that libSBML does not
+         * officially support. See:
+         * https://groups.google.com/forum/#!topic/sbml-discuss/u3NK14RUHvE
+         *
+         * Specifics: allows use time in user-defined functions, allows use of
+         * booleans in scalars
+         */
+        LOADSBMLOPTIONS_PERMISSIVE,
+
+
         // add lots of space so not to conflict with other branches.
 
 
@@ -521,6 +535,10 @@ public:
      * file are cleared and the new values written.
      */
     static void writeConfigFile(const std::string& path);
+
+    static Keys stringToKey(const std::string& key);
+
+    static std::vector<std::string> getKeyList();
 };
 
 } /* namespace rr */

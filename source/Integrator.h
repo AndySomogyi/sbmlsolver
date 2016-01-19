@@ -1,360 +1,223 @@
-/*
- * Integrator.h
- *
- *  Created on: Sep 7, 2013
- *      Author: andy
- */
+// == PREAMBLE ================================================
 
-#ifndef INTEGRATOR_H_
-#define INTEGRATOR_H_
+// * Licensed under the Apache License, Version 2.0; see README
 
-#include "rrLogger.h"
-#include "rrOSSpecifics.h"
-#include "Dictionary.h"
-#include "tr1proxy/rr_memory.h"
-#include <stdexcept>
+// == FILEDOC =================================================
 
+/** @file Integrator.h
+* @author ETS, WBC, JKM
+* @date Sep 7, 2013
+* @copyright Apache License, Version 2.0
+* @brief Contains the base class for RoadRunner integrators
+**/
+
+# ifndef RR_INTEGRATOR_H_
+# define RR_INTEGRATOR_H_
+
+// == INCLUDES ================================================
+
+# include "rrLogger.h"
+# include "rrOSSpecifics.h"
+# include "Dictionary.h"
+# include "rrException.h"
+# include "Solver.h"
+
+# include "tr1proxy/rr_memory.h"
+# include "tr1proxy/rr_unordered_map.h"
+# include <stdexcept>
+
+// == CODE ====================================================
 
 namespace rr
 {
 
-class Integrator;
-class ExecutableModel;
+	class Integrator;
+	class ExecutableModel;
 
-/**
- * Listen for integrator events.
- *
- * These are called after the event occured or was processed.
- *
- * The internal integrator typically iterates for many internal time
- * steps, at variable step size for each external time step. So, if
- * RoadRunner::oneStep is called with a step size of say 10 time units, the internal
- * integrator may potentially integrate for 1, 5, 10 100 or some value. The
- * onTimeStep method is called for each of these internal time steps.
- *
- * The return values are currently a place holder and are ignored.
- */
-class IntegratorListener
-{
-public:
+	/*-------------------------------------------------------------------------------------------
+		IntegratorListener listens for integrator events.
+	---------------------------------------------------------------------------------------------*/
+	class IntegratorListener
+	{
+	public:
 
-    /**
-     * is called after the internal integrator completes each internal time step.
-     */
-    virtual uint onTimeStep(Integrator* integrator, ExecutableModel* model, double time) = 0;
+		/**
+		* is called after the internal integrator completes each internal time step.
+		*/
+		virtual uint onTimeStep(Integrator* integrator, ExecutableModel* model, double time) = 0;
 
-    /**
-     * whenever model event occurs and after it is procesed.
-     */
-    virtual uint onEvent(Integrator* integrator, ExecutableModel* model, double time) = 0;
+		/**
+		* whenever model event occurs and after it is procesed.
+		*/
+		virtual uint onEvent(Integrator* integrator, ExecutableModel* model, double time) = 0;
 
-    virtual ~IntegratorListener() {};
-};
+		virtual ~IntegratorListener() {};
+	};
 
-/**
- * \typedef IntegratorListenerPtr
- * listeners are shared objects, so use std smart pointers
- * to manage them.
- */
-typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
+	typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
 
-class SimulateOptions;
+	/*-------------------------------------------------------------------------------------------
+		Integrator is an abstract base class that provides an interface to specific integrator
+		class implementations.
+	---------------------------------------------------------------------------------------------*/
+	class RR_DECLSPEC Integrator : public Solver
+	{
+	public:
+		enum IntegrationMethod
+		{
+			Deterministic,
+			Stochastic,
+			Hybrid,
+			Other
+		};
 
-/**
- * Interface to a class which advances a model forward in time.
- *
- * The Integrator is only valid if attached to a model.
- */
-class RR_DECLSPEC Integrator : public Dictionary
-{
-public:
+		virtual ~Integrator() {};
 
-    /**
-     * Whenever the simulation parameters are changed via calls to the
-     * RoadRunner::simulate method, the setSimulateOptions method is
-     * called by RoadRunner.
-     *
-     * This method should be used to read any updated tuning parameters.
-     */
-    virtual void setSimulateOptions(const SimulateOptions* options) = 0;
+        virtual IntegrationMethod getIntegrationMethod() const = 0;
+
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
+
+		virtual void loadConfigSettings();
+		virtual void loadSBMLSettings(const std::string& filename);
+
+		virtual double integrate(double t0, double hstep) = 0;
+		virtual void restart(double t0) = 0;
 
     /**
-     * integrates the model from t0 to t0 + hstep
-     *
-     * @return the final time value. This is typically very close to t0 + hstep,
-     * but may be different if variableStep is used.
+     * @author JKM, WBC, ETS, MTK
+     * @brief Fix tolerances for SBML tests
+     * @details In order to ensure that the results of the SBML test suite
+     * remain valid, this method enforces a lower bound on tolerance values.
+     * Sets minimum absolute and relative tolerances to
+     * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
      */
-    virtual double integrate(double t0, double hstep) = 0;
+    virtual void tweakTolerances();
+
+		/* CARRYOVER METHODS */
+		virtual void setListener(IntegratorListenerPtr) = 0;
+		virtual IntegratorListenerPtr getListener() = 0;
+		std::string toString() const;
 
     /**
-     * copies the state vector out of the model and into cvode vector,
-     * re-initializes cvode.
-     */
-    virtual void restart(double t0) = 0;
+    * @author JKM
+    * @brief Return string representation a la Python __repr__ method
+    */
+    virtual std::string toRepr() const;
+		/* !-- END OF CARRYOVER METHODS */
+	};
+
+
+	class IntegratorException : public std::runtime_error
+	{
+	public:
+		explicit IntegratorException(const std::string& what) :
+			std::runtime_error(what)
+		{
+				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
+			}
+
+		explicit IntegratorException(const std::string& what, const std::string &where) :
+			std::runtime_error(what + "; In " + where)
+		{
+				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
+			}
+	};
 
     /**
-     * the integrator can hold a single listener. If clients require multicast,
-     * they can create a multi-cast listener.
+     * @author JKM, WBC
+     * @brief Handles constructing an integrator and contains meta
+     * information about it
      */
-    virtual void setListener(IntegratorListenerPtr) = 0;
-
-    /**
-     * get the integrator listener
-     */
-    virtual IntegratorListenerPtr getListener() = 0;
-
-    /**
-     * get a description of this object, compatable with python __str__
-     */
-    virtual std::string toString() const = 0;
-
-    /**
-     * get a short descriptions of this object, compatable with python __repr__.
-     */
-    virtual std::string toRepr() const = 0;
-
-    /**
-     * get the name of this integrator
-     */
-    virtual std::string getName() const = 0;
-
-    /**
-     * this is an interface, provide virtual dtor as instances are
-     * returned from New which must be deleted.
-     */
-    virtual ~Integrator() {};
-
-    /**
-     * the list of ODE solvers RoadRunner currently supports.
-     *
-     * The last item, INTEGRATOR_END needs to always be the last item
-     * it is not a valid integrator, just used to indicate how many
-     * we have.
-     */
-    enum IntegratorId
+    class RR_DECLSPEC IntegratorRegistrar
     {
-        /**
-         * The default CVODE integrator from the Sundials package.
-         */
-        CVODE = 0,
+    protected:
+        typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
+    public:
+        virtual ~IntegratorRegistrar();
 
         /**
-         * Basic Gillespie stochastic integrator.
+         * @author JKM, WBC
+         * @brief Gets the name associated with this integrator type
          */
-        GILLESPIE,
+        virtual std::string getName() const = 0;
 
         /**
-         * Basic Runge-Kutta fourth order integrator.
+         * @author JKM, WBC
+         * @brief Gets the description associated with this integrator type
          */
-        RK4,
+        virtual std::string getDescription() const = 0;
 
         /**
-         * Simple forward Euler integrator to demonstrate creating an
-         * integrator.
+         * @author JKM, WBC
+         * @brief Gets the hint associated with this integrator type
          */
-        EULER,
+        virtual std::string getHint() const = 0;
 
         /**
-         * Always has to be at the end, this way, this value indicates
-         * how many integrators we have.
+         * @author JKM, WBC
+         * @brief Constructs a new integrator of a given type
          */
-        INTEGRATOR_END
+        virtual Integrator* construct(ExecutableModel *model) const = 0;
     };
 
-
     /**
-     * Integrators may be either deterministic or stochastic
+     * @author JKM, WBC
+     * @brief Constructs new integrators
+     * @details Implements the factory and singleton patterns.
+     * Constructs a new integrator given the name (e.g. cvode, gillespie)
+     * and returns a base pointer to @ref rr::Integrator.
      */
-    enum IntegratorType
+    class RR_DECLSPEC IntegratorFactory
     {
-        /**
-         * Every set of variable states is uniquely determined by parameters
-         * in the model and by sets of previous states of these variables.
-         * Therefore, deterministic integrators perform the same way for a given
-         * set of initial conditions
-         */
-        DETERMINISTIC,
+    public:
+        virtual ~IntegratorFactory();
 
         /**
-         * Randomness is present, and variable states are not described by
-         * unique values, but rather by probability distributions.
+         * @author JKM, WBC
+         * @brief Constructs a new integrator given the name
+         * (e.g. cvode, gillespie)
          */
-        STOCHASTIC
+        Integrator* New(std::string name, ExecutableModel *m) const;
+
+        /**
+         * @author JKM, WBC
+         * @brief Registers a new integrator with the factory
+         * so that it can be constructed
+         * @details Should be called at startup for new integrators.
+         */
+        void registerIntegrator(IntegratorRegistrar* i);
+
+        /**
+         * @author JKM, WBC
+         * @brief Returns the singleton instance of the integrator factory
+         */
+        static IntegratorFactory& getInstance();
+
+        // ** Indexing *********************************************************
+
+        std::size_t getNumIntegrators() const;
+
+        std::string getIntegratorName(std::size_t n) const;
+
+        std::string getIntegratorHint(std::size_t n) const;
+
+        std::string getIntegratorDescription(std::size_t n) const;
+
+    private:
+        /**
+         * @author JKM, WBC
+         * @brief Prevents external instantiation
+         */
+        IntegratorFactory() {}
+        typedef std::vector<IntegratorRegistrar*> IntegratorRegistrars;
+        IntegratorRegistrars mRegisteredIntegrators;
     };
-
-
-    /**
-     * A set of flags that are common to all integrators. The SimulateOptions::integratorFlags
-     * field is a bitmask that contains these values.
-     */
-    enum IntegratorFlags
-    {
-        /**
-         * Is the model a stiff system? setting this to stiff causes
-         * RoadRunner to load a stiff solver which could potentially be
-         * extremly slow
-         */
-        STIFF                   = (0x1 << 0), // => 0x00000001
-
-        /**
-         * The MULTI_STEP option tells the solver to take a series of internal steps
-         * and then return the solution at the point reached by that step.
-         *
-         * In simulate, this option will likely be slower than normal mode,
-         * but may be useful to monitor solutions as they are integrated.
-         *
-         * This is intended to be used in combination with the
-         * IntegratorListener. It this option is set, and there is a
-         * IntegratorListener set, RoadRunner::integrate will run the
-         * integrator in a series of internal steps, and the listner
-         * will by notified at each step.
-         *
-         * Highly Experimental!!!
-         */
-        MULTI_STEP                = (0x1 << 1), // => 0x00000010
-
-        /**
-         * Perform a variable time step simulation. This will allow the
-         * integrator to best choose an adaptive time step and the resulting
-         * matrix will have a non-uniform time column
-         */
-        VARIABLE_STEP             = (0x1 << 2) // => 0b00000100
-    };
-};
-
-
-class IntegratorException: public std::runtime_error
-{
-public:
-    explicit IntegratorException(const std::string& what) :
-            std::runtime_error(what)
-    {
-        Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
-    }
-
-    explicit IntegratorException(const std::string& what, const std::string &where) :
-            std::runtime_error(what + "; In " + where)
-    {
-        Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
-    }
-};
-
-/**
- * A factory class to create an integrator.
- *
- * This class also has a number of static method which return the list of
- * available integrators, and methods to return dictionaries of the available
- * options each Integrator supports.
- *
- * The Dictionary references that are returned are borrowed references, if one
- * wants to modify them, a new SimululateOptions or DictionaryImpl may be created
- * using their copy constructors.
- *
- * When a new mutable dictionary is created, it may be used as the
- * argument to RoadRunner::simulate();
- *
- * The integrator dictionary contain a set of descriptor keys / values, these
- * are the standard key names, but have a ".description" or ".hint" suffix.
- *
- * For example, to iterate through all of the available integrator options,
- * and display them to the console, one would:
- * @code
- *     // get a list of all of the integrator options
- *   vector<const Dictionary*> opts =
- *           IntegratorFactory::getIntegratorOptions();
- *
- *   // iterate through the integrator options
- *   for(int i = 0; i < opts.size(); ++i) {
- *       // each dictionary will contain all the keys that
- *       // are valid for a particular integrator.
- *       const Dictionary &d = *opts[i];
- *       vector<string> keys = d.getKeys();
- *       for(int j = 0; j < keys.size(); ++j) {
- *           string key = keys[j];
- *           string item = d.getItem(key);
- *           cout << "key: " << key << ", value: " << item << std::endl;
- *       }
- *   }
- * @endcode
- *
- * Notice here, the line, `string item = d.getItem(key)`, this implicitly calls
- * the conversion operator to automatically convert the contents of the Variant to
- * a string. Any type that is stored in a Variant can be converted to a string.
- *
- * Each Dictionary object will contain a "integrator" key, this identifies the
- * integrator. It will also contain a "integrator.description" and an "integrator.hint"
- * keys, these provide a full description and a hint for that particular integrator.
- *
- * One may also get a list of all the available integrators via the
- * getIntegratorNames() method, and use this integrator name to get the
- * list of options available for a particular integrator.
- *
- * The values in each integrator options dictionary are those of the current
- * default values. The default values may be modified via the Config class.
- */
-class RR_DECLSPEC IntegratorFactory
-{
-public:
-    /**
-     * create a new integrator based on the settings in the
-     * options class.
-     *
-     * The new integrator borrows a reference to an ExecutableModel object.
-     *
-     * @param opt: a pointer to a Dictionary object whose values will be used
-     * to construct a new Integrator.
-     * @param m: a borrowed reference to an ExecutableModel object, the new
-     * Integrator will be attached to this object. This value may also be NULL,
-     * in which the new Integrator is not attached to any model.
-     * @returns a newly created Integrator. The caller is responsible for
-     * deleting this object.
-     */
-    static Integrator* New(const Dictionary *opt, ExecutableModel *m);
-
-    /**
-     * The list of integrator names that are currently implemented.
-     */
-    static std::vector<std::string> getIntegratorNames();
-
-    /**
-     * list of options that this integrator supports.
-     *
-     * Each dictionary is populated with the default values that
-     * the integrator will be created with.
-     *
-     * @returns a list of borrowed Dictionary references.
-     */
-    static std::vector<const Dictionary*> getIntegratorOptions();
-
-    /**
-     * Get a dictionary of options for a specific integrator.
-     *
-     * @param intName: the name of a valid integrator
-     * @returns a borrowed reference to a Dictionary
-     * @throws std::exception if the argument is not a valid integrator.
-     */
-    static const Dictionary* getIntegratorOptions(const std::string& intName);
-
-    /**
-     * @internal
-     * get the type of integrator.
-     */
-    static Integrator::IntegratorType getIntegratorType(Integrator::IntegratorId i);
-
-    /**
-     * @internal
-     * get the textual name of the integrator.
-     */
-    static std::string getIntegratorNameFromId(Integrator::IntegratorId);
-
-    /**
-     * @internal
-     * mape the textual name of an integrator to its
-     * enumerated id.
-     */
-    static Integrator::IntegratorId getIntegratorIdFromName(const std::string& name);
-};
 
 }
 
-#endif /* INTEGRATOR_H_ */
+# endif /* RR_INTEGRATOR_H_ */

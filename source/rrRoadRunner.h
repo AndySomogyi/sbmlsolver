@@ -22,6 +22,7 @@ class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
 class Integrator;
+class SteadyStateSolver;
 
 /**
  * The main RoadRunner class.
@@ -110,14 +111,26 @@ public:
      * get a pointer to the integrator which is currently being used to
      * time evolve the system.
      */
-    Integrator *getIntegrator();
+    Integrator* getIntegrator();
 
     /**
-     * gets a pointer to a specific integrator.
-     *
-     * Throws a std::invalid_argument if intg is not valid.
+     * get a pointer to the current steady state solver
      */
-    Integrator *getIntegrator(Integrator::IntegratorId intg);
+    SteadyStateSolver* getSteadyStateSolver();
+
+	/* Return a list of the names of all existing integrators. */
+	std::vector<std::string> getExistingIntegratorNames();
+
+	// DEPRECATED
+	//Integrator* getIntegrator(std::string name);
+
+	void setIntegrator(std::string name);
+
+	bool integratorExists(std::string name);
+
+    void setSteadyStateSolver(std::string name);
+
+    bool steadyStateSolverExists(std::string name);
 
     bool isModelLoaded();
 
@@ -126,7 +139,13 @@ public:
      */
     std::string getModelName();
 
-    bool unLoadModel();
+    /**
+     * @brief Clears the currently loaded model and all associated memory
+     * @details Deletes jitted code and libStruct data
+     * @returns True if memory was freed, false if no model was loaded
+     * in the first place
+     */
+    bool clearModel();
 
 
     /**
@@ -339,6 +358,31 @@ public:
     void getIds(int types, std::list<std::string> &ids);
 
     /**
+      * @author JKM
+      * @brief Gets the ids for all independent floating species
+      * @details Independent means (in this case) that the species is unique
+      * up to a conserved cycle, i.e. each conserved cycle counts for only
+      * one species. See Sauro, Systems Biology: Introduction to Pathway
+      * Modeling, 1st ed. pp. 60.
+      */
+    std::vector<std::string> getIndependentFloatingSpeciesIds();
+
+    /**
+      * @author JKM
+      * @brief Gets the ids for all dependent floating species
+      * @details See @ref getIndependentFloatingSpeciesIds for an explanation
+      * of independent vs. dependent.
+      */
+    std::vector<std::string> getDependentFloatingSpeciesIds();
+
+    /**
+      * @brief Gets the ids for all initial floating species concentrations
+      * @details See @ref getIndependentFloatingSpeciesIds for an explanation
+      * of independent vs. dependent.
+      */
+    std::vector<std::string> getFloatingSpeciesInitialConcentrationIds();
+
+    /**
      * returns a bit field of the ids that this class supports.
      */
     int getSupportedIdTypes();
@@ -354,6 +398,18 @@ public:
 /************************ End Selection Ids Species Section *******************/
 #endif /***********************************************************************/
 /******************************************************************************/
+
+    /**
+     * @author JKM
+     * @brief Returns the floating species amounts as a named array
+     */
+    ls::DoubleMatrix getFloatingSpeciesAmounts();
+
+    /**
+     * @author JKM
+     * @brief Returns the floating species concentrations as a named array
+     */
+    ls::DoubleMatrix getFloatingSpeciesConcentrations();
 
     /**
      * compute the full Jacobian at the current operating point
@@ -465,6 +521,34 @@ public:
      */
     static std::string getExtendedVersionInfo();
 
+
+    /**
+     * @author JKM
+     * @brief Set the differential step size used in MCA routines like @ref getCC
+     */
+    double getDiffStepSize() const;
+
+    /**
+     * @author JKM
+     * @brief Set the differential step size used in MCA routines like @ref getCC
+     */
+    void setDiffStepSize(double val);
+
+    /**
+     * @author JKM
+     * @brief Get the steady state threshold used in getCC
+     * @details In the MCA routines, RoadRunner will keep trying to
+     * converge to a steady state until this threshold is met
+     */
+    double getSteadyStateThreshold() const;
+
+    /**
+     * @author JKM
+     * @brief Set the steady state threshold used in getCC
+     * @details In the MCA routines, RoadRunner will keep trying to
+     * converge to a steady state until this threshold is met
+     */
+    void setSteadyStateThreshold(double val);
 
     /**
      * Get unscaled control coefficient with respect to a global parameter
@@ -581,11 +665,54 @@ public:
     #endif /***********************************************************************/
     /******************************************************************************/
 
+    /*********              Used by rrplugins             *************************/
+    
+    /**
+     * @internal
+     * @deprecated
+     */
+    void setBoundarySpeciesByIndex(const int& index, const double& value);
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    int getNumberOfIndependentSpecies();
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterIds
+     */
+    std::vector<std::string> getGlobalParameterIds();
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    std::vector<std::string> getBoundarySpeciesIds();
+
+    /**
+     * @internal
+     * @deprecated
+     */
+    double getBoundarySpeciesByIndex(const int& index);
+
+    /**
+     * @internal
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
+    double getGlobalParameterByIndex(const int& index);
 
 
     /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
     #if (1) /**********************************************************************/
     /******************************************************************************/
+
+    /**
+     * @author MTK, JKM
+     * @brief Returns the sum of each conserved cycle
+     */
+    std::vector<double> getConservedMoietyValues();
 
     #ifndef SWIG // deprecated methods not SWIG'ed
 
@@ -623,12 +750,6 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(std::vector<double> getConservedMoietyValues());
-
-    /**
-     * @internal
-     * @deprecated
-     */
     RR_DEPRECATED(int getNumberOfCompartments());
 
     /**
@@ -659,18 +780,6 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(void setBoundarySpeciesByIndex(const int& index, const double& value));
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(double getBoundarySpeciesByIndex(const int& index));
-
-    /**
-     * @internal
-     * @deprecated
-     */
     RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrations());
 
     /**
@@ -678,12 +787,6 @@ public:
      * @deprecated
      */
     RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double>& values));
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(std::vector<std::string> getBoundarySpeciesIds());
 
     /**
      * @internal
@@ -707,7 +810,7 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrations());
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrationsV());
 
     /**
      * @internal
@@ -762,19 +865,7 @@ public:
      * @internal
      * @deprecated use ExecutableModel::getGlobalParameterValues
      */
-    RR_DEPRECATED(double getGlobalParameterByIndex(const int& index));
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterValues
-     */
     RR_DEPRECATED(std::vector<double> getGlobalParameterValues());
-
-    /**
-     * @internal
-     * @deprecated use ExecutableModel::getGlobalParameterIds
-     */
-    RR_DEPRECATED(std::vector<std::string> getGlobalParameterIds());
 
     /**
      * @internal
@@ -787,12 +878,6 @@ public:
      * @deprecated
      */
     RR_DEPRECATED(int getNumberOfDependentSpecies());
-
-    /**
-     * @internal
-     * @deprecated
-     */
-    RR_DEPRECATED(int getNumberOfIndependentSpecies());
 
 
     /**
@@ -875,7 +960,7 @@ private:
      * If the specified integrator does not exist, create it, and point the
      * integrator pointer to it.
      */
-    void updateIntegrator();
+    //void updateIntegrator();
 
     bool createDefaultSelectionLists();
 
@@ -885,9 +970,6 @@ private:
      */
     int createTimeCourseSelectionList();
 
-
-
-
     std::vector<SelectionRecord> getSelectionList();
 
     /**
@@ -895,7 +977,7 @@ private:
      * the integrators just before they are used with the
      * potentially changed options.
      */
-    void updateSimulateOptions();
+    void applySimulateOptions();
 
 
     enum JacobianMode {

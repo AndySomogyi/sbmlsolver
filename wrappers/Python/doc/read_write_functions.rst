@@ -2,7 +2,7 @@
 SBML Read/Write Functions
 *************************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 Use the following methods to read and write models in the form of SBML.
 

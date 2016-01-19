@@ -49,7 +49,7 @@ char* rrcCallConv getFileContent(const char* fName)
     catch_ptr_macro
 }
 
-bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName)
+int rrcCallConv compileSource(RRHandle handle, const char* sourceFileName)
 {
     return true;
 }
@@ -154,22 +154,22 @@ int rrcCallConv addItem (RRListPtr list, RRListItemPtr *item)
     return n;
 }
 
-bool rrcCallConv isListItemInteger (RRListItemPtr item)
+int rrcCallConv isListItemInteger (RRListItemPtr item)
 {
     return (item->ItemType == litInteger) ? true : false;
 }
 
-bool rrcCallConv isListItemDouble (RRListItemPtr item)
+int rrcCallConv isListItemDouble (RRListItemPtr item)
 {
     return (item->ItemType == litDouble) ? true : false;
 }
 
-bool rrcCallConv isListItemString (RRListItemPtr item)
+int rrcCallConv isListItemString (RRListItemPtr item)
 {
     return (item->ItemType == litString) ? true : false;
 }
 
-bool rrcCallConv isListItemList (RRListItemPtr item)
+int rrcCallConv isListItemList (RRListItemPtr item)
 {
     return (item->ItemType == litList) ? true : false;
 }
@@ -179,7 +179,7 @@ RRListItemPtr rrcCallConv getListItem (RRListPtr list, int index)
     return (index >= list->Count) ? NULL : list->Items[index];
 }
 
-bool rrcCallConv getIntegerListItem (RRListItemPtr item, int *value)
+int rrcCallConv getIntegerListItem (RRListItemPtr item, int *value)
 {
     if (item->ItemType == litInteger)
     {
@@ -189,7 +189,7 @@ bool rrcCallConv getIntegerListItem (RRListItemPtr item, int *value)
     return false;
 }
 
-bool rrcCallConv getDoubleListItem (RRListItemPtr item, double *value)
+int rrcCallConv getDoubleListItem (RRListItemPtr item, double *value)
 {
     if (item->ItemType == litDouble)
     {
@@ -210,7 +210,7 @@ RRListPtr rrcCallConv getList (RRListItemPtr item)
     return (item->ItemType == litList) ? item->data.lValue : NULL;
 }
 
-bool rrcCallConv isListItem (RRListItemPtr item, ListItemType itemType)
+int rrcCallConv isListItem (RRListItemPtr item, ListItemType itemType)
 {
     return  (item->ItemType == itemType) ? true : false;
 }
@@ -285,7 +285,7 @@ char* rrcCallConv listToString (RRListPtr list)
 }
 
 // Free Functions =====================================================
-bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
+int rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
 {
     start_try
         if(matrix)
@@ -297,7 +297,7 @@ bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix)
     catch_bool_macro
 }
 
-bool rrcCallConv freeRRCData(RRCDataPtr handle)
+int rrcCallConv freeRRCData(RRCDataPtr handle)
 {
     start_try
         if (handle)
@@ -314,7 +314,7 @@ bool rrcCallConv freeRRCData(RRCDataPtr handle)
     catch_bool_macro
 }
 
-bool rrcCallConv freeText(char* text)
+int rrcCallConv freeText(char* text)
 {
     start_try
 
@@ -322,7 +322,7 @@ bool rrcCallConv freeText(char* text)
     catch_bool_macro
 }
 
-bool rrcCallConv freeStringArray(RRStringArrayPtr sl)
+int rrcCallConv freeStringArray(RRStringArrayPtr sl)
 {
     start_try
         if(!sl) //Already free
@@ -339,13 +339,14 @@ bool rrcCallConv freeStringArray(RRStringArrayPtr sl)
     catch_bool_macro
 }
 
-bool rrcCallConv freeVector(RRVectorPtr vector)
+int rrcCallConv freeVector(RRVectorPtr vector)
 {
     start_try
         if(vector)
         {
            delete [] vector->Data;
         }
+        delete vector;
         return true;
     catch_bool_macro
 }
@@ -355,7 +356,10 @@ RRVectorPtr rrcCallConv createVector (int size)
 {
    RRVectorPtr list = new RRVector;
    list->Count = size;
-   list->Data = new double[list->Count];
+   if (size)
+     list->Data = new double[list->Count];
+   else
+     list->Data = NULL;
    return list;
 }
 
@@ -372,7 +376,7 @@ int rrcCallConv getVectorLength (RRVectorPtr vector)
     }
 }
 
-bool rrcCallConv getVectorElement (RRVectorPtr vector, int index, double *value)
+int rrcCallConv getVectorElement (RRVectorPtr vector, int index, double *value)
 {
     if (vector == NULL)
     {
@@ -392,7 +396,7 @@ bool rrcCallConv getVectorElement (RRVectorPtr vector, int index, double *value)
     return true;
 }
 
-bool rrcCallConv setVectorElement (RRVectorPtr vector, int index, double value)
+int rrcCallConv setVectorElement (RRVectorPtr vector, int index, double value)
 {
     if (vector == NULL)
     {
@@ -454,7 +458,7 @@ int  rrcCallConv getMatrixNumCols (RRDoubleMatrixPtr m)
     return m->CSize;
 }
 
-bool rrcCallConv getMatrixElement (RRDoubleMatrixPtr m, int r, int c, double* value)
+int rrcCallConv getMatrixElement (RRDoubleMatrixPtr m, int r, int c, double* value)
 {
     if (m == NULL)
     {
@@ -474,7 +478,7 @@ bool rrcCallConv getMatrixElement (RRDoubleMatrixPtr m, int r, int c, double* va
     return true;
 }
 
-bool rrcCallConv setMatrixElement (RRDoubleMatrixPtr m, int r, int c, double value)
+int rrcCallConv setMatrixElement (RRDoubleMatrixPtr m, int r, int c, double value)
 {
     if (m == NULL)
     {
@@ -494,7 +498,7 @@ bool rrcCallConv setMatrixElement (RRDoubleMatrixPtr m, int r, int c, double val
     return true;
 }
 
-bool rrcCallConv getComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplexPtr value)
+int rrcCallConv getComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplexPtr value)
 {
     if (m == NULL)
     {
@@ -515,7 +519,7 @@ bool rrcCallConv getComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RR
     return true;
 }
 
-bool rrcCallConv setComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplex* value)
+int rrcCallConv setComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplex* value)
 {
     if (m == NULL)
     {
@@ -556,7 +560,7 @@ int  rrcCallConv  getRRDataNumCols (RRCDataPtr result)
     return result->CSize;
 }
 
-bool  rrcCallConv getRRCDataElement(RRCDataPtr result, int r, int c, double *value)
+int  rrcCallConv getRRCDataElement(RRCDataPtr result, int r, int c, double *value)
 {
     if (result == NULL)
     {

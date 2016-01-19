@@ -12,6 +12,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <algorithm>
 
 // wierdness on OSX clang, this needs to be included before python.h,
 // otherwise compile pukes with:
@@ -39,6 +40,104 @@ typedef vector<string> str_vector;
 namespace rr
 {
 
+/// Imported from graphfab
+#define STRINGIFY(x) #x
+/// Imported from graphfab
+#define EXPAND_AND_STRINGIFY(x) STRINGIFY(x)
+
+/// Imported from graphfab
+char* rr_strclone(const char* src) {
+    if(!src) {
+        assert(0 && "rr_strclone passed null arg");
+        return NULL;
+    } else {
+        size_t size = strlen(src)+1;
+        char* dst = (char*)malloc(size*sizeof(char));
+
+        memcpy(dst, src, size); // copies null char
+
+        return dst;
+    }
+}
+
+/// Imported from graphfab
+void rr_strfree(const char* str) {
+    free((void*)str);
+}
+
+/**
+ * @brief Get the UTF-8 encoded buffer for a Python string
+ * @details Imported from graphfab
+ * @note Caller must free the buffer using @ref rr_strfree
+ */
+char* rrPyString_getString(PyObject* uni) {
+    char* str = NULL;
+//     #pragma message "PY_MAJOR_VERSION = " EXPAND_AND_STRINGIFY(PY_MAJOR_VERSION)
+#if PY_MAJOR_VERSION == 3
+    PyObject* bytes = PyUnicode_AsUTF8String(uni);
+    str = rr_strclone(PyBytes_AsString(bytes));
+    Py_XDECREF(bytes);
+#else
+    str = rr_strclone(PyString_AsString(uni));
+#endif
+    return str;
+}
+
+std::string rrPyString_getCPPString(PyObject* uni) {
+    char* cstr = rrPyString_getString(uni);
+    std::string str(cstr);
+    rr_strfree(cstr);
+    return str;
+}
+
+/// Imported from graphfab
+int rrPyCompareString(PyObject* uni, const char* str) {
+    #if SAGITTARIUS_DEBUG_LEVEL >= 2
+    {
+        printf("PyCompareString started\n");
+    }
+    #endif
+    {
+        char* s = rrPyString_getString(uni);
+        int cmp = !strcmp(s,str);
+        rr_strfree(s);
+
+        if(cmp)
+            return 1;
+        else
+            return 0;
+    }
+}
+
+/// Imported from graphfab
+PyObject* rrPyString_FromString(const char* s) {
+#if PY_MAJOR_VERSION == 3
+    return PyUnicode_FromString(s);
+#else
+    return PyString_FromString(s);
+#endif
+}
+
+/// Imported from graphfab
+PyObject* rrPyString_FromStringAndSize(const char* s, Py_ssize_t size) {
+#if PY_MAJOR_VERSION == 3
+    return PyUnicode_FromStringAndSize(s, size);
+#else
+    return PyString_FromStringAndSize(s, size);
+#endif
+}
+
+char* rrPyString_AsString(PyObject* s) {
+#if PY_MAJOR_VERSION == 3
+    char* str;
+    PyObject* bytes = PyUnicode_AsUTF8String(s);
+    str = rr_strclone(PyBytes_AsString(bytes));
+    Py_XDECREF(bytes);
+    return str;
+#else
+    return rr_strclone(PyString_AsString(s));
+#endif
+}
 
 PyObject* Variant_to_py(const Variant& var)
 {
@@ -51,7 +150,7 @@ PyObject* Variant_to_py(const Variant& var)
     }
 
     if (type == typeid(std::string)) {
-        return PyString_FromString(var.convert<string>().c_str());
+        return rrPyString_FromString(var.convert<string>().c_str());
     }
 
     if (type == typeid(bool)) {
@@ -67,7 +166,11 @@ PyObject* Variant_to_py(const Variant& var)
     }
 
     if (type == typeid(int)) {
+# if PY_MAJOR_VERSION == 3
+        return PyLong_FromLong(var.convert<long>());
+# else
         return PyInt_FromLong(var.convert<long>());
+# endif
     }
 
     if (type == typeid(unsigned int)) {
@@ -76,11 +179,15 @@ PyObject* Variant_to_py(const Variant& var)
 
     if (type == typeid(char)) {
         char c = var.convert<char>();
-        return PyString_FromStringAndSize(&c, 1);
+        return rrPyString_FromStringAndSize(&c, 1);
     }
 
     if (type == typeid(unsigned char)) {
+# if PY_MAJOR_VERSION == 3
+        return PyLong_FromLong(var.convert<long>());
+# else
         return PyInt_FromLong(var.convert<long>());
+# endif
     }
 
     if (type == typeid(float) || type == typeid(double)) {
@@ -100,9 +207,13 @@ Variant Variant_from_py(PyObject* py)
         return var;
     }
 
+# if PY_MAJOR_VERSION == 3
+    if (PyUnicode_Check(py))
+# else
     if (PyString_Check(py))
+# endif
     {
-        var = std::string(PyString_AsString(py));
+        var = rrPyString_getCPPString(py);
         return var;
     }
 
@@ -123,7 +234,7 @@ Variant Variant_from_py(PyObject* py)
             std::stringstream ss;
             ss << "Could not convert Python long to C ";
             ss << sizeof(long) * 8 << " bit long: ";
-            ss << std::string(PyString_AsString(err));
+            ss << rrPyString_getCPPString(err);
 
             // clear error, raise our own
             PyErr_Clear();
@@ -134,9 +245,17 @@ Variant Variant_from_py(PyObject* py)
         return var;
     }
 
+# if PY_MAJOR_VERSION == 3
+    else if (PyLong_Check(py))
+# else
     else if (PyInt_Check(py))
+# endif
     {
+# if PY_MAJOR_VERSION == 3
+        var = PyLong_AsLong(py);
+# else
         var = (int)PyInt_AsLong(py);
+# endif
         return var;
     }
 
@@ -163,7 +282,7 @@ PyObject* dictionary_keys(const Dictionary* dict)
     for (std::vector<std::string>::const_iterator i = keys.begin(); i != keys.end(); ++i)
     {
         const std::string& key  = *i;
-        PyObject* pyStr = PyString_FromString(key.c_str());
+        PyObject* pyStr = rrPyString_FromString(key.c_str());
         PyList_SET_ITEM(pyList, j++, pyStr);
     }
 
@@ -205,7 +324,7 @@ PyObject* dictionary_items(const Dictionary* dict)
         const std::string& key  = *i;
         PyObject* pyStr = Variant_to_py(dict->getItem(key));
 
-        PyObject *pyKey = PyString_FromString(key.c_str());
+        PyObject *pyKey = rrPyString_FromString(key.c_str());
         PyObject *pyVal = Variant_to_py(dict->getItem(key));
         PyObject *tup = PyTuple_Pack(2, pyKey, pyVal);
 
@@ -298,10 +417,10 @@ PyObject* dictionary_contains(const Dictionary* dict, const char* key)
 
 
 static PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-        const ls::DoubleMatrix* mat, uint32_t flags);
+        const ls::DoubleMatrix* mat);
 
 
-PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
+PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, bool copy_result)
 {
     ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix*>(m);
 
@@ -312,7 +431,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
 
     // are we returning a structured array?
-    if (flags & SimulateOptions::STRUCTURED_RESULT) {
+    if (structured_result) {
 
         // get the column names
         //const std::vector<SelectionRecord>& sel = ($self)->getSelections();
@@ -342,8 +461,8 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
 
         for(int i = 0; i < names.size(); ++i)
         {
-            PyObject *col = PyString_FromString(names[i].c_str());
-            PyObject *type = PyString_FromString("f8");
+            PyObject *col = rrPyString_FromString(names[i].c_str());
+            PyObject *type = rrPyString_FromString("f8");
             PyObject *tup = PyTuple_Pack(2, col, type);
 
             Py_DECREF(col);
@@ -383,7 +502,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
         int cols = mat->numCols();
         PyObject *pArray = NULL;
 
-        if (flags & SimulateOptions::COPY_RESULT) {
+        if (copy_result) {
 
             Log(rr::Logger::LOG_DEBUG) << "copying result data";
 
@@ -400,7 +519,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
                 pArray = NamedArray_New(nd, dims, NULL,
-                                     0, mat, flags);
+                                     0, mat);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -426,7 +545,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, uint32_t flags)
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
                 pArray = NamedArray_New(nd, dims, data,
-                        NPY_CARRAY, mat, flags);
+                        NPY_CARRAY, mat);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -549,14 +668,18 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
     binaryfunc PyArray_subscript = PyArray_Type.tp_as_mapping->mp_subscript;
     int dim = PyArray_NDIM(self);
 
+# if PY_MAJOR_VERSION == 3
+    if (dim == 2 && PyUnicode_Check(op)) {
+# else
     if (dim == 2 && PyString_Check(op)) {
-        const char* keyName = PyString_AsString(op);
+# endif
+        char* keyName = rrPyString_AsString(op);
 
         PyObject *colSeq = PySequence_Fast(self->colNames, "expected a sequence");
         int len = PySequence_Size(colSeq);
         for (int col = 0; col < len; col++) {
             PyObject *item = PySequence_Fast_GET_ITEM(colSeq, col);
-            const char* itemStr = PyString_AsString(item);
+            char* itemStr = rrPyString_AsString(item);
 
             if(strcmp(keyName, itemStr) == 0) {
 
@@ -579,6 +702,8 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
                 Py_DECREF(colSeq);
                 return result;
             }
+
+            rr_strfree(itemStr);
         }
 
         // did not find a col name, free the seq
@@ -590,7 +715,7 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
         len = PySequence_Size(rowSeq);
         for (int row = 0; row < len; ++row) {
             PyObject *item = PySequence_Fast_GET_ITEM(rowSeq, row);
-            const char* itemStr = PyString_AsString(item);
+            char* itemStr = rrPyString_AsString(item);
 
             if(strcmp(keyName, itemStr) == 0) {
 
@@ -613,10 +738,14 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
                 Py_DECREF(rowSeq);
                 return result;
             }
+
+            rr_strfree(itemStr);
         }
 
         // did not find a col name, free the seq
         Py_DECREF(rowSeq);
+
+        rr_strfree(keyName);
 
     }
 
@@ -637,8 +766,12 @@ static PyMappingMethods NamedArray_MappingMethods = {
 
 
 static PyTypeObject NamedArray_Type = {
+#if PY_MAJOR_VERSION == 3
+    PyVarObject_HEAD_INIT(NULL, 0)
+#else
     PyObject_HEAD_INIT(NULL)
     0,                                        /* ob_size */
+#endif
     "NamedArray",                             /* tp_name */
     sizeof(NamedArrayObject),                 /* tp_basicsize */
     0,                                        /* tp_itemsize */
@@ -737,7 +870,7 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
                                      NPY_CARRAY | NPY_OWNDATA, NULL);
  */
 PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-        const ls::DoubleMatrix* mat, uint32_t flags)
+        const ls::DoubleMatrix* mat)
 {
     bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
 
@@ -750,7 +883,7 @@ PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
 
         if (array == NULL) {
             PyObject* pystr = PyObject_Str(PyErr_Occurred());
-            const char* error = PyString_AsString(pystr);
+            const char* error = rrPyString_AsString(pystr);
             Log(Logger::LOG_CRITICAL) << error;
             return NULL;
         }
@@ -780,7 +913,7 @@ PyObject* stringvector_to_py(const std::vector<std::string>& vec)
     for (std::vector<std::string>::const_iterator i = vec.begin(); i != vec.end(); ++i)
     {
         const std::string& str  = *i;
-        PyObject* pyStr = PyString_FromString(str.c_str());
+        PyObject* pyStr = rrPyString_FromString(str.c_str());
         PyList_SET_ITEM(pyList, j++, pyStr);
     }
 
@@ -799,7 +932,7 @@ std::vector<std::string> py_to_stringvector(PyObject* obj)
                     PyObject *item = PyList_GET_ITEM(seq, i);
                     // Return value: New reference.
                     PyObject *pystr = PyObject_Str(item);
-                    result.push_back(PyString_AsString(pystr));
+                    result.push_back(rrPyString_AsString(pystr));
                     Py_XDECREF(pystr);
                 }
             else
@@ -807,7 +940,7 @@ std::vector<std::string> py_to_stringvector(PyObject* obj)
                     PyObject *item = PyTuple_GET_ITEM(seq, i);
                     // Return value: New reference.
                     PyObject *pystr = PyObject_Str(item);
-                    result.push_back(PyString_AsString(pystr));
+                    result.push_back(rrPyString_AsString(pystr));
                     Py_XDECREF(pystr);
                 }
             Py_XDECREF(seq);
@@ -831,8 +964,12 @@ Dictionary *Dictionary_from_py(PyObject *py)
     Py_ssize_t pos = 0;
 
     while (PyDict_Next(py, &pos, &pkey, &pvalue)) {
+# if PY_MAJOR_VERSION == 3
+        if (PyUnicode_Check(pkey)) {
+# else
         if (PyString_Check(pkey)) {
-            std::string key(PyString_AsString(pkey));
+# endif
+            std::string key(rrPyString_AsString(pkey));
             Variant value = Variant_from_py(pvalue);
 
             dict->setItem(key, value);
@@ -971,7 +1108,7 @@ PyObject *NamedArray_repr(NamedArrayObject *self)
 
     string str = array_format(array, rowNames, colNames);
 
-    return PyString_FromString(str.c_str());
+    return rrPyString_FromString(str.c_str());
 }
 
 PyObject *NamedArray_str(NamedArrayObject *self)

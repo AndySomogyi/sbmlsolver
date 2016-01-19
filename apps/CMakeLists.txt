@@ -11,6 +11,11 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
 ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
 )
 
+# Include generated headers
+include_directories(
+${CMAKE_BINARY_DIR}/source
+)
+
 set(apps 	
 	rr
     rr-sbml-benchmark

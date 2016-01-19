@@ -21,7 +21,9 @@
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 #include "Integrator.h"
-#include "rrSteadyStateSolver.h"
+#include "IntegratorRegistration.h"
+#include "SteadyStateSolver.h"
+#include "SolverRegistration.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 #include "SBMLValidator.h"
@@ -159,18 +161,26 @@ class RoadRunnerImpl {
 public:
 
     int mInstanceID;
-    const double mDiffStepSize;
+    double mDiffStepSize;
 
-    const double mSteadyStateThreshold;
+    double mSteadyStateThreshold;
     ls::DoubleMatrix simulationResult;
 
     /**
      * Points to the current integrator. This is a pointer into the
      * integtators array.
      */
-    Integrator *integrator;
+    Integrator* integrator;
+	std::vector<Integrator*> integrators;
 
-    std::vector<SelectionRecord> mSelectionList;
+    /**
+     * Points to the current steady state solver
+     */
+    SteadyStateSolver* steady_state_solver;
+    std::vector<SteadyStateSolver*> steady_state_solvers;
+
+
+	std::vector<SelectionRecord> mSelectionList;
 
     /**
      * ModelGenerator obtained from the factory
@@ -211,17 +221,6 @@ public:
     std::string configurationXML;
 
     /**
-     * store the integrators in a map. When the integrator is switched,
-     * this way it saves the previous state. Usefull for correct
-     * stream of random numbers for stochastic integrators.
-     *
-     * This is an array of pointers which are allocated by createIntegrator(),
-     * these are freed in the dtor, but kept around for the lifetime of
-     * this object.
-     */
-    Integrator*  integrators[Integrator::INTEGRATOR_END];
-
-    /**
      * TODO get rid of this garbage
      */
     friend class aFinalizer;
@@ -244,7 +243,7 @@ public:
                 compiler(Compiler::New())
     {
         // have to init integrators the hard way in c++98
-        memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
+        //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
 
@@ -268,7 +267,7 @@ public:
         loadOpt.setItem("supportCodeDir", _supportCodeDir);
 
         // have to init integrators the hard way in c++98
-        memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
+        //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
     ~RoadRunnerImpl()
@@ -279,12 +278,38 @@ public:
         delete model;
         delete mLS;
 
-        deleteIntegrators();
+		deleteAllSolvers();
 
         mInstanceCount--;
     }
 
+    void deleteAllSolvers()
+    {
+        for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            delete *it;
+            *it = NULL;
+        }
+        integrators.clear();
+        for (std::vector<SteadyStateSolver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
+        {
+            delete *it;
+            *it = NULL;
+        }
+        steady_state_solvers.clear();
+	}
 
+    void syncAllSolversWithModel(ExecutableModel* m)
+    {
+        for (std::vector<Integrator*>::iterator it = integrators.begin(); it != integrators.end(); ++it)
+        {
+            (*it)->syncWithModel(m);
+        }
+        for (std::vector<SteadyStateSolver*>::iterator it = steady_state_solvers.begin(); it != steady_state_solvers.end(); ++it)
+        {
+            (*it)->syncWithModel(m);
+        }
+    }
 
     void setParameterValue(const ParameterType parameterType,
             const int parameterIndex, const double value)
@@ -367,15 +392,6 @@ public:
         setParameterValue(parameterType, parameterIndex, originalValue + increment);
     }
 
-
-    void deleteIntegrators()
-    {
-        for (int i = 0; i < Integrator::INTEGRATOR_END; ++i)
-        {
-            delete integrators[i];
-            integrators[i] = 0;
-        }
-    }
 };
 
 
@@ -392,15 +408,35 @@ int RoadRunner::getInstanceID()
 
 RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 {
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
+
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
+    // make CVODE the default integrator
+    setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setSteadyStateSolver("nleq");
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
         const Dictionary* options) :
             impl(new RoadRunnerImpl(uriOrSBML, options))
 {
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
+
+    // make CVODE the default integrator
+    setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setSteadyStateSolver("nleq");
+
     load(uriOrSBML, options);
 
     //Increase instance count..
@@ -413,6 +449,11 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& supportCodeDir) :
         impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir))
 {
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
+
     string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
     setTempDir(tempDir);
@@ -420,6 +461,11 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
+    // make CVODE the default integrator
+    setIntegrator("cvode");
+    // make NLEQ the default steady state solver
+    setSteadyStateSolver("nleq");
 }
 
 RoadRunner::~RoadRunner()
@@ -444,7 +490,7 @@ vector<SelectionRecord> RoadRunner::getSelectionList()
 
 string RoadRunner::getInfo()
 {
-    updateSimulateOptions();
+    applySimulateOptions();
 
     stringstream ss;
     ss << "<roadrunner.RoadRunner() { " << std::endl;
@@ -559,24 +605,47 @@ string RoadRunner::getTempDir()
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
 {
-	vector<string> theList;
-	vector<string> oFloating  = getFloatingSpeciesIds();
-	int numIndSpecies = getNumberOfIndependentSpecies();
+    vector<string> selections;
+    vector<string> oFloating  = getFloatingSpeciesIds();
+    int numFloatingSpecies = oFloating.size();
+    //int numIndSpecies = getNumberOfIndependentSpecies();
 
-	theList.push_back("time");
-	for(int i = 0; i < numIndSpecies; i++)
-	{
-		theList.push_back("[" + oFloating[i] + "]");
-	}
+    // add floating species to the default selection
 
-	setSelections(theList);
+    selections.push_back("time");
+    //for(int i = 0; i < numIndSpecies; i++)
+    for (int i = 0; i < numFloatingSpecies; i++)
+    {
+        selections.push_back("[" + oFloating[i] + "]");
+    }
 
-	Log(lDebug)<<"The following is selected:";
-	for(int i = 0; i < impl->mSelectionList.size(); i++)
-	{
-		Log(lDebug)<<impl->mSelectionList[i];
-	}
-	return impl->mSelectionList.size();
+    // add parameters defined by rate rules to the default selection
+
+    vector<string> selections_with_ratelaws(selections);
+    try {
+        vector<string> raterule_symbols = impl->model->getRateRuleSymbols();
+        for (vector<string>::iterator i = raterule_symbols.begin(); i != raterule_symbols.end(); ++i)
+            selections_with_ratelaws.push_back(*i);
+    } catch (NotImplementedException) {
+        Log(Logger::LOG_WARNING) << "Querying rate rule symbols not supported with this executable model";
+    }
+
+    // try to apply selections including rate laws,
+    // fall back if unable to use rate laws
+    // see https://github.com/sys-bio/roadrunner/issues/88
+    try {
+        setSelections(selections_with_ratelaws);
+    } catch (...) {
+        Log(Logger::LOG_WARNING) << "Rate laws exist but cannot be added to default selections";
+        setSelections(selections);
+    }
+
+    Log(lDebug)<<"The following is selected:";
+    for(int i = 0; i < impl->mSelectionList.size(); i++)
+    {
+        Log(lDebug)<<impl->mSelectionList[i];
+    }
+    return impl->mSelectionList.size();
 }
 
 int RoadRunner::createTimeCourseSelectionList()
@@ -622,40 +691,6 @@ string RoadRunner::getParamPromotedSBML(const string& sbml)
 
     return stream.str();
 }
-
-/**
- * RoadRunner keeps all the created integrators around. If the requested integrator
- * has not been created, this method creates one, and sets self.integrator
- * to point to it.
- */
-void RoadRunner::updateIntegrator()
-{
-    get_self();
-
-    if(self.model)
-    {
-        // check if valid range
-        if (self.simulateOpt.integrator >= Integrator::INTEGRATOR_END)
-        {
-            std::stringstream ss;
-            ss << "Invalid integrator of " << self.simulateOpt.integrator
-                    << ", integrator must be >= 0 and < "
-                    << Integrator::INTEGRATOR_END;
-            throw std::invalid_argument(ss.str());
-        }
-
-        if (self.integrators[self.simulateOpt.integrator] == 0)
-        {
-            self.integrators[self.simulateOpt.integrator]
-                    = IntegratorFactory::New(&self.simulateOpt, self.model);
-        }
-
-        self.integrator = self.integrators[self.simulateOpt.integrator];
-
-        self.integrator->setSimulateOptions(&self.simulateOpt);
-    }
-}
-
 
 double RoadRunner::getValue(const SelectionRecord& record)
 {
@@ -843,14 +878,21 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
     delete impl->model;
     impl->model = 0;
 
-	delete impl->mLS;
-	impl->mLS = NULL;
+    delete impl->mLS;
+    impl->mLS = NULL;
 
     if(dict) {
         self.loadOpt = LoadSBMLOptions(dict);
     }
 
-    self.deleteIntegrators();
+    // TODO: streamline so SBML document is not read several times
+    // check that stoichiometry is defined
+    if (!isStoichDefined(self.mCurrentSBML)) {
+        // if any reactions are missing stoich, the simulation results will be wrong
+        // fix sbml by assuming unit stoich where missing
+        self.mCurrentSBML = fixMissingStoich(self.mCurrentSBML);
+        Log(Logger::LOG_WARNING)<<"Stoichiometry is not defined for all reactions; assuming unit stoichiometry where missing";
+    }
 
     // the following lines load and compile the model. If anything fails here,
     // we validate the model to provide explicit details about where it
@@ -870,7 +912,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         throw;
     }
 
-    updateIntegrator();
+    impl->syncAllSolversWithModel(impl->model);
 
     reset();
 
@@ -908,7 +950,7 @@ bool RoadRunner::createDefaultSelectionLists()
     return result;
 }
 
-bool RoadRunner::unLoadModel()
+bool RoadRunner::clearModel()
 {
     // The model owns the shared library (if it exists), when the model is deleted,
     // its dtor unloads the shared lib.
@@ -937,6 +979,8 @@ void RoadRunner::reset(int options)
         // model gets set to before time = 0
         impl->model->reset(options);
 
+        if (!impl->integrator)
+            throw std::runtime_error("No integrator set");
         impl->integrator->restart(0.0);
 
         try
@@ -971,6 +1015,7 @@ std::vector<rr::SelectionRecord>& RoadRunner::getSelections()
 
 double RoadRunner::steadyState(const Dictionary* dict)
 {
+    Log(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
     if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
@@ -986,20 +1031,22 @@ double RoadRunner::steadyState(const Dictionary* dict)
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
-    SteadyStateSolver *steadyStateSolver = SteadyStateSolverFactory::New(dict, impl->model);
-
     //Get a std vector for the solver
     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
-    double ss = steadyStateSolver->solve(someAmounts);
+    if (!impl->steady_state_solver) {
+        Log(Logger::LOG_ERROR)<<"No steady state solver";
+        throw std::runtime_error("No steady state solver");
+    }
+
+    Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
+
+    double ss = impl->steady_state_solver->solve(someAmounts);
     if(ss < 0)
     {
         Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
     }
-
-
-    delete steadyStateSolver;
 
     return ss;
 }
@@ -1090,6 +1137,33 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     return getuEE(reactionName, parameterName, computeSteadyState) * parameterValue / variableValue;
 }
 
+double RoadRunner::getDiffStepSize() const
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    return impl->mDiffStepSize;
+}
+
+void RoadRunner::setDiffStepSize(double val)
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    impl->mDiffStepSize = val;
+}
+
+double RoadRunner::getSteadyStateThreshold() const
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    return impl->mSteadyStateThreshold;
+}
+
+void RoadRunner::setSteadyStateThreshold(double val)
+{
+    if (!impl)
+        throw std::runtime_error("Missing impl");
+    impl->mSteadyStateThreshold = val;
+}
 
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName)
 {
@@ -1206,7 +1280,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         self.simulateOpt = *opt;
     }
 
-    updateSimulateOptions();
+    applySimulateOptions();
 
     const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
     const double timeStart = self.simulateOpt.start;
@@ -1215,7 +1289,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     self.model->getStateVectorRate(timeStart, 0, 0);
 
     // Variable Time Step Integration
-    if (self.simulateOpt.integratorFlags & Integrator::VARIABLE_STEP )
+	if (self.integrator->getValueAsBool("variable_step_size"))
     {
         Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
@@ -1231,11 +1305,15 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
             self.integrator->restart(timeStart);
 
             double tout = timeStart;
+            double last_tout = tout;
 
             // optimiziation for certain getValue operations.
             self.model->setIntegration(true);
 
-            while(tout < timeEnd)
+            int n=0;
+
+            while( tout < timeEnd &&
+              ( !self.simulateOpt.steps || n < self.simulateOpt.steps) )
             {
                 Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
@@ -1249,8 +1327,24 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     results.push_back(row);
                     break;
                 }
+
                 getSelectedValues(row, tout);
+
+                // use linear interpolation to ensure last time point is requested end time
+                if( tout > timeEnd ) {
+                    double alpha = (timeEnd - last_tout)/(tout - last_tout);
+                    Log(Logger::LOG_DEBUG) << "simulate: interpolate with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+
+                    for(int n = 0; n<row.size(); ++n) {
+                        row.at(n) = results.back().at(n) + alpha*(row.at(n) - results.back().at(n));
+                    }
+                } else {
+                    last_tout = tout;
+                }
+
                 results.push_back(row);
+
+                ++n;
             }
         }
         catch (EventListenerException& e)
@@ -1273,8 +1367,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // Stochastic Fixed Step Integration
     // do fixed time step simulation, these are different for deterministic
     // and stochastic.
-    else if(IntegratorFactory::getIntegratorType(self.simulateOpt.integrator) ==
-            Integrator::STOCHASTIC)
+	else if (self.integrator->getIntegrationMethod() == Integrator::Stochastic)
     {
         Log(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
@@ -1400,7 +1493,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
 {
     check_model();
-    updateSimulateOptions();
+    applySimulateOptions();
 
     try
     {
@@ -1419,7 +1512,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 {
     get_self();
     check_model();
-    updateSimulateOptions();
+    applySimulateOptions();
 
     try
     {
@@ -1458,6 +1551,50 @@ std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::Jacob
         mat = getReducedJacobian();
     }
     return ls::getEigenValues(mat);
+}
+
+DoubleMatrix RoadRunner::getFloatingSpeciesAmounts()
+{
+    check_model();
+
+    int l = impl->model->getStateVector(NULL);
+
+    double* vals = new double[l];
+    impl->model->getFloatingSpeciesAmounts(l, NULL, vals);
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix v(1, l);
+
+    for (int i = 0; i<l; ++i)
+        v(0, i) = vals[i];
+
+    delete vals;
+
+    v.setColNames(getFloatingSpeciesIds());
+
+    return v;
+}
+
+DoubleMatrix RoadRunner::getFloatingSpeciesConcentrations()
+{
+    check_model();
+
+    int l = impl->model->getStateVector(NULL);
+
+    double* vals = new double[l];
+    impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix v(1, l);
+
+    for (int i = 0; i<l; ++i)
+        v(0, i) = vals[i];
+
+    delete vals;
+
+    v.setColNames(getFloatingSpeciesIds());
+
+    return v;
 }
 
 DoubleMatrix RoadRunner::getFullJacobian()
@@ -1757,6 +1894,7 @@ double RoadRunner::getVariableValue(const VariableType variableType,
     {
         double result = 0;
         impl->model->getReactionRates(1, &variableIndex, &result);
+        return result;
     }
     break;
 
@@ -1780,9 +1918,12 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 	impl->mSteadyStateSelection.clear();
 	// default should be independent floating species only ...
 	vector<string> floatingSpecies = getFloatingSpeciesIds();
-	int numIndSpecies = getNumberOfIndependentSpecies();
-	impl->mSteadyStateSelection.resize(numIndSpecies);
-	for (int i = 0; i < numIndSpecies; i++)
+	int numFloatingSpecies = floatingSpecies.size();
+	//int numIndSpecies = getNumberOfIndependentSpecies();
+	//impl->mSteadyStateSelection.resize(numIndSpecies);
+	impl->mSteadyStateSelection.resize(numFloatingSpecies);
+	//for (int i = 0; i < numIndSpecies; i++)
+	for (int i = 0; i < numFloatingSpecies; i++)
 	{
 		SelectionRecord aRec;
 		aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
@@ -2100,7 +2241,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int index)
 }
 
 // Help("Returns an array of floating species concentrations")
-vector<double> RoadRunner::getFloatingSpeciesConcentrations()
+vector<double> RoadRunner::getFloatingSpeciesConcentrationsV()
 {
     if (!impl->model)
     {
@@ -2664,6 +2805,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
     // Finally include the dependent set as well.
     DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
+
+    T4.setRowNames(getFloatingSpeciesIds());
+    T4.setColNames(getReactionIds());
+
     return T4;
 }
 
@@ -2712,6 +2857,9 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
         T1[i][i] = T1[i][i] + 1;
     }
 
+    T1.setRowNames(getReactionIds());
+    T1.setColNames(getReactionIds());
+
     return T1;
 }
 
@@ -2752,7 +2900,7 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
     }
     catch (const Exception& e)
     {
-        throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()", e.Message());
+        throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix(): ", e.Message());
     }
 }
 
@@ -2922,8 +3070,102 @@ vector<double> RoadRunner::getReactionRates()
 
 Integrator* RoadRunner::getIntegrator()
 {
-    updateSimulateOptions();
+    //applySimulateOptions();
     return impl->integrator;
+}
+
+SteadyStateSolver* RoadRunner::getSteadyStateSolver()
+{
+    return impl->steady_state_solver;
+}
+
+std::vector<std::string> RoadRunner::getExistingIntegratorNames()
+{
+	std::vector<std::string> result;
+	int i = 0;
+	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+	{
+		result.push_back(impl->integrators.at(i)->getName());
+	}
+	return result;
+}
+
+void RoadRunner::setIntegrator(std::string name)
+{
+    Log(Logger::LOG_DEBUG) << "Setting integrator to " << name;
+	// Try to set integrator from an existing reference.
+	if (integratorExists(name))
+	{
+		int i = 0;
+		for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+		{
+			if (impl->integrators.at(i)->getName() == name)
+			{
+                Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
+				impl->integrator = impl->integrators.at(i);
+			}
+		}
+	}
+	// Otherwise, create a new integrator.
+	else
+	{
+        Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
+		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
+		impl->integrators.push_back(impl->integrator);
+	}
+}
+
+
+bool RoadRunner::integratorExists(std::string name)
+{
+	int i = 0;
+	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+	{
+		if (impl->integrators.at(i)->getName() == name)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void RoadRunner::setSteadyStateSolver(std::string name)
+{
+    Log(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
+    // Try to set steady_state_solver from an existing reference.
+    if (steadyStateSolverExists(name))
+    {
+        int i = 0;
+        for (std::vector<SteadyStateSolver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+        {
+            if (impl->steady_state_solvers.at(i)->getName() == name)
+            {
+                Log(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
+                impl->steady_state_solver = impl->steady_state_solvers.at(i);
+            }
+        }
+    }
+    // Otherwise, create a new steady state solver.
+    else
+    {
+        Log(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
+        impl->steady_state_solver = SteadyStateSolverFactory::getInstance().New(name, impl->model);
+        impl->steady_state_solvers.push_back(impl->steady_state_solver);
+    }
+}
+
+
+bool RoadRunner::steadyStateSolverExists(std::string name)
+{
+    int i = 0;
+    for (std::vector<SteadyStateSolver*>::iterator it = impl->steady_state_solvers.begin(); it != impl->steady_state_solvers.end(); ++it, ++i)
+    {
+        if (impl->steady_state_solvers.at(i)->getName() == name)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -3491,6 +3733,16 @@ void RoadRunner::getIds(int types, std::list<std::string>& ids)
     }
 }
 
+vector<string> RoadRunner::getIndependentFloatingSpeciesIds()
+{
+    return getLibStruct()->getIndependentSpecies();
+}
+
+vector<string> RoadRunner::getDependentFloatingSpeciesIds()
+{
+    return getLibStruct()->getDependentSpecies();
+}
+
 int RoadRunner::getSupportedIdTypes()
 {
     int types = impl->model ? impl->model->getSupportedIdTypes() : 0;
@@ -3574,6 +3826,17 @@ vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
+vector<string> RoadRunner::getFloatingSpeciesInitialConcentrationIds()
+{
+    std::list<std::string> list;
+
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::INITIAL_FLOATING_CONCENTRATION, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
 vector<string> RoadRunner::getReactionIds()
 {
     std::list<std::string> list;
@@ -3609,59 +3872,24 @@ const DoubleMatrix* RoadRunner::getSimulationData() const
     return &impl->simulationResult;
 }
 
-Integrator* RoadRunner::getIntegrator(Integrator::IntegratorId intg)
-{
-    get_self();
-
-    if(self.model)
-    {
-        // check if valid range
-        if (intg >= Integrator::INTEGRATOR_END)
-        {
-            std::stringstream ss;
-            ss << "Invalid integrator of " << self.simulateOpt.integrator
-                    << ", integrator must be >= 0 and < "
-                    << Integrator::INTEGRATOR_END;
-            throw std::invalid_argument(ss.str());
-        }
-
-        if (self.integrators[intg] == 0)
-        {
-            // make a copy and set the integrator
-            SimulateOptions opt = self.simulateOpt;
-            opt.integrator = intg;
-
-            self.integrators[intg]
-                    = IntegratorFactory::New(&opt, self.model);
-        }
-
-        return self.integrators[intg];
-    }
-
-    return 0;
-}
-
-void RoadRunner::updateSimulateOptions()
+void RoadRunner::applySimulateOptions()
 {
     get_self();
 
     if (self.simulateOpt.duration < 0 || self.simulateOpt.start < 0
-            || self.simulateOpt.steps <= 0 )
+            || self.simulateOpt.steps < 0 )
     {
-        throw std::invalid_argument("duration, startTime and steps must be positive");
+        throw std::invalid_argument("duration, startTime and steps must be non-negative");
     }
 
     // This one creates the list of what we will look at in the result
     // uses values (potentially) from simulate options.
     createTimeCourseSelectionList();
 
-    // updates the integrator to what was specified by simulateOptions,
-    // no effect if already using this integrator.
-    updateIntegrator();
-
-    if (self.simulateOpt.flags & SimulateOptions::RESET_MODEL)
+    if (self.simulateOpt.reset_model)
     {
         reset(); // reset back to initial conditions
+		self.simulateOpt.reset_model = false;
     }
 }
 
@@ -3686,5 +3914,3 @@ static void metabolicControlCheck(ExecutableModel *model)
 #if defined(_WIN32)
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this
 #endif
-
-

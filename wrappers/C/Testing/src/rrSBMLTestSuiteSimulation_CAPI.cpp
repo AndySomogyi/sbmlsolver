@@ -203,6 +203,8 @@ bool RunTest(const string& version, int caseNumber)
         string logFileName;
         string settingsFileName;
 
+        setCurrentIntegratorParameterBoolean(gRR, "stiff", 0);
+
         //Create a log file name
         createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
 
@@ -266,15 +268,15 @@ bool RunTest(const string& version, int caseNumber)
 
         simulation.CreateErrorData();
         result = simulation.Pass();
-        result = result && simulation.SaveAllData();
-        result = result && simulation.SaveModelAsXML(dataOutputFolder);
+        result = simulation.SaveAllData() && result;
+        result = simulation.SaveModelAsXML(dataOutputFolder) && result;
         if(!result)
         {
-            clog<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
+            Log(Logger::LOG_WARNING)<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
         }
         else
         {
-            clog<<"\t\tTest passed.\n";
+            Log(Logger::LOG_NOTICE)<<"\t\tTest passed.\n";
         }
     }
     catch(std::exception& ex)

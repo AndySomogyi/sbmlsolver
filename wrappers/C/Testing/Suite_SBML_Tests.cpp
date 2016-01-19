@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "UnitTest++.h"
+#include "unit_test/UnitTest++.h"
 #include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
@@ -1153,7 +1153,6 @@ TEST(1185) { CHECK(RunTest("l3v1", 1185 )); }
  * Tests 1186 -> 1196 use the FBC extension.
  * They are included in the SBML_TEST_SUITE_FBC set, below.
  */
-
 }
 
 

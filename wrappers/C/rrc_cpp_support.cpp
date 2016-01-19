@@ -200,15 +200,18 @@ bool copyVector(const RRVector* src, vector<double>& dest)
 
 RRStringArrayPtr createList(const rrc::StringList& sList)
 {
-    if(!sList.Count())
-    {
-        return NULL;
-    }
+//     if(!sList.Count())
+//     {
+//         return NULL;
+//     }
 
     RRStringArray* list = new RRStringArray;
     list->Count = sList.Count();
 
-    list->String = new char*[list->Count];
+    if (list->Count)
+        list->String = new char*[list->Count];
+    else
+        list->String = NULL;
 
     for(int i = 0; i < list->Count; i++)
     {

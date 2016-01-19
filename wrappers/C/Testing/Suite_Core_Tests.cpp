@@ -13,7 +13,7 @@
 #include "Poco/DOM/TreeWalker.h"
 #include "Poco/SAX/InputSource.h"
 #include "Poco/MD5Engine.h"
-#include "UnitTest++.h"
+#include "unit_test/UnitTest++.h"
 #include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
@@ -45,7 +45,7 @@ SUITE(CORE_TESTS)
 
         RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         rr::Logger::setLevel(rr::Logger::LOG_INFORMATION);
-        enableLoggingToFile(aRR);
+        enableLoggingToFile();
         logMsg(CL_PRIO_INFORMATION, "A log message before closing the logger");
         disableLoggingToFile();
         logMsg(CL_PRIO_INFORMATION, "This message is not written to the logger");

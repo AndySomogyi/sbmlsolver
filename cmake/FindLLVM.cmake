@@ -151,6 +151,10 @@ if (LLVM_CONFIG_EXECUTABLE)
         OUTPUT_VARIABLE LLVM_LIBRARIES
         OUTPUT_STRIP_TRAILING_WHITESPACE
         )
+    if(WIN32)
+      # llvm-config returns .a library names, even on Windows, so manually convert .a -> .lib and remove lib prefix.
+      STRING(REGEX REPLACE "lib([^/\\]*)\\.a" "\\1.lib" LLVM_LIBRARIES ${LLVM_LIBRARIES})
+    endif()
     # we get a space sep list from llvm-config, make it a cmake ; separated list.
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
     message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")

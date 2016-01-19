@@ -5,6 +5,7 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
+#include "CVODEIntegrator.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -21,8 +22,8 @@ mCompileIfDllExists(true),
 mTempDataFolder(tempDataFilePath),
 mEngine(NULL)
 {
-    mSettings.absolute    = 1.e-7;
-    mSettings.relative    = 1.e-4;
+    // TODO mSettings.absolute    = 1.e-7;
+    // TODO mSettings.relative    = 1.e-4;
 }
 
 SBMLModelSimulation::~SBMLModelSimulation()
@@ -111,6 +112,53 @@ bool SBMLModelSimulation::CompileModel()
     return true;
 }
 
+void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
+{
+    if (!filename.size())
+    {
+        Log(Logger::LOG_ERROR) << "Empty file name for settings file";
+    }
+    else
+    {
+        map<string, string> options;
+        map<string, string>::iterator it;
+        //Read each line in the settings file
+        vector<string> lines = getLinesInFile(filename);
+        for (int i = 0; i < lines.size(); i++)
+        {
+            vector<string> line = splitString(lines[i], ":");
+            if (line.size() == 2)
+            {
+                options.insert(pair<string, string>(line[0], line[1]));
+            }
+            else
+            {
+                Log(Logger::LOG_DEBUG) << "Empty line in settings file: " << lines[i];
+            }
+        }
+
+        Log(Logger::LOG_DEBUG) << "Settings File =============";
+        for (it = options.begin(); it != options.end(); it++)
+        {
+            Log(Logger::LOG_DEBUG) << (*it).first << " => " << (*it).second;
+        }
+        Log(Logger::LOG_DEBUG) << "===========================";
+
+        //Assign values
+        it = options.find("absolute");
+        if (it != options.end())
+        {
+            mAbsolute = std::abs(toDouble((*it).second));
+        }
+
+        it = options.find("relative");
+        if (it != options.end())
+        {
+            mRelative = std::abs(toDouble((*it).second));
+        }
+    }
+}
+
 bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 {
     string fName(settingsFName);
@@ -121,13 +169,32 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         return false;
     }
 
-    mSettings = SimulateOptions(fName);
+    mAbsolute = 1e-10;
+    mRelative = 1e-5;
+    loadSBMLTolerances(fName);
+
+    mSettings = SimulateOptions();
+	mSettings.loadSBMLSettings(fName);
 
     if(mEngine)
     {
+		mEngine->getIntegrator()->loadSBMLSettings(fName);
         // make a copy and tweak tolerances for integrator
         SimulateOptions opt = mSettings;
-        opt.tweakTolerances();
+		if (mEngine->getIntegrator()->getName() == "cvode")
+		{
+			// Do the tolerance tweaking here.
+			//opt.tweakTolerances();
+			CVODEIntegrator* cvode_integrator = dynamic_cast<CVODEIntegrator*>(mEngine->getIntegrator());
+			if (cvode_integrator)
+			{
+				cvode_integrator->tweakTolerances();
+			}
+			else
+			{
+				throw std::runtime_error("Cannot tweak tolerances of integrator because it is not CVODE."); 
+			}
+		}
         mEngine->setSimulateOptions(opt);
     }
 

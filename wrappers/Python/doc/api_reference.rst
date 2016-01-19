@@ -2,7 +2,7 @@
 RoadRunner API Reference
 ************************
 
-.. py:currentmodule:: roadrunner
+.. py:currentmodule:: RoadRunner
 
 This is the API Reference page for the module: :mod:`roadrunner`
 
@@ -17,14 +17,14 @@ This is the API Reference page for the module: :mod:`roadrunner`
 .. moduleauthor:: Herbert Suaro <hsauro@u.washington.edu>
 
 The RoadRunner SBML Simulation Engine Python API,
-(c) 2009-2014 Endre Somogyi and Herbert Sauro
+(c) 2009-2015 Endre Somogyi and Herbert Sauro
 
-   
+
 .. include:: mod_roadrunner/cls_Config.rst
 
 .. include:: mod_roadrunner/cls_RoadRunner.rst   
 
-.. include:: mod_roadrunner/cls_SimulateOptions.rst      
+.. include:: mod_roadrunner/cls_SelectionRecord.rst
 
 .. include:: mod_roadrunner/cls_LoadSBMLOptions.rst
 
@@ -33,3 +33,5 @@ The RoadRunner SBML Simulation Engine Python API,
 .. include:: mod_roadrunner/cls_Logger.rst
 
 .. include:: mod_roadrunner/cls_Compiler.rst
+
+.. include:: mod_roadrunner/cls_Misc.rst

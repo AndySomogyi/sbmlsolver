@@ -1,3 +1,16 @@
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file Integrator.h
+* @author ETS, JKM
+* @date 2014
+* @copyright Apache License, Version 2.0
+* @brief RoadRunner exception classes
+**/
+
 #ifndef rrExceptionH
 #define rrExceptionH
 #include <exception>
@@ -54,5 +67,36 @@ class RR_DECLSPEC CVODEException : public Exception
     public:
         CVODEException(const string& msg);
 };
+
+class RR_DECLSPEC NotImplementedException : public Exception
+{
+    public:
+        NotImplementedException(const string& msg);
+};
+
+class RR_DECLSPEC InvalidKeyException : public Exception
+{
+    public:
+        InvalidKeyException(const string& msg);
+};
+
+/**
+ * @author JKM
+ * @brief Thrown whenever an uninitialized value is encountered,
+ * see https://github.com/sys-bio/roadrunner/issues/180
+ */
+class RR_DECLSPEC UninitializedValueException : public Exception
+{
+    public:
+        UninitializedValueException(const string& msg);
+};
+
+/**
+ * @author JKM
+ * @brief Called whenever an uninitialized value is encountered,
+ * throws @ref UninitializedValueException
+ */
+void UninitializedValue(const string& msg);
+
 }//namepsace rr
 #endif

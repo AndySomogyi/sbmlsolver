@@ -3,22 +3,10 @@ _____________
 
 Many of RoadRunner classes use a number of configuration parameters. Most of these can be set using
 the Config class. The values stored in the Config class only determine the *default* values of
-parameters. Most methods let specify explicit values for parameters. For example, if one ran a time
-series simulation, they could specify various parameter via the optional SimulateOptions object::
-
-  import roadrunner
-  opt = roadrunner.SimulateOptions()
-  opt.relative = 1.3e-5
-  opt.absolute = 3e-12
-  opt.steps = 100
-  opt.duration = 1.1
-  r = roadrunner.RoadRunner('/Users/andy/test.xml')
-  r.simulate(opt)
-
-If no SimulateOptions object is given, then the default configuration parameters are used. The
-Config class will look in the following locations for the config file, and will load the values from
-the first config file it finds. If it does not find a config file in one of the following locations,
-a default set of configuration parameters are used. The search locations of the config file are:
+parameters. The Config class will look in the following locations for the config file, and will
+load the values from the first config file it finds. If it does not find a config file in one of
+the following locations, a default set of configuration parameters are used. The search locations
+of the config file are:
 
 #1: the ROADRUNNER_CONFIG environment variable
 
@@ -57,36 +45,34 @@ Configuration Functions
 -----------------------
 
 .. staticmethod:: Config.setValue(key, value)
-   :module: roadrunner
+   :module: RoadRunner
 
    Set the value of a configuration key. The value must be either a string, integer, double or
-   boolean. If one wanted to change the value of the default integrator tolerances, one would::
+   boolean. If one wanted to turn off moiety conservation (this will not have an effect on
+   already loaded models)::
 
      from roadrunner import Config
-     Config.setValue(Config.SIMULATEOPTIONS_ABSOLUTE, 3.14e-12)
-     Config.setValue(Config.SIMULATEOPTIONS_RELATIVE, 2.78e-5)
+     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False)
 
 
-   Or, other options may be set to Boolean or integer values. To enable an optimization features,
-   or to set default simulation time steps::
+   Or, other options may be set to Boolean or integer values. To enable an optimization features::
 
      Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, True)
-     Config.setValue(Config.SIMULATEOPTIONS_STEPS, 100)
 
 
 .. staticmethod:: Config.getConfigFilePath()
-   :module: roadrunner
+   :module: RoadRunner
 
    If roadrunner was able to find a configuration file on the file system, its full path is returned
    here. If no file was found, this returns a empty string. 
 
 
 .. staticmethod:: Config.readConfigFile(path)
-   :module: roadrunner
+   :module: RoadRunner
 
    Read all of the values from a configuration file at the given path. This overrides any previously
    stored configuration. This allows users to have any number of configuration files and load them
-   at any time. Say someone had to use Windows, and they had a file in thier C: drive, this would be
+   at any time. Say someone had to use Windows, and they had a file in their C: drive, this would be
    loaded via::
      
      Config.readConfigFile("C:/my_config_file.txt")
@@ -95,7 +81,7 @@ Configuration Functions
    need to use a double back slash, "\\\\".
 
 .. staticmethod:: Config.writeConfigFile(path)
-   :module: roadrunner
+   :module: RoadRunner
 
    Write all of the current configuration values to a file. This could be written to one of the
    default locations, or to any other location, and re-loaded at a later time. 
@@ -109,26 +95,29 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
-   perform conservation analysis.
+   Perform conservation analysis. By default, this attribute is set as False.
       
    This causes a re-ordering of the species, so results generated
    with this flag enabled can not be compared index wise to results
    generated otherwise.
 
-   Moiety conservation is only compatable with simple models which do NOT have any events or rules
+   Moiety conservation is only compatible with simple models which do NOT have any events or rules
    which define or alter any floating species, and which have simple constant stoichiometries. 
 
-   Moiety conservation may cause unexpected results, be aware of what it is before enableing. 
+   Moiety conservation may cause unexpected results, be aware of what it is before enabling. 
 
    Not recommended for time series simulations.
-  
+   
+   To enable, type:
+   
+   >>> roadrunner.Config.setValue(roadrunner.Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, True)  
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_RECOMPILE
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Should the model be recompiled?
@@ -143,7 +132,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_READ_ONLY
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    If this is set, then a read-only model is generated. A read-only
@@ -156,7 +145,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Generate accessors functions to allow changing of initial
@@ -165,17 +154,17 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_GVN
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    GVN - This pass performs global value numbering and redundant load
-   elimination cotemporaneously.
+   elimination contemporaneously.
 
 
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    CFGSimplification - Merge basic blocks, eliminate unreachable blocks,
@@ -185,7 +174,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    InstructionCombining - Combine instructions to form fewer, simple
@@ -196,7 +185,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    DeadInstElimination - This pass quickly removes trivially dead instructions
@@ -207,7 +196,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    DeadCodeElimination - This pass is more powerful than DeadInstElimination,
@@ -217,7 +206,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
 
@@ -225,7 +214,7 @@ here. The variable type of the parameter is listed after the key name.
 
 
 .. attribute:: Config.LOADSBMLOPTIONS_USE_MCJIT
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    Currently disabled. 
@@ -238,67 +227,8 @@ here. The variable type of the parameter is listed after the key name.
    original JIT engine. Does NOT work on LLVM 3.1
 
 
-
-.. attribute:: Config.SIMULATEOPTIONS_STEPS
-   :module: roadrunner
-   :annotation: int
-
-   The number of steps at which the output is sampled. The samples are evenly spaced.
-   When a simulation system calculates the data points to record, it will typically
-   divide the duration by the number of time steps. Thus, for N steps, the output
-   will have N+1 data rows.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_DURATION
-   :module: roadrunner
-   :annotation: double
-
-   The duration of the simulation run, in the model's units of time. Note, 
-   setting the duration automatically sets the end time and visa versa.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_ABSOLUTE
-   :module: roadrunner
-   :annotation: double
-
-   The absolute error tolerance used by the integrator. 
-
-   A number representing the absolute difference permitted for the integrator
-   tolerance. Defaults to 1.000000e-10.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_RELATIVE
-   :module: roadrunner
-   :annotation: double
-
-   The relative error tolerance used by the integrator. 
-
-   A float-point number representing the relative difference permitted.
-   Defaults to 1.000000e-05.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_STRUCTURED_RESULT
-   :module: roadrunner
-   :annotation: bool
-
-   A boolean option to return a structured array from the RoadRunner.simulate method. Structured
-   arrays contain column names and other data. A structured array needs to be converted into regular
-   arrays before they can be used in numpy functions. 
-
-
-
-.. attribute:: Config.SIMULATEOPTIONS_STIFF
-   :module: roadrunner
-   :annotation: bool
-
-   Is the model a stiff system? setting this to stiff causes
-   RoadRunner to load a stiff solver which could potentially be
-   extremly slow
-
-
-
 .. attribute:: Config.SIMULATEOPTIONS_MULTI_STEP
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: bool
 
    The MULTI_STEP option tells the solver to take a series of internal steps
@@ -310,46 +240,14 @@ here. The variable type of the parameter is listed after the key name.
    This is intended to be used in combination with the
    IntegratorListener. It this option is set, and there is a
    IntegratorListener set, RoadRunner::integrate will run the
-   integrator in a series of internal steps, and the listner
+   integrator in a series of internal steps, and the listener
    will by notified at each step.
   
    Highly Experimental!!!
 
 
-.. attribute:: Config.SIMULATEOPTIONS_INITIAL_TIMESTEP
-   :module: roadrunner
-   :annotation: double
-
-   A user specified initial time step. If this is <=  0, the integrator
-   will attempt to determine a safe initial time step.
-  
-   Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
-   the internal integrator may take many many steps to reach one of the external time
-   steps. This value specifies an initial value for the internal integrator
-   time step.
-
-
-.. attribute:: Config.SIMULATEOPTIONS_MINIMUM_TIMESTEP
-   :module: roadrunner
-   :annotation: double
-
-   Specify The Minimum Time Step That The Internal Integrator
-   Will Use. Uses Integrator Estimated Value If <= 0.
-
-
-
-.. attribute:: Config.SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-   :module: roadrunner
-   :annotation: int
-
-   Specify The Maximum Number Of Steps The Internal Integrator Will Use
-   Before Reaching The User Specified Time Span. Uses The Integrator
-   Default Value If <= 0.
-
-
-
-.. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES,
-   :module: roadrunner
+.. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+   :module: RoadRunner
    :annotation: int
 
    RoadRunner by default dynamically generates accessors properties
@@ -359,8 +257,8 @@ here. The variable type of the parameter is listed after the key name.
    can be disabled here.
          
 
-.. attribute:: Config.ROADRUNNER_DISABLE_WARNINGS,
-   :module: roadrunner
+.. attribute:: Config.ROADRUNNER_DISABLE_WARNINGS
+   :module: RoadRunner
    :annotation: int
 
    disable SBML conserved moiety warnings.

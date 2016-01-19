@@ -65,4 +65,138 @@ std::string validateSBML(const std::string src, unsigned opt)
     return errors.str();
 }
 
+// Return true if this species reference has an initial assignment
+static bool hasInitialAssignment(const SpeciesReference* s) {
+    const Model* m = s->getModel();
+    const ListOfInitialAssignments *assn = m->getListOfInitialAssignments();
+
+    for (unsigned i = 0; i < assn->size(); ++i) {
+        const InitialAssignment *a = assn->get(i);
+        if (a->getSymbol() == s->getId())
+            return true;
+    }
+
+    return false;
+}
+
+// Return true if this species reference has an assignment rule
+static bool hasAssignmentRule(const SpeciesReference* s) {
+    const Model* m = s->getModel();
+    const ListOfRules* rules = m->getListOfRules();
+
+    for (unsigned i = 0; i < rules->size(); ++i) {
+        const Rule *rule = rules->get(i);
+        if (const AssignmentRule* a = dynamic_cast<const AssignmentRule*>(rule))
+            if (a->getVariable() ==  s->getId())
+                return true;
+    }
+
+    return false;
+}
+
+// Return true if stoichiometry is defined for this species reference
+static bool isStoichDefined(const SpeciesReference* s) {
+    if (!s)
+        // null ref
+        return false;
+    if (hasInitialAssignment(s) || hasAssignmentRule(s))
+        // stoich can be set by assignments
+        return true;
+    return s->isSetStoichiometry();
+}
+
+// Return true if stoichiometry is defined for every reaction in the model
+bool isStoichDefined(const std::string sbml) {
+    SBMLDocument *doc = NULL;
+
+    if(sbml.substr(0,5) != "<?xml")
+      throw std::runtime_error("SBML document must begin with an XML declaration");
+
+    try {
+        doc =  readSBMLFromString (sbml.c_str());
+
+        if (!doc)
+          throw std::runtime_error("Unable to read SBML");
+
+        if (doc->getLevel() < 3)
+            return true;                                    // stoichiometry has a default value in level 1 & 2
+
+        const Model *m = doc->getModel();
+
+        if (!m)
+          throw std::runtime_error("SBML string invalid or missing model");
+
+        for (int j = 0; j<m->getNumReactions(); ++j) {
+            const Reaction* r = m->getReaction(j);
+            if (!r)
+                throw std::runtime_error("No reaction");
+
+            // check stoich defined on reactants / products
+            for (int k = 0; k<r->getNumReactants(); ++k) {
+                if (!isStoichDefined(r->getReactant(k)))
+                    return false;
+            }
+
+            for (int k = 0; k<r->getNumProducts(); ++k) {
+                if (!isStoichDefined(r->getProduct(k)))
+                    return false;
+            }
+
+            // modifiers have no stoichiometry
+        }
+
+    } catch(...) {
+        delete doc;
+        throw;
+    }
+
+    delete doc;
+    return true;
+}
+
+std::string fixMissingStoich(const std::string sbml) {
+    SBMLDocument *doc = NULL;
+
+    try {
+        doc =  readSBMLFromString (sbml.c_str());
+
+        Model *m = doc->getModel();
+
+        for (int j = 0; j<m->getNumReactions(); ++j) {
+            Reaction* r = m->getReaction(j);
+            if (!r)
+                throw std::runtime_error("No reaction");
+
+            // check stoich defined on reactants / products
+            for (int k = 0; k<r->getNumReactants(); ++k) {
+                SpeciesReference* s = r->getReactant(k);
+                if (!isStoichDefined(s))
+                    if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS)
+                        throw std::runtime_error("Unable to set stoichiometry");
+            }
+
+            for (int k = 0; k<r->getNumProducts(); ++k) {
+                SpeciesReference* s = r->getProduct(k);
+                if (!isStoichDefined(s))
+                    if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS)
+                        throw std::runtime_error("Unable to set stoichiometry");
+            }
+
+            // modifiers have no stoichiometry
+        }
+
+    } catch(...) {
+        delete doc;
+        throw;
+    }
+
+    SBMLWriter writer;
+
+    char* sbml_cstr = writer.writeSBMLToString(doc);
+    delete doc;
+    std::string result(sbml_cstr);
+    free(sbml_cstr);
+    return result;
+}
+
 } /* namespace rr */

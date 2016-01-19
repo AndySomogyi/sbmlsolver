@@ -1,5 +1,19 @@
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file CVODEIntegrator.h
+* @author WBC, ETS, MTK, JKM
+* @copyright Apache License, Version 2.0
+* @brief Contains the RoadRunner CVODE integrator interface
+**/
+
 #ifndef rrCvodeInterfaceH
 #define rrCvodeInterfaceH
+
+// == INCLUDES ================================================
 
 #include "Integrator.h"
 #include "rrRoadRunnerOptions.h"
@@ -7,214 +21,265 @@
 #include <string>
 #include <vector>
 
+// == CODE ====================================================
+
 /**
- * CVode vector struct
- */
+* CVode vector struct
+*/
 typedef struct _generic_N_Vector *N_Vector;
 
 namespace rr
 {
+    using std::string;
 
-using std::string;
-
-class ExecutableModel;
-class RoadRunner;
-
-/**
- * @internal
- * The integrator implemented by CVODE.
- */
-class CVODEIntegrator : public Integrator
-{
-public:
-    CVODEIntegrator(ExecutableModel* oModel, const SimulateOptions* options);
-
-    virtual ~CVODEIntegrator();
-
-    double integrate(double t0, double tf);
+    class ExecutableModel;
+    class RoadRunner;
 
     /**
-     * copies the state vector out of the model and into cvode vector,
-     * re-initializes cvode.
+     * @author WBC, ETS, MTK
+     * @brief A RoadRunner integrator based on CVODE; serves as RoadRunner's main integrator for ODEs
+     * @details Provides a wrapper around CVODE from the SUNDIALS suite.
+     * CVODE has two main solvers: an Adams-Moulton solver for non-stiff problems,
+     * and a backward differentiation formula (BDF) solver for stiff problems.
+     * See: https://computation.llnl.gov/casc/sundials/documentation/toms_sundials.pdf
      */
-    void restart(double timeStart);
+    class CVODEIntegrator : public Integrator
+    {
 
-    /**
-     * set the options the integrator will use.
-     */
-    virtual void setSimulateOptions(const SimulateOptions* options);
+    public:
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Constructor: takes an executable model, does not own the pointer
+         */
+        CVODEIntegrator(ExecutableModel* oModel);
 
-    /**
-     * the integrator can hold a single listener. If clients require multicast,
-     * they can create a multi-cast listener.
-     */
-    virtual void setListener(IntegratorListenerPtr);
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Destructor
+         */
+        virtual ~CVODEIntegrator();
 
-    /**
-     * get the integrator listener
-     */
-    virtual IntegratorListenerPtr getListener();
+        /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m);
 
-    /**
-     * implement dictionary interface
-     */
-    virtual void setItem(const std::string& key, const rr::Variant& value);
+        // ** Loading Settings *************************************************
 
-    virtual Variant getItem(const std::string& key) const;
+        void loadConfigSettings();
 
-    virtual bool hasKey(const std::string& key) const;
+        /**
+         * @author WBC
+         * @brief Load an SBML settings file and apply the configuration options
+         * @note Can assign relative and absolute tolerances
+         */
+        void loadSBMLSettings(const std::string& filename);
 
-    virtual int deleteItem(const std::string& key);
+        // ** Meta Info ********************************************************
 
-    virtual std::vector<std::string> getKeys() const;
+        /**
+         * @author WBC
+         * @brief Get the name for this integrator
+         * @note Delegates to @ref getName
+         */
+        std::string getName() const;
 
-    /**
-     * get a description of this object, compatable with python __str__
-     */
-    virtual std::string toString() const;
+        /**
+         * @author JKM
+         * @brief Get the name for this integrator
+         */
+        static std::string getCVODEIntegratorName();
 
-    /**
-     * get a short descriptions of this object, compatable with python __repr__.
-     */
-    virtual std::string toRepr() const;
+        /**
+         * @author WBC
+         * @brief Get the description for this integrator
+         * @note Delegates to @ref getDescription
+         */
+        std::string getDescription() const;
 
-    /**
-     * get the name of this integrator
-     */
-    virtual std::string getName() const;
+        /**
+         * @author JKM
+         * @brief Get the description for this integrator
+         */
+        static std::string getCVODEIntegratorDescription();
 
-    /**
-     * list of keys that this integrator supports.
-     */
-    static const Dictionary* getIntegratorOptions();
+        /**
+         * @author WBC
+         * @brief Get the hint for this integrator
+         * @note Delegates to @ref getHint
+         */
+        std::string getHint() const;
 
-private:
+        /**
+         * @author JKM
+         * @brief Get the hint for this integrator
+         */
+        static std::string getCVODEIntegratorHint();
 
-    static const int mDefaultMaxNumSteps;
+        // ** Getters / Setters ************************************************
 
-    N_Vector mStateVector;
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Always deterministic for CVODE
+         */
+        IntegrationMethod getIntegrationMethod() const;
 
-    /**
-     * the CVODE object.
-     */
-    void* mCVODE_Memory;
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
+         */
+        void setValue(std::string setting, const Variant& value);
 
-    static const int mDefaultMaxAdamsOrder;
-    static const int mDefaultMaxBDFOrder;
+        /**
+        * @author JKM
+        * @brief Reset all integrator settings to their respective default values
+        */
+        void resetSettings();
 
-    /**
-     * the time that the last event occured.
-     */
-    double lastEventTime;
+        /**
+         * @author JKM, WBC, ETS, MTK
+         * @brief Fix tolerances for SBML tests
+         * @details In order to ensure that the results of the SBML test suite
+         * remain valid, this method enforces a lower bound on tolerance values.
+         * Sets minimum absolute and relative tolerances to
+         * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
+         */
+        void tweakTolerances();
 
-    /**
-     * the shared model object, owned by RoadRunner.
-     */
-    ExecutableModel* mModel;
+        // ** Integration Routines *********************************************
 
-    bool variableStepPendingEvent;
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Main integration routine
+         */
+        double integrate(double t0, double tf);
 
-    bool variableStepTimeEndEvent;
+        /**
+         * @author WBC, ETS, MTK
+         * @brief Reset time to zero and reinitialize model
+         * @details Applies events which occur before time zero.
+         * Reinitializes CVODE and the executable model.
+         */
+        void restart(double timeStart);
 
-    /**
-     * If an event occurs at the exact moment a time step completes,
-     * need to store the post event state as the pre-event state
-     * is copied into the model to produce an extra time point just
-     * before the event.
-     */
-    double *variableStepPostEventState;
+        // ** Listeners ********************************************************
 
-    /**
-     * an array of event status. Used by integrate to read the current model
-     * event status into.
-     */
-    std::vector<unsigned char> eventStatus;
+        /**
+         * @author WBC, ETS
+         * @brief Gets the integrator listener
+         */
+        IntegratorListenerPtr getListener();
 
-    /**
-     * the listener
-     */
-    IntegratorListenerPtr listener;
+        /**
+         * @author WBC, ETS
+         * @brief Sets the integrator listener
+         */
+        void setListener(IntegratorListenerPtr);
 
-    /**
-     * apply any events before time = 0.
-     *
-     * Note side effect of setting the current cvode state into the model.
-     */
-    void testRootsAtInitialTime();
+        /**
+         * @author JKM
+         * @brief Does a RT type check which throws if it fails, EVEN IF RTTI IS DISABLED
+         */
+        void checkType() const;
 
-    /**
-     * does the model have any state variables.
-     */
-    bool haveVariables();
+        /**
+         * @brief decode the cvode error code to a string
+         */
+        std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
+
+    private:
+        static const int mDefaultMaxNumSteps;
+        static const int mDefaultMaxAdamsOrder;
+        static const int mDefaultMaxBDFOrder;
+
+        void* mCVODE_Memory;
+        N_Vector mStateVector;
+        ExecutableModel* mModel;
+
+        IntegratorListenerPtr listener;
+        double lastEventTime;
+        bool variableStepPendingEvent;
+        bool variableStepTimeEndEvent;
+        double *variableStepPostEventState;
+        std::vector<unsigned char> eventStatus;
+
+        void testRootsAtInitialTime();
+        bool haveVariables();
+        void assignResultsToModel();
+        /**
+         * @author WBC, ETS, JKM
+         * @brief Propagates changes in the "absolute_tolerance" and
+         * "relative_tolerance" settings to the CVODE library.
+         */
+        void setCVODETolerances();
+        void reInit(double t0);
+
+        /**
+         * @author WBC, ETS, JKM
+         * @brief Propagates changes in the following settings to CVODE:\n
+         * *  initial_time_step \n
+         * *  minimum_time_step \n
+         * *  maximum_time_step \n
+         * *  maximum_num_steps \n
+         * *  absolute_tolerance (via @ref setCVODETolerances) \n
+         * *  relative_tolerance (via @ref setCVODETolerances) \n
+         */
+        void updateCVODE();
+        void applyPendingEvents(double timeEnd);
+        void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
+        double applyVariableStepPendingEvents();
+
+        void createCVode();
+        void freeCVode();
+        bool stateVectorVariables;
 
 
-    /**
-     * copy the values from the cvode state vector into the executable model.
-     */
-    void assignResultsToModel();
+        friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+        friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
 
-    /**
-     * Update the abl tolerance vector using the abs tol in the options.
-     *
-     * sets these values in the cvode object.
-     */
-    void setCVODETolerances();
-
-    void applyPendingEvents(double timeEnd);
-
-    void applyEvents(double timeEnd,
-            std::vector<unsigned char> &previousEventStatus);
+        unsigned long typecode_;
+    };
 
 
-    double applyVariableStepPendingEvents();
+    // ** Registration *********************************************************
 
-    /**
-     * re-initialize cvode with a new set of initial conditions
-     */
-    void reInit (double t0);
 
-    /**
-     * Set up the cvode state vector size and various other cvode
-     * init tasks. Specific to the model.
-     *
-     * The existing cvode vars: mStateVector, mAbstolArray, mCVODE_Memory
-     * must be 0 before calling.
-     */
-    void createCVode();
+    class CVODEIntegratorRegistrar : public IntegratorRegistrar {
+        public:
+            /**
+            * @author JKM
+            * @brief Gets the name associated with this integrator type
+            */
+            virtual std::string getName() const {
+                return CVODEIntegrator::getCVODEIntegratorName();
+            }
 
-    /**
-     * free and nullify the cvode objects.
-     */
-    void freeCVode();
+            /**
+            * @author JKM
+            * @brief Gets the description associated with this integrator type
+            */
+            virtual std::string getDescription() const {
+                return CVODEIntegrator::getCVODEIntegratorDescription();
+            }
 
-    int mMaxAdamsOrder;
-    int mMaxBDFOrder;
+            /**
+            * @author JKM
+            * @brief Gets the hint associated with this integrator type
+            */
+            virtual std::string getHint() const {
+                return CVODEIntegrator::getCVODEIntegratorHint();
+            }
 
-    /**
-     * models may have no state vector variables, but in this case,
-     * we still need a cvode state vector of len 1 for the integrator to
-     * work.
-     *
-     * true if model has state vector, false otherwise
-     */
-    bool stateVectorVariables;
-
-    /**
-     * pointer to an options struct, this is typically
-     * owned by the RoadRunner object.
-     */
-    SimulateOptions options;
-
-    /**
-     * cvode dydt callback
-     */
-    friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
-
-    /**
-     * cvode event root finding callback.
-     */
-    friend int cvodeRootFcn (double t, N_Vector y, double *gout, void *g_data);
-};
+            /**
+            * @author JKM
+            * @brief Constructs a new integrator of a given type
+            */
+            virtual Integrator* construct(ExecutableModel *model) const {
+                return new CVODEIntegrator(model);
+            }
+    };
 }
 
 #endif

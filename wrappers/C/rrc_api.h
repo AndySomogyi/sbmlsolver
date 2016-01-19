@@ -372,7 +372,7 @@ C_DECL_SPEC bool rrcCallConv loadSBMLFromFileE(RRHandle handle, const char* file
  \return Returns true if successful
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrcCallConv unLoadModel(RRHandle handle);
+C_DECL_SPEC bool rrcCallConv clearModel(RRHandle handle);
 
 /*!
  \brief check if a model is loaded
@@ -467,6 +467,536 @@ C_DECL_SPEC bool rrcCallConv setConfigurationXML (RRHandle handle, const char* c
  \ingroup simulation
 */
 C_DECL_SPEC char* rrcCallConv getConfigurationXML(RRHandle handle);
+
+/* Registered Integrators *****************************************************/
+
+/*!
+\brief Get the number of registered integrators.
+\return Returns an integer that corresponds to the number of currently registered integrators.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumRegisteredIntegrators ();
+
+/*!
+\brief Get the name of a registered integrator (e.g. cvode etc.)
+\param[in] n The index of the registered integrator
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorName (int n);
+
+/*!
+\brief Get the hint of a registered integrator (e.g. cvode etc.)
+\param[in] n The index of the registered integrator
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorHint (int n);
+
+/*!
+\brief Get the description of a registered integrator (e.g. cvode etc.)
+\param[in] n The index of the registered integrator
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDescription (int n);
+
+/* Instantiated Integrators ***************************************************/
+
+/*!
+\brief Get the number of instantiated integrators.
+\description To instantiate an integrator, use @ref setCurrentIntegrator.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns an integer that corresponds to the number of currently registered integrators.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumInstantiatedIntegrators (RRHandle handle);
+
+/*!
+\brief Specify the current integrator to be used for simulation.
+\description This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
+one does not currently exist. Otherwise, the existing integrator of this type is used.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] nameOfIntegrator Name of the integrator to be used.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator);
+
+/*!
+\brief Obtain a description of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a description of the current integrator.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorName (RRHandle handle);
+
+/*!
+\brief Obtain a description of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a description of the current integrator.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorDescription (RRHandle handle);
+
+/*!
+\brief Obtain a short hint for the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a short hint of the current integrator.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorHint (RRHandle handle);
+
+/*!
+\brief Get the number of adjustable settings for the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns an integer that corresponds to the number of adjustable integrator settings.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle);
+
+/*!
+\brief Get the name of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterName (RRHandle handle, int n);
+
+/*!
+\brief Get the description of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterDescription (RRHandle handle, int n);
+
+/*!
+\brief Get the display name of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterDisplayName (RRHandle handle, int n);
+
+/*!
+\brief Get the hint of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorNthParameterHint (RRHandle handle, int n);
+
+/*!
+\brief Get the type of a parameter of the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentIntegratorParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorNthParameterType (RRHandle handle, int n);
+
+/*!
+\brief Reset the integrator parameters to their default values.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv resetCurrentIntegratorParameters (RRHandle handle);
+
+/*!
+\brief Get the names of adjustable settings for the current integrator.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a list that contains the names of adjustable integrator settings.
+\ingroup simopts
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterNames (RRHandle handle);
+
+/*!
+\brief Get the description for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns a description for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the hint for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns a hint for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the return type for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns a integer that indicates the return type for the integrator setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the integer value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns an integer value for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the integer value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\param[in] value The integer value for the integrator setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
+
+/*!
+\brief Get the unsigned integer value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns an integer value for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the unsigned integer value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\param[in] value The integer value for the integrator setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName, unsigned int value);
+
+/*!
+\brief Get the double value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns a double value for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the double value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\param[in] value The double value for the integrator setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName, double value);
+
+/*!
+\brief Get the string value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns a string value for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the string value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\param[in] value The string value for the integrator setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *parameterName, char* value);
+
+/*!
+\brief Get the boolean value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\return Returns a boolean value for the integrator setting.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the boolean value for a specific integrator setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the integrator setting.
+\param[in] value The boolean value for the integrator setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
+
+
+/* Steady State Solvers *******************************************************/
+
+/*!
+\brief Get the number of registered steady state solvers.
+\return Returns an integer that corresponds to the number of currently registered steady state solvers.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumRegisteredSteadyStateSolvers ();
+
+/*!
+\brief Get the name of a registered steady state solver (e.g. cvode etc.)
+\param[in] n The index of the registered steady state solver
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverName (int n);
+
+/*!
+\brief Get the hint of a registered steady state solver (e.g. cvode etc.)
+\param[in] n The index of the registered steady state solver
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverHint (int n);
+
+/*!
+\brief Get the description of a registered steady state solver (e.g. cvode etc.)
+\param[in] n The index of the registered steady state solver
+\note Callee owns memory
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverDescription (int n);
+
+
+/*!
+\brief Specify the current steady state solver to be used for simulation.
+\description This method instantiates a new steady state solver of the given type (e.g. cvode, gillespie) if
+one does not currently exist. Otherwise, the existing steady state solver of this type is used.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] nameOfSteadyStateSolver Name of the steady state solver to be used.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver);
+
+/*!
+\brief Obtain a description of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a description of the current steady state solver.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverName (RRHandle handle);
+
+/*!
+\brief Obtain a description of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a description of the current steady state solver.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverDescription (RRHandle handle);
+
+/*!
+\brief Obtain a short hint for the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a short hint of the current steady state solver.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverHint (RRHandle handle);
+
+/*!
+\brief Get the number of adjustable settings for the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns an integer that corresponds to the number of adjustable steady state solver settings.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getNumberOfCurrentSteadyStateSolverParameters (RRHandle handle);
+
+/*!
+\brief Get the name of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterName (RRHandle handle, int n);
+
+/*!
+\brief Get the display name of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterDisplayName (RRHandle handle, int n);
+
+/*!
+\brief Get the description of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterDescription (RRHandle handle, int n);
+
+/*!
+\brief Get the hint of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverNthParameterHint (RRHandle handle, int n);
+
+/*!
+\brief Get the type of a parameter of the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] n The index of the parameter (0 <= n < @ref getNumberOfCurrentSteadyStateSolverParameters)
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverNthParameterType (RRHandle handle, int n);
+
+/*!
+\brief Reset the steady state solver parameters to their default values.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle handle);
+
+/*!
+\brief Get a string description of the type [STATIC MEMORY - DO NOT FREE]
+\description Can call on return value of e.g. @ref getCurrentSteadyStateSolverNthParameterType
+to retrieve human-readable string representation.
+\param[in] code Type code for the parameter
+\ingroup simopts
+*/
+C_DECL_SPEC const char* rrcCallConv solverTypeToString (int code);
+
+/*!
+\brief Get the names of adjustable settings for the current steady state solver.
+\param[in] handle Handle to a RoadRunner instance.
+\return Returns a list that contains the names of adjustable steady state solver settings.
+\ingroup simopts
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParameterNames (RRHandle handle);
+
+/*!
+\brief Get the description for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a description for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the hint for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a hint for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the return type for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a integer that indicates the return type for the steady state solver setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, char *parameterName);
+
+/*!
+\brief Get the integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns an integer value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The integer value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName, int value);
+
+/*!
+\brief Get the unsigned integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns an integer value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the unsigned integer value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The integer value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName, unsigned int value);
+
+/*!
+\brief Get the double value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a double value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the double value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The double value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName, double value);
+
+/*!
+\brief Get the string value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a string value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the string value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The string value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName, char* value);
+
+/*!
+\brief Get the boolean value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\return Returns a boolean value for the steady state solver setting.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName);
+
+/*!
+\brief Set the boolean value for a specific steady state solver setting.
+\param[in] handle Handle to a RoadRunner instance.
+\param[in] paramterName Name of the steady state solver setting.
+\param[in] value The boolean value for the steady state solver setting.
+\return Returns True if successful.
+\ingroup simopts
+*/
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName, int value);
 
 
 /*!
@@ -577,12 +1107,12 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double time
 /*!
  \brief Carry out a one step integration of the model
 
- Example: \code status = OneStep (rrHandle, currentTime, timeStep, newTimeStep); \endcode
+ Example: \code status = OneStep (rrHandle, currentTime, stepSize, newTime); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
- \param[in] value The new time (currentTime + stepSize)
+ \param[in] newTime The new time (currentTime + stepSize)
 
  \return Returns true if successful
  \ingroup simulation
@@ -1005,6 +1535,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle h
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations (RRHandle handle);
 
 /*!
+ \deprecated Use @ref getFloatingSpeciesInitialConcentrationIds
  \brief Get the initial floating species Ids
 
  Example: \code vec = getFloatingSpeciesInitialConditionIds (RRHandle handle); \endcode
@@ -1014,6 +1545,18 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations (RRH
  \ingroup initialConditions
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle);
+
+/*!
+ \brief Get the initial floating species Ids
+
+ Example: \code vec = getFloatingSpeciesInitialConcentrationIds (RRHandle handle); \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails otherwise returns a vector containing names of the floating species
+ \ingroup initialConditions
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConcentrationIds(RRHandle handle);
+
 
 // --------------------------------------------------------------------------------
 // Reaction rates
@@ -1645,6 +2188,70 @@ C_DECL_SPEC bool rrcCallConv resetAll(RRHandle handle);
 */
 C_DECL_SPEC bool rrcCallConv resetToOrigin(RRHandle handle);
 
+/*!
+ \brief Set a boolean configuration value
+
+ \param[in] key The configuration key
+ \param[in] value The value to assign to the configuration key
+ \return Returns positive if successful
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv setConfigBool(const char* key, int value);
+
+/*!
+ \brief Get a boolean configuration value
+
+ \param[in] key The configuration key
+ \note On error, sets an error message which can be retrieved via @ref getLastError
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv getConfigBool(const char* key);
+
+/*!
+ \brief Set an integer configuration value
+
+ \param[in] key The configuration key
+ \param[in] value The value to assign to the configuration key
+ \return Returns positive if successful
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv setConfigInt(const char* key, int value);
+
+/*!
+ \brief Get an integer configuration value
+
+ \param[in] key The configuration key
+ \note On error, sets an error message which can be retrieved via @ref getLastError
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv getConfigInt(const char* key);
+
+/*!
+ \brief Set a double configuration value
+
+ \param[in] key The configuration key
+ \param[in] value The value to assign to the configuration key
+ \return Returns positive if successful
+ \ingroup config
+*/
+C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
+
+/*!
+ \brief Get a double configuration value
+
+ \param[in] key The configuration key
+ \note On error, sets an error message which can be retrieved via @ref getLastError
+ \ingroup config
+*/
+C_DECL_SPEC double rrcCallConv getConfigDouble(const char* key);
+
+/*!
+ \brief Get a list of all possible config keys
+
+ \ingroup config
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
+
 #if defined( __cplusplus)
 }
 }//namespace
@@ -1878,6 +2485,12 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
 
  \defgroup reset Reset methods
  \brief Methods for resetting instances to various initial states
+
+ \defgroup simopts Solver options API
+ \brief Reflective API for interacting with steady state solvers and integrators
+
+ \defgroup config Configuration keys/values
+ \brief Loads and sets configuration options
 */
 
 

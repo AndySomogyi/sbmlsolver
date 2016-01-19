@@ -47,7 +47,10 @@ class SBMLTest(object):
         if not path.isfile(settingsName):
             raise Exception(dirName + " does not have a settings file of " + settingsName)
         
-        opt = rr.SimulateOptions(settingsName)
+        self.settingspath = settingsName
+        
+        opt = rr.SimulateOptions()
+        opt.loadSBMLSettings(settingsName)
 
         # origininal copy of options.
         self.settings = opt.copy()
@@ -115,13 +118,13 @@ class SBMLTest(object):
         return diff.view((npy.float64, len(diff.dtype.names)))
 
 
-    def getTestResults(self, diff=None):
+    def getTestResults(self, r, diff=None):
         if diff is None:
             diff = self.getDifferences()
 
         result = self.result.view((npy.float64, len(self.result.dtype.names)))
 
-        return diff <= (self.settings.absolute + (self.settings.relative * npy.abs(result)))        
+        return diff <= (r.integrator.absolute_tolerance + (r.integrator.relative_tolerance * npy.abs(result)))        
 
     def run(self):
         """
@@ -136,20 +139,23 @@ class SBMLTest(object):
             # run the simulation
 
             r = rr.RoadRunner(self.sbmlFileName, _getLoadOptions())
+            
+            # load integrator settings
+            r.integrator.loadSBMLSettings(self.settingspath)
 
             # need to tweak the tolerances for the current integrator
             opt = self.settings.copy()
-            opt.tweakTolerances()
+            #opt.tweakTolerances()
             opt.structuredResult = True
             self.result = r.simulate(opt)
 
             # logical array of pass / fail test points.
-            test = self.getTestResults()
+            test = self.getTestResults(r)
 
             for i in npy.arange(len(self.names)):
                 ok = npy.all(test[:,i])
                 if not ok:
-                    err = "'" + self.names[i] + "' failed " + str(npy.count_nonzero(test[:,i])) + \
+                    err = "'" + self.names[i] + "' failed " + str(test.shape[0] - npy.count_nonzero(test[:,i])) + \
                           " out of " + str(test.shape[0]) + " points."
                     self._addError(err)
                     result = False

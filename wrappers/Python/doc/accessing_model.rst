@@ -2,7 +2,7 @@
 Accessing the SBML Model Variables
 **********************************
 
-.. currentmodule:: roadrunner
+.. currentmodule:: RoadRunner
 
 The following methods allow users to obtain information on the model
 
@@ -62,7 +62,7 @@ Reactions
    ExecutableModel.getReactionIds
 
 
-Rates Of Change
+Reaction Rates
 ---------------
 
 .. autosummary::
@@ -77,6 +77,7 @@ Global Parameters
 -----------------
 
 .. autosummary::
+
    ExecutableModel.setGlobalParameterValues
    ExecutableModel.getGlobalParameterValues
    ExecutableModel.getNumGlobalParameters

@@ -227,6 +227,12 @@ public:
     std::string toString() const;
 
     /**
+     * @author JKM
+     * @brief Convert to Python-compatible representation
+     */
+    std::string pythonRepr() const;
+
+    /**
      * is this variant a string.
      */
     bool isString() const;

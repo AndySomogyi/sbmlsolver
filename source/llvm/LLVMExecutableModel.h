@@ -1,8 +1,17 @@
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file LLVMExecutableModel.h
+* @author ETS
+* @copyright Apache License, Version 2.0
+* @date Jun 3, 2013
+* @brief LLVM executable model interface
+**/
+
 /*
- * LLVMExecutableModel.h
- *
- *  Created on: Jun 3, 2013
- *
  * Author: Andy Somogyi,
  *     email decode: V1 = "."; V2 = "@"; V3 = V1;
  *     andy V1 somogyi V2 gmail V3 com
@@ -39,9 +48,24 @@ namespace rrllvm
 
 class ModelResources;
 
+/**
+ * @author ETS
+ * @brief LLVM executable model
+ * @details Interface to LLVM executable model.
+ */
 class RR_DECLSPEC LLVMExecutableModel: public rr::ExecutableModel
 {
 public:
+
+    /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Returns a human-readable description of the code generation backend,
+     * e.g. LLVM, legacy C, etc.
+     */
+    virtual std::string getExecutableModelDesc() const {
+        return "LLVM Executable Model";
+    }
 
     /**
      * the default ctor just zeros out all our private bits, then
@@ -126,6 +150,14 @@ public:
             double *values);
 
     virtual int getNumRateRules();
+
+    /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Gets the symbols defined by rate rules, i.e.
+     * returns all x such that x' = f(x) is a rule which defines parameter x.
+     */
+    virtual std::vector<std::string> getRateRuleSymbols() const;
 
     /**
      * copy (but do not evaluate) existing rate rules values into
@@ -407,6 +439,15 @@ public:
 public:
     virtual int getNumEvents();
 
+    /**
+     * @brief Get status of event triggers
+     * @author ETS
+     * @details When len <= 0, returns number of events.
+     * Otherwise, sets bits in @ref eventState to the corresponding trigger.
+     * @param[in] len The length of @ref indx
+     * @param[in] indx An index into @ref eventState
+     * @param[out] eventState The state of the event triggers
+     */
     virtual int getEventTriggers(int len, const int *indx, unsigned char *eventState);
 
     /**

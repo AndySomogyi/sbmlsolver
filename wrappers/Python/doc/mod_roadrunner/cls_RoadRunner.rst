@@ -28,7 +28,7 @@ _________________________
 
 
 .. method:: RoadRunner.load(uriOrDocument)
-   :module: roadrunner
+   :module: RoadRunner
 
    Loads an SBML document, given a string for file path, URI, or contents. 
 
@@ -66,66 +66,72 @@ _________________________
 
 .. method:: RoadRunner.getCompiler()
 
-   Return the JIT :class:`Compiler` object currently being used. 
+   Returns the JIT :class:`Compiler` object currently being used. 
    This object provides various information about the current processor and system.
 
 
 
 .. method:: RoadRunner.getConfigurationXML()
-   :module: roadrunner
+   :module: RoadRunner
 
-   recurse through all of the child configurable objects that this
+   Recurse through all of the child configurable objects that this
    class ones and build an assemble all of their configuration parameters
    into a single xml document which is returned as a string.
 
    The value of this result depends on what child objects are presently loaded.
 
 
-.. staticmethod:: RoadRunner.getExtendedVersionInfo()
-   :module: roadrunner
+.. method:: RoadRunner.getExtendedVersionInfo()
+   :module: RoadRunner
 
-   getVersion plus info about dependent libs versions.
+   Returns :meth:`getVersionStr()` as well as info about dependent libs versions.
 
 
 
 .. method:: RoadRunner.getInfo()
-   :module: roadrunner
+   :module: RoadRunner
 
-   return info about the current state of the object
+   Returns info about the current state of the object.
 
    :rtype: str
 
 
 
 .. method:: RoadRunner.getInstanceCount()
-   :module: roadrunner
+   :module: RoadRunner
 
-   Number of currently running RoadRunner instances.
+   Returns number of currently running RoadRunner instances.
 
 
 
 .. method:: RoadRunner.getInstanceID()
-   :module: roadrunner
+   :module: RoadRunner
 
-   When there are multiple instances of RoadRunner, this is the instance id.
+   Returns the instance id when there are multiple instances of RoadRunner.
 
 
 
 .. method:: RoadRunner.getIntegrator()
-   :module: roadrunner
+   :module: RoadRunner
 
-   get the integrator which is currently being used to
+   Returns the integrator which is currently being used to
    time evolve the system.
 
-.. method:: RoadRunner.getAvailableIntegrators()
-   :module: roadrunner
    
-   Get a list of available integrator names.
+.. method:: RoadRunner.getAvailableIntegrators()
+   :module: RoadRunner
+   
+   Returns a list of names of available integrators.
 
+   
+.. method:: RoadRunner.getExistingIntegratorNames()
+   :module: RoadRunner
+   
+   Returns a list of names of all integrators.
+   
 
-
-.. staticmethod:: RoadRunner.getParamPromotedSBML(*args)
-   :module: roadrunner
+.. method:: RoadRunner.getParamPromotedSBML(*args)
+   :module: RoadRunner
 
    Takes an SBML document (in textual form) and changes all of the local parameters
    to be global parameters.
@@ -133,26 +139,26 @@ _________________________
    :param str SBML: the contents of an SBML document
    :rtype: str
 
-
-
+   
 
 .. method:: RoadRunner.getCurrentSBML()
-   :module: roadrunner
+   :module: RoadRunner
 
-   Returns the current state of the model in the form of an SBML string. 
-   
-   That is the SBML will reflect the current state of the model and not the 
-   original SBML that was loaded into RoadRunner.
+   Returns the SBML with the current model parameters. 
+   This is different than :meth:`getSBML()` which returns the original SBML.
+   This may optionally up or down-convert the document to a different version, if the level and version arguments are non-zero.
+   If both arguments are zero, then the document is left alone and the original version is returned.
 
    :rtype: str
 
 
 .. method:: RoadRunner.getSBML()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the original SBML model that was loaded into roadrunner.
 
    :rtype: str
+   
 
 Selections
 ----------
@@ -166,7 +172,8 @@ Selections
 
 .. method:: RoadRunner.getValue(sel)
 
-   Returns the value for a given selection.
+   Returns the value for a given selection. For more information on accepted selection types
+   see :ref:`Selecting Values <selecting-values>`.
 
    :param sel: a selection that is either a string or a SelectionRecord that was
                obtained from createSelection
@@ -175,7 +182,7 @@ Selections
 
 
 .. method:: RoadRunner.getSelectedValues()
-   :module: roadrunner
+   :module: RoadRunner
 
    returns the values selected with SimulateOptions for the current model time / timestep
 
@@ -183,10 +190,15 @@ Selections
 
 
 
-.. attribute:: RoadRunner.selections
-   :module: roadrunner
+.. attribute:: RoadRunner.timeCourseSelections
+   :module: RoadRunner
             
-   Get or set the list of current selections used for the simulation result columns. 
+   Get or set the list of current selections used for the time course simulation result columns. 
+   For more information on accepted selection types, see :ref:`Selecting Values <selecting-values>`.
+   
+   >>> rr.timeCourseSelections = ['time', 'S1', 'S2']
+   >>> rr.timeCourseSelections
+   ['time', 'S1', 'S2']
 
 
 .. method:: RoadRunner.createSelection(sel)
@@ -201,26 +213,40 @@ Model Access
 
 
 .. method:: RoadRunner.isModelLoaded()
-   :module: roadrunner
+   :module: RoadRunner
 
    Return True if model was loaded; False otherwise
 
 
 
 .. py:attribute:: RoadRunner.model
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: None
 
    Get the currently loaded model. The model object contains the entire state of the SBML model.
 
 
 .. method:: RoadRunner.getModel()
-   :module: roadrunner
+   :module: RoadRunner
 
    Function form of the RoadRunner.model property, identical to model. 
 
+   
+.. method:: RoadRunner.clearModel()
+   :module: RoadRunner
+   
+   Clears the currently loaded model and all associated memory.
+   Returns True if memory was freed, False if no model was loaded in the first place.
+   
+   >>> r.isModelLoaded()
+   True
+   >>> r.clearModel()
+   >>> r.isModelLoaded()
+   False
+   
+   
 .. method:: RoadRunner.oneStep(startTime, stepSize)
-   :module: roadrunner
+   :module: RoadRunner
 
    Carry out a one step integration of the model. The method takes two arguments,
    the current time and the step size to us in the integration. The method returns
@@ -230,14 +256,27 @@ Model Access
 
  
 .. method:: RoadRunner.reset()
-   :module: roadrunner
+   :module: RoadRunner
 
-   This method resets all the floating species concentrations to their initial values.
+   Resets all the floating species concentrations to their initial values.
+   
 
+.. method:: RoadRunner.resetAll()
+   :module: RoadRunner
+
+   Resets all variables, species, etc. to the CURRENT initial values. 
+   It also resets all parameter back to the values they had when the model was first loaded
+
+
+.. method:: RoadRunner.resetToOrigin()
+   :module: RoadRunner
+
+   Resets the model back to the state is was when it was FIRST loaded.
+   The scope of reset includes all initial values and parameters, etc.
 
 
 .. method:: RoadRunner.setConfigurationXML(*args)
-   :module: roadrunner
+   :module: RoadRunner
 
    given a xml document, which should have been returned from getConfigurationXML,
    this method recurses though all the child configurable elements and sets their
@@ -248,7 +287,7 @@ Model Access
 
 
 .. attribute:: RoadRunner.conservedMoietyAnalysis
-   :module: roadrunner
+   :module: RoadRunner
 
    Enables / Disables conserved moiety analysis (boolean). 
 
@@ -256,6 +295,10 @@ Model Access
    is converted using the ConservedMoietyConverter. All of the linearly dependent 
    species are replaced with assignment rules and a new set of conserved moiety 
    parameters are introduced. 
+   
+   To enable, type:
+   
+   >>> r.conservedMoietyAnalysis = True
 
 
 Simulation
@@ -267,12 +310,12 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
  
 
 .. method:: RoadRunner.simulate(*args, **kwargs)
-   :module: roadrunner
+   :module: RoadRunner
 
 
 
-   Simulate the optionally plot current SBML model. This is the one stop shopping method
-   for simulation and ploting. 
+   Simulate and optionally plot current SBML model. This is the one stop shopping method
+   for simulation and plotting. 
 
    simulate accepts a up to four positional arguments and a large number of keyword args. 
 
@@ -349,7 +392,7 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
      A float-point number representing the relative difference permitted. 
      Defaults 0.0001
 
-   resetModel (or just "reset"???)
+   reset
      True or False
      Causes the model to be reset to the original conditions specified in 
      the SBML when the simulation is run.
@@ -403,58 +446,103 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
              column vector, and the 0'th column is the simulation time.
    :rtype: numpy.ndarray
 
+   
+.. method:: RoadRunner.gillespie(start, end, steps)
+   :module: RoadRunner
+   
+   Run a Gillespie stochastic simulation.
+   
+   Use :meth:`RoadRunner.reset()` to reset the model each time.
+   
+   :param start: start time
+   :param end: end time
+   :param steps: number of steps
+   :returns: a numpy array with each selected output time series being a
+             column vector, and the 0'th column is the simulation time.
+   :rtype: numpy.ndarray
+   
+   Examples:
 
+   Simulate from time zero to 40 time units 
+   
+   >>> result = r.gillespie (0, 40)
+
+   Simulate on a grid with 10 points from start 0 to end time 40 
+   
+   >>> result = r.gillespie (0, 40, 10)
+
+   Simulate from time zero to 40 time units using the given selection list 
+   
+   >>> result = r.gillespie (0, 40, [‘time’, ‘S1’])
+
+   Simulate from time zero to 40 time units, on a grid with 20 points using the given selection list 
+   
+   >>> result = r.gillespie (0, 40, 20, [‘time’, ‘S1’])
+   
+
+.. method:: RoadRunner.integrate(t0, tf, options)
+   :module: RoadRunner
+
+   Carry out a single integration step using a stepsize as indicated in the method call.
+
+   :param t0: start time
+   :param tf: end time   
+   :param options: override current options
+
+
+.. py:function:: RoadRunner.plot(result, loc)
+   :module: RoadRunner
+   
+   Plot results from a simulation carried out by the simulate or gillespie functions. 
+  
+   To plot data currently held by roadrunner that was generated in the last simulation, use:
+   
+   >>> r.plot() 
+   
+   :param numpy.ndarray result: Data returned from a simulate or gillespie call
+   :param str loc: string representing the location of legend i.e. "upper right"
+   
 
 .. py:attribute:: RoadRunner.simulateOptions
-   :module: roadrunner
+   :module: RoadRunner
    :annotation: None
 
    Get the SimulateOptions object where simulation options may be set.
 
 
+.. py:function:: Roadrunner.getSimulationData()
+   :module: RoadRunner
 
-
-.. py:function:: RoadRunner_getCopyright()
-   :module: roadrunner
-
-   Returns the copyright string
-
-
-
-.. py:function:: RoadRunner_getExtendedVersionInfo()
-   :module: roadrunner
-
-   getVersion plus info about dependent libs versions.
+   Returns the array of simulated data. When simulation has not been run,
+   the function will return an empty array.
 
 
 
-.. py:function:: RoadRunner_getParamPromotedSBML(*args)
-   :module: roadrunner
-
-   Takes an SBML document (in textual form) and changes all of the local parameters
-   to be global parameters.
-
-   :param str SBML: the contents of an SBML document
-   :rtype: str
-
-
-
-Steady State Sections
+Steady State
 ---------------------
 
+.. class:: RoadRunner.steadyStateSolver
+   :module: RoadRunner
+   
+   RoadRunner.steadyStateSolver class.
+
+
 .. attribute:: RoadRunner.steadyStateSelections
+   :module: RoadRunner
 
    A list of SelectionRecords which determine what values are used for 
    a steady state calculation. This list may be set by assigning a list
    of valid selection symbols::
 
-     r.steadyStateSelections = ['S1', '[S2]', 'P1']
+     >>> r.steadyStateSelections = ['S1', '[S2]', 'P1']
+     >>> r.steadyStateSelections
+     ['S1', '[S2]', 'P1']
 
 
 .. method:: RoadRunner.steadyState()
-   :module: roadrunner
+   :module: RoadRunner
 
-   Attempt to evaluate the steady state for the model. The method returns
+   Attempts to evaluate the steady state for the model. The method returns
    a value that indicates how close the solution is to the steady state.
    The smaller the value the better. Values less than 1E-6 usually indicate a
    steady state has been found. If necessary the method can be called a
@@ -466,7 +554,7 @@ Steady State Sections
 
 
 .. method:: RoadRunner.getSteadyStateValues()
-   :module: roadrunner
+   :module: RoadRunner
     
    Performs a steady state calculation (evolves the system to a steady
    state), then calculates and returns the set of values specified by
@@ -475,7 +563,21 @@ Steady State Sections
    :returns: a numpy array corresponding to the values specified by steadyStateSelections
 
    :rtype: numpy.ndarray
+   
 
+.. method:: RoadRunner.getSteadyStateSolver()
+   :module: RoadRunner
+   
+   Returns the steady state solver which is currently being used.   
+
+
+.. method:: RoadRunner.steadyStateSolverExists(name)
+   :module: RoadRunner   
+   
+   Checks whether a steady state solver exists.
+   
+   :param str name: name of a steady state solver
+   
 
 
 Metabolic control analysis
@@ -487,6 +589,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getCC(variable, parameter)
+   :module: RoadRunner
 
    Returns a scaled control coefficient with respect to a global parameter.
    
@@ -511,6 +614,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getuCC(variableId, parameterId)
+   :module: RoadRunner
 
    Get unscaled control coefficient with respect to a global parameter.
 
@@ -519,8 +623,9 @@ related to metabolic control analysis are applicable. These methods are describe
    :param parameterId: must be either a global parameter, boundary species, or
                        conserved sum.
 
+					   
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
-   :module: roadrunner
+   :module: RoadRunner
 
    Retrieve a single elasticity coefficient with respect to a global parameter.
    
@@ -536,18 +641,20 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getuEE(reactionId, parameterId)
+   :module: RoadRunner
 
    Get unscaled elasticity coefficient with respect to a global parameter or species.
 
 
 .. method:: RoadRunner.getEigenValueIds()
-   :module: roadrunner
+   :module: RoadRunner
 
-   returns a list of selection symbols for the eigenvalues of the floating species. The eigen value
+   Returns a list of selection symbols for the eigenvalues of the floating species. The eigen value
    selection symbol is ``eigen(XX)``, where ``XX`` is the floating species name. 
 
+   
 .. method:: RoadRunner.getFullEigenValues()
-   :module: roadrunner
+   :module: RoadRunner
 
 
    Calculates the eigen values of the Full Jacobian as a real matrix, first column real part, second
@@ -560,7 +667,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getReducedEigenValues()
-   :module: roadrunner
+   :module: RoadRunner
 
 
    Calculates the eigen values of the Reduced Jacobian as a real matrix, first column real part, second
@@ -575,7 +682,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getFullJacobian()
-   :module: roadrunner
+   :module: RoadRunner
 
    Compute the full Jacobian at the current operating point.
 
@@ -583,7 +690,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getReducedJacobian()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the *reduced* Jacobian for the independent species. This matrix will be non-singular
    for models that include moiety-conserved cycles.
@@ -594,7 +701,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getScaledConcentrationControlCoefficientMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the m by n matrix of scaled concentration control coefficients where m is the number
    of floating species and n the number of reactions.
@@ -603,7 +710,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getScaledFloatingSpeciesElasticity(reactionId, speciesId)
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the scaled elasticity for a given reaction and given species.
 
@@ -613,10 +720,10 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getUnscaledParameterElasticity(reactionId, parameterId)
-   :module: roadrunner
+   :module: RoadRunner
 
-    Returns the unscaled elasticity for a named reaction with respect to a
-    named parameter
+   Returns the unscaled elasticity for a named reaction with respect to a
+   named parameter
      
    :param str reactionId: the SBML id of a reaction.
    :param str parameterId: the SBML id of a parameter.
@@ -624,25 +731,25 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getUnscaledConcentrationControlCoefficientMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the unscaled concentration control coefficient matrix.
 
 
 .. method:: RoadRunner.getUnscaledElasticityMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the unscaled species elasticity matrix at the current operating point.
 
 
 .. method:: RoadRunner.getUnscaledFluxControlCoefficientMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the unscaled flux control coefficient matrix.
 
 
 .. method:: RoadRunner.getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
-   :module: roadrunner
+   :module: RoadRunner
 
    Get a single species elasticity value. 
 
@@ -652,7 +759,7 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getScaledFluxControlCoefficientMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the n by n matrix of scaled flux control coefficients where n is the number of reactions.
 
@@ -661,18 +768,47 @@ related to metabolic control analysis are applicable. These methods are describe
 
 
 .. method:: RoadRunner.getScaledElasticityMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the scaled elasticity matrix at the current operating point.
 
    :rtype: numpy.ndarray
+   
 
+.. method:: RoadRunner.getDiffStepSize()
+   :module: RoadRunner
+
+   Returns the differential step size used in routines such as :meth:`getCC()`.
+   
+
+.. method:: RoadRunner.setDiffStepSize(val)
+   :module: RoadRunner
+
+   Sets the differential step size used in routines such as :meth:`getCC()`.
+   
+   :param val: differential step size
+   
+   
+.. method:: RoadRunner.getSteadyStateThreshold()
+   :module: RoadRunner
+   
+   Returns the threshold used in steady state solver in routines such as :meth:`getCC()`.
+
+
+.. method:: RoadRunner.setSteadyStateThreshold(val)
+   :module: RoadRunner
+   
+   Sets the threshold used in steady state solver in routines such as :meth:`getCC()`.   
+
+   :param val: threshold value
+   
+   
 
 Stochiometric Analysis
 ----------------------
 
 .. method:: RoadRunner.getFullStoichiometryMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
 
    Get the stoichiometry matrix that coresponds to the full model, even it
@@ -680,9 +816,9 @@ Stochiometric Analysis
 
 
 .. method:: RoadRunner.getReducedStoichiometryMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
-   get the reduced stochiometry matrix. If conservation conversion is enabled,
+   Get the reduced stochiometry matrix. If conservation conversion is enabled,
    this is the matrix that coresponds to the independent species.
 
    A synonym for getNrMatrix().
@@ -690,7 +826,7 @@ Stochiometric Analysis
 
 
 .. method:: RoadRunner.getConservationMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m` matrix
    where :math:`c` is the number of conservation laws and :math:`m` the number of species.
@@ -698,7 +834,7 @@ Stochiometric Analysis
 
 
 .. method:: RoadRunner.getL0Matrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses
    the dependent reaction rates in terms of the independent rates. m is the number of floating species
@@ -709,7 +845,7 @@ Stochiometric Analysis
 
 
 .. method:: RoadRunner.getLinkMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
    is the number of floating species and r the rank of the stoichiometric matrix, N.
@@ -717,7 +853,7 @@ Stochiometric Analysis
    :rtype: numpy.ndarray
 
 .. method:: RoadRunner.getNrMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the reduced stoichiometry matrix, :math:`N_R`, which will have only r rows where r is the rank of
    the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
@@ -726,7 +862,7 @@ Stochiometric Analysis
 
 
 .. method:: RoadRunner.getKMatrix()
-   :module: roadrunner
+   :module: RoadRunner
 
    Returns the K matrix, :math:`ker(N_R)`, (right nullspace of Nr)
    The K matrix has the structure, :math:`[I K0]'`
@@ -738,8 +874,8 @@ Analysis
 --------
 
 .. method:: RoadRunner.getFrequencyResponse(startFrequency, numberOfDecades, numberOfPoints, parameterName, variableName, useDB, useHz)
-   :module: roadrunner
+   :module: RoadRunner
 
-   Compute the frequency response
+   Computes the frequency response.
 
    :rtype: numpy.ndarray

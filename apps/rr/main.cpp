@@ -74,8 +74,9 @@ int main(int argc, char * argv[])
         opt.start = args.StartTime;
         opt.duration = args.EndTime - args.StartTime;
         opt.steps = args.Steps;
-        if(args.variableStep) {
-        	opt.integratorFlags |= Integrator::VARIABLE_STEP;
+        if(args.variableStep) 
+		{
+			rr.getIntegrator()->setValue("variable_step_size", true);
         }
 
         ls::DoubleMatrix res = *rr.simulate();

@@ -28,10 +28,18 @@ bool rrcCallConv disableLoggingToConsole()
     catch_bool_macro
 }
 
-bool rrcCallConv enableLoggingToFile(RRHandle handle)
+bool rrcCallConv enableLoggingToFile()
 {
     start_try
         Logger::enableFileLogging();
+        return true;
+    catch_bool_macro
+}
+
+bool rrcCallConv enableLoggingToFileWithPath(const char* path)
+{
+    start_try
+        Logger::enableFileLogging(path);
         return true;
     catch_bool_macro
 }

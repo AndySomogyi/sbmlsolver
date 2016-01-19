@@ -6,6 +6,14 @@
 *.orig
 *.kate-swp
 
+**/.swp
+
+# Merge backups (kdiff3?)
+*.BACKUP*
+*.BASE*
+*.LOCAL*
+*.REMOTE*
+
 # libsbml auto-generated files
 third_party/libSBML-5.9.0-Source/src/bindings/swig/libsbml-packages.h
 third_party/libSBML-5.9.0-Source/src/bindings/swig/libsbml-packages.i
@@ -20,3 +28,8 @@ third_party/libSBML-5.9.0-Source/src/bindings/python/local-downcast-plugins.cpp
 third_party/libSBML-5.9.0-Source/src/bindings/python/local-downcast.cpp
 third_party/libSBML-5.9.0-Source/src/bindings/python/local-packages.i
 wrappers/C/Testing/alexTestOutput.xml
+
+# no idea
+.swm
+.swn
+.swo

@@ -1,0 +1,216 @@
+[SBML]
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.7.0 on 2015-11-02 11:11 with libSBML version 5.11.3. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="__main" name="__main">
+    <listOfCompartments>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="Node0" compartment="default_compartment" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="Node1" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Node2" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Node3" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Node4" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Node5" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="J0_k1" value="0.2" constant="true"/>
+      <parameter id="J0_k2" value="0.5" constant="true"/>
+      <parameter id="J1_k1" value="0.23" constant="true"/>
+      <parameter id="J1_k2" value="0.41" constant="true"/>
+      <parameter id="J2_k1" value="1.2" constant="true"/>
+      <parameter id="J2_k2" value="0.96" constant="true"/>
+      <parameter id="J3_k1" value="0.87" constant="true"/>
+      <parameter id="J3_k2" value="0.2" constant="true"/>
+      <parameter id="J4_k1" value="0.56" constant="true"/>
+      <parameter id="J4_k2" value="0.45" constant="true"/>
+      <parameter id="compartment_" value="1" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="J0" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="Node0" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Node1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> J0_k1 </ci>
+                <ci> Node0 </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> J0_k2 </ci>
+                <ci> Node1 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="Node1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Node2" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> J1_k1 </ci>
+                <ci> Node1 </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> J1_k2 </ci>
+                <ci> Node2 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J2" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="Node2" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Node3" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> J2_k1 </ci>
+                <ci> Node2 </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> J2_k2 </ci>
+                <ci> Node3 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J3" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="Node3" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Node4" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> J3_k1 </ci>
+                <ci> Node3 </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> J3_k2 </ci>
+                <ci> Node4 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J4" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="Node4" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Node5" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> J4_k1 </ci>
+                <ci> Node4 </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> J4_k2 </ci>
+                <ci> Node5 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
+
+[Conservation Laws]
+True
+
+[Steady State Fluxes]
+J0 = 0.397696
+J1 = 0.397696
+J2 = 0.397696
+J3 = 0.397696
+J4 = 0.397696
+
+[Get Steady State Selection List]
+"[Node1] [Node3] [Node4] [Node2]"
+
+[Reduced Jacobian]
+ -0.73  0        0     0.41
+  0    -1.83     0.2   1.2
+  0     0.87    -0.76  0
+  0.23  0.96     0    -1.61
+
+[Full Jacobian]
+ -0.73  0        0     0.41
+  0    -1.83     0.2   1.2
+  0     0.87    -0.76  0
+  0.23  0.96     0    -1.61
+
+[Unscaled Elasticity Matrix]
+ -0.5             0        0         0
+  0.23            0        0        -0.41
+  0              -0.96     0         1.2
+  0               0.87    -0.2       0
+  0               0        0.56      0
+
+[Scaled Elasticity Matrix]
+       -4.02897   0        0         0
+        1.85333   0        0        -0.853325
+        0        -1.49754  0         2.49754
+        0         1.35714 -0.357143  0
+        0         0        1         0
+
+[Scaled Concentration Control Matrix]
+0.198848   -0.107293   -0.0366583  -0.0404505  -0.0144466
+0.198848    0.432278    0.147695   -0.573868   -0.204953
+0.198848    0.432278    0.147695    0.162974   -0.941795
+0.198848    0.432278   -0.252699   -0.278841   -0.099586
+
+[Scaled Flux Control Matrix]
+ 0.198848 0.432278 0.147695 0.162974 0.0582049
+ 0.198848 0.432278 0.147695 0.162974 0.0582049
+ 0.198848 0.432278 0.147695 0.162974 0.0582049
+ 0.198848 0.432278 0.147695 0.162974 0.0582049
+ 0.198848 0.432278 0.147695 0.162974 0.0582049
+
+
+
+
+
+

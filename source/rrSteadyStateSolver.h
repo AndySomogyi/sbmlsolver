@@ -12,7 +12,7 @@ namespace rr
 /**
  * place holder for now.
  */
-struct SteadyStateOptions
+struct rrSteadyStateOptions
 {
 };
 
@@ -21,12 +21,12 @@ struct SteadyStateOptions
  *
  *
  */
-class RR_DECLSPEC SteadyStateSolver : public Dictionary
+class RR_DECLSPEC rrSteadyStateSolver : public Dictionary
 {
 
 public:
 
-    virtual ~SteadyStateSolver() {};
+    virtual ~rrSteadyStateSolver() {};
     virtual double solve(const std::vector<double>& yin) = 0;
 };
 
@@ -35,14 +35,14 @@ public:
  * and lists all available steady state solvers and their
  * supported options.
  */
-class RR_DECLSPEC SteadyStateSolverFactory
+class RR_DECLSPEC rrSteadyStateSolverFactory
 {
 public:
 
     /**
      * factory method to create a new steady state solver.
      */
-    static SteadyStateSolver* New(const Dictionary* dict, ExecutableModel* model);
+    static rrSteadyStateSolver* New(const Dictionary* dict, ExecutableModel* model);
 
     /**
      * The list of steady state solver names that are currently implemented.

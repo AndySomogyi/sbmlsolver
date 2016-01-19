@@ -1,0 +1,41 @@
+// Jarnac benchmarking script, Apr 2015
+// Authors: J Kyle Medley
+// Language: Jarnac 3.33b
+// Usage: Open in Jarnac IDE and run
+
+// Benchmark names and paths (rel to directory this script resides in)
+
+names = [ "stoch" ] // Simple stochastic model
+
+paths = ["stoch\\stoch_l2v4.xml" ]
+
+println sys.version
+
+// Benchmark three trials
+for trial = 1 to 3 do
+begin
+  println "Trial ", trial
+  println "Name,", "Load_time,", "Run_time,", "Total_time"
+  for n = 1 to names.count do
+  begin            
+    name = names[n]
+    path = paths[n]
+    
+    // import SBML model
+    t_load = timer 
+    p = network(path)
+    t_load = timer - t_load
+    
+    // do not set tolerances since this is a stochastic simulation
+  
+    // simulate model
+    t_sim = timer
+    m = gillespie (p, 10, [<p.Time>, <p.A>, <p.B>, <p.C>, <p.D>, <p.E>]);
+    t_sim = timer - t_sim
+  
+    t_total = t_load + t_sim
+  
+    // print timing info
+    println name, ",", t_load/1000, ",", t_sim/1000, ",", t_total/1000
+  end
+end

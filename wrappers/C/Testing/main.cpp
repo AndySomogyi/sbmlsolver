@@ -59,6 +59,8 @@ int main(int argc, char* argv[])
 
     dispConfigFile();
 
+    Config::setValue(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES, false);
+
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
     setup(args);
@@ -191,7 +193,7 @@ int main(int argc, char* argv[])
 
     //Finish outputs result to xml file
     runner1.Finish();
-    return 0;
+    return runner1.GetTestResults()->GetFailureCount();
 }
 
 bool setup(Args& args)
@@ -228,7 +230,7 @@ bool setup(Args& args)
     }
     else
     {
-        Logger::setLevel(Logger::LOG_NOTICE);
+        Logger::setLevel(Logger::LOG_ERROR);
     }
 
     // set test suite model path (read from cmd line)

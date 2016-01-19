@@ -5,6 +5,8 @@ set(target roadrunner)
 configure_file(rrConfigure.h.in rrConfigure.h)
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/rrConfigure.h DESTINATION include/rr )
+
 OPTION(USE_POCO_NET "Use poco net library" ON)
 
 # pre-process the GitInfo.h.in file and insert the response from git about
@@ -36,10 +38,23 @@ else()
     set(ROADRUNNER_GIT_LAST_COMMIT "git not found, unknown git commit")
 endif(GIT)
 
+# Add semantic version info set in root-level CMake script
+configure_file(rrVersionInfo.h.in rrVersionInfo.h @ONLY)
+
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h DESTINATION include/rr )
+
 # writes the results of the git commands to GitInfo.h
 message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
 message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 configure_file(GitInfo.h.in GitInfo.h @ONLY)
+
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h DESTINATION include/rr )
+
+set(ROADRUNNER_SHARED_DEPS xml2)
+
+configure_file(roadrunner.pc.in roadrunner.pc @ONLY)
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig )
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig )
 
 include_directories(
     .
@@ -62,10 +77,13 @@ set(rrCoreSources
     rrStringUtils
     rrUtils
     Integrator
+    IntegratorRegistration
     CVODEIntegrator
     Dictionary
     GillespieIntegrator
     RK4Integrator
+    RK45Integrator
+    NLEQSolver
     rrNLEQInterface
     rrTestSuiteModelSimulation
     rrIniKey
@@ -75,11 +93,14 @@ set(rrCoreSources
     rrRoadRunnerData
     rrSelectionRecord
     ExecutableModelFactory
-    rrVersionInfo
+    rrVersionInfo.cpp
     rrSparse
     rrSBMLModelSimulation
     rrSBMLReader
     SBMLValidator
+    SteadyStateSolver
+    Solver
+    SolverRegistration
     Variant
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
@@ -92,6 +113,8 @@ set(rrCoreSources
     )
 
 set(rrSources ${rrCoreSources})
+
+set_source_files_properties(rrVersionInfo.h PROPERTIES GENERATED TRUE)
 
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)
@@ -178,6 +201,8 @@ if(RR_BUILD_SHARED_CORE)
     #Link with static libs
     add_library(${target} SHARED ${rrSources})
 
+    set_target_properties( ${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
+
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RR
@@ -223,7 +248,7 @@ if(RR_BUILD_SHARED_CORE)
     if(UNIX)
         target_link_libraries (${target}
             pthread
-            sbml
+            sbml-static
             dl
             f2c${staticLibExt}
             )
@@ -265,6 +290,8 @@ endif(RR_BUILD_SHARED_CORE)
 # static allways gets build
 
 add_library(${target}-static STATIC ${rrSources})
+
+set_target_properties( ${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
 
 set_property(TARGET ${target}-static
     PROPERTY COMPILE_DEFINITIONS
@@ -361,4 +388,3 @@ if(${INSTALL_CXX_API})
            COMPONENT rr_core)
     endforeach(subfolder)
 endif() #Install CXX API
-

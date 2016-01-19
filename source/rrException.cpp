@@ -59,4 +59,23 @@ CVODEException::CVODEException(const string& msg)
 Exception(msg)
 {}
 
+NotImplementedException::NotImplementedException(const string& msg)
+:
+Exception(msg)
+{}
+
+InvalidKeyException::InvalidKeyException(const string& msg)
+:
+Exception(msg)
+{}
+
+UninitializedValueException::UninitializedValueException(const string& msg)
+:
+Exception(msg)
+{}
+
+void UninitializedValue(const string& msg) {
+    throw UninitializedValueException(msg);
+}
+
 }

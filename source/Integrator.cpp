@@ -1,131 +1,115 @@
-/*
- * Integrator.cpp
- *
- *  Created on: Apr 25, 2014
- *      Author: andy
- */
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file Integrator.cpp
+* @author ETS, WBC, JKM
+* @date Apr 25, 2014
+* @copyright Apache License, Version 2.0
+* @brief Contains the base class for RoadRunner integrators
+**/
+
+// == INCLUDES ================================================
 
 #include "Integrator.h"
-#include "CVODEIntegrator.h"
-#include "GillespieIntegrator.h"
-#include "RK4Integrator.h"
-#include "EulerIntegrator.h"
+// #include "CVODEIntegrator.h"
+// #include "GillespieIntegrator.h"
+// #include "RK4Integrator.h"
+// #include "EulerIntegrator.h"
+#include "rrExecutableModel.h"
 #include "rrStringUtils.h"
+#include "rrConfig.h"
+#include "rrUtils.h"
+#include <typeinfo>
 
+// == CODE ====================================================
+
+using namespace std;
 namespace rr
 {
+	/*------------------------------------------------------------------------------------------
+		INTEGRATOR
+	  ------------------------------------------------------------------------------------------*/
 
-/**
- * list of interator names, the index should correspond to the
- * Integrator::IntegratorId enum.
- */
-static const char* integratorNames[] = {"cvode", "gillespie", "rk4", "euler"};
+    void Integrator::syncWithModel(ExecutableModel* m) {}
 
-Integrator* IntegratorFactory::New(const Dictionary* dict, ExecutableModel* m)
-{
-    Integrator *result = 0;
-    const SimulateOptions* opt = dynamic_cast<const SimulateOptions*>(dict);
+    void Integrator::loadConfigSettings() {}
 
-    if(opt == NULL) {
-        throw std::invalid_argument("Currently, options must be a SimulateOptions object");
-    }
-
-    if (opt->integrator == Integrator::GILLESPIE)
+    void Integrator::loadSBMLSettings(const std::string& filename)
     {
-        result = new GillespieIntegrator(m, opt);
+        // Stub for loading SBML settings (can override in derived classes).
     }
-    else if(opt->integrator == Integrator::RK4)
+
+    /* TODO: Create getType() method. */
+
+    std::string Integrator::toString() const
     {
-        result = new RK4Integrator(m, opt);
+        std::stringstream ss;
+        ss << "< roadrunner.Integrator() >\n";
+        ss << "  settings:\n";
+        ss << getSettingsRepr();
+        return ss.str();
+
     }
-    else if(opt->integrator == Integrator::EULER)
+
+    std::string Integrator::toRepr() const
     {
-        result = new EulerIntegrator(m, opt);
-    }
-    else
-    {
-        result = new CVODEIntegrator(m, opt);
+        std::stringstream ss;
+        ss << "< roadrunner.Integrator() " << settingsPyDictRepr() << " >\n";
+        return ss.str();
     }
 
-    return result;
-}
+    void Integrator::tweakTolerances() {}
 
-std::vector<std::string> IntegratorFactory::getIntegratorNames()
-{
-    return std::vector<std::string>(&integratorNames[0],
-            &integratorNames[Integrator::INTEGRATOR_END]);
-}
+    IntegratorRegistrar::~IntegratorRegistrar() {}
 
-std::vector<const Dictionary*> IntegratorFactory::getIntegratorOptions()
-{
-    const Dictionary* options[] = {
-            CVODEIntegrator::getIntegratorOptions(),
-            GillespieIntegrator::getIntegratorOptions(),
-            RK4Integrator::getIntegratorOptions(),
-            EulerIntegrator::getIntegratorOptions()
-    };
-    return std::vector<const Dictionary*>(&options[0],
-            &options[Integrator::INTEGRATOR_END]);
-}
+    /********************************************************************************************
+    * INTEGRATOR FACTORY
+    ********************************************************************************************/
 
-const Dictionary* IntegratorFactory::getIntegratorOptions(
-        const std::string& intName)
-{
-    Integrator::IntegratorId id = getIntegratorIdFromName(intName);
-
-    switch(id) {
-    case Integrator::CVODE:
-        return CVODEIntegrator::getIntegratorOptions();
-    case Integrator::GILLESPIE:
-        return GillespieIntegrator::getIntegratorOptions();
-    case Integrator::RK4:
-        return RK4Integrator::getIntegratorOptions();
-    case Integrator::EULER:
-        return EulerIntegrator::getIntegratorOptions();
-    default:
-        throw std::invalid_argument("invalid integrator name");
-
-    }
-}
-
-Integrator::IntegratorType IntegratorFactory::getIntegratorType(
-        Integrator::IntegratorId i)
-{
-    if (i == Integrator::CVODE || i == Integrator::RK4 || i == Integrator::EULER) {
-        return Integrator::DETERMINISTIC;
-    } else {
-        return Integrator::STOCHASTIC;
-    }
-}
-
-Integrator::IntegratorId IntegratorFactory::getIntegratorIdFromName(const std::string& _name)
-{
-    std::string name = rr::toUpper(_name);
-
-
-    for (unsigned i = 0; i < Integrator::INTEGRATOR_END; ++i) {
-        std::string iname = rr::toUpper(getIntegratorNameFromId((Integrator::IntegratorId)i));
-
-        if (iname == name) {
-            return (Integrator::IntegratorId)i;
+    IntegratorFactory::~IntegratorFactory() {
+        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
+            delete *it;
         }
     }
 
-    throw std::invalid_argument("invalid integrator name");
-}
-
-std::string IntegratorFactory::getIntegratorNameFromId(Integrator::IntegratorId integrator)
-{
-
-
-    if (integrator >= 0 && integrator < Integrator::INTEGRATOR_END)
-    {
-        return integratorNames[integrator];
+    Integrator* IntegratorFactory::New(std::string name, ExecutableModel* m) const {
+        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
+            if ((*it)->getName() == name) {
+                return (*it)->construct(m);
+            }
+        }
+        throw InvalidKeyException("No such integrator: " + name);
     }
-    else
-    {
-        throw std::invalid_argument("Invalid integrator value");
+
+    void IntegratorFactory::registerIntegrator(IntegratorRegistrar* i) {
+        if (!i)
+            throw CoreException("Registrar is null");
+        mRegisteredIntegrators.push_back(i);
     }
-}
+
+    IntegratorFactory& IntegratorFactory::getInstance() {
+        // FIXME: not thread safe -- JKM, July 24, 2015.
+        static IntegratorFactory factory;
+        return factory;
+    }
+
+    std::size_t IntegratorFactory::getNumIntegrators() const {
+        return mRegisteredIntegrators.size();
+    }
+
+    std::string IntegratorFactory::getIntegratorName(std::size_t n) const {
+        return mRegisteredIntegrators.at(n)->getName();
+    }
+
+    std::string IntegratorFactory::getIntegratorHint(std::size_t n) const {
+        return mRegisteredIntegrators.at(n)->getHint();
+    }
+
+    std::string IntegratorFactory::getIntegratorDescription(std::size_t n) const {
+        return mRegisteredIntegrators.at(n)->getDescription();
+    }
 
 }

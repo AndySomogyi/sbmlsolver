@@ -1,6 +1,6 @@
 #include <string>
 #include "Suite_TestModel.h"
-#include "UnitTest++.h"
+#include "unit_test/UnitTest++.h"
 #include "rrConfig.h"
 #include "rrIniFile.h"
 #include "rrLogger.h"
@@ -9,6 +9,7 @@
 #include "rrc_api.h"
 #include "rrc_cpp_support.h"
 #include "src/TestUtils.h"
+#include <algorithm>
 
 #include "Poco/Path.h"
 #include "Poco/Glob.h"
@@ -76,6 +77,8 @@ void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
     {
         for (int j = 0; j < ref.CSize(); j++)
         {
+            if (abs(ref(i, j) - calc(i, j)) > abs((ref(i,j)+1e-7)*1e-4))
+              clog <<  "check close failed zzxx\n";
             CHECK_CLOSE(ref(i, j), calc(i, j), abs((ref(i,j)+1e-7)*1e-4));
         }
     }
@@ -199,15 +202,48 @@ SUITE(TEST_MODEL)
 
         path.makeAbsolute();
 
-        Log(Logger::LOG_NOTICE) << "Looking in " << path.toString() << " for test files";
+        Log(Logger::LOG_WARNING) << "Looking in " << path.toString() << " for test files";
 
-        path.setFileName("*.rrtest");
+//         path.setFileName("*.rrtest");
 
-        std::set<std::string> files;
+//         std::set<std::string> files;
 
-        Poco::Glob::glob(path, files);
+//         Poco::Glob::glob(path, files);
 
-        return files;
+        const char* rrtest_files[] = {
+          "Bimolecular_end.rrtest",
+          "Comp.rrtest",
+          "Conserved_Cycle_and_Branch.rrtest",
+          "Conserved_Cycle.rrtest",
+          "Cycle_across_branches.rrtest",
+          "Cycle.rrtest",
+          "Cycle_to_Input_and_Branch.rrtest",
+          "Four_Steps.rrtest",
+          "Futile_Cycle.rrtest",
+          "jacobian_1.rrtest",
+          "Multibranch1.rrtest",
+          "MultiBranch2.rrtest",
+          "oscli.rrtest",
+          "reversible_Jacobian.rrtest",
+          "Simple_Branch.rrtest",
+          "Test_1.rrtest",
+          "Test_2.rrtest",
+          "Test_3.rrtest",
+          "Three_Steps.rrtest",
+          "Two_Cycles.rrtest",
+          "Two_Steps.rrtest"
+//           "variable_time_step.rrtest"
+        };
+
+        std::set<std::string> result;
+
+        for(int n = 0; n < sizeof(rrtest_files) / sizeof(rrtest_files[0]); ++n) {
+            Poco::Path testfile(path);
+            testfile.append(rrtest_files[n]);
+            result.insert(testfile.toString());
+        }
+
+        return result;
     }
 
     void setTestFile(const std::string& filePath)
@@ -253,7 +289,7 @@ SUITE(TEST_MODEL)
         CHECK(gRR!=NULL);
         bool res = setComputeAndAssignConservationLaws(gRR, true);
         CHECK(res);
-        clog<<"\nConversation laws: "<<res<<endl;
+        clog<<"\nConservation laws: "<<res<<endl;
     }
 
     TEST(SET_STEADY_STATE_SELECTION_LIST)
@@ -623,7 +659,7 @@ SUITE(TEST_MODEL)
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
-            string eigenValueLabel ="eigen(" + aKey->mKey + ")";
+            string eigenValueLabel ="eigenReal(" + aKey->mKey + ")";
             double val = rri->getValue(eigenValueLabel.c_str());
 
             clog<<"EigenValue "<<i<<": "<<val<<endl;
@@ -649,7 +685,7 @@ SUITE(TEST_MODEL)
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
-            string eigenValueLabel ="eigen(" + aKey->mKey + ")";
+            string eigenValueLabel ="eigenReal(" + aKey->mKey + ")";
             double val = rri->getValue(eigenValueLabel.c_str());
 
             clog<<"EigenValue "<<i<<": "<<val<<endl;
@@ -886,6 +922,8 @@ SUITE(TEST_MODEL)
         clog<<"\n==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
         aSection->mIsUsed = true;
 
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
+
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRDoubleMatrixPtr matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
@@ -905,6 +943,8 @@ SUITE(TEST_MODEL)
         }
         clog<<"\n==== SCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
         aSection->mIsUsed = true;
+
+        Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
@@ -953,6 +993,32 @@ SUITE(TEST_MODEL)
         freeMatrix(matrix);
       }
 
+	TEST(GET_CONTROL_COEFFICIENT)
+	{
+		CHECK(gRR != NULL);
+
+		IniSection* aSection = iniFile.GetSection("Get Control Coefficient");
+		if (!aSection || !gRR)
+		{
+			return;
+		}
+		clog << endl << "==== GET_CONTROL_COEFFICIENT ====" << endl << endl;
+		aSection->mIsUsed = true;
+
+		string keys = Trim(aSection->GetNonKeysAsString());
+		vector<string> refList = splitString(keys, " ,");
+
+		const char* variable = refList[0].c_str();
+		const char* parameter = refList[1].c_str();
+		double value = toDouble(refList[2]);
+
+		getCC(gRR, variable, parameter, &value);
+
+		CHECK_CLOSE(toDouble(refList[2]), value, 1e-6);
+		clog << "\n";
+		clog << "Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
+	}
+
     TEST(FLOATING_SPECIES_IDS)
     {
         IniSection* aSection = iniFile.GetSection("Floating Species Ids");
@@ -967,18 +1033,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getFloatingSpeciesIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(BOUNDARY_SPECIES_IDS)
@@ -995,18 +1064,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getBoundarySpeciesIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(GLOBAL_PARAMETER_IDS)
@@ -1023,18 +1095,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getGlobalParameterIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(COMPARTMENT_IDS)
@@ -1079,18 +1154,21 @@ SUITE(TEST_MODEL)
 
         RRStringArrayPtr list = getReactionIds(gRR);
 
-        if(!list)
+        vector<string> selList = splitString(keys," ,");
+
+        if(!list && selList.size())
         {
             CHECK(false);
             return;
         }
-        vector<string> selList = splitString(keys," ,");
-        CHECK(selList.size() == list->Count);
-        for(int i = 0; i < selList.size(); i++)
-        {
-            CHECK(selList[i] == list->String[i]);
+        CHECK( (selList.size() == 0 && !list) || (selList.size() == list->Count) );
+        if (list) {
+            for(int i = 0; i < selList.size(); i++)
+            {
+                CHECK(selList[i] == list->String[i]);
+            }
+            freeStringArray(list);
         }
-        freeStringArray(list);
     }
 
     TEST(SPECIES_INITIAL_CONDITION_IDS)
@@ -1718,11 +1796,40 @@ SUITE(TEST_MODEL)
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, saved);
     }
 
+	TEST(CHECK_DEFAULT_TIME_STEP)
+	{
+		CHECK(gRR != NULL);
+
+		IniSection* aSection = iniFile.GetSection("Check Default Time Step");
+		if (!aSection || !gRR)
+		{
+			return;
+		}
+		clog << endl << "==== CHECK_DEFAULT_TIME_STEP ====" << endl << endl;
+		aSection->mIsUsed = true;
+
+		string keys = Trim(aSection->GetNonKeysAsString());
+		vector<string> refList = splitString(keys, " ,");
+
+		int NumPts = toInt(refList[0]);
+
+		RoadRunner* rri = castToRoadRunner(gRR);
+
+		SimulateOptions opt;
+		const DoubleMatrix *result = rri->simulate(&opt);
+
+		if (result->RSize() != NumPts)
+		{
+			CHECK(false);
+			clog << "Default time step does not match" << endl;
+		}
+	}
+
     TEST(CHECK_UNUSED_TESTS)
     {
         for(int i=0; i<iniFile.GetNumberOfSections(); i++)
         {
-            if (!iniFile.GetSection(i)->mIsUsed)
+            if (!iniFile.GetSection(i)->mIsUsed && iniFile.GetSection(i)->mName != "Conservation Laws")
             {
                 CHECK(false);
                 clog << "Unused section:\t" << iniFile.GetSection(i)->mName << endl;

@@ -676,9 +676,15 @@ void LLVMExecutableModel::reset(int opt)
 
         if(opt & SelectionRecord::FLOATING)
         {
-            Log(Logger::LOG_INFORMATION) << "resetting floating species";
-            getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-            setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+            if(opt & SelectionRecord::CONCENTRATION) {
+                Log(Logger::LOG_INFORMATION) << "resetting floating species concentrations";
+                getFloatingSpeciesInitConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
+                setFloatingSpeciesConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
+            } else {
+                Log(Logger::LOG_INFORMATION) << "resetting floating species amounts";
+                getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+                setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+            }
         }
 
 
@@ -1429,6 +1435,15 @@ LLVMExecutableModel* LLVMExecutableModel::dummy()
 int LLVMExecutableModel::getNumRateRules()
 {
     return modelData->numRateRules;
+}
+
+std::vector<std::string> LLVMExecutableModel::getRateRuleSymbols() const {
+    std::vector<std::string> result;
+
+    for (uint k = 0; k < symbols->getRateRuleSize(); ++k)
+        result.push_back(symbols->getRateRuleId(k));
+
+    return result;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,

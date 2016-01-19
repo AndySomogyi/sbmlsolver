@@ -1,6 +1,19 @@
 cmake_minimum_required(VERSION 2.8)
 project(rr)
 
+# libRoadRunner semantic versioning (http://semver.org/) - used to generate
+# source files expose library version information
+
+set(ROADRUNNER_VERSION_MAJOR 1)
+set(ROADRUNNER_VERSION_MINOR 4)
+set(ROADRUNNER_VERSION_PATCH 2)
+
+set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
+
+set(CMAKE_MACOSX_RPATH 1)
+
+# ** Configuration Options *****************************************************
+
 # These will be the defaults ...
 if(WIN32)
     SET(RR_BUILDS_ROOT      "c:/builds")
@@ -31,6 +44,8 @@ endif(WIN32)
 # add cmake files to find things, prepend with our path
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
+# TODO: add some logic to automatically set based on compiler version
+set(RR_USE_CXX11 FALSE CACHE BOOL "Set to TRUE to enable C++11 features")
 
 set(LLVM_INSTALL_PREFIX CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
 
@@ -75,9 +90,14 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
 
 # should we build the swig python wrapper?
 option (BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
+set( PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages directory" )
 
 # should we build the swig Java wrapper?
 option (BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
+
+if(BUILD_TESTS OR BUILD_JAVA_INTERFACE)
+  enable_testing()
+endif()
 
 if(BUILD_LLVM AND NOT LLVM_FOUND)
     message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM installation was found")
@@ -90,6 +110,7 @@ mark_as_advanced(
     INSTALL_C_API
     INSTALL_C_API_PYTHON
     INSTALL_STATIC_LIB
+    RR_USE_CXX11
     )
 
 set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
@@ -97,8 +118,12 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-# new clang on OSX and msvc use std namespace. 
-option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
+# new clang on OSX and msvc use std namespace.
+if(RR_USE_CXX11)
+    option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" OFF)
+else()
+    option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
+endif()
 OPTION (INSTALL_CXX_API         "Generate C++ api"                               ON )
 OPTION (INSTALL_C_API           "Generate C API"                                 ON )
 OPTION (INSTALL_C_API_PYTHON    "Package ctypes  Python wrapper for the C API"   ON )
@@ -149,6 +174,17 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/bin)
 
+#** Apply Project/Compiler Settings ********************************************
+
+# Set C++11 flags
+if(RR_USE_CXX11)
+    IF(NOT MSVC)
+        set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+    else()
+        message(WARNING "RR_USE_CXX11 enabled but has no effect on Microsoft compilers")
+    endif()
+endif()
+
 include_directories(
     ${RR_ROOT}
     ${THIRD_PARTY_FOLDER}
@@ -163,7 +199,7 @@ if (WIN32)
 else()
     #UNIX
     find_package(LibXml2 REQUIRED)
-	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}") 
+	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}")
 	include_directories(${LIBXML2_INCLUDE_DIR})
 endif(WIN32)
 
@@ -189,11 +225,11 @@ if(${MSVC})
         -DCRT_NONSTDC_NO_DEPRECATE
         -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
         )
-        
+
     #  4251 About exporting std classes
     #  4018 Comparing unsigned/signed ints
-    #  4996 Deprecated functions   
-    add_definitions( "/wd4251 /wd4018 /wd4996 /nologo" )   
+    #  4996 Deprecated functions
+    add_definitions( "/wd4251 /wd4018 /wd4996 /nologo" )
 
     SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} /EHsc ")
     SET (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
@@ -269,12 +305,35 @@ endif(INSTALL_CXX_API)
 
 add_subdirectory(wrappers)
 
-if(BUILD_TEST_TOOLS)
+if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     message(STATUS "building tests")
+    file (GLOB TEST_FILES "testing/*" )
+
+    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
+    list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
+
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+
+    foreach( f ${TEST_FILES} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
+    foreach( f ${PYTHON_TEST_DATA} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
     add_subdirectory(testing)
+    add_subdirectory(autotest)
 else()
     message(STATUS "NOT building tests")
-endif(BUILD_TEST_TOOLS)
+endif()
 
 
 #======================= INSTALL STUFF ========================================================
@@ -308,20 +367,12 @@ if(${BORLAND})
     endforeach()
 endif()
 
-if(WIN32)
-#One day these may be statically linked
-set(RUNTIMES libxml2.DLL iconv.dll zlib1.dll)
-foreach(runtime ${RUNTIMES})
-    install(    FILES     ${THIRD_PARTY_FOLDER}/dependencies/libsbml/bin/${runtime}
-        DESTINATION bin
-        COMPONENT rr_core)
-endforeach()
-endif()
+configure_file(VERSION.txt.in VERSION.txt @ONLY)
 
 install(
-    FILES     
+    FILES
     NOTICE.txt
-    VERSION.txt
+    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
     NEWS.txt
     DESTINATION .
 )

@@ -1,0 +1,113 @@
+// SBML to Jarnac Translator
+// Dated: 4/21/2015 12:44:44 PM
+
+// Jarnac benchmarking script, Apr 2015
+// Authors: J Kyle Medley
+// Language: Jarnac 3.33b
+// Usage: Open in Jarnac IDE and run for three trials
+
+// This file is the Jean-Marie AMPA receptor converted to Jarnac's own format
+
+p = defn AMPA16_v3
+      vol default;
+      var R0, R1, R2, R3, R4, D0;
+      var D1, D2, D3, D4, E2, E3;
+      var E4, O2, O3, O4;
+      ext src, waste;
+      ext Glu, Vm, LTP_ampaNbModFactor;
+
+      current_AMPA = (conduc_O2 * O2 + conduc_O3 * O3 + conduc_O4 * O4) * (Vm - Erev_AMPA) * 0.001 * NewNbAMPAR;
+      sumOpen = O2 + O3 + O4;
+      INa_AMPA = PNa / 100 * current_AMPA;
+      IK_AMPA = PK / 100 * current_AMPA;
+      ICa_AMPA = PCa / 100 * current_AMPA;
+      NewNbAMPAR = nbAMPAR * LTP_ampaNbModFactor;
+      kdiss_re16 = kdiss_re16_Init / Deact_factor;
+      kass_re11 = kass_re11_Init / Desens_factor;
+      kass_re12 = kass_re12_Init / Desens_factor;
+      re1: R0 + Glu -> R1;  4 * kass_re1 * R0 * Glu - 1 * kdiss_re1 * R1;
+      re2: R1 + Glu -> R2;  3 * kass_re1 * R1 * Glu - 2 * kdiss_re1 * R2;
+      re3: R2 + Glu -> R3;  2 * kass_re1 * R2 * Glu - 3 * kdiss_re1 * R3;
+      re4: R3 + Glu -> R4;  1 * kass_re1 * R3 * Glu - 4 * kdiss_re1 * R4;
+      re5: D0 + Glu -> D1;  3 * kass_re5 * D0 * Glu - kdiss_re5 * D1;
+      re6: D1 + Glu -> D2;  3 * kass_re1 * D1 * Glu - kdiss_re1 * D2;
+      re7: D2 + Glu -> D3;  2 * kass_re1 * D2 * Glu - 2 * kdiss_re1 * D3;
+      re8: D3 + Glu -> D4;  1 * kass_re1 * D3 * Glu - 3 * kdiss_re1 * D4;
+      re9: E2 + Glu -> E3;  2 * kass_re1 * E2 * Glu - kdiss_re1 * E3;
+      re10: E3 + Glu -> E4;  kass_re1 * E3 * Glu - 2 * kdiss_re1 * E4;
+      re11: R0 -> D0;  4 * kass_re11 * R0 - kdiss_re11 * D0;
+      re12: R1 -> D1;  1 * kass_re12_Init * R1 - kdiss_re12 * D1;
+      re13: R2 -> D2;  2 * kass_re12_Init * R2 - kdiss_re12 * D2;
+      re14: R3 -> D3;  3 * kass_re12_Init * R3 - kdiss_re12 * D3;
+      re15: R4 -> D4;  4 * kass_re12_Init * R4 - kdiss_re12 * D4;
+      re16: R2 -> O2;  2 * kass_re16 * R2 - kdiss_re16 * O2;
+      re17: R3 -> O3;  3 * kass_re16 * R3 - kdiss_re16 * O3;
+      re18: R4 -> O4;  4 * kass_re16 * R4 - kdiss_re16 * O4;
+      re19: D2 -> E2;  1 * kass_re19 * D2 - kdiss_re19 * E2;
+      re20: D3 -> E3;  2 * kass_re19 * D3 - kdiss_re19 * E3;
+      re21: D4 -> E4;  3 * kass_re19 * D4 - kdiss_re19 * E4;
+  end;
+
+p.default = 1;
+p.Glu = 0;
+p.Vm = -60;
+p.LTP_ampaNbModFactor = 1;
+p.R0 = 1;
+p.R1 = 0;
+p.R2 = 0;
+p.R3 = 0;
+p.R4 = 0;
+p.D0 = 0;
+p.D1 = 0;
+p.D2 = 0;
+p.D3 = 0;
+p.D4 = 0;
+p.E2 = 0;
+p.E3 = 0;
+p.E4 = 0;
+p.O2 = 0;
+p.O3 = 0;
+p.O4 = 0;
+p.kass_re1 = 10;
+p.kdiss_re1 = 7;
+p.kass_re5 = 10;
+p.kdiss_re5 = 0.00041;
+p.kass_re11 = 0;
+p.kdiss_re11 = 0.001;
+p.kass_re12 = 0;
+p.kdiss_re12 = 0.017;
+p.kass_re16 = 0.55;
+p.kdiss_re16 = 0;
+p.kass_re19 = 0.2;
+p.kdiss_re19 = 0.035;
+p.conduc_O2 = 9;
+p.conduc_O3 = 15;
+p.conduc_O4 = 21;
+p.Erev_AMPA = 0;
+p.current_AMPA = 0;
+p.sumOpen = 0;
+p.PNa = 50;
+p.PK = 49.5;
+p.PCa = 0.5;
+p.ICa_AMPA = 0;
+p.INa_AMPA = 0;
+p.IK_AMPA = 0;
+p.nbAMPAR = 1;
+p.NewNbAMPAR = 0;
+p.Deact_factor = 1;
+p.Desens_factor = 1;
+p.kdiss_re16_Init = 0.3;
+p.kass_re11_Init = 3.3E-006;
+p.kass_re12_Init = 0.42;
+
+// END OF MODEL
+  
+// set tolerances
+p.sim.rtol = 0.0001
+p.sim.atol = 1.000000E-007 
+p.sim.maxOrder = 5
+
+t1 = timer;
+m = p.sim.eval (0, 50, 50);
+println (timer - t1)/1000;
+

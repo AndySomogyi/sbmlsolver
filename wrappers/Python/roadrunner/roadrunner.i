@@ -36,6 +36,7 @@
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
+    #include <SteadyStateSolver.h>
     #include <rrLogger.h>
     #include <rrConfig.h>
     #include <conservation/ConservationExtension.h>
@@ -169,7 +170,7 @@
 %typemap(out) ls::DoubleMatrix {
     // %typemap(out) ls::DoubleMatrix
     const ls::DoubleMatrix* mat = &($1);
-    $result = doublematrix_to_py(mat, SimulateOptions::COPY_RESULT);
+    $result = doublematrix_to_py(mat, false, true);
 }
 
 
@@ -180,7 +181,7 @@
 %typemap(out) const ls::DoubleMatrix* {
     // %typemap(out) const ls::DoubleMatrix*
     const ls::DoubleMatrix* mat = ($1);
-    $result = doublematrix_to_py(mat, 0);
+    $result = doublematrix_to_py(mat, false, false);
 }
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
@@ -585,7 +586,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getNrMatrix;
 //%ignore rr::RoadRunner::getTimeCourseSelectionList;
 %ignore rr::RoadRunner::setSimulationSettings;
-%ignore rr::RoadRunner::getConservedMoietyValues;
 %ignore rr::RoadRunner::getNumPoints;
 %ignore rr::RoadRunner::getTimeEnd;
 //%ignore rr::RoadRunner::setSteadyStateSelectionList;
@@ -622,7 +622,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getParameterValue;
 //%ignore rr::RoadRunner::getVersion;
 %ignore rr::RoadRunner::unLoadModel;
-%ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
+//%ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
 %ignore rr::RoadRunner::getRateOfChange;
 //%ignore rr::RoadRunner::getlibSBMLVersion;
 //%ignore rr::RoadRunner::writeSBML;
@@ -634,8 +634,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::simulate;
 
-%rename (_getCurrentIntegrator) rr::RoadRunner::getIntegrator();
-%rename (_getIntegrator) rr::RoadRunner::getIntegrator(SimulateOptions::Integrator);
 %rename (_load) rr::RoadRunner::load;
 
 
@@ -665,18 +663,16 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %nodefaultdtor DictionaryImpl;
 
 
-%rename (_setIntegratorId) rr::SimulateOptions::setIntegrator;
-
 // ignore SimulateOptions key access methods,
 // these are replaced by python dictionary protocol.
-%ignore rr::Integrator::setValue;
-%ignore rr::Integrator::getValue;
+//%ignore rr::Integrator::setValue;
+//%ignore rr::Integrator::getValue;
 %ignore rr::Integrator::hasKey;
 %ignore rr::Integrator::deleteValue;
 %ignore rr::Integrator::getKeys;
 %ignore rr::Integrator::setSimulateOptions;
 %rename (__str__) rr::Integrator::toString;
-%rename (__repr__) rr::Integrator::toRepr;
+//%rename (__repr__) rr::Integrator::toRepr;
 
 
 // rename these, the injected python code will take care of
@@ -692,8 +688,12 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
 
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
-%rename (_getConservedMoietyAnalysis) getConservedMoietyAnalysis();
-%rename (_setConservedMoietyAnalysis) setConservedMoietyAnalysis(bool);
+%rename (_getConservedMoietyAnalysis) rr::RoadRunner::getConservedMoietyAnalysis();
+%rename (_setConservedMoietyAnalysis) rr::RoadRunner::setConservedMoietyAnalysis(bool);
+
+// Swig wraps C++ vectors to tuples, need to wrap lists instead on some methods
+%rename (_getIndependentFloatingSpeciesIds) rr::RoadRunner::getIndependentFloatingSpeciesIds();
+%rename (_getDependentFloatingSpeciesIds) rr::RoadRunner::getDependentFloatingSpeciesIds();
 
 %ignore rr::LoggingBuffer;
 %ignore rr::LogLevel;
@@ -810,6 +810,11 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::Integrator::addIntegratorListener;
 //%ignore rr::Integrator::removeIntegratorListener;
 
+// ignore integrator registration
+
+%ignore rr::IntegratorRegistrar;
+%ignore rr::IntegratorFactory;
+
 %rename rr::conversion::ConservedMoietyConverter PyConservedMoietyConverter;
 
 %ignore rr::ostream;
@@ -859,7 +864,9 @@ namespace std { class ostream{}; }
 
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
+%include <Solver.h>
 %include <Integrator.h>
+%include <SteadyStateSolver.h>
 
 %include "PyEventListener.h"
 %include "PyIntegratorListener.h"
@@ -893,7 +900,7 @@ namespace std { class ostream{}; }
         // its not const correct...
         ls::DoubleMatrix *result = const_cast<ls::DoubleMatrix*>($self->simulate(opt));
 
-        return doublematrix_to_py(result, opt->flags);
+        return doublematrix_to_py(result, opt->structured_result, opt->copy_result);
     }
 
     double getValue(const rr::SelectionRecord* pRecord) {
@@ -981,21 +988,24 @@ namespace std { class ostream{}; }
         def getModel(self):
             return self._getModel()
 
-        __swig_getmethods__["selections"] = _getSelections
-        __swig_setmethods__["selections"] = _setSelections
+        __swig_getmethods__["selections"] = _getSelections # DEPRECATED
+        __swig_setmethods__["selections"] = _setSelections # DEPRECATED
+        __swig_getmethods__["timeCourseSelections"] = _getSelections
+        __swig_setmethods__["timeCourseSelections"] = _setSelections
         __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
         __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
         __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
         __swig_getmethods__["model"] = _getModel
-        __swig_getmethods__["integrator"] = _getCurrentIntegrator
+        __swig_getmethods__["integrator"] = getIntegrator
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
+            timeCourseSelections = property(_getSelections, _setSelections)
             steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
             conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
             model = property(getModel)
-            integrator = property(_getCurrentIntegrator)
+            integrator = property(getIntegrator)
 
 
         # static list of properties added to the RoadRunner
@@ -1026,7 +1036,7 @@ namespace std { class ostream{}; }
             def mk_fget(sel): return lambda self: self.getModel().__getitem__(sel)
             def mk_fset(sel): return lambda self, val: self.getModel().__setitem__(sel, val)
 
-             
+
             def makeProperty(name, sel):
                 fget = mk_fget(sel)
                 fset = mk_fset(sel)
@@ -1099,25 +1109,6 @@ namespace std { class ostream{}; }
             return an iterator over the mapping's values
             """
             return self.values(types).__iter__()
-
-        def getIntegrator(self, iname=None):
-            """
-            Get the integrator based on its name.
-            """
-            if iname is None:
-                return self._getCurrentIntegrator()
-
-            id = IntegratorFactory.getIntegratorIdFromName(iname)
-            return self._getIntegrator(id)
-
-        def setIntegrator(self, iname):
-            """
-            set the default integrator.
-            """
-            self.simulateOptions.integrator = iname
-
-            if self.model is None:
-                Logger.log(Logger.LOG_WARNING, "Setting integrator without a model, changes will take effect when a model is loaded")
 
         def simulate(self, *args, **kwargs):
             """
@@ -1202,10 +1193,13 @@ namespace std { class ostream{}; }
                 A float-point number representing the relative difference permitted.
                 Defaults 0.0001
 
-            resetModel (or just "reset"???)
+            resetModel
                 True or False
                 Causes the model to be reset to the original conditions specified in
                 the SBML when the simulation is run.
+
+            reset
+                Identical to resetModel
 
             start
                 The start time of the simulation time-series data. Often this is 0,
@@ -1230,26 +1224,6 @@ namespace std { class ostream{}; }
                 Perform a multi-step simulation. In multi-step simulation, one may monitor the
                 variable time stepping via the IntegratorListener events system.
 
-            initialTimeStep
-                A user specified initial time step. If this is <= 0, the integrator will attempt
-                to determine a safe initial time step.
-
-                Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
-                the internal integrator may take many many steps to reach one of the external time steps.
-                This value specifies an initial value for the internal integrator time step.
-
-            minimumTimeStep
-                Specify the minimum time step that the internal integrator will use.
-                Uses integrator estimated value if <= 0.
-
-            maximumTimeStep
-                Specify the maximum time step size that the internal integrator will use.
-                Uses integrator estimated value if <= 0.
-
-            maximumNumSteps
-                Specify the maximum number of steps the internal integrator will use before
-                reaching the user specified time span. Uses the integrator default value if <= 0.
-
             seed
                 Specify a seed to use for the random number generator for stochastic simulations.
                 The seed is used whenever the integrator is reset, i.e. `r.reset()`.
@@ -1264,12 +1238,27 @@ namespace std { class ostream{}; }
             doPlot = False
             showPlot = True
 
+            # cleanup tasks
+            post_tasks = []
+
             # user specified number of steps via 3rd arg or steps=xxx
             haveSteps = False
 
             # variableStep = True was specified in args
             haveVariableStep = False
             o = self.simulateOptions
+
+            def steps_restore(v):
+                def f():
+                    o.steps = v
+                return f
+            post_tasks.append(steps_restore(o.steps))
+
+            o.steps = 50
+            if self.getIntegrator().hasValue('variable_step_size'):
+                if self.getIntegrator().getValue('variable_step_size') == True:
+                    o.steps = 0
+            stepsSpecified = False
 
             # did the options originally have a seed, if so, don't delete it when we're done
             hadSeed = "seed" in o
@@ -1280,7 +1269,7 @@ namespace std { class ostream{}; }
                     o = args[0]
                 elif type(args[0]) == list:
                     # its a selection list
-                    self.selections = args[0]
+                    self.timeCourseSelections = args[0]
                 elif isinstance(args[0], (int, float)):
                     # treat it as a number
                     o.start = args[0]
@@ -1292,7 +1281,7 @@ namespace std { class ostream{}; }
             if len(args) >= 2:
                 if type(args[1]) == list:
                     # its a selection list
-                    self.selections = args[1]
+                    self.timeCourseSelections = args[1]
                 elif isinstance(args[1], (int, float)):
                     # treat it as a number
                     o.end = args[1]
@@ -1301,14 +1290,17 @@ namespace std { class ostream{}; }
                                      "SimulateOptions object, recieved: {0}".format(str(args[1])))
 
 
-            # third arg is treated as number of steps
+            # third arg is treated as number of points
             if len(args) >= 3:
                 if type(args[2]) == list:
                     # its a selection list
-                    self.selections = args[2]
+                    self.timeCourseSelections = args[2]
                 elif isinstance(args[2], (int, float)):
                     # treat it as a number
-                    o.steps = args[2]
+                    o.steps = args[2]-1
+                    stepsSpecified = True
+                    if o.steps < 2:
+                      raise RuntimeError('Number of points must be 2 or more')
                     haveSteps = True
                 else:
                     raise ValueError("argument 3 must be either a number, list or "
@@ -1318,14 +1310,14 @@ namespace std { class ostream{}; }
             if len(args) >= 4:
                 if type(args[3]) == list:
                     # its a selection list
-                    self.selections = args[3]
+                    self.timeCourseSelections = args[3]
                 else:
-                    raise ValueError("argument 4 (if given) must be a list of selections "
+                    raise ValueError("argument 4 (if given) must be a list of timeCourseSelections "
                                      ", recieved: {0}".format(str(args[3])))
 
 
             # go through the list of keyword args
-            for k,v in kwargs.iteritems():
+            for k,v in kwargs.items():
 
                 # changing integrators.
                 if k == "integrator":
@@ -1333,14 +1325,27 @@ namespace std { class ostream{}; }
                         # this automatically sets the variable / fixed time step
                         # according to integrator type, raises exception if invalid
                         # integrator string.
-                        o.integrator = v
+                        self.setIntegrator(v)
                     else:
                         raise Exception("{0} is invalid argument for integrator, integrator name must be a string.".format(v))
                     continue
 
-                # specifying selections:
-                if k == "selections" or k == "sel":
-                    self.selections = v
+                # specifying timeCourseSelections:
+                if k == "timeCourseSelections" or k == "sel":
+                    self.timeCourseSelections = v
+                    continue
+
+                if k == "steps":
+                    o.steps = v
+                    stepsSpecified = True
+                    continue
+
+                if k == "start":
+                    o.start = v
+                    continue
+
+                if k == "end":
+                    o.end = v
                     continue
 
                 # reset model, also accept 'reset'
@@ -1352,7 +1357,9 @@ namespace std { class ostream{}; }
                 # positional arg
                 if k == "variableStep":
                     haveVariableStep = True
-                    o.variableStep = v
+                    self.getIntegrator().setValue('variable_step_size', v)
+                    if not stepsSpecified:
+                        o.steps = 0
                     continue
 
                 if k == "plot":
@@ -1362,6 +1369,14 @@ namespace std { class ostream{}; }
                 if k == "show":
                     showPlot = v
                     continue
+
+                if k == "stiff" and self.getIntegrator().hasValue('stiff'):
+                    def stiff_restore(v):
+                        def f():
+                            self.getIntegrator().setValue('stiff', v)
+                        return f
+                    self.getIntegrator().setValue('stiff', kwargs[k])
+                    post_tasks.append(stiff_restore(self.getIntegrator().getValue('stiff')))
 
                 # if its not one of these, just set the item on the dict, and
                 # if the inegrator cares about it, it will use it.
@@ -1374,9 +1389,9 @@ namespace std { class ostream{}; }
             # explicit options of variableStep trumps everything,
             # if not explicit, variableStep is if number of steps was specified,
             # if no steps, varStep = true, false otherwise.
-            if IntegratorFactory.getIntegratorType(o.getIntegratorId()) == \
-                Integrator.STOCHASTIC and not haveVariableStep:
-                o.variableStep = not haveSteps
+            if self.getIntegrator().getIntegrationMethod() == \
+                Integrator.Stochastic and not haveVariableStep:
+                self.getIntegrator().setValue('variable_step_size', not haveSteps)
 
             # the options are set up, now actually run the simuation...
             result = self._simulate(o)
@@ -1387,14 +1402,17 @@ namespace std { class ostream{}; }
             if doPlot:
                 self.plot(result=None, loc='upper left', show=showPlot)
 
+            # revert any settings we changed
+            for x in post_tasks:
+                x()
+
             return result
 
         def getAvailableIntegrators(self):
             """
             get a list of available integrator names.
             """
-            return [IntegratorFactory.getIntegratorNameFromId(i) \
-                for i in range(0, SimulateOptions.INTEGRATOR_END)]
+            return self.getExistingIntegratorNames()
 
 
         def plot(self, result=None, loc='upper left', show=True):
@@ -1421,17 +1439,17 @@ namespace std { class ostream{}; }
             # check if standard numpy array
             if result.dtype.names is None:
 
-                selections = self.selections
+                timeCourseSelections = self.timeCourseSelections
 
-                if len(result.shape) != 2 or result.shape[1] != len(selections):
+                if len(result.shape) != 2 or result.shape[1] != len(timeCourseSelections):
                     raise Exception("simulation result columns not equal to number of selections, likely a simulation has not been run")
 
                 times = result[:,0]
 
-                for i in range(1, len(selections)):
+                for i in range(1, len(timeCourseSelections)):
                     series = result[:,i]
-                    name = selections[i]
-                    p.plot(times, series, label=str(name))
+                    name = timeCourseSelections[i]
+                    p.plot(times, series, label=str(name), linewidth=2)
 
             # result is structured array
             else:
@@ -1441,12 +1459,69 @@ namespace std { class ostream{}; }
                 time = result.dtype.names[0]
 
                 for name in result.dtype.names[1:]:
-                    p.plot(result[time], result[name], label=name)
+                    p.plot(result[time], result[name], label=name, linewidth=2)
 
             p.legend()
 
             if show:
                 p.show()
+
+        def getIndependentFloatingSpeciesIds(self):
+            return list(self._getIndependentFloatingSpeciesIds())
+
+        def getDependentFloatingSpeciesIds(self):
+            return list(self._getDependentFloatingSpeciesIds())
+
+        def getFloatingSpeciesAmountRates(self):
+            return self.model.getFloatingSpeciesAmountRates()
+
+        def getReactionRates(self):
+            return self.getModel().getReactionRates()
+
+        @property
+        def integrator(self):
+            '''The current integrator'''
+            return self.getIntegrator()
+
+        @integrator.setter
+        def integrator(self, v):
+            self.setIntegrator(v)
+
+        @property
+        def steadyStateSolver(self):
+            '''The current steady state solver'''
+            return self.getSteadyStateSolver()
+
+        @steadyStateSolver.setter
+        def steadyStateSolver(self, v):
+            self.setSteadyStateSolver(v)
+
+        def _diffstep_getter(self):
+            '''Differential step size used in MCA'''
+            return self.getDiffStepSize()
+
+        def _diffstep_stter(self, v):
+            print('diffstep.setter')
+            self.setDiffStepSize(v)
+
+        __swig_getmethods__['diffstep'] = _diffstep_getter
+        __swig_setmethods__['diffstep'] = _diffstep_stter
+
+        if _newclass:
+            diffstep = property(_diffstep_getter, _diffstep_stter)
+
+        def _steadyStateThresh_getter(self):
+            '''Steady state threshold used in MCA'''
+            return self.getSteadyStateThreshold()
+
+        def _steadyStateThresh_setter(self, v):
+            self.setSteadyStateThreshold(v)
+
+        __swig_getmethods__['steadyStateThresh'] = _steadyStateThresh_getter
+        __swig_setmethods__['steadyStateThresh'] = _steadyStateThresh_setter
+
+        if _newclass:
+            steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
     %}
 }
 
@@ -1514,20 +1589,6 @@ namespace std { class ostream{}; }
         return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
     }
 
-    std::string _getIntegrator() {
-        return IntegratorFactory::getIntegratorNameFromId(($self)->integrator);
-    }
-
-    void _setIntegrator(const std::string &str) {
-
-        ($self)->setItem("integrator", str);
-    }
-
-    rr::Integrator::IntegratorId getIntegratorId() {
-        return ($self)->integrator;
-    }
-
-
     %pythoncode %{
         def getListener(self):
             return self._getListener()
@@ -1537,11 +1598,6 @@ namespace std { class ostream{}; }
                 self._clearListener()
             else:
                 self._setListener(listener)
-
-        __swig_getmethods__["integrator"] = _getIntegrator
-        __swig_setmethods__["integrator"] = _setIntegrator
-        if _newclass:
-            integrator = property(_getIntegrator, _setIntegrator)
     %}
 
 
@@ -1566,15 +1622,11 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::STRUCTURED_RESULT;
+        return opt->structured_result;
     }
 
     void rr_SimulateOptions_structuredResult_set(SimulateOptions* opt, bool value) {
-        if (value) {
-            opt->flags |= SimulateOptions::STRUCTURED_RESULT;
-        } else {
-            opt->flags &= ~SimulateOptions::STRUCTURED_RESULT;
-        }
+        opt->structured_result = value;
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
@@ -2480,10 +2532,79 @@ namespace std { class ostream{}; }
 
         __swig_getmethods__["listener"] = getListener
         __swig_setmethods__["listener"] = setListener
-        __swig_getmethods__["name"] = getName
         if _newclass:
             listener = property(getListener, setListener)
-            name = property(getName)
+
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            return Solver.getValue(self, name)
+
+        def __setattr__(self, name, value):
+            if(name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                raise AttributeError('No such key "{}"'.format(name))
+
+        def __repr__(self):
+            return self.toRepr()
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
+    %}
+}
+
+%extend rr::SteadyStateSolver {
+    %pythoncode %{
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            return Solver.getValue(self, name)
+
+        def __setattr__(self, name, value):
+            if(name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                raise AttributeError('No such key "{}"'.format(name))
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
+    %}
+}
+
+%extend rr::Solver {
+    %pythoncode %{
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            return Solver.getValue(self, name)
+
+        def __setattr__(self, name, value):
+            if(name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                raise AttributeError('No such key "{}"'.format(name))
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
     %}
 }
 
@@ -2510,7 +2631,3 @@ namespace std { class ostream{}; }
         if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
      %}
 }
-
-
-
-

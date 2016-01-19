@@ -1,14 +1,34 @@
-#ifndef rrExecutableModelH
-#define rrExecutableModelH
-#include "rrOSSpecifics.h"
 
-#include <stdint.h>
-#include <string>
-#include <list>
-#include <ostream>
+// == PREAMBLE ================================================
+
+// * Licensed under the Apache License, Version 2.0; see README
+
+// == FILEDOC =================================================
+
+/** @file rrExecutableModel.h
+* @author MTK, ETS, JKM
+* @copyright Apache License, Version 2.0
+* @brief Base class for all code generators in RoadRunner
+**/
+
+# ifndef rrExecutableModelH
+# define rrExecutableModelH
+
+// == INCLUDES ================================================
+
+# include "rrOSSpecifics.h"
+# include "rrException.h"
+
+# include <stdint.h>
+# include <string>
+# include <vector>
+# include <list>
+# include <ostream>
 
 
-#include "tr1proxy/rr_memory.h"
+# include "tr1proxy/rr_memory.h"
+
+// == CODE ====================================================
 
 namespace rr
 {
@@ -16,7 +36,8 @@ namespace rr
 class ExecutableModel;
 
 /**
- * RoadRunner has the capatiblity to notify user objects of any sbml event.
+ * @brief Notifies the user of SBML events
+ * @details RoadRunner has the capatiblity to notify user objects of any sbml event.
  *
  * In order to listen to sbml events, one simply implements the EventHandler
  * interface and resgisters it with the ExecutableModel::setEventHandler method.
@@ -89,7 +110,9 @@ private:
 
 
 /**
- * The ExecutableModel interface provides a way to access an
+ * @brief Base class for all code generation systems; allows compiling
+ * and evaluating the model
+ * @details The ExecutableModel interface provides a way to access an
  * sbml model that was compiled, JIT'd or interpreted
  * as executable (runnable) module.
  *
@@ -104,6 +127,14 @@ private:
 class RR_DECLSPEC ExecutableModel
 {
 public:
+    /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Returns a human-readable description of the code generation backend,
+     * e.g. LLVM, legacy C, etc.
+     */
+    virtual std::string getExecutableModelDesc() const = 0;
+
     /**
      * get the name of the model
      */
@@ -437,6 +468,16 @@ public:
             const double *values) = 0;
 
     virtual int getNumRateRules() = 0;
+
+    /**
+     * @author JKM
+     * @date 07/31/2015
+     * @brief Gets the symbols defined by rate rules, i.e.
+     * returns all x such that x' = f(x) is a rule which defines parameter x.
+     */
+    virtual std::vector<std::string> getRateRuleSymbols() const {
+        throw NotImplementedException("getRateRuleSymbols not implemented in " + getExecutableModelDesc());
+    }
 
     /**
      * get the number of reactions the model has
