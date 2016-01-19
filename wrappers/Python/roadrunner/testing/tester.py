@@ -916,7 +916,7 @@ def checkDefaultTimeStep(rrInstance, testId):
     errorFlag = False
     words = divide(readLine())
     n = rrInstance.simulate(float(words[0]), float(words[1]))
-    if numpy.shape(n)[0] != int(words[2]):
+    if n.shape[0] != int(words[2]):
         errorFlag = True
     print(passMsg (errorFlag))
 
