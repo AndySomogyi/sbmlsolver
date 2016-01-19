@@ -74,7 +74,7 @@ else(WIN32)
         # we do not link directly with python at at link time, so that at run time,
         # the hosting python would provice all the sybols, we only
         # link with the external libs that we uses.
-        SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" INSTALL_RPATH "@loader_path/../../lib;@loader_path" INSTALL_NAME_DIR "@rpath")
+        SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" INSTALL_RPATH "@loader_path/../../lib;@loader_path/" INSTALL_NAME_DIR "@rpath")
     endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     set_property(TARGET _roadrunner
