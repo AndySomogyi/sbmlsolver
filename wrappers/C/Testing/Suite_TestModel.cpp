@@ -1796,6 +1796,35 @@ SUITE(TEST_MODEL)
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, saved);
     }
 
+	TEST(CHECK_DEFAULT_TIME_STEP)
+	{
+		CHECK(gRR != NULL);
+
+		IniSection* aSection = iniFile.GetSection("Check Default Time Step");
+		if (!aSection || !gRR)
+		{
+			return;
+		}
+		clog << endl << "==== CHECK_DEFAULT_TIME_STEP ====" << endl << endl;
+		aSection->mIsUsed = true;
+
+		string keys = Trim(aSection->GetNonKeysAsString());
+		vector<string> refList = splitString(keys, " ,");
+
+		int NumPts = toInt(refList[0]);
+
+		RoadRunner* rri = castToRoadRunner(gRR);
+
+		SimulateOptions opt;
+		const DoubleMatrix *result = rri->simulate(&opt);
+
+		if (result->RSize() != NumPts)
+		{
+			CHECK(false);
+			clog << "Default time step does not match" << endl;
+		}
+	}
+
     TEST(CHECK_UNUSED_TESTS)
     {
         for(int i=0; i<iniFile.GetNumberOfSections(); i++)
