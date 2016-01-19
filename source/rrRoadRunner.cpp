@@ -86,7 +86,7 @@ static vector<string> createModelStringList(ExecutableModel *model,
  * convert the names from the sbml settings file into the
  * RoadRunner selection syntax.
  */
-static std::vector<std::string> createSelectionList(const SimulateOptions& o)
+static std::vector<std::string> createSelectionList(const SimulateOptions& o);
 
 /**
  * Some functions needed for the freq. analysis code
