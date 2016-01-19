@@ -12,6 +12,7 @@ compiler: gcc
 branches:
   only:
     - develop
+    - master
 
 
 before_install:
