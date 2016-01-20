@@ -47,8 +47,8 @@ def _checkRequirements():
 
 # get the os string
 def _getOSString():
-    
-    
+
+
     s = platform.system().lower()
     unix = False
 
@@ -65,7 +65,7 @@ def _getOSString():
                          .format(s))
 
     arch = platform.architecture()
-    
+
     if unix and arch[0].startswith('64'):
         arch = 'x86_64'
     elif unix and arch[0].startswith('32'):
@@ -74,7 +74,7 @@ def _getOSString():
         arch = '32' #win 32
 
     return s + "_" + arch
-    
+
 _version = _version + "-" + _getOSString()
 
 
@@ -86,7 +86,7 @@ def _copyDistFiles():
 
     if platform.system().lower().startswith("win"):
         print("copying windows dlls...")
-        
+
         shutil.copyfile("bin/iconv.dll",      "site-packages/roadrunner/iconv.dll")
         shutil.copyfile("bin/msvcp120.dll",   "site-packages/roadrunner/msvcp120.dll")
         shutil.copyfile("bin/msvcr120.dll",   "site-packages/roadrunner/msvcr120.dll")
@@ -96,9 +96,9 @@ def _copyDistFiles():
     import glob
     for f in glob.glob("*.txt"):
         shutil.copyfile(f, "site-packages/roadrunner/" + f)
-    
-    
-  
+
+
+
 
 
 # custom sdist command to copy different bits
@@ -128,7 +128,7 @@ def setup(*args):
 
     _checkRequirements()
 
-    # may be running in a different dir, temp change dir into 
+    # may be running in a different dir, temp change dir into
     # dir of setup file
     curdir = os.path.abspath(os.getcwd())
 
@@ -137,9 +137,11 @@ def setup(*args):
 
 
     # copy stuff if we are building
-    if len(args) > 0 and args[0].lower().find('dist') >= 0:
-        print ("we're building...")
-        _copyDistFiles()
+    # if len(args) > 0 and args[0].lower().find('dist') >= 0:
+        # print ("we're building...")
+        # _copyDistFiles()
+    # always copy windows dlls
+    _copyDistFiles()
 
     # check if we are running in Mac Spyder, and /Users/andy/local/dist/pylibroadrunner-1.1.1-macosx_x86_64/setup.py
     # called with no args
@@ -164,11 +166,11 @@ def setup(*args):
         },
         package_data={
             # add dll, won't hurt unix, not there anyway
-            "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll", "*.txt" ],  
+            "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll", "*.txt" ],
             "roadrunner.testing" : ["*.xml", "*.txt", "*.dat", "dsmts/*.xml", "dsmts/*.csv", "test_data/*"]
         },
         cmdclass={'sdist' : _RoadRunnerSDist},
-           
+
         # fake out the command line args
         script_name = 'setup.py',
         script_args = args
@@ -178,12 +180,9 @@ def setup(*args):
     print("changeing back to " + curdir)
     os.chdir(curdir)
 
-    
-    
+
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]
     setup(*args)
-
-
-      
