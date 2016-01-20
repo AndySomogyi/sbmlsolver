@@ -16,7 +16,7 @@ libRoadRunner is a high performance and portable simulation engine for systems a
 
 ## Contributing
 
-**IMPORTANT!** Contributers **must** follow the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki). Contibuters are responsible for complying with the guidelines, including (but not limited to) making commits to the correct branch. Maintainers are not responsible for changes made to the wrong branch. Contributers take full responsibility for ensuring that their changes get merged into the develop branch.
+**IMPORTANT!** Contributors **must** follow the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki). Contibuters are responsible for complying with the guidelines, including (but not limited to) making commits to the correct branch. Maintainers are not responsible for changes made to the wrong branch. Contributors take full responsibility for ensuring that their changes get merged into the develop branch.
 
 ## libRoadRunner supports the following features:
 
