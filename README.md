@@ -14,6 +14,10 @@ E. T. Somogyi <sup>1</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M
 
 libRoadRunner is a high performance and portable simulation engine for systems and synthetic biology.
 
+## Contributing
+
+**IMPORTANT!** Contributers **must** follow the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki). Contibuters are responsible for complying with the guidelines, including (but not limited to) making commits to the correct branch. Maintainers are not responsible for changes made to the wrong branch. Contributers take full responsibility for ensuring that their changes get merged into the develop branch.
+
 ## libRoadRunner supports the following features:
 
 * Time Dependent Simulation (with optional conservation law reduction) using CVODE
