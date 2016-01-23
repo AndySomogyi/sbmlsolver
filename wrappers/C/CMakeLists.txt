@@ -52,9 +52,30 @@ else() #Unix
     #"${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
     # OSX seems to link fine without this flag
     if(APPLE)
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
+        #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
+        SET_TARGET_PROPERTIES(${target} PROPERTIES INSTALL_RPATH "@loader_path/;@loader_path/../python2.7/roadrunner/" INSTALL_NAME_DIR "@rpath")
+        target_link_libraries ( ${target}
+            roadrunner
+            rr-libstruct-static
+            nleq-static
+            sbml-static
+            lapack
+            blas
+            f2c
+            pthread
+            )
     else()
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+        target_link_libraries ( ${target}
+            roadrunner-static
+            rr-libstruct-static
+            nleq-static
+            sbml-static
+            lapack
+            blas
+            f2c
+            pthread
+            )
     endif()
 
     set_property(TARGET ${target}
@@ -64,16 +85,6 @@ else() #Unix
         STATIC_LIBSTRUCT
         )
 
-    target_link_libraries ( ${target}
-        roadrunner-static
-        rr-libstruct-static
-        nleq-static
-        sbml-static
-        lapack
-        blas
-        f2c
-        pthread
-        )
 endif()
 
 add_subdirectory(Apps)
@@ -102,4 +113,3 @@ install(
     ARCHIVE DESTINATION lib COMPONENT c_api
     LIBRARY DESTINATION lib COMPONENT c_api
     )
-
