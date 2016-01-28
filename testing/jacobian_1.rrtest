@@ -247,3 +247,5 @@ S3= -0.237138 0
 
 [Check Default Time Step]
 "51"
+
+[Check Simulate Points vs Steps]

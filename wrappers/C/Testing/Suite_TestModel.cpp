@@ -1825,6 +1825,20 @@ SUITE(TEST_MODEL)
 		}
 	}
 
+    TEST(CHECK_SIMULATE_POINTS_VS_STEPS)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check Simulate Points vs Steps");
+        if (!aSection || !gRR)
+        {
+          return;
+        }
+        clog << endl << "==== CHECK SIMULATE POINTS VS STEPS ====" << endl << endl;
+        // Python-only test
+        aSection->mIsUsed = true;
+    }
+
     TEST(CHECK_UNUSED_TESTS)
     {
         for(int i=0; i<iniFile.GetNumberOfSections(); i++)

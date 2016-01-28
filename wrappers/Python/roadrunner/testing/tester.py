@@ -920,6 +920,24 @@ def checkDefaultTimeStep(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
+def checkSimulateTimepointsVsIntervals(rrInstance, testId):
+    '''
+    Third positional argument is number of points.
+    Steps keyword argument is number of intervals.
+    '''
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    try:
+        n1 = rrInstance.simulate(0, 10, steps=1)
+        if n1.shape[0] != 2:
+            errorFlag = True
+        n2 = rrInstance.simulate(0, 10, 2)
+        if n2.shape[0] != 2:
+            errorFlag = True
+    except:
+        errorFlag = True
+    print(passMsg (errorFlag))
+
 
 
 
@@ -953,6 +971,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Boundary Species Ids]': checkGetBoundarySpeciesIds,
              '[Check Default Time Step]': checkDefaultTimeStep,
+             '[Check Simulate Points vs Steps]': checkSimulateTimepointsVsIntervals,
              '[Compartment Ids]': checkGetCompartmentIds,
              '[Compute Steady State Values]': checkComputeSteadyStateValues,
              '[Conservation Laws]': setConservationLaw,
