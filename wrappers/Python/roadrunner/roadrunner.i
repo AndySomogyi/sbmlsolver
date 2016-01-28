@@ -1299,7 +1299,7 @@ namespace std { class ostream{}; }
                     # treat it as a number
                     o.steps = args[2]-1
                     stepsSpecified = True
-                    if o.steps < 2:
+                    if o.steps < 1:
                       raise RuntimeError('Number of points must be 2 or more')
                     haveSteps = True
                 else:
