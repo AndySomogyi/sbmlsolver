@@ -18,8 +18,8 @@
 #include "rrException.h"
 #include <iostream>
 #include <sstream>
-
-
+#include <string>
+#include <algorithm>
 
 #include <sbml/SBMLReader.h>
 #include <sbml/conversion/SBMLConverterRegistry.h>
@@ -178,6 +178,10 @@ static string flatten_comp(const string& sbml, const std::string fname)
     return stream.str();
 }
 
+// C++ standard library isn't self-consistent
+char mytolower(char x) {
+    return std::tolower(x);
+}
 
 std::string SBMLReader::read(const std::string& str)
 {
@@ -222,9 +226,17 @@ std::string SBMLReader::read(const std::string& str)
 
     std::istream* stream = NULL;
     try {
-      stream = opener.open(str);
-    } catch(Poco::Exception) {
-      // stream should still be NULL
+        stream = opener.open(str);
+    } catch(Poco::Exception& e) {
+        std::string urischeme = Poco::URI(str).getScheme();
+        std::transform(urischeme.begin(), urischeme.end(), urischeme.begin(), mytolower);
+        if (urischeme == "https") {
+            Log(Logger::LOG_ERROR) << "HTTPS transport not supported";
+            throw Exception("Could not open stream: HTTPS transport not supported");
+        } else {
+            Log(Logger::LOG_ERROR) << "Could not open stream: " << e.what();
+        }
+        // stream should still be NULL
     }
     if (stream)
     {
