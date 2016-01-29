@@ -1,3 +1,9 @@
+libroadrunner (1.4.2) unstable; urgency=low
+
+  * Bufix release
+
+   -- Kyle Medley <0u812github@gmail.com>  Fri, 29 Jan 2016 12:00:00 -0700
+
 libroadrunner (1.4.1) unstable; urgency=low
 
   * Refactored solver API
