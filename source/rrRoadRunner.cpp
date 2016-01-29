@@ -1523,6 +1523,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
 
     try
     {
+        self.integrator->restart(currentTime);
         return self.integrator->integrate(currentTime, stepSize);
     }
     catch (EventListenerException& e)
