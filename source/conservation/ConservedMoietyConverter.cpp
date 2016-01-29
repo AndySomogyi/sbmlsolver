@@ -186,6 +186,8 @@ int ConservedMoietyConverter::convert()
 
     /* The document was checked for consistency in setDocument */
     ConservationPkgNamespaces ns(3,1,1);
+    if (mDocument->isPackageEnabled("fbc"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version1", "fbc");
     resultDoc = new SBMLDocument(&ns);
 
     ConservationDocumentPlugin *docPlugin = dynamic_cast<ConservationDocumentPlugin*>
