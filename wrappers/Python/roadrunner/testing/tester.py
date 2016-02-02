@@ -899,16 +899,22 @@ def checkControlCoefficient(rrInstance, testId):
 
 def checkVariableEndTime(rrInstance, testId):
     print(string.ljust ("Check " + testId, rpadding), end="")
-    errorFlag = False
+    errorFlag = True
     words = divide(readLine())
-    n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+
+    try:
+        # passing variableStep to simulate should throw
+        n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+    except:
+        errorFlag = False
+
     rrInstance.getIntegrator().resetSettings()
     rrInstance.getIntegrator().setValue('variable_step_size', True)
     n2 = rrInstance.simulate(float(words[0]), float(words[1]))
-    if expectApproximately(n1[-1][0], float(words[1]), 1e-16) == False:
-        errorFlag = True
+
     if expectApproximately(n2[-1][0], float(words[1]), 1e-16) == False:
         errorFlag = True
+
     print(passMsg (errorFlag))
 
 def checkDefaultTimeStep(rrInstance, testId):
@@ -935,6 +941,80 @@ def checkSimulateTimepointsVsIntervals(rrInstance, testId):
         if n2.shape[0] != 2:
             errorFlag = True
     except:
+        errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkMonotonicTimepoints(rrInstance, testId):
+    '''
+    Timepoint values should only increase.
+    No two timepoints should ever have the same time value.
+    '''
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    try:
+        words = divide(readLine())
+        startTime = float(words[0])
+        endTime = float(words[1])
+        npoints = int(words[2])
+
+        # For variable step
+        rrInstance.getIntegrator().setValue('variable_step_size', True)
+        n = rrInstance.simulate(startTime, endTime)
+        for k in range(1,n.shape[0]):
+            if n[k-1,0] >= n[k,0]:
+                print('Monotonicity failure var step: {} >= {}'.format(n[k-1,0], n[k,0]))
+                errorFlag = True
+
+        # For fixed step
+        rrInstance.reset()
+        rrInstance.getIntegrator().setValue('variable_step_size', False)
+        n = rrInstance.simulate(startTime, endTime, npoints)
+        for k in range(1,n.shape[0]):
+            if n[k-1,0] >= n[k,0]:
+                print('Monotonicity failure fixed step: {} >= {}'.format(n[k-1,0], n[k,0]))
+                errorFlag = True
+    except(e):
+        print('Caught exception: {}'.format(e))
+        errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkEventPreandPostfireTimepoints(rrInstance, testId):
+    '''
+    Timepoint values should only increase.
+    No two timepoints should ever have the same time value.
+    '''
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    try:
+        words = divide(readLine())
+
+        def find_close_timepoint(simdata, t, tol):
+            '''
+            Finds the index of the closest timepoint in the
+            simulation results which is within tol of t
+            '''
+            for k in range(simdata.shape[0]):
+                if abs(simdata[k,0] - t) <= tol:
+                    return k
+            return -1;
+
+        rrInstance.getIntegrator().setValue('variable_step_size', True)
+        simresult = rrInstance.simulate(0, 10)
+
+        max_tol = 0.0001
+
+        # iterate through each expected event timepoint
+        for w in words:
+            t = float(w)
+            # expect two timepoints close by
+            i = find_close_timepoint(simresult, t, max_tol)
+            if i < 0 or i+1 >= simresult.shape[0]:
+                errorFlag = True
+            else:
+                if abs(simresult[i+1,0] - simresult[i,0]) > max_tol:
+                    errorFlag = True
+    except(e):
+        print('Caught exception: {}'.format(e))
         errorFlag = True
     print(passMsg (errorFlag))
 
@@ -971,6 +1051,8 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Boundary Species Ids]': checkGetBoundarySpeciesIds,
              '[Check Default Time Step]': checkDefaultTimeStep,
+             '[Check Monotonic Timepoints]': checkMonotonicTimepoints,
+             '[Check Event Pre and Postfire Timepoints]': checkEventPreandPostfireTimepoints,
              '[Check Simulate Points vs Steps]': checkSimulateTimepointsVsIntervals,
              '[Compartment Ids]': checkGetCompartmentIds,
              '[Compute Steady State Values]': checkComputeSteadyStateValues,
