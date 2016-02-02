@@ -1593,6 +1593,17 @@ namespace std { class ostream{}; }
         return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
     }
 
+    %pythoncode %{
+        def getListener(self):
+            return self._getListener()
+
+        def setListener(self, listener):
+            if listener is None:
+                self._clearListener()
+            else:
+                self._setListener(listener)
+    %}
+
 }
 
 %{
