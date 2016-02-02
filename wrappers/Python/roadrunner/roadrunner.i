@@ -882,7 +882,7 @@ namespace std { class ostream{}; }
     /**
      * make some of these const so SWIG would not allow setting.
      */
-    const rr::SimulateOptions *simulateOptions;
+    const rr::SimulateOptions *__simulateOptions;
 
     rr::RoadRunnerOptions *options;
 
@@ -1134,7 +1134,7 @@ namespace std { class ostream{}; }
             The fourth argument, if it is supplied, must be a list of strings that correspond to
             proper timecourse selections as in timeCourseSelections.
 
-            Do NOT pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED!
+            Do NOT pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED.
 
             Keyword arguments:
 
@@ -1191,7 +1191,7 @@ namespace std { class ostream{}; }
 
             # variableStep = True was specified in args
             haveVariableStep = False
-            o = self.simulateOptions
+            o = self.__simulateOptions
 
             def steps_restore(v):
                 def f():
@@ -1210,7 +1210,7 @@ namespace std { class ostream{}; }
 
             # check if we have just a sim options
             if len(args) >= 1:
-                if type(args[0]) == type(self.simulateOptions):
+                if type(args[0]) == type(self.__simulateOptions):
                     o = args[0]
                 elif type(args[0]) == list:
                     # its a selection list
@@ -1474,12 +1474,12 @@ namespace std { class ostream{}; }
 }
 
 %{
-    rr::SimulateOptions* rr_RoadRunner_simulateOptions_get(RoadRunner* r) {
+    rr::SimulateOptions* rr_RoadRunner___simulateOptions_get(RoadRunner* r) {
         //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
-    void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
+    void rr_RoadRunner___simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
         //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
@@ -1512,11 +1512,7 @@ namespace std { class ostream{}; }
 %extend rr::SimulateOptions
 {
     double end;
-    bool resetModel;
-    bool stiff;
-    bool multiStep;
     bool structuredResult;
-    bool variableStep;
     bool copyResult;
 
     std::string __repr__() {
@@ -1563,14 +1559,6 @@ namespace std { class ostream{}; }
         opt->duration = end - opt->start;
     }
 
-    bool rr_SimulateOptions_resetModel_get(SimulateOptions* opt) {
-        return opt->getItem("reset");
-    }
-
-    void rr_SimulateOptions_resetModel_set(SimulateOptions* opt, bool value) {
-        opt->setItem("reset", value);
-    }
-
     bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
         return opt->structured_result;
     }
@@ -1579,36 +1567,12 @@ namespace std { class ostream{}; }
         opt->structured_result = value;
     }
 
-    bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->getItem("stiff");
-    }
-
-    void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
-        opt->setItem("stiff", value);
-    }
-
-    bool rr_SimulateOptions_multiStep_get(SimulateOptions* opt) {
-        return opt->getItem("multiStep");
-    }
-
-    void rr_SimulateOptions_multiStep_set(SimulateOptions* opt, bool value) {
-        opt->setItem("multiStep", value);
-    }
-
     bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
         return opt->getItem("copyResult");
     }
 
     void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
         opt->setItem("copyResult", value);
-    }
-
-    bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
-        return opt->getItem("variableStep");
-    }
-
-    void rr_SimulateOptions_variableStep_set(SimulateOptions* opt, bool value) {
-        opt->setItem("variableStep", value);
     }
 %}
 
