@@ -1138,9 +1138,7 @@ namespace std { class ostream{}; }
             via setSimulateOptions() or with one of the two alternate ways of calling
             simulate.
 
-            2: With single `SimulateOptions` argument. In this case, all of the settings
-            in the given options are copied and will be used for the current and future
-            simulations.
+            2: No not pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED!
 
             3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
             these three values are copied and will be used for the current and future simulations.
@@ -1377,11 +1375,12 @@ namespace std { class ostream{}; }
                         return f
                     self.getIntegrator().setValue('stiff', kwargs[k])
                     post_tasks.append(stiff_restore(self.getIntegrator().getValue('stiff')))
+                    continue
 
                 # if its not one of these, just set the item on the dict, and
                 # if the inegrator cares about it, it will use it.
                 # if its one of these, set it.
-                o[k] = v
+                raise KeyError('No such argument: {}'.format(k))
 
 
 
