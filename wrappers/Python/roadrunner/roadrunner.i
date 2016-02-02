@@ -1527,19 +1527,23 @@ namespace std { class ostream{}; }
 
 %{
     rr::SimulateOptions* rr_RoadRunner_simulateOptions_get(RoadRunner* r) {
+        Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
     void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
+        Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
+        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
+        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
@@ -1588,19 +1592,6 @@ namespace std { class ostream{}; }
         SimulateOptions *other = new SimulateOptions(*pThis);
         return SWIG_NewPointerObj(SWIG_as_voidptr(other), SWIGTYPE_p_rr__SimulateOptions, SWIG_POINTER_OWN );
     }
-
-    %pythoncode %{
-        def getListener(self):
-            return self._getListener()
-
-        def setListener(self, listener):
-            if listener is None:
-                self._clearListener()
-            else:
-                self._setListener(listener)
-    %}
-
-
 
 }
 
