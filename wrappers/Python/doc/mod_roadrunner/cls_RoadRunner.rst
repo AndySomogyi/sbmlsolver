@@ -184,7 +184,7 @@ Selections
 .. method:: RoadRunner.getSelectedValues()
    :module: RoadRunner
 
-   returns the values selected with SimulateOptions for the current model time / timestep
+   returns the values of the current timecourse selections for the current state of the model
 
    :rtype: numpy.ndarray
 
