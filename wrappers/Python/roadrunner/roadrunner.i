@@ -1112,92 +1112,50 @@ namespace std { class ostream{}; }
 
         def simulate(self, *args, **kwargs):
             """
-            Simulate the optionally plot current SBML model. This is the one stop shopping method
-            for simulation and ploting.
+            Simulate the optionally plot current SBML model.
 
-            simulate accepts a up to four positional arguments and a large number of keyword args.
+            simulate accepts a up to four positional arguments. The first four (optional) arguments are treated as:
 
-            The first four (optional) arguments are treated as:
+            1: start (the simulation starting time)
 
-            1: Start Time, if this is a number.
+            2: end (the simulation end time)
 
-            2: End Time, if this is a number.
-
-            3: Number of Steps, if this is a number.
+            3: steps (the number of output points)
 
             4: List of Selections.
 
             All four of the positional arguments are optional. If any of the positional arguments are
-            a list of string instead of a number, then they are interpreted as a list of selections.
+            supplied as a list of strings, then they are interpreted as a list of selections.
 
 
-            There are a number of ways to call simulate.
+            There is only one correct way to call simulate. If one positional argument is specified,
+            it is the start time. If two are specified, they are the start and end time.
+            The third argument is the number of output POINTS! NOT THE NUMBER OF INTERVALS!
+            The fourth argument, if it is supplied, must be a list of strings that correspond to
+            proper timecourse selections as in timeCourseSelections.
 
-            1. With no arguments. In this case, the current set of `SimulateOptions` will
-            be used for the simulation. The current set may be changed either directly
-            via setSimulateOptions() or with one of the two alternate ways of calling
-            simulate.
+            Do NOT pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED!
 
-            2: No not pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED!
-
-            3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
-            these three values are copied and will be used for the current and future simulations.
-
-            4: With keyword arguments where keywords are the property names of the SimulateOptions
-            class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
-
-                rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
-
-            The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-            one calls::
-
-                rr.simulate (0, 3, 100)
-
-            The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
-            is followed by a call to::
-
-                rr.simulate()
-
-            This simulation will use the previous values.
-
-            simulate accepts the following list of keyword arguments:
+            Keyword arguments:
 
             integrator
-                A text string specifying which integrator to use. Currently supports "cvode"
-                for deterministic simulation (default) and "gillespie" for stochastic
-                simulation.
+                DEPRECATED: use setIntegrator method
 
             sel or selections
                 A list of strings specifying what values to display in the output.
 
             plot
-                True or False
-                If True, RoadRunner will create a basic plot of the simulation result using
-                the built in plot routine which uses MatPlotLib.
-
-            absolute
-                A number representing the absolute difference permitted for the integrator
-                tolerance.
-
-            duration
-                The duration of the simulation run, in the model's units of time.
-                Note, setting the duration automatically sets the end time and visa versa.
+                DEPRECATED: use plot method.
 
             end
                 The simulation end time. Note, setting the end time automatically sets
                 the duration accordingly and visa versa.
 
-            relative
-                A float-point number representing the relative difference permitted.
-                Defaults 0.0001
-
             resetModel
-                True or False
-                Causes the model to be reset to the original conditions specified in
-                the SBML when the simulation is run.
+                DEPRECATED
 
             reset
-                Identical to resetModel
+                DEPRECATED: use reset method.
 
             start
                 The start time of the simulation time-series data. Often this is 0,
@@ -1210,26 +1168,15 @@ namespace std { class ostream{}; }
                 will have N+1 data rows.
 
             stiff
-                True or False
-                Use the stiff integrator. Only use this if the model is stiff and causes issues
-                with the regular integrator. The stiff integrator is slower than the conventional
-                integrator.
-
-            multiStep
-                True or False
-                Perform a multi step integration.
-                * Experimental *
-                Perform a multi-step simulation. In multi-step simulation, one may monitor the
-                variable time stepping via the IntegratorListener events system.
+                DEPRECATED: use solver API (only available for some solvers).
 
             seed
-                Specify a seed to use for the random number generator for stochastic simulations.
-                The seed is used whenever the integrator is reset, i.e. `r.reset()`.
-                If no seed is specified, the current system time is used for seed.
+                DEPRECATED: use solver API (only available for some solvers).
 
 
             :returns: a numpy array with each selected output time series being a
-             column vector, and the 0'th column is the simulation time.
+             column vector, and the 0'th column is the simulation time (if time is selected as an
+             output).
             :rtype: numpy.ndarray
             """
 
@@ -1354,6 +1301,7 @@ namespace std { class ostream{}; }
                 # check if variableStep was explicitly specified, this overrides the steps
                 # positional arg
                 if k == "variableStep":
+                    raise KeyError('Do NOT pass variableStep to simulate. Use integrator API: r.getIntegrator().setValue("variable_step_size", True)')
                     haveVariableStep = True
                     self.getIntegrator().setValue('variable_step_size', v)
                     if not stepsSpecified:
@@ -1361,7 +1309,7 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "plot":
-                    doPlot = v
+                    raise RuntimeError('plot argument is deprecated, use plot method')
                     continue
 
                 if k == "show":
@@ -1369,6 +1317,7 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "stiff" and self.getIntegrator().hasValue('stiff'):
+                    raise KeyError('Do NOT pass stiff to simulate. Use the integrator API: r.getIntegrator().setValue("stiff", True)')
                     def stiff_restore(v):
                         def f():
                             self.getIntegrator().setValue('stiff', v)
@@ -1526,12 +1475,12 @@ namespace std { class ostream{}; }
 
 %{
     rr::SimulateOptions* rr_RoadRunner_simulateOptions_get(RoadRunner* r) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
     void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
