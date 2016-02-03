@@ -1168,9 +1168,6 @@ namespace std { class ostream{}; }
             # end error checking
 
             o = self.__simulateOptions
-            print('initial o.start = {}'.format(o.start))
-            print('initial o.end = {}'.format(o.end))
-            print('initial o.steps = {}'.format(o.steps))
             originalSteps = o.steps
 
             if self.getIntegrator().hasValue('variable_step_size'):
@@ -1195,8 +1192,6 @@ namespace std { class ostream{}; }
             result = self._simulate(o)
 
             o.steps = originalSteps
-
-            print('final o.steps = {}'.format(o.steps))
 
             return result
 

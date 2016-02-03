@@ -942,6 +942,40 @@ def checkSimulateTimepointsVsIntervals(rrInstance, testId):
             errorFlag = True
     except:
         errorFlag = True
+    try:
+        m = rrInstance.simulate(0, 100, 51)
+        n = rrInstance.simulate(0, 100, points=51)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(start=0, end=100, points=51)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(0, 100, steps=50)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(start=0, end=100, steps=50)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+
+        if len(rrInstance.model.getFloatingSpeciesIds()) < 1:
+            errorFlag = True
+        else:
+            spec_id = rrInstance.model.getFloatingSpeciesIds()[0]
+            m = rrInstance.simulate(0, 100, 51, ['time', spec_id])
+            n = rrInstance.simulate(0, 100, points=51, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(start=0, end=100, points=51, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(0, 100, steps=50, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(start=0, end=100, steps=50, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+    except:
+        errorFlag = True
     print(passMsg (errorFlag))
 
 def checkMonotonicTimepoints(rrInstance, testId):
