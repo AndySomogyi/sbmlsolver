@@ -1110,9 +1110,9 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def simulate(self, *args, **kwargs):
-            """
-            Simulate the optionally plot current SBML model.
+        def simulate(self, start=None, end=None, points=None, selections=None, steps=None):
+            '''
+            Simulate the current SBML model.
 
             simulate accepts a up to four positional arguments. The first four (optional) arguments are treated as:
 
@@ -1130,9 +1130,104 @@ namespace std { class ostream{}; }
 
             There is only one correct way to call simulate. If one positional argument is specified,
             it is the start time. If two are specified, they are the start and end time.
-            The third argument is the number of output POINTS! NOT THE NUMBER OF INTERVALS!
+            The third argument is the number of output points!
             The fourth argument, if it is supplied, must be a list of strings that correspond to
             proper timecourse selections as in timeCourseSelections.
+            The fifth argument, if supplied via keyword, is the number of intervals, not the
+            number of points. Specifying intervals and points is an error.
+            '''
+
+            # check for errors
+            import collections
+            import sys
+            if selections is not None:
+                # check that selections is a sequence
+                if not isinstance(selections, collections.Sequence):
+                    raise ValueError('Expected a sequence type for selections')
+
+                # check that selections contains only strings
+                for x in selections:
+                    if sys.version_info >= (3,0):
+                        if not isinstance(x, str):
+                            raise ValueError('Expected selections to be a sequence of strings')
+                    else:
+                        if not isinstance(x, basestring):
+                            raise ValueError('Expected selections to be a sequence of strings')
+
+            if points is not None and steps is not None:
+                raise ValueError('Cannot specify both points and steps in simulate call')
+
+            if points is not None:
+                if points < 2:
+                    raise ValueError('Number of points cannot be less than 2')
+
+            if steps is not None:
+                if steps < 1:
+                    raise ValueError('Number of steps cannot be less than 1')
+
+            # end error checking
+
+            o = self.__simulateOptions
+            print('initial o.start = {}'.format(o.start))
+            print('initial o.end = {}'.format(o.end))
+            print('initial o.steps = {}'.format(o.steps))
+            originalSteps = o.steps
+
+            if self.getIntegrator().hasValue('variable_step_size'):
+                if self.getIntegrator().getValue('variable_step_size') == True:
+                    o.steps = 0
+
+            if start is not None:
+                o.start = start
+
+            if end is not None:
+                o.end = end
+
+            if points is not None:
+                o.steps = points - 1
+
+            if selections is not None:
+                self.timeCourseSelections = selections
+
+            if steps is not None:
+                o.steps = steps
+
+            result = self._simulate(o)
+
+            o.steps = originalSteps
+
+            print('final o.steps = {}'.format(o.steps))
+
+            return result
+
+        def simulateOld(self, *args, **kwargs):
+            """
+            DEPRECATED!!!!!!!!!!!!!!!!
+            WILL BE REMOVED
+
+            Simulate the current SBML model.
+
+            simulate accepts a up to four positional arguments. The first four (optional) arguments are treated as:
+
+            1: start (the simulation starting time)
+
+            2: end (the simulation end time)
+
+            3: steps (the number of output points)
+
+            4: List of Selections.
+
+            All four of the positional arguments are optional. If any of the positional arguments are
+            supplied as a list of strings, then they are interpreted as a list of selections.
+
+
+            There is only one correct way to call simulate. If one positional argument is specified,
+            it is the start time. If two are specified, they are the start and end time.
+            The third argument is the number of output points!
+            The fourth argument, if it is supplied, must be a list of strings that correspond to
+            proper timecourse selections as in timeCourseSelections.
+            The fifth argument, if supplied via keyword, is the number of intervals, not the
+            number of points. Specifying intervals and points is an error.
 
             Do NOT pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED.
 

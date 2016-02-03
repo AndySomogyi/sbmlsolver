@@ -337,7 +337,7 @@ def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
 
 
 def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
-    # Unscaled Flux Control matrix
+    # Scaled Flux Control matrix
     print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getScaledFluxControlCoefficientMatrix()
     checkMatrixVsUpcomingText(st)
@@ -905,7 +905,7 @@ def checkVariableEndTime(rrInstance, testId):
     try:
         # passing variableStep to simulate should throw
         n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
-    except:
+    except TypeError as e:
         errorFlag = False
 
     rrInstance.getIntegrator().resetSettings()
