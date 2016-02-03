@@ -227,25 +227,6 @@ here. The variable type of the parameter is listed after the key name.
    original JIT engine. Does NOT work on LLVM 3.1
 
 
-.. attribute:: Config.SIMULATEOPTIONS_MULTI_STEP
-   :module: RoadRunner
-   :annotation: bool
-
-   The MULTI_STEP option tells the solver to take a series of internal steps
-   and then return the solution at the point reached by that step.
-  
-   In simulate, this option will likely be slower than normal mode,
-   but may be useful to monitor solutions as they are integrated.
-  
-   This is intended to be used in combination with the
-   IntegratorListener. It this option is set, and there is a
-   IntegratorListener set, RoadRunner::integrate will run the
-   integrator in a series of internal steps, and the listener
-   will by notified at each step.
-  
-   Highly Experimental!!!
-
-
 .. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
    :module: RoadRunner
    :annotation: int

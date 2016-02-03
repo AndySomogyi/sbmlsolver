@@ -337,7 +337,7 @@ def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
 
 
 def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
-    # Unscaled Flux Control matrix
+    # Scaled Flux Control matrix
     print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getScaledFluxControlCoefficientMatrix()
     checkMatrixVsUpcomingText(st)
@@ -905,7 +905,7 @@ def checkVariableEndTime(rrInstance, testId):
     try:
         # passing variableStep to simulate should throw
         n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
-    except:
+    except TypeError as e:
         errorFlag = False
 
     rrInstance.getIntegrator().resetSettings()
@@ -940,6 +940,40 @@ def checkSimulateTimepointsVsIntervals(rrInstance, testId):
         n2 = rrInstance.simulate(0, 10, 2)
         if n2.shape[0] != 2:
             errorFlag = True
+    except:
+        errorFlag = True
+    try:
+        m = rrInstance.simulate(0, 100, 51)
+        n = rrInstance.simulate(0, 100, points=51)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(start=0, end=100, points=51)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(0, 100, steps=50)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(start=0, end=100, steps=50)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+
+        if len(rrInstance.model.getFloatingSpeciesIds()) < 1:
+            errorFlag = True
+        else:
+            spec_id = rrInstance.model.getFloatingSpeciesIds()[0]
+            m = rrInstance.simulate(0, 100, 51, ['time', spec_id])
+            n = rrInstance.simulate(0, 100, points=51, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(start=0, end=100, points=51, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(0, 100, steps=50, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(start=0, end=100, steps=50, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
     except:
         errorFlag = True
     print(passMsg (errorFlag))

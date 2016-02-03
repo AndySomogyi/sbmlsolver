@@ -710,32 +710,15 @@ Misc
    
    
    >>> print r.getInfo()
-   <roadrunner.RoadRunner() { 
-   'this' : 0056AC30
-   'modelLoaded' : true
-   'modelName' : pathway
-   'libSBMLVersion' : LibSBML Version: 5.11.0
-   'jacobianStepSize' : 1e-005
-   'conservedMoietyAnalysis' : false
-   'simulateOptions' : 
-   < roadrunner.SimulateOptions() 
-   { 
-   'this' : 10590170, 
-   integrator: "cvode",
-   'reset' : 0,
-   'structuredResult' : 0,
-   'copyResult' : 1,
-   'steps' : 99,
-   'start' : 0,
-   'duration' : 10,
-   'initialTimeStep' : -1,
-   'minimumTimeStep' : -1,
-   'maximumTimeStep' : -1,
-   'maximumNumSteps' : -1
-   }>, 
-   'integrator' : 
-   < roadrunner.Integrator() >
-   }>
+    * Calculated Values *
+    FloatingSpeciesAmounts:
+    [0x1.4p+2, 0x1.4p+3]
+    FloatingSpeciesConcentrations:
+    [0x1.4p+2, 0x1.4p+3]
+    FloatingSpeciesInitConcentrations:
+    [0x1p-1, 0x1p+0]
+    Reaction Rates:
+    [0x0p+0]
    
 
 .. method:: ExecutableModel.getModelName()

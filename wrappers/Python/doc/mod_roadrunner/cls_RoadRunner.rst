@@ -501,13 +501,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    
    :param numpy.ndarray result: Data returned from a simulate or gillespie call
    :param str loc: string representing the location of legend i.e. "upper right"
-   
-
-.. py:attribute:: RoadRunner.simulateOptions
-   :module: RoadRunner
-   :annotation: None
-
-   Get the SimulateOptions object where simulation options may be set.
 
 
 .. py:function:: Roadrunner.getSimulationData()

@@ -2780,6 +2780,8 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
     check_model();
 
+    int orig_steps = impl->simulateOpt.steps;
+
     impl->simulateOpt.start = 0;
     impl->simulateOpt.duration = 50.0;
     impl->simulateOpt.steps = 1;
@@ -2790,6 +2792,7 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
     {
         if (steadyState() > 1E-2)
         {
+            impl->simulateOpt.steps = orig_steps;
             throw CoreException("Unable to locate steady state during control coefficient computation");
         }
     }
@@ -2816,6 +2819,8 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
     T4.setRowNames(getFloatingSpeciesIds());
     T4.setColNames(getReactionIds());
+
+    impl->simulateOpt.steps = orig_steps;
 
     return T4;
 }
