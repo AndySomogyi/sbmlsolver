@@ -1195,7 +1195,7 @@ namespace std { class ostream{}; }
 
             return result
 
-        def simulateOld(self, *args, **kwargs):
+        def __simulateOld(self, *args, **kwargs):
             """
             DEPRECATED!!!!!!!!!!!!!!!!
             WILL BE REMOVED
