@@ -242,7 +242,7 @@ here. The variable type of the parameter is listed after the key name.
    :module: RoadRunner
    :annotation: int
 
-   disable SBML conserved moiety warnings.
+   Disable SBML conserved moiety warnings.
 
    Conserved Moiety Conversion may cause unexpected behavior, be aware of what it
    is before enabling. 
@@ -259,6 +259,27 @@ here. The variable type of the parameter is listed after the key name.
    Rationale for these numbers: This is actual a bit field, disabling the steady state 
    warning value is actually 0b01 << 0 which is 1, and the loading warning is 0b01 << 1 
    which is 2 and 0b01 & 0b10 is 0b11 which is 3 in decimal. 
+
+
+.. attribute:: Config.LOADSBMLOPTIONS_PERMISSIVE
+   :module: RoadRunner
+   :annotation: int
+
+   Accept some non-valid SBML (such as Booleans in numberic expressions).
+
+   For legacy code only. Do not use.
+
+
+.. attribute:: Config.MAX_OUTPUT_ROWS
+   :module: RoadRunner
+   :annotation: int
+
+   Set the maximum number of rows in the output matrix.
+
+   For models with very fine time stepping, the output of simulate can
+   use up all available memory and crash the system. This option provides
+   an upper bound on the maximum number of rows the output can contain.
+   The simulation will be aborted and the output truncated if this value is exceeded.
 
 
 
