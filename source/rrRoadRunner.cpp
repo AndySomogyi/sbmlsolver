@@ -1320,7 +1320,8 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
             int n=0;
 
             while( tout < timeEnd &&
-              ( !self.simulateOpt.steps || n < self.simulateOpt.steps) )
+              ( !self.simulateOpt.steps || n < self.simulateOpt.steps) &&
+              ( !rr::Config::getInt(rr::Config::MAX_OUTPUT_ROWS) || n < rr::Config::getInt(rr::Config::MAX_OUTPUT_ROWS)) )
             {
                 Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
