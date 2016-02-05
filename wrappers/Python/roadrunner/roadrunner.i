@@ -1258,10 +1258,10 @@ namespace std { class ostream{}; }
                 will have N+1 data rows.
 
             stiff
-                DEPRECATED: use solver API (only available for some solvers).
+                DEPRECATED: use solver API (this setting only available for some solvers).
 
             seed
-                DEPRECATED: use solver API (only available for some solvers).
+                DEPRECATED: use solver API (this setting only available for some solvers).
 
 
             :returns: a numpy array with each selected output time series being a
