@@ -27,7 +27,7 @@ stiffer systems which require tighter tolerances . Note that specifying very tig
 drastically decrease performance. 
 
 Another parameter which is a significant role in numeric stability and performance is the initial
-time step. If no initial time step is provided (initialTimeStep < 0, the default
+time step. If no initial time step is provided (initial time step < 0, the default
 value), the internal integrator (defaults to CVODE) will estimate an initial time step based on
 total time span and and other numeric attributes calculated from the system. If the estimated
 initial time step is too large, then a significant amount of time will be spent by the integrator
@@ -39,13 +39,16 @@ has been increased, the simulation time may be over.
 If one encounters exceptions from the integrator, the first thing that one should try is specifying
 an initial time step and tighter absolute and relative tolerances. 
 
-All of the parameters to tune the integration are optional keyword arguments to
-:meth:`RoadRunner.simulate()`. Setting these values may be performed as::
+All of the parameters to tune the integration are specified on the integrator object:
 
   r=roadrunner.RoadRunner("mymodel.xml")
-  r.integrate(0, 10, absolute = 5e-10, initialTimeStep = 0.00001 )
+  # specify absolute and relative tolerances
+  r.integrator.absolute_tolerance = 5e-10
+  r.integrator.relative_tolerance = 1e-3
+  r.integrator.initial_time_step = 0.00001
+  r.simulate(0, 10)
 
-This will specify the absolute precision and initial time step, and will integrate the system from
+This will specify the absolute and relative tolerances and initial time step, and will integrate the system from
 time 0 to 10. The internal integrator will take many time steps before it reaches time 10. 
 
 
