@@ -22,7 +22,7 @@
 
 %{
     #define SWIG_FILE_WITH_INIT
-    // see discission on import array,
+    // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
     #include <numpy/arrayobject.h>
