@@ -25,7 +25,7 @@ from roadrunner import Logger
 import re
 import numpy
 from numpy import *
-
+import os
 
 # Module wide file handle
 fHandle = ''
@@ -1052,6 +1052,25 @@ def checkEventPreandPostfireTimepoints(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
+def unitTestIntegratorSettings(testDir):
+    errorFlag = False
+
+    r = roadrunner.RoadRunner(os.path.join(testDir,'Test_1.xml'))
+
+    r.setIntegrator('cvode')
+    r.getIntegratorByName('gillespie').seed = 12345
+    r.setIntegrator('gillespie')
+    if r.getIntegrator().getSetting('seed') != 12345:
+        errorFlag = True
+
+    r.setIntegrator('cvode')
+    r.setIntegratorSetting('gillespie', 'seed', 54321)
+    r.setIntegrator('gillespie')
+    if r.getIntegrator().getSetting('seed') != 54321:
+        errorFlag = True
+
+    print(passMsg (errorFlag))
+
 
 
 
@@ -1217,6 +1236,9 @@ def runTester (testDir=None):
                 unknownTests = unknownTests+1
                 print(string.ljust (testId, rpadding), 'UNKNOWN TEST')
             testId = jumpToNextTest()
+
+    for testFunc in [unitTestIntegratorSettings]:
+      testFunc(testDir)
         
     print("\n\nTotal failed tests:\t", gFailedTests, \
     "\nTotal unknown tests:\t", unknownTests, \

@@ -3088,6 +3088,21 @@ Integrator* RoadRunner::getIntegrator()
     return impl->integrator;
 }
 
+Integrator* RoadRunner::getIntegratorByName(const std::string& name)
+{
+    // ensure it exists
+    makeIntegrator(name);
+    // find it and return
+    for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it)
+    {
+        if ((*it)->getName() == name)
+        {
+            return *it;
+        }
+    }
+    throw std::runtime_error("No integrator implemented for \"" + name + "\"");
+}
+
 SteadyStateSolver* RoadRunner::getSteadyStateSolver()
 {
     return impl->steady_state_solver;
@@ -3095,38 +3110,48 @@ SteadyStateSolver* RoadRunner::getSteadyStateSolver()
 
 std::vector<std::string> RoadRunner::getExistingIntegratorNames()
 {
-	std::vector<std::string> result;
-	int i = 0;
-	for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
-	{
-		result.push_back(impl->integrators.at(i)->getName());
-	}
-	return result;
+    std::vector<std::string> result;
+    int i = 0;
+    for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+    {
+        result.push_back(impl->integrators.at(i)->getName());
+    }
+    return result;
 }
 
 void RoadRunner::setIntegrator(std::string name)
 {
     Log(Logger::LOG_DEBUG) << "Setting integrator to " << name;
-	// Try to set integrator from an existing reference.
-	if (integratorExists(name))
-	{
-		int i = 0;
-		for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
-		{
-			if (impl->integrators.at(i)->getName() == name)
-			{
-                Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
-				impl->integrator = impl->integrators.at(i);
-			}
-		}
-	}
-	// Otherwise, create a new integrator.
-	else
-	{
-        Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
-		impl->integrator = IntegratorFactory::getInstance().New(name, impl->model);
-		impl->integrators.push_back(impl->integrator);
-	}
+    // Try to set integrator from an existing reference.
+    if (integratorExists(name))
+    {
+      int i = 0;
+      for (std::vector<Integrator*>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i)
+      {
+        if (impl->integrators.at(i)->getName() == name)
+        {
+            Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
+            impl->integrator = impl->integrators.at(i);
+        }
+      }
+    }
+    // Otherwise, create a new integrator.
+    else
+    {
+        impl->integrator = makeIntegrator(name);
+    }
+}
+
+Integrator* RoadRunner::makeIntegrator(std::string name)
+{
+    if (integratorExists(name)) {
+        Log(Logger::LOG_DEBUG) << "Integrator \"" << name << "\" already exists";
+        return NULL;
+    }
+    Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
+    Integrator* result = IntegratorFactory::getInstance().New(name, impl->model);
+    impl->integrators.push_back(result);
+    return result;
 }
 
 

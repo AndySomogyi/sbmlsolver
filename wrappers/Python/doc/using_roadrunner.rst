@@ -335,6 +335,16 @@ Parameters also have a display name:
   >>>  r.getIntegrator().getDisplayName('relative_tolerance')
   'Relative Tolerance'
 
+If you prefer to change settings on integrators without switching the current integrator,
+you can use :ref:`getIntegratorByName` as follows:
+
+  >>>  r.getIntegratorByName('gillespie').seed = 12345
+
+Also, if you find yourself switching back and forth between integrators a lot, you can use
+:ref:`setIntegratorSetting`.
+
+  >>>  r.setIntegratorSetting('gillespie', 'seed', 12345)
+
 The other type of solver is a steady-state solver, which works in essentially the same way:
 
   >>>  r.getSteadyStateSolver().getSettings()

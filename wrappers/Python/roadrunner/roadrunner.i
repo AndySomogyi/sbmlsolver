@@ -1518,12 +1518,32 @@ namespace std { class ostream{}; }
 
         @property
         def integrator(self):
-            '''The current integrator'''
+            '''Get the current integrator object'''
             return self.getIntegrator()
 
         @integrator.setter
         def integrator(self, v):
             self.setIntegrator(v)
+
+        def setIntegratorSetting(self, integratorName, settingName, value):
+            import sys
+            if sys.version_info >= (3,0):
+                if not isinstance(integratorName, str):
+                    raise ValueError('Expected integratorName to be a string')
+                if not isinstance(settingName, str):
+                    raise ValueError('Expected settingName to be a string')
+            else:
+                if not isinstance(integratorName, basestring):
+                    raise ValueError('Expected integratorName to be a string')
+                if not isinstance(settingName, basestring):
+                    raise ValueError('Expected settingName to be a string')
+
+            # store original integrator and switch back to it afterwards
+            origIntegrator = self.getIntegrator().getName()
+
+            self.setIntegrator(integratorName)
+            self.getIntegrator().setValue(settingName, value)
+            self.setIntegrator(origIntegrator)
 
         @property
         def steadyStateSolver(self):

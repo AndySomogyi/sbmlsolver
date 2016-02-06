@@ -314,6 +314,8 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
 
     file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
 
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+
     foreach( f ${TEST_FILES} )
         if(NOT IS_DIRECTORY ${f})
             get_filename_component( FILE_NAME ${f} NAME )
@@ -323,6 +325,13 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     endforeach()
 
     foreach( f ${PYTHON_TEST_DATA} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
+    foreach( f ${TEST_DATA_XML} )
         if(NOT IS_DIRECTORY ${f})
             get_filename_component( FILE_NAME ${f} NAME )
             configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )

@@ -114,6 +114,16 @@ public:
     Integrator* getIntegrator();
 
     /**
+     * Get an integrator by name without switching the current integrator
+     */
+    Integrator* getIntegratorByName(const std::string& name);
+
+    /**
+     * Make an integrator for the given name
+     */
+    Integrator* makeIntegrator(std::string name);
+
+    /**
      * get a pointer to the current steady state solver
      */
     SteadyStateSolver* getSteadyStateSolver();
