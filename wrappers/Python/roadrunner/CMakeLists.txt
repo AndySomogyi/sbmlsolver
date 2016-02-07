@@ -172,3 +172,9 @@ install(
     FILES ${rrtest_files}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
+
+file(GLOB rrtest_files "${RR_ROOT}/testing/*.xml")
+install(
+    FILES ${rrtest_files}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
+)
