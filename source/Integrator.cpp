@@ -48,6 +48,7 @@ namespace rr
     {
         std::stringstream ss;
         ss << "< roadrunner.Integrator() >\n";
+        ss << "  name: " << getName() << "\n";
         ss << "  settings:\n";
         ss << getSettingsRepr();
         return ss.str();
@@ -57,7 +58,7 @@ namespace rr
     std::string Integrator::toRepr() const
     {
         std::stringstream ss;
-        ss << "< roadrunner.Integrator() " << settingsPyDictRepr() << " >\n";
+        ss << "< roadrunner.Integrator() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
         return ss.str();
     }
 
