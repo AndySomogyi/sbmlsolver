@@ -50,6 +50,7 @@ static bool httpFactoryRegistered = false;
 static bool is_sbml(const std::string& str)
 {
     //<?xml version="1.0" encoding="UTF-8"?> <sbml level="3" version="1" xmlns="http://www.sbml.org/sbml/level3/version1/core">
+    // try first with xml declaration
     size_t pos = str.find("<");
     if (pos != std::string::npos)
     {
@@ -80,6 +81,13 @@ static bool is_sbml(const std::string& str)
                 }
             }
         }
+    }
+    // try without xml declaration
+    pos = str.find("<");
+    if (pos != std::string::npos)
+    {
+        pos = str.find("sbml", pos + 1);
+        return pos != std::string::npos;
     }
     return false;
 }
