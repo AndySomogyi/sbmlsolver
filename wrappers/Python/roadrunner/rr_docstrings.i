@@ -1279,6 +1279,17 @@ Compute the frequency response
 
 
 
+%feature("docstring") rr::RoadRunner::getSupportedIdTypes "
+RoadRunner.getSupportedIdTypes()
+
+Returns a bitfield representing the element ID types which can be used with e.g.
+RoadRunner.getValue
+
+:rtype: numpy.ndarray
+";
+
+
+
 %feature("docstring") rr::SelectionRecord "
 SelectionRecord.__init__(str)
 Create a new selection record. This constructor really should not be called,
