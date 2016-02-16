@@ -37,3 +37,7 @@ install(FILES INSTALL.txt setup.py MANIFEST.in
         DESTINATION .    
        )
 
+if(WITH_CONDA_BUILDER)
+  configure_file(conda/meta.yaml.in conda/meta.yaml @ONLY)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/conda/meta.yaml conda/build.sh conda/bld.bat DESTINATION .)
+endif()

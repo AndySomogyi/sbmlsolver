@@ -1,0 +1,20 @@
+package:
+  name: libroadrunner
+  version: @ROADRUNNER_VERSION@
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy >=1.9
+  run:
+    - numpy >=1.9
+
+app:
+  summary: "An SBML Modeling and Simulation Engine"
+  entry: ipython notebook
+  icon: assets/roadrunner-64x64-red.png
+
+about:
+  home: https://github.com/sys-bio/sbml2matlab
+  license: BSD 3-Clause
