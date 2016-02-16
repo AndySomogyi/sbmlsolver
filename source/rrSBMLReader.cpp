@@ -20,6 +20,7 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <cctype>
 
 #include <sbml/SBMLReader.h>
 #include <sbml/conversion/SBMLConverterRegistry.h>
