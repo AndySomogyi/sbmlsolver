@@ -18,3 +18,7 @@ app:
 about:
   home: https://github.com/sys-bio/sbml2matlab
   license: BSD 3-Clause
+
+extra:
+  maintainers:
+   - Kyle Medley (https://github.com/0u812)
