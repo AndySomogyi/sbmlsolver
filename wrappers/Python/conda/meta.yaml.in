@@ -9,6 +9,7 @@ requirements:
     - numpy >=1.9
   run:
     - numpy >=1.9
+    - matplotlib
 
 app:
   summary: "An SBML Modeling and Simulation Engine"
