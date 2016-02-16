@@ -17,7 +17,7 @@ app:
 
 about:
   home: https://github.com/sys-bio/sbml2matlab
-  license: BSD 3-Clause
+  license: Apache 2.0
 
 extra:
   maintainers:
