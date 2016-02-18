@@ -3119,6 +3119,32 @@ std::vector<std::string> RoadRunner::getExistingIntegratorNames()
     return result;
 }
 
+std::vector<std::string> RoadRunner::getRegisteredIntegratorNames()
+{
+    std::vector<std::string> result;
+    for (int n = 0; n<IntegratorFactory::getInstance().getNumIntegrators(); ++n) {
+        result.push_back(IntegratorFactory::getInstance().getIntegratorName(n));
+    }
+    return result;
+}
+
+void RoadRunner::ensureSolversRegistered()
+{
+    // must be run to register integrators at startup
+    IntegratorRegistrationMgr::Register();
+    // must be run to register solvers at startup
+    SolverRegistrationMgr::Register();
+}
+
+std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames()
+{
+    std::vector<std::string> result;
+    for (int n = 0; n<SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers(); ++n) {
+        result.push_back(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
+    }
+    return result;
+}
+
 void RoadRunner::setIntegrator(std::string name)
 {
     Log(Logger::LOG_DEBUG) << "Setting integrator to " << name;

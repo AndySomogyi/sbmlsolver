@@ -2655,3 +2655,12 @@ namespace std { class ostream{}; }
         if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
      %}
 }
+
+
+// Copy this code ad verbatim to the Python module
+%pythoncode %{
+RoadRunner.ensureSolversRegistered()
+integrators = list(RoadRunner.getRegisteredIntegratorNames())
+steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
+solvers = integrators + steadyStateSolvers
+%}

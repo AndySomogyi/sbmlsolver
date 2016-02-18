@@ -131,6 +131,21 @@ public:
 	/* Return a list of the names of all existing integrators. */
 	std::vector<std::string> getExistingIntegratorNames();
 
+    /**
+     * Return a vector of the names of all registered integrators
+     */
+    static std::vector<std::string> getRegisteredIntegratorNames();
+
+    /**
+     * Return a vector of the names of all registered integrators
+     */
+    static std::vector<std::string> getRegisteredSteadyStateSolverNames();
+
+    /**
+     * Ensures all integrators and steady state solvers are registered
+     */
+    static void ensureSolversRegistered();
+
 	// DEPRECATED
 	//Integrator* getIntegrator(std::string name);
 
