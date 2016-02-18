@@ -79,6 +79,7 @@ void NLEQInterface::setup()
 {
     // size of state vector
     n = model->getStateVector(0);
+    Log(Logger::LOG_DEBUG) << "NLEQInterface: size of state vector = " << n;
 
     // Allocate space, see NLEQ docs for details
     LWRK = (n + 2 + 15)*n + 61;
@@ -131,15 +132,12 @@ bool NLEQInterface::isAvailable()
     return false;
 }
 
-double NLEQInterface::solve(const vector<double>& yin)
+double NLEQInterface::solve()
 {
     // lock so only one thread can be here.
     Mutex::ScopedLock lock(mutex);
 
-    if (yin.size() == 0)
-    {
-        return 0;
-    }
+    Log(Logger::LOG_DEBUG) << "NLEQInterface::solve";
 
     // Set up a dummy Jacobian, actual Jacobian is computed
     // by NLEQ using finite differences
@@ -286,6 +284,8 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     if (rr::Logger::getLevel() >= Logger::LOG_DEBUG)
     {
         std::stringstream ss;
+
+        ss << "NLEQ ModelFunction" << std::endl;
 
         ss << "y: [";
         for (int i = 0; i < *nx; ++i)

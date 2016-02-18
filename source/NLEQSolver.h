@@ -88,7 +88,7 @@ class RR_DECLSPEC NLEQSolver : public SteadyStateSolver
         static std::string getNLEQHint();
 
         // ** Solver routines
-        double solve(const vector<double>& yin);
+        double solve();
 
     private:
         ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function

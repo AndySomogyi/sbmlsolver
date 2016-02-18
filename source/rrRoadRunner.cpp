@@ -1039,8 +1039,8 @@ double RoadRunner::steadyState(const Dictionary* dict)
     }
 
     //Get a std vector for the solver
-    vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
-    impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
+//     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
+//     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
     if (!impl->steady_state_solver) {
         Log(Logger::LOG_ERROR)<<"No steady state solver";
@@ -1049,7 +1049,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
     Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
 
-    double ss = impl->steady_state_solver->solve(someAmounts);
+    double ss = impl->steady_state_solver->solve();
     if(ss < 0)
     {
         Log(Logger::LOG_ERROR)<<"Steady State solver failed...";

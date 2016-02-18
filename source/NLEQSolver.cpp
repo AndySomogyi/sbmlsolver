@@ -80,7 +80,7 @@ std::string NLEQSolver::getNLEQHint() {
 	return "Steady-state nonlinear systems of equations solver";
 }
 
-double NLEQSolver::solve(const vector<double>& yin)
+double NLEQSolver::solve()
 {
     Log(Logger::LOG_DEBUG) << "NLEQSolver::solve";
 
@@ -90,7 +90,7 @@ double NLEQSolver::solve(const vector<double>& yin)
 //     nleq->relativeTolerance = getValue("relative_tolerance");
 //     nleq->minDamping = getValue("minimum_damping");
 
-    double result = nleq->solve(yin);
+    double result = nleq->solve();
     delete nleq;
     return result;
 }
