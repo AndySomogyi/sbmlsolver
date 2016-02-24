@@ -91,6 +91,9 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
 # should we build the swig python wrapper?
 option (BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
 set( PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages directory" )
+if(BUILD_PYTHON)
+  set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
+endif()
 
 # should we build the swig Java wrapper?
 option (BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)

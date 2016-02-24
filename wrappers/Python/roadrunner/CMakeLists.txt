@@ -122,8 +122,6 @@ else(WIN32)
 
 endif(WIN32)
 
-set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
-
 install(
     TARGETS _roadrunner
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}

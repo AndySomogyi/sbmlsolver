@@ -276,6 +276,7 @@ if(RR_BUILD_SHARED_CORE)
             LIBRARY DESTINATION lib COMPONENT rr_core
             ARCHIVE DESTINATION lib COMPONENT rr_core
             )
+        install(TARGETS roadrunner DESTINATION ${PYTHON_PACKAGE_DEST_DIR})
     endif()
 
 
