@@ -596,12 +596,12 @@ related to metabolic control analysis are applicable. These methods are describe
    return concentration control coefficients with respect to species S1 and S2.
 
    :param variable: The id of a dependent variable of the coefficient, for example a
-                    flux or species concentration.
+                    reaction or species concentration.
 
    :param parameter: The id of the independent parameter, for example a kinetic constant
                      or boundary species
 
-   :returns: the value of the control coefficient returned to the caller.
+   :returns: the value of the scaled control coefficient.
 
    :rtype: double
 
@@ -611,11 +611,15 @@ related to metabolic control analysis are applicable. These methods are describe
 
    Get unscaled control coefficient with respect to a global parameter.
 
-   :param variableId: must be either a reaction or floating species.
+   :param variableId: The id of a dependent variable of the coefficient, for example a
+                    reaction or species concentration.
 
-   :param parameterId: must be either a global parameter, boundary species, or
-                       conserved sum.
+   :param parameterId: The id of the independent parameter, for example a kinetic constant
+                     or boundary species
+					 
+   :returns: the value of the unscaled control coefficient.
 
+   :rtype: double
 					   
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: RoadRunner
@@ -625,11 +629,11 @@ related to metabolic control analysis are applicable. These methods are describe
    For example::
 
      x = rr.getEE ('J1', 'Vmax')
+	 
+   calculates elasticity coefficient of reaction 'J1' with restpect to parameter 'Vmax'.
 
-   :param str variable: The dependent variable of the coefficient, for example a flux or
-                        species concentration.
-   :param str parameter: The independent parameter, for example a kinetic constant or boundary
-                         species
+   :param str variable: A reaction Id
+   :param str parameter: The independent parameter, for example a kinetic constant, floating or boundary species
    :param Boolean steadyState: should the steady state value be computed.
 
 

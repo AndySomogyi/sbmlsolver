@@ -66,7 +66,7 @@ Once a model is successfully loaded we can run a time course simulation. To run 
 
 The output will be in a Python numpy array. The first column will contain time points and the remaining columns will include
 all the floating species amounts/concentrations. In the simulate method we didn't specify how long to run the simulation or how many
-points to generate.  By default the starting time is set to zero, ending time to 10 and the number of points to 50.
+points to generate.  By default the starting time is set to zero, ending time to 10 and the number of points to 51.
 There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`RoadRunner.simulate()` 
 in the following manner::
 
@@ -92,7 +92,7 @@ steps             Number of steps at which the output is sampled where the sampl
 absolute          Absolute tolerance for the CVODE integrator
 relative          Relative tolerance for the CVODE integrator
 stiff             Tells the integrator to use the fully implicit backward difference stiff solver.
-                  Only use this if the model is stiff.
+                  Use this option only if the model is stiff.
 reset             Resets the SBML state to the original values specified in the SBML.
 structuredResult  If set (default is True), the result from simulate is a numpy structured array
                   with the column names set to the selections. This is required for plotting and
@@ -104,7 +104,7 @@ integrator        a string of either "cvode" for deterministic simulations, or "
 plot              True or False, plot the results of the simulation. 
 ================  =============
 
-One important point to note about simulate():: When simulate() is run, the concentration of
+One important point to note about simulate(): When simulate() is run, the concentration of
 the floating species will naturally change. If simulate() is called a second time, the simulation
 will start the simulation from the previous simulated values. This can be used to easily follow on
 simulations. However there will be times when we wish to run the same simulation again but perhaps
