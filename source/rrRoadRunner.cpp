@@ -1058,6 +1058,12 @@ double RoadRunner::steadyState(const Dictionary* dict)
     return ss;
 }
 
+DoubleMatrix RoadRunner::steadyStateNamedArray(const Dictionary* dict)
+{
+    steadyState();
+    return getSteadyStateValuesNamedArray();
+}
+
 
 
 
@@ -1967,6 +1973,42 @@ vector<double> RoadRunner::getSteadyStateValues()
         result.push_back(getValue(impl->mSteadyStateSelection[i]));
     }
     return result;
+}
+
+std::vector<std::string> RoadRunner::getSteadyStateSelectionStrings() const
+{
+    std::vector<std::string> r;
+
+    for (int i = 0; i < impl->mSteadyStateSelection.size(); i++)
+    {
+        r.push_back(impl->mSteadyStateSelection[i].to_string());
+    }
+
+    return r;
+}
+
+DoubleMatrix RoadRunner::getSteadyStateValuesNamedArray()
+{
+    if (!impl->model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+    if(impl->mSteadyStateSelection.size() == 0)
+    {
+        createDefaultSteadyStateSelectionList();
+    }
+
+    steadyState();
+
+    DoubleMatrix v(1,impl->mSteadyStateSelection.size());
+    for (int i = 0; i < impl->mSteadyStateSelection.size(); i++)
+    {
+        v(0,i) = getValue(impl->mSteadyStateSelection[i]);
+    }
+
+    v.setColNames(getSteadyStateSelectionStrings());
+
+    return v;
 }
 
 string RoadRunner::getModelName()

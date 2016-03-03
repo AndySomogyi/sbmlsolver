@@ -661,6 +661,11 @@ public:
     double steadyState(const Dictionary* dict = 0);
 
     /**
+     * Like @ref steadyState but returns a named array of the steady state values
+     */
+    ls::DoubleMatrix steadyStateNamedArray(const Dictionary* dict = 0);
+
+    /**
      * returns the current set of steady state selections.
      */
     std::vector<rr::SelectionRecord>& getSteadyStateSelections();
@@ -685,6 +690,16 @@ public:
      * the steady state selections.
      */
     std::vector<double> getSteadyStateValues();
+
+    /**
+     * Returns a vector of the steady state selection strings
+     */
+    std::vector<std::string> getSteadyStateSelectionStrings() const;
+
+    /**
+     * Like @ref getSteadyStateValues but returns a named array
+     */
+    ls::DoubleMatrix getSteadyStateValuesNamedArray();
 
     /******************************* End Steady State Section *********************/
     #endif /***********************************************************************/
