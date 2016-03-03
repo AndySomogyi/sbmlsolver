@@ -188,7 +188,7 @@ def checkSteadyStateFluxes(rrInstance, testId):
     words = []
     fluxes = []
     # Steady State Fluxes
-    print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState())
+    print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyStateTime())
     print(string.ljust ("Check " + testId, rpadding), end="")
     errorFlag = False
     n = rrInstance.model.getNumReactions();
@@ -468,9 +468,9 @@ def checkSetSteadyStateSelectionList(rrInstance, testId):
     rrInstance.conservedMoietyAnalysis = True
     rrInstance.steadyStateSelections = words
     print(passMsg (errorFlag))
-    time = rrInstance.steadyState()
+    time = rrInstance.steadyStateTime()
     if (time>0.00001):
-        time = rrInstance.steadyState()
+        time = rrInstance.steadyStateTime()
     print("Computing Steady State.  Distance to SteadyState:", time)
 
 
