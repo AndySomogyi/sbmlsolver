@@ -1478,6 +1478,8 @@ namespace std { class ostream{}; }
             if result is None:
                 raise Exception("no simulation result")
 
+            rval = []
+
             # check if standard numpy array
             if result.dtype.names is None:
 
@@ -1491,7 +1493,7 @@ namespace std { class ostream{}; }
                 for i in range(1, len(timeCourseSelections)):
                     series = result[:,i]
                     name = timeCourseSelections[i]
-                    p.plot(times, series, label=str(name), linewidth=2)
+                    rval.append(p.plot(times, series, label=str(name), linewidth=2))
 
             # result is structured array
             else:
@@ -1501,12 +1503,14 @@ namespace std { class ostream{}; }
                 time = result.dtype.names[0]
 
                 for name in result.dtype.names[1:]:
-                    p.plot(result[time], result[name], label=name, linewidth=2)
+                    rval.append(p.plot(result[time], result[name], label=name, linewidth=2))
 
             p.legend()
 
             if show:
                 p.show()
+
+            return rval
 
         def getIndependentFloatingSpeciesIds(self):
             return list(self._getIndependentFloatingSpeciesIds())
