@@ -1505,12 +1505,18 @@ namespace std { class ostream{}; }
                 for name in result.dtype.names[1:]:
                     rval.append(p.plot(result[time], result[name], label=name, linewidth=2))
 
-            p.legend()
-
             if show:
                 p.show()
 
             return rval
+
+        def plotLegend(self):
+            import matplotlib.pyplot as p
+            p.legend()
+
+        def showPlot(self):
+            import matplotlib.pyplot as p
+            p.show()
 
         def getIndependentFloatingSpeciesIds(self):
             return list(self._getIndependentFloatingSpeciesIds())
