@@ -112,7 +112,7 @@ if(SWIG_FOUND)
       roadrunner-static
       rr-libstruct-static
       nleq-static
-      sbml-static
+      ${LIBSBML_STATIC_LIBRARY}
       lapack
       blas
       f2c

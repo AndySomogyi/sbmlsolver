@@ -90,7 +90,7 @@ else(WIN32)
             roadrunner
             rr-libstruct-static
             nleq-static
-            sbml-static
+            ${LIBSBML_STATIC_LIBRARY}
             lapack
             blas
             f2c
@@ -101,7 +101,7 @@ else(WIN32)
             roadrunner-static
             rr-libstruct-static
             nleq-static
-            sbml-static
+            ${LIBSBML_STATIC_LIBRARY}
             lapack
             blas
             f2c

@@ -248,16 +248,16 @@ if(RR_BUILD_SHARED_CORE)
     if(UNIX)
         target_link_libraries (${target}
             pthread
-            sbml-static
+            ${LIBSBML_STATIC_LIBRARY}
             dl
             f2c${staticLibExt}
             )
     else()
         target_link_libraries (${target}
             libf2c
-            libsbml
-        ws2_32
-        iphlpapi
+            ${LIBSBML_LIBRARY}
+            ws2_32
+            iphlpapi
             )
     endif(UNIX)
 
@@ -330,17 +330,17 @@ target_link_libraries (${target}-static
 
 if(WIN32)
     target_link_libraries (${target}-static
-        libsbml-static
+        ${LIBSBML_STATIC_LIBRARY}
         libf2c
-    ws2_32
-    iphlpapi
+        ws2_32
+        iphlpapi
         )
 endif(WIN32)
 
 
 if(UNIX)
     target_link_libraries (${target}-static
-        sbml-static
+        ${LIBSBML_STATIC_LIBRARY}
         f2c
         xml2
         dl

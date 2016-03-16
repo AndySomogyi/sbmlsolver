@@ -207,6 +207,10 @@ else()
 	include_directories(${LIBXML2_INCLUDE_DIR})
 endif(WIN32)
 
+find_library(LIBSBML_LIBRARY sbml HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_library(LIBSBML_STATIC_LIBRARY sbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_path(LIBSBML_INCLUDE_DIR sbml/SBMLTypes.h HINTS ${THIRD_PARTY_INSTALL_FOLDER}/include)
+
 
 if (${BUILD_LLVM})
     link_directories(
@@ -288,6 +292,44 @@ else()
     message(STATUS "not building legacy C backend")
 endif(BUILD_LEGACY_C)
 
+message(STATUS "
+-------------------------------------------------------------------------------
+libRoadRunner Configuration Summary
+-------------------------------------------------------------------------------
+
+    For up-to-date news and releases visit libroadrunner.org
+
+    Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
+      host OS                   ${CMAKE_SYSTEM_NAME}
+      host architecture         ${CMAKE_SYSTEM_PROCESSOR}
+
+    General flags:
+      CC                        ${CMAKE_C_COMPILER}
+      CXX                       ${CMAKE_CXX_COMPILER}
+      CPPFLAGS                  ${BUILD_DEFINITIONS}
+      CFLAGS                    ${CMAKE_C_FLAGS}
+      CXXFLAGS                  ${CMAKE_CXX_FLAGS}
+      LDFLAGS                   ${CMAKE_EXE_LINKER_FLAGS}
+
+    Installation prefix:        ${CMAKE_INSTALL_PREFIX}
+
+    Options:
+      With LLVM?                ${BUILD_LLVM}
+      With legacy C? (DEP)      ${BUILD_LEGACY_C}
+      Enable Python interface?  ${BUILD_PYTHON}
+      Enable Java interface?    ${BUILD_JAVA_INTERFACE}
+      Enable test suite?        ${BUILD_TESTS}
+
+    Dependencies (packages marked with *** are required):
+    "
+)
+
+message( "  *** libSBML")
+message( "       libSBML libs               ${LIBSBML_LIBRARY}")
+message( "       libSBML static libs        ${LIBSBML_STATIC_LIBRARY}")
+message( "       libSBML includes           ${LIBSBML_INCLUDE_DIR}")
+
+message( "" )
 
 # We alway have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
