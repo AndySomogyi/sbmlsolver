@@ -87,11 +87,8 @@ def _copyDistFiles():
     if platform.system().lower().startswith("win"):
         print("copying windows dlls...")
 
-        shutil.copyfile("bin/iconv.dll",      "site-packages/roadrunner/iconv.dll")
-        shutil.copyfile("bin/msvcp120.dll",   "site-packages/roadrunner/msvcp120.dll")
-        shutil.copyfile("bin/msvcr120.dll",   "site-packages/roadrunner/msvcr120.dll")
-        shutil.copyfile("bin/libxml2.DLL",    "site-packages/roadrunner/libxml2.dll")
-        shutil.copyfile("bin/zlib1.dll",      "site-packages/roadrunner/zlib1.dll")
+        shutil.copyfile("bin/msvcp140.dll",   "site-packages/roadrunner/msvcp140.dll")
+        shutil.copyfile("bin/vcruntime140.dll",   "site-packages/roadrunner/vcruntime140.dll")
 
     import glob
     for f in glob.glob("*.txt"):
