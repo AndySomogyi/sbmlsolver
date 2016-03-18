@@ -252,6 +252,7 @@ if(RR_BUILD_SHARED_CORE)
             dl
             f2c${staticLibExt}
             )
+        target_link_libraries(${target} ${LIBSBML_EXTRA_LIBS})
     else()
         target_link_libraries (${target}
             libf2c
@@ -259,6 +260,7 @@ if(RR_BUILD_SHARED_CORE)
             ws2_32
             iphlpapi
             )
+        target_link_libraries(${target} ${LIBSBML_EXTRA_LIBS})
     endif(UNIX)
 
 
@@ -335,6 +337,7 @@ if(WIN32)
         ws2_32
         iphlpapi
         )
+    target_link_libraries(${target}-static ${LIBSBML_EXTRA_LIBS})
 endif(WIN32)
 
 
@@ -346,6 +349,7 @@ if(UNIX)
         dl
         pthread
         )
+    target_link_libraries(${target}-static ${LIBSBML_EXTRA_LIBS})
 endif(UNIX)
 
 #Libxml we can't build right now

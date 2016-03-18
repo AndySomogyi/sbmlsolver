@@ -205,12 +205,30 @@ else()
     find_package(LibXml2 REQUIRED)
 	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}")
 	include_directories(${LIBXML2_INCLUDE_DIR})
-endif(WIN32)
+endif()
 
 find_library(LIBSBML_LIBRARY sbml libsbml HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
 find_library(LIBSBML_STATIC_LIBRARY sbml-static libsbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
 find_path(LIBSBML_INCLUDE_DIR sbml/SBMLTypes.h HINTS ${THIRD_PARTY_INSTALL_FOLDER}/include)
 
+# find libSBML deps
+
+if(WIN32)
+  find_library(ICONV_LIBRARY iconv libiconv HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+  if(NOT ICONV_LIBRARY)
+    message(SEND_ERROR "Could not find libiconv, required for libSBML linking")
+  endif()
+  find_library(ZLIB_LIBRARY z zdll HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+  if(NOT ZLIB_LIBRARY)
+    message(SEND_ERROR "Could not find zlib, required for libSBML linking")
+  endif()
+  find_library(BZ2_LIBRARY bz2 libbz2 HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+  if(NOT BZ2_LIBRARY)
+    message(SEND_ERROR "Could not find libbz2, required for libSBML linking")
+  endif()
+
+  set(LIBSBML_EXTRA_LIBS "${ICONV_LIBRARY};${ZLIB_LIBRARY};${BZ2_LIBRARY}" CACHE STRING "libSBML extra libraries")
+endif()
 
 if (${BUILD_LLVM})
     link_directories(
