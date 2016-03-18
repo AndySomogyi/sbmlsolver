@@ -207,8 +207,8 @@ else()
 	include_directories(${LIBXML2_INCLUDE_DIR})
 endif(WIN32)
 
-find_library(LIBSBML_LIBRARY sbml HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
-find_library(LIBSBML_STATIC_LIBRARY sbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_library(LIBSBML_LIBRARY sbml libsbml HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_library(LIBSBML_STATIC_LIBRARY sbml-static libsbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
 find_path(LIBSBML_INCLUDE_DIR sbml/SBMLTypes.h HINTS ${THIRD_PARTY_INSTALL_FOLDER}/include)
 
 
