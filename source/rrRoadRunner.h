@@ -706,7 +706,7 @@ public:
     /******************************************************************************/
 
     /*********              Used by rrplugins             *************************/
-    
+
     /**
      * @internal
      * @deprecated
@@ -982,6 +982,10 @@ private:
 
 
     double getNthSelectedOutput(unsigned index, double currentTime);
+
+
+    /// Get the row index of the time variable in the output array (returns -1 if time is not selected)
+    int getTimeRowIndex();
 
     enum VariableType
     {

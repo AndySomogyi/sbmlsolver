@@ -846,6 +846,20 @@ double RoadRunner::getNthSelectedOutput(unsigned index, double currentTime)
     }
 }
 
+int RoadRunner::getTimeRowIndex()
+{
+  for (u_int j = 0; j < impl->mSelectionList.size(); j++)
+  {
+      const SelectionRecord &record = impl->mSelectionList[j];
+      if (record.selectionType == SelectionRecord::TIME)
+      {
+          return (int)j;
+      }
+  }
+  // -1 for failure
+  return -1;
+}
+
 void RoadRunner::getSelectedValues(DoubleMatrix& results, int nRow, double currentTime)
 {
     for (u_int j = 0; j < impl->mSelectionList.size(); j++)
@@ -1344,13 +1358,39 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 
                 getSelectedValues(row, tout);
 
-                // use linear interpolation to ensure last time point is requested end time
+                // use interpolation to ensure last time point is requested end time
                 if( tout > timeEnd ) {
-                    double alpha = (timeEnd - last_tout)/(tout - last_tout);
-                    Log(Logger::LOG_DEBUG) << "simulate: interpolate with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+                    if (!getIntegrator())
+                    {
+                        // should never happen
+                        throw CoreException("No integrator selected in call to simulate");
+                    }
 
-                    for(int n = 0; n<row.size(); ++n) {
-                        row.at(n) = results.back().at(n) + alpha*(row.at(n) - results.back().at(n));
+                    if (getIntegrator()->getName() == "gillespie")
+                    {
+                        // stochastic simulations use flat interpolation
+                        Log(Logger::LOG_DEBUG) << "simulate: use flat interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+
+                        for(int n = 0; n<row.size(); ++n) {
+                            row.at(n) = results.back().at(n);
+                        }
+
+                        int itime = getTimeRowIndex();
+
+                        if (itime >= 0)
+                        {
+                            row.at(itime) = timeEnd;
+                        }
+                    }
+                    else
+                    {
+                        // ODE simulations use linear interpolation
+                        double alpha = (timeEnd - last_tout)/(tout - last_tout);
+                        Log(Logger::LOG_DEBUG) << "simulate: use linear interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+
+                        for(int n = 0; n<row.size(); ++n) {
+                            row.at(n) = results.back().at(n) + alpha*(row.at(n) - results.back().at(n));
+                        }
                     }
                 } else {
                     last_tout = tout;

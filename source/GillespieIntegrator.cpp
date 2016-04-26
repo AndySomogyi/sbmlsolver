@@ -194,7 +194,7 @@ namespace rr
 
         // Set default integrator settings.
         addSetting("seed",              defaultSeed(), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
-        addSetting("variable_step_size",false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
+        addSetting("variable_step_size",true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
         addSetting("initial_time_step", 0.0,   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
         addSetting("minimum_time_step", 0.0,   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("maximum_time_step", 0.0,   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
