@@ -904,8 +904,8 @@ def checkVariableEndTime(rrInstance, testId):
 
     try:
         # passing variableStep to simulate should throw
-        n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
-    except TypeError as e:
+        rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+    except TypeError:
         errorFlag = False
 
     rrInstance.getIntegrator().resetSettings()
@@ -1052,6 +1052,31 @@ def checkEventPreandPostfireTimepoints(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
+def checkGillespieSeed(rrInstance, testId):
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    rrInstance.setIntegrator('gillespie')
+    words = divide(readLine())
+    rrInstance.getIntegrator().setValue('seed', words[0])
+    arr1 = rrInstance.simulate(0,100,steps=10)
+    rrInstance.reset()
+    rrInstance.getIntegrator().setValue('seed', words[1])
+    arr2 = rrInstance.simulate(0,100,steps=10)
+    if arr1[:,0].all() != arr2[:,0].all():
+        errorFlag = True
+    rrInstance.setIntegrator('cvode')
+    print(passMsg (errorFlag))
+    
+def checkGillespieValue(rrInstance, testId):
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    rrInstance.setIntegrator('gillespie')
+    n = rrInstance.simulate(0,100,steps=10)
+    if n[-1,1] != n[-2,1]:
+        errorFlag = True
+    rrInstance.setIntegrator('cvode')
+    print(passMsg (errorFlag))
+
 def unitTestIntegratorSettings(testDir):
     errorFlag = False
 
@@ -1130,6 +1155,8 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Get Steady State Selection List]': checkGetSteadyStateSelectionList,
              '[Get Steady State Selection List 2]': checkGetSteadyStateSelectionList,
              '[Get Time Course Selection List]': checkGetTimeCourseSelectionList,
+             '[Gillespie Seed]': checkGillespieSeed,
+             '[Gillespie Value]': checkGillespieValue,
              '[Global Parameter Ids]': checkGetGlobalParameterIds,
              '[Individual Eigenvalues]': checkIndividualEigenvalues,
              '[Individual Amount Eigenvalues]': checkIndividualAmountEigenvalues,
