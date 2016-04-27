@@ -60,14 +60,14 @@ Running Simulations
 -------------------
 
 Once a model is successfully loaded we can run a time course simulation. To run a simulation we use the
-:meth:`RoadRunner.simulate()` method::
+:meth:`~RoadRunner.simulate()` method::
 
    result = rr.simulate()
 
 The output will be in a Python numpy array. The first column will contain time points and the remaining columns will include
 all the floating species amounts/concentrations. In the simulate method we didn't specify how long to run the simulation or how many
 points to generate.  By default the starting time is set to zero, ending time to 10 and the number of points to 51.
-There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`RoadRunner.simulate()` 
+There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`~RoadRunner.simulate()` 
 in the following manner::
 
    result = rr.simulate (0, 10, 101)
@@ -79,7 +79,7 @@ The simulate method also accepts other keyword arguments::
 
   result = rr.simulate(0, 10, 101, reset=True, stiff=True)
 
-For more details of the simulate method see :meth:`RoadRunner.simulate()`.
+For more details of the simulate method see :meth:`~RoadRunner.simulate()`.
 The following table summarizes the various options.
 
 ================  =============
@@ -104,12 +104,12 @@ integrator        a string of either "cvode" for deterministic simulations, or "
 plot              True or False, plot the results of the simulation. 
 ================  =============
 
-One important point to note about simulate(): When simulate() is run, the concentration of
-the floating species will naturally change. If simulate() is called a second time, the simulation
+One important point to note about :meth:`~RoadRunner.simulate()`: When :meth:`~RoadRunner.simulate()` is run, the concentration of
+the floating species will naturally change. If :meth:`~RoadRunner.simulate()` is called a second time, the simulation
 will start the simulation from the previous simulated values. This can be used to easily follow on
 simulations. However there will be times when we wish to run the same simulation again but perhaps
 with slightly different parameters values. For this we must reset the initial conditions back to
-the original values. To do that we run the command reset::
+the original values. To do that we run the command :meth:`~RoadRunner.reset()`::
 
    rr.reset()
 
@@ -133,11 +133,11 @@ detailed information on selections, see the :ref:`selecting-values` section.
 The simulate method, by default returns an `structured array
 <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_,
 which are arrays that also contain column names. These can be plotted directly using the
-built in ``RoadRunner.plot()`` function, or by adding the ``plot=True`` keyword argument to ``simulate()``.
+built in :meth:`~RoadRunner.plot()` function, or by adding the ``plot=True`` keyword argument to :meth:`~RoadRunner.simulate()`.
 
 The output selections default to time and the set of floating species.
 It is possible to change the simulation result values by changing the selection list.
-For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
+For example assume that a model has three species, S1, S2, and S3 but we only want :meth:`~RoadRunner.simulate()` to
 return time in the first column and S2 in the second column. To specify this we would type::
 
    rr.timeCourseSelections = ['time', 'S2']
@@ -165,7 +165,7 @@ Some additional examples include:
 Plotting Data
 -------------
 
-RoadRunner has a built in ``RoadRunner.plot()`` method which can perform basic plotting. 
+RoadRunner has a built in :meth:`~RoadRunner.plot()` method which can perform basic plotting. 
 Simply call::
 
    result = rr.simulate(0, 10, 100)
@@ -187,9 +187,9 @@ This will bring up a new window showing the plot. To clear the plot for next tim
 
    pylab.clf()
 
-One may also override the built in ``plot`` method with a more more capable plotting routine
+One may also override the built in :meth:`~RoadRunner.plot()` method with a more more capable plotting routine
 
-Below is a simplified version of the ``RoadRunner.plot()`` method. You may copy and write a
+Below is a simplified version of the :meth:`~RoadRunner.plot()` method. You may copy and write a
 customized version and even attach it to the RoadRunner object. The first argument is a RoadRunner
 object instance, and the second is a flag which tells the method to show the plot or not::
 
@@ -232,7 +232,7 @@ method::
   import roadrunner
   roadrunner.RoadRunner.plot = my_plot
 
-Now, whenever the ``RoadRunner.plot`` method is called, your plot function will be the one that is
+Now, whenever the :meth:`~RoadRunner.plot()` method is called, your plot function will be the one that is
 invoked.
 
 
@@ -241,11 +241,11 @@ Changing Initial Conditions
 
 
 There are a number of methods to get and set the initial conditions of a loaded model. In order to
-specify a given initial conditions we use the notation, ``init(X)``.  The values stored in the
+specify a given initial conditions we use the notation, ``init()``.  The values stored in the
 initial conditions are applied to the model whenever it is reset. The list of all initial condition
 symbols can be obtained by the methods, :meth:`~ExecutableModel.getFloatingSpeciesInitAmountIds()`
-and :meth:`~ExecutableModel.getFloatingSpeciesInitConcentrationIds()` assuming ``r`` is a roadunner
-variable. As with all other selection symbols, the :meth:`~ExecutableModel.keys()` returns all
+and :meth:`~ExecutableModel.getFloatingSpeciesInitConcentrationIds()` assuming ``r`` is a RoadRunner
+instance. As with all other selection symbols, the :meth:`~ExecutableModel.keys()` returns all
 available selection symbols:
 
   >>>  r.model.keys()
@@ -288,31 +288,32 @@ Initial conditions can be set using the two methods for all species in one call:
 
   >>> r.model.setFloatingSpeciesInitConcentrations ([6.7, 0.1])
 
-
+.. _roadrunner-solver:
+  
 Solvers
 ---------------------------
 
 
-RoadRunner has two types of solvers: integrators and steady-state solvers.
-Integrators control numerical timecourse integration via the `simulate` method.
+RoadRunner has multiple types of solvers including integrators and steady-state solvers.
+Integrators control numerical timecourse integration via the :meth:`~RoadRunner.simulate()` method.
 By default, RoadRunner uses CVODE, a real differential equation solver from the
 SUNDIALS suite. Internally, CVODE features an adaptive timestep. However, unless `variableStep`
-is specified in the call to `simulate`, the output will contain evenly spaced intervals.
+is specified in the call to :meth:`~RoadRunner.simulate()`, the output will contain evenly spaced intervals.
 
   >>>  r.simulate(0, 10, 10)
   # Output will contain evenly spaced intervals
   >>>  r.simulate(variableStep=True)
   # Intervals will vary according to CVODE step size
 
-RoadRunner also contains a basic 4th-order Runge-Kutta integrator, which can be selected
-with a call to `setIntegrator`:
+To use basic 4th-order Runge-Kutta integrator (rk4), call :meth:`~RoadRunner.setIntegrator()`:
 
   >>>  r.setIntegrator('rk4')
 
 Runge-Kutta always uses a fixed step size, and does not support events.
+The same goes for Runge-Kutta-Fehlberg Method (rkf45) as well as our stochastic integrator (gillespie).
 
 Some integrators, such as CVODE, have parameters which can be set by the user.
-To see a list of these settings, use `getSettings`:
+To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()`:
 
   >>>  r.getIntegrator().getSettings()
   ('relative_tolerance', 'absolute_tolerance', 'stiff', 'maximum_bdf_order', 'maximum_adams_order', 'maximum_num_steps', 'maximum_time_step', 'minimum_time_step', 'initial_time_step', 'multiple_steps', 'variable_step_size')
@@ -336,12 +337,12 @@ Parameters also have a display name:
   'Relative Tolerance'
 
 If you prefer to change settings on integrators without switching the current integrator,
-you can use :ref:`getIntegratorByName` as follows:
+you can use :meth:`~RoadRunner.getIntegratorByName()` as follows:
 
   >>>  r.getIntegratorByName('gillespie').seed = 12345
 
 Also, if you find yourself switching back and forth between integrators a lot, you can use
-:ref:`setIntegratorSetting`.
+:meth:`~RoadRunner.setIntegratorSetting()`.
 
   >>>  r.setIntegratorSetting('gillespie', 'seed', 12345)
 
@@ -354,7 +355,7 @@ The other type of solver is a steady-state solver, which works in essentially th
   >>>  r.getSteadyStateSolver().getDescription('maximum_iterations')
   '(int) Iteration caps off at the maximum, regardless of whether a solution has been reached'
 
-The steady state solver is invoked by a call to `r.steadyState()`.
-RoadRunner only has a single steady state solver (NLEQ).
+The steady state solver is invoked by a call to :meth:`~RoadRunner.steadyState()`.
+Currently, RoadRunner only has a single steady state solver (NLEQ).
 
 .. highlight:: python

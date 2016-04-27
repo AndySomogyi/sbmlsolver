@@ -114,8 +114,17 @@ _________________________
 .. method:: RoadRunner.getIntegrator()
    :module: RoadRunner
 
-   Returns the integrator which is currently being used to
-   time evolve the system.
+   Returns the solver instance. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   
+.. method:: RoadRunner.getIntegratorByName(name)
+   :module: RoadRunner
+   
+   Returns the solver instance by given name. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+
+   :param str name: Name of the integrator
 
    
 .. method:: RoadRunner.getAvailableIntegrators()
@@ -139,7 +148,6 @@ _________________________
    :param str SBML: the contents of an SBML document
    :rtype: str
 
-   
 
 .. method:: RoadRunner.getCurrentSBML()
    :module: RoadRunner
@@ -158,6 +166,24 @@ _________________________
    Returns the original SBML model that was loaded into roadrunner.
 
    :rtype: str
+   
+.. method:: RoadRunner.setIntegrator(name)
+   :module: RoadRunner
+
+   Sets specific integrator. For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   :param str name: name of the integrator.
+
+   
+.. method:: RoadRunner.setIntegratorSetting(name, key, value)
+   :module: RoadRunner
+
+   Sets settings for a specific integrator. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   :param str name: name of the integrator.
+   :param str key: name of the setting.
+   :param const value: value of the setting.
    
 
 Selections
