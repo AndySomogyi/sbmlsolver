@@ -827,8 +827,8 @@ related to metabolic control analysis are applicable. These methods are describe
    
    
 
-Stochiometric Analysis
-----------------------
+Stoichiometric Analysis
+-----------------------
 
 .. method:: RoadRunner.getFullStoichiometryMatrix()
    :module: RoadRunner

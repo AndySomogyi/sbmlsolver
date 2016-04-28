@@ -41,15 +41,17 @@ an initial time step and tighter absolute and relative tolerances.
 
 All of the parameters to tune the integration are specified on the integrator object:
 
-  r=roadrunner.RoadRunner("mymodel.xml")
+  >>>  r=roadrunner.RoadRunner("mymodel.xml")
 
-  # specify absolute and relative tolerances
-  r.integrator.absolute_tolerance = 5e-10
-  r.integrator.relative_tolerance = 1e-3
-  # specify initial time step
-  r.integrator.initial_time_step = 0.00001
+Now specify absolute and relative tolerances
 
-  r.simulate(0, 10)
+  >>>  r.integrator.absolute_tolerance = 5e-10
+  >>>  r.integrator.relative_tolerance = 1e-3
+  
+and specify initial time step.
+  
+  >>>  r.integrator.initial_time_step = 0.00001
+  >>>  r.simulate(0, 10)
 
 This will specify the absolute and relative tolerances and initial time step, and will integrate the system from
 time 0 to 10. The internal integrator will take many time steps before it reaches time 10. 

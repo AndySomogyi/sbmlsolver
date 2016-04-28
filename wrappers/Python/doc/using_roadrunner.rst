@@ -316,7 +316,17 @@ Some integrators, such as CVODE, have parameters which can be set by the user.
 To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()`:
 
   >>>  r.getIntegrator().getSettings()
-  ('relative_tolerance', 'absolute_tolerance', 'stiff', 'maximum_bdf_order', 'maximum_adams_order', 'maximum_num_steps', 'maximum_time_step', 'minimum_time_step', 'initial_time_step', 'multiple_steps', 'variable_step_size')
+  ('relative_tolerance', 
+  'absolute_tolerance', 
+  'stiff', 
+  'maximum_bdf_order', 
+  'maximum_adams_order', 
+  'maximum_num_steps', 
+  'maximum_time_step', 
+  'minimum_time_step', 
+  'initial_time_step', 
+  'multiple_steps', 
+  'variable_step_size')
 
 To set a parameter, use one of the two alternative methods:
 
@@ -349,7 +359,9 @@ Also, if you find yourself switching back and forth between integrators a lot, y
 The other type of solver is a steady-state solver, which works in essentially the same way:
 
   >>>  r.getSteadyStateSolver().getSettings()
-  ('maximum_iterations', 'minimum_damping', 'relative_tolerance')
+  ('maximum_iterations', 
+  'minimum_damping', 
+  'relative_tolerance')
   >>>  r.getSteadyStateSolver().getHint('maximum_iterations')
   'The maximum number of iterations the solver is allowed to use (int)'
   >>>  r.getSteadyStateSolver().getDescription('maximum_iterations')

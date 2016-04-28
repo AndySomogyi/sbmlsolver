@@ -106,6 +106,7 @@ _________________________
    
    
 .. method:: Solver.getValueAsFloat(key)
+
    Wrapper for :meth:`Solver.getValue()` which converts output to a specific type
    
    :param str key: settings name   
@@ -140,6 +141,7 @@ _________________________
    
    
 .. method:: Solver.getValueAsBool(key)
+
    Wrapper for :meth:`Solver.getValue()` which converts output to a specific type
    
    :param str key: settings name   
