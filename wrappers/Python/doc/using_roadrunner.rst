@@ -305,15 +305,15 @@ is specified in the call to :meth:`~RoadRunner.simulate()`, the output will cont
   >>>  r.simulate(variableStep=True)
   # Intervals will vary according to CVODE step size
 
-To use basic 4th-order Runge-Kutta integrator (rk4), call :meth:`~RoadRunner.setIntegrator()`:
+To use basic 4th-order Runge-Kutta integrator ('rk4'), call :meth:`~RoadRunner.setIntegrator()`:
 
   >>>  r.setIntegrator('rk4')
 
 Runge-Kutta always uses a fixed step size, and does not support events.
-The same goes for Runge-Kutta-Fehlberg Method (rkf45) as well as our stochastic integrator (gillespie).
+RoadRunner supports Runge-Kutta-Fehlberg Method ('rkf45') as well as a stochastic integrator based on Gillespie algorithm ('gilliespie').
 
 Some integrators, such as CVODE, have parameters which can be set by the user.
-To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()`:
+To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()` on an integrator instance:
 
   >>>  r.getIntegrator().getSettings()
   ('relative_tolerance', 
@@ -328,7 +328,7 @@ To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()`:
   'multiple_steps', 
   'variable_step_size')
 
-To set a parameter, use one of the two alternative methods:
+To set a parameter, you can use both methods described below:
 
   >>>  r.getIntegrator().relative_tolerance = 1e-10
   >>>  r.getIntegrator().setValue('relative_tolerance', 1e-10)

@@ -136,8 +136,7 @@ Technical Footnotes
 .. [#] Most of the time, Numpy array holds a pointer to a block of data owned
        by RoadRunner. For example, the array returned by `rr.simulate()` has a pointer 
        to the results matrix which is owned by the `RoadRunner`, therefore NO COPYING 
-       is involved. If you have no need for the result, simply ignore it, since it costs 
-	   virtually nothing to return it. 
+       is involved. If you have no need for the result, simply ignore it, since it costs virtually nothing to return it. 
        
 .. [#] Current State of the System Group
        
@@ -145,11 +144,9 @@ Technical Footnotes
        performed using a techinque called lazy evaluation. If one sets the concentration 
        of a specie, the amount of of that specie is automatically available without 
        having to perform any addition operations, similar to any other value in the model. 
-       
        If an SBML parameter is defined by an assigment rule or a function and its value  
        depends on a number of other values, simply setting to other values automatically 
        cause the value of the most dependent variable to be set. 
-       
        This is identical how one operates in a spredsheet such as Microsoft Excel. For 
        example, if one has a cell with an equation that depends on other cell, and those
        other cell depend on other values, setting the value of any upstream cell automatically

@@ -41,6 +41,7 @@ Contents:
    read_write_functions
    selecting_values
    steady_state
+   stochastic
    stoichiometric
    metabolic
    stability
