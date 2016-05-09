@@ -306,6 +306,15 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
     catch_bool_macro
 }
 
+int rrcCallConv getComputeAndAssignConservationLaws(RRHandle handle, int* value)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        *value = rri->getConservedMoietyAnalysis();
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
     start_try
