@@ -27,8 +27,11 @@
 
 #ifdef _MSC_VER
 
-// nope
-// #define snprintf _snprintf
+#ifdef _MSC_VER
+#if _MSC_VER < 1900
+#  define snprintf _snprintf
+#endif
+#endif
 
 //#include <stdarg.h>
 //#define snprintf c99_snprintf
