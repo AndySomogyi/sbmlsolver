@@ -163,7 +163,7 @@ def setup(*args):
         },
         package_data={
             # add dll, won't hurt unix, not there anyway
-            "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.dll", "*.txt", "*.dylib"],
+            "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.so", "*.dll", "*.txt", "*.dylib"],
             "roadrunner.testing" : ["*.xml", "*.txt", "*.dat", "dsmts/*.xml", "dsmts/*.csv", "test_data/*"]
         },
         cmdclass={'sdist' : _RoadRunnerSDist},
