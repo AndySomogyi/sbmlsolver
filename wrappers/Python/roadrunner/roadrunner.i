@@ -686,8 +686,10 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 // only deal with strings here.
 %ignore rr::RoadRunner::getSteadyStateSelections();
 %ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
-//%rename (steadyStateTime) rr::RoadRunner::steadyState;
-//%rename (steadyState) rr::RoadRunner::steadyStateNamedArray;
+//%ignore rr::RoadRunner::getSteadyStateValues();
+//%rename (getSteadyStateValues) rr::RoadRunner::getSteadyStateValuesNamedArray();
+%rename (steadyStateTime) rr::RoadRunner::steadyState;
+%rename (steadyState) rr::RoadRunner::steadyStateNamedArray;
 
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
 %rename (_getConservedMoietyAnalysis) rr::RoadRunner::getConservedMoietyAnalysis();
