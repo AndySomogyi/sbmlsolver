@@ -1850,7 +1850,12 @@ DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
     }
 
     // pointer to owned matrix
-    DoubleMatrix m = *ls->getStoichiometryMatrix();
+    DoubleMatrix *mptr = ls->getStoichiometryMatrix();
+    if (!mptr)
+    {
+        throw CoreException("Error: Stoichiometry matrix does not exist for this model");
+    }
+    DoubleMatrix m = *mptr;
     ls->getStoichiometryMatrixLabels(m.getRowNames(), m.getColNames());
     return m;
 }
