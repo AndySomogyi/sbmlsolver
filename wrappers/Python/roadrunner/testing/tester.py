@@ -1062,7 +1062,7 @@ def checkGillespieSeed(rrInstance, testId):
     rrInstance.reset()
     rrInstance.getIntegrator().setValue('seed', words[1])
     arr2 = rrInstance.simulate(0,100,steps=10)
-    if arr1[:,0].all() != arr2[:,0].all():
+    if arr1[1,0] == arr2[1,0]:
         errorFlag = True
     rrInstance.setIntegrator('cvode')
     print(passMsg (errorFlag))
