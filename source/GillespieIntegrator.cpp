@@ -205,6 +205,9 @@ namespace rr
 	{
 		double tf = 0;
 		bool singleStep;
+		double timeStart = Config::getDouble(Config::SIMULATEOPTIONS_START);
+		double duration = Config::getDouble(Config::SIMULATEOPTIONS_DURATION);
+		double timeEnd = timeStart + duration;
 
 		assert(hstep > 0 && "hstep must be > 0");
 
@@ -224,6 +227,7 @@ namespace rr
 		else
 		{
 			tf = t + hstep;
+			timeEnd = t + hstep;
 			singleStep = false;
 		}
 
@@ -273,7 +277,10 @@ namespace rr
 				// no reaction occurs
 				return std::numeric_limits<double>::infinity();
 			}
-
+			if (t + tau > timeEnd)
+			{
+				return timeEnd; // otherwise while in rrRoadRunner.cpp Line 1342 goes forever
+			}
 			t = t + tau;
 
 			// select reaction
