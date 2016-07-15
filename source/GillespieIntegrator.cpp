@@ -205,8 +205,6 @@ namespace rr
 	{
 		double tf = 0;
 		bool singleStep;
-		double timeStart = Config::getDouble(Config::SIMULATEOPTIONS_START);
-		double duration = Config::getDouble(Config::SIMULATEOPTIONS_DURATION);
 		double timeEnd = timeStart + duration;
     bool varStep = getValue("variable_step_size").convert<bool>();
 
