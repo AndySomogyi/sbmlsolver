@@ -208,10 +208,11 @@ namespace rr
 		double timeStart = Config::getDouble(Config::SIMULATEOPTIONS_START);
 		double duration = Config::getDouble(Config::SIMULATEOPTIONS_DURATION);
 		double timeEnd = timeStart + duration;
+    bool varStep = getValue("variable_step_size").convert<bool>();
 
 		assert(hstep > 0 && "hstep must be > 0");
 
-		if (getValue("variable_step_size").convert<bool>())
+		if (varStep)
 		{
 			if (getValue("minimum_time_step").convert<double>() > 0.0)
 			{
@@ -277,9 +278,9 @@ namespace rr
 				// no reaction occurs
 				return std::numeric_limits<double>::infinity();
 			}
-			if (t + tau > timeEnd)
+			if (!varStep && t + tau > timeEnd)
 			{
-				return timeEnd; // otherwise while in rrRoadRunner.cpp Line 1342 goes forever
+				return timeEnd;
 			}
 			t = t + tau;
 
