@@ -205,7 +205,6 @@ namespace rr
 	{
 		double tf = 0;
 		bool singleStep;
-		double timeEnd = timeStart + duration;
     bool varStep = getValue("variable_step_size").convert<bool>();
 
 		assert(hstep > 0 && "hstep must be > 0");
@@ -226,7 +225,6 @@ namespace rr
 		else
 		{
 			tf = t + hstep;
-			timeEnd = t + hstep;
 			singleStep = false;
 		}
 
@@ -276,9 +274,9 @@ namespace rr
 				// no reaction occurs
 				return std::numeric_limits<double>::infinity();
 			}
-			if (!varStep && t + tau > timeEnd)
+			if (!varStep && t + tau > tf)
 			{
-				return timeEnd;
+				return tf;
 			}
 			t = t + tau;
 
