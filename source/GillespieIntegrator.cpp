@@ -224,7 +224,7 @@ namespace rr
 		}
 		else
 		{
-			tf = t + hstep;
+			tf = t + hstep; // FIXME: I think this should be tf = hstep -JKM
 			singleStep = false;
 		}
 
@@ -276,8 +276,14 @@ namespace rr
 			}
 			if (!varStep && t + tau > tf)
 			{
+        // if fixed step and time exhausted, don't allow reaction to proceed
 				return tf;
 			}
+			else if(varStep && t + tau > hstep)
+      {
+        // if variable step, same idea but hstep is the end time
+
+      }
 			t = t + tau;
 
 			// select reaction
