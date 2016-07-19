@@ -205,6 +205,7 @@ namespace rr
 	{
 		double tf = 0;
 		bool singleStep;
+		bool varStep = getValue("variable_step_size").convert<bool>();
 		double minTimeStep = getValue("minimum_time_step").convert<double>();
 
 		assert(hstep > 0 && "hstep must be > 0");
