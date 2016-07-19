@@ -1345,7 +1345,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
             {
                 Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
-                tout = self.integrator->integrate(tout, timeEnd);
+                tout = self.integrator->integrate(tout, timeEnd - tout);
 
 
                 if (!isfinite(tout))
@@ -1552,7 +1552,7 @@ double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
     try
     {
         impl->model->setTime(t0);
-        return impl->integrator->integrate(t0, tf);
+        return impl->integrator->integrate(t0, tf - t0);
     }
     catch (EventListenerException& e)
     {
