@@ -205,15 +205,20 @@ namespace rr
 	{
 		double tf = 0;
 		bool singleStep;
-    bool varStep = getValue("variable_step_size").convert<bool>();
+		bool varStep = getValue("variable_step_size").convert<bool>();
+		double minTimeStep = getValue("minimum_time_step").convert<double>();
 
 		assert(hstep > 0 && "hstep must be > 0");
 
 		if (varStep)
 		{
-			if (getValue("minimum_time_step").convert<double>() > 0.0)
+			if (minTimeStep > 0.0)
 			{
-				tf = t + getValue("minimum_time_step").convert<double>();
+				if (minTimeStep > hstep) // no step bigger than hstep
+				{
+					minTimeStep = hstep;
+				}
+				tf = t + minTimeStep;
 				singleStep = false;
 			}
 			else
@@ -224,7 +229,7 @@ namespace rr
 		}
 		else
 		{
-			tf = t + hstep; // FIXME: I think this should be tf = hstep -JKM
+			tf = t + hstep;
 			singleStep = false;
 		}
 
@@ -274,16 +279,11 @@ namespace rr
 				// no reaction occurs
 				return std::numeric_limits<double>::infinity();
 			}
-			if (!varStep && t + tau > tf)
+			if (t + tau > tf)        // if time exhausted, don't allow reaction to proceed
 			{
-        // if fixed step and time exhausted, don't allow reaction to proceed
 				return tf;
 			}
-			else if(varStep && t + tau > hstep)
-      {
-        // if variable step, same idea but hstep is the end time
 
-      }
 			t = t + tau;
 
 			// select reaction
