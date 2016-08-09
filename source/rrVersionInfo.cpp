@@ -72,7 +72,9 @@ std::string getVersionStr(unsigned options)
 
     if (options & VERSIONSTR_LIBSBML)
     {
-        result += std::string("LibSBML Version: ") + std::string(LIBSBML_DOTTED_VERSION);
+        if (std::string(libsbml::getLibSBMLDottedVersion()) != std::string(LIBSBML_DOTTED_VERSION))
+            throw std::runtime_error("libSBML version mismatch between linked / compiled library: " + std::string(libsbml::getLibSBMLDottedVersion()) + " for linked vs. " + std::string(LIBSBML_DOTTED_VERSION) + " for compiled version");
+        result += std::string("LibSBML Version: ") + std::string(libsbml::getLibSBMLDottedVersion());
 
         if (options & VERSIONSTR_GIT_BRANCH)
         {

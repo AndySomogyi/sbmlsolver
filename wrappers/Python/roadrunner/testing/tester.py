@@ -25,7 +25,7 @@ from roadrunner import Logger
 import re
 import numpy
 from numpy import *
-
+import os
 
 # Module wide file handle
 fHandle = ''
@@ -337,7 +337,7 @@ def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
 
 
 def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
-    # Unscaled Flux Control matrix
+    # Scaled Flux Control matrix
     print(string.ljust ("Check " + testId, rpadding), end="")
     st = rrInstance.getScaledFluxControlCoefficientMatrix()
     checkMatrixVsUpcomingText(st)
@@ -899,16 +899,22 @@ def checkControlCoefficient(rrInstance, testId):
 
 def checkVariableEndTime(rrInstance, testId):
     print(string.ljust ("Check " + testId, rpadding), end="")
-    errorFlag = False
+    errorFlag = True
     words = divide(readLine())
-    n1 = rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+
+    try:
+        # passing variableStep to simulate should throw
+        rrInstance.simulate(float(words[0]), float(words[1]), variableStep=True)
+    except TypeError:
+        errorFlag = False
+
     rrInstance.getIntegrator().resetSettings()
     rrInstance.getIntegrator().setValue('variable_step_size', True)
     n2 = rrInstance.simulate(float(words[0]), float(words[1]))
-    if expectApproximately(n1[-1][0], float(words[1]), 1e-16) == False:
-        errorFlag = True
+
     if expectApproximately(n2[-1][0], float(words[1]), 1e-16) == False:
         errorFlag = True
+
     print(passMsg (errorFlag))
 
 def checkDefaultTimeStep(rrInstance, testId):
@@ -918,6 +924,176 @@ def checkDefaultTimeStep(rrInstance, testId):
     n = rrInstance.simulate()
     if n.shape[0] != int(words[0]):
         errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkSimulateTimepointsVsIntervals(rrInstance, testId):
+    '''
+    Third positional argument is number of points.
+    Steps keyword argument is number of intervals.
+    '''
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    try:
+        n1 = rrInstance.simulate(0, 10, steps=1)
+        if n1.shape[0] != 2:
+            errorFlag = True
+        n2 = rrInstance.simulate(0, 10, 2)
+        if n2.shape[0] != 2:
+            errorFlag = True
+    except:
+        errorFlag = True
+    try:
+        m = rrInstance.simulate(0, 100, 51)
+        n = rrInstance.simulate(0, 100, points=51)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(start=0, end=100, points=51)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(0, 100, steps=50)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+        n = rrInstance.simulate(start=0, end=100, steps=50)
+        if n.shape[0] != m.shape[0]:
+            errorFlag = True
+
+        if len(rrInstance.model.getFloatingSpeciesIds()) < 1:
+            errorFlag = True
+        else:
+            spec_id = rrInstance.model.getFloatingSpeciesIds()[0]
+            m = rrInstance.simulate(0, 100, 51, ['time', spec_id])
+            n = rrInstance.simulate(0, 100, points=51, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(start=0, end=100, points=51, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(0, 100, steps=50, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+            n = rrInstance.simulate(start=0, end=100, steps=50, selections=['time', spec_id])
+            if n.shape[0] != m.shape[0]:
+                errorFlag = True
+    except:
+        errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkMonotonicTimepoints(rrInstance, testId):
+    '''
+    Timepoint values should only increase.
+    No two timepoints should ever have the same time value.
+    '''
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    try:
+        words = divide(readLine())
+        startTime = float(words[0])
+        endTime = float(words[1])
+        npoints = int(words[2])
+
+        # For variable step
+        rrInstance.getIntegrator().setValue('variable_step_size', True)
+        n = rrInstance.simulate(startTime, endTime)
+        for k in range(1,n.shape[0]):
+            if n[k-1,0] >= n[k,0]:
+                print('Monotonicity failure var step: {} >= {}'.format(n[k-1,0], n[k,0]))
+                errorFlag = True
+
+        # For fixed step
+        rrInstance.reset()
+        rrInstance.getIntegrator().setValue('variable_step_size', False)
+        n = rrInstance.simulate(startTime, endTime, npoints)
+        for k in range(1,n.shape[0]):
+            if n[k-1,0] >= n[k,0]:
+                print('Monotonicity failure fixed step: {} >= {}'.format(n[k-1,0], n[k,0]))
+                errorFlag = True
+    except(e):
+        print('Caught exception: {}'.format(e))
+        errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkEventPreandPostfireTimepoints(rrInstance, testId):
+    '''
+    Timepoint values should only increase.
+    No two timepoints should ever have the same time value.
+    '''
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    try:
+        words = divide(readLine())
+
+        def find_close_timepoint(simdata, t, tol):
+            '''
+            Finds the index of the closest timepoint in the
+            simulation results which is within tol of t
+            '''
+            for k in range(simdata.shape[0]):
+                if abs(simdata[k,0] - t) <= tol:
+                    return k
+            return -1;
+
+        rrInstance.getIntegrator().setValue('variable_step_size', True)
+        simresult = rrInstance.simulate(0, 10)
+
+        max_tol = 0.0001
+
+        # iterate through each expected event timepoint
+        for w in words:
+            t = float(w)
+            # expect two timepoints close by
+            i = find_close_timepoint(simresult, t, max_tol)
+            if i < 0 or i+1 >= simresult.shape[0]:
+                errorFlag = True
+            else:
+                if abs(simresult[i+1,0] - simresult[i,0]) > max_tol:
+                    errorFlag = True
+    except(e):
+        print('Caught exception: {}'.format(e))
+        errorFlag = True
+    print(passMsg (errorFlag))
+
+def checkGillespieSeed(rrInstance, testId):
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    rrInstance.setIntegrator('gillespie')
+    words = divide(readLine())
+    rrInstance.getIntegrator().setValue('seed', words[0])
+    arr1 = rrInstance.simulate(0,100,steps=10)
+    rrInstance.reset()
+    rrInstance.getIntegrator().setValue('seed', words[1])
+    arr2 = rrInstance.simulate(0,100,steps=10)
+    if arr1[1,0] == arr2[1,0]:
+        errorFlag = True
+    rrInstance.setIntegrator('cvode')
+    print(passMsg (errorFlag))
+    
+def checkGillespieValue(rrInstance, testId):
+    print(string.ljust ("Check " + testId, rpadding), end="")
+    errorFlag = False
+    rrInstance.setIntegrator('gillespie')
+    n = rrInstance.simulate(0,100,steps=10)
+    if n[-1,1] != n[-2,1]:
+        errorFlag = True
+    rrInstance.setIntegrator('cvode')
+    print(passMsg (errorFlag))
+
+def unitTestIntegratorSettings(testDir):
+    errorFlag = False
+
+    r = roadrunner.RoadRunner(os.path.join(testDir,'Test_1.xml'))
+
+    r.setIntegrator('cvode')
+    r.getIntegratorByName('gillespie').seed = 12345
+    r.setIntegrator('gillespie')
+    if r.getIntegrator().getSetting('seed') != 12345:
+        errorFlag = True
+
+    r.setIntegrator('cvode')
+    r.setIntegratorSetting('gillespie', 'seed', 54321)
+    r.setIntegrator('gillespie')
+    if r.getIntegrator().getSetting('seed') != 54321:
+        errorFlag = True
+
     print(passMsg (errorFlag))
 
 
@@ -953,6 +1129,9 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Boundary Species Ids]': checkGetBoundarySpeciesIds,
              '[Check Default Time Step]': checkDefaultTimeStep,
+             '[Check Monotonic Timepoints]': checkMonotonicTimepoints,
+             '[Check Event Pre and Postfire Timepoints]': checkEventPreandPostfireTimepoints,
+             '[Check Simulate Points vs Steps]': checkSimulateTimepointsVsIntervals,
              '[Compartment Ids]': checkGetCompartmentIds,
              '[Compute Steady State Values]': checkComputeSteadyStateValues,
              '[Conservation Laws]': setConservationLaw,
@@ -976,6 +1155,8 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Get Steady State Selection List]': checkGetSteadyStateSelectionList,
              '[Get Steady State Selection List 2]': checkGetSteadyStateSelectionList,
              '[Get Time Course Selection List]': checkGetTimeCourseSelectionList,
+             '[Gillespie Seed]': checkGillespieSeed,
+             '[Gillespie Value]': checkGillespieValue,
              '[Global Parameter Ids]': checkGetGlobalParameterIds,
              '[Individual Eigenvalues]': checkIndividualEigenvalues,
              '[Individual Amount Eigenvalues]': checkIndividualAmountEigenvalues,
@@ -1082,6 +1263,9 @@ def runTester (testDir=None):
                 unknownTests = unknownTests+1
                 print(string.ljust (testId, rpadding), 'UNKNOWN TEST')
             testId = jumpToNextTest()
+
+    for testFunc in [unitTestIntegratorSettings]:
+      testFunc(testDir)
         
     print("\n\nTotal failed tests:\t", gFailedTests, \
     "\nTotal unknown tests:\t", unknownTests, \

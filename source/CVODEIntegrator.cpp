@@ -321,7 +321,7 @@ namespace rr
             }
             else if (key == "absolute_tolerance" || key == "relative_tolerance")
             {
-                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
+                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps")); // FIXME: is this intentional?
                 setCVODETolerances();
             }
         }
@@ -1043,5 +1043,3 @@ namespace rr
 	}
 
 }
-
-

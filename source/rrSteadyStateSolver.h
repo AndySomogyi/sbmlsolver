@@ -27,7 +27,7 @@ class RR_DECLSPEC rrSteadyStateSolver : public Dictionary
 public:
 
     virtual ~rrSteadyStateSolver() {};
-    virtual double solve(const std::vector<double>& yin) = 0;
+    virtual double solve() = 0;
 };
 
 /**

@@ -26,10 +26,9 @@ public:
     /**
      * Thea actual solver routine making the call to NLEQ1
      *
-     * @param yin Array of Model variables
      * @return sums of squares
      */
-    double solve(const vector<double>& yin);
+    double solve();
 
 
     /**

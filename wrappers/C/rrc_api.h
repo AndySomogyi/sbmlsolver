@@ -323,6 +323,15 @@ C_DECL_SPEC char* rrcCallConv getLastError(void);
 */
 C_DECL_SPEC bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool On_Or_Off);
 
+/*!
+ \brief Get the value of the moiety conservation setting
+ \param[in] handle Handle to a RoadRunner instance
+ \param[out] value A place to store the value
+ \return Returns true if successful
+ \ingroup initialization
+*/
+C_DECL_SPEC int rrcCallConv getComputeAndAssignConservationLaws(RRHandle handle, int* value);
+
 // -----------------------------------------------------------------------
 // Read and Write models
 // -----------------------------------------------------------------------

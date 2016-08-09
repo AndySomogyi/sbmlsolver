@@ -445,6 +445,17 @@ public:
         LOADSBMLOPTIONS_PERMISSIVE,
 
 
+        /**
+         * Set the maximum number of rows in the output matrix.
+         *
+         * When simulate is called with variable stepping and tight
+         * tolerances the resulting output matrix will be very large.
+         * This setting cuts off the computation after a certain number
+         * of rows are reached.
+         */
+        MAX_OUTPUT_ROWS,
+
+
         // add lots of space so not to conflict with other branches.
 
 

@@ -14,11 +14,11 @@ The stability of a biochemical system is determined by the eigenvalues of the Ja
      \vdots & \ddots & \vdots \\ \dfrac{\partial F_n}{\partial S_1} & \cdots & \dfrac{\partial F_n}{\partial S_m}  
      \end{bmatrix}
 
-where :math:`F_i` is the ith differential equation and :math:`S_i` the ith floating species. From RoadRunner it is easy to obtain the Jacobian matrix using :meth:`RoadRunner.getFullJacobian`, i.e.::
+where :math:`F_i` is the ith differential equation and :math:`S_i` the ith floating species. From RoadRunner it is easy to obtain the Jacobian matrix using :meth:`~RoadRunner.getFullJacobian`, i.e.::
 
     Jac = rr.getFullJacobian()
 
 which returns the Jacobian matrix in the variable Jac.
 
-It is possible for full Jacobian to be singular. In these situations one should call the related method, :meth:`RoadRunner.getReducedJacobian`.
+It is possible for full Jacobian to be singular. In these situations one should call the related method, :meth:`~RoadRunner.getReducedJacobian`.
 

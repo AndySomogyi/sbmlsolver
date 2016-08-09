@@ -22,7 +22,7 @@
 
 %{
     #define SWIG_FILE_WITH_INIT
-    // see discission on import array,
+    // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
     #include <numpy/arrayobject.h>
@@ -686,6 +686,10 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 // only deal with strings here.
 %ignore rr::RoadRunner::getSteadyStateSelections();
 %ignore rr::RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
+//%ignore rr::RoadRunner::getSteadyStateValues();
+//%rename (getSteadyStateValues) rr::RoadRunner::getSteadyStateValuesNamedArray();
+//%rename (steadyState) rr::RoadRunner::steadyState;
+//%rename (steadyState) rr::RoadRunner::steadyStateNamedArray;
 
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
 %rename (_getConservedMoietyAnalysis) rr::RoadRunner::getConservedMoietyAnalysis();
@@ -882,7 +886,7 @@ namespace std { class ostream{}; }
     /**
      * make some of these const so SWIG would not allow setting.
      */
-    const rr::SimulateOptions *simulateOptions;
+    const rr::SimulateOptions *__simulateOptions;
 
     rr::RoadRunnerOptions *options;
 
@@ -1110,96 +1114,142 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def simulate(self, *args, **kwargs):
-            """
-            Simulate the optionally plot current SBML model. This is the one stop shopping method
-            for simulation and ploting.
+        def simulate(self, start=None, end=None, points=None, selections=None, steps=None):
+            '''
+            Simulate the current SBML model.
 
-            simulate accepts a up to four positional arguments and a large number of keyword args.
+            simulate accepts a up to four positional arguments. The first four (optional) arguments are treated as:
 
-            The first four (optional) arguments are treated as:
+            1: start (the simulation starting time)
 
-            1: Start Time, if this is a number.
+            2: end (the simulation end time)
 
-            2: End Time, if this is a number.
-
-            3: Number of Steps, if this is a number.
+            3: steps (the number of output points)
 
             4: List of Selections.
 
             All four of the positional arguments are optional. If any of the positional arguments are
-            a list of string instead of a number, then they are interpreted as a list of selections.
+            supplied as a list of strings, then they are interpreted as a list of selections.
 
 
-            There are a number of ways to call simulate.
+            There is only one correct way to call simulate. If one positional argument is specified,
+            it is the start time. If two are specified, they are the start and end time.
+            The third argument is the number of output points!
+            The fourth argument, if it is supplied, must be a list of strings that correspond to
+            proper timecourse selections as in timeCourseSelections.
+            The fifth argument, if supplied via keyword, is the number of intervals, not the
+            number of points. Specifying intervals and points is an error.
+            '''
 
-            1. With no arguments. In this case, the current set of `SimulateOptions` will
-            be used for the simulation. The current set may be changed either directly
-            via setSimulateOptions() or with one of the two alternate ways of calling
-            simulate.
+            # check for errors
+            import collections
+            import sys
+            if selections is not None:
+                # check that selections is a sequence
+                if not isinstance(selections, collections.Sequence):
+                    raise ValueError('Expected a sequence type for selections')
 
-            2: With single `SimulateOptions` argument. In this case, all of the settings
-            in the given options are copied and will be used for the current and future
-            simulations.
+                # check that selections contains only strings
+                for x in selections:
+                    if sys.version_info >= (3,0):
+                        if not isinstance(x, str):
+                            raise ValueError('Expected selections to be a sequence of strings')
+                    else:
+                        if not isinstance(x, basestring):
+                            raise ValueError('Expected selections to be a sequence of strings')
 
-            3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
-            these three values are copied and will be used for the current and future simulations.
+            if points is not None and steps is not None:
+                raise ValueError('Cannot specify both points and steps in simulate call')
 
-            4: With keyword arguments where keywords are the property names of the SimulateOptions
-            class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
+            if points is not None:
+                if points < 2:
+                    raise ValueError('Number of points cannot be less than 2')
 
-                rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
+            if steps is not None:
+                if steps < 1:
+                    raise ValueError('Number of steps cannot be less than 1')
 
-            The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-            one calls::
+            # end error checking
 
-                rr.simulate (0, 3, 100)
+            o = self.__simulateOptions
+            originalSteps = o.steps
 
-            The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
-            is followed by a call to::
+            if self.getIntegrator().hasValue('variable_step_size'):
+                if self.getIntegrator().getValue('variable_step_size') == True:
+                    o.steps = 0
 
-                rr.simulate()
+            if start is not None:
+                o.start = start
 
-            This simulation will use the previous values.
+            if end is not None:
+                o.end = end
 
-            simulate accepts the following list of keyword arguments:
+            if points is not None:
+                o.steps = points - 1
+
+            if selections is not None:
+                self.timeCourseSelections = selections
+
+            if steps is not None:
+                o.steps = steps
+
+            result = self._simulate(o)
+
+            o.steps = originalSteps
+
+            return result
+
+        def __simulateOld(self, *args, **kwargs):
+            """
+            DEPRECATED!!!!!!!!!!!!!!!!
+            WILL BE REMOVED
+
+            Simulate the current SBML model.
+
+            simulate accepts a up to four positional arguments. The first four (optional) arguments are treated as:
+
+            1: start (the simulation starting time)
+
+            2: end (the simulation end time)
+
+            3: steps (the number of output points)
+
+            4: List of Selections.
+
+            All four of the positional arguments are optional. If any of the positional arguments are
+            supplied as a list of strings, then they are interpreted as a list of selections.
+
+
+            There is only one correct way to call simulate. If one positional argument is specified,
+            it is the start time. If two are specified, they are the start and end time.
+            The third argument is the number of output points!
+            The fourth argument, if it is supplied, must be a list of strings that correspond to
+            proper timecourse selections as in timeCourseSelections.
+            The fifth argument, if supplied via keyword, is the number of intervals, not the
+            number of points. Specifying intervals and points is an error.
+
+            Do NOT pass a `SimulateOptions` object to this function. SimulateOptions is DEPRECATED.
+
+            Keyword arguments:
 
             integrator
-                A text string specifying which integrator to use. Currently supports "cvode"
-                for deterministic simulation (default) and "gillespie" for stochastic
-                simulation.
+                DEPRECATED: use setIntegrator method
 
             sel or selections
                 A list of strings specifying what values to display in the output.
 
             plot
-                True or False
-                If True, RoadRunner will create a basic plot of the simulation result using
-                the built in plot routine which uses MatPlotLib.
-
-            absolute
-                A number representing the absolute difference permitted for the integrator
-                tolerance.
-
-            duration
-                The duration of the simulation run, in the model's units of time.
-                Note, setting the duration automatically sets the end time and visa versa.
+                DEPRECATED: use plot method.
 
             end
                 The simulation end time. Note, setting the end time automatically sets
                 the duration accordingly and visa versa.
 
-            relative
-                A float-point number representing the relative difference permitted.
-                Defaults 0.0001
-
             resetModel
-                True or False
-                Causes the model to be reset to the original conditions specified in
-                the SBML when the simulation is run.
+                DEPRECATED
 
             reset
-                Identical to resetModel
+                DEPRECATED: use reset method.
 
             start
                 The start time of the simulation time-series data. Often this is 0,
@@ -1212,26 +1262,15 @@ namespace std { class ostream{}; }
                 will have N+1 data rows.
 
             stiff
-                True or False
-                Use the stiff integrator. Only use this if the model is stiff and causes issues
-                with the regular integrator. The stiff integrator is slower than the conventional
-                integrator.
-
-            multiStep
-                True or False
-                Perform a multi step integration.
-                * Experimental *
-                Perform a multi-step simulation. In multi-step simulation, one may monitor the
-                variable time stepping via the IntegratorListener events system.
+                DEPRECATED: use solver API (this setting only available for some solvers).
 
             seed
-                Specify a seed to use for the random number generator for stochastic simulations.
-                The seed is used whenever the integrator is reset, i.e. `r.reset()`.
-                If no seed is specified, the current system time is used for seed.
+                DEPRECATED: use solver API (this setting only available for some solvers).
 
 
             :returns: a numpy array with each selected output time series being a
-             column vector, and the 0'th column is the simulation time.
+             column vector, and the 0'th column is the simulation time (if time is selected as an
+             output).
             :rtype: numpy.ndarray
             """
 
@@ -1246,7 +1285,7 @@ namespace std { class ostream{}; }
 
             # variableStep = True was specified in args
             haveVariableStep = False
-            o = self.simulateOptions
+            o = self.__simulateOptions
 
             def steps_restore(v):
                 def f():
@@ -1265,7 +1304,7 @@ namespace std { class ostream{}; }
 
             # check if we have just a sim options
             if len(args) >= 1:
-                if type(args[0]) == type(self.simulateOptions):
+                if type(args[0]) == type(self.__simulateOptions):
                     o = args[0]
                 elif type(args[0]) == list:
                     # its a selection list
@@ -1299,7 +1338,7 @@ namespace std { class ostream{}; }
                     # treat it as a number
                     o.steps = args[2]-1
                     stepsSpecified = True
-                    if o.steps < 2:
+                    if o.steps < 1:
                       raise RuntimeError('Number of points must be 2 or more')
                     haveSteps = True
                 else:
@@ -1356,6 +1395,7 @@ namespace std { class ostream{}; }
                 # check if variableStep was explicitly specified, this overrides the steps
                 # positional arg
                 if k == "variableStep":
+                    raise KeyError('Do NOT pass variableStep to simulate. Use integrator API: r.getIntegrator().setValue("variable_step_size", True)')
                     haveVariableStep = True
                     self.getIntegrator().setValue('variable_step_size', v)
                     if not stepsSpecified:
@@ -1363,7 +1403,7 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "plot":
-                    doPlot = v
+                    raise RuntimeError('plot argument is deprecated, use plot method')
                     continue
 
                 if k == "show":
@@ -1371,17 +1411,19 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "stiff" and self.getIntegrator().hasValue('stiff'):
+                    raise KeyError('Do NOT pass stiff to simulate. Use the integrator API: r.getIntegrator().setValue("stiff", True)')
                     def stiff_restore(v):
                         def f():
                             self.getIntegrator().setValue('stiff', v)
                         return f
                     self.getIntegrator().setValue('stiff', kwargs[k])
                     post_tasks.append(stiff_restore(self.getIntegrator().getValue('stiff')))
+                    continue
 
                 # if its not one of these, just set the item on the dict, and
                 # if the inegrator cares about it, it will use it.
                 # if its one of these, set it.
-                o[k] = v
+                raise KeyError('No such argument: {}'.format(k))
 
 
 
@@ -1436,6 +1478,8 @@ namespace std { class ostream{}; }
             if result is None:
                 raise Exception("no simulation result")
 
+            rval = []
+
             # check if standard numpy array
             if result.dtype.names is None:
 
@@ -1449,7 +1493,7 @@ namespace std { class ostream{}; }
                 for i in range(1, len(timeCourseSelections)):
                     series = result[:,i]
                     name = timeCourseSelections[i]
-                    p.plot(times, series, label=str(name), linewidth=2)
+                    rval.append(p.plot(times, series, label=str(name), linewidth=2))
 
             # result is structured array
             else:
@@ -1459,12 +1503,20 @@ namespace std { class ostream{}; }
                 time = result.dtype.names[0]
 
                 for name in result.dtype.names[1:]:
-                    p.plot(result[time], result[name], label=name, linewidth=2)
-
-            p.legend()
+                    rval.append(p.plot(result[time], result[name], label=name, linewidth=2))
 
             if show:
                 p.show()
+
+            return rval
+
+        def plotLegend(self):
+            import matplotlib.pyplot as p
+            p.legend()
+
+        def showPlot(self):
+            import matplotlib.pyplot as p
+            p.show()
 
         def getIndependentFloatingSpeciesIds(self):
             return list(self._getIndependentFloatingSpeciesIds())
@@ -1480,12 +1532,32 @@ namespace std { class ostream{}; }
 
         @property
         def integrator(self):
-            '''The current integrator'''
+            '''Get the current integrator object'''
             return self.getIntegrator()
 
         @integrator.setter
         def integrator(self, v):
             self.setIntegrator(v)
+
+        def setIntegratorSetting(self, integratorName, settingName, value):
+            import sys
+            if sys.version_info >= (3,0):
+                if not isinstance(integratorName, str):
+                    raise ValueError('Expected integratorName to be a string')
+                if not isinstance(settingName, str):
+                    raise ValueError('Expected settingName to be a string')
+            else:
+                if not isinstance(integratorName, basestring):
+                    raise ValueError('Expected integratorName to be a string')
+                if not isinstance(settingName, basestring):
+                    raise ValueError('Expected settingName to be a string')
+
+            # store original integrator and switch back to it afterwards
+            origIntegrator = self.getIntegrator().getName()
+
+            self.setIntegrator(integratorName)
+            self.getIntegrator().setValue(settingName, value)
+            self.setIntegrator(origIntegrator)
 
         @property
         def steadyStateSolver(self):
@@ -1526,20 +1598,24 @@ namespace std { class ostream{}; }
 }
 
 %{
-    rr::SimulateOptions* rr_RoadRunner_simulateOptions_get(RoadRunner* r) {
+    rr::SimulateOptions* rr_RoadRunner___simulateOptions_get(RoadRunner* r) {
+        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
-    void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
+    void rr_RoadRunner___simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
+        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
+        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
+        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
@@ -1560,11 +1636,7 @@ namespace std { class ostream{}; }
 %extend rr::SimulateOptions
 {
     double end;
-    bool resetModel;
-    bool stiff;
-    bool multiStep;
     bool structuredResult;
-    bool variableStep;
     bool copyResult;
 
     std::string __repr__() {
@@ -1600,8 +1672,6 @@ namespace std { class ostream{}; }
                 self._setListener(listener)
     %}
 
-
-
 }
 
 %{
@@ -1613,14 +1683,6 @@ namespace std { class ostream{}; }
         opt->duration = end - opt->start;
     }
 
-    bool rr_SimulateOptions_resetModel_get(SimulateOptions* opt) {
-        return opt->getItem("reset");
-    }
-
-    void rr_SimulateOptions_resetModel_set(SimulateOptions* opt, bool value) {
-        opt->setItem("reset", value);
-    }
-
     bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
         return opt->structured_result;
     }
@@ -1629,36 +1691,12 @@ namespace std { class ostream{}; }
         opt->structured_result = value;
     }
 
-    bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->getItem("stiff");
-    }
-
-    void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
-        opt->setItem("stiff", value);
-    }
-
-    bool rr_SimulateOptions_multiStep_get(SimulateOptions* opt) {
-        return opt->getItem("multiStep");
-    }
-
-    void rr_SimulateOptions_multiStep_set(SimulateOptions* opt, bool value) {
-        opt->setItem("multiStep", value);
-    }
-
     bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
         return opt->getItem("copyResult");
     }
 
     void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
         opt->setItem("copyResult", value);
-    }
-
-    bool rr_SimulateOptions_variableStep_get(SimulateOptions* opt) {
-        return opt->getItem("variableStep");
-    }
-
-    void rr_SimulateOptions_variableStep_set(SimulateOptions* opt, bool value) {
-        opt->setItem("variableStep", value);
     }
 %}
 
@@ -2631,3 +2669,12 @@ namespace std { class ostream{}; }
         if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
      %}
 }
+
+
+// Copy this code ad verbatim to the Python module
+%pythoncode %{
+RoadRunner.ensureSolversRegistered()
+integrators = list(RoadRunner.getRegisteredIntegratorNames())
+steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
+solvers = integrators + steadyStateSolvers
+%}

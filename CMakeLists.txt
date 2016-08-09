@@ -6,7 +6,7 @@ project(rr)
 
 set(ROADRUNNER_VERSION_MAJOR 1)
 set(ROADRUNNER_VERSION_MINOR 4)
-set(ROADRUNNER_VERSION_PATCH 2)
+set(ROADRUNNER_VERSION_PATCH 8)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 
@@ -91,6 +91,9 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
 # should we build the swig python wrapper?
 option (BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
 set( PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages directory" )
+if(BUILD_PYTHON)
+  set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
+endif()
 
 # should we build the swig Java wrapper?
 option (BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
@@ -133,6 +136,7 @@ OPTION (INSTALL_STATIC_LIB      "Install RoadRunner CXX static lib"             
 OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"           ON)
 OPTION (BUILD_TESTS             "Build the SBML C API test suite"                OFF)
 OPTION (INSTALL_SBML_MODELS     "Install SBML Models"                            ON )
+OPTION (WITH_CONDA_BUILDER      "Include files required to build the conda package" OFF)
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS            ON)
@@ -201,8 +205,36 @@ else()
     find_package(LibXml2 REQUIRED)
 	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}")
 	include_directories(${LIBXML2_INCLUDE_DIR})
-endif(WIN32)
+endif()
 
+find_library(LIBSBML_LIBRARY sbml libsbml HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_library(LIBSBML_STATIC_LIBRARY sbml-static libsbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_path(LIBSBML_INCLUDE_DIR sbml/SBMLTypes.h HINTS ${THIRD_PARTY_INSTALL_FOLDER}/include)
+
+# find libSBML deps
+
+if(WIN32)
+  find_library(ICONV_LIBRARY iconv libiconv HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+  if(NOT ICONV_LIBRARY)
+    message(SEND_ERROR "Could not find libiconv, required for libSBML linking")
+  endif()
+endif()
+message(STATUS "ZLIB SDK dir: ${CMAKE_OSX_SYSROOT}/usr/lib")
+find_library(ZLIB_LIBRARY NAMES z libz libz.dylib zdll HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib ${CMAKE_OSX_SYSROOT}/usr/lib)
+message(STATUS "Find ZLIB results: ${ZLIB_LIBRARY}")
+if(NOT ZLIB_LIBRARY)
+  message(SEND_ERROR "Could not find zlib, required for libSBML linking")
+endif()
+find_library(BZ2_LIBRARY bz2 libbz2 HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+if(NOT BZ2_LIBRARY)
+  message(SEND_ERROR "Could not find libbz2, required for libSBML linking")
+endif()
+
+if(WIN32)
+  set(LIBSBML_EXTRA_LIBS "${ICONV_LIBRARY};${ZLIB_LIBRARY};${BZ2_LIBRARY}" CACHE STRING "libSBML extra libraries")
+else()
+  set(LIBSBML_EXTRA_LIBS "${ZLIB_LIBRARY};${BZ2_LIBRARY}" CACHE STRING "libSBML extra libraries")
+endif()
 
 if (${BUILD_LLVM})
     link_directories(
@@ -284,6 +316,44 @@ else()
     message(STATUS "not building legacy C backend")
 endif(BUILD_LEGACY_C)
 
+message(STATUS "
+-------------------------------------------------------------------------------
+libRoadRunner Configuration Summary
+-------------------------------------------------------------------------------
+
+    For up-to-date news and releases visit libroadrunner.org
+
+    Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
+      host OS                   ${CMAKE_SYSTEM_NAME}
+      host architecture         ${CMAKE_SYSTEM_PROCESSOR}
+
+    General flags:
+      CC                        ${CMAKE_C_COMPILER}
+      CXX                       ${CMAKE_CXX_COMPILER}
+      CPPFLAGS                  ${BUILD_DEFINITIONS}
+      CFLAGS                    ${CMAKE_C_FLAGS}
+      CXXFLAGS                  ${CMAKE_CXX_FLAGS}
+      LDFLAGS                   ${CMAKE_EXE_LINKER_FLAGS}
+
+    Installation prefix:        ${CMAKE_INSTALL_PREFIX}
+
+    Options:
+      With LLVM?                ${BUILD_LLVM}
+      With legacy C? (DEP)      ${BUILD_LEGACY_C}
+      Enable Python interface?  ${BUILD_PYTHON}
+      Enable Java interface?    ${BUILD_JAVA_INTERFACE}
+      Enable test suite?        ${BUILD_TESTS}
+
+    Dependencies (packages marked with *** are required):
+    "
+)
+
+message( "  *** libSBML")
+message( "       libSBML libs               ${LIBSBML_LIBRARY}")
+message( "       libSBML static libs        ${LIBSBML_STATIC_LIBRARY}")
+message( "       libSBML includes           ${LIBSBML_INCLUDE_DIR}")
+
+message( "" )
 
 # We alway have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
@@ -314,6 +384,8 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
 
     file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
 
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+
     foreach( f ${TEST_FILES} )
         if(NOT IS_DIRECTORY ${f})
             get_filename_component( FILE_NAME ${f} NAME )
@@ -323,6 +395,13 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     endforeach()
 
     foreach( f ${PYTHON_TEST_DATA} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
+    foreach( f ${TEST_DATA_XML} )
         if(NOT IS_DIRECTORY ${f})
             get_filename_component( FILE_NAME ${f} NAME )
             configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
@@ -383,3 +462,7 @@ if(WIN32)
         FILES win32_bin_README.txt DESTINATION bin/ RENAME README.txt
     )
 endif(WIN32)
+
+if(WITH_CONDA_BUILDER)
+  install(FILES assets/roadrunner-64x64-red.png DESTINATION assets)
+endif()

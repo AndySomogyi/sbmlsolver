@@ -194,7 +194,7 @@ namespace rr
 
         // Set default integrator settings.
         addSetting("seed",              defaultSeed(), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
-        addSetting("variable_step_size",false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
+        addSetting("variable_step_size",true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
         addSetting("initial_time_step", 0.0,   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
         addSetting("minimum_time_step", 0.0,   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("maximum_time_step", 0.0,   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
@@ -205,14 +205,20 @@ namespace rr
 	{
 		double tf = 0;
 		bool singleStep;
+		bool varStep = getValue("variable_step_size").convert<bool>();
+		double minTimeStep = getValue("minimum_time_step").convert<double>();
 
 		assert(hstep > 0 && "hstep must be > 0");
 
-		if (getValue("variable_step_size").convert<bool>())
+		if (varStep)
 		{
-			if (getValue("minimum_time_step").convert<double>() > 0.0)
+			if (minTimeStep > 0.0)
 			{
-				tf = t + getValue("minimum_time_step").convert<double>();
+				if (minTimeStep > hstep) // no step bigger than hstep
+				{
+					minTimeStep = hstep;
+				}
+				tf = t + minTimeStep;
 				singleStep = false;
 			}
 			else
@@ -272,6 +278,10 @@ namespace rr
 			{
 				// no reaction occurs
 				return std::numeric_limits<double>::infinity();
+			}
+			if (t + tau > tf)        // if time exhausted, don't allow reaction to proceed
+			{
+				return tf;
 			}
 
 			t = t + tau;

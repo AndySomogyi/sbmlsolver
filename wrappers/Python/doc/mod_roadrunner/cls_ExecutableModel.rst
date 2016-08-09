@@ -709,34 +709,42 @@ Misc
    Get various info about the model.
    
    
-   >>> print r.getInfo()
+   >>> print(r.getInfo())
    <roadrunner.RoadRunner() { 
-   'this' : 0056AC30
+   'this' : 13DEF5F8
    'modelLoaded' : true
-   'modelName' : pathway
-   'libSBMLVersion' : LibSBML Version: 5.11.0
+   'modelName' : feedback
+   'libSBMLVersion' : LibSBML Version: 5.12.0
    'jacobianStepSize' : 1e-005
    'conservedMoietyAnalysis' : false
    'simulateOptions' : 
    < roadrunner.SimulateOptions() 
    { 
-   'this' : 10590170, 
-   integrator: "cvode",
+   'this' : 0068A7F0, 
    'reset' : 0,
    'structuredResult' : 0,
    'copyResult' : 1,
-   'steps' : 99,
+   'steps' : 50,
    'start' : 0,
-   'duration' : 10,
-   'initialTimeStep' : -1,
-   'minimumTimeStep' : -1,
-   'maximumTimeStep' : -1,
-   'maximumNumSteps' : -1
+   'duration' : 40
    }>, 
    'integrator' : 
    < roadrunner.Integrator() >
+     name: cvode
+     settings:
+         relative_tolerance: 0.00001
+         absolute_tolerance: 0.0000000001
+                      stiff: true
+          maximum_bdf_order: 5
+        maximum_adams_order: 12
+          maximum_num_steps: 20000
+          maximum_time_step: 0
+             minimum_time_step: 0
+          initial_time_step: 0
+             multiple_steps: false
+         variable_step_size: false
    }>
-   
+
 
 .. method:: ExecutableModel.getModelName()
    :module: RoadRunner

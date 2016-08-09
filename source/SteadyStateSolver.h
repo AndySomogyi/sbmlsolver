@@ -50,7 +50,7 @@ namespace rr
         */
         virtual void syncWithModel(ExecutableModel* m) = 0;
 
-        virtual double solve(const std::vector<double>& yin) = 0;
+        virtual double solve() = 0;
 
         virtual void loadConfigSettings();
     };

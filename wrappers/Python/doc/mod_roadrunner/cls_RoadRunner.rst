@@ -114,8 +114,17 @@ _________________________
 .. method:: RoadRunner.getIntegrator()
    :module: RoadRunner
 
-   Returns the integrator which is currently being used to
-   time evolve the system.
+   Returns the solver instance. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   
+.. method:: RoadRunner.getIntegratorByName(name)
+   :module: RoadRunner
+   
+   Returns the solver instance by given name. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+
+   :param str name: Name of the integrator
 
    
 .. method:: RoadRunner.getAvailableIntegrators()
@@ -139,7 +148,6 @@ _________________________
    :param str SBML: the contents of an SBML document
    :rtype: str
 
-   
 
 .. method:: RoadRunner.getCurrentSBML()
    :module: RoadRunner
@@ -158,6 +166,24 @@ _________________________
    Returns the original SBML model that was loaded into roadrunner.
 
    :rtype: str
+   
+.. method:: RoadRunner.setIntegrator(name)
+   :module: RoadRunner
+
+   Sets specific integrator. For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   :param str name: name of the integrator.
+
+   
+.. method:: RoadRunner.setIntegratorSetting(name, key, value)
+   :module: RoadRunner
+
+   Sets settings for a specific integrator. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   :param str name: name of the integrator.
+   :param str key: name of the setting.
+   :param const value: value of the setting.
    
 
 Selections
@@ -184,7 +210,7 @@ Selections
 .. method:: RoadRunner.getSelectedValues()
    :module: RoadRunner
 
-   returns the values selected with SimulateOptions for the current model time / timestep
+   returns the values of the current timecourse selections for the current state of the model
 
    :rtype: numpy.ndarray
 
@@ -501,13 +527,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    
    :param numpy.ndarray result: Data returned from a simulate or gillespie call
    :param str loc: string representing the location of legend i.e. "upper right"
-   
-
-.. py:attribute:: RoadRunner.simulateOptions
-   :module: RoadRunner
-   :annotation: None
-
-   Get the SimulateOptions object where simulation options may be set.
 
 
 .. py:function:: Roadrunner.getSimulationData()
@@ -603,12 +622,12 @@ related to metabolic control analysis are applicable. These methods are describe
    return concentration control coefficients with respect to species S1 and S2.
 
    :param variable: The id of a dependent variable of the coefficient, for example a
-                    flux or species concentration.
+                    reaction or species concentration.
 
    :param parameter: The id of the independent parameter, for example a kinetic constant
                      or boundary species
 
-   :returns: the value of the control coefficient returned to the caller.
+   :returns: the value of the scaled control coefficient.
 
    :rtype: double
 
@@ -618,11 +637,15 @@ related to metabolic control analysis are applicable. These methods are describe
 
    Get unscaled control coefficient with respect to a global parameter.
 
-   :param variableId: must be either a reaction or floating species.
+   :param variableId: The id of a dependent variable of the coefficient, for example a
+                    reaction or species concentration.
 
-   :param parameterId: must be either a global parameter, boundary species, or
-                       conserved sum.
+   :param parameterId: The id of the independent parameter, for example a kinetic constant
+                     or boundary species
+					 
+   :returns: the value of the unscaled control coefficient.
 
+   :rtype: double
 					   
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: RoadRunner
@@ -632,11 +655,11 @@ related to metabolic control analysis are applicable. These methods are describe
    For example::
 
      x = rr.getEE ('J1', 'Vmax')
+	 
+   calculates elasticity coefficient of reaction 'J1' with restpect to parameter 'Vmax'.
 
-   :param str variable: The dependent variable of the coefficient, for example a flux or
-                        species concentration.
-   :param str parameter: The independent parameter, for example a kinetic constant or boundary
-                         species
+   :param str variable: A reaction Id
+   :param str parameter: The independent parameter, for example a kinetic constant, floating or boundary species
    :param Boolean steadyState: should the steady state value be computed.
 
 
@@ -804,8 +827,8 @@ related to metabolic control analysis are applicable. These methods are describe
    
    
 
-Stochiometric Analysis
-----------------------
+Stoichiometric Analysis
+-----------------------
 
 .. method:: RoadRunner.getFullStoichiometryMatrix()
    :module: RoadRunner

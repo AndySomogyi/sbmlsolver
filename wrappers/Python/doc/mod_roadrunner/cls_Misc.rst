@@ -16,7 +16,7 @@ _______________________
 .. staticmethod:: RoadRunner_getExtendedVersionInfo()
    :module: roadrunner
 
-   :func:`getVersionStr()` plus info about dependent libs versions.
+   :func:`getVersionStr()` with infomation about dependent libs versions.
 
 
 .. staticmethod:: RoadRunner_getParamPromotedSBML(*args)
