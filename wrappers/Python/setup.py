@@ -149,11 +149,11 @@ def setup(*args):
         print("installing into Spyder using args: " + str(args))
 
 
-    _setup(name='pylibroadrunner',
-        author='Andy Somogyi, Herbert Sauro',
-        author_email='somogyie@indiana.edu',
+    _setup(name='libroadrunner',
+        author='J Kyle Medley, Andy Somogyi, Herbert Sauro',
+        author_email='tellurium-discuss@u.washington.edu',
         version=_version,
-        description='libRoadRunner SBML JIT compiler and simulation library',
+        description='libRoadRunner: A simulation  and analysis library for SBML',
         url='http://libroadrunner.org',
         packages=['roadrunner', 'roadrunner.testing', 'roadrunner.stochastic'],
         package_dir={
@@ -166,6 +166,7 @@ def setup(*args):
             "roadrunner" : ["_roadrunner." + _sharedLibExt(), "*.so", "*.dll", "*.txt", "*.dylib"],
             "roadrunner.testing" : ["*.xml", "*.txt", "*.dat", "dsmts/*.xml", "dsmts/*.csv", "test_data/*"]
         },
+        install_requires=['numpy>=1.9'],
         cmdclass={'sdist' : _RoadRunnerSDist},
 
         # fake out the command line args
