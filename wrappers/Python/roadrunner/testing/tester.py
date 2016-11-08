@@ -571,7 +571,7 @@ def checkSetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
     errorFlag = False
     words = divide(readLine())
     n = rrInstance.model.getNumFloatingSpecies()
-    rrInstance.model.setFloatingSpeciesInitConcentrations(array(map(float, words)))
+    rrInstance.model.setFloatingSpeciesInitConcentrations(array(list(map(float, words))))
     rt = rrInstance.model.getFloatingSpeciesInitConcentrations()
     for i in range (n):
         if expectApproximately(float (words[i]), rt[i], 1E-6) == False:
