@@ -8,10 +8,17 @@ package.
 """
 
 import roadrunner
-from roadrunner import *
+try:
+    from roadrunner.roadrunner import *
+except (ImportError):
+    from roadrunner import *
 
 __version__ = roadrunner.getVersionStr()
 
 def runTests(testDir=None):
-  import testing
-  return testing.tester.runTester(testDir)
+    try:
+        import testing
+        return testing.tester.runTester(testDir)
+    except (ImportError):
+        import roadrunner.testing
+        return roadrunner.testing.tester.runTester(testDir)
