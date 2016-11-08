@@ -2516,6 +2516,33 @@ namespace std { class ostream{}; }
     }
 }
 
+%extend rr::Solver {
+    %pythoncode %{
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            if(name in self.getSettings()):
+                return Solver.getValue(self, name)
+            else:
+                return _swig_getattr(self, Integrator, name)
+
+        def __setattr__(self, name, value):
+            if(name != 'this' and name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                _swig_setattr(self, Integrator, name, value)
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
+    %}
+}
+
 %extend rr::Integrator {
 
     void _setListener(const rr::PyIntegratorListenerPtr &listener) {
@@ -2579,13 +2606,16 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            return Solver.getValue(self, name)
+            if(name in self.getSettings()):
+                return Solver.getValue(self, name)
+            else:
+                return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
-            if(name in self.getSettings()):
+            if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                raise AttributeError('No such key "{}"'.format(name))
+                _swig_setattr(self, Integrator, name, value)
 
         def __repr__(self):
             return self.toRepr()
@@ -2606,37 +2636,16 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            return Solver.getValue(self, name)
+            if(name in self.getSettings()):
+                return Solver.getValue(self, name)
+            else:
+                return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
-            if(name in self.getSettings()):
+            if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                raise AttributeError('No such key "{}"'.format(name))
-
-        def getSetting(self, k):
-            return self.getValue(k)
-
-        def setSetting(self, k, v):
-            return self.setValue(k, v)
-    %}
-}
-
-%extend rr::Solver {
-    %pythoncode %{
-        def __dir__(self):
-            x = dir(type(self))
-            x += self.getSettings()
-            return x
-
-        def __getattr__(self, name):
-            return Solver.getValue(self, name)
-
-        def __setattr__(self, name, value):
-            if(name in self.getSettings()):
-                self.setValue(name, value)
-            else:
-                raise AttributeError('No such key "{}"'.format(name))
+                _swig_setattr(self, Integrator, name, value)
 
         def getSetting(self, k):
             return self.getValue(k)
