@@ -45,8 +45,8 @@ setup(name='libroadrunner',
     },
     package_data={
         # add dll, won't hurt unix, not there anyway
-        'roadrunner' : ['_roadrunner*', '*.so', '*.dll', '*.txt', '*.dylib', '*.pyd'],
+        'roadrunner' : ['_roadrunner*', '*.so', '*.so.*', '*.dll', '*.txt', '*.dylib', '*.pyd'],
         'roadrunner.testing' : ['*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
     },
-    install_requires=['numpy>=1.11'],
+    install_requires=['numpy>=1.11', 'matplotlib>=1.5'],
 )
