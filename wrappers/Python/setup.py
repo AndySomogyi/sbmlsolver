@@ -48,5 +48,5 @@ setup(name='libroadrunner',
         'roadrunner' : ['_roadrunner*', '*.so', '*.dll', '*.txt', '*.dylib', '*.pyd'],
         'roadrunner.testing' : ['*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
     },
-    install_requires=['numpy>=1.9'],
+    install_requires=['numpy>=1.11'],
 )
