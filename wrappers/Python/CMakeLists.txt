@@ -4,8 +4,11 @@ FIND_PACKAGE(SWIG REQUIRED)
 
 INCLUDE(UseSWIG)
 
-FIND_PACKAGE(PythonLibs)
-FIND_PACKAGE(PythonInterp)
+find_package(PythonInterp)
+# specify that the same python library should be found 
+# as the one the selected interpreter uses
+set (Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
+find_package(PythonLibs)
 FIND_PACKAGE(NumPy)
 
 MESSAGE ("THIS IS NUMPY_VERSION " ${NUMPY_VERSION})
