@@ -190,6 +190,10 @@ int ConservedMoietyConverter::convert()
         ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version2", "fbc");
     if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version1"))
         ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version1", "fbc");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/layout/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/layout/version1", "layout");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/render/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/render/version1", "render");
     resultDoc = new SBMLDocument(&ns);
 
     ConservationDocumentPlugin *docPlugin = dynamic_cast<ConservationDocumentPlugin*>
