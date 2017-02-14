@@ -56,7 +56,7 @@ public:
     ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety) :
         libsbml::Species(orig)
     {
-        ConservationPkgNamespaces ns(3,1,1);
+        ConservationPkgNamespaces ns(3,2,1);
         this->loadPlugins(&ns);
 
         ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
@@ -175,6 +175,20 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
     }
 
+    if (mDocument->checkL3v2Compatibility() != 0)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
+                << std::endl;
+        return 1;
+    }
+
+    if (!mDocument->setLevelAndVersion(3,2))
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
+                << std::endl;
+        return 1;
+    }
+
 
     Model* mModel = mDocument->getModel();
     if (mModel == NULL)
@@ -183,9 +197,8 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
     }
 
-
     /* The document was checked for consistency in setDocument */
-    ConservationPkgNamespaces ns(3,1,1);
+    ConservationPkgNamespaces ns(3,2,1);
     if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version2"))
         ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version2", "fbc");
     if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version1"))
