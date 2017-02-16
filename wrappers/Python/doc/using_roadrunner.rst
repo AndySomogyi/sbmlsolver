@@ -70,14 +70,14 @@ points to generate.  By default the starting time is set to zero, ending time to
 There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`~RoadRunner.simulate()` 
 in the following manner::
 
-   result = rr.simulate (0, 10, 101)
+   result = rr.simulate (0, 10, 100)
 
-This will set the starting time to zero, the ending time to 10 and generate 101 points. This means that the result will
-be out in time intervals of 0.1.
+This will set the starting time to zero, the ending time to 10 and generate 100 points. This means that the result will
+be out in time intervals of 1/99.
 
-The simulate method also accepts other keyword arguments::
+The simulate method also accepts the steps keyword argument instead of points::
 
-  result = rr.simulate(0, 10, 101, reset=True, stiff=True)
+  result = rr.simulate(0, 10, steps=99)
 
 For more details of the simulate method see :meth:`~RoadRunner.simulate()`.
 The following table summarizes the various options.
@@ -87,21 +87,9 @@ The following table summarizes the various options.
 ================  =============
 start             Starting time for simulation
 end               Ending time for simulation. Setting 'end' will automatically change 'duration'
-duration          Duration of the simulation in the model's units of time. Setting 'duration' will automatically change 'end'
-steps             Number of steps at which the output is sampled where the samples are evenly spaced
-absolute          Absolute tolerance for the CVODE integrator
-relative          Relative tolerance for the CVODE integrator
-stiff             Tells the integrator to use the fully implicit backward difference stiff solver.
-                  Use this option only if the model is stiff.
-reset             Resets the SBML state to the original values specified in the SBML.
-structuredResult  If set (default is True), the result from simulate is a numpy structured array
-                  with the column names set to the selections. This is required for plotting and
-                  displaying a legend for each time series.
-variableStep      Perform a variable step simulation. This lets the integrator choose the 
-                  appropriate time step.
-integrator        a string of either "cvode" for deterministic simulations, or "gillespie" for
-                  stochastic simulations. 
-plot              True or False, plot the results of the simulation. 
+points            Number of rows to include in the output matrix
+selections        (Optional) A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
+steps             (Optional keyword argument) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
 ================  =============
 
 One important point to note about :meth:`~RoadRunner.simulate()`: When :meth:`~RoadRunner.simulate()` is run, the concentration of
@@ -310,7 +298,10 @@ To use basic 4th-order Runge-Kutta integrator ('rk4'), call :meth:`~RoadRunner.s
   >>>  r.setIntegrator('rk4')
 
 Runge-Kutta always uses a fixed step size, and does not support events.
-RoadRunner supports Runge-Kutta-Fehlberg Method ('rkf45') as well as a stochastic integrator based on Gillespie algorithm ('gilliespie').
+RoadRunner supports Runge-Kutta-Fehlberg Method ('rkf45') as well as a stochastic integrator based on Gillespie algorithm ('gilliespie'). To get a list of all available integrators, run:
+
+  >>>  r.integrators
+  ['cvode', 'gillespie', 'rk4', 'rk45']
 
 Some integrators, such as CVODE, have parameters which can be set by the user.
 To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()` on an integrator instance:
