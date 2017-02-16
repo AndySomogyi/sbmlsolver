@@ -343,7 +343,7 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    Simulate and optionally plot current SBML model. This is the one stop shopping method
    for simulation and plotting. 
 
-   simulate accepts a up to four positional arguments and a large number of keyword args. 
+   simulate accepts a up to four positional arguments. 
 
    The first four (optional) arguments are treated as:
             
@@ -366,107 +366,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
       then a default set of values is used. 
 
    2: With up to three positions arguments, described above. 
-
-   3: With optional keyword arguments where keywords are listed below. 
-
-      For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
-        
-        rr.simulate(end=10, start=0, steps=1000, reset=True, plot=True)
-
-      All of the options given to ``simulate`` are remembered and used as default arguments for
-      subsequent calls, i.e. if one calls::
-
-        rr.simulate (0, 3, 100, ["time", "[S1]"])
-
-      The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
-      so that if this is followed by a call to::
-
-        rr.simulate()
-
-      This simulation will use the previous values. Note, that if the ``reset=True`` options was not
-      given, this will continue the simulation using the previous model state, but time here will
-      start at 0 and continue to 3. 
-
-   simulate accepts the following list of keyword arguments:
-
-   integrator
-     A text string specifying which integrator to use. Currently supports "cvode"
-     for deterministic simulation (default) and "gillespie" for stochastic 
-     simulation.
-
-   sel or selections
-     A list of strings specifying what values to display in the output. 
-
-   plot
-     True or False
-     If True, RoadRunner will create a basic plot of the simulation result using
-     the built in plot routine which uses MatPlotLib. 
-
-   absolute
-     A number representing the absolute difference permitted for the integrator 
-     tolerance.
-
-   duration
-     The duration of the simulation run, in the model's units of time.
-     Note, setting the duration automatically sets the end time and visa versa.
-     
-   end
-     The simulation end time. Note, setting the end time automatically sets 
-     the duration accordingly and visa versa.
-
-   relative
-     A float-point number representing the relative difference permitted. 
-     Defaults 0.0001
-
-   reset
-     True or False
-     Causes the model to be reset to the original conditions specified in 
-     the SBML when the simulation is run.
-
-   start
-     The start time of the simulation time-series data. Often this is 0, 
-     but not necessarily.
-
-   steps
-     The number of steps at which the output is sampled. The samples are evenly spaced. 
-     When a simulation system calculates the data points to record, it will typically 
-     divide the duration by the number of time steps. Thus, for N steps, the output 
-     will have N+1 data rows.
-
-   stiff
-     True or False
-     Use the stiff integrator. Only use this if the model is stiff and causes issues 
-     with the regular integrator. The stiff integrator is slower than the conventional 
-     integrator.
-
-   multiStep
-     True or False
-     Perform a multi step integration.
-     
-     \* Experimental \*
-     Perform a multi-step simulation. In multi-step simulation, one may monitor the 
-     variable time stepping via the IntegratorListener events system.
-
-   initialTimeStep
-     A user specified initial time step. If this is <= 0, the integrator will attempt 
-     to determine a safe initial time step.
-
-     Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate 
-     the internal integrator may take many many steps to reach one of the external time steps. 
-     This value specifies an initial value for the internal integrator time step.
-
-   minimumTimeStep
-     Specify the minimum time step that the internal integrator will use. 
-     Uses integrator estimated value if <= 0.
-
-   maximumTimeStep
-     Specify the maximum time step size that the internal integrator will use. 
-     Uses integrator estimated value if <= 0.
-
-   maximumNumSteps
-     Specify the maximum number of steps the internal integrator will use before 
-     reaching the user specified time span. Uses the integrator default value if <= 0.
-
 
    :returns: a numpy array with each selected output time series being a
              column vector, and the 0'th column is the simulation time.
