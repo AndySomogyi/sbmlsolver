@@ -173,6 +173,12 @@ public:
     bool clearModel();
 
 
+	/**
+	* @deprecated, use oneStep instead.
+	*/
+    double integrate(double t0, double tf, const SimulateOptions* options = 0);
+
+
     /**
      * Carry out a single integration step using a stepsize as indicated
      * in the method call.
@@ -180,11 +186,6 @@ public:
      * @param t0 starting time
      * @param tf final time
      * @param options override current options.
-     */
-    double integrate(double t0, double tf, const SimulateOptions* options = 0);
-
-    /**
-     * @deprecated, use integrate instead.
      */
     double oneStep(double currentTime, double stepSize, bool reset = true);
 

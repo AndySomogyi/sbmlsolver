@@ -408,16 +408,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    >>> result = r.gillespie (0, 40, 20, [‘time’, ‘S1’])
    
 
-.. method:: RoadRunner.integrate(t0, tf, options)
-   :module: RoadRunner
-
-   Carry out a single integration step using a stepsize as indicated in the method call.
-
-   :param t0: start time
-   :param tf: end time   
-   :param options: override current options
-
-
 .. py:function:: RoadRunner.plot(result, loc)
    :module: RoadRunner
    
