@@ -20,8 +20,13 @@ To get you started here is a very simple script that will load an example SBML m
 simulation and plot the results::
 
    import roadrunner
+
+   # load an SBML model
    rr = roadrunner.RoadRunner("mymodel.xml")
-   result = rr.simulate()
+
+   # simulate from 0 to 10 time units with 100 output rows
+   result = rr.simulate(0,10,100)
+
    rr.plot()
 
 
