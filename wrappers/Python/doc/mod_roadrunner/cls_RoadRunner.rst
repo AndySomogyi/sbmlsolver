@@ -351,13 +351,12 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
       2: End Time, if this is a number.
 
-      3: Number of Steps, if this is a number.
+      3: Number of points, if this is a number.
             
-      4: List of Selections. 
+      4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
 
    All four of the positional arguments are optional. If any of the positional arguments are
    a list of string instead of a number, then they are interpreted as a list of selections. 
-
    
    There are a number of ways to call simulate.
 
@@ -365,7 +364,11 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
       ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
       then a default set of values is used. 
 
-   2: With up to three positions arguments, described above. 
+   2: With up to four positions arguments, described above. 
+   
+   Finally, you can pass steps keyword argument instead of points. 
+   
+   steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
 
    :returns: a numpy array with each selected output time series being a
              column vector, and the 0'th column is the simulation time.
