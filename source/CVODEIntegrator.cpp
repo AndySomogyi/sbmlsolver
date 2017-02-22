@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <Poco/Logger.h>
 
+#include <iostream>
+
 #define CVODE_INT_TYPECODE 0x7799ff00
 
 using namespace std;
@@ -93,9 +95,11 @@ namespace rr
     {
         Solver::resetSettings();
 
+        std::cerr << "CVODEIntegrator::resetSettings\n";
+
         // Set default integrator settings.
-        addSetting("relative_tolerance", 1e-6, "Relative Tolerance", "Specifies the scalar relative tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
-        addSetting("absolute_tolerance", 1e-15, "Absolute Tolerance", "Specifies the scalar absolute tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
+        addSetting("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE), "Relative Tolerance", "Specifies the scalar relative tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
+        addSetting("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE), "Absolute Tolerance", "Specifies the scalar absolute tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
         addSetting("stiff",              true, "Stiff", "Specifies whether the integrator attempts to solve stiff equations. (bool)", "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
         addSetting("maximum_bdf_order",  mDefaultMaxBDFOrder, "Maximum BDF Order", "Specifies the maximum order for Backward Differentiation Formula integration. (int)", "(int) Specifies the maximum order for Backward Differentiation Formula integration. This integration method is used for stiff problems. Default value is 5.");
         addSetting("maximum_adams_order",mDefaultMaxAdamsOrder, "Maximum Adams Order", "Specifies the maximum order for Adams-Moulton intergration. (int)", "(int) Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.");
@@ -105,7 +109,10 @@ namespace rr
         addSetting("initial_time_step",  0.0, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
         addSetting("multiple_steps",     false, "Multiple Steps", "Perform a multiple time step simulation. (bool)", "(bool) Perform a multiple time step simulation.");
         addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
+        std::cerr << "resetSettings rel tol pre load config " << CVODEIntegrator::getValueAsDouble("relative_tolerance") << "\n";
         CVODEIntegrator::loadConfigSettings();
+
+        std::cerr << "resetSettings rel tol " << CVODEIntegrator::getValueAsDouble("relative_tolerance") << "\n";
     }
 
 
@@ -198,13 +205,6 @@ namespace rr
         // MULTIPLE STEPS
         bVal = Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP);
         Integrator::setValue("multiple_steps", bVal);
-
-        // ABSOLUTE TOLERANCE
-//         Integrator::setValue("absolute_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE));
-//         Integrator::setValue("relative_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE));
-
-        CVODEIntegrator::setValue("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE));
-        CVODEIntegrator::setValue("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE));
     }
 
 	void CVODEIntegrator::loadSBMLSettings(std::string const& filename)
@@ -543,6 +543,8 @@ namespace rr
 	{
 		double minAbs = Config::getDouble(Config::CVODE_MIN_ABSOLUTE);
 		double minRel = Config::getDouble(Config::CVODE_MIN_RELATIVE);
+
+    std::cerr << "minAbs = " << minAbs << ", minRel = " << minRel << "\n";
 
 		CVODEIntegrator::setValue("absolute_tolerance", std::min(CVODEIntegrator::getValueAsDouble("absolute_tolerance"), minAbs));
 		CVODEIntegrator::setValue("relative_tolerance", std::min(CVODEIntegrator::getValueAsDouble("relative_tolerance"), minRel));

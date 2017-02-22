@@ -113,8 +113,8 @@ static Variant values[] =  {
     Variant((int)(SelectionRecord::TIME
             | SelectionRecord::RATE
             | SelectionRecord::FLOATING)),        // MODEL_RESET
-    Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
-    Variant(1.e-5),    // CVODE_MIN_RELATIVE
+    Variant(1.e-12),   // CVODE_MIN_ABSOLUTE
+    Variant(1.e-6),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
     Variant(1.e-4),    // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
