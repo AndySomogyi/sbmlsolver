@@ -7,11 +7,7 @@ into existing simulation platforms or may be used a stand alone simulation and a
 package.
 """
 
-import roadrunner
-try:
-    from roadrunner.roadrunner import *
-except (ImportError):
-    from roadrunner import *
+from .roadrunner import *
 
 __version__ = roadrunner.getVersionStr()
 
