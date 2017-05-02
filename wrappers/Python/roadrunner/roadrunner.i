@@ -1002,6 +1002,7 @@ namespace std { class ostream{}; }
         __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
         __swig_getmethods__["model"] = _getModel
         __swig_getmethods__["integrator"] = getIntegrator
+        __swig_setmethods__["integrator"] = setIntegrator
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
@@ -1537,7 +1538,11 @@ namespace std { class ostream{}; }
 
         @integrator.setter
         def integrator(self, v):
+            print('integrator.setter')
             self.setIntegrator(v)
+
+        if _newclass:
+            integrator = property(getIntegrator, setIntegrator)
 
         def setIntegratorSetting(self, integratorName, settingName, value):
             import sys
