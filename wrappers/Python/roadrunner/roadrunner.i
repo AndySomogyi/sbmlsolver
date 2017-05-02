@@ -1531,16 +1531,6 @@ namespace std { class ostream{}; }
         def getReactionRates(self):
             return self.getModel().getReactionRates()
 
-        @property
-        def integrator(self):
-            '''Get the current integrator object'''
-            return self.getIntegrator()
-
-        @integrator.setter
-        def integrator(self, v):
-            print('integrator.setter')
-            self.setIntegrator(v)
-
         if _newclass:
             integrator = property(getIntegrator, setIntegrator)
 
