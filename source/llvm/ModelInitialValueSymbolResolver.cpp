@@ -109,7 +109,7 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
         Value *amt = mdbuilder.createInitFloatSpeciesAmtLoad(symbol, symbol + "_amt");
 
         // now we have an amount, check to see if we need to convert to conc
-        if (species->getHasOnlySubstanceUnits())
+        if (!species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
         {
             return amt;
         }
@@ -219,7 +219,7 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
 
         Value *amt = 0;
         // only amounts are stored, convert to conc if required
-        if (species->getHasOnlySubstanceUnits())
+        if (!species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
         {
             amt = value;
         }
@@ -258,5 +258,3 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
 
 
 } /* namespace rr */
-
-

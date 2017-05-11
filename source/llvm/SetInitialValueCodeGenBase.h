@@ -115,7 +115,7 @@ llvm::Value* SetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
             llvm::Value *comp = loadResolver.loadSymbolValue(compId);
 
-            if (species->getHasOnlySubstanceUnits())
+            if (!species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
             {
                 // species is treated as an amount
                 if (!substanceUnits)

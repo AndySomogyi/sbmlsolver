@@ -387,7 +387,7 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
             const Species* species = nom.getModel()->getSpecies(sName);
             if(species)
             {
-                symbol.hasOnlySubstance = species->getHasOnlySubstanceUnits();
+                symbol.hasOnlySubstance = !species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits();
                 symbol.constant = species->getConstant();
             }
         }
@@ -576,7 +576,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
                 const Species *aSpecies = nom.getModel()->getSpecies(reOrderedList[i]);
                 if (aSpecies)
                 {
-                    symbol.hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
+                    symbol.hasOnlySubstance = aSpecies->isSetHasOnlySubstanceUnits() || aSpecies->getHasOnlySubstanceUnits();
                     symbol.constant = aSpecies->getConstant();
                 }
             }

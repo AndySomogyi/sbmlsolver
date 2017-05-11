@@ -551,7 +551,7 @@ static void createDependentSpeciesRules(Model* newModel,
             throw std::invalid_argument("model does not contain dependent species " + id);
         }
 
-        bool isAmt = dspecies->getHasOnlySubstanceUnits();
+        bool isAmt = !dspecies->isSetHasOnlySubstanceUnits() || dspecies->getHasOnlySubstanceUnits();
 
         AssignmentRule *rule = newModel->createAssignmentRule();
         rule->setVariable(id);
@@ -671,7 +671,7 @@ static ASTNode *createSpeciesAmountNode(const Model* model, const std::string& n
     ASTNode *speciesNode = new ASTNode(AST_NAME);
     speciesNode->setName(name.c_str());
 
-    if(species->getHasOnlySubstanceUnits())
+    if(!species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
     {
         // its an amount, we're good
         return speciesNode;
