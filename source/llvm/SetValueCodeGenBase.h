@@ -105,7 +105,7 @@ llvm::Value* SetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
         if(species)
         {
-            if (!species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
+            if (species->getHasOnlySubstanceUnits())
             {
                 // species is treated as an amount
                 if (!substanceUnits)

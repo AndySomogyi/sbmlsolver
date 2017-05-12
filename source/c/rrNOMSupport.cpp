@@ -1821,7 +1821,7 @@ bool NOMSupport::multiplyCompartment(const string& sbmlId, string& compartmentId
     if (temp != NULL &&
         //temp.isSetInitialAmount() &&
         temp->isSetCompartment() &&
-        temp->isSetHasOnlySubstanceUnits() && !temp->getHasOnlySubstanceUnits())
+        !temp->getHasOnlySubstanceUnits())
     {
 
         compartmentId = temp->getCompartment();
@@ -4134,3 +4134,4 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //    }
 //
 //}
+

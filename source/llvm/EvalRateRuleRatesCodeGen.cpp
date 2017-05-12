@@ -69,7 +69,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
 
             if (species)
             {
-                if (species->isSetHasOnlySubstanceUnits() && !species->getHasOnlySubstanceUnits())
+                if (!species->getHasOnlySubstanceUnits())
                 {
                     // product rule, need to check if we have a rate rule for the
                     // species compartment.

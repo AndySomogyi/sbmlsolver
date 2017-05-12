@@ -312,7 +312,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
 
     if (!math)
     {
-        if (!species->isSetHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
+        if (species->getHasOnlySubstanceUnits())
         {
             // value should be an amount
             if (species->isSetInitialConcentration())
@@ -645,3 +645,5 @@ const SymbolForest& LLVMModelSymbols::getInitialAssignmentRules() const
 
 
 } /* namespace rr */
+
+

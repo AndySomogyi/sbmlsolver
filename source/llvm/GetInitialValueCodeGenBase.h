@@ -100,7 +100,7 @@ llvm::Value* GetInitialValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
         if(species)
         {
-            if (!species->getHasOnlySubstanceUnits() || species->getHasOnlySubstanceUnits())
+            if (species->getHasOnlySubstanceUnits())
             {
                 value->setName(ids[i] + "_amt");
                 // species is treated as an amount
