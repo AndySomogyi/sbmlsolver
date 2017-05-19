@@ -53,6 +53,16 @@ void ConservedMoietyPlugin::setConservedMoiety(bool value)
     conservedMoiety = value;
 }
 
+const std::string& ConservedMoietyPlugin::getConservedQuantity() const
+{
+    return conservedQuantity;
+}
+
+void ConservedMoietyPlugin::setConservedQuantity(const std::string& id)
+{
+    conservedQuantity = id;
+}
+
 }
 } // namespace rr } namespace conservation }
 
@@ -78,13 +88,24 @@ void rr::conservation::ConservedMoietyPlugin::readAttributes(
     {
         conservedMoiety = false;
     }
+    if(attributes.hasAttribute("conservedQuantity", mURI))
+    {
+        if (!attributes.readInto("conservedQuantity", conservedMoiety))
+        {
+            std::string value = attributes.getValue("conservedQuantity");
+            throw std::invalid_argument("conservedQuantity attribute with value " + value
+                                        + " can not be converted to a string");
+        }
+    }
 }
 
 void rr::conservation::ConservedMoietyPlugin::writeAttributes(
         libsbml::XMLOutputStream& stream) const
 {
 
-    libsbml::XMLTriple triple("conservedMoiety", mURI, mPrefix);
+    libsbml::XMLTriple triple1("conservedMoiety",   mURI, mPrefix);
+    libsbml::XMLTriple triple2("conservedQuantity", mURI, mPrefix);
 
-    stream.writeAttribute(triple, conservedMoiety);
+    stream.writeAttribute(triple1, conservedMoiety);
+    stream.writeAttribute(triple2, conservedQuantity);
 }

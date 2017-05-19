@@ -200,6 +200,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 LLVMModelDataSymbols::~LLVMModelDataSymbols()
 {
+    delete m_structural;
 }
 
 const std::string& LLVMModelDataSymbols::getModelName() const
@@ -795,10 +796,15 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     list<string> indInitFltSpecies;
     list<string> depInitFltSpecies;
 
+    m_structural = new ls::LibStructural(model);
+    L0 = m_structural->getL0Matrix();
+
     // figure out 'fully' indendent flt species -- those without rules.
     for (uint i = 0; i < species->size(); ++i)
     {
         const Species *s = species->get(i);
+        std::string quantity = ConservationExtension::getConservedQuantity(*s);
+        std::cerr << s->getId() << " conserved quantity " << quantity << "\n";
 
         if (s->getBoundaryCondition())
         {
@@ -835,6 +841,11 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         if (conservedMoiety) {
             conservedMoietySpeciesSet.insert(sid);
         }
+
+        if (conservedMoiety)
+          std::cerr << s->getId() << " is conserved\n";
+        else
+          std::cerr << s->getId() << " is not conserved\n";
     }
 
     // stuff the species in the map

@@ -1263,7 +1263,48 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
         setCompartmentVolumes(1, &index, &value);
         break;
     case SelectionRecord::GLOBAL_PARAMETER:
+        std::cerr << "Set global parameter " << id << " = " << value << "\n";
         setGlobalParameterValues(1, &index, &value);
+//         dirty |= DIRTY_CONSERVED_MOIETIES;
+        for(uint cm = 0; cm < symbols->getConservedMoietySize(); ++cm) {
+            // is this the index of the cm we are setting?
+            if (symbols->getConservedMoietyId(cm) == id) {
+                std::cerr << "  Is conserved moiety conserved total, cm = " << cm << "\n";
+                // eliminate loop?
+                for (int d = 0; d < getNumDepFloatingSpecies(); ++d) {
+                    int i_dep = modelData->numIndFloatingSpecies+d;
+                    double amt;
+                    getFloatingSpeciesAmounts(1,&i_dep,&amt);
+                    std::cerr << "dep amt " << amt << "\n";
+                    // if the dependent species went negative, we need to correct for it
+                    if (amt < 0) {
+                        const ls::DoubleMatrix& L0 = *symbols->getL0Matrix();
+                        for (int i = 0; i < modelData->numIndFloatingSpecies; ++i) {
+                            double stoich = L0(d, i);
+                            std::cerr << "stoich(" << d << ", " << i << ") = " << stoich << "\n";
+                        }
+                    }
+                }
+
+//                 if (deps_went_negative) {
+//                     for (int i = 0; i < modelData->numIndFloatingSpecies; ++i) {
+//                         for (int d = 0; d < getNumDepFloatingSpecies(); ++d) {
+//                             double stoich = L0(i, j);
+//
+// //                         uint cm_pair;
+// //                         std::cerr << "i = " << i << " out of " << modelData->numIndFloatingSpecies << "\n";
+// //                         if (symbols->isConservedMoietySpecies(i, cm_pair)) {
+// //                             std::cerr << "cm_pair = " << cm_pair << "\n";
+// //                             if (cm_pair == cm) {
+// //                                 std::cerr << "    " << symbols->getFloatingSpeciesId(i) << " is an associated indep species\n";
+// //                             }
+// //                         }
+// //                         std::cerr << "  completed\n";
+//                         }
+//                     }
+//                 }
+            }
+        }
         break;
     case SelectionRecord::BOUNDARY_AMOUNT:
         setBoundarySpeciesAmounts(1, &index, &value);

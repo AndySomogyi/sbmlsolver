@@ -17,6 +17,8 @@
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
 
+#include "rr-libstruct/lsLibStructural.h"
+
 
 #include <map>
 #include <set>
@@ -390,6 +392,8 @@ public:
      */
     uint getConservedMoietyIndex(const std::string& name) const;
 
+    ls::DoubleMatrix* getL0Matrix() const { return m_structural->getL0Matrix(); }
+
 private:
 
     /**
@@ -594,6 +598,10 @@ private:
     StringUIntMap boundarySpeciesMap;
     StringUIntMap compartmentsMap;
     StringUIntMap globalParametersMap;
+
+    // so that conserved moieties can be calculated
+    ls::LibStructural* m_structural;
+    ls::DoubleMatrix *L0;
 
 
 
