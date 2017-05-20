@@ -800,7 +800,6 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     {
         const Species *s = species->get(i);
         std::string quantity = ConservationExtension::getConservedQuantity(*s);
-        std::cerr << s->getId() << " conserved quantity " << quantity << "\n";
 
         if (s->getBoundaryCondition())
         {
@@ -813,7 +812,6 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         {
             indFltSpecies.push_back(sid);
             if (quantity.size()) {
-                std::cerr << "ind spec " << sid << " belongs to cm " << quantity << "\n";
                 conservedMoietyIndSpecies[quantity].push_back(indFltSpecies.size()-1);
             }
         }
@@ -821,7 +819,6 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         {
             depFltSpecies.push_back(sid);
             if (quantity.size()) {
-                std::cerr << "dep spec " << sid << " belongs to cm " << quantity << "\n";
                 conservedMoietyDepSpecies[quantity] = depFltSpecies.size()-1;
             }
         }
@@ -845,11 +842,6 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         if (conservedMoiety) {
             conservedMoietySpeciesSet.insert(sid);
         }
-
-        if (conservedMoiety)
-          std::cerr << s->getId() << " is conserved\n";
-        else
-          std::cerr << s->getId() << " is not conserved\n";
     }
 
     // stuff the species in the map

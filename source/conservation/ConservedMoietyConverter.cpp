@@ -66,7 +66,6 @@ public:
         plugin->setConservedMoiety(conservedMoiety);
 
         if (quantity.size()) {
-            std::cerr << "set conserved quantity for " << getId() << " to " << quantity << "\n";
             plugin->setConservedQuantity(quantity);
         }
     }
@@ -76,7 +75,6 @@ public:
 
         assert(plugin && "could not get conservation plugin from species");
 
-        std::cerr << "set conserved quantity for " << getId() << " to " << quantity << "\n";
         plugin->setConservedQuantity(quantity);
     }
 };
@@ -330,7 +328,6 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         ConversionProperties versionProps = versionConverter.getDefaultProperties();
 
         versionProps.addOption("strict", false);
-        std::cerr << "ConservedMoietyConverter::setDocument\n";
 
         versionConverter.setProperties(&versionProps);
 
@@ -619,8 +616,6 @@ static void createDependentSpeciesRules(Model* newModel,
             conc.addChild(volume);
             rule->setMath(&conc);
         }
-
-        std::cerr << "Set assignment rule for " << id << " to " << rule->getFormula() << "\n";
     }
 }
 
