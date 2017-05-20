@@ -53,6 +53,12 @@ public:
 
     void setConservedMoiety(bool value);
 
+    // gets the global parameter associated with this
+    // species if it forms part of a conserved cycle
+    const std::string& getConservedQuantity() const;
+
+    void setConservedQuantity(const std::string& id);
+
     /**
      * Subclasses must override this method to read values from the given
      * XMLAttributes if they have their specific attributes.
@@ -74,6 +80,7 @@ public:
 
 private:
     bool conservedMoiety;
+    std::string conservedQuantity;
 
 };
 

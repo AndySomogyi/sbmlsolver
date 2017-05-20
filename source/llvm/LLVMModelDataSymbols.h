@@ -128,6 +128,7 @@ class LLVMModelDataSymbols
 public:
 
     typedef std::map<std::string, uint> StringUIntMap;
+    typedef std::map<std::string, std::vector<uint> > StringUIntVectorMap;
     typedef std::pair<std::string, uint> StringUIntPair;
     typedef cxx11_ns::unordered_map<uint, uint> UIntUIntMap;
 
@@ -376,6 +377,16 @@ public:
     uint getConservedMoietySize() const;
 
     /**
+     * get the dependent species for a given conserved moiety id
+     */
+    uint getDepSpeciesIndexForConservedMoietyId(std::string id) const;
+
+    /**
+     * get all the independent species for a given conserved moiety id
+     */
+    const std::vector<uint>& getIndSpeciesIndexForConservedMoietyId(std::string id) const;
+
+    /**
      * get the index of a global parameter given a conserved moiety index.
      */
     uint getConservedMoietyGlobalParameterIndex(uint cmIndex) const;
@@ -418,6 +429,12 @@ private:
      * in the same order as the conserved moieties.
      */
     UIntUIntMap floatingSpeciesToConservedMoietyIdMap;
+
+    // holds the conserved moiety id for each dependent species
+    StringUIntMap conservedMoietyDepSpecies;
+
+    // holds the conserved moiety id for each independent species
+    StringUIntVectorMap conservedMoietyIndSpecies;
 
 
 /*****************************************************************************/
@@ -594,7 +611,6 @@ private:
     StringUIntMap boundarySpeciesMap;
     StringUIntMap compartmentsMap;
     StringUIntMap globalParametersMap;
-
 
 
     /**

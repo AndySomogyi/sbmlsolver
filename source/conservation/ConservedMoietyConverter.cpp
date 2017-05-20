@@ -53,7 +53,7 @@ namespace rr { namespace conservation {
 class ConservedMoietySpecies : public libsbml::Species
 {
 public:
-    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety) :
+    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety, const std::string& quantity = "") :
         libsbml::Species(orig)
     {
         ConservationPkgNamespaces ns(3,2,1);
@@ -64,6 +64,18 @@ public:
         assert(plugin && "could not get conservation plugin from new species");
 
         plugin->setConservedMoiety(conservedMoiety);
+
+        if (quantity.size()) {
+            plugin->setConservedQuantity(quantity);
+        }
+    }
+
+    void setConservedQuantity(const std::string& quantity) {
+        ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
+
+        assert(plugin && "could not get conservation plugin from species");
+
+        plugin->setConservedQuantity(quantity);
     }
 };
 
@@ -316,7 +328,6 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         ConversionProperties versionProps = versionConverter.getDefaultProperties();
 
         versionProps.addOption("strict", false);
-        std::cerr << "ConservedMoietyConverter::setDocument\n";
 
         versionConverter.setProperties(&versionProps);
 
@@ -483,6 +494,10 @@ static std::vector<std::string> createConservedMoietyParameters(
         string id = "cm_" + rr::toString(i) + "_" + uuid.toString();
         std::replace( id.begin(), id.end(), '-', '_');
 
+        ConservedMoietySpecies* cmDepSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(indSpecies.size()+i));
+        if (cmDepSpecies)
+            cmDepSpecies->setConservedQuantity(id);
+
         Parameter *cm = newModel->createParameter();
         cm->setId(id);
         cm->setConstant(true);
@@ -526,6 +541,10 @@ static std::vector<std::string> createConservedMoietyParameters(
                 times->addChild(species);
 
                 sum2->addChild(times);
+
+                ConservedMoietySpecies* cmIndSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(j));
+                if (cmIndSpecies)
+                    cmIndSpecies->setConservedQuantity(id);
             }
         }
 
