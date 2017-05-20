@@ -1271,18 +1271,19 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
             if (symbols->getConservedMoietyId(cm) == id) {
                 std::cerr << "  Is conserved moiety conserved total, cm = " << cm << "\n";
                 // eliminate loop?
-                for (int d = 0; d < getNumDepFloatingSpecies(); ++d) {
-                    int i_dep = modelData->numIndFloatingSpecies+d;
-                    double amt;
-                    getFloatingSpeciesAmounts(1,&i_dep,&amt);
-                    std::cerr << "dep amt " << amt << "\n";
-                    // if the dependent species went negative, we need to correct for it
-                    if (amt < 0) {
-                        const ls::DoubleMatrix& L0 = *symbols->getL0Matrix();
-                        for (int i = 0; i < modelData->numIndFloatingSpecies; ++i) {
-                            double stoich = L0(d, i);
-                            std::cerr << "stoich(" << d << ", " << i << ") = " << stoich << "\n";
-                        }
+                uint d = symbols->getDepSpeciesIndexForConservedMoietyId(id);
+                int i_dep = modelData->numIndFloatingSpecies+d;
+                double amt;
+                getFloatingSpeciesAmounts(1,&i_dep,&amt);
+                std::cerr << "dep amt " << amt << "\n";
+                // if the dependent species went negative, we need to correct for it
+                if (amt < 0) {
+                    const std::vector<uint>& ind = symbols->getIndSpeciesIndexForConservedMoietyId(id);
+                    double zero=0;
+
+                    for(std::vector<uint>::const_iterator it = ind.begin(); it != ind.end(); ++it) {
+                        int i = *it;
+                        setFloatingSpeciesAmounts(1,&i,&zero);
                     }
                 }
 
