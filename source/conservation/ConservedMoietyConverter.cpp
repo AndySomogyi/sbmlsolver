@@ -491,8 +491,9 @@ static std::vector<std::string> createConservedMoietyParameters(
     for (int i = 0; i < depSpecies.size(); ++i)
     {
         Poco::UUID uuid = uuidGen.create();
-        string id = "cm_" + rr::toString(i) + "_" + uuid.toString();
+        string id = "cm_" + rr::toString(i);
         std::replace( id.begin(), id.end(), '-', '_');
+
 
         ConservedMoietySpecies* cmDepSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(indSpecies.size()+i));
         if (cmDepSpecies)
