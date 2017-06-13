@@ -28,7 +28,7 @@ before_install:
   - mkdir ~/install
 
   # install roadrunner dependencies via apt:
-  - sudo sh -c 'echo "\n\ndeb http://cdn.rawgit.com/sys-bio/roadrunner-debs/master ./ \n\n" >> /etc/apt/sources.list'
+  - sudo sh -c 'echo "\n\ndeb http://cdn.rawgit.com/sys-bio/roadrunner-debs/7fa7d848 ./ \n\n" >> /etc/apt/sources.list'
   - sudo cat /etc/apt/sources.list
   - sudo apt-get update -qq
   - sudo apt-get -y --force-yes install libroadrunner-deps-dev
