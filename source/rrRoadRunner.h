@@ -785,7 +785,7 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(std::vector<std::string> getConservedMoietyIds());
+    std::vector<std::string> getConservedMoietyIds();
 
     /**
      * @internal
