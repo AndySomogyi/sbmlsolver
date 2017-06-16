@@ -755,6 +755,8 @@ public:
      */
     std::vector<double> getConservedMoietyValues();
 
+    std::vector<std::string> getConservedMoietyIds();
+
     #ifndef SWIG // deprecated methods not SWIG'ed
 
     /**
@@ -785,7 +787,6 @@ public:
      * @internal
      * @deprecated
      */
-    std::vector<std::string> getConservedMoietyIds();
 
     /**
      * @internal
