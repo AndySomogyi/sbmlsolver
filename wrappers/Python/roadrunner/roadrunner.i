@@ -1027,9 +1027,12 @@ namespace std { class ostream{}; }
 
             # always clear the old properties
             for s in RoadRunner._properties:
-                del RoadRunner.__swig_getmethods__[s]
-                del RoadRunner.__swig_setmethods__[s]
-                delattr(RoadRunner, s)
+                if s in RoadRunner.__swig_getmethods__:
+                    del RoadRunner.__swig_getmethods__[s]
+                if s in RoadRunner.__swig_setmethods__:
+                    del RoadRunner.__swig_setmethods__[s]
+                if hasattr(RoadRunner, s):
+                    delattr(RoadRunner, s)
 
             # properties now empty
             RoadRunner._properties = []
