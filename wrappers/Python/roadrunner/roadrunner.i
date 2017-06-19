@@ -992,6 +992,10 @@ namespace std { class ostream{}; }
         def getModel(self):
             return self._getModel()
 
+        def _setConservedMoietyAnalysisProxy(self, value):
+            self._setConservedMoietyAnalysis(value)
+            self._makeProperties()
+
         __swig_getmethods__["selections"] = _getSelections # DEPRECATED
         __swig_setmethods__["selections"] = _setSelections # DEPRECATED
         __swig_getmethods__["timeCourseSelections"] = _getSelections
@@ -999,7 +1003,7 @@ namespace std { class ostream{}; }
         __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
         __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
-        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
+        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysisProxy
         __swig_getmethods__["model"] = _getModel
         __swig_getmethods__["integrator"] = getIntegrator
         __swig_setmethods__["integrator"] = setIntegrator
@@ -1061,7 +1065,7 @@ namespace std { class ostream{}; }
                 makeProperty(s + "_amt", s)     # amounts
 
 
-            for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds():
+            for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds() + model.getConservedMoietyIds():
                 makeProperty(s, s)
 
 
