@@ -67,7 +67,7 @@ Once a model is successfully loaded we can run a time course simulation. To run 
 The output will be in a Python numpy array. The first column will contain time points and the remaining columns will include
 all the floating species amounts/concentrations. In the simulate method we didn't specify how long to run the simulation or how many
 points to generate.  By default the starting time is set to zero, ending time to 10 and the number of points to 51.
-There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`~RoadRunner.simulate()` 
+There are two ways to set these values. The easiest way is to change the positional arguments in :meth:`~RoadRunner.simulate()`
 in the following manner::
 
    result = rr.simulate (0, 10, 100)
@@ -153,7 +153,7 @@ Some additional examples include:
 Plotting Data
 -------------
 
-RoadRunner has a built in :meth:`~RoadRunner.plot()` method which can perform basic plotting. 
+RoadRunner has a built in :meth:`~RoadRunner.plot()` method which can perform basic plotting.
 Simply call::
 
    result = rr.simulate(0, 10, 100)
@@ -237,7 +237,7 @@ instance. As with all other selection symbols, the :meth:`~ExecutableModel.keys(
 available selection symbols:
 
   >>>  r.model.keys()
-  [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',
+  [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', '_CSUM0',
     'reaction1',  'init([S1])',  'init([S2])', 'init(S1)',
     'init(S2)',  "S1'"]
 
@@ -277,7 +277,7 @@ Initial conditions can be set using the two methods for all species in one call:
   >>> r.model.setFloatingSpeciesInitConcentrations ([6.7, 0.1])
 
 .. _roadrunner-solver:
-  
+
 Solvers
 ---------------------------
 
@@ -307,16 +307,16 @@ Some integrators, such as CVODE, have parameters which can be set by the user.
 To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()` on an integrator instance:
 
   >>>  r.getIntegrator().getSettings()
-  ('relative_tolerance', 
-  'absolute_tolerance', 
-  'stiff', 
-  'maximum_bdf_order', 
-  'maximum_adams_order', 
-  'maximum_num_steps', 
-  'maximum_time_step', 
-  'minimum_time_step', 
-  'initial_time_step', 
-  'multiple_steps', 
+  ('relative_tolerance',
+  'absolute_tolerance',
+  'stiff',
+  'maximum_bdf_order',
+  'maximum_adams_order',
+  'maximum_num_steps',
+  'maximum_time_step',
+  'minimum_time_step',
+  'initial_time_step',
+  'multiple_steps',
   'variable_step_size')
 
 To set a parameter, you can use both methods described below:
@@ -350,8 +350,8 @@ Also, if you find yourself switching back and forth between integrators a lot, y
 The other type of solver is a steady-state solver, which works in essentially the same way:
 
   >>>  r.getSteadyStateSolver().getSettings()
-  ('maximum_iterations', 
-  'minimum_damping', 
+  ('maximum_iterations',
+  'minimum_damping',
   'relative_tolerance')
   >>>  r.getSteadyStateSolver().getHint('maximum_iterations')
   'The maximum number of iterations the solver is allowed to use (int)'
