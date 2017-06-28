@@ -32,8 +32,7 @@ def getRoadRunner(resource):
     """
     return a RoadRunner instance loaded with one of the test files.
     """
-
     data = pkgutil.get_data(__name__, resource)
     r = roadrunner.RoadRunner()
-    r.load(str(data))
+    r.load(data.decode())
     return r
