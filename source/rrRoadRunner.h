@@ -964,6 +964,8 @@ public:
 
 private:
 
+    void fixDependentSpeciesValues(int except, double* ref);
+
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();

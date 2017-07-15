@@ -1197,6 +1197,18 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
     return getuEE(reactionName, parameterName, true);
 }
 
+void RoadRunner::fixDependentSpeciesValues(int except, double* ref) {
+    int l = impl->model->getNumFloatingSpecies();
+    double* vals = new double[l];
+    impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
+    for (int i=0; i<l; ++i) {
+        if (i != except && vals[i] != ref[i]) {
+            impl->model->setFloatingSpeciesConcentrations(1, &i, &ref[i]);
+        }
+    }
+    delete vals;
+}
+
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
 {
     try
@@ -1210,6 +1222,10 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         double originalParameterValue;
         int reactionIndex;
         int parameterIndex;
+
+        int l = impl->model->getNumFloatingSpecies();
+        double* ref = new double[l];
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, ref);
 
         // Check the reaction name
         if ((reactionIndex = impl->model->getReactionIndex(reactionName)) < 0)
@@ -1254,18 +1270,22 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         }
 
         impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+        fixDependentSpeciesValues(parameterIndex, ref);
         double fi = 0;
         impl->model->getReactionRates(1, &reactionIndex, &fi);
 
         impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+        fixDependentSpeciesValues(parameterIndex, ref);
         double fi2 = 0;
         impl->model->getReactionRates(1, &reactionIndex, &fi2);
 
         impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+        fixDependentSpeciesValues(parameterIndex, ref);
         double fd = 0;
         impl->model->getReactionRates(1, &reactionIndex, &fd);
 
         impl->setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+        fixDependentSpeciesValues(parameterIndex, ref);
         double fd2 = 0;
         impl->model->getReactionRates(1, &reactionIndex, &fd2);
 
@@ -1276,6 +1296,8 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         // The following separated lines avoid small amounts of roundoff error
         double f1 = fd2 + 8*fi;
         double f2 = -(8*fd + fi2);
+
+        delete ref;
 
         return 1/(12*hstep)*(f1 + f2);
     }
