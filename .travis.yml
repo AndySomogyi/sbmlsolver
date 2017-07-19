@@ -25,13 +25,15 @@ before_install:
   # install dependencies
   - sudo apt-get -y install cmake swig python-dev python-numpy llvm-3.5-dev
 
-  - mkdir ~/install
-
   # install roadrunner dependencies via apt:
-  - sudo sh -c 'echo "\n\ndeb http://cdn.rawgit.com/sys-bio/roadrunner-debs/c29ca4f3 ./ \n\n" >> /etc/apt/sources.list'
-  - sudo cat /etc/apt/sources.list
-  - sudo apt-get update -qq
-  - sudo apt-get -y --force-yes install libroadrunner-deps-dev
+  - mkdir ~/debs
+  - cd ~/debs
+  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/c29ca4f3/libroadrunner-deps_2.0.4_amd64.deb
+  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/c29ca4f3/libroadrunner-deps-dev_2.0.4_amd64.deb
+  - sudo dpkg -i libroadrunner-deps_2.0.4_amd64.deb
+  - sudo dpkg -i libroadrunner-deps-dev_2.0.4_amd64.deb
+
+  - mkdir ~/install
 
   - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
   # build roadrunner:
