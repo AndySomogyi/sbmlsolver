@@ -1291,6 +1291,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 
         // restore original value
         impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
+        fixDependentSpeciesValues(-1, ref);
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
