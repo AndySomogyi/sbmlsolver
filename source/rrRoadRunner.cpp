@@ -1901,6 +1901,9 @@ DoubleMatrix RoadRunner::getL0Matrix()
 
 DoubleMatrix RoadRunner::getConservationMatrix()
 {
+    if (!getConservedMoietyAnalysis())
+        throw CoreException("Cannot compute conservation matrix because conserved moieties are not enabled");
+
     DoubleMatrix mat;
 
     try
