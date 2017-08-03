@@ -948,7 +948,12 @@ RoadRunner.getSteadyStateValues()
 
 Performs a steady state calculation (evolves the system to a steady
 state), then calculates and returns the set of values specified by
-the steady state selections.
+the steady state selections. The variable steadyStateSelections is used
+to determine which values are returned.
+
+     >>> rr.steadyStateSelections = ['S1']
+     >>> rr.getSteadyStateValues()
+     array([ 0.54314239])
 
 :returns: a numpy array corresponding to the values specified by steadyStateSelections
 
