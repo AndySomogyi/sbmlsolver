@@ -1921,6 +1921,9 @@ DoubleMatrix RoadRunner::getConservationMatrix()
                         mat(row,col) = (*aMat)(row,col);
                     }
                 }
+
+                mat.setRowNames(getConservedMoietyIds());
+                mat.setColNames(getLibStruct()->getReorderedSpecies());
             }
             return mat;
 
