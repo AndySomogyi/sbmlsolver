@@ -997,7 +997,6 @@ return concentration control coefficients with respect to species S1 and S2.
 ";
 
 
-
 %feature("docstring") rr::RoadRunner::getuCC "
 RoadRunner.getuCC(variableId, parameterId)
 
@@ -1008,6 +1007,32 @@ Get unscaled control coefficient with respect to a global parameter.
 :param parameterId: must be either a global parameter, boundary species, or
                     conserved sum.
 ";
+
+
+
+%feature("docstring") rr::RoadRunner::getDiffStepSize "
+RoadRunner.getDiffStepSize()
+
+Returns the differential step size used in getCC and getuCC. Both functions
+use a 4th order finite difference method for calculating the derivative. The
+default value is 0.05.
+
+  rr.getDiffStepSize ()
+  0.05
+
+:rtype: double
+";
+
+
+
+%feature("docstring") rr::RoadRunner::setDiffStepSize "
+RoadRunner.setDiffStepSize(value)
+
+Sets the differential step size used in getCC and getuCC.
+
+  rr.setDiffStepSize (0.05)
+";
+
 
 
 
