@@ -1082,7 +1082,7 @@ def checkGillespieFixedSteps(rrInstance, testId):
     errorFlag = False
     rrInstance.setIntegrator('gillespie')
     n = rrInstance.simulate(0,100,steps=10)
-    if (n[:,0] != numpy.linspace(0, 100, 10)).all():
+    if (n[:,0] != numpy.linspace(0, 100, 10)).any():
         errorFlag = True
     rrInstance.setIntegrator('cvode')
     print(passMsg (errorFlag))
