@@ -1076,6 +1076,16 @@ def checkGillespieValue(rrInstance, testId):
         errorFlag = True
     rrInstance.setIntegrator('cvode')
     print(passMsg (errorFlag))
+    
+def checkGillespieFixedSteps(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    rrInstance.setIntegrator('gillespie')
+    n = rrInstance.simulate(0,100,steps=10)
+    if (n[:,0] != numpy.linspace(0, 100, 10)).all():
+        errorFlag = True
+    rrInstance.setIntegrator('cvode')
+    print(passMsg (errorFlag))
 
 def unitTestIntegratorSettings(testDir):
     errorFlag = False
@@ -1157,6 +1167,7 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Get Time Course Selection List]': checkGetTimeCourseSelectionList,
              '[Gillespie Seed]': checkGillespieSeed,
              '[Gillespie Value]': checkGillespieValue,
+             '[Gillespie Fixed Time Interval]': checkGillespieFixedSteps,
              '[Global Parameter Ids]': checkGetGlobalParameterIds,
              '[Individual Eigenvalues]': checkIndividualEigenvalues,
              '[Individual Amount Eigenvalues]': checkIndividualAmountEigenvalues,
