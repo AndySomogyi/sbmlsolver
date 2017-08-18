@@ -1081,6 +1081,7 @@ def checkGillespieFixedSteps(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     rrInstance.setIntegrator('gillespie')
+    rrInstance.setIntegratorSetting('gillespie', 'variable_step_size', False)
     n = rrInstance.simulate(0,100,steps=10)
     if any(n[:,0] != numpy.linspace(0, 100, 10)):
         errorFlag = True
