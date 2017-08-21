@@ -35,7 +35,22 @@ decide what values to return. For example the following would retrieve a single 
      >>> rr.getSteadyStateValues()
      array([ 0.54314239])
 
+One important element in running steady state analysis is the concept of moiety conservation. If the model in question contains moiety conserved cycles, traditional approach to obtain steady state solution fails as it is impossible to calculate the inverse of Jacobian. In such case, we use a walkaround and split the species in a cycle into groups. To do this in RoadRunner, type:
 
+     >>> rr.conservedMoietyAnalysis = True
+
+Currently, RoadRunner only support ``nleq1`` solver for performing steady state analysis. This will be expanded in the future, and we included framework to select different solvers for steady state analysis. To set the solver and see all settings, type:
+
+     >>> rr.setSteadyStateSolver('nleq')
+     >>> solver = rr.getSteadyStateSolver()
+     >>> solver.settingsPyDictRepr()
+     "'maximum_iterations': 100, 'minimum_damping': 1e-16, 'relative_tolerance': 0.0001"
+
+To see all available steady state solvers, type:
+
+     >>> rr.getRegisteredSteadyStateSolverNames()
+     ('nleq',)
+     
 The following methods deal with steady state analysis:
 
 .. autosummary::
@@ -43,4 +58,5 @@ The following methods deal with steady state analysis:
    RoadRunner.steadyStateSelections
    RoadRunner.steadyState
    RoadRunner.getSteadyStateValues
+   RoadRunner.conservedMoietyAnalysis
    
