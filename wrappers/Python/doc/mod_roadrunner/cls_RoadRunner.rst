@@ -53,6 +53,11 @@ _________________________
        >>> myfile = open("myfile.xml, "r")
        >>> contents = file.read()
        >>> r.load(contents)
+       
+   Loading in a raw SBML string is also possible:
+
+       >>> sbmlstr = rr.getCurrentSBML()         # Or any other properly formatted SBML string block
+       >>> r.load(sbmlstr)
 
    In future version, we will also support loading directly from a libSBML Document object. 
 
