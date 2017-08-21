@@ -474,6 +474,18 @@ Steady State
    :returns: a numpy array corresponding to the values specified by steadyStateSelections
 
    :rtype: numpy.ndarray
+
+   
+.. method:: RoadRunner.getSteadyStateValuesNamedArray()
+   :module: RoadRunner
+    
+   Performs a steady state calculation (evolves the system to a steady
+   state), then calculates and returns the set of values specified by
+   the steady state selections with all necessary labels.
+
+   :returns: a NamedArray corresponding to the values specified by steadyStateSelections
+
+   :rtype: NamedArray
    
 
 .. method:: RoadRunner.getSteadyStateSolver()
