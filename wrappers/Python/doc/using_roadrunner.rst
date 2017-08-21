@@ -48,6 +48,15 @@ If the model was loaded successfully, the RoadRunner object is now ready to use,
 be raised that contains extended information detailing exactly what failed. If any warnings are
 found in the SBML document, these will be displayed in the console error log.
 
+It is also possible to load a model from a string containing a SBML model, for example:
+
+   rr = roadrunner.RoadRunner (sbmlStr)
+
+This is useful when one wishes to create a new roadrunner instance from an existing model, eg:
+
+   sbmlStr = rr.getCurrentSBML()
+   rrnew = roadrunner.RoadRunner (sbmlStr)
+
 Additionally, there are a couple models **included with libRoadRunner**. The models  ``feedback.xml``
 and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access these use::
 
