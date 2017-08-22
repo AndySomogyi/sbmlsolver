@@ -21,7 +21,7 @@ namespace rr
 
     RK45Integrator::RK45Integrator(ExecutableModel *m)
     {
-        Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta Fehlberg integrator";
+        Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
         stateVectorSize = hCurrent = hmin = hmax = 0;
         k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
         syncWithModel(m);
@@ -311,7 +311,9 @@ namespace rr
     }
 
     std::string RK45Integrator::getRK45Description() {
-        return "Kiri, please fill in";
+        return "Runge-Kutta-Fehlberg methods are a family of algorithms for solving "
+			"ODEs. This integrator is based on explicit Runge-Kutta (4,5) formula, automatically "
+			"determining adaptive stepsize.";
     }
 
     std::string RK45Integrator::getHint() const {
