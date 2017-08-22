@@ -172,13 +172,6 @@ public:
      */
     bool clearModel();
 
-
-	/**
-	* @deprecated, use oneStep instead.
-	*/
-    double integrate(double t0, double tf, const SimulateOptions* options = 0);
-
-
     /**
      * Carry out a single integration step using a stepsize as indicated
      * in the method call.

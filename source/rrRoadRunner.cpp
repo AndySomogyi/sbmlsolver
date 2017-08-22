@@ -1567,24 +1567,6 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 }
 
 
-double RoadRunner::integrate(double t0, double tf, const SimulateOptions* o)
-{
-    check_model();
-    applySimulateOptions();
-
-    try
-    {
-        impl->model->setTime(t0);
-        return impl->integrator->integrate(t0, tf - t0);
-    }
-    catch (EventListenerException& e)
-    {
-        Log(Logger::LOG_NOTICE) << e.what();
-        return impl->model->getTime();
-    }
-}
-
-
 double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset)
 {
     get_self();
