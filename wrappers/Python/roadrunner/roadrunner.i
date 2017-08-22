@@ -675,6 +675,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%rename (__repr__) rr::Integrator::toRepr;
 
 
+%rename (__str__) rr::SteadyStateSolver::toString;
+
 // rename these, the injected python code will take care of
 // making these properties.
 %ignore rr::RoadRunner::getSelections();
@@ -2648,6 +2650,9 @@ namespace std { class ostream{}; }
                 self.setValue(name, value)
             else:
                 _swig_setattr(self, Integrator, name, value)
+
+        def __repr__(self):
+            return self.toRepr()
 
         def getSetting(self, k):
             return self.getValue(k)

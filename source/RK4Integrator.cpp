@@ -21,6 +21,7 @@ namespace rr
     RK4Integrator::RK4Integrator(ExecutableModel *m)
     {
         Log(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
+		resetSettings();
         stateVectorSize = 0;
         k1 = k2 = k3 = k4 = y = ytmp = NULL;
         syncWithModel(m);
@@ -179,18 +180,18 @@ namespace rr
         return IntegratorListenerPtr();
     }
 
-    std::string RK4Integrator::toString() const
-    {
-        return toRepr();
-    }
+    //std::string RK4Integrator::toString() const
+    //{
+    //    return toRepr();
+    //}
 
-    std::string RK4Integrator::toRepr() const
-    {
-        std::stringstream ss;
-        ss << "< roadrunner.RK4Integrator() { 'this' : "
-                << (void*)this << " }>";
-        return ss.str();
-    }
+    //std::string RK4Integrator::toRepr() const
+    //{
+    //    std::stringstream ss;
+    //    ss << "< roadrunner.RK4Integrator() { 'this' : "
+    //            << (void*)this << " }>";
+    //    return ss.str();
+    //}
 
     std::string RK4Integrator::getName() const {
         return RK4Integrator::getRK4Name();

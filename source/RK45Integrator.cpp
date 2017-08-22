@@ -22,6 +22,7 @@ namespace rr
     RK45Integrator::RK45Integrator(ExecutableModel *m)
     {
         Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
+		resetSettings();
         stateVectorSize = hCurrent = hmin = hmax = 0;
         k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
         syncWithModel(m);
@@ -285,18 +286,18 @@ namespace rr
         return IntegratorListenerPtr();
     }
 
-    std::string RK45Integrator::toString() const
-    {
-        return toRepr();
-    }
+    //std::string RK45Integrator::toString() const
+    //{
+    //    return toRepr();
+    //}
 
-    std::string RK45Integrator::toRepr() const
-    {
-        std::stringstream ss;
-        ss << "< roadrunner.RK45Integrator() { 'this' : "
-                << (void*)this << " }>";
-        return ss.str();
-    }
+    //std::string RK45Integrator::toRepr() const
+    //{
+    //    std::stringstream ss;
+    //    ss << "< roadrunner.RK45Integrator() { 'this' : "
+    //            << (void*)this << " }>";
+    //    return ss.str();
+    //}
 
     std::string RK45Integrator::getName() const {
         return RK45Integrator::getRK45Name();
@@ -343,9 +344,9 @@ namespace rr
 
         addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
         addSetting("initial_time_step",  0.5, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
-        addSetting("minimum_time_step",  1e-12, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("minimum_time_step",  1e-6, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("maximum_time_step",  1.0, "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("epsilon",  1e-12, "Maximum error", "TODO: fill in. (double)", "(double) TODO: fill in.");
+        addSetting("epsilon",  1e-12, "Maximum error tolerance", "Specifies the maximum error tolerance allowed. (double)", "(double) The maximum error tolerance allowed.");
     }
 
 } /* namespace rr */
