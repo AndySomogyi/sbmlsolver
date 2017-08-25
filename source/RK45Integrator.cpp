@@ -79,7 +79,6 @@ namespace rr
 
     double RK45Integrator::integrate(double t, double tDiff)
     {
-        static const double t_epsilon = std::numeric_limits<double>::epsilon();
         double h = getValueAsDouble("maximum_time_step");
 
         if (!model) {
