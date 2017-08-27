@@ -1028,6 +1028,74 @@ SUITE(TEST_MODEL)
 		clog << "Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
 	}
 
+    TEST(CHECK_RK4_OUTPUT)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check RK4 Output");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RK4_OUTPUT ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        //std::string rk4_str = "rk4";
+
+        // cvode
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *cvode = rri->simulate(&opt);
+        reset(gRR);
+
+        // rk4
+        opt.setItem("integrator", "rk4");
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *rk4 = rri->simulate(&opt);
+
+        for (int i = 0; i < cvode[-1].size(); i++)
+        {
+            CHECK_CLOSE(*cvode[-1][i], *rk4[-1][i], 1e-6);
+        }
+    }
+
+    TEST(CHECK_RK45_OUTPUT)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check RK45 Output");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RK45_OUTPUT ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        // cvode
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *cvode = rri->simulate(&opt);
+        reset(gRR);
+
+        // rk4
+        opt.setItem("integrator", "rk45");
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *rk45 = rri->simulate(&opt);
+
+        for (int i = 0; i < cvode[-1].size(); i++)
+        {
+            CHECK_CLOSE(*cvode[-1][i], *rk45[-1][i], 1e-6);
+        }
+    }
+
     TEST(FLOATING_SPECIES_IDS)
     {
         IniSection* aSection = iniFile.GetSection("Floating Species Ids");
