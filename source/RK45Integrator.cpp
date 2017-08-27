@@ -22,7 +22,7 @@ namespace rr
     RK45Integrator::RK45Integrator(ExecutableModel *m)
     {
         Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
-		resetSettings();
+        resetSettings();
         stateVectorSize = hmin = hmax = 0;
         k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
         syncWithModel(m);

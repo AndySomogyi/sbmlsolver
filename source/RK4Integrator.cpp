@@ -21,7 +21,7 @@ namespace rr
     RK4Integrator::RK4Integrator(ExecutableModel *m)
     {
         Log(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
-		resetSettings();
+        resetSettings();
         stateVectorSize = 0;
         k1 = k2 = k3 = k4 = y = ytmp = NULL;
         syncWithModel(m);
