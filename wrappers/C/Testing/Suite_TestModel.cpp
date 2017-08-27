@@ -1045,12 +1045,9 @@ SUITE(TEST_MODEL)
         opt.start = 0;
         opt.duration = 10;
 
-        //std::string rk4_str = "rk4";
-
         // cvode
         clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
         const DoubleMatrix *cvode = rri->simulate(&opt);
-        reset(gRR);
 
         // rk4
         opt.setItem("integrator", "rk4");
@@ -1083,7 +1080,6 @@ SUITE(TEST_MODEL)
         // cvode
         clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
         const DoubleMatrix *cvode = rri->simulate(&opt);
-        reset(gRR);
 
         // rk4
         opt.setItem("integrator", "rk45");
