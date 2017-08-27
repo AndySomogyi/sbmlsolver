@@ -41,6 +41,10 @@ def expectApproximately (a, b, tol):
     diff = a - b
     return abs(diff) < tol
 
+def expectArrayApproximately(a, b, tol):
+    diff = a - b
+    return (abs(diff) < tol).all()
+
 def passMsg (errorFlag, msg = ""):
     global gFailedTests
     global gPassedTests
@@ -669,6 +673,35 @@ def checkGetRateOfChangeByIndex(rrInstance, testId):
             break;
     print(passMsg (errorFlag))
 
+
+def checkRK4Output(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    rrInstance.reset(roadrunner.SelectionRecord.ALL)
+    cvode = rrInstance.simulate(0, 10)
+    rrInstance.reset()
+    rrInstance.setIntegrator('rk4')
+    rk4 = rrInstance.simulate(0, 10)
+    rrInstance.setIntegrator('cvode')
+    if not expectArrayApproximately(cvode[-1], rk4[-1], 1E-6):
+        errorFlag = True
+    print(passMsg (errorFlag))
+    
+    
+def checkRK45Output(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    rrInstance.reset(roadrunner.SelectionRecord.ALL)
+    cvode = rrInstance.simulate(0, 10)
+    rrInstance.reset()
+    rrInstance.setIntegrator('rk45')
+    rk45 = rrInstance.simulate(0, 10)
+    rrInstance.setIntegrator('cvode')
+    if not expectArrayApproximately(cvode[-1], rk45[-1], 1E-6):
+        errorFlag = True
+    print(passMsg (errorFlag))
+    
+    
 # ---------------------------------------------------------------------------
 
 def setGetValues(rrInstance, IdList, testId):
@@ -1142,6 +1175,8 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Check Default Time Step]': checkDefaultTimeStep,
              '[Check Monotonic Timepoints]': checkMonotonicTimepoints,
              '[Check Event Pre and Postfire Timepoints]': checkEventPreandPostfireTimepoints,
+             '[Check RK4 Output]': checkRK4Output,
+             '[Check RK45 Output]': checkRK45Output,
              '[Check Simulate Points vs Steps]': checkSimulateTimepointsVsIntervals,
              '[Compartment Ids]': checkGetCompartmentIds,
              '[Compute Steady State Values]': checkComputeSteadyStateValues,
