@@ -1914,7 +1914,7 @@ DoubleMatrix RoadRunner::getConservationMatrix()
     }
     catch (const Exception& e)
     {
-         throw CoreException("Unexpected error from getConservationMatrix()", e.Message());
+         throw CoreException("Unexpected error from getConservationMatrix(): ", e.Message());
     }
 }
 
@@ -1934,7 +1934,7 @@ int RoadRunner::getNumberOfDependentSpecies()
 
     catch(Exception &e)
     {
-        throw CoreException("Unexpected error from getNumberOfDependentSpecies()", e.Message());
+        throw CoreException("Unexpected error from getNumberOfDependentSpecies(): ", e.Message());
     }
 }
 
@@ -1952,7 +1952,7 @@ int RoadRunner::getNumberOfIndependentSpecies()
     }
     catch (Exception &e)
     {
-        throw CoreException("Unexpected error from getNumberOfIndependentSpecies()", e.Message());
+        throw CoreException("Unexpected error from getNumberOfIndependentSpecies(): ", e.Message());
     }
 }
 
@@ -2591,7 +2591,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
     }
     catch (const Exception& e)
     {
-        throw CoreException("Unexpected error from getuCC ()", e.Message());
+        throw CoreException("Unexpected error from getuCC(): ", e.Message());
     }
 }
 
