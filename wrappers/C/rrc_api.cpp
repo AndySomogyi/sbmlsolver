@@ -306,6 +306,15 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
     catch_bool_macro
 }
 
+int rrcCallConv getComputeAndAssignConservationLaws(RRHandle handle, int* value)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        *value = rri->getConservedMoietyAnalysis();
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
     start_try
@@ -725,18 +734,15 @@ RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
         {
             int rows = 0;
             int cols = 0;
-            double* data = 0;
-
-            model->getStoichiometryMatrix(&rows, &cols, &data);
 
             RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
-            matrix->RSize = rows;
-            matrix->CSize = cols;
+            DoubleMatrix full_stoich = rri->getFullStoichiometryMatrix();
+
+            matrix->RSize = full_stoich.numRows();
+            matrix->CSize = full_stoich.numCols();
             matrix->Data =  new double[rows*cols];
 
-            memcpy(matrix->Data, data, rows*cols*sizeof(double));
-
-            free(data);
+            memcpy(matrix->Data, full_stoich.GetPointer(), rows*cols*sizeof(double));
 
             return matrix;
         }
@@ -2523,7 +2529,7 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
     start_try
         RoadRunner *r = (RoadRunner*)h;
         //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
-		//*result = intg->getItem("seed").convert<long>();	
+		//*result = intg->getItem("seed").convert<long>();
 		*result = r->getIntegrator()->getValue("seed").convert<long>();
         return true;
     catch_bool_macro;

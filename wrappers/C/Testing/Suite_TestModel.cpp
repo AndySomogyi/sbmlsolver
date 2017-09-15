@@ -160,6 +160,15 @@ void trySteadyState(RRHandle& gRR)
     CHECK_CLOSE(0, val, 1e-5);
 }
 
+int findCloseTimepoint(const DoubleMatrix* m, double t, double tol)
+{
+    for(int i=0; i<m->RSize(); ++i) {
+        if (abs((*m)(i,0) - t) <= tol)
+            return i;
+    }
+    return -1;
+}
+
 //These tests are intended to duplicate the Python tests
 SUITE(TEST_MODEL)
 {
@@ -1019,6 +1028,70 @@ SUITE(TEST_MODEL)
 		clog << "Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
 	}
 
+    TEST(CHECK_RK4_OUTPUT)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check RK4 Output");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RK4_OUTPUT ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        // cvode
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *cvode = rri->simulate(&opt);
+
+        // rk4
+        opt.setItem("integrator", "rk4");
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *rk4 = rri->simulate(&opt);
+
+        for (int i = 0; i < cvode[-1].size(); i++)
+        {
+            CHECK_CLOSE(*cvode[-1][i], *rk4[-1][i], 1e-6);
+        }
+    }
+
+    TEST(CHECK_RK45_OUTPUT)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check RK45 Output");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RK45_OUTPUT ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        // cvode
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *cvode = rri->simulate(&opt);
+
+        // rk4
+        opt.setItem("integrator", "rk45");
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *rk45 = rri->simulate(&opt);
+
+        for (int i = 0; i < cvode[-1].size(); i++)
+        {
+            CHECK_CLOSE(*cvode[-1][i], *rk45[-1][i], 1e-6);
+        }
+    }
+
     TEST(FLOATING_SPECIES_IDS)
     {
         IniSection* aSection = iniFile.GetSection("Floating Species Ids");
@@ -1824,6 +1897,96 @@ SUITE(TEST_MODEL)
 			clog << "Default time step does not match" << endl;
 		}
 	}
+
+    TEST(CHECK_SIMULATE_POINTS_VS_STEPS)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check Simulate Points vs Steps");
+        if (!aSection || !gRR)
+        {
+          return;
+        }
+        clog << endl << "==== CHECK SIMULATE POINTS VS STEPS ====" << endl << endl;
+        // Python-only test
+        aSection->mIsUsed = true;
+    }
+
+    TEST(CHECK_MONOTONIC_TIMEPOINTS)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check Monotonic Timepoints");
+        if (!aSection || !gRR)
+        {
+          return;
+        }
+        clog << endl << "==== CHECK MONOTONIC TIMEPOINTS ====" << endl << endl;
+
+        aSection->mIsUsed = true;
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = toDouble(refList.at(0));
+        opt.duration = toDouble(refList.at(1));
+
+        // For variable step
+        rri->getIntegrator()->setValue("variable_step_size", true);
+        const DoubleMatrix *result = rri->simulate(&opt);
+
+        for(int k = 1; k < result->RSize(); ++k) {
+            CHECK ( ((*result)(k-1,0) < (*result)(k,0)) );
+        }
+
+        // For fixed step
+        opt.steps = toInt(refList.at(2));
+        rri->getIntegrator()->setValue("variable_step_size", false);
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        result = rri->simulate(&opt);
+
+        for(int k = 1; k < result->RSize(); ++k) {
+            CHECK ( ((*result)(k-1,0) < (*result)(k,0)) );
+        }
+    }
+
+    TEST(CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check Event Pre and Postfire Timepoints");
+        if (!aSection || !gRR)
+        {
+          return;
+        }
+        clog << endl << "==== CHECK EVENT PRE AND POSTFIRE TIMEPOINTS ====" << endl << endl;
+
+        aSection->mIsUsed = true;
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        // For variable step
+        rri->getIntegrator()->setValue("variable_step_size", true);
+        const DoubleMatrix *result = rri->simulate(&opt);
+
+        double max_tol = 0.0001;
+
+        for(vector<string>::const_iterator z = refList.begin(); z!= refList.end(); ++z) {
+            double t = toDouble(*z);
+            int i = findCloseTimepoint(result, t, max_tol);
+            if (i < 0 || i+1 >= result->RSize()) {
+                CHECK(false);
+            } else {
+                CHECK( abs( (*result)(i+1,0) - (*result)(i,0) ) < max_tol );
+            }
+        }
+    }
 
     TEST(CHECK_UNUSED_TESTS)
     {

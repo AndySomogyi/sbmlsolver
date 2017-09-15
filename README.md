@@ -2,9 +2,9 @@
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
 [![Build Status](https://travis-ci.org/sys-bio/roadrunner.svg?branch=develop)](https://travis-ci.org/sys-bio/roadrunner)
 
-Copyright 2013-2015
+Copyright 2013-2016
 
-E. T. Somogyi <sup>1</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, J. K. Medley <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup> and H. M. Sauro <sup>3</sup>
+E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
 1. Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
@@ -13,6 +13,10 @@ E. T. Somogyi <sup>1</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M
 ## Introduction
 
 libRoadRunner is a high performance and portable simulation engine for systems and synthetic biology.
+
+## Contributing
+
+**IMPORTANT!** Contributors **must** follow the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki). Contibuters are responsible for complying with the guidelines, including (but not limited to) making commits to the correct branch. Maintainers are not responsible for changes made to the wrong branch. Contributors take full responsibility for ensuring that their changes get merged into the develop branch.
 
 ## libRoadRunner supports the following features:
 

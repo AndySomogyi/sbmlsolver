@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <Poco/Logger.h>
 
+#include <iostream>
+
 #define CVODE_INT_TYPECODE 0x7799ff00
 
 using namespace std;
@@ -94,8 +96,8 @@ namespace rr
         Solver::resetSettings();
 
         // Set default integrator settings.
-        addSetting("relative_tolerance", 1e-6, "Relative Tolerance", "Specifies the scalar relative tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
-        addSetting("absolute_tolerance", 1e-15, "Absolute Tolerance", "Specifies the scalar absolute tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
+        addSetting("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE), "Relative Tolerance", "Specifies the scalar relative tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
+        addSetting("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE), "Absolute Tolerance", "Specifies the scalar absolute tolerance (double).", "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
         addSetting("stiff",              true, "Stiff", "Specifies whether the integrator attempts to solve stiff equations. (bool)", "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
         addSetting("maximum_bdf_order",  mDefaultMaxBDFOrder, "Maximum BDF Order", "Specifies the maximum order for Backward Differentiation Formula integration. (int)", "(int) Specifies the maximum order for Backward Differentiation Formula integration. This integration method is used for stiff problems. Default value is 5.");
         addSetting("maximum_adams_order",mDefaultMaxAdamsOrder, "Maximum Adams Order", "Specifies the maximum order for Adams-Moulton intergration. (int)", "(int) Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.");
@@ -198,13 +200,6 @@ namespace rr
         // MULTIPLE STEPS
         bVal = Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP);
         Integrator::setValue("multiple_steps", bVal);
-
-        // ABSOLUTE TOLERANCE
-//         Integrator::setValue("absolute_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_ABSOLUTE));
-//         Integrator::setValue("relative_tolerance", Config::getDouble(Config::SIMULATEOPTIONS_RELATIVE));
-
-        CVODEIntegrator::setValue("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE));
-        CVODEIntegrator::setValue("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE));
     }
 
 	void CVODEIntegrator::loadSBMLSettings(std::string const& filename)
@@ -321,7 +316,7 @@ namespace rr
             }
             else if (key == "absolute_tolerance" || key == "relative_tolerance")
             {
-                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
+                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps")); // FIXME: is this intentional?
                 setCVODETolerances();
             }
         }
@@ -1043,5 +1038,3 @@ namespace rr
 	}
 
 }
-
-

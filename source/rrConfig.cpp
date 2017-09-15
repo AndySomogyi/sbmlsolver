@@ -113,8 +113,8 @@ static Variant values[] =  {
     Variant((int)(SelectionRecord::TIME
             | SelectionRecord::RATE
             | SelectionRecord::FLOATING)),        // MODEL_RESET
-    Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
-    Variant(1.e-5),    // CVODE_MIN_RELATIVE
+    Variant(1.e-12),   // CVODE_MIN_ABSOLUTE
+    Variant(1.e-6),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
     Variant(1.e-4),    // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
@@ -126,7 +126,8 @@ static Variant values[] =  {
     Variant(true),      // PYTHON_ENABLE_NAMED_MATRIX
     Variant(true),      // LLVM_SYMBOL_CACHE
     Variant(true),      // OPTIMIZE_REACTION_RATE_SELECTION
-    Variant(true)      // LOADSBMLOPTIONS_PERMISSIVE
+    Variant(true),     // LOADSBMLOPTIONS_PERMISSIVE
+    Variant(20000)      // MAX_OUTPUT_ROWS
     // add space after develop keys to clean up merging
 
 
@@ -227,6 +228,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["LLVM_SYMBOL_CACHE"] = rr::Config::LLVM_SYMBOL_CACHE;
     keys["OPTIMIZE_REACTION_RATE_SELECTION"] = rr::Config::OPTIMIZE_REACTION_RATE_SELECTION;
     keys["LOADSBMLOPTIONS_PERMISSIVE"] = rr::Config::LOADSBMLOPTIONS_PERMISSIVE;
+    keys["MAX_OUTPUT_ROWS"] = rr::Config::MAX_OUTPUT_ROWS;
 
 
 
@@ -543,6 +545,8 @@ Config::Keys Config::stringToKey(const std::string& key) {
         return Config::OPTIMIZE_REACTION_RATE_SELECTION;
     else if (key == "LOADSBMLOPTIONS_PERMISSIVE")
         return Config::LOADSBMLOPTIONS_PERMISSIVE;
+    else if (key == "MAX_OUTPUT_ROWS")
+        return Config::MAX_OUTPUT_ROWS;
     else
         throw std::runtime_error("No such config key: '" + key + "'");
 }

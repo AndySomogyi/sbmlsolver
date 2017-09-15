@@ -109,8 +109,29 @@ static bool isStoichDefined(const SpeciesReference* s) {
 bool isStoichDefined(const std::string sbml) {
     SBMLDocument *doc = NULL;
 
-    if(sbml.substr(0,5) != "<?xml")
-      throw std::runtime_error("SBML document must begin with an XML declaration");
+    bool sbml_decl_okay = false;
+
+    // check for <?xml
+    size_t pos = sbml.find("<");
+    if (pos != std::string::npos) {
+      pos = sbml.find("?", pos+1);
+      if (pos != std::string::npos) {
+        pos = sbml.find("xml", pos+1);
+        if (pos != std::string::npos)
+          sbml_decl_okay = true;
+      }
+    }
+
+    // check for <sbml
+    pos = sbml.find("<");
+    if (pos != std::string::npos) {
+      pos = sbml.find("sbml", pos+1);
+      if (pos != std::string::npos)
+        sbml_decl_okay = true;
+    }
+
+    if (!sbml_decl_okay)
+      throw std::runtime_error("SBML document must begin with an XML declaration or an SBML declaration");
 
     try {
         doc =  readSBMLFromString (sbml.c_str());

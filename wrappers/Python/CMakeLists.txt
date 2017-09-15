@@ -4,8 +4,11 @@ FIND_PACKAGE(SWIG REQUIRED)
 
 INCLUDE(UseSWIG)
 
-FIND_PACKAGE(PythonLibs)
-FIND_PACKAGE(PythonInterp)
+find_package(PythonInterp)
+# specify that the same python library should be found 
+# as the one the selected interpreter uses
+set (Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
+find_package(PythonLibs)
 FIND_PACKAGE(NumPy)
 
 MESSAGE ("THIS IS NUMPY_VERSION " ${NUMPY_VERSION})
@@ -37,3 +40,7 @@ install(FILES INSTALL.txt setup.py MANIFEST.in
         DESTINATION .    
        )
 
+if(WITH_CONDA_BUILDER)
+  configure_file(conda/meta.yaml.in conda/meta.yaml @ONLY)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/conda/meta.yaml conda/build.sh conda/bld.bat DESTINATION .)
+endif()

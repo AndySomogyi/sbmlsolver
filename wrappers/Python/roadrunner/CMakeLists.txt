@@ -90,7 +90,7 @@ else(WIN32)
             roadrunner
             rr-libstruct-static
             nleq-static
-            sbml-static
+            ${LIBSBML_STATIC_LIBRARY}
             lapack
             blas
             f2c
@@ -101,7 +101,7 @@ else(WIN32)
             roadrunner-static
             rr-libstruct-static
             nleq-static
-            sbml-static
+            ${LIBSBML_STATIC_LIBRARY}
             lapack
             blas
             f2c
@@ -121,8 +121,6 @@ else(WIN32)
 
 
 endif(WIN32)
-
-set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
 
 install(
     TARGETS _roadrunner
@@ -168,6 +166,12 @@ install(
 )
 
 file(GLOB rrtest_files "${RR_ROOT}/testing/*.rrtest")
+install(
+    FILES ${rrtest_files}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
+)
+
+file(GLOB rrtest_files "${RR_ROOT}/testing/*.xml")
 install(
     FILES ${rrtest_files}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data

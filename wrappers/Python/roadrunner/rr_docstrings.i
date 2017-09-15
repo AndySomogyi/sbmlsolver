@@ -916,182 +916,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
 
 
-%feature("docstring") rr::RoadRunner::simulate "
-RoadRunner.simulate(*args, **kwargs)
-
-
-
-Simulate the optionally plot current SBML model. This is the one stop shopping method
-for simulation and ploting.
-
-simulate accepts a up to four positional arguments and a large number of keyword args.
-
-The first four (optional) arguments are treated as:
-
-   1: Start Time, if this is a number.
-
-   2: End Time, if this is a number.
-
-   3: Number of Steps, if this is a number.
-
-   4: List of Selections.
-
-All four of the positional arguments are optional. If any of the positional arguments are
-a list of string instead of a number, then they are interpreted as a list of selections.
-
-
-There are a number of ways to call simulate.
-
-1: With no arguments. In this case, the current set of options from the previous
-   ``simulate`` call will be used. If this is the first time ``simulate`` is called,
-   then a default set of values is used.
-
-2: With up to three positions arguments, described above.
-
-3: With optional keyword arguments where keywords are listed below.
-
-   For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
-
-     rr.simulate(end=10, start=0, steps=1000, reset=True, plot=True)
-
-   All of the options given to ``simulate`` are remembered and used as default arguments for
-   subsequent calls, i.e. if one calls::
-
-     rr.simulate (0, 3, 100, [\"time\", \"[S1]\"])
-
-   The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
-   so that if this is followed by a call to::
-
-     rr.simulate()
-
-   This simulation will use the previous values. Note, that if the ``reset=True`` options was not
-   given, this will continue the simulation using the previous model state, but time here will
-   start at 0 and continue to 3.
-
-simulate accepts the following list of keyword arguments:
-
-integrator
-  A text string specifying which integrator to use. Currently supports \"cvode\"
-  for deterministic simulation (default) and \"gillespie\" for stochastic
-  simulation.
-
-sel or selections
-  A list of strings specifying what values to display in the output.
-
-plot
-  True or False
-  If True, RoadRunner will create a basic plot of the simulation result using
-  the built in plot routine which uses MatPlotLib.
-
-absolute
-  A number representing the absolute difference permitted for the integrator
-  tolerance.
-
-duration
-  The duration of the simulation run, in the model's units of time.
-  Note, setting the duration automatically sets the end time and visa versa.
-
-end
-  The simulation end time. Note, setting the end time automatically sets
-  the duration accordingly and visa versa.
-
-relative
-  A float-point number representing the relative difference permitted.
-  Defaults 0.0001
-
-resetModel (or just \"reset\"???)
-  True or False
-  Causes the model to be reset to the original conditions specified in
-  the SBML when the simulation is run.
-
-start
-  The start time of the simulation time-series data. Often this is 0,
-  but not necessarily.
-
-steps
-  The number of steps at which the output is sampled. The samples are evenly spaced.
-  When a simulation system calculates the data points to record, it will typically
-  divide the duration by the number of time steps. Thus, for N steps, the output
-  will have N+1 data rows.
-
-stiff
-  True or False
-  Use the stiff integrator. Only use this if the model is stiff and causes issues
-  with the regular integrator. The stiff integrator is slower than the conventional
-  integrator.
-
-multiStep
-  True or False
-  Perform a multi step integration.
-
-  \\\\* Experimental \\\\*
-  Perform a multi-step simulation. In multi-step simulation, one may monitor the
-  variable time stepping via the IntegratorListener events system.
-
-initialTimeStep
-  A user specified initial time step. If this is <= 0, the integrator will attempt
-  to determine a safe initial time step.
-
-  Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
-  the internal integrator may take many many steps to reach one of the external time steps.
-  This value specifies an initial value for the internal integrator time step.
-
-minimumTimeStep
-  Specify the minimum time step that the internal integrator will use.
-  Uses integrator estimated value if <= 0.
-
-maximumTimeStep
-  Specify the maximum time step size that the internal integrator will use.
-  Uses integrator estimated value if <= 0.
-
-maximumNumSteps
-  Specify the maximum number of steps the internal integrator will use before
-  reaching the user specified time span. Uses the integrator default value if <= 0.
-
-
-:returns: a numpy array with each selected output time series being a
-          column vector, and the 0'th column is the simulation time.
-:rtype: numpy.ndarray
-";
-
-
-
-%feature("docstring") rr::RoadRunner::simulateOptions "
-:annotation: None
-
-Get the SimulateOptions object where simulation options may be set.
-
-
-
-
-.. py:function:: RoadRunner_getCopyright()
-
-Returns the copyright string
-
-
-
-.. py:function:: RoadRunner_getExtendedVersionInfo()
-
-getVersion plus info about dependent libs versions.
-
-
-
-.. py:function:: RoadRunner_getParamPromotedSBML(*args)
-
-Takes an SBML document (in textual form) and changes all of the local parameters
-to be global parameters.
-
-:param str SBML: the contents of an SBML document
-:rtype: str
-
-
-
-Steady State Sections
----------------------
-";
-
-
-
 %feature("docstring") rr::RoadRunner::steadyStateSelections "
 
 A list of SelectionRecords which determine what values are used for
@@ -1124,7 +948,12 @@ RoadRunner.getSteadyStateValues()
 
 Performs a steady state calculation (evolves the system to a steady
 state), then calculates and returns the set of values specified by
-the steady state selections.
+the steady state selections. The variable steadyStateSelections is used
+to determine which values are returned.
+
+     >>> rr.steadyStateSelections = ['S1']
+     >>> rr.getSteadyStateValues()
+     array([ 0.54314239])
 
 :returns: a numpy array corresponding to the values specified by steadyStateSelections
 
@@ -1168,7 +997,6 @@ return concentration control coefficients with respect to species S1 and S2.
 ";
 
 
-
 %feature("docstring") rr::RoadRunner::getuCC "
 RoadRunner.getuCC(variableId, parameterId)
 
@@ -1179,6 +1007,32 @@ Get unscaled control coefficient with respect to a global parameter.
 :param parameterId: must be either a global parameter, boundary species, or
                     conserved sum.
 ";
+
+
+
+%feature("docstring") rr::RoadRunner::getDiffStepSize "
+RoadRunner.getDiffStepSize()
+
+Returns the differential step size used in getCC and getuCC. Both functions
+use a 4th order finite difference method for calculating the derivative. The
+default value is 0.05.
+
+  rr.getDiffStepSize ()
+  0.05
+
+:rtype: double
+";
+
+
+
+%feature("docstring") rr::RoadRunner::setDiffStepSize "
+RoadRunner.setDiffStepSize(value)
+
+Sets the differential step size used in getCC and getuCC.
+
+  rr.setDiffStepSize (0.05)
+";
+
 
 
 
@@ -1449,6 +1303,17 @@ Analysis
 RoadRunner.getFrequencyResponse(startFrequency, numberOfDecades, numberOfPoints, parameterName, variableName, useDB, useHz)
 
 Compute the frequency response
+
+:rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getSupportedIdTypes "
+RoadRunner.getSupportedIdTypes()
+
+Returns a bitfield representing the element ID types which can be used with e.g.
+RoadRunner.getValue
 
 :rtype: numpy.ndarray
 ";
@@ -1729,55 +1594,6 @@ modifer to distinguish it.
 
 
 
-%feature("docstring") rr::SelectionRecord::selectionType "
-:annotation: int
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::integratorFlags "
-
-A bitfield which may contain the following options. In python these options are
-also available as separate properties which set the integratorFlags bitfield.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::STIFF "
-
-Use the stiff (implicit) integrator. Defaults to off.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::MULTI_STEP "
-
-* Experimental *
-
-Perform a multi-step simulation. In multi-step simulation, one may monitor
-the variable time stepping via the IntegratorListener events system.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::absolute "
-
-A number representing the absolute difference permitted for the integrator
-tolerance.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::amounts "
-
-
-A list of the variable whose output in the results file is in amount
-(not concentration) units. This list of variables must be a subset of
-the names listed in variables.
-";
-
-
-
 %feature("docstring") rr::SimulateOptions::concentrations "
 
 
@@ -1815,65 +1631,6 @@ when the simulation is run.
 
 
 
-%feature("docstring") rr::SimulateOptions::relative "
-
-
-A float-point number representing the relative difference permitted.
-Defaults 0.0001
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::resetModel "
-
-
-Causes the model to be reset to the original conditions specified
-in the SBML when the simulation is run.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::start "
-
-
-The start time of the simulation time-series data.
-Often this is 0, but not necessarily.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::steps "
-
-
-The number of steps at which the output is sampled. The samples are evenly spaced.
-When a simulation system calculates the data points to record, it will typically
-divide the duration by the number of time steps. Thus, for N steps, the output
-will have N+1 data rows.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::stiff "
-
-
-Use the stiff integrator. Only use this if the model is stiff and causes issues with the regular
-integrator. The stiff integrator is slower than the conventional integrator.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::multiStep "
-
-Perform a multi step integration.
-
-* Experimental *
-
-Perform a multi-step simulation. In multi-step simulation, one may monitor
-the variable time stepping via the IntegratorListener events system.
-";
-
-
-
 %feature("docstring") rr::SimulateOptions::variables "
 
 
@@ -1894,44 +1651,6 @@ NOTE:If a listed variable has two underscores in it ('__'), that variable
 is actually present only in a submodel of the main model, from the
 Hierarchical Model Composition package, in the format submodelID__variableID.
 If the model is flattened, the variable will appear automatically.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::initialTimeStep "
-
-A user specified initial time step. If this is <=  0, the integrator
-will attempt to determine a safe initial time step.
-
-Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
-the internal integrator may take many many steps to reach one of the external time
-steps. This value specifies an initial value for the internal integrator
-time step.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::minimumTimeStep "
-
-Specify the minimum time step that the internal integrator
-will use. Uses integrator estimated value if <= 0.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::maximumTimeStep "
-
-Specify the maximum time step size that the internal integrator
-will use. Uses integrator estimated value if <= 0.
-";
-
-
-
-%feature("docstring") rr::SimulateOptions::maximumNumSteps "
-
-Specify the maximum number of steps the internal integrator will use
-before reaching the user specified time span. Uses the integrator
-default value if <= 0.
 ";
 
 

@@ -207,6 +207,7 @@ namespace rr
     {
         std::stringstream ss;
         ss << "< roadrunner.Solver() >\n";
+        ss << "  name: " << getName() << "\n";
         ss << "  settings:\n";
         ss << getSettingsRepr();
         return ss.str();
@@ -215,7 +216,7 @@ namespace rr
     std::string Solver::toRepr() const
     {
         std::stringstream ss;
-        ss << "< roadrunner.Solver() " << settingsPyDictRepr() << " >\n";
+        ss << "< roadrunner.Solver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
         return ss.str();
     }
 }

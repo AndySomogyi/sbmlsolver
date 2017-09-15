@@ -53,6 +53,11 @@ _________________________
        >>> myfile = open("myfile.xml, "r")
        >>> contents = file.read()
        >>> r.load(contents)
+       
+   Loading in a raw SBML string is also possible:
+
+       >>> sbmlstr = rr.getCurrentSBML()         # Or any other properly formatted SBML string block
+       >>> r.load(sbmlstr)
 
    In future version, we will also support loading directly from a libSBML Document object. 
 
@@ -114,8 +119,17 @@ _________________________
 .. method:: RoadRunner.getIntegrator()
    :module: RoadRunner
 
-   Returns the integrator which is currently being used to
-   time evolve the system.
+   Returns the solver instance. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   
+.. method:: RoadRunner.getIntegratorByName(name)
+   :module: RoadRunner
+   
+   Returns the solver instance by given name. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+
+   :param str name: Name of the integrator
 
    
 .. method:: RoadRunner.getAvailableIntegrators()
@@ -139,7 +153,6 @@ _________________________
    :param str SBML: the contents of an SBML document
    :rtype: str
 
-   
 
 .. method:: RoadRunner.getCurrentSBML()
    :module: RoadRunner
@@ -158,6 +171,24 @@ _________________________
    Returns the original SBML model that was loaded into roadrunner.
 
    :rtype: str
+   
+.. method:: RoadRunner.setIntegrator(name)
+   :module: RoadRunner
+
+   Sets specific integrator. For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   :param str name: name of the integrator.
+
+   
+.. method:: RoadRunner.setIntegratorSetting(name, key, value)
+   :module: RoadRunner
+
+   Sets settings for a specific integrator. See :class:`roadrunner.Solver`.
+   For more information on the possible settings, see :ref:`roadrunner-solver`.
+   
+   :param str name: name of the integrator.
+   :param str key: name of the setting.
+   :param const value: value of the setting.
    
 
 Selections
@@ -184,7 +215,7 @@ Selections
 .. method:: RoadRunner.getSelectedValues()
    :module: RoadRunner
 
-   returns the values selected with SimulateOptions for the current model time / timestep
+   returns the values of the current timecourse selections for the current state of the model
 
    :rtype: numpy.ndarray
 
@@ -317,7 +348,7 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    Simulate and optionally plot current SBML model. This is the one stop shopping method
    for simulation and plotting. 
 
-   simulate accepts a up to four positional arguments and a large number of keyword args. 
+   simulate accepts a up to four positional arguments. 
 
    The first four (optional) arguments are treated as:
             
@@ -325,122 +356,24 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
       2: End Time, if this is a number.
 
-      3: Number of Steps, if this is a number.
+      3: Number of points, if this is a number.
             
-      4: List of Selections. 
+      4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
 
    All four of the positional arguments are optional. If any of the positional arguments are
    a list of string instead of a number, then they are interpreted as a list of selections. 
-
    
    There are a number of ways to call simulate.
 
    1: With no arguments. In this case, the current set of options from the previous 
       ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
-      then a default set of values is used. 
+      then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).
 
-   2: With up to three positions arguments, described above. 
-
-   3: With optional keyword arguments where keywords are listed below. 
-
-      For example, to reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
-        
-        rr.simulate(end=10, start=0, steps=1000, reset=True, plot=True)
-
-      All of the options given to ``simulate`` are remembered and used as default arguments for
-      subsequent calls, i.e. if one calls::
-
-        rr.simulate (0, 3, 100, ["time", "[S1]"])
-
-      The start time of 0, end time of 3, steps of 100 and the selection list will remain in effect,
-      so that if this is followed by a call to::
-
-        rr.simulate()
-
-      This simulation will use the previous values. Note, that if the ``reset=True`` options was not
-      given, this will continue the simulation using the previous model state, but time here will
-      start at 0 and continue to 3. 
-
-   simulate accepts the following list of keyword arguments:
-
-   integrator
-     A text string specifying which integrator to use. Currently supports "cvode"
-     for deterministic simulation (default) and "gillespie" for stochastic 
-     simulation.
-
-   sel or selections
-     A list of strings specifying what values to display in the output. 
-
-   plot
-     True or False
-     If True, RoadRunner will create a basic plot of the simulation result using
-     the built in plot routine which uses MatPlotLib. 
-
-   absolute
-     A number representing the absolute difference permitted for the integrator 
-     tolerance.
-
-   duration
-     The duration of the simulation run, in the model's units of time.
-     Note, setting the duration automatically sets the end time and visa versa.
-     
-   end
-     The simulation end time. Note, setting the end time automatically sets 
-     the duration accordingly and visa versa.
-
-   relative
-     A float-point number representing the relative difference permitted. 
-     Defaults 0.0001
-
-   reset
-     True or False
-     Causes the model to be reset to the original conditions specified in 
-     the SBML when the simulation is run.
-
-   start
-     The start time of the simulation time-series data. Often this is 0, 
-     but not necessarily.
-
-   steps
-     The number of steps at which the output is sampled. The samples are evenly spaced. 
-     When a simulation system calculates the data points to record, it will typically 
-     divide the duration by the number of time steps. Thus, for N steps, the output 
-     will have N+1 data rows.
-
-   stiff
-     True or False
-     Use the stiff integrator. Only use this if the model is stiff and causes issues 
-     with the regular integrator. The stiff integrator is slower than the conventional 
-     integrator.
-
-   multiStep
-     True or False
-     Perform a multi step integration.
-     
-     \* Experimental \*
-     Perform a multi-step simulation. In multi-step simulation, one may monitor the 
-     variable time stepping via the IntegratorListener events system.
-
-   initialTimeStep
-     A user specified initial time step. If this is <= 0, the integrator will attempt 
-     to determine a safe initial time step.
-
-     Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate 
-     the internal integrator may take many many steps to reach one of the external time steps. 
-     This value specifies an initial value for the internal integrator time step.
-
-   minimumTimeStep
-     Specify the minimum time step that the internal integrator will use. 
-     Uses integrator estimated value if <= 0.
-
-   maximumTimeStep
-     Specify the maximum time step size that the internal integrator will use. 
-     Uses integrator estimated value if <= 0.
-
-   maximumNumSteps
-     Specify the maximum number of steps the internal integrator will use before 
-     reaching the user specified time span. Uses the integrator default value if <= 0.
-
+   2: With up to four positions arguments, described above. 
+   
+   Finally, you can pass steps keyword argument instead of points. 
+   
+   steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
 
    :returns: a numpy array with each selected output time series being a
              column vector, and the 0'th column is the simulation time.
@@ -480,16 +413,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    >>> result = r.gillespie (0, 40, 20, [‘time’, ‘S1’])
    
 
-.. method:: RoadRunner.integrate(t0, tf, options)
-   :module: RoadRunner
-
-   Carry out a single integration step using a stepsize as indicated in the method call.
-
-   :param t0: start time
-   :param tf: end time   
-   :param options: override current options
-
-
 .. py:function:: RoadRunner.plot(result, loc)
    :module: RoadRunner
    
@@ -501,13 +424,6 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    
    :param numpy.ndarray result: Data returned from a simulate or gillespie call
    :param str loc: string representing the location of legend i.e. "upper right"
-   
-
-.. py:attribute:: RoadRunner.simulateOptions
-   :module: RoadRunner
-   :annotation: None
-
-   Get the SimulateOptions object where simulation options may be set.
 
 
 .. py:function:: Roadrunner.getSimulationData()
@@ -563,6 +479,18 @@ Steady State
    :returns: a numpy array corresponding to the values specified by steadyStateSelections
 
    :rtype: numpy.ndarray
+
+   
+.. method:: RoadRunner.getSteadyStateValuesNamedArray()
+   :module: RoadRunner
+    
+   Performs a steady state calculation (evolves the system to a steady
+   state), then calculates and returns the set of values specified by
+   the steady state selections with all necessary labels.
+
+   :returns: a NamedArray corresponding to the values specified by steadyStateSelections
+
+   :rtype: NamedArray
    
 
 .. method:: RoadRunner.getSteadyStateSolver()
@@ -603,12 +531,12 @@ related to metabolic control analysis are applicable. These methods are describe
    return concentration control coefficients with respect to species S1 and S2.
 
    :param variable: The id of a dependent variable of the coefficient, for example a
-                    flux or species concentration.
+                    reaction or species concentration.
 
    :param parameter: The id of the independent parameter, for example a kinetic constant
                      or boundary species
 
-   :returns: the value of the control coefficient returned to the caller.
+   :returns: the value of the scaled control coefficient.
 
    :rtype: double
 
@@ -618,11 +546,15 @@ related to metabolic control analysis are applicable. These methods are describe
 
    Get unscaled control coefficient with respect to a global parameter.
 
-   :param variableId: must be either a reaction or floating species.
+   :param variableId: The id of a dependent variable of the coefficient, for example a
+                    reaction or species concentration.
 
-   :param parameterId: must be either a global parameter, boundary species, or
-                       conserved sum.
+   :param parameterId: The id of the independent parameter, for example a kinetic constant
+                     or boundary species
+					 
+   :returns: the value of the unscaled control coefficient.
 
+   :rtype: double
 					   
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: RoadRunner
@@ -632,11 +564,11 @@ related to metabolic control analysis are applicable. These methods are describe
    For example::
 
      x = rr.getEE ('J1', 'Vmax')
+	 
+   calculates elasticity coefficient of reaction 'J1' with restpect to parameter 'Vmax'.
 
-   :param str variable: The dependent variable of the coefficient, for example a flux or
-                        species concentration.
-   :param str parameter: The independent parameter, for example a kinetic constant or boundary
-                         species
+   :param str variable: A reaction Id
+   :param str parameter: The independent parameter, for example a kinetic constant, floating or boundary species
    :param Boolean steadyState: should the steady state value be computed.
 
 
@@ -804,8 +736,8 @@ related to metabolic control analysis are applicable. These methods are describe
    
    
 
-Stochiometric Analysis
-----------------------
+Stoichiometric Analysis
+-----------------------
 
 .. method:: RoadRunner.getFullStoichiometryMatrix()
    :module: RoadRunner

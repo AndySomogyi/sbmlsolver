@@ -53,10 +53,10 @@ namespace rr { namespace conservation {
 class ConservedMoietySpecies : public libsbml::Species
 {
 public:
-    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety) :
+    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety, const std::string& quantity = "") :
         libsbml::Species(orig)
     {
-        ConservationPkgNamespaces ns(3,1,1);
+        ConservationPkgNamespaces ns(3,2,1);
         this->loadPlugins(&ns);
 
         ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
@@ -64,6 +64,18 @@ public:
         assert(plugin && "could not get conservation plugin from new species");
 
         plugin->setConservedMoiety(conservedMoiety);
+
+        if (quantity.size()) {
+            plugin->setConservedQuantity(quantity);
+        }
+    }
+
+    void setConservedQuantity(const std::string& quantity) {
+        ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
+
+        assert(plugin && "could not get conservation plugin from species");
+
+        plugin->setConservedQuantity(quantity);
     }
 };
 
@@ -175,6 +187,20 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
     }
 
+    if (mDocument->checkL3v2Compatibility() != 0)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
+                << std::endl;
+        return 1;
+    }
+
+    if (!mDocument->setLevelAndVersion(3,2))
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
+                << std::endl;
+        return 1;
+    }
+
 
     Model* mModel = mDocument->getModel();
     if (mModel == NULL)
@@ -183,9 +209,16 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
     }
 
-
     /* The document was checked for consistency in setDocument */
-    ConservationPkgNamespaces ns(3,1,1);
+    ConservationPkgNamespaces ns(3,2,1);
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version2"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version2", "fbc");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version1", "fbc");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/layout/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/layout/version1", "layout");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/render/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/render/version1", "render");
     resultDoc = new SBMLDocument(&ns);
 
     ConservationDocumentPlugin *docPlugin = dynamic_cast<ConservationDocumentPlugin*>
@@ -295,7 +328,6 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         ConversionProperties versionProps = versionConverter.getDefaultProperties();
 
         versionProps.addOption("strict", false);
-        std::cerr << "ConservedMoietyConverter::setDocument\n";
 
         versionConverter.setProperties(&versionProps);
 
@@ -459,8 +491,13 @@ static std::vector<std::string> createConservedMoietyParameters(
     for (int i = 0; i < depSpecies.size(); ++i)
     {
         Poco::UUID uuid = uuidGen.create();
-        string id = "cm_" + rr::toString(i) + "_" + uuid.toString();
+        string id = "_CSUM" + rr::toString(i);
         std::replace( id.begin(), id.end(), '-', '_');
+
+
+        ConservedMoietySpecies* cmDepSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(indSpecies.size()+i));
+        if (cmDepSpecies)
+            cmDepSpecies->setConservedQuantity(id);
 
         Parameter *cm = newModel->createParameter();
         cm->setId(id);
@@ -505,6 +542,10 @@ static std::vector<std::string> createConservedMoietyParameters(
                 times->addChild(species);
 
                 sum2->addChild(times);
+
+                ConservedMoietySpecies* cmIndSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(j));
+                if (cmIndSpecies)
+                    cmIndSpecies->setConservedQuantity(id);
             }
         }
 
@@ -843,5 +884,3 @@ std::string PyConservedMoietyConverter::getDocument()
 }
 
 } // namespace rr }
-
-

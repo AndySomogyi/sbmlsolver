@@ -69,5 +69,7 @@ Use these to obtain metabolic control coefficients.
    
    RoadRunner.getuCC
    RoadRunner.getCC
+   RoadRunner.getDiffStepSize
+   RoadRunner.setDiffStepSize
    RoadRunner.getuEE
    RoadRunner.getEE

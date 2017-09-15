@@ -799,6 +799,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     for (uint i = 0; i < species->size(); ++i)
     {
         const Species *s = species->get(i);
+        std::string quantity = ConservationExtension::getConservedQuantity(*s);
 
         if (s->getBoundaryCondition())
         {
@@ -810,10 +811,16 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         if (isIndependentElement(sid))
         {
             indFltSpecies.push_back(sid);
+            if (quantity.size()) {
+                conservedMoietyIndSpecies[quantity].push_back(indFltSpecies.size()-1);
+            }
         }
         else
         {
             depFltSpecies.push_back(sid);
+            if (quantity.size()) {
+                conservedMoietyDepSpecies[quantity] = depFltSpecies.size()-1;
+            }
         }
 
         bool conservedMoiety = ConservationExtension::getConservedMoiety(*s);
@@ -1521,6 +1528,32 @@ uint LLVMModelDataSymbols::getEventIndex(const std::string& id) const
 uint LLVMModelDataSymbols::getConservedMoietySize() const
 {
     return conservedMoietyGlobalParameterIndex.size();
+}
+
+uint LLVMModelDataSymbols::getDepSpeciesIndexForConservedMoietyId(std::string id) const
+{
+    StringUIntMap::const_iterator i = conservedMoietyDepSpecies.find(id);
+    if (i != conservedMoietyDepSpecies.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find dep species for cm with id " + id, __FUNC__);
+    }
+}
+
+const std::vector<uint>& LLVMModelDataSymbols::getIndSpeciesIndexForConservedMoietyId(std::string id) const
+{
+    StringUIntVectorMap::const_iterator i = conservedMoietyIndSpecies.find(id);
+    if (i != conservedMoietyIndSpecies.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find dep species for cm with id " + id, __FUNC__);
+    }
 }
 
 uint LLVMModelDataSymbols::getConservedMoietyGlobalParameterIndex(

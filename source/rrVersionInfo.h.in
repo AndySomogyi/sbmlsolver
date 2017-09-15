@@ -101,7 +101,7 @@ enum VersionStrOptions
  * are ';' separators between each of them.
  */
 RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC
-        | VERSIONSTR_COMPILER | VERSIONSTR_JITCOMPILER | VERSIONSTR_DATE);
+        | VERSIONSTR_COMPILER | VERSIONSTR_LIBSBML | VERSIONSTR_JITCOMPILER | VERSIONSTR_DATE);
 
 
 /**

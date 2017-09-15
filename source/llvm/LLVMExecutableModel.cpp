@@ -1264,6 +1264,26 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
         break;
     case SelectionRecord::GLOBAL_PARAMETER:
         setGlobalParameterValues(1, &index, &value);
+        for(uint cm = 0; cm < symbols->getConservedMoietySize(); ++cm) {
+            // is this the index of the cm we are setting?
+            if (symbols->getConservedMoietyId(cm) == id) {
+                // eliminate loop?
+                uint d = symbols->getDepSpeciesIndexForConservedMoietyId(id);
+                int i_dep = modelData->numIndFloatingSpecies+d;
+                double amt;
+                getFloatingSpeciesAmounts(1,&i_dep,&amt);
+                // if the dependent species went negative, we need to correct for it
+                if (amt < 0) {
+                    const std::vector<uint>& ind = symbols->getIndSpeciesIndexForConservedMoietyId(id);
+                    double zero=0;
+
+                    for(std::vector<uint>::const_iterator it = ind.begin(); it != ind.end(); ++it) {
+                        int i = *it;
+                        setFloatingSpeciesAmounts(1,&i,&zero);
+                    }
+                }
+            }
+        }
         break;
     case SelectionRecord::BOUNDARY_AMOUNT:
         setBoundarySpeciesAmounts(1, &index, &value);

@@ -227,25 +227,6 @@ here. The variable type of the parameter is listed after the key name.
    original JIT engine. Does NOT work on LLVM 3.1
 
 
-.. attribute:: Config.SIMULATEOPTIONS_MULTI_STEP
-   :module: RoadRunner
-   :annotation: bool
-
-   The MULTI_STEP option tells the solver to take a series of internal steps
-   and then return the solution at the point reached by that step.
-  
-   In simulate, this option will likely be slower than normal mode,
-   but may be useful to monitor solutions as they are integrated.
-  
-   This is intended to be used in combination with the
-   IntegratorListener. It this option is set, and there is a
-   IntegratorListener set, RoadRunner::integrate will run the
-   integrator in a series of internal steps, and the listener
-   will by notified at each step.
-  
-   Highly Experimental!!!
-
-
 .. attribute:: Config.ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
    :module: RoadRunner
    :annotation: int
@@ -261,7 +242,7 @@ here. The variable type of the parameter is listed after the key name.
    :module: RoadRunner
    :annotation: int
 
-   disable SBML conserved moiety warnings.
+   Disable SBML conserved moiety warnings.
 
    Conserved Moiety Conversion may cause unexpected behavior, be aware of what it
    is before enabling. 
@@ -278,6 +259,27 @@ here. The variable type of the parameter is listed after the key name.
    Rationale for these numbers: This is actual a bit field, disabling the steady state 
    warning value is actually 0b01 << 0 which is 1, and the loading warning is 0b01 << 1 
    which is 2 and 0b01 & 0b10 is 0b11 which is 3 in decimal. 
+
+
+.. attribute:: Config.LOADSBMLOPTIONS_PERMISSIVE
+   :module: RoadRunner
+   :annotation: int
+
+   Accept some non-valid SBML (such as Booleans in numberic expressions).
+
+   For legacy code only. Do not use.
+
+
+.. attribute:: Config.MAX_OUTPUT_ROWS
+   :module: RoadRunner
+   :annotation: int
+
+   Set the maximum number of rows in the output matrix.
+
+   For models with very fine time stepping, the output of simulate can
+   use up all available memory and crash the system. This option provides
+   an upper bound on the maximum number of rows the output can contain.
+   The simulation will be aborted and the output truncated if this value is exceeded.
 
 
 

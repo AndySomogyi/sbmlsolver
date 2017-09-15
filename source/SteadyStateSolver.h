@@ -50,9 +50,33 @@ namespace rr
         */
         virtual void syncWithModel(ExecutableModel* m) = 0;
 
-        virtual double solve(const std::vector<double>& yin) = 0;
+        virtual double solve() = 0;
 
         virtual void loadConfigSettings();
+
+		/**
+		* @author KC
+		* @brief Get the solver settings as a string
+		*/
+		std::string getSettingsRepr() const;
+
+		/**
+		* @author KC
+		* @brief Python dictionary-style string representation of settings
+		*/
+		std::string settingsPyDictRepr() const;
+
+		/**
+		* @author KC
+		* @brief Return a string representation of the solver
+		*/
+		virtual std::string toString() const;
+
+		/**
+		* @author KC
+		* @brief Return string representation a la Python __repr__ method
+		*/
+		virtual std::string toRepr() const;
     };
 
     /**

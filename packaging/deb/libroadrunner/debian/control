@@ -28,7 +28,7 @@ Description: Simulation library for SBML
 Package: libroadrunner
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libroadrunner-deps (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, libroadrunner-deps (>= 2.0.2)
 Description: Simulation library for SBML
  libRoadRunner is a ODE/stochastic simulation and
  modeling environment for SBML

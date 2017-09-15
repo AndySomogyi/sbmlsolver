@@ -654,7 +654,7 @@ C_DECL_SPEC RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle);
 /*!
  \brief Set the selection list of the steady state analysis
 
- Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.
+ Use getSteadyStateSelectionList(handle) to retrieve the list of all selections.
 
  Example:
 

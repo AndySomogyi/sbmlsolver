@@ -1,0 +1,25 @@
+package:
+  name: roadrunner
+  version: @ROADRUNNER_VERSION@
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy >=1.9
+  run:
+    - numpy >=1.9
+    - matplotlib
+
+app:
+  summary: "An SBML Modeling and Simulation Engine"
+  entry: ipython notebook
+  icon: assets/roadrunner-64x64-red.png
+
+about:
+  home: https://github.com/sys-bio/sbml2matlab
+  license: Apache 2.0
+
+extra:
+  maintainers:
+   - Kyle Medley (https://github.com/0u812)

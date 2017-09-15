@@ -21,8 +21,9 @@ namespace rr
 
     RK45Integrator::RK45Integrator(ExecutableModel *m)
     {
-        Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta Fehlberg integrator";
-        stateVectorSize = hCurrent = hmin = hmax = 0;
+        Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
+        resetSettings();
+        stateVectorSize = hmin = hmax = 0;
         k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
         syncWithModel(m);
     }
@@ -55,11 +56,10 @@ namespace rr
             err = new double[stateVectorSize];
             y = new double[stateVectorSize];
             ytmp = new double[stateVectorSize];
-            hCurrent = 0.;
             hmin = getValueAsDouble("minimum_time_step"); // TODO: replace hmin with getValueAsDouble("minimum_time_step")
             hmax = getValueAsDouble("maximum_time_step"); // TODO: replace hmax with getValueAsDouble("maximum_time_step")
         } else {
-            stateVectorSize = hCurrent = hmin = hmax = 0;
+            stateVectorSize = hmin = hmax = 0;
             k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
         }
     }
@@ -77,19 +77,9 @@ namespace rr
         delete []ytmp;
     }
 
-    double RK45Integrator::integrate(double t, double tEnd)
+    double RK45Integrator::integrate(double t, double tDiff)
     {
-        double h = getValueAsDouble("initial_time_step");
-        if (hCurrent != 0.)
-          h = hCurrent;
-        // NOTE: @kirichoi, please implement rk45 here
-//         static const double epsilon = 1e-3;
-//         double tf = 0;
-        bool singleStep;
-
-        assert(h > hmin && "h must be > hmin");
-//         tf = t + h;
-        singleStep = false;
+        double h = getValueAsDouble("maximum_time_step");
 
         if (!model) {
             throw std::runtime_error("RK45Integrator::integrate: No model");
@@ -98,7 +88,6 @@ namespace rr
         Log(Logger::LOG_DEBUG) <<
                 "RK45Integrator::integrate(" << t << ", " << h << ")";
 
-        // blas daxpy: y -> y + \alpha x
         integer n = stateVectorSize;
         integer inc = 1;
         integer i;
@@ -188,56 +177,58 @@ namespace rr
 
           Log(Logger::LOG_DEBUG) <<
 	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
-          if (error <= getValueAsDouble("epsilon")) {
-
-            Log(Logger::LOG_DEBUG) <<
-                  "RK45: Update state vector";
-
-            // y = y + (1408*h/2565) k_3
-            alpha = 1408.*h/2565;
-            daxpy_(&n, &alpha, k3, &inc, y, &inc);
-
-            // y = y + (1408/2565)*h k_3) + (2197/4104)*h k_4
-            alpha = (2197./4104)*h;
-            daxpy_(&n, &alpha, k4, &inc, y, &inc);
-
-
-            // y = (y + (1408/2565)*h k_3 + (2197/4104)*h k_4) - (1/5)*h k_5
-            alpha = (-1./5)*h;
-            daxpy_(&n, &alpha, k5, &inc, y, &inc);
-
-            // y = y + (25/216)*h k_1 + (1408/2565)*h k_3 + (2197/4104)*h k_4 - (1/5)*h k_5
-            alpha = (25./216)*h;
-            daxpy_(&n, &alpha, k1, &inc, y, &inc);
-
-            model->setTime(t + h);
-            model->setStateVector(y);
-            t = t + h;
-
-            for(int i=0; i<stateVectorSize; ++i) {
-              Log(Logger::LOG_DEBUG) << "  " << y[i];
-            }
-          }
-
           if (q <= 0.1) {
             h = 0.1*h;
-          } else if (q > 4) {
+          } else if (q >= 4) {
             h = 4*h;
           } else {
             h = q*h;
           }
 
-          if (h > hmax) { h = hmax; }
+          if (h > hmax) { 
+              h = hmax; 
+          }
 
-        } while ( error > getValueAsDouble("epsilon") && h > hmin );
+          if (t > tDiff + t) {
+              return tDiff + t;
+          }
+          else if (h > tDiff) {
+              h = tDiff;
+          } else if (h < hmin) {
+              throw std::runtime_error("RK45Integrator::integrate: Stepsize became smaller than specified minimum.");
+          }
 
-        hCurrent = h;
-        if (tEnd - t < hCurrent)
-          hCurrent = tEnd - t;
+        } while ( error > getValueAsDouble("epsilon"));
 
-          Log(Logger::LOG_DEBUG) <<
+        Log(Logger::LOG_DEBUG) << "RK45: Update state vector";
+
+        // y = y + (1408*h/2565) k_3
+        alpha = 1408.*h / 2565;
+        daxpy_(&n, &alpha, k3, &inc, y, &inc);
+
+        // y = y + (1408/2565)*h k_3) + (2197/4104)*h k_4
+        alpha = (2197. / 4104)*h;
+        daxpy_(&n, &alpha, k4, &inc, y, &inc);
+
+        // y = (y + (1408/2565)*h k_3 + (2197/4104)*h k_4) - (1/5)*h k_5
+        alpha = (-1. / 5)*h;
+        daxpy_(&n, &alpha, k5, &inc, y, &inc);
+
+        // y = y + (25/216)*h k_1 + (1408/2565)*h k_3 + (2197/4104)*h k_4 - (1/5)*h k_5
+        alpha = (25. / 216)*h;
+        daxpy_(&n, &alpha, k1, &inc, y, &inc);
+
+        model->setTime(t + h);
+        model->setStateVector(y);
+
+        for (int i = 0; i<stateVectorSize; ++i) {
+            Log(Logger::LOG_DEBUG) << "  " << y[i];
+        }
+
+        Log(Logger::LOG_DEBUG) <<
                 "RK45: end of step";
-        return t;
+
+        return t + h;
     }
 
     void RK45Integrator::testRootsAtInitialTime()
@@ -285,19 +276,6 @@ namespace rr
         return IntegratorListenerPtr();
     }
 
-    std::string RK45Integrator::toString() const
-    {
-        return toRepr();
-    }
-
-    std::string RK45Integrator::toRepr() const
-    {
-        std::stringstream ss;
-        ss << "< roadrunner.RK45Integrator() { 'this' : "
-                << (void*)this << " }>";
-        return ss.str();
-    }
-
     std::string RK45Integrator::getName() const {
         return RK45Integrator::getRK45Name();
     }
@@ -311,7 +289,9 @@ namespace rr
     }
 
     std::string RK45Integrator::getRK45Description() {
-        return "Kiri, please fill in";
+        return "Runge-Kutta-Fehlberg methods are a family of algorithms for solving "
+			"ODEs. This integrator is based on explicit Runge-Kutta (4,5) formula, automatically "
+			"determining adaptive stepsize.";
     }
 
     std::string RK45Integrator::getHint() const {
@@ -339,11 +319,10 @@ namespace rr
     {
         Solver::resetSettings();
 
-        addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
-        addSetting("initial_time_step",  0.5, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
+        addSetting("variable_step_size", true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
         addSetting("minimum_time_step",  1e-12, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("maximum_time_step",  1.0, "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("epsilon",  1e-12, "Maximum error", "TODO: fill in. (double)", "(double) TODO: fill in.");
+        addSetting("epsilon",  1e-12, "Maximum error tolerance", "Specifies the maximum error tolerance allowed. (double)", "(double) The maximum error tolerance allowed.");
     }
 
 } /* namespace rr */

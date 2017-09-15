@@ -248,17 +248,19 @@ if(RR_BUILD_SHARED_CORE)
     if(UNIX)
         target_link_libraries (${target}
             pthread
-            sbml-static
+            ${LIBSBML_STATIC_LIBRARY}
             dl
             f2c${staticLibExt}
             )
+        target_link_libraries(${target} ${LIBSBML_EXTRA_LIBS})
     else()
         target_link_libraries (${target}
             libf2c
-            libsbml
-        ws2_32
-        iphlpapi
+            ${LIBSBML_LIBRARY}
+            ws2_32
+            iphlpapi
             )
+        target_link_libraries(${target} ${LIBSBML_EXTRA_LIBS})
     endif(UNIX)
 
 
@@ -276,6 +278,7 @@ if(RR_BUILD_SHARED_CORE)
             LIBRARY DESTINATION lib COMPONENT rr_core
             ARCHIVE DESTINATION lib COMPONENT rr_core
             )
+        install(TARGETS roadrunner DESTINATION ${PYTHON_PACKAGE_DEST_DIR})
     endif()
 
 
@@ -329,22 +332,24 @@ target_link_libraries (${target}-static
 
 if(WIN32)
     target_link_libraries (${target}-static
-        libsbml-static
+        ${LIBSBML_STATIC_LIBRARY}
         libf2c
-    ws2_32
-    iphlpapi
+        ws2_32
+        iphlpapi
         )
+    target_link_libraries(${target}-static ${LIBSBML_EXTRA_LIBS})
 endif(WIN32)
 
 
 if(UNIX)
     target_link_libraries (${target}-static
-        sbml-static
+        ${LIBSBML_STATIC_LIBRARY}
         f2c
         xml2
         dl
         pthread
         )
+    target_link_libraries(${target}-static ${LIBSBML_EXTRA_LIBS})
 endif(UNIX)
 
 #Libxml we can't build right now

@@ -114,12 +114,37 @@ public:
     Integrator* getIntegrator();
 
     /**
+     * Get an integrator by name without switching the current integrator
+     */
+    Integrator* getIntegratorByName(const std::string& name);
+
+    /**
+     * Make an integrator for the given name
+     */
+    Integrator* makeIntegrator(std::string name);
+
+    /**
      * get a pointer to the current steady state solver
      */
     SteadyStateSolver* getSteadyStateSolver();
 
 	/* Return a list of the names of all existing integrators. */
 	std::vector<std::string> getExistingIntegratorNames();
+
+    /**
+     * Return a vector of the names of all registered integrators
+     */
+    static std::vector<std::string> getRegisteredIntegratorNames();
+
+    /**
+     * Return a vector of the names of all registered integrators
+     */
+    static std::vector<std::string> getRegisteredSteadyStateSolverNames();
+
+    /**
+     * Ensures all integrators and steady state solvers are registered
+     */
+    static void ensureSolversRegistered();
 
 	// DEPRECATED
 	//Integrator* getIntegrator(std::string name);
@@ -147,7 +172,6 @@ public:
      */
     bool clearModel();
 
-
     /**
      * Carry out a single integration step using a stepsize as indicated
      * in the method call.
@@ -155,11 +179,6 @@ public:
      * @param t0 starting time
      * @param tf final time
      * @param options override current options.
-     */
-    double integrate(double t0, double tf, const SimulateOptions* options = 0);
-
-    /**
-     * @deprecated, use integrate instead.
      */
     double oneStep(double currentTime, double stepSize, bool reset = true);
 
@@ -636,6 +655,11 @@ public:
     double steadyState(const Dictionary* dict = 0);
 
     /**
+     * Like @ref steadyState but returns a named array of the steady state values
+     */
+    ls::DoubleMatrix steadyStateNamedArray(const Dictionary* dict = 0);
+
+    /**
      * returns the current set of steady state selections.
      */
     std::vector<rr::SelectionRecord>& getSteadyStateSelections();
@@ -661,12 +685,22 @@ public:
      */
     std::vector<double> getSteadyStateValues();
 
+    /**
+     * Returns a vector of the steady state selection strings
+     */
+    std::vector<std::string> getSteadyStateSelectionStrings() const;
+
+    /**
+     * Like @ref getSteadyStateValues but returns a named array
+     */
+    ls::DoubleMatrix getSteadyStateValuesNamedArray();
+
     /******************************* End Steady State Section *********************/
     #endif /***********************************************************************/
     /******************************************************************************/
 
     /*********              Used by rrplugins             *************************/
-    
+
     /**
      * @internal
      * @deprecated
@@ -714,6 +748,8 @@ public:
      */
     std::vector<double> getConservedMoietyValues();
 
+    std::vector<std::string> getConservedMoietyIds();
+
     #ifndef SWIG // deprecated methods not SWIG'ed
 
     /**
@@ -744,7 +780,6 @@ public:
      * @internal
      * @deprecated
      */
-    RR_DEPRECATED(std::vector<std::string> getConservedMoietyIds());
 
     /**
      * @internal
@@ -922,6 +957,8 @@ public:
 
 private:
 
+    void fixDependentSpeciesValues(int except, double* ref);
+
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();
@@ -942,6 +979,10 @@ private:
 
 
     double getNthSelectedOutput(unsigned index, double currentTime);
+
+
+    /// Get the row index of the time variable in the output array (returns -1 if time is not selected)
+    int getTimeRowIndex();
 
     enum VariableType
     {
