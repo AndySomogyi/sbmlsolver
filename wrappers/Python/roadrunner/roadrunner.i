@@ -1460,6 +1460,32 @@ namespace std { class ostream{}; }
 
             return result
 
+        # ---------------------------------------------------------------------
+        # Reset Methods
+        # ---------------------------------------------------------------------
+        def resetToOrigin(self):
+            """ Reset model to state when first loaded.
+
+            This resets the model back to the state when it was FIRST loaded,
+            this includes all init() and parameters such as k1 etc.
+
+            identical to:
+                r.reset(_roadrunner.SelectionRecord.ALL)
+            """
+            self.reset(_roadrunner.SelectionRecord.ALL)
+
+        def resetAll(self):
+            """ Reset all model variables to CURRENT init(X) values.
+
+            This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+            parameters back to the values they had when the model was first loaded.
+            """
+            self.reset(_roadrunner.SelectionRecord.TIME |
+                       _roadrunner.SelectionRecord.RATE |
+                       _roadrunner.SelectionRecord.FLOATING |
+                       _roadrunner.SelectionRecord.GLOBAL_PARAMETER)
+
+
         def getAvailableIntegrators(self):
             """
             get a list of available integrator names.
