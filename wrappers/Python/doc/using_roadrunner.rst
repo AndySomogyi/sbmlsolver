@@ -130,7 +130,7 @@ detailed information on selections, see the :ref:`selecting-values` section.
 The simulate method, by default returns an `structured array
 <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_,
 which are arrays that also contain column names. These can be plotted directly using the
-built in :meth:`~RoadRunner.plot()` function.
+built in :meth:`~RoadRunner.plot()` function, or by adding the ``plot=True`` keyword argument to :meth:`~RoadRunner.simulate()`.
 
 The output selections default to time and the set of floating species.
 It is possible to change the simulation result values by changing the selection list.
@@ -168,7 +168,11 @@ Simply call::
    result = rr.simulate(0, 10, 100)
    rr.plot()
 
-If one wants more control over the data plots, one may use matplotlib (e.g. via pylab) directly.  Assuming the
+or::
+
+  rr.simulate(0, 10, 100, plot=True)
+
+If one wants more control over the data plots, one may use matplotlib directly.  Assuming the
 simulate returns an array called result, and that the first column represents the x axis and the
 remaining columns the y axis, we type::
 
@@ -180,8 +184,7 @@ This will bring up a new window showing the plot. To clear the plot for next tim
 
    pylab.clf()
 
-One may also override the built in :meth:`~RoadRunner.plot()` method with a more more capable plotting routine.
-In fact, this approach is used by the `Tellurium project <http://tellurium.readthedocs.io/en/latest/tellurium_methods.html#plotting>`_, which supports matplotlib and Plotly plotting engines.
+One may also override the built in :meth:`~RoadRunner.plot()` method with a more more capable plotting routine
 
 Below is a simplified version of the :meth:`~RoadRunner.plot()` method. You may copy and write a
 customized version and even attach it to the RoadRunner object. The first argument is a RoadRunner
