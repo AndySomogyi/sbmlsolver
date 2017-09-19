@@ -983,7 +983,7 @@ TEST(962) { CHECK(RunTest("l3v1", 962)); }
 TEST(963) { CHECK(RunTest("l3v1", 963)); }
 TEST(964) { CHECK(RunTest("l3v1", 964)); }
 TEST(965) { CHECK(RunTest("l3v1", 965)); }
-// TEST(966) { CHECK(RunTest("l3v1", 966)); }
+TEST(966) { CHECK(RunTest("l3v1", 966)); }
 TEST(967) { CHECK(RunTest("l3v1", 967)); }
 TEST(968) { CHECK(RunTest("l2v4", 968)); }
 TEST(969) { CHECK(RunTest("l3v1", 969)); }
