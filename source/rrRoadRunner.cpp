@@ -989,8 +989,10 @@ bool RoadRunner::clearModel()
 
 void RoadRunner::reset()
 {
-    uint opt = rr::Config::getInt(rr::Config::MODEL_RESET);
-    reset(opt);
+    uint opt1 = rr::Config::getInt(rr::Config::MODEL_RESET);
+    reset(opt1);
+    uint opt2 = rr::SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER;
+    reset(opt2);
 }
 
 void RoadRunner::reset(int options)
