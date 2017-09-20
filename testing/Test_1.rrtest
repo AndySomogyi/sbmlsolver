@@ -375,3 +375,13 @@ rates=0.101 -0.08 -1.071
 [Check RK45 Output]
 0
 
+[Test Reset]
+"S1 1.0 k1 1.0 X1 1.0"
+
+[Test ResetAll]
+"k1 1.0 X1 1.0"
+
+[Test ResetToOrigin]
+"X1 1.0"
+
+

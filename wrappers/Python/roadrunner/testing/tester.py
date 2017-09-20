@@ -881,6 +881,45 @@ def setGetReset(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
+def testReset(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    words = divide(readLine())
+    rrInstance.setValue(words[0], float(words[1]))
+    rrInstance.setValue(words[2], float(words[3]))
+    rrInstance.setValue(words[4], float(words[5]))
+    rrInstance.reset()
+    f = rrInstance.getValue(words[0])
+    k = rrInstance.getValue(words[2])
+    d = rrInstance.getValue(words[4])
+    if (f == float(words[1])) or (k != float(words[3])) or (d != float(words[5])):
+        errorFlag = True
+    print(passMsg (errorFlag))
+    
+def testResetAll(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    words = divide(readLine())
+    rrInstance.setValue(words[0], float(words[1]))
+    rrInstance.setValue(words[2], float(words[3]))
+    rrInstance.resetAll()
+    k = rrInstance.getValue(words[0])
+    d = rrInstance.getValue(words[2])
+    if (k == float(words[1])) or (d != float(words[3])):
+        errorFlag = True
+    print(passMsg (errorFlag))
+    
+def testResetToOrigin(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    words = divide(readLine())
+    rrInstance.setValue(words[0], float(words[1]))
+    rrInstance.resetToOrigin()
+    d = rrInstance.getValue(words[0])
+    rrInstance.reset()
+    if (d == float(words[1])):
+        errorFlag = True
+    print(passMsg (errorFlag))
 
 def checkJacobian(rrInstance, testId):
     # TODO need to update python 2.x printing
@@ -1228,6 +1267,9 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Species Initial Concentration Ids]': checkFloatingSpeciesInitialConcentrationIds,
              '[Steady State Fluxes]': checkSteadyStateFluxes,
              '[Stoichiometry Matrix]': checkStoichiometryMatrix,
+             '[Test Reset]': testReset,
+             '[Test ResetAll]': testResetAll,
+             '[Test ResetToOrigin]': testResetToOrigin,
              '[Unscaled Concentration Control Matrix]': checkUnscaledConcentrationControlMatrix,
              '[Unscaled Elasticity Matrix]': checkUnscaledElasticityMatrix,
              '[Unscaled Elasticity Amount Matrix]': checkUnscaledElasticityAmountMatrix,
