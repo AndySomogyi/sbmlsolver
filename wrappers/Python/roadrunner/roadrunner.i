@@ -1470,9 +1470,9 @@ namespace std { class ostream{}; }
             this includes all init() and parameters such as k1 etc.
 
             identical to:
-                r.reset(_roadrunner.SelectionRecord.ALL)
+                r.reset(SelectionRecord.ALL)
             """
-            self.reset(_roadrunner.SelectionRecord.ALL)
+            self.reset(SelectionRecord.ALL)
 
         def resetAll(self):
             """ Reset all model variables to CURRENT init(X) values.
@@ -1480,10 +1480,10 @@ namespace std { class ostream{}; }
             This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
             parameters back to the values they had when the model was first loaded.
             """
-            self.reset(_roadrunner.SelectionRecord.TIME |
-                       _roadrunner.SelectionRecord.RATE |
-                       _roadrunner.SelectionRecord.FLOATING |
-                       _roadrunner.SelectionRecord.GLOBAL_PARAMETER)
+            self.reset(SelectionRecord.TIME |
+                       SelectionRecord.RATE |
+                       SelectionRecord.FLOATING |
+                       SelectionRecord.GLOBAL_PARAMETER)
 
 
         def getAvailableIntegrators(self):

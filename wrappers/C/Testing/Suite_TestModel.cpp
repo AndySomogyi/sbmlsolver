@@ -1028,6 +1028,111 @@ SUITE(TEST_MODEL)
 		clog << "Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
 	}
 
+    TEST(CHECK_RESET)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test Reset");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* f = refList[0].c_str();
+        double f_value = toDouble(refList[1]);
+        const char* k = refList[2].c_str();
+        double k_value = toDouble(refList[3]);
+        const char* d = refList[4].c_str();
+        double d_value = toDouble(refList[5]);
+
+        double f_value_r;
+        double k_value_r;
+        double d_value_r;
+
+        setValue(gRR, f, f_value);
+        setValue(gRR, k, k_value);
+        setValue(gRR, d, d_value);
+
+        reset(gRR);
+
+        getValue(gRR, f, &f_value_r);
+        getValue(gRR, k, &k_value_r);
+        getValue(gRR, d, &d_value_r);
+
+        CHECK(f_value != f_value_r);
+        CHECK_EQUAL(k_value, k_value_r);
+        CHECK_EQUAL(d_value, d_value_r);       
+    }
+
+    TEST(CHECK_RESETALL)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test ResetAll");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET_ALL ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* k = refList[0].c_str();
+        double k_value = toDouble(refList[1]);
+        const char* d = refList[2].c_str();
+        double d_value = toDouble(refList[3]);
+
+        double k_value_r;
+        double d_value_r;
+
+        setValue(gRR, k, k_value);
+        setValue(gRR, d, d_value);
+        
+        resetAll(gRR);
+        
+        getValue(gRR, k, &k_value_r);
+        getValue(gRR, d, &d_value_r);
+        
+        CHECK(k_value != k_value_r);
+        CHECK_EQUAL(d_value, d_value_r);
+    }
+
+    TEST(CHECK_RESETTOORIGIN)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test ResetToOrigin");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET_TO_ORIGIN ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* d = refList[0].c_str();
+        double d_value = toDouble(refList[1]);
+
+        double d_value_r;
+
+        setValue(gRR, d, d_value);
+
+        resetToOrigin(gRR);
+
+        getValue(gRR, d, &d_value_r);
+
+        CHECK(d_value != d_value_r);
+    }
+
     TEST(CHECK_RK4_OUTPUT)
     {
         CHECK(gRR != NULL);
