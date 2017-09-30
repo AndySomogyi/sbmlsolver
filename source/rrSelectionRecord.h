@@ -17,6 +17,9 @@ class RR_DECLSPEC SelectionRecord
 public:
     enum SelectionType
     {
+        /**
+        * Selects time
+        */
         TIME =                              (0x1 << 0),  // => 0x00000001,
 
         /**
@@ -67,7 +70,7 @@ public:
         UNKNOWN =                           (0x1 << 17),
         DEPENDENT =                         (0x1 << 18),
         INDEPENDENT =                       (0x1 << 19),
-        CONSREVED_MOIETY =                  (0x1 << 20),
+        CONSERVED_MOIETY =                  (0x1 << 20),
         STATE_VECTOR =                      (0x1 << 21),
         EVENT =                             (0x1 << 22),
 
@@ -140,23 +143,58 @@ public:
 
 
         /**
-         * Global parameters that have initial assignment rules.
+         * Selects global parameters that have initial assignment rules.
          */
         DEPENDENT_INITIAL_GLOBAL_PARAMETER =  INITIAL | _GLOBAL_PARAMETER | DEPENDENT,
 
-
+        /**
+        * Selects unscaled elasticity.
+        */
         UNSCALED_ELASTICITY =               UNSCALED | ELASTICITY,
+
+        /**
+        * Selects unscaled control coefficient.
+        */
         UNSCALED_CONTROL =                  UNSCALED | CONTROL,
+
+        /**
+        * Selects unscaled control coefficient.
+        */
         UNKNOWN_ELEMENT =                   UNKNOWN | ELEMENT,
+
+        /**
+        * Selects everything.
+        */
         ALL =                               (0xffffffff),
 
+        /**
+        * Selects all values related to independent species.
+        */
         ALL_INDEPENDENT =                   ~DEPENDENT,
+
+        /**
+        * Selects all values related to dependent species.
+        */
         ALL_DEPENDENT =                     ~INDEPENDENT,
 
+        /**
+        * Selects all independent species amount.
+        */
         ALL_INDEPENDENT_AMOUNT =            ~DEPENDENT & ~CONCENTRATION,
+
+        /**
+        * Selects all dependent species amount.
+        */
         ALL_DEPENDENT_AMOUNT =              ~INDEPENDENT & ~CONCENTRATION,
 
+        /**
+        * Selects all independent species concentration.
+        */
         ALL_INDEPENDENT_CONCENTRATION =     ~DEPENDENT & ~AMOUNT,
+
+        /**
+        * Selects all dependent species concentration.
+        */
         ALL_DEPENDENT_CONCENTRATION =       ~INDEPENDENT & ~AMOUNT,
 
 
