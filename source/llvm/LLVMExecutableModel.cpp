@@ -715,7 +715,7 @@ void LLVMExecutableModel::reset(int opt)
                 Log(Logger::LOG_INFORMATION) << "resetting global parameter, "
                         << gid << ", GLOBAL_PARAMETER: "
                         << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
-                        << ", CONSREVED_MOIETY: "
+                        << ", CONSERVED_MOIETY: "
                         << ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
                         << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
                             (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
