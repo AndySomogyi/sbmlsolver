@@ -1526,7 +1526,10 @@ namespace std { class ostream{}; }
             show() method is called.
             """
 
-            import matplotlib.pyplot as p
+            try:
+                import matplotlib.pyplot as p
+            except ImportError:
+                raise ImportError('Could not import matplotlib - please install matplotlib to enable plotting functionality')
 
             result = self.getSimulationData()
 
@@ -1566,11 +1569,17 @@ namespace std { class ostream{}; }
             return rval
 
         def plotLegend(self):
-            import matplotlib.pyplot as p
+            try:
+                import matplotlib.pyplot as p
+            except ImportError:
+                raise ImportError('Could not import matplotlib - please install matplotlib to enable plotting functionality')
             p.legend()
 
         def showPlot(self):
-            import matplotlib.pyplot as p
+            try:
+                import matplotlib.pyplot as p
+            except ImportError:
+                raise ImportError('Could not import matplotlib - please install matplotlib to enable plotting functionality')
             p.show()
 
         def getIndependentFloatingSpeciesIds(self):
