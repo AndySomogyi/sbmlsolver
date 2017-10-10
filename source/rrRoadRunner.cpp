@@ -1043,10 +1043,16 @@ double RoadRunner::mcaSteadyState()
         throw CoreException(gEmptyModelMessage);
     }
 
+    double start = impl->simulateOpt.start;
+    double duration = impl->simulateOpt.duration;
+    int steps = impl->simulateOpt.steps;
     impl->simulateOpt.start = 0;
     impl->simulateOpt.duration = 10.0;
     impl->simulateOpt.steps = 100;
     simulate();
+    impl->simulateOpt.start = start;
+    impl->simulateOpt.duration = duration;
+    impl->simulateOpt.steps = steps;
 
     return steadyState();
 }
