@@ -1080,6 +1080,25 @@ namespace std { class ostream{}; }
         _swig_init = __init__
 
         def _new_init(self, *args):
+            # if called with https, use Python for transport
+            if len(args) >= 1:
+                p = args[0]
+                if hasattr(p,'startswith') and p.startswith('https://'):
+                    try:
+                        # Python3
+                        from urllib.request import urlopen
+                    except ImportError:
+                        # Python2
+                        from urllib2 import urlopen
+                    sbml = urlopen(p).read()
+                    try:
+                        sbml = str(sbml.decode())
+                    except:
+                        pass
+                    RoadRunner._swig_init(self, sbml)
+                    RoadRunner._makeProperties(self)
+                    return
+            # Otherwise, use regular init
             RoadRunner._swig_init(self, *args)
             RoadRunner._makeProperties(self)
 
