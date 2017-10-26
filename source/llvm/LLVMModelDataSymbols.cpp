@@ -1545,7 +1545,6 @@ uint LLVMModelDataSymbols::getDepSpeciesIndexForConservedMoietyId(std::string id
     }
     else
     {
-        StringUIntMap::const_iterator j = conservedMoietyDepSpecies.begin();
         throw LLVMException("could not find dep species for cm with id " + id, __FUNC__);
     }
 }
