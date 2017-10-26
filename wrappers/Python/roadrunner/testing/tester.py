@@ -1009,6 +1009,7 @@ def checkDefaultTimeStep(rrInstance, testId):
     words = divide(readLine())
     n = rrInstance.simulate()
     if n.shape[0] != int(words[0]):
+        print('expected {} rows but found {}'.format(int(words[0]), n.shape[0]))
         errorFlag = True
     print(passMsg (errorFlag))
 
