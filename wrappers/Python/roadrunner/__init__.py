@@ -1,5 +1,5 @@
 """
-The LibRoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro
+The LibRoadRunner SBML Simulation Engine, (c) 2009-2017 Andy Somogyi, Kyle Medley, Kiri Choi and Herbert Sauro
 
 LibRoadRunner is an SBML JIT compiler and simulation engine with a variety of analysis
 functions. LibRoadRunner is a self contained library which is designed to be integrated
