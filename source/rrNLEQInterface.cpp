@@ -352,7 +352,7 @@ string ErrorForStatus(int error)
 {
     switch (error)
     {
-    case 1:     return ("Jacobian matrix singular in NLEQ");
+    case 1:     return ("Jacobian matrix singular in NLEQ. Failed to converge to steady state. Check if Jacobian matrix is non-invertible or steady state solution does not exist.");
     case 2:     return ("Maximum iterations exceeded");
     case 3:     return ("Damping factor has became to small to continue");
     case 4:     return ("Warning: Superlinear or quadratic convergence slowed down near the solution");
