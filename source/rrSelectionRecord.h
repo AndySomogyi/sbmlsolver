@@ -101,7 +101,7 @@ public:
         /**
          * SelectionType for eigenvalues. Eigenvalue without complex is real part of eigenvalue.
          */
-        EIGENVALUE =                        (0x1 << 14),
+        EIGENVALUE_REAL =                   (0x1 << 14),
 
         /**
         * SelectionType for elements. (Unused)
@@ -148,12 +148,12 @@ public:
          *
          * Only used with EIGENVALUE currently.
          */
-        COMPLEX =                           (0x1 << 23),
+        EIGENVALUE_IMAG =                    (0x1 << 23),
 
         /**
          * SelectionType for complex eigenvalues.
          */
-        EIGENVALUE_COMPLEX =                EIGENVALUE | COMPLEX,
+        EIGENVALUE_COMPLEX =                EIGENVALUE_REAL | EIGENVALUE_IMAG,
 
         /**
         * SelectionType for unknown concentrations.

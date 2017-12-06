@@ -787,8 +787,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
     case SelectionRecord::UNSCALED_CONTROL:
         dResult = getuCC(record.p1, record.p2);
         break;
-
-    case SelectionRecord::EIGENVALUE:
+    case SelectionRecord::EIGENVALUE_REAL:
     {
         string species = record.p1;
         int index = impl->model->getFloatingSpeciesIndex(species);
@@ -809,7 +808,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
         return std::real(eig[index]);
     }
     break;
-    case SelectionRecord::EIGENVALUE_COMPLEX:
+    case SelectionRecord::EIGENVALUE_IMAG:
     {
         string species = record.p1;
         int index = impl->model->getFloatingSpeciesIndex(species);
@@ -3573,7 +3572,8 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         }
 
         break;
-    case SelectionRecord::EIGENVALUE:
+    case SelectionRecord::EIGENVALUE_REAL:
+    case SelectionRecord::EIGENVALUE_IMAG:
     case SelectionRecord::EIGENVALUE_COMPLEX:
         if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
@@ -3953,7 +3953,7 @@ void RoadRunner::getIds(int types, std::list<std::string>& ids)
     {
         impl->model->getIds(types, ids);
 
-        if (types & SelectionRecord::EIGENVALUE)
+        if (types & SelectionRecord::EIGENVALUE_REAL)
         {
             std::list<std::string> eigen;
             impl->model->getIds(SelectionRecord::FLOATING_AMOUNT, eigen);
@@ -3962,6 +3962,8 @@ void RoadRunner::getIds(int types, std::list<std::string>& ids)
                     eigen.begin(); i != eigen.end(); ++i)
             {
                 ids.push_back("eigen(" + *i + ")");
+                ids.push_back("eigenReal(" + *i + ")");
+                ids.push_back("eigenImag(" + *i + ")");
             }
         }
     }
@@ -3985,7 +3987,7 @@ int RoadRunner::getSupportedIdTypes()
             SelectionRecord::UNSCALED_ELASTICITY |
             SelectionRecord::CONTROL |
             SelectionRecord::UNSCALED_CONTROL |
-            SelectionRecord::EIGENVALUE;
+            SelectionRecord::EIGENVALUE_REAL;
 }
 
 vector<string> RoadRunner::getRateOfChangeIds()
@@ -4086,7 +4088,7 @@ vector<string> RoadRunner::getEigenValueIds()
 {
     std::list<std::string> list;
 
-    getIds(SelectionRecord::EIGENVALUE, list);
+    getIds(SelectionRecord::EIGENVALUE_REAL, list);
 
     return std::vector<std::string>(list.begin(), list.end());
 }

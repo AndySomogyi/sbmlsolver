@@ -301,7 +301,7 @@ J1 J2 J3 J4
 init([S1]) init([S3]) init([S2])
 
 [Get Eigenvalue Ids]
-eigen(S1) eigen(S3) eigen(S2)
+eigen(S1) eigenReal(S1) eigenImag(S1) eigen(S2) eigenReal(S2) eigenImag(S2) eigen(S3) eigenReal(S3) eigenImag(S3) 
 
 [Get Rates Of Change Ids]
 S1' S3' S2'

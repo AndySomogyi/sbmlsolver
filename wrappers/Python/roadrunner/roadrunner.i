@@ -635,6 +635,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::simulate;
 
 %rename (_load) rr::RoadRunner::load;
+%rename (_getValue) rr::RoadRunner::getValue;
 
 
 %ignore rr::Config::getInt;
@@ -991,6 +992,18 @@ namespace std { class ostream{}; }
 
 
    %pythoncode %{
+        def getValue(self, *args):
+            import re
+            reg = re.compile(r'eigen\s*\(\s*(\w*)\s*\)\s*$')
+            regarr = re.split(reg, args[0])
+
+            if len(regarr) > 1:
+               eig_r = _roadrunner.RoadRunner__getValue(self, 'eigenReal(' + str(regarr[1]) + ')')
+               eig_i = _roadrunner.RoadRunner__getValue(self, 'eigenImag(' + str(regarr[1]) + ')')
+               return complex(eig_r, eig_i)
+            else:
+                return _roadrunner.RoadRunner__getValue(self, *args)
+
         def getModel(self):
             return self._getModel()
 
