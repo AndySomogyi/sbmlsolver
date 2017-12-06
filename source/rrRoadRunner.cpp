@@ -1896,7 +1896,7 @@ DoubleMatrix RoadRunner::getFullStoichiometryMatrix()
     if (self.loadOpt.getConservedMoietyConversion()) {
         // pointer to mat owned by ls
         DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
-        ls->getFullyReorderedStoichiometryMatrixLabels(
+        ls->getReorderedStoichiometryMatrixLabels(
                 m.getRowNames(), m.getColNames());
         return m;
     }
