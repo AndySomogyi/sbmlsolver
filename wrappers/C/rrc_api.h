@@ -1266,6 +1266,8 @@ C_DECL_SPEC bool rrcCallConv setValue(RRHandle handle, const char* symbolId, con
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle);
 
+C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
+
 
 /*!
  \brief Retrieve the concentrations for all the boundary species in a vector
@@ -1756,6 +1758,10 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle);
  \ingroup floating
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle);
+
+
+
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of global parameter Ids

@@ -1297,7 +1297,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         fixDependentSpeciesValues(parameterIndex, ref);
         double fi = 0;
         impl->model->getReactionRates(1, &reactionIndex, &fi);
-
+        
         impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
         fixDependentSpeciesValues(parameterIndex, ref);
         double fi2 = 0;
@@ -1323,7 +1323,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         double f2 = -(8*fd + fi2);
 
         delete ref;
-
+        
         return 1/(12*hstep)*(f1 + f2);
     }
     catch(const Exception& e)
@@ -2382,6 +2382,20 @@ vector<double> RoadRunner::getFloatingSpeciesConcentrationsV()
 
     vector<double> result(impl->model->getNumFloatingSpecies(), 0);
     impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+    return result;
+}
+
+// Help("Returns an array of floating species amounts")
+vector<double> RoadRunner::getFloatingSpeciesAmountsV()
+{
+    if (!impl->model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+
+    vector<double> result(impl->model->getNumFloatingSpecies(), 0);
+    impl->model->getFloatingSpeciesAmounts(result.size(), 0, &result[0]);
     return result;
 }
 

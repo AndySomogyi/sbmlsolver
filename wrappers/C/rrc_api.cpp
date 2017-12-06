@@ -881,6 +881,21 @@ RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle)
     catch_ptr_macro
 }
 
+RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    StringList fNames = rri->getDependentFloatingSpeciesIds();
+
+    if (!fNames.Count())
+    {
+        return NULL;
+    }
+
+    return createList(fNames);
+    catch_ptr_macro
+}
+
 int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 {
     start_try
@@ -925,6 +940,16 @@ RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
         vector<double> vec =  rri->getFloatingSpeciesConcentrationsV();
         RRVector* aVec = rrc::createVector(vec);
         return aVec;
+    catch_ptr_macro
+}
+
+RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    vector<double> vec = rri->getFloatingSpeciesAmountsV();
+    RRVector* aVec = rrc::createVector(vec);
+    return aVec;
     catch_ptr_macro
 }
 

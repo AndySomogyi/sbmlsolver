@@ -850,6 +850,12 @@ public:
     RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrationsV());
 
     /**
+    * @internal
+    * @deprecated
+    */
+    RR_DEPRECATED(std::vector<double> getFloatingSpeciesAmountsV());
+
+    /**
      * @internal
      * @deprecated
      */
