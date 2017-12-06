@@ -752,10 +752,10 @@ Get a list of available integrator names.
 %feature("docstring") rr::RoadRunner::getParamPromotedSBML "
 RoadRunner.getParamPromotedSBML(*args)
 
-Takes an SBML document (in textual form) and changes all of the local parameters
+Takes an SBML document or path to an SBML document and changes all of the local parameters
 to be global parameters.
 
-:param str SBML: the contents of an SBML document
+:param str SBML: the contents or path to an SBML document
 :rtype: str
 ";
 

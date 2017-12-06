@@ -48,7 +48,7 @@ static bool httpFactoryRegistered = false;
  * not valid file path characters. So if this string matches this function,
  * there should basically be no way that this is a valid path or uri.
  */
-static bool is_sbml(const std::string& str)
+bool SBMLReader::is_sbml(const std::string& str)
 {
     //<?xml version="1.0" encoding="UTF-8"?> <sbml level="3" version="1" xmlns="http://www.sbml.org/sbml/level3/version1/core">
     // try first with xml declaration

@@ -84,7 +84,7 @@ public:
     int getInstanceCount();
 
     /**
-     * given an sbml document, this method moves all the local parameters
+     * Given an sbml document or path to an sbml document, this method moves all the local parameters
      * to global parameters.
      */
     static std::string getParamPromotedSBML(const std::string& sArg);

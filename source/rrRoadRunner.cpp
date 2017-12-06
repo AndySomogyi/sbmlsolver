@@ -673,23 +673,46 @@ int RoadRunner::createTimeCourseSelectionList()
 
 string RoadRunner::getParamPromotedSBML(const string& sbml)
 {
-    libsbml::SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
-    // converts in-place
-    libsbml::SBMLLocalParameterConverter converter;
+    if (SBMLReader::is_sbml(sbml))
+    {
+        libsbml::SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
+        // converts in-place
+        libsbml::SBMLLocalParameterConverter converter;
 
-    converter.setDocument(doc);
+        converter.setDocument(doc);
 
-    converter.convert();
+        converter.convert();
 
-    libsbml::SBMLWriter writer;
+        libsbml::SBMLWriter writer;
 
-    std::stringstream stream;
+        std::stringstream stream;
 
-    writer.writeSBML(doc, stream);
+        writer.writeSBML(doc, stream);
 
-    delete doc;
+        delete doc;
 
-    return stream.str();
+        return stream.str();
+    }
+    else
+    {
+        libsbml::SBMLDocument *doc = libsbml::readSBMLFromFile(sbml.c_str());
+        // converts in-place
+        libsbml::SBMLLocalParameterConverter converter;
+
+        converter.setDocument(doc);
+
+        converter.convert();
+
+        libsbml::SBMLWriter writer;
+
+        std::stringstream stream;
+
+        writer.writeSBML(doc, stream);
+
+        delete doc;
+
+        return stream.str();
+    }
 }
 
 double RoadRunner::getValue(const SelectionRecord& record)
@@ -1726,7 +1749,7 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
 }
 
 DoubleMatrix RoadRunner::getReducedJacobian(double h)
-{
+{   
     get_self();
 
     check_model();
