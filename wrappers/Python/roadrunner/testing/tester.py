@@ -238,7 +238,7 @@ def checkIndividualEigenvalues(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
-    m = len(rrInstance.getEigenValueIds())
+    m = len(rrInstance.getEigenValueIds())/3
     try:
         for i in range(0,m):
             words = divide(readLine())
@@ -260,7 +260,7 @@ def checkIndividualAmountEigenvalues(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
-    m = len(rrInstance.getEigenValueIds())
+    m = len(rrInstance.getEigenValueIds())/3
     try:
         for i in range(0,m):
             words = divide(readLine())
