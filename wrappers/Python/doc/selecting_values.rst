@@ -64,8 +64,8 @@ Unscaled Control Coefficient: ``ucc(Id, ParameterId)``
     must be valid arguments for :meth:`~RoadRunner.getuCC`. This selection intentionally has a function form, it
     selects the unscaled elasticity control coefficient, :meth:`~RoadRunner.getuCC`
 
-Eigenvalue: ``eigenReal()``, ``eigenImag()`` 
-    Represents the eigenvalue of a floating species. ``eigenReal(identifier)`` is the real part of eigenvalue while
+Eigenvalue: ``eigen()``, ``eigenReal()``, ``eigenImag()`` 
+    Represents the eigenvalue of a floating species. ``eigen(identifier)`` is complex number whereas ``eigenReal(identifier)`` is the real part of eigenvalue and
     ``eigenImag(identifier)`` is the imaginary part of eigenvalue.
 
 Initial Value: ``init()``
