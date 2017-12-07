@@ -2349,17 +2349,17 @@ ArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr)
 
         for(int i = 0; i < oParameters.size(); i++)
         {
-            oInner.add("CC:" + s + "," + oParameters[i]);
+            oInner.add("cc(" + s + "," + oParameters[i] + ")");
         }
 
         for(int i = 0; i < oBoundary.size(); i++)
         {
-            oInner.add("CC:" + s + "," + oBoundary[i]);
+            oInner.add("cc(" + s + "," + oBoundary[i] + ")");
         }
 
         for(int i = 0; i < oConservation.size(); i++)
         {
-            oInner.add("CC:" + s + "," + oConservation[i]);
+            oInner.add("cc(" + s + "," + oConservation[i] + ")");
         }
 
         oCCFloating.Add(oInner);
@@ -2387,17 +2387,17 @@ ArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr)
 
         for(int i = 0; i < oParameters.size(); i++)
         {
-            oInner.push_back("uCC:" + s + "," + oParameters[i]);
+            oInner.push_back("ucc(" + s + "," + oParameters[i] + ")");
         }
 
         for(int i = 0; i < oBoundary.size(); i++)
         {
-            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
+            oInner.push_back("ucc(" + s + "," + oBoundary[i] + ")");
         }
 
         for(int i = 0; i < oConservation.size(); i++)
         {
-            oInner.push_back("uCC:" + s + "," + oConservation[i]);
+            oInner.push_back("ucc(" + s + "," + oConservation[i] + ")");
         }
 
         oCCFloating.Add(oInner);
@@ -2426,22 +2426,22 @@ ArrayList sel_getElasticityCoefficientIds(RoadRunner* rr)
 
         for(int j = 0; j < floatingSpeciesNames.size(); j++)
         {
-            oInner.add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
+            oInner.add(format("ee({0},{1})", reac_name, floatingSpeciesNames[j]));
         }
 
         for(int j = 0; j < boundarySpeciesNames.size(); j++)
         {
-            oInner.add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
+            oInner.add(format("ee({0},{1})", reac_name, boundarySpeciesNames[j]));
         }
 
         for(int j = 0; j < globalParameterNames.size(); j++)
         {
-            oInner.add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
+            oInner.add(format("ee({0},{1})", reac_name, globalParameterNames[j]));
         }
 
         for(int j = 0; j < conservationNames.size(); j++)
         {
-            oInner.add(format("EE:{0},{1}", reac_name, conservationNames[j]));
+            oInner.add(format("ee({0},{1})", reac_name, conservationNames[j]));
         }
 
         oCCReaction.Add(oInner);
@@ -2471,25 +2471,25 @@ ArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
         for(int j = 0; j < oFloating.size(); j++)
         {
             string variable = oFloating[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uee({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oBoundary.size(); j++)
         {
             string variable = oBoundary[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uee({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oGlobalParameters.size(); j++)
         {
             string variable = oGlobalParameters[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uee({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oConservation.size(); j++)
         {
             string variable = oConservation[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uee({0},{1})", reac_name, variable));
         }
 
         oCCReaction.Add(oInner);
