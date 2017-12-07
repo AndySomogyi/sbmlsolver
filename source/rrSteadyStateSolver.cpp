@@ -17,7 +17,7 @@ rrSteadyStateSolver* rrSteadyStateSolverFactory::New(const Dictionary* doct,
 std::vector<std::string> rr::rrSteadyStateSolverFactory::getSteadyStateNames()
 {
     std::vector<std::string> res;
-    res.push_back("NLEQ");
+    res.push_back("NLEQ2");
     return res;
 }
 

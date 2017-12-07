@@ -60,7 +60,7 @@ std::string NLEQSolver::getName() const {
 }
 
 std::string NLEQSolver::getNLEQName() {
-	return "nleq";
+	return "nleq2";
 }
 
 std::string NLEQSolver::getDescription() const {
@@ -68,7 +68,7 @@ std::string NLEQSolver::getDescription() const {
 }
 
 std::string NLEQSolver::getNLEQDescription() {
-	return "NLEQ is a non-linear equation solver which uses a global Newton "
+	return "NLEQ2 is a non-linear equation solver which uses a global Newton "
      "method with adaptive damping strategies (see http://www.zib.de/weimann/NewtonLib/index.html)";
 }
 
