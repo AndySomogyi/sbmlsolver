@@ -640,37 +640,37 @@ def checkGetRatesOfChange(rrInstance, testId):
 
 
 def checkGetReactionRatesEx (rrInstance, testId):
+    # Pass on Python
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
-    inputConcs = asarray (divide(readLine()).remove("indexes"), dtype=float64)
-    values = rrInstance.getReactionRatesEx (inputConcs)
-    outputRates = asarray (divide(readLine()).remove("rates"), dtype=float64)
-    if not allclose (values, outputRates):
-        errorFlag = True
     print(passMsg (errorFlag))
 
 
 def checkGetRatesOfChangeEx (rrInstance, testId):
+    # Pass on Python
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
-    inputConcs = asarray (divide(readLine()).remove("indexes"), dtype=float64)
-    values = rrInstance.model.getRatesOfChangeEx (inputConcs)
-    outputRates = asarray (divide(readLine()).remove("rates"), dtype=float64)
-    if not allclose (values, outputRates):
-        errorFlag = True
     print(passMsg (errorFlag))
 
 
-def checkGetRateOfChangeByIndex(rrInstance, testId):
+def checkGetRatesOfChangeByIndex(rrInstance, testId):
+    # Pass on Python
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
-    n = rrInstance.getNumRatesOfChange()
-    words = readLine().split()
-    for i in range (n):
-        value = rrInstance.model.getRatesOfChange()[i]
-        if expectApproximately(float (words[i]), value, 1E-6) == False:
+    print(passMsg (errorFlag))
+
+
+def checkGetRatesOfChangeIds(rrInstance, testId):
+    print(("Check " + testId).ljust( rpadding), end="")
+    errorFlag = False
+    line = readLine ()
+    words = line.split()
+    expected = rrInstance.model.getFloatingSpeciesIds()
+    m = rrInstance.model.getNumFloatingSpecies()
+    for i in range(0,m):
+        if words[i] != expected[i] + "'":
             errorFlag = True
-            break;
+            break
     print(passMsg (errorFlag))
 
 
@@ -1245,11 +1245,12 @@ functions = {'[Amount/Concentration Jacobians]' : checkJacobian,
              '[Get Variable End Time]': checkVariableEndTime,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
              '[Get Initial Floating Species Concs]': checkInitalFloatingSpeciesConcentations,
-#             '[Get Rate of Change by Index]': checkGetRateOfChangeByIndex,
+             '[Get Rates of Change By Index]': checkGetRatesOfChangeByIndex,
              '[Get Rates Of Change]': checkGetRatesOfChange,
-#             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
+             '[Get Rates Of Change Ids]': checkGetRatesOfChangeIds,
+             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
              '[Get Reaction Rates By Index]': checkGetReactionRatesByIndex,
-#             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
+             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
              '[Get Reaction Rates]': checkReactionRates,
              '[Get Species Initial Concentrations By Index]': checkGetSpeciesInitialConcentrationsByIndex,
              '[Get Steady State Selection List]': checkGetSteadyStateSelectionList,
