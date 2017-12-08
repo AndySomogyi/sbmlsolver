@@ -36,12 +36,14 @@ void NLEQSolver::syncWithModel(ExecutableModel* m)
 
 void NLEQSolver::loadConfigSettings()
 {
-	SteadyStateSolver::loadConfigSettings();
-	// Load settings specific to solver integrator
+    SteadyStateSolver::loadConfigSettings();
+    // Load settings specific to solver integrator
 
-	NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
-	NLEQSolver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
-	NLEQSolver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
+    NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
+    NLEQSolver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
+    NLEQSolver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
+    NLEQSolver::setValue("broyden_method", Config::getDouble(Config::STEADYSTATE_BROYDEN));
+    NLEQSolver::setValue("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
 }
 
 void NLEQSolver::resetSettings()
@@ -52,6 +54,8 @@ void NLEQSolver::resetSettings()
     addSetting("maximum_iterations", 100, "Maximum Iterations", "The maximum number of iterations the solver is allowed to use (int)", "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");
     addSetting("minimum_damping", 1e-4, "Minimum Damping", "The minimum damping factor (double).", "(double) Minumum damping factor used by the algorithm");
     addSetting("relative_tolerance", 1e-16, "Relative Tolerance", "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
+    addSetting("broyden_method", 0, "Broyden Method", "Switches on Broyden method (int)", "(int) Broyden method is a quasi-Newton approximation for rank-1 updates");
+    addSetting("linearity", 3, "Problem Linearity", "Specifies linearity of the problem (int).", "(int) 1 is for linear problem and 4 is for extremly nonlinear problem");
     NLEQSolver::loadConfigSettings();
 }
 

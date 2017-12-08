@@ -119,6 +119,8 @@ static Variant values[] =  {
     Variant(1.e-4),    // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
     Variant(1.e-16),   // STEADYSTATE_MINIMUM_DAMPING
+    Variant(0),   // STEADYSTATE_BROYDEN
+    Variant(3),   // STEADYSTATE_LINEARITY
     Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
     Variant(std::string(".")),                           // TEMP_DIR_PATH,
     Variant(std::string("")),                            // LOGGER_LOG_FILE_PATH,
@@ -220,6 +222,8 @@ static void getKeyNames(StringIntMap& keys)
     keys["STEADYSTATE_RELATIVE"] = rr::Config::STEADYSTATE_RELATIVE;
     keys["STEADYSTATE_MAXIMUM_NUM_STEPS"] = rr::Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
     keys["STEADYSTATE_MINIMUM_DAMPING"] = rr::Config::STEADYSTATE_MINIMUM_DAMPING;
+    keys["STEADYSTATE_BROYDEN"] = rr::Config::STEADYSTATE_BROYDEN;
+    keys["STEADYSTATE_LINEARITY"] = rr::Config::STEADYSTATE_LINEARITY;
     keys["ROADRUNNER_JACOBIAN_MODE"] = rr::Config::ROADRUNNER_JACOBIAN_MODE;
     keys["TEMP_DIR_PATH"] = rr::Config::TEMP_DIR_PATH;
     keys["LOGGER_LOG_FILE_PATH"] = rr::Config::LOGGER_LOG_FILE_PATH;
@@ -529,6 +533,10 @@ Config::Keys Config::stringToKey(const std::string& key) {
         return Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
     else if (key == "STEADYSTATE_MINIMUM_DAMPING")
         return Config::STEADYSTATE_MINIMUM_DAMPING;
+    else if (key == "STEADYSTATE_BROYDEN")
+        return Config::STEADYSTATE_BROYDEN;
+    else if (key == "STEADYSTATE_LINEARITY")
+        return Config::STEADYSTATE_LINEARITY;
     else if (key == "ROADRUNNER_JACOBIAN_MODE")
         return Config::ROADRUNNER_JACOBIAN_MODE;
     else if (key == "TEMP_DIR_PATH")

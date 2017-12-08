@@ -372,6 +372,10 @@ public:
 
         STEADYSTATE_MINIMUM_DAMPING,
 
+        STEADYSTATE_BROYDEN,
+        
+        STEADYSTATE_LINEARITY,
+
         /**
          * Determines the mode that the RoadRunner Jacobian calculations will be
          * be performed in.  The Jacobian can be calculated either with respect to

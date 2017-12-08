@@ -85,6 +85,8 @@ private:
     int maxIterations;
     double relativeTolerance;
     double minDamping;
+    int broyden;
+    int linearity;
 
 
     /// <summary>
