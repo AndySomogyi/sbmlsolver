@@ -1166,11 +1166,13 @@ namespace std { class ostream{}; }
 
             2: end (the simulation end time)
 
-            3: steps (the number of output points)
+            3: points (the number of output points)
 
             4: List of Selections.
 
-            All four of the positional arguments are optional. If any of the positional arguments are
+            3: steps (the number of output steps, can be only used when number points are not supplied)
+
+            All five of the positional arguments are optional. If any of the positional arguments are
             supplied as a list of strings, then they are interpreted as a list of selections.
 
 
@@ -1182,6 +1184,12 @@ namespace std { class ostream{}; }
             The fifth argument, if supplied via keyword, is the number of intervals, not the
             number of points. Specifying intervals and points is an error.
             '''
+
+            # fix issue #401 - this will check if a list was positioned at 3rd position. This allows users to
+            # omit positional arguement points. This is un-Pythonic, but implemented for the sake of novice users.
+            if type(points) == list:
+                selections = points
+                points = None
 
             # check for errors
             import collections
