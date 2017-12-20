@@ -116,7 +116,7 @@ static Variant values[] =  {
     Variant(1.e-12),   // CVODE_MIN_ABSOLUTE
     Variant(1.e-6),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
-    Variant(1.e-4),    // STEADYSTATE_RELATIVE
+    Variant(1.e-6),    // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
     Variant(1.e-16),   // STEADYSTATE_MINIMUM_DAMPING
     Variant(0),   // STEADYSTATE_BROYDEN
