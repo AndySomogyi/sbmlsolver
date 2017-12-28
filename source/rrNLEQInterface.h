@@ -82,8 +82,8 @@ private:
 
     bool isAvailable();
 
-    int maxIterations;
     double relativeTolerance;
+    int maxIterations;
     double minDamping;
     int broyden;
     int linearity;

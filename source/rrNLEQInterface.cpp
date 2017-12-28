@@ -55,8 +55,8 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     iopt(0),
     model(0),
     nOpts(50),
-    maxIterations(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)),
     relativeTolerance(Config::getDouble(Config::STEADYSTATE_RELATIVE)),
+    maxIterations(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)),
     minDamping(Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING)),
     broyden(Config::getDouble(Config::STEADYSTATE_BROYDEN)),
     linearity(Config::getDouble(Config::STEADYSTATE_LINEARITY))
@@ -220,48 +220,6 @@ double NLEQInterface::solve()
         throw;
     }
 
-    if (ierr == 2) // retry when maximum iterations is reached
-    {
-        //for (int i = 0; i < nOpts; i++)
-        //{
-        //    iopt[i] = 0;
-        //}
-
-        iopt[31 - 1] = 4; // Set for Extremely nonlinear problem
-        iopt[32 - 1] = broyden; // Set for Broyden method
-        iopt[0] = 1; // Try again but tell NLEQ not to reinitialize
-        tmpTol = relativeTolerance;
-
-        try
-        {
-            callbackModel = model;
-            vector<double> stateVector(n);
-            model->getStateVector(&stateVector[0]);
-
-            NLEQ2(&n,
-                &ModelFunction,
-                NULL,
-                &stateVector[0],
-                XScal,
-                &tmpTol,
-                iopt,
-                &ierr,
-                &LIWK,
-                IWK,
-                &LWRK,
-                RWK);
-
-            // done, clear it.
-            callbackModel = NULL;
-        }
-        catch (...)
-        {
-            // clear the global model and re-throw the exception.
-            callbackModel = NULL;
-            throw;
-        }
-    }
-
     if(ierr > 0 )
     {
         if (isWarning(ierr)) {
@@ -410,20 +368,20 @@ string ErrorForStatus(int error)
 // steady state solver options
 static const char* keys[] =
 {
+        "relativeTolerance"
         "maxIterations",
-        "relativeTolerance",
         "minDamping"
         "broyden"
         "linearity"
 
+        "relativeTolerance.description"
         "maxIterations.description",
-        "relativeTolerance.description",
         "minDamping.description"
         "broyden.description"
         "linearity.description"
 
-        "maxIterations.hint",
         "relativeTolerance.hint"
+        "maxIterations.hint",
         "minDamping.hint"
         "broyden.hint"
         "linearity.hint"
@@ -461,20 +419,20 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("steadyState.hint", "NLEQ hint");
     dict.setItem("steadyState.description", "NLEQ description");
 
-    dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
     dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
+    dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
     dict.setItem("minDamping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
     dict.setItem("broyden", Config::getDouble(Config::STEADYSTATE_BROYDEN));
     dict.setItem("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
 
-    dict.setItem("maxIterations.description", "maxIterations.description");
     dict.setItem("relativeTolerance.description", "relativeTolerance.description");
+    dict.setItem("maxIterations.description", "maxIterations.description");
     dict.setItem("minDamping.description", "minDamping.description");
     dict.setItem("broyden.description", "broyden.description");
     dict.setItem("linearity.description", "linearity.description");
 
-    dict.setItem("maxIterations.hint", "maxIterations.hint");
     dict.setItem("relativeTolerance.hint", "relativeTolerance.hint");
+    dict.setItem("maxIterations.hint", "maxIterations.hint");
     dict.setItem("minDamping.hint", "minDamping.hint");
     dict.setItem("broyden.hint", "broyden.hint");
     dict.setItem("linearity.hint", "linearity.hint");
