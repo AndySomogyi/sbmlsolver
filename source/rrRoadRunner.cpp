@@ -1191,6 +1191,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     setIntegrator("cvode");
 
     // set variable step size as true
+    bool temp_var = self.integrator->getValue("variable_step_size");
     self.integrator->setValue("variable_step_size", true);
 
     // steady state selection
@@ -1269,6 +1270,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     self.model->setIntegration(false);
 
     // reset
+    self.integrator->setValue("variable_step_size", temp_var);
     setIntegrator(currint);
     setSelections(currsel);
 
