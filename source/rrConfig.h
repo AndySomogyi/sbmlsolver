@@ -366,6 +366,10 @@ public:
          */
         SIMULATEOPTIONS_COPY_RESULT,
 
+        /**
+         * Flag for steady state approximation routine running by default for steadyState.
+         */
+        STEADYSTATE_APPROX_DEFAULT,
 
         /**
          * Tolerance for steady state approximation routine.
