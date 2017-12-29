@@ -943,6 +943,25 @@ second time to improve the solution.
 
 
 
+%feature("docstring") rr::RoadRunner::steadyStateApproximate "
+RoadRunner.steadyStateApproximate()
+
+Attempt to approximate the steady state for the model by running integration
+for a specified amount of time. This function is ideal for the case where
+steady state solution does exist but the solver cannot find the 
+solution due to singular Jacobian, etc. The method returns
+a value that indicates how close the solution is to the steady state.
+The smaller the value the better. Values less than 1E-6 usually indicate a
+steady state has been found. If necessary the method can be called a
+second time to improve the solution.
+
+:returns: the sum of squares of the approximated steady state solution.
+
+:rtype: double
+";
+
+
+
 %feature("docstring") rr::RoadRunner::getSteadyStateValues "
 RoadRunner.getSteadyStateValues()
 

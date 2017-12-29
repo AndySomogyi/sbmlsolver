@@ -1109,14 +1109,174 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
     Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
 
-    double ss = impl->steady_state_solver->solve();
-    if(ss < 0)
+    double ss;
+
+    // Rough estimation
+    try
     {
-        Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
+        double temp_tol = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL);
+        double temp_iter = rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS);
+        double temp_time = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
+
+        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TOL, 1.e-6);
+        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_MAX_STEPS, 10000);
+        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TIME, 10000);
+
+        steadyStateApproximate();
+
+        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TOL, temp_tol);
+        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_MAX_STEPS, temp_iter);
+        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TIME, temp_time);
+    }
+    catch (const CoreException& e)
+    {
+        throw;
     }
 
-    return ss;
+    if (rr::Config::getBool(rr::Config::STEADYSTATE_APPROX_DEFAULT))
+    {
+        try
+        {
+            ss = impl->steady_state_solver->solve();
+
+            if (ss < 0)
+            {
+                Log(Logger::LOG_ERROR) << "Steady State solver failed...";
+            }
+
+            return ss;
+        }
+        catch (NLEQException& e1)
+        {
+            try
+            {
+                ss = steadyStateApproximate();
+
+                Log(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
+
+                return ss;
+            }
+            catch (CoreException& e2)
+            {
+                throw CoreException("Both steady state solver and approximation routine failed. Check that the model has a steady state; ", e2.Message());
+            }
+        }
+    }
+    else
+    {
+        ss = impl->steady_state_solver->solve();
+
+        if (ss < 0)
+        {
+            Log(Logger::LOG_ERROR) << "Steady State solver failed...";
+        }
+
+        return ss;
+    }
+    
 }
+
+
+double RoadRunner::steadyStateApproximate(const Dictionary* dict)
+{
+    Log(Logger::LOG_DEBUG) << "RoadRunner::steadStateApproximate";
+
+    get_self();
+    check_model();
+
+    // store current integrator info
+    std::string currint = self.integrator->getName();
+
+    // use cvode
+    setIntegrator("cvode");
+
+    // set variable step size as true
+    self.integrator->setValue("variable_step_size", true);
+
+    // steady state selection
+    std::vector<rr::SelectionRecord> currsel = getSelections();
+    setSelections(getSteadyStateSelections());
+
+    // initialize
+    int n = 0;
+    double tol = 1.0;
+
+    double timeEnd = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
+    double tout_f;
+    double tout = 0.0;
+    double tol_temp;
+
+    int l = impl->model->getNumFloatingSpecies();
+
+    Log(Logger::LOG_DEBUG) << "int l: " << l;
+
+    // evalute the model with its current state
+    self.model->getStateVectorRate(tout, 0, 0);
+
+    // Get initial concentrations
+    double* vals1 = new double[l];
+    impl->model->getFloatingSpeciesConcentrations(l, NULL, vals1);
+
+    Log(Logger::LOG_DEBUG) << "tol thres: " << rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL);
+    Log(Logger::LOG_DEBUG) << "Max number: " << rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS);
+    Log(Logger::LOG_DEBUG) << "Max time: " << rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
+
+    try
+    {
+        self.integrator->restart(tout);
+
+        // optimiziation for certain getValue operations.
+        self.model->setIntegration(true);
+
+        while (n < rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS) && tol > rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL))
+        {
+            tol_temp = 0.0;
+                  
+            tout_f = self.integrator->integrate(tout, timeEnd - tout);
+
+            Log(Logger::LOG_DEBUG) << "tout: " << tout;
+            Log(Logger::LOG_DEBUG) << "tout_f: " << tout_f;
+
+            double* vals2 = new double[l];
+            impl->model->getFloatingSpeciesConcentrations(l, NULL, vals2);
+
+            for (int i = 1; i < l; i++)
+            {
+                tol_temp += pow((vals2[i] - vals1[i]) / (tout_f - tout), 2);
+            }
+
+            Log(Logger::LOG_DEBUG) << "Final tol: " << tol_temp;
+
+            vals1 = vals2;
+
+            tout = tout_f;
+
+            tol = tol_temp;
+
+            ++n;
+        }
+    }
+    catch (EventListenerException& e)
+    {
+        Log(Logger::LOG_NOTICE) << e.what();
+    }
+
+    if (tol > rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL) && n >= rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS))
+    {
+        throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
+    }
+
+    self.model->setIntegration(false);
+
+    // reset
+    setIntegrator(currint);
+    setSelections(currsel);
+
+    Log(Logger::LOG_DEBUG) << "Steady state approximation done";
+
+    return tol;
+}
+
 
 DoubleMatrix RoadRunner::steadyStateNamedArray(const Dictionary* dict)
 {
