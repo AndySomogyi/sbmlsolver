@@ -2729,18 +2729,23 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         int variableIndex;
         int parameterIndex;
 
+        std::string variableNameMod = variableName;
+
+        variableNameMod.erase(std::remove(variableNameMod.begin(), variableNameMod.end(), '['), variableNameMod.end());
+        variableNameMod.erase(std::remove(variableNameMod.begin(), variableNameMod.end(), ']'), variableNameMod.end());
+
         // Check the variable name
-        if ((variableIndex = impl->model->getReactionIndex(variableName)) >= 0)
+        if ((variableIndex = impl->model->getReactionIndex(variableNameMod)) >= 0)
         {
             variableType = vtFlux;
         }
-        else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableName)) >= 0)
+        else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableNameMod)) >= 0)
         {
             variableType = vtSpecies;
         }
         else
         {
-            throw CoreException("Unable to locate variable: [" + variableName + "]");
+            throw CoreException("Unable to locate variable: [" + variableNameMod + "]");
         }
 
         // Check for the parameter name
@@ -2832,18 +2837,23 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
         throw CoreException(gEmptyModelMessage);
     }
 
+    std::string variableNameMod = variableName;
+
+    variableNameMod.erase(std::remove(variableNameMod.begin(), variableNameMod.end(), '['), variableNameMod.end());
+    variableNameMod.erase(std::remove(variableNameMod.begin(), variableNameMod.end(), ']'), variableNameMod.end());
+
     // Check the variable name
-    if ((variableIndex = impl->model->getReactionIndex(variableName)) >= 0)
+    if ((variableIndex = impl->model->getReactionIndex(variableNameMod)) >= 0)
     {
         variableType = vtFlux;
     }
-    else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableName)) >= 0)
+    else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableNameMod)) >= 0)
     {
         variableType = vtSpecies;
     }
     else
     {
-        throw CoreException("Unable to locate variable: [" + variableName + "]");
+        throw CoreException("Unable to locate variable: [" + variableNameMod + "]");
     }
 
     // Check for the parameter name
@@ -2866,7 +2876,7 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
 
     double variableValue = getVariableValue(variableType, variableIndex);
     double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
-    return getuCC(variableName, parameterName)*parameterValue/variableValue;
+    return getuCC(variableNameMod, parameterName)*parameterValue/variableValue;
 }
 
 
