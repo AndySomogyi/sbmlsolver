@@ -1,5 +1,5 @@
-libRoadRunner
-Copyright 2013
+SBML Solver
+Copyright 2018
 
 E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3 and H. M Sauro 3
 
@@ -7,9 +7,11 @@ E. T. Somogyi 1, M. T. Karlsson 2, M. Swat 1, M. Galdzicki 3 and H. M Sauro 3
 2 Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3 Department of Bioengineering, University of Washington, Seattle, WA, 98195
 
-libRoadRunner high performance and portable simulation engine for systems and synthetic biology.
+SBML Solver is high performance and portable simulation engine for systems and
+synthetic biology, which is a continuation of the original libRoadRunner
+project. 
 
-libRoadRunner 1.0 supports the following features:
+SBML Solver 1.0 supports the following features:
 
 - Time Dependent Simulation (with optional conservation law reduction) using CVODE
 - Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations
@@ -28,12 +30,11 @@ libRoadRunner 1.0 supports the following features:
 
 Availability
 
-RoadRunner is licensed for free as an open source programmatic library for use in other 
+SBML Solver is licensed for free as an open source programmatic library for use in other 
 applications and as a standalone command line driven application. Its C++ API, C API, and 
 Python APIs have comprehensive documentation. On Windows, OS X, and Linux binary files can be 
 
-downloaded from http://sourceforge.net/projects/libroadrunner/files and can be installed 
-ready for use.
+downloaded from https://github.com/AndySomogyi/sbmlsolver ready for use.
 
 
 Acknowledgements
@@ -69,9 +70,9 @@ YOU CANNOT: redistribute any piece of this software without proper attribution;
  
   
 
-libRoadRunner logo
+SBML Solver logo
 
-  The libroadrunner logo is an adaptation of the image originally posted to Flickr by 
+  The SBML Solver logo is an adaptation of the image originally posted to Flickr by 
   El Brujo+ at http://flickr.com/photos/11039104@N08/2954808342. It was reviewed on 
   9 August 2009 by the FlickreviewR robot and was confirmed to be licensed under the 
   terms of the cc-by-sa-2.0.
