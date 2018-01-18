@@ -2,29 +2,12 @@ The orginal C# version of roadRunner was developed as part of the SBW project by
 		 
     Herbert M Sauro and Frank Bergmann
 		  
-The current version of roadRunner, now renamed libRoadRunner, was rewritten and 
-considerably modified and enhanced in C/C++ by
+The current version of roadRunner, now renamed SBML Solver maintianed the same
+inteterface, but was completly re-architected internally to be a true JIT
+compiler, and the Python API was developed by 
 
-    Andy Somogyi, Totte Karlsson and Herbert M Sauro
+    Andy Somogyi
  
-The Python interface to the C API was developed by
-
-    Greg Medlock (gmedlo@uw.edu), Totte Karlsson and Herbert M Sauro
-
-The Python SWIG interface to the C++ API was developed by
-
-    Andy Somogyi
-
-The LLVM backend and refactoring of the core was designed and undertaken by
-
-    Andy Somogyi
-
-The C# backend was ported to C++ by
+The C wrapper was developed by 
 
     Totte Karlsson
-
-The Plugin Framework was designed and developed by
-
-    Totte Karlsson
-
-For more information visit libroadRunner.org
