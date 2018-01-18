@@ -1,14 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
-project(rr)
+project(SBMLSolver)
 
 # These will be the defaults ...
 if(WIN32)
     SET(RR_BUILDS_ROOT      "c:/builds")
     SET(RR_INSTALLS_ROOT    "c:/installs")
 
-    if(BORLAND)
-        set(FOLDER_POSTFIX "xe")
-    endif()
 
     if(MSVC)
         set(FOLDER_POSTFIX "vs")
@@ -71,7 +68,7 @@ option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
 option (BUILD_LLVM "Build the LLVM back end" ON)
 
 # should we use FBC ?
-option (ENABLE_FBC "Enable Flux Balance Constraint Modeling" ON)
+option (ENABLE_FBC "Enable Flux Balance Constraint Modeling" OFF)
 
 if(ENABLE_FBC)
   # specify rood dir of constraint solver"
@@ -217,16 +214,6 @@ if(${MINGW})
     SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif()
 
-if(${BORLAND})
-    link_directories(${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib)
-add_definitions(
-    -DUSE_PCH                   #Enable pre-compiled headers
-    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-    -w-8012                     #Comparing signed /unsigned
-    -w-8057                     #Parameter never used
-    -w-8004                     #'var' is assigned a value that is never used
-    )
-endif()
 
 if(UNIX)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -293,16 +280,6 @@ install(FILES README.txt LICENSE.txt AUTHORS.txt FUNDING.txt
 # make or copy installers into root directory
 add_subdirectory(installer)
 
-#=== ThirdParties
-if(${BORLAND})
-    set(CG_RUNTIMES        cc32110MT.dll)
-    foreach(runtime ${CG_RUNTIMES})
-        install (FILES
-            ${THIRD_PARTY_FOLDER}/dependencies/cg/xe/${runtime}
-            DESTINATION bin
-            COMPONENT rr_core)
-    endforeach()
-endif()
 
 if(WIN32)
 #One day these may be statically linked

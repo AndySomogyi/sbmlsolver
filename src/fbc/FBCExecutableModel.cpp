@@ -23,6 +23,8 @@
 
 #include "rrLogger.h"
 
+#include <stdexcept>
+
 typedef std::list<std::string> StringList;
 
 using namespace libsbml;
@@ -32,18 +34,56 @@ namespace rr
 namespace fbc
 {
 
+    
+    static SBMLDocument *checkedReadSBMLFromString(const char* xml)
+    {
+        SBMLDocument *doc = readSBMLFromString(xml);
+        
+        if (doc)
+        {
+            if (doc->getModel() == 0)
+            {
+                // fatal error
+                SBMLErrorLog *log = doc->getErrorLog();
+                std::string errors = log ? log->toString() : " NULL SBML Error Log";
+                delete doc;
+                throw std::logic_error("Fatal SBML error, no model, errors in sbml document: " + errors);
+            }
+            else if (doc->getNumErrors() > 0)
+            {
+                SBMLErrorLog *log = doc->getErrorLog();
+                std::string errors = log ? log->toString() : " NULL SBML Error Log";
+                Log(rr::Logger::LOG_WARNING) << "Warning, errors found in sbml document: " + errors;
+            }
+        }
+        else
+        {
+            delete doc;
+            throw std::logic_error("readSBMLFromString returned NULL, no further information available");
+        }
+        return doc;
+    }
+
+    
 FBCExecutableModel::FBCExecutableModel(const std::string sbml, const rr::Dictionary* dict)
 {
-	doc = cxx11_ns::unique_ptr<SBMLDocument>(readSBMLFromString(sbml.c_str()));
+	doc = cxx11_ns::unique_ptr<SBMLDocument>(checkedReadSBMLFromString(sbml.c_str()));
 
 	if(!doc) {
 		// TODO throw exception
+        throw std::logic_error("could not read document");
 	}
+    
+    if (!doc->getModel()) {
+        throw std::logic_error("document has no model");
+    }
+    
 
 	FbcModelPlugin *plugin = (FbcModelPlugin*)(doc->getModel()->getPlugin("fbc"));
 
 	if(!plugin) {
 		// TODO throw exception
+        
 	}
 
 	plugin->getListOfFluxBounds();
@@ -90,20 +130,24 @@ FBCExecutableModel::FBCExecutableModel(const std::string sbml, const rr::Diction
 				if(!ref) {
 					// TODO exception
 				}
-
-				uint sid = floatingSpeciesMap[ref->getSpecies()];
-
-				stoichRowIndx.push_back(sid);
-				stoichColIndx.push_back(rid);
-
-				std::cout << "prod stoich, row: " << sid << ", rid: " << rid << ", value: " << ref->getStoichiometry() << "\n";
-				stoichValues.push_back(ref->getStoichiometry());
+                
+                auto iter = floatingSpeciesMap.find(ref->getSpecies());
+                
+                if(iter != floatingSpeciesMap.end()) {
+                    
+                    stoichRowIndx.push_back(iter->second);
+                    stoichColIndx.push_back(rid);
+                    
+                    std::cout << "prod stoich, row: " << iter->second << ", rid: " << rid << ", value: " << ref->getStoichiometry() << "\n";
+                    stoichValues.push_back(ref->getStoichiometry());
+                    
+                }
 			}
 		}
 
 
 		{
-			const ListOfSpeciesReferences *reactants = r->getListOfProducts();
+            const ListOfSpeciesReferences *reactants = r->getListOfReactants();
 			for(unsigned j = 0; j < reactants->size(); ++j) {
 
 				const SpeciesReference *ref =
@@ -113,13 +157,17 @@ FBCExecutableModel::FBCExecutableModel(const std::string sbml, const rr::Diction
 					// TODO exception
 				}
 
-				uint sid = floatingSpeciesMap[ref->getSpecies()];
+                auto sid = floatingSpeciesMap.find(ref->getSpecies());
+                
+                if(sid != floatingSpeciesMap.end()) {
 
-				stoichRowIndx.push_back(sid);
-				stoichColIndx.push_back(rid);
+                    stoichRowIndx.push_back(sid->second);
+                    stoichColIndx.push_back(rid);
 
-				std::cout << "reac stoich, row: " << sid << ", rid: " << rid << ", value: " << ref->getStoichiometry() << "\n";
-				stoichValues.push_back(-1 * ref->getStoichiometry());
+                    std::cout << "reac stoich, row: " << sid->second << ", rid: " << rid << ", "
+                              << r->getId() << ", " << ref->getSpecies() << ", value: " << ref->getStoichiometry() << "\n";
+                    stoichValues.push_back(-1 * ref->getStoichiometry());
+                }
 			}
 		}
 	} // reactions
@@ -229,12 +277,22 @@ FBCExecutableModel::FBCExecutableModel(const std::string sbml, const rr::Diction
 	}
 
 	std::vector<double> rowBounds(floatingSpeciesMap.size(), 0);
+    
+    int *prow = &stoichRowIndx[0];
+    int *pcol = &stoichColIndx[0];
+    double *pval = &stoichValues[0];
+    
+    for (int i = 0; i < stoichValues.size(); ++i) {
+        std::cout << "{" << i << ", " << prow[i] << ", " << pcol[i] << ", " << pval[i] << "}" << std::endl;
+    }
+    
+    
 
 	matrix = CoinPackedMatrix(true, &stoichRowIndx[0], &stoichColIndx[0], &stoichValues[0], stoichValues.size());
 
 	for(int i = 0; i < matrix.getNumRows(); ++i) {
 		std::cout << "row " << i << ": ";
-		for(int j = 0; j < matrix.getNumRows(); ++j) {
+		for(int j = 0; j < matrix.getNumCols(); ++j) {
 			std::cout << matrix.getCoefficient(i, j) << ",    ";
 		}
 		std::cout << "\n";

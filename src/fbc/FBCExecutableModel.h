@@ -598,7 +598,7 @@ public:
 private:
     cxx11_ns::unique_ptr<libsbml::SBMLDocument> doc;
 
-    csr_matrix_t *stoich;
+
 
     StringUIntMap floatingSpeciesMap;
     StringUIntMap boundarySpeciesMap;

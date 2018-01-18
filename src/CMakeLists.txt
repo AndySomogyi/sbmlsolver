@@ -178,15 +178,11 @@ if(RR_BUILD_SHARED_CORE)
         )
 
 
-    # link with libxml, aperently borland can't link with a
-    # conventional C library, need to be specially converted for borland
 
     if(UNIX)
-    target_link_libraries(${target} xml2)
+      target_link_libraries(${target} xml2)
     elseif(${MSVC})
-    target_link_libraries (${target} libxml2)
-    elseif(${BORLAND})
-        target_link_libraries (${target} libxml2_xe)
+      target_link_libraries (${target} libxml2)
     endif()
 
     if(UNIX)
@@ -206,12 +202,6 @@ if(RR_BUILD_SHARED_CORE)
     endif(UNIX)
 
 
-    #Libxml is not built. Use a VS converted import file for Borland
-    if(${BORLAND})
-        target_link_libraries (${target}
-            libxml2_xe
-            )
-    endif()
 
 
     if(${INSTALL_CXX_API})

@@ -115,8 +115,6 @@ static unsigned is_fbc(const std::string& str)
 		RegularExpression::Match m = matches[1];
 		std::string header = str.substr(m.offset, m.length);
 
-		std::cout << "header substr " << header << "\n";
-
 		int offset = 0;
 		while(xmlns_re.match(str, offset, matches) >= 3) {
 			RegularExpression::Match m = matches[0];

@@ -122,9 +122,14 @@ void test1() {
 
 void testread(const char* fname)
 {
+    try {
 	std::string s = SBMLReader::read(fname);
 
 	rr::ExecutableModel *e = ExecutableModelFactory::createModel(s);
+        
+    } catch (std::exception &e) {
+        std::cout << "exception: " << e.what() << std::endl;
+    }
 
 }
 
