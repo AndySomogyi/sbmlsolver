@@ -923,26 +923,26 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
 
     // only get init values indepndent values, dep, with assignment rules
     // always have the same value.
-    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
-            && (SelectionRecord::INDEPENDENT & types)) {
-        for(int i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
-            std::string gs = symbols->getGlobalParameterId(i);
-            if(symbols->isIndependentGlobalParameter(gs)) {
-                ids.push_back("init(" + gs + ")");
-            }
-        }
-    }
+    //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
+    //        && (SelectionRecord::INDEPENDENT & types)) {
+    //    for(int i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
+    //        std::string gs = symbols->getGlobalParameterId(i);
+    //        if(symbols->isIndependentGlobalParameter(gs)) {
+    //            ids.push_back("init(" + gs + ")");
+    //        }
+    //    }
+    //}
 
-    if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
-            && (SelectionRecord::DEPENDENT & types)) {
-        for(int i = symbols->getIndependentGlobalParameterSize();
-                i < symbols->getGlobalParametersSize(); ++i) {
-            std::string gs = symbols->getGlobalParameterId(i);
-            if(symbols->isIndependentGlobalParameter(gs)) {
-                ids.push_back("init(" + gs + ")");
-            }
-        }
-    }
+    //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
+    //        && (SelectionRecord::DEPENDENT & types)) {
+    //    for(int i = symbols->getIndependentGlobalParameterSize();
+    //            i < symbols->getGlobalParametersSize(); ++i) {
+    //        std::string gs = symbols->getGlobalParameterId(i);
+    //        if(symbols->isIndependentGlobalParameter(gs)) {
+    //            ids.push_back("init(" + gs + ")");
+    //        }
+    //    }
+    //}
 
     if (checkExact(SelectionRecord::REACTION_RATE, types)) {
         addIds(this, 0, symbols->getReactionSize(),
