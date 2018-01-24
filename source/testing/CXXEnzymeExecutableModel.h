@@ -249,26 +249,6 @@ public:
 
     virtual int setGlobalParameterValues(int len, int const *indx,
             const double *values);
-    
-    /**
-     * Get the initial amounts of the global parameters,
-     * uses the same indexing as the other parameter methods.
-     */
-    virtual int getGlobalParameterInitValues(int len, int const *indx,
-            double *values);
-
-    /**
-     * Set the initial value of the global parameters.
-     *
-     * Takes the same indices as the other parameter methods.
-     *
-     * Note, if a parameter value has an initial assignment rule,
-     * than the initial conditions value can only be set by
-     * updating the values on which it depends, it can not be set
-     * directly.
-     */
-    virtual int setGlobalParameterInitValues(int len, int const *indx,
-            const double *values);
 
 
     /************************ Global Parameters Species Section *******************/

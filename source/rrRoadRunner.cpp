@@ -836,21 +836,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
     break;
     case SelectionRecord::INITIAL_AMOUNT:
     {
-        string species = record.p1;
-        int index = impl->model->getFloatingSpeciesIndex(species);
-
-        if (index != -1)
-        {
-            impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
-        }
-        else {
-            impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
-        }
-    }
-    break;
-    case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
-    {
-        impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
+        impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
     }
     break;
     case SelectionRecord::STOICHIOMETRY:
@@ -3804,15 +3790,8 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         }
         else
         {
-            if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0)
-            {
-                break;
-            }
-            else
-            {
-                throw Exception("Invalid id '" + sel.p1 + "' for floating initial value");
-                break;
-            }
+            throw Exception("Invalid id '" + sel.p1 + "' for floating initial amount");
+            break;
         }
     default:
         Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
