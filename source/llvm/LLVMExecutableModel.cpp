@@ -1003,11 +1003,11 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
-    if (SelectionRecord::EVENT & types)
-    {
-        std::vector<std::string> eventIds = symbols->getEventIds();
-        std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
-    }
+    //if (SelectionRecord::EVENT & types)
+    //{
+    //    std::vector<std::string> eventIds = symbols->getEventIds();
+    //    std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
+    //}
 
     // These are also displayed with global parameters, so
     // only add them if explicity asked for.
