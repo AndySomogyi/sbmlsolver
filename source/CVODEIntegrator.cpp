@@ -729,6 +729,8 @@ namespace rr
 			return;
 		}
 
+		lastEventTime = 0.0;
+
 		// apply any events that trigger before or at time 0.
 		// important NOT to set model time before we check get
 		// the initial event state, initially time is < 0.
