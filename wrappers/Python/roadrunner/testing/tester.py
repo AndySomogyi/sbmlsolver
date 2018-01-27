@@ -458,7 +458,7 @@ def checkEigenValueIds (rrInstance, testId):
     words = divide(readLine())
     expected = rrInstance.getEigenValueIds()
     m = rrInstance.model.getNumFloatingSpecies()
-    for i in range(0,m):
+    for i in range(0,3*m):
         if words[i] != expected[i]:
             errorFlag = True
             break
