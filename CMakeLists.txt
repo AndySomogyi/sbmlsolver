@@ -62,7 +62,7 @@ endif()
 
 
 # should we build and install Testing tools?
-option (BUILD_TEST_TOOLS "Build and install test tools" OFF)
+option (BUILD_TEST_TOOLS "Build and install test tools" ON)
 
 # should we use LLVM ?
 option (BUILD_LLVM "Build the LLVM back end" ON)
@@ -109,8 +109,8 @@ OPTION (INSTALL_C_API_PYTHON    "Package ctypes  Python wrapper for the C API"  
 OPTION (INSTALL_APPS            "Build and install Apps"                         ON )
 OPTION (INSTALL_EXAMPLES        "Build and install Examples"                     OFF)
 OPTION (INSTALL_STATIC_LIB      "Install RoadRunner CXX static lib"              OFF)
-OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"           ON)
-OPTION (BUILD_TESTS             "Build the SBML C API test suite"                OFF)
+OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"           ON )
+OPTION (BUILD_TESTS             "Build the SBML C API test suite"                ON )
 OPTION (INSTALL_SBML_MODELS     "Install SBML Models"                            ON )
 
 #Setup so that sbmlsolver is always built as a dll and linked statically with 'as much as possible'
