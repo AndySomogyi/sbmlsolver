@@ -28,7 +28,7 @@ STATIC_NLEQ
 ) 
 
 link_directories(
-${THIRD_PARTY_INSTALL_FOLDER}/lib
+${SBMLSOLVER_DEP_DIR}/lib
 )
 
 include_directories(

@@ -25,13 +25,13 @@ set_property(TARGET ${target}
     )
 
 link_directories(
-    ${THIRD_PARTY_INSTALL_FOLDER}/lib
+    ${SBMLSOLVER_DEP_DIR}/lib
     )
 
 include_directories(
     src
     ${RR_ROOT}
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
+    ${SBMLSOLVER_DEP_DIR}/include/clapack
     )
 
 if(UNIX)

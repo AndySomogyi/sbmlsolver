@@ -5,10 +5,10 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
     ${RR_SOURCE_ROOT}
-    ${THIRD_PARTY_INSTALL_FOLDER}/include
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/rr-libstruct
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/sbml
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
+    ${SBMLSOLVER_DEP_DIR}/include
+    ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct
+    ${SBMLSOLVER_DEP_DIR}/include/sbml
+    ${SBMLSOLVER_DEP_DIR}/include/cvode
     )
 
 

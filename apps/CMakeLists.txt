@@ -5,10 +5,10 @@ set(RR_INCLUDE_ROOT "../src")
 # rr Includes
 include_directories(
 ${RR_INCLUDE_ROOT}
-${THIRD_PARTY_INSTALL_FOLDER}/include
-${THIRD_PARTY_INSTALL_FOLDER}/include/sbml
-${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
-${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
+${SBMLSOLVER_DEP_DIR}/include
+${SBMLSOLVER_DEP_DIR}/include/sbml
+${SBMLSOLVER_DEP_DIR}/include/cvode
+${SBMLSOLVER_DEP_DIR}/include/clapack
 )
 
 set(apps 	

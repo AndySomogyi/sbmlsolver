@@ -40,14 +40,14 @@ target_link_libraries (${target}
     )
 
 link_directories(
-    ${THIRD_PARTY_INSTALL_FOLDER}/lib
+    ${SBMLSOLVER_DEP_DIR}/lib
     )
 
 include_directories(
     "."
     ${RR_ROOT}
     ${THIRD_PARTY_FOLDER}/unit_test/src
-${THIRD_PARTY_FOLDER}/rr-libstruct
+    ${THIRD_PARTY_FOLDER}/rr-libstruct
 )
 
 add_subdirectory(utils)

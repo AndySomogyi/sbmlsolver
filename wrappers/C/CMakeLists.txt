@@ -7,7 +7,7 @@ include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the 
 include_directories(
 ${C_API_INCLUDE_ROOT}
 ${RR_ROOT}/src
-${THIRD_PARTY_INSTALL_FOLDER}/include
+${SBMLSOLVER_DEP_DIR}/include
 )
 
 # TODO: remove all the deprecated definition when we have time...

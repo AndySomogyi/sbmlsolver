@@ -15,14 +15,14 @@ if(WIN32)
         set(FOLDER_POSTFIX "gcc")
     endif()
 
-    set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries.")
-    if("${THIRD_PARTY_INSTALL_FOLDER}" STREQUAL "")
-        set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
+    set(SBMLSOLVER_DEP_DIR ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries.")
+    if("${SBMLSOLVER_DEP_DIR}" STREQUAL "")
+        set(SBMLSOLVER_DEP_DIR ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
     endif()
 else()
     # Default the third party dir to a more conventional unix type path
     # This would typically be /usr/local, $HOME/local or something like that.
-    set(THIRD_PARTY_INSTALL_FOLDER ${CMAKE_INSTALL_PREFIX} CACHE PATH "Directory containing ThirdParty libraries.")
+    set(SBMLSOLVER_DEP_DIR ${CMAKE_INSTALL_PREFIX} CACHE PATH "Directory containing ThirdParty libraries.")
 endif(WIN32)
 
 # add cmake files to find things, prepend with our path
@@ -123,7 +123,7 @@ set(THIRD_PARTY_FOLDER           ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 set(exe_path                     ${PROJECT_BINARY_DIR}/bin)
 set(lib_path                     ${PROJECT_BINARY_DIR}/lib)
 
-message(STATUS "Using third party library prefix of ${THIRD_PARTY_INSTALL_FOLDER}")
+message(STATUS "Using third party library prefix of ${SBMLSOLVER_DEP_DIR}")
 message(STATUS "Installing RoadRunner to ${CMAKE_INSTALL_PREFIX}")
 
 set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
@@ -162,8 +162,8 @@ include_directories(
 # manually linking crap, need to fix this!
 
 if (WIN32)
-    message(STATUS "adding ${THIRD_PARTY_INSTALL_FOLDER}/include/libxml2 to include path")
-    include_directories(${THIRD_PARTY_INSTALL_FOLDER}/include/libxml2)
+    message(STATUS "adding ${SBMLSOLVER_DEP_DIR}/include/libxml2 to include path")
+    include_directories(${SBMLSOLVER_DEP_DIR}/include/libxml2)
 else()
     #UNIX
     find_package(LibXml2 REQUIRED)
@@ -176,14 +176,14 @@ if (${BUILD_LLVM})
     link_directories(
         ${LIBRARY_OUTPUT_PATH}
         ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
-        ${THIRD_PARTY_INSTALL_FOLDER}/lib
+        ${SBMLSOLVER_DEP_DIR}/lib
         ${LLVM_LIBRARY_DIRS}
     )
 else()
     link_directories(
         ${LIBRARY_OUTPUT_PATH}
         ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
-        ${THIRD_PARTY_INSTALL_FOLDER}/lib
+        ${SBMLSOLVER_DEP_DIR}/lib
     )
 endif (${BUILD_LLVM})
 
