@@ -272,10 +272,10 @@ if(INSTALL_CXX_API)
         COMPONENT rr_core)
 endif(INSTALL_CXX_API)
 
-install(FILES README.txt LICENSE.txt AUTHORS.txt FUNDING.txt
-        DESTINATION .
-        COMPONENT info
-        )
+#install(FILES README.md LICENSE.md AUTHORS.md FUNDING.md
+#        DESTINATION .
+#        COMPONENT info
+#        )
 
 # make or copy installers into root directory
 add_subdirectory(installer)
@@ -291,13 +291,13 @@ foreach(runtime ${RUNTIMES})
 endforeach()
 endif()
 
-install(
-    FILES     
-    NOTICE.txt
-    VERSION.txt
-    NEWS.txt
-    DESTINATION .
-)
+#install(
+#    FILES
+#    NOTICE.txt
+#    VERSION.txt
+#    NEWS.txt
+#    DESTINATION .
+#)
 
 
 if(WIN32)
