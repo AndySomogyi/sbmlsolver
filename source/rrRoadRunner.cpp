@@ -3844,7 +3844,7 @@ void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>
 //Compute the frequency response, startW, Number Of Decades, Number of Points, parameterName, variableName
 Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         int numberOfDecades, int numberOfPoints,
-        const string& parameterName, const string& variableName,
+        const std::string& parameterName, const std::string& variableName,
         bool useDB, bool useHz)
 {
     if (!impl->model)

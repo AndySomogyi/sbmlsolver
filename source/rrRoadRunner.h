@@ -521,7 +521,7 @@ public:
 
     ls::DoubleMatrix getFrequencyResponse(double startFrequency,
             int numberOfDecades, int numberOfPoints,
-            const string& parameterName, const string& variableName,
+            const std::string& parameterName, const std::string& variableName,
             bool useDB, bool useHz);
 
     /**
