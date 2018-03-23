@@ -1570,7 +1570,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 
             int n=0;
 
-            while( tout < timeEnd &&
+            while( tout <= timeEnd &&
               ( !self.simulateOpt.steps || n < self.simulateOpt.steps) &&
               ( !rr::Config::getInt(rr::Config::MAX_OUTPUT_ROWS) || n < rr::Config::getInt(rr::Config::MAX_OUTPUT_ROWS)) )
             {
