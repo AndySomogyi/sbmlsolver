@@ -839,6 +839,16 @@ double RoadRunner::getValue(const SelectionRecord& record)
         impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
     }
     break;
+    case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
+    {
+        impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
+    }
+    break;
+    case SelectionRecord::INITIAL_COMPARTMENT:
+    {
+        impl->model->getCompartmentInitVolumes(1, &record.index, &dResult);
+    }
+    break;
     case SelectionRecord::STOICHIOMETRY:
     {
         int speciesIndex = impl->model->getFloatingSpeciesIndex(record.p1);
@@ -3786,6 +3796,16 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
     case SelectionRecord::INITIAL_AMOUNT:
         if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0)
         {
+            break;
+        }
+        else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::INITIAL_GLOBAL_PARAMETER;
+            break;
+        }
+        else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::INITIAL_COMPARTMENT;
             break;
         }
         else

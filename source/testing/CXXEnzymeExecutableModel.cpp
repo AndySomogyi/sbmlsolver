@@ -246,6 +246,18 @@ int CXXEnzymeExecutableModel::setGlobalParameterValues(int len, const int* indx,
     return 0;
 }
 
+int CXXEnzymeExecutableModel::getGlobalParameterInitValues(int len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setGlobalParameterInitValues(int len, const int* indx,
+    const double* values)
+{
+    return 0;
+}
+
 int CXXEnzymeExecutableModel::getNumCompartments()
 {
     return 0;

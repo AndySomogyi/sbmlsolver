@@ -250,6 +250,21 @@ public:
     virtual int setGlobalParameterValues(int len, int const *indx,
             const double *values);
 
+    /**
+    * Set the initial value of the global parameter.
+    *
+    * Takes the same indices as the other global parameter methods.
+    */
+    virtual int setGlobalParameterInitValues(int len, int const *indx,
+        double const *values);
+
+    /**
+    * Get the initial amounts of the global parameter,
+    * uses the same indexing as the other global parameter methods.
+    */
+    virtual int getGlobalParameterInitValues(int len, int const *indx,
+        double *values);
+
 
     /************************ Global Parameters Species Section *******************/
     #endif /***********************************************************************/
