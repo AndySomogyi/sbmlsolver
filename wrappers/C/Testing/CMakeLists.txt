@@ -50,11 +50,17 @@ include_directories(
     ${THIRD_PARTY_FOLDER}/rr-libstruct
 )
 
+# configure path.h 
+set(SBML_TEST_SUITE_PATH ${SBMLSOLVER_DEP_DIR}/testing/sbml-semantic-test-cases/cases/semantic)
+set(LOCAL_TEST_SUITE_PATH ${CMAKE_SOURCE_DIR}/testing)
+configure_file(path.configure ${CMAKE_CURRENT_SOURCE_DIR}/path.h)
+
 add_subdirectory(utils)
 
 install (TARGETS ${target}
     DESTINATION bin COMPONENT testing
     )
+
 
 
 
