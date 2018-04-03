@@ -809,5 +809,45 @@ Analysis
    :module: RoadRunner
 
    Computes the frequency response.
+   Returns a numpy array with three columns. First column is the frequency,
+   second column the amplitude, and the third column the phase.
 
-   :rtype: numpy.ndarray
+   :param startFrequency:  Start frequency for the first column in the output
+   :param int numberOfDecades: Number of decades for the frequency range, eg 4 means the frequency span 10,000
+   :param int numberOfPoints: The number of points to generate in the output
+   :param str parameterName: The parameter where the input frequency is applied, usually a boundary species, eg 'Xo'
+   :param str variableName: The amplitude and phase will be output for this variable, usually a floating species, eg 'S1'
+   :param boolean useDB: If true use Decibels on the amplitude axis
+   :param boolean useHz: If true use Hertz on the x axis, the default is rads/sec
+    
+   For example::
+   
+     import tellurium as te
+     import roadrunner
+     from matplotlib import pyplot as plt
+
+     r = te.loada("""
+         $Xo -> x1; k1*Xo - k2*x1;
+          x1 -> x2; k2*x1 - k3*x2;
+          x2 ->; k3*x2;
+
+          k1 = 0.5; k2 = 0.23; k3 = 0.4;  Xo = 5;
+     """)
+
+     r.steadyState()
+
+     m = r.getFrequencyResponse(0.001, 5, 1000, 'Xo', 'x2', True, False)
+
+     fig = plt.figure(figsize=(10,4))
+
+     ax1 = fig.add_subplot (121)
+     ax1.semilogx (m[:,0], m[:,1], color="blue", linewidth="2")
+     ax1.set_title ('Amplitude')
+     plt.xlabel ('Frequency')
+
+     ax2 = fig.add_subplot (122)
+     ax2.semilogx (m[:,0], m[:,2], color="blue", linewidth="2")
+     ax2.set_title ('Phase')
+     plt.xlabel ('Frequency')
+     plt.show()
+
