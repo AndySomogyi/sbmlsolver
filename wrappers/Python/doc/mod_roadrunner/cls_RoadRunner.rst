@@ -437,10 +437,10 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 Steady State
 ---------------------
 
-.. class:: RoadRunner.steadyStateSolver
+.. class:: RoadRunner.SteadyStateSolver
    :module: RoadRunner
    
-   RoadRunner.steadyStateSolver class.
+   RoadRunner.SteadyStateSolver class.
 
 
 .. attribute:: RoadRunner.steadyStateSelections
@@ -505,7 +505,7 @@ Steady State
    Checks whether a steady state solver exists.
    
    :param str name: name of a steady state solver
-   
+
 
 
 Metabolic control analysis
