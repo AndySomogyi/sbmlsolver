@@ -189,9 +189,16 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_SIN:
     case AST_FUNCTION_SINH:
     case AST_FUNCTION_TAN:
-    case AST_FUNCTION_TANH: {
+    case AST_FUNCTION_TANH:
+    case AST_FUNCTION_QUOTIENT:
+    case AST_FUNCTION_REM:{
         ASTNodeCodeGenScalarTicket t(*this, true);
         result = intrinsicCallCodeGen(ast);
+        break;
+    }
+    case AST_FUNCTION_MAX:
+    case AST_FUNCTION_MIN: {
+        result = minmaxCodeGen(ast);
         break;
     }
     case AST_FUNCTION_PIECEWISE:
@@ -216,6 +223,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_LAMBDA:
         result = notImplemented(ast);
         break;
+
     default:
         {
             stringstream msg;
@@ -646,6 +654,13 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         funcId = LibFunc::tanh;
         func = module->getFunction(targetLib.getName(funcId));
         break;
+    case AST_FUNCTION_QUOTIENT:
+        func = module->getFunction("quotient");
+        break;
+    case AST_FUNCTION_REM:
+        funcId = LibFunc::fmod;
+        func = module->getFunction(targetLib.getName(funcId));
+        break;
     default:
     {
         string msg = "unknown intrinsic function ";
@@ -915,6 +930,64 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     return pn;
 }
 
+llvm::Value* ASTNodeCodeGen::minmaxCodeGen(const libsbml::ASTNode* ast) {
+
+    const ASTNodeType_t type = ast->getType();
+
+    LLVMContext &context = builder.getContext();
+
+    Module *module = getModule();
+
+    const uint nchild = ast->getNumChildren();
+    
+    if (type == AST_FUNCTION_MAX) {
+        llvm::Function* func = module->getFunction("rr_max");
+
+        // If there's no child
+        if (nchild == 0) {
+            return ConstantFP::get(builder.getContext(), APFloat(-std::numeric_limits<double>::infinity()));
+        }
+
+        // if nchild is at least 1
+        Value* value = toDouble(codeGen(ast->getChild(0)));
+
+        uint i = 1;
+        while (i < nchild) {
+            std::vector<Value*> args;
+            args.push_back(value);
+            args.push_back(toDouble(codeGen(ast->getChild(i))));
+            value = builder.CreateCall(func, args, "rr_max");
+            i++;
+        }
+        assert(value);
+
+        return value;
+    }
+    else {
+        llvm::Function* func = module->getFunction("rr_min");
+
+        // If there's no child
+        if (nchild == 0) {
+            return ConstantFP::get(builder.getContext(), APFloat(std::numeric_limits<double>::infinity()));
+        }
+
+        // if nchild is at least 1
+        Value* value = toDouble(codeGen(ast->getChild(0)));
+
+        uint i = 1;
+        while (i < nchild) {
+            std::vector<Value*> args;
+            args.push_back(value);
+            args.push_back(toDouble(codeGen(ast->getChild(i))));
+            value = builder.CreateCall(func, args, "rr_min");
+            i++;
+        }
+        assert(value);
+
+        return value;
+    }
+}
+
 static bool isNegative(const libsbml::ASTNode *ast)
 {
     if (ast->getNumChildren() > 0)
@@ -936,6 +1009,7 @@ ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket(ASTNodeCodeGen& gen, bool
 ASTNodeCodeGenScalarTicket::~ASTNodeCodeGenScalarTicket() {
     z_.scalar_mode_ = v_;
 }
+
 
 } /* namespace rr */
 
