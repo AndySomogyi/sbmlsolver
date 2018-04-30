@@ -1160,7 +1160,7 @@ SUITE(SBML_TEST_SUITE)
 
 // ???
 //TEST(1197) { CHECK(RunTest("l3v1", 1197)); }
-//TEST(1198) { CHECK(RunTest("l3v1", 1198)); } - temp
+TEST(1198) { CHECK(RunTest("l3v1", 1198)); } //temp
 
 // Piecewise
 //TEST(1199) { CHECK(RunTest("l3v1", 1199)); }
@@ -1174,17 +1174,17 @@ SUITE(SBML_TEST_SUITE)
 //TEST(1205) { CHECK(RunTest("l3v1", 1205)); }
 //TEST(1206) { CHECK(RunTest("l3v1", 1206)); }
 //TEST(1207) { CHECK(RunTest("l3v1", 1207)); }
-//TEST(1208) { CHECK(RunTest("l3v1", 1208)); } - temp
+//TEST(1208) { CHECK(RunTest("l3v1", 1208)); } //temp
 
 // MathML relational operators
-//TEST(1209) { CHECK(RunTest("l3v1", 1209)); }
-//TEST(1210) { CHECK(RunTest("l3v1", 1210)); }
-//TEST(1211) { CHECK(RunTest("l3v1", 1211)); }
-TEST(1212) { CHECK(RunTest("l3v1", 1212)); } //fails
-TEST(1213) { CHECK(RunTest("l3v1", 1213)); } //fails
-//TEST(1214) { CHECK(RunTest("l3v1", 1214)); }
-//TEST(1215) { CHECK(RunTest("l3v1", 1215)); }
-TEST(1216) { CHECK(RunTest("l3v1", 1216)); } //fails
+//TEST(1209) { CHECK(RunTest("l3v1", 1209)); } //pass
+//TEST(1210) { CHECK(RunTest("l3v1", 1210)); } //pass
+//TEST(1211) { CHECK(RunTest("l3v1", 1211)); } //pass
+TEST(1212) { CHECK(RunTest("l3v1", 1212)); }
+TEST(1213) { CHECK(RunTest("l3v1", 1213)); }
+//TEST(1214) { CHECK(RunTest("l3v1", 1214)); } //pass
+//TEST(1215) { CHECK(RunTest("l3v1", 1215)); } //pass
+TEST(1216) { CHECK(RunTest("l3v1", 1216)); }
 
 //Interdependent initial assignments and assignment rules
 //TEST(1217) { CHECK(RunTest("l3v1", 1217)); }
@@ -1217,16 +1217,16 @@ TEST(1234) { CHECK(RunTest("l3v2", 1234)); }
 TEST(1235) { CHECK(RunTest("l3v2", 1235)); }
 TEST(1236) { CHECK(RunTest("l3v2", 1236)); }
 TEST(1237) { CHECK(RunTest("l3v2", 1237)); }
-//TEST(1238) { CHECK(RunTest("l3v2", 1238)); } - temp
-//TEST(1239) { CHECK(RunTest("l3v2", 1239)); } - temp
-//TEST(1240) { CHECK(RunTest("l3v2", 1240)); } - pass
+//TEST(1238) { CHECK(RunTest("l3v2", 1238)); } //temp
+//TEST(1239) { CHECK(RunTest("l3v2", 1239)); } //temp
+//TEST(1240) { CHECK(RunTest("l3v2", 1240)); } //pass
 TEST(1241) { CHECK(RunTest("l3v2", 1241)); }
 TEST(1242) { CHECK(RunTest("l3v2", 1242)); }
 TEST(1243) { CHECK(RunTest("l3v2", 1243)); }
-//TEST(1244) { CHECK(RunTest("l3v2", 1244)); } - pass
-//TEST(1245) { CHECK(RunTest("l3v2", 1245)); } - pass
-//TEST(1246) { CHECK(RunTest("l3v2", 1246)); } - pass
-//TEST(1247) { CHECK(RunTest("l3v2", 1247)); } - pass
+//TEST(1244) { CHECK(RunTest("l3v2", 1244)); } //pass
+//TEST(1245) { CHECK(RunTest("l3v2", 1245)); } //pass
+//TEST(1246) { CHECK(RunTest("l3v2", 1246)); } //pass
+//TEST(1247) { CHECK(RunTest("l3v2", 1247)); } //pass
 
 // rateOf
 TEST(1248) { CHECK(RunTest("l3v2", 1248)); }
@@ -1238,7 +1238,7 @@ TEST(1253) { CHECK(RunTest("l3v2", 1253)); }
 TEST(1254) { CHECK(RunTest("l3v2", 1254)); }
 TEST(1255) { CHECK(RunTest("l3v2", 1255)); }
 TEST(1256) { CHECK(RunTest("l3v2", 1256)); }
-//TEST(1257) { CHECK(RunTest("l3v2", 1257)); } - temp
+//TEST(1257) { CHECK(RunTest("l3v2", 1257)); } //temp
 TEST(1258) { CHECK(RunTest("l3v2", 1258)); }
 TEST(1259) { CHECK(RunTest("l3v2", 1259)); }
 TEST(1260) { CHECK(RunTest("l3v2", 1260)); }
@@ -1249,12 +1249,12 @@ TEST(1264) { CHECK(RunTest("l3v2", 1264)); }
 TEST(1265) { CHECK(RunTest("l3v2", 1265)); }
 TEST(1266) { CHECK(RunTest("l3v2", 1266)); }
 TEST(1267) { CHECK(RunTest("l3v2", 1267)); }
-//TEST(1268) { CHECK(RunTest("l3v2", 1268)); }
+//TEST(1268) { CHECK(RunTest("l3v2", 1268)); } //temp
 TEST(1269) { CHECK(RunTest("l3v2", 1269)); }
 TEST(1270) { CHECK(RunTest("l3v2", 1270)); }
 
 // elements without child elements
-//TEST(1271) { CHECK(RunTest("l3v2", 1271)); }
+//TEST(1271) { CHECK(RunTest("l3v2", 1271)); } //pass
 
 //max, min, rem, quotient, and implies
 TEST(1272) { CHECK(RunTest("l3v2", 1272)); }
@@ -1282,13 +1282,13 @@ TEST(1291) { CHECK(RunTest("l3v2", 1291)); }
 TEST(1292) { CHECK(RunTest("l3v2", 1292)); }
 
 //rateOf
-//TEST(1293) { CHECK(RunTest("l3v2", 1293)); } - temp
+//TEST(1293) { CHECK(RunTest("l3v2", 1293)); } //temp
 TEST(1294) { CHECK(RunTest("l3v2", 1294)); }
 TEST(1295) { CHECK(RunTest("l3v2", 1295)); }
 TEST(1296) { CHECK(RunTest("l3v2", 1296)); }
 TEST(1297) { CHECK(RunTest("l3v2", 1297)); }
 TEST(1298) { CHECK(RunTest("l3v2", 1298)); }
-//TEST(1299) { CHECK(RunTest("l3v2", 1299)); } - temp
+//TEST(1299) { CHECK(RunTest("l3v2", 1299)); } //temp
 
 // reaction identifier in the MathML and elements without child elements
 //TEST(1300) { CHECK(RunTest("l3v2", 1300)); }
@@ -1315,8 +1315,8 @@ TEST(1298) { CHECK(RunTest("l3v2", 1298)); }
 //TEST(1315) { CHECK(RunTest("l3v2", 1315)); }
 
 // csymbols with names that shadow other parameters or functions
-//TEST(1316) { CHECK(RunTest("l3v2", 1316)); }
-//TEST(1317) { CHECK(RunTest("l3v2", 1317)); }
+//TEST(1316) { CHECK(RunTest("l3v2", 1316)); } //pass
+//TEST(1317) { CHECK(RunTest("l3v2", 1317)); } //pass
 TEST(1318) { CHECK(RunTest("l3v2", 1318)); }
 TEST(1319) { CHECK(RunTest("l3v2", 1319)); }
 TEST(1320) { CHECK(RunTest("l3v2", 1320)); }
@@ -1361,7 +1361,7 @@ TEST(1333) { CHECK(RunTest("l3v2", 1333)); }
 //TEST(1347) { CHECK(RunTest("l3v2", 1347)); }
 //TEST(1348) { CHECK(RunTest("l3v2", 1348)); }
 //TEST(1349) { CHECK(RunTest("l3v2", 1349)); }
-TEST(1350) { CHECK(RunTest("l3v2", 1350)); }
+////TEST(1350) { CHECK(RunTest("l3v2", 1350)); } // AlgebraicRule
 //TEST(1351) { CHECK(RunTest("l3v2", 1351)); }
 //TEST(1352) { CHECK(RunTest("l3v2", 1352)); }
 //TEST(1353) { CHECK(RunTest("l3v2", 1353)); }
@@ -1370,7 +1370,7 @@ TEST(1350) { CHECK(RunTest("l3v2", 1350)); }
 //TEST(1356) { CHECK(RunTest("l3v2", 1356)); }
 //TEST(1357) { CHECK(RunTest("l3v2", 1357)); }
 //TEST(1358) { CHECK(RunTest("l3v2", 1358)); }
-TEST(1359) { CHECK(RunTest("l3v2", 1359)); }
+////TEST(1359) { CHECK(RunTest("l3v2", 1359)); } // AlgebraicRule
 //TEST(1360) { CHECK(RunTest("l3v2", 1360)); }
 //TEST(1361) { CHECK(RunTest("l3v2", 1361)); }
 //TEST(1362) { CHECK(RunTest("l3v2", 1362)); }
@@ -1379,7 +1379,7 @@ TEST(1359) { CHECK(RunTest("l3v2", 1359)); }
 //TEST(1365) { CHECK(RunTest("l3v2", 1365)); }
 //TEST(1366) { CHECK(RunTest("l3v2", 1366)); }
 //TEST(1367) { CHECK(RunTest("l3v2", 1367)); }
-TEST(1368) { CHECK(RunTest("l3v2", 1368)); }
+////TEST(1368) { CHECK(RunTest("l3v2", 1368)); } // AlgebraicRule
 //TEST(1369) { CHECK(RunTest("l3v2", 1369)); }
 //TEST(1370) { CHECK(RunTest("l3v2", 1370)); }
 //TEST(1371) { CHECK(RunTest("l3v2", 1371)); }
@@ -1388,7 +1388,7 @@ TEST(1368) { CHECK(RunTest("l3v2", 1368)); }
 //TEST(1374) { CHECK(RunTest("l3v2", 1374)); }
 //TEST(1375) { CHECK(RunTest("l3v2", 1375)); }
 //TEST(1376) { CHECK(RunTest("l3v2", 1376)); }
-TEST(1377) { CHECK(RunTest("l3v2", 1377)); }
+////TEST(1377) { CHECK(RunTest("l3v2", 1377)); } // AlgebraicRule
 //TEST(1378) { CHECK(RunTest("l3v2", 1378)); }
 //TEST(1379) { CHECK(RunTest("l3v2", 1379)); }
 //TEST(1380) { CHECK(RunTest("l3v2", 1380)); }
@@ -1397,7 +1397,7 @@ TEST(1377) { CHECK(RunTest("l3v2", 1377)); }
 //TEST(1383) { CHECK(RunTest("l3v2", 1383)); }
 //TEST(1384) { CHECK(RunTest("l3v2", 1384)); }
 //TEST(1385) { CHECK(RunTest("l3v2", 1385)); }
-TEST(1386) { CHECK(RunTest("l3v2", 1386)); }
+////TEST(1386) { CHECK(RunTest("l3v2", 1386)); } // AlgebraicRule
 //TEST(1387) { CHECK(RunTest("l3v2", 1387)); }
 //TEST(1388) { CHECK(RunTest("l3v2", 1388)); }
 //TEST(1389) { CHECK(RunTest("l3v2", 1389)); }
@@ -1411,32 +1411,32 @@ TEST(1386) { CHECK(RunTest("l3v2", 1386)); }
 //TEST(1395) { CHECK(RunTest("l3v2", 1395)); }
 
 //combinations of fast reactions
-//TEST(1396) { CHECK(RunTest("l3v1", 1396)); }
-//TEST(1397) { CHECK(RunTest("l2v4", 1397)); }
-//TEST(1398) { CHECK(RunTest("l3v1", 1398)); }
-//TEST(1399) { CHECK(RunTest("l3v1", 1399)); }
+////TEST(1396) { CHECK(RunTest("l3v1", 1396)); } // FastReaction
+////TEST(1397) { CHECK(RunTest("l2v4", 1397)); } // FastReaction
+////TEST(1398) { CHECK(RunTest("l3v1", 1398)); } // FastReaction
+////TEST(1399) { CHECK(RunTest("l3v1", 1399)); } // FastReaction
 
 //rateOf and delay csymbols
-//TEST(1400) { CHECK(RunTest("l3v2", 1400)); }
-//TEST(1401) { CHECK(RunTest("l3v2", 1401)); }
-//TEST(1402) { CHECK(RunTest("l3v2", 1402)); }
-//TEST(1403) { CHECK(RunTest("l3v2", 1403)); }
-//TEST(1404) { CHECK(RunTest("l3v2", 1404)); }
-//TEST(1405) { CHECK(RunTest("l3v2", 1405)); }
-//TEST(1406) { CHECK(RunTest("l3v2", 1406)); }
-//TEST(1407) { CHECK(RunTest("l3v2", 1407)); }
-//TEST(1408) { CHECK(RunTest("l3v2", 1408)); }
-//TEST(1409) { CHECK(RunTest("l3v2", 1409)); }
-//TEST(1410) { CHECK(RunTest("l3v2", 1410)); }
-//TEST(1411) { CHECK(RunTest("l3v2", 1411)); }
-//TEST(1412) { CHECK(RunTest("l3v2", 1412)); }
-//TEST(1413) { CHECK(RunTest("l3v2", 1413)); }
-//TEST(1414) { CHECK(RunTest("l3v2", 1414)); }
-//TEST(1415) { CHECK(RunTest("l3v2", 1415)); }
-//TEST(1416) { CHECK(RunTest("l3v2", 1416)); }
-//TEST(1417) { CHECK(RunTest("l3v2", 1417)); }
-//TEST(1418) { CHECK(RunTest("l3v2", 1418)); }
-//TEST(1419) { CHECK(RunTest("l3v2", 1419)); }
+////TEST(1400) { CHECK(RunTest("l3v2", 1400)); } // CSymbolDelay
+////TEST(1401) { CHECK(RunTest("l3v2", 1401)); } // CSymbolDelay
+////TEST(1402) { CHECK(RunTest("l3v2", 1402)); } // CSymbolDelay
+////TEST(1403) { CHECK(RunTest("l3v2", 1403)); } // CSymbolDelay
+////TEST(1404) { CHECK(RunTest("l3v2", 1404)); } // CSymbolDelay
+////TEST(1405) { CHECK(RunTest("l3v2", 1405)); } // CSymbolDelay
+////TEST(1406) { CHECK(RunTest("l3v2", 1406)); } // CSymbolDelay
+////TEST(1407) { CHECK(RunTest("l3v2", 1407)); } // CSymbolDelay
+////TEST(1408) { CHECK(RunTest("l3v2", 1408)); } // CSymbolDelay
+////TEST(1409) { CHECK(RunTest("l3v2", 1409)); } // CSymbolDelay
+////TEST(1410) { CHECK(RunTest("l3v2", 1410)); } // CSymbolDelay
+////TEST(1411) { CHECK(RunTest("l3v2", 1411)); } // CSymbolDelay
+////TEST(1412) { CHECK(RunTest("l3v2", 1412)); } // CSymbolDelay
+////TEST(1413) { CHECK(RunTest("l3v2", 1413)); } // CSymbolDelay
+////TEST(1414) { CHECK(RunTest("l3v2", 1414)); } // CSymbolDelay
+////TEST(1415) { CHECK(RunTest("l3v2", 1415)); } // CSymbolDelay
+////TEST(1416) { CHECK(RunTest("l3v2", 1416)); } // CSymbolDelay
+////TEST(1417) { CHECK(RunTest("l3v2", 1417)); } // CSymbolDelay
+////TEST(1418) { CHECK(RunTest("l3v2", 1418)); } // CSymbolDelay
+////TEST(1419) { CHECK(RunTest("l3v2", 1419)); } // CSymbolDelay
 
 //single reactions that have multiple speciesReferences
 //TEST(1420) { CHECK(RunTest("l3v2", 1420)); }
@@ -1475,7 +1475,7 @@ TEST(1448) { CHECK(RunTest("l3v2", 1448)); }
 //TEST(1453) { CHECK(RunTest("l3v2", 1453)); } - temp
 
 //delay csymbol and the VolumeConcentrationRates
-//TEST(1454) { CHECK(RunTest("l3v2", 1454)); }
+////TEST(1454) { CHECK(RunTest("l3v2", 1454)); }  // CSymbolDelay
 
 //rateOf csymbol with compartments having volumes other than 1
 TEST(1455) { CHECK(RunTest("l3v2", 1455)); }
@@ -1521,13 +1521,13 @@ TEST(1465) { CHECK(RunTest("l3v2", 1465)); }
 TEST(1479) { CHECK(RunTest("l3v2", 1479)); }
 
 //stoichiometry math with the delay csymbol
-//TEST(1480) { CHECK(RunTest("l3v2", 1480)); }
-//TEST(1481) { CHECK(RunTest("l2v4", 1481)); }
+////TEST(1480) { CHECK(RunTest("l3v2", 1480)); } // CSymbolDelay
+////TEST(1481) { CHECK(RunTest("l2v4", 1481)); } // CSymbolDelay
 
 //rateOf csymbol in an algebraic rule
-//TEST(1482) { CHECK(RunTest("l3v2", 1482)); }
-//TEST(1483) { CHECK(RunTest("l3v2", 1483)); }
-//TEST(1484) { CHECK(RunTest("l3v2", 1484)); }
+////TEST(1482) { CHECK(RunTest("l3v2", 1482)); } // AlgebraicRule
+////TEST(1483) { CHECK(RunTest("l3v2", 1483)); } // AlgebraicRule
+////TEST(1484) { CHECK(RunTest("l3v2", 1484)); } // AlgebraicRule
 
 //combinations of uncommon MathML
 //TEST(1485) { CHECK(RunTest("l3v2", 1485)); } - temp
@@ -1548,11 +1548,11 @@ TEST(1479) { CHECK(RunTest("l3v2", 1479)); }
 //TEST(1498) { CHECK(RunTest("l3v2", 1498)); } - temp
 
 //algebraic rules with conversion factors and uncommon MathML
-//TEST(1499) { CHECK(RunTest("l3v2", 1499)); }
-//TEST(1500) { CHECK(RunTest("l3v2", 1500)); }
-//TEST(1501) { CHECK(RunTest("l3v2", 1501)); }
-//TEST(1502) { CHECK(RunTest("l3v2", 1502)); }
-//TEST(1503) { CHECK(RunTest("l3v2", 1503)); }
+////TEST(1499) { CHECK(RunTest("l3v2", 1499)); } // AlgebraicRule
+////TEST(1500) { CHECK(RunTest("l3v2", 1500)); } // AlgebraicRule
+////TEST(1501) { CHECK(RunTest("l3v2", 1501)); } // AlgebraicRule
+////TEST(1502) { CHECK(RunTest("l3v2", 1502)); } // AlgebraicRule
+////TEST(1503) { CHECK(RunTest("l3v2", 1503)); } // AlgebraicRule
 
 //volume concentration rates in concert with events of various types
 //TEST(1504) { CHECK(RunTest("l3v2", 1504)); } - temp
@@ -1575,13 +1575,13 @@ TEST(1479) { CHECK(RunTest("l3v2", 1479)); }
 //TEST(1517) { CHECK(RunTest("l2v4", 1517)); } - temp
 
 //csymbol delay with various types of events
-//TEST(1518) { CHECK(RunTest("l3v2", 1518)); }
-//TEST(1519) { CHECK(RunTest("l3v2", 1519)); }
-//TEST(1520) { CHECK(RunTest("l3v2", 1520)); }
-//TEST(1521) { CHECK(RunTest("l3v2", 1521)); }
-//TEST(1522) { CHECK(RunTest("l3v2", 1522)); }
-//TEST(1523) { CHECK(RunTest("l3v2", 1523)); }
-//TEST(1524) { CHECK(RunTest("l3v2", 1524)); }
+////TEST(1518) { CHECK(RunTest("l3v2", 1518)); } // CSymbolDelay
+////TEST(1519) { CHECK(RunTest("l3v2", 1519)); } // CSymbolDelay
+////TEST(1520) { CHECK(RunTest("l3v2", 1520)); } // CSymbolDelay
+////TEST(1521) { CHECK(RunTest("l3v2", 1521)); } // CSymbolDelay
+////TEST(1522) { CHECK(RunTest("l3v2", 1522)); } // CSymbolDelay
+////TEST(1523) { CHECK(RunTest("l3v2", 1523)); } // CSymbolDelay
+////TEST(1524) { CHECK(RunTest("l3v2", 1524)); } // CSymbolDelay
 
 //rateOf csymbol with various types of events
 //TEST(1525) { CHECK(RunTest("l3v2", 1525)); } - temp
@@ -1597,12 +1597,12 @@ TEST(1479) { CHECK(RunTest("l3v2", 1479)); }
 //TEST(1533) { CHECK(RunTest("l3v2", 1533)); }
 
 //csymbol delay when assigning to stoichiometries, with boundary species, and with fast reactions
-//TEST(1534) { CHECK(RunTest("l3v2", 1534)); }
-//TEST(1535) { CHECK(RunTest("l3v2", 1535)); }
-//TEST(1536) { CHECK(RunTest("l3v2", 1536)); }
-//TEST(1537) { CHECK(RunTest("l3v2", 1537)); }
-//TEST(1538) { CHECK(RunTest("l3v2", 1538)); }
-//TEST(1539) { CHECK(RunTest("l3v1", 1539)); }
+////TEST(1534) { CHECK(RunTest("l3v2", 1534)); } // CSymbolDelay
+////TEST(1535) { CHECK(RunTest("l3v2", 1535)); } // CSymbolDelay
+////TEST(1536) { CHECK(RunTest("l3v2", 1536)); } // CSymbolDelay
+////TEST(1537) { CHECK(RunTest("l3v2", 1537)); } // CSymbolDelay
+////TEST(1538) { CHECK(RunTest("l3v2", 1538)); } // CSymbolDelay
+////TEST(1539) { CHECK(RunTest("l3v1", 1539)); } // CSymbolDelay
 
 //rateOf csymbol with boundary species and with assigned stoichiometries
 TEST(1540) { CHECK(RunTest("l3v2", 1540)); }
@@ -1633,9 +1633,9 @@ TEST(1554) { CHECK(RunTest("l3v2", 1554)); }
 //TEST(1557) { CHECK(RunTest("l3v2", 1557)); } - temp
 
 //referencing a species reference from a fast reaction
-//TEST(1558) { CHECK(RunTest("l3v1", 1558)); }
-//TEST(1559) { CHECK(RunTest("l3v1", 1559)); }
-//TEST(1560) { CHECK(RunTest("l3v1", 1560)); }
+////TEST(1558) { CHECK(RunTest("l3v1", 1558)); } // FastReaction
+////TEST(1559) { CHECK(RunTest("l3v1", 1559)); } // FastReaction
+////TEST(1560) { CHECK(RunTest("l3v1", 1560)); } // FastReaction
 
 //uncommon MathML used to assign to stoichiometries
 //TEST(1561) { CHECK(RunTest("l3v2", 1561)); }
@@ -1643,32 +1643,32 @@ TEST(1554) { CHECK(RunTest("l3v2", 1554)); }
 //TEST(1563) { CHECK(RunTest("l3v2", 1563)); }
 
 //uncommon MathML used to assign to kinetic laws of normal and fast reactions
-//TEST(1564) { CHECK(RunTest("l3v2", 1564)); }
-//TEST(1565) { CHECK(RunTest("l3v1", 1565)); }
+TEST(1564) { CHECK(RunTest("l3v2", 1564)); }
+////TEST(1565) { CHECK(RunTest("l3v1", 1565)); } // FastReaction
 
 //uncommon MathML that use a species reference
 //TEST(1566) { CHECK(RunTest("l3v2", 1566)); }
 
 //fast reactions with algebraic rules, assignment rules, rate rules, and initial assignments
-//TEST(1567) { CHECK(RunTest("l3v1", 1567)); }
-//TEST(1568) { CHECK(RunTest("l3v1", 1568)); }
-//TEST(1569) { CHECK(RunTest("l3v1", 1569)); }
-//TEST(1570) { CHECK(RunTest("l3v1", 1570)); }
+////TEST(1567) { CHECK(RunTest("l3v1", 1567)); } // FastReaction // AlgebraicRule
+////TEST(1568) { CHECK(RunTest("l3v1", 1568)); } // FastReaction
+////TEST(1569) { CHECK(RunTest("l3v1", 1569)); } // FastReaction
+////TEST(1570) { CHECK(RunTest("l3v1", 1570)); } // FastReaction
 
 //fast reactions with assigned stoichiometries
-//TEST(1571) { CHECK(RunTest("l3v1", 1571)); }
-//TEST(1572) { CHECK(RunTest("l3v1", 1572)); }
+////TEST(1571) { CHECK(RunTest("l3v1", 1571)); } // FastReaction
+////TEST(1572) { CHECK(RunTest("l3v1", 1572)); } // FastReaction
 
 //assigned stoichiometries for boundary species
 //TEST(1573) { CHECK(RunTest("l2v4", 1573)); }
 //TEST(1574) { CHECK(RunTest("l3v2", 1574)); } - temp
 
 //algebraic rules with various types of events and event elements
-//TEST(1575) { CHECK(RunTest("l3v2", 1575)); }
-//TEST(1576) { CHECK(RunTest("l3v2", 1576)); }
-//TEST(1577) { CHECK(RunTest("l3v2", 1577)); }
-//TEST(1578) { CHECK(RunTest("l3v2", 1578)); }
-//TEST(1579) { CHECK(RunTest("l3v2", 1579)); }
+////TEST(1575) { CHECK(RunTest("l3v2", 1575)); } // AlgebraicRule
+////TEST(1576) { CHECK(RunTest("l3v2", 1576)); } // AlgebraicRule
+////TEST(1577) { CHECK(RunTest("l3v2", 1577)); } // AlgebraicRule
+////TEST(1578) { CHECK(RunTest("l3v2", 1578)); } // AlgebraicRule
+////TEST(1579) { CHECK(RunTest("l3v2", 1579)); } // AlgebraicRule
 
 //assigned stoichiometries in the context of various types of events
 //TEST(1580) { CHECK(RunTest("l3v2", 1580)); }
@@ -1682,11 +1682,11 @@ TEST(1554) { CHECK(RunTest("l3v2", 1554)); }
 
 //random events with initial assignments, algebraic rules, rate rules, delayed events, and the csymbol delay
 //TEST(1588) { CHECK(RunTest("l3v2", 1588)); }
-//TEST(1589) { CHECK(RunTest("l3v2", 1589)); }
+////TEST(1589) { CHECK(RunTest("l3v2", 1589)); } // AlgebraicRule
 //TEST(1590) { CHECK(RunTest("l3v2", 1590)); }
 //TEST(1591) { CHECK(RunTest("l3v2", 1591)); }
-//TEST(1592) { CHECK(RunTest("l3v2", 1592)); }
-//TEST(1593) { CHECK(RunTest("l3v2", 1593)); }
+////TEST(1592) { CHECK(RunTest("l3v2", 1592)); } // CSymbolDelay
+////TEST(1593) { CHECK(RunTest("l3v2", 1593)); } // CSymbolDelay
 
 //uncommon MathML in various types of events
 //TEST(1594) { CHECK(RunTest("l3v2", 1594)); }
@@ -1697,10 +1697,10 @@ TEST(1554) { CHECK(RunTest("l3v2", 1554)); }
 //TEST(1599) { CHECK(RunTest("l3v2", 1599)); }
 
 //missing MathML in delayed events
-//TEST(1600) { CHECK(RunTest("l3v2", 1600)); }
-//TEST(1601) { CHECK(RunTest("l3v2", 1601)); }
-//TEST(1602) { CHECK(RunTest("l3v2", 1602)); }
-//TEST(1603) { CHECK(RunTest("l3v2", 1603)); }
+TEST(1600) { CHECK(RunTest("l3v2", 1600)); }
+TEST(1601) { CHECK(RunTest("l3v2", 1601)); }
+TEST(1602) { CHECK(RunTest("l3v2", 1602)); }
+TEST(1603) { CHECK(RunTest("l3v2", 1603)); }
 
 //time csymbol in a delayed event assignment
 // TEST(1604) { CHECK(RunTest("l3v2", 1604)); }
