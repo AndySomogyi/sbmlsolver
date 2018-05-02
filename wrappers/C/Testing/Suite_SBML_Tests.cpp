@@ -1160,7 +1160,7 @@ SUITE(SBML_TEST_SUITE)
 
 // ???
 //TEST(1197) { CHECK(RunTest("l3v1", 1197)); }
-TEST(1198) { CHECK(RunTest("l3v1", 1198)); } //temp
+//TEST(1198) { CHECK(RunTest("l3v1", 1198)); } //temp
 
 // Piecewise
 //TEST(1199) { CHECK(RunTest("l3v1", 1199)); }
