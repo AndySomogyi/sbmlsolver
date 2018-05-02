@@ -663,13 +663,13 @@ void ModelGeneratorContext::addGlobalMappings()
     executionEngine->addGlobalMapping(
         createGlobalMappingFunction("rr_max",
             FunctionType::get(double_type, args_d2, false), module),
-            (void*)sbmlsupport::max);
+            (void*) sbmlsupport::max);
 
     // AST_FUNCTION_MIN:
     executionEngine->addGlobalMapping(
         createGlobalMappingFunction("rr_min",
             FunctionType::get(double_type, args_d2, false), module),
-            (void*)sbmlsupport::min);
+            (void*) sbmlsupport::min);
 
 }
 

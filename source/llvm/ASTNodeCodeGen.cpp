@@ -149,6 +149,10 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = applyLogicalCodeGen(ast);
         break;
     }
+    case  AST_LOGICAL_IMPLIES: {
+        result = toDouble(applyLogicalCodeGen(ast));
+        break;
+    }
     case AST_FUNCTION: {
         ASTNodeCodeGenScalarTicket t(*this, true);
         result = functionCallCodeGen(ast);
@@ -458,6 +462,26 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
     }
 
     const int numChildren = ast->getNumChildren();
+
+    if (type == AST_LOGICAL_IMPLIES)
+    {
+        if (numChildren != 2)
+        {
+            string msg = "logic implication can only have two arguments, recieved ";
+            msg += toString(ast->getNumChildren());
+            msg += ", MathML node: ";
+            msg += to_string(ast);
+            throw_llvm_exception(msg);
+        }
+
+        Value *atd = toBoolean(codeGen(ast->getChild(0)));
+        Value *csq = toBoolean(codeGen(ast->getChild(1)));
+        Value *natd = NULL;
+
+        natd = builder.CreateNot(atd, "neg_tmp");
+
+        return builder.CreateOr(natd, csq, "or_tmp");
+    }
 
     if (numChildren == 0)
     {
