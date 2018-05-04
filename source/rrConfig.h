@@ -367,6 +367,11 @@ public:
         SIMULATEOPTIONS_COPY_RESULT,
 
         /**
+         * Flag for using steady state approximation routine for initial analysis.
+         */
+        STEADYSTATE_INIT_APPROX,
+
+        /**
          * Flag for steady state approximation routine running by default for steadyState.
          */
         STEADYSTATE_APPROX_DEFAULT,

@@ -82,6 +82,11 @@ private:
 
     bool isAvailable();
 
+    bool initialApprox;
+    bool allowApprox;
+    double appoxTolerance;
+    int approxMaximumSteps;
+    double approxTime;
     double relativeTolerance;
     int maxIterations;
     double minDamping;

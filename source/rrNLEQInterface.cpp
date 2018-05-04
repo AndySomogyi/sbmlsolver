@@ -55,6 +55,12 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     iopt(0),
     model(0),
     nOpts(50),
+
+    initialApprox(Config::getBool(Config::STEADYSTATE_INIT_APPROX)),
+    allowApprox(Config::getBool(Config::STEADYSTATE_APPROX_DEFAULT)),
+    appoxTolerance(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)),
+    approxMaximumSteps(Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS)),
+    approxTime(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)),
     relativeTolerance(Config::getDouble(Config::STEADYSTATE_RELATIVE)),
     maxIterations(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)),
     minDamping(Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING)),
@@ -364,24 +370,38 @@ string ErrorForStatus(int error)
 }
 
 
-
 // steady state solver options
 static const char* keys[] =
 {
+        "initialApprox"
+        "allowApprox"
+        "appoxTolerance"
+        "approxMaximumSteps"
+        "approxTime"
         "relativeTolerance"
-        "maxIterations",
+        "maxIterations"
         "minDamping"
         "broyden"
         "linearity"
 
+        "initialApprox.description"
+        "allowApprox.description"
+        "appoxTolerance.description"
+        "approxMaximumSteps.description"
+        "approxTime.description"
         "relativeTolerance.description"
-        "maxIterations.description",
+        "maxIterations.description"
         "minDamping.description"
         "broyden.description"
         "linearity.description"
 
+        "initialApprox.hint"
+        "allowApprox.hint"
+        "appoxTolerance.hint"
+        "approxMaximumSteps.hint"
+        "approxTime.hint"
         "relativeTolerance.hint"
-        "maxIterations.hint",
+        "maxIterations.hint"
         "minDamping.hint"
         "broyden.hint"
         "linearity.hint"
@@ -419,18 +439,33 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("steadyState.hint", "NLEQ hint");
     dict.setItem("steadyState.description", "NLEQ description");
 
+    dict.setItem("initialApprox", Config::getBool(Config::STEADYSTATE_INIT_APPROX));
+    dict.setItem("allowApprox", Config::getBool(Config::STEADYSTATE_APPROX_DEFAULT));
+    dict.setItem("appoxTolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
+    dict.setItem("approxMaximumSteps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
+    dict.setItem("approxTime", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
     dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
     dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
     dict.setItem("minDamping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
     dict.setItem("broyden", Config::getDouble(Config::STEADYSTATE_BROYDEN));
     dict.setItem("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
 
+    dict.setItem("initialApprox.description", "initialApprox.description");
+    dict.setItem("allowApprox.description", "allowApprox.description");
+    dict.setItem("appoxTolerance.description", "appoxTolerance.description");
+    dict.setItem("approxMaximumSteps.description", "approxMaximumSteps.description");
+    dict.setItem("approxTime.description", "approxTime.description");
     dict.setItem("relativeTolerance.description", "relativeTolerance.description");
     dict.setItem("maxIterations.description", "maxIterations.description");
     dict.setItem("minDamping.description", "minDamping.description");
     dict.setItem("broyden.description", "broyden.description");
     dict.setItem("linearity.description", "linearity.description");
 
+    dict.setItem("initialApprox.hint", "initialApprox.hint");
+    dict.setItem("allowApprox.hint", "allowApprox.hint");
+    dict.setItem("appoxTolerance.hint", "appoxTolerance.hint");
+    dict.setItem("approxMaximumSteps.hint", "approxMaximumSteps.hint");
+    dict.setItem("approxTime.hint", "approxTime.hint");
     dict.setItem("relativeTolerance.hint", "relativeTolerance.hint");
     dict.setItem("maxIterations.hint", "maxIterations.hint");
     dict.setItem("minDamping.hint", "minDamping.hint");

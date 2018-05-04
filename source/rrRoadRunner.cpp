@@ -1122,28 +1122,32 @@ double RoadRunner::steadyState(const Dictionary* dict)
     double ss;
 
     // Rough estimation
-    try
+    if (impl->steady_state_solver->getValueAsBool("initial_approx"))
     {
-        double temp_tol = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL);
-        double temp_iter = rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS);
-        double temp_time = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
+        try
+        {
+            double temp_tol = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL);
+            double temp_iter = rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS);
+            double temp_time = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
 
-        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TOL, 1.e-6);
-        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_MAX_STEPS, 10000);
-        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TIME, 10000);
+            rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TOL, 1.e-6);
+            rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_MAX_STEPS, 10000);
+            rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TIME, 10000);
 
-        steadyStateApproximate();
+            steadyStateApproximate();
 
-        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TOL, temp_tol);
-        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_MAX_STEPS, temp_iter);
-        rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TIME, temp_time);
+            rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TOL, temp_tol);
+            rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_MAX_STEPS, temp_iter);
+            rr::Config::setValue(rr::Config::STEADYSTATE_APPROX_TIME, temp_time);
+        }
+        catch (const CoreException& e)
+        {
+            throw;
+        }
     }
-    catch (const CoreException& e)
-    {
-        throw;
-    }
 
-    if (rr::Config::getBool(rr::Config::STEADYSTATE_APPROX_DEFAULT))
+    // NLEQ
+    if (impl->steady_state_solver->getValueAsBool("allow_approx"))
     {
         try
         {
@@ -1212,7 +1216,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     int n = 0;
     double tol = 1.0;
 
-    double timeEnd = rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
+    double timeEnd = impl->steady_state_solver->getValueAsDouble("approx_time");
     double tout_f;
     double tout = 0.0;
     double tol_temp;
@@ -1228,9 +1232,9 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     double* vals1 = new double[l];
     impl->model->getFloatingSpeciesConcentrations(l, NULL, vals1);
 
-    Log(Logger::LOG_DEBUG) << "tol thres: " << rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL);
-    Log(Logger::LOG_DEBUG) << "Max number: " << rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS);
-    Log(Logger::LOG_DEBUG) << "Max time: " << rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TIME);
+    Log(Logger::LOG_DEBUG) << "tol thres: " << impl->steady_state_solver->getValueAsDouble("appox_tolerance");
+    Log(Logger::LOG_DEBUG) << "Max steps: " << impl->steady_state_solver->getValueAsInt("approx_maximum_steps");
+    Log(Logger::LOG_DEBUG) << "Max time: " << impl->steady_state_solver->getValueAsDouble("approx_time");
 
     try
     {
@@ -1239,7 +1243,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
         // optimiziation for certain getValue operations.
         self.model->setIntegration(true);
 
-        while (n < rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS) && tol > rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL))
+        while (n < impl->steady_state_solver->getValueAsInt("approx_maximum_steps") && tol > impl->steady_state_solver->getValueAsDouble("appox_tolerance"))
         {
             tol_temp = 0.0;
                   
@@ -1272,7 +1276,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
         Log(Logger::LOG_NOTICE) << e.what();
     }
 
-    if (tol > rr::Config::getDouble(rr::Config::STEADYSTATE_APPROX_TOL) && n >= rr::Config::getInt(rr::Config::STEADYSTATE_APPROX_MAX_STEPS))
+    if (tol > impl->steady_state_solver->getValueAsDouble("appox_tolerance") && n >= impl->steady_state_solver->getValueAsInt("approx_maximum_steps"))
     {
         throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
     }
