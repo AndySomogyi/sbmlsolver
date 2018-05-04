@@ -83,8 +83,11 @@ private:
     bool isAvailable();
 
     bool startApprox;
+    double startApproxTolerance;
+    int startApproxMaximumSteps;
+    double startApproxTime;
     bool allowApprox;
-    double appoxTolerance;
+    double approxTolerance;
     int approxMaximumSteps;
     double approxTime;
     double relativeTolerance;

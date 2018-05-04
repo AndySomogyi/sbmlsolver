@@ -372,6 +372,21 @@ public:
         STEADYSTATE_START_WITH_APPROX,
 
         /**
+         * Tolerance for steady state approximation routine at the start.
+         */
+        STEADYSTATE_START_WITH_APPROX_TOL,
+
+        /**
+         * Maximum number of steps that can be taken for steady state approximation routine at the start.
+         */
+        STEADYSTATE_START_WITH_APPROX_MAX_STEPS,
+
+        /**
+         * End time for steady state approximation routine at the start.
+         */
+        STEADYSTATE_START_WITH_APPROX_TIME,
+
+        /**
          * Flag for using steady state approximation routine when steady state solver fails.
          */
         STEADYSTATE_APPROX,

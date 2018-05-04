@@ -57,8 +57,11 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     nOpts(50),
 
     startApprox(Config::getBool(Config::STEADYSTATE_START_WITH_APPROX)),
+    startApproxTolerance(Config::getDouble(Config::STEADYSTATE_START_WITH_APPROX_TOL)),
+    startApproxMaximumSteps(Config::getInt(Config::STEADYSTATE_START_WITH_APPROX_MAX_STEPS)),
+    startApproxTime(Config::getDouble(Config::STEADYSTATE_START_WITH_APPROX_TIME)),
     allowApprox(Config::getBool(Config::STEADYSTATE_APPROX)),
-    appoxTolerance(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)),
+    approxTolerance(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)),
     approxMaximumSteps(Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS)),
     approxTime(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)),
     relativeTolerance(Config::getDouble(Config::STEADYSTATE_RELATIVE)),
@@ -374,8 +377,11 @@ string ErrorForStatus(int error)
 static const char* keys[] =
 {
         "startWithApprox"
+        "startApproxTolerance"
+        "startApproxMaximumSteps"
+        "startApproxTime"
         "allowApprox"
-        "appoxTolerance"
+        "approxTolerance"
         "approxMaximumSteps"
         "approxTime"
         "relativeTolerance"
@@ -385,8 +391,11 @@ static const char* keys[] =
         "linearity"
 
         "startWithApprox.description"
+        "startApproxTolerance.description"
+        "startApproxMaximumSteps.description"
+        "startApproxTime.description"
         "allowApprox.description"
-        "appoxTolerance.description"
+        "approxTolerance.description"
         "approxMaximumSteps.description"
         "approxTime.description"
         "relativeTolerance.description"
@@ -396,8 +405,11 @@ static const char* keys[] =
         "linearity.description"
 
         "startWithApprox.hint"
+        "startApproxTolerance.hint"
+        "startApproxMaximumSteps.hint"
+        "startApproxTime.hint"
         "allowApprox.hint"
-        "appoxTolerance.hint"
+        "approxTolerance.hint"
         "approxMaximumSteps.hint"
         "approxTime.hint"
         "relativeTolerance.hint"
@@ -440,8 +452,11 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("steadyState.description", "NLEQ description");
 
     dict.setItem("startWithApprox", Config::getBool(Config::STEADYSTATE_START_WITH_APPROX));
+    dict.setItem("startApproxTolerance", Config::getDouble(Config::STEADYSTATE_START_WITH_APPROX_TOL));
+    dict.setItem("startApproxMaximumSteps", Config::getInt(Config::STEADYSTATE_START_WITH_APPROX_MAX_STEPS));
+    dict.setItem("startApproxTime", Config::getDouble(Config::STEADYSTATE_START_WITH_APPROX_TIME));
     dict.setItem("allowApprox", Config::getBool(Config::STEADYSTATE_APPROX));
-    dict.setItem("appoxTolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
+    dict.setItem("approxTolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
     dict.setItem("approxMaximumSteps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
     dict.setItem("approxTime", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
     dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
@@ -451,8 +466,11 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
 
     dict.setItem("startWithApprox.description", "startWithApprox.description");
+    dict.setItem("startApproxTolerance.description", "startApproxTolerance.description");
+    dict.setItem("startApproxMaximumSteps.description", "startApproxMaximumSteps.description");
+    dict.setItem("startApproxTime.description", "startApproxTime.description");
     dict.setItem("allowApprox.description", "allowApprox.description");
-    dict.setItem("appoxTolerance.description", "appoxTolerance.description");
+    dict.setItem("approxTolerance.description", "approxTolerance.description");
     dict.setItem("approxMaximumSteps.description", "approxMaximumSteps.description");
     dict.setItem("approxTime.description", "approxTime.description");
     dict.setItem("relativeTolerance.description", "relativeTolerance.description");
@@ -462,8 +480,11 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("linearity.description", "linearity.description");
 
     dict.setItem("startWithApprox.hint", "startWithApprox.hint");
+    dict.setItem("startApproxTolerance.hint", "startApproxTolerance.hint");
+    dict.setItem("startApproxMaximumSteps.hint", "startApproxMaximumSteps.hint");
+    dict.setItem("startApproxTime.hint", "startApproxTime.hint");
     dict.setItem("allowApprox.hint", "allowApprox.hint");
-    dict.setItem("appoxTolerance.hint", "appoxTolerance.hint");
+    dict.setItem("approxTolerance.hint", "approxTolerance.hint");
     dict.setItem("approxMaximumSteps.hint", "approxMaximumSteps.hint");
     dict.setItem("approxTime.hint", "approxTime.hint");
     dict.setItem("relativeTolerance.hint", "relativeTolerance.hint");
