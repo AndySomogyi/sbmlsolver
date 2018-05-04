@@ -1131,7 +1131,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
             double temp_time = impl->steady_state_solver->getValueAsDouble("approx_time");
 
             impl->steady_state_solver->setValue("approx_tolerance", impl->steady_state_solver->getValueAsDouble("start_with_approx_tolerance"));
-            impl->steady_state_solver->setValue("approx_maximum_steps", impl->steady_state_solver->getValueAsDouble("start_with_approx_maximum_steps"));
+            impl->steady_state_solver->setValue("approx_maximum_steps", impl->steady_state_solver->getValueAsInt("start_with_approx_maximum_steps"));
             impl->steady_state_solver->setValue("approx_time", impl->steady_state_solver->getValueAsDouble("start_with_approx_time"));
 
             steadyStateApproximate();

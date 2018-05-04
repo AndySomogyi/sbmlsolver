@@ -67,8 +67,8 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     relativeTolerance(Config::getDouble(Config::STEADYSTATE_RELATIVE)),
     maxIterations(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)),
     minDamping(Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING)),
-    broyden(Config::getDouble(Config::STEADYSTATE_BROYDEN)),
-    linearity(Config::getDouble(Config::STEADYSTATE_LINEARITY))
+    broyden(Config::getInt(Config::STEADYSTATE_BROYDEN)),
+    linearity(Config::getInt(Config::STEADYSTATE_LINEARITY))
 {
     model = _model;
 
@@ -462,8 +462,8 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
     dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
     dict.setItem("minDamping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
-    dict.setItem("broyden", Config::getDouble(Config::STEADYSTATE_BROYDEN));
-    dict.setItem("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
+    dict.setItem("broyden", Config::getInt(Config::STEADYSTATE_BROYDEN));
+    dict.setItem("linearity", Config::getInt(Config::STEADYSTATE_LINEARITY));
 
     dict.setItem("startWithApprox.description", "startWithApprox.description");
     dict.setItem("startApproxTolerance.description", "startApproxTolerance.description");

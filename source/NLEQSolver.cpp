@@ -47,11 +47,11 @@ void NLEQSolver::loadConfigSettings()
     NLEQSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
     NLEQSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
     NLEQSolver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
-    NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
     NLEQSolver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
+    NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
     NLEQSolver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
-    NLEQSolver::setValue("broyden_method", Config::getDouble(Config::STEADYSTATE_BROYDEN));
-    NLEQSolver::setValue("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
+    NLEQSolver::setValue("broyden_method", Config::getInt(Config::STEADYSTATE_BROYDEN));
+    NLEQSolver::setValue("linearity", Config::getInt(Config::STEADYSTATE_LINEARITY));
 }
 
 void NLEQSolver::resetSettings()
@@ -67,9 +67,9 @@ void NLEQSolver::resetSettings()
     addSetting("approx_tolerance", 1e-12, "Approximation Tolerance", "Tolerance for steady state approximation routine (double).", "(double) Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used");
     addSetting("approx_maximum_steps", 10000, "Approximation Maximum Steps", "Maximum number of steps that can be taken for steady state approximation routine (int).", "(int) Takes priority over approx_time. Only used when steady state approximation routine is used");
     addSetting("approx_time", 10000, "Approximation Time", "End time for steady state approximation routine (double).", "(double) approx_maximum_steps takes priority. Only used when steady state approximation routine is used");
+    addSetting("relative_tolerance", 1e-16, "Relative Tolerance", "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
     addSetting("maximum_iterations", 100, "Maximum Iterations", "The maximum number of iterations the solver is allowed to use (int)", "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");
     addSetting("minimum_damping", 1e-4, "Minimum Damping", "The minimum damping factor (double).", "(double) Minumum damping factor used by the algorithm");
-    addSetting("relative_tolerance", 1e-16, "Relative Tolerance", "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
     addSetting("broyden_method", 0, "Broyden Method", "Switches on Broyden method (int)", "(int) Broyden method is a quasi-Newton approximation for rank-1 updates");
     addSetting("linearity", 3, "Problem Linearity", "Specifies linearity of the problem (int).", "(int) 1 is for linear problem and 4 is for extremly nonlinear problem");
     NLEQSolver::loadConfigSettings();
