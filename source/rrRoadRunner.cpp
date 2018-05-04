@@ -1122,7 +1122,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
     double ss;
 
     // Rough estimation
-    if (impl->steady_state_solver->getValueAsBool("initial_approx"))
+    if (impl->steady_state_solver->getValueAsBool("start_with_approx"))
     {
         try
         {

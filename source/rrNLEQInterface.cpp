@@ -56,8 +56,8 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     model(0),
     nOpts(50),
 
-    initialApprox(Config::getBool(Config::STEADYSTATE_INIT_APPROX)),
-    allowApprox(Config::getBool(Config::STEADYSTATE_APPROX_DEFAULT)),
+    startApprox(Config::getBool(Config::STEADYSTATE_START_WITH_APPROX)),
+    allowApprox(Config::getBool(Config::STEADYSTATE_APPROX)),
     appoxTolerance(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)),
     approxMaximumSteps(Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS)),
     approxTime(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)),
@@ -373,7 +373,7 @@ string ErrorForStatus(int error)
 // steady state solver options
 static const char* keys[] =
 {
-        "initialApprox"
+        "startWithApprox"
         "allowApprox"
         "appoxTolerance"
         "approxMaximumSteps"
@@ -384,7 +384,7 @@ static const char* keys[] =
         "broyden"
         "linearity"
 
-        "initialApprox.description"
+        "startWithApprox.description"
         "allowApprox.description"
         "appoxTolerance.description"
         "approxMaximumSteps.description"
@@ -395,7 +395,7 @@ static const char* keys[] =
         "broyden.description"
         "linearity.description"
 
-        "initialApprox.hint"
+        "startWithApprox.hint"
         "allowApprox.hint"
         "appoxTolerance.hint"
         "approxMaximumSteps.hint"
@@ -439,8 +439,8 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("steadyState.hint", "NLEQ hint");
     dict.setItem("steadyState.description", "NLEQ description");
 
-    dict.setItem("initialApprox", Config::getBool(Config::STEADYSTATE_INIT_APPROX));
-    dict.setItem("allowApprox", Config::getBool(Config::STEADYSTATE_APPROX_DEFAULT));
+    dict.setItem("startWithApprox", Config::getBool(Config::STEADYSTATE_START_WITH_APPROX));
+    dict.setItem("allowApprox", Config::getBool(Config::STEADYSTATE_APPROX));
     dict.setItem("appoxTolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
     dict.setItem("approxMaximumSteps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
     dict.setItem("approxTime", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
@@ -450,7 +450,7 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("broyden", Config::getDouble(Config::STEADYSTATE_BROYDEN));
     dict.setItem("linearity", Config::getDouble(Config::STEADYSTATE_LINEARITY));
 
-    dict.setItem("initialApprox.description", "initialApprox.description");
+    dict.setItem("startWithApprox.description", "startWithApprox.description");
     dict.setItem("allowApprox.description", "allowApprox.description");
     dict.setItem("appoxTolerance.description", "appoxTolerance.description");
     dict.setItem("approxMaximumSteps.description", "approxMaximumSteps.description");
@@ -461,7 +461,7 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     dict.setItem("broyden.description", "broyden.description");
     dict.setItem("linearity.description", "linearity.description");
 
-    dict.setItem("initialApprox.hint", "initialApprox.hint");
+    dict.setItem("startWithApprox.hint", "startWithApprox.hint");
     dict.setItem("allowApprox.hint", "allowApprox.hint");
     dict.setItem("appoxTolerance.hint", "appoxTolerance.hint");
     dict.setItem("approxMaximumSteps.hint", "approxMaximumSteps.hint");

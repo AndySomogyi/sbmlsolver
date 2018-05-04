@@ -82,7 +82,7 @@ private:
 
     bool isAvailable();
 
-    bool initialApprox;
+    bool startApprox;
     bool allowApprox;
     double appoxTolerance;
     int approxMaximumSteps;
