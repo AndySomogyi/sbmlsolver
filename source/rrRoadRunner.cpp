@@ -1142,7 +1142,8 @@ double RoadRunner::steadyState(const Dictionary* dict)
         }
         catch (const CoreException& e)
         {
-            throw;
+            Log(Logger::LOG_WARNING) << "Initial approximation routine failed.";
+            throw CoreException("Initial approximation routine failed. Try turning off start_with_approx flag to False; ", e.Message());
         }
     }
 
