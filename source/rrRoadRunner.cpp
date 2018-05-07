@@ -4336,9 +4336,9 @@ static void metabolicControlCheck(ExecutableModel *model)
         throw std::invalid_argument(string(e1) + "This model has rate rules");
     }
 
-    if (model->getNumEvents() > 0)
+    if (model->getNumEvents() > 0 !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
     {
-        throw std::invalid_argument(string(e1) + "This model has events");
+        throw std::invalid_argument(string(e1) + "This model has events. Set Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to true to override");
     }
 }
 
