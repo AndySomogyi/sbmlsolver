@@ -1108,6 +1108,8 @@ double RoadRunner::steadyState(const Dictionary* dict)
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
 
+    metabolicControlCheck(impl->model);
+
     //Get a std vector for the solver
 //     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
 //     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
@@ -4336,7 +4338,7 @@ static void metabolicControlCheck(ExecutableModel *model)
         throw std::invalid_argument(string(e1) + "This model has rate rules");
     }
 
-    if (model->getNumEvents() > 0 !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
+    if (model->getNumEvents() > 0 && !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
     {
         throw std::invalid_argument(string(e1) + "This model has events. Set Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to true to override");
     }

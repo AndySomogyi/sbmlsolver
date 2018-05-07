@@ -233,7 +233,7 @@ public:
         SIMULATEOPTIONS_INTEGRATOR,
 
         /**
-         * A useer specified initial time step. If this is <=  0, the integrator
+         * A user specified initial time step. If this is <=  0, the integrator
          * will attempt to determine a safe initial time stpe.
          *
          * Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
