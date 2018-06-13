@@ -82,10 +82,10 @@ private:
 
     bool isAvailable();
 
-    bool startApprox;
-    double startApproxTolerance;
-    int startApproxMaximumSteps;
-    double startApproxTime;
+    bool allowPreSim;
+    double preSimTolerance;
+    int preSimMaximumSteps;
+    double preSimTime;
     bool allowApprox;
     double approxTolerance;
     int approxMaximumSteps;

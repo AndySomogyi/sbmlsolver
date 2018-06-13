@@ -367,24 +367,24 @@ public:
         SIMULATEOPTIONS_COPY_RESULT,
 
         /**
-         * Flag for starting steady state analysis with approximation routine.
+         * Flag for starting steady state analysis with simulation.
          */
-        STEADYSTATE_START_WITH_APPROX,
+        STEADYSTATE_PRESIMULATION,
 
         /**
-         * Tolerance for steady state approximation routine at the start.
+         * Tolerance for presimulation before steady state analysis.
          */
-        STEADYSTATE_START_WITH_APPROX_TOL,
+        STEADYSTATE_PRESIMULATION_TOL,
 
         /**
-         * Maximum number of steps that can be taken for steady state approximation routine at the start.
+         * Maximum number of steps that can be taken for presimulation before steady state analysis.
          */
-        STEADYSTATE_START_WITH_APPROX_MAX_STEPS,
+        STEADYSTATE_PRESIMULATION_MAX_STEPS,
 
         /**
-         * End time for steady state approximation routine at the start.
+         * End time for presimulation steady state analysis.
          */
-        STEADYSTATE_START_WITH_APPROX_TIME,
+        STEADYSTATE_PRESIMULATION_TIME,
 
         /**
          * Flag for using steady state approximation routine when steady state solver fails.

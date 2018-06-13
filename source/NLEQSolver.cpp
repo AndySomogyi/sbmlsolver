@@ -39,10 +39,10 @@ void NLEQSolver::loadConfigSettings()
     SteadyStateSolver::loadConfigSettings();
     // Load settings specific to solver integrator
 
-    NLEQSolver::setValue("start_with_approx", Config::getBool(Config::STEADYSTATE_START_WITH_APPROX));
-    NLEQSolver::setValue("start_with_approx_tolerance", Config::getDouble(Config::STEADYSTATE_START_WITH_APPROX_TOL));
-    NLEQSolver::setValue("start_with_approx_maximum_steps", Config::getInt(Config::STEADYSTATE_START_WITH_APPROX_MAX_STEPS));
-    NLEQSolver::setValue("start_with_approx_time", Config::getDouble(Config::STEADYSTATE_START_WITH_APPROX_TIME));
+    NLEQSolver::setValue("allow_presimulation", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
+    NLEQSolver::setValue("presimulation_tolerance", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TOL));
+    NLEQSolver::setValue("presimulation_maximum_steps", Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
+    NLEQSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
     NLEQSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
     NLEQSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
     NLEQSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
@@ -59,10 +59,10 @@ void NLEQSolver::resetSettings()
     Solver::resetSettings();
 
     // Set default settings.
-    addSetting("start_with_approx", true, "Start with Approximation", "Flag for starting steady state analysis with approximation routine (bool).", "(bool) This flag does not affect the usage of approximation routine when the default steaty state solver fails");
-    addSetting("start_with_approx_tolerance", 1e-6, "Start with Approximation Tolerance", "Tolerance for steady state approximation routine at the start (double).", "(double) Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used to start");
-    addSetting("start_with_approx_maximum_steps", 10000, "Start with Approximation Maximum Steps", "Maximum number of steps that can be taken for steady state approximation routine at the start (int).", "(int) Takes priority over start_with_approx_time. Only used when steady state approximation routine is used to start");
-    addSetting("start_with_approx_time", 10000, "Start with Approximation Time", "End time for steady state approximation routine at the start (double).", "(double) start_with_approx_maximum_steps takes priority. Only used when steady state approximation routine is used to start");
+    addSetting("allow_presimulation", false, "Allow Presimulation", "Flag for starting steady state analysis with simulation (bool).", "(bool) This flag does not affect the usage of approximation routine when the default steaty state solver fails");
+    addSetting("presimulation_tolerance", 1e-6, "Presimulation Tolerance", "Tolerance for presimulation before steady state analysis (double).", "(double) Absolute tolerance used by presimulation routine. Only used when allow_presimulation is True");
+    addSetting("presimulation_maximum_steps", 10000, "Presimulation Maximum Steps", "Maximum number of steps that can be taken for presimulation before steady state analysis (int).", "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");
+    addSetting("presimulation_time", 10000, "Presimulation Time", "End time for presimulation steady state analysis (double).", "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
     addSetting("allow_approx", true, "Allow Approximiation", "Flag for using steady state approximation routine when steady state solver fails (bool).", "(bool) Approximation routine will run only when the default solver fails to fine a solution. This flag does not affect usage of approximation routine for pre-simulation");
     addSetting("approx_tolerance", 1e-12, "Approximation Tolerance", "Tolerance for steady state approximation routine (double).", "(double) Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used");
     addSetting("approx_maximum_steps", 10000, "Approximation Maximum Steps", "Maximum number of steps that can be taken for steady state approximation routine (int).", "(int) Takes priority over approx_time. Only used when steady state approximation routine is used");

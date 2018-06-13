@@ -1122,7 +1122,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
     double ss;
 
     // Rough estimation
-    if (impl->steady_state_solver->getValueAsBool("start_with_approx"))
+    if (impl->steady_state_solver->getValueAsBool("allow_presimulation"))
     {
         try
         {
@@ -1130,9 +1130,9 @@ double RoadRunner::steadyState(const Dictionary* dict)
             int temp_iter = impl->steady_state_solver->getValueAsInt("approx_maximum_steps");
             double temp_time = impl->steady_state_solver->getValueAsDouble("approx_time");
 
-            impl->steady_state_solver->setValue("approx_tolerance", impl->steady_state_solver->getValueAsDouble("start_with_approx_tolerance"));
-            impl->steady_state_solver->setValue("approx_maximum_steps", impl->steady_state_solver->getValueAsInt("start_with_approx_maximum_steps"));
-            impl->steady_state_solver->setValue("approx_time", impl->steady_state_solver->getValueAsDouble("start_with_approx_time"));
+            impl->steady_state_solver->setValue("approx_tolerance", impl->steady_state_solver->getValueAsDouble("presimulation_tolerance"));
+            impl->steady_state_solver->setValue("approx_maximum_steps", impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps"));
+            impl->steady_state_solver->setValue("approx_time", impl->steady_state_solver->getValueAsDouble("presimulation_time"));
 
             steadyStateApproximate();
 
@@ -1143,7 +1143,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
         catch (const CoreException& e)
         {
             Log(Logger::LOG_WARNING) << "Initial approximation routine failed.";
-            throw CoreException("Initial approximation routine failed. Try turning off start_with_approx flag to False; ", e.Message());
+            throw CoreException("Initial approximation routine failed. Try turning off allow_presimulation flag to False; ", e.Message());
         }
     }
 
