@@ -177,6 +177,8 @@ namespace rr
 
         virtual void setValue(std::string key, const Variant& value);
 
+		virtual void setValues(const std::vector<std::string> keys, const std::vector<Variant> values);
+
         /**
         * @author WBC
         * @brief Gets the hint associated with a given key
