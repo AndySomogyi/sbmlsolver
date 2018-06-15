@@ -152,7 +152,7 @@ namespace rr
         settings[key] = value;
     }
 
-	void Solver::setValues(std::vector<std::string> keys, const std::vector<Variant> values)
+	void Solver::setValues(const std::vector<std::string>& keys, const std::vector<Variant>& values)
 	{
 		auto keyit = keys.begin();
 		auto valueit = values.begin();
