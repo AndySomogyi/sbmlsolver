@@ -142,7 +142,6 @@
 
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
-%template(StringList) std::list<std::string>;
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
@@ -300,36 +299,6 @@
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
-
-%typemap(in) const rr::Variant* (rr::Variant temp) {
-
-    try {
-        temp = Variant_from_py($input);
-        $1 = &temp;
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
-
-%typemap(typecheck) const rr::Variant* = PyObject*;
-
-%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
-
-%template(VariantVector) std::vector<rr::Variant>;
-
-// Not necessary since everything has already been declared naturalvar
-//%naturalvar std::vector<rr::Variant>;
-// Looks like this doesn't hurt or help
-%apply std::vector<rr::Variant> {vector<rr::Variant>, vector<Variant>, std::vector<Variant>};
-
-// Based on interface from https://github.com/mbedded-ninja/BlogAssets/blob/master/Programming/Swig/CustomTypemapExample/example.i
-//%typemap(in) std::vector<rr::Variant> {  
-//  auto temp = std::vector<rr::Variant>();
-//  for(int i = 0; i < PyList_Size($input); i++) {
-//    temp.push_back(Variant_from_py(PyList_GetItem($input, i)));
-//  }
-//  $1 = temp;  
-//}
 
 
 /**

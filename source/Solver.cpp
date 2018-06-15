@@ -152,16 +152,6 @@ namespace rr
         settings[key] = value;
     }
 
-	void Solver::setValues(const std::vector<std::string>& keys, const std::vector<Variant>& values)
-	{
-		auto keyit = keys.begin();
-		auto valueit = values.begin();
-		while (keyit == keys.end() && valueit == values.end()) {
-			setValue(*keyit, *valueit);
-		}
-	}
-
-
     const std::string& Solver::getDisplayName(std::string key) const
     {
         DisplayNameMap::const_iterator option = Solver::display_names_.find(key);
