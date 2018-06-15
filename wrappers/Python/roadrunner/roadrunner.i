@@ -142,6 +142,7 @@
 
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
+%template(StringList) std::list<std::string>;
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
