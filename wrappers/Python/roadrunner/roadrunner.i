@@ -301,7 +301,7 @@
     }
 }
 
-%typemap(in) const rr::Variant (rr::Variant temp) {
+%typemap(in) const rr::Variant* (rr::Variant temp) {
 
     try {
         temp = Variant_from_py($input);
@@ -310,6 +310,8 @@
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
+
+%typemap(typecheck) const rr::Variant* = PyObject*;
 
 %apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
@@ -1029,6 +1031,10 @@ namespace std { class ostream{}; }
                return complex(eig_r, eig_i)
             else:
                 return _roadrunner.RoadRunner__getValue(self, *args)
+
+        def setValues(self, keys, values):
+            for key, val in zip(keys, values):
+                _roadrunner.Solver_setValue(self, key, val)
 
         def getModel(self):
             return self._getModel()
