@@ -300,6 +300,7 @@
     }
 }
 
+%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
 /**
  * input map, convert an incomming object to a roadrunner Dictionary*
