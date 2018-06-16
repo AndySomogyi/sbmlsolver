@@ -2622,6 +2622,10 @@ namespace std { class ostream{}; }
 
         def setSetting(self, k, v):
             return self.setValue(k, v)
+
+        def setValues(self, keys, values):
+            for key, val in zip(keys, values):
+                _roadrunner.Solver_setValue(self, key, val)
     %}
 }
 
