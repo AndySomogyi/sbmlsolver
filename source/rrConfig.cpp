@@ -137,7 +137,8 @@ static Variant values[] =  {
     Variant(true),      // LLVM_SYMBOL_CACHE
     Variant(true),      // OPTIMIZE_REACTION_RATE_SELECTION
     Variant(true),     // LOADSBMLOPTIONS_PERMISSIVE
-    Variant(20000)      // MAX_OUTPUT_ROWS
+    Variant(20000),      // MAX_OUTPUT_ROWS
+    Variant(false)      // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
     // add space after develop keys to clean up merging
 
 
@@ -249,6 +250,7 @@ static void getKeyNames(StringIntMap& keys)
     keys["OPTIMIZE_REACTION_RATE_SELECTION"] = rr::Config::OPTIMIZE_REACTION_RATE_SELECTION;
     keys["LOADSBMLOPTIONS_PERMISSIVE"] = rr::Config::LOADSBMLOPTIONS_PERMISSIVE;
     keys["MAX_OUTPUT_ROWS"] = rr::Config::MAX_OUTPUT_ROWS;
+    keys["ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS"] = rr::Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
 
 
 
@@ -587,6 +589,8 @@ Config::Keys Config::stringToKey(const std::string& key) {
         return Config::LOADSBMLOPTIONS_PERMISSIVE;
     else if (key == "MAX_OUTPUT_ROWS")
         return Config::MAX_OUTPUT_ROWS;
+    else if (key == "ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS")
+        return Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
     else
         throw std::runtime_error("No such config key: '" + key + "'");
 }

@@ -233,7 +233,7 @@ public:
         SIMULATEOPTIONS_INTEGRATOR,
 
         /**
-         * A useer specified initial time step. If this is <=  0, the integrator
+         * A user specified initial time step. If this is <=  0, the integrator
          * will attempt to determine a safe initial time stpe.
          *
          * Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
@@ -513,6 +513,18 @@ public:
          * of rows are reached.
          */
         MAX_OUTPUT_ROWS,
+
+
+        /**
+         * Enable or disable steady state calculations when a model contains events
+         *
+	     * If true, steady state calculations will be carried out irrespective of
+	     * whether events are present or not.
+	     *
+	     * If false, steady state calculations will not be carried out in the
+	     * presence of events.
+         */
+        ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS,
 
 
         // add lots of space so not to conflict with other branches.
