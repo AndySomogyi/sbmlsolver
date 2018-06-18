@@ -1005,7 +1005,7 @@ namespace std { class ostream{}; }
 
         def setValues(self, keys, values):
             for key, val in zip(keys, values):
-                _roadrunner.Solver_setValue(self.getIntegrator(), key, val)
+                _roadrunner.RoadRunner_setValue(self, key, val)
 
         def getModel(self):
             return self._getModel()
