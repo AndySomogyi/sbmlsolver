@@ -62,8 +62,6 @@ private:
      */
     llvm::Value *applyArithmeticCodeGen(const libsbml::ASTNode *ast);
 
-    llvm::Value *minmaxCodeGen(const libsbml::ASTNode *ast);
-
     llvm::Value *applyRelationalCodeGen(const libsbml::ASTNode *ast);
 
     // JKM: NOTE: Not SBML-compliant, needed for idiosyncrasies in some legacy JDesigner models
