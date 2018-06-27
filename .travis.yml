@@ -28,10 +28,8 @@ before_install:
   # install roadrunner dependencies via apt:
   - mkdir ~/debs
   - cd ~/debs
-  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/c29ca4f3/libroadrunner-deps_2.0.4_amd64.deb
-  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/c29ca4f3/libroadrunner-deps-dev_2.0.4_amd64.deb
-  - sudo dpkg -i libroadrunner-deps_2.0.4_amd64.deb
-  - sudo dpkg -i libroadrunner-deps-dev_2.0.4_amd64.deb
+  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/c29ca4f3/libroadrunner-deps_1.5_amd64.deb
+  - sudo dpkg -i libroadrunner-deps_1.5_amd64.deb
 
   - mkdir ~/install
 
