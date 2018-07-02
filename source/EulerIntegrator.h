@@ -139,8 +139,30 @@ namespace rr
             {
                 listener->onTimeStep(this, model, t0 + h);
             }
+
+			// events
+			bool triggered = false;
+
+			model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+			for (int k_ = 0; k_<eventStatus.size(); ++k_) {
+				if (eventStatus.at(k_))
+					triggered = true;
+			}
+
+			if (triggered) {
+				applyEvents(t0, previousEventStatus);
+			}
+
+			if (eventStatus.size())
+				memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size() * sizeof(unsigned char));
+
             return t0 + h;
         }
+
+		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus)
+		{
+			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBuffer2, stateBuffer2);
+		}
 
         /**
         * This simple integrator has nothing to reset, so do nothing here
@@ -385,6 +407,9 @@ namespace rr
         * size of state vector
         */
         int stateVectorSize;
+
+		std::vector<unsigned char> eventStatus;
+		std::vector<unsigned char> previousEventStatus;
 
         /**
         * Clients may register a listener to listen for time steps, or
