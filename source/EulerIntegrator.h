@@ -270,7 +270,9 @@ namespace rr
             }
 
             if(key == "exampleParameter2") {
+				// Ahu: Why is this cast here, and is this a static or dynamic cast?
                 exampleParameter2 = (string)value;
+				return;
             }
 
             // they did not give a valid key, so throw an exception.
