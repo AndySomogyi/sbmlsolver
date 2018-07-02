@@ -11,6 +11,8 @@
 #include "Integrator.h"
 #include "rrExecutableModel.h"
 #include "rrRoadRunnerOptions.h"
+
+#include <assert.h>
 #include <string>
 #include <stdexcept>
 #include <sstream>
@@ -108,34 +110,34 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-            if(model) {
-                // evaluate and copy the rate of change of the state vector
-                // rate into the local buffer. If the 2nd argument is NULL,
-                // the current model state is used to evaluate the
-                // state vector rate.
-                model->getStateVectorRate(t0, NULL, rateBuffer);
+			assert(model != nullptr);
 
-                // copy the current state vector into a local buffer
-                model->getStateVector(stateBuffer1);
+            // evaluate and copy the rate of change of the state vector
+            // rate into the local buffer. If the 2nd argument is NULL,
+            // the current model state is used to evaluate the
+            // state vector rate.
+            model->getStateVectorRate(t0, NULL, rateBuffer);
 
-                // perform the Euler integration step, i.e.
-                // y_{n+1} = y_{n} + h * y'_{n}
-                for (int i = 0; i < stateVectorSize; ++i) {
-                    stateBuffer2[i] = stateBuffer1[i] + h * rateBuffer[i];
-                }
+            // copy the current state vector into a local buffer
+            model->getStateVector(stateBuffer1);
 
-                // set the model state to the newly calculated state
-                model->setStateVector(stateBuffer2);
+            // perform the Euler integration step, i.e.
+            // y_{n+1} = y_{n} + h * y'_{n}
+            for (int i = 0; i < stateVectorSize; ++i) {
+                stateBuffer2[i] = stateBuffer1[i] + h * rateBuffer[i];
+            }
 
-                // update the model time to the new time
-                model->setTime(t0 + h);
+            // set the model state to the newly calculated state
+            model->setStateVector(stateBuffer2);
 
-                // if we have a client, notify them that we have taken
-                // a time step
-                if (listener)
-                {
-                    listener->onTimeStep(this, model, t0 + h);
-                }
+            // update the model time to the new time
+            model->setTime(t0 + h);
+
+            // if we have a client, notify them that we have taken
+            // a time step
+            if (listener)
+            {
+                listener->onTimeStep(this, model, t0 + h);
             }
             return t0 + h;
         }
