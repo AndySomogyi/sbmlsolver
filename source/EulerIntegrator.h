@@ -77,7 +77,6 @@ namespace rr
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
-			std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
@@ -151,7 +150,6 @@ namespace rr
 			}
 
 			if (triggered) {
-				std::cerr << "An event was triggered" << std::endl;
 				applyEvents(t0, previousEventStatus);
 			}
 
