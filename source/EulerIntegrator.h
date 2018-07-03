@@ -110,7 +110,7 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-			assert(model != nullptr);
+			if (model == nullptr) return 0;
 
             // evaluate and copy the rate of change of the state vector
             // rate into the local buffer. If the 2nd argument is NULL,
@@ -135,8 +135,7 @@ namespace rr
 
             // if we have a client, notify them that we have taken
             // a time step
-            if (listener)
-            {
+            if (listener) {
                 listener->onTimeStep(this, model, t0 + h);
             }
 
@@ -153,14 +152,14 @@ namespace rr
 				applyEvents(t0, previousEventStatus);
 			}
 
-			if (eventStatus.size())
+			if (eventStatus.size()) {
 				memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size() * sizeof(unsigned char));
+			}
 
             return t0 + h;
         }
 
-		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus)
-		{
+		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
 			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBuffer2, stateBuffer2);
 		}
 
@@ -258,7 +257,6 @@ namespace rr
          * @brief Get the hint for this integrator
          */
         static std::string getEulerHint() {
-//             return "An elementary (my dear Watson) Euler integrator";
             return "A simple Euler integrator";
         }
 
@@ -266,10 +264,8 @@ namespace rr
          * @author JKM
          * @brief Reset all integrator settings to their respective default values
          */
-        void resetSettings()
-        {
+        void resetSettings() {
             Solver::resetSettings();
-
             // Euler integrator has no settings
         }
 
