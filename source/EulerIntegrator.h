@@ -12,11 +12,9 @@
 #include "rrExecutableModel.h"
 #include "rrRoadRunnerOptions.h"
 
-#include <assert.h>
 #include <string>
 #include <stdexcept>
 #include <sstream>
-#include <iostream>
 
 namespace rr
 {
@@ -150,6 +148,7 @@ namespace rr
 			}
 
 			if (triggered) {
+				// applyEvents takes the list of events which were previously triggered
 				applyEvents(t0, previousEventStatus);
 			}
 
@@ -161,7 +160,9 @@ namespace rr
         }
 
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
+			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
 			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBuffer2, stateBuffer2);
+			// The previous statement loaded the result into the final stateBuffer2, so now update the mode's state vector
 			model->setStateVector(stateBuffer2);
 		}
 
