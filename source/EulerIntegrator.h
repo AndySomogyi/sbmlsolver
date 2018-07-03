@@ -81,12 +81,12 @@ namespace rr
                 // the size of teh state vector.
                 stateVectorSize = model->getStateVector(NULL);
                 rateBuffer = new double[stateVectorSize];
-                stateBuffer1 = new double[stateVectorSize];
-                stateBuffer2 = new double[stateVectorSize];
+                stateBufferBegin = new double[stateVectorSize];
+                stateBufferEnd = new double[stateVectorSize];
             } else {
                 rateBuffer = NULL;
-                stateBuffer1 = NULL;
-                stateBuffer2 = NULL;
+                stateBufferBegin = NULL;
+                stateBufferEnd = NULL;
             }
         }
 
@@ -95,8 +95,8 @@ namespace rr
         */
         virtual ~EulerIntegrator() {
             delete[] rateBuffer;
-            delete[] stateBuffer1;
-            delete[] stateBuffer2;
+            delete[] stateBufferBegin;
+            delete[] stateBufferEnd;
         };
 
         /**
@@ -118,16 +118,16 @@ namespace rr
             model->getStateVectorRate(t0, NULL, rateBuffer);
 
             // copy the current state vector into a local buffer
-            model->getStateVector(stateBuffer1);
+            model->getStateVector(stateBufferBegin);
 
             // perform the Euler integration step, i.e.
             // y_{n+1} = y_{n} + h * y'_{n}
             for (int i = 0; i < stateVectorSize; ++i) {
-                stateBuffer2[i] = stateBuffer1[i] + h * rateBuffer[i];
+                stateBufferEnd[i] = stateBufferBegin[i] + h * rateBuffer[i];
             }
 
             // set the model state to the newly calculated state
-            model->setStateVector(stateBuffer2);
+            model->setStateVector(stateBufferEnd);
 
             // update the model time to the new time
             model->setTime(t0 + h);
@@ -161,9 +161,9 @@ namespace rr
 
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
 			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
-			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBuffer2, stateBuffer2);
-			// The previous statement loaded the result into the final stateBuffer2, so now update the mode's state vector
-			model->setStateVector(stateBuffer2);
+			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, stateBufferEnd);
+			// The previous statement loaded the result into the final stateBufferEnd, so now update the mode's state vector
+			model->setStateVector(stateBufferEnd);
 		}
 
         /**
@@ -400,7 +400,7 @@ namespace rr
         * two buffers to store the state vector rate, and
         * new state vector
         */
-        double *rateBuffer, *stateBuffer1, *stateBuffer2;
+        double *rateBuffer, *stateBufferBegin, *stateBufferEnd;
 
         /**
         * size of state vector
