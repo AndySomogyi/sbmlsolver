@@ -35,7 +35,7 @@ namespace rr
         IntegratorFactory::getInstance().registerIntegrator(new GillespieIntegratorRegistrar());
         IntegratorFactory::getInstance().registerIntegrator(new RK4IntegratorRegistrar());
         IntegratorFactory::getInstance().registerIntegrator(new RK45IntegratorRegistrar());
-//         IntegratorFactory::getInstance().registerIntegrator(new EulerIntegratorRegistrar());
+        IntegratorFactory::getInstance().registerIntegrator(new EulerIntegratorRegistrar());
     }
 
     void IntegratorRegistrationMgr::Register() {
