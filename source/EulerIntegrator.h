@@ -72,7 +72,7 @@ namespace rr
         * @param o: a reference to a SimulatOptions object where the configuration
         * parameters will be read from.
         */
-        EulerIntegrator(ExecutableModel *m) {
+        EulerIntegrator(ExecutableModel *m) : eventStatus(std::vector<unsigned char>(m->getEventTriggers(0,0,0),false)){
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
