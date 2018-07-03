@@ -16,6 +16,7 @@
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
 namespace rr
 {
@@ -72,10 +73,11 @@ namespace rr
         * @param o: a reference to a SimulatOptions object where the configuration
         * parameters will be read from.
         */
-        EulerIntegrator(ExecutableModel *m) : eventStatus(std::vector<unsigned char>(m->getEventTriggers(0,0,0),false)){
+        EulerIntegrator(ExecutableModel *m) : eventStatus(std::vector<unsigned char>(m->getEventTriggers(0,0,0),false)) {
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
+			std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
@@ -149,11 +151,12 @@ namespace rr
 			}
 
 			if (triggered) {
+				std::cerr << "An event was triggered" << std::endl;
 				applyEvents(t0, previousEventStatus);
 			}
 
 			if (eventStatus.size()) {
-				memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size() * sizeof(unsigned char));
+				previousEventStatus = eventStatus;
 			}
 
             return t0 + h;
@@ -161,6 +164,7 @@ namespace rr
 
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
 			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBuffer2, stateBuffer2);
+			model->setStateVector(stateBuffer2);
 		}
 
         /**
