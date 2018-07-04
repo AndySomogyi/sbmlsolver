@@ -109,7 +109,7 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-			if (model == nullptr) return 0;
+			if (model == (rr::ExecutableModel*)NULL) return 0;
 
             // evaluate and copy the rate of change of the state vector
             // rate into the local buffer. If the 2nd argument is NULL,
