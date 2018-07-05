@@ -1938,6 +1938,7 @@ int LLVMExecutableModel::applyEvents(double timeEnd,
         while(applyEvents(p1, p2))
         {
             assignedEvents++;
+			// Update previous events
             std::swap(p1, p2);
         }
     }

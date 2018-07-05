@@ -170,9 +170,10 @@ namespace rr
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
 			std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
 			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
-			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, stateBufferEnd);
+			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
+			// AHu: jk I think that model->applyEvents does update the mode's state vector
 			// The previous statement loaded the result into the final stateBufferEnd, so now update the model's state vector
-			model->setStateVector(stateBufferEnd);
+			//model->setStateVector(stateBufferEnd);
 		}
 
         /**
