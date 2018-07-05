@@ -15,6 +15,7 @@
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
 namespace rr
 {
@@ -71,10 +72,13 @@ namespace rr
         * @param o: a reference to a SimulatOptions object where the configuration
         * parameters will be read from.
         */
-        EulerIntegrator(ExecutableModel *m) : eventStatus(std::vector<unsigned char>(m->getEventTriggers(0,0,0),false)) {
+        EulerIntegrator(ExecutableModel *m)
+			:	eventStatus(std::vector<unsigned char>(m->getEventTriggers(0,0,0),false)),
+				previousEventStatus(std::vector<unsigned char>(m->getEventTriggers(0, 0, 0), false)) {
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
+			std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
@@ -143,26 +147,31 @@ namespace rr
 
 			model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
 			for (int k_ = 0; k_<eventStatus.size(); ++k_) {
-				if (eventStatus.at(k_))
+				if (eventStatus.at(k_)) {
 					triggered = true;
+					std::cerr << "Triggered" << std::endl;
+				}
 			}
 
 			if (triggered) {
 				// applyEvents takes the list of events which were previously triggered
+				std::cerr << "An event was triggered at " << t0 << std::endl;
 				applyEvents(t0, previousEventStatus);
 			}
 
-			if (eventStatus.size()) {
+			// I believe that this should be commented out
+			/*if (eventStatus.size()) {
 				previousEventStatus = eventStatus;
-			}
+			}*/
 
             return t0 + h;
         }
 
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
+			std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
 			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
 			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, stateBufferEnd);
-			// The previous statement loaded the result into the final stateBufferEnd, so now update the mode's state vector
+			// The previous statement loaded the result into the final stateBufferEnd, so now update the model's state vector
 			model->setStateVector(stateBufferEnd);
 		}
 
