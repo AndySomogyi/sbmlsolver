@@ -78,6 +78,7 @@ namespace rr
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
+			std::cout << "Warning: Euler integrator is inaccurate" << std::endl;
 			//std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
