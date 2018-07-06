@@ -159,10 +159,10 @@ namespace rr
 				applyEvents(t0, previousEventStatus);
 			}
 
-			// I believe that this should be commented out
-			/*if (eventStatus.size()) {
-				previousEventStatus = eventStatus;
-			}*/
+			if (eventStatus.size()) {
+				previousEventStatus = eventStatusPadding;
+				eventStatusPadding = eventStatus;
+			}
 
             return t0 + h;
         }
@@ -418,6 +418,7 @@ namespace rr
         int stateVectorSize;
 
 		std::vector<unsigned char> eventStatus;
+		std::vector<unsigned char> eventStatusPadding;
 		std::vector<unsigned char> previousEventStatus;
 
         /**
