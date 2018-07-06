@@ -2009,8 +2009,8 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
 
         Log(Logger::LOG_DEBUG) << "event " << i << ", previous state: " <<
                 (bool)prevEventState[i] << ", current state: " << (bool)c;
-		std::cerr << "event " << i << ", previous state: " <<
-			(bool)prevEventState[i] << ", current state: " << (bool)c << std::endl;
+		/*std::cerr << "event " << i << ", previous state: " <<
+			(bool)prevEventState[i] << ", current state: " << (bool)c << std::endl;*/
 
         // transition from non-triggered to triggered
         if (c && !prevEventState[i])

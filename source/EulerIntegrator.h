@@ -78,7 +78,7 @@ namespace rr
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
-			std::cerr << "Number of event triggers: " << m->getNumEvents() << std::endl;
+			//std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
@@ -150,13 +150,13 @@ namespace rr
 			for (int k_ = 0; k_<eventStatus.size(); ++k_) {
 				if (eventStatus.at(k_)) {
 					triggered = true;
-					std::cerr << "Triggered" << std::endl;
+					//std::cerr << "Triggered" << std::endl;
 				}
 			}
 
 			if (triggered) {
 				// applyEvents takes the list of events which were previously triggered
-				std::cerr << "An event was triggered at " << timeEnd << std::endl;
+				//std::cerr << "An event was triggered at " << t0 << std::endl;
 				applyEvents(timeEnd, previousEventStatus);
 			}
 
@@ -168,7 +168,7 @@ namespace rr
         }
 
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
-			std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
+			//std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
 			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
 			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
 			// AHu: jk I think that model->applyEvents does update the mode's state vector
