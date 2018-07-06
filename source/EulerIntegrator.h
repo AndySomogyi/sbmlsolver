@@ -74,8 +74,7 @@ namespace rr
         */
         EulerIntegrator(ExecutableModel *m)
 			:	eventStatus(std::vector<unsigned char>(m->getNumEvents(),false)),
-				previousEventStatus(std::vector<unsigned char>(m->getNumEvents(), false)),
-				eventStatusPadding(std::vector<unsigned char>(m->getNumEvents(), false)) {
+				previousEventStatus(std::vector<unsigned char>(m->getNumEvents(), false)) {
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
@@ -135,12 +134,13 @@ namespace rr
             model->setStateVector(stateBufferEnd);
 
             // update the model time to the new time
-            model->setTime(t0 + h);
+			double timeEnd = t0 + h;
+            model->setTime(timeEnd);
 
             // if we have a client, notify them that we have taken
             // a time step
             if (listener) {
-                listener->onTimeStep(this, model, t0 + h);
+                listener->onTimeStep(this, model, timeEnd);
             }
 
 			// events
@@ -156,16 +156,15 @@ namespace rr
 
 			if (triggered) {
 				// applyEvents takes the list of events which were previously triggered
-				std::cerr << "An event was triggered at " << t0 << std::endl;
-				applyEvents(t0, previousEventStatus);
+				std::cerr << "An event was triggered at " << timeEnd << std::endl;
+				applyEvents(timeEnd, previousEventStatus);
 			}
 
 			if (eventStatus.size()) {
-				previousEventStatus = eventStatusPadding;
-				eventStatusPadding = eventStatus;
+				previousEventStatus = eventStatus;
 			}
 
-            return t0 + h;
+            return timeEnd;
         }
 
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
@@ -419,7 +418,6 @@ namespace rr
         int stateVectorSize;
 
 		std::vector<unsigned char> eventStatus;
-		std::vector<unsigned char> eventStatusPadding;
 		std::vector<unsigned char> previousEventStatus;
 
         /**
