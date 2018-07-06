@@ -344,21 +344,21 @@ namespace rr
 			model->setTime(t);
 			model->setStateVector(stateVector);
 
-      // events
-      bool triggered = false;
+			// events
+			bool triggered = false;
 
-      model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
-      for(int k_=0; k_<eventStatus.size(); ++k_) {
-        if (eventStatus.at(k_))
-          triggered = true;
-      }
+			model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+			for(int k_=0; k_<eventStatus.size(); ++k_) {
+				if (eventStatus.at(k_))
+					triggered = true;
+			}
 
-      if (triggered) {
-        applyEvents(t, previousEventStatus);
-      }
+			if (triggered) {
+				applyEvents(t, previousEventStatus);
+			}
 
-      if (eventStatus.size())
-        memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size()*sizeof(unsigned char));
+			if (eventStatus.size())
+				memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size()*sizeof(unsigned char));
 
 
 			if (singleStep)

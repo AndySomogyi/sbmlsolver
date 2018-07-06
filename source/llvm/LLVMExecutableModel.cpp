@@ -1924,6 +1924,7 @@ int LLVMExecutableModel::applyEvents(double timeEnd,
     if(modelData->numEvents) {
         // copy event status into local vars, these
         // are modified via applyEvents
+		// Uses pointers as iterators
         vector<unsigned char> prevEventState(previousEventStatus,
                 previousEventStatus + modelData->numEvents);
 
@@ -1937,6 +1938,7 @@ int LLVMExecutableModel::applyEvents(double timeEnd,
         while(applyEvents(p1, p2))
         {
             assignedEvents++;
+			// Update previous events
             std::swap(p1, p2);
         }
     }
@@ -2007,6 +2009,8 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
 
         Log(Logger::LOG_DEBUG) << "event " << i << ", previous state: " <<
                 (bool)prevEventState[i] << ", current state: " << (bool)c;
+		/*std::cerr << "event " << i << ", previous state: " <<
+			(bool)prevEventState[i] << ", current state: " << (bool)c << std::endl;*/
 
         // transition from non-triggered to triggered
         if (c && !prevEventState[i])

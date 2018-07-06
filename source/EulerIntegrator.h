@@ -11,9 +11,11 @@
 #include "Integrator.h"
 #include "rrExecutableModel.h"
 #include "rrRoadRunnerOptions.h"
+
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
 namespace rr
 {
@@ -70,22 +72,26 @@ namespace rr
         * @param o: a reference to a SimulatOptions object where the configuration
         * parameters will be read from.
         */
-        EulerIntegrator(ExecutableModel *m) {
+        EulerIntegrator(ExecutableModel *m)
+			:	eventStatus(std::vector<unsigned char>(m->getNumEvents(),false)),
+				previousEventStatus(std::vector<unsigned char>(m->getNumEvents(), false)) {
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
+			std::cout << "Warning: Euler integrator is inaccurate" << std::endl;
+			//std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
                 // the size of teh state vector.
                 stateVectorSize = model->getStateVector(NULL);
                 rateBuffer = new double[stateVectorSize];
-                stateBuffer1 = new double[stateVectorSize];
-                stateBuffer2 = new double[stateVectorSize];
+                stateBufferBegin = new double[stateVectorSize];
+                stateBufferEnd = new double[stateVectorSize];
             } else {
                 rateBuffer = NULL;
-                stateBuffer1 = NULL;
-                stateBuffer2 = NULL;
+                stateBufferBegin = NULL;
+                stateBufferEnd = NULL;
             }
         }
 
@@ -94,8 +100,8 @@ namespace rr
         */
         virtual ~EulerIntegrator() {
             delete[] rateBuffer;
-            delete[] stateBuffer1;
-            delete[] stateBuffer2;
+            delete[] stateBufferBegin;
+            delete[] stateBufferEnd;
         };
 
         /**
@@ -108,37 +114,68 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-            if(model) {
-                // evaluate and copy the rate of change of the state vector
-                // rate into the local buffer. If the 2nd argument is NULL,
-                // the current model state is used to evaluate the
-                // state vector rate.
-                model->getStateVectorRate(t0, NULL, rateBuffer);
+			if (model == (rr::ExecutableModel*)NULL) return 0;
 
-                // copy the current state vector into a local buffer
-                model->getStateVector(stateBuffer1);
+            // evaluate and copy the rate of change of the state vector
+            // rate into the local buffer. If the 2nd argument is NULL,
+            // the current model state is used to evaluate the
+            // state vector rate.
+            model->getStateVectorRate(t0, NULL, rateBuffer);
 
-                // perform the Euler integration step, i.e.
-                // y_{n+1} = y_{n} + h * y'_{n}
-                for (int i = 0; i < stateVectorSize; ++i) {
-                    stateBuffer2[i] = stateBuffer1[i] + h * rateBuffer[i];
-                }
+            // copy the current state vector into a local buffer
+            model->getStateVector(stateBufferBegin);
 
-                // set the model state to the newly calculated state
-                model->setStateVector(stateBuffer2);
-
-                // update the model time to the new time
-                model->setTime(t0 + h);
-
-                // if we have a client, notify them that we have taken
-                // a time step
-                if (listener)
-                {
-                    listener->onTimeStep(this, model, t0 + h);
-                }
+            // perform the Euler integration step, i.e.
+            // y_{n+1} = y_{n} + h * y'_{n}
+            for (int i = 0; i < stateVectorSize; ++i) {
+                stateBufferEnd[i] = stateBufferBegin[i] + h * rateBuffer[i];
             }
-            return t0 + h;
+
+            // set the model state to the newly calculated state
+            model->setStateVector(stateBufferEnd);
+
+            // update the model time to the new time
+			double timeEnd = t0 + h;
+            model->setTime(timeEnd);
+
+            // if we have a client, notify them that we have taken
+            // a time step
+            if (listener) {
+                listener->onTimeStep(this, model, timeEnd);
+            }
+
+			// events
+			bool triggered = false;
+
+			model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+			for (int k_ = 0; k_<eventStatus.size(); ++k_) {
+				if (eventStatus.at(k_)) {
+					triggered = true;
+					//std::cerr << "Triggered" << std::endl;
+				}
+			}
+
+			if (triggered) {
+				// applyEvents takes the list of events which were previously triggered
+				//std::cerr << "An event was triggered at " << t0 << std::endl;
+				applyEvents(timeEnd, previousEventStatus);
+			}
+
+			if (eventStatus.size()) {
+				previousEventStatus = eventStatus;
+			}
+
+            return timeEnd;
         }
+
+		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
+			//std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
+			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
+			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
+			// AHu: jk I think that model->applyEvents does update the mode's state vector
+			// The previous statement loaded the result into the final stateBufferEnd, so now update the model's state vector
+			//model->setStateVector(stateBufferEnd);
+		}
 
         /**
         * This simple integrator has nothing to reset, so do nothing here
@@ -234,7 +271,6 @@ namespace rr
          * @brief Get the hint for this integrator
          */
         static std::string getEulerHint() {
-//             return "An elementary (my dear Watson) Euler integrator";
             return "A simple Euler integrator";
         }
 
@@ -242,10 +278,8 @@ namespace rr
          * @author JKM
          * @brief Reset all integrator settings to their respective default values
          */
-        void resetSettings()
-        {
+        void resetSettings() {
             Solver::resetSettings();
-
             // Euler integrator has no settings
         }
 
@@ -270,7 +304,9 @@ namespace rr
             }
 
             if(key == "exampleParameter2") {
+				// Ahu: Why is this cast here, and is this a static or dynamic cast?
                 exampleParameter2 = (string)value;
+				return;
             }
 
             // they did not give a valid key, so throw an exception.
@@ -375,12 +411,15 @@ namespace rr
         * two buffers to store the state vector rate, and
         * new state vector
         */
-        double *rateBuffer, *stateBuffer1, *stateBuffer2;
+        double *rateBuffer, *stateBufferBegin, *stateBufferEnd;
 
         /**
         * size of state vector
         */
         int stateVectorSize;
+
+		std::vector<unsigned char> eventStatus;
+		std::vector<unsigned char> previousEventStatus;
 
         /**
         * Clients may register a listener to listen for time steps, or
