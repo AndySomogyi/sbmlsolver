@@ -73,12 +73,13 @@ namespace rr
         * parameters will be read from.
         */
         EulerIntegrator(ExecutableModel *m)
-			:	eventStatus(std::vector<unsigned char>(m->getEventTriggers(0,0,0),false)),
-				previousEventStatus(std::vector<unsigned char>(m->getEventTriggers(0, 0, 0), false)) {
+			:	eventStatus(std::vector<unsigned char>(m->getNumEvents(),false)),
+				previousEventStatus(std::vector<unsigned char>(m->getNumEvents(), false)),
+				eventStatusPadding(std::vector<unsigned char>(m->getNumEvents(), false)) {
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
-			std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
+			std::cerr << "Number of event triggers: " << m->getNumEvents() << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
