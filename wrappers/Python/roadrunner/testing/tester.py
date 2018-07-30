@@ -939,8 +939,8 @@ def testSetValues(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     words = divide(readLine())
-    spe = words[:len(words)/2]
-    val = words[len(words)/2:]
+    spe = words[:int(len(words)/2)]
+    val = words[int(len(words)/2):]
     val = [float(i) for i in val]
     n = rrInstance.setValues(spe, val)
     for i in range(len(spe)):
