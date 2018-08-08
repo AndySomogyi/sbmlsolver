@@ -240,7 +240,7 @@ def checkIndividualEigenvalues(rrInstance, testId):
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     m = len(rrInstance.getEigenValueIds())/3
     try:
-        for i in range(0,m):
+        for i in range(0,int(m)):
             words = divide(readLine())
             eigenvalueName = words[0]
             calc = rrInstance.getValue ('eigenReal(' + eigenvalueName + ')')
