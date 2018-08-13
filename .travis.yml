@@ -13,7 +13,6 @@ branches:
   only:
     - develop
     - master
-    - llvm-6
 
 
 before_install:
