@@ -1596,9 +1596,9 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                 tout = self.integrator->integrate(tout, timeEnd - tout);
 
 
-                if (!isfinite(tout))
+                if (!isfinite(tout) || (tout == timeEnd))
                 {
-                    // time step is at infinity so bail, but get the last value
+                    // time step is at infinity or zero so bail, but get the last value
                     getSelectedValues(row, timeEnd);
                     results.push_back(row);
                     break;
@@ -1619,7 +1619,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                         // stochastic simulations use flat interpolation
                         Log(Logger::LOG_DEBUG) << "simulate: use flat interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
 
-                        for(int n = 0; n<row.size(); ++n) {
+                        for (int n = 0; n<row.size(); ++n) {
                             row.at(n) = results.back().at(n);
                         }
 
