@@ -8,7 +8,7 @@ def getData(resource):
     """
     get the contents of a testing resource file.
     """
-    return pkgutil.get_data(__name__, resource)
+    return pkgutil.get_data(__name__, resource).decode("utf8")
 
 def abspath(resource):
 
