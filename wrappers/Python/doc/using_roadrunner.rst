@@ -105,7 +105,7 @@ One important point to note about :meth:`~RoadRunner.simulate()`: When :meth:`~R
 the floating species will naturally change. If :meth:`~RoadRunner.simulate()` is called a second time, the simulation
 will start the simulation from the previous simulated values. This can be used to easily follow on
 simulations. However there will be times when we wish to run the same simulation again but perhaps
-with slightly different parameters values. For this we must reset the initial conditions back to
+with slightly different parameters values. For this we must reset the conditions back to
 the original values. To do that we run the command :meth:`~RoadRunner.reset()`::
 
    rr.reset()
