@@ -69,7 +69,11 @@ Eigenvalue: ``eigen()``, ``eigenReal()``, ``eigenImag()``
     ``eigenImag(identifier)`` is the imaginary part of eigenvalue.
 
 Initial Value: ``init()``
-    Represents the initial value of an identifier specified in the SBML document, i.e. ``init(S1)``.
+    Represents the initial value of an identifier (species or global parameter) specified in the SBML document, i.e. ``init(S1)``.
+    Setting this value does not reset the *current* value of the quantity. When :meth:`~roadrunner.RoadRunner.resetAll()` is
+    called, the current values of all quantities will be reset to the designated initial values, including any changes
+    made to the initial values via this syntax. This is in contrast to :meth:`~roadrunner.RoadRunner.resetToOrigin()`,
+    which resets all current and initial values to the values specified in the SBML document.
 
 Stoichiometry: ``stoich(ParameterId, ReactionId)``
     Represents the stoichiometric coefficient for a given species and reaction.
