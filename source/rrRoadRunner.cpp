@@ -1246,7 +1246,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
         // optimiziation for certain getValue operations.
         self.model->setIntegration(true);
 
-        while (n < impl->steady_state_solver->getValueAsInt("approx_maximum_steps") && tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance"))
+        while (n <= impl->steady_state_solver->getValueAsInt("approx_maximum_steps") && tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance"))
         {
             tol_temp = 0.0;
                   
@@ -1279,7 +1279,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
         Log(Logger::LOG_NOTICE) << e.what();
     }
 
-    if (tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance") && n >= impl->steady_state_solver->getValueAsInt("approx_maximum_steps"))
+    if (tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance") || n > impl->steady_state_solver->getValueAsInt("approx_maximum_steps"))
     {
         throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
     }
