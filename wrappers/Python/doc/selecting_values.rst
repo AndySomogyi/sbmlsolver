@@ -40,7 +40,8 @@ Rates of Change: ``'``
     selections follow generally accepted mathematical convention of using the single quote, ``'`` 
     to represent a time derivative. A rate of change selection is any identifier followed by a
     single quote, i.e. ``S1'``, ``S2'``, ``P1'``, etc. A rates of change selection
-    is also valid for SBML elements which are defined by rate rules. 
+    is also valid for SBML elements which are defined by rate rules. In Python, use mixture of
+    single and double quote to specify the rates of change as string, e.g. ``"S1'"``
 
 Elasticity: ``ee(ReactionId, ParameterId)``
     Represents elasticity slection in the form of ``ee(ReactionId, ParameterId)`` where ``ReactionId`` is a reaction name
