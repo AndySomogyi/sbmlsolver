@@ -1527,7 +1527,13 @@ namespace std { class ostream{}; }
                        SelectionRecord.RATE |
                        SelectionRecord.FLOATING |
                        SelectionRecord.GLOBAL_PARAMETER)
+        
+        def resetParameter(self):
+            """ Reset parameters to CURRENT init(X) values.
 
+            This resets all parameters to the CURRENT init(X) values.
+            """
+            self.reset(SelectionRecord.GLOBAL_PARAMETER)
 
         def getAvailableIntegrators(self):
             """
