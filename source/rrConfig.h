@@ -339,7 +339,7 @@ public:
          * defined by rate rules to be reset, even if GLOBAL_PARAMETER is NOT
          * specified.
          *
-         * The default value is TIME | RATE | FLOATING | CONSREVED_MOIETY
+         * The default value is TIME | RATE | FLOATING
          */
         MODEL_RESET,
 
