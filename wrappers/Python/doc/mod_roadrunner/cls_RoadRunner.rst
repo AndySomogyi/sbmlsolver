@@ -289,27 +289,28 @@ Model Access
 .. method:: RoadRunner.reset()
    :module: RoadRunner
 
-   Resets all the floating species concentrations to their initial values.
+   Resets all the floating species concentrations, time, and rates to their initial values.
+   Does NOT reset changed parameters.
    
 
 .. method:: RoadRunner.resetAll()
    :module: RoadRunner
 
-   Resets all variables, species, etc. to the CURRENT initial values. 
-   It also resets all parameter back to the values they had when the model was first loaded
+   Resets all the floating species concentrations, time, and rates to their initial values.
+   Also resets all parameters back to the values they had when the model was first loaded.
 
 
 .. method:: RoadRunner.resetToOrigin()
    :module: RoadRunner
 
-   Resets the model back to the state is was when it was FIRST loaded.
-   The scope of reset includes all initial values and parameters, etc.
+   Resets the model back to the state it was when FIRST loaded.
+   The scope of this reset includes all initial values and parameters (everything).
 
 
 .. method:: RoadRunner.setConfigurationXML(*args)
    :module: RoadRunner
 
-   given a xml document, which should have been returned from getConfigurationXML,
+   Given a xml document, which should have been returned from getConfigurationXML,
    this method recurses though all the child configurable elements and sets their
    configuration to the values specified in the document.
 
