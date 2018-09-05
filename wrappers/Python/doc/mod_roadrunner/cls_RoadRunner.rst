@@ -280,12 +280,16 @@ Model Access
    :module: RoadRunner
 
    Carry out a one step integration of the model. The method takes two arguments,
-   the current time and the step size to us in the integration. The method returns
-   the new time which will be currentTime + StepSize::
-
+   the current time and the step size to use in the integration. 
+   Returs the new time which will be currentTime + StepSize::
        newTime = rr.oneStep (10, 0.5)
 
- 
+.. method:: RoadRunner.internalOneStep(startTime, stepSize, reset)
+   :module: RoadRunner
+
+   Carry out a single internal solver integration step. The method takes three arguments,
+   the current time and the step size to use in the integration and reset. Reset defaults to true, set to false to stop integrator instance from restarting. Returns the end time.
+
 .. method:: RoadRunner.reset()
    :module: RoadRunner
 
