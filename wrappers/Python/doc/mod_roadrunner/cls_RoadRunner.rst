@@ -289,14 +289,14 @@ Model Access
 .. method:: RoadRunner.reset()
    :module: RoadRunner
 
-   Resets time, all the `floating species <https://libroadrunner.readthedocs.io/en/latest/api_reference.html#roadrunner.SelectionRecord.FLOATING/>`_., and rates to their initial values.
+   Resets time, all floating species, and rates to their initial values.
    Does NOT reset changed global parameters.
    
 
 .. method:: RoadRunner.resetAll()
    :module: RoadRunner
 
-   Resets time, all the floating species, and rates to their initial values.
+   Resets time, all floating species, and rates to their initial values.
    Also resets all global parameters back to the values they had when the model was first loaded.
 
 .. method:: RoadRunner.resetParameter()
