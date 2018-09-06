@@ -1,5 +1,5 @@
 import pkgutil
-import os
+import os, sys
 import os.path
 import glob
 import roadrunner
@@ -34,5 +34,8 @@ def getRoadRunner(resource):
     """
     data = pkgutil.get_data(__name__, resource)
     r = roadrunner.RoadRunner()
-    r.load(data.decode())
+    if sys.version_info[0] < 3:
+        r.load(data)
+    else:
+        r.load(data.decode())
     return r
