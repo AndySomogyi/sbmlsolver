@@ -34,5 +34,5 @@ def getRoadRunner(resource):
     """
     data = pkgutil.get_data(__name__, resource)
     r = roadrunner.RoadRunner()
-    r.load(data)
+    r.load(data.decode())
     return r
