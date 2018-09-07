@@ -61,16 +61,19 @@ CVODE
 
     Specifies the scalar absolute tolerance. CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value. Default value is Config::CVODE_MIN_ABSOLUTE.
 
+    >>> r.integrator.absolute_tolerance = 1
 
 .. attribute:: Integrator.initial_time_step
 
     Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step. Default value is 0.0
 
+    >>> r.integrator.initial_time_step = 1
 
 .. attribute:: Integrator.maximum_adams_order
 
     Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.
 
+    >>> r.integrator.maximum_adams_order = 20
 
 .. attribute:: Integrator.maximum_bdf_order
 
@@ -96,6 +99,7 @@ CVODE
 
     Perform a multiple time step simulation. Default value is false.
 
+    >>> r.integrator.multiple_steps = True
 
 .. attribute:: Integrator.relative_tolerance
 
