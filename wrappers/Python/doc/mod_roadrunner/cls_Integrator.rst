@@ -126,6 +126,9 @@ Gillespie
 
     Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step. Default value is 0.0
 
+    >>> r.setIntegrator('gillespie') # set integrator first
+    >>> r.integrator.seed = '1234'
+
 
 .. attribute:: Integrator.maximum_time_step
 
@@ -168,6 +171,8 @@ RK45
 
     Specifies the maximum error tolerance allowed. Default value is 1e-12.
 
+    >>> r.setIntegrator('rk45') # set integrator first
+    >>> r.integrator.epsilon = 1e-10
 
 .. attribute:: Integrator.maximum_time_step
 
