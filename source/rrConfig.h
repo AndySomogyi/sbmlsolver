@@ -372,11 +372,6 @@ public:
         STEADYSTATE_PRESIMULATION,
 
         /**
-         * Tolerance for presimulation before steady state analysis.
-         */
-        STEADYSTATE_PRESIMULATION_TOL,
-
-        /**
          * Maximum number of steps that can be taken for presimulation before steady state analysis.
          */
         STEADYSTATE_PRESIMULATION_MAX_STEPS,

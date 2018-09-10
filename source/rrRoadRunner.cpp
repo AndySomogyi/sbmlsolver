@@ -1128,19 +1128,29 @@ double RoadRunner::steadyState(const Dictionary* dict)
     {
         try
         {
-            double temp_tol = impl->steady_state_solver->getValueAsDouble("approx_tolerance");
-            int temp_iter = impl->steady_state_solver->getValueAsInt("approx_maximum_steps");
-            double temp_time = impl->steady_state_solver->getValueAsDouble("approx_time");
+            std::string currint = impl->integrator->getName();
 
-            impl->steady_state_solver->setValue("approx_tolerance", impl->steady_state_solver->getValueAsDouble("presimulation_tolerance"));
-            impl->steady_state_solver->setValue("approx_maximum_steps", impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps"));
-            impl->steady_state_solver->setValue("approx_time", impl->steady_state_solver->getValueAsDouble("presimulation_time"));
+            // use cvode
+            setIntegrator("cvode");
 
-            steadyStateApproximate();
+            // steady state selection
+            std::vector<rr::SelectionRecord> currsel = getSelections();
+            setSelections(getSteadyStateSelections());
 
-            impl->steady_state_solver->setValue("approx_tolerance", temp_tol);
-            impl->steady_state_solver->setValue("approx_maximum_steps", temp_iter);
-            impl->steady_state_solver->setValue("approx_time", temp_time);
+            double start_temp = impl->simulateOpt.start;
+            double duration_temp = impl->simulateOpt.duration;
+            int steps_temp = impl->simulateOpt.steps;
+            impl->simulateOpt.start = 0;
+            impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
+            impl->simulateOpt.steps = impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps");
+            simulate();
+            impl->simulateOpt.start = start_temp;
+            impl->simulateOpt.duration = duration_temp;
+            impl->simulateOpt.steps = steps_temp;
+
+            setIntegrator(currint);
+
+            Log(Logger::LOG_DEBUG) << "Steady state presimulation done";
         }
         catch (const CoreException& e)
         {
@@ -1175,7 +1185,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
             }
             catch (CoreException& e2)
             {
-                throw CoreException("Both steady state solver and approximation routine failed. Check that the model has a steady state; ", e2.Message());
+                throw CoreException("Both steady state solver and approximation routine failed. Check that the model has a steady state: ", e2.Message());
             }
         }
     }
@@ -1208,8 +1218,8 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     setIntegrator("cvode");
 
     // set variable step size as true
-    bool temp_var = self.integrator->getValue("variable_step_size");
-    self.integrator->setValue("variable_step_size", true);
+    //bool temp_var = self.integrator->getValue("variable_step_size");
+    //self.integrator->setValue("variable_step_size", true);
 
     // steady state selection
     std::vector<rr::SelectionRecord> currsel = getSelections();
@@ -1252,18 +1262,13 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
                   
             tout_f = self.integrator->integrate(tout, timeEnd - tout);
 
-            Log(Logger::LOG_DEBUG) << "tout: " << tout;
-            Log(Logger::LOG_DEBUG) << "tout_f: " << tout_f;
-
             double* vals2 = new double[l];
             impl->model->getFloatingSpeciesConcentrations(l, NULL, vals2);
 
-            for (int i = 1; i < l; i++)
+            for (int i = 0; i < l; i++)
             {
                 tol_temp += pow((vals2[i] - vals1[i]) / (tout_f - tout), 2);
             }
-
-            Log(Logger::LOG_DEBUG) << "Final tol: " << tol_temp;
 
             vals1 = vals2;
 
@@ -1279,6 +1284,9 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
         Log(Logger::LOG_NOTICE) << e.what();
     }
 
+    Log(Logger::LOG_DEBUG) << "N number: " << n;
+    Log(Logger::LOG_DEBUG) << "SSA tol: " << tol;
+
     if (tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance") || n > impl->steady_state_solver->getValueAsInt("approx_maximum_steps"))
     {
         throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
@@ -1287,7 +1295,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     self.model->setIntegration(false);
 
     // reset
-    self.integrator->setValue("variable_step_size", temp_var);
+    //self.integrator->setValue("variable_step_size", temp_var);
     setIntegrator(currint);
     setSelections(currsel);
 
@@ -1819,7 +1827,6 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
     get_self();
     check_model();
     applySimulateOptions();
-    static const double epsilon = std::numeric_limits<double>::epsilon();
     double endTime;
 
     bool temp_var = self.integrator->getValue("variable_step_size");
