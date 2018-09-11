@@ -192,6 +192,7 @@ def checkSteadyStateFluxes(rrInstance, testId):
     words = []
     fluxes = []
     # Steady State Fluxes
+    rrInstance.reset()
     print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState())
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
@@ -319,6 +320,7 @@ def checkLinkMatrix(rrInstance, testId):
 
 def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
+    rrInstance.resetToOrigin()
     Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     print(("Check " + testId).ljust( rpadding), end="")
     st = rrInstance.getUnscaledConcentrationControlCoefficientMatrix();
@@ -327,6 +329,7 @@ def checkUnscaledConcentrationControlMatrix(rrInstance, testId):
 
 def checkScaledConcentrationControlMatrix(rrInstance, testId):
     # Unscaled Concentration Control matrix
+    rrInstance.resetToOrigin()
     Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     print(("Check " + testId).ljust( rpadding), end="")
     st = rrInstance.getScaledConcentrationControlCoefficientMatrix();
@@ -335,6 +338,7 @@ def checkScaledConcentrationControlMatrix(rrInstance, testId):
 
 def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
     # Unscaled Flux Control matrix
+    rrInstance.resetToOrigin()
     print(("Check " + testId).ljust( rpadding), end="")
     st = rrInstance.getUnscaledFluxControlCoefficientMatrix();
     checkMatrixVsUpcomingText(st)
@@ -342,6 +346,7 @@ def checkUnscaledFluxControlCoefficientMatrix(rrInstance, testId):
 
 def checkScaledFluxControlCoefficientMatrix(rrInstance, testId):
     # Scaled Flux Control matrix
+    rrInstance.resetToOrigin()
     print(("Check " + testId).ljust( rpadding), end="")
     st = rrInstance.getScaledFluxControlCoefficientMatrix()
     checkMatrixVsUpcomingText(st)

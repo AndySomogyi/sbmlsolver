@@ -1110,10 +1110,6 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
     metabolicControlCheck(impl->model);
 
-    //Get a std vector for the solver
-//     vector<double> someAmounts(impl->model->getNumIndFloatingSpecies(), 0);
-//     impl->model->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
-
     if (!impl->steady_state_solver) {
         Log(Logger::LOG_ERROR)<<"No steady state solver";
         throw std::runtime_error("No steady state solver");
@@ -1126,37 +1122,41 @@ double RoadRunner::steadyState(const Dictionary* dict)
     // Rough estimation
     if (impl->steady_state_solver->getValueAsBool("allow_presimulation"))
     {
+        std::string currint = impl->integrator->getName();
+
+        // use cvode
+        setIntegrator("cvode");
+
+        double start_temp = impl->simulateOpt.start;
+        double duration_temp = impl->simulateOpt.duration;
+        int steps_temp = impl->simulateOpt.steps;
+
+        impl->simulateOpt.start = 0;
+        impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
+        impl->simulateOpt.steps = impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps");
+
         try
         {
-            std::string currint = impl->integrator->getName();
-
-            // use cvode
-            setIntegrator("cvode");
-
-            // steady state selection
-            std::vector<rr::SelectionRecord> currsel = getSelections();
-            setSelections(getSteadyStateSelections());
-
-            double start_temp = impl->simulateOpt.start;
-            double duration_temp = impl->simulateOpt.duration;
-            int steps_temp = impl->simulateOpt.steps;
-            impl->simulateOpt.start = 0;
-            impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
-            impl->simulateOpt.steps = impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps");
             simulate();
+        }
+        catch (const CoreException& e)
+        {
             impl->simulateOpt.start = start_temp;
             impl->simulateOpt.duration = duration_temp;
             impl->simulateOpt.steps = steps_temp;
 
             setIntegrator(currint);
 
-            Log(Logger::LOG_DEBUG) << "Steady state presimulation done";
+            throw CoreException("Steady state presimulation failed. Try turning off allow_presimulation flag to False; ", e.Message());
         }
-        catch (const CoreException& e)
-        {
-            Log(Logger::LOG_WARNING) << "Initial approximation routine failed.";
-            throw CoreException("Initial approximation routine failed. Try turning off allow_presimulation flag to False; ", e.Message());
-        }
+
+        impl->simulateOpt.start = start_temp;
+        impl->simulateOpt.duration = duration_temp;
+        impl->simulateOpt.steps = steps_temp;
+
+        setIntegrator(currint);
+
+        Log(Logger::LOG_DEBUG) << "Steady state presimulation done";
     }
 
     // NLEQ
@@ -1177,6 +1177,8 @@ double RoadRunner::steadyState(const Dictionary* dict)
         {
             try
             {
+                // Reset to t = 0;
+                reset();
                 ss = steadyStateApproximate();
 
                 Log(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
@@ -1185,7 +1187,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
             }
             catch (CoreException& e2)
             {
-                throw CoreException("Both steady state solver and approximation routine failed. Check that the model has a steady state: ", e2.Message());
+                throw CoreException("Both steady state solver and approximation routine failed. Check that the model has a steady state: ", e1.Message() + "; " + e2.Message());
             }
         }
     }
@@ -1217,89 +1219,57 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     // use cvode
     setIntegrator("cvode");
 
-    // set variable step size as true
-    //bool temp_var = self.integrator->getValue("variable_step_size");
-    //self.integrator->setValue("variable_step_size", true);
-
     // steady state selection
-    std::vector<rr::SelectionRecord> currsel = getSelections();
-    setSelections(getSteadyStateSelections());
+    std::vector<rr::SelectionRecord> currsel = self.mSelectionList;
+    setSelections(self.mSteadyStateSelection);
+
+    double start_temp = self.simulateOpt.start;
+    double duration_temp = self.simulateOpt.duration;
+    int steps_temp = self.simulateOpt.steps;
 
     // initialize
-    int n = 0;
-    double tol = 1.0;
-
-    double timeEnd = impl->steady_state_solver->getValueAsDouble("approx_time");
-    double tout_f;
-    double tout = 0.0;
-    double tol_temp;
-
-    int l = impl->model->getNumFloatingSpecies();
-
-    Log(Logger::LOG_DEBUG) << "int l: " << l;
-
-    // evalute the model with its current state
-    self.model->getStateVectorRate(tout, 0, 0);
-
-    // Get initial concentrations
+    double duration = self.steady_state_solver->getValueAsDouble("approx_time");
+    int steps = self.steady_state_solver->getValueAsInt("approx_maximum_steps");
+    self.simulateOpt.start = 0;
+    self.simulateOpt.duration = duration;
+    self.simulateOpt.steps = steps;
+    double tol = 0;
+    int l = self.mSelectionList.size();
     double* vals1 = new double[l];
-    impl->model->getFloatingSpeciesConcentrations(l, NULL, vals1);
+    double* vals2 = new double[l];
 
-    Log(Logger::LOG_DEBUG) << "tol thres: " << impl->steady_state_solver->getValueAsDouble("approx_tolerance");
-    Log(Logger::LOG_DEBUG) << "Max steps: " << impl->steady_state_solver->getValueAsInt("approx_maximum_steps");
-    Log(Logger::LOG_DEBUG) << "Max time: " << impl->steady_state_solver->getValueAsDouble("approx_time");
-
+    Log(Logger::LOG_DEBUG) << "tol thres: " << self.steady_state_solver->getValueAsDouble("approx_tolerance");
+    Log(Logger::LOG_DEBUG) << "Max steps: " << self.steady_state_solver->getValueAsInt("approx_maximum_steps");
+    Log(Logger::LOG_DEBUG) << "Max time: " << self.steady_state_solver->getValueAsDouble("approx_time");
+    
     try
     {
-        self.integrator->restart(tout);
+        simulate();
+        vals1 = self.simulationResult[steps - 1];
+        vals2 = self.simulationResult[steps - 2];
 
-        // optimiziation for certain getValue operations.
-        self.model->setIntegration(true);
-
-        while (n <= impl->steady_state_solver->getValueAsInt("approx_maximum_steps") && tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance"))
+        for (int i = 1; i <= l; i++)
         {
-            tol_temp = 0.0;
-                  
-            tout_f = self.integrator->integrate(tout, timeEnd - tout);
-
-            double* vals2 = new double[l];
-            impl->model->getFloatingSpeciesConcentrations(l, NULL, vals2);
-
-            for (int i = 0; i < l; i++)
-            {
-                tol_temp += pow((vals2[i] - vals1[i]) / (tout_f - tout), 2);
-            }
-
-            vals1 = vals2;
-
-            tout = tout_f;
-
-            tol = tol_temp;
-
-            ++n;
+            tol += pow((vals2[i] - vals1[i]) / (duration/(steps - 1)), 2);
         }
     }
     catch (EventListenerException& e)
     {
-        Log(Logger::LOG_NOTICE) << e.what();
+        Log(Logger::LOG_ERROR) << e.what();
     }
 
-    Log(Logger::LOG_DEBUG) << "N number: " << n;
-    Log(Logger::LOG_DEBUG) << "SSA tol: " << tol;
-
-    if (tol > impl->steady_state_solver->getValueAsDouble("approx_tolerance") || n > impl->steady_state_solver->getValueAsInt("approx_maximum_steps"))
-    {
-        throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
-    }
-
-    self.model->setIntegration(false);
-
-    // reset
-    //self.integrator->setValue("variable_step_size", temp_var);
+    self.simulateOpt.start = start_temp;
+    self.simulateOpt.duration = duration_temp;
+    self.simulateOpt.steps = steps_temp;
     setIntegrator(currint);
     setSelections(currsel);
 
     Log(Logger::LOG_DEBUG) << "Steady state approximation done";
+
+    if (tol > self.steady_state_solver->getValueAsDouble("approx_tolerance"))
+    {
+        throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
+    }
 
     return tol;
 }
@@ -3170,19 +3140,19 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
     check_model();
 
-    int orig_steps = impl->simulateOpt.steps;
+    //int orig_steps = impl->simulateOpt.steps;
 
-    impl->simulateOpt.start = 0;
-    impl->simulateOpt.duration = 50.0;
-    impl->simulateOpt.steps = 100;
+    //impl->simulateOpt.start = 0;
+    //impl->simulateOpt.duration = 50.0;
+    //impl->simulateOpt.steps = 100;
 
-    // TODO why is simulate called here???
-    simulate();
+    //// TODO why is simulate called here???
+    //simulate();
     if (steadyState() > impl->mSteadyStateThreshold)
     {
         if (steadyState() > 1E-2)
         {
-            impl->simulateOpt.steps = orig_steps;
+            //impl->simulateOpt.steps = orig_steps;
             throw CoreException("Unable to locate steady state during control coefficient computation");
         }
     }
@@ -3210,7 +3180,7 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
     T4.setRowNames(getFloatingSpeciesIds());
     T4.setColNames(getReactionIds());
 
-    impl->simulateOpt.steps = orig_steps;
+    //impl->simulateOpt.steps = orig_steps;
 
     return T4;
 }
