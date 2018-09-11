@@ -53,9 +53,9 @@ NLEQ2
 
 .. attribute:: SteadyStateSolver.approx_tolerance
 
-    Tolerance for steady state approximation routine. Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used. Default value is 1e-6.
+    Tolerance for steady state approximation routine. Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used. Default value is 1e-12.
 
-    >>> r.getSteadyStateSolver().approx_tolerance = 1e-3
+    >>> r.getSteadyStateSolver().approx_tolerance = 1e-6
 
 
 .. attribute:: SteadyStateSolver.approx_maximum_steps
