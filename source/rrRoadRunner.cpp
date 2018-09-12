@@ -1894,6 +1894,65 @@ DoubleMatrix RoadRunner::getFloatingSpeciesConcentrations()
     return v;
 }
 
+DoubleMatrix RoadRunner::getRatesOfChange()
+{
+    check_model();
+
+    if (getConservedMoietyAnalysis())
+    {
+        int l = impl->model->getNumFloatingSpecies();
+
+        double* vals = new double[l];
+
+        LibStructural *ls = getLibStruct();
+        DoubleMatrix v(1, l);
+        int m = impl->model->getStateVector(NULL);
+        DoubleMatrix lm = *ls->getLinkMatrix();
+
+        Log(Logger::LOG_DEBUG) << "linkmatrix: " << lm;
+
+        impl->model->getStateVectorRate(impl->model->getTime(), NULL, vals);
+
+        for (int i = 0; i < l; ++i)
+        {
+            double sum = 0;
+            for (int j = 0; j < m; ++j)
+            {
+                Log(Logger::LOG_DEBUG) << "linkmatrix ij: " << lm[i][j];
+                Log(Logger::LOG_DEBUG) << "ssv i: " << vals[j];
+                sum += lm[i][j] * vals[j];
+            }
+            Log(Logger::LOG_DEBUG) << "sum i: " << sum;
+            v(0, i) = sum;
+        }
+
+        delete vals;
+
+        v.setColNames(getFloatingSpeciesIds());
+
+        return v;
+    }
+    else
+    {
+        int l = impl->model->getStateVector(NULL);
+
+        double* vals = new double[l];
+
+        LibStructural *ls = getLibStruct();
+        DoubleMatrix v(1, l);
+        impl->model->getStateVectorRate(impl->model->getTime(), 0, vals);
+
+        for (int i = 0; i<l; ++i)
+            v(0, i) = vals[i];
+
+        delete vals;
+
+        v.setColNames(getFloatingSpeciesIds());
+
+        return v;
+    }
+}
+
 DoubleMatrix RoadRunner::getFullJacobian()
 {
     check_model();
