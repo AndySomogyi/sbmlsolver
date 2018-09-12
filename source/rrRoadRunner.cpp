@@ -1854,8 +1854,8 @@ DoubleMatrix RoadRunner::getFloatingSpeciesAmounts()
 {
     check_model();
 
-    int l = impl->model->getStateVector(NULL);
-
+    int l = impl->model->getNumFloatingSpecies();
+    
     double* vals = new double[l];
     impl->model->getFloatingSpeciesAmounts(l, NULL, vals);
 
@@ -1876,7 +1876,7 @@ DoubleMatrix RoadRunner::getFloatingSpeciesConcentrations()
 {
     check_model();
 
-    int l = impl->model->getStateVector(NULL);
+    int l = impl->model->getNumFloatingSpecies();
 
     double* vals = new double[l];
     impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
