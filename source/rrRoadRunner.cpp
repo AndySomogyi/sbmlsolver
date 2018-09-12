@@ -1909,8 +1909,6 @@ DoubleMatrix RoadRunner::getRatesOfChange()
         int m = impl->model->getStateVector(NULL);
         DoubleMatrix lm = *ls->getLinkMatrix();
 
-        Log(Logger::LOG_DEBUG) << "linkmatrix: " << lm;
-
         impl->model->getStateVectorRate(impl->model->getTime(), NULL, vals);
 
         for (int i = 0; i < l; ++i)
@@ -1918,11 +1916,8 @@ DoubleMatrix RoadRunner::getRatesOfChange()
             double sum = 0;
             for (int j = 0; j < m; ++j)
             {
-                Log(Logger::LOG_DEBUG) << "linkmatrix ij: " << lm[i][j];
-                Log(Logger::LOG_DEBUG) << "ssv i: " << vals[j];
                 sum += lm[i][j] * vals[j];
             }
-            Log(Logger::LOG_DEBUG) << "sum i: " << sum;
             v(0, i) = sum;
         }
 
