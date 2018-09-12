@@ -300,13 +300,15 @@ Model Access
 .. method:: RoadRunner.resetAll()
    :module: RoadRunner
 
-   Resets time, all floating species, and rates to their initial values.
+   Resets time, all floating species, and rates to their CURRENT initial values.
    Also resets all global parameters back to the values they had when the model was first loaded.
+   "Current" initial values are set by using ``r.setValue('init(S1)', 5)`` which sets a species 
+   named S1 to have current initial value of 5. Note it is NOT the initial values of when the model was first loaded in.
 
 .. method:: RoadRunner.resetParameter()
    :module: RoadRunner
 
-   Resets only global parameters to their initial values.
+   Resets only global parameters to their CURRENT initial values.
 
 .. method:: RoadRunner.resetToOrigin()
    :module: RoadRunner
