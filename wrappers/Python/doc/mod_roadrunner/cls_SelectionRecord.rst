@@ -97,10 +97,6 @@ _______________
 
    floating species current amounts.
 
-.. attribute:: SelectionRecord.FLOATING_AMOUNT_RATE
-
-    floating species amount rates (value, not reaction rates)
-
 .. attribute:: SelectionRecord.FLOATING_CONCENTRATION
 
    floating species current concentrations.
