@@ -177,6 +177,16 @@ Floating Species
    >>> r.model.getFloatingSpeciesConcentrations()
    array([ 0.5       ,  9.99954571])
 
+.. method:: RoadRunner::getRatesOfChange()
+   :module: RoadRunner
+
+   Returns the rates of change of all floating species. The order of species is 
+   given by the order of Ids returned by getFloatingSpeciesIds()
+
+   :returns: a named array of floating species rates of change.
+   :rtype: numpy.ndarray
+
+   >>> r.getRatesOfChange()
 
 Floating Species Initial Conditions
 -----------------------------------
