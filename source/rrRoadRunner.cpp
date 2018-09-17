@@ -1187,7 +1187,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
             }
             catch (CoreException& e2)
             {
-                throw CoreException("Both steady state solver and approximation routine failed. Check that the model has a steady state: ", e1.Message() + "; " + e2.Message());
+                throw CoreException("Both steady state solver and approximation routine failed: ", e1.Message() + "; " + e2.Message());
             }
         }
     }
@@ -1219,9 +1219,20 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     // use cvode
     setIntegrator("cvode");
 
+    // create selections
+    vector<string> ss_selections_with_time;
+    vector<string> ss_selections = getSteadyStateSelectionStrings();
+    int num_ss_sel = ss_selections.size();
+
+    ss_selections_with_time.push_back("time");
+    for (int i = 0; i < num_ss_sel; i++)
+    {
+        ss_selections_with_time.push_back(ss_selections[i]);
+    }
+
     // steady state selection
     std::vector<rr::SelectionRecord> currsel = self.mSelectionList;
-    setSelections(self.mSteadyStateSelection);
+    setSelections(ss_selections_with_time);
 
     double start_temp = self.simulateOpt.start;
     double duration_temp = self.simulateOpt.duration;
@@ -1248,7 +1259,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
         vals1 = self.simulationResult[steps - 1];
         vals2 = self.simulationResult[steps - 2];
 
-        for (int i = 1; i <= l; i++)
+        for (int i = 1; i < l; i++)
         {
             tol += pow((vals2[i] - vals1[i]) / (duration/(steps - 1)), 2);
         }
