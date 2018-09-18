@@ -235,6 +235,8 @@ else()
 endif(BUILD_LLVM)
 
 
+# public include files
+add_subdirectory(include)
 
 # We alway have to build the sbmlsolver core, everything depends on this
 add_subdirectory(src)
