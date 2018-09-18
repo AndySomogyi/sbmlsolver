@@ -12,6 +12,7 @@
 #include "rrConfig.h"
 
 #include "Suite_TestModel.h"
+#include "path.h"
 
 using namespace std;
 using namespace rr;
@@ -68,7 +69,7 @@ int main(int argc, char* argv[])
     if(!aFile)
     {
         cerr<<"Failed opening report file: "<< reportFile <<" in rrc_api testing executable.\n";
-        return false;
+        return 1;
     }
 
     XmlTestReporter reporter1(aFile);
@@ -200,27 +201,42 @@ bool setup(Args& args)
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
     gRRInstallFolder     = getParentFolder(thisExeFolder);
-    gDebug               = args.EnableLogging;
-    gTSModelsPath        = args.ModelsFilePath;
-    gTempFolder          = args.TempDataFolder;
-    gTestDataFolder      = args.TestDataFolder;
-    if (gTestDataFolder == "") {
-      //If not set by the user, assume this is the bin folder of roadrunner install
-      gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+
+    if(args.ResultOutputFile == ""){
+        //if no output file name provided,use default
+        args.ResultOutputFile = "result_report.xml";
+        clog<<"Use default temp-data dir: ./"<<args.ResultOutputFile<<endl;
     }
-
-    gCompiler = args.compiler;
-    Log(Logger::LOG_NOTICE) << "Using compiler " << gCompiler;
-
-
+    if (args.TempDataFolder == "."){ // because the default is set to "."!!
+        args.TempDataFolder = "temp";
+        createFolder(args.TempDataFolder);
+        clog<<"Use default temp-data dir: ./"<<args.TempDataFolder<<endl;
+    }
+    if (args.TestDataFolder == ""){
+        //use default from path.h
+        args.TestDataFolder = LOCAL_TEST_SUITE_PATH;
+        clog<<"Use default TestDataFolder: "<<args.TestDataFolder<<endl;
+    }
+    if(args.ModelsFilePath == ""){
+        //use default from path.h
+        args.ModelsFilePath = SBML_TEST_SUITE_PATH;
+        clog<<"Use default SBML_test_suite: "<<args.ModelsFilePath<<endl;
+    }
     if(args.Suites.size() == 0)
     {
         //Run all the non-duplicated tests.
         args.Suites = "ABCDEJL";
+        clog<<"Use default Suites: "<<args.Suites<<endl;
     }
+    
+    gDebug               = args.EnableLogging;
+    gTSModelsPath        = args.ModelsFilePath;
+    gTempFolder          = args.TempDataFolder;
+    gTestDataFolder      = args.TestDataFolder;
+    gCompiler            = args.compiler;
+    Log(Logger::LOG_NOTICE) << "Using compiler " << gCompiler;
 
     setInstallFolder(gRRInstallFolder.c_str());
-
     if(gDebug)
     {
         enableLoggingToConsole();
@@ -230,9 +246,7 @@ bool setup(Args& args)
     {
         Logger::setLevel(Logger::LOG_NOTICE);
     }
-
-    // set test suite model path (read from cmd line)
-    gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
+    
     return true;
 }
 
@@ -264,12 +278,12 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     }
 
     //Check arguments, and choose to bail here if something is not right...
-    if(argc < 2)
+    /*if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
         cout<<"\n";
         exit(0);
-    }
+    }*/
 }
 
 #if defined(CG_IDE)
