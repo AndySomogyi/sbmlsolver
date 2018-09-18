@@ -314,6 +314,14 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     }
 
     *pErr = 0;
+
+    for (int i = 0; i < *nx; ++i)
+    {
+        if (fval[i] != fval[i])
+        {
+            *pErr = -1;
+        }
+    }
 }
 
 void NLEQInterface::setScalingFactors(const vector<double>& sx)
