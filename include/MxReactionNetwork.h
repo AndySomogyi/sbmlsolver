@@ -84,17 +84,23 @@ struct ICompartmentBoundary {
      */
     virtual HRESULT getMeanValues(
             const SYMBOLID *symbols,
-            uint count,
+            uint32_t count,
             double *result) = 0;
 
     /**
      * set the flux rates at the boundary.
+     *
+     * This method provides a way for a chemical network to set
+     * the flux rates (usually secretion and uptake) rates at
+     * the boundary of the compartments.
+     *
+     * Units of flux are amount per unit time.
      */
     virtual HRESULT setFluxRates(
             const SYMBOLID *symbols,
             const double *fluxRates,
-            uint count) = 0;
-}
+            uint32_t count) = 0;
+};
 
 
 /**
@@ -102,15 +108,13 @@ struct ICompartmentBoundary {
  * sbml model that was compiled, JIT'd or interpreted
  * as executable (runnable) module.
  *
- * An ExecutableModel holds a ModelData structure, all the simulation
- * values are stored in the ModelData struct, i.e. the dynamic state
- * of the model is fully contained in the ModelData structure.
+ * This interface provides a set of methods to inspect, read and modify
+ * a reaction network (typically a chemical reaction network).
  *
- * An ExecutableModel shoud also contain all of the initial condisions,
- * rules, functions and whatever other semantic information that was
- * specified in the sbml model.
+ * This interface also provides ways to access and modify model
+ * initial conditions, rules, functions and whatever other semantic
+ * information that was specified in the sbml model.
  */
-
 struct IScalarSystem {
 
 
@@ -138,7 +142,6 @@ struct IScalarSystem {
     /**
      * amounts
      */
-
     virtual HRESULT getVariableAmounts(
             const SYMBOLID *symbols,
             uint32_t count,
