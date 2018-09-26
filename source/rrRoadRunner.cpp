@@ -1162,6 +1162,10 @@ double RoadRunner::steadyState(const Dictionary* dict)
     // NLEQ
     if (impl->steady_state_solver->getValueAsBool("allow_approx"))
     {
+        int l = impl->model->getNumFloatingSpecies();
+        double* vals = new double[l];
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
+
         try
         {
             ss = impl->steady_state_solver->solve();
@@ -1179,6 +1183,12 @@ double RoadRunner::steadyState(const Dictionary* dict)
             {
                 // Reset to t = 0;
                 reset();
+
+                // Restore initial concentrations
+                for (int i = 0; i<l; ++i) {
+                    impl->model->setFloatingSpeciesConcentrations(1, &i, &vals[i]);
+                }
+
                 ss = steadyStateApproximate();
 
                 Log(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
