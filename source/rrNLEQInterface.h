@@ -71,7 +71,7 @@ private:
     int nOpts;
     long *IWK;
     long LIWK;
-    long LWRK;
+    long LRWK;
     double *RWK;
     double *XScal;
     long ierr;

@@ -48,7 +48,7 @@ static bool isWarning(int e)
 NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     IWK(0),
     LIWK(0),
-    LWRK(0),
+    LRWK(0),
     RWK(0),
     XScal(0),
     ierr(0),
@@ -92,7 +92,14 @@ void NLEQInterface::setup()
     Log(Logger::LOG_DEBUG) << "NLEQInterface: size of state vector = " << n;
 
     // Allocate space, see NLEQ docs for details
-    LWRK = (n + 2 + 15)*n + 61;
+    if (broyden == 1)
+    {
+        LRWK = (n + max(n,10) + 15)*n + 61;
+    }
+    else
+    {
+        LRWK = (n + 15)*n + 61;
+    }
     LIWK = n + 52;
 
     XScal = new double[n];
@@ -122,9 +129,8 @@ void NLEQInterface::setup()
     }
     IWK[31 - 1] = maxIterations; // Max iterations
 
-
-    RWK = new double[LWRK];
-    for (int i = 0; i < LWRK; i++)
+    RWK = new double[LRWK];
+    for (int i = 0; i < LRWK; i++)
     {
         RWK[i] = 0.0;
     }
@@ -177,14 +183,12 @@ double NLEQInterface::solve()
     {
         IWK[i] = 0;
     }
-
     IWK[31 - 1] = maxIterations; // Max iterations
 
-    for (int i = 0; i < LWRK; i++)
+    for (int i = 0; i < LRWK; i++)
     {
         RWK[i] = 0.0;
     }
-
     RWK[22 - 1] = minDamping; // Minimal allowed damping factor
 
     // For some reason NLEQ modifies the tolerance value, use a local copy instead
@@ -215,7 +219,7 @@ double NLEQInterface::solve()
                 &ierr,
                 &LIWK,
                 IWK,
-                &LWRK,
+                &LRWK,
                 RWK);
 
         // done, clear it.
