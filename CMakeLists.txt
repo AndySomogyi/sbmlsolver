@@ -154,8 +154,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/bin)
 
 include_directories(
-    ${RR_ROOT}
-    ${THIRD_PARTY_FOLDER}
+  ${PROJECT_SOURCE_DIR}/include/
+  ${RR_ROOT}
+  ${THIRD_PARTY_FOLDER}
 )
 
 # TODO libxml2 handling is excedingly hackish, it is all homegrown

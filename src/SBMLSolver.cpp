@@ -37,6 +37,8 @@
 #include <Poco/Mutex.h>
 #include <list>
 
+#include "DummyScalarSystem.h"
+
 
 #ifdef _MSC_VER
 #define isfinite(x) _finite(x)
@@ -3673,10 +3675,43 @@ static void metabolicControlCheck(ExecutableModel *model)
     }
 }
 
+HRESULT SBMLSolver::hello(const char* foo)
+{
+    std::cout << "Hello from the SBML Solver, " << foo << std::endl;
+    return S_OK;
+}
+
+HRESULT SBMLSolver::getScalarSystem(IScalarSystem** result)
+{
+    static DummyScalarSystem *s = nullptr;
+    if(!s) {
+        s = new DummyScalarSystem();
+    }
+    *result = s;
+    return S_OK;
+}
+
 } //namespace
+
+
 
 #if defined(_WIN32)
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this
 #endif
+
+
+extern "C" HRESULT MxCreateSBMLSolver(const char* uriOrData,
+        const MxSBMLSolverOptions *options, ISBMLSolver **result) {
+    try {
+        rr::SBMLSolver *solver = new rr::SBMLSolver(uriOrData);
+        *result = solver;
+        return S_OK;
+    }
+    catch (...) {
+
+    }
+    return E_FAIL;
+}
+
 
 

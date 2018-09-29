@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include "include/MxReactionNetwork.h"
 
 namespace ls
 {
@@ -46,7 +47,7 @@ class Integrator;
  * MemoryManagment: Any pointer returned by a get... method is owned by the
  * RoadRunner object and does NOT have to be deleted.
  */
-class RR_DECLSPEC SBMLSolver
+class RR_DECLSPEC SBMLSolver : public ISBMLSolver
 {
 
 public:
@@ -849,6 +850,10 @@ public:
     /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
     #endif  /**********************************************************************/
     /******************************************************************************/
+
+
+    virtual HRESULT hello(const char* foo);
+    virtual HRESULT getScalarSystem(IScalarSystem **scalarSystem);
 
 private:
 

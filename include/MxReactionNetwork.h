@@ -9,7 +9,10 @@
  * Interface definitions for the reaction network solver.
  */
 
-#include <mx_port.h>
+#ifndef SRC_MX_REACTIONNETWORK_H_
+#define SRC_MX_REACTIONNETWORK_H_
+
+#include "mx_port.h"
 
 /**
  * symbol Ids are 32 bit signed integers. Valid Ids are non-negative,
@@ -49,12 +52,12 @@ struct ICompartmentBoundary {
     /**
      * gets the volume of the compartment and stores it in result
      */
-    HRESULT getVolume( double* result) = 0;
+    virtual HRESULT getVolume( double* result) = 0;
 
     /**
      * gets the surface area of the compartment and stores it in result
      */
-    HRESULT getArea( double* result) = 0;
+    virtual HRESULT getArea( double* result) = 0;
 
     /**
      * Get the number of names that this object has, i.e. the number of
@@ -125,19 +128,19 @@ struct IScalarSystem {
      * @param kinds: a bitmask of the kinds of variables to get. Pass in
      * CRN_ALL
      */
-    virtual HRESULT getVariableCount(uint32_t kinds, uint32_t *result);
+    virtual HRESULT getVariableCount(uint32_t kinds, uint32_t *result) = 0;
 
     /**
      * Copies the name of a symbol into a user supplied buffer.
      *
      * @param maxLen the size of the user suplied buffer.
      */
-    virtual HRESULT getVariableName(SYMBOLID id, uint32_t maxLen, char* buffer);
+    virtual HRESULT getVariableName(SYMBOLID id, uint32_t maxLen, char* buffer) = 0;
 
 
-    virtual HRESULT getVariableKind(SYMBOLID id, uint32_t *kind);
+    virtual HRESULT getVariableKind(SYMBOLID id, uint32_t *kind) = 0;
 
-    virtual HRESULT getVariableId(const char* name, SYMBOLID *id);
+    virtual HRESULT getVariableId(const char* name, SYMBOLID *id) = 0;
 
     /**
      * amounts
@@ -214,8 +217,21 @@ struct IScalarSystem {
     virtual HRESULT reset() = 0;
 
 
-    virtual HRESULT setCompartmentBoundary(ICompartmentBoundary *boundary);
+    virtual HRESULT setCompartmentBoundary(ICompartmentBoundary *boundary) = 0;
 
 };
+
+struct MxSBMLSolverOptions {
+};
+
+struct ISBMLSolver {
+    virtual HRESULT hello(const char* foo) = 0;
+    virtual HRESULT getScalarSystem(IScalarSystem **scalarSystem) = 0;
+};
+
+extern "C" HRESULT MxCreateSBMLSolver(const char* uriOrData,
+        const MxSBMLSolverOptions *options, ISBMLSolver **solver);
+
+#endif
 
 

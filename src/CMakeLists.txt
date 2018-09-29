@@ -81,6 +81,7 @@ set(rrSources
     rrSBMLReader
     SBMLValidator
     Variant
+    DummyScalarSystem
     conservation/ConservationExtension
     conservation/ConservationDocumentPlugin
     conservation/ConservedMoietyPlugin
