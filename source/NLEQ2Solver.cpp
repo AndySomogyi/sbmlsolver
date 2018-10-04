@@ -1,14 +1,14 @@
 #pragma hdrstop
-#include "NLEQSolver.h"
+#include "NLEQ2Solver.h"
 #include "rrExecutableModel.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
-#include "nleq/nleq2.h"
+#include "nleq2/nleq2.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrConfig.h"
-#include "rrNLEQInterface.h"
+#include "rrNLEQ2Interface.h"
 
 #include <Poco/Mutex.h>
 #include <assert.h>
@@ -19,46 +19,46 @@
 namespace rr
 {
 
-NLEQSolver::NLEQSolver(ExecutableModel *_model) :
+NLEQ2Solver::NLEQ2Solver(ExecutableModel *_model) :
     model(_model)
 {
     resetSettings();
 }
 
-NLEQSolver::~NLEQSolver()
+NLEQ2Solver::~NLEQ2Solver()
 {
 }
 
-void NLEQSolver::syncWithModel(ExecutableModel* m)
+void NLEQ2Solver::syncWithModel(ExecutableModel* m)
 {
     model = m;
 }
 
-void NLEQSolver::loadConfigSettings()
+void NLEQ2Solver::loadConfigSettings()
 {
     SteadyStateSolver::loadConfigSettings();
     // Load settings specific to solver integrator
 
-    NLEQSolver::setValue("allow_presimulation", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
-    NLEQSolver::setValue("presimulation_maximum_steps", Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
-    NLEQSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
-    NLEQSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
-    NLEQSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
-    NLEQSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
-    NLEQSolver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
-    NLEQSolver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
-    NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
-    NLEQSolver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
-    NLEQSolver::setValue("broyden_method", Config::getInt(Config::STEADYSTATE_BROYDEN));
-    NLEQSolver::setValue("linearity", Config::getInt(Config::STEADYSTATE_LINEARITY));
+    NLEQ2Solver::setValue("allow_presimulation", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
+    NLEQ2Solver::setValue("presimulation_maximum_steps", Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
+    NLEQ2Solver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
+    NLEQ2Solver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
+    NLEQ2Solver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
+    NLEQ2Solver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
+    NLEQ2Solver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
+    NLEQ2Solver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
+    NLEQ2Solver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
+    NLEQ2Solver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
+    NLEQ2Solver::setValue("broyden_method", Config::getInt(Config::STEADYSTATE_BROYDEN));
+    NLEQ2Solver::setValue("linearity", Config::getInt(Config::STEADYSTATE_LINEARITY));
 }
 
-void NLEQSolver::resetSettings()
+void NLEQ2Solver::resetSettings()
 {
     Solver::resetSettings();
 
     // Set default settings.
-    addSetting("allow_presimulation", false, "Allow Presimulation", "Flag for starting steady state analysis with simulation (bool).", "(bool) This flag does not affect the usage of approximation routine when the default steaty state solver fails");
+    addSetting("allow_presimulation", true, "Allow Presimulation", "Flag for starting steady state analysis with simulation (bool).", "(bool) This flag does not affect the usage of approximation routine when the default steaty state solver fails");
     addSetting("presimulation_maximum_steps", 100, "Presimulation Maximum Steps", "Maximum number of steps that can be taken for presimulation before steady state analysis (int).", "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");
     addSetting("presimulation_time", 100, "Presimulation Time", "End time for presimulation steady state analysis (double).", "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
     addSetting("allow_approx", true, "Allow Approximiation", "Flag for using steady state approximation routine when steady state solver fails (bool).", "(bool) Approximation routine will run only when the default solver fails to fine a solution. This flag does not affect usage of approximation routine for pre-simulation");
@@ -70,46 +70,46 @@ void NLEQSolver::resetSettings()
     addSetting("minimum_damping", 1e-20, "Minimum Damping", "The minimum damping factor (double).", "(double) Minumum damping factor used by the algorithm");
     addSetting("broyden_method", 0, "Broyden Method", "Switches on Broyden method (int)", "(int) Broyden method is a quasi-Newton approximation for rank-1 updates");
     addSetting("linearity", 3, "Problem Linearity", "Specifies linearity of the problem (int).", "(int) 1 is for linear problem and 4 is for extremly nonlinear problem");
-    NLEQSolver::loadConfigSettings();
+    NLEQ2Solver::loadConfigSettings();
 }
 
-std::string NLEQSolver::getName() const {
-	return NLEQSolver::getNLEQName();
+std::string NLEQ2Solver::getName() const {
+	return NLEQ2Solver::getNLEQName();
 }
 
-std::string NLEQSolver::getNLEQName() {
+std::string NLEQ2Solver::getNLEQName() {
 	return "nleq2";
 }
 
-std::string NLEQSolver::getDescription() const {
-	return NLEQSolver::getNLEQDescription();
+std::string NLEQ2Solver::getDescription() const {
+	return NLEQ2Solver::getNLEQDescription();
 }
 
-std::string NLEQSolver::getNLEQDescription() {
+std::string NLEQ2Solver::getNLEQDescription() {
 	return "NLEQ2 is a non-linear equation solver which uses a global Newton "
-     "method with adaptive damping strategies (see http://elib.zib.de/pub/elib/codelib/NewtonLib/)";
+     "method with rank strategies and adaptive damping strategies (see http://elib.zib.de/pub/elib/codelib/NewtonLib/)";
 }
 
-std::string NLEQSolver::getHint() const {
-	return NLEQSolver::getNLEQHint();
+std::string NLEQ2Solver::getHint() const {
+	return NLEQ2Solver::getNLEQHint();
 }
 
-std::string NLEQSolver::getNLEQHint() {
+std::string NLEQ2Solver::getNLEQHint() {
 	return "Steady-state nonlinear systems of equations solver";
 }
 
-double NLEQSolver::solve()
+double NLEQ2Solver::solve()
 {
     Log(Logger::LOG_DEBUG) << "NLEQSolver::solve";
 
-    NLEQInterface* nleq = new NLEQInterface(model);
+    NLEQ2Interface* nleq2 = new NLEQ2Interface(model);
 
 //     nleq->maxIterations = getValue("maximum_iterations");
 //     nleq->relativeTolerance = getValue("relative_tolerance");
 //     nleq->minDamping = getValue("minimum_damping");
 
-    double result = nleq->solve();
-    delete nleq;
+    double result = nleq2->solve();
+    delete nleq2;
     return result;
 }
 

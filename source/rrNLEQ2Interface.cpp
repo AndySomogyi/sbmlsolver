@@ -1,9 +1,9 @@
 #pragma hdrstop
-#include "rrNLEQInterface.h"
+#include "rrNLEQ2Interface.h"
 #include "rrExecutableModel.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
-#include "nleq/nleq2.h"
+#include "nleq2/nleq2.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrException.h"
@@ -45,7 +45,7 @@ static bool isWarning(int e)
     return e == 4 || e == 5;
 }
 
-NLEQInterface::NLEQInterface(ExecutableModel *_model) :
+NLEQ2Interface::NLEQ2Interface(ExecutableModel *_model) :
     IWK(0),
     LIWK(0),
     LRWK(0),
@@ -77,7 +77,7 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
     }
 }
 
-NLEQInterface::~NLEQInterface()
+NLEQ2Interface::~NLEQ2Interface()
 {
     delete[] IWK;
     delete[] RWK;
@@ -85,11 +85,11 @@ NLEQInterface::~NLEQInterface()
     delete[] iopt;
 }
 
-void NLEQInterface::setup()
+void NLEQ2Interface::setup()
 {
     // size of state vector
     n = model->getStateVector(0);
-    Log(Logger::LOG_DEBUG) << "NLEQInterface: size of state vector = " << n;
+    Log(Logger::LOG_DEBUG) << "NLEQ2Interface: size of state vector = " << n;
 
     // Allocate space, see NLEQ docs for details
     if (broyden == 1)
@@ -137,9 +137,9 @@ void NLEQInterface::setup()
     RWK[22 - 1] = minDamping; // Minimal allowed damping factor
 }
 
-bool NLEQInterface::isAvailable()
+bool NLEQ2Interface::isAvailable()
 {
-    NLEQInterface *temp= new NLEQInterface(NULL);
+    NLEQ2Interface *temp= new NLEQ2Interface(NULL);
     if(temp)
     {
         bool val = temp->getNumberOfModelEvaluations() ? true : false;
@@ -150,15 +150,15 @@ bool NLEQInterface::isAvailable()
     return false;
 }
 
-double NLEQInterface::solve()
+double NLEQ2Interface::solve()
 {
     // lock so only one thread can be here.
     Mutex::ScopedLock lock(mutex);
 
-    Log(Logger::LOG_DEBUG) << "NLEQInterface::solve";
+    Log(Logger::LOG_DEBUG) << "NLEQ2Interface::solve";
 
     // Set up a dummy Jacobian, actual Jacobian is computed
-    // by NLEQ using finite differences
+    // by NLEQ2 using finite differences
     //    double* Jacobian = new double[1];
 
     ierr = 0;
@@ -191,7 +191,7 @@ double NLEQInterface::solve()
     }
     RWK[22 - 1] = minDamping; // Minimal allowed damping factor
 
-    // For some reason NLEQ modifies the tolerance value, use a local copy instead
+    // For some reason NLEQ2 modifies the tolerance value, use a local copy instead
     double tmpTol = relativeTolerance;
 
     // set up the thread local variables, only this thread
@@ -256,7 +256,7 @@ double NLEQInterface::solve()
 /*                             On input:  Has always value 0 (zero). */
 /*                             On output: Indicates failure of FCN eval- */
 /*                                uation, if having a value <= 2. */
-/*                             If <0: NLEQ1 will be terminated with */
+/*                             If <0: NLEQ2 will be terminated with */
 /*                                    error code = 82, and IFAIL stored */
 /*                                    to IWK(23). */
 /*                             If =1: A new trial Newton iterate will */
@@ -289,8 +289,8 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     if (rr::Logger::getLevel() >= Logger::LOG_DEBUG)
     {
         std::stringstream ss;
-
-        ss << "NLEQ ModelFunction" << std::endl;
+        
+        ss << "NLEQ2 ModelFunction" << std::endl;
 
         ss << "y: [";
         for (int i = 0; i < *nx; ++i)
@@ -328,7 +328,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     }
 }
 
-void NLEQInterface::setScalingFactors(const vector<double>& sx)
+void NLEQ2Interface::setScalingFactors(const vector<double>& sx)
 {
     for (int i = 0; i < n; i++)
     {
@@ -336,27 +336,27 @@ void NLEQInterface::setScalingFactors(const vector<double>& sx)
     }
 }
 
-int NLEQInterface::getNumberOfNewtonIterations()
+int NLEQ2Interface::getNumberOfNewtonIterations()
 {
     return IWK[0];
 }
 
-int NLEQInterface::getNumberOfCorrectorSteps()
+int NLEQ2Interface::getNumberOfCorrectorSteps()
 {
     return IWK[2];
 }
 
-int NLEQInterface::getNumberOfModelEvaluations()
+int NLEQ2Interface::getNumberOfModelEvaluations()
 {
     return IWK[3];
 }
 
-int NLEQInterface::getNumberOfJacobianEvaluations()
+int NLEQ2Interface::getNumberOfJacobianEvaluations()
 {
     return IWK[4];
 }
 
-int NLEQInterface::getNumberOfModelEvaluationsForJacobian()
+int NLEQ2Interface::getNumberOfModelEvaluationsForJacobian()
 {
     return IWK[7];
 }
@@ -430,37 +430,37 @@ static const char* keys[] =
         "linearity.hint"
 };
 
-void NLEQInterface::setItem(const std::string& key, const rr::Variant& value)
+void NLEQ2Interface::setItem(const std::string& key, const rr::Variant& value)
 {
 }
 
-Variant NLEQInterface::getItem(const std::string& key) const
+Variant NLEQ2Interface::getItem(const std::string& key) const
 {
     return 0;
 }
 
-bool NLEQInterface::hasKey(const std::string& key) const
+bool NLEQ2Interface::hasKey(const std::string& key) const
 {
     return false;
 }
 
-int NLEQInterface::deleteItem(const std::string& key)
+int NLEQ2Interface::deleteItem(const std::string& key)
 {
     return 0;
 }
 
-std::vector<std::string> NLEQInterface::getKeys() const
+std::vector<std::string> NLEQ2Interface::getKeys() const
 {
     return std::vector<std::string>(&keys[0], &keys[sizeof(keys)/sizeof(char*)]);
 }
 
-const Dictionary* NLEQInterface::getSteadyStateOptions()
+const Dictionary* NLEQ2Interface::getSteadyStateOptions()
 {
     static BasicDictionary dict;
 
-    dict.setItem("steadyState", "NLEQ");
-    dict.setItem("steadyState.hint", "NLEQ hint");
-    dict.setItem("steadyState.description", "NLEQ description");
+    dict.setItem("steadyState", "NLEQ2");
+    dict.setItem("steadyState.hint", "NLEQ2 hint");
+    dict.setItem("steadyState.description", "NLEQ2 description");
 
     dict.setItem("allowPreSim", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
     dict.setItem("preSimMaximumSteps", Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
@@ -506,7 +506,7 @@ const Dictionary* NLEQInterface::getSteadyStateOptions()
     return &dict;
 }
 
-double NLEQInterface::computeSumsOfSquares()
+double NLEQ2Interface::computeSumsOfSquares()
 {
     double sum = 0;
     vector<double> rates(model->getStateVector(0));
