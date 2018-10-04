@@ -96,7 +96,6 @@ private:
     int broyden;
     int linearity;
 
-
     /// <summary>
     /// Sets the Scaling Factors
     /// </summary>
