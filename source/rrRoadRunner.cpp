@@ -419,8 +419,8 @@ RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
 
     // make CVODE the default integrator
     setIntegrator("cvode");
-    // make NLEQ1 the default steady state solver
-    setSteadyStateSolver("nleq1");
+    // make NLEQ2 the default steady state solver
+    setSteadyStateSolver("nleq2");
 }
 
 RoadRunner::RoadRunner(const std::string& uriOrSBML,
@@ -434,8 +434,8 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
 
     // make CVODE the default integrator
     setIntegrator("cvode");
-    // make NLEQ1 the default steady state solver
-    setSteadyStateSolver("nleq1");
+    // make NLEQ2 the default steady state solver
+    setSteadyStateSolver("nleq2");
 
     load(uriOrSBML, options);
 
@@ -464,8 +464,8 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 
     // make CVODE the default integrator
     setIntegrator("cvode");
-    // make NLEQ1 the default steady state solver
-    setSteadyStateSolver("nleq1");
+    // make NLEQ2 the default steady state solver
+    setSteadyStateSolver("nleq2");
 }
 
 RoadRunner::~RoadRunner()
