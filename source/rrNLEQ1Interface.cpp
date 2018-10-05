@@ -54,20 +54,8 @@ NLEQ1Interface::NLEQ1Interface(ExecutableModel *_model) :
     ierr(0),
     iopt(0),
     model(0),
-    nOpts(50),
+    nOpts(50)
 
-    allowPreSim(Config::getBool(Config::STEADYSTATE_PRESIMULATION)),
-    preSimMaximumSteps(Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS)),
-    preSimTime(Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME)),
-    allowApprox(Config::getBool(Config::STEADYSTATE_APPROX)),
-    approxTolerance(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)),
-    approxMaximumSteps(Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS)),
-    approxTime(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)),
-    relativeTolerance(Config::getDouble(Config::STEADYSTATE_RELATIVE)),
-    maxIterations(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)),
-    minDamping(Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING)),
-    broyden(Config::getInt(Config::STEADYSTATE_BROYDEN)),
-    linearity(Config::getInt(Config::STEADYSTATE_LINEARITY))
 {
     model = _model;
 
@@ -107,7 +95,7 @@ void NLEQ1Interface::setup()
     {
         iopt[i] = 0;
     }
-
+    
     // Set for Highly nonlinear problem
     iopt[31 - 1] = linearity;
 

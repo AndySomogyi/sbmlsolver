@@ -65,7 +65,7 @@ void NLEQ1Solver::resetSettings()
     addSetting("approx_tolerance", 1e-6, "Approximation Tolerance", "Tolerance for steady state approximation routine (double).", "(double) Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used");
     addSetting("approx_maximum_steps", 10000, "Approximation Maximum Steps", "Maximum number of steps that can be taken for steady state approximation routine (int).", "(int) Takes priority over approx_time. Only used when steady state approximation routine is used");
     addSetting("approx_time", 10000, "Approximation Time", "End time for steady state approximation routine (double).", "(double) approx_maximum_steps takes priority. Only used when steady state approximation routine is used");
-    addSetting("relative_tolerance", 1e-4, "Relative Tolerance", "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
+    addSetting("relative_tolerance", 1e-12, "Relative Tolerance", "Specifies the relative tolerance (double).", "(double) Relative tolerance used by the solver");
     addSetting("maximum_iterations", 100, "Maximum Iterations", "The maximum number of iterations the solver is allowed to use (int)", "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");
     addSetting("minimum_damping", 1e-20, "Minimum Damping", "The minimum damping factor (double).", "(double) Minumum damping factor used by the algorithm");
     addSetting("broyden_method", 0, "Broyden Method", "Switches on Broyden method (int)", "(int) Broyden method is a quasi-Newton approximation for rank-1 updates");
@@ -104,9 +104,18 @@ double NLEQ1Solver::solve()
 
     NLEQ1Interface* nleq1 = new NLEQ1Interface(model);
 
-//     nleq->maxIterations = getValue("maximum_iterations");
-//     nleq->relativeTolerance = getValue("relative_tolerance");
-//     nleq->minDamping = getValue("minimum_damping");
+    nleq1->allowPreSim = getValue("allow_presimulation");
+    nleq1->preSimMaximumSteps = getValue("presimulation_maximum_steps");
+    nleq1->preSimTime = getValue("presimulation_time");
+    nleq1->allowApprox = getValue("allow_approx");
+    nleq1->approxTolerance = getValue("approx_tolerance");
+    nleq1->approxMaximumSteps = getValue("approx_maximum_steps");
+    nleq1->approxTime = getValue("approx_time");
+    nleq1->relativeTolerance = getValue("relative_tolerance");
+    nleq1->maxIterations = getValue("maximum_iterations");
+    nleq1->minDamping = getValue("minimum_damping");
+    nleq1->broyden = getValue("broyden_method");
+    nleq1->linearity = getValue("linearity");
 
     double result = nleq1->solve();
     delete nleq1;

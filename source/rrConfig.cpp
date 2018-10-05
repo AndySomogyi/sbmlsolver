@@ -123,7 +123,7 @@ static Variant values[] =  {
     Variant(1.e-6),    // STEADYSTATE_APPROX_TOL
     Variant(10000),      // STEADYSTATE_APPROX_MAX_STEPS
     Variant(10000),      // STEADYSTATE_APPROX_TIME
-    Variant(1e-4),      // STEADYSTATE_RELATIVE
+    Variant(1e-12),      // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
     Variant(1e-20),   // STEADYSTATE_MINIMUM_DAMPING
     Variant(0),        // STEADYSTATE_BROYDEN
