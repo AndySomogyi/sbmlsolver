@@ -1,6 +1,8 @@
 SBML Solver
 ===========
 
+[![Join the chat at https://gitter.im/sbmlsolver/Lobby](https://badges.gitter.im/sbmlsolver/Lobby.svg)](https://gitter.im/sbmlsolver/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Copyright 2018
 
