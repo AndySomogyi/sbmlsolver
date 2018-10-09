@@ -44,14 +44,14 @@ endif()
 
 if(WIN32)
     target_link_libraries (${target}
-        sbmlsolver-static
+        sbmlsolver_static
         unit_test-static${staticLibPrefix}
         )
 endif()
 
 if(UNIX)
     target_link_libraries (${target}
-        sbmlsolver-static
+        sbmlsolver_static
         libunit_test-static${staticLibPrefix}
         lapack
         blas

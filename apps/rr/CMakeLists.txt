@@ -21,28 +21,17 @@ add_definitions(
 -DWIN32
 )
 
-target_link_libraries (${target} 
-#sbmlsolver-static
-sbmlsolver
-)
+target_link_libraries (${target}
+  #sbmlsolver_static
+  sbmlsolver
+  )
 endif()
 
 #Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in sbmlsolver-static
 if(UNIX)
-target_link_libraries (${target} 
-sbmlsolver-static
-nleq-static.a
-rr-libstruct-static
-lapack
-blas
-f2c
-sbml-static.a
-xml2
-sundials_nvecserial.a
-sundials_cvode.a
-pthread
-dl
-)
+  target_link_libraries (${target}
+    sbmlsolver_static
+    )
 endif()
 
 

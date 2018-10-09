@@ -16,6 +16,8 @@ one_rr
 #load_model_dll
 )
 
+add_subdirectory(dyn_linking)
+
 foreach(example ${examples})
     #add_subdirectory(${example})
 

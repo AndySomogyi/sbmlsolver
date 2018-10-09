@@ -1,7 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-set(target sbmlsolver)
-
 configure_file(rrConfigure.h.in rrConfigure.h)
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
@@ -41,13 +39,6 @@ message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
 message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 configure_file(GitInfo.h.in GitInfo.h @ONLY)
 
-include_directories(
-    .
-    ${SBMLSOLVER_DEP_DIR}/include
-    ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct
-    ${SBMLSOLVER_DEP_DIR}/include/sbml
-    ${SBMLSOLVER_DEP_DIR}/include/cvode
-    )
 
 set(rrSources
     rrConfig
@@ -142,155 +133,106 @@ if(ENABLE_FBC)
         )
 endif(ENABLE_FBC)
 
+add_library(sbmlsolver_obj
+  OBJECT
+  ${rrSources}
+  )
+
+target_include_directories(sbmlsolver_obj PUBLIC
+  .
+  ${SBMLSOLVER_DEP_DIR}/include
+  ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct
+  ${SBMLSOLVER_DEP_DIR}/include/sbml
+  ${SBMLSOLVER_DEP_DIR}/include/cvode
+  )
+
+
+message("SBMLSOLVER_DEP_DIR: ${SBMLSOLVER_DEP_DIR}/include")
+
+
+target_compile_definitions(sbmlsolver_obj PUBLIC
+  EXPORT_RR
+  LIBSBML_STATIC
+  LIBLAX_STATIC
+  STATIC_LIBSTRUCT
+  STATIC_PUGI
+  STATIC_NLEQ
+  POCO_STATIC
+  POCO_NO_AUTOMATIC_LIBS
+  )
+
+add_library(sbmlsolver_interface INTERFACE)
+
+target_link_libraries(sbmlsolver_interface INTERFACE
+  lapack
+  sundials_cvode
+  sundials_nvecserial
+  blas
+  nleq-static
+  rr-libstruct-static
+  PocoNet
+  PocoFoundation
+  sbml-static
+  lapack
+  xml2
+  f2c
+  )
+
+target_include_directories(sbmlsolver_interface INTERFACE
+  .
+  ${SBMLSOLVER_DEP_DIR}/include
+  ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct
+  ${SBMLSOLVER_DEP_DIR}/include/sbml
+  ${SBMLSOLVER_DEP_DIR}/include/cvode
+  ${CMAKE_SOURCE_DIR}/include
+  )
+
+
+
+
+if(BUILD_LLVM)
+  target_link_libraries(sbmlsolver_obj
+    ${LLVM_LIBRARIES}
+    )
+
+    target_link_libraries(sbmlsolver_interface INTERFACE
+    ${LLVM_LIBRARIES}
+    )
+endif(BUILD_LLVM)
+
+
+if(ENABLE_FBC)
+  target_link_libraries(sbmlsolver_obj ${COINOR_CLP_LIBRARIES} bz2)
+endif(ENABLE_FBC)
+
+
 
 # set up linking libs
 if(RR_BUILD_SHARED_CORE)
-    #Link with static libs
-    add_library(${target} SHARED ${rrSources})
 
-    set_property(TARGET ${target}
-        PROPERTY  COMPILE_DEFINITIONS
-        EXPORT_RR
-        LIBSBML_STATIC
-        LIBLAX_STATIC
-        STATIC_LIBSTRUCT
-        STATIC_PUGI
-        STATIC_NLEQ
-        POCO_STATIC
-        POCO_NO_AUTOMATIC_LIBS
-        )
+  # shared and static libraries built from the same object files
+  add_library(sbmlsolver_shared SHARED $<TARGET_OBJECTS:sbmlsolver_obj>)
 
-    #libraries to link with our shared lib
-    if(UNIX)
-        set(staticLibExt ".a")
-    else()
-        set(staticLibExt "")
-    endif(UNIX)
+  target_link_libraries(sbmlsolver_shared PUBLIC sbmlsolver_interface)
 
-    target_link_libraries (${target}
-        sundials_cvode
-        sundials_nvecserial
-        blas
-        lapack
-        nleq-static
-        rr-libstruct-static
-        PocoNet
-        PocoFoundation
-        )
+  set_target_properties(sbmlsolver_shared PROPERTIES OUTPUT_NAME "sbmlsolver")
 
 
-
-    if(UNIX)
-      target_link_libraries(${target} xml2)
-    elseif(${MSVC})
-      target_link_libraries (${target} libxml2)
-    endif()
-
-    if(UNIX)
-        target_link_libraries (${target}
-            pthread
-            sbml
-            dl
-            f2c${staticLibExt}
-            )
-    else()
-        target_link_libraries (${target}
-            libf2c
-            libsbml
-        ws2_32
-        iphlpapi
-            )
-    endif(UNIX)
-
-
-
-
-    if(${INSTALL_CXX_API})
-        install(TARGETS ${target}
-            RUNTIME DESTINATION bin COMPONENT rr_core
-            LIBRARY DESTINATION lib COMPONENT rr_core
-            ARCHIVE DESTINATION lib COMPONENT rr_core
-            )
-    endif()
-
-
-    if(BUILD_LLVM)
-        target_link_libraries(${target}
-            ${LLVM_LIBRARIES}
-            )
-    endif(BUILD_LLVM)
-    
-    
-if(ENABLE_FBC)
-  target_link_libraries(${target} ${COINOR_CLP_LIBRARIES} bz2)
-endif(ENABLE_FBC)
+  install(TARGETS sbmlsolver_shared
+    RUNTIME DESTINATION bin COMPONENT rr_core
+    LIBRARY DESTINATION lib COMPONENT rr_core
+    ARCHIVE DESTINATION lib COMPONENT rr_core
+    )
 
 endif(RR_BUILD_SHARED_CORE)
 
 # static allways gets build
 
-add_library(${target}-static STATIC ${rrSources})
+# shared and static libraries built from the same object files
+add_library(sbmlsolver_static STATIC $<TARGET_OBJECTS:sbmlsolver_obj>)
+target_link_libraries(sbmlsolver_static PUBLIC sbmlsolver_interface)
+set_target_properties(sbmlsolver_static PROPERTIES OUTPUT_NAME "sbmlsolver")
 
-set_property(TARGET ${target}-static
-    PROPERTY COMPILE_DEFINITIONS
-    STATIC_RR
-    LIBSBML_USE_CPP_NAMESPACE
-    LIBSBML_STATIC
-    LIBLAX_STATIC
-    STATIC_LIBSTRUCT
-    STATIC_PUGI
-    STATIC_NLEQ
-    POCO_STATIC
-    POCO_NO_AUTOMATIC_LIBS
-    )
-
-#libraries to link with static lib
-#======== We need to split up this one to satisfy linking in both windows and posix.
-#=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
-if(BUILD_LLVM)
-  target_link_libraries(${target}-static ${LLVM_LIBRARIES})
-endif(BUILD_LLVM)
-
-
-if(ENABLE_FBC)
-  target_link_libraries(${target}-static ${COINOR_CLP_LIBRARIES} bz2)
-endif(ENABLE_FBC)
-
-target_link_libraries (${target}-static
-    sundials_cvode
-    sundials_nvecserial
-    blas
-    lapack
-    nleq-static
-    rr-libstruct-static
-    PocoNet
-    PocoFoundation
-    )
-
-if(WIN32)
-    target_link_libraries (${target}-static
-        libsbml-static
-        libf2c
-    ws2_32
-    iphlpapi
-        )
-endif(WIN32)
-
-
-if(UNIX)
-    target_link_libraries (${target}-static
-        sbml-static
-        f2c
-        xml2
-        dl
-        pthread
-        )
-endif(UNIX)
-
-
-if(${MSVC})
-    target_link_libraries(${target}-static libxml2)
-endif()
 
 if(BUILD_TEST_TOOLS)
   if(BUILD_LLVM)
@@ -308,7 +250,7 @@ endif()
 if(${INSTALL_CXX_API})
 
     #if(INSTALL_STATIC_LIB)
-    install(TARGETS ${target}-static
+    install(TARGETS sbmlsolver_static
         LIBRARY DESTINATION lib COMPONENT rr_core
         ARCHIVE DESTINATION lib COMPONENT rr_core
         )

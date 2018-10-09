@@ -1,0 +1,3 @@
+add_executable(example_dynlink test.cpp)
+
+target_link_libraries(example_dynlink sbmlsolver_shared)

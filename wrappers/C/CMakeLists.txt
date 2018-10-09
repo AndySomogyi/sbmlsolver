@@ -44,7 +44,7 @@ if(WIN32)
         )
 
     target_link_libraries ( ${target}
-        sbmlsolver-static
+        sbmlsolver_static
         )
 
 else() #Unix
@@ -65,7 +65,7 @@ else() #Unix
         )
 
     target_link_libraries ( ${target}
-        sbmlsolver-static
+        sbmlsolver_static
         rr-libstruct-static
         nleq-static
         sbml-static

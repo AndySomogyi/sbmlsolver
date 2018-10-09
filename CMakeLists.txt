@@ -3,27 +3,36 @@ project(SBMLSolver)
 
 # These will be the defaults ...
 if(WIN32)
-    SET(RR_BUILDS_ROOT      "c:/builds")
-    SET(RR_INSTALLS_ROOT    "c:/installs")
+  SET(RR_BUILDS_ROOT      "c:/builds")
+  SET(RR_INSTALLS_ROOT    "c:/installs")
 
 
-    if(MSVC)
-        set(FOLDER_POSTFIX "vs")
-    endif()
+  if(MSVC)
+    set(FOLDER_POSTFIX "vs")
+  endif()
 
-    if(UNIX)
-        set(FOLDER_POSTFIX "gcc")
-    endif()
+  if(UNIX)
+    set(FOLDER_POSTFIX "gcc")
+  endif()
 
-    set(SBMLSOLVER_DEP_DIR ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries.")
-    if("${SBMLSOLVER_DEP_DIR}" STREQUAL "")
-        set(SBMLSOLVER_DEP_DIR ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
-    endif()
+  set(SBMLSOLVER_DEP_DIR ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries.")
+  if("${SBMLSOLVER_DEP_DIR}" STREQUAL "")
+    set(SBMLSOLVER_DEP_DIR ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
+  endif()
 else()
-    # Default the third party dir to a more conventional unix type path
-    # This would typically be /usr/local, $HOME/local or something like that.
-    set(SBMLSOLVER_DEP_DIR ${CMAKE_INSTALL_PREFIX} CACHE PATH "Directory containing ThirdParty libraries.")
+  # Default the third party dir to a more conventional unix type path
+  # This would typically be /usr/local, $HOME/local or something like that.
+  set(SBMLSOLVER_DEP_DIR CACHE PATH "Directory containing ThirdParty libraries.")
 endif(WIN32)
+
+
+if(IS_DIRECTORY ${SBMLSOLVER_DEP_DIR} AND IS_DIRECTORY ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct)
+  message("is dir: ${SBMLSOLVER_DEP_DIR}")
+else()
+  message(FATAL_ERROR "invalid sbmlsolver dependency dir: ${SBMLSOLVER_DEP_DIR}")
+endif()
+
+
 
 # add cmake files to find things, prepend with our path
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
