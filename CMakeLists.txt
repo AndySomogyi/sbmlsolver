@@ -26,7 +26,7 @@ else()
 endif(WIN32)
 
 
-if(IS_DIRECTORY ${SBMLSOLVER_DEP_DIR} AND IS_DIRECTORY ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct)
+if((IS_DIRECTORY ${SBMLSOLVER_DEP_DIR}) AND (IS_DIRECTORY ${SBMLSOLVER_DEP_DIR}/include/rr-libstruct))
   message("is dir: ${SBMLSOLVER_DEP_DIR}")
 else()
   message(FATAL_ERROR "invalid sbmlsolver dependency dir: ${SBMLSOLVER_DEP_DIR}")
