@@ -4,12 +4,19 @@
 
 int main(int argv, const char** argc) {
 
+
+    if(argv != 2) {
+        std::cout << "usage: test /absolute/path/to/sbml/file" << std::endl;
+        return -1;
+    }
+
+
     // The basic way of creating a solver in C is:
     // ISBMLSolver *solver = NULL;
     ISBMLSolver *solver = NULL;
 
-    std::cout << "creating solver..." << std::endl;
-    HRESULT result = MxCreateSBMLSolver("/path/to/my/sbmlfile.sbml", NULL, &solver);
+    std::cout << "creating solver, loading file \"" << argc[1] << "\"" << std::endl;
+    HRESULT result = MxCreateSBMLSolver(argc[1], NULL, &solver);
 
     if(SUCCEEDED(result)) {
         std::cout << "we’re good, made a solver, ready to use it" << std::endl;
