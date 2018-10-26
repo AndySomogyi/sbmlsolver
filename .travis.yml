@@ -28,8 +28,8 @@ before_install:
   # install roadrunner dependencies via apt:
   - mkdir ~/debs
   - cd ~/debs
-  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/b8288d2f3e9623ad0f13ff8a1aa97fabf481413a/libroadrunner-deps_1.5_amd64.deb
-  - sudo dpkg -i libroadrunner-deps_1.5_amd64.deb
+  - wget http://cdn.rawgit.com/sys-bio/roadrunner-debs/db909c2b49a4897fbc95c6294be4d2550ec787ec/libroadrunner-deps-dev_2.0.8_amd64.deb
+  - sudo dpkg -i libroadrunner-deps-dev_2.0.8_amd64.deb
   - sudo cp /usr/local/include/rr-libstruct/* /usr/local/include
   - sudo cp /usr/local/include/clapack/* /usr/local/include
 
