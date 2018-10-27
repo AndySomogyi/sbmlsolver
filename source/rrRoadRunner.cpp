@@ -1162,6 +1162,10 @@ double RoadRunner::steadyState(const Dictionary* dict)
     // NLEQ
     if (impl->steady_state_solver->getValueAsBool("allow_approx"))
     {
+        int l = impl->model->getNumFloatingSpecies();
+        double* vals = new double[l];
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
+
         try
         {
             ss = impl->steady_state_solver->solve();
@@ -1179,6 +1183,12 @@ double RoadRunner::steadyState(const Dictionary* dict)
             {
                 // Reset to t = 0;
                 reset();
+
+                // Restore initial concentrations
+                for (int i = 0; i<l; ++i) {
+                    impl->model->setFloatingSpeciesConcentrations(1, &i, &vals[i]);
+                }
+
                 ss = steadyStateApproximate();
 
                 Log(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
@@ -1261,14 +1271,14 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
 
         for (int i = 1; i < l; i++)
         {
-            tol += pow((vals2[i] - vals1[i]) / (duration/(steps - 1)), 2);
+            tol += sqrt(pow((vals2[i] - vals1[i]) / (duration / steps), 2));
         }
     }
     catch (EventListenerException& e)
     {
         Log(Logger::LOG_ERROR) << e.what();
     }
-
+    
     self.simulateOpt.start = start_temp;
     self.simulateOpt.duration = duration_temp;
     self.simulateOpt.steps = steps_temp;
@@ -1909,54 +1919,41 @@ DoubleMatrix RoadRunner::getRatesOfChange()
 {
     check_model();
 
+    int ssvl = impl->model->getStateVector(NULL);
+    double* vals = new double[ssvl];
+    double* ssv = new double[ssvl];
+    DoubleMatrix v(1, ssvl);
+
+    impl->model->getStateVector(ssv);
+    impl->model->getStateVectorRate(impl->model->getTime(), ssv, vals);
+
     if (getConservedMoietyAnalysis())
     {
-        int l = impl->model->getNumFloatingSpecies();
-
-        double* vals = new double[l];
-
         LibStructural *ls = getLibStruct();
-        DoubleMatrix v(1, l);
-        int m = impl->model->getStateVector(NULL);
         DoubleMatrix lm = *ls->getLinkMatrix();
 
-        impl->model->getStateVectorRate(impl->model->getTime(), NULL, vals);
-
-        for (int i = 0; i < l; ++i)
+        for (int i = 0; i < ssvl; ++i)
         {
             double sum = 0;
-            for (int j = 0; j < m; ++j)
+            for (int j = 0; j < ssvl; ++j)
             {
                 sum += lm[i][j] * vals[j];
             }
             v(0, i) = sum;
         }
-
-        delete vals;
-
-        v.setColNames(getFloatingSpeciesIds());
-
-        return v;
     }
     else
     {
-        int l = impl->model->getStateVector(NULL);
-
-        double* vals = new double[l];
-
-        LibStructural *ls = getLibStruct();
-        DoubleMatrix v(1, l);
-        impl->model->getStateVectorRate(impl->model->getTime(), 0, vals);
-
-        for (int i = 0; i<l; ++i)
+        for (int i = 0; i<ssvl; ++i)
             v(0, i) = vals[i];
-
-        delete vals;
-
-        v.setColNames(getFloatingSpeciesIds());
-
-        return v;
     }
+
+    delete vals;
+    delete ssv;
+
+    v.setColNames(getFloatingSpeciesIds());
+
+    return v;
 }
 
 DoubleMatrix RoadRunner::getFullJacobian()
