@@ -1147,7 +1147,8 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
             setIntegrator(currint);
 
-            throw CoreException("Steady state presimulation failed. Try turning off allow_presimulation flag to False; ", e.Message());
+            throw CoreException("Steady state presimulation failed. Try turning off allow_presimulation flag to False "
+                "via r.steadyStateSolver.allow_presimulation = False where r is an roadrunner instance; ", e.Message());
         }
 
         impl->simulateOpt.start = start_temp;
@@ -1289,7 +1290,9 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
 
     if (tol > self.steady_state_solver->getValueAsDouble("approx_tolerance"))
     {
-        throw CoreException("Failed to converge while running approximation routine. Try increasing the time or maximum number of iteration. Model might not have a steady state.");
+        throw CoreException("Failed to converge while running approximation routine. Try increasing "
+            "the time or maximum number of iteration via changing the settings under r.steadyStateSolver "
+            "where r is an roadrunner instance. Model might not have a steady state.");
     }
 
     return tol;
