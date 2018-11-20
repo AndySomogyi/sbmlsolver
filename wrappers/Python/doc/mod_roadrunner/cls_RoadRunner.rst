@@ -239,6 +239,12 @@ Selections
    :rtype: roadrunner.SelectionRecord
 
 
+.. method:: RoadRunner.resetSelectionLists()
+
+   Resets time course and steady state selection lists to defaults
+
+   
+   
 Model Access
 ------------
 

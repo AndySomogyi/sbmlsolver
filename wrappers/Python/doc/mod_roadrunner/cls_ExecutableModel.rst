@@ -97,6 +97,15 @@ Floating Species
    ['S1', 'S2', 'S3']
 
 
+.. method:: ExecutableModel.getFloatingSpeciesConcentrationIds()
+   :module: RoadRunner
+
+   Return a list of all floating species concentration ids.
+
+   >>> r.getFloatingSpeciesConcentrationIds()
+   ['[S1]', '[S2]', '[S3]', '[S4]']
+   
+
 .. method:: ExecutableModel.getNumFloatingSpecies()
    :module: RoadRunner
 
@@ -317,6 +326,19 @@ Boundary Species
    ['X0', 'X1']
 
 
+.. method:: ExecutableModel.getBoundarySpeciesConcentrationIds()
+   :module: RoadRunner
+
+   Return a vector of boundary species concentration Ids.
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: a list of boundary species concentration ids.
+
+
+   >>> r.getBoundarySpeciesConcentrationIds()
+   ['[X0]', '[X1]']   
+   
+   
 .. method:: ExecutableModel.getNumBoundarySpecies()
    :module: RoadRunner
 
