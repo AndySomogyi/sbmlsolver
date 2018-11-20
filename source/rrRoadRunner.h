@@ -404,6 +404,12 @@ public:
     std::vector<std::string> getDependentFloatingSpeciesIds();
 
     /**
+    * @author KC
+    * @brief Gets the ids for all floating species concentrations
+    */
+    std::vector<std::string> getFloatingSpeciesConcentrationIds();
+
+    /**
       * @brief Gets the ids for all initial floating species concentrations
       * @details See @ref getIndependentFloatingSpeciesIds for an explanation
       * of independent vs. dependent.

@@ -1763,6 +1763,17 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle);
 
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle);
 
+
+/*!
+\brief Obtain the list of floating species concentrations Id
+
+\param[in] handle Handle to a RoadRunner instance
+\return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
+\ingroup floating
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesConcentrationIds(RRHandle handle);
+
+
 /*!
  \brief Obtain the list of global parameter Ids
 

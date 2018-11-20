@@ -496,6 +496,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::addCapabilities;
 %ignore rr::RoadRunner::getFloatingSpeciesIds;
+%ignore rr::RoadRunner::getFloatingSpeciesConcentrationIds;
 %ignore rr::RoadRunner::getRateOfChangeIds;
 //%ignore rr::RoadRunner::getuCC;
 %ignore rr::RoadRunner::addCapability;
@@ -2032,6 +2033,10 @@ namespace std { class ostream{}; }
 
     PyObject *getFloatingSpeciesIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT);
+    }
+
+    PyObject *getFloatingSpeciesConcentrationIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_CONCENTRATION);
     }
 
     PyObject *getBoundarySpeciesIds() {

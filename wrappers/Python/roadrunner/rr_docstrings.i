@@ -57,6 +57,12 @@ Return a list of floating species sbml ids.
 ";
 
 
+%feature("docstring") rr::ExecutableModel::getFloatingSpeciesConcentrationIds "
+ExecutableModel.getFloatingSpeciesConcentrationIds()
+
+Return a list of floating species concentration ids.
+";
+
 
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmounts "
 ExecutableModel.getFloatingSpeciesAmounts([index])

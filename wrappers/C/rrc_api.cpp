@@ -896,6 +896,23 @@ RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle)
     catch_ptr_macro
 }
 
+
+RRStringArrayPtr rrcCallConv getFloatingSpeciesConcentrationIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    StringList fNames = rri->getFloatingSpeciesConcentrationIds();
+
+    if (!fNames.Count())
+    {
+        return NULL;
+    }
+
+    return createList(fNames);
+    catch_ptr_macro
+}
+
+
 int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 {
     start_try
