@@ -316,6 +316,11 @@ public:
     void reset(int options);
 
     /**
+     * resets time course and steady state selection lists to defaults
+     */
+    void resetSelectionLists();
+
+    /**
      * @internal
      * set the floating species initial concentrations.
      *
@@ -373,7 +378,6 @@ public:
     void setSelections(const std::vector<std::string>& selections);
 
     void setSelections(const std::vector<rr::SelectionRecord>& selections);
-
 
     /**
      * returns the values selected with SimulateOptions for the current model time / timestep")

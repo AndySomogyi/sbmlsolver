@@ -766,6 +766,14 @@ RoadRunner.createSelection(sel)
 Create a new selection based on a selection string
 
 :rtype: roadrunner.SelectionRecord
+";
+
+
+%feature("docstring") rr::RoadRunner::resetSelectionLists "
+RoadRunner.resetSelectionLists()
+
+Resets time course and steady state selection lists to defaults
+
 
 
 Model Access

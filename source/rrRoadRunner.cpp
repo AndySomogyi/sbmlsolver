@@ -1049,6 +1049,11 @@ void RoadRunner::reset(int options)
     }
 }
 
+void RoadRunner::resetSelectionLists()
+{
+    createDefaultSelectionLists();
+}
+
 bool RoadRunner::populateResult()
 {
     vector<string> list(impl->mSelectionList.size());
@@ -3942,8 +3947,6 @@ void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>
 {
     impl->mSteadyStateSelection = ss;
 }
-
-
 
 //Compute the frequency response, startW, Number Of Decades, Number of Points, parameterName, variableName
 Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,

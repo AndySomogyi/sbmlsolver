@@ -633,7 +633,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %rename (_load) rr::RoadRunner::load;
 %rename (_getValue) rr::RoadRunner::getValue;
 
-
 %ignore rr::Config::getInt;
 %ignore rr::Config::getString;
 %ignore rr::Config::getBool;
