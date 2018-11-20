@@ -4313,6 +4313,17 @@ vector<string> RoadRunner::getBoundarySpeciesIds()
     return std::vector<std::string>(list.begin(), list.end());
 }
 
+vector<string> RoadRunner::getBoundarySpeciesConcentrationIds()
+{
+    std::list<std::string> list;
+
+    if (impl->model) {
+        impl->model->getIds(SelectionRecord::BOUNDARY_CONCENTRATION, list);
+    }
+
+    return std::vector<std::string>(list.begin(), list.end());
+}
+
 vector<string> RoadRunner::getConservedMoietyIds()
 {
     return createModelStringList(impl->model, &ExecutableModel::getNumConservedMoieties,

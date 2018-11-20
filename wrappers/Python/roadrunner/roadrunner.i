@@ -547,6 +547,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getScaledFluxControlCoefficientMatrix;
 %ignore rr::RoadRunner::setCompartmentByIndex;
 %ignore rr::RoadRunner::getBoundarySpeciesIds;
+%ignore rr::RoadRunner::getBoundarySpeciesConcentrationIds;
 //%ignore rr::RoadRunner::getIntegrator;
 //%ignore rr::RoadRunner::getScaledReorderedElasticityMatrix;
 %ignore rr::RoadRunner::setCompiler;
@@ -2040,6 +2041,10 @@ namespace std { class ostream{}; }
 
     PyObject *getBoundarySpeciesIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::BOUNDARY_AMOUNT);
+    }
+
+    PyObject *getBoundarySpeciesConcentrationIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::BOUNDARY_CONCENTRATION);
     }
 
     PyObject *getGlobalParameterIds() {

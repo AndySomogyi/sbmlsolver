@@ -269,6 +269,16 @@ Returns a vector of boundary species Ids.
 ";
 
 
+%feature("docstring") rr::ExecutableModel::getBoundarySpeciesConcentrationIds "
+ExecutableModel.getBoundarySpeciesConcentrationIds()
+
+Returns a vector of boundary species concentration Ids.
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: a list of boundary species ids.
+";
+
+
 
 %feature("docstring") rr::ExecutableModel::getNumBoundarySpecies "
 ExecutableModel.getNumBoundarySpecies()

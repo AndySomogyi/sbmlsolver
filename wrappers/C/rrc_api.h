@@ -1750,6 +1750,16 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle);
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle);
 
+
+/*!
+\brief Obtain the list of boundary species concentration Ids
+
+\param[in] handle Handle to a RoadRunner instance
+\return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
+\ingroup boundary
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesConcentrationIds(RRHandle handle);
+
 /*!
  \brief Obtain the list of floating species Id
 

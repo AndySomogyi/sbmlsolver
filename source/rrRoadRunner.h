@@ -763,6 +763,13 @@ public:
      */
     std::vector<std::string> getBoundarySpeciesIds();
 
+
+    /**
+    * @author KC
+    * @brief Gets the ids for all boundary species concentrations
+    */
+    std::vector<std::string> getBoundarySpeciesConcentrationIds();
+
     /**
      * @internal
      * @deprecated

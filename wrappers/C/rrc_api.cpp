@@ -858,6 +858,22 @@ RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle)
     catch_ptr_macro
 }
 
+RRStringArrayPtr rrcCallConv getBoundarySpeciesConcentrationIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    StringList bNames = rri->getBoundarySpeciesConcentrationIds();
+
+    if (!bNames.Count())
+    {
+        return NULL;
+    }
+
+    return createList(bNames);
+    catch_ptr_macro
+}
+
+
 int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)
 {
     start_try
