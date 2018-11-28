@@ -550,7 +550,19 @@ Rate Rules
    >>> r.getNumRateRules()
    1
 
+   
+.. method:: ExecutableModel.getEventIds()
+   :module: RoadRunner
 
+   Returns a list of event ids.
+
+   :returns: a list of event ids.
+   
+   >>> r.model.getEventIds()
+   ['E1']
+   
+   
+   
 Stoichiometry
 -------------
 
@@ -642,6 +654,17 @@ Refer to :attr:`RoadRunner.conservedMoietyAnalysis` and :attr:`Config.LOADSBMLOP
 
 Misc
 ----
+
+.. method:: ExecutableModel.getAllTimeCourseComponentIds()
+   :module: RoadRunner
+
+   Return a list of all component ids. The list includes ids of floating species, 
+   boundary species, global parameters, compartments, and reactions, as well as `time`.
+
+   :returns: a list of all component ids widely used in time course selections.
+   >>> r.model.getAllTimeCourseComponentIds()
+   ['time', 'S1', 'S2', 'S3', 'k1', 'k2', 'default_compartment', '_J0', '_J1']
+
 
 
 .. method:: ExecutableModel.getInfo()
