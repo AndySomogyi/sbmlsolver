@@ -2075,6 +2075,13 @@ namespace std { class ostream{}; }
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::EVENT);
     }
 
+    %pythoncode %{
+        def getAllTimeCourseComponentIds(self):
+            return (['time'] + self.getFloatingSpeciesIds() + self.getBoundarySpeciesIds()
+            + self.getGlobalParameterIds() + self.getCompartmentIds() + self.getReactionIds())
+    %}
+
+
 
 
     /***
