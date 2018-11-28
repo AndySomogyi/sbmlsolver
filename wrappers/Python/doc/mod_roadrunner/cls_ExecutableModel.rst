@@ -658,8 +658,9 @@ Misc
 .. method:: ExecutableModel.getAllTimeCourseComponentIds()
    :module: RoadRunner
 
-   Return a list of all component ids. The list includes ids of floating species, 
-   boundary species, global parameters, compartments, and reactions, as well as `time`.
+   Return a list of all component ids.  The list includes ids of amount/concentration of 
+   floating species, boundary species, global parameters, compartments, and reactions, 
+   as well as `time`.
 
    :returns: a list of all component ids widely used in time course selections.
    >>> r.model.getAllTimeCourseComponentIds()
