@@ -523,10 +523,22 @@ length as index.
 :param numpy.ndarray values: the values to set.
 
 
+
+Events
+------------------
+";
+
+%feature("docstring") rr::ExecutableModel::getEventIds "
+ExecutableModel.getEventIds()
+
+Returns a list of event ids.
+
+:returns: a list of event ids.
+
+
 Misc
 ----
 ";
-
 
 
 %feature("docstring") rr::ExecutableModel::getInfo "
