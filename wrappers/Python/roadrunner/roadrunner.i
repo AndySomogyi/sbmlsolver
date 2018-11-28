@@ -2077,6 +2077,17 @@ namespace std { class ostream{}; }
 
     %pythoncode %{
         def getAllTimeCourseComponentIds(self):
+            """
+
+            ExecutableModel.getAllTimeCourseComponentIds([index])
+
+            Return a list of all component ids. The list includes ids of floating species, boundary species,
+            global parameters, compartments, and reactions, as well as `time`.
+
+            :returns: a list of all component ids widely used in time course selections.
+
+            """
+
             return (['time'] + self.getFloatingSpeciesIds() + self.getBoundarySpeciesIds()
             + self.getGlobalParameterIds() + self.getCompartmentIds() + self.getReactionIds())
     %}
