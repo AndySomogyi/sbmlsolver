@@ -363,6 +363,15 @@ Global Parameters
 ";
 
 
+%feature("docstring") rr::ExecutableModel::getGlobalParameterIds "
+ExecutableModel.getGlobalParameterIds([index])
+
+Return a list of global parameter ids.
+
+:returns: a list of global parameter ids.
+";
+
+
 
 %feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
 ExecutableModel.getGlobalParameterValues([index])
