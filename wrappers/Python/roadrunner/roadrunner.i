@@ -1195,6 +1195,7 @@ namespace std { class ostream{}; }
             # check for errors
             import collections
             import sys
+            import warnings
             if selections is not None:
                 # check that selections is a sequence
                 if not isinstance(selections, collections.Sequence):
@@ -1247,6 +1248,10 @@ namespace std { class ostream{}; }
             result = self._simulate(o)
 
             o.steps = originalSteps
+
+            if result.shape[0] > Config.getValue(Config.MAX_OUTPUT_ROWS):
+                warnings.warn("Simulation returned more points than max output rows specified. "
+                              "Try incresing the number of maximum output rows or minimum step size.")
 
             return result
 
