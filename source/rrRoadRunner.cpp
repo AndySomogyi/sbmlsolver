@@ -2756,8 +2756,8 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrationsV()
     }
 
 
-    vector<double> result(impl->model->getNumFloatingSpecies(), 0);
-    impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+    vector<double> result(impl->model->getNumBoundarySpecies(), 0);
+    impl->model->getBoundarySpeciesConcentrations(result.size(), 0, &result[0]);
     return result;
 }
 
@@ -2769,8 +2769,8 @@ vector<double> RoadRunner::getBoundarySpeciesAmountsV()
     }
 
 
-    vector<double> result(impl->model->getNumFloatingSpecies(), 0);
-    impl->model->getFloatingSpeciesAmounts(result.size(), 0, &result[0]);
+    vector<double> result(impl->model->getNumBoundarySpecies(), 0);
+    impl->model->getBoundarySpeciesAmounts(result.size(), 0, &result[0]);
     return result;
 }
 
