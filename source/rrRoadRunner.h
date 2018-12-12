@@ -438,16 +438,28 @@ public:
 /******************************************************************************/
 
     /**
-     * @author JKM
-     * @brief Returns the floating species amounts as a named array
-     */
-    ls::DoubleMatrix getFloatingSpeciesAmounts();
+    * @author KC
+    * @brief Returns the floating species amounts as a named array
+    */
+    ls::DoubleMatrix getFloatingSpeciesAmountsNamedArray();
 
     /**
-     * @author JKM
+     * @author KC
      * @brief Returns the floating species concentrations as a named array
      */
-    ls::DoubleMatrix getFloatingSpeciesConcentrations();
+    ls::DoubleMatrix getFloatingSpeciesConcentrationsNamedArray();
+
+    /**
+    * @author KC
+    * @brief Returns the boundary species amounts as a named array
+    */
+    ls::DoubleMatrix getBoundarySpeciesAmountsNamedArray();
+
+    /**
+    * @author KC
+    * @brief Returns the boundary species concentrations as a named array
+    */
+    ls::DoubleMatrix getBoundarySpeciesConcentrationsNamedArray();
 
     /**
      * @author KC
@@ -897,7 +909,19 @@ public:
     * @deprecated
     */
     RR_DEPRECATED(std::vector<double> getFloatingSpeciesAmountsV());
+    
+    /**
+    * @internal
+    * @deprecated
+    */
+    RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrationsV());
 
+    /**
+    * @internal
+    * @deprecated
+    */
+    RR_DEPRECATED(std::vector<double> getBoundarySpeciesAmountsV());
+    
     /**
      * @internal
      * @deprecated

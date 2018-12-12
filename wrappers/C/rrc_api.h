@@ -1280,6 +1280,8 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle);
 
+C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesAmounts(RRHandle handle);
+
 // --------------------------------------------------------------------------------
 // Parameter Group
 // --------------------------------------------------------------------------------

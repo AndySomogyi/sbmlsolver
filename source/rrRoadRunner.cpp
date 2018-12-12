@@ -1879,7 +1879,7 @@ std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::Jacob
     return ls::getEigenValues(mat);
 }
 
-DoubleMatrix RoadRunner::getFloatingSpeciesAmounts()
+DoubleMatrix RoadRunner::getFloatingSpeciesAmountsNamedArray()
 {
     check_model();
 
@@ -1901,7 +1901,7 @@ DoubleMatrix RoadRunner::getFloatingSpeciesAmounts()
     return v;
 }
 
-DoubleMatrix RoadRunner::getFloatingSpeciesConcentrations()
+DoubleMatrix RoadRunner::getFloatingSpeciesConcentrationsNamedArray()
 {
     check_model();
 
@@ -2571,22 +2571,51 @@ double RoadRunner::getBoundarySpeciesByIndex(const int& index)
     throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
 }
 
-// Help("Returns an array of boundary species concentrations")
-vector<double> RoadRunner::getBoundarySpeciesConcentrations()
-{
-    if (!impl->model)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
 
-    vector<double> result(impl->model->getNumBoundarySpecies(), 0);
-    impl->model->getBoundarySpeciesConcentrations(result.size(), 0, &result[0]);
-    return result;
+DoubleMatrix RoadRunner::getBoundarySpeciesConcentrationsNamedArray()
+{
+    check_model();
+
+    int l = impl->model->getNumBoundarySpecies();
+
+    double* vals = new double[l];
+    impl->model->getBoundarySpeciesConcentrations(l, NULL, vals);
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix v(1, l);
+
+    for (int i = 0; i<l; ++i)
+        v(0, i) = vals[i];
+
+    delete vals;
+
+    v.setColNames(getBoundarySpeciesIds());
+
+    return v;
 }
 
 
+DoubleMatrix RoadRunner::getBoundarySpeciesAmountsNamedArray()
+{
+    check_model();
 
+    int l = impl->model->getNumBoundarySpecies();
 
+    double* vals = new double[l];
+    impl->model->getBoundarySpeciesAmounts(l, NULL, vals);
+
+    LibStructural *ls = getLibStruct();
+    DoubleMatrix v(1, l);
+
+    for (int i = 0; i<l; ++i)
+        v(0, i) = vals[i];
+
+    delete vals;
+
+    v.setColNames(getBoundarySpeciesIds());
+
+    return v;
+}
 
 
 // Help("Get the number of floating species")
@@ -2718,6 +2747,33 @@ void RoadRunner::setFloatingSpeciesConcentrations(const vector<double>& values)
 
     impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
 }
+
+vector<double> RoadRunner::getBoundarySpeciesConcentrationsV()
+{
+    if (!impl->model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+
+    vector<double> result(impl->model->getNumFloatingSpecies(), 0);
+    impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+    return result;
+}
+
+vector<double> RoadRunner::getBoundarySpeciesAmountsV()
+{
+    if (!impl->model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+
+    vector<double> result(impl->model->getNumFloatingSpecies(), 0);
+    impl->model->getFloatingSpeciesAmounts(result.size(), 0, &result[0]);
+    return result;
+}
+
 
 // Help("Set the concentrations for all floating species in the model")
 void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)

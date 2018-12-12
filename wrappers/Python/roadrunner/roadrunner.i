@@ -542,7 +542,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getInstanceCount;
 //%ignore rr::RoadRunner::getScaledFloatingSpeciesElasticity;
 %ignore rr::RoadRunner::setCapabilities;
-%ignore rr::RoadRunner::getBoundarySpeciesConcentrations;
 //%ignore rr::RoadRunner::getInstanceID;
 //%ignore rr::RoadRunner::getScaledFluxControlCoefficientMatrix;
 %ignore rr::RoadRunner::setCompartmentByIndex;
@@ -619,7 +618,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getParameterValue;
 //%ignore rr::RoadRunner::getVersion;
 %ignore rr::RoadRunner::unLoadModel;
-//%ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
 %ignore rr::RoadRunner::getRateOfChange;
 //%ignore rr::RoadRunner::getlibSBMLVersion;
 //%ignore rr::RoadRunner::writeSBML;
