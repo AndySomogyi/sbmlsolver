@@ -1964,6 +1964,54 @@ DoubleMatrix RoadRunner::getRatesOfChange()
     return v;
 }
 
+DoubleMatrix RoadRunner::getIndependentRatesOfChange()
+{
+    check_model();
+
+    vector<string> idfsId = getIndependentFloatingSpeciesIds();
+    vector<string> fsId = getFloatingSpeciesIds();
+    int nindep = idfsId.size();
+    DoubleMatrix v(1, nindep);
+
+    DoubleMatrix rate = getRatesOfChange();
+
+    for (int i = 0; i < nindep; ++i)
+    {
+        vector<string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
+        int index = distance(fsId.begin(), it);
+
+        v(0, i) = rate[0][index];
+    }
+
+    v.setColNames(idfsId);
+
+    return v;
+}
+
+DoubleMatrix RoadRunner::getDependentRatesOfChange()
+{
+    check_model();
+
+    vector<string> dfsId = getDependentFloatingSpeciesIds();
+    vector<string> fsId = getFloatingSpeciesIds();
+    int ndep = dfsId.size();
+    DoubleMatrix v(1, ndep);
+
+    DoubleMatrix rate = getRatesOfChange();
+
+    for (int i = 0; i < ndep; ++i)
+    {
+        vector<string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
+        int index = distance(fsId.begin(), it);
+
+        v(0, i) = rate[0][index];
+    }
+
+    v.setColNames(dfsId);
+
+    return v;
+}
+
 DoubleMatrix RoadRunner::getFullJacobian()
 {
     check_model();

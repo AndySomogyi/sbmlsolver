@@ -137,6 +137,29 @@ given by the order of Ids returned by getFloatingSpeciesIds()
 
 :returns: a named array of floating species rates of change.
 :rtype: numpy.ndarray
+";
+
+
+%feature("docstring") rr::RoadRunner::getIndependentRatesOfChange "
+RoadRunner::getIndependentRatesOfChange()
+
+Returns the rates of change of all independent floating species. The order of species is 
+given by the order of Ids returned by getIndependentFloatingSpeciesIds()
+
+:returns: a named array of independent floating species rates of change.
+:rtype: numpy.ndarray
+";
+
+
+%feature("docstring") rr::RoadRunner::getDependentRatesOfChange "
+RoadRunner::getDependentRatesOfChange()
+
+Returns the rates of change of all dependent floating species. The order of species is 
+given by the order of Ids returned by getDependentFloatingSpeciesIds()
+
+:returns: a named array of dependent floating species rates of change.
+:rtype: numpy.ndarray
+
 
 
 Floating Species Initial Conditions
