@@ -1245,6 +1245,17 @@ it was converted via conservation conversion.
 
 
 
+%feature("docstring") rr::RoadRunner::getExtendedStoichiometryMatrix "
+RoadRunner.getExtendedStoichiometryMatrix()
+
+
+Returns the full stoichiometric matrix plus additional rows for boundary
+species and source/sink nodes. Use this if you want to apply detailed
+balance to the network as a whole.
+";
+
+
+
 %feature("docstring") rr::RoadRunner::getReducedStoichiometryMatrix "
 RoadRunner.getReducedStoichiometryMatrix()
 
@@ -2421,6 +2432,3 @@ Get the converted document contents.
 :returns: The contents of the converted document, or empty string
           if there is no source document.
 ";
-
-
-
