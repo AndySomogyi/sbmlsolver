@@ -543,6 +543,8 @@ public:
      */
     ls::DoubleMatrix getFullStoichiometryMatrix();
 
+    ls::DoubleMatrix getExtendedStoichiometryMatrix();
+
 
     ls::DoubleMatrix getL0Matrix();
 
