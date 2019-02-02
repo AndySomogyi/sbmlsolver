@@ -4670,7 +4670,8 @@ static void metabolicControlCheck(ExecutableModel *model)
 
     if (model->getNumEvents() > 0 && !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
     {
-        throw std::invalid_argument(string(e1) + "This model has events. Set Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to true to override");
+        throw std::invalid_argument(string(e1) + "This model has events. Set ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to True to override. "
+        "To override, run 'Config.setValue(Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS, True)'.");
     }
 }
 
