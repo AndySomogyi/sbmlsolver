@@ -463,21 +463,39 @@ public:
 
     /**
      * @author KC
-     * @brief Returns the rate of change of the floating species as a named array
+     * @brief Returns the rate of change of the floating species as an array
      */
-    ls::DoubleMatrix getRatesOfChange();
+    std::vector<double> getRatesOfChange();
+
+    /**
+    * @author KC
+    * @brief Returns the rate of change of the floating species as a named array
+    */
+    ls::DoubleMatrix getRatesOfChangeNamedArray();
+
+    /**
+    * @author KC
+    * @brief Returns the rate of change of the independent floating species as an array
+    */
+    std::vector<double> getIndependentRatesOfChange();
 
     /**
     * @author KC
     * @brief Returns the rate of change of the independent floating species as a named array
     */
-    ls::DoubleMatrix getIndependentRatesOfChange();
+    ls::DoubleMatrix getIndependentRatesOfChangeNamedArray();
+
+    /**
+    * @author KC
+    * @brief Returns the rate of change of the dependent floating species as an array
+    */
+    std::vector<double> getDependentRatesOfChange();
 
     /**
     * @author KC
     * @brief Returns the rate of change of the dependent floating species as a named array
     */
-    ls::DoubleMatrix getDependentRatesOfChange();
+    ls::DoubleMatrix getDependentRatesOfChangeNamedArray();
 
     /**
      * compute the full Jacobian at the current operating point

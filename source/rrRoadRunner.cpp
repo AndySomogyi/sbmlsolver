@@ -1923,7 +1923,46 @@ DoubleMatrix RoadRunner::getFloatingSpeciesConcentrationsNamedArray()
     return v;
 }
 
-DoubleMatrix RoadRunner::getRatesOfChange()
+std::vector<double> RoadRunner::getRatesOfChange()
+{
+    check_model();
+
+    int ssvl = impl->model->getStateVector(NULL);
+    double* vals = new double[ssvl];
+    double* ssv = new double[ssvl];
+    std::vector<double> v(ssvl);
+
+    impl->model->getStateVector(ssv);
+    impl->model->getStateVectorRate(impl->model->getTime(), ssv, vals);
+
+    if (getConservedMoietyAnalysis())
+    {
+        LibStructural *ls = getLibStruct();
+        DoubleMatrix lm = *ls->getLinkMatrix();
+
+        for (int i = 0; i < ssvl; ++i)
+        {
+            double sum = 0;
+            for (int j = 0; j < ssvl; ++j)
+            {
+                sum += lm[i][j] * vals[j];
+            }
+            v[i] = sum;
+        }
+    }
+    else
+    {
+        for (int i = 0; i<ssvl; ++i)
+            v[i] = vals[i];
+    }
+
+    delete vals;
+    delete ssv;
+
+    return v;
+}
+
+DoubleMatrix RoadRunner::getRatesOfChangeNamedArray()
 {
     check_model();
 
@@ -1964,7 +2003,29 @@ DoubleMatrix RoadRunner::getRatesOfChange()
     return v;
 }
 
-DoubleMatrix RoadRunner::getIndependentRatesOfChange()
+std::vector<double> RoadRunner::getIndependentRatesOfChange()
+{
+    check_model();
+
+    vector<string> idfsId = getIndependentFloatingSpeciesIds();
+    vector<string> fsId = getFloatingSpeciesIds();
+    int nindep = idfsId.size();
+    std::vector<double> v(nindep);
+
+    std::vector<double> rate = getRatesOfChange();
+
+    for (int i = 0; i < nindep; ++i)
+    {
+        vector<string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
+        int index = distance(fsId.begin(), it);
+
+        v[i] = rate[index];
+    }
+
+    return v;
+}
+
+DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray()
 {
     check_model();
 
@@ -1973,7 +2034,7 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChange()
     int nindep = idfsId.size();
     DoubleMatrix v(1, nindep);
 
-    DoubleMatrix rate = getRatesOfChange();
+    DoubleMatrix rate = getRatesOfChangeNamedArray();
 
     for (int i = 0; i < nindep; ++i)
     {
@@ -1988,7 +2049,29 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChange()
     return v;
 }
 
-DoubleMatrix RoadRunner::getDependentRatesOfChange()
+std::vector<double> RoadRunner::getDependentRatesOfChange()
+{
+    check_model();
+
+    vector<string> dfsId = getDependentFloatingSpeciesIds();
+    vector<string> fsId = getFloatingSpeciesIds();
+    int ndep = dfsId.size();
+    std::vector<double> v(ndep);
+
+    std::vector<double> rate = getRatesOfChange();
+
+    for (int i = 0; i < ndep; ++i)
+    {
+        vector<string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
+        int index = distance(fsId.begin(), it);
+
+        v[i] = rate[index];
+    }
+
+    return v;
+}
+
+DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray()
 {
     check_model();
 
@@ -1997,7 +2080,7 @@ DoubleMatrix RoadRunner::getDependentRatesOfChange()
     int ndep = dfsId.size();
     DoubleMatrix v(1, ndep);
 
-    DoubleMatrix rate = getRatesOfChange();
+    DoubleMatrix rate = getRatesOfChangeNamedArray();
 
     for (int i = 0; i < ndep; ++i)
     {
