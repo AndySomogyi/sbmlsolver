@@ -749,7 +749,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 rule->getVariable());
 
         const Species *species = dynamic_cast<const Species*>(element);
-        if(species && !species->getBoundaryCondition())
+        if(species && !species->getBoundaryCondition() && model->getNumReactions() != 0)
         {
             string msg = "Cannot perform moiety conversion when floating "
                     "species are defined by rules. The floating species, "
