@@ -4746,10 +4746,10 @@ static void metabolicControlCheck(ExecutableModel *model)
 {
     static const char* e1 = "Metabolic control analysis only valid "
             "for primitive reaction kinetics models. ";
-    if (model->getNumRateRules() > 0)
+    /*if (model->getNumRateRules() > 0)
     {
         throw std::invalid_argument(string(e1) + "This model has rate rules");
-    }
+    }*/
 
     if (model->getNumEvents() > 0 && !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
     {
