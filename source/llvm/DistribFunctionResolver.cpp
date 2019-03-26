@@ -53,7 +53,7 @@ llvm::Value* DistribFunctionResolver::loadSymbolValue(
 
     // const UncertMLNode *uml = distrib->getUncertML();
 
-    if (distrib->getName() == "uniformDistribution")
+    if (funcDef->getId() == "uniform")
     {
         llvm::Value *funcArgs[] = {randomPtr, args[0], args[1]};
 
@@ -64,7 +64,7 @@ llvm::Value* DistribFunctionResolver::loadSymbolValue(
         return builder.CreateCall(func, funcArgs, "call_rr_distrib_uniform");
     }
 
-    else if (distrib->getName() == "normalDistribution")
+    else if (funcDef->getId() == "normal")
     {
         llvm::Value *funcArgs[] = {randomPtr, args[0], args[1]};
 
@@ -77,7 +77,7 @@ llvm::Value* DistribFunctionResolver::loadSymbolValue(
 
     else
     {
-        string name = distrib->getName();
+        string name = funcDef->getId();
         throw_llvm_exception("Unsupported distribution: " + name);
     }
 }
