@@ -589,8 +589,8 @@ std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
 
 bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
 {
-
-    return assigmentRules.find(id) == assigmentRules.end();
+    return rateRules.find(id) == rateRules.end() &&
+            assigmentRules.find(id) == assigmentRules.end();
 }
 
 bool LLVMModelDataSymbols::hasAssignmentRule(const std::string& id) const
