@@ -2101,32 +2101,181 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
     get_self();
 
-    DoubleMatrix uelast = getUnscaledElasticityMatrix();
-
-    // ptr to libstruct owned obj.
-    DoubleMatrix *rsm;
-    LibStructural *ls = getLibStruct();
-    if (self.loadOpt.getConservedMoietyConversion())
+    if (self.model->getNumReactions() == 0 && self.model->getNumRateRules() > 0)
     {
-        rsm = ls->getReorderedStoichiometryMatrix();
+        DoubleMatrix jac(self.model->getNumRateRules(), self.model->getNumRateRules());
+
+        for (int i = 0; i < self.model->getNumRateRules(); i++)
+        {
+            for (int j = 0; j < self.model->getNumRateRules(); j++)
+            {
+                // function pointers to the model get values and get init values based on
+                // if we are doing amounts or concentrations.
+                typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+                    double *values);
+                typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+                    double const *values);
+
+                GetValueFuncPtr getValuePtr = 0;
+                GetValueFuncPtr getInitValuePtr = 0;
+                SetValueFuncPtr setValuePtr = 0;
+                SetValueFuncPtr setInitValuePtr = 0;
+
+                if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+                    == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+                {
+                    getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
+                    getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
+                    setValuePtr = &ExecutableModel::setFloatingSpeciesAmounts;
+                    setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitAmounts;
+                }
+                else
+                {
+                    getValuePtr = &ExecutableModel::getFloatingSpeciesConcentrations;
+                    getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitConcentrations;
+                    setValuePtr = &ExecutableModel::setFloatingSpeciesConcentrations;
+                    setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitConcentrations;
+                }
+
+                double value;
+                double originalConc = 0;
+                double result = std::numeric_limits<double>::quiet_NaN();
+
+                // note setting init values auotmatically sets the current values to the
+                // init values
+
+                // this causes a reset, so need to save the current amounts to set them back
+                // as init conditions.
+                std::vector<double> conc(self.model->getNumFloatingSpecies());
+                (self.model->*getValuePtr)(conc.size(), 0, &conc[0]);
+
+                // save the original init values
+                std::vector<double> initConc(self.model->getNumFloatingSpecies());
+                (self.model->*getInitValuePtr)(initConc.size(), 0, &initConc[0]);
+
+                // get the original value
+                (self.model->*getValuePtr)(1, &j, &originalConc);
+
+                // now we start changing things
+                try
+                {
+                    // set init amounts to current amounts, restore them later.
+                    // have to do this as this is only way to set conserved moiety values
+                    (self.model->*setInitValuePtr)(conc.size(), 0, &conc[0]);
+
+                    // sanity check
+                    assert_similar(originalConc, conc[speciesIndex]);
+                    double tmp = 0;
+                    (self.model->*getInitValuePtr)(1, &j, &tmp);
+                    assert_similar(originalConc, tmp);
+                    (self.model->*getValuePtr)(1, &j, &tmp);
+                    assert_similar(originalConc, tmp);
+
+                    // things check out, start fiddling...
+
+                    double hstep = self.mDiffStepSize*originalConc;
+                    if (fabs(hstep) < 1E-12)
+                    {
+                        hstep = self.mDiffStepSize;
+                    }
+
+                    value = originalConc + hstep;
+                    (self.model->*setInitValuePtr)(1, &j, &value);
+
+                    double fi = 0;
+                    fi = getRateOfChange(i);
+
+                    value = originalConc + 2 * hstep;
+                    (self.model->*setInitValuePtr)(1, &j, &value);
+                    double fi2 = 0;
+                    fi2 = getRateOfChange(i);
+
+                    value = originalConc - hstep;
+                    (self.model->*setInitValuePtr)(1, &j, &value);
+                    double fd = 0;
+                    fd = getRateOfChange(i);
+
+                    value = originalConc - 2 * hstep;
+                    (self.model->*setInitValuePtr)(1, &j, &value);
+                    double fd2 = 0;
+                    fd2 = getRateOfChange(i);
+
+                    // Use instead the 5th order approximation
+                    // double unscaledElasticity = (0.5/hstep)*(fi-fd);
+                    // The following separated lines avoid small amounts of roundoff error
+                    double f1 = fd2 + 8 * fi;
+                    double f2 = -(8 * fd + fi2);
+
+                    result = 1 / (12 * hstep)*(f1 + f2);
+                }
+                catch (const std::exception& e)
+                {
+                    // What ever happens, make sure we restore the species level
+                    (self.model->*setInitValuePtr)(
+                        initConc.size(), 0, &initConc[0]);
+
+                    // only set the indep species, setting dep species is not permitted.
+                    (self.model->*setValuePtr)(
+                        self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+
+                    // re-throw the exception.
+                    throw;
+                }
+
+                // What ever happens, make sure we restore the species level
+                (self.model->*setInitValuePtr)(
+                    initConc.size(), 0, &initConc[0]);
+
+                // only set the indep species, setting dep species is not permitted.
+                (self.model->*setValuePtr)(
+                    self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+
+                jac[i][j] = result;
+            }
+        }
+
+        Log(Logger::LOG_DEBUG) << "getFullJacobian done.";
+
+        // get the row/column ids, independent floating species
+        std::list<std::string> list;
+        self.model->getIds(SelectionRecord::FLOATING_AMOUNT, list);
+        std::vector<std::string> ids(list.begin(), list.end());
+        assert(ids.size() == jac.RSize() &&
+            ids.size() == jac.CSize() && "independent species ids length != RSize && CSize");
+        jac.setColNames(ids);
+        jac.setRowNames(ids);
+
+        return jac;
     }
     else
     {
-        rsm = ls->getStoichiometryMatrix();
-    }
+        DoubleMatrix uelast = getUnscaledElasticityMatrix();
 
-    DoubleMatrix jac = ls::mult(*rsm, uelast);
+        // ptr to libstruct owned obj.
+        DoubleMatrix *rsm;
+        LibStructural *ls = getLibStruct();
+        if (self.loadOpt.getConservedMoietyConversion())
+        {
+            rsm = ls->getReorderedStoichiometryMatrix();
+        }
+        else
+        {
+            rsm = ls->getStoichiometryMatrix();
+        }
 
-    // get the row/column ids, independent floating species
-    std::list<std::string> list;
-    self.model->getIds(SelectionRecord::FLOATING_AMOUNT, list);
-    std::vector<std::string> ids(list.begin(), list.end());
-    assert(ids.size() == jac.RSize() &&
+        DoubleMatrix jac = ls::mult(*rsm, uelast);
+
+        // get the row/column ids, independent floating species
+        std::list<std::string> list;
+        self.model->getIds(SelectionRecord::FLOATING_AMOUNT, list);
+        std::vector<std::string> ids(list.begin(), list.end());
+        assert(ids.size() == jac.RSize() &&
             ids.size() == jac.CSize() && "independent species ids length != RSize && CSize");
-    jac.setColNames(ids);
-    jac.setRowNames(ids);
+        jac.setColNames(ids);
+        jac.setRowNames(ids);
 
-    return jac;
+        return jac;
+    }
 }
 
 DoubleMatrix RoadRunner::getFullReorderedJacobian()
