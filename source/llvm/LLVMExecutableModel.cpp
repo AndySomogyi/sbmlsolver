@@ -336,8 +336,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         double *savedRateRules = modelData->rateRuleValuesAlias;
         double *savedFloatingSpeciesAmounts = modelData->floatingSpeciesAmountsAlias;
 
-        modelData->rateRuleValuesAlias = const_cast<double*>(y);
-        modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
+        modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y);
         evalVolatileStoichPtr(modelData);
 
         // not setting state vector, react rates get dirty
@@ -347,7 +346,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
 
-        modelData->floatingSpeciesAmountRates = dydt + modelData->numRateRules;
+        modelData->floatingSpeciesAmountRates = dydt;
 
         csr_matrix_dgemv(conversionFactor, modelData->stoichiometry,
                 modelData->reactionRatesAlias, 0.0, modelData->floatingSpeciesAmountRates);
@@ -381,7 +380,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
 
-        modelData->floatingSpeciesAmountRates = dydt + modelData->numRateRules;
+        modelData->floatingSpeciesAmountRates = dydt;
 
         csr_matrix_dgemv(conversionFactor, modelData->stoichiometry,
                 modelData->reactionRatesAlias, 0.0, modelData->floatingSpeciesAmountRates);
@@ -778,13 +777,11 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
     if (stateVector == 0)
     {
         Log(Logger::LOG_TRACE) << __FUNC__ << ", stateVector: null, returning "
-                << modelData->numRateRules + modelData->numIndFloatingSpecies;
-        return modelData->numRateRules + modelData->numIndFloatingSpecies;
+                << modelData->numIndFloatingSpecies;
+        return modelData->numIndFloatingSpecies;
     }
 
-    getRateRuleValues(stateVector);
-
-    memcpy(stateVector + modelData->numRateRules,
+    memcpy(stateVector,
             modelData->floatingSpeciesAmountsAlias,
             modelData->numIndFloatingSpecies * sizeof(double));
 
@@ -795,7 +792,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 
         log.stream() << __FUNC__ << ",  out stateVector: ";
         if (stateVector) {
-            dump_array(log.stream(), modelData->numRateRules + modelData->numIndFloatingSpecies, stateVector);
+            dump_array(log.stream(), modelData->numIndFloatingSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
@@ -803,7 +800,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
         log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
     }
 
-    return modelData->numRateRules + modelData->numIndFloatingSpecies;
+    return modelData->numIndFloatingSpecies;
 }
 
 int LLVMExecutableModel::setStateVector(const double* stateVector)
@@ -813,17 +810,15 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
         return -1;
     }
 
-    memcpy(modelData->rateRuleValuesAlias, stateVector, modelData->numRateRules * sizeof(double));
-
     memcpy(modelData->floatingSpeciesAmountsAlias,
-            stateVector + modelData->numRateRules,
+            stateVector,
             modelData->numIndFloatingSpecies * sizeof(double));
 
     evalVolatileStoichPtr(modelData);
 
     dirty |= DIRTY_REACTION_RATES;
 
-    return modelData->numRateRules + modelData->numIndFloatingSpecies;
+    return modelData->numIndFloatingSpecies;
 }
 
 void LLVMExecutableModel::print(std::ostream &stream)
@@ -1341,7 +1336,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
 
     try
     {
-        uint dydtSize = modelData->numRateRules + modelData->numIndFloatingSpecies;
+        uint dydtSize = modelData->numIndFloatingSpecies;
         uint ncomp = getNumCompartments();
 
         dydt = (double*)calloc(dydtSize, sizeof(double));
@@ -1353,7 +1348,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
         // and the last numIndFloatingSpecies are the number of independent species.
         getStateVectorRate(this->getTime(), 0, dydt);
 
-        double* amountRates = dydt + modelData->numRateRules;
+        double* amountRates = dydt;
 
         for (uint i = 0; i < len; ++i)
         {
@@ -1400,14 +1395,7 @@ int LLVMExecutableModel::setBoundarySpeciesAmounts(int len, const int* indx,
 
 std::string LLVMExecutableModel::getStateVectorId(int index)
 {
-    if (index < modelData->numRateRules )
-    {
-        return symbols->getRateRuleId(index);
-    }
-    else
-    {
-        return symbols->getFloatingSpeciesId(index - modelData->numRateRules);
-    }
+    return symbols->getFloatingSpeciesId(index);
 }
 
 int LLVMExecutableModel::getEventIndex(const std::string& eventId)
@@ -1762,7 +1750,7 @@ int LLVMExecutableModel::setConservedMoietyValues(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
-    uint dydtSize = modelData->numRateRules + modelData->numIndFloatingSpecies;
+    uint dydtSize = modelData->numIndFloatingSpecies;
 
     double* dydt = (double*)calloc(dydtSize, sizeof(double));
 
@@ -1770,7 +1758,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
     // and the last numIndFloatingSpecies are the number of independent species.
     this->getStateVectorRate(this->getTime(), 0, dydt);
 
-    double* amountRates = dydt + modelData->numRateRules;
+    double* amountRates = dydt;
 
     for (uint i = 0; i < len; ++i)
     {
