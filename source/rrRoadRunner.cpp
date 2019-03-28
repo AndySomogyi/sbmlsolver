@@ -2172,7 +2172,6 @@ DoubleMatrix RoadRunner::getFullJacobian()
                     assert_similar(originalConc, tmp);
 
                     // things check out, start fiddling...
-
                     double hstep = self.mDiffStepSize*originalConc;
                     if (fabs(hstep) < 1E-12)
                     {
@@ -2180,25 +2179,24 @@ DoubleMatrix RoadRunner::getFullJacobian()
                     }
 
                     value = originalConc + hstep;
-                    (self.model->*setInitValuePtr)(1, &j, &value);
-
+                    setValue(self.model->getFloatingSpeciesId(j), value);
                     double fi = 0;
-                    fi = getRateOfChange(i);
+                    fi = getRatesOfChange()[i];
 
                     value = originalConc + 2 * hstep;
-                    (self.model->*setInitValuePtr)(1, &j, &value);
+                    setValue(self.model->getFloatingSpeciesId(j), value);
                     double fi2 = 0;
-                    fi2 = getRateOfChange(i);
+                    fi2 = getRatesOfChange()[i];
 
                     value = originalConc - hstep;
-                    (self.model->*setInitValuePtr)(1, &j, &value);
+                    setValue(self.model->getFloatingSpeciesId(j), value);
                     double fd = 0;
-                    fd = getRateOfChange(i);
+                    fd = getRatesOfChange()[i];
 
                     value = originalConc - 2 * hstep;
-                    (self.model->*setInitValuePtr)(1, &j, &value);
+                    setValue(self.model->getFloatingSpeciesId(j), value);
                     double fd2 = 0;
-                    fd2 = getRateOfChange(i);
+                    fd2 = getRatesOfChange()[i];
 
                     // Use instead the 5th order approximation
                     // double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -2216,7 +2214,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
                     // only set the indep species, setting dep species is not permitted.
                     (self.model->*setValuePtr)(
-                        self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+                        self.model->getNumFloatingSpecies(), 0, &conc[0]);
 
                     // re-throw the exception.
                     throw;
@@ -2228,13 +2226,11 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
                 // only set the indep species, setting dep species is not permitted.
                 (self.model->*setValuePtr)(
-                    self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+                    self.model->getNumFloatingSpecies(), 0, &conc[0]);
 
                 jac[i][j] = result;
             }
         }
-
-        Log(Logger::LOG_DEBUG) << "getFullJacobian done.";
 
         // get the row/column ids, independent floating species
         std::list<std::string> list;
