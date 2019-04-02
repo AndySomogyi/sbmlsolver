@@ -3220,11 +3220,22 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
     if ((index >= 0) && (index < (impl->model->getNumGlobalParameters() + impl->model->getNumDepFloatingSpecies())))
     {
         int arraySize = impl->model->getNumGlobalParameters() + impl->model->getNumDepFloatingSpecies();
+        if (impl->model->getNumReactions() == 0 && impl->model->getNumRateRules() > 0)
+        {
+            int arraySize = impl->model->getNumGlobalParameters();
+        }
         double* data = new double[arraySize];
 
-        impl->model->getGlobalParameterValues(impl->model->getNumGlobalParameters(), 0, data);
+        if (impl->model->getNumReactions() == 0 && impl->model->getNumRateRules() > 0)
+        {
+            impl->model->getGlobalParameterValues(impl->model->getNumGlobalParameters(), 0, data);
+        }
+        else
+        {
+            impl->model->getGlobalParameterValues(impl->model->getNumGlobalParameters(), 0, data);
 
-        impl->model->getConservedMoietyValues(impl->model->getNumDepFloatingSpecies(), 0, data + impl->model->getNumGlobalParameters());
+            impl->model->getConservedMoietyValues(impl->model->getNumDepFloatingSpecies(), 0, data + impl->model->getNumGlobalParameters());
+        }        
 
         double result = data[index];
         delete[] data;
