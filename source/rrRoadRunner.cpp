@@ -2164,7 +2164,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
                     (self.model->*setInitValuePtr)(conc.size(), 0, &conc[0]);
 
                     // sanity check
-                    assert_similar(originalConc, conc[speciesIndex]);
+                    assert_similar(originalConc, conc[j]);
                     double tmp = 0;
                     (self.model->*getInitValuePtr)(1, &j, &tmp);
                     assert_similar(originalConc, tmp);
