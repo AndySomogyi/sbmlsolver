@@ -228,6 +228,15 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = notImplemented(ast);
         break;
 
+    case AST_DISTRIB_FUNCTION_UNIFORM:
+    case AST_DISTRIB_FUNCTION_NORMAL: 
+    case AST_DISTRIB_FUNCTION_POISSON: 
+    case AST_DISTRIB_FUNCTION_EXPONENTIAL: 
+    case AST_DISTRIB_FUNCTION_LOGNORMAL: {
+        ASTNodeCodeGenScalarTicket t(*this, true);
+        result = distribCodeGen(ast);
+        break;
+    }
     default:
         {
             stringstream msg;
@@ -250,6 +259,89 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
     throw_llvm_exception("AST type not implemented yet: " + str);
 
     return 0;
+}
+
+llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
+{
+    LibFunc::Func funcId;
+    TargetLibraryInfo targetLib;
+    Function* func;
+    Module *module = getModule();
+
+    // check if the arg counts match
+    //if (ast->getNumChildren() > 2)
+    //{
+    //    throw_llvm_exception("invalid number of args");
+    //}
+    
+    std::vector<Value*> args;
+    for (unsigned i = 0; i < ast->getNumChildren(); ++i)
+    {
+        args.push_back(toDouble(codeGen(ast->getChild(i))));
+    }
+
+    switch (ast->getType())
+    {
+    case AST_DISTRIB_FUNCTION_UNIFORM:
+    {
+        func = module->getFunction("rr_distrib_uniform_ast");
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_NORMAL:
+    {
+        func = module->getFunction("rr_distrib_normal_ast");
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_POISSON:
+    {
+        func = module->getFunction("rr_distrib_poisson_ast");
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_EXPONENTIAL:
+    {
+        func = module->getFunction("rr_distrib_exponential_ast");
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_LOGNORMAL:
+    {
+        func = module->getFunction("rr_distrib_lognormal_ast");
+        break;
+    }
+    default:
+    {
+        string msg = "unknown distribution ";
+        msg += ast->getName();
+        throw_llvm_exception(msg);
+    }
+    break;
+    }
+
+    // get the function
+    if (func == 0)
+    {
+        string msg = "could not obtain a function for distrib " +
+            string(ast->getName());
+        msg += ", your operating system might not supoort it.";
+        throw_llvm_exception(msg);
+    }
+
+    // check if the arg counts match
+    //if (func->arg_size() != ast->getNumChildren())
+    //{
+    //    stringstream err;
+    //    err << "function call argument count in "
+    //        << ast->getParentSBMLObject()->toSBML()
+    //        << " does not match the specfied number of arguments, "
+    //        << (string)func->getName() << " requires " << func->arg_size()
+    //        << " args, but was given " << ast->getNumChildren();
+    //    throw_llvm_exception(err.str());
+    //}
+    
+    return builder.CreateCall(func, args, "calltmp");
+
+    assert(0 && "should not get here");
+    return 0;
+
 }
 
 llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)

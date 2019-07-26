@@ -49,6 +49,12 @@ private:
     llvm::Value *realExprCodeGen(const libsbml::ASTNode *ast);
 
     /**
+     * Support new AST nodes for distributions
+     */
+    llvm::Value *distribCodeGen(const libsbml::ASTNode *ast);
+
+
+    /**
      * for now, just convert to double,
      *
      * TODO: is this right???

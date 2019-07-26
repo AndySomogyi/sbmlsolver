@@ -46,13 +46,23 @@ static int randomCount = 0;
  */
 static double distrib_uniform(Random *random, double _min, double _max);
 
+static double distrib_uniform_ast(double _min, double _max);
+
 static double distrib_normal(Random* random, double mu, double sigma);
+
+static double distrib_normal_ast(double mu, double sigma);
 
 static double distrib_poisson(Random* random, double lambda);
 
+static double distrib_poisson_ast(double lambda);
+
 static double distrib_exponential(Random* random, double lambda);
 
+static double distrib_exponential_ast(double lambda);
+
 static double distrib_lognormal(Random* random, double mu, double sigma);
+
+static double distrib_lognormal_ast(double mu, double sigma);
 
 static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module);
@@ -120,7 +130,11 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
 
     Type* args_void_double_double[] = { voidPtrType, double_type, double_type };
 
+    Type* args_double_double[] = { double_type, double_type };
+
     Type* args_void_double[] = { voidPtrType, double_type };
+
+    Type* args_double[] = { double_type };
 
 
 
@@ -130,9 +144,19 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
                         (void*) distrib_uniform);
 
     executionEngine->addGlobalMapping(
+        createGlobalMappingFunction("rr_distrib_uniform_ast",
+                    FunctionType::get(double_type, args_double_double, false), module),
+                        (void*) distrib_uniform_ast);
+
+    executionEngine->addGlobalMapping(
             createGlobalMappingFunction("rr_distrib_normal",
                     FunctionType::get(double_type, args_void_double_double, false), module),
                         (void*) distrib_normal);
+
+    executionEngine->addGlobalMapping(
+        createGlobalMappingFunction("rr_distrib_normal_ast",
+            FunctionType::get(double_type, args_double_double, false), module),
+            (void*) distrib_normal_ast);
     
     executionEngine->addGlobalMapping(
         createGlobalMappingFunction("rr_distrib_poisson",
@@ -140,14 +164,29 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
             (void*)distrib_poisson);
 
     executionEngine->addGlobalMapping(
+        createGlobalMappingFunction("rr_distrib_poisson_ast",
+            FunctionType::get(double_type, args_double, false), module),
+            (void*) distrib_poisson_ast);
+
+    executionEngine->addGlobalMapping(
         createGlobalMappingFunction("rr_distrib_exponential",
             FunctionType::get(double_type, args_void_double, false), module),
             (void*)distrib_exponential);
 
     executionEngine->addGlobalMapping(
+        createGlobalMappingFunction("rr_distrib_exponential_ast",
+            FunctionType::get(double_type, args_double, false), module),
+            (void*) distrib_exponential_ast);
+
+    executionEngine->addGlobalMapping(
         createGlobalMappingFunction("rr_distrib_lognormal",
             FunctionType::get(double_type, args_void_double_double, false), module),
             (void*)distrib_lognormal);
+
+    executionEngine->addGlobalMapping(
+        createGlobalMappingFunction("rr_distrib_lognormal_ast",
+            FunctionType::get(double_type, args_double_double, false), module),
+            (void*) distrib_lognormal_ast);
 
 }
 
@@ -165,6 +204,23 @@ double distrib_uniform(Random *random, double _min, double _max)
     return dist(*random);
 }
 
+double distrib_uniform_ast(double _min, double _max)
+{
+    std::random_device rd;
+    cxx11_ns::mt19937 engine(rd());
+    Log(Logger::LOG_DEBUG) << "distrib_uniform_ast("
+        << static_cast<void*>(&engine)
+        << ", " << _min << ", " << _max << ")";
+
+#ifdef CXX11_RANDOM
+    cxx11_ns::uniform_real_distribution<double> dist(_min, _max);
+#else
+    cxx11_ns::uniform_real<double> dist(_min, _max);
+#endif
+    return dist(engine);
+}
+
+
 double distrib_normal(Random* random, double mu, double sigma)
 {
     Log(Logger::LOG_DEBUG) << "distrib_normal("
@@ -173,6 +229,18 @@ double distrib_normal(Random* random, double mu, double sigma)
 
     NormalDist normal(mu, sigma);
     return normal(*random);
+}
+
+double distrib_normal_ast(double mu, double sigma)
+{
+    std::random_device rd;
+    cxx11_ns::mt19937 engine(rd());
+    Log(Logger::LOG_DEBUG) << "distrib_normal_ast("
+        << static_cast<void*>(&engine)
+        << ", " << mu << ", " << sigma << ")";
+
+    NormalDist normal(mu, sigma);
+    return normal(engine);
 }
 
 double distrib_poisson(Random* random, double lambda)
@@ -185,6 +253,18 @@ double distrib_poisson(Random* random, double lambda)
     return (double)poisson(*random);
 }
 
+double distrib_poisson_ast(double lambda)
+{
+    std::random_device rd;
+    cxx11_ns::mt19937 engine(rd());
+    Log(Logger::LOG_DEBUG) << "distrib_poisson("
+        << static_cast<void*>(&engine)
+        << ", " << lambda << ")";
+
+    PoissonDist poisson(lambda);
+    return (double)poisson(engine);
+}
+
 double distrib_exponential(Random* random, double lambda)
 {
     Log(Logger::LOG_DEBUG) << "distrib_exponential("
@@ -195,6 +275,18 @@ double distrib_exponential(Random* random, double lambda)
     return exponential(*random);
 }
 
+double distrib_exponential_ast(double lambda)
+{
+    std::random_device rd;
+    cxx11_ns::mt19937 engine(rd());
+    Log(Logger::LOG_DEBUG) << "distrib_exponential("
+        << static_cast<void*>(&engine)
+        << ", " << lambda << ")";
+
+    ExponentialDist exponential(lambda);
+    return exponential(engine);
+}
+
 double distrib_lognormal(Random* random, double mu, double sigma)
 {
     Log(Logger::LOG_DEBUG) << "distrib_lognormal("
@@ -203,6 +295,18 @@ double distrib_lognormal(Random* random, double mu, double sigma)
 
     LognormalDist lognormal(mu, sigma);
     return lognormal(*random);
+}
+
+double distrib_lognormal_ast(double mu, double sigma)
+{
+    std::random_device rd;
+    cxx11_ns::mt19937 engine(rd());
+    Log(Logger::LOG_DEBUG) << "distrib_lognormal("
+        << static_cast<void*>(&engine)
+        << ", " << mu << ", " << sigma << ")";
+
+    LognormalDist lognormal(mu, sigma);
+    return lognormal(engine);
 }
 
 Random::~Random()
