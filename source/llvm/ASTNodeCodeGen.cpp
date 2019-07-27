@@ -47,8 +47,10 @@ std::string to_string(const libsbml::ASTNode *ast)
 }
 
 ASTNodeCodeGen::ASTNodeCodeGen(llvm::IRBuilder<> &builder,
-        LoadSymbolResolver &resolver) :
-        builder(builder), resolver(resolver),
+        LoadSymbolResolver &resolver, 
+        const ModelGeneratorContext& ctx, 
+        llvm::Value *modelData) :
+        builder(builder), resolver(resolver), ctx(ctx), modelData(modelData),
         scalar_mode_(false)
 {
 }
@@ -273,8 +275,14 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
     //{
     //    throw_llvm_exception("invalid number of args");
     //}
+
+    ModelDataIRBuilder mdbuilder(modelData, ctx.getModelDataSymbols(),
+        builder);
+
+    llvm::Value *randomPtr = mdbuilder.createRandomLoad();
     
     std::vector<Value*> args;
+    args.push_back(randomPtr);
     for (unsigned i = 0; i < ast->getNumChildren(); ++i)
     {
         args.push_back(toDouble(codeGen(ast->getChild(i))));
@@ -284,27 +292,27 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
     {
     case AST_DISTRIB_FUNCTION_UNIFORM:
     {
-        func = module->getFunction("rr_distrib_uniform_ast");
+        func = module->getFunction("rr_distrib_uniform");
         break;
     }
     case AST_DISTRIB_FUNCTION_NORMAL:
     {
-        func = module->getFunction("rr_distrib_normal_ast");
+        func = module->getFunction("rr_distrib_normal");
         break;
     }
     case AST_DISTRIB_FUNCTION_POISSON:
     {
-        func = module->getFunction("rr_distrib_poisson_ast");
+        func = module->getFunction("rr_distrib_poisson");
         break;
     }
     case AST_DISTRIB_FUNCTION_EXPONENTIAL:
     {
-        func = module->getFunction("rr_distrib_exponential_ast");
+        func = module->getFunction("rr_distrib_exponential");
         break;
     }
     case AST_DISTRIB_FUNCTION_LOGNORMAL:
     {
-        func = module->getFunction("rr_distrib_lognormal_ast");
+        func = module->getFunction("rr_distrib_lognormal");
         break;
     }
     default:
