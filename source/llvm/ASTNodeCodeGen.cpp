@@ -292,27 +292,108 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
     {
     case AST_DISTRIB_FUNCTION_UNIFORM:
     {
-        func = module->getFunction("rr_distrib_uniform");
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_uniform");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << (string)func->getName() << " requires " << func->arg_size()
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
         break;
     }
     case AST_DISTRIB_FUNCTION_NORMAL:
     {
-        func = module->getFunction("rr_distrib_normal");
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_normal");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_normal_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << (string)func->getName() << " requires " << func->arg_size()
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
         break;
     }
     case AST_DISTRIB_FUNCTION_POISSON:
     {
-        func = module->getFunction("rr_distrib_poisson");
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_poisson");
+        }
+        else if (ast->getNumChildren() == 3)
+        {
+            func = module->getFunction("rr_distrib_poisson_three");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << (string)func->getName() << " requires " << func->arg_size()
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
         break;
     }
     case AST_DISTRIB_FUNCTION_EXPONENTIAL:
     {
-        func = module->getFunction("rr_distrib_exponential");
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_exponential");
+        }
+        else if (ast->getNumChildren() == 3)
+        {
+            func = module->getFunction("rr_distrib_exponential_three");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << (string)func->getName() << " requires " << func->arg_size()
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
         break;
     }
     case AST_DISTRIB_FUNCTION_LOGNORMAL:
     {
-        func = module->getFunction("rr_distrib_lognormal");
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_lognormal");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_lognormal_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << (string)func->getName() << " requires " << func->arg_size()
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
         break;
     }
     default:
