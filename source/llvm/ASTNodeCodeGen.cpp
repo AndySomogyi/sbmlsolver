@@ -265,8 +265,9 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
 {
-    LibFunc::Func funcId;
-    TargetLibraryInfo targetLib;
+    LibFunc funcId;
+    TargetLibraryInfoImpl defaultImpl;
+	TargetLibraryInfo targetLib(defaultImpl);
     Function* func;
     Module *module = getModule();
 
