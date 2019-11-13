@@ -33,7 +33,7 @@ import sphinx
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
-    'sphinx.ext.pngmath',
+    'sphinx.ext.imgmath',
     'sphinx.ext.todo',
     'sphinx.ext.autosummary'
 ]
