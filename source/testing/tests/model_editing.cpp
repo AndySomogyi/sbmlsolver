@@ -1308,6 +1308,68 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		}));
 	}
 
+	TEST(FROM_SCRATCH_1_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 0.00015, "substance");
+			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addParameter("k1", 1);
+			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
+		}, "l3v1"));
+	}
+
+	TEST(FROM_SCRATCH_2_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 1, "substance");
+			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addParameter("k1", 1);
+			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
+			rri->addEvent("event1", true, "S1 < 0.1");
+			rri->addDelay("event1", "1");
+			rri->addEventAssignment("event1", "S1", "1");
+		}, "l3v1"));
+	}
+
+	TEST(FROM_SCRATCH_3_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 0, "substance");
+			rri->addRateRule("S1", "7");
+		}, "l3v1"));
+	}
+	
+	TEST(FROM_SCRATCH_4_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 7, "substance");
+			rri->addAssignmentRule("S1", "7");
+		}, "l3v1"));
+	}
+
+	TEST(FROM_SCRATCH_5_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 1, "substance");
+			rri->addSpecies("S2", "compartment", 1.5e-15, "substance");
+			rri->addSpecies("S3", "compartment", 1, "substance");
+			rri->addParameter("k1", 0.75);
+			rri->addParameter("k2", 50);
+			rri->addAssignmentRule("S3", "k1*S2");
+			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k2 * S1");
+		}, "l3v1"));
+	}
+
 	TEST(FROM_SCRATCH_6)
 	{
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
