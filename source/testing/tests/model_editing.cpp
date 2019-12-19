@@ -609,6 +609,18 @@ void removeAndReaddAllCompartments(RoadRunner *rri, libsbml::SBMLDocument *doc)
 
 SUITE(MODEL_EDITING_TEST_SUITE)
 {
+	TEST(CLEAR_MODEL_1)
+	{
+		RoadRunner rri;
+		rri.addCompartment("compartment", 3.14159);
+		rri.addSpecies("S1", "compartment", 1.0, "concentration");
+		CHECK(rri.isModelLoaded());
+		rri.clearModel();
+		CHECK(!rri.isModelLoaded());
+		rri.addSpecies("S2", "compartment", 2.0, "concentration");
+		std::cout << rri.getNumberOfFloatingSpecies() << std::endl;
+		CHECK(rri.getNumberOfFloatingSpecies() == 1);
+	}
 	TEST(ALLOW_EVENT_ASSIGNMENT_AND_RATE_LAW_1)
 	{
 		std::cout << "ALLOW_EVENT_ASSIGNMENT_AND_RATE_LAW_1" << std::endl;
