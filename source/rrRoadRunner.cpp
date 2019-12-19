@@ -1073,6 +1073,8 @@ bool RoadRunner::clearModel()
 {
     // The model owns the shared library (if it exists), when the model is deleted,
     // its dtor unloads the shared lib.
+	impl->document = std::make_unique<libsbml::SBMLDocument>();
+	impl->document->createModel();
     if(impl->model)
     {
         impl->model = nullptr;

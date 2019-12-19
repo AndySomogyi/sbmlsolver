@@ -617,6 +617,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(rri.isModelLoaded());
 		rri.clearModel();
 		CHECK(!rri.isModelLoaded());
+		rri.addCompartment("compartment", 3.14159);
 		rri.addSpecies("S2", "compartment", 2.0, "concentration");
 		std::cout << rri.getNumberOfFloatingSpecies() << std::endl;
 		CHECK(rri.getNumberOfFloatingSpecies() == 1);
