@@ -418,33 +418,6 @@ int RoadRunner::getInstanceID()
     return impl->mInstanceID;
 }
 
-RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
-{
-
-	llvm::InitializeNativeTarget();
-	llvm::InitializeNativeTargetAsmPrinter();
-	llvm::InitializeNativeTargetAsmParser();
-    // must be run to register integrators at startup
-    IntegratorRegistrationMgr::Register();
-    // must be run to register solvers at startup
-    SolverRegistrationMgr::Register();
-
-    //Increase instance count..
-    mInstanceCount++;
-    impl->mInstanceID = mInstanceCount;
-
-    // make CVODE the default integrator
-    setIntegrator("cvode");
-    // make NLEQ2 the default steady state solver
-    setSteadyStateSolver("nleq2");
-
-	// enable building the model using editing methods
-	// and allow simultion without loading SBML files
-	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument());
-	impl->document->createModel();
-}
-
-
 RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new RoadRunnerImpl("", NULL))
 {
 
@@ -469,6 +442,15 @@ RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new Road
 	// and allow simultion without loading SBML files
 	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(level, version));
 	impl->document->createModel();
+	if (level == 3)
+	{
+		auto volumeDefinition = impl->document->getModel()->createUnitDefinition();
+		volumeDefinition->setId("volume");
+		auto substanceDefinition = impl->document->getModel()->createUnitDefinition();
+		substanceDefinition->setId("substance");
+		auto timeDefinition = impl->document->getModel()->createUnitDefinition();
+		timeDefinition->setId("time");
+	}
 }
 
 
