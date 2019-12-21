@@ -504,6 +504,14 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     setIntegrator("cvode");
     // make NLEQ2 the default steady state solver
     setSteadyStateSolver("nleq2");
+	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
+	impl->document->createModel();
+	auto volumeDefinition = impl->document->getModel()->createUnitDefinition();
+	volumeDefinition->setId("volume");
+	auto substanceDefinition = impl->document->getModel()->createUnitDefinition();
+	substanceDefinition->setId("substance");
+	auto timeDefinition = impl->document->getModel()->createUnitDefinition();
+	timeDefinition->setId("time");
 
 }
 
