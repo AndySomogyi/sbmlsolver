@@ -528,4 +528,10 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			reset(rri);
 		}, "l3v1"));
 	}
+
+	TEST(FROM_SCRATCH_1)
+	{
+		RRHandle rr = createRRInstance();
+		addCompartmentNoRegen(rr, "new_compartment", 3.14);
+	}
 }
