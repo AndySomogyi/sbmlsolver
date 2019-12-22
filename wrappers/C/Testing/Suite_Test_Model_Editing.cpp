@@ -25,6 +25,35 @@ extern string gTempFolder;
 extern string gTSModelsPath;
 extern string gCompiler;
 
+bool validateModifiedSBML(std::string sbml)
+{
+	libsbml::SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
+	bool result = true;
+	
+	if (doc->getNumErrors() != 0)
+	{
+		for (int i = 0; i < doc->getNumErrors(); i++)
+		{ 
+			std::cout << doc->getError(i)->getMessage() << std::endl;
+		}
+		result = false;
+	}
+
+	doc->setConsistencyChecks(libsbml::LIBSBML_CAT_MODELING_PRACTICE, false);
+	doc->setConsistencyChecks(libsbml::LIBSBML_CAT_UNITS_CONSISTENCY, false);
+
+	if (doc->validateSBML() != 0)
+	{
+		for (int i = 0; i < doc->getNumErrors(); i++)
+		{
+			std::cout << doc->getError(i)->getMessage() << std::endl;
+		}
+		result = false;
+	}
+	delete doc;
+	return result;
+}
+
 /*
 * Loads <prefix>/source/roadrunner/models/sbml-test-suite/cases/semantic/<suite-name>/<test-name>/<test-name>-sbml-*VERSION*.xml
 * applies modification to the resulting roadrunner instance and compares the result to <test-name>-results.csv in the same folder,
@@ -178,6 +207,139 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 	}
 
 	freeRRInstance(gRR);
+	return result;
+}
+
+bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2v4")
+{
+	bool result(false);
+	int level = version.at(1) - '0';
+	int versionNum = version.at(3) - '0';
+	RRHandle rrh = createRRInstance();
+	RoadRunner &rr = *castToRoadRunner(rrh);
+
+
+	string testName(UnitTest::CurrentTest::Details()->testName);
+	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
+
+	libsbml::SBMLDocument *doc;
+
+	try
+	{
+		Log(Logger::LOG_NOTICE) << "Running Test: " << testName << endl;
+		string dataOutputFolder(joinPath(gTempFolder, suiteName));
+		string dummy;
+		string logFileName;
+		string settingsFileName;
+
+		rr.getIntegrator()->setValue("stiff", false);
+
+		if (!createFolder(dataOutputFolder))
+		{
+			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			throw(rr::Exception(msg));
+		}
+		//Create subfolder for data output
+		dataOutputFolder = joinPath(dataOutputFolder, testName);
+
+		if (!createFolder(dataOutputFolder))
+		{
+			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			throw(rr::Exception(msg));
+		}
+
+		TestSuiteModelSimulation simulation(dataOutputFolder);
+
+		simulation.UseEngine(&rr);
+
+		//Read SBML models.....
+		string modelFilePath(joinPath(getParentFolder(getParentFolder(getParentFolder(gTSModelsPath))), suiteName));
+		string modelFileName;
+
+		simulation.SetCaseNumber(0);
+
+		modelFilePath = joinPath(modelFilePath, testName);
+		modelFileName = testName + "-sbml-" + version + ".xml";
+		settingsFileName = testName + "-settings.txt";
+
+		//The following will load and compile and simulate the sbml model in the file
+		simulation.SetModelFilePath(modelFilePath);
+		simulation.SetModelFileName(modelFileName);
+		simulation.ReCompileIfDllExists(true);
+		simulation.CopyFilesToOutputFolder();
+		rr.setConservedMoietyAnalysis(false);
+
+		libsbml::SBMLReader reader;
+		std::string fullPath = modelFilePath + "/" + modelFileName;
+
+		//Check first if file exists first
+		if (!fileExists(fullPath))
+		{
+			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			throw(Exception("No such SBML file: " + fullPath));
+		}
+
+
+		LoadSBMLOptions opt;
+
+		// don't generate cache for models
+		opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
+
+		opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
+
+		opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::READ_ONLY;
+
+		opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
+
+		opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
+
+
+
+		//Then read settings file if it exists..
+		if (!simulation.LoadSettings(joinPath(modelFilePath, settingsFileName)))
+		{
+			throw(Exception("Failed loading simulation settings"));
+		}
+		generate(&rr);
+		//Then Simulate model
+		if (!simulation.Simulate())
+		{
+			throw(Exception("Failed running simulation"));
+		}
+
+		//Write result
+		if (!simulation.SaveResult())
+		{
+			//Failed to save data
+			throw(Exception("Failed saving result"));
+		}
+
+		if (!simulation.LoadReferenceData(modelFilePath + "/" + testName + "-results.csv"))
+		{
+			throw(Exception("Failed Loading reference data"));
+		}
+
+		simulation.CreateErrorData();
+		result = simulation.Pass();
+		result = simulation.SaveAllData() && result;
+		result = simulation.SaveModelAsXML(dataOutputFolder) && result;
+		result = validateModifiedSBML(rr.getCurrentSBML()) && result;
+		if (!result)
+		{
+			Log(Logger::LOG_WARNING) << "\t\t =============== Test " << testName << " failed =============\n";
+		}
+		else
+		{
+			Log(Logger::LOG_NOTICE) << "\t\tTest passed.\n";
+		}
+	}
+	catch (std::exception& ex)
+	{
+		string error = ex.what();
+		cerr << "Case " << testName << ": Exception: " << error << endl;
+		return false;
+	}
+
 	return result;
 }
 
@@ -531,7 +693,102 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 
 	TEST(FROM_SCRATCH_1)
 	{
-		RRHandle rr = createRRInstance();
-		addCompartmentNoRegen(rr, "new_compartment", 3.14);
+		CHECK(RunTestModelFromScratch([](RRHandle rri)
+		{
+			addCompartment(rri, "compartment", 1);
+			addSpecies(rri, "S1", "compartment", 0.00015, "substance");
+			addSpecies(rri, "S2", "compartment", 0, "substance");
+			addParameter(rri, "k1", 1);
+			const char* reactants[] = {"S1"};
+			const char* products[] = {"S2"};
+			addReaction(rri, "reaction1", reactants, 1, products, 1, "compartment * k1 * S1");
+		}));
+	}
+
+	TEST(FROM_SCRATCH_2)
+	{
+		CHECK(RunTestModelFromScratch([](RRHandle rri)
+		{
+			addCompartment(rri, "compartment", 1);
+			addSpecies(rri, "S1", "compartment", 1, "substance");
+			addSpecies(rri, "S2", "compartment", 0, "substance");
+			addParameter(rri, "k1", 1);
+			const char* reactants[] = {"S1"};
+			const char* products[] = {"S2"};
+			addReaction(rri, "reaction1", reactants, 1, products, 1, "compartment * k1 * S1");
+			addEvent(rri, "event1", true, "S1 < 0.1");
+			addDelay(rri, "event1", "1");
+			addEventAssignment(rri, "event1", "S1", "1");
+		}));
+	}
+
+	TEST(FROM_SCRATCH_3)
+	{
+		CHECK(RunTestModelFromScratch([](RRHandle rri)
+		{
+			addCompartment(rri, "compartment", 1);
+			addSpecies(rri, "S1", "compartment", 0, "substance");
+			addRateRule(rri, "S1", "7");
+		}));
+	}
+	
+	TEST(FROM_SCRATCH_4)
+	{
+		CHECK(RunTestModelFromScratch([](RRHandle rri)
+		{
+			addCompartment(rri, "compartment", 1);
+			addSpecies(rri, "S1", "compartment", 7, "substance");
+			addAssignmentRule(rri, "S1", "7");
+		}));
+	}
+
+	TEST(FROM_SCRATCH_5)
+	{
+		CHECK(RunTestModelFromScratch([](RRHandle rri)
+		{
+			addCompartment(rri, "compartment", 1);
+			addSpecies(rri, "S1", "compartment", 1, "substance");
+			addSpecies(rri, "S2", "compartment", 1.5e-15, "substance");
+			addSpecies(rri, "S3", "compartment", 1, "substance");
+			addParameter(rri, "k1", 0.75);
+			addParameter(rri, "k2", 50);
+			addAssignmentRule(rri, "S3", "k1*S2");
+			const char* reactants[] = {"S1"};
+			const char* products[] = {"S2"};
+			addReaction(rri, "reaction1", reactants, 1, products, 1, "compartment * k1 * S1");
+		}));
+	}
+
+	TEST(FROM_SCRATCH_6)
+	{
+		CHECK(RunTestModelFromScratch([](RRHandle rri)
+		{
+			addParameter(rri, "Q", 0);
+			addParameter(rri, "R", 0);
+			addParameter(rri, "reset", 0);
+			addParameter(rri, "Q2", 0);
+			addParameter(rri, "R2", 0);
+			addParameter(rri, "reset2", 0);
+
+			addEventNoRegen(rri, "Qinc", true, "(time - reset) >= 0.01");
+			addEventAssignmentNoRegen(rri, "Qinc", "reset", "time");
+			addEventAssignmentNoRegen(rri, "Qinc", "Q", "Q + 0.01");
+			addPriority(rri, "Qinc", "1");
+
+			addEventNoRegen(rri, "Rinc", true, "(time - reset) >= 0.01");
+			addEventAssignmentNoRegen(rri, "Rinc", "reset", "time");
+			addEventAssignmentNoRegen(rri, "Rinc", "R", "R + 0.01");
+			addPriority(rri, "Rinc", "-1");
+
+			addEvent(rri, "Qinc2", true, "(time - reset2) >= 0.01");
+			addEventAssignment(rri, "Qinc2", "reset2", "time");
+			addEventAssignment(rri, "Qinc2", "Q2", "Q2 + 0.01");
+			addPriority(rri, "Qinc2", "-1");
+
+			addEventNoRegen(rri, "Rinc2", true, "(time - reset2) >= 0.01");
+			addEventAssignmentNoRegen(rri, "Rinc2", "reset2", "time");
+			addEventAssignmentNoRegen(rri, "Rinc2", "R2", "R2 + 0.01");
+			addPriority(rri, "Rinc2", "1");
+		}, "l3v1"));
 	}
 }
