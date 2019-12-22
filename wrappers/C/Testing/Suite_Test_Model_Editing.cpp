@@ -755,11 +755,11 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			addAssignmentRule(rri, "S3", "k1*S2");
 			const char* reactants[] = {"S1"};
 			const char* products[] = {"S2"};
-			addReaction(rri, "reaction1", reactants, 1, products, 1, "compartment * k1 * S1");
+			addReaction(rri, "reaction1", reactants, 1, products, 1, "compartment * k2 * S1");
 		}));
 	}
 
-	TEST(FROM_SCRATCH_6)
+    TEST(FROM_SCRATCH_6)
 	{
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
