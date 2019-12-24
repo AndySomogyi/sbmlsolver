@@ -6808,9 +6808,12 @@ bool RoadRunner::hasVariable(const libsbml::ASTNode* node, const string& sid)
 
 void RoadRunner::getSpeciesIdsFromAST(const libsbml::ASTNode* node, vector<string>& species)
 {
-	vector<string> speciesNames = getFloatingSpeciesIds();
-	auto boundarySpecies = getBoundarySpeciesIds();
-	speciesNames.insert(speciesNames.begin(), boundarySpecies.begin(), boundarySpecies.end());
+	libsbml::ListOfSpecies *sbmlSpecies = impl->document->getModel()->getListOfSpecies();
+	vector<string> speciesNames;
+	for (int i = 0; i < sbmlSpecies->size(); i++)
+	{
+		speciesNames.push_back(sbmlSpecies->get(i)->getId());
+	}
 	getSpeciesIdsFromAST(node, species, speciesNames);
 }
 

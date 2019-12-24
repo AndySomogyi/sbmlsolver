@@ -29,6 +29,7 @@ bool validateModifiedSBML(std::string sbml)
 {
 	libsbml::SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
 	bool result = true;
+
 	
 	if (doc->getNumErrors() != 0)
 	{
@@ -691,13 +692,27 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		}, "l3v1"));
 	}
 
+	TEST(FROM_SCRATCH_7)
+	{
+		string modelFilePath(joinPath(getParentFolder(getParentFolder(getParentFolder(gTSModelsPath))), "MODEL_EDITING_TEST_SUITE"));
+		RRHandle rr = createRRInstance();
+		loadSBML(rr, (modelFilePath + std::string("/tiny_example_1.xml")).c_str());
+		addCompartmentNoRegen(rr, "c1", 3.0);
+		addSpeciesNoRegen(rr, "S1", "c1", 0.0005, "");
+		addSpeciesNoRegen(rr, "S2", "c1", 0.3, "");
+		const char* reactants[] = {"S1"};
+		const char* products[] = {"S1"};
+		addReaction(rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
+		validateModifiedSBML(std::string(getSBML(rr)));
+	}
+
 	TEST(FROM_SCRATCH_1)
 	{
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 0.00015, "substance");
-			addSpecies(rri, "S2", "compartment", 0, "substance");
+			addSpecies(rri, "S1", "compartment", 0.00015, "");
+			addSpecies(rri, "S2", "compartment", 0, "");
 			addParameter(rri, "k1", 1);
 			const char* reactants[] = {"S1"};
 			const char* products[] = {"S2"};
@@ -710,8 +725,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 1, "substance");
-			addSpecies(rri, "S2", "compartment", 0, "substance");
+			addSpecies(rri, "S1", "compartment", 1, "");
+			addSpecies(rri, "S2", "compartment", 0, "");
 			addParameter(rri, "k1", 1);
 			const char* reactants[] = {"S1"};
 			const char* products[] = {"S2"};
@@ -727,7 +742,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 0, "substance");
+			addSpecies(rri, "S1", "compartment", 0, "");
 			addRateRule(rri, "S1", "7");
 		}));
 	}
@@ -737,7 +752,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 7, "substance");
+			addSpecies(rri, "S1", "compartment", 7, "");
 			addAssignmentRule(rri, "S1", "7");
 		}));
 	}
@@ -747,9 +762,9 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 1, "substance");
-			addSpecies(rri, "S2", "compartment", 1.5e-15, "substance");
-			addSpecies(rri, "S3", "compartment", 1, "substance");
+			addSpecies(rri, "S1", "compartment", 1, "");
+			addSpecies(rri, "S2", "compartment", 1.5e-15, "");
+			addSpecies(rri, "S3", "compartment", 1, "");
 			addParameter(rri, "k1", 0.75);
 			addParameter(rri, "k2", 50);
 			addAssignmentRule(rri, "S3", "k1*S2");
