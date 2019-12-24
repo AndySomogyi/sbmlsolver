@@ -442,15 +442,6 @@ RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new Road
 	// and allow simultion without loading SBML files
 	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(level, version));
 	impl->document->createModel();
-	if (level == 3)
-	{
-		auto volumeDefinition = impl->document->getModel()->createUnitDefinition();
-		volumeDefinition->setId("volume");
-		auto substanceDefinition = impl->document->getModel()->createUnitDefinition();
-		substanceDefinition->setId("substance");
-		auto timeDefinition = impl->document->getModel()->createUnitDefinition();
-		timeDefinition->setId("time");
-	}
 }
 
 
@@ -506,12 +497,6 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     setSteadyStateSolver("nleq2");
 	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
 	impl->document->createModel();
-	auto volumeDefinition = impl->document->getModel()->createUnitDefinition();
-	volumeDefinition->setId("volume");
-	auto substanceDefinition = impl->document->getModel()->createUnitDefinition();
-	substanceDefinition->setId("substance");
-	auto timeDefinition = impl->document->getModel()->createUnitDefinition();
-	timeDefinition->setId("time");
 
 }
 
