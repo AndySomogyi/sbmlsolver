@@ -5888,7 +5888,7 @@ void RoadRunner::addParameter(const std::string& pid, double value, bool forceRe
 {
 	checkID("addParameter", pid);
 
-	Log(Logger::LOG_DEBUG) << "Adding compartment " << pid << " with value " << value << endl;
+	Log(Logger::LOG_DEBUG) << "Adding parameter " << pid << " with value " << value << endl;
 	libsbml::Parameter* newParameter = impl->document->getModel()->createParameter();
 
 	newParameter->setId(pid);
