@@ -18,6 +18,7 @@
 
 # include "rrOSSpecifics.h"
 # include "rrException.h"
+# include "sbml/SBMLDocument.h"
 
 # include <stdint.h>
 # include <string>
@@ -377,6 +378,7 @@ public:
     /******************************************************************************/
 
     virtual int getNumCompartments() = 0;
+	virtual int getCompartmentIndexForFloatingSpecies(int index) = 0;
     virtual int getCompartmentIndex(const std::string& eid) = 0;
     virtual std::string getCompartmentId(int index) = 0;
 
@@ -735,7 +737,15 @@ public:
      * for source compatability
      */
     void computeAllRatesOfChange() {};
-
+	
+	/*
+	* Writes "Not implemented for this model type" to out if not implemented for the underlying
+	* model type
+	*/
+	virtual void saveState(std::ostream& out) {
+		out << "Saving state not implemented for this model type";
+	}
+	
     friend class RoadRunner;
 
 protected:
@@ -755,7 +765,6 @@ protected:
 
 
 };
-
 
 
 

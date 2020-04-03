@@ -12,13 +12,14 @@
 #define ModelGeneratorContext_H_
 
 #include "LLVMIncludes.h"
+#include "llvm/IR/LegacyPassManager.h"
 #include "LLVMModelDataSymbols.h"
 #include "LLVMModelSymbols.h"
 #include "Random.h"
-
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
 #include <string>
+#include <memory>
 
 namespace libsbml {
 class SBMLDocument;
@@ -31,6 +32,12 @@ class ConservedMoietyConverter;
 
 namespace rrllvm
 {
+	class ModelResources;
+}
+
+namespace rrllvm
+{
+
 
 /**
  * All LLVM code generating objects basically need at a minimum three things
@@ -47,7 +54,7 @@ namespace rrllvm
  * are determined ahead of time before any code generation.
  *
  * They also make use of an llvm IRBuilder, one of these *could* be allocated
- * in each code gen object, but that would be wastefull, so we use a single one
+ * in each code gen object, but that would be wasteful, so we use a single one
  * per sbml compilation, and each code gen just resets the builder insert point,
  * that is what is was designed to do.
  *
@@ -79,7 +86,7 @@ public:
      */
     ModelGeneratorContext(libsbml::SBMLDocument const *doc,
             unsigned loadSBMLOptions);
-
+	
     /**
      * does not attach to any sbml doc,
      *
@@ -114,7 +121,7 @@ public:
      * manager loaded with all the requested optimizers.
      * NULL if no optimization is specified.
      */
-    llvm::FunctionPassManager *getFunctionPassManager() const;
+    llvm::legacy::FunctionPassManager *getFunctionPassManager() const;
 
     llvm::IRBuilder<> &getBuilder() const;
 
@@ -130,14 +137,9 @@ public:
      * So, this method exists so that the generated model can steal all the
      * objects it needs from us, these object are transfered to the model,
      * and our pointers to them are cleared.
-     *
-     * Monkey steals the peach -- A martial arts technique mastered by
-     * Michael Wu which is in effect, the act of ripping someone's bollocks off.
      */
-    void stealThePeach(const LLVMModelDataSymbols **sym,
-            const llvm::LLVMContext **ctx, const llvm::ExecutionEngine **eng,
-            const Random **random, const std::string **errStr);
-
+	void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc);
+	
 
     bool getConservedMoietyAnalysis() const;
 
@@ -162,20 +164,21 @@ private:
      * set the execution engine's global mappings to the rr functions
      * that are accessible from the LLVM generated code.
      */
-    void addGlobalMappings();
+	void addGlobalMapping(const llvm::GlobalValue * gv, void * addr);
+	void addGlobalMappings();
 
     /**
      * these point to the same location, ownedDoc is set if we create the doc,
      * otherwise its 0, meaning we're borrowign the the doc.
      */
     libsbml::SBMLDocument *ownedDoc;
-
+ 
     /**
-     * allways references the sbml doc.
+     * always references the sbml doc.
      */
     const libsbml::SBMLDocument *doc;
 
-    LLVMModelDataSymbols *symbols;
+    const LLVMModelDataSymbols *symbols;
 
     /**
      * make sure this is listed AFTER the doc and model, so it get
@@ -187,11 +190,14 @@ private:
 
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;
-    llvm::Module *module;
+    std::unique_ptr<llvm::Module> module_uniq;
+    const libsbml::Model *model;
+    llvm::Module* module;
 
+private:
     llvm::IRBuilder<> *builder;
 
-    llvm::FunctionPassManager *functionPassManager;
+    llvm::legacy::FunctionPassManager *functionPassManager;
 
     /**
      * As the model is being generated, various distributions may be created

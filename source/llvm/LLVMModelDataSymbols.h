@@ -165,6 +165,8 @@ public:
 
     LLVMModelDataSymbols(libsbml::Model const* model, unsigned options);
 
+	LLVMModelDataSymbols(std::istream& in);
+
     virtual ~LLVMModelDataSymbols();
 
     const std::string& getModelName() const;
@@ -543,6 +545,10 @@ public:
 
     uint getEventIndex(const std::string& id) const;
 
+	void saveState(std::ostream&) const;
+
+	void loadState(std::istream&);
+
 private:
 
     std::set<std::string> initAssignmentRules;
@@ -649,7 +655,7 @@ private:
      * the set of rule, these contain the variable name of the rule so that
      * we can quickly see if a symbol has an associated rule.
      */
-    std::set<std::string> assigmentRules;
+    std::set<std::string> assignmentRules;
 
     /**
      * rate rules, index by variable name.
@@ -727,6 +733,14 @@ private:
      */
     void setNamedSpeciesReferenceInfo(uint row, uint column,
             SpeciesReferenceType type);
+
+	void saveStringRefInfoMap(std::ostream&, const StringRefInfoMap&) const;
+
+	void loadStringRefInfoMap(std::istream&, StringRefInfoMap&);
+
+	void saveBinarySpeciesReferenceInfo(std::ostream&, SpeciesReferenceInfo& sri) const;
+
+	void loadBinarySpeciesReferenceInfo(std::istream&, SpeciesReferenceInfo&);
 };
 
 } /* namespace rr */

@@ -7,6 +7,7 @@
 
 #include "Variant.h"
 #include "rrLogger.h"
+#include "rrStringUtils.h"
 
 #include <exception>
 #include <iostream>
@@ -102,6 +103,8 @@ void Variant::assign(const std::type_info& info, const void* p)
 
     TRY_ASSIGN(uint64_t);
 
+    TRY_ASSIGN(std::vector<double>);
+
     string msg = "could not assign type ";
     msg += info.name();
     msg += " to Variant";
@@ -133,7 +136,6 @@ static std::string strip(const std::string& in)
 
     return out;
 }
-
 
 Variant Variant::parse(const std::string& s)
 {
@@ -167,6 +169,11 @@ Variant Variant::parse(const std::string& s)
     if (bstr == "FALSE") {
         return Variant(false);
     }
+	
+	//Check if vector of doubles
+	if (str[0] == '[') {
+		return Variant(toDoubleVector(str));
+	}
 
     // its a string
     Variant result;
@@ -214,6 +221,10 @@ bool Variant::isBool() const
     return self->var.type() == typeid(bool);
 }
 
+bool Variant::isDoubleVector() const {
+	return self->var.type() == typeid(std::vector<double>);
+}
+
 #define TRY_CONVERT_TO(type)                       \
         if (info == typeid(type)) {                \
             type* out = static_cast<type*>(p);     \
@@ -246,6 +257,7 @@ Variant::TypeId Variant::type() const
     TYPE_KIND(char, CHAR);
     TYPE_KIND(unsigned char, UCHAR);
     TYPE_KIND(bool, BOOL);
+    TYPE_KIND(std::vector<double>, DOUBLEVECTOR);
 
     if(info == typeid(int)) {
         if(self->size == 4) return INT32;
@@ -298,7 +310,12 @@ void Variant::convert_to(const std::type_info& info, void* p) const
         TRY_CONVERT_TO(int32_t);
 
         TRY_CONVERT_TO(uint32_t);
-
+		
+	if (info == typeid(std::vector<double>)) {
+		std::vector<double>* out = static_cast<std::vector<double>*>(p);
+		*out = self->var.extract< std::vector<double> >();
+		return;
+	}
     }
     catch(Poco::SyntaxException& ex)
     {
