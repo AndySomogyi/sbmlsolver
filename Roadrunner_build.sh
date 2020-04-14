@@ -5,7 +5,7 @@
 # Navigate to desired directory first, which should be empty, #
 # and run script. This will download source files, configure, #
 # and compile them. Runtime may be several hours.             #
-# BEFORE RUNNING: Make sure that libxml2 is installed.        #
+# BEFORE RUNNING: Make sure that wget is installed.           #
 ###############################################################
 
 
@@ -66,7 +66,11 @@ if [ $rebuild == "y" ]; then
 	rm llvm-6.0.1.src.*
 	cd ../build/llvm													# <root>/build/llvm
 	echo "=== Configuring LLVM ==="
-	cmake ../../source/llvm-6.0.1.src/ -DCMAKE_INSTALL_PREFIX=../../install/llvm
+	if [ $RRBsystem == "MINGW" ]; then
+		cmake ../../source/llvm-6.0.1.src/ -DCMAKE_INSTALL_PREFIX=../../install/llvm -A x64
+	else
+		cmake ../../source/llvm-6.0.1.src/ -DCMAKE_INSTALL_PREFIX=../../install/llvm
+	fi
 	echo "=== Building LLVM ==="
 	RRBmake
 	echo "=== Installing LLVM ==="
@@ -98,7 +102,7 @@ if [ $rebuild == "y" ]; then
 	cd ../build/libroadrunner-deps						# <root>/build/libroadrunner-deps
 	echo "=== Configuring libroadrunner-deps ==="
 	if [ $RRBsystem == "MINGW" ]; then
-		cmake ../../source/libroadrunner-deps/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install/roadrunner -DCMAKE_MC_COMPILER="/c/Program Files (x86)/Windows Kits/10/bin/10.0.18362.0/x64/mc.exe"
+		cmake ../../source/libroadrunner-deps/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install/roadrunner -DCMAKE_MC_COMPILER="/c/Program Files (x86)/Windows Kits/10/bin/10.0.18362.0/x64/mc.exe" -A x64
 	else
 		cmake ../../source/libroadrunner-deps/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install/roadrunner
 	fi
@@ -132,7 +136,11 @@ if [ $rebuild == "y" ]; then
 	git clone https://github.com/sys-bio/roadrunner.git
 	cd ../build/roadrunner										# <root>/build/roadrunner
 	echo "=== Configuring roadrunner ==="
-	cmake ../../source/roadrunner/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install/roadrunner/ -DLLVM_CONFIG_EXECUTABLE=../../install/llvm/bin/llvm-config -DTHIRD_PARTY_INSTALL_FOLDER=../../install/roadrunner/ -DRR_USE_CXX11=OFF -DUSE_TR1_CXX_NS=OFF -DCMAKE_CXX_FLAGS="-lcurses"
+	if [ $RRBsystem == "MINGW" ]; then
+		cmake ../../source/roadrunner/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install/roadrunner/ -DLLVM_CONFIG_EXECUTABLE=../../install/llvm/bin/llvm-config -DTHIRD_PARTY_INSTALL_FOLDER=../../install/roadrunner/ -DRR_USE_CXX11=OFF -DUSE_TR1_CXX_NS=OFF -A x64
+	else
+		cmake ../../source/roadrunner/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install/roadrunner/ -DLLVM_CONFIG_EXECUTABLE=../../install/llvm/bin/llvm-config -DTHIRD_PARTY_INSTALL_FOLDER=../../install/roadrunner/ -DRR_USE_CXX11=OFF -DUSE_TR1_CXX_NS=OFF -DCMAKE_CXX_FLAGS="-lcurses"
+	fi
 	echo "=== Building roadrunner ==="
 	RRBmake
 	echo "=== Installing roadrunner ==="
