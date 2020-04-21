@@ -5670,11 +5670,12 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 	}
 
 	// illegal formular will be catched during the regeneration
+	ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
 	KineticLaw* kLaw = newReaction->createKineticLaw();
-	kLaw->setFormula(kineticLaw);
+	kLaw->setMath(mathRoot);
 
 	std::vector<string> kLawSpeciesIds;
-	getSpeciesIdsFromAST(kLaw->getMath(), kLawSpeciesIds);
+	getSpeciesIdsFromAST(mathRoot, kLawSpeciesIds);
 	for (string s : kLawSpeciesIds)
 	{
 		if (std::find(products.begin(), products.end(), s) == products.end()
@@ -5852,7 +5853,10 @@ void RoadRunner::setKineticLaw(const std::string& rid, const std::string& kineti
 	if (law == NULL) {
 		law = reaction->createKineticLaw();
 	}
-	law->setFormula(kineticLaw);
+
+	// need to do this instead of setFormula() for L3 parsing
+	ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
+	law->setMath(mathRoot);
 
 	std::vector<string> kLawSpeciesIds;
 	getSpeciesIdsFromAST(law->getMath(), kLawSpeciesIds);
@@ -5994,7 +5998,9 @@ void RoadRunner::addAssignmentRule(const std::string& vid, const std::string& fo
 	// potential errors with these two inputs will be detected during regeneration and ignored 
 
 	newRule->setVariable(vid);
-	newRule->setFormula(formula);
+	// need to do this instead of setFormula() for L3 parsing
+	ASTNode* mathRoot = SBML_parseL3Formula(formula.c_str());
+	newRule->setMath(mathRoot);
 
 	regenerate(forceRegenerate, true);
 }
@@ -6024,7 +6030,9 @@ void RoadRunner::addRateRule(const std::string& vid, const std::string& formula,
 	// potential errors with these two inputs will be detected during regeneration
 
 	newRule->setVariable(vid);
-	newRule->setFormula(formula);
+	// need to do this instead of setFormula() for L3 parsing
+	ASTNode* mathRoot = SBML_parseL3Formula(formula.c_str());
+	newRule->setMath(mathRoot);
 
 	regenerate(forceRegenerate);
 }
