@@ -241,6 +241,14 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 	llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
 		llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
     
+	if (!objectFileExpected) {
+		//LS DEBUG:  find a way to get the text out of the error.
+		auto err = objectFileExpected.takeError();
+		string s = "LLVM object supposed to be file, but is not.";
+		Log(Logger::LOG_FATAL) << s;
+		throw_llvm_exception(s);
+	}
+
 	std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
 	
 	llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
@@ -835,8 +843,15 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 	llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
 		llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
     
+	if (!objectFileExpected) {
+		//LS DEBUG:  find a way to get the text out of the error.
+		auto err = objectFileExpected.takeError();
+		string s = "LLVM object supposed to be file, but is not.";
+		Log(Logger::LOG_FATAL) << s;
+		throw_llvm_exception(s);
+	}
+
 	std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-	
 	llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
 
 	context.getExecutionEngine().addObjectFile(std::move(owningObject));
