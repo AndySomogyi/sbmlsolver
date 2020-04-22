@@ -5673,6 +5673,7 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 	ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
 	KineticLaw* kLaw = newReaction->createKineticLaw();
 	kLaw->setMath(mathRoot);
+	delete mathRoot;
 
 	std::vector<string> kLawSpeciesIds;
 	getSpeciesIdsFromAST(mathRoot, kLawSpeciesIds);
@@ -5857,6 +5858,7 @@ void RoadRunner::setKineticLaw(const std::string& rid, const std::string& kineti
 	// need to do this instead of setFormula() for L3 parsing
 	ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
 	law->setMath(mathRoot);
+	delete mathRoot;
 
 	std::vector<string> kLawSpeciesIds;
 	getSpeciesIdsFromAST(law->getMath(), kLawSpeciesIds);
@@ -6001,6 +6003,7 @@ void RoadRunner::addAssignmentRule(const std::string& vid, const std::string& fo
 	// need to do this instead of setFormula() for L3 parsing
 	ASTNode* mathRoot = SBML_parseL3Formula(formula.c_str());
 	newRule->setMath(mathRoot);
+	delete mathRoot;
 
 	regenerate(forceRegenerate, true);
 }
@@ -6033,6 +6036,7 @@ void RoadRunner::addRateRule(const std::string& vid, const std::string& formula,
 	// need to do this instead of setFormula() for L3 parsing
 	ASTNode* mathRoot = SBML_parseL3Formula(formula.c_str());
 	newRule->setMath(mathRoot);
+	delete mathRoot;
 
 	regenerate(forceRegenerate);
 }
