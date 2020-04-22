@@ -5676,7 +5676,7 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 	delete mathRoot;
 
 	std::vector<string> kLawSpeciesIds;
-	getSpeciesIdsFromAST(mathRoot, kLawSpeciesIds);
+	getSpeciesIdsFromAST(kLaw->getMath(), kLawSpeciesIds);
 	for (string s : kLawSpeciesIds)
 	{
 		if (std::find(products.begin(), products.end(), s) == products.end()
