@@ -40,7 +40,7 @@ static bool isNegative(const libsbml::ASTNode *node);
 
 std::string to_string(const libsbml::ASTNode *ast)
 {
-    char* formula = SBML_formulaToString(ast);
+    char* formula = SBML_formulaToL3String(ast);
     string str = formula;
     free(formula);
     return str;
@@ -254,7 +254,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 {
-    char* formula = SBML_formulaToString(ast);
+    char* formula = SBML_formulaToL3String(ast);
     string str = formula;
     free(formula);
 
@@ -440,7 +440,7 @@ llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
         throw_llvm_exception("AST type 'delay' requires two children.");
     }
 
-    char* formula = SBML_formulaToString(ast);
+    char* formula = SBML_formulaToL3String(ast);
     string str = formula;
     free(formula);
 
