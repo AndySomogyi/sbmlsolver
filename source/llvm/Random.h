@@ -93,6 +93,13 @@ public:
 private:
     // seed that was used to seed the engine.
     int64_t randomSeed;
+	// internal distribution used to generate reals between 0.0 and 1.0
+	
+#ifdef CXX11_RANDOM
+	cxx11_ns::uniform_real_distribution<double> normalized_uniform_dist;
+#else
+	cxx11_ns::uniform_real<double> normalized_uniform_dist;
+#endif
 };
 
 

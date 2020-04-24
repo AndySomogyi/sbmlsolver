@@ -44,6 +44,7 @@ static int randomCount = 0;
 /**
  * random uniform distribution
  */
+
 static double distrib_uniform(Random *random, double _min, double _max);
 
 static double distrib_normal(Random* random, double mu, double sigma);
@@ -78,21 +79,21 @@ static int64_t defaultSeed()
     return seed;
 }
 
-Random::Random(ModelGeneratorContext& ctx)
+Random::Random(ModelGeneratorContext& ctx): normalized_uniform_dist(0.0, 1.0)
 {
     addGlobalMappings(ctx);
     setRandomSeed(defaultSeed());
     randomCount++;
 }
 
-Random::Random(const Random& other)
+Random::Random(const Random& other): normalized_uniform_dist(0.0, 1.0)
 {
     *this = other;
     setRandomSeed(defaultSeed());
     randomCount++;
 }
 
-Random::Random()
+Random::Random(): normalized_uniform_dist(0.0, 1.0)
 {
     setRandomSeed(defaultSeed());
     randomCount++;
@@ -194,7 +195,7 @@ double distrib_uniform(Random *random, double _min, double _max)
 #else
     cxx11_ns::uniform_real<double> dist(_min, _max);
 #endif
-    return dist(*random);
+    return dist(random->engine);
 }
 
 double distrib_normal(Random* random, double mu, double sigma)
@@ -204,7 +205,7 @@ double distrib_normal(Random* random, double mu, double sigma)
             << ", " << mu << ", " << sigma << ")";
 
     NormalDist normal(mu, sigma);
-    return normal(*random);
+    return normal(random->engine);
 }
 
 double distrib_normal_four(Random* random, double mu, double sigma, double _min, double _max)
@@ -214,7 +215,7 @@ double distrib_normal_four(Random* random, double mu, double sigma, double _min,
         << ", " << mu << ", " << sigma << ", " << _min << ", " << _max << ")";
 
     NormalDist normal(mu, sigma);
-    double distval = normal(*random);
+    double distval = normal(random->engine);
     double result = std::max(_min, std::min(distval, _max));
     
     return result;
@@ -227,7 +228,7 @@ double distrib_poisson(Random* random, double lambda)
         << ", " << lambda << ")";
 
     PoissonDist poisson(lambda);
-    return (double)poisson(*random);
+    return (double)poisson(random->engine);
 }
 
 double distrib_poisson_three(Random* random, double lambda, double _min, double _max)
@@ -237,7 +238,7 @@ double distrib_poisson_three(Random* random, double lambda, double _min, double 
         << ", " << lambda << ", " << _min << ", " << _max << ")";
 
     PoissonDist poisson(lambda);
-    double distval = (double)poisson(*random);
+    double distval = (double)poisson(random->engine);
     double result = std::max(_min, std::min(distval, _max));
     return result;
 }
@@ -249,7 +250,7 @@ double distrib_exponential(Random* random, double lambda)
         << ", " << lambda << ")";
 
     ExponentialDist exponential(lambda);
-    return exponential(*random);
+    return exponential(random->engine);
 }
 
 double distrib_exponential_three(Random* random, double lambda, double _min, double _max)
@@ -259,7 +260,7 @@ double distrib_exponential_three(Random* random, double lambda, double _min, dou
         << ", " << lambda << ", " << _min << ", " << _max << ")";
 
     ExponentialDist exponential(lambda);
-    double distval = exponential(*random);
+    double distval = exponential(random->engine);
     double result = std::max(_min, std::min(distval, _max));
     return result;
 }
@@ -271,7 +272,7 @@ double distrib_lognormal(Random* random, double mu, double sigma)
         << ", " << mu << ", " << sigma << ")";
 
     LognormalDist lognormal(mu, sigma);
-    return lognormal(*random);
+    return lognormal(random->engine);
 }
 
 double distrib_lognormal_four(Random* random, double mu, double sigma, double _min, double _max)
@@ -281,7 +282,7 @@ double distrib_lognormal_four(Random* random, double mu, double sigma, double _m
         << ", " << mu << ", " << sigma << ")";
 
     LognormalDist lognormal(mu, sigma);
-    double distval = lognormal(*random);
+    double distval = lognormal(random->engine);
     double result = std::max(_min, std::min(distval, _max));
     return result;
 }
@@ -294,8 +295,9 @@ Random::~Random()
 
 double Random::operator ()()
 {
-    double range = engine.max() - engine.min();
-    return engine() / range;
+	// uniform_real is better than directly scaling engine() output because engine
+	// is intended as an unsigned random bit generator, not a real number generator
+	return normalized_uniform_dist(engine);
 }
 
 void Random::setRandomSeed(int64_t val)
