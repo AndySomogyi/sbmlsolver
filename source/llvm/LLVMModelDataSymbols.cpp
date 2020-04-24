@@ -154,7 +154,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             }
             else if (dynamic_cast<const AlgebraicRule*>(rule))
             {
-                char* formula = SBML_formulaToString(rule->getMath());
+                char* formula = SBML_formulaToL3String(rule->getMath());
                 Log(Logger::LOG_WARNING)
                     << "Unable to handle algebraic rules. Formula '0 = "
                     << formula << "' ignored.";
