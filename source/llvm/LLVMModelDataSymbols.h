@@ -171,7 +171,7 @@ public:
 
     const std::string& getModelName() const;
 
-    uint getCompartmentIndex(std::string const&) const;
+    int getCompartmentIndex(std::string const&) const;
 
     /**
      * checks to see if we have the given symbol in the sbml.
@@ -189,14 +189,14 @@ public:
      * @param requireIndependent if true, the float species must be independent --
      * not defined by a rule.
      */
-    uint getFloatingSpeciesIndex(std::string const&, bool requireIndependent = true) const;
+    int getFloatingSpeciesIndex(std::string const&, bool requireIndependent = true) const;
 
-    uint getBoundarySpeciesIndex(std::string const&) const;
+    int getBoundarySpeciesIndex(std::string const&) const;
 
     /**
      * number of boundary species not defined by rules.
      */
-    uint getIndependentBoundarySpeciesSize() const;
+    size_t getIndependentBoundarySpeciesSize() const;
 
     /**
      * number of fully indenpendent species, these are species that
@@ -206,17 +206,17 @@ public:
      *
      * This is size of the allocated array in the ModelData struct.
      */
-    uint getIndependentFloatingSpeciesSize() const;
+    size_t getIndependentFloatingSpeciesSize() const;
 
     /**
      * index of a global param given its name.
      * @throw exception if invalid name.
      */
-    uint getGlobalParameterIndex(std::string const&) const;
+    int getGlobalParameterIndex(std::string const&) const;
 
-    uint getRateRuleIndex(std::string const&) const;
+    int getRateRuleIndex(std::string const&) const;
 
-    uint getRateRuleSize() const;
+    size_t getRateRuleSize() const;
 
     /**
      * get the symbolic id of the i'th rate rule
@@ -226,11 +226,11 @@ public:
     /**
      * number of global parameters which are not determined by rules.
      */
-    uint getIndependentGlobalParameterSize() const;
+    size_t getIndependentGlobalParameterSize() const;
 
-    uint getReactionIndex(std::string const&) const;
+    int getReactionIndex(std::string const&) const;
     std::vector<std::string> getReactionIds() const;
-    uint getReactionSize() const;
+    size_t getReactionSize() const;
 
 
     std::vector<std::string> getGlobalParameterIds() const;
@@ -261,20 +261,20 @@ public:
     /**
      * total size of all floating species.
      */
-    uint getFloatingSpeciesSize() const;
+    size_t getFloatingSpeciesSize() const;
 
-    uint getBoundarySpeciesSize() const;
+    size_t getBoundarySpeciesSize() const;
 
-    uint getCompartmentsSize() const;
+    size_t getCompartmentsSize() const;
 
-    uint getGlobalParametersSize() const;
+    size_t getGlobalParametersSize() const;
 
     std::vector<std::string> getCompartmentIds() const;
 
     /**
      * number of compartments which are not determined by rules.
      */
-    uint getIndependentCompartmentSize() const;
+    size_t getIndependentCompartmentSize() const;
 
 
     std::vector<std::string> getBoundarySpeciesIds() const;
@@ -376,12 +376,12 @@ public:
     /**
      * get the number of conserved moieties.
      */
-    uint getConservedMoietySize() const;
+    size_t getConservedMoietySize() const;
 
     /**
      * get the dependent species for a given conserved moiety id
      */
-    uint getDepSpeciesIndexForConservedMoietyId(std::string id) const;
+    int getDepSpeciesIndexForConservedMoietyId(std::string id) const;
 
     /**
      * get all the independent species for a given conserved moiety id
@@ -391,7 +391,7 @@ public:
     /**
      * get the index of a global parameter given a conserved moiety index.
      */
-    uint getConservedMoietyGlobalParameterIndex(uint cmIndex) const;
+    int getConservedMoietyGlobalParameterIndex(uint cmIndex) const;
 
     /**
      * find the id of the given conserved moiety index.
@@ -401,7 +401,7 @@ public:
     /**
      * get the id of a conserved moiety given its name.
      */
-    uint getConservedMoietyIndex(const std::string& name) const;
+    int getConservedMoietyIndex(const std::string& name) const;
 
 private:
 
@@ -455,7 +455,7 @@ public:
      * get the size (in number of doubles) of the buffer
      * that events need to save the event data to.
      */
-    uint getEventBufferSize(uint eventId) const;
+    size_t getEventBufferSize(uint eventId) const;
 
     /**
      * the the row indices of non-zero stoichiometry values
@@ -513,37 +513,37 @@ public:
      *
      * has the same index as the run time floating species.
      */
-    uint getFloatingSpeciesInitIndex(const std::string& symbol) const;
+    int getFloatingSpeciesInitIndex(const std::string& symbol) const;
 
     /**
      * get the index of a compartment initial value
      *
      * has the same index as the run time compartment.
      */
-    uint getCompartmentInitIndex(const std::string& symbol) const;
+    int getCompartmentInitIndex(const std::string& symbol) const;
 
     /**
      * get the index of a compartment for a float species.
      */
-    uint getCompartmentIndexForFloatingSpecies(uint floatIndex) const;
+    int getCompartmentIndexForFloatingSpecies(uint floatIndex) const;
 
     /**
      * get the index of a global parameter initial value
      *
      * has the same index as the run time global parameter.
      */
-    uint getGlobalParameterInitIndex(const std::string& symbol) const;
+    int getGlobalParameterInitIndex(const std::string& symbol) const;
 
-    uint getInitCompartmentSize() const;
-    uint getInitFloatingSpeciesSize() const;
-    uint getInitBoundarySpeciesSize() const;
-    uint getInitGlobalParameterSize() const;
+    size_t getInitCompartmentSize() const;
+    size_t getInitFloatingSpeciesSize() const;
+    size_t getInitBoundarySpeciesSize() const;
+    size_t getInitGlobalParameterSize() const;
 
     std::vector<std::string> getEventIds() const;
 
     std::string getEventId(uint indx) const;
 
-    uint getEventIndex(const std::string& id) const;
+    int getEventIndex(const std::string& id) const;
 
 	void saveState(std::ostream&) const;
 
@@ -668,15 +668,15 @@ private:
      */
     std::vector<bool> globalParameterRateRules;
 
-    uint independentFloatingSpeciesSize;
-    uint independentBoundarySpeciesSize;
-    uint independentGlobalParameterSize;
-    uint independentCompartmentSize;
+    size_t  independentFloatingSpeciesSize;
+    size_t  independentBoundarySpeciesSize;
+    size_t  independentGlobalParameterSize;
+    size_t  independentCompartmentSize;
 
     /**
      * the number of assignments each event has
      */
-    std::vector<uint> eventAssignmentsSize;
+    std::vector<size_t> eventAssignmentsSize;
 
     std::vector<unsigned char> eventAttributes;
 
