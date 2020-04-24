@@ -819,6 +819,13 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			rri->addReaction("reaction3", { "S3" }, { "S1" }, "k2*S3");
 		}));
 	}
+	TEST(ADD_REACTION_6)
+	{
+		CHECK(RunModelEditingTest([](RoadRunner *rri)
+		{
+			rri->addReaction("reaction3", { "S3" }, { "S4" }, "C * k3 * S3 * time");
+		}));
+	}
 	TEST(REMOVE_SPECIES_1)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)

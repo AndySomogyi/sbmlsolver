@@ -215,8 +215,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
     unsigned options) :
         ownedDoc(0),
         doc(_doc),
-        symbols(new LLVMModelDataSymbols(_doc->getModel(), options)),
-        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
+        symbols(NULL),
+        modelSymbols(NULL),
         errString(new string()),
         context(0),
         executionEngine(0),
@@ -266,11 +266,6 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             this->doc = _doc;
         }
 
-        symbols = new LLVMModelDataSymbols(getModel(), options);
-
-        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-
         // initialize LLVM
         // TODO check result
         InitializeNativeTarget();
@@ -294,8 +289,12 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
 
         addGlobalMappings();
 
-		//I'm just hoping that none of these functions try to call delete on module
+        //I'm just hoping that none of these functions try to call delete on module
         createLibraryFunctions(module);
+
+        symbols = new LLVMModelDataSymbols(getModel(), options);
+
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
 
         ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
 

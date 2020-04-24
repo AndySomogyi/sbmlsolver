@@ -71,7 +71,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         for (SymbolForest::Map::const_iterator i = initValues.begin();
                 i != initValues.end(); i++)
         {
-            char* formula = SBML_formulaToString(i->second);
+            char* formula = SBML_formulaToL3String(i->second);
             Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
             free(formula);
         }
@@ -195,7 +195,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
     {
         LLVMModelDataSymbols::SpeciesReferenceInfo nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.row, nz.column);
-        char* formula = SBML_formulaToString(node);
+        char* formula = SBML_formulaToL3String(node);
         Log(Logger::LOG_DEBUG) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
                 << "\n";
         free(formula);
