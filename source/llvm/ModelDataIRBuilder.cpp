@@ -96,8 +96,9 @@ ModelDataIRBuilder::ModelDataIRBuilder(Value *modelData,
 
 llvm::Value* ModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 {
-    uint index = symbols.getGlobalParameterIndex(id);
+    int index = symbols.getGlobalParameterIndex(id);
     assert(index < symbols.getIndependentGlobalParameterSize());
+    assert(index >= 0);
     return createGEP(GlobalParameters, index);
 }
 
@@ -244,8 +245,9 @@ llvm::CallInst* ModelDataIRBuilder::createCSRMatrixSetNZ(IRBuilder<> &builder,
 llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtGEP(
         const std::string& id, const Twine& name)
 {
-    uint index = symbols.getFloatingSpeciesIndex(id);
+    int index = symbols.getFloatingSpeciesIndex(id);
     assert(index < symbols.getIndependentFloatingSpeciesSize());
+    assert(index >= 0);
 
     return createGEP(FloatingSpeciesAmountsAlias, index,
             name.isTriviallyEmpty() ? id : name);
@@ -268,8 +270,9 @@ llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtStore(
 llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateGEP(
         const std::string& id, const Twine& name)
 {
-    uint index = symbols.getFloatingSpeciesIndex(id);
+    int index = symbols.getFloatingSpeciesIndex(id);
     assert(index < symbols.getIndependentFloatingSpeciesSize());
+    assert(index >= 0);
     return createGEP(FloatingSpeciesAmountRates, index,
             name.isTriviallyEmpty() ? id : name);
 }
@@ -320,12 +323,13 @@ llvm::Value* ModelDataIRBuilder::createLoad(ModelDataFields field, unsigned inde
 }
 
 llvm::Value* ModelDataIRBuilder::createRateRuleValueGEP(const std::string& id,
-        const llvm::Twine& name)
+    const llvm::Twine& name)
 {
-    uint index = symbols.getRateRuleIndex(id);
+    int index = symbols.getRateRuleIndex(id);
     assert(index < symbols.getRateRuleSize());
+    assert(index >= 0);
     return createGEP(RateRuleValuesAlias, index,
-            name.isTriviallyEmpty() ? id : name);
+        name.isTriviallyEmpty() ? id : name);
 }
 
 llvm::Value* ModelDataIRBuilder::createRateRuleValueLoad(const std::string& id,
@@ -346,8 +350,9 @@ llvm::Value* ModelDataIRBuilder::createRateRuleValueStore(const std::string& id,
 llvm::Value* ModelDataIRBuilder::createRateRuleRateGEP(const std::string& id,
         const llvm::Twine& name)
 {
-    uint index = symbols.getRateRuleIndex(id);
+    int index = symbols.getRateRuleIndex(id);
     assert(index < symbols.getRateRuleSize());
+    assert(index >= 0);
     return createGEP(RateRuleRates, index,
             name.isTriviallyEmpty() ? id + "_rate" : name);
 }
@@ -390,8 +395,9 @@ llvm::Value* ModelDataIRBuilder::createCompStore(const std::string& id,
 
 llvm::Value* ModelDataIRBuilder::createCompGEP(const std::string& id)
 {
-    uint index = symbols.getCompartmentIndex(id);
+    int index = symbols.getCompartmentIndex(id);
     assert(index < symbols.getIndependentCompartmentSize());
+    assert(index >= 0);
     return createGEP(CompartmentVolumes, index, id);
 }
 
@@ -412,8 +418,9 @@ llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtStore(
 llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtGEP(
         const std::string& id, const llvm::Twine& name)
 {
-    uint index = symbols.getBoundarySpeciesIndex(id);
+    int index = symbols.getBoundarySpeciesIndex(id);
     assert(index < symbols.getIndependentBoundarySpeciesSize());
+    assert(index >= 0);
     return createGEP(BoundarySpeciesAmounts, index, name);
 }
 
@@ -421,6 +428,7 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamLoad(
         const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getGlobalParameterIndex(id);
+    assert(idx >= 0);
     return createLoad(GlobalParameters, idx,
             name.isTriviallyEmpty() ? id : name);
 }
@@ -429,14 +437,16 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamStore(
         const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getGlobalParameterIndex(id);
+    assert(idx >= 0);
     return createStore(GlobalParameters, idx, value, id);
 }
 
 llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtGEP(
         const std::string& id, const llvm::Twine& name)
 {
-    uint index = symbols.getFloatingSpeciesInitIndex(id);
+    int index = symbols.getFloatingSpeciesInitIndex(id);
     assert(index < symbols.getInitFloatingSpeciesSize());
+    assert(index >= 0);
     return createGEP(InitFloatingSpeciesAmounts, index,
             name.isTriviallyEmpty() ? id : name);
 }
@@ -458,8 +468,9 @@ llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtStore(
 llvm::Value* ModelDataIRBuilder::createInitCompGEP(const std::string& id,
         const llvm::Twine& name)
 {
-    uint index = symbols.getCompartmentInitIndex(id);
+    int index = symbols.getCompartmentInitIndex(id);
     assert(index < symbols.getInitCompartmentSize());
+    assert(index >= 0);
     return createGEP(InitCompartmentVolumes, index,
             name.isTriviallyEmpty() ? id : name);
 }
@@ -479,12 +490,13 @@ llvm::Value* ModelDataIRBuilder::createInitCompStore(const std::string& id,
 }
 
 llvm::Value* ModelDataIRBuilder::createInitGlobalParamGEP(const std::string& id,
-        const llvm::Twine& name)
+    const llvm::Twine& name)
 {
-    uint index = symbols.getGlobalParameterInitIndex(id);
-        assert(index < symbols.getInitGlobalParameterSize());
-        return createGEP(InitGlobalParameters, index,
-                name.isTriviallyEmpty() ? id : name);
+    int index = symbols.getGlobalParameterInitIndex(id);
+    assert(index < symbols.getInitGlobalParameterSize());
+    assert(index >= 0);
+    return createGEP(InitGlobalParameters, index,
+        name.isTriviallyEmpty() ? id : name);
 }
 
 llvm::Value* ModelDataIRBuilder::createInitGlobalParamLoad(
@@ -504,12 +516,14 @@ llvm::Value* ModelDataIRBuilder::createInitGlobalParamStore(
 llvm::Value* ModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getReactionIndex(id);
+    assert(idx >= 0);
     return createLoad(ReactionRates, idx, name);
 }
 
 llvm::Value* ModelDataIRBuilder::createReactionRateStore(const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getReactionIndex(id);
+    assert(idx >= 0);
     return createStore(ReactionRates, idx, value, id);
 }
 
