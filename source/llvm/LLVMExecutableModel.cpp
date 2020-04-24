@@ -571,14 +571,7 @@ string LLVMExecutableModel::getInfo()
 
 int LLVMExecutableModel::getFloatingSpeciesIndex(const string& id)
 {
-    try
-    {
-        return symbols->getFloatingSpeciesIndex(id, false);
-    }
-    catch (LLVMException&)
-    {
-        return -1;
-    }
+    return symbols->getFloatingSpeciesIndex(id, false);
 }
 
 string LLVMExecutableModel::getFloatingSpeciesId(int index)
@@ -588,14 +581,7 @@ string LLVMExecutableModel::getFloatingSpeciesId(int index)
 
 int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
 {
-    try
-    {
-        return symbols->getBoundarySpeciesIndex(id);
-    }
-    catch (LLVMException&)
-    {
-        return -1;
-    }
+    return symbols->getBoundarySpeciesIndex(id);
 }
 
 string LLVMExecutableModel::getBoundarySpeciesId(int indx)
@@ -614,14 +600,7 @@ string LLVMExecutableModel::getBoundarySpeciesId(int indx)
 
 int LLVMExecutableModel::getGlobalParameterIndex(const string& id)
 {
-    try
-    {
-        return symbols->getGlobalParameterIndex(id);
-    }
-    catch(LLVMException&)
-    {
-        return -1;
-    }
+    return symbols->getGlobalParameterIndex(id);
 }
 
 string LLVMExecutableModel::getGlobalParameterId(int id)
@@ -631,14 +610,7 @@ string LLVMExecutableModel::getGlobalParameterId(int id)
 
 int LLVMExecutableModel::getCompartmentIndex(const string& id)
 {
-    try
-    {
-        return symbols->getCompartmentIndex(id);
-    }
-    catch (LLVMException&)
-    {
-        return -1;
-    }
+    return symbols->getCompartmentIndex(id);
 }
 
 string LLVMExecutableModel::getCompartmentId(int id)
@@ -657,14 +629,7 @@ string LLVMExecutableModel::getCompartmentId(int id)
 
 int LLVMExecutableModel::getReactionIndex(const string& id)
 {
-    try
-    {
-        return symbols->getReactionIndex(id);
-    }
-    catch (LLVMException&)
-    {
-        return -1;
-    }
+    return symbols->getReactionIndex(id);
 }
 
 string LLVMExecutableModel::getReactionId(int id)
@@ -1471,14 +1436,7 @@ std::string LLVMExecutableModel::getStateVectorId(int index)
 
 int LLVMExecutableModel::getEventIndex(const std::string& eventId)
 {
-    try
-    {
-        return symbols->getEventIndex(eventId);
-    }
-    catch(LLVMException&)
-    {
-        return -1;
-    }
+    return symbols->getEventIndex(eventId);
 }
 
 std::string LLVMExecutableModel::getEventId(int indx)
@@ -1775,15 +1733,12 @@ int LLVMExecutableModel::getNumConservedMoieties()
 
 int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
 {
-    try
+    int ret = symbols->getConservedMoietyIndex(name);
+    if (ret<0)
     {
-        return symbols->getConservedMoietyIndex(name);
+        Log(Logger::LOG_DEBUG) << __FUNC__ << ", invalid conserved moiety index " << name << ".";
     }
-    catch(std::exception& e)
-    {
-        Log(Logger::LOG_DEBUG) << __FUNC__ << ", " << e.what();
-    }
-    return -1;
+    return ret;
 }
 
 string LLVMExecutableModel::getConservedMoietyId(int index)
