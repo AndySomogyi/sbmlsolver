@@ -575,7 +575,7 @@ double distrib_laplace(Random* random, double location, double scale)
         << static_cast<void*>(random)
         << ", " << location << ", " << scale << ")";
 
-    ExponentialDist laplace(scale);
+    ExponentialDist laplace(1/scale);
     double exp1 = laplace(random->engine);
     double exp2 = laplace(random->engine);
     return exp1 - exp2 + location;
@@ -588,7 +588,7 @@ double distrib_laplace_one(Random* random, double scale)
         << ", " << scale << ")";
 
     //If only 'scale' is provided, use 0.0 as the 'location'.
-    ExponentialDist laplace(scale);
+    ExponentialDist laplace(1/scale);
     double exp1 = laplace(random->engine);
     double exp2 = laplace(random->engine);
     return exp1 - exp2;
@@ -608,7 +608,7 @@ double distrib_laplace_four(Random* random, double location, double scale, doubl
         return _min;
     }
 
-    ExponentialDist laplace(scale);
+    ExponentialDist laplace(1/scale);
     double exp1 = laplace(random->engine);
     double exp2 = laplace(random->engine);
     double distval = exp1 - exp2 + location;
