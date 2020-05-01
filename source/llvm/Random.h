@@ -50,6 +50,16 @@ public:
      */
     double operator()();
 
+    /**
+    * Returns the maximum number of tries to find a value inside a truncated range.
+    */
+    int getMaxTries() const;
+
+    /**
+    * Sets the maximum number of tries to find a value inside a truncated range.
+    */
+    void setMaxTries(int maxTries);
+
 #ifdef CXX11_RANDOM
      /**
      * used by random distributions
@@ -100,6 +110,12 @@ private:
 #else
 	cxx11_ns::uniform_real<double> normalized_uniform_dist;
 #endif
+
+    /**
+    * The maximum number of tries to find a value inside a truncated range.
+    */
+    int mMaxTries;
+
 };
 
 
