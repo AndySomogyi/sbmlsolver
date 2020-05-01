@@ -418,33 +418,6 @@ int RoadRunner::getInstanceID()
     return impl->mInstanceID;
 }
 
-RoadRunner::RoadRunner() : impl(new RoadRunnerImpl("", NULL))
-{
-
-	llvm::InitializeNativeTarget();
-	llvm::InitializeNativeTargetAsmPrinter();
-	llvm::InitializeNativeTargetAsmParser();
-    // must be run to register integrators at startup
-    IntegratorRegistrationMgr::Register();
-    // must be run to register solvers at startup
-    SolverRegistrationMgr::Register();
-
-    //Increase instance count..
-    mInstanceCount++;
-    impl->mInstanceID = mInstanceCount;
-
-    // make CVODE the default integrator
-    setIntegrator("cvode");
-    // make NLEQ2 the default steady state solver
-    setSteadyStateSolver("nleq2");
-
-	// enable building the model using editing methods
-	// and allow simultion without loading SBML files
-	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument());
-	impl->document->createModel();
-}
-
-
 RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new RoadRunnerImpl("", NULL))
 {
 
@@ -522,6 +495,8 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     setIntegrator("cvode");
     // make NLEQ2 the default steady state solver
     setSteadyStateSolver("nleq2");
+	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
+	impl->document->createModel();
 
 }
 
@@ -5904,7 +5879,7 @@ void RoadRunner::addParameter(const std::string& pid, double value, bool forceRe
 {
 	checkID("addParameter", pid);
 
-	Log(Logger::LOG_DEBUG) << "Adding compartment " << pid << " with value " << value << endl;
+	Log(Logger::LOG_DEBUG) << "Adding parameter " << pid << " with value " << value << endl;
 	libsbml::Parameter* newParameter = impl->document->getModel()->createParameter();
 
 	newParameter->setId(pid);
@@ -6845,9 +6820,12 @@ bool RoadRunner::hasVariable(const libsbml::ASTNode* node, const string& sid)
 
 void RoadRunner::getSpeciesIdsFromAST(const libsbml::ASTNode* node, vector<string>& species)
 {
-	vector<string> speciesNames = getFloatingSpeciesIds();
-	auto boundarySpecies = getBoundarySpeciesIds();
-	speciesNames.insert(speciesNames.begin(), boundarySpecies.begin(), boundarySpecies.end());
+	libsbml::ListOfSpecies *sbmlSpecies = impl->document->getModel()->getListOfSpecies();
+	vector<string> speciesNames;
+	for (int i = 0; i < sbmlSpecies->size(); i++)
+	{
+		speciesNames.push_back(sbmlSpecies->get(i)->getId());
+	}
 	getSpeciesIdsFromAST(node, species, speciesNames);
 }
 

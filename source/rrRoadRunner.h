@@ -38,15 +38,10 @@ class RR_DECLSPEC RoadRunner
 
 public:
 
-    /**
-     * create an empty RoadRunner object.
-     */
-    RoadRunner();
-
 	/**
 	 * create an empty RoadRunner object with given SBML level and version.
 	 */
-	RoadRunner(unsigned int level, unsigned int version);
+	RoadRunner(unsigned int level = 3, unsigned int version = 2);
 
     /**
      * load an sbml document from anywhere.
