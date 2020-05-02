@@ -352,7 +352,8 @@ double distrib_normal_four(Random* random, double mu, double sigma, double _min,
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
     
     return distval;
@@ -400,7 +401,8 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -449,7 +451,8 @@ double distrib_cauchy_four(Random* random, double location, double scale, double
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -487,7 +490,8 @@ double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -525,7 +529,8 @@ double distrib_exponential_three(Random* random, double lambda, double _min, dou
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -563,7 +568,8 @@ double distrib_gamma_four(Random* random, double shape, double scale, double _mi
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -620,7 +626,8 @@ double distrib_laplace_four(Random* random, double location, double scale, doubl
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -658,7 +665,8 @@ double distrib_lognormal_four(Random* random, double mu, double sigma, double _m
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -696,7 +704,8 @@ double distrib_poisson_three(Random* random, double lambda, double _min, double 
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
@@ -743,7 +752,8 @@ double distrib_rayleigh_three(Random* random, double scale, double _min, double 
         count++;
     }
     if (count == random->getMaxTries()) {
-        distval = std::max(_min, std::min(distval, _max));
+        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        distval = (_min + _max)/2;
     }
 
     return distval;
