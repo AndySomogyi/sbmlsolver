@@ -427,8 +427,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addSpecies("s1", "compartment", 0.1, "concentration", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addSpecies("s2", "compartment", 0.1, "concentration", true)  # new model is generated and saved
+   >>> r.addSpecies("s1", "compartment", 0.1, "concentration", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addSpecies("s2", "compartment", 0.1, "concentration", True)  # new model is generated and saved
   
    :param str sid: the ID of the species to be added
    :param str compartment: the compartment of the species to be added
@@ -484,8 +484,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addReaction("r1", ["s1"], ["s2"], "s1 * k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addReaction("r2", ["s2"], ["s1"], "s2 * k1", true)  # new model is generated and saved
+   >>> r.addReaction("r1", ["s1"], ["s2"], "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addReaction("r2", ["s2"], ["s1"], "s2 * k1", True)  # new model is generated and saved
   
   
    :param str rid: the ID of the reaction to be added
@@ -525,8 +525,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeReaction("r1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeReaction("r2", true)  # new model is generated and saved
+   >>> r.removeReaction("r1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeReaction("r2", True)  # new model is generated and saved
 
    :param str rid: the ID of the reaction to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -546,8 +546,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addParameter("p1", 0.1, false) # it will not regenerate the model, nothing actually happened
-   >>> r.addParameter("p2", 0.1, true)  # new model is generated and saved
+   >>> r.addParameter("p1", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> r.addParameter("p2", 0.1, True)  # new model is generated and saved
   
    :param str pid: the ID of the parameter to be added
    :param double value: the initial value of the parameter to be added
@@ -579,8 +579,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeParameter("p1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeParameter("p2", true)  # new model is generated and saved
+   >>> r.removeParameter("p1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeParameter("p2", True)  # new model is generated and saved
 
    :param str pid: the ID of the parameter to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -601,8 +601,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addCompartment("c1", 0.1, false) # it will not regenerate the model, nothing actually happened
-   >>> r.addCompartment("c2", 0.1, true)  # new model is generated and saved
+   >>> r.addCompartment("c1", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> r.addCompartment("c2", 0.1, True)  # new model is generated and saved
   
    :param str cid: the ID of the compartment to be added
    :param double initVolume: the initial volume of the compartment to be added
@@ -634,8 +634,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeCompartment("c1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeCompartment("c2", true)  # new model is generated and saved
+   >>> r.removeCompartment("c1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeCompartment("c2", True)  # new model is generated and saved
 
    :param str cid: the ID of the compartment to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -655,8 +655,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.setKineticLaw("r1", "s1 * k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.setKineticLaw("r2", "s2 * k1", true)  # new model is generated and saved
+   >>> r.setKineticLaw("r1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.setKineticLaw("r2", "s2 * k1", True)  # new model is generated and saved
   
   
    :param str rid: the ID of the reaction to be modified
@@ -677,8 +677,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addAssignmentRule("s1", "s1 * k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addAssignmentRule("s2", "s2 * k1", true)  # new model is generated and saved
+   >>> r.addAssignmentRule("s1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addAssignmentRule("s2", "s2 * k1", True)  # new model is generated and saved
   
   
    :param str vid: the ID of the variable that the new rule assigns formula to
@@ -699,8 +699,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addRateRule("s1", "k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addRateRule("s2", "k1", true)  # new model is generated and saved
+   >>> r.addRateRule("s1", "k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addRateRule("s2", "k1", True)  # new model is generated and saved
   
   
    :param str vid: the ID of the variable that the new rule assigns formula to
@@ -725,8 +725,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeRules("s1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeRules("s2", true)  # new model is generated and saved
+   >>> r.removeRules("s1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeRules("s2", True)  # new model is generated and saved
 
    :param str vid: the ID of the variables that rules assign formula to
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -746,8 +746,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addEvent("e1", false, "s1 > 0", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addEvent("e2", false, "s2 == s1", true)  # new model is generated and saved
+   >>> r.addEvent("e1", False, "s1 > 0", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addEvent("e2", False, "s2 == s1", True)  # new model is generated and saved
   
   
    :param str eid: the ID of the event to be added
@@ -771,8 +771,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addTrigger("e1", "s1 > 0", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addTrigger("e2", "s2 == s1", true)  # new model is generated and saved
+   >>> r.addTrigger("e1", "s1 > 0", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addTrigger("e2", "s2 == s1", True)  # new model is generated and saved
   
   
    :param str eid: the ID of the event to add the trigger to
@@ -832,8 +832,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.addEventAssignment("e1", "s1", "k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addEventAssignment("e2", "s2", "s1", true)  # new model is generated and saved
+   >>> r.addEventAssignment("e1", "s1", "k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addEventAssignment("e2", "s2", "s1", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event to add the event assignment to
@@ -857,8 +857,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.removeEventAssignment("e1", "s1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeEventAssignment("e2", "s2", true)  # new model is generated and saved
+   >>> r.removeEventAssignment("e1", "s1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeEventAssignment("e2", "s2", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event 
@@ -882,8 +882,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.removeEvent("e1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeEvent("e2", true)  # new model is generated and saved
+   >>> r.removeEvent("e1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeEvent("e2", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event to be removed
