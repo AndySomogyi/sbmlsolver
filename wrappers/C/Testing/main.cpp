@@ -203,6 +203,14 @@ int main(int argc, char* argv[])
     }
 
 
+    //State saving suite
+    if (args.Suites.find('P') != std::string::npos)
+    {
+        clog << "Running Suite OTHER_TESTS" << endl;
+        runner1.RunTestsIf(Test::GetTestList(), "OTHER_TESTS", True(), 0);
+    }
+
+
     //Finish outputs result to xml file
     runner1.Finish();
 	
@@ -231,7 +239,7 @@ bool setup(Args& args)
     if(args.Suites.size() == 0)
     {
         //Run all the non-duplicated tests.
-        args.Suites = "ABCDEJLNO";
+        args.Suites = "ABCDEJLNOP";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());

@@ -813,6 +813,9 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
         for(int j = 0; j < assignments->size(); ++j)
         {
             const EventAssignment *ass = assignments->get(j);
+            if (!ass->isSetMath()) {
+                continue;
+            }
             const SBase *element = const_cast<Model*>(model)->getElementBySId(
                     ass->getVariable());
 

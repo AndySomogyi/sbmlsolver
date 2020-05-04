@@ -11,6 +11,7 @@ set(tests
     Suite_LibStruct_Tests
     Suite_Test_Model_Editing
     Suite_State_Saving_Tests
+    Suite_Other_Tests
     )
 
 add_executable( ${target}
