@@ -18,6 +18,7 @@
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrLogger.h"
+#include "rrRoadRunner.h"
 
 using namespace UnitTest;
 using namespace std;
@@ -28,6 +29,7 @@ using namespace Poco::XML;
 
 //using namespace Poco::XML::NodeFilter;
 
+using namespace std;
 
 extern string   gTempFolder;
 extern string   gTestDataFolder;
@@ -47,6 +49,24 @@ SUITE(OTHER_TESTS)
 
         CHECK(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
         CHECK(simulate(aRR));
+
+
+    }
+
+    TEST(SAVED_SPECIES_AMOUNT)
+    {
+        string TestModelFileName = joinPath(gTestDataFolder, "species_conc.xml");
+        CHECK(fileExists(TestModelFileName));
+        RoadRunner rr(TestModelFileName, NULL);
+        CHECK(rr.getFloatingSpeciesByIndex(0) == 5.0);
+        string sbml = rr.getCurrentSBML();
+        RoadRunner rr2(sbml, NULL);
+        CHECK(rr2.getFloatingSpeciesByIndex(0) == 5.0);
+        sbml = rr2.getCurrentSBML();
+        RoadRunner rr3(sbml, NULL);
+        CHECK(rr3.getFloatingSpeciesByIndex(0) == 5.0);
+
+
 
 
     }

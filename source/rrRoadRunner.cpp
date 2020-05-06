@@ -2878,6 +2878,25 @@ static void setSBMLValue(libsbml::Model* model, const string& id, double value)
 }
 
 
+static void setSpeciesAmount(libsbml::Model* model, const string& id, double value)
+{
+    if (model == NULL)
+    {
+        throw Exception("You need to load the model first");
+    }
+
+    libsbml::Species* oSpecies = model->getSpecies(id);
+    if (oSpecies == NULL)
+    {
+        throw Exception("No such species found in model.");
+    }
+    if (oSpecies->isSetInitialConcentration()) {
+        oSpecies->unsetInitialConcentration();
+    }
+    oSpecies->setInitialAmount(value);
+    return;
+}
+
 
 
 // Help("Get the number of reactions")
@@ -3943,7 +3962,7 @@ string RoadRunner::getCurrentSBML(int level, int version)
 	{
 		double value = 0;
 		impl->model->getFloatingSpeciesAmounts(1, &i, &value);
-		setSBMLValue(model, array[i], value);
+		setSpeciesAmount(model, array[i], value);
 	}
 
 	array = getBoundarySpeciesIds();
