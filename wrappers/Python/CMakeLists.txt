@@ -1,6 +1,7 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIG.cmake) # this is slightly modified FindSWIG.cmake file -  had to tune it to work with OSX
 
-FIND_PACKAGE(SWIG REQUIRED)
+FIND_PACKAGE(SWIG 3.0.0 REQUIRED)
+
 
 INCLUDE(UseSWIG)
 
@@ -35,6 +36,11 @@ IF(SWIG_FOUND)
 ELSE(SWIG_FOUND)
     message("could not find SWIG in your system")
 ENDIF(SWIG_FOUND)
+
+if( SWIG_VERSION STRGREATER "4.0")
+  message( SEND_ERROR "SWIG version too high:  unable to use SWIG version 4.0 and higher." )
+endif( SWIG_VERSION STRGREATER "4.0")
+
 
 install(FILES INSTALL.txt setup.py MANIFEST.in 
         DESTINATION .    
