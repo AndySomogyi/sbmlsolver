@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.12)
 project(rr)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
