@@ -72,7 +72,7 @@ bool RunModelEditingTest(void(*modification)(RoadRunner*),std::string version = 
 	string testName(UnitTest::CurrentTest::Details()->testName);
 	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
 
-	libsbml::SBMLDocument *doc;
+	libsbml::SBMLDocument *doc = nullptr;
 
 	try
 	{
@@ -195,7 +195,9 @@ bool RunModelEditingTest(void(*modification)(RoadRunner*),std::string version = 
 	{
 		string error = ex.what();
 		cerr << "Case " << testName << ": Exception: " << error << endl;
-		delete doc;
+        if (doc) {
+            delete doc;
+        }
 		return false;
 	}
 
@@ -1747,4 +1749,14 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			}
 		}
 	}
+
+    TEST(ONE_ASSIGNMENT_RULE)
+    {
+        CHECK(RunModelEditingTest([](RoadRunner* rri)
+        {
+            // Do nothing. This is here for a convenient test of issue #610, where
+            // reaction rates should be updated due to assignmentRules but are not
+            // due to optimization.
+        }));
+    }
 }
