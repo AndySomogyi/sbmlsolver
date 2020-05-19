@@ -24,6 +24,7 @@ using namespace rr;
 extern string gTempFolder;
 extern string gTSModelsPath;
 extern string gCompiler;
+extern string gTestDataFolder;
 
 /*
 * Loads <prefix>/source/roadrunner/models/sbml-test-suite/cases/semantic/<suite-name>/<test-name>/<test-name>-sbml-*VERSION*.xml

@@ -65,12 +65,35 @@ SUITE(OTHER_TESTS)
         sbml = rr2.getCurrentSBML();
         RoadRunner rr3(sbml, NULL);
         CHECK(rr3.getFloatingSpeciesByIndex(0) == 5.0);
-
-
-
-
     }
 
+    TEST(SPECIES_UNITS)
+    {
+        string TestModelFileName = joinPath(gTestDataFolder, "species_hosu1.xml");
+        CHECK(fileExists(TestModelFileName));
+        RoadRunner rr(TestModelFileName, NULL);
+        CHECK(rr.getFloatingSpeciesByIndex(0) == 3.0);
+        string sbml = rr.getCurrentSBML();
+        RoadRunner rr2(sbml, NULL);
+        CHECK(rr2.getFloatingSpeciesByIndex(0) == 3.0);
+        sbml = rr2.getCurrentSBML();
+        RoadRunner rr3(sbml, NULL);
+        CHECK(rr3.getFloatingSpeciesByIndex(0) == 3.0);
+    }
+
+    TEST(SPECIES_UNITS2)
+    {
+        string TestModelFileName = joinPath(gTestDataFolder, "species_hosu2.xml");
+        CHECK(fileExists(TestModelFileName));
+        RoadRunner rr(TestModelFileName, NULL);
+        CHECK(rr.getFloatingSpeciesByIndex(0) == 3.0);
+        string sbml = rr.getCurrentSBML();
+        RoadRunner rr2(sbml, NULL);
+        CHECK(rr2.getFloatingSpeciesByIndex(0) == 3.0);
+        sbml = rr2.getCurrentSBML();
+        RoadRunner rr3(sbml, NULL);
+        CHECK(rr3.getFloatingSpeciesByIndex(0) == 3.0);
+    }
 
 
 }

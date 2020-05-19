@@ -5332,11 +5332,13 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 	}
 }
 
-void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initValue, const std::string& substanceUnits, bool forceRegenerate)
+void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initValue, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
 	checkID("addSpecies", sid);
+
+    libsbml::Model* model = impl->document->getModel();
 	
-	if (impl->document->getModel()->getCompartment(compartment) == NULL)
+	if (model->getCompartment(compartment) == NULL)
 	{
 		throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
 	}
@@ -5354,25 +5356,23 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
 	// level 2 sbml predefined units : substance, volume, area, length, time
 
 	newSpecies->setInitialAmount(initValue);
+    newSpecies->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
+    newSpecies->setBoundaryCondition(boundaryCondition);
 
+    bool validUnit = false;
+    if (!substanceUnits.empty()) {
+        if (model->getUnitDefinition(substanceUnits) != NULL)
+            validUnit = true;
+        else {
+            validUnit = libsbml::UnitKind_forName(substanceUnits.c_str()) != libsbml::UNIT_KIND_INVALID;
+        }
+    }
 
-	if (substanceUnits.size() > 0)
-	{
-		// a unit is given 
-		newSpecies->setSubstanceUnits(substanceUnits);
-		newSpecies->setHasOnlySubstanceUnits(true);
-	}
-	else 
-	{
-		// unit is not given
-		// by default, we sest hasOnlySubstanceUnits to false
-		newSpecies->setHasOnlySubstanceUnits(false);
-	}
+    if (validUnit) {
+        newSpecies->setSubstanceUnits(substanceUnits);
+    }
 
-	
-	// set required attributes to default
-	newSpecies->setBoundaryCondition(false);
-	newSpecies->setConstant(false);
+    newSpecies->setConstant(false);
 
 	regenerate(forceRegenerate);
 }

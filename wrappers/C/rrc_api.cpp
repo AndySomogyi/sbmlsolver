@@ -1643,20 +1643,20 @@ int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parame
 // Model editing methods
 // -------------------------------------------------------------------------------------
 
-bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, const char* substanceUnit)
+bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, substanceUnit);
+		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
 		return true;
 	catch_bool_macro
 }
 
-bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, const char* substanceUnit)
+bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, substanceUnit, false);
+		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
 		return true;
 	catch_bool_macro
 }
