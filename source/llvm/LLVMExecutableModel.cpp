@@ -1693,11 +1693,19 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
     // when selecting reaction rates in a simulations.
     // its possible to extend this approach to check whenever any value
     // is set, save that for a future optimization.
+
+    // this is disabled for now due to a bug identified in model_editing_test
+    // ONE_ASSIGNMENT_RULE. It is also present in models with reactions that
+    // depend only on time (i.e. it does not recalculate when it should).
+    /*
     if((flags & OPTIMIZE_REACTION_RATE_SELECTION) == 0
             || (flags & INTEGRATION) == 0 || (dirty & DIRTY_REACTION_RATES) != 0) {
         conversionFactor = evalReactionRatesPtr(modelData);
         dirty &= ~DIRTY_REACTION_RATES;
     }
+    */
+    conversionFactor = evalReactionRatesPtr(modelData);
+    dirty &= ~DIRTY_REACTION_RATES;
 
 
     if (indx)
