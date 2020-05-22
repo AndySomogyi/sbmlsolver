@@ -2658,6 +2658,8 @@ DoubleMatrix RoadRunner::getConservationMatrix()
                     }
                 }
 
+                // Note that LibStruct::getGammaMatrixLabels() is not used because it merely populates
+                // the rows with indices, whereas we want the Moiety IDs
                 mat.setRowNames(getConservedMoietyIds());
                 mat.setColNames(getLibStruct()->getReorderedSpecies());
             }
