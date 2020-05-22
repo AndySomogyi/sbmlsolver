@@ -614,12 +614,12 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		RoadRunner rri;
 		rri.addCompartment("compartment", 3.14159);
-		rri.addSpecies("S1", "compartment", 1.0, "concentration");
+		rri.addSpecies("S1", "compartment", 1.0, "substance");
 		CHECK(rri.isModelLoaded());
 		rri.clearModel();
 		CHECK(!rri.isModelLoaded());
 		rri.addCompartment("compartment", 3.14159);
-		rri.addSpecies("S2", "compartment", 2.0, "concentration");
+		rri.addSpecies("S2", "compartment", 2.0, "substance");
 		std::cout << rri.getNumberOfFloatingSpecies() << std::endl;
 		CHECK(rri.getNumberOfFloatingSpecies() == 1);
 	}

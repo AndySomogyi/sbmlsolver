@@ -71,7 +71,26 @@ SUITE(OTHER_TESTS)
 
     }
 
+    TEST(ADD_NEW_UNIT)
+    {
+        string TestModelFileName = joinPath(gTestDataFolder, "mole_unit.xml");
+        CHECK(fileExists(TestModelFileName));
+        RoadRunner rr(TestModelFileName, NULL);
+        
+        // this should pass since mole is defined by the user
+        rr.addSpecies("S1", "c1", 2.0, "mole", true);
 
-
+        // this should pass since substance is defined by SBML
+        rr.addSpecies("S2", "c1", 2.0, "substance", true);
+        
+        try {
+            // this should fail since concentration is not defined by the user
+            rr.addSpecies("S3", "c1", 2.0, "concentration", true);
+            CHECK(false);
+        }
+        catch (rr::Exception e) {
+            Log(rr::Logger::LOG_DEBUG) << "Caught exception as expected:"  << e.what();
+        }
+    }
 }
 

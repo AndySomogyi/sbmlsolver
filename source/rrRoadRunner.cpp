@@ -36,6 +36,7 @@
 
 #include <sbml/conversion/SBMLLocalParameterConverter.h>
 #include <sbml/conversion/SBMLLevelVersionConverter.h>
+#include <sbml/UnitKind.h>
 
 #include <iostream>
 #include <math.h>
@@ -5350,8 +5351,31 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
 	// setting both concentration and amount will cause an error
 	// if InitialAssignment is set for the species, then initialConcentration or initialAmount will be ignored
 
-	// TODO: check for valid unit?
+    // check for valid units
 	// level 2 sbml predefined units : substance, volume, area, length, time
+    if (substanceUnits.size() > 0 &&substanceUnits != "substance" && substanceUnits != "volume"
+        && substanceUnits != "area" && substanceUnits != "length" && substanceUnits != "time") {
+        // not a predefined unit; check if it is defined by user
+        bool foundUnit = false;
+        const auto& unitDefList = impl->document->getModel()->getListOfUnitDefinitions();
+        for (int i = 0; i < unitDefList->size(); i++) {
+            const libsbml::UnitDefinition* def = unitDefList->get(i);
+            for (int j = 0; j < def->getNumUnits(); j++) {
+                const libsbml::UnitKind_t kind = def->getUnit(j)->getKind();
+                const string rep = libsbml::UnitKind_toString(kind);
+                if (rep == substanceUnits) {
+                    // found the same unit; mark it as good
+                    foundUnit = true;
+                    break;
+                }
+            }
+        }
+
+        if (!foundUnit) {
+            throw Exception("Unknown unit '" + substanceUnits + "'. If this is a new unit,"
+                "you would need to add new units manually in the SBML file");
+        }
+    }
 
 	newSpecies->setInitialAmount(initValue);
 
