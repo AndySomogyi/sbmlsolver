@@ -411,7 +411,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         {
             func = module->getFunction("rr_distrib_chisquare");
         }
-        else if (ast->getNumChildren() == 2)
+        else if (ast->getNumChildren() == 3)
         {
             func = module->getFunction("rr_distrib_chisquare_three");
         }
