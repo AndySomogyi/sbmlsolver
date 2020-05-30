@@ -5332,7 +5332,7 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 	}
 }
 
-void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initValue, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
+void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
     checkID("addSpecies", sid);
 
@@ -5349,16 +5349,11 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
     newSpecies->setId(sid);
     newSpecies->setCompartment(compartment);
 
-    // if InitialAssignment is set for the species, then initialConcentration or initialAmount will be ignored
+    // if InitialAssignment is set for the species, then initialAmount will be ignored, but set it anyway.
 
+    newSpecies->setInitialAmount(initAmount);
     newSpecies->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
     newSpecies->setBoundaryCondition(boundaryCondition);
-    if (hasOnlySubstanceUnits) {
-        newSpecies->setInitialAmount(initValue);
-    }
-    else {
-        newSpecies->setInitialConcentration(initValue);
-    }
 
     bool validUnit = false;
     if (!substanceUnits.empty()) {

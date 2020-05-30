@@ -1671,8 +1671,8 @@ namespace std { class ostream{}; }
             self._addReaction(*args)
             self._makeProperties()
                 
-        def addSpecies(self, sid, compartment, initValue = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
-            self._addSpecies(sid, compartment, initValue, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+        def addSpecies(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            self._addSpecies(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
             self._makeProperties()
 
         def addCompartment(self, *args):
