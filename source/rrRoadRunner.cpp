@@ -5334,30 +5334,31 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 
 void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initValue, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
-	checkID("addSpecies", sid);
+    checkID("addSpecies", sid);
 
     libsbml::Model* model = impl->document->getModel();
-	
-	if (model->getCompartment(compartment) == NULL)
-	{
-		throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
-	}
 
-	Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
-	libsbml::Species *newSpecies = impl->document->getModel()->createSpecies();
+    if (model->getCompartment(compartment) == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
+    }
 
-	newSpecies->setId(sid);
-	newSpecies->setCompartment(compartment);
+    Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
+    libsbml::Species* newSpecies = impl->document->getModel()->createSpecies();
 
-	// setting both concentration and amount will cause an error
-	// if InitialAssignment is set for the species, then initialConcentration or initialAmount will be ignored
+    newSpecies->setId(sid);
+    newSpecies->setCompartment(compartment);
 
-	// TODO: check for valid unit?
-	// level 2 sbml predefined units : substance, volume, area, length, time
+    // if InitialAssignment is set for the species, then initialConcentration or initialAmount will be ignored
 
-	newSpecies->setInitialAmount(initValue);
     newSpecies->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
     newSpecies->setBoundaryCondition(boundaryCondition);
+    if (hasOnlySubstanceUnits) {
+        newSpecies->setInitialAmount(initValue);
+    }
+    else {
+        newSpecies->setInitialConcentration(initValue);
+    }
 
     bool validUnit = false;
     if (!substanceUnits.empty()) {
