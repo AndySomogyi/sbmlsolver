@@ -350,12 +350,12 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		RoadRunner rri;
 		rri.addCompartment("compartment", 3.14159);
-		rri.addSpecies("S1", "compartment", 1.0, "concentration");
+		rri.addSpecies("S1", "compartment", 1.0, false);
 		CHECK(rri.isModelLoaded());
 		rri.clearModel();
 		CHECK(!rri.isModelLoaded());
 		rri.addCompartment("compartment", 3.14159);
-		rri.addSpecies("S2", "compartment", 2.0, "concentration");
+		rri.addSpecies("S2", "compartment", 2.0, false);
 		std::cout << rri.getNumberOfFloatingSpecies() << std::endl;
 		CHECK(rri.getNumberOfFloatingSpecies() == 1);
 	}
@@ -379,7 +379,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
-			addSpecies(rri, "S3", "compartment", 0.0015, "substance");
+			addSpecies(rri, "S3", "compartment", 0.0015, true, false);
 		}));
 	}
 
@@ -388,7 +388,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
 			removeSpeciesNoRegen(rri, "S2");
-			addSpeciesNoRegen(rri, "S3", "compartment", 0.00030, "substance");
+			addSpeciesNoRegen(rri, "S3", "compartment", 0.00030, true, false);
 			const char* reactants1[] = {"S1"};
 			const char* products1[] = {"S3"};
 			addReactionNoRegen(rri, "reaction1", reactants1, 1, products1, 1, "k1*S1");
@@ -604,13 +604,13 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
-			addSpeciesNoRegen(rri, "S1", "C", 0.0, "");
+			addSpeciesNoRegen(rri, "S1", "C", 0.0, false, false);
 			setInitConcentrationNoRegen(rri, "S1", 0.0004);
-			addSpeciesNoRegen(rri, "S2", "C", 0.0, "");
+			addSpeciesNoRegen(rri, "S2", "C", 0.0, false, false);
 			setInitConcentrationNoRegen(rri, "S2", 0.00048);
-			addSpeciesNoRegen(rri, "S3", "C", 0.0, "");
+			addSpeciesNoRegen(rri, "S3", "C", 0.0, false, false);
 			setInitConcentrationNoRegen(rri, "S3", 0.0008);
-			addSpeciesNoRegen(rri, "S4", "C", 0.0, "");
+			addSpeciesNoRegen(rri, "S4", "C", 0.0, false, false);
 			setInitConcentration(rri, "S4", 0.0004);
 
 			const char* reactants1[] = {"S1", "S2"};
@@ -650,9 +650,9 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
-			addSpecies(rri, "S1", "compartment", 0.0, "");
+			addSpecies(rri, "S1", "compartment", 0.0, false, false);
 			setInitAmountNoRegen(rri, "S1", 0.00015);
-			addSpecies(rri, "S2", "compartment", 0.0, "");
+			addSpecies(rri, "S2", "compartment", 0.0, false, false);
 			setInitAmount(rri, "S2", 0);
 
 			const char* reactants[] = {"S1"};
@@ -711,8 +711,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		RRHandle rr = createRRInstance();
 		loadSBML(rr, (modelFilePath + std::string("/tiny_example_1.xml")).c_str());
 		addCompartmentNoRegen(rr, "c1", 3.0);
-		addSpeciesNoRegen(rr, "S1", "c1", 0.0005, "");
-		addSpeciesNoRegen(rr, "S2", "c1", 0.3, "");
+		addSpeciesNoRegen(rr, "S1", "c1", 0.0005, false, false);
+		addSpeciesNoRegen(rr, "S2", "c1", 0.3, false, false);
 		const char* reactants[] = {"S1"};
 		const char* products[] = {"S1"};
 		addReaction(rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
@@ -724,8 +724,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 0.00015, "");
-			addSpecies(rri, "S2", "compartment", 0, "");
+			addSpecies(rri, "S1", "compartment", 0.00015, false, false);
+			addSpecies(rri, "S2", "compartment", 0, false, false);
 			addParameter(rri, "k1", 1);
 			const char* reactants[] = {"S1"};
 			const char* products[] = {"S2"};
@@ -738,8 +738,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 1, "");
-			addSpecies(rri, "S2", "compartment", 0, "");
+			addSpecies(rri, "S1", "compartment", 1, false, false);
+			addSpecies(rri, "S2", "compartment", 0, false, false);
 			addParameter(rri, "k1", 1);
 			const char* reactants[] = {"S1"};
 			const char* products[] = {"S2"};
@@ -755,7 +755,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 0, "");
+			addSpecies(rri, "S1", "compartment", 0, false, false);
 			addRateRule(rri, "S1", "7");
 		}));
 	}
@@ -765,7 +765,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 7, "");
+			addSpecies(rri, "S1", "compartment", 7, false, false);
 			addAssignmentRule(rri, "S1", "7");
 		}));
 	}
@@ -775,9 +775,9 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 1, "");
-			addSpecies(rri, "S2", "compartment", 1.5e-15, "");
-			addSpecies(rri, "S3", "compartment", 1, "");
+			addSpecies(rri, "S1", "compartment", 1, false, false);
+			addSpecies(rri, "S2", "compartment", 1.5e-15, false, false);
+			addSpecies(rri, "S3", "compartment", 1, false, false);
 			addParameter(rri, "k1", 0.75);
 			addParameter(rri, "k2", 50);
 			addAssignmentRule(rri, "S3", "k1*S2");

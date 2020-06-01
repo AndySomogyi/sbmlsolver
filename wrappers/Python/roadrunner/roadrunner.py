@@ -3645,7 +3645,7 @@ class RoadRunner(_object):
         """
         return self.values(types).__iter__()
 
-    def simulate(self, start=None, end=None, points=None, selections=None, steps=None):
+    def simulate(self, start=None, end=None, points=None, selections=None, steps=None, output_file=""):
         '''
         Simulate the current SBML model.
 
@@ -3733,13 +3733,29 @@ class RoadRunner(_object):
         if steps is not None:
             o.steps = steps
 
+        o.output_file = output_file
+
         result = self._simulate(o)
 
         o.steps = originalSteps
 
-        if result.shape[0] > Config.getValue(Config.MAX_OUTPUT_ROWS):
-            warnings.warn("Simulation returned more points than max output rows specified. "
-                          "Try incresing the number of maximum output rows or minimum step size.")
+        if 'override_max_rows' in r.getIntegrator().getSettings():
+            override_max_rows = r.getIntegrator().getSetting('override_max_rows')
+            # only override if positive
+            do_override = override_max_rows > 0
+        else
+            do_override = False
+
+        limit = override_max_rows if do_override else Config.getValue(Config.MAX_OUTPUT_ROWS)
+
+        if result.shape[0] > limit:
+            warn_msg = "Simulation returned more points than max output rows specified. "
+            if do_override:
+                warn_msg += "Try increasing the amount of the 'override_max_rows' setting."
+            else:
+                warn_msg += "Try setting 'override_max_rows', increasing Config.MAX_OUTPUT_ROWS, or increasing minimum step size."
+
+            warnings.warn(warn_msg)
 
         return result
 

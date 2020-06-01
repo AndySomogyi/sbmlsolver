@@ -732,7 +732,7 @@ public:
 	 *						   to save time for editing for multiple times, one could 
      *					       set this flag to true only in the last call of editing 
 	 */
-	void addSpecies(const std::string& sid, const std::string& compartment, double initAmount = 0, const std::string& substanceUnits = "", bool forceRegenerate = true);
+	void addSpecies(const std::string& sid, const std::string& compartment, double initAmount = 0, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
 
 
 	/*
