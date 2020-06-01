@@ -5418,53 +5418,26 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 	}
 }
 
-void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initValue, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
+void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
-	checkID("addSpecies", sid);
+    checkID("addSpecies", sid);
 
     libsbml::Model* model = impl->document->getModel();
-	
-	if (model->getCompartment(compartment) == NULL)
-	{
-		throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
-	}
 
-	Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
-	libsbml::Species *newSpecies = impl->document->getModel()->createSpecies();
-
-	newSpecies->setId(sid);
-	newSpecies->setCompartment(compartment);
-
-	// setting both concentration and amount will cause an error
-	// if InitialAssignment is set for the species, then initialConcentration or initialAmount will be ignored
-
-    // check for valid units
-	// level 2 sbml predefined units : substance, volume, area, length, time
-    if (substanceUnits.size() > 0 &&substanceUnits != "substance" && substanceUnits != "volume"
-        && substanceUnits != "area" && substanceUnits != "length" && substanceUnits != "time") {
-        // not a predefined unit; check if it is defined by user
-        bool foundUnit = false;
-        const auto& unitDefList = impl->document->getModel()->getListOfUnitDefinitions();
-        for (int i = 0; i < unitDefList->size(); i++) {
-            const libsbml::UnitDefinition* def = unitDefList->get(i);
-            for (int j = 0; j < def->getNumUnits(); j++) {
-                const libsbml::UnitKind_t kind = def->getUnit(j)->getKind();
-                const string rep = libsbml::UnitKind_toString(kind);
-                if (rep == substanceUnits) {
-                    // found the same unit; mark it as good
-                    foundUnit = true;
-                    break;
-                }
-            }
-        }
-
-        if (!foundUnit) {
-            throw Exception("Unknown unit '" + substanceUnits + "'. If this is a new unit,"
-                "you would need to add new units manually in the SBML file");
-        }
+    if (model->getCompartment(compartment) == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
     }
 
-	newSpecies->setInitialAmount(initValue);
+    Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
+    libsbml::Species* newSpecies = impl->document->getModel()->createSpecies();
+
+    newSpecies->setId(sid);
+    newSpecies->setCompartment(compartment);
+
+    // if InitialAssignment is set for the species, then initialAmount will be ignored, but set it anyway.
+
+    newSpecies->setInitialAmount(initAmount);
     newSpecies->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
     newSpecies->setBoundaryCondition(boundaryCondition);
 

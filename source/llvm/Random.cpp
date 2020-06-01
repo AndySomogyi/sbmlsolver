@@ -393,8 +393,8 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
         return _min;
     }
 
-    BinomialDist binomial(roundl(nTrials), roundl(probabilityOfSuccess));
-    double distval = binomial(random->engine);
+    BinomialDist binomial(roundl(nTrials), probabilityOfSuccess);
+    long distval = binomial(random->engine);
     int count = 0;
     while (count < random->getMaxTries() && (distval < _min || distval > _max)) {
         distval = binomial(random->engine);
@@ -402,7 +402,7 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
     }
     if (count == random->getMaxTries()) {
         Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
-        distval = (_min + _max)/2;
+        distval = (std::max(0.0, _min) + std::min(nTrials, _max))/2;
     }
 
     return distval;

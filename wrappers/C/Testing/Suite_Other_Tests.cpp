@@ -96,58 +96,6 @@ SUITE(OTHER_TESTS)
         CHECK(rr3.getFloatingSpeciesByIndex(0) == 3.0);
     }
 
-    TEST(ADD_NEW_UNIT)
-    {
-        string TestModelFileName = joinPath(gTestDataFolder, "mole_unit.xml");
-        CHECK(fileExists(TestModelFileName));
-        RoadRunner rr(TestModelFileName, NULL);
-        
-        // this should pass since mole is defined by the user
-        rr.addSpecies("S1", "c1", 2.0, "mole", true);
-
-        // this should pass since substance is defined by SBML
-        rr.addSpecies("S2", "c1", 2.0, "substance", true);
-        
-        try {
-            // this should fail since concentration is not defined by the user
-            rr.addSpecies("S3", "c1", 2.0, "concentration", true);
-            CHECK(false);
-        }
-        catch (rr::Exception e) {
-            Log(rr::Logger::LOG_DEBUG) << "Caught exception as expected:"  << e.what();
-        }
-    }
-
-    TEST(OUTPUT_FILE_VARIABLE_TIMESTEP) {
-        string TestModelFileName = joinPath(gTestDataFolder, "output_testmodel.xml");
-        string outputFileName = joinPath(gTestDataFolder, "output_testmodel_variable.csv");
-        string expectedFileName = joinPath(gTestDataFolder, "expected_testmodel_variable.csv");
-        CHECK(fileExists(TestModelFileName));
-        
-        RoadRunner rr(TestModelFileName, NULL);
-        rr.setIntegrator("gillespie");
-        rr.getIntegrator()->setValue("seed", 123);
-        SimulateOptions opt;
-        opt.start = 0;
-        opt.duration = 100;
-        opt.steps = 0;
-        opt.output_file = outputFileName;
-        rr.setSimulateOptions(opt);
-
-        vector<string> selections;
-        selections.push_back("Time");
-        selections.push_back("S1");
-        rr.setSelections(selections);
-
-        const ls::DoubleMatrix* result = rr.simulate();
-        // the result returned should be empty
-        CHECK(result->size() == 0);
-
-        // confirm output files are the same
-        CHECK(fileExists(expectedFileName) && fileExists(outputFileName));
-        CHECK(filesAreEqual(outputFileName, expectedFileName));
-    }
-
     TEST(OUTPUT_FILE_FIXED_TIMESTEP) {
         string TestModelFileName = joinPath(gTestDataFolder, "output_testmodel.xml");
         string outputFileName = joinPath(gTestDataFolder, "output_testmodel_fixed.csv");
