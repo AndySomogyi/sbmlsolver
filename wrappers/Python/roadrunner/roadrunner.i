@@ -1270,12 +1270,12 @@ namespace std { class ostream{}; }
 
             result = self._simulate(o)
 
+            o.steps = originalSteps
+
             if has_output_file:
                 # result should be empty here.
                 return 'Your results have been written to "{}".'.format(output_file)\
                     + 'To obtain the results directly, pass None or "" to the output_file keyword argument'
-
-            o.steps = originalSteps
 
             if result.shape[0] > Config.getValue(Config.MAX_OUTPUT_ROWS):
                 warnings.warn("Simulation returned more points than max output rows specified. "
