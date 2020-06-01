@@ -1164,7 +1164,7 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None steps=None):
+        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None):
             '''
             Simulate the current SBML model.
 
@@ -1272,8 +1272,8 @@ namespace std { class ostream{}; }
 
             if has_output_file:
                 # result should be empty here.
-                return 'Your results have been written to {}. To obtain the results directly,'
-                'pass None or "" to output_file keyword argument'.format(output_file)
+                return 'Your results have been written to "{}".'.format(output_file)\
+                    + 'To obtain the results directly, pass None or "" to the output_file keyword argument'
 
             o.steps = originalSteps
 

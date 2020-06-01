@@ -96,9 +96,40 @@ SUITE(OTHER_TESTS)
         CHECK(rr3.getFloatingSpeciesByIndex(0) == 3.0);
     }
 
+    TEST(OUTPUT_FILE_VARIABLE_TIMESTEP) {
+        string TestModelFileName = joinPath(gTestDataFolder, "output_testmodel.xml");
+        string outputFileName = joinPath(gTempFolder, "output_testmodel_variable.csv");
+        string expectedFileName = joinPath(gTestDataFolder, "expected_testmodel_variable.csv");
+        CHECK(fileExists(TestModelFileName));
+
+        RoadRunner rr(TestModelFileName, NULL);
+        rr.setIntegrator("gillespie");
+        rr.getIntegrator()->setValue("seed", 123);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 100;
+        opt.steps = 0;
+        opt.output_file = outputFileName;
+        rr.setSimulateOptions(opt);
+
+        vector<string> selections;
+        selections.push_back("Time");
+        selections.push_back("S1");
+        rr.setSelections(selections);
+
+        const ls::DoubleMatrix* result = rr.simulate();
+        // the result returned should be empty
+        CHECK(result-> size() == 0);
+
+        // confirm output files are the same
+        CHECK(fileExists(expectedFileName) && fileExists(outputFileName));
+        CHECK(filesAreEqual(outputFileName, expectedFileName));
+
+    }
+
     TEST(OUTPUT_FILE_FIXED_TIMESTEP) {
         string TestModelFileName = joinPath(gTestDataFolder, "output_testmodel.xml");
-        string outputFileName = joinPath(gTestDataFolder, "output_testmodel_fixed.csv");
+        string outputFileName = joinPath(gTempFolder, "output_testmodel_fixed.csv");
         string expectedFileName = joinPath(gTestDataFolder, "expected_testmodel_fixed.csv");
 
         CHECK(fileExists(TestModelFileName));
