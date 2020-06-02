@@ -3739,21 +3739,10 @@ class RoadRunner(_object):
 
         o.steps = originalSteps
 
-        if 'override_max_rows' in r.getIntegrator().getSettings():
-            override_max_rows = r.getIntegrator().getSetting('override_max_rows')
-            # only override if positive
-            do_override = override_max_rows > 0
-        else
-            do_override = False
-
-        limit = override_max_rows if do_override else Config.getValue(Config.MAX_OUTPUT_ROWS)
-
-        if result.shape[0] > limit:
-            warn_msg = "Simulation returned more points than max output rows specified. "
-            if do_override:
-                warn_msg += "Try increasing the amount of the 'override_max_rows' setting."
-            else:
-                warn_msg += "Try setting 'override_max_rows', increasing Config.MAX_OUTPUT_ROWS, or increasing minimum step size."
+        if result.shape[0] > Config::MAX_OUTPUT_ROWS:
+            warn_msg = "Simulation returned more points than max output rows specified. Try "\
+                    + "setting output_file to directly write results to a file, or increasing "\
+                    + "Config.MAX_OUTPUT_ROWS."
 
             warnings.warn(warn_msg)
 
