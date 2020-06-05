@@ -425,7 +425,7 @@ bool NLEQ1Interface::hasKey(const std::string& key) const
     return false;
 }
 
-int NLEQ1Interface::deleteItem(const std::string& key)
+size_t NLEQ1Interface::deleteItem(const std::string& key)
 {
     return 0;
 }
