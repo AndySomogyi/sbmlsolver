@@ -115,7 +115,7 @@ namespace rrllvm
 {
 
 int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, int),
-        int len, const int *indx, double *values)
+        size_t len, const int *indx, double *values)
 {
     double value;
     for (int i = 0; i < len; ++i)
@@ -135,7 +135,7 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, int),
 }
 
 int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
-        GetNameFuncPtr getNameFuncPtr, int len, const int *indx, const double *values)
+        GetNameFuncPtr getNameFuncPtr, size_t len, const int *indx, const double *values)
 {
     for (int i = 0; i < len; ++i)
     {
@@ -372,7 +372,7 @@ int LLVMExecutableModel::getNumReactions()
     return modelData->numReactions;
 }
 
-int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
+int LLVMExecutableModel::getFloatingSpeciesConcentrations(size_t len, int const *indx,
         double *values)
 {
     return getValues(getFloatingSpeciesConcentrationPtr, len, indx, values);
@@ -1356,7 +1356,7 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
     }
 }
 
-int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
+int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
         const int* indx, double* values)
 {
     double* dydt = 0;
@@ -1410,7 +1410,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(int len,
     return len;
 }
 
-int LLVMExecutableModel::setBoundarySpeciesAmounts(int len, const int* indx,
+int LLVMExecutableModel::setBoundarySpeciesAmounts(size_t len, const int* indx,
         const double* values)
 {
     int result = -1;
@@ -1499,13 +1499,13 @@ std::vector<std::string> LLVMExecutableModel::getRateRuleSymbols() const {
     return result;
 }
 
-int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
+int LLVMExecutableModel::getFloatingSpeciesAmounts(size_t len, const int* indx,
         double* values)
 {
     return getValues(getFloatingSpeciesAmountPtr, len, indx, values);
 }
 
-int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
+int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx,
         const double *values)
 {
     for (int i = 0; i < len; ++i)
@@ -1561,7 +1561,7 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
     return len;
 }
 
-int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
+int LLVMExecutableModel::setFloatingSpeciesConcentrations(size_t len,
         const int* indx, const double* values)
 {
     for (int i = 0; i < len; ++i)
@@ -1622,19 +1622,19 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
     return len;
 }
 
-int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
+int LLVMExecutableModel::getBoundarySpeciesAmounts(size_t len, const int* indx,
         double* values)
 {
     return getValues(getBoundarySpeciesAmountPtr, len, indx, values);
 }
 
-int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
+int LLVMExecutableModel::getBoundarySpeciesConcentrations(size_t len,
         const int* indx, double* values)
 {
     return getValues(getBoundarySpeciesConcentrationPtr, len, indx, values);
 }
 
-int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
+int LLVMExecutableModel::setBoundarySpeciesConcentrations(size_t len,
         const int* indx, const double* values)
 {
     int result = -1;
@@ -1646,13 +1646,13 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
     return result;
 }
 
-int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
+int LLVMExecutableModel::getGlobalParameterValues(size_t len, const int* indx,
         double* values)
 {
     return getValues(getGlobalParameterPtr, len, indx, values);
 }
 
-int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
+int LLVMExecutableModel::setGlobalParameterValues(size_t len, const int* indx,
         const double* values)
 {
     int result = -1;
@@ -1677,13 +1677,13 @@ int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
     return result;
 }
 
-int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
+int LLVMExecutableModel::getCompartmentVolumes(size_t len, const int* indx,
         double* values)
 {
     return getValues(getCompartmentVolumePtr, len, indx, values);
 }
 
-int LLVMExecutableModel::getReactionRates(int len, const int* indx,
+int LLVMExecutableModel::getReactionRates(size_t len, const int* indx,
         double* values)
 {
     // the reaction rates are a function of the model state, so someone
@@ -1754,7 +1754,7 @@ string LLVMExecutableModel::getConservedMoietyId(int index)
     return symbols->getConservedMoietyId(index);
 }
 
-int LLVMExecutableModel::getConservedMoietyValues(int len, const int* indx,
+int LLVMExecutableModel::getConservedMoietyValues(size_t len, const int* indx,
         double* values)
 {
     int result = 0;
@@ -1767,7 +1767,7 @@ int LLVMExecutableModel::getConservedMoietyValues(int len, const int* indx,
     return result;
 }
 
-int LLVMExecutableModel::setConservedMoietyValues(int len, const int* indx,
+int LLVMExecutableModel::setConservedMoietyValues(size_t len, const int* indx,
         const double* values)
 {
     int result = 0;
@@ -1780,7 +1780,7 @@ int LLVMExecutableModel::setConservedMoietyValues(int len, const int* indx,
     return result;
 }
 
-int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
+int LLVMExecutableModel::getFloatingSpeciesAmountRates(size_t len,
         int const *indx, double *values)
 {
     uint dydtSize = modelData->numRateRules + modelData->numIndFloatingSpecies;
@@ -1809,7 +1809,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
 }
 
 
-int LLVMExecutableModel::getRateRueRates(int len,
+int LLVMExecutableModel::getRateRueRates(size_t len,
         int const *indx, double *values)
 {
     uint dydtSize = modelData->numRateRules;
@@ -1838,7 +1838,7 @@ int LLVMExecutableModel::getRateRueRates(int len,
 }
 
 
-int LLVMExecutableModel::setCompartmentVolumes(int len, const int* indx,
+int LLVMExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
         const double* values)
 {
     int result = -1;
@@ -1907,7 +1907,7 @@ int LLVMExecutableModel::getNumEvents()
     return modelData->numEvents;
 }
 
-int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned char *values)
+int LLVMExecutableModel::getEventTriggers(size_t len, const int *indx, unsigned char *values)
 {
     if (len <= 0)
     {
@@ -2115,7 +2115,7 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
     return result;
 }
 
-int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
+int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, double* values)
 {
     int result = -1;
@@ -2144,7 +2144,7 @@ int LLVMExecutableModel::setFloatingSpeciesInitAmounts(size_t len, int const *in
     return result;
 }
 
-int LLVMExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx,
+int LLVMExecutableModel::getFloatingSpeciesInitAmounts(size_t len, int const *indx,
                 double *values)
 {
     int result = -1;
@@ -2155,7 +2155,7 @@ int LLVMExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx,
     return result;
 }
 
-int LLVMExecutableModel::setCompartmentInitVolumes(int len, const int *indx,
+int LLVMExecutableModel::setCompartmentInitVolumes(size_t len, const int *indx,
             double const *values)
 {
     int result = -1;
@@ -2167,7 +2167,7 @@ int LLVMExecutableModel::setCompartmentInitVolumes(int len, const int *indx,
     return result;
 }
 
-int LLVMExecutableModel::getCompartmentInitVolumes(int len, const int *indx,
+int LLVMExecutableModel::getCompartmentInitVolumes(size_t len, const int *indx,
                 double *values)
 {
     int result = -1;
@@ -2178,7 +2178,7 @@ int LLVMExecutableModel::getCompartmentInitVolumes(int len, const int *indx,
     return result;
 }
 
-int LLVMExecutableModel::setGlobalParameterInitValues(int len, const int* indx,
+int LLVMExecutableModel::setGlobalParameterInitValues(size_t len, const int* indx,
         const double* values)
 {
     int result = -1;
@@ -2190,7 +2190,7 @@ int LLVMExecutableModel::setGlobalParameterInitValues(int len, const int* indx,
     return result;
 }
 
-int LLVMExecutableModel::getGlobalParameterInitValues(int len, const int *indx,
+int LLVMExecutableModel::getGlobalParameterInitValues(size_t len, const int *indx,
                 double *values)
 {
     int result = -1;

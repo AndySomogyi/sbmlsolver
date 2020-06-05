@@ -117,7 +117,7 @@ int CXXEnzymeExecutableModel::getNumIndFloatingSpecies()
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
+int CXXEnzymeExecutableModel::getFloatingSpeciesAmounts(size_t len, const int* indx,
         double* values)
 {
     double value;
@@ -132,31 +132,31 @@ int CXXEnzymeExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx
     return len;
 }
 
-int CXXEnzymeExecutableModel::setFloatingSpeciesAmounts(int len, const int* indx,
+int CXXEnzymeExecutableModel::setFloatingSpeciesAmounts(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getFloatingSpeciesAmountRates(int len, const int* indx,
+int CXXEnzymeExecutableModel::getFloatingSpeciesAmountRates(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getFloatingSpeciesConcentrationRates(int len,
+int CXXEnzymeExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getFloatingSpeciesConcentrations(int len,
+int CXXEnzymeExecutableModel::getFloatingSpeciesConcentrations(size_t len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setFloatingSpeciesConcentrations(int len,
+int CXXEnzymeExecutableModel::setFloatingSpeciesConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -168,7 +168,7 @@ int CXXEnzymeExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getFloatingSpeciesInitConcentrations(int len,
+int CXXEnzymeExecutableModel::getFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, double* values)
 {
     return 0;
@@ -180,7 +180,7 @@ int CXXEnzymeExecutableModel::setFloatingSpeciesInitAmounts(size_t len, const in
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getFloatingSpeciesInitAmounts(int len, const int* indx,
+int CXXEnzymeExecutableModel::getFloatingSpeciesInitAmounts(size_t len, const int* indx,
         double* values)
 {
     return 0;
@@ -201,19 +201,19 @@ std::string CXXEnzymeExecutableModel::getBoundarySpeciesId(int index)
     return "";
 }
 
-int CXXEnzymeExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
+int CXXEnzymeExecutableModel::getBoundarySpeciesAmounts(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getBoundarySpeciesConcentrations(int len,
+int CXXEnzymeExecutableModel::getBoundarySpeciesConcentrations(size_t len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setBoundarySpeciesConcentrations(int len,
+int CXXEnzymeExecutableModel::setBoundarySpeciesConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -234,25 +234,25 @@ std::string CXXEnzymeExecutableModel::getGlobalParameterId(int index)
     return "";
 }
 
-int CXXEnzymeExecutableModel::getGlobalParameterValues(int len, const int* indx,
+int CXXEnzymeExecutableModel::getGlobalParameterValues(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setGlobalParameterValues(int len, const int* indx,
+int CXXEnzymeExecutableModel::setGlobalParameterValues(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getGlobalParameterInitValues(int len, const int* indx,
+int CXXEnzymeExecutableModel::getGlobalParameterInitValues(size_t len, const int* indx,
     double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setGlobalParameterInitValues(int len, const int* indx,
+int CXXEnzymeExecutableModel::setGlobalParameterInitValues(size_t len, const int* indx,
     const double* values)
 {
     return 0;
@@ -278,25 +278,25 @@ std::string CXXEnzymeExecutableModel::getCompartmentId(int index)
     return "";
 }
 
-int CXXEnzymeExecutableModel::getCompartmentVolumes(int len, const int* indx,
+int CXXEnzymeExecutableModel::getCompartmentVolumes(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setCompartmentVolumes(int len, const int* indx,
+int CXXEnzymeExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setCompartmentInitVolumes(int len, const int* indx,
+int CXXEnzymeExecutableModel::setCompartmentInitVolumes(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getCompartmentInitVolumes(int len, const int* indx,
+int CXXEnzymeExecutableModel::getCompartmentInitVolumes(size_t len, const int* indx,
         double* values)
 {
     return 0;
@@ -388,13 +388,13 @@ std::string CXXEnzymeExecutableModel::getConservedMoietyId(int index)
     return "";
 }
 
-int CXXEnzymeExecutableModel::getConservedMoietyValues(int len, const int* indx,
+int CXXEnzymeExecutableModel::getConservedMoietyValues(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setConservedMoietyValues(int len, const int* indx,
+int CXXEnzymeExecutableModel::setConservedMoietyValues(size_t len, const int* indx,
         const double* values)
 {
     return 0;
@@ -420,7 +420,7 @@ std::string CXXEnzymeExecutableModel::getReactionId(int index)
     return "";
 }
 
-int CXXEnzymeExecutableModel::getReactionRates(int len, const int* indx,
+int CXXEnzymeExecutableModel::getReactionRates(size_t len, const int* indx,
         double* values)
 {
 
@@ -537,7 +537,7 @@ int CXXEnzymeExecutableModel::getNumEvents()
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getEventTriggers(int len, const int* indx,
+int CXXEnzymeExecutableModel::getEventTriggers(size_t len, const int* indx,
         unsigned char* values)
 {
     return 0;

@@ -2255,9 +2255,9 @@ DoubleMatrix RoadRunner::getFullJacobian()
             {
                 // function pointers to the model get values and get init values based on
                 // if we are doing amounts or concentrations.
-                typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+                typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
                     double *values);
-                typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+                typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
                 typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
                     double const* values);
@@ -2463,9 +2463,9 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
     // function pointers to the model get values and get init values based on
     // if we are doing amounts or concentrations.
-    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
             double *values);
-    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
 
     GetValueFuncPtr getValuePtr = 0;
@@ -3624,9 +3624,9 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
     // function pointers to the model get values and get init values based on
     // if we are doing amounts or concentrations.
-    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
             double *values);
-    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
     typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
         double const* values);

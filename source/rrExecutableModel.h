@@ -186,17 +186,17 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int getFloatingSpeciesAmounts(int len, int const *indx,
+    virtual int getFloatingSpeciesAmounts(size_t len, int const *indx,
             double *values) = 0;
 
-    virtual int setFloatingSpeciesAmounts(int len, int const *indx,
+    virtual int setFloatingSpeciesAmounts(size_t len, int const *indx,
             const double *values) = 0;
 
-    virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
+    virtual int getFloatingSpeciesAmountRates(size_t len, int const *indx,
             double *values) = 0;
 
 
-    virtual int getFloatingSpeciesConcentrationRates(int len, int const *indx,
+    virtual int getFloatingSpeciesConcentrationRates(size_t len, int const *indx,
                 double *values) = 0;
 
     /**
@@ -207,7 +207,7 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int getFloatingSpeciesConcentrations(int len, int const *indx,
+    virtual int getFloatingSpeciesConcentrations(size_t len, int const *indx,
             double *values) = 0;
 
     /**
@@ -218,7 +218,7 @@ public:
      * @param[in] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
+    virtual int setFloatingSpeciesConcentrations(size_t len, int const *indx,
             double const *values) = 0;
 
     /**
@@ -238,7 +238,7 @@ public:
      * Get the initial concentrations of the floating species,
      * uses the same indexing as the other floating species methods.
      */
-    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+    virtual int getFloatingSpeciesInitConcentrations(size_t len, int const *indx,
                     double *values) = 0;
 
     /**
@@ -258,7 +258,7 @@ public:
      * Get the initial amounts of the floating species,
      * uses the same indexing as the other floating species methods.
      */
-    virtual int getFloatingSpeciesInitAmounts(int len, int const *indx,
+    virtual int getFloatingSpeciesInitAmounts(size_t len, int const *indx,
                     double *values) = 0;
 
     /************************ End Floating Species Section ************************/
@@ -287,7 +287,7 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int getBoundarySpeciesAmounts(int len, int const *indx,
+    virtual int getBoundarySpeciesAmounts(size_t len, int const *indx,
             double *values) = 0;
 
 
@@ -299,7 +299,7 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int getBoundarySpeciesConcentrations(int len, int const *indx,
+    virtual int getBoundarySpeciesConcentrations(size_t len, int const *indx,
             double *values) = 0;
 
     /**
@@ -310,7 +310,7 @@ public:
      * @param[in] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int setBoundarySpeciesConcentrations(int len, int const *indx,
+    virtual int setBoundarySpeciesConcentrations(size_t len, int const *indx,
             double const *values) = 0;
 
 
@@ -346,10 +346,10 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int getGlobalParameterValues(int len, int const *indx,
+    virtual int getGlobalParameterValues(size_t len, int const *indx,
             double *values) = 0;
 
-    virtual int setGlobalParameterValues(int len, int const *indx,
+    virtual int setGlobalParameterValues(size_t len, int const *indx,
             const double *values) = 0;
 
     /**
@@ -357,14 +357,14 @@ public:
     *
     * Takes the same indices as the other global parameter methods.
     */
-    virtual int setGlobalParameterInitValues(int len, int const *indx,
+    virtual int setGlobalParameterInitValues(size_t len, int const *indx,
         double const *values) = 0;
 
     /**
     * Get the initial amounts of the global parameter,
     * uses the same indexing as the other global parameter methods.
     */
-    virtual int getGlobalParameterInitValues(int len, int const *indx,
+    virtual int getGlobalParameterInitValues(size_t len, int const *indx,
         double *values) = 0;
 
 
@@ -390,10 +390,10 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                returned boundary species amounts.
      */
-    virtual int getCompartmentVolumes(int len, int const *indx,
+    virtual int getCompartmentVolumes(size_t len, int const *indx,
             double *values) = 0;
 
-    virtual int setCompartmentVolumes(int len, int const *indx,
+    virtual int setCompartmentVolumes(size_t len, int const *indx,
                 const double *values) = 0;
 
     /**
@@ -406,14 +406,14 @@ public:
      * updating the values on which it depends, it can not be set
      * directly.
      */
-    virtual int setCompartmentInitVolumes(int len, int const *indx,
+    virtual int setCompartmentInitVolumes(size_t len, int const *indx,
                 double const *values) = 0;
 
     /**
      * Get the initial volume of the compartments,
      * uses the same indexing as the other compartment methods.
      */
-    virtual int getCompartmentInitVolumes(int len, int const *indx,
+    virtual int getCompartmentInitVolumes(size_t len, int const *indx,
                     double *values) = 0;
 
 
@@ -480,8 +480,8 @@ public:
     virtual int getNumConservedMoieties() = 0;
     virtual int getConservedMoietyIndex(const std::string& eid) = 0;
     virtual std::string getConservedMoietyId(int index) = 0;
-    virtual int getConservedMoietyValues(int len, int const *indx, double *values) = 0;
-    virtual int setConservedMoietyValues(int len, int const *indx,
+    virtual int getConservedMoietyValues(size_t len, int const *indx, double *values) = 0;
+    virtual int setConservedMoietyValues(size_t len, int const *indx,
             const double *values) = 0;
 
     virtual int getNumRateRules() = 0;
@@ -520,7 +520,7 @@ public:
      * reaction rates are copied directly into the suplied buffer.
      * @param values: pointer to user suplied buffer where rates will be stored.
      */
-    virtual int getReactionRates(int len, int const *indx,
+    virtual int getReactionRates(size_t len, int const *indx,
                 double *values) = 0;
 
     /**
@@ -607,7 +607,7 @@ public:
      * So, on every modern system I'm aware of, bool is an unsigned char, so
      * use that data type here.
      */
-    virtual int getEventTriggers(int len, const int *indx, unsigned char *values) = 0;
+    virtual int getEventTriggers(size_t len, const int *indx, unsigned char *values) = 0;
 
 
     /**

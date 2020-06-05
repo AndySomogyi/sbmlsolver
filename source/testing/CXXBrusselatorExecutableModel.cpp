@@ -67,37 +67,37 @@ int CXXBrusselatorExecutableModel::getNumIndFloatingSpecies()
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getFloatingSpeciesAmounts(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setFloatingSpeciesAmounts(int len, const int* indx,
+int CXXBrusselatorExecutableModel::setFloatingSpeciesAmounts(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getFloatingSpeciesAmountRates(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getFloatingSpeciesAmountRates(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getFloatingSpeciesConcentrationRates(int len,
+int CXXBrusselatorExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getFloatingSpeciesConcentrations(int len,
+int CXXBrusselatorExecutableModel::getFloatingSpeciesConcentrations(size_t len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setFloatingSpeciesConcentrations(int len,
+int CXXBrusselatorExecutableModel::setFloatingSpeciesConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -109,7 +109,7 @@ int CXXBrusselatorExecutableModel::setFloatingSpeciesInitConcentrations(size_t l
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getFloatingSpeciesInitConcentrations(int len,
+int CXXBrusselatorExecutableModel::getFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, double* values)
 {
     return 0;
@@ -121,7 +121,7 @@ int CXXBrusselatorExecutableModel::setFloatingSpeciesInitAmounts(size_t len, con
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getFloatingSpeciesInitAmounts(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getFloatingSpeciesInitAmounts(size_t len, const int* indx,
         double* values)
 {
     return 0;
@@ -142,19 +142,19 @@ std::string CXXBrusselatorExecutableModel::getBoundarySpeciesId(int index)
     return "";
 }
 
-int CXXBrusselatorExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getBoundarySpeciesAmounts(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getBoundarySpeciesConcentrations(int len,
+int CXXBrusselatorExecutableModel::getBoundarySpeciesConcentrations(size_t len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setBoundarySpeciesConcentrations(int len,
+int CXXBrusselatorExecutableModel::setBoundarySpeciesConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -175,13 +175,13 @@ std::string CXXBrusselatorExecutableModel::getGlobalParameterId(int index)
     return "";
 }
 
-int CXXBrusselatorExecutableModel::getGlobalParameterValues(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getGlobalParameterValues(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setGlobalParameterValues(int len, const int* indx,
+int CXXBrusselatorExecutableModel::setGlobalParameterValues(size_t len, const int* indx,
         const double* values)
 {
     return 0;
@@ -202,25 +202,25 @@ std::string CXXBrusselatorExecutableModel::getCompartmentId(int index)
     return "";
 }
 
-int CXXBrusselatorExecutableModel::getCompartmentVolumes(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getCompartmentVolumes(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setCompartmentVolumes(int len, const int* indx,
+int CXXBrusselatorExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setCompartmentInitVolumes(int len, const int* indx,
+int CXXBrusselatorExecutableModel::setCompartmentInitVolumes(size_t len, const int* indx,
         const double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getCompartmentInitVolumes(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getCompartmentInitVolumes(size_t len, const int* indx,
         double* values)
 {
     return 0;
@@ -270,13 +270,13 @@ std::string CXXBrusselatorExecutableModel::getConservedMoietyId(int index)
     return "";
 }
 
-int CXXBrusselatorExecutableModel::getConservedMoietyValues(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getConservedMoietyValues(size_t len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setConservedMoietyValues(int len, const int* indx,
+int CXXBrusselatorExecutableModel::setConservedMoietyValues(size_t len, const int* indx,
         const double* values)
 {
     return 0;
@@ -302,7 +302,7 @@ std::string CXXBrusselatorExecutableModel::getReactionId(int index)
     return "";
 }
 
-int CXXBrusselatorExecutableModel::getReactionRates(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getReactionRates(size_t len, const int* indx,
         double* values)
 {
     return 0;
@@ -350,7 +350,7 @@ int CXXBrusselatorExecutableModel::getNumEvents()
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::getEventTriggers(int len, const int* indx,
+int CXXBrusselatorExecutableModel::getEventTriggers(size_t len, const int* indx,
         unsigned char* values)
 {
     return 0;
