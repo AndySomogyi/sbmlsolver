@@ -108,17 +108,17 @@ class RR_DECLSPEC IniFile
         bool                CreateSection(const string& Section, const string& Comment, KeyList Keys);
 
         // Utility Methods
-        int                    SectionCount();
-        int                    KeyCount();
-        int                 KeyCount(const string& section);
+        size_t              SectionCount();
+        size_t              KeyCount();
+        size_t              KeyCount(const string& section);
         void                Clear();
         void                SetFileName(const string& fName);
-        string                CommentStr(string& Comment);
-        IniKey*                GetKey(const string& Key, const string& Section);
-        IniSection*            GetSection(const string& Section, bool create = false);
-        IniSection*            GetSection(const unsigned int secNr);
-        bool                 ClearSection(const string& section);
-        bool                 IsModified(){return mIsDirty;}
+        string              CommentStr(string& Comment);
+        IniKey*             GetKey(const string& Key, const string& Section);
+        IniSection*         GetSection(const string& Section, bool create = false);
+        IniSection*         GetSection(const unsigned int secNr);
+        bool                ClearSection(const string& section);
+        bool                IsModified(){return mIsDirty;}
 };
 
 }
