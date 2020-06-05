@@ -407,13 +407,13 @@ size_t sigtrap();
 
 %{
 
-typedef int (rr::ExecutableModel::*getValuesPtr)(int, int const*, double*);
+typedef int (rr::ExecutableModel::*getValuesPtr)(size_t, int const*, double*);
 typedef string (ExecutableModel::*getNamePtr)(int);
 typedef int (ExecutableModel::*getNumPtr)();
 
 
 static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValuesPtr func,
-                                            getNumPtr numPtr, int len, int const *indx) {
+                                            getNumPtr numPtr, size_t len, int const *indx) {
     if (len <= 0) {
         len = (self->*numPtr)();
         indx = 0;
@@ -472,13 +472,13 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %}
 
 
-%apply (int DIM1, int* IN_ARRAY1) {(int len, int const *indx)};
+%apply (int DIM1, int* IN_ARRAY1) {(size_t len, int const *indx)};
 
-%apply (int DIM1, double* IN_ARRAY1) {(int len, double const *values)};
+%apply (int DIM1, double* IN_ARRAY1) {(size_t len, double const *values)};
 
 // typemap for the set***Values methods
-%apply (int DIM1, int* IN_ARRAY1) {(int leni, int const* indx)};
-%apply (int DIM1, double* IN_ARRAY1) {(int lenv, const  double* values)};
+%apply (int DIM1, int* IN_ARRAY1) {(size_t leni, int const* indx)};
+%apply (int DIM1, double* IN_ARRAY1) {(size_t lenv, const  double* values)};
 
 %apply int { size_t }
 
@@ -728,25 +728,25 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::lUser;
 
 
-%ignore rr::ExecutableModel::getFloatingSpeciesAmounts(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(int, int const*, double *);
-%ignore rr::ExecutableModel::getFloatingSpeciesConcentrationRates(int, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesAmounts(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(size_t, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesConcentrationRates(size_t, int const*, double *);
 
-%ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::getBoundarySpeciesAmounts(int, int const*, double *);
-%ignore rr::ExecutableModel::getBoundarySpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getGlobalParameterValues(int, int const*, double *);
-%ignore rr::ExecutableModel::setGlobalParameterValues(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getCompartmentVolumes(int, int const*, double *);
-%ignore rr::ExecutableModel::setCompartmentVolumes(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getConservedMoietyValues(int, int const*, double *);
-%ignore rr::ExecutableModel::setConservedMoietyValues(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getReactionRates(int, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(size_t, int const*, double *);
+%ignore rr::ExecutableModel::getBoundarySpeciesAmounts(size_t, int const*, double *);
+%ignore rr::ExecutableModel::getBoundarySpeciesConcentrations(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getGlobalParameterValues(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setGlobalParameterValues(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getCompartmentVolumes(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setCompartmentVolumes(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getConservedMoietyValues(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setConservedMoietyValues(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getReactionRates(size_t, int const*, double *);
 %ignore rr::ExecutableModel::evalReactionRates;
 %ignore rr::ExecutableModel::convertToAmounts;
 %ignore rr::ExecutableModel::computeConservedTotals;
@@ -793,12 +793,12 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::setConservedSumChanged(bool);
 %ignore rr::ExecutableModel::convertToAmounts() ;
 
-%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, double const *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int len, int const *indx, double *values);
-%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx, double const *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values);
-%ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values);
-%ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(size_t len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(size_t len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(size_t len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(size_t len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setCompartmentInitVolumes(size_t len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getCompartmentInitVolumes(size_t len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
 // deprecated, model knows how to reset itself with reset.
@@ -1982,108 +1982,108 @@ namespace std { class ostream{}; }
      ** get values section
      ***/
 
-    PyObject *getFloatingSpeciesAmounts(int len, int const *indx) {
+    PyObject *getFloatingSpeciesAmounts(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts,
                                           &rr::ExecutableModel::getNumFloatingSpecies, len, indx);
     }
 
     PyObject *getFloatingSpeciesAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getFloatingSpeciesConcentrationRates(int len, int const *indx) {
+    PyObject *getFloatingSpeciesConcentrationRates(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrationRates,
                                          &rr::ExecutableModel::getNumIndFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesConcentrationRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrationRates,
-                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getFloatingSpeciesConcentrations(int len, int const *indx) {
+    PyObject *getFloatingSpeciesConcentrations(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations,
                                          &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getBoundarySpeciesAmounts(int len, int const *indx) {
+    PyObject *getBoundarySpeciesAmounts(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts,
                                          &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts,
-                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getBoundarySpeciesConcentrations(int len, int const *indx) {
+    PyObject *getBoundarySpeciesConcentrations(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations,
                                          &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations,
-                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (size_t)0, (int const*)0);
     }
-    PyObject *getGlobalParameterValues(int len, int const *indx) {
+    PyObject *getGlobalParameterValues(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues,
                                          &rr::ExecutableModel::getNumGlobalParameters,  len, indx);
     }
 
     PyObject *getGlobalParameterValues() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues,
-                                          &rr::ExecutableModel::getNumGlobalParameters, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumGlobalParameters, (size_t)0, (int const*)0);
     }
 
-    PyObject *getCompartmentVolumes(int len, int const *indx) {
+    PyObject *getCompartmentVolumes(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes,
                                          &rr::ExecutableModel::getNumCompartments,  len, indx);
     }
 
     PyObject *getCompartmentVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes,
-                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumCompartments, (size_t)0, (int const*)0);
     }
 
-    PyObject *getConservedMoietyValues(int len, int const *indx) {
+    PyObject *getConservedMoietyValues(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedMoietyValues,
                                          &rr::ExecutableModel::getNumConservedMoieties,  len, indx);
     }
 
     PyObject *getConservedMoietyValues() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedMoietyValues,
-                                          &rr::ExecutableModel::getNumConservedMoieties, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumConservedMoieties, (size_t)0, (int const*)0);
     }
 
-    PyObject *getReactionRates(int len, int const *indx) {
+    PyObject *getReactionRates(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates,
                                          &rr::ExecutableModel::getNumReactions,  len, indx);
     }
 
     PyObject *getReactionRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates,
-                                          &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumReactions, (size_t)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesInitConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitConcentrations,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesInitAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitAmounts,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
     PyObject *getCompartmentInitVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
-                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumCompartments, (size_t)0, (int const*)0);
     }
 
     
@@ -2161,44 +2161,44 @@ namespace std { class ostream{}; }
      ** set values section
      ***/
 
-    int setFloatingSpeciesAmounts(int len, double const *values) {
+    int setFloatingSpeciesAmounts(size_t len, double const *values) {
         return $self->setFloatingSpeciesAmounts(len, 0, values);
     }
 
-    int setFloatingSpeciesConcentrations(int len, double const *values) {
+    int setFloatingSpeciesConcentrations(size_t len, double const *values) {
         return $self->setFloatingSpeciesConcentrations(len, 0, values);
     }
 
-    int setBoundarySpeciesConcentrations(int len, double const *values) {
+    int setBoundarySpeciesConcentrations(size_t len, double const *values) {
         return $self->setBoundarySpeciesConcentrations(len, 0, values);
     }
 
-    int setGlobalParameterValues(int len, double const *values) {
+    int setGlobalParameterValues(size_t len, double const *values) {
         return $self->setGlobalParameterValues(len, 0, values);
     }
 
-    int setCompartmentVolumes(int len, double const *values) {
+    int setCompartmentVolumes(size_t len, double const *values) {
         return $self->setCompartmentVolumes(len, 0, values);
     }
 
-    int setConservedMoietyValues(int len, double const *values) {
+    int setConservedMoietyValues(size_t len, double const *values) {
         return $self->setConservedMoietyValues(len, 0, values);
     }
 
-    int setFloatingSpeciesInitConcentrations(int len, double const *values) {
+    int setFloatingSpeciesInitConcentrations(size_t len, double const *values) {
         return $self->setFloatingSpeciesInitConcentrations(len, 0, values);
     }
 
-    int setFloatingSpeciesInitAmounts(int len, double const *values) {
+    int setFloatingSpeciesInitAmounts(size_t len, double const *values) {
         return $self->setFloatingSpeciesInitAmounts(len, 0, values);
     }
 
-    int setCompartmentInitVolumes(int len, double const *values) {
+    int setCompartmentInitVolumes(size_t len, double const *values) {
         return $self->setCompartmentInitVolumes(len, 0, values);
     }
 
 
-    int setFloatingSpeciesAmounts(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesAmounts(size_t leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
