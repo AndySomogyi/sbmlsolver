@@ -2839,7 +2839,7 @@ double RoadRunner::getVariableValue(const VariableType variableType,
     return 0;
 }
 
-int RoadRunner::createDefaultSteadyStateSelectionList()
+size_t RoadRunner::createDefaultSteadyStateSelectionList()
 {
 	impl->mSteadyStateSelection.clear();
 	// default should be independent floating species only ...
@@ -3357,7 +3357,7 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 
 
 // Help("Get the number of global parameters")
-int RoadRunner::getNumberOfGlobalParameters()
+size_t RoadRunner::getNumberOfGlobalParameters()
 {
     if (!impl->model)
     {

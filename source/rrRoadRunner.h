@@ -1445,7 +1445,7 @@ public:
      * @internal
      * @deprecated use ExecutableModel::getNumGlobalParameters
      */
-    RR_DEPRECATED(int getNumberOfGlobalParameters());
+    RR_DEPRECATED(size_t getNumberOfGlobalParameters());
 
     /**
      * @internal
@@ -1517,7 +1517,7 @@ private:
     void fixDependentSpeciesValues(int except, double* ref);
 
 
-    int createDefaultSteadyStateSelectionList();
+    size_t createDefaultSteadyStateSelectionList();
     size_t createDefaultTimeCourseSelectionList();
 
     /**
