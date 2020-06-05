@@ -128,7 +128,7 @@ public:
      * updating the values on which it depends, it can not be set
      * directly.
      */
-    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+    virtual int setFloatingSpeciesInitConcentrations(size_t len, int const *indx,
                 double const *values);
 
     /**
@@ -148,7 +148,7 @@ public:
      * updating the values on which it depends, it can not be set
      * directly.
      */
-    virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,
+    virtual int setFloatingSpeciesInitAmounts(size_t len, int const *indx,
                 double const *values);
 
     /**

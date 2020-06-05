@@ -103,7 +103,7 @@ int CXXBrusselatorExecutableModel::setFloatingSpeciesConcentrations(int len,
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+int CXXBrusselatorExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -115,7 +115,7 @@ int CXXBrusselatorExecutableModel::getFloatingSpeciesInitConcentrations(int len,
     return 0;
 }
 
-int CXXBrusselatorExecutableModel::setFloatingSpeciesInitAmounts(int len, const int* indx,
+int CXXBrusselatorExecutableModel::setFloatingSpeciesInitAmounts(size_t len, const int* indx,
         const double* values)
 {
     return 0;

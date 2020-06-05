@@ -352,13 +352,13 @@ public:
     #if (1) /**********************************************************************/
     /******************************************************************************/
 
-    virtual int setFloatingSpeciesInitConcentrations(int len, const int *indx,
+    virtual int setFloatingSpeciesInitConcentrations(size_t len, const int *indx,
             double const *values);
 
     virtual int getFloatingSpeciesInitConcentrations(int len, const int *indx,
             double *values);
 
-    virtual int setFloatingSpeciesInitAmounts(int len, const int *indx,
+    virtual int setFloatingSpeciesInitAmounts(size_t len, const int *indx,
                 double const *values);
 
     virtual int getFloatingSpeciesInitAmounts(int len, const int *indx,

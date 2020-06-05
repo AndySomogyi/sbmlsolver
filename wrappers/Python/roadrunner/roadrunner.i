@@ -480,6 +480,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %apply (int DIM1, int* IN_ARRAY1) {(int leni, int const* indx)};
 %apply (int DIM1, double* IN_ARRAY1) {(int lenv, const  double* values)};
 
+%apply int { size_t }
+
 #define LIB_EXTERN
 #define RR_DECLSPEC
 #define PUGIXML_CLASS

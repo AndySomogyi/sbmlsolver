@@ -103,7 +103,7 @@ int CXXPiecewiseExecutableModel::setFloatingSpeciesConcentrations(int len,
     return 0;
 }
 
-int CXXPiecewiseExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+int CXXPiecewiseExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -115,7 +115,7 @@ int CXXPiecewiseExecutableModel::getFloatingSpeciesInitConcentrations(int len,
     return 0;
 }
 
-int CXXPiecewiseExecutableModel::setFloatingSpeciesInitAmounts(int len, const int* indx,
+int CXXPiecewiseExecutableModel::setFloatingSpeciesInitAmounts(size_t len, const int* indx,
         const double* values)
 {
     return 0;

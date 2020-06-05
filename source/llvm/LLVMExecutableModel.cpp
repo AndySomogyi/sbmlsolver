@@ -2096,7 +2096,7 @@ bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
 /******************************************************************************/
 
 
-int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, const double* values)
 {
     int result = -1;
@@ -2126,7 +2126,7 @@ int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
     return result;
 }
 
-int LLVMExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
+int LLVMExecutableModel::setFloatingSpeciesInitAmounts(size_t len, int const *indx,
             double const *values)
 {
     int result = -1;

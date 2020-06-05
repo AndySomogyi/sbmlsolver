@@ -162,7 +162,7 @@ int CXXEnzymeExecutableModel::setFloatingSpeciesConcentrations(int len,
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+int CXXEnzymeExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
         const int* indx, const double* values)
 {
     return 0;
@@ -174,7 +174,7 @@ int CXXEnzymeExecutableModel::getFloatingSpeciesInitConcentrations(int len,
     return 0;
 }
 
-int CXXEnzymeExecutableModel::setFloatingSpeciesInitAmounts(int len, const int* indx,
+int CXXEnzymeExecutableModel::setFloatingSpeciesInitAmounts(size_t len, const int* indx,
         const double* values)
 {
     return 0;

@@ -2245,11 +2245,13 @@ DoubleMatrix RoadRunner::getFullJacobian()
                     double *values);
                 typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
                     double const *values);
+                typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
+                    double const* values);
 
                 GetValueFuncPtr getValuePtr = 0;
                 GetValueFuncPtr getInitValuePtr = 0;
                 SetValueFuncPtr setValuePtr = 0;
-                SetValueFuncPtr setInitValuePtr = 0;
+                SetValueFuncPtrSize setInitValuePtr = 0;
 
                 if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
                     == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
@@ -3612,11 +3614,13 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
             double *values);
     typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
                     double const *values);
+    typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
+        double const* values);
 
     GetValueFuncPtr getValuePtr = 0;
     GetValueFuncPtr getInitValuePtr = 0;
     SetValueFuncPtr setValuePtr = 0;
-    SetValueFuncPtr setInitValuePtr = 0;
+    SetValueFuncPtrSize setInitValuePtr = 0;
 
     if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
