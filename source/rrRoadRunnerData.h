@@ -36,7 +36,7 @@ public:
 
     ~RoadRunnerData();
 
-    void allocate(const int& cSize, const int& rSize);
+    void allocate(const size_t& cSize, const size_t& rSize);
 
     void allocateWeights();
 

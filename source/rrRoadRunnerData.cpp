@@ -233,9 +233,9 @@ string RoadRunnerData::getColumnNamesAsString() const
     return lbls;
 }
 
-void RoadRunnerData::allocate(const int& cSize, const int& rSize)
+void RoadRunnerData::allocate(const size_t& cSize, const size_t& rSize)
 {
-    mTheData.Allocate(cSize, rSize);
+    mTheData.Allocate(static_cast<unsigned int>(cSize), static_cast<unsigned int>(rSize));
 }
 
 //=========== OPERATORS
