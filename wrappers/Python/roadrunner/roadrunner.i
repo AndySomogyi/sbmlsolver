@@ -192,7 +192,7 @@
 /* Convert from C --> Python */
 %typemap(out) std::vector<double> {
 
-    int len = $1.size();
+    size_t len = $1.size();
     npy_intp dims[1] = {len};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
@@ -231,7 +231,7 @@
     }
 
     if (iscpx) {
-        int len = $1.size();
+        size_t len = $1.size();
         npy_intp dims[1] = {len};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
@@ -248,7 +248,7 @@
 
         $result  = array;
     } else {
-        int len = $1.size();
+        size_t len = $1.size();
         npy_intp dims[1] = {len};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
@@ -342,7 +342,7 @@
 /*
 %typemap(out) std::vector<std::string> {
 
-    int len = $1.size();
+    size_t len = $1.size();
 
     PyObject* pyList = PyList_New(len);
 
@@ -777,7 +777,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::getGlobalParameterId(int index);
 %ignore rr::ExecutableModel::getCompartmentId(int index);
 %ignore rr::ExecutableModel::getConservedMoietyId(int index);
-%ignore rr::ExecutableModel::getReactionId(int index);
+%ignore rr::ExecutableModel::getReactionId(size_t index);
 
 %ignore rr::ExecutableModel::getFloatingSpeciesIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getBoundarySpeciesIndex(const std::string &eid);
@@ -811,8 +811,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::EventListenerException;
 
 // ignore the EventListener virtuals, but leave the enum
-%ignore rr::EventListener::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
-%ignore rr::EventListener::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
+%ignore rr::EventListener::onTrigger(ExecutableModel* model, size_t eventIndex, const std::string& eventId);
+%ignore rr::EventListener::onAssignment(ExecutableModel* model, size_t eventIndex, const std::string& eventId);
 
 // ignore the C++ class, only deal with the python version
 %ignore rr::IntegratorListener;

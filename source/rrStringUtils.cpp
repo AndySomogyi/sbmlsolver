@@ -894,6 +894,13 @@ string toString(const vector<string>& vec, const string& sep)
     return text.str();
 }
 
+string toStringSize(size_t n)
+{
+    stringstream ss;
+    ss << n;
+    return ss.str();
+}
+
 int compareNoCase(const string& str1, const string& str2)
 {
 #if defined(_WIN32) || defined(__WIN32__)

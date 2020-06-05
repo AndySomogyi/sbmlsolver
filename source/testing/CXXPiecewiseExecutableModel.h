@@ -381,7 +381,7 @@ public:
     /**
      * get the name of the specified reaction
      */
-    virtual std::string getReactionId(int index);
+    virtual std::string getReactionId(size_t index);
 
     /**
      * get the vector of reaction rates.

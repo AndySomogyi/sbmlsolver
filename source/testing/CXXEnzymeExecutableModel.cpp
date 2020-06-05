@@ -107,7 +107,7 @@ int CXXEnzymeExecutableModel::getFloatingSpeciesIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getFloatingSpeciesId(int index)
+std::string CXXEnzymeExecutableModel::getFloatingSpeciesId(size_t index)
 {
     return "";
 }
@@ -196,7 +196,7 @@ int CXXEnzymeExecutableModel::getBoundarySpeciesIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getBoundarySpeciesId(int index)
+std::string CXXEnzymeExecutableModel::getBoundarySpeciesId(size_t index)
 {
     return "";
 }
@@ -229,7 +229,7 @@ int CXXEnzymeExecutableModel::getGlobalParameterIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getGlobalParameterId(int index)
+std::string CXXEnzymeExecutableModel::getGlobalParameterId(size_t index)
 {
     return "";
 }
@@ -263,7 +263,7 @@ int CXXEnzymeExecutableModel::getNumCompartments()
     return 0;
 }
 
-int CXXEnzymeExecutableModel::getCompartmentIndexForFloatingSpecies(int index)
+int CXXEnzymeExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
 {
 	return 0;
 }
@@ -273,7 +273,7 @@ int CXXEnzymeExecutableModel::getCompartmentIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getCompartmentId(int index)
+std::string CXXEnzymeExecutableModel::getCompartmentId(size_t index)
 {
     return "";
 }
@@ -383,7 +383,7 @@ int CXXEnzymeExecutableModel::getConservedMoietyIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getConservedMoietyId(int index)
+std::string CXXEnzymeExecutableModel::getConservedMoietyId(size_t index)
 {
     return "";
 }
@@ -415,7 +415,7 @@ int CXXEnzymeExecutableModel::getReactionIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getReactionId(int index)
+std::string CXXEnzymeExecutableModel::getReactionId(size_t index)
 {
     return "";
 }
@@ -457,7 +457,7 @@ void CXXEnzymeExecutableModel::getRateRuleValues(double* rateRuleValues)
 {
 }
 
-std::string CXXEnzymeExecutableModel::getStateVectorId(int index)
+std::string CXXEnzymeExecutableModel::getStateVectorId(size_t index)
 {
     return "";
 }
@@ -579,22 +579,22 @@ int CXXEnzymeExecutableModel::getEventIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXEnzymeExecutableModel::getEventId(int index)
+std::string CXXEnzymeExecutableModel::getEventId(size_t index)
 {
     return "";
 }
 
-void CXXEnzymeExecutableModel::setEventListener(int index,
+void CXXEnzymeExecutableModel::setEventListener(size_t index,
         rr::EventListenerPtr eventHandler)
 {
 }
 
-rr::EventListenerPtr CXXEnzymeExecutableModel::getEventListener(int index)
+rr::EventListenerPtr CXXEnzymeExecutableModel::getEventListener(size_t index)
 {
     return rr::EventListenerPtr();
 }
 
-double CXXEnzymeExecutableModel::getFloatingSpeciesAmountRate(int index,
+double CXXEnzymeExecutableModel::getFloatingSpeciesAmountRate(size_t index,
         const double* reactionRates)
 {
     return 0;

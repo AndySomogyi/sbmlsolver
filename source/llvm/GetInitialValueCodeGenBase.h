@@ -22,7 +22,7 @@
 namespace rrllvm
 {
 
-typedef double (*GetInitialValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
+typedef double (*GetInitialValueCodeGenBase_FunctionPtr)(LLVMModelData*, size_t);
 
 template <typename Derived, bool substanceUnits>
 class GetInitialValueCodeGenBase :

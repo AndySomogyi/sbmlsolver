@@ -60,8 +60,8 @@ public:
         HALT_SIMULATION               = (0x1 << 0),  // => 0x00000001
     };
 
-    virtual uint onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
-    virtual uint onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId) = 0;
+    virtual uint onTrigger(ExecutableModel* model, size_t eventIndex, const std::string& eventId) = 0;
+    virtual uint onAssignment(ExecutableModel* model, size_t eventIndex, const std::string& eventId) = 0;
 
 protected:
     ~EventListener() {};
@@ -170,7 +170,7 @@ public:
     virtual int getNumFloatingSpecies() = 0;
 
     virtual int getFloatingSpeciesIndex(const std::string& eid) = 0;
-    virtual std::string getFloatingSpeciesId(int index) = 0;
+    virtual std::string getFloatingSpeciesId(size_t index) = 0;
 
     /**
      * independent species do are not defined by rules, they typically participate
@@ -277,7 +277,7 @@ public:
      */
     virtual int getNumBoundarySpecies() = 0;
     virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
-    virtual std::string getBoundarySpeciesId(int index) = 0;
+    virtual std::string getBoundarySpeciesId(size_t index) = 0;
 
     /**
      * get the boundary species amounts
@@ -336,7 +336,7 @@ public:
     /**
      * id of the indexed global parameter.
      */
-    virtual std::string getGlobalParameterId(int index) = 0;
+    virtual std::string getGlobalParameterId(size_t index) = 0;
 
     /**
      * get the global parameter values
@@ -378,9 +378,9 @@ public:
     /******************************************************************************/
 
     virtual int getNumCompartments() = 0;
-	virtual int getCompartmentIndexForFloatingSpecies(int index) = 0;
+	virtual int getCompartmentIndexForFloatingSpecies(size_t index) = 0;
     virtual int getCompartmentIndex(const std::string& eid) = 0;
-    virtual std::string getCompartmentId(int index) = 0;
+    virtual std::string getCompartmentId(size_t index) = 0;
 
     /**
      * get the compartment volumes
@@ -479,7 +479,7 @@ public:
 
     virtual int getNumConservedMoieties() = 0;
     virtual int getConservedMoietyIndex(const std::string& eid) = 0;
-    virtual std::string getConservedMoietyId(int index) = 0;
+    virtual std::string getConservedMoietyId(size_t index) = 0;
     virtual int getConservedMoietyValues(size_t len, int const *indx, double *values) = 0;
     virtual int setConservedMoietyValues(size_t len, int const *indx,
             const double *values) = 0;
@@ -510,7 +510,7 @@ public:
     /**
      * get the name of the specified reaction
      */
-    virtual std::string getReactionId(int index) = 0;
+    virtual std::string getReactionId(size_t index) = 0;
 
     /**
      * get the vector of reaction rates.
@@ -535,7 +535,7 @@ public:
     /**
      * get the id of an element of the state vector.
      */
-    virtual std::string getStateVectorId(int index) = 0;
+    virtual std::string getStateVectorId(size_t index) = 0;
 
     /**
      * The state vector is a vector of elements that are defined by
@@ -663,9 +663,9 @@ public:
      * If there is no event with this id, returns -1.
      */
     virtual int getEventIndex(const std::string& eid) = 0;
-    virtual std::string getEventId(int index) = 0;
-    virtual void setEventListener(int index, EventListenerPtr eventHandler) = 0;
-    virtual EventListenerPtr getEventListener(int index) = 0;
+    virtual std::string getEventId(size_t index) = 0;
+    virtual void setEventListener(size_t index, EventListenerPtr eventHandler) = 0;
+    virtual EventListenerPtr getEventListener(size_t index) = 0;
 
     /**
      * Get the amount rate of change for the i'th floating species
@@ -680,7 +680,7 @@ public:
      * @param index: index of the desired floating speceis rate.
      * @param reactionRates: pointer to buffer of reaction rates.
      */
-    virtual double getFloatingSpeciesAmountRate(int index,
+    virtual double getFloatingSpeciesAmountRate(size_t index,
             const double *reactionRates) = 0;
 
     /**

@@ -80,13 +80,13 @@ public:
 		}
     }
 
-    void fireOnTrigger(ExecutableModel* model, int index, const std::string& eventId)
+    void fireOnTrigger(ExecutableModel* model, size_t index, const std::string& eventId)
     {
         Log(Logger::LOG_INFORMATION) << __FUNC__;
         onTrigger(model, index, eventId);
     }
 
-    void fireOnAssignment(ExecutableModel* model, int index, const std::string& eventId)
+    void fireOnAssignment(ExecutableModel* model, size_t index, const std::string& eventId)
     {
         Log(Logger::LOG_INFORMATION) << __FUNC__;
         onAssignment(model, index, eventId);
@@ -97,7 +97,7 @@ private:
     PyObject *pyOnTrigger;
     PyObject *pyOnAssignment;
 
-    virtual uint onTrigger(ExecutableModel* model, int index, const std::string& eventId)
+    virtual uint onTrigger(ExecutableModel* model, size_t index, const std::string& eventId)
     {
         uint result = 0;
         std::string err;
@@ -158,7 +158,7 @@ private:
         return result;
     }
 
-    virtual uint onAssignment(ExecutableModel* model, int index, const std::string& eventId)
+    virtual uint onAssignment(ExecutableModel* model, size_t index, const std::string& eventId)
     {
         uint result = 0;
         std::string err;

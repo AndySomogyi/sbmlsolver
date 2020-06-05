@@ -297,7 +297,7 @@ int CXXExecutableModel::getReactionIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXExecutableModel::getReactionId(int index)
+std::string CXXExecutableModel::getReactionId(size_t index)
 {
     return "";
 }

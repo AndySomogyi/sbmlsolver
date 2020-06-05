@@ -80,7 +80,7 @@ typedef std::vector<std::string> string_vector;
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
 // fun ptrs.
-typedef string (ExecutableModel::*GetNameFuncPtr)(int);
+typedef string (ExecutableModel::*GetNameFuncPtr)(size_t);
 typedef int (ExecutableModel::*GetNumFuncPtr)();
 
 // make this static here, hide our implementation...
@@ -3628,13 +3628,11 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
             double *values);
     typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
-    typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
-        double const* values);
 
     GetValueFuncPtr getValuePtr = 0;
     GetValueFuncPtr getInitValuePtr = 0;
     SetValueFuncPtr setValuePtr = 0;
-    SetValueFuncPtrSize setInitValuePtr = 0;
+    SetValueFuncPtr setInitValuePtr = 0;
 
     if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)

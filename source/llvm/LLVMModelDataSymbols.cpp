@@ -459,7 +459,7 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
-std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
+std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); ++i)
@@ -470,7 +470,7 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access floating species id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access floating species id at index " + rr::toStringSize(indx));
 }
 
 
@@ -559,7 +559,7 @@ size_t LLVMModelDataSymbols::getRateRuleSize() const
     return rateRules.size();
 }
 
-std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
+std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(size_t indx) const
 {
     for(StringUIntMap::const_iterator i = rateRules.begin();
             i != rateRules.end(); ++i)
@@ -571,7 +571,7 @@ std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
     }
 
     throw std::out_of_range("attempted to access rate rule id at index " +
-            rr::toString(indx));
+            rr::toStringSize(indx));
 }
 
 bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
@@ -1009,7 +1009,7 @@ bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
             ? globalParameterRateRules[gid] : false;
 }
 
-std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
+std::string LLVMModelDataSymbols::getGlobalParameterId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = globalParametersMap.begin();
             i != globalParametersMap.end(); ++i)
@@ -1020,7 +1020,7 @@ std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access global parameter id at index " + rr::toStringSize(indx));
 }
 
 int LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
@@ -1352,7 +1352,7 @@ const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() con
     return eventAttributes;
 }
 
-size_t LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
+size_t LLVMModelDataSymbols::getEventBufferSize(size_t eventId) const
 {
     assert(eventId <= eventAssignmentsSize.size() && "event id out of range");
     return eventAssignmentsSize[eventId];
@@ -1443,7 +1443,7 @@ bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
             i->second < independentInitGlobalParameterSize;
 }
 
-bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(uint id) const
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(size_t id) const
 {
     return isIndependentInitGlobalParameter(getGlobalParameterId(id));
 }
@@ -1486,7 +1486,7 @@ std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
     return getIds(eventIds);
 }
 
-std::string LLVMModelDataSymbols::getEventId(uint indx) const
+std::string LLVMModelDataSymbols::getEventId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = eventIds.begin();
             i != eventIds.end(); ++i)
@@ -1497,7 +1497,7 @@ std::string LLVMModelDataSymbols::getEventId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access event id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access event id at index " + rr::toStringSize(indx));
 }
 
 int LLVMModelDataSymbols::getEventIndex(const std::string& id) const
@@ -1548,7 +1548,7 @@ int LLVMModelDataSymbols::getConservedMoietyGlobalParameterIndex(
     return conservedMoietyGlobalParameterIndex[cmIndex];
 }
 
-std::string LLVMModelDataSymbols::getConservedMoietyId(uint indx) const
+std::string LLVMModelDataSymbols::getConservedMoietyId(size_t indx) const
 {
     return getGlobalParameterId(
             getConservedMoietyGlobalParameterIndex(indx));
