@@ -501,13 +501,13 @@ vector<string> splitString(const string &text, const char& oneSep)
 vector<string> splitString(const string &text, const string &separators)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
 
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if( (stop == string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -521,12 +521,12 @@ vector<string> splitString(const string &text, const string &separators)
 vector<string> splitString(const string &text, const string &separators, bool cutDelimiter)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
-    while( (start >= 0) && (start < n) )
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
+    while( (start != string::npos) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if( (stop == string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -550,14 +550,14 @@ vector<string> splitString(const string &text, const string &separators, bool cu
     return words;
 }
 
-int splitString(vector<string>& words, const string &text, const string &separators)
+size_t splitString(vector<string>& words, const string &text, const string &separators)
 {
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
-    while( (start >= 0) && (start < n) )
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
+    while( (start != string::npos) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if( (stop == string::npos) || (stop > n) )
         {
             stop = n;
         }
