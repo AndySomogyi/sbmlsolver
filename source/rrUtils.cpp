@@ -326,7 +326,7 @@ vector<string> getLinesInFile(const string& fName)
     return lines;
 }
 
-ptrdiff_t indexOf(const std::vector<std::string>& vec, const std::string& elem )
+std::ptrdiff_t indexOf(const std::vector<std::string>& vec, const std::string& elem )
 {
     if(!vec.size())
     {
@@ -334,7 +334,7 @@ ptrdiff_t indexOf(const std::vector<std::string>& vec, const std::string& elem )
     }
     else
     {
-        ptrdiff_t index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
+        std::ptrdiff_t index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
         return index;
     }
 }
