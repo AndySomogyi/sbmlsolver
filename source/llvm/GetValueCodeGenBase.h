@@ -82,7 +82,7 @@ llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     // entry block terminator
     this->builder.SetInsertPoint(entry);
 
-    llvm::SwitchInst *s = this->builder.CreateSwitch(args[1], def, ids.size());
+    llvm::SwitchInst *s = this->builder.CreateSwitch(args[1], def, static_cast<unsigned int>(ids.size()));
 
     for (int i = 0; i < ids.size(); ++i)
     {

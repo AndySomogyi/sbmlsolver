@@ -656,7 +656,7 @@ string RoadRunner::getTempDir()
     return impl->loadOpt.getItem("tempDir");
 }
 
-int RoadRunner::createDefaultTimeCourseSelectionList()
+size_t RoadRunner::createDefaultTimeCourseSelectionList()
 {
     vector<string> selections;
     vector<string> oFloating  = getFloatingSpeciesIds();
@@ -703,7 +703,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
     return impl->mSelectionList.size();
 }
 
-int RoadRunner::createTimeCourseSelectionList()
+size_t RoadRunner::createTimeCourseSelectionList()
 {
     // make a list out of the values in the settings,
     // will always have at least a "time" at the first item.
@@ -919,7 +919,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
     return dResult;
 }
 
-double RoadRunner::getNthSelectedOutput(unsigned index, double currentTime)
+double RoadRunner::getNthSelectedOutput(size_t index, double currentTime)
 {
     const SelectionRecord &record = impl->mSelectionList[index];
 
@@ -1648,7 +1648,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // used only for initializing double matrices for fixed time step simulations
     // if writing to output file, this is kRowsPerWrite, i.e. the buffer matrix size
     // otherwise this is just the full matrix size
-    int bufSize = writeToFile ? kRowsPerWrite : (self.simulateOpt.steps + 1);
+    unsigned int bufSize = writeToFile ? kRowsPerWrite : (self.simulateOpt.steps + 1);
     if (writeToFile) {
         std::string outfname = changeFileExtensionTo(self.simulateOpt.output_file, ".csv");
         Log(Logger::LOG_DEBUG) << "Writing simulation result to output file '" << outfname
@@ -1775,7 +1775,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         // stuff list values into result matrix
-        self.simulationResult.resize(results.size(), row.size());
+        self.simulationResult.resize(static_cast<unsigned int>(results.size()), static_cast<unsigned int>(row.size()));
         uint rowi = 0;
         for (DoubleVectorList::const_iterator i = results.begin();
                 i != results.end(); ++i, ++rowi)
@@ -1803,7 +1803,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         const double hstep = (timeEnd - timeStart) / (numPoints - 1);
-        size_t nrCols = self.mSelectionList.size();
+        unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
@@ -1880,7 +1880,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         double hstep = (timeEnd - timeStart) / (numPoints - 1);
-        size_t nrCols = self.mSelectionList.size();
+        unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
@@ -2175,7 +2175,7 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray()
 
     vector<string> idfsId = getIndependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    size_t nindep = idfsId.size();
+    unsigned int nindep = static_cast<unsigned int>(idfsId.size());
     DoubleMatrix v(1, nindep);
 
     DoubleMatrix rate = getRatesOfChangeNamedArray();
@@ -2221,7 +2221,7 @@ DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray()
 
     vector<string> dfsId = getDependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    size_t ndep = dfsId.size();
+    unsigned int ndep = static_cast<unsigned int>(dfsId.size());
     DoubleMatrix v(1, ndep);
 
     DoubleMatrix rate = getRatesOfChangeNamedArray();
@@ -2352,7 +2352,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
                     result = 1 / (12 * hstep)*(f1 + f2);
                 }
-                catch (const std::exception& e)
+                catch (const std::exception&)
                 {
                     // What ever happens, make sure we restore the species level
                     (self.model.get()->*setInitValuePtr)(
@@ -2911,7 +2911,7 @@ DoubleMatrix RoadRunner::getSteadyStateValuesNamedArray()
 
     steadyState();
 
-    DoubleMatrix v(1,impl->mSteadyStateSelection.size());
+    DoubleMatrix v(1, static_cast<unsigned int>(impl->mSteadyStateSelection.size()));
     for (int i = 0; i < impl->mSteadyStateSelection.size(); i++)
     {
         v(0,i) = getValue(impl->mSteadyStateSelection[i]);
@@ -4593,7 +4593,7 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         vector<string> speciesNames = getFloatingSpeciesIds();
 
         // Prepare the dv/dp array
-        Matrix< Complex > dvdp(reactionNames.size(), 1);
+        Matrix< Complex > dvdp(static_cast<unsigned int>(reactionNames.size()), 1);
 
         //Guess we don't need to simulate here?? (TK)
         //        SimulateOptions opt;

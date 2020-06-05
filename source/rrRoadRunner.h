@@ -1518,7 +1518,7 @@ private:
 
 
     int createDefaultSteadyStateSelectionList();
-    int createDefaultTimeCourseSelectionList();
+    size_t createDefaultTimeCourseSelectionList();
 
     /**
      * copies the current selection values into the n'th row of the
@@ -1535,7 +1535,7 @@ private:
     bool populateResult();
 
 
-    double getNthSelectedOutput(unsigned index, double currentTime);
+    double getNthSelectedOutput(size_t index, double currentTime);
 
 	bool isParameterUsed(const std::string& sid);
 
@@ -1569,7 +1569,7 @@ private:
      * creates a selection list from the amounts / conc / variables ivars of the
      * SimulationOptions struct.
      */
-    int createTimeCourseSelectionList();
+    size_t createTimeCourseSelectionList();
 
     std::vector<SelectionRecord> getSelectionList();
 
