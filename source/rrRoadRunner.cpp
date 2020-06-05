@@ -660,7 +660,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 {
     vector<string> selections;
     vector<string> oFloating  = getFloatingSpeciesIds();
-    int numFloatingSpecies = oFloating.size();
+    size_t numFloatingSpecies = oFloating.size();
     //int numIndSpecies = getNumberOfIndependentSpecies();
 
     // add floating species to the default selection
@@ -962,8 +962,8 @@ void RoadRunner::getSelectedValues(std::vector<double>& results,
     assert(results.size() == impl->mSelectionList.size()
             && "given vector and selection list different size");
 
-    u_int size = results.size();
-    for (u_int i = 0; i < size; ++i)
+    size_t size = results.size();
+    for (size_t i = 0; i < size; ++i)
     {
         results[i] = getNthSelectedOutput(i, currentTime);
     }
@@ -1304,7 +1304,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     // create selections
     vector<string> ss_selections_with_time;
     vector<string> ss_selections = getSteadyStateSelectionStrings();
-    int num_ss_sel = ss_selections.size();
+    size_t num_ss_sel = ss_selections.size();
 
     ss_selections_with_time.push_back("time");
     for (int i = 0; i < num_ss_sel; i++)
@@ -1327,7 +1327,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     self.simulateOpt.duration = duration;
     self.simulateOpt.steps = steps;
     double tol = 0;
-    int l = self.mSelectionList.size();
+    size_t l = self.mSelectionList.size();
     double* vals1 = new double[l];
     double* vals2 = new double[l];
 
@@ -1803,7 +1803,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         const double hstep = (timeEnd - timeStart) / (numPoints - 1);
-        int nrCols = self.mSelectionList.size();
+        size_t nrCols = self.mSelectionList.size();
 
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
@@ -1880,7 +1880,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         double hstep = (timeEnd - timeStart) / (numPoints - 1);
-        int nrCols = self.mSelectionList.size();
+        size_t nrCols = self.mSelectionList.size();
 
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
@@ -2153,7 +2153,7 @@ std::vector<double> RoadRunner::getIndependentRatesOfChange()
 
     vector<string> idfsId = getIndependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int nindep = idfsId.size();
+    size_t nindep = idfsId.size();
     std::vector<double> v(nindep);
 
     std::vector<double> rate = getRatesOfChange();
@@ -2161,7 +2161,7 @@ std::vector<double> RoadRunner::getIndependentRatesOfChange()
     for (int i = 0; i < nindep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v[i] = rate[index];
     }
@@ -2175,7 +2175,7 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray()
 
     vector<string> idfsId = getIndependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int nindep = idfsId.size();
+    size_t nindep = idfsId.size();
     DoubleMatrix v(1, nindep);
 
     DoubleMatrix rate = getRatesOfChangeNamedArray();
@@ -2183,7 +2183,7 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray()
     for (int i = 0; i < nindep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v(0, i) = rate[0][index];
     }
@@ -2199,7 +2199,7 @@ std::vector<double> RoadRunner::getDependentRatesOfChange()
 
     vector<string> dfsId = getDependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int ndep = dfsId.size();
+    size_t ndep = dfsId.size();
     std::vector<double> v(ndep);
 
     std::vector<double> rate = getRatesOfChange();
@@ -2207,7 +2207,7 @@ std::vector<double> RoadRunner::getDependentRatesOfChange()
     for (int i = 0; i < ndep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v[i] = rate[index];
     }
@@ -2221,7 +2221,7 @@ DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray()
 
     vector<string> dfsId = getDependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int ndep = dfsId.size();
+    size_t ndep = dfsId.size();
     DoubleMatrix v(1, ndep);
 
     DoubleMatrix rate = getRatesOfChangeNamedArray();
@@ -2229,7 +2229,7 @@ DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray()
     for (int i = 0; i < ndep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v(0, i) = rate[0][index];
     }
@@ -2844,7 +2844,7 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 	impl->mSteadyStateSelection.clear();
 	// default should be independent floating species only ...
 	vector<string> floatingSpecies = getFloatingSpeciesIds();
-	int numFloatingSpecies = floatingSpecies.size();
+    size_t numFloatingSpecies = floatingSpecies.size();
 	//int numIndSpecies = getNumberOfIndependentSpecies();
 	//impl->mSteadyStateSelection.resize(numIndSpecies);
 	impl->mSteadyStateSelection.resize(numFloatingSpecies);
@@ -3721,7 +3721,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
         result = 1/(12*hstep)*(f1 + f2);
     }
-    catch(const std::exception& e)
+    catch(const std::exception&)
     {
         // What ever happens, make sure we restore the species level
         (self.model.get()->*setInitValuePtr)(
@@ -4025,7 +4025,7 @@ static string convertSBMLVersion(const std::string& str, int level, int version)
         writer.writeSBML(doc, stream);
         delete doc;
     }
-    catch(std::exception& exp) {
+    catch(std::exception&) {
         delete doc;
         throw;
     }

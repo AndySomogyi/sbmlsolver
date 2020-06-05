@@ -538,7 +538,7 @@ public:
         const rr::EventListenerPtr &handler = eventListeners[eventId];
         if(handler)
         {
-            size_t result = handler->onAssignment(this, eventId, symbols->getEventId(eventId));
+            uint result = handler->onAssignment(this, eventId, symbols->getEventId(eventId));
 
             if(result & rr::EventListener::HALT_SIMULATION) {
                 throw rr::EventListenerException(result);
