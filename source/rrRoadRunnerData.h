@@ -46,7 +46,7 @@ public:
     std::string getColumnName(const int col) const;
     std::string getColumnNamesAsString() const;
     void setColumnNames(const std::vector<std::string>& colNames);
-    int getColumnIndex(const std::string& colName) const;
+    std::ptrdiff_t getColumnIndex(const std::string& colName) const;
     void setTimeDataPrecision(const int& prec);
     void setDataPrecision(const int& prec);
     void reSize(int rows, int cols);
