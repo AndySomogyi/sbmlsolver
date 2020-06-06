@@ -273,7 +273,6 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
 {
-    LibFunc funcId;
     TargetLibraryInfoImpl defaultImpl;
 	TargetLibraryInfo targetLib(defaultImpl);
     Function* func;
@@ -1294,8 +1293,8 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
 
     assert(values.size() == blocks.size());
 
-    PHINode *pn = builder.CreatePHI(Type::getDoubleTy(context), values.size(),
-            "iftmp");
+    PHINode *pn = builder.CreatePHI(Type::getDoubleTy(context), 
+        static_cast<unsigned int>(values.size()), "iftmp");
 
     for (uint i = 0; i < values.size(); ++i)
     {
@@ -1308,8 +1307,6 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
 llvm::Value* ASTNodeCodeGen::minmaxCodeGen(const libsbml::ASTNode* ast) {
 
     const ASTNodeType_t type = ast->getType();
-
-    LLVMContext &context = builder.getContext();
 
     Module *module = getModule();
 
