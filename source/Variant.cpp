@@ -197,8 +197,8 @@ std::string Variant::pythonRepr() const
         };
     } else if (isString()) {
         return "'" + toString() + "'";
-    } else
-        return toString();
+    }
+    return toString();
 }
 
 bool Variant::isString() const

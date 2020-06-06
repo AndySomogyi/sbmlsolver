@@ -121,7 +121,7 @@ int CXXEnzymeExecutableModel::getFloatingSpeciesAmounts(size_t len, const int* i
         double* values)
 {
     double value;
-    for (int i = 0; i < len; ++i)
+    for (size_t i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
         value = floatingSpeciesAmounts[j];

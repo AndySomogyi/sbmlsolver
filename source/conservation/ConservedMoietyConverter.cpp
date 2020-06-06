@@ -496,10 +496,10 @@ static std::vector<std::string> createConservedMoietyParameters(
 
     Poco::UUIDGenerator uuidGen;
 
-    for (int i = 0; i < depSpecies.size(); ++i)
+    for (size_t i = 0; i < depSpecies.size(); ++i)
     {
         Poco::UUID uuid = uuidGen.create();
-        string id = "_CSUM" + rr::toString(i);
+        string id = "_CSUM" + rr::toStringSize(i);
         std::replace( id.begin(), id.end(), '-', '_');
 
 
