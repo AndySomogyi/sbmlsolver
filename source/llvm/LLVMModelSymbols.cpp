@@ -175,29 +175,25 @@ bool LLVMModelSymbols::visit (const libsbml::Event &event)
 void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
         const libsbml::SBase *element, const ASTNode* math)
 {
-    const Compartment *comp = 0;
-    const Parameter *param = 0;
-    const Species *species = 0;
-    const SpeciesReference *reference = 0;
-
     if (!element)
         throw LLVMException("LLVMModelSymbols: Unable to process element");
 
-    if ((comp = dynamic_cast<const Compartment*>(element)))
+    if (element->getTypeCode() == SBML_COMPARTMENT)
     {
-        currentSymbols.compartments[comp->getId()] = math;
+        currentSymbols.compartments[element->getId()] = math;
     }
-    else if ((param = dynamic_cast<const Parameter*>(element)))
+    else if (element->getTypeCode() == SBML_PARAMETER)
     {
-        currentSymbols.globalParameters[param->getId()] = math;
+        currentSymbols.globalParameters[element->getId()] = math;
     }
-    else if ((species = dynamic_cast<const Species*>(element)))
+    else if (element->getTypeCode() == SBML_SPECIES)
     {
+        const Species* species = static_cast<const Species*>(element);
         processSpecies(currentSymbols, species, math);
     }
-    else if ((reference = dynamic_cast<const SpeciesReference*>(element)))
+    else if (element->getTypeCode() == SBML_SPECIES_REFERENCE)
     {
-        currentSymbols.speciesReferences[reference->getId()] = math;
+        currentSymbols.speciesReferences[element->getId()] = math;
     }
     else
     {
@@ -228,7 +224,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
     for (int i = 0; i < reactants->size(); i++)
     {
         const SpeciesReference* reactant =
-            dynamic_cast<const SpeciesReference*>(reactants->get(i));
+            static_cast<const SpeciesReference*>(reactants->get(i));
         index = symbols.getFloatingSpeciesIndex(reactant->getSpecies());
         if (index < 0) {
             continue;
@@ -253,7 +249,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
     for (int i = 0; i < products->size(); i++)
     {
         const SpeciesReference* product =
-            dynamic_cast<const SpeciesReference*>(products->get(i));
+            static_cast<const SpeciesReference*>(products->get(i));
         index = symbols.getFloatingSpeciesIndex(product->getSpecies());
         if (index < 0) {
             continue;

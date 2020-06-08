@@ -143,16 +143,16 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         {
             const Rule *rule = rules->get(i);
 
-            if (dynamic_cast<const AssignmentRule*>(rule))
+            if (rule->getTypeCode() == SBML_ASSIGNMENT_RULE)
             {
                 assignmentRules.insert(rule->getVariable());
             }
-            else if (dynamic_cast<const RateRule*>(rule))
+            else if (rule->getTypeCode() == SBML_RATE_RULE)
             {
                 size_t rri = rateRules.size();
                 rateRules[rule->getId()] = rri;
             }
-            else if (dynamic_cast<const AlgebraicRule*>(rule))
+            else if (rule->getTypeCode() == SBML_ALGEBRAIC_RULE)
             {
                 char* formula = SBML_formulaToL3String(rule->getMath());
                 Log(Logger::LOG_WARNING)

@@ -95,11 +95,10 @@ llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
-        const libsbml::Species *species = dynamic_cast<const libsbml::Species*>(
-                const_cast<libsbml::Model*>(this->model)->getElementBySId(ids[i]));
-
-        if(species)
+        const libsbml::SBase* sbase = const_cast<libsbml::Model*>(this->model)->getElementBySId(ids[i]);
+        if (sbase && sbase->getTypeCode() == libsbml::SBML_SPECIES)
         {
+            const libsbml::Species* species = static_cast<const libsbml::Species*>(sbase);
             if (species->getHasOnlySubstanceUnits())
             {
                 value->setName(ids[i] + "_amt");

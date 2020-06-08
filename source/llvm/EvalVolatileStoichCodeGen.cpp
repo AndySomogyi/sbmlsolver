@@ -142,8 +142,12 @@ Value* EvalVolatileStoichCodeGen::codeGen()
 bool EvalVolatileStoichCodeGen::isConstantSpeciesReference(
         const libsbml::SimpleSpeciesReference* ref) const
 {
-    const SpeciesReference *s = dynamic_cast<const SpeciesReference*>(ref);
-    if (!s)
+    const SpeciesReference* s = NULL;
+    if (ref->getTypeCode() == SBML_SPECIES_REFERENCE)
+    {
+        s = static_cast<const SpeciesReference*>(ref);
+    }
+    else
     {
         return false;
     }

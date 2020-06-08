@@ -202,7 +202,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         // Random adds mappings, need call after llvm objs created
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
         const DistribSBMLDocumentPlugin* distrib =
-                dynamic_cast<const DistribSBMLDocumentPlugin*>(
+                static_cast<const DistribSBMLDocumentPlugin*>(
                         doc->getPlugin("distrib"));
         if(distrib)
         {
@@ -315,7 +315,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         // Random adds mappings, need call after llvm objs created
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
         const DistribSBMLDocumentPlugin* distrib =
-                dynamic_cast<const DistribSBMLDocumentPlugin*>(
+                static_cast<const DistribSBMLDocumentPlugin*>(
                         _doc->getPlugin("distrib"));
         if(distrib)
         {

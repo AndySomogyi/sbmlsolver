@@ -86,8 +86,6 @@ void ModelResources::addGlobalMappings()
     using namespace llvm;
     Type *double_type = Type::getDoubleTy(*context);
     Type *int_type = Type::getInt32Ty(*context);
-    Type* args_i1[] = { int_type };
-    Type* args_d1[] = { double_type };
     Type* args_d2[] = { double_type, double_type };
 
     llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr);
