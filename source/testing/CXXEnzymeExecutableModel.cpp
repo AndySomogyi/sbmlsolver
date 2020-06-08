@@ -129,7 +129,7 @@ int CXXEnzymeExecutableModel::getFloatingSpeciesAmounts(size_t len, const int* i
 
         values[i] = value;
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 int CXXEnzymeExecutableModel::setFloatingSpeciesAmounts(size_t len, const int* indx,
@@ -450,7 +450,7 @@ int CXXEnzymeExecutableModel::getReactionRates(size_t len, const int* indx,
         }
         std::memcpy(values, reactionRates, len * sizeof(double));
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 void CXXEnzymeExecutableModel::getRateRuleValues(double* rateRuleValues)
