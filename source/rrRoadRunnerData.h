@@ -1,7 +1,16 @@
 #ifndef rrRoadRunnerDataH
 #define rrRoadRunnerDataH
 
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
 #include "rr-libstruct/lsMatrix.h"
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
+
 #include "rrExporter.h"
 
 #include <string>

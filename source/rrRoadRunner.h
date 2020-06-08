@@ -2,10 +2,19 @@
 #define rrRoadRunnerH
 
 #include "rrOSSpecifics.h"
-#include "rr-libstruct/lsMatrix.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerOptions.h"
 #include "sbml/Species.h"
+
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
+#include "rr-libstruct/lsMatrix.h"
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
 
 #include <string>
 #include <vector>

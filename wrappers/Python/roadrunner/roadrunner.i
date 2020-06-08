@@ -26,7 +26,15 @@
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
     #include <numpy/arrayobject.h>
+    #ifdef _MSC_VER
+    #pragma warning(disable: 26812)
+    #pragma warning(disable: 26451)
+    #endif
     #include <lsMatrix.h>
+    #ifdef _MSC_VER
+    #pragma warning(disable: 26812)
+    #pragma warning(disable: 26451)
+    #endif
     #include <lsLibla.h>
     #include <lsLA.h>
     #include <lsLUResult.h>
