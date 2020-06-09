@@ -79,10 +79,10 @@ inline bool checkExact(uint32_t type, uint32_t value) {
 }
 
 // make this static here, hide our implementation...
-static void addIds(rr::ExecutableModel *model, int start, int end,
+static void addIds(rr::ExecutableModel *model, size_t start, size_t end,
         getNamePtr nameFunc, std::list<std::string>& ids)
 {
-    for(int i = start; i < end; i++)
+    for(size_t i = start; i < end; i++)
     {
         const std::string& name  = (model->*nameFunc)(i);
         ids.push_back(name);
@@ -90,10 +90,10 @@ static void addIds(rr::ExecutableModel *model, int start, int end,
 }
 
 // make this static here, hide our implementation...
-static void addConcIds(rr::ExecutableModel *model, int start, int end,
+static void addConcIds(rr::ExecutableModel *model, size_t start, size_t end,
         getNamePtr nameFunc, std::list<std::string>& ids)
 {
-    for(int i = start; i < end; i++)
+    for(size_t i = start; i < end; i++)
     {
         const std::string& name  = "[" + (model->*nameFunc)(i) + "]";
         ids.push_back(name);
@@ -118,9 +118,9 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, size_t),
         size_t len, const int *indx, double *values)
 {
     double value;
-    for (int i = 0; i < len; ++i)
+    for (size_t i = 0; i < len; ++i)
     {
-        int j = indx ? indx[i] : i;
+        size_t j = indx ? indx[i] : i;
         value = funcPtr(modelData, j);
 
         if (isnan(value))
@@ -137,9 +137,9 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, size_t),
 int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
         GetNameFuncPtr getNameFuncPtr, size_t len, const int *indx, const double *values)
 {
-    for (int i = 0; i < len; ++i)
+    for (size_t i = 0; i < len; ++i)
     {
-        int j = indx ? indx[i] : i;
+        size_t j = indx ? indx[i] : i;
         bool result =  funcPtr(modelData, j, values[i]);
 
         if (!result)
@@ -949,7 +949,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     // always have the same value.
     //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
     //        && (SelectionRecord::INDEPENDENT & types)) {
-    //    for(int i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
+    //    for(size_t i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
     //        std::string gs = symbols->getGlobalParameterId(i);
     //        if(symbols->isIndependentGlobalParameter(gs)) {
     //            ids.push_back("init(" + gs + ")");
@@ -959,7 +959,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
 
     //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
     //        && (SelectionRecord::DEPENDENT & types)) {
-    //    for(int i = symbols->getIndependentGlobalParameterSize();
+    //    for(size_t i = symbols->getIndependentGlobalParameterSize();
     //            i < symbols->getGlobalParametersSize(); ++i) {
     //        std::string gs = symbols->getGlobalParameterId(i);
     //        if(symbols->isIndependentGlobalParameter(gs)) {
@@ -976,7 +976,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
             SelectionRecord::CONCENTRATION, types) &&
             (SelectionRecord::INDEPENDENT & types)) {
-        for (int i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
+        for (size_t i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
         }
     }
@@ -984,7 +984,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
             SelectionRecord::CONCENTRATION, types) &&
             (SelectionRecord::DEPENDENT & types)) {
-        for (int i = symbols->getInitFloatingSpeciesSize();
+        for (size_t i = symbols->getInitFloatingSpeciesSize();
                 i < symbols->getFloatingSpeciesSize(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
         }
@@ -993,7 +993,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
             SelectionRecord::AMOUNT, types) &&
             (SelectionRecord::INDEPENDENT & types)) {
-        for (int i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
+        for (size_t i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
         }
     }
@@ -1001,21 +1001,21 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
             SelectionRecord::AMOUNT, types) &&
             (SelectionRecord::DEPENDENT & types)) {
-        for (int i = symbols->getInitFloatingSpeciesSize();
+        for (size_t i = symbols->getInitFloatingSpeciesSize();
                 i < symbols->getFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
         }
     }
 
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
-        for (int i = 0; i < getNumIndFloatingSpecies(); ++i) {
+        for (size_t i = 0; i < getNumIndFloatingSpecies(); ++i) {
             ids.push_back(this->getFloatingSpeciesId(i) + "'");
         }
     }
 
     if (checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types)) {
 
-        for (int i = 0; i < symbols->getRateRuleSize(); ++i) {
+        for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
             ids.push_back(symbols->getRateRuleId(i) + "'");
         }
     }
@@ -1757,7 +1757,7 @@ int LLVMExecutableModel::getConservedMoietyValues(size_t len, const int* indx,
         double* values)
 {
     int result = 0;
-    for(int i = 0; i < len; ++i)
+    for(size_t i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
         int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(j);
@@ -1770,7 +1770,7 @@ int LLVMExecutableModel::setConservedMoietyValues(size_t len, const int* indx,
         const double* values)
 {
     int result = 0;
-    for(int i = 0; i < len; ++i)
+    for(size_t i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
         int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(j);
