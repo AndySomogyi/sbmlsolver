@@ -410,9 +410,6 @@ std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
 
 void LLVMModelDataSymbols::print() const
 {
-    uint i = 0;
-
-
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); i++)
     {

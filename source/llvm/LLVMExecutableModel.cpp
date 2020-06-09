@@ -1273,7 +1273,6 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
 {
     const SelectionRecord &sel = getSelection(id);
     int index = sel.index;
-    double result = 0;
 
     switch(sel.selectionType)
     {

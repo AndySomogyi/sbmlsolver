@@ -98,53 +98,23 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 
 	// code generation part
 
-	Function* evalInitialConditionsIR =
-		EvalInitialConditionsCodeGen(context).createFunction();
-
-	Function* evalReactionRatesIR =
-		EvalReactionRatesCodeGen(context).createFunction();
-
-	Function* getBoundarySpeciesAmountIR =
-		GetBoundarySpeciesAmountCodeGen(context).createFunction();
-
-	Function* getFloatingSpeciesAmountIR =
-		GetFloatingSpeciesAmountCodeGen(context).createFunction();
-
-	Function* getBoundarySpeciesConcentrationIR =
-		GetBoundarySpeciesConcentrationCodeGen(context).createFunction();
-
-	Function* getFloatingSpeciesConcentrationIR =
-		GetFloatingSpeciesConcentrationCodeGen(context).createFunction();
-
-	Function* getCompartmentVolumeIR =
-		GetCompartmentVolumeCodeGen(context).createFunction();
-
-	Function* getGlobalParameterIR =
-		GetGlobalParameterCodeGen(context).createFunction();
-
-	Function* evalRateRuleRatesIR =
-		EvalRateRuleRatesCodeGen(context).createFunction();
-
-	Function* getEventTriggerIR =
-		GetEventTriggerCodeGen(context).createFunction();
-
-	Function* getEventPriorityIR =
-		GetEventPriorityCodeGen(context).createFunction();
-
-	Function* getEventDelayIR =
-		GetEventDelayCodeGen(context).createFunction();
-
-	Function* eventTriggerIR =
-		EventTriggerCodeGen(context).createFunction();
-
-	Function* eventAssignIR =
-		EventAssignCodeGen(context).createFunction();
-
-	Function* evalVolatileStoichIR =
-		EvalVolatileStoichCodeGen(context).createFunction();
-
-	Function* evalConversionFactorIR =
-		EvalConversionFactorCodeGen(context).createFunction();
+	//Need to create these functions even though we don't use them directly.
+	EvalInitialConditionsCodeGen(context).createFunction();
+    EvalReactionRatesCodeGen(context).createFunction();
+    GetBoundarySpeciesAmountCodeGen(context).createFunction();
+    GetFloatingSpeciesAmountCodeGen(context).createFunction();
+    GetBoundarySpeciesConcentrationCodeGen(context).createFunction();
+    GetFloatingSpeciesConcentrationCodeGen(context).createFunction();
+    GetCompartmentVolumeCodeGen(context).createFunction();
+    GetGlobalParameterCodeGen(context).createFunction();
+    EvalRateRuleRatesCodeGen(context).createFunction();
+    GetEventTriggerCodeGen(context).createFunction();
+    GetEventPriorityCodeGen(context).createFunction();
+    GetEventDelayCodeGen(context).createFunction();
+    EventTriggerCodeGen(context).createFunction();
+    EventAssignCodeGen(context).createFunction();
+    EvalVolatileStoichCodeGen(context).createFunction();
+    EvalConversionFactorCodeGen(context).createFunction();
 
 	Function* setBoundarySpeciesAmountIR = 0;
 	Function* setBoundarySpeciesConcentrationIR;
@@ -700,53 +670,23 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     ModelGeneratorContext context(sbml, options);
 
-    Function* evalInitialConditionsIR =
-            EvalInitialConditionsCodeGen(context).createFunction();
-
-	Function* evalReactionRatesIR =
-            EvalReactionRatesCodeGen(context).createFunction();
-
-	Function* getBoundarySpeciesAmountIR =
-            GetBoundarySpeciesAmountCodeGen(context).createFunction();
-
-	Function* getFloatingSpeciesAmountIR =
-            GetFloatingSpeciesAmountCodeGen(context).createFunction();
-
-	Function* getBoundarySpeciesConcentrationIR =
-            GetBoundarySpeciesConcentrationCodeGen(context).createFunction();
-
-	Function* getFloatingSpeciesConcentrationIR =
-            GetFloatingSpeciesConcentrationCodeGen(context).createFunction();
-
-	Function* getCompartmentVolumeIR =
-            GetCompartmentVolumeCodeGen(context).createFunction();
-
-	Function* getGlobalParameterIR =
-            GetGlobalParameterCodeGen(context).createFunction();
-
-	Function* evalRateRuleRatesIR =
-            EvalRateRuleRatesCodeGen(context).createFunction();
-
-	Function* getEventTriggerIR =
-            GetEventTriggerCodeGen(context).createFunction();
-
-	Function* getEventPriorityIR =
-            GetEventPriorityCodeGen(context).createFunction();
-
-	Function* getEventDelayIR =
-            GetEventDelayCodeGen(context).createFunction();
-
-	Function* eventTriggerIR =
-            EventTriggerCodeGen(context).createFunction();
-
-	Function* eventAssignIR =
-            EventAssignCodeGen(context).createFunction();
-
-	Function* evalVolatileStoichIR =
-            EvalVolatileStoichCodeGen(context).createFunction();
-
-	Function* evalConversionFactorIR =
-            EvalConversionFactorCodeGen(context).createFunction();
+	//Need to create these functions even though we don't use them directly.
+	EvalInitialConditionsCodeGen(context).createFunction();
+    EvalReactionRatesCodeGen(context).createFunction();
+    GetBoundarySpeciesAmountCodeGen(context).createFunction();
+    GetFloatingSpeciesAmountCodeGen(context).createFunction();
+    GetBoundarySpeciesConcentrationCodeGen(context).createFunction();
+    GetFloatingSpeciesConcentrationCodeGen(context).createFunction();
+    GetCompartmentVolumeCodeGen(context).createFunction();
+    GetGlobalParameterCodeGen(context).createFunction();
+    EvalRateRuleRatesCodeGen(context).createFunction();
+    GetEventTriggerCodeGen(context).createFunction();
+    GetEventPriorityCodeGen(context).createFunction();
+    GetEventDelayCodeGen(context).createFunction();
+    EventTriggerCodeGen(context).createFunction();
+    EventAssignCodeGen(context).createFunction();
+    EvalVolatileStoichCodeGen(context).createFunction();
+    EvalConversionFactorCodeGen(context).createFunction();
 
 	Function* setBoundarySpeciesAmountIR = 0 ;
 	Function* setBoundarySpeciesConcentrationIR;

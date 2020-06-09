@@ -164,7 +164,6 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
     LLVMContext& context = module->getContext();
     llvm::ExecutionEngine *executionEngine = &ctx.getExecutionEngine();
     Type *double_type = Type::getDoubleTy(context);
-    Type *int_type = Type::getInt32Ty(context);
 
 
     // LLVM does not appear to have a true void ptr, so just use a pointer

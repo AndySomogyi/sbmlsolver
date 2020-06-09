@@ -563,7 +563,6 @@ llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
 
 llvm::Value *ModelDataIRBuilder::createRandomLoad()
 {
-    LLVMContext &context = builder.getContext();
     Value *randomEP = createGEP(RandomPtr);
     Value *randomPtr = builder.CreateLoad(randomEP, "randomPtr");
     return randomPtr;
@@ -780,8 +779,6 @@ void LLVMModelDataIRBuilderTesting::createAccessors(Module *module)
         for(Function::arg_iterator i = getSizeFunc->arg_begin();
                 i != getSizeFunc->arg_end(); i++)
         {
-            Value *v = i;
-            //v->dump();
             getArgValues.push_back(i);
         }
 
@@ -845,8 +842,6 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         for (Function::arg_iterator i = result.first->arg_begin();
                 i != result.first->arg_end(); i++)
         {
-            Value *v = i;
-            //v->dump();
             getArgValues.push_back(i);
 
         }
@@ -879,8 +874,6 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         for (Function::arg_iterator i = result.second->arg_begin();
                 i != result.second->arg_end(); i++)
         {
-            Value *v = i;
-            //v->dump();
             setArgValues.push_back(i);
 
         }

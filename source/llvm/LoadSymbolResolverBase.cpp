@@ -41,7 +41,6 @@ llvm::Value* LoadSymbolResolverBase::loadReactionRate(
 {
     const KineticLaw *kinetic = reaction->getKineticLaw();
     const ASTNode *math = 0;
-    Value *value = 0;
     ASTNode m(AST_REAL);
     if (kinetic)
     {
