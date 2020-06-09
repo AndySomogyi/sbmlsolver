@@ -40,7 +40,7 @@ using namespace rr;
 namespace rrllvm
 {
 
-Event::Event(LLVMExecutableModel& model, size_t id) :
+Event::Event(LLVMExecutableModel& model, uint id) :
         model(model),
         id(id),
         delay(model.getEventDelay(id)),
@@ -264,7 +264,7 @@ bool EventQueue::applyEvents()
     return applied;
 }
 
-size_t EventQueue::size() const
+uint EventQueue::size() const
 {
     return sequence.size();
 }
