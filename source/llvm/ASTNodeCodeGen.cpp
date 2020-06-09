@@ -310,7 +310,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'uniform' requires two"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -332,7 +332,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'normal' requires two or four"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -350,8 +350,8 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
-                << " args, but was given " << ast->getNumChildren();
+                << " 'bernoulli' requires only one"
+                << " arg, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
         break;
@@ -372,7 +372,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'binomial' requires two or four"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -398,7 +398,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'cauchy' requires one, two, or four"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -420,7 +420,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'chisquare' requires one or three"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -442,7 +442,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'exponential' requires one or three"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -464,7 +464,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'gamma' requires two or four"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -490,7 +490,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'laplace' requires one, two, or four"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -512,7 +512,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'lognormal' requires two or four"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -534,7 +534,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'poisson' requires one or three"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
@@ -556,7 +556,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string)func->getName() << " requires " << func->arg_size()
+                << " 'rayleigh' requires one or three"
                 << " args, but was given " << ast->getNumChildren();
             throw_llvm_exception(err.str());
         }
