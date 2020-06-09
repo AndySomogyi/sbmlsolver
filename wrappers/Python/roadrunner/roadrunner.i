@@ -1082,12 +1082,14 @@ namespace std { class ostream{}; }
 
             model = self.getModel()
             for s in model.getFloatingSpeciesIds():
-                makeProperty(s, "[" + s + "]")  # concentrations
+                makeProperty(s, "[" + s + "]")  # concentrations for backwards compatibility
+                makeProperty(s + "_conc", "[" + s + "]")  # concentrations
                 makeProperty(s + "_amt", s)     # amounts
 
 
             for s in model.getBoundarySpeciesIds():
-                makeProperty(s, "[" + s + "]")  # concentrations
+                makeProperty(s, "[" + s + "]")  # concentrations for backwards compatibility
+                makeProperty(s + "_conc", "[" + s + "]")  # concentrations
                 makeProperty(s + "_amt", s)     # amounts
 
 
