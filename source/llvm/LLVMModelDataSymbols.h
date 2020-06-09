@@ -525,7 +525,7 @@ public:
     /**
      * get the index of a compartment for a float species.
      */
-    int getCompartmentIndexForFloatingSpecies(uint floatIndex) const;
+    int getCompartmentIndexForFloatingSpecies(size_t floatIndex) const;
 
     /**
      * get the index of a global parameter initial value

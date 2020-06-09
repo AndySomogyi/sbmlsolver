@@ -257,7 +257,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     reset(SelectionRecord::ALL);
 }
 
-LLVMExecutableModel::LLVMExecutableModel(std::istream& in, size_t modelGeneratorOpt) :
+LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOpt) :
 	resources(new ModelResources()),
 	dirty(0),
 	conversionFactor(1.0),

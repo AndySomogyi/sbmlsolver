@@ -1021,7 +1021,7 @@ std::string LLVMModelDataSymbols::getGlobalParameterId(size_t indx) const
 }
 
 int LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
-        uint floatIndex) const
+        size_t floatIndex) const
 {
     if (floatIndex >= floatingSpeciesCompartmentIndices.size())
     {

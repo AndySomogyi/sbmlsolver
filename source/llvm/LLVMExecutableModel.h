@@ -82,7 +82,7 @@ public:
 	/*
 	* Loads a saved executable model
 	*/
-	LLVMExecutableModel(std::istream& in, size_t modelGeneratorOpt);
+	LLVMExecutableModel(std::istream& in, uint modelGeneratorOpt);
 
     virtual ~LLVMExecutableModel();
 

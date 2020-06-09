@@ -202,7 +202,7 @@ void csr_matrix_dgemv(double alpha, const csr_matrix* A, const double* x,
 }
 
 
-double csr_matrix_ddot(int row, const csr_matrix *A, const double *x)
+double csr_matrix_ddot(size_t row, const csr_matrix *A, const double *x)
 {
     assert(row < A->m && "invalid row");
     unsigned *rowptr = A->rowptr;
