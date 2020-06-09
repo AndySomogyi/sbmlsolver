@@ -22,7 +22,7 @@ class LLVMExecutableModel;
 class Event
 {
 public:
-    Event(LLVMExecutableModel&, uint id);
+    Event(LLVMExecutableModel&, size_t id);
     Event(const Event& other);
     Event& operator=( const Event& rhs );
     ~Event();
@@ -52,7 +52,7 @@ public:
 
 
     LLVMExecutableModel& model;
-    uint id;
+    size_t id;
     double delay;
     double assignTime;
     uint dataSize;
@@ -106,7 +106,7 @@ public:
     /**
      * number of events in the queue
      */
-    uint size() const;
+    size_t size() const;
 
     /**
      * event with lowest time to assignment and highest priority.
