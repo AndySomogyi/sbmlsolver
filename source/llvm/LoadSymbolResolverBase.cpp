@@ -88,13 +88,13 @@ void LoadSymbolResolverBase::flushCache()
     symbolCache.push_back(ValueMap());
 }
 
-unsigned LoadSymbolResolverBase::pushCacheBlock()
+size_t LoadSymbolResolverBase::pushCacheBlock()
 {
     symbolCache.push_back(ValueMap());
     return symbolCache.size();
 }
 
-unsigned LoadSymbolResolverBase::popCacheBlock()
+size_t LoadSymbolResolverBase::popCacheBlock()
 {
     if(symbolCache.empty()) {
         throw std::logic_error("attempt to pop from an empty symbol cache stack");
