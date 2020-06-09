@@ -189,13 +189,15 @@ std::string Variant::toString() const
 std::string Variant::pythonRepr() const
 {
     if (isBool()) {
-        switch (convert<bool>()) {
-          case true:
-              return "True";
-          case false:
-              return "False";
-        };
-    } else if (isString()) {
+        if (convert<bool>()) {
+            return "True";
+        }
+        else {
+            return "False";
+        }
+    } 
+    else if (isString()) 
+    {
         return "'" + toString() + "'";
     }
     return toString();
