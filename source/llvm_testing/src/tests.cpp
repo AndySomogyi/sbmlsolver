@@ -89,8 +89,6 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         ExecutionEngine &engine = c.getExecutionEngine();
 
-        StructType *s = ModelDataIRBuilder::getStructType(c.getModule());
-
         EvalInitialConditionsCodeGen iv(c);
 
         EvalInitialConditionsCodeGen::FunctionPtr pfunc;

@@ -359,8 +359,6 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*),std::string versi
 	string testName(UnitTest::CurrentTest::Details()->testName);
 	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
 
-	libsbml::SBMLDocument *doc;
-
 	try
 	{
 		Log(Logger::LOG_NOTICE) << "Running Test: " << testName << endl;

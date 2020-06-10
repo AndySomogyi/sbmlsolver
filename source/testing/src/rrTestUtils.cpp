@@ -17,7 +17,7 @@ DoubleMatrix ParseMatrixFromText(const string& textMatrix)
         {
         	if(!mat.size())
             {
-                mat.resize(rows.size(), values.size());
+                mat.resize(static_cast<unsigned int>(rows.size()), static_cast<unsigned int>(values.size()));
             }
 
             mat(row, col) = toDouble(values[col]);
