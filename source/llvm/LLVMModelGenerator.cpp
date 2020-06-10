@@ -1027,19 +1027,19 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
 {
     uint modelDataBaseSize = sizeof(LLVMModelData);
 
-    uint numIndCompartments = symbols.getIndependentCompartmentSize();
-    uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
-    uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
-    uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
+    uint numIndCompartments = static_cast<uint>(symbols.getIndependentCompartmentSize());
+    uint numIndFloatingSpecies = static_cast<uint>(symbols.getIndependentFloatingSpeciesSize());
+    uint numIndBoundarySpecies = static_cast<uint>(symbols.getIndependentBoundarySpeciesSize());
+    uint numIndGlobalParameters = static_cast<uint>(symbols.getIndependentGlobalParameterSize());
 
-    uint numInitCompartments = symbols.getInitCompartmentSize();
-    uint numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
-    uint numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
-    uint numInitGlobalParameters = symbols.getInitGlobalParameterSize();
+    uint numInitCompartments = static_cast<uint>(symbols.getInitCompartmentSize());
+    uint numInitFloatingSpecies = static_cast<uint>(symbols.getInitFloatingSpeciesSize());
+    uint numInitBoundarySpecies = static_cast<uint>(symbols.getInitBoundarySpeciesSize());
+    uint numInitGlobalParameters = static_cast<uint>(symbols.getInitGlobalParameterSize());
 
     // no initial conditions for these
-    uint numRateRules = symbols.getRateRuleSize();
-    uint numReactions = symbols.getReactionSize();
+    uint numRateRules = static_cast<uint>(symbols.getRateRuleSize());
+    uint numReactions = static_cast<uint>(symbols.getReactionSize());
 
     uint modelDataSize = modelDataBaseSize +
         sizeof(double) * (
@@ -1071,7 +1071,7 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
 
     modelData->numRateRules = numRateRules;
     modelData->numReactions = numReactions;
-    modelData->numEvents = symbols.getEventAttributes().size();
+    modelData->numEvents = static_cast<uint>(symbols.getEventAttributes().size());
 
     // set the aliases to the offsets
     uint offset = 0;

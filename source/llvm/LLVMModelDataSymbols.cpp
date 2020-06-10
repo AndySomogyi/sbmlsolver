@@ -1115,7 +1115,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, Reactant, r->getId()};
+                            {static_cast<uint>(speciesIdx), static_cast<uint>(i), Reactant, r->getId()};
                             namedSpeciesReferenceInfo[r->getId()] = info;
                         }
                         else
@@ -1145,7 +1145,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, MultiReactantProduct, r->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), MultiReactantProduct, r->getId()};
                             namedSpeciesReferenceInfo[r->getId()] = info;
                         }
                         else
@@ -1190,7 +1190,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 == namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            { speciesIdx, i, Product, p->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), Product, p->getId()};
                             namedSpeciesReferenceInfo[p->getId()] = info;
                         }
                         else
@@ -1220,7 +1220,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, MultiReactantProduct, p->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), MultiReactantProduct, p->getId()};
                             namedSpeciesReferenceInfo[p->getId()] = info;
                         }
                         else
