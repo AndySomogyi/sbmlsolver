@@ -131,7 +131,7 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, size_t),
 
         values[i] = value;
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
@@ -140,7 +140,7 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
     for (size_t i = 0; i < len; ++i)
     {
         size_t j = indx ? indx[i] : i;
-        bool result =  funcPtr(modelData, j, values[i]);
+        bool result =  funcPtr(modelData, static_cast<int>(j), values[i]);
 
         if (!result)
         {
@@ -164,7 +164,7 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
             throw_llvm_exception(s.str());
         }
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 LLVMExecutableModel::LLVMExecutableModel() :
@@ -330,36 +330,34 @@ double LLVMExecutableModel::getTime()
     return modelData->time;
 }
 
-
 int LLVMExecutableModel::getNumIndFloatingSpecies()
 {
-    return modelData->numIndFloatingSpecies;
+    return static_cast<int>(modelData->numIndFloatingSpecies);
 }
-
 
 int LLVMExecutableModel::getNumDepFloatingSpecies()
 {
-    return symbols->getFloatingSpeciesSize() - modelData->numIndFloatingSpecies;
+    return static_cast<int>(symbols->getFloatingSpeciesSize() - modelData->numIndFloatingSpecies);
 }
 
 int LLVMExecutableModel::getNumFloatingSpecies()
 {
-    return symbols->getFloatingSpeciesSize();
+    return static_cast<int>(symbols->getFloatingSpeciesSize());
 }
 
 int LLVMExecutableModel::getNumBoundarySpecies()
 {
-    return symbols->getBoundarySpeciesSize();
+    return static_cast<int>(symbols->getBoundarySpeciesSize());
 }
 
 int LLVMExecutableModel::getNumGlobalParameters()
 {
-    return symbols->getGlobalParametersSize();
+    return static_cast<int>(symbols->getGlobalParametersSize());
 }
 
 int LLVMExecutableModel::getNumCompartments()
 {
-    return symbols->getCompartmentsSize();
+    return static_cast<int>(symbols->getCompartmentsSize());
 }
 
 int LLVMExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index) 
@@ -369,7 +367,7 @@ int LLVMExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
 
 int LLVMExecutableModel::getNumReactions()
 {
-    return modelData->numReactions;
+    return static_cast<int>(modelData->numReactions);
 }
 
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(size_t len, int const *indx,
@@ -1406,7 +1404,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
 
     free(dydt);
     free(volumes);
-    return len;
+    return static_cast<int>(len);
 }
 
 int LLVMExecutableModel::setBoundarySpeciesAmounts(size_t len, const int* indx,
@@ -1557,7 +1555,7 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx,
             }
         }
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 int LLVMExecutableModel::setFloatingSpeciesConcentrations(size_t len,
@@ -1618,7 +1616,7 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(size_t len,
             }
         }
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesAmounts(size_t len, const int* indx,
@@ -1730,12 +1728,12 @@ int LLVMExecutableModel::getReactionRates(size_t len, const int* indx,
         }
         std::memcpy(values, modelData->reactionRatesAlias, len * sizeof(double));
     }
-    return len;
+    return static_cast<int>(len);
 }
 
 int LLVMExecutableModel::getNumConservedMoieties()
 {
-    return symbols->getConservedMoietySize();
+    return static_cast<int>(symbols->getConservedMoietySize());
 }
 
 int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
@@ -1759,8 +1757,8 @@ int LLVMExecutableModel::getConservedMoietyValues(size_t len, const int* indx,
     int result = 0;
     for(size_t i = 0; i < len; ++i)
     {
-        int j = indx ? indx[i] : i;
-        int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(j);
+        size_t j = indx ? indx[i] : i;
+        int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(static_cast<int>(j));
         result += getGlobalParameterValues(1, &gpIndex, &values[i]);
     }
     return result;
@@ -1772,8 +1770,8 @@ int LLVMExecutableModel::setConservedMoietyValues(size_t len, const int* indx,
     int result = 0;
     for(size_t i = 0; i < len; ++i)
     {
-        int j = indx ? indx[i] : i;
-        int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(j);
+        size_t j = indx ? indx[i] : i;
+        int gpIndex = symbols->getConservedMoietyGlobalParameterIndex(static_cast<int>(j));
         result += setGlobalParameterValues(1, &gpIndex, &values[i]);
     }
     return result;
@@ -1804,7 +1802,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(size_t len,
     }
 
     free(dydt);
-    return len;
+    return static_cast<int>(len);
 }
 
 
@@ -1833,7 +1831,7 @@ int LLVMExecutableModel::getRateRueRates(size_t len,
     }
 
     free(dydt);
-    return len;
+    return static_cast<int>(len);
 }
 
 
@@ -1926,7 +1924,7 @@ int LLVMExecutableModel::getEventTriggers(size_t len, const int *indx, unsigned 
                 throw LLVMException("index out of range");
             }
         }
-        return len;
+        return static_cast<int>(len);
     }
 }
 
