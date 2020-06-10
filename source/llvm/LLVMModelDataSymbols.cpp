@@ -1258,7 +1258,7 @@ bool LLVMModelDataSymbols::isValidFloatingSpeciesReference(
     string err = "the species reference with id ";
     err += string("\'" + ref->getId() + "\', ");
     err += "which references species ";
-    string("\'" + id + "\', ");
+    err += string("\'" + id + "\', ");
     err += "is NOT a valid " + reacOrProd + " reference, ";
     // figure out what kind of thing we have and give a warning
     if (hasAssignmentRule(id))
