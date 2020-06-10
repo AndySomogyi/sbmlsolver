@@ -223,8 +223,6 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 	string testName(UnitTest::CurrentTest::Details()->testName);
 	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
 
-	libsbml::SBMLDocument *doc;
-
 	try
 	{
 		Log(Logger::LOG_NOTICE) << "Running Test: " << testName << endl;

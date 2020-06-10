@@ -33,7 +33,7 @@ ls::DoubleMatrix getDoubleMatrixFromString(const string& textMatrix)
         {
         	if(!mat.size())
             {
-                mat.resize(rows.size(), values.size());
+                mat.resize(static_cast<unsigned int>(rows.size()), static_cast<unsigned int>(values.size()));
             }
 
             mat(row, col) = toDouble(values[col]);
@@ -55,7 +55,7 @@ ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix)
         {
         	if(!mat.size())
             {
-                mat.resize(rows.size(), values.size());
+                mat.resize(static_cast<unsigned int>(rows.size()), static_cast<unsigned int>(values.size()));
             }
 
             std::complex<double> val = toComplex(values[col]);

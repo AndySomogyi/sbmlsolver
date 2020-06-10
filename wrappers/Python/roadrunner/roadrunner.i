@@ -81,8 +81,6 @@
 
 // Windows is just so special...
 #ifdef _WIN32
-    #define INFINITY (DBL_MAX + DBL_MAX)
-    #define NAN (INFINITY - INFINITY)
     #define isnan _isnan
 #else
     #include <signal.h>
@@ -201,7 +199,7 @@
 %typemap(out) std::vector<double> {
 
     size_t len = $1.size();
-    npy_intp dims[1] = {len};
+    npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
     VERIFY_PYARRAY(array);
@@ -240,7 +238,7 @@
 
     if (iscpx) {
         size_t len = $1.size();
-        npy_intp dims[1] = {len};
+        npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
         VERIFY_PYARRAY(array);
@@ -257,7 +255,7 @@
         $result  = array;
     } else {
         size_t len = $1.size();
-        npy_intp dims[1] = {len};
+        npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
         VERIFY_PYARRAY(array);
@@ -427,7 +425,7 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
         indx = 0;
     }
 
-    npy_intp dims[1] = {len};
+    npy_intp dims[1] = {static_cast<npy_intp>(len)};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
     VERIFY_PYARRAY(array);
 
@@ -941,7 +939,7 @@ namespace std { class ostream{}; }
 
         ($self)->getIds(types, ids);
 
-        unsigned size = ids.size();
+        size_t size = ids.size();
 
         PyObject* pyList = PyList_New(size);
 
@@ -964,7 +962,7 @@ namespace std { class ostream{}; }
 
         const std::vector<rr::SelectionRecord>& selections = ($self)->getSelections();
 
-        unsigned size = selections.size();
+        size_t size = selections.size();
 
         PyObject *pysel = PyList_New(size);
 
@@ -987,7 +985,7 @@ namespace std { class ostream{}; }
 
         const std::vector<rr::SelectionRecord>& selections = ($self)->getSteadyStateSelections();
 
-        unsigned size = selections.size();
+        size_t size = selections.size();
 
         PyObject *pysel = PyList_New(size);
 
@@ -1970,7 +1968,7 @@ namespace std { class ostream{}; }
 
         ($self)->getIds(types, ids);
 
-        unsigned size = ids.size();
+        size_t size = ids.size();
 
         PyObject* pyList = PyList_New(size);
 
