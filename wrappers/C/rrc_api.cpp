@@ -959,7 +959,7 @@ int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->getNumberOfGlobalParameters();
+        return static_cast<int>(rri->getNumberOfGlobalParameters());
     catch_int_macro
 }
 
@@ -1324,7 +1324,7 @@ RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
 
     RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
 
-    matrix->RSize = eigen.size();
+    matrix->RSize = static_cast<int>(eigen.size());
     matrix->CSize = 2;
     int dim =  matrix->RSize * matrix->CSize;
     if(dim)
@@ -1435,7 +1435,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 int rrcCallConv getNumRegisteredIntegrators()
 {
 	start_try;
-		return IntegratorFactory::getInstance().getNumIntegrators();
+		return static_cast<int>(IntegratorFactory::getInstance().getNumIntegrators());
     catch_int_macro
 }
 
@@ -1476,7 +1476,7 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        return rri->getExistingIntegratorNames().size();
+        return static_cast<int>(rri->getExistingIntegratorNames().size());
     catch_int_macro
 }
 
@@ -1535,7 +1535,7 @@ int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle)
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
 	    vector<std::string> keys = rri->getIntegrator()->getSettings();
-		return keys.size();
+		return static_cast<int>(keys.size());
     catch_int_macro
 }
 
@@ -2301,7 +2301,7 @@ int rrcCallConv getCurrentIntegratorParameterDoubleArray(RRHandle handle, char* 
 			ptr[i] = v[i];
 		}
 		*value = ptr;
-		*len = v.size();
+		*len = static_cast<int>(v.size());
 		return true;
 	catch_int_macro
 }
@@ -2356,7 +2356,7 @@ int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, char* s
 int rrcCallConv getNumRegisteredSteadyStateSolvers()
 {
     start_try;
-        return SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers();
+        return static_cast<int>(SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers());
     catch_int_macro
 }
 
@@ -2448,7 +2448,7 @@ int rrcCallConv getNumberOfCurrentSteadyStateSolverParameters (RRHandle handle)
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
         vector<std::string> keys = rri->getSteadyStateSolver()->getSettings();
-        return keys.size();
+        return static_cast<int>(keys.size());
     catch_int_macro
 }
 
