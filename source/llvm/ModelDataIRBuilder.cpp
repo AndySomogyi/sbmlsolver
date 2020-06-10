@@ -602,19 +602,19 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
     if (!structType)
     {
         // these have initial conditions, so need to allocate them twice
-        uint numIndCompartments = symbols.getIndependentCompartmentSize();
-        uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
-        uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
-        uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
+        size_t   numIndCompartments = symbols.getIndependentCompartmentSize();
+        size_t   numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
+        size_t   numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
+        size_t   numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
 
-        uint numInitCompartments = symbols.getInitCompartmentSize();
-        uint numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
-        uint numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
-        uint numInitGlobalParameters = symbols.getInitGlobalParameterSize();
+        size_t   numInitCompartments = symbols.getInitCompartmentSize();
+        size_t   numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
+        size_t   numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
+        size_t   numInitGlobalParameters = symbols.getInitGlobalParameterSize();
 
         // no initial conditions for these
-        uint numRateRules = symbols.getRateRuleSize();
-        uint numReactions = symbols.getReactionSize();
+        size_t   numRateRules = symbols.getRateRuleSize();
+        size_t   numReactions = symbols.getReactionSize();
 
         LLVMContext &context = module->getContext();
 
@@ -688,7 +688,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
 
         // make sure we can get the struct in the future
         assert(module->getTypeByName(LLVMModelDataName) &&
-                "Could not get LLVMModelData struct from llvm module after createing it");
+                "Could not get LLVMModelData struct from llvm module after creating it");
     }
     return structType;
 }
