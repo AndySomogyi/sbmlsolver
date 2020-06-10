@@ -181,31 +181,31 @@ static bool isSetConstant(const SBase* e, bool& isSetConst)
     case SBML_SPECIES:
     {
         const Species* species = static_cast<const Species*>(e);
-        isSetConst = species->isSetConstant();
+        isSetConst = species->getConstant();
         break;
     }
     case SBML_COMPARTMENT:
     {
         const Compartment* comp = static_cast<const Compartment*>(e);
-        isSetConst = comp->isSetConstant();
+        isSetConst = comp->getConstant();
         break;
     }
     case SBML_PARAMETER:
     {
         const Parameter* param = static_cast<const Parameter*>(e);
-        isSetConst = param->isSetConstant();
+        isSetConst = param->getConstant();
         break;
     }
     case SBML_LOCAL_PARAMETER:
     {
         const LocalParameter* lp = static_cast<const LocalParameter*>(e);
-        isSetConst = lp->isSetConstant();
+        isSetConst = lp->getConstant();
         break;
     }
     case SBML_SPECIES_REFERENCE:
     {
         const SpeciesReference* sr = static_cast<const SpeciesReference*>(e);
-        isSetConst = sr->isSetConstant();
+        isSetConst = sr->getConstant();
         break;
     }
     }
