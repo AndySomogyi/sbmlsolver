@@ -315,7 +315,7 @@ PyObject* dictionary_keys(const Dictionary* dict)
 {
     std::vector<std::string> keys = dict->getKeys();
 
-    unsigned size = keys.size();
+    size_t size = keys.size();
 
     PyObject* pyList = PyList_New(size);
 
@@ -335,7 +335,7 @@ PyObject* dictionary_values(const Dictionary* dict)
 {
     std::vector<std::string> keys = dict->getKeys();
 
-    unsigned size = keys.size();
+    size_t size = keys.size();
 
     PyObject* pyList = PyList_New(size);
 
@@ -355,7 +355,7 @@ PyObject* dictionary_items(const Dictionary* dict)
 {
     std::vector<std::string> keys = dict->getKeys();
 
-    unsigned size = keys.size();
+    size_t size = keys.size();
 
     PyObject* pyList = PyList_New(size);
 
@@ -718,15 +718,15 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
         char* keyName = rrPyString_AsString(op);
 
         PyObject *colSeq = PySequence_Fast(self->colNames, "expected a sequence");
-        int len = PySequence_Size(colSeq);
+        Py_ssize_t len = PySequence_Size(colSeq);
         for (int col = 0; col < len; col++) {
             PyObject *item = PySequence_Fast_GET_ITEM(colSeq, col);
             char* itemStr = rrPyString_AsString(item);
 
             if(strcmp(keyName, itemStr) == 0) {
 
-                int rows = PyArray_DIM(self, 0);
-                int cols = PyArray_DIM(self, 1);
+                npy_intp rows = PyArray_DIM(self, 0);
+                npy_intp cols = PyArray_DIM(self, 1);
 
                 npy_intp dims[1] = {rows};
                 PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
@@ -761,8 +761,8 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
 
             if(strcmp(keyName, itemStr) == 0) {
 
-                int rows = PyArray_DIM(self, 0);
-                int cols = PyArray_DIM(self, 1);
+                npy_intp rows = PyArray_DIM(self, 0);
+                npy_intp cols = PyArray_DIM(self, 1);
 
                 npy_intp dims[1] = {cols};
                 PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
@@ -946,7 +946,7 @@ PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
 
 PyObject* stringvector_to_py(const std::vector<std::string>& vec)
 {
-    unsigned size = vec.size();
+    size_t size = vec.size();
 
     PyObject* pyList = PyList_New(size);
 
@@ -968,7 +968,7 @@ std::vector<std::string> py_to_stringvector(PyObject* obj)
     if(obj) {
         PyObject *seq = PySequence_Fast(obj, "expected a sequence");
         if(obj) {
-            unsigned len = PySequence_Size(obj);
+            Py_ssize_t len = PySequence_Size(obj);
             if (PyList_Check(seq))
                 for (unsigned i = 0; i < len; i++) {
                     PyObject *item = PyList_GET_ITEM(seq, i);
@@ -1065,15 +1065,15 @@ static int longestStrLen(const str_vector& s) {
     for(str_vector::const_iterator i = s.begin(); i != s.end(); ++i) {
         longest = std::max(longest, i->length());
     }
-    return longest;
+    return static_cast<int>(longest);
 }
 
 static std::string array_format(PyArrayObject *arr,
         const str_vector& rowNames, const str_vector& colNames) {
 
     unsigned ndim = PyArray_NDIM(arr);
-    unsigned rows = ndim > 0 ? PyArray_DIM(arr, 0) : 0;
-    unsigned cols = ndim > 1 ? PyArray_DIM(arr, 1) : 0;
+    npy_intp rows = ndim > 0 ? PyArray_DIM(arr, 0) : 0;
+    npy_intp cols = ndim > 1 ? PyArray_DIM(arr, 1) : 0;
 
     assert(rows > 0 && cols > 0);
 
@@ -1141,8 +1141,8 @@ PyObject *NamedArray_repr(NamedArrayObject *self)
     str_vector colNames = py_to_stringvector(self->colNames);
 
     unsigned ndim = PyArray_NDIM(array);
-    unsigned rows = ndim > 0 ? PyArray_DIM(array, 0) : 0;
-    unsigned cols = ndim > 1 ? PyArray_DIM(array, 1) : 0;
+    npy_intp rows = ndim > 0 ? PyArray_DIM(array, 0) : 0;
+    npy_intp cols = ndim > 1 ? PyArray_DIM(array, 1) : 0;
 
     if(rows == 0 || cols == 0) {
         return PyArray_Type.tp_str((PyObject*)self);

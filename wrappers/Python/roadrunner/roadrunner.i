@@ -25,6 +25,7 @@
     // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
+    #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
     #ifdef _MSC_VER
     #pragma warning(disable: 26812)
@@ -2341,7 +2342,8 @@ namespace std { class ostream{}; }
         npy_intp dims[2] = {rows, cols};
 
         PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                NPY_CARRAY | NPY_OWNDATA, NULL);
+                NPY_ARRAY_CARRAY | NPY_ARRAY_OWNDATA, NULL);
+
         VERIFY_PYARRAY(pArray);
 
         return pArray;
