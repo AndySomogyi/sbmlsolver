@@ -9,6 +9,8 @@
 // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
 #define NO_IMPORT_ARRAY
 #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
+//Still using some of deprecated API
+//#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 #include <stdexcept>
 #include <string>
@@ -581,13 +583,13 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, 
                 int nd = 1;
                 npy_intp dims[1] = {rows};
                 pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
-                        NULL, data, 0, NPY_CARRAY, NULL);
+                        NULL, data, 0, NPY_ARRAY_CARRAY, NULL);
             }
             else {
                 int nd = 2;
                 npy_intp dims[2] = {rows, cols};
                 pArray = NamedArray_New(nd, dims, data,
-                        NPY_CARRAY, mat);
+                        NPY_ARRAY_CARRAY, mat);
             }
 
             VERIFY_PYARRAY(pArray);
@@ -730,7 +732,7 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
 
                 npy_intp dims[1] = {rows};
                 PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
-                        NPY_CARRAY, NULL);
+                    NPY_ARRAY_CARRAY, NULL);
 
                 // copy data to result array
                 double* data = (double*)PyArray_DATA(self);
@@ -766,7 +768,7 @@ static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op)
 
                 npy_intp dims[1] = {cols};
                 PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
-                        NPY_CARRAY, NULL);
+                    NPY_ARRAY_CARRAY, NULL);
 
                 // copy data to result array
                 double* data = (double*)PyArray_DATA(self);
