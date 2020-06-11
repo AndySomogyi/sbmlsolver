@@ -2,10 +2,19 @@
 #define rrRoadRunnerH
 
 #include "rrOSSpecifics.h"
-#include "rr-libstruct/lsMatrix.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerOptions.h"
 #include "sbml/Species.h"
+
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
+#include "rr-libstruct/lsMatrix.h"
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
 
 #include <string>
 #include <vector>
@@ -1445,7 +1454,7 @@ public:
      * @internal
      * @deprecated use ExecutableModel::getNumGlobalParameters
      */
-    RR_DEPRECATED(int getNumberOfGlobalParameters());
+    RR_DEPRECATED(size_t getNumberOfGlobalParameters());
 
     /**
      * @internal
@@ -1517,8 +1526,8 @@ private:
     void fixDependentSpeciesValues(int except, double* ref);
 
 
-    int createDefaultSteadyStateSelectionList();
-    int createDefaultTimeCourseSelectionList();
+    size_t createDefaultSteadyStateSelectionList();
+    size_t createDefaultTimeCourseSelectionList();
 
     /**
      * copies the current selection values into the n'th row of the
@@ -1535,7 +1544,7 @@ private:
     bool populateResult();
 
 
-    double getNthSelectedOutput(unsigned index, double currentTime);
+    double getNthSelectedOutput(size_t index, double currentTime);
 
 	bool isParameterUsed(const std::string& sid);
 
@@ -1569,7 +1578,7 @@ private:
      * creates a selection list from the amounts / conc / variables ivars of the
      * SimulationOptions struct.
      */
-    int createTimeCourseSelectionList();
+    size_t createTimeCourseSelectionList();
 
     std::vector<SelectionRecord> getSelectionList();
 

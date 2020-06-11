@@ -221,7 +221,7 @@ public:
     /**
      * get the symbolic id of the i'th rate rule
      */
-    std::string getRateRuleId(uint indx) const;
+    std::string getRateRuleId(size_t indx) const;
 
     /**
      * number of global parameters which are not determined by rules.
@@ -250,13 +250,13 @@ public:
     /**
      * get the symbolic id of the i'th floating species.
      */
-    std::string getFloatingSpeciesId(uint indx) const;
+    std::string getFloatingSpeciesId(size_t indx) const;
 
 
     /**
      * find the id of the given global parameter index.
      */
-    std::string getGlobalParameterId(uint indx) const;
+    std::string getGlobalParameterId(size_t indx) const;
 
     /**
      * total size of all floating species.
@@ -396,7 +396,7 @@ public:
     /**
      * find the id of the given conserved moiety index.
      */
-    std::string getConservedMoietyId(uint indx) const;
+    std::string getConservedMoietyId(size_t indx) const;
 
     /**
      * get the id of a conserved moiety given its name.
@@ -455,7 +455,7 @@ public:
      * get the size (in number of doubles) of the buffer
      * that events need to save the event data to.
      */
-    size_t getEventBufferSize(uint eventId) const;
+    size_t getEventBufferSize(size_t eventId) const;
 
     /**
      * the the row indices of non-zero stoichiometry values
@@ -506,7 +506,7 @@ public:
      * is this global parameter id an independent init param --
      * a global param without an init assignment rule.
      */
-    bool isIndependentInitGlobalParameter(uint id) const;
+    bool isIndependentInitGlobalParameter(size_t id) const;
 
     /**
      * get the index of a floating species initial value.
@@ -525,7 +525,7 @@ public:
     /**
      * get the index of a compartment for a float species.
      */
-    int getCompartmentIndexForFloatingSpecies(uint floatIndex) const;
+    int getCompartmentIndexForFloatingSpecies(size_t floatIndex) const;
 
     /**
      * get the index of a global parameter initial value
@@ -541,7 +541,7 @@ public:
 
     std::vector<std::string> getEventIds() const;
 
-    std::string getEventId(uint indx) const;
+    std::string getEventId(size_t indx) const;
 
     int getEventIndex(const std::string& id) const;
 

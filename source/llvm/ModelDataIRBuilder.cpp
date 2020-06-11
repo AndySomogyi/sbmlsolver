@@ -16,7 +16,19 @@
 #include <vector>
 #include <sstream>
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
 #include "llvm/ADT/APInt.h"
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 
 using namespace libsbml;
@@ -551,7 +563,6 @@ llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
 
 llvm::Value *ModelDataIRBuilder::createRandomLoad()
 {
-    LLVMContext &context = builder.getContext();
     Value *randomEP = createGEP(RandomPtr);
     Value *randomPtr = builder.CreateLoad(randomEP, "randomPtr");
     return randomPtr;
@@ -591,19 +602,19 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
     if (!structType)
     {
         // these have initial conditions, so need to allocate them twice
-        uint numIndCompartments = symbols.getIndependentCompartmentSize();
-        uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
-        uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
-        uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
+        size_t   numIndCompartments = symbols.getIndependentCompartmentSize();
+        size_t   numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
+        size_t   numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
+        size_t   numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
 
-        uint numInitCompartments = symbols.getInitCompartmentSize();
-        uint numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
-        uint numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
-        uint numInitGlobalParameters = symbols.getInitGlobalParameterSize();
+        size_t   numInitCompartments = symbols.getInitCompartmentSize();
+        size_t   numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
+        size_t   numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
+        size_t   numInitGlobalParameters = symbols.getInitGlobalParameterSize();
 
         // no initial conditions for these
-        uint numRateRules = symbols.getRateRuleSize();
-        uint numReactions = symbols.getReactionSize();
+        size_t   numRateRules = symbols.getRateRuleSize();
+        size_t   numReactions = symbols.getReactionSize();
 
         LLVMContext &context = module->getContext();
 
@@ -677,7 +688,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
 
         // make sure we can get the struct in the future
         assert(module->getTypeByName(LLVMModelDataName) &&
-                "Could not get LLVMModelData struct from llvm module after createing it");
+                "Could not get LLVMModelData struct from llvm module after creating it");
     }
     return structType;
 }
@@ -768,8 +779,6 @@ void LLVMModelDataIRBuilderTesting::createAccessors(Module *module)
         for(Function::arg_iterator i = getSizeFunc->arg_begin();
                 i != getSizeFunc->arg_end(); i++)
         {
-            Value *v = i;
-            //v->dump();
             getArgValues.push_back(i);
         }
 
@@ -833,8 +842,6 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         for (Function::arg_iterator i = result.first->arg_begin();
                 i != result.first->arg_end(); i++)
         {
-            Value *v = i;
-            //v->dump();
             getArgValues.push_back(i);
 
         }
@@ -867,8 +874,6 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         for (Function::arg_iterator i = result.second->arg_begin();
                 i != result.second->arg_end(); i++)
         {
-            Value *v = i;
-            //v->dump();
             setArgValues.push_back(i);
 
         }

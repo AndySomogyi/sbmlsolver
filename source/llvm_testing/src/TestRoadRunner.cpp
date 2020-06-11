@@ -422,7 +422,7 @@ void TestRoadRunner::testCons2(const std::string& fname)
 
     conv.setDocument(doc);
 
-    int result = conv.convert();
+    conv.convert();
 
     SBMLDocument *newDoc = conv.getDocument();
 

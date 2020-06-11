@@ -30,7 +30,7 @@ bool BasicDictionary::hasKey(const std::string& key) const
     return items.find(key) != items.end();
 }
 
-int  BasicDictionary::deleteItem(const std::string& key)
+size_t  BasicDictionary::deleteItem(const std::string& key)
 {
     return items.erase(key);
 }

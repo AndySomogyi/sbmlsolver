@@ -27,12 +27,26 @@
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 #include "SBMLValidator.h"
-#include "llvm/LLVMExecutableModel.h"
 #include "sbml/ListOf.h"
 #include "sbml/Model.h"
 #include "sbml/math/FormulaParser.h"
+
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
+#include "llvm/LLVMExecutableModel.h"
 #include "llvm/ModelResources.h"
-#include <llvm/IR/IRBuilder.h>
+#include "llvm/IR/IRBuilder.h"
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 #include <sbml/conversion/SBMLLocalParameterConverter.h>
 #include <sbml/conversion/SBMLLevelVersionConverter.h>
@@ -66,7 +80,7 @@ typedef std::vector<std::string> string_vector;
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
 // fun ptrs.
-typedef string (ExecutableModel::*GetNameFuncPtr)(int);
+typedef string (ExecutableModel::*GetNameFuncPtr)(size_t);
 typedef int (ExecutableModel::*GetNumFuncPtr)();
 
 // make this static here, hide our implementation...
@@ -642,11 +656,11 @@ string RoadRunner::getTempDir()
     return impl->loadOpt.getItem("tempDir");
 }
 
-int RoadRunner::createDefaultTimeCourseSelectionList()
+size_t RoadRunner::createDefaultTimeCourseSelectionList()
 {
     vector<string> selections;
     vector<string> oFloating  = getFloatingSpeciesIds();
-    int numFloatingSpecies = oFloating.size();
+    size_t numFloatingSpecies = oFloating.size();
     //int numIndSpecies = getNumberOfIndependentSpecies();
 
     // add floating species to the default selection
@@ -689,7 +703,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
     return impl->mSelectionList.size();
 }
 
-int RoadRunner::createTimeCourseSelectionList()
+size_t RoadRunner::createTimeCourseSelectionList()
 {
     // make a list out of the values in the settings,
     // will always have at least a "time" at the first item.
@@ -905,7 +919,7 @@ double RoadRunner::getValue(const SelectionRecord& record)
     return dResult;
 }
 
-double RoadRunner::getNthSelectedOutput(unsigned index, double currentTime)
+double RoadRunner::getNthSelectedOutput(size_t index, double currentTime)
 {
     const SelectionRecord &record = impl->mSelectionList[index];
 
@@ -948,8 +962,8 @@ void RoadRunner::getSelectedValues(std::vector<double>& results,
     assert(results.size() == impl->mSelectionList.size()
             && "given vector and selection list different size");
 
-    u_int size = results.size();
-    for (u_int i = 0; i < size; ++i)
+    size_t size = results.size();
+    for (size_t i = 0; i < size; ++i)
     {
         results[i] = getNthSelectedOutput(i, currentTime);
     }
@@ -1290,7 +1304,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     // create selections
     vector<string> ss_selections_with_time;
     vector<string> ss_selections = getSteadyStateSelectionStrings();
-    int num_ss_sel = ss_selections.size();
+    size_t num_ss_sel = ss_selections.size();
 
     ss_selections_with_time.push_back("time");
     for (int i = 0; i < num_ss_sel; i++)
@@ -1313,7 +1327,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     self.simulateOpt.duration = duration;
     self.simulateOpt.steps = steps;
     double tol = 0;
-    int l = self.mSelectionList.size();
+    size_t l = self.mSelectionList.size();
     double* vals1 = new double[l];
     double* vals2 = new double[l];
 
@@ -1634,7 +1648,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // used only for initializing double matrices for fixed time step simulations
     // if writing to output file, this is kRowsPerWrite, i.e. the buffer matrix size
     // otherwise this is just the full matrix size
-    int bufSize = writeToFile ? kRowsPerWrite : (self.simulateOpt.steps + 1);
+    unsigned int bufSize = writeToFile ? kRowsPerWrite : (self.simulateOpt.steps + 1);
     if (writeToFile) {
         std::string outfname = changeFileExtensionTo(self.simulateOpt.output_file, ".csv");
         Log(Logger::LOG_DEBUG) << "Writing simulation result to output file '" << outfname
@@ -1761,7 +1775,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         // stuff list values into result matrix
-        self.simulationResult.resize(results.size(), row.size());
+        self.simulationResult.resize(static_cast<unsigned int>(results.size()), static_cast<unsigned int>(row.size()));
         uint rowi = 0;
         for (DoubleVectorList::const_iterator i = results.begin();
                 i != results.end(); ++i, ++rowi)
@@ -1789,7 +1803,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         const double hstep = (timeEnd - timeStart) / (numPoints - 1);
-        int nrCols = self.mSelectionList.size();
+        unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
@@ -1866,7 +1880,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
 
         double hstep = (timeEnd - timeStart) / (numPoints - 1);
-        int nrCols = self.mSelectionList.size();
+        unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
         Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
@@ -2139,7 +2153,7 @@ std::vector<double> RoadRunner::getIndependentRatesOfChange()
 
     vector<string> idfsId = getIndependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int nindep = idfsId.size();
+    size_t nindep = idfsId.size();
     std::vector<double> v(nindep);
 
     std::vector<double> rate = getRatesOfChange();
@@ -2147,7 +2161,7 @@ std::vector<double> RoadRunner::getIndependentRatesOfChange()
     for (int i = 0; i < nindep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v[i] = rate[index];
     }
@@ -2161,7 +2175,7 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray()
 
     vector<string> idfsId = getIndependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int nindep = idfsId.size();
+    unsigned int nindep = static_cast<unsigned int>(idfsId.size());
     DoubleMatrix v(1, nindep);
 
     DoubleMatrix rate = getRatesOfChangeNamedArray();
@@ -2169,7 +2183,7 @@ DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray()
     for (int i = 0; i < nindep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v(0, i) = rate[0][index];
     }
@@ -2185,7 +2199,7 @@ std::vector<double> RoadRunner::getDependentRatesOfChange()
 
     vector<string> dfsId = getDependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int ndep = dfsId.size();
+    size_t ndep = dfsId.size();
     std::vector<double> v(ndep);
 
     std::vector<double> rate = getRatesOfChange();
@@ -2193,7 +2207,7 @@ std::vector<double> RoadRunner::getDependentRatesOfChange()
     for (int i = 0; i < ndep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v[i] = rate[index];
     }
@@ -2207,7 +2221,7 @@ DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray()
 
     vector<string> dfsId = getDependentFloatingSpeciesIds();
     vector<string> fsId = getFloatingSpeciesIds();
-    int ndep = dfsId.size();
+    unsigned int ndep = static_cast<unsigned int>(dfsId.size());
     DoubleMatrix v(1, ndep);
 
     DoubleMatrix rate = getRatesOfChangeNamedArray();
@@ -2215,7 +2229,7 @@ DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray()
     for (int i = 0; i < ndep; ++i)
     {
         vector<string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
-        int index = distance(fsId.begin(), it);
+        size_t index = distance(fsId.begin(), it);
 
         v(0, i) = rate[0][index];
     }
@@ -2241,15 +2255,17 @@ DoubleMatrix RoadRunner::getFullJacobian()
             {
                 // function pointers to the model get values and get init values based on
                 // if we are doing amounts or concentrations.
-                typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+                typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
                     double *values);
-                typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+                typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
+                typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
+                    double const* values);
 
                 GetValueFuncPtr getValuePtr = 0;
                 GetValueFuncPtr getInitValuePtr = 0;
                 SetValueFuncPtr setValuePtr = 0;
-                SetValueFuncPtr setInitValuePtr = 0;
+                SetValueFuncPtrSize setInitValuePtr = 0;
 
                 if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
                     == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
@@ -2336,7 +2352,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
                     result = 1 / (12 * hstep)*(f1 + f2);
                 }
-                catch (const std::exception& e)
+                catch (const std::exception&)
                 {
                     // What ever happens, make sure we restore the species level
                     (self.model.get()->*setInitValuePtr)(
@@ -2447,9 +2463,9 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
 
     // function pointers to the model get values and get init values based on
     // if we are doing amounts or concentrations.
-    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
             double *values);
-    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
 
     GetValueFuncPtr getValuePtr = 0;
@@ -2823,12 +2839,12 @@ double RoadRunner::getVariableValue(const VariableType variableType,
     return 0;
 }
 
-int RoadRunner::createDefaultSteadyStateSelectionList()
+size_t RoadRunner::createDefaultSteadyStateSelectionList()
 {
 	impl->mSteadyStateSelection.clear();
 	// default should be independent floating species only ...
 	vector<string> floatingSpecies = getFloatingSpeciesIds();
-	int numFloatingSpecies = floatingSpecies.size();
+    size_t numFloatingSpecies = floatingSpecies.size();
 	//int numIndSpecies = getNumberOfIndependentSpecies();
 	//impl->mSteadyStateSelection.resize(numIndSpecies);
 	impl->mSteadyStateSelection.resize(numFloatingSpecies);
@@ -2895,7 +2911,7 @@ DoubleMatrix RoadRunner::getSteadyStateValuesNamedArray()
 
     steadyState();
 
-    DoubleMatrix v(1,impl->mSteadyStateSelection.size());
+    DoubleMatrix v(1, static_cast<unsigned int>(impl->mSteadyStateSelection.size()));
     for (int i = 0; i < impl->mSteadyStateSelection.size(); i++)
     {
         v(0,i) = getValue(impl->mSteadyStateSelection[i]);
@@ -3341,7 +3357,7 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 
 
 // Help("Get the number of global parameters")
-int RoadRunner::getNumberOfGlobalParameters()
+size_t RoadRunner::getNumberOfGlobalParameters()
 {
     if (!impl->model)
     {
@@ -3608,9 +3624,9 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
     // function pointers to the model get values and get init values based on
     // if we are doing amounts or concentrations.
-    typedef int (ExecutableModel::*GetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
             double *values);
-    typedef int (ExecutableModel::*SetValueFuncPtr)(int len, int const *indx,
+    typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
                     double const *values);
 
     GetValueFuncPtr getValuePtr = 0;
@@ -3705,7 +3721,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
         result = 1/(12*hstep)*(f1 + f2);
     }
-    catch(const std::exception& e)
+    catch(const std::exception&)
     {
         // What ever happens, make sure we restore the species level
         (self.model.get()->*setInitValuePtr)(
@@ -4009,7 +4025,7 @@ static string convertSBMLVersion(const std::string& str, int level, int version)
         writer.writeSBML(doc, stream);
         delete doc;
     }
-    catch(std::exception& exp) {
+    catch(std::exception&) {
         delete doc;
         throw;
     }
@@ -4577,7 +4593,7 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         vector<string> speciesNames = getFloatingSpeciesIds();
 
         // Prepare the dv/dp array
-        Matrix< Complex > dvdp(reactionNames.size(), 1);
+        Matrix< Complex > dvdp(static_cast<unsigned int>(reactionNames.size()), 1);
 
         //Guess we don't need to simulate here?? (TK)
         //        SimulateOptions opt;

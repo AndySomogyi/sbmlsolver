@@ -262,7 +262,7 @@ namespace rr
 		return BasicDictionary::hasKey(key);
 	}
 
-	int LoadSBMLOptions::deleteItem(const std::string& key)
+	size_t LoadSBMLOptions::deleteItem(const std::string& key)
 	{
 		return BasicDictionary::deleteItem(key);
 	}

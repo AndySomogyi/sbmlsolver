@@ -143,16 +143,16 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         {
             const Rule *rule = rules->get(i);
 
-            if (dynamic_cast<const AssignmentRule*>(rule))
+            if (rule->getTypeCode() == SBML_ASSIGNMENT_RULE)
             {
                 assignmentRules.insert(rule->getVariable());
             }
-            else if (dynamic_cast<const RateRule*>(rule))
+            else if (rule->getTypeCode() == SBML_RATE_RULE)
             {
                 size_t rri = rateRules.size();
                 rateRules[rule->getId()] = rri;
             }
-            else if (dynamic_cast<const AlgebraicRule*>(rule))
+            else if (rule->getTypeCode() == SBML_ALGEBRAIC_RULE)
             {
                 char* formula = SBML_formulaToL3String(rule->getMath());
                 Log(Logger::LOG_WARNING)
@@ -410,9 +410,6 @@ std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
 
 void LLVMModelDataSymbols::print() const
 {
-    uint i = 0;
-
-
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); i++)
     {
@@ -459,7 +456,7 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
-std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
+std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); ++i)
@@ -470,7 +467,7 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access floating species id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access floating species id at index " + rr::toStringSize(indx));
 }
 
 
@@ -559,7 +556,7 @@ size_t LLVMModelDataSymbols::getRateRuleSize() const
     return rateRules.size();
 }
 
-std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
+std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(size_t indx) const
 {
     for(StringUIntMap::const_iterator i = rateRules.begin();
             i != rateRules.end(); ++i)
@@ -571,7 +568,7 @@ std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
     }
 
     throw std::out_of_range("attempted to access rate rule id at index " +
-            rr::toString(indx));
+            rr::toStringSize(indx));
 }
 
 bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
@@ -1009,7 +1006,7 @@ bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
             ? globalParameterRateRules[gid] : false;
 }
 
-std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
+std::string LLVMModelDataSymbols::getGlobalParameterId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = globalParametersMap.begin();
             i != globalParametersMap.end(); ++i)
@@ -1020,11 +1017,11 @@ std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access global parameter id at index " + rr::toStringSize(indx));
 }
 
 int LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
-        uint floatIndex) const
+        size_t floatIndex) const
 {
     if (floatIndex >= floatingSpeciesCompartmentIndices.size())
     {
@@ -1118,7 +1115,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, Reactant, r->getId()};
+                            {static_cast<uint>(speciesIdx), static_cast<uint>(i), Reactant, r->getId()};
                             namedSpeciesReferenceInfo[r->getId()] = info;
                         }
                         else
@@ -1148,7 +1145,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, MultiReactantProduct, r->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), MultiReactantProduct, r->getId()};
                             namedSpeciesReferenceInfo[r->getId()] = info;
                         }
                         else
@@ -1193,7 +1190,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 == namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            { speciesIdx, i, Product, p->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), Product, p->getId()};
                             namedSpeciesReferenceInfo[p->getId()] = info;
                         }
                         else
@@ -1223,7 +1220,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, MultiReactantProduct, p->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), MultiReactantProduct, p->getId()};
                             namedSpeciesReferenceInfo[p->getId()] = info;
                         }
                         else
@@ -1261,7 +1258,7 @@ bool LLVMModelDataSymbols::isValidFloatingSpeciesReference(
     string err = "the species reference with id ";
     err += string("\'" + ref->getId() + "\', ");
     err += "which references species ";
-    string("\'" + id + "\', ");
+    err += string("\'" + id + "\', ");
     err += "is NOT a valid " + reacOrProd + " reference, ";
     // figure out what kind of thing we have and give a warning
     if (hasAssignmentRule(id))
@@ -1352,7 +1349,7 @@ const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() con
     return eventAttributes;
 }
 
-size_t LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
+size_t LLVMModelDataSymbols::getEventBufferSize(size_t eventId) const
 {
     assert(eventId <= eventAssignmentsSize.size() && "event id out of range");
     return eventAssignmentsSize[eventId];
@@ -1443,7 +1440,7 @@ bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
             i->second < independentInitGlobalParameterSize;
 }
 
-bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(uint id) const
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(size_t id) const
 {
     return isIndependentInitGlobalParameter(getGlobalParameterId(id));
 }
@@ -1486,7 +1483,7 @@ std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
     return getIds(eventIds);
 }
 
-std::string LLVMModelDataSymbols::getEventId(uint indx) const
+std::string LLVMModelDataSymbols::getEventId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = eventIds.begin();
             i != eventIds.end(); ++i)
@@ -1497,7 +1494,7 @@ std::string LLVMModelDataSymbols::getEventId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access event id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access event id at index " + rr::toStringSize(indx));
 }
 
 int LLVMModelDataSymbols::getEventIndex(const std::string& id) const
@@ -1548,7 +1545,7 @@ int LLVMModelDataSymbols::getConservedMoietyGlobalParameterIndex(
     return conservedMoietyGlobalParameterIndex[cmIndex];
 }
 
-std::string LLVMModelDataSymbols::getConservedMoietyId(uint indx) const
+std::string LLVMModelDataSymbols::getConservedMoietyId(size_t indx) const
 {
     return getGlobalParameterId(
             getConservedMoietyGlobalParameterIndex(indx));

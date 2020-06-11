@@ -433,7 +433,7 @@ SUITE(TEST_MODEL)
 
         string valstr = Trim(aSection->GetNonKeysAsString());
         vector<string> vals = splitString(valstr, " ");
-        for(size_t i = 0 ; i < vals.size(); i++)
+        for(int i = 0 ; i < static_cast<int>(vals.size()); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
             double val;
@@ -501,7 +501,7 @@ SUITE(TEST_MODEL)
 
         string valstr = Trim(aSection->GetNonKeysAsString());
         vector<string> vals = splitString(valstr, " ");
-        for(size_t i = 0 ; i < vals.size(); i++)
+        for (int i = 0; i < static_cast<int>(vals.size()); i++)
         {
             //Set the value..
             double newval = toDouble(vals[i]);
@@ -1853,7 +1853,7 @@ SUITE(TEST_MODEL)
           vector<string> refList = splitString(refs->mValue," ");
 
           vector<string> concList = splitString(conc->mValue," ");
-          RRVector* aVector = createVector(concList.size());
+          RRVector* aVector = createVector(static_cast<int>(concList.size()));
 
           for(int i = 0; i < concList.size(); i++)
           {
@@ -1912,7 +1912,7 @@ SUITE(TEST_MODEL)
           vector<string> refList = splitString(refs->mValue," ");
 
           vector<string> concList = splitString(conc->mValue," ");
-          RRVector* aVector = createVector(concList.size());
+          RRVector* aVector = createVector(static_cast<int>(concList.size()));
 
           for(int i = 0; i < concList.size(); i++)
           {

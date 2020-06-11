@@ -6,6 +6,8 @@ add_executable(${target}
 main.cpp 
 Args.cpp
 TestSuiteSimulation.cpp
+Args.h
+TestSuiteSimulation.h
 )
 
 add_definitions(

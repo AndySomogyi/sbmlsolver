@@ -74,7 +74,7 @@ public:                       // *mistakenly* complains in ONE instance.
     /**
      * remove a value
      */
-    virtual int deleteItem(const std::string& key) = 0;
+    virtual size_t deleteItem(const std::string& key) = 0;
 
     /**
      * list of keys in this object.
@@ -162,7 +162,7 @@ public:
     /**
      * remove a value
      */
-    virtual int deleteItem(const std::string& key);
+    virtual size_t deleteItem(const std::string& key);
 
     /**
      * list of keys in this object.
