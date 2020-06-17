@@ -5141,7 +5141,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 			impl->model->saveState(out);
 
 			rr::saveBinary(out, impl->integrator->getName());
-			rr::saveBinary(out, impl->integrator->getNumParams());
+			rr::saveBinary(out, static_cast<unsigned long>(impl->integrator->getNumParams()));
 
 			for (std::string k : impl->integrator->getSettings())
 			{
@@ -5150,7 +5150,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 			}
 
 			rr::saveBinary(out, impl->steady_state_solver->getName());
-			rr::saveBinary(out, impl->steady_state_solver->getNumParams());
+			rr::saveBinary(out, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
 
 			for (std::string k : impl->steady_state_solver->getSettings())
 			{
