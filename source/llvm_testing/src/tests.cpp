@@ -54,7 +54,7 @@ string getModelFileName(const string& version, int caseNumber)
 
     //Create a log file name
     createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName,
-            settingsFileName);
+            settingsFileName, dummy);
 
     //Read SBML models.....
     string home = getenv("HOME");
@@ -64,7 +64,7 @@ string getModelFileName(const string& version, int caseNumber)
     string modelFileName;
 
     createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml",
-            modelFilePath, modelFileName, settingsFileName);
+            modelFilePath, modelFileName, settingsFileName, dummy);
 
     modelFileName = joinPath(modelFilePath, modelFileName);
 
