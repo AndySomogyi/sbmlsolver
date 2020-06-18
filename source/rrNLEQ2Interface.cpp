@@ -46,29 +46,16 @@ static bool isWarning(int e)
 }
 
 NLEQ2Interface::NLEQ2Interface(ExecutableModel *_model) :
-    nOpts(0),
-    IWK(NULL),
+    IWK(0),
     LIWK(0),
     LRWK(0),
-    RWK(NULL),
-    XScal(NULL),
+    RWK(0),
+    XScal(0),
     ierr(0),
     iopt(0),
-    model(NULL),
-    n(0),
-    allowPreSim(false),
-    preSimTolerance(0.0),
-    preSimMaximumSteps(0),
-    preSimTime(0.0),
-    allowApprox(false),
-    approxTolerance(0.0),
-    approxMaximumSteps(0),
-    approxTime(0.0),
-    relativeTolerance(0.0),
-    maxIterations(0),
-    minDamping(.00),
-    broyden(0),
-    linearity(0)
+    model(0),
+    nOpts(50)
+
 {
     model = _model;
 
