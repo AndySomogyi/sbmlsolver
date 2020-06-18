@@ -15,8 +15,10 @@ extern string             gTempFolder;
 extern string             gTSModelsPath;
 //extern string             gDataOutputFolder;
 
-bool RunTest(const string& version, int number);
 bool RunTest(int number); //Runs both the first and the last version of the test.
+bool RunTest(const string& version, int number);
+bool CheckLoad(const string& version, int number);
+void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, string& dataOutputFolder, TestSuiteModelSimulation& simulation);
 
 SUITE(SBML_test_suite_part1)
 {
@@ -41,7 +43,7 @@ TEST(18) { CHECK(RunTest(18)); }
 TEST(19) { CHECK(RunTest(19)); }
 TEST(20) { CHECK(RunTest(20)); }
 TEST(21) { CHECK(RunTest(21)); }
-//TEST(22) { CHECK(RunTest(22)); }
+//TEST(22) { CHECK(RunTest(22)); } //The L2v1 model fails for unknown reason.
 TEST(23) { CHECK(RunTest(23)); }
 TEST(24) { CHECK(RunTest(24)); }
 TEST(25) { CHECK(RunTest(25)); }
@@ -58,8 +60,8 @@ TEST(35) { CHECK(RunTest(35)); }
 TEST(36) { CHECK(RunTest(36)); }
 TEST(37) { CHECK(RunTest(37)); }
 TEST(38) { CHECK(RunTest(38)); }
-//TEST(39) { CHECK(RunTest(39)); }
-//TEST(40) { CHECK(RunTest(40)); }
+TEST(39) { CHECK(RunTest(39)); }
+TEST(40) { CHECK(RunTest(40)); }
 TEST(41) { CHECK(RunTest(41)); }
 TEST(42) { CHECK(RunTest(42)); }
 TEST(43) { CHECK(RunTest(43)); }
@@ -201,9 +203,9 @@ TEST(178) { CHECK(RunTest(178)); }
 TEST(179) { CHECK(RunTest(179)); }
 TEST(180) { CHECK(RunTest(180)); }
 TEST(181) { CHECK(RunTest(181)); }
-//TEST(182) { CHECK(RunTest(182)); }
+TEST(182) { CHECK(RunTest(182)); }
 TEST(183) { CHECK(RunTest(183)); }
-//TEST(184) { CHECK(RunTest(184)); }
+TEST(184) { CHECK(RunTest(184)); }
 TEST(185) { CHECK(RunTest(185)); }
 TEST(186) { CHECK(RunTest(186)); }
 TEST(187) { CHECK(RunTest(187)); }
@@ -550,52 +552,52 @@ TEST(527) { CHECK(RunTest(527)); }
 TEST(528) { CHECK(RunTest(528)); }
 TEST(529) { CHECK(RunTest(529)); }
 TEST(530) { CHECK(RunTest(530)); }
-//TEST(531) { CHECK(RunTest(531)); }
+TEST(531) { CHECK(RunTest(531)); }
 TEST(532) { CHECK(RunTest(532)); }
-//TEST(533) { CHECK(RunTest(533)); }
-//TEST(534) { CHECK(RunTest(534)); }
-//TEST(535) { CHECK(RunTest(535)); }
-//TEST(536) { CHECK(RunTest(536)); }
-//TEST(537) { CHECK(RunTest(537)); }
-//TEST(538) { CHECK(RunTest(538)); }
+//TEST(533) { CHECK(RunTest(533)); } //Throws because uninitialized value
+//TEST(534) { CHECK(RunTest(534)); } //Throws because uninitialized value
+TEST(535) { CHECK(RunTest(535)); }
+TEST(536) { CHECK(RunTest(536)); }
+TEST(537) { CHECK(RunTest(537)); }
+TEST(538) { CHECK(RunTest(538)); }
 TEST(539) { CHECK(RunTest(539)); }
 TEST(540) { CHECK(RunTest(540)); }
 TEST(541) { CHECK(RunTest(541)); }
 TEST(542) { CHECK(RunTest(542)); }
-//TEST(543) { CHECK(RunTest(543)); }
+TEST(543) { CHECK(RunTest(543)); }
 TEST(544) { CHECK(RunTest(544)); }
 TEST(545) { CHECK(RunTest(545)); }
-//TEST(546) { CHECK(RunTest(546)); }
+TEST(546) { CHECK(RunTest(546)); }
 TEST(547) { CHECK(RunTest(547)); }
-//TEST(548) { CHECK(RunTest(548)); }
-//TEST(549) { CHECK(RunTest(549)); }
-//TEST(550) { CHECK(RunTest(550)); }
-//TEST(551) { CHECK(RunTest(551)); }
-//TEST(552) { CHECK(RunTest(552)); }
-//TEST(553) { CHECK(RunTest(553)); } //Started failing with
-//TEST(554) { CHECK(RunTest(554)); }
-//TEST(555) { CHECK(RunTest(555)); }
-//TEST(556) { CHECK(RunTest(556)); }
-//TEST(557) { CHECK(RunTest(557)); }
-//TEST(558) { CHECK(RunTest(558)); }
-//TEST(559) { CHECK(RunTest(559)); }
-//TEST(560) { CHECK(RunTest(560)); }
-//TEST(561) { CHECK(RunTest(561)); }
-//TEST(562) { CHECK(RunTest(562)); }
-//TEST(563) { CHECK(RunTest(563)); }
-//TEST(564) { CHECK(RunTest(564)); }
-//TEST(565) { CHECK(RunTest(565)); }
-//TEST(566) { CHECK(RunTest(566)); }
-//TEST(567) { CHECK(RunTest(567)); }
+TEST(548) { CHECK(RunTest(548)); }
+TEST(549) { CHECK(RunTest(549)); }
+TEST(550) { CHECK(RunTest(550)); }
+TEST(551) { CHECK(RunTest(551)); }
+TEST(552) { CHECK(RunTest(552)); }
+TEST(553) { CHECK(RunTest(553)); }
+TEST(554) { CHECK(RunTest(554)); }
+TEST(555) { CHECK(RunTest(555)); }
+TEST(556) { CHECK(RunTest(556)); }
+TEST(557) { CHECK(RunTest(557)); }
+TEST(558) { CHECK(RunTest(558)); }
+TEST(559) { CHECK(RunTest(559)); }
+TEST(560) { CHECK(RunTest(560)); }
+TEST(561) { CHECK(RunTest(561)); }
+TEST(562) { CHECK(RunTest(562)); }
+TEST(563) { CHECK(RunTest(563)); }
+TEST(564) { CHECK(RunTest(564)); }
+TEST(565) { CHECK(RunTest(565)); }
+TEST(566) { CHECK(RunTest(566)); }
+TEST(567) { CHECK(RunTest(567)); }
 TEST(568) { CHECK(RunTest(568)); }
-//TEST(569) { CHECK(RunTest(569)); }
-//TEST(570) { CHECK(RunTest(570)); }
-//TEST(571) { CHECK(RunTest(571)); }
+TEST(569) { CHECK(RunTest(569)); }
+TEST(570) { CHECK(RunTest(570)); }
+TEST(571) { CHECK(RunTest(571)); }
 TEST(572) { CHECK(RunTest(572)); }
-//TEST(573) { CHECK(RunTest(573)); }
+TEST(573) { CHECK(RunTest(573)); }
 TEST(574) { CHECK(RunTest(574)); }
-//TEST(575) { CHECK(RunTest(575)); }
-//TEST(576) { CHECK(RunTest(576)); }
+TEST(575) { CHECK(RunTest(575)); }
+TEST(576) { CHECK(RunTest(576)); }
 TEST(577) { CHECK(RunTest(577)); }
 TEST(578) { CHECK(RunTest(578)); }
 TEST(579) { CHECK(RunTest(579)); }
@@ -632,9 +634,9 @@ TEST(609) { CHECK(RunTest(609)); }
 TEST(610) { CHECK(RunTest(610)); }
 TEST(611) { CHECK(RunTest(611)); }
 TEST(612) { CHECK(RunTest(612)); }
-//TEST(613) { CHECK(RunTest(613)); }
-//TEST(614) { CHECK(RunTest(614)); }
-//TEST(615) { CHECK(RunTest(615)); }
+TEST(613) { CHECK(RunTest(613)); }
+TEST(614) { CHECK(RunTest(614)); }
+TEST(615) { CHECK(RunTest(615)); }
 TEST(616) { CHECK(RunTest(616)); }
 TEST(617) { CHECK(RunTest(617)); }
 TEST(618) { CHECK(RunTest(618)); }
@@ -647,9 +649,9 @@ TEST(624) { CHECK(RunTest(624)); }
 TEST(625) { CHECK(RunTest(625)); }
 TEST(626) { CHECK(RunTest(626)); }
 TEST(627) { CHECK(RunTest(627)); }
-//TEST(628) { CHECK(RunTest(628)); }
-//TEST(629) { CHECK(RunTest(629)); }
-//TEST(630) { CHECK(RunTest(630)); }
+TEST(628) { CHECK(RunTest(628)); }
+TEST(629) { CHECK(RunTest(629)); }
+TEST(630) { CHECK(RunTest(630)); }
 TEST(631) { CHECK(RunTest(631)); }
 TEST(632) { CHECK(RunTest(632)); }
 TEST(633) { CHECK(RunTest(633)); }
@@ -677,24 +679,24 @@ TEST(654) { CHECK(RunTest(654)); }
 TEST(655) { CHECK(RunTest(655)); }
 TEST(656) { CHECK(RunTest(656)); }
 TEST(657) { CHECK(RunTest(657)); }
-//TEST(658) { CHECK(RunTest(658)); }
-//TEST(659) { CHECK(RunTest(659)); }
-//TEST(660) { CHECK(RunTest(660)); }
-//TEST(661) { CHECK(RunTest(661)); }
-//TEST(662) { CHECK(RunTest(662)); }
-//TEST(663) { CHECK(RunTest(663)); }
-//TEST(664) { CHECK(RunTest(664)); }
-//TEST(665) { CHECK(RunTest(665)); }
-//TEST(666) { CHECK(RunTest(666)); }
+TEST(658) { CHECK(RunTest(658)); }
+TEST(659) { CHECK(RunTest(659)); }
+TEST(660) { CHECK(RunTest(660)); }
+TEST(661) { CHECK(RunTest(661)); }
+TEST(662) { CHECK(RunTest(662)); }
+//TEST(663) { CHECK(RunTest(663)); } //Throws because uninitialized value
+//TEST(664) { CHECK(RunTest(664)); } //Throws because uninitialized value
+TEST(665) { CHECK(RunTest(665)); }
+TEST(666) { CHECK(RunTest(666)); }
 TEST(667) { CHECK(RunTest(667)); }
 TEST(668) { CHECK(RunTest(668)); }
 TEST(669) { CHECK(RunTest(669)); }
 TEST(670) { CHECK(RunTest(670)); }
 TEST(671) { CHECK(RunTest(671)); }
 TEST(672) { CHECK(RunTest(672)); }
-//TEST(673) { CHECK(RunTest(673)); }
-//TEST(674) { CHECK(RunTest(674)); }
-//TEST(675) { CHECK(RunTest(675)); }
+TEST(673) { CHECK(RunTest(673)); }
+TEST(674) { CHECK(RunTest(674)); }
+TEST(675) { CHECK(RunTest(675)); }
 TEST(676) { CHECK(RunTest(676)); }
 TEST(677) { CHECK(RunTest(677)); }
 TEST(678) { CHECK(RunTest(678)); }
@@ -706,7 +708,7 @@ TEST(683) { CHECK(RunTest(683)); }
 TEST(684) { CHECK(RunTest(684)); }
 TEST(685) { CHECK(RunTest(685)); }
 TEST(686) { CHECK(RunTest(686)); }
-//TEST(687) { CHECK(RunTest(687)); }
+TEST(687) { CHECK(RunTest(687)); }
 TEST(688) { CHECK(RunTest(688)); }
 TEST(689) { CHECK(RunTest(689)); }
 TEST(690) { CHECK(RunTest(690)); }
@@ -714,8 +716,8 @@ TEST(691) { CHECK(RunTest(691)); }
 TEST(692) { CHECK(RunTest(692)); }
 TEST(693) { CHECK(RunTest(693)); }
 TEST(694) { CHECK(RunTest(694)); }
-//TEST(695) { CHECK(RunTest(695)); }
-//TEST(696) { CHECK(RunTest(696)); }
+TEST(695) { CHECK(RunTest(695)); }
+TEST(696) { CHECK(RunTest(696)); }
 TEST(697) { CHECK(RunTest(697)); }
 TEST(698) { CHECK(RunTest(698)); }
 TEST(699) { CHECK(RunTest(699)); }
@@ -724,7 +726,7 @@ TEST(701) { CHECK(RunTest(701)); }
 TEST(702) { CHECK(RunTest(702)); }
 TEST(703) { CHECK(RunTest(703)); }
 TEST(704) { CHECK(RunTest(704)); }
-//TEST(705) { CHECK(RunTest(705)); }
+TEST(705) { CHECK(RunTest(705)); }
 TEST(706) { CHECK(RunTest(706)); }
 TEST(707) { CHECK(RunTest(707)); }
 TEST(708) { CHECK(RunTest(708)); }
@@ -779,9 +781,9 @@ TEST(756) { CHECK(RunTest(756)); }
 TEST(757) { CHECK(RunTest(757)); }
 TEST(758) { CHECK(RunTest(758)); }
 TEST(759) { CHECK(RunTest(759)); }
-//TEST(760) { CHECK(RunTest(760)); }
-//TEST(761) { CHECK(RunTest(761)); }
-//TEST(762) { CHECK(RunTest(762)); }
+TEST(760) { CHECK(RunTest(760)); }
+TEST(761) { CHECK(RunTest(761)); }
+//TEST(762) { CHECK(RunTest(762)); } //Throws because uninitialized value
 TEST(763) { CHECK(RunTest(763)); }
 TEST(764) { CHECK(RunTest(764)); }
 TEST(765) { CHECK(RunTest(765)); }
@@ -796,10 +798,10 @@ TEST(773) { CHECK(RunTest(773)); }
 TEST(774) { CHECK(RunTest(774)); }
 TEST(775) { CHECK(RunTest(775)); }
 TEST(776) { CHECK(RunTest(776)); }
-//TEST(777) { CHECK(RunTest(777)); }
-//TEST(778) { CHECK(RunTest(778)); }
-//TEST(779) { CHECK(RunTest(779)); }
-//TEST(780) { CHECK(RunTest(780)); }
+//TEST(777) { CHECK(RunTest(777)); } //Throws because uninitialized value
+TEST(778) { CHECK(RunTest(778)); }
+TEST(779) { CHECK(RunTest(779)); }
+TEST(780) { CHECK(RunTest(780)); }
 TEST(781) { CHECK(RunTest(781)); }
 TEST(782) { CHECK(RunTest(782)); }
 TEST(783) { CHECK(RunTest(783)); }
@@ -863,7 +865,7 @@ TEST(840) { CHECK(RunTest(840)); }
 TEST(841) { CHECK(RunTest(841)); }
 TEST(842) { CHECK(RunTest(842)); }
 TEST(843) { CHECK(RunTest(843)); }
-//TEST(844) { CHECK(RunTest(844)); }
+//TEST(844) { CHECK(RunTest(844)); } //Throws because uninitialized value
 TEST(845) { CHECK(RunTest(845)); }
 TEST(846) { CHECK(RunTest(846)); }
 TEST(847) { CHECK(RunTest(847)); }
@@ -889,13 +891,13 @@ TEST(866) { CHECK(RunTest(866)); }
 TEST(867) { CHECK(RunTest(867)); }
 TEST(868) { CHECK(RunTest(868)); }
 TEST(869) { CHECK(RunTest(869)); }
-//TEST(870) { CHECK(RunTest(870)); }
-//TEST(871) { CHECK(RunTest(871)); }
-//TEST(872) { CHECK(RunTest(872)); }
-//TEST(873) { CHECK(RunTest(873)); }
-//TEST(874) { CHECK(RunTest(874)); }
-//TEST(875) { CHECK(RunTest(875)); }
-//TEST(876) { CHECK(RunTest(876)); }
+TEST(870) { CHECK(RunTest(870)); }
+TEST(871) { CHECK(RunTest(871)); }
+TEST(872) { CHECK(RunTest(872)); }
+TEST(873) { CHECK(RunTest(873)); }
+TEST(874) { CHECK(RunTest(874)); }
+TEST(875) { CHECK(RunTest(875)); }
+TEST(876) { CHECK(RunTest(876)); }
 TEST(877) { CHECK(RunTest(877)); }
 TEST(878) { CHECK(RunTest(878)); }
 TEST(879) { CHECK(RunTest(879)); }
@@ -947,71 +949,65 @@ TEST(924) { CHECK(RunTest(924)); }
 TEST(925) { CHECK(RunTest(925)); }
 TEST(926) { CHECK(RunTest(926)); }
 TEST(927) { CHECK(RunTest(927)); }
-//TEST(928) { CHECK(RunTest(928)); }
-//TEST(929) { CHECK(RunTest(929)); }
-#ifndef __linux
-//    TEST(930) { CHECK(RunTest(930)); }
-//    TEST(931) { CHECK(RunTest(931)); }
-#endif
-//TEST(932) { CHECK(RunTest(932)); }
+TEST(928) { CHECK(RunTest(928)); }
+TEST(929) { CHECK(RunTest(929)); }
+    TEST(930) { CHECK(RunTest(930)); } //Check on linux?
+    TEST(931) { CHECK(RunTest(931)); } //Check on linux?
+TEST(932) { CHECK(RunTest(932)); }
 TEST(933) { CHECK(RunTest(933)); }
-#ifndef __linux
-//    TEST(934) { CHECK(RunTest(934)); }
-//    TEST(935) { CHECK(RunTest(935)); }
-#endif
+    TEST(934) { CHECK(RunTest(934)); } //Check on linux?
+    TEST(935) { CHECK(RunTest(935)); } //Check on linux?
 TEST(936) { CHECK(RunTest(936)); }
-//TEST(937) { CHECK(RunTest(937)); }
-//TEST(938) { CHECK(RunTest(938)); }
-//TEST(939) { CHECK(RunTest(939)); }
-//TEST(940) { CHECK(RunTest(940)); }
-//TEST(941) { CHECK(RunTest(941)); }
-//TEST(942) { CHECK(RunTest(942)); }
-//TEST(943) { CHECK(RunTest(943)); }
+TEST(937) { CHECK(RunTest(937)); }
+TEST(938) { CHECK(RunTest(938)); }
+TEST(939) { CHECK(RunTest(939)); }
+TEST(940) { CHECK(RunTest(940)); }
+TEST(941) { CHECK(RunTest(941)); }
+TEST(942) { CHECK(RunTest(942)); }
+TEST(943) { CHECK(RunTest(943)); }
 TEST(944) { CHECK(RunTest(944)); }
 TEST(945) { CHECK(RunTest(945)); }
 TEST(946) { CHECK(RunTest(946)); }
 TEST(947) { CHECK(RunTest(947)); }
 TEST(948) { CHECK(RunTest(948)); }
 TEST(949) { CHECK(RunTest(949)); }
-//TEST(950) { CHECK(RunTest(950)); }
-//TEST(951) { CHECK(RunTest(951)); }
-//TEST(952) { CHECK(RunTest(952)); }    //Started failing with poco shared lib in cvode
-#ifndef __linux
-//    TEST(953) { CHECK(RunTest(953)); }
-#endif
+TEST(950) { CHECK(RunTest(950)); } //NaN warnings.
+TEST(951) { CHECK(RunTest(951)); }
+TEST(952) { CHECK(RunTest(952)); }
+    TEST(953) { CHECK(RunTest(953)); } //Check on linux?
 TEST(954) { CHECK(RunTest(954)); }
-//TEST(955) { CHECK(RunTest(955)); }
+TEST(955) { CHECK(RunTest(955)); }
 TEST(956) { CHECK(RunTest(956)); }
-//TEST(957) { CHECK(RunTest(957)); }
-//TEST(958) { CHECK(RunTest(958)); }
-//TEST(959) { CHECK(RunTest(959)); }
-//TEST(960) { CHECK(RunTest(960)); }
-//TEST(961) { CHECK(RunTest(961)); }
-//TEST(962) { CHECK(RunTest(962)); }
+TEST(957) { CHECK(RunTest(957)); }
+TEST(958) { CHECK(RunTest(958)); }
+TEST(959) { CHECK(RunTest(959)); }
+TEST(960) { CHECK(RunTest(960)); }
+TEST(961) { CHECK(RunTest(961)); }
+TEST(962) { CHECK(RunTest(962)); }
 
-#if !defined(__CODEGEARC__) && !defined(__linux)
-//    TEST(963) { CHECK(RunTest(963)); }
-//    TEST(964) { CHECK(RunTest(964)); }
-#endif
+//#if !defined(__CODEGEARC__) && !defined(__linux)
+    TEST(963) { CHECK(RunTest(963)); } //Check on linux?
+    TEST(964) { CHECK(RunTest(964)); } //Check on linux?
+//#endif
 
-#if !defined(_MSC_VER) && !defined(__linux)
-TEST(965) { CHECK(RunTest(965)); }
-#endif
-//TEST(966) { CHECK(RunTest(966)); }
-#ifndef __linux
-//    TEST(967) { CHECK(RunTest(967)); }
-#endif
+//#if !defined(_MSC_VER) && !defined(__linux)
+TEST(965) { CHECK(RunTest(965)); } //Check on linux?
+//#endif
+TEST(966) { CHECK(RunTest(966)); }
+//#ifndef __linux
+    TEST(967) { CHECK(RunTest(967)); } //Check on linux?
+//#endif
 TEST(968) { CHECK(RunTest(968)); }
-//TEST(969) { CHECK(RunTest(969)); }
-//TEST(970) { CHECK(RunTest(970)); }
-//TEST(971) { CHECK(RunTest(971)); }
-//TEST(972) { CHECK(RunTest(972)); }
-//TEST(973) { CHECK(RunTest(973)); }
-//TEST(974) { CHECK(RunTest(974)); }
-//TEST(975) { CHECK(RunTest(975)); }
-//TEST(976) { CHECK(RunTest(976)); }
-//TEST(977) { CHECK(RunTest(977)); }
-//TEST(978) { CHECK(RunTest(978)); }
+TEST(969) { CHECK(RunTest(969)); }
+TEST(970) { CHECK(RunTest(970)); }
+TEST(971) { CHECK(RunTest(971)); }
+TEST(972) { CHECK(RunTest(972)); }
+//TEST(973) { CHECK(RunTest(973)); } //l2v1 fails, but l2v5 passes.
+TEST(974) { CHECK(RunTest(974)); }
+TEST(975) { CHECK(RunTest(975)); }
+TEST(976) { CHECK(RunTest(976)); }
+TEST(977) { CHECK(RunTest(977)); }
+TEST(978) { CHECK(RunTest(978)); }
 TEST(979) { CHECK(RunTest(979)); }
 TEST(980) { CHECK(RunTest(980)); }
 TEST(BOOLEAN_DELAY_1)
@@ -1890,8 +1886,7 @@ SUITE(SBML_test_suite_part2)
 bool RunTest(int caseNumber)
 {
     //Run the first and last version of the file.
-    string modelFileName;
-    string settingsFileName;
+    string modelFileName, settingsFileName, descriptionFileName;
     vector<string> lvs;
     lvs.push_back("l1v2"); 
     lvs.push_back("l2v1"); 
@@ -1906,8 +1901,8 @@ bool RunTest(int caseNumber)
     string last = "";
     for (size_t n = 0; n < lvs.size(); n++) {
         string lv = lvs[n];
-        string modelFilePath(gTSModelsPath);
-        createTestSuiteFileNameParts(caseNumber, "-sbml-" + lv + ".xml", modelFilePath, modelFileName, settingsFileName);
+        modelFilePath = gTSModelsPath; //Reset, since the subdir is added.
+        createTestSuiteFileNameParts(caseNumber, "-sbml-" + lv + ".xml", modelFilePath, modelFileName, settingsFileName, descriptionFileName);
         ifstream ftest(modelFilePath + "/" + modelFileName);
         if (ftest.good()) {
             if (first.empty()) {
@@ -1919,11 +1914,30 @@ bool RunTest(int caseNumber)
         }
     }
     bool ret = true;
-    if (!first.empty()) {
-        ret = RunTest(first, caseNumber);
+    if (hasUnimplementedTags(modelFilePath + "/" + descriptionFileName)) {
+        if (!first.empty()) {
+            ret = CheckLoad(first, caseNumber);
+        }
+        else {
+            Log(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+            ret = false;
+        }
+        if (!last.empty()) {
+            ret = CheckLoad(last, caseNumber) && ret;
+        }
     }
-    if (!last.empty()) {
-        ret = RunTest(last, caseNumber) && ret;
+
+    else {
+        if (!first.empty()) {
+            ret = RunTest(first, caseNumber);
+        }
+        else {
+            Log(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+            ret = false;
+        }
+        if (!last.empty()) {
+            ret = RunTest(last, caseNumber) && ret;
+        }
     }
     return ret;
 }
@@ -1931,68 +1945,14 @@ bool RunTest(int caseNumber)
 
 bool RunTest(const string& version, int caseNumber)
 {
-    RoadRunner rr(gCompiler, gTempFolder, gSupportCodeFolder);
+    cerr << "Running Test:\t" << caseNumber << "\t" << version;
 
+    RoadRunner rr(gCompiler, gTempFolder, gSupportCodeFolder);
+    string dataOutputFolder = joinPath(gTempFolder, getTestSuiteSubFolderName(caseNumber));
+    TestSuiteModelSimulation simulation(dataOutputFolder);
     try
     {
-        bool result(false);
-        cerr << "Running Test:\t" << caseNumber << "\t" << version;
-        string dummy;
-        string logFileName;
-
-		rr.getIntegrator()->setValue("stiff", false);
-
-        //Create log file name, e.g. 00001.log
-        createTestSuiteFileNameParts(caseNumber, "_" + version + ".log", dummy, logFileName, dummy);
-
-        //Create subfolder for data output
-        string dataOutputFolder = joinPath(gTempFolder, getTestSuiteSubFolderName(caseNumber));
-
-        if(!createFolder(dataOutputFolder))
-        {
-            throw(rr::Exception("Failed creating output folder for data output"));
-        }
-
-        TestSuiteModelSimulation simulation(dataOutputFolder);
-
-        //rr.reset();
-        simulation.UseEngine(&rr);
-
-        //Setup filenames and paths...
-        string modelFilePath(gTSModelsPath);
-        string modelFileName;
-        string settingsFileName;
-        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
-
-        //The following will load and compile and simulate the sbml model in the file
-        simulation.SetCaseNumber(caseNumber);
-        simulation.SetModelFilePath(modelFilePath);
-        simulation.SetModelFileName(modelFileName);
-        simulation.ReCompileIfDllExists(true);
-        simulation.CopyFilesToOutputFolder();
-
-        rr.setConservedMoietyAnalysis(false);
-
-        if(!simulation.LoadSBMLFromFile())
-        {
-            Log(Logger::LOG_ERROR)<<"Failed loading SBML model";
-            throw("Failed loading SBML model");
-        }
-        //Then read settings file if it exists..
-        string settingsOveride("");
-        if(!simulation.LoadSettings(settingsOveride))
-        {
-            Log(Logger::LOG_ERROR)<<"Failed loading SBML model settings";
-            throw("Failed loading SBML model settings");
-        }
-
-
-        //Then Simulate model
-         if(!simulation.Simulate())
-        {
-            Log(Logger::LOG_ERROR)<<"Failed running simulation";
-            throw("Failed running simulation");
-        }
+        LoadAndSimulate(version, caseNumber, rr, dataOutputFolder, simulation);
 
         //Write result
         if(!simulation.SaveResult())
@@ -2009,8 +1969,9 @@ bool RunTest(const string& version, int caseNumber)
         }
 
         simulation.CreateErrorData();
-        result = simulation.Pass();
+        bool result = simulation.Pass();
         simulation.SaveAllData();
+
         simulation.SaveModelAsXML(dataOutputFolder);
 
         cerr<<"\t"<< (result == true ? "PASS" : "FAIL")<<endl;
@@ -2019,8 +1980,92 @@ bool RunTest(const string& version, int caseNumber)
     catch(Exception& ex)
     {
         string error = ex.what();
+        cerr << "\tFAIL" << endl;
         cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
         return false;
+    }
+
+}
+
+bool CheckLoad(const string& version, int caseNumber)
+{
+    cerr << "Checking Test Loading:\t" << caseNumber << "\t" << version;
+
+    RoadRunner rr(gCompiler, gTempFolder, gSupportCodeFolder);
+    string dataOutputFolder = joinPath(gTempFolder, getTestSuiteSubFolderName(caseNumber));
+    TestSuiteModelSimulation simulation(dataOutputFolder);
+
+    try
+    {
+        LoadAndSimulate(version, caseNumber, rr, dataOutputFolder, simulation);
+
+        //If we've gotten this far, rejoice!  roadrunner didn't crash, which is good enough.
+        cerr << "\tPASS" << endl;
+        return true;
+    }
+    catch (Exception& ex)
+    {
+        string error = ex.what();
+        cerr << "\tFAIL" << endl;
+        cerr << "Case " << caseNumber << ": Exception: " << error << endl;
+        return false;
+    }
+
+}
+
+void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, string& dataOutputFolder, TestSuiteModelSimulation& simulation)
+{
+
+    string dummy;
+    string logFileName;
+
+    rr.getIntegrator()->setValue("stiff", false);
+
+    //Create log file name, e.g. 00001.log
+    createTestSuiteFileNameParts(caseNumber, "_" + version + ".log", dummy, logFileName, dummy, dummy);
+
+    if (!createFolder(dataOutputFolder))
+    {
+        throw(rr::Exception("Failed creating output folder for data output"));
+    }
+
+    //rr.reset();
+    simulation.UseEngine(&rr);
+
+    //Setup filenames and paths...
+    string modelFilePath(gTSModelsPath);
+    string modelFileName;
+    string settingsFileName;
+    createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, dummy);
+
+    //The following will load and compile and simulate the sbml model in the file
+    simulation.SetCaseNumber(caseNumber);
+    simulation.SetModelFilePath(modelFilePath);
+    simulation.SetModelFileName(modelFileName);
+    simulation.ReCompileIfDllExists(true);
+    simulation.CopyFilesToOutputFolder();
+
+    rr.setConservedMoietyAnalysis(false);
+
+    if (!simulation.LoadSBMLFromFile())
+    {
+        Log(Logger::LOG_ERROR) << "Failed loading SBML model";
+        throw("Failed loading SBML model");
+    }
+    //Then read settings file if it exists..
+    string settingsOveride("");
+    if (!simulation.LoadSettings(settingsOveride))
+    {
+        Log(Logger::LOG_ERROR) << "Failed loading SBML model settings";
+        throw("Failed loading SBML model settings");
+    }
+
+
+    //Then Simulate model
+    if (!simulation.Simulate())
+    {
+        Log(Logger::LOG_ERROR) << "Failed running simulation";
+        throw("Failed running simulation");
     }
 
 }

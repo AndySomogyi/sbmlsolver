@@ -230,7 +230,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		rr->getIntegrator()->setValue("stiff", false);
 
 		//Create a log file name
-		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName, dummy);
 		if (!createFolder(dataOutputFolder))
 		{
 			string msg("Failed creating output folder for data output: " + dataOutputFolder);
@@ -252,7 +252,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		string modelFileName;
 
 		simulation.SetCaseNumber(caseNumber);
-		createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+		createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, dummy);
 
 		//The following will load and compile and simulate the sbml model in the file
 		simulation.SetModelFilePath(modelFilePath);

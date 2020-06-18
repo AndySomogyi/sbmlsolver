@@ -149,7 +149,7 @@ char* rrGetPyErrMessage() {
     PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
     if (ptype == NULL) {
-        return "No Error";
+        return NULL;
     }
 
     //Get error message

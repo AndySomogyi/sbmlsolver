@@ -104,8 +104,10 @@ RR_DECLSPEC const char      getPathSeparator();
 
 RR_DECLSPEC vector<string>  getLinesInFile(const string& fName);
 RR_DECLSPEC string          getFileContent(const string& fName);
-RR_DECLSPEC void            createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& FilePath, string& modelFileName, string& settingsFileName);
+RR_DECLSPEC void            createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& FilePath, string& modelFileName, string& settingsFileName, string& descriptionFileName);
 RR_DECLSPEC string          getTestSuiteSubFolderName(int caseNr);
+
+RR_DECLSPEC bool            hasUnimplementedTags(const string& descriptionFileName);
 
 //CArray utilities
 RR_DECLSPEC bool            copyCArrayToStdVector(const int* src,     vector<int>& dest, int size);
