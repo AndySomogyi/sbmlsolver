@@ -22,6 +22,7 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, stri
 
 SUITE(SBML_test_suite_part1)
 {
+//    TEST(0) { CHECK(RunTest(966)); } //Use when need to check one thing.
     TEST(1) { CHECK(RunTest(1)); }
     TEST(2) { CHECK(RunTest(2)); }
     TEST(3) { CHECK(RunTest(3)); }
