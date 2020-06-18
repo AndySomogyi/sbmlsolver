@@ -1017,7 +1017,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
 		libsbml::SBMLReader reader;
 		impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(mCurrentSBML));
 		impl->model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
-    } catch (std::exception&) {
+    } catch (std::exception& e) {
         string errors = validateSBML(mCurrentSBML);
 
         if(!errors.empty()) {
@@ -1025,7 +1025,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         }
 
         // re-throw the exception
-        throw;
+        throw e;
     }
 
     impl->syncAllSolversWithModel(impl->model.get());
@@ -5288,7 +5288,7 @@ void RoadRunner::saveSelectionVector(std::ostream& out, std::vector<SelectionRec
 void RoadRunner::loadState(std::string filename)
 {
 	std::ifstream in(filename, iostream::binary);
-	if (!in)
+	if (!in.good())
 	{
 		throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 	}
