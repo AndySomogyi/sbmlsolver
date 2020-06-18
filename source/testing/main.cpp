@@ -97,6 +97,8 @@ int main(int argc, char* argv[])
 
     runner1.RunTestsIf(Test::GetTestList(), "SBML_test_suite_part2", True(), 0);
 
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_BOOLEAN_DELAY", True(), 0);
+
     runner1.RunTestsIf(Test::GetTestList(), "MODEL_EDITING_TEST_SUITE", True(), 0);
    
     runner1.RunTestsIf(Test::GetTestList(), "STATE_SAVING_TEST_SUITE", True(), 0);
