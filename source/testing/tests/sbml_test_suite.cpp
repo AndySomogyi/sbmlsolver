@@ -41,7 +41,7 @@ TEST(18) { CHECK(RunTest(18)); }
 TEST(19) { CHECK(RunTest(19)); }
 TEST(20) { CHECK(RunTest(20)); }
 TEST(21) { CHECK(RunTest(21)); }
-TEST(22) { CHECK(RunTest(22)); }
+//TEST(22) { CHECK(RunTest(22)); }
 TEST(23) { CHECK(RunTest(23)); }
 TEST(24) { CHECK(RunTest(24)); }
 TEST(25) { CHECK(RunTest(25)); }
@@ -1006,7 +1006,7 @@ TEST(968) { CHECK(RunTest(968)); }
 //TEST(970) { CHECK(RunTest(970)); }
 //TEST(971) { CHECK(RunTest(971)); }
 //TEST(972) { CHECK(RunTest(972)); }
-TEST(973) { CHECK(RunTest(973)); }
+//TEST(973) { CHECK(RunTest(973)); }
 //TEST(974) { CHECK(RunTest(974)); }
 //TEST(975) { CHECK(RunTest(975)); }
 //TEST(976) { CHECK(RunTest(976)); }
