@@ -983,6 +983,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
 			rri->setKineticLaw("reaction2", "compartment * k2 * S3");
+			CHECK(rri->getKineticLaw("reaction2") == "compartment * k2 * S3");
 		}));
 	}
 
@@ -992,6 +993,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		{
 			rri->setKineticLaw("reaction1", "compartment * k1 * S1 * S2");
 			rri->setKineticLaw("reaction2", "compartment * k2 * S3 * S4");
+			CHECK(rri->getKineticLaw("reaction1") == "compartment * k1 * S1 * S2");
+			CHECK(rri->getKineticLaw("reaction2") == "compartment * k2 * S3 * S4");
 		}));
 	}
 
@@ -1001,6 +1004,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		{
 			rri->setKineticLaw("reaction1", "compartment * k1 * S1 * S2", false);
 			rri->setKineticLaw("reaction2", "compartment * k2 * S3 * S4", true);
+			CHECK(rri->getKineticLaw("reaction1") == "compartment * k1 * S1 * S2");
+			CHECK(rri->getKineticLaw("reaction2") == "compartment * k2 * S3 * S4");
 		}));
 	}
 

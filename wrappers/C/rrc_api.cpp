@@ -1868,6 +1868,16 @@ bool rrcCallConv setKineticLawNoRegen(RRHandle handle, const char* rid, const ch
 	catch_bool_macro
 }
 
+C_DECL_SPEC char* rrcCallConv getKineticLaw(RRHandle handle, const char* rid)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    std::string kl = rri->getKineticLaw(rid);
+    char* text = rr::createText(kl.c_str());
+    return text;
+    catch_ptr_macro
+}
+
 bool rrcCallConv addParameter(RRHandle handle, const char* pid, double value)
 {
 	start_try

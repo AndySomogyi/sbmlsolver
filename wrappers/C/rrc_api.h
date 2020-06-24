@@ -712,6 +712,15 @@ C_DECL_SPEC bool rrcCallConv setKineticLawNoRegen(RRHandle handle, const char* r
 
 
 /*!
+ \brief Get the kinetic law for a existing reaction in the current model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] rid ID of reaction to be modified
+ \return Returns the kinetic law.
+ \ingroup edit
+*/
+C_DECL_SPEC char* rrcCallConv getKineticLaw(RRHandle handle, const char* rid);
+
+/*!
  \brief Add a parameter to the current model
  \param[in] handle Handle to a RoadRunner instance
  \param[in] pid ID of the parameter to be added
