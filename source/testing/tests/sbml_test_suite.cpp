@@ -1238,11 +1238,11 @@ SUITE(SBML_test_suite_part2)
     TEST(1209) { CHECK(RunTest(1209)); }
     TEST(1210) { CHECK(RunTest(1210)); }
     TEST(1211) { CHECK(RunTest(1211)); }
-    //TEST(1212) { CHECK(RunTest(1212)); } // Improper interpretation of leq/geq with 3+ args
-    //TEST(1213) { CHECK(RunTest(1213)); } // Improper interpretation of leq/geq with 3+ args
+    TEST(1212) { CHECK(RunTest(1212)); }
+    TEST(1213) { CHECK(RunTest(1213)); }
     TEST(1214) { CHECK(RunTest(1214)); }
     TEST(1215) { CHECK(RunTest(1215)); }
-    //TEST(1216) { CHECK(RunTest(1216)); } // Improper interpretation of leq/geq with 3+ args
+    TEST(1216) { CHECK(RunTest(1216)); }
     TEST(1217) { CHECK(RunTest(1217)); }
     TEST(1218) { CHECK(RunTest(1218)); }
     TEST(1219) { CHECK(RunTest(1219)); }
@@ -1520,7 +1520,7 @@ SUITE(SBML_test_suite_part2)
     TEST(1491) { CHECK(RunTest(1491)); }
     TEST(1492) { CHECK(RunTest(1492)); }
     TEST(1493) { CHECK(RunTest(1493)); }
-    //TEST(1494) { CHECK(RunTest(1494)); } // Incorrect interpretation; 3+args in functions
+    TEST(1494) { CHECK(RunTest(1494)); }
     TEST(1495) { CHECK(RunTest(1495)); }
     TEST(1496) { CHECK(RunTest(1496)); }
     TEST(1497) { CHECK(RunTest(1497)); }
@@ -1807,9 +1807,9 @@ SUITE(SBML_test_suite_part2)
     //TEST(1778) { CHECK(RunTest(1778)); } //Fail due to l3v2 flattening
     TEST(1779) { CHECK(RunTest(1779)); }
     //TEST(1780) { CHECK(RunTest(1780)); } // Incorrect interpretation.
-    //TEST(1781) { CHECK(RunTest(1781)); } // MathML 3+ arguments
-    //TEST(1782) { CHECK(RunTest(1782)); } // MathML 3+ arguments
-    //TEST(1783) { CHECK(RunTest(1783)); } // MathML 3+ arguments
+    TEST(1781) { CHECK(RunTest(1781)); }
+    TEST(1782) { CHECK(RunTest(1782)); }
+    TEST(1783) { CHECK(RunTest(1783)); }
     TEST(1784) { CHECK(RunTest(1784)); }
     TEST(1785) { CHECK(RunTest(1785)); }
     TEST(1786) { CHECK(RunTest(1786)); }

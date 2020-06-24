@@ -809,7 +809,7 @@ llvm::Value* ASTNodeCodeGen::applyScalarRelationalCodeGen(const libsbml::ASTNode
 	}
 
     assert(result);
-	cout << "Passed assert" << endl;
+	//cout << "Passed assert" << endl;
 
     return result;
 }
