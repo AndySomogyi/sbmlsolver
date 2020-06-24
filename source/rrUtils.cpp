@@ -26,6 +26,7 @@
 #include <cmath>
 #include <math.h>
 #include <float.h>
+#include <fstream>
 #if defined(_WIN32)
 #include <strsafe.h> //StringCchPrintf need to be included AFTER all other system headers :(
 #endif
@@ -423,18 +424,18 @@ bool folderExists(const string& folderName)
 #endif
 }
 
-void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
+void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName, string& descriptionFName)
 {
-    stringstream modelSubPath;
-    stringstream modelFileName;
-    stringstream settingsFileName;
+    stringstream modelSubPath, modelFileName, settingsFileName, descriptionFileName;
 
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     modelFileName<<setfill('0')<<setw(5)<<caseNr<<postFixPart;
     modelFilePath = joinPath(modelFilePath, modelSubPath.str());
     modelName =  modelFileName.str();
-    settingsFileName <<setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
+    settingsFileName << setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
     settingsFName = settingsFileName.str();
+    descriptionFileName << setfill('0') << setw(5) << caseNr << "-model.m";
+    descriptionFName = descriptionFileName.str();
 }
 
 string getTestSuiteSubFolderName(int caseNr)
@@ -442,6 +443,33 @@ string getTestSuiteSubFolderName(int caseNr)
     stringstream modelSubPath;
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     return modelSubPath.str();
+}
+
+bool hasUnimplementedTags(const string& descriptionFileName)
+{
+    vector<string> badtags;
+    badtags.push_back("AlgebraicRule");
+    badtags.push_back("CSymbolDelay");
+    badtags.push_back("fbc");
+    badtags.push_back("BoolNumericSwap");
+    badtags.push_back("FastReaction");
+    badtags.push_back("AlgebraicRule");
+    badtags.push_back("AlgebraicRule");
+    ifstream descfile(descriptionFileName);
+    if (descfile.good()) {
+        string line;
+        while (getline(descfile, line)) {
+            if (line.find("Tags") != string::npos) {
+                for (size_t i = 0; i < badtags.size(); i++) {
+                    string tag = badtags[i];
+                    if (line.find(tag) != string::npos) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 bool createFolder(const string& folder)

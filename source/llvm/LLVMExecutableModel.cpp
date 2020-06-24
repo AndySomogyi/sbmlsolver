@@ -125,8 +125,8 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, size_t),
 
         if (isnan(value))
         {
-            Log(Logger::LOG_WARNING) << "error getting value for index " << j
-                                   << ", probably out of range";
+            Log(Logger::LOG_WARNING) << "NaN value for index " << j
+                                   << ".  Could be out of range or illegal computation.";
         }
 
         values[i] = value;

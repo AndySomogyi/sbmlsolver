@@ -206,7 +206,7 @@ bool RunTest(const string& version, int caseNumber)
         setCurrentIntegratorParameterBoolean(gRR, "stiff", 0);
 
         //Create a log file name
-        createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName, dummy);
 
         //Create subfolder for data output
         dataOutputFolder = joinPath(dataOutputFolder, getTestSuiteSubFolderName(caseNumber));
@@ -226,7 +226,7 @@ bool RunTest(const string& version, int caseNumber)
         string modelFileName;
 
         simulation.SetCaseNumber(caseNumber);
-        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, dummy);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);
