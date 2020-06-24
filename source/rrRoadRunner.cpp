@@ -5994,6 +5994,39 @@ void RoadRunner::setKineticLaw(const std::string& rid, const std::string& kineti
 
 
 
+std::string RoadRunner::getKineticLaw(const std::string& rid)
+{
+
+    using namespace libsbml;
+    Model* sbmlModel = impl->document->getModel();
+    Reaction* reaction = sbmlModel->getReaction(rid);
+
+    if (reaction == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::getKineticLaw failed, no reaction with ID " + rid + " exists in the model");
+    }
+
+    Log(Logger::LOG_DEBUG) << "Getting kinetic law for reaction " << rid << endl;
+
+
+    KineticLaw* law = reaction->getKineticLaw();
+    if (law == NULL) {
+        return "";
+    }
+
+    const ASTNode* math = law->getMath();
+    if (math == NULL) {
+        return "";
+    }
+
+    char* mathchr = SBML_formulaToL3String(math);
+    string ret(mathchr);
+    free(mathchr);
+    return ret;
+}
+
+
+
 void RoadRunner::addParameter(const std::string& pid, double value, bool forceRegenerate)
 {
 	checkID("addParameter", pid);
