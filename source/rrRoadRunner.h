@@ -909,6 +909,12 @@ public:
 	*/
 	void setKineticLaw(const std::string& rid, const std::string& kineticLaw, bool forceRegenerate = true);
 
+    /**
+    * Get the kinetic law of an existing reaction in the current model.
+    * @param rid: the ID of reaction to be modified
+    */
+    std::string getKineticLaw(const std::string& rid);
+
 
 	/**
 	 * Add a parameter to the current model
