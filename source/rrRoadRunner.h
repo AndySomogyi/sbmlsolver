@@ -79,6 +79,12 @@ public:
             const std::string& supportCodeDir);
 
     /**
+    * RoadRunner copy constructor
+    * Explicitly defined because of Python.
+    */
+    RoadRunner(const RoadRunner& rr);
+
+    /**
      * free any memory this class allocated
      */
     virtual ~RoadRunner();
