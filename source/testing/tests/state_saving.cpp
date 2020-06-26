@@ -208,7 +208,7 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version = 
 bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::string version = "l2v4")
 {
 	bool result(false);
-	RoadRunner *rr;
+	RoadRunner *rr, *rr2, *rr3;
 
 	//Create instance..
 	rr = new RoadRunner();
@@ -302,7 +302,15 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 			throw(Exception("Failed loading simulation settings"));
 		}
 		//Perform the model editing action
-		modification(rr);
+		rr2 = new RoadRunner(*rr);
+		int rr2id = rr2->getInstanceID();
+		modification(rr2);
+		CHECK(rr2->getInstanceID() == rr2id);
+		rr3 = new RoadRunner(*rr2);
+		CHECK(rr->getInstanceID() != rr2->getInstanceID());
+		CHECK(rr->getInstanceID() != rr3->getInstanceID());
+		CHECK(rr2->getInstanceID() != rr3->getInstanceID());
+		simulation.UseEngine(rr3);
 		//Then Simulate model
 		if (!simulation.Simulate())
 		{
@@ -344,6 +352,8 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 	}
 
 	delete rr;
+	delete rr2;
+	delete rr3;
 	delete doc;
 	return result;
 }
@@ -480,6 +490,13 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*),std::string versi
 
 SUITE(STATE_SAVING_TEST_SUITE)
 {
+	TEST(COPY_RR)
+	{
+		RoadRunner rr(3, 2);
+		RoadRunner rr2(rr);
+		CHECK(rr.getInstanceID() != rr2.getInstanceID());
+
+	}
 	TEST(SAVE_STATE_1)
 	{
 		CHECK(RunStateSavingTest(1, [](RoadRunner *rri)
