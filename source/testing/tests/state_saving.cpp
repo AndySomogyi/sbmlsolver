@@ -303,8 +303,13 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		}
 		//Perform the model editing action
 		rr2 = new RoadRunner(*rr);
+		int rr2id = rr2->getInstanceID();
 		modification(rr2);
+		CHECK(rr2->getInstanceID() == rr2id);
 		rr3 = new RoadRunner(*rr2);
+		CHECK(rr->getInstanceID() != rr2->getInstanceID());
+		CHECK(rr->getInstanceID() != rr3->getInstanceID());
+		CHECK(rr2->getInstanceID() != rr3->getInstanceID());
 		simulation.UseEngine(rr3);
 		//Then Simulate model
 		if (!simulation.Simulate())
@@ -489,6 +494,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 	{
 		RoadRunner rr(3, 2);
 		RoadRunner rr2(rr);
+		CHECK(rr.getInstanceID() != rr2.getInstanceID());
 
 	}
 	TEST(SAVE_STATE_1)

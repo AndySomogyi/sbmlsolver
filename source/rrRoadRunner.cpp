@@ -305,7 +305,7 @@ public:
     }
 
     RoadRunnerImpl(const RoadRunnerImpl& rri) :
-        mInstanceID(rri.mInstanceID),
+        mInstanceID(0),
         mDiffStepSize(rri.mDiffStepSize),
         mSteadyStateThreshold(rri.mSteadyStateThreshold),
         simulationResult(rri.simulationResult),
@@ -594,6 +594,10 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
     }
 
     reset(SelectionRecord::TIME);
+
+    //Increase instance count..
+    mInstanceCount++;
+    impl->mInstanceID = mInstanceCount;
 }
 
 RoadRunner::~RoadRunner()
@@ -5381,7 +5385,8 @@ void RoadRunner::loadState(std::string filename)
 		throw std::invalid_argument("The file " + filename + " was saved with an unrecognized version of roadrunner");
 	}
    //load roadrunner's data in the same order saveState saves it in
-	rr::loadBinary(in, impl->mInstanceID);
+    int oldInstanceID;
+	rr::loadBinary(in, oldInstanceID); //Keep our current one; it's supposed to be unique.
 	rr::loadBinary(in, impl->mDiffStepSize);
 	rr::loadBinary(in, impl->mSteadyStateThreshold);
     
