@@ -44,7 +44,7 @@ SUITE(SBML_test_suite_part1)
     TEST(19) { CHECK(RunTest(19)); }
     TEST(20) { CHECK(RunTest(20)); }
     TEST(21) { CHECK(RunTest(21)); }
-    //TEST(22) { CHECK(RunTest(22)); } //The L2v1 model fails for unknown reason.
+    TEST(22) { CHECK(RunTest(22)); }
     TEST(23) { CHECK(RunTest(23)); }
     TEST(24) { CHECK(RunTest(24)); }
     TEST(25) { CHECK(RunTest(25)); }
