@@ -22,7 +22,7 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, stri
 
 SUITE(SBML_test_suite_part1)
 {
-//    TEST(0) { CHECK(RunTest(966)); } //Use when need to check one thing.
+    //TEST(0) { CHECK(RunTest(1186)); } //Use when need to check one thing.
     TEST(1) { CHECK(RunTest(1)); }
     TEST(2) { CHECK(RunTest(2)); }
     TEST(3) { CHECK(RunTest(3)); }
@@ -1212,17 +1212,17 @@ SUITE(SBML_test_suite_part2)
     TEST(1183) { CHECK(RunTest(1183)); }
     TEST(1184) { CHECK(RunTest(1184)); }
     TEST(1185) { CHECK(RunTest(1185)); }
-    //TEST(1186) { CHECK(RunTest(1186)); } // FBC test output is an FBC object
-    //TEST(1187) { CHECK(RunTest(1187)); } // FBC test output is an FBC object
-    //TEST(1188) { CHECK(RunTest(1188)); } // FBC test output is an FBC object
-    //TEST(1189) { CHECK(RunTest(1189)); } // FBC test output is an FBC object
-    //TEST(1190) { CHECK(RunTest(1190)); } // FBC test output is an FBC object
-    //TEST(1191) { CHECK(RunTest(1191)); } // FBC test output is an FBC object
-    //TEST(1192) { CHECK(RunTest(1192)); } // FBC test output is an FBC object
-    //TEST(1193) { CHECK(RunTest(1193)); } // FBC test output is an FBC object
-    //TEST(1194) { CHECK(RunTest(1194)); } // FBC test output is an FBC object
-    //TEST(1195) { CHECK(RunTest(1195)); } // FBC test output is an FBC object
-    //TEST(1196) { CHECK(RunTest(1196)); } // FBC test output is an FBC object
+    TEST(1186) { CHECK(RunTest(1186)); }
+    TEST(1187) { CHECK(RunTest(1187)); }
+    TEST(1188) { CHECK(RunTest(1188)); }
+    TEST(1189) { CHECK(RunTest(1189)); }
+    TEST(1190) { CHECK(RunTest(1190)); }
+    TEST(1191) { CHECK(RunTest(1191)); }
+    TEST(1192) { CHECK(RunTest(1192)); }
+    TEST(1193) { CHECK(RunTest(1193)); }
+    TEST(1194) { CHECK(RunTest(1194)); }
+    TEST(1195) { CHECK(RunTest(1195)); }
+    TEST(1196) { CHECK(RunTest(1196)); }
     TEST(1197) { CHECK(RunTest(1197)); }
     //TEST(1198) { CHECK(RunTest(1198)); } // ASTNode destructor throws error.
     TEST(1199) { CHECK(RunTest(1199)); }
@@ -1632,31 +1632,31 @@ SUITE(SBML_test_suite_part2)
     TEST(1603) { CHECK(RunTest(1603)); }
     TEST(1604) { CHECK(RunTest(1604)); }
     TEST(1605) { CHECK(RunTest(1605)); }
-    //TEST(1606) { CHECK(RunTest(1606)); } // FBC test output is an FBC object
-    //TEST(1607) { CHECK(RunTest(1607)); } // FBC test output is an FBC object
-    //TEST(1608) { CHECK(RunTest(1608)); } // FBC test output is an FBC object
-    //TEST(1609) { CHECK(RunTest(1609)); } // FBC test output is an FBC object
-    //TEST(1610) { CHECK(RunTest(1610)); } // FBC test output is an FBC object
-    //TEST(1611) { CHECK(RunTest(1611)); } // FBC test output is an FBC object
-    //TEST(1612) { CHECK(RunTest(1612)); } // FBC test output is an FBC object
-    //TEST(1613) { CHECK(RunTest(1613)); } // FBC test output is an FBC object
-    //TEST(1614) { CHECK(RunTest(1614)); } // FBC test output is an FBC object
-    //TEST(1615) { CHECK(RunTest(1615)); } // FBC test output is an FBC object
-    //TEST(1616) { CHECK(RunTest(1616)); } // FBC test output is an FBC object
-    //TEST(1617) { CHECK(RunTest(1617)); } // FBC test output is an FBC object
-    //TEST(1618) { CHECK(RunTest(1618)); } // FBC test output is an FBC object
-    //TEST(1619) { CHECK(RunTest(1619)); } // FBC test output is an FBC object
-    //TEST(1620) { CHECK(RunTest(1620)); } // FBC test output is an FBC object
-    //TEST(1621) { CHECK(RunTest(1621)); } // FBC test output is an FBC object
-    //TEST(1622) { CHECK(RunTest(1622)); } // FBC test output is an FBC object
-    //TEST(1623) { CHECK(RunTest(1623)); } // FBC test output is an FBC object
-    //TEST(1624) { CHECK(RunTest(1624)); } // FBC test output is an FBC object
-    //TEST(1625) { CHECK(RunTest(1625)); } // FBC test output is an FBC object
+    TEST(1606) { CHECK(RunTest(1606)); }
+    TEST(1607) { CHECK(RunTest(1607)); }
+    TEST(1608) { CHECK(RunTest(1608)); }
+    TEST(1609) { CHECK(RunTest(1609)); }
+    TEST(1610) { CHECK(RunTest(1610)); }
+    TEST(1611) { CHECK(RunTest(1611)); }
+    TEST(1612) { CHECK(RunTest(1612)); }
+    TEST(1613) { CHECK(RunTest(1613)); }
+    TEST(1614) { CHECK(RunTest(1614)); }
+    TEST(1615) { CHECK(RunTest(1615)); }
+    TEST(1616) { CHECK(RunTest(1616)); }
+    TEST(1617) { CHECK(RunTest(1617)); }
+    TEST(1618) { CHECK(RunTest(1618)); }
+    TEST(1619) { CHECK(RunTest(1619)); }
+    TEST(1620) { CHECK(RunTest(1620)); }
+    TEST(1621) { CHECK(RunTest(1621)); }
+    TEST(1622) { CHECK(RunTest(1622)); }
+    TEST(1623) { CHECK(RunTest(1623)); }
+    TEST(1624) { CHECK(RunTest(1624)); }
+    TEST(1625) { CHECK(RunTest(1625)); }
     //TEST(1626) { CHECK(RunTest(1626)); } // Unknown throw.
     //TEST(1627) { CHECK(RunTest(1627)); } // Unknown throw.
     //TEST(1628) { CHECK(RunTest(1628)); } // Throw; AST unknown pointer.
     //TEST(1629) { CHECK(RunTest(1629)); } // Throw; AST unknown pointer.
-    //TEST(1630) { CHECK(RunTest(1630)); } // FBC test output is an FBC object
+    TEST(1630) { CHECK(RunTest(1630)); }
     TEST(1631) { CHECK(RunTest(1631)); }
     TEST(1632) { CHECK(RunTest(1632)); }
     TEST(1633) { CHECK(RunTest(1633)); }
@@ -2032,7 +2032,8 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, stri
     string modelFilePath(gTSModelsPath);
     string modelFileName;
     string settingsFileName;
-    createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, dummy);
+    string descriptionFileName;
+    createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, descriptionFileName);
 
     //The following will load and compile and simulate the sbml model in the file
     simulation.SetCaseNumber(caseNumber);
@@ -2057,11 +2058,13 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, stri
     }
 
 
-    //Then Simulate model
-    if (!simulation.Simulate())
-    {
-        Log(Logger::LOG_ERROR) << "Failed running simulation";
-        throw("Failed running simulation");
+    if (!isFBCTest(modelFilePath + "/" + descriptionFileName)) {
+        //Only try simulating non-FBC tests.
+        if (!simulation.Simulate())
+        {
+            Log(Logger::LOG_ERROR) << "Failed running simulation";
+            throw("Failed running simulation");
+        }
     }
 
 }

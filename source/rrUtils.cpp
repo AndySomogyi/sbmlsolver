@@ -472,6 +472,25 @@ bool hasUnimplementedTags(const string& descriptionFileName)
     return false;
 }
 
+bool isFBCTest(const string& descriptionFileName)
+{
+    ifstream descfile(descriptionFileName);
+    if (descfile.good()) {
+        string line;
+        while (getline(descfile, line)) {
+            if (line.find("testType") != string::npos) {
+                if (line.find("FluxBalanceSteadyState") != string::npos) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool createFolder(const string& folder)
 {
     if(fileExists(folder))

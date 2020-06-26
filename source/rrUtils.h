@@ -109,6 +109,8 @@ RR_DECLSPEC string          getTestSuiteSubFolderName(int caseNr);
 
 RR_DECLSPEC bool            hasUnimplementedTags(const string& descriptionFileName);
 
+RR_DECLSPEC bool            isFBCTest(const string& descriptionFileName);
+
 //CArray utilities
 RR_DECLSPEC bool            copyCArrayToStdVector(const int* src,     vector<int>& dest, int size);
 RR_DECLSPEC bool            copyCArrayToStdVector(const double* src,  vector<double>& dest, int size);
