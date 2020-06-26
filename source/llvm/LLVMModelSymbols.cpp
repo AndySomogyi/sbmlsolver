@@ -409,6 +409,9 @@ const ASTNode* LLVMModelSymbols::getSpeciesReferenceStoichMath(
     {
         ASTNode *m = nodes.create(AST_REAL);
         m->setValue(reference->getStoichiometry());
+        if (reference->getLevel() == 1 && reference->getDenominator() != 1) {
+            m->setValue(reference->getStoichiometry() / reference->getDenominator());
+        }
         stoich = m;
     }
     return stoich;
