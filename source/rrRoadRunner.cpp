@@ -195,7 +195,7 @@ public:
 
     /**
      * Points to the current integrator. This is a pointer into the
-     * integtators array.
+     * integrators array.
      */
     Integrator* integrator;
 	std::vector<Integrator*> integrators;
@@ -304,6 +304,40 @@ public:
         //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
     }
 
+    RoadRunnerImpl(const RoadRunnerImpl& rri) :
+        mInstanceID(rri.mInstanceID),
+        mDiffStepSize(rri.mDiffStepSize),
+        mSteadyStateThreshold(rri.mSteadyStateThreshold),
+        simulationResult(rri.simulationResult),
+        integrator(NULL),
+        integrators(),
+        steady_state_solver(NULL),
+        steady_state_solvers(), 
+        mSelectionList(rri.mSelectionList),
+        loadOpt(rri.loadOpt),
+        mSteadyStateSelection(rri.mSteadyStateSelection),
+        //model(NULL), //Create below instead.  Constructing with 'NULL' doesn't work.
+        compiler(Compiler::New()),
+        mLS(NULL), //Create only if asked.
+        simulateOpt(rri.simulateOpt),
+        roadRunnerOptions(rri.roadRunnerOptions),
+        configurationXML(rri.configurationXML),
+        simulatedSinceReset(false),
+        document(rri.document->clone())
+    {
+        //There may be an easier way to save and load the model state, but this
+        // is at least straightforward.  We call 'saveState', convert it to an
+        // input stream, and use that to create a new model.  -LS
+        if (rri.model) {
+            stringstream ss;
+            rri.model->saveState(ss);
+
+            istringstream istr(ss.str());
+
+            model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(istr, loadOpt.modelGeneratorOpt));
+            syncAllSolversWithModel(model.get());
+        }
+    }
     ~RoadRunnerImpl()
     {
         Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
@@ -519,6 +553,47 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
 	impl->document = unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
 	impl->document->createModel();
 
+}
+
+RoadRunner::RoadRunner(const RoadRunner& rr)
+    : impl(new RoadRunnerImpl(*rr.impl))
+{
+    //Set up integrators.
+    // We loop through all the integrators in the source, setting the current one to
+    //  each in turn, and setting the values of that current one based on the one in
+    //  the vector of the original rr.
+    for (size_t in = 0; in < rr.impl->integrators.size(); in++)
+    {
+        setIntegrator(rr.impl->integrators[in]->getName());
+        for (std::string k : rr.impl->integrators[in]->getSettings())
+        {
+            impl->integrator->setValue(k, rr.impl->integrators[in]->getValue(k));
+        }
+    }
+    //Set the current integrator to the correct one.
+    if (rr.impl->integrator) {
+        setIntegrator(rr.impl->integrator->getName());
+        //Restart the integrator and reset the model time
+        if (impl->model) {
+            impl->integrator->restart(impl->model->getTime());
+        }
+    }
+
+
+    //Set up the steady state solvers, the same as the integrators.
+    for (size_t ss = 0; ss < rr.impl->integrators.size(); ss++)
+    {
+        setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
+        for (std::string k : rr.impl->steady_state_solvers[ss]->getSettings())
+        {
+            impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
+        }
+    }
+    if (rr.impl->steady_state_solver) {
+        setSteadyStateSolver(rr.impl->steady_state_solver->getName());
+    }
+
+    reset(SelectionRecord::TIME);
 }
 
 RoadRunner::~RoadRunner()

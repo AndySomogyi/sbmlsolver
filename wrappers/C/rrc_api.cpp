@@ -108,7 +108,7 @@ static vector<string>    sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
 static vector<double> rr_getRatesOfChange(RoadRunner* rr);
 
 
-// TODO: move all the depracated method here:
+// TODO: move all the deprecated methods here:
 /*
 static int rr_getNumberOfReactions(RoadRunner* r);
 static double rr_getReactionRate(RoadRunner* r, const int& index);
