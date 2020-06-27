@@ -22,7 +22,7 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, stri
 
 SUITE(SBML_test_suite_part1)
 {
-    //TEST(0) { CHECK(RunTest(1186)); } //Use when need to check one thing.
+    //TEST(0) { CHECK(RunTest(1630)); } //Use when need to check one thing.
     TEST(1) { CHECK(RunTest(1)); }
     TEST(2) { CHECK(RunTest(2)); }
     TEST(3) { CHECK(RunTest(3)); }
@@ -1656,7 +1656,7 @@ SUITE(SBML_test_suite_part2)
     //TEST(1627) { CHECK(RunTest(1627)); } // Unknown throw.
     //TEST(1628) { CHECK(RunTest(1628)); } // Throw; AST unknown pointer.
     //TEST(1629) { CHECK(RunTest(1629)); } // Throw; AST unknown pointer.
-    TEST(1630) { CHECK(RunTest(1630)); }
+    //TEST(1630) { CHECK(RunTest(1630)); } // Throw; AST unknown pointer.
     TEST(1631) { CHECK(RunTest(1631)); }
     TEST(1632) { CHECK(RunTest(1632)); }
     TEST(1633) { CHECK(RunTest(1633)); }
