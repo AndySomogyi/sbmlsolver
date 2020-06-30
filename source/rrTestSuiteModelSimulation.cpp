@@ -80,10 +80,14 @@ bool TestSuiteModelSimulation::LoadSettingsEx(const string& settingsFName)
     return result;
 }
 
-bool TestSuiteModelSimulation::LoadReferenceData()
+bool TestSuiteModelSimulation::LoadReferenceData(string refDataFileName)
 {
     //The reference data is located in the folder where the model is located
-    string refDataFileName = joinPath(mModelFilePath, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    if (refDataFileName.size() == 0)
+    {
+    	refDataFileName = joinPath(mModelFilePath, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    }
+
     if(!fileExists(refDataFileName))
     {
         Log(lWarning)<<"Could not open reference data file: "<<refDataFileName;
@@ -182,8 +186,7 @@ bool TestSuiteModelSimulation::SaveAllData()
 
     string outputAllFileName;
     string dummy;
-    string dummy2;
-    createTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy2);
+    createTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy, dummy);
     fs.open(joinPath(mDataOutputFolder, outputAllFileName).c_str());
 
     //Check matrices dimension, if they are not equal, bail..?

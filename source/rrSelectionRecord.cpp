@@ -172,8 +172,8 @@ static bool is_amount_rate(const std::string& str, std::string& p1)
     }
 }
 
-static const Poco::RegularExpression is_eigen_re("^\\s*(eigenReal|eigenImag)\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-static bool is_eigen(const std::string& str, std::string& p1, bool& complex)
+static const Poco::RegularExpression is_eigen_re("^\\s*(eigen|eigenReal|eigenImag)\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
+static bool is_eigen(const std::string& str, std::string& p1, int& complex)
 {
     std::vector<std::string> matches;
 
@@ -183,13 +183,17 @@ static bool is_eigen(const std::string& str, std::string& p1, bool& complex)
     {
         p1 = matches[2];
 
-        if (matches[1] == "eigenImag")
+        if (matches[1] == "eigen")
         {
-            complex = true;
+            complex = 1;
+        }
+        else if (matches[1] == "eigenReal")
+        {
+            complex = 2;
         }
         else
         {
-            complex = false;
+            complex = 3;
         }
         return true;
     }
@@ -280,7 +284,9 @@ std::string SelectionRecord::to_repr() const
     case SelectionRecord::UNSCALED_ELASTICITY: selType = "UNSCALED_ELASTICITY"; break;
     case SelectionRecord::CONTROL: selType = "CONTROL"; break;
     case SelectionRecord::UNSCALED_CONTROL: selType = "UNSCALED_CONTROL"; break;
-    case SelectionRecord::EIGENVALUE: selType = "EIGENVALUE"; break;
+    case SelectionRecord::EIGENVALUE_COMPLEX: selType = "EIGENVALUE_COMPLEX"; break;
+    case SelectionRecord::EIGENVALUE_REAL: selType = "EIGENVALUE_REAL"; break;
+    case SelectionRecord::EIGENVALUE_IMAG: selType = "EIGENVALUE_IMAG"; break;
     case SelectionRecord::INITIAL_AMOUNT: selType = "INITIAL_AMOUNT"; break;
     case SelectionRecord::INITIAL_CONCENTRATION: selType = "INITIAL_CONCENTRATION"; break;
     case SelectionRecord::STOICHIOMETRY: selType = "STOICHIOMETRY"; break;
@@ -300,7 +306,7 @@ std::string SelectionRecord::to_repr() const
 rr::SelectionRecord::SelectionRecord(const std::string str) :
         index(-1), selectionType(UNKNOWN)
 {
-    bool complex;
+    int complex;
 
     if (is_time(str))
     {
@@ -332,13 +338,17 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     }
     else if(is_eigen(str, p1, complex))
     {
-        if(complex)
+        if(complex == 1)
         {
             selectionType = EIGENVALUE_COMPLEX;
         }
+        else if(complex == 2)
+        {
+            selectionType = EIGENVALUE_REAL;
+        }
         else
         {
-            selectionType = EIGENVALUE;
+            selectionType = EIGENVALUE_IMAG;
         }
     }
     else if(is_init_value(str, p1))
@@ -396,10 +406,13 @@ std::string rr::SelectionRecord::to_string() const
     case UNSCALED_CONTROL:
         result = "ucc(" + p1 + ", " + p2 + ")";
         break;
-    case EIGENVALUE:
+    case EIGENVALUE_COMPLEX:
+        result = "eigen(" + p1 + ")";
+        break;
+    case EIGENVALUE_REAL:
         result = "eigenReal(" + p1 + ")";
         break;
-    case EIGENVALUE_COMPLEX:
+    case EIGENVALUE_IMAG:
         result = "eigenImag(" + p1 + ")";
         break;
     case INITIAL_AMOUNT:

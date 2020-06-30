@@ -40,15 +40,17 @@ static bool isNegative(const libsbml::ASTNode *node);
 
 std::string to_string(const libsbml::ASTNode *ast)
 {
-    char* formula = SBML_formulaToString(ast);
+    char* formula = SBML_formulaToL3String(ast);
     string str = formula;
     free(formula);
     return str;
 }
 
 ASTNodeCodeGen::ASTNodeCodeGen(llvm::IRBuilder<> &builder,
-        LoadSymbolResolver &resolver) :
-        builder(builder), resolver(resolver),
+        LoadSymbolResolver &resolver, 
+        const ModelGeneratorContext& ctx, 
+        llvm::Value *modelData) :
+        builder(builder), resolver(resolver), ctx(ctx), modelData(modelData),
         scalar_mode_(false)
 {
 }
@@ -139,7 +141,13 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case  AST_RELATIONAL_LEQ:
     case  AST_RELATIONAL_LT:
     case  AST_RELATIONAL_NEQ:
-        result = scalar_mode_ ? applyScalarRelationalCodeGen(ast) : applyRelationalCodeGen(ast);
+		// AHu: For now I am unsure of what scalar mode is, and it was doing literally the same thing before,
+		// so I have factored out the code, and now they both call the same method.
+		if (scalar_mode_) {
+			result = applyScalarRelationalCodeGen(ast);
+		} else {
+			result = applyRelationalCodeGen(ast);
+		}
         break;
 
     case  AST_LOGICAL_AND:
@@ -147,6 +155,10 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case  AST_LOGICAL_OR:
     case  AST_LOGICAL_XOR: {
         result = applyLogicalCodeGen(ast);
+        break;
+    }
+    case  AST_LOGICAL_IMPLIES: {
+        result = toDouble(applyLogicalCodeGen(ast));
         break;
     }
     case AST_FUNCTION: {
@@ -189,9 +201,16 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_SIN:
     case AST_FUNCTION_SINH:
     case AST_FUNCTION_TAN:
-    case AST_FUNCTION_TANH: {
+    case AST_FUNCTION_TANH:
+    case AST_FUNCTION_QUOTIENT:
+    case AST_FUNCTION_REM:{
         ASTNodeCodeGenScalarTicket t(*this, true);
         result = intrinsicCallCodeGen(ast);
+        break;
+    }
+    case AST_FUNCTION_MAX:
+    case AST_FUNCTION_MIN: {
+        result = minmaxCodeGen(ast);
         break;
     }
     case AST_FUNCTION_PIECEWISE:
@@ -216,6 +235,24 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_LAMBDA:
         result = notImplemented(ast);
         break;
+
+    case AST_DISTRIB_FUNCTION_UNIFORM:
+    case AST_DISTRIB_FUNCTION_NORMAL: 
+    case AST_DISTRIB_FUNCTION_BERNOULLI:
+    case AST_DISTRIB_FUNCTION_BINOMIAL:
+    case AST_DISTRIB_FUNCTION_CAUCHY:
+    case AST_DISTRIB_FUNCTION_CHISQUARE:
+    case AST_DISTRIB_FUNCTION_EXPONENTIAL:
+    case AST_DISTRIB_FUNCTION_GAMMA:
+    case AST_DISTRIB_FUNCTION_LAPLACE:
+    case AST_DISTRIB_FUNCTION_LOGNORMAL:
+    case AST_DISTRIB_FUNCTION_POISSON:
+    case AST_DISTRIB_FUNCTION_RAYLEIGH:
+    {
+        ASTNodeCodeGenScalarTicket t(*this, true);
+        result = distribCodeGen(ast);
+        break;
+    }
     default:
         {
             stringstream msg;
@@ -231,7 +268,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 {
-    char* formula = SBML_formulaToString(ast);
+    char* formula = SBML_formulaToL3String(ast);
     string str = formula;
     free(formula);
 
@@ -240,13 +277,341 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
     return 0;
 }
 
+llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
+{
+    TargetLibraryInfoImpl defaultImpl;
+	TargetLibraryInfo targetLib(defaultImpl);
+    Function* func;
+    Module *module = getModule();
+
+    // check if the arg counts match
+    //if (ast->getNumChildren() > 2)
+    //{
+    //    throw_llvm_exception("invalid number of args");
+    //}
+
+    ModelDataIRBuilder mdbuilder(modelData, ctx.getModelDataSymbols(),
+        builder);
+
+    llvm::Value *randomPtr = mdbuilder.createRandomLoad();
+    
+    std::vector<Value*> args;
+    args.push_back(randomPtr);
+    for (unsigned i = 0; i < ast->getNumChildren(); ++i)
+    {
+        args.push_back(toDouble(codeGen(ast->getChild(i))));
+    }
+
+    switch (ast->getType())
+    {
+    case AST_DISTRIB_FUNCTION_UNIFORM:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_uniform");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'uniform' requires two"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_NORMAL:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_normal");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_normal_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'normal' requires two or four"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_BERNOULLI:
+    {
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_bernoulli");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'bernoulli' requires only one"
+                << " arg, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_BINOMIAL:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_binomial");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_binomial_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'binomial' requires two or four"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_CAUCHY:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_cauchy");
+        }
+        else if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_cauchy_one");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_cauchy_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'cauchy' requires one, two, or four"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_CHISQUARE:
+    {
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_chisquare");
+        }
+        else if (ast->getNumChildren() == 3)
+        {
+            func = module->getFunction("rr_distrib_chisquare_three");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'chisquare' requires one or three"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_EXPONENTIAL:
+    {
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_exponential");
+        }
+        else if (ast->getNumChildren() == 3)
+        {
+            func = module->getFunction("rr_distrib_exponential_three");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'exponential' requires one or three"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_GAMMA:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_gamma");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_gamma_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'gamma' requires two or four"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_LAPLACE:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_laplace");
+        }
+        else if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_laplace_one");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_laplace_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'laplace' requires one, two, or four"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_LOGNORMAL:
+    {
+        if (ast->getNumChildren() == 2)
+        {
+            func = module->getFunction("rr_distrib_lognormal");
+        }
+        else if (ast->getNumChildren() == 4)
+        {
+            func = module->getFunction("rr_distrib_lognormal_four");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'lognormal' requires two or four"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_POISSON:
+    {
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_poisson");
+        }
+        else if (ast->getNumChildren() == 3)
+        {
+            func = module->getFunction("rr_distrib_poisson_three");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'poisson' requires one or three"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    case AST_DISTRIB_FUNCTION_RAYLEIGH:
+    {
+        if (ast->getNumChildren() == 1)
+        {
+            func = module->getFunction("rr_distrib_rayleigh");
+        }
+        else if (ast->getNumChildren() == 3)
+        {
+            func = module->getFunction("rr_distrib_rayleigh_three");
+        }
+        else
+        {
+            stringstream err;
+            err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << " 'rayleigh' requires one or three"
+                << " args, but was given " << ast->getNumChildren();
+            throw_llvm_exception(err.str());
+        }
+        break;
+    }
+    default:
+    {
+        string msg = "unknown distribution ";
+        msg += ast->getName();
+        throw_llvm_exception(msg);
+    }
+    break;
+    }
+
+    // get the function
+    if (func == 0)
+    {
+        string msg = "could not obtain a function for distrib " +
+            string(ast->getName());
+        msg += ", your operating system might not supoort it.";
+        throw_llvm_exception(msg);
+    }
+
+    // check if the arg counts match
+    //if (func->arg_size() != ast->getNumChildren())
+    //{
+    //    stringstream err;
+    //    err << "function call argument count in "
+    //        << ast->getParentSBMLObject()->toSBML()
+    //        << " does not match the specfied number of arguments, "
+    //        << (string)func->getName() << " requires " << func->arg_size()
+    //        << " args, but was given " << ast->getNumChildren();
+    //    throw_llvm_exception(err.str());
+    //}
+    
+    return builder.CreateCall(func, args, "calltmp");
+
+    assert(0 && "should not get here");
+    return 0;
+
+}
+
 llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
 {
     if (ast->getNumChildren() == 0) {
         throw_llvm_exception("AST type 'delay' requires two children.");
     }
 
-    char* formula = SBML_formulaToString(ast);
+    char* formula = SBML_formulaToL3String(ast);
     string str = formula;
     free(formula);
 
@@ -358,75 +723,93 @@ llvm::Value* ASTNodeCodeGen::applyArithmeticCodeGen(
     return acc;
 }
 
-llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast)
+llvm::Value* ASTNodeCodeGen::applyBinaryRelationalCodeGen(const libsbml::ASTNode* ast,
+		Value* left, Value* right)
 {
-    Value *left = toDouble(codeGen(ast->getLeftChild()));
-    Value *right = toDouble(codeGen(ast->getRightChild()));
-    Value *result = 0;
-    switch (ast->getType())
-    {
-    case AST_RELATIONAL_EQ:
-        result = builder.CreateFCmpUEQ(left, right);
-        break;
-    case AST_RELATIONAL_GEQ:
-        result = builder.CreateFCmpUGE(left, right);
-        break;
-    case AST_RELATIONAL_GT:
-        result = builder.CreateFCmpUGT(left, right);
-        break;
-    case AST_RELATIONAL_LEQ:
-        result = builder.CreateFCmpULE(left, right);
-        break;
-    case AST_RELATIONAL_LT:
-        result = builder.CreateFCmpULT(left, right);
-        break;
-    case AST_RELATIONAL_NEQ:
-        result = builder.CreateFCmpUNE(left, right);
-        break;
-    default:
-        result = 0;
-        break;
-    }
+	Value *result = 0;
+	switch (ast->getType())
+	{
+	case AST_RELATIONAL_EQ:
+		result = builder.CreateFCmpUEQ(left, right);
+		break;
+	case AST_RELATIONAL_GEQ:
+		result = builder.CreateFCmpUGE(left, right);
+		break;
+	case AST_RELATIONAL_GT:
+		result = builder.CreateFCmpUGT(left, right);
+		break;
+	case AST_RELATIONAL_LEQ:
+		result = builder.CreateFCmpULE(left, right);
+		break;
+	case AST_RELATIONAL_LT:
+		result = builder.CreateFCmpULT(left, right);
+		break;
+	case AST_RELATIONAL_NEQ:
+		result = builder.CreateFCmpUNE(left, right);
+		break;
+	default:
+		result = 0;
+		break;
+	}
 
     assert(result);
 
     return result;
 }
 
+llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast) {
+	return applyScalarRelationalCodeGen(ast);
+}
+
 llvm::Value* ASTNodeCodeGen::applyScalarRelationalCodeGen(const libsbml::ASTNode* ast)
 {
     if (!rr::Config::getBool(rr::Config::LOADSBMLOPTIONS_PERMISSIVE)) {
-        return applyRelationalCodeGen(ast);
-    }
-    Value *left = toDouble(codeGen(ast->getLeftChild()));
-    Value *right = toDouble(codeGen(ast->getRightChild()));
-    Value *result = 0;
-    switch (ast->getType())
-    {
-    case AST_RELATIONAL_EQ:
-        result = toDouble(builder.CreateFCmpUEQ(left, right));
-        break;
-    case AST_RELATIONAL_GEQ:
-        result = toDouble(builder.CreateFCmpUGE(left, right));
-        break;
-    case AST_RELATIONAL_GT:
-        result = toDouble(builder.CreateFCmpUGT(left, right));
-        break;
-    case AST_RELATIONAL_LEQ:
-        result = toDouble(builder.CreateFCmpULE(left, right));
-        break;
-    case AST_RELATIONAL_LT:
-        result = toDouble(builder.CreateFCmpULT(left, right));
-        break;
-    case AST_RELATIONAL_NEQ:
-        result = toDouble(builder.CreateFCmpUNE(left, right));
-        break;
-    default:
-        result = 0;
-        break;
+		Value* left = toDouble(codeGen(ast->getLeftChild()));
+		Value* right = toDouble(codeGen(ast->getRightChild()));
+        return applyBinaryRelationalCodeGen(ast, left, right);
     }
 
+	Value *result = 0;
+	// Possible to have more than 2 children
+	// In MathML, if there are >2 children, operation is applied between them
+	// e.g. apply LEQ 1,2,1 -> 1<=2<=1
+	unsigned int numKids = ast->getNumChildren();
+	if (numKids == 2) {
+		Value *left = toDouble(codeGen(ast->getLeftChild()));
+		Value *right = toDouble(codeGen(ast->getRightChild()));
+		
+		result = applyBinaryRelationalCodeGen(ast, left, right);
+	} else {
+		/* There are multiple children, we can break the relations up by ANDing them together
+		 * e.g. 1 <= 2 <= 1 === (1 <= 2) && (2 <= 1). The AST tree for *LLVM* will end up like
+		 *		  /&&\
+		 *    /&&\  1<3
+		 * 1<2   2<1
+		 */
+
+		// Get the base two relations (minimum that must be present if children > 2)
+		Value* baseLeftVal = toDouble(codeGen(ast->getChild(0)));
+		Value* baseMidVal = toDouble(codeGen(ast->getChild(1)));
+		Value* baseRightVal = toDouble(codeGen(ast->getChild(2)));
+				
+		Value* relationLeft = applyBinaryRelationalCodeGen(ast, baseLeftVal, baseMidVal);
+		Value* relationRight = applyBinaryRelationalCodeGen(ast, baseMidVal, baseRightVal);
+		
+		result = builder.CreateAnd(relationLeft, relationRight);
+		
+		//loop over the children to create the AND'ing tree shown above
+		for (int i = 3; i < numKids; i++) {
+			// In the example above, tempPrevVal = 1, tempCurrVal = 3, tempRelation = 1<3
+			Value* tempPrevVal = toDouble(codeGen(ast->getChild(i - 1)));
+			Value* tempCurrVal = toDouble(codeGen(ast->getChild(i)));
+			Value* tempRelation = applyBinaryRelationalCodeGen(ast, tempPrevVal, tempCurrVal);
+			// Create new root of the tree
+			result = builder.CreateAnd(result, tempRelation);	
+		}
+	}
+
     assert(result);
+	//cout << "Passed assert" << endl;
 
     return result;
 }
@@ -450,6 +833,26 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
     }
 
     const int numChildren = ast->getNumChildren();
+
+    if (type == AST_LOGICAL_IMPLIES)
+    {
+        if (numChildren != 2)
+        {
+            string msg = "logic implication can only have two arguments, recieved ";
+            msg += toString(ast->getNumChildren());
+            msg += ", MathML node: ";
+            msg += to_string(ast);
+            throw_llvm_exception(msg);
+        }
+
+        Value *atd = toBoolean(codeGen(ast->getChild(0)));
+        Value *csq = toBoolean(codeGen(ast->getChild(1)));
+        Value *natd = NULL;
+
+        natd = builder.CreateNot(atd, "neg_tmp");
+
+        return builder.CreateOr(natd, csq, "or_tmp");
+    }
 
     if (numChildren == 0)
     {
@@ -514,8 +917,9 @@ llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
 {
-    LibFunc::Func funcId;
-    TargetLibraryInfo targetLib;
+    LibFunc funcId;
+	TargetLibraryInfoImpl defaultImpl;
+    TargetLibraryInfo targetLib(defaultImpl);
     Function* func;
     Module *module = getModule();
 
@@ -525,15 +929,15 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
     case AST_POWER:                 // '^' sbml considers this an operator,
                                     // left and right child nodes are the first
                                     // 2 child nodes for args.
-        funcId = LibFunc::pow;
+        funcId = LibFunc_pow;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ABS:
-        funcId = LibFunc::fabs;
+        funcId = LibFunc_fabs;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCCOS:
-        funcId = LibFunc::acos;
+        funcId = LibFunc_acos;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCCOSH:
@@ -544,6 +948,8 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         if (isNegative(ast))
         {
             func = module->getFunction("rr_arccot_negzero");
+			func->isDeclaration();
+			func->hasValidDeclarationLinkage();
         }
         else
         {
@@ -566,29 +972,29 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction("arcsech");
         break;
     case AST_FUNCTION_ARCSIN:
-        funcId = LibFunc::asin;
+        funcId = LibFunc_asin;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCSINH:
         func = module->getFunction("arcsinh");
         break;
     case AST_FUNCTION_ARCTAN:
-        funcId = LibFunc::atan;
+        funcId = LibFunc_atan;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCTANH:
         func = module->getFunction("arctanh");
         break;
     case AST_FUNCTION_CEILING:
-        funcId = LibFunc::ceil;
+        funcId = LibFunc_ceil;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_COS:
-        funcId = LibFunc::cos;
+        funcId = LibFunc_cos;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_COSH:
-        funcId = LibFunc::cosh;
+        funcId = LibFunc_cosh;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_COT:
@@ -604,18 +1010,18 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction("csch");
         break;
     case AST_FUNCTION_EXP:
-        funcId = LibFunc::exp;
+        funcId = LibFunc_exp;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_FACTORIAL:
         func = module->getFunction("rr_factoriald");
         break;
     case AST_FUNCTION_FLOOR:
-        funcId = LibFunc::floor;
+        funcId = LibFunc_floor;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_LN:
-        funcId = LibFunc::log;
+        funcId = LibFunc_log;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_LOG:
@@ -631,19 +1037,26 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction("sech");
         break;
     case AST_FUNCTION_SIN:
-        funcId = LibFunc::sin;
+        funcId = LibFunc_sin;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_SINH:
-        funcId = LibFunc::sinh;
+        funcId = LibFunc_sinh;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_TAN:
-        funcId = LibFunc::tan;
+        funcId = LibFunc_tan;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_TANH:
-        funcId = LibFunc::tanh;
+        funcId = LibFunc_tanh;
+        func = module->getFunction(targetLib.getName(funcId));
+        break;
+    case AST_FUNCTION_QUOTIENT:
+        func = module->getFunction("quotient");
+        break;
+    case AST_FUNCTION_REM:
+        funcId = LibFunc_fmod;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     default:
@@ -887,7 +1300,7 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
                 "piecewise, returning NaN as \"otherwise\" value";
 
         owVal = ConstantFP::get(builder.getContext(),
-                APFloat::getQNaN(APFloat::IEEEdouble));
+                APFloat::getQNaN(APFloat::IEEEdouble()));
     }
 
     builder.CreateBr(mergeBB);
@@ -904,8 +1317,8 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
 
     assert(values.size() == blocks.size());
 
-    PHINode *pn = builder.CreatePHI(Type::getDoubleTy(context), values.size(),
-            "iftmp");
+    PHINode *pn = builder.CreatePHI(Type::getDoubleTy(context), 
+        static_cast<unsigned int>(values.size()), "iftmp");
 
     for (uint i = 0; i < values.size(); ++i)
     {
@@ -913,6 +1326,62 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     }
 
     return pn;
+}
+
+llvm::Value* ASTNodeCodeGen::minmaxCodeGen(const libsbml::ASTNode* ast) {
+
+    const ASTNodeType_t type = ast->getType();
+
+    Module *module = getModule();
+
+    const uint nchild = ast->getNumChildren();
+    
+    if (type == AST_FUNCTION_MAX) {
+        llvm::Function* func = module->getFunction("rr_max");
+
+        // If there's no child
+        if (nchild == 0) {
+            return ConstantFP::get(builder.getContext(), APFloat(-std::numeric_limits<double>::infinity()));
+        }
+
+        // if nchild is at least 1
+        Value* value = toDouble(codeGen(ast->getChild(0)));
+
+        uint i = 1;
+        while (i < nchild) {
+            std::vector<Value*> args;
+            args.push_back(value);
+            args.push_back(toDouble(codeGen(ast->getChild(i))));
+            value = builder.CreateCall(func, args, "rr_max");
+            i++;
+        }
+        assert(value);
+
+        return value;
+    }
+    else {
+        llvm::Function* func = module->getFunction("rr_min");
+
+        // If there's no child
+        if (nchild == 0) {
+            return ConstantFP::get(builder.getContext(), APFloat(std::numeric_limits<double>::infinity()));
+        }
+
+        // if nchild is at least 1
+        Value* value = toDouble(codeGen(ast->getChild(0)));
+
+        uint i = 1;
+        while (i < nchild) {
+            std::vector<Value*> args;
+            args.push_back(value);
+            args.push_back(toDouble(codeGen(ast->getChild(i))));
+            value = builder.CreateCall(func, args, "rr_min");
+            i++;
+        }
+        assert(value);
+
+        return value;
+    }
 }
 
 static bool isNegative(const libsbml::ASTNode *ast)
@@ -936,6 +1405,7 @@ ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket(ASTNodeCodeGen& gen, bool
 ASTNodeCodeGenScalarTicket::~ASTNodeCodeGenScalarTicket() {
     z_.scalar_mode_ = v_;
 }
+
 
 } /* namespace rr */
 

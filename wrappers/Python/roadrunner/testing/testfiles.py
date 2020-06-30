@@ -1,5 +1,5 @@
 import pkgutil
-import os
+import os, sys
 import os.path
 import glob
 import roadrunner
@@ -8,7 +8,7 @@ def getData(resource):
     """
     get the contents of a testing resource file.
     """
-    return pkgutil.get_data(__name__, resource)
+    return pkgutil.get_data(__name__, resource).decode("utf8")
 
 def abspath(resource):
 
@@ -32,9 +32,10 @@ def getRoadRunner(resource):
     """
     return a RoadRunner instance loaded with one of the test files.
     """
-
     data = pkgutil.get_data(__name__, resource)
     r = roadrunner.RoadRunner()
-    r.load(data)
+    if sys.version_info[0] < 3:
+        r.load(data)
+    else:
+        r.load(data.decode())
     return r
-

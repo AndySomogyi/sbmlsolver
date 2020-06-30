@@ -6,6 +6,8 @@ add_executable(${target}
 main.cpp 
 Args.cpp
 TestSuiteSimulation.cpp
+Args.h
+TestSuiteSimulation.h
 )
 
 add_definitions(
@@ -15,7 +17,8 @@ add_definitions(
 -DSTATIC_RR
 -DSTATIC_LIBSTRUCT
 -DLIBLAX_STATIC
--DSTATIC_NLEQ
+-DSTATIC_NLEQ1
+-DSTATIC_NLEQ2
 )
 
 target_link_libraries (${target} 

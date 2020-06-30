@@ -1,4 +1,5 @@
 #include <vector>
+#include <fstream>
 #include "rrUtils.h"
 #include "TestUtils.h"
 
@@ -32,7 +33,7 @@ ls::DoubleMatrix getDoubleMatrixFromString(const string& textMatrix)
         {
         	if(!mat.size())
             {
-                mat.resize(rows.size(), values.size());
+                mat.resize(static_cast<unsigned int>(rows.size()), static_cast<unsigned int>(values.size()));
             }
 
             mat(row, col) = toDouble(values[col]);
@@ -54,7 +55,7 @@ ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix)
         {
         	if(!mat.size())
             {
-                mat.resize(rows.size(), values.size());
+                mat.resize(static_cast<unsigned int>(rows.size()), static_cast<unsigned int>(values.size()));
             }
 
             std::complex<double> val = toComplex(values[col]);
@@ -62,5 +63,23 @@ ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix)
         }
     }
 	return mat;
+}
+
+bool filesAreEqual(const string& expected, const string& actual) {
+    ifstream efile(expected);
+    ifstream afile(actual);
+
+    string line1;
+    string line2;
+    while (efile && afile) {
+        getline(efile, line1);
+        getline(afile, line2);
+        if (line1 != line2) {
+            return false;
+        }
+    }
+
+    // check for remaining lines
+    return !(efile || afile);
 }
 

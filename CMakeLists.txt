@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.12)
 project(rr)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
 
 set(ROADRUNNER_VERSION_MAJOR 1)
-set(ROADRUNNER_VERSION_MINOR 4)
-set(ROADRUNNER_VERSION_PATCH 8)
+set(ROADRUNNER_VERSION_MINOR 6)
+set(ROADRUNNER_VERSION_PATCH 0)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 
@@ -45,7 +45,7 @@ endif(WIN32)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
 # TODO: add some logic to automatically set based on compiler version
-set(RR_USE_CXX11 FALSE CACHE BOOL "Set to TRUE to enable C++11 features")
+set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
 
 set(LLVM_INSTALL_PREFIX CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
 
@@ -71,11 +71,11 @@ if(EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
 else()
     message(STATUS "Looking for LLVM installed without CMake")
 
-    set(LLVM_MIN_VERSION       "3000000")
-    set(LLVM_MIN_VERSION_TEXT  "3.0")
+    set(LLVM_MIN_VERSION       "6000000")
+    set(LLVM_MIN_VERSION_TEXT  "6.0")
 
     # look for LLVM using the llvm-config program
-    find_package(LLVM)
+    find_package(LLVM 6)
 endif()
 
 
@@ -113,7 +113,7 @@ mark_as_advanced(
     INSTALL_C_API
     INSTALL_C_API_PYTHON
     INSTALL_STATIC_LIB
-    RR_USE_CXX11
+    RR_USE_CXX14
     )
 
 set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
@@ -122,7 +122,7 @@ set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 # new clang on OSX and msvc use std namespace.
-if(RR_USE_CXX11)
+if(RR_USE_CXX14)
     option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" OFF)
 else()
     option (USE_TR1_CXX_NS          "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
@@ -180,12 +180,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/bin)
 
 #** Apply Project/Compiler Settings ********************************************
 
-# Set C++11 flags
-if(RR_USE_CXX11)
+# Set C++14 flags
+if(RR_USE_CXX14)
     IF(NOT MSVC)
-        set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+        set(CMAKE_CXX_FLAGS "-std=c++14 ${CMAKE_CXX_FLAGS}")
     else()
-        message(WARNING "RR_USE_CXX11 enabled but has no effect on Microsoft compilers")
+        message(WARNING "RR_USE_CXX14 enabled but has no effect on Microsoft compilers")
     endif()
 endif()
 
@@ -208,7 +208,7 @@ else()
 endif()
 
 find_library(LIBSBML_LIBRARY sbml libsbml HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
-find_library(LIBSBML_STATIC_LIBRARY sbml-static libsbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib)
+find_library(LIBSBML_STATIC_LIBRARY sbml-static libsbml-static HINTS ${THIRD_PARTY_INSTALL_FOLDER}/lib ${THIRD_PARTY_INSTALL_FOLDER}/lib64)
 find_path(LIBSBML_INCLUDE_DIR sbml/SBMLTypes.h HINTS ${THIRD_PARTY_INSTALL_FOLDER}/include)
 
 # find libSBML deps
@@ -241,6 +241,7 @@ if (${BUILD_LLVM})
         ${LIBRARY_OUTPUT_PATH}
         ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
         ${THIRD_PARTY_INSTALL_FOLDER}/lib
+        ${THIRD_PARTY_INSTALL_FOLDER}/lib64
         ${LLVM_LIBRARY_DIRS}
     )
 else()
@@ -248,6 +249,7 @@ else()
         ${LIBRARY_OUTPUT_PATH}
         ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
         ${THIRD_PARTY_INSTALL_FOLDER}/lib
+        ${THIRD_PARTY_INSTALL_FOLDER}/lib64
     )
 endif (${BUILD_LLVM})
 
@@ -290,7 +292,7 @@ add_definitions(
 endif()
 
 if(UNIX)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++11")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif()
 
@@ -304,7 +306,7 @@ if(BUILD_LLVM)
     add_definitions(-DBUILD_LLVM)
     # Don't use add_definitions for LLVM flags per http://stackoverflow.com/questions/13638408/cmake-override-compile-flags-for-single-files
 #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
-    include_directories(${LLVM_INCLUDE_DIRS})
+    include_directories(BEFORE ${LLVM_INCLUDE_DIRS})
 else()
     message(STATUS "NOT using LLVM")
 endif(BUILD_LLVM)

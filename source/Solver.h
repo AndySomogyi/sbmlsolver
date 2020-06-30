@@ -87,13 +87,13 @@ namespace rr
         * @author JKM
         * @brief Get the number of parameters
         */
-        virtual unsigned long getNumParams() const;
+        virtual size_t getNumParams() const;
 
         /**
         * @author JKM
         * @brief Get the name of the parameter at index n
         */
-        virtual std::string getParamName(int n) const;
+        virtual std::string getParamName(size_t n) const;
 
         /**
         * @author JKM
@@ -149,6 +149,13 @@ namespace rr
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
         virtual double getValueAsDouble(std::string key);
+
+
+		/**
+		* @brief Wrapper for @ref getValue which converts output to a specific type
+		*/
+		virtual std::vector<double> getValueAsDoubleVector(std::string key);
+
 
         /**
         * @author WBC, JKM

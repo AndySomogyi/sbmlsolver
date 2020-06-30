@@ -1,5 +1,5 @@
 """
-The LibRoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro
+The LibRoadRunner SBML Simulation Engine, (c) 2009-2017 Andy Somogyi, Kyle Medley, Kiri Choi and Herbert Sauro
 
 LibRoadRunner is an SBML JIT compiler and simulation engine with a variety of analysis
 functions. LibRoadRunner is a self contained library which is designed to be integrated
@@ -7,11 +7,14 @@ into existing simulation platforms or may be used a stand alone simulation and a
 package.
 """
 
-import roadrunner
-from roadrunner import *
+from .roadrunner import *
 
-__version__ = roadrunner.getVersionStr()
+__version__ = roadrunner.getVersionStr(VERSIONSTR_BASIC)
 
 def runTests(testDir=None):
-  import testing
-  return testing.tester.runTester(testDir)
+    try:
+        import testing
+        return testing.tester.runTester(testDir)
+    except (ImportError):
+        import roadrunner.testing
+        return roadrunner.testing.tester.runTester(testDir)

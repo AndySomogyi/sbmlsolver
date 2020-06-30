@@ -25,8 +25,17 @@
     // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
+    #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
+    #ifdef _MSC_VER
+    #pragma warning(disable: 26812)
+    #pragma warning(disable: 26451)
+    #endif
     #include <lsMatrix.h>
+    #ifdef _MSC_VER
+    #pragma warning(disable: 26812)
+    #pragma warning(disable: 26451)
+    #endif
     #include <lsLibla.h>
     #include <lsLA.h>
     #include <lsLUResult.h>
@@ -43,6 +52,7 @@
     #include "conservation/ConservedMoietyConverter.h"
     #include "SBMLValidator.h"
     #include "rrSBMLReader.h"
+    #include <memory>
     #include <cstddef>
     #include <map>
     #include <rrVersionInfo.h>
@@ -72,8 +82,6 @@
 
 // Windows is just so special...
 #ifdef _WIN32
-    #define INFINITY (DBL_MAX + DBL_MAX)
-    #define NAN (INFINITY - INFINITY)
     #define isnan _isnan
 #else
     #include <signal.h>
@@ -191,8 +199,8 @@
 /* Convert from C --> Python */
 %typemap(out) std::vector<double> {
 
-    int len = $1.size();
-    npy_intp dims[1] = {len};
+    size_t len = $1.size();
+    npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
     VERIFY_PYARRAY(array);
@@ -230,8 +238,8 @@
     }
 
     if (iscpx) {
-        int len = $1.size();
-        npy_intp dims[1] = {len};
+        size_t len = $1.size();
+        npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
         VERIFY_PYARRAY(array);
@@ -247,8 +255,8 @@
 
         $result  = array;
     } else {
-        int len = $1.size();
-        npy_intp dims[1] = {len};
+        size_t len = $1.size();
+        npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
         VERIFY_PYARRAY(array);
@@ -303,7 +311,6 @@
 
 %apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
-
 /**
  * input map, convert an incomming object to a roadrunner Dictionary*
  */
@@ -342,7 +349,7 @@
 /*
 %typemap(out) std::vector<std::string> {
 
-    int len = $1.size();
+    size_t len = $1.size();
 
     PyObject* pyList = PyList_New(len);
 
@@ -407,19 +414,19 @@ size_t sigtrap();
 
 %{
 
-typedef int (rr::ExecutableModel::*getValuesPtr)(int, int const*, double*);
+typedef int (rr::ExecutableModel::*getValuesPtr)(size_t, int const*, double*);
 typedef string (ExecutableModel::*getNamePtr)(int);
 typedef int (ExecutableModel::*getNumPtr)();
 
 
 static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValuesPtr func,
-                                            getNumPtr numPtr, int len, int const *indx) {
+                                            getNumPtr numPtr, size_t len, int const *indx) {
     if (len <= 0) {
         len = (self->*numPtr)();
         indx = 0;
     }
 
-    npy_intp dims[1] = {len};
+    npy_intp dims[1] = {static_cast<npy_intp>(len)};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
     VERIFY_PYARRAY(array);
 
@@ -472,17 +479,15 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %}
 
 
-%apply (int DIM1, int* IN_ARRAY1) {(int len, int const *indx)};
+%apply (int DIM1, int* IN_ARRAY1) {(size_t len, int const *indx)};
 
-%apply (int DIM1, double* IN_ARRAY1) {(int len, double const *values)};
+%apply (int DIM1, double* IN_ARRAY1) {(size_t len, double const *values)};
 
 // typemap for the set***Values methods
-%apply (int DIM1, int* IN_ARRAY1) {(int leni, int const* indx)};
-%apply (int DIM1, double* IN_ARRAY1) {(int lenv, const  double* values)};
+%apply (int DIM1, int* IN_ARRAY1) {(size_t leni, int const* indx)};
+%apply (int DIM1, double* IN_ARRAY1) {(size_t lenv, const  double* values)};
 
-// typemap for getStateVector, getStateVectorRate
-%apply (int DIM1, double* IN_ARRAY1)      {(int in_len, double const *in_values)};
-%apply (int DIM1, double* INPLACE_ARRAY1) {(int out_len, double* out_values)};
+%apply int { size_t }
 
 #define LIB_EXTERN
 #define RR_DECLSPEC
@@ -501,11 +506,12 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %ignore rr::RoadRunner::addCapabilities;
 %ignore rr::RoadRunner::getFloatingSpeciesIds;
+%ignore rr::RoadRunner::getFloatingSpeciesConcentrationIds;
 %ignore rr::RoadRunner::getRateOfChangeIds;
 //%ignore rr::RoadRunner::getuCC;
 %ignore rr::RoadRunner::addCapability;
 %ignore rr::RoadRunner::getFloatingSpeciesInitialConcentrationByIndex;
-%ignore rr::RoadRunner::getRatesOfChange;
+//%ignore rr::RoadRunner::getRatesOfChange;
 //%ignore rr::RoadRunner::getuEE;
 %ignore rr::RoadRunner::changeInitialConditions;
 %ignore rr::RoadRunner::getFloatingSpeciesInitialConcentrations;
@@ -546,11 +552,11 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getInstanceCount;
 //%ignore rr::RoadRunner::getScaledFloatingSpeciesElasticity;
 %ignore rr::RoadRunner::setCapabilities;
-%ignore rr::RoadRunner::getBoundarySpeciesConcentrations;
 //%ignore rr::RoadRunner::getInstanceID;
 //%ignore rr::RoadRunner::getScaledFluxControlCoefficientMatrix;
 %ignore rr::RoadRunner::setCompartmentByIndex;
 %ignore rr::RoadRunner::getBoundarySpeciesIds;
+%ignore rr::RoadRunner::getBoundarySpeciesConcentrationIds;
 //%ignore rr::RoadRunner::getIntegrator;
 //%ignore rr::RoadRunner::getScaledReorderedElasticityMatrix;
 %ignore rr::RoadRunner::setCompiler;
@@ -582,7 +588,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getModelName;
 %ignore rr::RoadRunner::getTempFolder;
 %ignore rr::RoadRunner::setParameterValue;
-%ignore rr::RoadRunner::getConservedMoietyIds;
+//%ignore rr::RoadRunner::getConservedMoietyIds;
 //%ignore rr::RoadRunner::getNrMatrix;
 //%ignore rr::RoadRunner::getTimeCourseSelectionList;
 %ignore rr::RoadRunner::setSimulationSettings;
@@ -622,7 +628,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getParameterValue;
 //%ignore rr::RoadRunner::getVersion;
 %ignore rr::RoadRunner::unLoadModel;
-//%ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
 %ignore rr::RoadRunner::getRateOfChange;
 //%ignore rr::RoadRunner::getlibSBMLVersion;
 //%ignore rr::RoadRunner::writeSBML;
@@ -635,7 +640,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::simulate;
 
 %rename (_load) rr::RoadRunner::load;
-
+%rename (_getValue) rr::RoadRunner::getValue;
 
 %ignore rr::Config::getInt;
 %ignore rr::Config::getString;
@@ -675,6 +680,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%rename (__repr__) rr::Integrator::toRepr;
 
 
+%rename (__str__) rr::SteadyStateSolver::toString;
+
 // rename these, the injected python code will take care of
 // making these properties.
 %ignore rr::RoadRunner::getSelections();
@@ -694,6 +701,13 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
 %rename (_getConservedMoietyAnalysis) rr::RoadRunner::getConservedMoietyAnalysis();
 %rename (_setConservedMoietyAnalysis) rr::RoadRunner::setConservedMoietyAnalysis(bool);
+
+//Model editing proxies so that we can regenerate properties each time we regenerate the model
+%rename (_addParameter) rr::RoadRunner::addParameter(const std::string&, double, bool);
+%rename (_addSpecies) rr::RoadRunner::addSpecies(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
+%rename (_addCompartment) rr::RoadRunner::addCompartment(const std::string&, double, bool);
+%rename (_addReaction) rr::RoadRunner::addReaction(const std::string&, std::vector<string>, std::vector<string>, const std::string&, bool);
+
 
 // Swig wraps C++ vectors to tuples, need to wrap lists instead on some methods
 %rename (_getIndependentFloatingSpeciesIds) rr::RoadRunner::getIndependentFloatingSpeciesIds();
@@ -721,25 +735,25 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::lUser;
 
 
-%ignore rr::ExecutableModel::getFloatingSpeciesAmounts(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(int, int const*, double *);
-%ignore rr::ExecutableModel::getFloatingSpeciesConcentrationRates(int, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesAmounts(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(size_t, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesConcentrationRates(size_t, int const*, double *);
 
-%ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::getBoundarySpeciesAmounts(int, int const*, double *);
-%ignore rr::ExecutableModel::getBoundarySpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getGlobalParameterValues(int, int const*, double *);
-%ignore rr::ExecutableModel::setGlobalParameterValues(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getCompartmentVolumes(int, int const*, double *);
-%ignore rr::ExecutableModel::setCompartmentVolumes(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getConservedMoietyValues(int, int const*, double *);
-%ignore rr::ExecutableModel::setConservedMoietyValues(int len, int const *indx, const double *values);
-%ignore rr::ExecutableModel::getReactionRates(int, int const*, double *);
+%ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(size_t, int const*, double *);
+%ignore rr::ExecutableModel::getBoundarySpeciesAmounts(size_t, int const*, double *);
+%ignore rr::ExecutableModel::getBoundarySpeciesConcentrations(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getGlobalParameterValues(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setGlobalParameterValues(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getCompartmentVolumes(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setCompartmentVolumes(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getConservedMoietyValues(size_t, int const*, double *);
+%ignore rr::ExecutableModel::setConservedMoietyValues(size_t len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::getReactionRates(size_t, int const*, double *);
 %ignore rr::ExecutableModel::evalReactionRates;
 %ignore rr::ExecutableModel::convertToAmounts;
 %ignore rr::ExecutableModel::computeConservedTotals;
@@ -752,6 +766,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::computeAllRatesOfChange;
 %ignore rr::ExecutableModel::getStateVectorRate(double time, const double *y, double* dydt);
 %ignore rr::ExecutableModel::getStateVectorRate(double time, const double *y);
+%ignore rr::ExecutableModel::getStateVectorId(int index);
 %ignore rr::ExecutableModel::testConstraints;
 %ignore rr::ExecutableModel::print;
 //%ignore rr::ExecutableModel::getNumEvents;
@@ -762,13 +777,14 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::getNextPendingEventTime;
 %ignore rr::ExecutableModel::getPendingEventSize;
 %ignore rr::ExecutableModel::resetEvents;
+%ignore rr::ExecutableModel::saveState;
 
 %ignore rr::ExecutableModel::getFloatingSpeciesId(int index);
 %ignore rr::ExecutableModel::getBoundarySpeciesId(int index);
 %ignore rr::ExecutableModel::getGlobalParameterId(int index);
 %ignore rr::ExecutableModel::getCompartmentId(int index);
 %ignore rr::ExecutableModel::getConservedMoietyId(int index);
-%ignore rr::ExecutableModel::getReactionId(int index);
+%ignore rr::ExecutableModel::getReactionId(size_t index);
 
 %ignore rr::ExecutableModel::getFloatingSpeciesIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getBoundarySpeciesIndex(const std::string &eid);
@@ -784,12 +800,12 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::ExecutableModel::setConservedSumChanged(bool);
 %ignore rr::ExecutableModel::convertToAmounts() ;
 
-%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, double const *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int len, int const *indx, double *values);
-%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx, double const *values);
-%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx, double *values);
-%ignore rr::ExecutableModel::setCompartmentInitVolumes(int len, int const *indx, double const *values);
-%ignore rr::ExecutableModel::getCompartmentInitVolumes(int len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(size_t len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(size_t len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitAmounts(size_t len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getFloatingSpeciesInitAmounts(size_t len, int const *indx, double *values);
+%ignore rr::ExecutableModel::setCompartmentInitVolumes(size_t len, int const *indx, double const *values);
+%ignore rr::ExecutableModel::getCompartmentInitVolumes(size_t len, int const *indx, double *values);
 %ignore rr::ExecutableModel::getIds(int, std::list<std::string> &);
 
 // deprecated, model knows how to reset itself with reset.
@@ -802,8 +818,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::EventListenerException;
 
 // ignore the EventListener virtuals, but leave the enum
-%ignore rr::EventListener::onTrigger(ExecutableModel* model, int eventIndex, const std::string& eventId);
-%ignore rr::EventListener::onAssignment(ExecutableModel* model, int eventIndex, const std::string& eventId);
+%ignore rr::EventListener::onTrigger(ExecutableModel* model, size_t eventIndex, const std::string& eventId);
+%ignore rr::EventListener::onAssignment(ExecutableModel* model, size_t eventIndex, const std::string& eventId);
 
 // ignore the C++ class, only deal with the python version
 %ignore rr::IntegratorListener;
@@ -924,7 +940,7 @@ namespace std { class ostream{}; }
 
         ($self)->getIds(types, ids);
 
-        unsigned size = ids.size();
+        size_t size = ids.size();
 
         PyObject* pyList = PyList_New(size);
 
@@ -947,7 +963,7 @@ namespace std { class ostream{}; }
 
         const std::vector<rr::SelectionRecord>& selections = ($self)->getSelections();
 
-        unsigned size = selections.size();
+        size_t size = selections.size();
 
         PyObject *pysel = PyList_New(size);
 
@@ -970,7 +986,7 @@ namespace std { class ostream{}; }
 
         const std::vector<rr::SelectionRecord>& selections = ($self)->getSteadyStateSelections();
 
-        unsigned size = selections.size();
+        size_t size = selections.size();
 
         PyObject *pysel = PyList_New(size);
 
@@ -989,8 +1005,28 @@ namespace std { class ostream{}; }
 
 
    %pythoncode %{
+        def getValue(self, *args):
+            import re
+            reg = re.compile(r'eigen\s*\(\s*(\w*)\s*\)\s*$')
+            regarr = re.split(reg, args[0])
+
+            if len(regarr) > 1:
+               eig_r = _roadrunner.RoadRunner__getValue(self, 'eigenReal(' + str(regarr[1]) + ')')
+               eig_i = _roadrunner.RoadRunner__getValue(self, 'eigenImag(' + str(regarr[1]) + ')')
+               return complex(eig_r, eig_i)
+            else:
+                return _roadrunner.RoadRunner__getValue(self, *args)
+
+        def setValues(self, keys, values):
+            for key, val in zip(keys, values):
+                _roadrunner.RoadRunner_setValue(self, key, val)
+
         def getModel(self):
             return self._getModel()
+
+        def _setConservedMoietyAnalysisProxy(self, value):
+            self._setConservedMoietyAnalysis(value)
+            self._makeProperties()
 
         __swig_getmethods__["selections"] = _getSelections # DEPRECATED
         __swig_setmethods__["selections"] = _setSelections # DEPRECATED
@@ -999,9 +1035,10 @@ namespace std { class ostream{}; }
         __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
         __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
         __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
-        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysis
+        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysisProxy
         __swig_getmethods__["model"] = _getModel
         __swig_getmethods__["integrator"] = getIntegrator
+        __swig_setmethods__["integrator"] = setIntegrator
 
         if _newclass:
             selections = property(_getSelections, _setSelections)
@@ -1022,9 +1059,12 @@ namespace std { class ostream{}; }
 
             # always clear the old properties
             for s in RoadRunner._properties:
-                del RoadRunner.__swig_getmethods__[s]
-                del RoadRunner.__swig_setmethods__[s]
-                delattr(RoadRunner, s)
+                if s in RoadRunner.__swig_getmethods__:
+                    del RoadRunner.__swig_getmethods__[s]
+                if s in RoadRunner.__swig_setmethods__:
+                    del RoadRunner.__swig_setmethods__[s]
+                if hasattr(RoadRunner, s):
+                    delattr(RoadRunner, s)
 
             # properties now empty
             RoadRunner._properties = []
@@ -1051,16 +1091,18 @@ namespace std { class ostream{}; }
 
             model = self.getModel()
             for s in model.getFloatingSpeciesIds():
-                makeProperty(s, "[" + s + "]")  # concentrations
+                makeProperty(s, "[" + s + "]")  # concentrations for backwards compatibility
+                makeProperty(s + "_conc", "[" + s + "]")  # concentrations
                 makeProperty(s + "_amt", s)     # amounts
 
 
             for s in model.getBoundarySpeciesIds():
-                makeProperty(s, "[" + s + "]")  # concentrations
+                makeProperty(s, "[" + s + "]")  # concentrations for backwards compatibility
+                makeProperty(s + "_conc", "[" + s + "]")  # concentrations
                 makeProperty(s + "_amt", s)     # amounts
 
 
-            for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds():
+            for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds() + model.getConservedMoietyIds():
                 makeProperty(s, s)
 
 
@@ -1070,6 +1112,25 @@ namespace std { class ostream{}; }
         _swig_init = __init__
 
         def _new_init(self, *args):
+            # if called with https, use Python for transport
+            if len(args) >= 1:
+                p = args[0]
+                if hasattr(p,'startswith') and p.startswith('https://'):
+                    try:
+                        # Python3
+                        from urllib.request import urlopen
+                    except ImportError:
+                        # Python2
+                        from urllib2 import urlopen
+                    sbml = urlopen(p).read()
+                    try:
+                        sbml = str(sbml.decode())
+                    except:
+                        pass
+                    RoadRunner._swig_init(self, sbml)
+                    RoadRunner._makeProperties(self)
+                    return
+            # Otherwise, use regular init
             RoadRunner._swig_init(self, *args)
             RoadRunner._makeProperties(self)
 
@@ -1114,36 +1175,58 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def simulate(self, start=None, end=None, points=None, selections=None, steps=None):
+        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None):
             '''
-            Simulate the current SBML model.
+            Simulate and optionally plot current SBML model. This is the one stop shopping method
+            for simulation and plotting. 
 
-            simulate accepts a up to four positional arguments. The first four (optional) arguments are treated as:
+            simulate accepts up to five positional arguments. 
 
-            1: start (the simulation starting time)
+            The first five (optional) arguments are treated as:
+                    
+                1: Start Time, if this is a number. 
 
-            2: end (the simulation end time)
+                2: End Time, if this is a number.
 
-            3: steps (the number of output points)
+                3: Number of points, if this is a number.
+                    
+                4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
 
-            4: List of Selections.
+                5: output file path. The file to which simulation results will be written. If this is specified and
+                nonempty, simulation output will be written to output_file every Config::K_ROWS_PER_WRITE generated.
+                Note that simulate() will not return the result matrix if it is writing to output_file.
+                It will also not keep any simulation data, so in that case one should not call ``r.plot()``
+                without arguments. This should be specified when one cannot, or does not want to, keep the 
+                entire result matrix in memory.
 
-            All four of the positional arguments are optional. If any of the positional arguments are
-            supplied as a list of strings, then they are interpreted as a list of selections.
 
+            All five of the positional arguments are optional. If any of the positional arguments are
+            a list of string instead of a number, then they are interpreted as a list of selections. 
 
-            There is only one correct way to call simulate. If one positional argument is specified,
-            it is the start time. If two are specified, they are the start and end time.
-            The third argument is the number of output points!
-            The fourth argument, if it is supplied, must be a list of strings that correspond to
-            proper timecourse selections as in timeCourseSelections.
-            The fifth argument, if supplied via keyword, is the number of intervals, not the
-            number of points. Specifying intervals and points is an error.
+            There are a number of ways to call simulate.
+
+            1: With no arguments. In this case, the current set of options from the previous 
+              ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
+              then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).
+
+            2: With up to five positions arguments, described above. 
+
+            Finally, you can pass steps keyword argument instead of points. 
+
+            steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
+
             '''
+
+            # fix issue #401 - this will check if a list was positioned at 3rd position. This allows users to
+            # omit positional arguement points. This is un-Pythonic, but implemented for the sake of novice users.
+            if type(points) == list:
+                selections = points
+                points = None
 
             # check for errors
             import collections
             import sys
+            import warnings
             if selections is not None:
                 # check that selections is a sequence
                 if not isinstance(selections, collections.Sequence):
@@ -1169,6 +1252,14 @@ namespace std { class ostream{}; }
                 if steps < 1:
                     raise ValueError('Number of steps cannot be less than 1')
 
+            has_output_file = False
+            if output_file is not None:
+                if not isinstance(output_file, str):
+                    raise ValueError('Output file path must be a string')
+
+                has_output_file = bool(output_file)  # if not empty string
+
+
             # end error checking
 
             o = self.__simulateOptions
@@ -1190,12 +1281,26 @@ namespace std { class ostream{}; }
             if selections is not None:
                 self.timeCourseSelections = selections
 
+            if has_output_file:
+                o.output_file = output_file
+            else:
+                o.output_file = ""
+
             if steps is not None:
                 o.steps = steps
 
             result = self._simulate(o)
 
             o.steps = originalSteps
+
+            if has_output_file:
+                # result should be empty here.
+                return 'Your results have been written to "{}".'.format(output_file)\
+                    + 'To obtain the results directly, pass None or "" to the output_file keyword argument'
+
+            if result.shape[0] > Config.getValue(Config.MAX_OUTPUT_ROWS):
+                warnings.warn("Simulation returned more points than max output rows specified. "
+                              "Try incresing the number of maximum output rows or minimum step size.")
 
             return result
 
@@ -1450,6 +1555,38 @@ namespace std { class ostream{}; }
 
             return result
 
+        # ---------------------------------------------------------------------
+        # Reset Methods
+        # ---------------------------------------------------------------------
+        def resetToOrigin(self):
+            """ Reset model to state when first loaded.
+
+            This resets the model back to the state when it was FIRST loaded,
+            this includes all init() and parameters such as k1 etc.
+
+            identical to:
+                r.reset(SelectionRecord.ALL)
+            """
+            self.reset(SelectionRecord.ALL)
+
+        def resetAll(self):
+            """ Reset all model variables to CURRENT init(X) values.
+
+            This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+            parameters back to the values they had when the model was first loaded.
+            """
+            self.reset(SelectionRecord.TIME |
+                       SelectionRecord.RATE |
+                       SelectionRecord.FLOATING |
+                       SelectionRecord.GLOBAL_PARAMETER)
+        
+        def resetParameter(self):
+            """ Reset parameters to CURRENT init(X) values.
+
+            This resets all parameters to the CURRENT init(X) values.
+            """
+            self.reset(SelectionRecord.GLOBAL_PARAMETER)
+
         def getAvailableIntegrators(self):
             """
             get a list of available integrator names.
@@ -1471,7 +1608,10 @@ namespace std { class ostream{}; }
             show() method is called.
             """
 
-            import matplotlib.pyplot as p
+            try:
+                import matplotlib.pyplot as p
+            except ImportError:
+                raise ImportError('Could not import matplotlib - please install matplotlib to enable plotting functionality')
 
             result = self.getSimulationData()
 
@@ -1511,11 +1651,17 @@ namespace std { class ostream{}; }
             return rval
 
         def plotLegend(self):
-            import matplotlib.pyplot as p
+            try:
+                import matplotlib.pyplot as p
+            except ImportError:
+                raise ImportError('Could not import matplotlib - please install matplotlib to enable plotting functionality')
             p.legend()
 
         def showPlot(self):
-            import matplotlib.pyplot as p
+            try:
+                import matplotlib.pyplot as p
+            except ImportError:
+                raise ImportError('Could not import matplotlib - please install matplotlib to enable plotting functionality')
             p.show()
 
         def getIndependentFloatingSpeciesIds(self):
@@ -1524,20 +1670,11 @@ namespace std { class ostream{}; }
         def getDependentFloatingSpeciesIds(self):
             return list(self._getDependentFloatingSpeciesIds())
 
-        def getFloatingSpeciesAmountRates(self):
-            return self.model.getFloatingSpeciesAmountRates()
-
         def getReactionRates(self):
             return self.getModel().getReactionRates()
 
-        @property
-        def integrator(self):
-            '''Get the current integrator object'''
-            return self.getIntegrator()
-
-        @integrator.setter
-        def integrator(self, v):
-            self.setIntegrator(v)
+        if _newclass:
+            integrator = property(getIntegrator, setIntegrator)
 
         def setIntegratorSetting(self, integratorName, settingName, value):
             import sys
@@ -1567,6 +1704,22 @@ namespace std { class ostream{}; }
         @steadyStateSolver.setter
         def steadyStateSolver(self, v):
             self.setSteadyStateSolver(v)
+
+        def addParameter(self, *args):
+            self._addParameter(*args)
+            self._makeProperties()
+
+        def addReaction(self, *args):
+            self._addReaction(*args)
+            self._makeProperties()
+                
+        def addSpecies(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            self._addSpecies(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            self._makeProperties()
+
+        def addCompartment(self, *args):
+            self._addCompartment(*args)
+            self._makeProperties()
 
         def _diffstep_getter(self):
             '''Differential step size used in MCA'''
@@ -1818,7 +1971,7 @@ namespace std { class ostream{}; }
 
         ($self)->getIds(types, ids);
 
-        unsigned size = ids.size();
+        size_t size = ids.size();
 
         PyObject* pyList = PyList_New(size);
 
@@ -1838,344 +1991,111 @@ namespace std { class ostream{}; }
      ** get values section
      ***/
 
-    PyObject *getFloatingSpeciesAmounts(int len, int const *indx) {
+    PyObject *getFloatingSpeciesAmounts(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts,
                                           &rr::ExecutableModel::getNumFloatingSpecies, len, indx);
     }
 
     PyObject *getFloatingSpeciesAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getFloatingSpeciesAmountRates(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
-                                         &rr::ExecutableModel::getNumIndFloatingSpecies,  len, indx);
-    }
-
-    PyObject *getFloatingSpeciesAmountRates() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
-                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (int)0, (int const*)0);
-    }
-
-    PyObject *getFloatingSpeciesConcentrationRates(int len, int const *indx) {
+    PyObject *getFloatingSpeciesConcentrationRates(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrationRates,
                                          &rr::ExecutableModel::getNumIndFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesConcentrationRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrationRates,
-                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumIndFloatingSpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getFloatingSpeciesConcentrations(int len, int const *indx) {
+    PyObject *getFloatingSpeciesConcentrations(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations,
                                          &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getBoundarySpeciesAmounts(int len, int const *indx) {
+    PyObject *getBoundarySpeciesAmounts(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts,
                                          &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts,
-                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (size_t)0, (int const*)0);
     }
 
-    PyObject *getBoundarySpeciesConcentrations(int len, int const *indx) {
+    PyObject *getBoundarySpeciesConcentrations(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations,
                                          &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations,
-                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (size_t)0, (int const*)0);
     }
-    PyObject *getGlobalParameterValues(int len, int const *indx) {
+    PyObject *getGlobalParameterValues(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues,
                                          &rr::ExecutableModel::getNumGlobalParameters,  len, indx);
     }
 
     PyObject *getGlobalParameterValues() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues,
-                                          &rr::ExecutableModel::getNumGlobalParameters, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumGlobalParameters, (size_t)0, (int const*)0);
     }
 
-    PyObject *getCompartmentVolumes(int len, int const *indx) {
+    PyObject *getCompartmentVolumes(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes,
                                          &rr::ExecutableModel::getNumCompartments,  len, indx);
     }
 
     PyObject *getCompartmentVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes,
-                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumCompartments, (size_t)0, (int const*)0);
     }
 
-    PyObject *getConservedMoietyValues(int len, int const *indx) {
+    PyObject *getConservedMoietyValues(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedMoietyValues,
                                          &rr::ExecutableModel::getNumConservedMoieties,  len, indx);
     }
 
     PyObject *getConservedMoietyValues() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedMoietyValues,
-                                          &rr::ExecutableModel::getNumConservedMoieties, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumConservedMoieties, (size_t)0, (int const*)0);
     }
 
-    PyObject *getReactionRates(int len, int const *indx) {
+    PyObject *getReactionRates(size_t len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates,
                                          &rr::ExecutableModel::getNumReactions,  len, indx);
     }
 
     PyObject *getReactionRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates,
-                                          &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumReactions, (size_t)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesInitConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitConcentrations,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesInitAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesInitAmounts,
-                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (size_t)0, (int const*)0);
     }
 
     PyObject *getCompartmentInitVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentInitVolumes,
-                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumCompartments, (size_t)0, (int const*)0);
     }
 
-    /***
-     ** state vector section
-     ***/
-
-
-
-    /**
-     * overload which returns a copy of the state vector
-     */
-    PyObject *getStateVector() {
-        int len = ($self)->getStateVector(0);
-
-        npy_intp dims[1] = {len};
-        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-        VERIFY_PYARRAY(array);
-
-        if (!array) {
-            // TODO error handling.
-            return 0;
-        }
-
-        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
-
-        ($self)->getStateVector(data);
-
-        return array;
-    }
-
-
-    void getStateVector(int out_len, double* out_values) {
-        int len = ($self)->getStateVector(0);
-
-        if (len > out_len) {
-            PyErr_Format(PyExc_ValueError,
-                         "given array of size %d, insufficient size for state vector %d.",
-                         out_len, len);
-            return;
-        }
-
-        ($self)->getStateVector(out_values);
-    }
-
-    /**
-     * get a copy of the state vector rate using the current state.
-     */
-    PyObject *getStateVectorRate(double time = NAN) {
-        int len = ($self)->getStateVector(0);
-
-        npy_intp dims[1] = {len};
-        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-        VERIFY_PYARRAY(array);
-
-        if (!array) {
-            // TODO error handling.
-            return 0;
-        }
-
-        if (isnan(time)) {
-            time = ($self)->getTime();
-        }
-
-        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
-
-        ($self)->getStateVectorRate(time, 0, data);
-
-        return array;
-    }
-
-
-    PyObject *getStateVectorRate(double time, PyObject *arg) {
-
-        // length of state vector
-        int len = ($self)->getStateVector(0);
-
-        if (isnan(time)) {
-            time = ($self)->getTime();
-        }
-
-        // check if the pyobj is an npy double array
-        PyArrayObject *array  = obj_to_array_no_conversion(arg, NPY_DOUBLE);
-
-        // need contigous and native
-        // these set py error if they fail
-        if (array && require_contiguous(array) && require_native(array))
-        {
-            // The number of dimensions in the array.
-            int ndim = PyArray_NDIM(array);
-
-            // pointer to the dimensions/shape of the array.
-            npy_intp *pdims = PyArray_DIMS(array);
-
-            if (ndim > 0 && pdims[ndim-1] == len) {
-
-                // total number of elements in array
-                npy_intp size = PyArray_SIZE(array);
-
-                printf("size: %i\n", (int)size);
-
-                // how many state vectors we have in given array
-                int nvec = size / len;
-
-                // pointer to start of data block
-                double* stateVec = (double*)PyArray_DATA(array);
-
-                // make result data, copy descriptor
-                PyArray_Descr *dtype = PyArray_DESCR(array);
-                Py_INCREF(dtype);
-
-                // If strides is NULL, then the array strides are computed as
-                // C-style contiguous (default)
-                PyObject *result = PyArray_NewFromDescr(&PyArray_Type,
-                                                        dtype,
-                                                        ndim,
-                                                        pdims,
-                                                        NULL,
-                                                        NULL,
-                                                        0,
-                                                        NULL);
-
-                // out data
-                double* stateVecRate = (double*)PyArray_DATA(result);
-
-                // get the state vector rates, bump the data pointers
-                // to the next state vec
-                for (int i = 0; i < nvec; ++i) {
-                    ($self)->getStateVectorRate(time, stateVec, stateVecRate);
-                    stateVec += len;
-                    stateVecRate += len;
-                }
-
-                return result;
-            }
-
-            PyErr_Format(PyExc_TypeError,
-                         "Require an N dimensional array where N must be at least 1 and "
-                         "the trailing dimension must be the same as the state vector size. "
-                         "require trailing dimension of %i but recieved %d", len, (int)pdims[ndim-1]);
-
-
-        }
-
-        // error case, PyErr is set if we get here.
-        return 0;
-    }
-
-
-    PyObject *getStateVectorRate(double time, PyObject *arg1, PyObject *arg2) {
-
-        // length of state vector
-        int len = ($self)->getStateVector(0);
-
-        if (isnan(time)) {
-            time = ($self)->getTime();
-        }
-
-        // check if the pyobj is an npy double array
-        PyArrayObject *array1  = obj_to_array_no_conversion(arg1, NPY_DOUBLE);
-        PyArrayObject *array2  = obj_to_array_no_conversion(arg2, NPY_DOUBLE);
-
-        // need contigous and native
-        // these set py error if they fail
-        if (array1 && require_contiguous(array1) && require_native(array1) &&
-            array2 && require_contiguous(array2) && require_native(array2))
-        {
-            // The number of dimensions in the array.
-            int ndim1 = PyArray_NDIM(array1);
-            int ndim2 = PyArray_NDIM(array2);
-
-            // pointer to the dimensions/shape of the array.
-            npy_intp *pdims1 = PyArray_DIMS(array1);
-            npy_intp *pdims2 = PyArray_DIMS(array2);
-
-            if (ndim1 > 0 && pdims1[ndim1-1] == len &&
-                ndim2 > 0 && pdims2[ndim2-1] == len ) {
-
-                // total number of elements in array
-                npy_intp size = PyArray_SIZE(array1);
-
-                if (size == PyArray_SIZE(array2)) {
-
-                    printf("size: %i\n", (int)size);
-
-                    // how many state vectors we have in given array
-                    int nvec = size / len;
-
-                    // pointer to start of data block
-                    double* stateVec = (double*)PyArray_DATA(array1);
-
-                    // out data
-                    double* stateVecRate = (double*)PyArray_DATA(array2);
-
-                    // get the state vector rates, bump the data pointers
-                    // to the next state vec
-                    for (int i = 0; i < nvec; ++i) {
-                        ($self)->getStateVectorRate(time, stateVec, stateVecRate);
-                        stateVec += len;
-                        stateVecRate += len;
-                    }
-
-                    // only error free result case
-                    // caller should decref the array so we need incrref it.
-                    Py_INCREF(arg2);
-                    return arg2;
-
-                } else {
-                    PyErr_Format(PyExc_TypeError,
-                                 "Both arrays must be the same size and shape, array 1 size: %i, "
-                                 "array 2 size: %i", (int)size, (int)PyArray_SIZE(array2));
-                }
-            } else {
-                PyErr_Format(PyExc_TypeError,
-                             "Require an N dimensional array where N must be at least 1 and "
-                             "the trailing dimension must be the same as the state vector size. "
-                             "require trailing dimension of %i but recieved %d", len, (int)pdims1[ndim1-1]);
-            }
-        }
-
-        // error case, PyErr is set if we get here.
-        return 0;
-    }
-
-
-
-
+    
     /***
      ** get ids section
      ***/
@@ -2185,8 +2105,16 @@ namespace std { class ostream{}; }
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT);
     }
 
+    PyObject *getFloatingSpeciesConcentrationIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_CONCENTRATION);
+    }
+
     PyObject *getBoundarySpeciesIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::BOUNDARY_AMOUNT);
+    }
+
+    PyObject *getBoundarySpeciesConcentrationIds() {
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::BOUNDARY_CONCENTRATION);
     }
 
     PyObject *getGlobalParameterIds() {
@@ -2198,7 +2126,7 @@ namespace std { class ostream{}; }
     }
 
     PyObject *getConservedMoietyIds() {
-        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::CONSREVED_MOIETY);
+        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::CONSERVED_MOIETY);
     }
 
     PyObject *getReactionIds() {
@@ -2213,17 +2141,28 @@ namespace std { class ostream{}; }
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::INITIAL_FLOATING_CONCENTRATION);
     }
 
-    PyObject *getFloatingSpeciesAmountRateIds() {
-        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::FLOATING_AMOUNT_RATE);
-    }
-
-    PyObject *getStateVectorIds() {
-        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::STATE_VECTOR);
-    }
-
     PyObject *getEventIds() {
         return rr_ExecutableModel_getIds($self, rr::SelectionRecord::EVENT);
     }
+
+    %pythoncode %{
+        def getAllTimeCourseComponentIds(self):
+            """
+
+            ExecutableModel.getAllTimeCourseComponentIds([index])
+
+            Return a list of all component ids. The list includes ids of amount/concentration of
+            floating species, boundary species, global parameters, compartments, and reactions, as well as `time`.
+
+            :returns: a list of all component ids widely used in time course selections.
+
+            """
+
+            return (['time'] + self.getFloatingSpeciesIds() + self.getBoundarySpeciesIds()
+            + self.getFloatingSpeciesConcentrationIds() + self.getBoundarySpeciesConcentrationIds()
+            + self.getGlobalParameterIds() + self.getCompartmentIds() + self.getReactionIds())
+    %}
+
 
 
 
@@ -2231,44 +2170,44 @@ namespace std { class ostream{}; }
      ** set values section
      ***/
 
-    int setFloatingSpeciesAmounts(int len, double const *values) {
+    int setFloatingSpeciesAmounts(size_t len, double const *values) {
         return $self->setFloatingSpeciesAmounts(len, 0, values);
     }
 
-    int setFloatingSpeciesConcentrations(int len, double const *values) {
+    int setFloatingSpeciesConcentrations(size_t len, double const *values) {
         return $self->setFloatingSpeciesConcentrations(len, 0, values);
     }
 
-    int setBoundarySpeciesConcentrations(int len, double const *values) {
+    int setBoundarySpeciesConcentrations(size_t len, double const *values) {
         return $self->setBoundarySpeciesConcentrations(len, 0, values);
     }
 
-    int setGlobalParameterValues(int len, double const *values) {
+    int setGlobalParameterValues(size_t len, double const *values) {
         return $self->setGlobalParameterValues(len, 0, values);
     }
 
-    int setCompartmentVolumes(int len, double const *values) {
+    int setCompartmentVolumes(size_t len, double const *values) {
         return $self->setCompartmentVolumes(len, 0, values);
     }
 
-    int setConservedMoietyValues(int len, double const *values) {
+    int setConservedMoietyValues(size_t len, double const *values) {
         return $self->setConservedMoietyValues(len, 0, values);
     }
 
-    int setFloatingSpeciesInitConcentrations(int len, double const *values) {
+    int setFloatingSpeciesInitConcentrations(size_t len, double const *values) {
         return $self->setFloatingSpeciesInitConcentrations(len, 0, values);
     }
 
-    int setFloatingSpeciesInitAmounts(int len, double const *values) {
+    int setFloatingSpeciesInitAmounts(size_t len, double const *values) {
         return $self->setFloatingSpeciesInitAmounts(len, 0, values);
     }
 
-    int setCompartmentInitVolumes(int len, double const *values) {
+    int setCompartmentInitVolumes(size_t len, double const *values) {
         return $self->setCompartmentInitVolumes(len, 0, values);
     }
 
 
-    int setFloatingSpeciesAmounts(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesAmounts(size_t leni, int const* indx, int lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2405,7 +2344,8 @@ namespace std { class ostream{}; }
         npy_intp dims[2] = {rows, cols};
 
         PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                NPY_CARRAY | NPY_OWNDATA, NULL);
+                NPY_ARRAY_CARRAY | NPY_ARRAY_OWNDATA, NULL);
+
         VERIFY_PYARRAY(pArray);
 
         return pArray;
@@ -2516,6 +2456,37 @@ namespace std { class ostream{}; }
     }
 }
 
+%extend rr::Solver {
+    %pythoncode %{
+        def __dir__(self):
+            x = dir(type(self))
+            x += self.getSettings()
+            return x
+
+        def __getattr__(self, name):
+            if(name in self.getSettings()):
+                return Solver.getValue(self, name)
+            else:
+                return _swig_getattr(self, Integrator, name)
+
+        def __setattr__(self, name, value):
+            if(name != 'this' and name in self.getSettings()):
+                self.setValue(name, value)
+            else:
+                _swig_setattr(self, Integrator, name, value)
+
+        def getSetting(self, k):
+            return self.getValue(k)
+
+        def setSetting(self, k, v):
+            return self.setValue(k, v)
+
+        def setValues(self, keys, values):
+            for key, val in zip(keys, values):
+                _roadrunner.Solver_setValue(self, key, val)
+    %}
+}
+
 %extend rr::Integrator {
 
     void _setListener(const rr::PyIntegratorListenerPtr &listener) {
@@ -2579,13 +2550,16 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            return Solver.getValue(self, name)
+            if(name in self.getSettings()):
+                return Solver.getValue(self, name)
+            else:
+                return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
-            if(name in self.getSettings()):
+            if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                raise AttributeError('No such key "{}"'.format(name))
+                _swig_setattr(self, Integrator, name, value)
 
         def __repr__(self):
             return self.toRepr()
@@ -2606,37 +2580,19 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            return Solver.getValue(self, name)
+            if(name in self.getSettings()):
+                return Solver.getValue(self, name)
+            else:
+                return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
-            if(name in self.getSettings()):
+            if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                raise AttributeError('No such key "{}"'.format(name))
+                _swig_setattr(self, Integrator, name, value)
 
-        def getSetting(self, k):
-            return self.getValue(k)
-
-        def setSetting(self, k, v):
-            return self.setValue(k, v)
-    %}
-}
-
-%extend rr::Solver {
-    %pythoncode %{
-        def __dir__(self):
-            x = dir(type(self))
-            x += self.getSettings()
-            return x
-
-        def __getattr__(self, name):
-            return Solver.getValue(self, name)
-
-        def __setattr__(self, name, value):
-            if(name in self.getSettings()):
-                self.setValue(name, value)
-            else:
-                raise AttributeError('No such key "{}"'.format(name))
+        def __repr__(self):
+            return self.toRepr()
 
         def getSetting(self, k):
             return self.getValue(k)

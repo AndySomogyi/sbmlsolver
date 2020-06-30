@@ -46,6 +46,8 @@ public:
      */
     static std::string read(const std::string& sbml_or_uri);
 
+    static bool is_sbml(const std::string& str);
+
 };
 
 }

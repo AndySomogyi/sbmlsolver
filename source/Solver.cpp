@@ -51,14 +51,14 @@ namespace rr
         descriptions.clear();
     }
 
-    unsigned long Solver::getNumParams() const
+    size_t Solver::getNumParams() const
     {
         if (sorted_settings.size() != settings.size())
             throw std::runtime_error("Setting count inconsistency");
         return sorted_settings.size();
     }
 
-    std::string Solver::getParamName(int n) const
+    std::string Solver::getParamName(size_t n) const
     {
         if (sorted_settings.size() != settings.size())
             throw std::runtime_error("Setting count inconsistency");
@@ -125,6 +125,11 @@ namespace rr
         return getValue(key).convert<double>();
     }
 
+	vector<double> Solver::getValueAsDoubleVector(std::string key)
+	{
+		return getValue(key).convert< vector<double> >();
+	}
+
     char Solver::getValueAsChar(std::string key)
     {
         return getValue(key).convert<char>();
@@ -151,6 +156,7 @@ namespace rr
             throw std::invalid_argument(getName() + " invalid key: " + key);
         settings[key] = value;
     }
+
 
     const std::string& Solver::getDisplayName(std::string key) const
     {
@@ -190,7 +196,7 @@ namespace rr
     std::string Solver::getSettingsRepr() const
     {
         std::stringstream ss;
-        for(int n=0; n<getNumParams(); ++n)
+        for(size_t n=0; n<getNumParams(); ++n)
             ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
         return ss.str();
     }
@@ -198,7 +204,7 @@ namespace rr
     std::string Solver::settingsPyDictRepr() const
     {
         std::stringstream ss;
-        for(int n=0; n<getNumParams(); ++n)
+        for(size_t n=0; n<getNumParams(); ++n)
             ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
         return ss.str();
     }

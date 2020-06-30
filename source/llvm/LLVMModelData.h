@@ -61,14 +61,12 @@ struct LLVMModelData
     unsigned                            numIndCompartments;               // 3
 
     /**
-     * The total ammounts of the floating species, i.e.
+     * The total ammounts of the independent floating species that don't have rules, i.e.
      * concentration * compartment volume.
-     * Everything named floatingSpecies??? has length numFloatingSpecies.
      *
      * Note, the floating species consist of BOTH independent AND dependent
      * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
-     * species, and the [numIndFloatingSpecies,numIndendentSpecies+numDependentSpecies)
-     * contain the dependent species.
+     * species, other dependent species stored in RateRule block
      */
     unsigned                            numIndFloatingSpecies;            // 4
 
@@ -158,8 +156,14 @@ struct LLVMModelData
      */
     double*                             floatingSpeciesAmountRates;       // 20
 
-    // permanent data section
 
+ 
+	/** 
+	 * ******* Permanent data section *******
+	 * 
+	 * Ten Alias pointers below point to ten arrays stored continously in data[0] 
+	 * at the end of this struct.
+	 */
 
     /**
      * number of compartments, and compartment volumes.
@@ -174,6 +178,9 @@ struct LLVMModelData
      * \conservation
      *
      * length numIndFloatingSpecies
+	 *
+	 * Note that dependent floating species which have a rate rule will not be stored
+	 * in this block, instead, they will be stored in RateRule block
      */
     double*                             initFloatingSpeciesAmountsAlias;  // 23
 
@@ -187,7 +194,9 @@ struct LLVMModelData
     double*                             reactionRatesAlias;               // 28
 
     /**
-     * All of the elelments which have a rate rule are stored here.
+     * All of the elelments which have a rate rule are stored here, including 
+	 * the dependent floating species, which will not be stored in the independent
+	 * floating species block
      *
      * As the integrator runs, this pointer can simply point to an offset
      * in the integrator's state vector.
@@ -212,7 +221,7 @@ struct LLVMModelData
     double*                             floatingSpeciesAmountsAlias;      // 30
 
     /**
-     * binary data layout:
+	 * binary data layout:
      *
      * compartmentVolumes                [numIndCompartmentVolumes]       // 31
      * initCompartmentVolumes            [numInitCompartmentVolumes]      // 32
@@ -226,9 +235,18 @@ struct LLVMModelData
      * rateRuleValues                    [numRateRules]                   // 39
      * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 40
      */
+
+	 /**
+	 * This dynamic-sized array will be allocated while this ModelData is allocated.
+	 * Ten array in the permanent data section is stored contiously in this chunck.
+	 * Size of each array is defined by ten unsigned integer above.
+	 * Values can be accessed using ten alias pointers defined above.
+	 * 
+	 */
     double                              data[0];                          // not listed
 };
-
+void LLVMModelData_save(LLVMModelData*, std::ostream&);
+LLVMModelData* LLVMModelData_from_save(std::istream&);
 void LLVMModelData_free(LLVMModelData*);
 
 #ifdef _MSC_VER

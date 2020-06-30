@@ -2,7 +2,7 @@
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
 [![Build Status](https://travis-ci.org/sys-bio/roadrunner.svg?branch=develop)](https://travis-ci.org/sys-bio/roadrunner)
 
-Copyright 2013-2016
+Copyright 2013-2018
 
 E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
@@ -12,7 +12,7 @@ E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</su
 
 ## Introduction
 
-libRoadRunner is a high performance and portable simulation engine for systems and synthetic biology.
+libRoadRunner is a high-performance and portable simulation engine for systems and synthetic biology.
 
 ## Contributing
 

@@ -12,6 +12,7 @@
 
 #include "LLVMIncludes.h"
 #include "CodeGen.h"
+#include "ModelGeneratorContext.h"
 
 namespace libsbml
 {
@@ -27,7 +28,9 @@ class ASTNodeCodeGen
 {
 public:
     ASTNodeCodeGen(llvm::IRBuilder<> &builder,
-            LoadSymbolResolver &resolver);
+            LoadSymbolResolver &resolver,
+            const ModelGeneratorContext& ctx,
+            llvm::Value *modelData);
     ~ASTNodeCodeGen();
 
     llvm::Value *codeGen(const libsbml::ASTNode *ast);
@@ -49,6 +52,12 @@ private:
     llvm::Value *realExprCodeGen(const libsbml::ASTNode *ast);
 
     /**
+     * Support new AST nodes for distributions
+     */
+    llvm::Value *distribCodeGen(const libsbml::ASTNode *ast);
+
+
+    /**
      * for now, just convert to double,
      *
      * TODO: is this right???
@@ -62,10 +71,19 @@ private:
      */
     llvm::Value *applyArithmeticCodeGen(const libsbml::ASTNode *ast);
 
-    llvm::Value *applyRelationalCodeGen(const libsbml::ASTNode *ast);
+    llvm::Value *minmaxCodeGen(const libsbml::ASTNode *ast);
+
+	// AHu: As of June'18, there is no difference between the two relation CodeGen
+	// functions, so I am refactoring this function to just take two arguments,
+	// and using it to be the only relational switch statement
+    llvm::Value *applyBinaryRelationalCodeGen(const libsbml::ASTNode *ast,
+		llvm::Value* left, llvm::Value* right);
 
     // JKM: NOTE: Not SBML-compliant, needed for idiosyncrasies in some legacy JDesigner models
     llvm::Value *applyScalarRelationalCodeGen(const libsbml::ASTNode *ast);
+
+	// Ahu: I made this just so that later we can have an interface for non-scalar relations
+	llvm::Value *applyRelationalCodeGen(const libsbml::ASTNode *ast);
 
     llvm::Value *applyLogicalCodeGen(const libsbml::ASTNode *ast);
 
@@ -85,13 +103,15 @@ private:
     /**
      * coerces a value to a double
      *
-     * If value is already a boolean, it is unchanged.
+     * If value is already a double, it is unchanged.
      */
     llvm::Value *toDouble(llvm::Value* value);
 
 
     llvm::IRBuilder<> &builder;
     LoadSymbolResolver &resolver;
+    const ModelGeneratorContext& ctx;
+    llvm::Value *modelData;
 
     /**
      * get the module, only valid whilst a BasicBlock is begin filled.

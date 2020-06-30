@@ -5,17 +5,24 @@ set(target run_test_suite)
 
 set(tests
     Suite_Core_Tests
-    Suite_TestModel
     Suite_SBML_Tests
     Suite_NOM_Tests
     Suite_LibStruct_Tests
+    Suite_Test_Model_Editing
+    Suite_State_Saving_Tests
+    Suite_Other_Tests
+    Suite_TestModel.cpp
+    Suite_TestModel.h
     )
 
 add_executable( ${target}
     main.cpp
     src/Args.cpp
-    src/TestUtils
-    src/rrSBMLTestSuiteSimulation_CAPI
+    src/TestUtils.cpp
+    src/rrSBMLTestSuiteSimulation_CAPI.cpp
+    src/Args.h
+    src/TestUtils.h
+    src/rrSBMLTestSuiteSimulation_CAPI.h
     ${tests}
     )
 

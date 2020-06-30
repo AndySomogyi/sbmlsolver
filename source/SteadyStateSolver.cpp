@@ -18,6 +18,7 @@
 #include "rrConfig.h"
 #include "rrUtils.h"
 #include <typeinfo>
+#include <iomanip>
 
 // == CODE ====================================================
 
@@ -95,4 +96,36 @@ namespace rr
         return mRegisteredSteadyStateSolvers.at(n)->getDescription();
     }
 
+	std::string SteadyStateSolver::getSettingsRepr() const
+	{
+		std::stringstream ss;
+		for (size_t n = 0; n<getNumParams(); ++n)
+			ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
+		return ss.str();
+	}
+
+	std::string SteadyStateSolver::settingsPyDictRepr() const
+	{
+		std::stringstream ss;
+		for (size_t n = 0; n<getNumParams(); ++n)
+			ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
+		return ss.str();
+	}
+
+	std::string SteadyStateSolver::toString() const
+	{
+		std::stringstream ss;
+		ss << "< roadrunner.SteadyStateSolver() >\n";
+		ss << "  name: " << getName() << "\n";
+		ss << "  settings:\n";
+		ss << getSettingsRepr();
+		return ss.str();
+	}
+
+	std::string SteadyStateSolver::toRepr() const
+	{
+		std::stringstream ss;
+		ss << "< roadrunner.SteadyStateSolver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
+		return ss.str();
+	}
 }

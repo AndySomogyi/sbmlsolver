@@ -40,7 +40,8 @@ Rates of Change: ``'``
     selections follow generally accepted mathematical convention of using the single quote, ``'`` 
     to represent a time derivative. A rate of change selection is any identifier followed by a
     single quote, i.e. ``S1'``, ``S2'``, ``P1'``, etc. A rates of change selection
-    is also valid for SBML elements which are defined by rate rules. 
+    is also valid for SBML elements which are defined by rate rules. In Python, use mixture of
+    single and double quote to specify the rates of change as string, e.g. ``"S1'"``
 
 Elasticity: ``ee(ReactionId, ParameterId)``
     Represents elasticity slection in the form of ``ee(ReactionId, ParameterId)`` where ``ReactionId`` is a reaction name
@@ -64,15 +65,50 @@ Unscaled Control Coefficient: ``ucc(Id, ParameterId)``
     must be valid arguments for :meth:`~RoadRunner.getuCC`. This selection intentionally has a function form, it
     selects the unscaled elasticity control coefficient, :meth:`~RoadRunner.getuCC`
 
-Eigenvalue: ``eigenReal()``, ``eigenImag()`` 
-    Represents the eigenvalue of a floating species. ``eigenReal(identifier)`` is the real part of eigenvalue while
+Eigenvalue: ``eigen()``, ``eigenReal()``, ``eigenImag()`` 
+    Represents the eigenvalue of a floating species. ``eigen(identifier)`` is complex number whereas ``eigenReal(identifier)`` is the real part of eigenvalue and
     ``eigenImag(identifier)`` is the imaginary part of eigenvalue.
 
 Initial Value: ``init()``
-    Represents the initial value of an identifier specified in the SBML document, i.e. ``init(S1)``.
+    Represents the initial value of an identifier (species or global parameter) specified in the SBML document, i.e. ``init(S1)``.
+    Setting this value does not reset the *current* value of the quantity. When :meth:`~roadrunner.RoadRunner.resetAll()` is
+    called, the current values of all quantities will be reset to the designated initial values, including any changes
+    made to the initial values via this syntax. This is in contrast to :meth:`~roadrunner.RoadRunner.resetToOrigin()`,
+    which resets all current and initial values to the values specified in the SBML document.
 
 Stoichiometry: ``stoich(ParameterId, ReactionId)``
     Represents the stoichiometric coefficient for a given species and reaction.
+
+
+
+Getting/Setting the Amount/Concentration of a Species
+-----------------------------------------------------
+To retrieve the *amount* of a species "S1", one may do any one of::
+
+
+    >>> rr.S1_amt
+    >>> rr["S1"]
+    >>> rr.getValue("S1")
+
+To retrive the *concentration* of a species "S1", one may do any one of::
+
+
+    >>> rr.S1_conc
+    >>> rr["[S1]")
+    >>> rr.getValue("[S1]")
+
+
+Note that for backwards-compatibility reasons, the following gets the *concentration* of a species::
+
+
+    >>> rr.S1  # gets concentration
+
+Finally, the syntax for setting the value of a species is analogous to above, e.g.::
+
+    >>> rr.S1_amt = 42  # sets amount
+    >>> rr["[S1]"] = 1.4  # sets concentration
+
+
 
 Experimenting With Selections
 -----------------------------

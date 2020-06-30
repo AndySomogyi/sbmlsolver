@@ -55,12 +55,13 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     llvm::Value *args[] = {0, 0};
 
-    llvm::BasicBlock *entry = codeGenHeader(FunctionName,
+    //The side effects of creating this codeGenHeader are required for functionality, 
+    // even though we don't use the element produced.
+    codeGenHeader(FunctionName,
             llvm::Type::getVoidTy(context),
-                argTypes, argNames, args);
+            argTypes, argNames, args);
 
     Value* modelData = args[0];
-    Value *flagsArg = args[1];
 
 
     if (Logger::LOG_DEBUG <= rr::Logger::getLevel())
@@ -71,7 +72,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         for (SymbolForest::Map::const_iterator i = initValues.begin();
                 i != initValues.end(); i++)
         {
-            char* formula = SBML_formulaToString(i->second);
+            char* formula = SBML_formulaToL3String(i->second);
             Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
             free(formula);
         }
@@ -174,7 +175,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
 {
     ModelDataIRBuilder modelDataBuilder(modelData, dataSymbols,
                 builder);
-    ASTNodeCodeGen astCodeGen(builder, initialValueResolver);
+    ASTNodeCodeGen astCodeGen(builder, initialValueResolver, modelGenContext, modelData);
 
     Log(Logger::LOG_DEBUG) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
@@ -195,7 +196,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
     {
         LLVMModelDataSymbols::SpeciesReferenceInfo nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.row, nz.column);
-        char* formula = SBML_formulaToString(node);
+        char* formula = SBML_formulaToL3String(node);
         Log(Logger::LOG_DEBUG) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
                 << "\n";
         free(formula);

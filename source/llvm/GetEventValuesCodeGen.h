@@ -25,7 +25,7 @@
 namespace rrllvm
 {
 
-typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
+typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, size_t);
 
 template <typename Derived, typename
     FunctionPtrType=GetEventValueCodeGenBase_FunctionPtr>
@@ -88,7 +88,7 @@ llvm::Value *GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
 
     ModelDataLoadSymbolResolver resolver(args[0], this->modelGenContext);
 
-    ASTNodeCodeGen astCodeGen(this->builder, resolver);
+    ASTNodeCodeGen astCodeGen(this->builder, resolver, this->modelGenContext, args[0]);
 
     // default, return NaN
     llvm::BasicBlock *def = llvm::BasicBlock::Create(this->context, "default", this->function);
@@ -128,7 +128,7 @@ llvm::Value *GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
     return this->verifyFunction();
 }
 
-typedef unsigned char (*GetEventTriggerCodeGen_FunctionPtr)(LLVMModelData*, int32_t);
+typedef unsigned char (*GetEventTriggerCodeGen_FunctionPtr)(LLVMModelData*, size_t);
 
 class GetEventTriggerCodeGen: public
     GetEventValueCodeGenBase<GetEventTriggerCodeGen,
@@ -172,6 +172,18 @@ public:
     ~GetEventDelayCodeGen();
 
     const libsbml::ASTNode *getMath(const libsbml::Event *);
+
+    llvm::Value *createRet(llvm::Value* value)
+    {
+		// Return the value for the default label
+		if (!value)
+            return llvm::ConstantFP::get(this->context, llvm::APFloat(123.456));
+		// If the delay evaluates to a double then just return it
+		if (value->getType() == llvm::Type::getDoubleTy(context))
+			return value;
+		// Otherwise it's a boolean (i.e. an i1), so convert it to a double
+		return this->builder.CreateCast(llvm::Instruction::CastOps::UIToFP, value, llvm::Type::getDoubleTy(context));
+    }
 
     static const char* FunctionName;
     static const char* IndexArgName;

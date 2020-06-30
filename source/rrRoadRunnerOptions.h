@@ -133,7 +133,12 @@ namespace rr
 			USE_MCJIT = (0x1 << 10),
 
 
-			LLVM_SYMBOL_CACHE = (0x1 << 11)
+			LLVM_SYMBOL_CACHE = (0x1 << 11),
+
+			/**
+			* Turn on SBML validation
+			*/
+			TURN_ON_VALIDATION = (0x1 << 12)
 		};
 
 		enum LoadOpt
@@ -190,7 +195,7 @@ namespace rr
 		/**
 		* remove a value
 		*/
-		virtual int deleteItem(const std::string& key);
+		virtual size_t deleteItem(const std::string& key);
 
 		/**
 		* list of keys in this object.
@@ -208,6 +213,11 @@ namespace rr
 				modelGeneratorOpt & ~CONSERVED_MOIETIES;
 		}
 
+		inline void setValidation(bool val) {
+			loadFlags = val ?
+				loadFlags | TURN_ON_VALIDATION :
+				loadFlags & ~TURN_ON_VALIDATION;
+		}
 
 		virtual ~LoadSBMLOptions();
 
@@ -270,6 +280,15 @@ namespace rr
 		* The duration of the simulation run, in the model's units of time.
 		*/
 		double duration;
+
+
+        /**
+        * The ouptut file for simulation results. If non-empty, then the
+        * simulation results are batch-written to output_file every 
+        * Config::K_ROWS_PER_WRITE rows, and an empty
+        * result matrix is returned.
+        */
+        std::string output_file;
 
 		/**
 		* The variables (in addition to time) whose values will be saved in the result.

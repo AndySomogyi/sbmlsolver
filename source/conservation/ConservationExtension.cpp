@@ -87,7 +87,7 @@ unsigned int ConservationExtension::getDefaultLevel()
 
 unsigned int ConservationExtension::getDefaultVersion()
 {
-    return 1;
+    return 2;
 }
 
 unsigned int ConservationExtension::getDefaultPackageVersion()
@@ -104,7 +104,7 @@ unsigned int ConservationExtension::getDefaultPackageVersion()
 const std::string& ConservationExtension::getXmlnsL3V1V1()
 {
     static const std::string xmlns =
-            "http://www.sbml.org/sbml/level3/version1/conservation/version1";
+            "http://www.sbml.org/sbml/level3/version2/conservation/version1";
     return xmlns;
 }
 
@@ -181,7 +181,7 @@ ConservationExtension::getURI(unsigned int sbmlLevel, unsigned int sbmlVersion,
 {
     if (sbmlLevel == 3)
     {
-        if (sbmlVersion == 1)
+        if (sbmlVersion == 2)
         {
             if (pkgVersion == 1)
             {
@@ -221,7 +221,7 @@ unsigned int ConservationExtension::getVersion(const std::string &uri) const
 {
     if (uri == getXmlnsL3V1V1())
     {
-        return 1;
+        return 2;
     }
 
     return 0;
@@ -295,6 +295,22 @@ bool ConservationExtension::getConservedMoiety(const libsbml::Parameter& s)
             dynamic_cast<const ConservedMoietyPlugin*>(
                     s.getPlugin("conservation"));
     return plugin ? plugin->getConservedMoiety() : false;
+}
+
+std::string ConservationExtension::getConservedQuantity(const libsbml::Species& s)
+{
+    const ConservedMoietyPlugin* plugin =
+            dynamic_cast<const ConservedMoietyPlugin*>(
+                    s.getPlugin("conservation"));
+    return plugin ? plugin->getConservedQuantity() : "";
+}
+
+std::vector<std::string> ConservationExtension::getConservedQuantities(const libsbml::Species& s)
+{
+    const ConservedMoietyPlugin* plugin =
+            dynamic_cast<const ConservedMoietyPlugin*>(
+                    s.getPlugin("conservation"));
+    return plugin ? plugin->getConservedQuantities() : std::vector<std::string>();
 }
 
 

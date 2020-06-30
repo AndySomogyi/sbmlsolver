@@ -19,6 +19,7 @@
 #include <cmath>
 #include <cstdio>
 #include <limits>
+#include "rrStringUtils.h"
 
 #if defined(_WIN32) || defined(__WIN32__)
 #define isnan _isnan
@@ -41,82 +42,86 @@ struct sort_pred
 };
 
 csr_matrix* csr_matrix_new(unsigned m, unsigned n,
-        const std::vector<unsigned>& rowidx, const std::vector<unsigned>& colidx,
-        const std::vector<double>& values)
+	const std::vector<unsigned>& rowidx, const std::vector<unsigned>& colidx,
+	const std::vector<double>& values)
 {
-    char err[64];
-    unsigned nnz = rowidx.size();
+	char err[64];
+	size_t nnz = rowidx.size();
 
-    if (colidx.size() != nnz || values.size() != nnz)
-    {
-        throw runtime_error("rowidx, colidx and values must be the same length");
-    }
+	if (colidx.size() != nnz || values.size() != nnz)
+	{
+		throw runtime_error("rowidx, colidx and values must be the same length");
+	}
 
-    for (unsigned i = 0; i < nnz; i++)
-    {
-        if (rowidx[i] >= m)
-        {
-            snprintf(err, sizeof(err)/sizeof(char),
-                    "rowidx[%i] == %i >= row count %i", i, rowidx[i], m);
-            throw runtime_error(err);
-        }
-        if (colidx[i] >= n)
-        {
-            snprintf(err, sizeof(err)/sizeof(char),
-                    "colidx[%i] == %i >= column count %i", i, colidx[i], n);
-            throw runtime_error(err);
-        }
-    }
+	for (size_t i = 0; i < nnz; i++)
+	{
+		if (rowidx[i] >= m)
+		{
+			snprintf(err, sizeof(err) / sizeof(char),
+				"rowidx[%zi] == %i >= row count %ui", i, rowidx[i], m);
+			throw runtime_error(err);
+		}
+		if (colidx[i] >= n)
+		{
+			snprintf(err, sizeof(err) / sizeof(char),
+				"colidx[%zi] == %i >= column count %ui", i, colidx[i], n);
+			throw runtime_error(err);
+		}
+	}
 
-    csr_matrix* mat = (csr_matrix*)calloc(1, sizeof(csr_matrix));
+	csr_matrix* mat = (csr_matrix*)calloc(1, sizeof(csr_matrix));
 
-    // values that will get stuffed into struct
-    vector<double> mvalues;
-    vector<unsigned> mcolidx;
-    vector<unsigned> mrowptr;
+	// values that will get stuffed into struct
+	vector<double> mvalues;
+	vector<unsigned int> mcolidx;
+	vector<unsigned int> mrowptr;
 
-    mat->m = m;
-    mat->n = n;
-    mat->nnz = 0;
+	mat->m = m;
+	mat->n = n;
+	mat->nnz = 0;
 
-    // first index
-    mrowptr.push_back(0);
+	// first index
+	mrowptr.push_back(0);
 
-    for(unsigned i = 0; i < m; i++)
-    {
-        // find all the values in this row
-        vector<pair<unsigned,double> > cols;
-        for(unsigned j = 0; j < nnz; j++)
-        {
-            if (i == rowidx[j])
-            {
-                cols.push_back(pair<unsigned,double>(colidx[j], values[j]));
-            }
-        }
+	for (unsigned i = 0; i < m; i++)
+	{
+		// find all the values in this row
+		vector<pair<unsigned, double> > cols;
+		for (unsigned j = 0; j < nnz; j++)
+		{
+			if (i == rowidx[j])
+			{
+				cols.push_back(pair<unsigned, double>(colidx[j], values[j]));
+			}
+		}
 
-        // sort by the column index
-        sort(cols.begin(), cols.end(), sort_pred());
+		// sort by the column index
+		sort(cols.begin(), cols.end(), sort_pred());
 
-        for(vector<pair<unsigned,double> >::const_iterator j = cols.begin(); j != cols.end(); j++)
-        {
-            mcolidx.push_back(j->first);
-            mvalues.push_back(j->second);
-        }
-        mrowptr.push_back((mat->nnz += cols.size()));
-    }
+		for (vector<pair<unsigned, double> >::const_iterator j = cols.begin(); j != cols.end(); j++)
+		{
+			mcolidx.push_back(j->first);
+			mvalues.push_back(j->second);
+		}
+		mrowptr.push_back((mat->nnz += static_cast<unsigned int>(cols.size())));
+	}
 
-    assert(mat->nnz == nnz);
-    assert(mcolidx.size() == nnz);
-    assert(mvalues.size() == nnz);
-    assert(mrowptr.size() == mat->m + 1);
+	assert(mat->nnz == nnz);
+	assert(mcolidx.size() == nnz);
+	assert(mvalues.size() == nnz);
+	assert(mrowptr.size() == mat->m + 1);
 
-    mat->rowptr = (unsigned*)calloc(mat->m + 1, sizeof(unsigned));
-    mat->colidx = (unsigned*)calloc(nnz, sizeof(unsigned));
-    mat->values = (double*)calloc(nnz, sizeof(double));
+	mat->rowptr = (unsigned*)calloc(mat->m + 1, sizeof(unsigned));
+	mat->colidx = (unsigned*)calloc(nnz, sizeof(unsigned));
+	mat->values = (double*)calloc(nnz, sizeof(double));
 
-    memcpy(mat->rowptr, &mrowptr[0], (mat->m+1)*sizeof(unsigned));
-    memcpy(mat->colidx, &mcolidx[0], nnz*sizeof(unsigned));
-    memcpy(mat->values, &mvalues[0], nnz*sizeof(double));
+	memcpy(mat->rowptr, &mrowptr[0], (mat->m + 1) * sizeof(unsigned));
+	if (mcolidx.size() > 0) {
+		memcpy(mat->colidx, &mcolidx[0], nnz * sizeof(unsigned));
+	}
+	if (mvalues.size() > 0) {
+		memcpy(mat->values, &mvalues[0], nnz * sizeof(double));
+	}
 
     return mat;
 }
@@ -197,7 +202,7 @@ void csr_matrix_dgemv(double alpha, const csr_matrix* A, const double* x,
 }
 
 
-double csr_matrix_ddot(int row, const csr_matrix *A, const double *x)
+double csr_matrix_ddot(size_t row, const csr_matrix *A, const double *x)
 {
     assert(row < A->m && "invalid row");
     unsigned *rowptr = A->rowptr;
@@ -235,7 +240,33 @@ void csr_matrix_fill_dense(const csr_matrix *A, double *dense)
     }
 }
 
+void csr_matrix_dump_binary(const csr_matrix *x, std::ostream& out) 
+{
+	rr::saveBinary(out, x->m);
+	rr::saveBinary(out, x->n);
+	rr::saveBinary(out, x->nnz);
+	out.write((char*)(x->values), x->nnz * sizeof(double));
+	out.write((char*)(x->colidx), x->nnz * sizeof(unsigned));
+	out.write((char*)(x->rowptr), (x->m + 1) * sizeof(unsigned));
+}
 
+csr_matrix* csr_matrix_new_from_binary(std::istream& in) 
+{
+	csr_matrix* x = (csr_matrix*)malloc(sizeof(csr_matrix));
+	rr::loadBinary(in, x->m);
+	rr::loadBinary(in, x->n);
+	rr::loadBinary(in, x->nnz);
+
+	x->values = (double*)malloc(x->nnz * sizeof(double));
+	in.read((char*)(x->values), x->nnz * sizeof(double));
+
+	x->colidx = (unsigned*)malloc(x->nnz*sizeof(unsigned));
+	in.read((char*)(x->colidx), x->nnz * sizeof(unsigned));
+
+	x->rowptr = (unsigned*)malloc((x->m + 1) * sizeof(unsigned));
+	in.read((char*)(x->rowptr), (x->m + 1) * sizeof(unsigned));
+	return x;
+}
 
 std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
 {

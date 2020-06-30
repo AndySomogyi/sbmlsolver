@@ -8,8 +8,6 @@
 #include "SBMLValidator.h"
 #include "rrSBMLReader.h"
 
-#include <sbml/SBMLDocument.h>
-
 #include "rrLogger.h"
 
 #include <sstream>
@@ -139,8 +137,10 @@ bool isStoichDefined(const std::string sbml) {
         if (!doc)
           throw std::runtime_error("Unable to read SBML");
 
-        if (doc->getLevel() < 3)
+        if (doc->getLevel() < 3) {
+            delete doc;
             return true;                                    // stoichiometry has a default value in level 1 & 2
+        }
 
         const Model *m = doc->getModel();
 
@@ -154,13 +154,17 @@ bool isStoichDefined(const std::string sbml) {
 
             // check stoich defined on reactants / products
             for (int k = 0; k<r->getNumReactants(); ++k) {
-                if (!isStoichDefined(r->getReactant(k)))
+                if (!isStoichDefined(r->getReactant(k))) {
+                    delete doc;
                     return false;
+                }
             }
 
             for (int k = 0; k<r->getNumProducts(); ++k) {
-                if (!isStoichDefined(r->getProduct(k)))
+                if (!isStoichDefined(r->getProduct(k))) {
+                    delete doc;
                     return false;
+                }
             }
 
             // modifiers have no stoichiometry

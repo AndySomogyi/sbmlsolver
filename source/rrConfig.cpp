@@ -113,12 +113,21 @@ static Variant values[] =  {
     Variant((int)(SelectionRecord::TIME
             | SelectionRecord::RATE
             | SelectionRecord::FLOATING)),        // MODEL_RESET
-    Variant(1.e-10),   // CVODE_MIN_ABSOLUTE
-    Variant(1.e-5),    // CVODE_MIN_RELATIVE
+    Variant(1.e-12),   // CVODE_MIN_ABSOLUTE
+    Variant(1.e-6),    // CVODE_MIN_RELATIVE
     Variant(true),     // SIMULATEOPTIONS_COPY_RESULT
-    Variant(1.e-4),    // STEADYSTATE_RELATIVE
+    Variant(false),      // STEADYSTATE_PRESIMULATION
+    Variant(100),      // STEADYSTATE_PRESIMULATION_MAX_STEPS
+    Variant(100),      // STEADYSTATE_PRESIMULATION_TIME
+    Variant(false),      // STEADYSTATE_APPROX
+    Variant(1.e-6),    // STEADYSTATE_APPROX_TOL
+    Variant(10000),      // STEADYSTATE_APPROX_MAX_STEPS
+    Variant(10000),      // STEADYSTATE_APPROX_TIME
+    Variant(1e-12),      // STEADYSTATE_RELATIVE
     Variant(100),      // STEADYSTATE_MAXIMUM_NUM_STEPS
-    Variant(1.e-16),   // STEADYSTATE_MINIMUM_DAMPING
+    Variant(1e-20),   // STEADYSTATE_MINIMUM_DAMPING
+    Variant(0),        // STEADYSTATE_BROYDEN
+    Variant(3),        // STEADYSTATE_LINEARITY
     Variant((int)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
     Variant(std::string(".")),                           // TEMP_DIR_PATH,
     Variant(std::string("")),                            // LOGGER_LOG_FILE_PATH,
@@ -127,7 +136,10 @@ static Variant values[] =  {
     Variant(true),      // LLVM_SYMBOL_CACHE
     Variant(true),      // OPTIMIZE_REACTION_RATE_SELECTION
     Variant(true),     // LOADSBMLOPTIONS_PERMISSIVE
-    Variant(20000)      // MAX_OUTPUT_ROWS
+    Variant(40000),      // MAX_OUTPUT_ROWS
+    Variant(false),      // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
+	Variant(true),		// VALIDATION_IN_REGENERATION
+	Variant(1000),		// K_ROWS_PER_WRITE
     // add space after develop keys to clean up merging
 
 
@@ -217,9 +229,18 @@ static void getKeyNames(StringIntMap& keys)
     keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
     keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
     keys["SIMULATEOPTIONS_COPY_RESULT"] = rr::Config::SIMULATEOPTIONS_COPY_RESULT;
+    keys["STEADYSTATE_PRESIMULATION"] = rr::Config::STEADYSTATE_PRESIMULATION;
+    keys["STEADYSTATE_PRESIMULATION_MAX_STEPS"] = rr::Config::STEADYSTATE_PRESIMULATION_MAX_STEPS;
+    keys["STEADYSTATE_PRESIMULATION_TIME"] = rr::Config::STEADYSTATE_PRESIMULATION_TIME;
+    keys["STEADYSTATE_APPROX"] = rr::Config::STEADYSTATE_APPROX;
+    keys["STEADYSTATE_APPROX_TOL"] = rr::Config::STEADYSTATE_APPROX_TOL;
+    keys["STEADYSTATE_APPROX_MAX_STEPS"] = rr::Config::STEADYSTATE_APPROX_MAX_STEPS;
+    keys["STEADYSTATE_APPROX_TIME"] = rr::Config::STEADYSTATE_APPROX_TIME;
     keys["STEADYSTATE_RELATIVE"] = rr::Config::STEADYSTATE_RELATIVE;
     keys["STEADYSTATE_MAXIMUM_NUM_STEPS"] = rr::Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
     keys["STEADYSTATE_MINIMUM_DAMPING"] = rr::Config::STEADYSTATE_MINIMUM_DAMPING;
+    keys["STEADYSTATE_BROYDEN"] = rr::Config::STEADYSTATE_BROYDEN;
+    keys["STEADYSTATE_LINEARITY"] = rr::Config::STEADYSTATE_LINEARITY;
     keys["ROADRUNNER_JACOBIAN_MODE"] = rr::Config::ROADRUNNER_JACOBIAN_MODE;
     keys["TEMP_DIR_PATH"] = rr::Config::TEMP_DIR_PATH;
     keys["LOGGER_LOG_FILE_PATH"] = rr::Config::LOGGER_LOG_FILE_PATH;
@@ -229,7 +250,9 @@ static void getKeyNames(StringIntMap& keys)
     keys["OPTIMIZE_REACTION_RATE_SELECTION"] = rr::Config::OPTIMIZE_REACTION_RATE_SELECTION;
     keys["LOADSBMLOPTIONS_PERMISSIVE"] = rr::Config::LOADSBMLOPTIONS_PERMISSIVE;
     keys["MAX_OUTPUT_ROWS"] = rr::Config::MAX_OUTPUT_ROWS;
-
+    keys["ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS"] = rr::Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
+	keys["VALIDATION_IN_REGENERATION"] = rr::Config::VALIDATION_IN_REGENERATION;
+    keys["K_ROWS_PER_WRITE"] = rr::Config::K_ROWS_PER_WRITE;
 
 
     // add space after develop keys to clean up merging.
@@ -386,6 +409,15 @@ void Config::setValue(Keys key, const Variant& value)
     values[key] = value;
 }
 
+/*void Config::setValues(const std::vector<Keys> keys, const std::vector<Variant> values)
+{
+	auto keyit = keys.begin();
+	auto valueit = values.begin();
+	while (keyit != keys.end() && valueit != values.end()) {
+		setValue(*keyit, *valueit);
+	}
+}*/
+
 void Config::readConfigFile(const std::string& path)
 {
     Mutex::ScopedLock lock(configMutex);
@@ -523,12 +555,30 @@ Config::Keys Config::stringToKey(const std::string& key) {
         return Config::CVODE_MIN_RELATIVE;
     else if (key == "SIMULATEOPTIONS_COPY_RESULT")
         return Config::SIMULATEOPTIONS_COPY_RESULT;
+    else if (key == "STEADYSTATE_PRESIMULATION")
+        return Config::STEADYSTATE_PRESIMULATION;
+    else if (key == "STEADYSTATE_PRESIMULATION_MAX_STEPS")
+        return Config::STEADYSTATE_PRESIMULATION_MAX_STEPS;
+    else if (key == "STEADYSTATE_PRESIMULATION_TIME")
+        return Config::STEADYSTATE_PRESIMULATION_TIME;
+    else if (key == "STEADYSTATE_APPROX")
+        return Config::STEADYSTATE_APPROX;
+    else if (key == "STEADYSTATE_APPROX_TOL")
+        return Config::STEADYSTATE_APPROX_TOL;
+    else if (key == "STEADYSTATE_APPROX_MAX_STEPS")
+        return Config::STEADYSTATE_APPROX_MAX_STEPS;
+    else if (key == "STEADYSTATE_APPROX_TIME")
+        return Config::STEADYSTATE_APPROX_TIME;
     else if (key == "STEADYSTATE_RELATIVE")
         return Config::STEADYSTATE_RELATIVE;
     else if (key == "STEADYSTATE_MAXIMUM_NUM_STEPS")
         return Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
     else if (key == "STEADYSTATE_MINIMUM_DAMPING")
         return Config::STEADYSTATE_MINIMUM_DAMPING;
+    else if (key == "STEADYSTATE_BROYDEN")
+        return Config::STEADYSTATE_BROYDEN;
+    else if (key == "STEADYSTATE_LINEARITY")
+        return Config::STEADYSTATE_LINEARITY;
     else if (key == "ROADRUNNER_JACOBIAN_MODE")
         return Config::ROADRUNNER_JACOBIAN_MODE;
     else if (key == "TEMP_DIR_PATH")
@@ -547,6 +597,10 @@ Config::Keys Config::stringToKey(const std::string& key) {
         return Config::LOADSBMLOPTIONS_PERMISSIVE;
     else if (key == "MAX_OUTPUT_ROWS")
         return Config::MAX_OUTPUT_ROWS;
+    else if (key == "ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS")
+        return Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
+	else if (key == "VALIDATION_IN_REGENERATION")
+		return Config::VALIDATION_IN_REGENERATION;
     else
         throw std::runtime_error("No such config key: '" + key + "'");
 }

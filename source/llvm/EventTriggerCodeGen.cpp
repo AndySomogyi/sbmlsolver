@@ -34,7 +34,7 @@ bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData,
     ModelDataLoadSymbolResolver mdLoadResolver(modelData, modelGenContext);
     ModelDataStoreSymbolResolver mdStoreResolver(modelData, model, modelSymbols,
             dataSymbols, builder, mdLoadResolver);
-    ASTNodeCodeGen astCodeGen(builder, mdLoadResolver);
+    ASTNodeCodeGen astCodeGen(builder, mdLoadResolver, modelGenContext, modelData);
 
     const ListOfEventAssignments *assignments =
             event->getListOfEventAssignments();
@@ -43,6 +43,9 @@ bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData,
     {
         const EventAssignment *a = assignments->get(id);
         const ASTNode *math = a->getMath();
+        if (math == NULL) {
+            continue;
+        }
         Value *value = astCodeGen.codeGen(math);
 
         Value *loc = builder.CreateConstGEP1_32(data, id);

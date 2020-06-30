@@ -57,19 +57,11 @@ Return a list of floating species sbml ids.
 ";
 
 
+%feature("docstring") rr::ExecutableModel::getFloatingSpeciesConcentrationIds "
+ExecutableModel.getFloatingSpeciesConcentrationIds()
 
-%feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmountRates "
-ExecutableModel.getFloatingSpeciesAmountRates([index])
-
-Return a vector of the amount rate of change of the floating species.
-
-The units of amount rates is amount / time.
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of the rates of change of the floating species amounts.
-:rtype: numpy.ndarray
+Return a list of floating species concentration ids.
 ";
-
 
 
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmounts "
@@ -134,6 +126,41 @@ given by the order of Ids returned by getFloatingSpeciesIds()
 :param numpy.ndarray index: (optional) an index array indicating which items to return.
 :returns: an array of floating species concentrations.
 :rtype: numpy.ndarray
+";
+
+
+%feature("docstring") rr::RoadRunner::getRatesOfChange "
+RoadRunner::getRatesOfChange()
+
+Returns the rates of change of all floating species. The order of species is 
+given by the order of Ids returned by getFloatingSpeciesIds()
+
+:returns: a named array of floating species rates of change.
+:rtype: numpy.ndarray
+";
+
+
+%feature("docstring") rr::RoadRunner::getIndependentRatesOfChange "
+RoadRunner::getIndependentRatesOfChange()
+
+Returns the rates of change of all independent floating species. The order of species is 
+given by the order of Ids returned by getIndependentFloatingSpeciesIds()
+
+:returns: a named array of independent floating species rates of change.
+:rtype: numpy.ndarray
+";
+
+
+%feature("docstring") rr::RoadRunner::getDependentRatesOfChange "
+RoadRunner::getDependentRatesOfChange()
+
+Returns the rates of change of all dependent floating species. The order of species is 
+given by the order of Ids returned by getDependentFloatingSpeciesIds()
+
+:returns: a named array of dependent floating species rates of change.
+:rtype: numpy.ndarray
+
+
 
 Floating Species Initial Conditions
 -----------------------------------
@@ -265,6 +292,16 @@ Returns a vector of boundary species Ids.
 ";
 
 
+%feature("docstring") rr::ExecutableModel::getBoundarySpeciesConcentrationIds "
+ExecutableModel.getBoundarySpeciesConcentrationIds()
+
+Returns a vector of boundary species concentration Ids.
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: a list of boundary species ids.
+";
+
+
 
 %feature("docstring") rr::ExecutableModel::getNumBoundarySpecies "
 ExecutableModel.getNumBoundarySpecies()
@@ -346,6 +383,15 @@ length as index.
 
 Global Parameters
 -----------------
+";
+
+
+%feature("docstring") rr::ExecutableModel::getGlobalParameterIds "
+ExecutableModel.getGlobalParameterIds([index])
+
+Return a list of global parameter ids.
+
+:returns: a list of global parameter ids.
 ";
 
 
@@ -440,76 +486,6 @@ large and only a single coefficient is needed.
 :param reactionIndex: a reaction index from :meth:`getReactionIds`
 
 
-
-State Vector
-------------
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getStateVector "
-ExecutableModel.getStateVector([stateVector])
-
-Returns a vector of all the variables that represent the state of the system. The state is
-considered all values which change with the dynamics of the model. This would include all species
-which are produced or consumed by reactions, and all variables which are defined by rate rules.
-
-Variables such as global parameters, compartments, or boundary species which do not change with
-the model dynamics are considered parameters and are thus not part of the state.
-
-In performance critical applications, the optional stateVector array should be provided where the
-output variables will be written to.
-
-
-:param numpy.ndarray stateVector: an optional numpy array where the state vector variables will be written. If
-                    no state vector array is given, a new one will be constructed and returned.
-
-                    This should be the same length as the model state vector.
-:rtype: numpy.ndarray
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getStateVectorId "
-ExecutableModel.getStateVectorId(index)
-
-Get the id (symbolic name) of a state vector item.
-
-:param int index: the index of the desired state vector item
-:rtype: str
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getStateVectorIds "
-ExecutableModel.getStateVectorIds()
-
-Returns a list of all state vector ids
-
-:rtype: list
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getStateVectorRate "
-ExecutableModel.getStateVectorRate(time, [stateVector], [stateVectorRate])
-
-Calculates the rate of change of all state vector variables.
-
-Note, the rate of change of species returned by this method is always in units of amount /
-time.
-
-
-:param double time: the model time at which the calculation should be performed.
-:param numpy.ndarray: (optional) the model state at which the calculation should be performed. If
-                      this is not give, the current state is used.
-:param numpy.ndarray: (optional) an output array where the rates of change will be written to. If
-                      this is not given, a new array is allocated and returned.
-
-:returns: an array of the rates of change of all state vector variables.
-:rtype: numpy.ndarray
-
-
 Conserved Moieties
 ------------------
 ";
@@ -570,10 +546,22 @@ length as index.
 :param numpy.ndarray values: the values to set.
 
 
+
+Events
+------------------
+";
+
+%feature("docstring") rr::ExecutableModel::getEventIds "
+ExecutableModel.getEventIds()
+
+Returns a list of event ids.
+
+:returns: a list of event ids.
+
+
 Misc
 ----
 ";
-
 
 
 %feature("docstring") rr::ExecutableModel::getInfo "
@@ -752,10 +740,10 @@ Get a list of available integrator names.
 %feature("docstring") rr::RoadRunner::getParamPromotedSBML "
 RoadRunner.getParamPromotedSBML(*args)
 
-Takes an SBML document (in textual form) and changes all of the local parameters
+Takes an SBML document or path to an SBML document and changes all of the local parameters
 to be global parameters.
 
-:param str SBML: the contents of an SBML document
+:param str SBML: the contents or path to an SBML document
 :rtype: str
 ";
 
@@ -832,6 +820,14 @@ RoadRunner.createSelection(sel)
 Create a new selection based on a selection string
 
 :rtype: roadrunner.SelectionRecord
+";
+
+
+%feature("docstring") rr::RoadRunner::resetSelectionLists "
+RoadRunner.resetSelectionLists()
+
+Resets time course and steady state selection lists to defaults
+
 
 
 Model Access
@@ -943,12 +939,36 @@ second time to improve the solution.
 
 
 
+%feature("docstring") rr::RoadRunner::steadyStateApproximate "
+RoadRunner.steadyStateApproximate()
+
+Attempt to approximate the steady state for the model by running integration
+for a specified amount of time. This function is ideal for the case where
+steady state solution does exist but the solver cannot find the 
+solution due to singular Jacobian, etc. The method returns
+a value that indicates how close the solution is to the steady state.
+The smaller the value the better. Values less than 1E-6 usually indicate a
+steady state has been found. If necessary the method can be called a
+second time to improve the solution.
+
+:returns: the sum of squares of the approximated steady state solution.
+
+:rtype: double
+";
+
+
+
 %feature("docstring") rr::RoadRunner::getSteadyStateValues "
 RoadRunner.getSteadyStateValues()
 
 Performs a steady state calculation (evolves the system to a steady
 state), then calculates and returns the set of values specified by
-the steady state selections.
+the steady state selections. The variable steadyStateSelections is used
+to determine which values are returned.
+
+     >>> rr.steadyStateSelections = ['S1']
+     >>> rr.getSteadyStateValues()
+     array([ 0.54314239])
 
 :returns: a numpy array corresponding to the values specified by steadyStateSelections
 
@@ -992,7 +1012,6 @@ return concentration control coefficients with respect to species S1 and S2.
 ";
 
 
-
 %feature("docstring") rr::RoadRunner::getuCC "
 RoadRunner.getuCC(variableId, parameterId)
 
@@ -1003,6 +1022,32 @@ Get unscaled control coefficient with respect to a global parameter.
 :param parameterId: must be either a global parameter, boundary species, or
                     conserved sum.
 ";
+
+
+
+%feature("docstring") rr::RoadRunner::getDiffStepSize "
+RoadRunner.getDiffStepSize()
+
+Returns the differential step size used in getCC and getuCC. Both functions
+use a 4th order finite difference method for calculating the derivative. The
+default value is 0.05.
+
+  rr.getDiffStepSize ()
+  0.05
+
+:rtype: double
+";
+
+
+
+%feature("docstring") rr::RoadRunner::setDiffStepSize "
+RoadRunner.setDiffStepSize(value)
+
+Sets the differential step size used in getCC and getuCC.
+
+  rr.setDiffStepSize (0.05)
+";
+
 
 
 
@@ -1196,6 +1241,17 @@ RoadRunner.getFullStoichiometryMatrix()
 
 Get the stoichiometry matrix that coresponds to the full model, even it
 it was converted via conservation conversion.
+";
+
+
+
+%feature("docstring") rr::RoadRunner::getExtendedStoichiometryMatrix "
+RoadRunner.getExtendedStoichiometryMatrix()
+
+
+Returns the full stoichiometric matrix plus additional rows for boundary
+species and source/sink nodes. Use this if you want to apply detailed
+balance to the network as a whole.
 ";
 
 
@@ -1624,6 +1680,19 @@ If the model is flattened, the variable will appear automatically.
 ";
 
 
+%feature("docstring") rr::SimulateOptions::output_file "
+
+The output file path to write to, if not empty. 
+
+If not empty, the simulation results will be written to the path specified
+by output_file during the simulation, in batches. Specifically, the results
+will be written as soon as Config::K_ROWS_PER_WRITE rows are in the result
+buffer. The result buffer will be cleared every time it is written, so
+simulate() will return an empty matrix.
+
+If it is empty, simulation is done as usual and the full result matrix will
+be returned.
+";
 
 %feature("docstring") rr::LoadSBMLOptions::conservedMoieties "
 :annotation: bool
@@ -2376,6 +2445,3 @@ Get the converted document contents.
 :returns: The contents of the converted document, or empty string
           if there is no source document.
 ";
-
-
-

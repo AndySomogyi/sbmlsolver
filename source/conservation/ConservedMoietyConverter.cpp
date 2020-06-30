@@ -53,10 +53,10 @@ namespace rr { namespace conservation {
 class ConservedMoietySpecies : public libsbml::Species
 {
 public:
-    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety) :
+    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety, const std::string& quantity = "") :
         libsbml::Species(orig)
     {
-        ConservationPkgNamespaces ns(3,1,1);
+        ConservationPkgNamespaces ns(3,2,1);
         this->loadPlugins(&ns);
 
         ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
@@ -64,6 +64,26 @@ public:
         assert(plugin && "could not get conservation plugin from new species");
 
         plugin->setConservedMoiety(conservedMoiety);
+
+        if (quantity.size()) {
+            plugin->setConservedQuantity(quantity);
+        }
+    }
+
+    void setConservedQuantity(const std::string& quantity) {
+        ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
+
+        assert(plugin && "could not get conservation plugin from species");
+
+        plugin->setConservedQuantity(quantity);
+    }
+
+    void addConservedQuantity(const std::string& quantity) {
+        ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
+
+        assert(plugin && "could not get conservation plugin from species");
+
+        plugin->addConservedQuantity(quantity);
     }
 };
 
@@ -175,6 +195,20 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
     }
 
+    if (mDocument->checkL3v2Compatibility() != 0)
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
+                << std::endl;
+        return 1;
+    }
+
+    if (!mDocument->setLevelAndVersion(3,2))
+    {
+        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
+                << std::endl;
+        return 1;
+    }
+
 
     Model* mModel = mDocument->getModel();
     if (mModel == NULL)
@@ -183,13 +217,16 @@ int ConservedMoietyConverter::convert()
         return LIBSBML_INVALID_OBJECT;
     }
 
-
     /* The document was checked for consistency in setDocument */
-    ConservationPkgNamespaces ns(3,1,1);
+    ConservationPkgNamespaces ns(3,2,1);
     if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version2"))
         ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version2", "fbc");
     if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/fbc/version1"))
         ns.addNamespace("http://www.sbml.org/sbml/level3/version1/fbc/version1", "fbc");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/layout/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/layout/version1", "layout");
+    if (mDocument->isPackageURIEnabled("http://www.sbml.org/sbml/level3/version1/render/version1"))
+        ns.addNamespace("http://www.sbml.org/sbml/level3/version1/render/version1", "render");
     resultDoc = new SBMLDocument(&ns);
 
     ConservationDocumentPlugin *docPlugin = dynamic_cast<ConservationDocumentPlugin*>
@@ -299,7 +336,6 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         ConversionProperties versionProps = versionConverter.getDefaultProperties();
 
         versionProps.addOption("strict", false);
-        std::cerr << "ConservedMoietyConverter::setDocument\n";
 
         versionConverter.setProperties(&versionProps);
 
@@ -460,11 +496,16 @@ static std::vector<std::string> createConservedMoietyParameters(
 
     Poco::UUIDGenerator uuidGen;
 
-    for (int i = 0; i < depSpecies.size(); ++i)
+    for (unsigned int i = 0; i < depSpecies.size(); ++i)
     {
         Poco::UUID uuid = uuidGen.create();
-        string id = "cm_" + rr::toString(i) + "_" + uuid.toString();
+        string id = "_CSUM" + rr::toStringSize(i);
         std::replace( id.begin(), id.end(), '-', '_');
+
+
+        ConservedMoietySpecies* cmDepSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(static_cast<unsigned int>(indSpecies.size())+i));
+        if (cmDepSpecies)
+            cmDepSpecies->setConservedQuantity(id);
 
         Parameter *cm = newModel->createParameter();
         cm->setId(id);
@@ -494,7 +535,7 @@ static std::vector<std::string> createConservedMoietyParameters(
         ASTNode *sum2 = new ASTNode(AST_PLUS);
         mult->addChild(sum2);
 
-        for (int j = 0; j < indSpecies.size(); ++j)
+        for (unsigned int j = 0; j < indSpecies.size(); ++j)
         {
             double stoich = L0(i, j);
 
@@ -509,6 +550,12 @@ static std::vector<std::string> createConservedMoietyParameters(
                 times->addChild(species);
 
                 sum2->addChild(times);
+
+                ConservedMoietySpecies* cmIndSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(j));
+                if (cmIndSpecies) {
+                    std::cerr << "cmIndSpecies " << cmIndSpecies->getId() << " conserved quantity " << id << "\n";
+                    cmIndSpecies->addConservedQuantity(id);
+                }
             }
         }
 
@@ -674,7 +721,7 @@ static inline void conservedMoietyException(const std::string& what)
 {
     Log(rr::Logger::LOG_INFORMATION) << what;
 
-    static const char* help = "\n To disable conserved moeity conversion, either \n"
+    static const char* help = "\n To disable conserved moiety conversion, either \n"
             "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"
             "\t before calling the load(\'myfile.xml\') method, or\n"
             "\t b: create a LoadSBMLOptions object, set the conservedMoieties property \n"
@@ -702,9 +749,9 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 rule->getVariable());
 
         const Species *species = dynamic_cast<const Species*>(element);
-        if(species && !species->getBoundaryCondition())
+        if(species && !species->getBoundaryCondition() && model->getNumReactions() > 0)
         {
-            string msg = "Cannot perform moeity conversion when floating "
+            string msg = "Cannot perform moiety conversion when floating "
                     "species are defined by rules. The floating species, "
                     + species->getId() + " is defined by rule " + rule->getId()
                     + ".";
@@ -715,7 +762,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 dynamic_cast<const SpeciesReference*>(element);
         if(ref)
         {
-            string msg = "Cannot perform moeity conversion with non-constant "
+            string msg = "Cannot perform moiety conversion with non-constant "
                     "stoichiometry. The species reference " + ref->getId() +
                     " which refers to species " + ref->getSpecies() + " has "
                     "stoichiometry defined by rule " + rule->getId() + ".";
@@ -738,7 +785,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             // has the constant attribute
             if (doc->getLevel() >= 3 &&  !ref->getConstant())
             {
-                string msg = "Cannot perform moeity conversion with non-constant "
+                string msg = "Cannot perform moiety conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() +
                         " does not have the constant attribute set.";
@@ -747,7 +794,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
 
             else if(ref->isSetStoichiometryMath())
             {
-                string msg = "Cannot perform moeity conversion with non-constant "
+                string msg = "Cannot perform moiety conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() +
                         " has stochiometryMath set.";
@@ -766,13 +813,16 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
         for(int j = 0; j < assignments->size(); ++j)
         {
             const EventAssignment *ass = assignments->get(j);
+            if (!ass->isSetMath()) {
+                continue;
+            }
             const SBase *element = const_cast<Model*>(model)->getElementBySId(
                     ass->getVariable());
 
             const Species *species = dynamic_cast<const Species*>(element);
             if(species && !species->getBoundaryCondition())
             {
-                string msg = "Cannot perform moeity conversion when floating "
+                string msg = "Cannot perform moiety conversion when floating "
                         "species have events. The floating species, "
                         + species->getId() + " has event " + event->getId() + ".";
                 conservedMoietyException(msg);
@@ -782,7 +832,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                     dynamic_cast<const SpeciesReference*>(element);
             if(ref)
             {
-                string msg = "Cannot perform moeity conversion with non-constant "
+                string msg = "Cannot perform moiety conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() + " has "
                         "event " + event->getId() + ".";

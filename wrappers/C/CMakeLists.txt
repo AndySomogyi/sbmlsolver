@@ -19,16 +19,26 @@ endif(UNIX)
 
 #The C-api is built as a shared library..
 add_library(${target} SHARED
-    rrcStringList
-    rrArrayList
-    rrArrayListItem
-    rrArrayListItemBase
-    rrc_api
-    rrc_logging_api
-    rrc_nom_api
-    rrc_libstruct_api
-    rrc_utilities
-    rrc_cpp_support
+    rrcStringList.cpp
+    rrArrayList.cpp
+    rrArrayListItem.cpp
+    rrArrayListItemBase.cpp
+    rrc_api.cpp
+    rrc_logging_api.cpp
+    rrc_nom_api.cpp
+    rrc_libstruct_api.cpp
+    rrc_utilities.cpp
+    rrc_cpp_support.cpp
+    rrcStringList.h
+    rrArrayList.h
+    rrArrayListItem.h
+    rrArrayListItemBase.h
+    rrc_api.h
+    rrc_logging_api.h
+    rrc_nom_api.h
+    rrc_libstruct_api.h
+    rrc_utilities.h
+    rrc_cpp_support.h
 )
 
 #Link C_api dll statically to roadrunner and libsbml
@@ -57,7 +67,8 @@ else() #Unix
         target_link_libraries ( ${target}
             roadrunner
             rr-libstruct-static
-            nleq-static
+            nleq1-static
+            nleq2-static
             sbml-static
             lapack
             blas
@@ -69,7 +80,8 @@ else() #Unix
         target_link_libraries ( ${target}
             roadrunner-static
             rr-libstruct-static
-            nleq-static
+            nleq1-static
+            nleq2-static
             sbml-static
             lapack
             blas

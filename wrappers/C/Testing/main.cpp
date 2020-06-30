@@ -190,9 +190,30 @@ int main(int argc, char* argv[])
         runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_FBC", True(), 0);
     }
 
+    if (args.Suites.find('N') != std::string::npos)
+    {
+    	runner1.RunTestsIf(Test::GetTestList(), "MODEL_EDITING_TEST_SUITE", True(), 0);
+    }
+    
+    //State saving suite
+    if (args.Suites.find('O') != std::string::npos)
+    {
+    	clog << "Running Suite STATE_SAVING_TEST_SUITE" << endl;
+    	runner1.RunTestsIf(Test::GetTestList(), "STATE_SAVING_TEST_SUITE", True(), 0);
+    }
+
+
+    //State saving suite
+    if (args.Suites.find('P') != std::string::npos)
+    {
+        clog << "Running Suite OTHER_TESTS" << endl;
+        runner1.RunTestsIf(Test::GetTestList(), "OTHER_TESTS", True(), 0);
+    }
+
 
     //Finish outputs result to xml file
     runner1.Finish();
+	
     return runner1.GetTestResults()->GetFailureCount();
 }
 
@@ -218,7 +239,7 @@ bool setup(Args& args)
     if(args.Suites.size() == 0)
     {
         //Run all the non-duplicated tests.
-        args.Suites = "ABCDEJL";
+        args.Suites = "ABCDEJLNOP";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());

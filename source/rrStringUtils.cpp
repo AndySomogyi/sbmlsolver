@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cstring>
 #include <cctype>
+#include <map>
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -500,13 +501,13 @@ vector<string> splitString(const string &text, const char& oneSep)
 vector<string> splitString(const string &text, const string &separators)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
 
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if( (stop == string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -520,12 +521,12 @@ vector<string> splitString(const string &text, const string &separators)
 vector<string> splitString(const string &text, const string &separators, bool cutDelimiter)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
-    while( (start >= 0) && (start < n) )
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
+    while( (start != string::npos) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if( (stop == string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -549,14 +550,14 @@ vector<string> splitString(const string &text, const string &separators, bool cu
     return words;
 }
 
-int splitString(vector<string>& words, const string &text, const string &separators)
+size_t splitString(vector<string>& words, const string &text, const string &separators)
 {
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
-    while( (start >= 0) && (start < n) )
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
+    while( (start != string::npos) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if( (stop == string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -636,6 +637,22 @@ double toDouble(const string& str)
 
     Log(Logger::LOG_WARNING) << "could not parse string \"" << str << "\" to double, returning NaN";
     return std::numeric_limits<double>::quiet_NaN();
+}
+
+vector<double> toDoubleVector(const string& str)
+{
+	// double vector is in the form "[d1,d2,d3...dn]"
+	// get rid of '[' and ']' first
+
+	size_t start = str.find("[");
+	string st = str.substr(start + 1, str.size() - 1);
+	// parse into string vector
+	vector<string> parts(splitString(st, ","));
+	vector<double> res;
+	for (unsigned i = 0; i < parts.size(); i++)
+		res.push_back(toDouble(parts[i]));
+	return res;
+
 }
 
 complex<double> toComplex(const string& str)
@@ -875,6 +892,13 @@ string toString(const vector<string>& vec, const string& sep)
     }
     text<<"}";
     return text.str();
+}
+
+string toStringSize(size_t n)
+{
+    stringstream ss;
+    ss << n;
+    return ss.str();
 }
 
 int compareNoCase(const string& str1, const string& str2)

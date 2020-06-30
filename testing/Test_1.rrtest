@@ -301,7 +301,7 @@ J1 J2 J3 J4
 init([S1]) init([S3]) init([S2])
 
 [Get Eigenvalue Ids]
-eigen(S1) eigen(S3) eigen(S2)
+eigen(S1) eigenReal(S1) eigenImag(S1) eigen(S3) eigenReal(S3) eigenImag(S3) eigen(S2) eigenReal(S2) eigenImag(S2)
 
 [Get Rates Of Change Ids]
 S1' S3' S2'
@@ -368,3 +368,22 @@ rates=0.101 -0.08 -1.071
 "S1 kk2 -0.5985"
 "S1 kk3 -0.100249"
 "S1 kk4 -0.0164043"
+
+[Check RK4 Output]
+0
+
+[Check RK45 Output]
+0
+
+[Test Reset]
+"S1 1.0 k1 1.0 X1 1.0"
+
+[Test ResetAll]
+"k1 1.0 X1 1.0"
+
+[Test ResetToOrigin]
+"X1 1.0"
+
+[Test SetValues]
+"S1 S2 S3 1.0 2.0 3.0"
+

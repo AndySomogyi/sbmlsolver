@@ -220,6 +220,7 @@ SUITE(TEST_MODEL)
 //         Poco::Glob::glob(path, files);
 
         const char* rrtest_files[] = {
+		  //"Add_Species1.rrtest"
           "Bimolecular_end.rrtest",
           "Comp.rrtest",
           "Conserved_Cycle_and_Branch.rrtest",
@@ -432,7 +433,7 @@ SUITE(TEST_MODEL)
 
         string valstr = Trim(aSection->GetNonKeysAsString());
         vector<string> vals = splitString(valstr, " ");
-        for(size_t i = 0 ; i < vals.size(); i++)
+        for(int i = 0 ; i < static_cast<int>(vals.size()); i++)
         {
             IniKey *aKey = aSection->GetKey(i);
             double val;
@@ -500,7 +501,7 @@ SUITE(TEST_MODEL)
 
         string valstr = Trim(aSection->GetNonKeysAsString());
         vector<string> vals = splitString(valstr, " ");
-        for(size_t i = 0 ; i < vals.size(); i++)
+        for (int i = 0; i < static_cast<int>(vals.size()); i++)
         {
             //Set the value..
             double newval = toDouble(vals[i]);
@@ -571,7 +572,8 @@ SUITE(TEST_MODEL)
 
         clog<< endl << "==== STEADY STATE FLUXES ====" << endl << endl;
         aSection->mIsUsed = true;
-
+        
+        reset(gRR);
         trySteadyState(gRR);
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
@@ -604,6 +606,7 @@ SUITE(TEST_MODEL)
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
         RoadRunner* rri = castToRoadRunner(gRR);
+		
 
         ls::DoubleMatrix   jActual = rri->getFullJacobian();
         ls::DoubleMatrix   jRef    = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -720,7 +723,6 @@ SUITE(TEST_MODEL)
         RoadRunner* rri = castToRoadRunner(gRR);
         ls::DoubleMatrix ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
         std::vector<ls::Complex> eigen = rri->getFullEigenValues();
-
         compareMatrices(ref, eigen);
     }
 
@@ -935,6 +937,7 @@ SUITE(TEST_MODEL)
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
+        reset(gRR);
         RRDoubleMatrixPtr matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
         compareMatrices(ref, matrix);
         freeMatrix(matrix);
@@ -957,6 +960,7 @@ SUITE(TEST_MODEL)
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
+        reset(gRR);
         RRDoubleMatrixPtr matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
         compareMatrices(ref, matrix);
         freeMatrix(matrix);
@@ -977,6 +981,7 @@ SUITE(TEST_MODEL)
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
+        reset(gRR);
         RRDoubleMatrixPtr matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
         compareMatrices(ref, matrix);
         freeMatrix(matrix);
@@ -996,6 +1001,8 @@ SUITE(TEST_MODEL)
         aSection->mIsUsed = true;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
+
+        reset(gRR);
 
         RRDoubleMatrixPtr matrix = getScaledFluxControlCoefficientMatrix(gRR);
         compareMatrices(ref, matrix);
@@ -1027,6 +1034,190 @@ SUITE(TEST_MODEL)
 		clog << "\n";
 		clog << "Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
 	}
+
+    TEST(CHECK_RESET)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test Reset");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* f = refList[0].c_str();
+        double f_value = toDouble(refList[1]);
+        const char* k = refList[2].c_str();
+        double k_value = toDouble(refList[3]);
+        const char* d = refList[4].c_str();
+        double d_value = toDouble(refList[5]);
+
+        double f_value_r;
+        double k_value_r;
+        double d_value_r;
+
+        setValue(gRR, f, f_value);
+        setValue(gRR, k, k_value);
+        setValue(gRR, d, d_value);
+
+        reset(gRR);
+
+        getValue(gRR, f, &f_value_r);
+        getValue(gRR, k, &k_value_r);
+        getValue(gRR, d, &d_value_r);
+
+        CHECK(f_value != f_value_r);
+        CHECK_EQUAL(k_value, k_value_r);
+        CHECK_EQUAL(d_value, d_value_r);       
+    }
+
+    TEST(CHECK_RESETALL)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test ResetAll");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET_ALL ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* k = refList[0].c_str();
+        double k_value = toDouble(refList[1]);
+        const char* d = refList[2].c_str();
+        double d_value = toDouble(refList[3]);
+
+        double k_value_r;
+        double d_value_r;
+
+        setValue(gRR, k, k_value);
+        setValue(gRR, d, d_value);
+        
+        resetAll(gRR);
+        
+        getValue(gRR, k, &k_value_r);
+        getValue(gRR, d, &d_value_r);
+        
+        CHECK(k_value != k_value_r);
+        CHECK_EQUAL(d_value, d_value_r);
+    }
+
+    TEST(CHECK_RESETTOORIGIN)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test ResetToOrigin");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET_TO_ORIGIN ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* d = refList[0].c_str();
+        double d_value = toDouble(refList[1]);
+
+        double d_value_r;
+
+        setValue(gRR, d, d_value);
+
+        resetToOrigin(gRR);
+
+        getValue(gRR, d, &d_value_r);
+
+        CHECK(d_value != d_value_r);
+    }
+
+    TEST(CHECK_RK4_OUTPUT)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check RK4 Output");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RK4_OUTPUT ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        // cvode
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *cvode = rri->simulate(&opt);
+
+        // rk4
+        opt.setItem("integrator", "rk4");
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *rk4 = rri->simulate(&opt);
+
+        for (int k = 0; k < cvode->CSize(); k++)
+        {
+            CHECK_CLOSE((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
+        }
+    }
+
+    TEST(CHECK_RK45_OUTPUT)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Check RK45 Output");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RK45_OUTPUT ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        RoadRunner* rri = castToRoadRunner(gRR);
+        SimulateOptions opt;
+        opt.start = 0;
+        opt.duration = 10;
+
+        // cvode
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *cvode = rri->simulate(&opt);
+
+        // rk4
+        opt.setItem("integrator", "rk45");
+        clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+        const DoubleMatrix *rk45 = rri->simulate(&opt);
+
+        for (int k = 0; k < cvode->CSize(); k++){
+            CHECK_CLOSE((*cvode)(cvode->RSize() - 1, k), (*rk45)(rk45->RSize() - 1, k), 1e-6);
+        }
+    }
+
+    // Placeholder for testing setValues which are not implemented in C++ yet
+    TEST(CHECK_SETVALUES)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test SetValues");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_SETVALUES ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        CHECK(true);
+    }
 
     TEST(FLOATING_SPECIES_IDS)
     {
@@ -1494,7 +1685,7 @@ SUITE(TEST_MODEL)
 
         if(!values || values->Count != refList.size())
         {
-            CHECK(false);
+            CHECK(false && " ");
             freeVector(values);
             return;
         }
@@ -1662,7 +1853,7 @@ SUITE(TEST_MODEL)
           vector<string> refList = splitString(refs->mValue," ");
 
           vector<string> concList = splitString(conc->mValue," ");
-          RRVector* aVector = createVector(concList.size());
+          RRVector* aVector = createVector(static_cast<int>(concList.size()));
 
           for(int i = 0; i < concList.size(); i++)
           {
@@ -1721,7 +1912,7 @@ SUITE(TEST_MODEL)
           vector<string> refList = splitString(refs->mValue," ");
 
           vector<string> concList = splitString(conc->mValue," ");
-          RRVector* aVector = createVector(concList.size());
+          RRVector* aVector = createVector(static_cast<int>(concList.size()));
 
           for(int i = 0; i < concList.size(); i++)
           {
@@ -1922,6 +2113,40 @@ SUITE(TEST_MODEL)
                 CHECK( abs( (*result)(i+1,0) - (*result)(i,0) ) < max_tol );
             }
         }
+    }
+
+    TEST(CHECK_RESETCONSERVEDTOTAL)
+    {
+        CHECK(gRR != NULL);
+
+        IniSection* aSection = iniFile.GetSection("Test ResetConservedTotal");
+        if (!aSection || !gRR)
+        {
+            return;
+        }
+        clog << endl << "==== CHECK_RESET_CONSERVED_TOTAL ====" << endl << endl;
+        aSection->mIsUsed = true;
+
+        string keys = Trim(aSection->GetNonKeysAsString());
+        vector<string> refList = splitString(keys, " ,");
+
+        const char* ct = refList[0].c_str();
+
+        double ct_val;
+
+        RRVector* values = computeSteadyStateValues(gRR);
+
+        setValue(gRR, ct, 1000.);
+
+        reset(gRR);
+
+        getValue(gRR, ct, &ct_val);
+
+        CHECK(ct_val != 1000.);
+
+        resetAll(gRR);
+
+        freeVector(values);
     }
 
     TEST(CHECK_UNUSED_TESTS)

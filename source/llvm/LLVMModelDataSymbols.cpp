@@ -139,22 +139,22 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
     // first go through the rules, see if they determine other stuff
     {
         const ListOfRules * rules = model->getListOfRules();
-        for (unsigned i = 0; i < rules->size(); ++i)
+        for (size_t i = 0; i < rules->size(); ++i)
         {
             const Rule *rule = rules->get(i);
 
-            if (dynamic_cast<const AssignmentRule*>(rule))
+            if (rule->getTypeCode() == SBML_ASSIGNMENT_RULE)
             {
-                assigmentRules.insert(rule->getVariable());
+                assignmentRules.insert(rule->getVariable());
             }
-            else if (dynamic_cast<const RateRule*>(rule))
+            else if (rule->getTypeCode() == SBML_RATE_RULE)
             {
-                uint rri = rateRules.size();
+                size_t rri = rateRules.size();
                 rateRules[rule->getId()] = rri;
             }
-            else if (dynamic_cast<const AlgebraicRule*>(rule))
+            else if (rule->getTypeCode() == SBML_ALGEBRAIC_RULE)
             {
-                char* formula = SBML_formulaToString(rule->getMath());
+                char* formula = SBML_formulaToL3String(rule->getMath());
                 Log(Logger::LOG_WARNING)
                     << "Unable to handle algebraic rules. Formula '0 = "
                     << formula << "' ignored.";
@@ -167,7 +167,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         const ListOfInitialAssignments *initAssignmentList =
                 model->getListOfInitialAssignments();
 
-        for (unsigned i = 0; i < initAssignmentList->size(); ++i)
+        for (size_t i = 0; i < initAssignmentList->size(); ++i)
         {
             const libsbml::InitialAssignment *ia = initAssignmentList->get(i);
 
@@ -197,6 +197,13 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
     initEvents(model);
 }
+
+LLVMModelDataSymbols::LLVMModelDataSymbols(std::istream& in)
+{
+	this->loadState(in);
+}
+
+
 
 LLVMModelDataSymbols::~LLVMModelDataSymbols()
 {
@@ -247,7 +254,7 @@ LLVMModelDataSymbols::SymbolIndexType LLVMModelDataSymbols::getSymbolIndex(
     return INVALID_SYMBOL;
 }
 
-uint LLVMModelDataSymbols::getCompartmentIndex(
+int LLVMModelDataSymbols::getCompartmentIndex(
         const std::string& id) const
 {
     StringUIntMap::const_iterator i = compartmentsMap.find(id);
@@ -255,13 +262,10 @@ uint LLVMModelDataSymbols::getCompartmentIndex(
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find compartment with id " + id, __FUNC__);
-    }
+    return -1;
 }
 
-uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
+int LLVMModelDataSymbols::getFloatingSpeciesIndex(
         const std::string& id, bool requireIndependent) const
 {
     StringUIntMap::const_iterator i = floatingSpeciesMap.find(id);
@@ -269,19 +273,14 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
     {
         if (requireIndependent && i->second >= independentFloatingSpeciesSize)
         {
-            string msg = "The species " + id + " is valid, however it is dependent on a rule";
-            throw LLVMException(msg);
+            return -1;
         }
         return i->second;
     }
-    else
-    {
-        string msg = "could not find floating species with id "  + id;
-        throw LLVMException(msg);
-    }
+    return -1;
 }
 
-uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
+int LLVMModelDataSymbols::getBoundarySpeciesIndex(
         const std::string& id) const
 {
     StringUIntMap::const_iterator i = boundarySpeciesMap.find(id);
@@ -289,18 +288,15 @@ uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find boundary species with id " + id, __FUNC__);
-    }
+    return -1;
 }
 
-uint LLVMModelDataSymbols::getBoundarySpeciesSize() const
+size_t LLVMModelDataSymbols::getBoundarySpeciesSize() const
 {
     return boundarySpeciesMap.size();
 }
 
-uint LLVMModelDataSymbols::getGlobalParameterIndex(
+int LLVMModelDataSymbols::getGlobalParameterIndex(
         const std::string& id) const
 {
     StringUIntMap::const_iterator i = globalParametersMap.find(id);
@@ -308,10 +304,7 @@ uint LLVMModelDataSymbols::getGlobalParameterIndex(
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find global parameter species with id " + id, __FUNC__);
-    }
+    return -1;
 }
 
 /*
@@ -328,8 +321,8 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.numReactions                  = reactionsMap.size();
     m.numEvents                     = eventAttributes.size();
     m.numRateRules                  = rateRules.size();
-    m.numIndCompartments               = independentCompartmentSize;
-    m.numIndBoundarySpecies            = independentBoundarySpeciesSize;
+    m.numIndCompartments            = independentCompartmentSize;
+    m.numIndBoundarySpecies         = independentBoundarySpeciesSize;
 
     // in certain cases, the data returned by c++ new may be alligned differently than
     // malloc, so just use calloc here just to be safe, plus calloc returns zero
@@ -375,17 +368,14 @@ std::vector<std::string> LLVMModelDataSymbols::getBoundarySpeciesIds() const
     return getIds(boundarySpeciesMap);
 }
 
-uint LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
+int LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
 {
     StringUIntMap::const_iterator i = reactionsMap.find(id);
     if (i != reactionsMap.end())
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find reactions with id " + id, __FUNC__);
-    }
+    return -1;
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getReactionIds() const
@@ -393,12 +383,12 @@ std::vector<std::string> LLVMModelDataSymbols::getReactionIds() const
     return getIds(reactionsMap);
 }
 
-uint LLVMModelDataSymbols::getReactionSize() const
+size_t LLVMModelDataSymbols::getReactionSize() const
 {
     return reactionsMap.size();
 }
 
-uint LLVMModelDataSymbols::getFloatingSpeciesSize() const
+size_t  LLVMModelDataSymbols::getFloatingSpeciesSize() const
 {
     return floatingSpeciesMap.size();
 }
@@ -408,7 +398,7 @@ std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
 {
     std::list<SpeciesReferenceInfo> result;
 
-    for (uint i = 0; i < stoichRowIndx.size(); i++)
+    for (size_t i = 0; i < stoichRowIndx.size(); i++)
     {
         SpeciesReferenceInfo entry =
             {stoichRowIndx[i], stoichColIndx[i], stoichTypes[i], stoichIds[i]};
@@ -420,9 +410,6 @@ std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
 
 void LLVMModelDataSymbols::print() const
 {
-    uint i = 0;
-
-
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); i++)
     {
@@ -469,7 +456,7 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
-std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
+std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); ++i)
@@ -480,11 +467,11 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access floating species id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access floating species id at index " + rr::toStringSize(indx));
 }
 
 
-uint LLVMModelDataSymbols::getIndependentFloatingSpeciesSize() const
+size_t LLVMModelDataSymbols::getIndependentFloatingSpeciesSize() const
 {
     return independentFloatingSpeciesSize;
 }
@@ -539,40 +526,37 @@ const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
     }
 }
 
-uint LLVMModelDataSymbols::getIndependentGlobalParameterSize() const
+size_t LLVMModelDataSymbols::getIndependentGlobalParameterSize() const
 {
     return independentGlobalParameterSize;
 }
 
-uint LLVMModelDataSymbols::getIndependentCompartmentSize() const
+size_t LLVMModelDataSymbols::getIndependentCompartmentSize() const
 {
     return independentCompartmentSize;
 }
 
-uint LLVMModelDataSymbols::getIndependentBoundarySpeciesSize() const
+size_t LLVMModelDataSymbols::getIndependentBoundarySpeciesSize() const
 {
     return independentBoundarySpeciesSize;
 }
 
-uint LLVMModelDataSymbols::getRateRuleIndex(std::string const& id) const
+int LLVMModelDataSymbols::getRateRuleIndex(std::string const& id) const
 {
     StringUIntMap::const_iterator i = rateRules.find(id);
     if (i != rateRules.end())
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find rate rule with id " + id, __FUNC__);
-    }
+    return -1;
 }
 
-uint LLVMModelDataSymbols::getRateRuleSize() const
+size_t LLVMModelDataSymbols::getRateRuleSize() const
 {
     return rateRules.size();
 }
 
-std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
+std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(size_t indx) const
 {
     for(StringUIntMap::const_iterator i = rateRules.begin();
             i != rateRules.end(); ++i)
@@ -584,18 +568,18 @@ std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(uint indx) const
     }
 
     throw std::out_of_range("attempted to access rate rule id at index " +
-            rr::toString(indx));
+            rr::toStringSize(indx));
 }
 
 bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
 {
     return rateRules.find(id) == rateRules.end() &&
-            assigmentRules.find(id) == assigmentRules.end();
+            assignmentRules.find(id) == assignmentRules.end();
 }
 
 bool LLVMModelDataSymbols::hasAssignmentRule(const std::string& id) const
 {
-    return assigmentRules.find(id) != assigmentRules.end();
+    return assignmentRules.find(id) != assignmentRules.end();
 }
 
 bool LLVMModelDataSymbols::hasRateRule(const std::string& id) const
@@ -603,12 +587,12 @@ bool LLVMModelDataSymbols::hasRateRule(const std::string& id) const
     return rateRules.find(id) != rateRules.end();
 }
 
-uint LLVMModelDataSymbols::getCompartmentsSize() const
+size_t LLVMModelDataSymbols::getCompartmentsSize() const
 {
     return compartmentsMap.size();
 }
 
-uint LLVMModelDataSymbols::getGlobalParametersSize() const
+size_t LLVMModelDataSymbols::getGlobalParametersSize() const
 {
     return globalParametersMap.size();
 }
@@ -625,7 +609,7 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
 
     globalParameterRateRules.resize(parameters->size(), false);
 
-    for (uint i = 0; i < parameters->size(); i++)
+    for (size_t i = 0; i < parameters->size(); i++)
     {
         const Parameter *p = parameters->get(i);
         const string& id = p->getId();
@@ -661,7 +645,7 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
     for (list<string>::const_iterator i = indParam.begin();
             i != indParam.end(); ++i)
     {
-        uint pi = globalParametersMap.size();
+        size_t pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
 
         // CM parameters can only be independent.
@@ -681,7 +665,7 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
     for (list<string>::const_iterator i = depParam.begin();
             i != depParam.end(); ++i)
     {
-        uint pi = globalParametersMap.size();
+        size_t pi = globalParametersMap.size();
         globalParametersMap[*i] = pi;
 
         // all the independent ones by def have no rate rules.
@@ -692,14 +676,14 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
     for (list<string>::const_iterator i = indInitParam.begin();
             i != indInitParam.end(); ++i)
     {
-        uint ci = initGlobalParametersMap.size();
+        size_t ci = initGlobalParametersMap.size();
         initGlobalParametersMap[*i] = ci;
     }
 
     for (list<string>::const_iterator i = depInitParam.begin();
             i != depInitParam.end(); ++i)
     {
-        uint ci = initGlobalParametersMap.size();
+        size_t ci = initGlobalParametersMap.size();
         initGlobalParametersMap[*i] = ci;
     }
 
@@ -716,7 +700,7 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
                 << " dependent global parameters." << endl;
 
         vector<string> ids = getGlobalParameterIds();
-        for (uint i = 0; i < ids.size(); ++i)
+        for (size_t i = 0; i < ids.size(); ++i)
         {
             log.stream() << "global parameter [" << i << "] = \'" << ids[i]
                          << "\'" << endl;
@@ -732,7 +716,7 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
 
     // get the boundary species
 
-    for (uint i = 0; i < species->size(); ++i)
+    for (size_t i = 0; i < species->size(); ++i)
     {
         const Species *s = species->get(i);
         if (s->getBoundaryCondition())
@@ -752,14 +736,14 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
     for (list<string>::const_iterator i = indBndSpecies.begin();
             i != indBndSpecies.end(); ++i)
     {
-        uint bi = boundarySpeciesMap.size();
+        size_t bi = boundarySpeciesMap.size();
         boundarySpeciesMap[*i] = bi;
     }
 
     for (list<string>::const_iterator i = depBndSpecies.begin();
             i != depBndSpecies.end(); ++i)
     {
-        uint bi = boundarySpeciesMap.size();
+        size_t bi = boundarySpeciesMap.size();
         boundarySpeciesMap[*i] = bi;
     }
 
@@ -776,7 +760,7 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
                 << endl;
 
         vector<string> ids = getBoundarySpeciesIds();
-        for (uint i = 0; i < ids.size(); ++i)
+        for (size_t i = 0; i < ids.size(); ++i)
         {
             log.stream() << "boundary species [" << i << "] = \'" << ids[i] << "\'" << endl;
         }
@@ -796,9 +780,10 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     list<string> depInitFltSpecies;
 
     // figure out 'fully' indendent flt species -- those without rules.
-    for (uint i = 0; i < species->size(); ++i)
+    for (size_t i = 0; i < species->size(); ++i)
     {
         const Species *s = species->get(i);
+        std::vector<std::string> quantities = ConservationExtension::getConservedQuantities(*s);
 
         if (s->getBoundaryCondition())
         {
@@ -810,10 +795,22 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         if (isIndependentElement(sid))
         {
             indFltSpecies.push_back(sid);
+            if (quantities.size()) {
+                for (size_t j=0; j<quantities.size(); ++j) {
+                    std::string quantity = quantities.at(j);
+                    conservedMoietyIndSpecies[quantity].push_back(indFltSpecies.size()-1);
+                }
+            }
         }
         else
         {
             depFltSpecies.push_back(sid);
+            if (quantities.size()) {
+                for (size_t j=0; j<quantities.size(); ++j) {
+                    std::string quantity = quantities.at(j);
+                    conservedMoietyDepSpecies[quantity] = depFltSpecies.size()-1;
+                }
+            }
         }
 
         bool conservedMoiety = ConservationExtension::getConservedMoiety(*s);
@@ -841,14 +838,14 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     for (list<string>::const_iterator i = indFltSpecies.begin();
             i != indFltSpecies.end(); ++i)
     {
-        uint si = floatingSpeciesMap.size();
+        size_t si = floatingSpeciesMap.size();
         floatingSpeciesMap[*i] = si;
     }
 
     for (list<string>::const_iterator i = depFltSpecies.begin();
             i != depFltSpecies.end(); ++i)
     {
-        uint si = floatingSpeciesMap.size();
+        size_t si = floatingSpeciesMap.size();
         floatingSpeciesMap[*i] = si;
 
         // now that we know how many float species we have, we
@@ -862,7 +859,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
                     conservedMoietySpeciesSet.end())
             {
                 // keep incrementing the size each time we add one.
-                uint cmIndex = floatingSpeciesToConservedMoietyIdMap.size();
+                size_t cmIndex = floatingSpeciesToConservedMoietyIdMap.size();
                 floatingSpeciesToConservedMoietyIdMap[si] = cmIndex;
             }
         }
@@ -872,14 +869,14 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     for (list<string>::const_iterator i = indInitFltSpecies.begin();
             i != indInitFltSpecies.end(); ++i)
     {
-        uint si = initFloatingSpeciesMap.size();
+        size_t si = initFloatingSpeciesMap.size();
         initFloatingSpeciesMap[*i] = si;
     }
 
     for (list<string>::const_iterator i = depInitFltSpecies.begin();
             i != depInitFltSpecies.end(); ++i)
     {
-        uint si = initFloatingSpeciesMap.size();
+        size_t si = initFloatingSpeciesMap.size();
         initFloatingSpeciesMap[*i] = si;
     }
 
@@ -917,7 +914,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
                             << " dependent floating species." << endl;
 
         vector<string> ids = getFloatingSpeciesIds();
-        for (uint i = 0; i < ids.size(); ++i)
+        for (size_t i = 0; i < ids.size(); ++i)
         {
             log.stream() << "floating species [" << i << "] = \'" << ids[i]
                                                                          << "\'" << endl;
@@ -939,7 +936,7 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     list<string> depInitCompartments;
 
     const ListOfCompartments *compartments = model->getListOfCompartments();
-    for (uint i = 0; i < compartments->size(); i++)
+    for (size_t i = 0; i < compartments->size(); i++)
     {
         const Compartment *c = compartments->get(i);
         const string& id = c->getId();
@@ -965,14 +962,14 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     for (list<string>::const_iterator i = indCompartments.begin();
             i != indCompartments.end(); ++i)
     {
-        uint ci = compartmentsMap.size();
+        size_t ci = compartmentsMap.size();
         compartmentsMap[*i] = ci;
     }
 
     for (list<string>::const_iterator i = depCompartments.begin();
             i != depCompartments.end(); ++i)
     {
-        uint ci = compartmentsMap.size();
+        size_t ci = compartmentsMap.size();
         compartmentsMap[*i] = ci;
     }
 
@@ -980,14 +977,14 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
     for (list<string>::const_iterator i = indInitCompartments.begin();
             i != indInitCompartments.end(); ++i)
     {
-        uint ci = initCompartmentsMap.size();
+        size_t ci = initCompartmentsMap.size();
         initCompartmentsMap[*i] = ci;
     }
 
     for (list<string>::const_iterator i = depInitCompartments.begin();
             i != depInitCompartments.end(); ++i)
     {
-        uint ci = initCompartmentsMap.size();
+        size_t ci = initCompartmentsMap.size();
         initCompartmentsMap[*i] = ci;
     }
 
@@ -1009,7 +1006,7 @@ bool LLVMModelDataSymbols::isRateRuleGlobalParameter(uint gid) const
             ? globalParameterRateRules[gid] : false;
 }
 
-std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
+std::string LLVMModelDataSymbols::getGlobalParameterId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = globalParametersMap.begin();
             i != globalParametersMap.end(); ++i)
@@ -1020,15 +1017,15 @@ std::string LLVMModelDataSymbols::getGlobalParameterId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access global parameter id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access global parameter id at index " + rr::toStringSize(indx));
 }
 
-uint LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
-        uint floatIndex) const
+int LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
+        size_t floatIndex) const
 {
     if (floatIndex >= floatingSpeciesCompartmentIndices.size())
     {
-         throw std::out_of_range(std::string("index out of range in ") + __FUNC__);
+        return -1;
     }
     return floatingSpeciesCompartmentIndices[floatIndex];
 }
@@ -1070,7 +1067,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
 {
     // get the reactions
     const ListOfReactions *reactions = model->getListOfReactions();
-    for (uint i = 0; i < reactions->size(); i++)
+    for (size_t i = 0; i < reactions->size(); i++)
     {
         const Reaction *reaction = reactions->get(i);
         if (reaction->isSetFast() && reaction->getFast()==true) {
@@ -1087,14 +1084,17 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
         // allocate space for the stochiometry matrix.
         // all species that participate in reactions must be floating.
         const ListOfSpeciesReferences *reactants = reaction->getListOfReactants();
-        for (uint j = 0; j < reactants->size(); j++)
+        for (size_t j = 0; j < reactants->size(); j++)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
 
             if (isValidFloatingSpeciesReference(r, "reactant"))
             {
                 // at this point, we'd better have a floating species
-                uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
+                int speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
+                if (speciesIdx < 0) {
+                    continue;
+                }
 
                 UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
 
@@ -1115,7 +1115,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, Reactant, r->getId()};
+                            {static_cast<uint>(speciesIdx), static_cast<uint>(i), Reactant, r->getId()};
                             namedSpeciesReferenceInfo[r->getId()] = info;
                         }
                         else
@@ -1145,7 +1145,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, MultiReactantProduct, r->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), MultiReactantProduct, r->getId()};
                             namedSpeciesReferenceInfo[r->getId()] = info;
                         }
                         else
@@ -1161,7 +1161,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
         }
 
         const ListOfSpeciesReferences *products = reaction->getListOfProducts();
-        for (uint j = 0; j < products->size(); j++)
+        for (size_t j = 0; j < products->size(); j++)
         {
             const SimpleSpeciesReference *p = products->get(j);
             // products had better be in the stoich matrix.
@@ -1169,6 +1169,9 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
             if (isValidFloatingSpeciesReference(p, "product"))
             {
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
+                if (speciesIdx < 0) {
+                    continue;
+                }
 
                 UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
 
@@ -1187,7 +1190,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 == namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            { speciesIdx, i, Product, p->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), Product, p->getId()};
                             namedSpeciesReferenceInfo[p->getId()] = info;
                         }
                         else
@@ -1217,7 +1220,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                                 namedSpeciesReferenceInfo.end())
                         {
                             SpeciesReferenceInfo info =
-                            {speciesIdx, i, MultiReactantProduct, p->getId()};
+                            { static_cast<uint>(speciesIdx), static_cast<uint>(i), MultiReactantProduct, p->getId()};
                             namedSpeciesReferenceInfo[p->getId()] = info;
                         }
                         else
@@ -1255,7 +1258,7 @@ bool LLVMModelDataSymbols::isValidFloatingSpeciesReference(
     string err = "the species reference with id ";
     err += string("\'" + ref->getId() + "\', ");
     err += "which references species ";
-    string("\'" + id + "\', ");
+    err += string("\'" + id + "\', ");
     err += "is NOT a valid " + reacOrProd + " reference, ";
     // figure out what kind of thing we have and give a warning
     if (hasAssignmentRule(id))
@@ -1288,7 +1291,7 @@ void LLVMModelDataSymbols::displayCompartmentInfo()
                      << " dependent compartments." << endl;
 
         vector<string> ids = getCompartmentIds();
-        for (uint i = 0; i < ids.size(); ++i)
+        for (size_t i = 0; i < ids.size(); ++i)
         {
             log.stream() << "compartment [" << i << "] = \'" << ids[i]
                          << "\'" << endl;
@@ -1306,7 +1309,7 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
         eventAssignmentsSize.resize(events->size());
 
         // load the event attributes
-        for (uint i = 0; i < events->size(); ++i)
+        for (size_t i = 0; i < events->size(); ++i)
         {
             const Event *event = events->get(i);
             unsigned char attr = 0;
@@ -1346,7 +1349,7 @@ const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() con
     return eventAttributes;
 }
 
-uint LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
+size_t LLVMModelDataSymbols::getEventBufferSize(size_t eventId) const
 {
     assert(eventId <= eventAssignmentsSize.size() && "event id out of range");
     return eventAssignmentsSize[eventId];
@@ -1373,7 +1376,7 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
 }
 
 
-uint LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
+int LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
         const std::string& symbol) const
 {
     StringUIntMap::const_iterator i = initFloatingSpeciesMap.find(symbol);
@@ -1381,15 +1384,10 @@ uint LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find init floating species with id " + symbol);
-    }
-    // never get here, just silence eclipse warnings
-    return 0;
+    return -1;
 }
 
-uint LLVMModelDataSymbols::getCompartmentInitIndex(
+int LLVMModelDataSymbols::getCompartmentInitIndex(
         const std::string& symbol) const
 {
     StringUIntMap::const_iterator i = initCompartmentsMap.find(symbol);
@@ -1397,25 +1395,19 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find init compartment with id " + symbol);
-    }
+    return -1;
 }
 
 
-uint LLVMModelDataSymbols::getGlobalParameterInitIndex(
-        const std::string& symbol) const
+int LLVMModelDataSymbols::getGlobalParameterInitIndex(
+    const std::string& symbol) const
 {
     StringUIntMap::const_iterator i = initGlobalParametersMap.find(symbol);
-    if(i != initGlobalParametersMap.end())
+    if (i != initGlobalParametersMap.end())
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find init global parameter with id " + symbol);
-    }
+    return -1;
 }
 
 
@@ -1448,7 +1440,7 @@ bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(
             i->second < independentInitGlobalParameterSize;
 }
 
-bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(uint id) const
+bool LLVMModelDataSymbols::isIndependentInitGlobalParameter(size_t id) const
 {
     return isIndependentInitGlobalParameter(getGlobalParameterId(id));
 }
@@ -1457,7 +1449,7 @@ bool LLVMModelDataSymbols::isIndependentInitElement(
         const std::string& id) const
 {
     return (initAssignmentRules.find(id) == initAssignmentRules.end() &&
-            assigmentRules.find(id) == assigmentRules.end()) ||
+            assignmentRules.find(id) == assignmentRules.end()) ||
             (isConservedMoietySpecies(id) && hasInitialAssignmentRule(id));
 }
 
@@ -1466,22 +1458,22 @@ bool LLVMModelDataSymbols::hasInitialAssignmentRule(const std::string& id) const
     return initAssignmentRules.find(id) != initAssignmentRules.end();
 }
 
-uint LLVMModelDataSymbols::getInitCompartmentSize() const
+size_t LLVMModelDataSymbols::getInitCompartmentSize() const
 {
     return independentInitCompartmentSize;
 }
 
-uint LLVMModelDataSymbols::getInitFloatingSpeciesSize() const
+size_t LLVMModelDataSymbols::getInitFloatingSpeciesSize() const
 {
     return independentInitFloatingSpeciesSize;
 }
 
-uint LLVMModelDataSymbols::getInitBoundarySpeciesSize() const
+size_t LLVMModelDataSymbols::getInitBoundarySpeciesSize() const
 {
     return independentInitBoundarySpeciesSize;
 }
 
-uint LLVMModelDataSymbols::getInitGlobalParameterSize() const
+size_t LLVMModelDataSymbols::getInitGlobalParameterSize() const
 {
     return independentInitGlobalParameterSize;
 }
@@ -1491,7 +1483,7 @@ std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
     return getIds(eventIds);
 }
 
-std::string LLVMModelDataSymbols::getEventId(uint indx) const
+std::string LLVMModelDataSymbols::getEventId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = eventIds.begin();
             i != eventIds.end(); ++i)
@@ -1502,51 +1494,69 @@ std::string LLVMModelDataSymbols::getEventId(uint indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access event id at index " + rr::toString(indx));
+    throw std::out_of_range("attempted to access event id at index " + rr::toStringSize(indx));
 }
 
-uint LLVMModelDataSymbols::getEventIndex(const std::string& id) const
+int LLVMModelDataSymbols::getEventIndex(const std::string& id) const
 {
     StringUIntMap::const_iterator i = eventIds.find(id);
     if (i != eventIds.end())
     {
         return i->second;
     }
-    else
-    {
-        throw LLVMException("could not find event with id " + id, __FUNC__);
-    }
+    return -1;
 }
 
-uint LLVMModelDataSymbols::getConservedMoietySize() const
+size_t LLVMModelDataSymbols::getConservedMoietySize() const
 {
     return conservedMoietyGlobalParameterIndex.size();
 }
 
-uint LLVMModelDataSymbols::getConservedMoietyGlobalParameterIndex(
+int LLVMModelDataSymbols::getDepSpeciesIndexForConservedMoietyId(std::string id) const
+{
+    StringUIntMap::const_iterator i = conservedMoietyDepSpecies.find(id);
+    if (i != conservedMoietyDepSpecies.end())
+    {
+        return i->second;
+    }
+    return -1;
+}
+
+const std::vector<uint>& LLVMModelDataSymbols::getIndSpeciesIndexForConservedMoietyId(std::string id) const
+{
+    StringUIntVectorMap::const_iterator i = conservedMoietyIndSpecies.find(id);
+    if (i != conservedMoietyIndSpecies.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find ind species for cm with id " + id, __FUNC__);
+    }
+}
+
+int LLVMModelDataSymbols::getConservedMoietyGlobalParameterIndex(
         uint cmIndex) const
 {
     if (cmIndex >= conservedMoietyGlobalParameterIndex.size())
     {
-        throw std::out_of_range("attempt to access conserved moiety to global "
-                "param array at index" + rr::toString(cmIndex));
+        return -1;
     }
     return conservedMoietyGlobalParameterIndex[cmIndex];
 }
 
-std::string LLVMModelDataSymbols::getConservedMoietyId(uint indx) const
+std::string LLVMModelDataSymbols::getConservedMoietyId(size_t indx) const
 {
     return getGlobalParameterId(
             getConservedMoietyGlobalParameterIndex(indx));
 }
 
-uint LLVMModelDataSymbols::getConservedMoietyIndex(
+int LLVMModelDataSymbols::getConservedMoietyIndex(
         const std::string& name) const
 {
     // rarely used method, less space than another map...
 
-    // throws if not found.
-    uint gp = getGlobalParameterIndex(name);
+    int gp = getGlobalParameterIndex(name);
 
     for (std::vector<uint>::const_iterator i =
             conservedMoietyGlobalParameterIndex.begin();
@@ -1558,7 +1568,148 @@ uint LLVMModelDataSymbols::getConservedMoietyIndex(
         }
     }
 
-    throw std::out_of_range("The symbol \"" + name + "\" is not a conserved moeity");
+    return -1;
+}
+
+void LLVMModelDataSymbols::saveState(std::ostream& out) const
+{
+	rr::saveBinary(out, conservedMoietySpeciesSet);
+	rr::saveBinary(out, conservedMoietyGlobalParameter);
+	rr::saveBinary(out, conservedMoietyGlobalParameterIndex);
+	rr::saveBinary(out, floatingSpeciesToConservedMoietyIdMap);
+	rr::saveBinary(out, conservedMoietyDepSpecies);	
+	rr::saveBinary(out, conservedMoietyIndSpecies);
+	rr::saveBinary(out, initAssignmentRules);
+	rr::saveBinary(out, initFloatingSpeciesMap);
+	rr::saveBinary(out, initBoundarySpeciesMap);
+	rr::saveBinary(out, initCompartmentsMap);
+	rr::saveBinary(out, initGlobalParametersMap);
+
+	rr::saveBinary(out, independentInitFloatingSpeciesSize);
+	rr::saveBinary(out, independentInitBoundarySpeciesSize);
+	rr::saveBinary(out, independentInitGlobalParameterSize);
+	rr::saveBinary(out, independentInitCompartmentSize);
+    
+	rr::saveBinary(out, floatingSpeciesCompartmentIndices);
+
+	rr::saveBinary(out, modelName);
+	rr::saveBinary(out, floatingSpeciesMap);
+	rr::saveBinary(out, boundarySpeciesMap);
+	rr::saveBinary(out, compartmentsMap);
+	rr::saveBinary(out, globalParametersMap);
+
+	saveStringRefInfoMap(out, namedSpeciesReferenceInfo);
+
+	rr::saveBinary(out, reactionsMap);
+	rr::saveBinary(out, stoichColIndx);
+	rr::saveBinary(out, stoichRowIndx);
+
+	rr::saveBinary(out, stoichIds);
+
+	rr::saveBinary(out, stoichTypes);
+
+	rr::saveBinary(out, assignmentRules);
+	rr::saveBinary(out, rateRules);
+	rr::saveBinary(out, globalParameterRateRules);
+	rr::saveBinary(out, independentFloatingSpeciesSize);
+	rr::saveBinary(out, independentBoundarySpeciesSize);
+	rr::saveBinary(out, independentGlobalParameterSize);
+	rr::saveBinary(out, independentCompartmentSize);
+
+	rr::saveBinary(out, eventAssignmentsSize);
+	rr::saveBinary(out, eventAttributes);
+	rr::saveBinary(out, eventIds);
+}
+
+void LLVMModelDataSymbols::loadState(std::istream& in) 
+{
+	rr::loadBinary(in, conservedMoietySpeciesSet);
+	rr::loadBinary(in, conservedMoietyGlobalParameter);
+	rr::loadBinary(in, conservedMoietyGlobalParameterIndex);
+	rr::loadBinary(in, floatingSpeciesToConservedMoietyIdMap);
+	rr::loadBinary(in, conservedMoietyDepSpecies);	
+	rr::loadBinary(in, conservedMoietyIndSpecies);
+	rr::loadBinary(in, initAssignmentRules);
+	rr::loadBinary(in, initFloatingSpeciesMap);
+	rr::loadBinary(in, initBoundarySpeciesMap);
+	rr::loadBinary(in, initCompartmentsMap);
+	rr::loadBinary(in, initGlobalParametersMap);
+
+	rr::loadBinary(in, independentInitFloatingSpeciesSize);
+	rr::loadBinary(in, independentInitBoundarySpeciesSize);
+	rr::loadBinary(in, independentInitGlobalParameterSize);
+	rr::loadBinary(in, independentInitCompartmentSize);
+    
+	rr::loadBinary(in, floatingSpeciesCompartmentIndices);
+
+	rr::loadBinary(in, modelName);
+	rr::loadBinary(in, floatingSpeciesMap);
+	rr::loadBinary(in, boundarySpeciesMap);
+	rr::loadBinary(in, compartmentsMap);
+	rr::loadBinary(in, globalParametersMap);
+
+	loadStringRefInfoMap(in, namedSpeciesReferenceInfo);
+
+	rr::loadBinary(in, reactionsMap);
+	rr::loadBinary(in, stoichColIndx);
+	rr::loadBinary(in, stoichRowIndx);
+	rr::loadBinary(in, stoichIds);
+
+	rr::loadBinary(in, stoichTypes);
+
+	rr::loadBinary(in, assignmentRules);
+
+	rr::loadBinary(in, rateRules);
+	rr::loadBinary(in, globalParameterRateRules);
+	rr::loadBinary(in, independentFloatingSpeciesSize);
+	rr::loadBinary(in, independentBoundarySpeciesSize);
+	rr::loadBinary(in, independentGlobalParameterSize);
+	rr::loadBinary(in, independentCompartmentSize);
+
+	rr::loadBinary(in, eventAssignmentsSize);
+	rr::loadBinary(in, eventAttributes);
+	rr::loadBinary(in, eventIds);
+}
+
+void LLVMModelDataSymbols::saveStringRefInfoMap(std::ostream& out, const StringRefInfoMap& m) const
+{
+	rr::saveBinary(out, m.size());
+	for (std::pair<std::string, SpeciesReferenceInfo> p : m)
+	{
+		rr::saveBinary(out, p.first);
+	    saveBinarySpeciesReferenceInfo(out, p.second);
+	}
+}
+
+void LLVMModelDataSymbols::loadStringRefInfoMap(std::istream& in, StringRefInfoMap& m)
+{
+	size_t msize;
+	rr::loadBinary(in, msize);
+	m.clear();
+	for (size_t i = 0; i < msize; i++)
+	{
+		std::string s;
+		SpeciesReferenceInfo sri;
+		rr::loadBinary(in, s);
+		loadBinarySpeciesReferenceInfo(in, sri);
+		m.emplace(s, sri);
+	}
+}
+
+void LLVMModelDataSymbols::saveBinarySpeciesReferenceInfo(std::ostream& out, SpeciesReferenceInfo& sri) const
+{
+    rr::saveBinary(out, sri.row);
+	rr::saveBinary(out, sri.column);
+	rr::saveBinary(out, sri.type);
+	rr::saveBinary(out, sri.id);
+}
+
+void LLVMModelDataSymbols::loadBinarySpeciesReferenceInfo(std::istream& in, SpeciesReferenceInfo& sri)
+{
+    rr::loadBinary(in, sri.row);
+	rr::loadBinary(in, sri.column);
+	rr::loadBinary(in, sri.type);
+	rr::loadBinary(in, sri.id);
 }
 
 } /* namespace rr */

@@ -11,9 +11,11 @@
 #include "Integrator.h"
 #include "rrExecutableModel.h"
 #include "rrRoadRunnerOptions.h"
+
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
 namespace rr
 {
@@ -70,22 +72,28 @@ namespace rr
         * @param o: a reference to a SimulatOptions object where the configuration
         * parameters will be read from.
         */
-        EulerIntegrator(ExecutableModel *m) {
+        EulerIntegrator(ExecutableModel *m)
+			:	eventStatus(std::vector<unsigned char>(m->getNumEvents(),false)),
+				previousEventStatus(std::vector<unsigned char>(m->getNumEvents(), false)) {
+            resetSettings();
+
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
+			Log(Logger::LOG_WARNING) << "Euler integrator is inaccurate";
+			//std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
                 // calling the getStateVector with a NULL argument returns
                 // the size of teh state vector.
                 stateVectorSize = model->getStateVector(NULL);
                 rateBuffer = new double[stateVectorSize];
-                stateBuffer1 = new double[stateVectorSize];
-                stateBuffer2 = new double[stateVectorSize];
+                stateBufferBegin = new double[stateVectorSize];
+                stateBufferEnd = new double[stateVectorSize];
             } else {
                 rateBuffer = NULL;
-                stateBuffer1 = NULL;
-                stateBuffer2 = NULL;
+                stateBufferBegin = NULL;
+                stateBufferEnd = NULL;
             }
         }
 
@@ -94,8 +102,8 @@ namespace rr
         */
         virtual ~EulerIntegrator() {
             delete[] rateBuffer;
-            delete[] stateBuffer1;
-            delete[] stateBuffer2;
+            delete[] stateBufferBegin;
+            delete[] stateBufferEnd;
         };
 
         /**
@@ -108,37 +116,76 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-            if(model) {
-                // evaluate and copy the rate of change of the state vector
-                // rate into the local buffer. If the 2nd argument is NULL,
-                // the current model state is used to evaluate the
-                // state vector rate.
-                model->getStateVectorRate(t0, NULL, rateBuffer);
+			int internal_steps = getValueAsInt("subdivision_steps");
+			if (model == (rr::ExecutableModel*)NULL) return 0;
 
-                // copy the current state vector into a local buffer
-                model->getStateVector(stateBuffer1);
+            double finalTimeEnd;
 
-                // perform the Euler integration step, i.e.
-                // y_{n+1} = y_{n} + h * y'_{n}
-                for (int i = 0; i < stateVectorSize; ++i) {
-                    stateBuffer2[i] = stateBuffer1[i] + h * rateBuffer[i];
-                }
+			h /= internal_steps;
+			for (int subdiv = 0; subdiv < internal_steps; ++subdiv) {
+				// evaluate and copy the rate of change of the state vector
+				// rate into the local buffer. If the 2nd argument is NULL,
+				// the current model state is used to evaluate the
+				// state vector rate.
+				model->getStateVectorRate(t0, NULL, rateBuffer);
 
-                // set the model state to the newly calculated state
-                model->setStateVector(stateBuffer2);
+				// copy the current state vector into a local buffer
+				model->getStateVector(stateBufferBegin);
 
-                // update the model time to the new time
-                model->setTime(t0 + h);
+				// perform the Euler integration step, i.e.
+				// y_{n+1} = y_{n} + h * y'_{n}
+				for (int i = 0; i < stateVectorSize; ++i) {
+					stateBufferEnd[i] = stateBufferBegin[i] + h * rateBuffer[i];
+				}
 
-                // if we have a client, notify them that we have taken
-                // a time step
-                if (listener)
-                {
-                    listener->onTimeStep(this, model, t0 + h);
-                }
-            }
-            return t0 + h;
+				// set the model state to the newly calculated state
+				model->setStateVector(stateBufferEnd);
+
+				// update the model time to the new time
+				double timeEnd = t0 + h;
+				model->setTime(timeEnd);
+
+				// if we have a client, notify them that we have taken
+				// a time step
+				if (listener) {
+					listener->onTimeStep(this, model, timeEnd);
+				}
+
+				// events
+				bool triggered = false;
+
+				model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+				for (int k_ = 0; k_ < eventStatus.size(); ++k_) {
+					if (eventStatus.at(k_)) {
+						triggered = true;
+						//std::cerr << "Triggered" << std::endl;
+					}
+				}
+
+				if (triggered) {
+					// applyEvents takes the list of events which were previously triggered
+					//std::cerr << "An event was triggered at " << t0 << std::endl;
+					applyEvents(timeEnd, previousEventStatus);
+				}
+
+				if (eventStatus.size()) {
+					previousEventStatus = eventStatus;
+				}
+
+                finalTimeEnd = timeEnd;
+			}
+
+            return finalTimeEnd;
         }
+
+		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
+			//std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
+			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
+			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
+			// AHu: jk I think that model->applyEvents does update the mode's state vector
+			// The previous statement loaded the result into the final stateBufferEnd, so now update the model's state vector
+			//model->setStateVector(stateBufferEnd);
+		}
 
         /**
         * This simple integrator has nothing to reset, so do nothing here
@@ -234,19 +281,7 @@ namespace rr
          * @brief Get the hint for this integrator
          */
         static std::string getEulerHint() {
-//             return "An elementary (my dear Watson) Euler integrator";
             return "A simple Euler integrator";
-        }
-
-        /**
-         * @author JKM
-         * @brief Reset all integrator settings to their respective default values
-         */
-        void resetSettings()
-        {
-            Solver::resetSettings();
-
-            // Euler integrator has no settings
         }
 
         /**
@@ -270,7 +305,9 @@ namespace rr
             }
 
             if(key == "exampleParameter2") {
+				// Ahu: Why is this cast here, and is this a static or dynamic cast?
                 exampleParameter2 = (string)value;
+				return;
             }
 
             // they did not give a valid key, so throw an exception.
@@ -326,33 +363,14 @@ namespace rr
             return keys;
         }
 
-        /**
-        * list of keys that this integrator supports.
-        *
-        * This method is called by the IntegratorFactory to build a list of
-        * all the options that all the integrators support.
-        */
-        static const Dictionary* getIntegratorOptions() {
-            static BasicDictionary dict;
+		void resetSettings() {
+			Solver::resetSettings();
 
-            // fill out the required options for defining this integrator
-            dict.setItem("integrator", "euler");
-            dict.setItem("integrator.description",
-                    "Forward Euler Integrator: an example of creating an integrator");
-            dict.setItem("integrator.hint", "Forward Euler Integrator");
-
-            // this uses two example parameters, add them here
-            dict.setItem("exampleParameter1", 3.14);
-            dict.setItem("exampleParameter1.description",
-                    "an example parameter that does nothing");
-            dict.setItem("exampleParameter1.hint", "a hint for the example parameter");
-
-            dict.setItem("exampleParameter2", string("hello"));
-            dict.setItem("exampleParameter2.description",
-                    "another parameter which does nothing");
-            dict.setItem("exampleParameter2.hint", "a hint for the other parameter");
-
-            return &dict;
+			// Set default integrator settings.
+            addSetting("subdivision_steps", 1,
+                "Subdivision Steps",
+                "The number of subdivisions of the Euler step size (int).",
+                "(int) For each point, up to this many extra steps will be taken as smaller steps within each step, although their values are not saved");
         }
 
     private:
@@ -375,12 +393,15 @@ namespace rr
         * two buffers to store the state vector rate, and
         * new state vector
         */
-        double *rateBuffer, *stateBuffer1, *stateBuffer2;
+        double *rateBuffer, *stateBufferBegin, *stateBufferEnd;
 
         /**
         * size of state vector
         */
         int stateVectorSize;
+
+		std::vector<unsigned char> eventStatus;
+		std::vector<unsigned char> previousEventStatus;
 
         /**
         * Clients may register a listener to listen for time steps, or

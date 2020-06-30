@@ -16,9 +16,10 @@
 # include "rrConfigure.h"
 # include "SolverRegistration.h"
 # include "Solver.h"
-# include "NLEQSolver.h"
+# include "NLEQ1Solver.h"
+# include "NLEQ2Solver.h"
 
-# if RR_USE_CXX11
+# if RR_USE_CXX14
 #   include <mutex>
 # endif
 // == CODE ====================================================
@@ -27,11 +28,12 @@ namespace rr
 {
     // call exactly once
     static void register_solvers_at_init() {
-        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQSolverRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQ1SolverRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQ2SolverRegistrar());
     }
 
     void SolverRegistrationMgr::Register() {
-# if RR_USE_CXX11
+# if RR_USE_CXX14
         static std::once_flag flag;
         std::call_once(flag, register_solvers_at_init());
 # else

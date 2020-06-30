@@ -73,16 +73,6 @@ namespace rr
          */
         virtual void restart(double t0);
 
-        /**
-         * @brief Get a description of this object, compatable with python __str__
-         */
-        virtual std::string toString() const;
-
-        /**
-         * @brief Get a short descriptions of this object, compatable with python __repr__.
-         */
-        virtual std::string toRepr() const;
-
         // ** Meta Info ********************************************************
 
         /**

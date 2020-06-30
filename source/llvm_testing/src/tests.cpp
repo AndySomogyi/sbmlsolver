@@ -1,17 +1,28 @@
 #include "tests.h"
-#include "llvm/ModelGeneratorContext.h"
-#include "llvm/LLVMModelDataSymbols.h"
-#include "llvm/ModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "llvm/LLVMIncludes.h"
-#include "llvm/AssignmentRuleEvaluator.h"
-#include "llvm/EvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
 
 
-
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
+#include "llvm/ModelGeneratorContext.h"
+#include "llvm/LLVMModelDataSymbols.h"
+#include "llvm/ModelDataIRBuilder.h"
+#include "llvm/LLVMIncludes.h"
+#include "llvm/AssignmentRuleEvaluator.h"
+#include "llvm/EvalInitialConditionsCodeGen.h"
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 
 #include <sbml/SBMLDocument.h>
@@ -43,7 +54,7 @@ string getModelFileName(const string& version, int caseNumber)
 
     //Create a log file name
     createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName,
-            settingsFileName);
+            settingsFileName, dummy);
 
     //Read SBML models.....
     string home = getenv("HOME");
@@ -53,7 +64,7 @@ string getModelFileName(const string& version, int caseNumber)
     string modelFileName;
 
     createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml",
-            modelFilePath, modelFileName, settingsFileName);
+            modelFilePath, modelFileName, settingsFileName, dummy);
 
     modelFileName = joinPath(modelFilePath, modelFileName);
 
@@ -78,13 +89,11 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         ExecutionEngine &engine = c.getExecutionEngine();
 
-        StructType *s = ModelDataIRBuilder::getStructType(c.getModule());
-
         EvalInitialConditionsCodeGen iv(c);
 
         EvalInitialConditionsCodeGen::FunctionPtr pfunc;
 
-        pfunc = iv.createFunction();
+		pfunc = (EvalInitialConditionsCodeGen::FunctionPtr) engine.getPointerToFunction(iv.createFunction());
 
         pfunc(md, 0);
 

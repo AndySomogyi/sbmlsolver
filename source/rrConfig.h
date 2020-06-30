@@ -233,7 +233,7 @@ public:
         SIMULATEOPTIONS_INTEGRATOR,
 
         /**
-         * A useer specified initial time step. If this is <=  0, the integrator
+         * A user specified initial time step. If this is <=  0, the integrator
          * will attempt to determine a safe initial time stpe.
          *
          * Note, for each number of steps given to RoadRunner::simulate or RoadRunner::oneStep,
@@ -339,7 +339,7 @@ public:
          * defined by rate rules to be reset, even if GLOBAL_PARAMETER is NOT
          * specified.
          *
-         * The default value is TIME | RATE | FLOATING | CONSREVED_MOIETY
+         * The default value is TIME | RATE | FLOATING
          */
         MODEL_RESET,
 
@@ -366,11 +366,65 @@ public:
          */
         SIMULATEOPTIONS_COPY_RESULT,
 
+        /**
+         * Flag for starting steady state analysis with simulation.
+         */
+        STEADYSTATE_PRESIMULATION,
+
+        /**
+         * Maximum number of steps that can be taken for presimulation before steady state analysis.
+         */
+        STEADYSTATE_PRESIMULATION_MAX_STEPS,
+
+        /**
+         * End time for presimulation steady state analysis.
+         */
+        STEADYSTATE_PRESIMULATION_TIME,
+
+        /**
+         * Flag for using steady state approximation routine when steady state solver fails.
+         */
+        STEADYSTATE_APPROX,
+
+        /**
+         * Tolerance for steady state approximation routine.
+         */
+        STEADYSTATE_APPROX_TOL,
+
+        /**
+         * Maximum number of steps that can be taken for steady state approximation routine.
+         */
+        STEADYSTATE_APPROX_MAX_STEPS,
+
+        /**
+         * End time for steady state approximation routine.
+         */
+        STEADYSTATE_APPROX_TIME,
+
+        /**
+         * Specifies the relative tolerance.
+         */
         STEADYSTATE_RELATIVE,
 
+        /**
+         * Maximum number of steps for steady state solvers.
+         */
         STEADYSTATE_MAXIMUM_NUM_STEPS,
 
+        /**
+         * Minimum damping factor for steady state solvers.
+         */
         STEADYSTATE_MINIMUM_DAMPING,
+
+        /**
+         * Switches on Broyden method.
+         */
+        STEADYSTATE_BROYDEN,
+        
+        /**
+         * Specifies linearity of the problem.
+         */
+        STEADYSTATE_LINEARITY,
 
         /**
          * Determines the mode that the RoadRunner Jacobian calculations will be
@@ -456,6 +510,31 @@ public:
         MAX_OUTPUT_ROWS,
 
 
+        /**
+         * Enable or disable steady state calculations when a model contains events
+         *
+	     * If true, steady state calculations will be carried out irrespective of
+	     * whether events are present or not.
+	     *
+	     * If false, steady state calculations will not be carried out in the
+	     * presence of events.
+         */
+        ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS,
+
+
+		/*
+		* Turn on SBML file validation during model regeneration after model editing
+		*	
+		*/
+		VALIDATION_IN_REGENERATION,
+
+        /* 
+        * If outputting to a file in simulate(), write to the output every k rows of data
+        * is generated. Increase this for better speed and decrease to save memory.
+        */
+        K_ROWS_PER_WRITE,
+
+
         // add lots of space so not to conflict with other branches.
 
 
@@ -532,6 +611,8 @@ public:
      */
 
     static void setValue(Keys, const Variant& value);
+
+	//static void setValues(const std::vector<Keys> keys, const std::vector<Variant> values);
 
     static const Variant& getValue(Keys);
 

@@ -23,10 +23,11 @@ namespace rrllvm
 {
 
 LoadSymbolResolverBase::LoadSymbolResolverBase(
-        const ModelGeneratorContext& ctx) :
+        const ModelGeneratorContext& ctx, llvm::Value *modelData) :
         modelGenContext(ctx),
         model(ctx.getModel()),
         modelSymbols(ctx.getModelSymbols()),
+        modelData(modelData),
         modelDataSymbols(ctx.getModelDataSymbols()),
         builder(ctx.getBuilder())
 {
@@ -40,7 +41,6 @@ llvm::Value* LoadSymbolResolverBase::loadReactionRate(
 {
     const KineticLaw *kinetic = reaction->getKineticLaw();
     const ASTNode *math = 0;
-    Value *value = 0;
     ASTNode m(AST_REAL);
     if (kinetic)
     {
@@ -54,7 +54,7 @@ llvm::Value* LoadSymbolResolverBase::loadReactionRate(
     }
 
     KineticLawParameterResolver lpResolver(*this, *kinetic, builder);
-    ASTNodeCodeGen astCodeGen(builder, lpResolver);
+    ASTNodeCodeGen astCodeGen(builder, lpResolver, modelGenContext, modelData);
 
     ASTNodeCodeGenScalarTicket t(astCodeGen, true);
     return astCodeGen.codeGen(math);
@@ -88,13 +88,13 @@ void LoadSymbolResolverBase::flushCache()
     symbolCache.push_back(ValueMap());
 }
 
-unsigned LoadSymbolResolverBase::pushCacheBlock()
+size_t LoadSymbolResolverBase::pushCacheBlock()
 {
     symbolCache.push_back(ValueMap());
     return symbolCache.size();
 }
 
-unsigned LoadSymbolResolverBase::popCacheBlock()
+size_t LoadSymbolResolverBase::popCacheBlock()
 {
     if(symbolCache.empty()) {
         throw std::logic_error("attempt to pop from an empty symbol cache stack");
