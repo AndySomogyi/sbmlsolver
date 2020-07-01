@@ -4,8 +4,8 @@ project(rr)
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
 
-set(ROADRUNNER_VERSION_MAJOR 1)
-set(ROADRUNNER_VERSION_MINOR 7)
+set(ROADRUNNER_VERSION_MAJOR 2)
+set(ROADRUNNER_VERSION_MINOR 0)
 set(ROADRUNNER_VERSION_PATCH 0)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
