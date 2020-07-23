@@ -35,3 +35,9 @@ wrappers/C/Testing/alexTestOutput.xml
 .swo
 
 .vs/*
+
+# for people who use clion
+cmake-*
+.idea
+
+
