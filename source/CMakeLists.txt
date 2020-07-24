@@ -163,6 +163,7 @@ set(rrCoreSources
 
 set(rrSources ${rrCoreSources})
 
+# https://cmake.org/cmake/help/v3.3/prop_sf/GENERATED.html
 set_source_files_properties(rrVersionInfo.h PROPERTIES GENERATED TRUE)
 
 # Add the LLVM sources to compilation
@@ -310,6 +311,8 @@ if(RR_BUILD_SHARED_CORE)
 
     set_target_properties( ${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION} )
 
+    # todo replace with set_target_properties. Do this after you
+    # have it building with new build system.
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RR
@@ -324,6 +327,7 @@ if(RR_BUILD_SHARED_CORE)
         )
 
     #libraries to link with our shared lib
+    # todo replace this with the CMAKE Static library extension variable
     if(UNIX)
         set(staticLibExt ".a")
     else()

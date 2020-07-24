@@ -29,85 +29,100 @@ function(TRANSFORM_VERSION numerical_result version)
     string(REGEX REPLACE "^[0-9]*\\.([0-9]*).*$" "\\1" minor ${internal_version})
     string(REGEX REPLACE "^[0-9]*\\.[0-9]*\\.([0-9]*)$" "\\1" patch ${internal_version})
 
-    if(NOT patch MATCHES "^[0-9]+$")
+    if (NOT patch MATCHES "^[0-9]+$")
         set(patch 0)
-    endif(NOT patch MATCHES "^[0-9]+$")
+    endif (NOT patch MATCHES "^[0-9]+$")
 
-    if(NOT minor MATCHES "[0-9]+")
+    if (NOT minor MATCHES "[0-9]+")
         set(minor 0)
-    endif(NOT minor MATCHES "[0-9]+")
+    endif (NOT minor MATCHES "[0-9]+")
 
-    if(NOT major MATCHES "[0-9]+")
+    if (NOT major MATCHES "[0-9]+")
         set(major 0)
-    endif(NOT major MATCHES "[0-9]+")
+    endif (NOT major MATCHES "[0-9]+")
     #message(STATUS "DEBUG: internal_version = ${internal_version}")
     #message(STATUS "DEBUG: major = ${major}")
     #message(STATUS "DEBUG: minor= ${minor}")
     #message(STATUS "DEBUG: patch = ${patch}")
     math(EXPR internal_numerical_result
-        "${major}*1000000 + ${minor}*1000 + ${patch}"
-        #"${major}*1000000 + ${minor}*1000"
-    )
+            "${major}*1000000 + ${minor}*1000 + ${patch}"
+            #"${major}*1000000 + ${minor}*1000"
+            )
     #message(STATUS "DEBUG: ${numerical_result} = ${internal_numerical_result}")
     set(${numerical_result} ${internal_numerical_result} PARENT_SCOPE)
 endfunction(TRANSFORM_VERSION)
 
+#todo move my llvm acquisition code to here.
+
 
 find_program(LLVM_CONFIG_EXECUTABLE
-    NAMES llvm-config-${LLVM_MIN_VERSION_TEXT} llvm-config
-    PATHS /opt/local/bin /usr/local/bin
-    HINTS "$ENV{LLVM_DIR}/bin"
-    DOC "llvm-config executable"
-    )
+        NAMES llvm-config-${LLVM_MIN_VERSION_TEXT} llvm-config
+        PATHS /opt/local/bin /usr/local/bin
+        HINTS
+        "$ENV{LLVM_DIR}/bin"
+        C:/LLVM
+        C:/LLVM6.0.1
+        C:/llvm
+        C:/llvm6.0.1
+        D:/LLVM
+        D:/LLVM6.0.1
+        D:/llvm
+        D:/llvm6.0.1
+        ~/LLVM
+        ~/LLVM6.0.1
+        ~/llvm
+        ~/llvm6.0.1
+        DOC "llvm-config executable"
+        )
 
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
 
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
-        OUTPUT_VARIABLE LLVM_VERSION
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
+            OUTPUT_VARIABLE LLVM_VERSION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
     # Version Info
-    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION )
+    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION)
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR
-        "${LLVM_VERSION}")
+            "${LLVM_VERSION}")
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\2" LLVM_VERSION_MINOR
-        "${LLVM_VERSION}")
+            "${LLVM_VERSION}")
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\3" LLVM_VERSION_PATCH
-        "${LLVM_VERSION}")
+            "${LLVM_VERSION}")
     message(STATUS "LLVM_VERSION_MAJOR: ${LLVM_VERSION_MAJOR}")
     message(STATUS "LLVM_VERSION_MINOR: ${LLVM_VERSION_MINOR}")
     message(STATUS "LLVM_VERSION_PATCH: ${LLVM_VERSION_PATCH}")
 
-    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR )
-    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR )
+    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR)
+    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR)
     MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
     MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
 
     # Include Dir
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --includedir
-        OUTPUT_VARIABLE LLVM_INCLUDE_DIRS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --includedir
+            OUTPUT_VARIABLE LLVM_INCLUDE_DIRS
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
     message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
 
     # Lib Dir
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir
-        OUTPUT_VARIABLE LLVM_LIBRARY_DIRS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir
+            OUTPUT_VARIABLE LLVM_LIBRARY_DIRS
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
     message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
 
     # C++ Flags, strip out stuff that CMake build adds
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --cxxflags
-        OUTPUT_VARIABLE LLVM_FLAGS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --cxxflags
+            OUTPUT_VARIABLE LLVM_FLAGS
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
     # strip this from llvm's version, we should add this ourselves in
     # production mode to main CFLAGS
     STRING(REPLACE "-DNDEBUG" "" LLVM_FLAGS ${LLVM_FLAGS})
@@ -123,7 +138,7 @@ if (LLVM_CONFIG_EXECUTABLE)
     # remove extra warnings that the llvm-config added
     STRING(REPLACE "-Wcast-qual" "" LLVM_FLAGS ${LLVM_FLAGS})
     STRING(REPLACE "-Woverloaded-virtual" "" LLVM_FLAGS ${LLVM_FLAGS})
- 
+
     # some LLVMs add these options
     # -Wall -W -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic 
     # -Wno-long-long -Wno-uninitialized -Wnon-virtual-dtor
@@ -143,18 +158,50 @@ if (LLVM_CONFIG_EXECUTABLE)
     MESSAGE(STATUS "LLVM_FLAGS: " ${LLVM_FLAGS})
 
 
-
     # link libraries, currently only need core, jit and native.
     # TODO: in future, replace this with something like LLVM_CORE_LIBS, LLVM_JIT_LIBS...
+    set(LLVM_LIBRARIES
+            "LLVMX86AsmParser"
+            "LLVMX86CodeGen"
+            "LLVMGlobalISel"
+            "LLVMSelectionDAG"
+            "LLVMAsmPrinter"
+            "LLVMDebugInfoCodeView"
+            "LLVMDebugInfoMSF"
+            "LLVMCodeGen"
+            "LLVMScalarOpts"
+            "LLVMInstCombine"
+            "LLVMTransformUtils"
+            "LLVMBitWriter"
+            "LLVMX86Desc"
+            "LLVMMCDisassembler"
+            "LLVMX86Info"
+            "LLVMX86AsmPrinter"
+            "LLVMX86Utils"
+            "LLVMMCJIT"
+            "LLVMExecutionEngine"
+            "LLVMTarget"
+            "LLVMAnalysis"
+            "LLVMProfileData"
+            "LLVMRuntimeDyld"
+            "LLVMObject"
+            "LLVMMCParser"
+            "LLVMBitReader"
+            "LLVMMC"
+            "LLVMCore"
+            "LLVMBinaryFormat"
+            "LLVMSupport"
+            "LLVMDemangle"
+            )
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core mcjit native
-        OUTPUT_VARIABLE LLVM_LIBRARIES
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-    if(WIN32)
-      # llvm-config returns .a library names, even on Windows, so manually convert .a -> .lib and remove lib prefix.
-      STRING(REGEX REPLACE "lib([^/\\]*)\\.a" "\\1.lib" LLVM_LIBRARIES ${LLVM_LIBRARIES})
-    endif()
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core mcjit native
+            OUTPUT_VARIABLE LLVM_LIBRARIES
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if (WIN32)
+        # llvm-config returns .a library names, even on Windows, so manually convert .a -> .lib and remove lib prefix.
+        STRING(REGEX REPLACE "lib([^/\\]*)\\.a" "\\1.lib" LLVM_LIBRARIES ${LLVM_LIBRARIES})
+    endif ()
     # we get a space sep list from llvm-config, make it a cmake ; separated list.
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
     message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
@@ -163,15 +210,15 @@ if (LLVM_CONFIG_EXECUTABLE)
     # ncurses for console IO formatting. So, we find ncurses here.
 
     if (((LLVM_VERSION_MAJOR GREATER 3) OR (LLVM_VERSION_MAJOR EQUAL 3)) AND
-            (LLVM_VERSION_MINOR GREATER 4) OR (LLVM_VERSION_MINOR EQUAL 4))
+    (LLVM_VERSION_MINOR GREATER 4) OR (LLVM_VERSION_MINOR EQUAL 4))
         if (UNIX)
             #message("UNIX true")
             message("LLVM VERSION >= 3.4, looking for curses library")
             find_package(Curses REQUIRED)
-            #message("curses: ${CURSES_FOUND}")
-            #message("curdir: ${CURSES_INCLUDE_DIR}")
-            #message("curlib: ${CURSES_LIBRARIES}")
-            #message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+            message("curses: ${CURSES_FOUND}")
+            message("curdir: ${CURSES_INCLUDE_DIR}")
+            message("curlib: ${CURSES_LIBRARIES}")
+            message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
             set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
 
@@ -181,28 +228,28 @@ if (LLVM_CONFIG_EXECUTABLE)
             if (LLVM_VERSION_MINOR GREATER 4)
                 message("LLVM > 3.4, looking for zlib")
                 find_package(ZLIB REQUIRED)
-                set (LLVM_LIBRARIES "${LLVM_LIBRARIES};${ZLIB_LIBRARY}")
-            endif()
+                set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${ZLIB_LIBRARY}")
+            endif ()
             message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
-        else()
+        else ()
             #message("NOT UNIX")
-        endif()    
+        endif ()
 
-    else()
+    else ()
         #message("LLVM VERSION < 3.4")
-    endif()
+    endif ()
 
-    if(LLVM_INCLUDE_DIRS)
+    if (LLVM_INCLUDE_DIRS)
         set(LLVM_FOUND TRUE)
         message(STATUS "Found LLVM: ${LLVM_INCLUDE_DIRS}")
-    endif(LLVM_INCLUDE_DIRS)
+    endif (LLVM_INCLUDE_DIRS)
 
 
 else (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "Could NOT find LLVM executable")
 endif (LLVM_CONFIG_EXECUTABLE)
 
-if(NOT LLVM_FOUND AND LLVM_FIND_REQUIRED)
+if (NOT LLVM_FOUND AND LLVM_FIND_REQUIRED)
     message(FATAL_ERROR "Could NOT find LLVM")
-endif(NOT LLVM_FOUND AND LLVM_FIND_REQUIRED)
+endif (NOT LLVM_FOUND AND LLVM_FIND_REQUIRED)

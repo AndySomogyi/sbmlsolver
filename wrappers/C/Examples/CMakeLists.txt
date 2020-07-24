@@ -20,4 +20,4 @@ foreach(example ${examples})
 endforeach(example)
 
 #install (FILES Readme.txt             DESTINATION Examples/c_api COMPONENT doc_file)
-#install (FILES CMakeLists.txt         DESTINATION Examples/c_api COMPONENT example_files)
+#install (FILES _CMakeLists.txt         DESTINATION Examples/c_api COMPONENT example_files)
