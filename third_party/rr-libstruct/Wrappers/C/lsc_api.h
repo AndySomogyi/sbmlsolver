@@ -1016,7 +1016,7 @@
 //LibLA is a linear algebra library derives much of its functionality from the standard CLAPACK library with additional linear algebra functions not directly supported by CLAPACK. The libStructural library supports a range of methods for the structural analysis of cellular networks (derived either from SBML or stoichiometry matrices) and utilizes LibLA for some of its internal computations.
 //\par Installing
 //To make the Structural Analysis Library easily accessible we have created binary installers for Windows as wel as OS X (version 10.4 and above).
-//We also habe a source distribution, complete with Visual Studio, XCode, Scons and Qt project files that allow to build the library on Windows, Linux and OS X. For detailed instructions on how to build the library see the file INSTALL included with the source distribution.
+//We also habe a source distribution, complete with Visual Studio, XCode, Scons and Qt project files that allow to build the library on Windows, Linux and OS X. For detailed instructions on how to build the library see the file install included with the source distribution.
 //\par Dependencies
 //These libraries depend on two third-party libraries, LAPACK and libSBML.  Both are provided with the binary installation where necessary.
 //\par

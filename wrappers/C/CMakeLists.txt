@@ -109,7 +109,7 @@ if(BUILD_TEST_TOOLS)
     add_subdirectory(Testing)
 endif()
 
-#=============== INSTALL =====================
+#=============== install =====================
 #Glob all header files
 FILE (GLOB headers rrc*.h)
 

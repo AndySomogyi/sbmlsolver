@@ -41,120 +41,136 @@ include(DownloadOrBuildLLVM)
 # Macro for downloading binaries, when conditions are right (as determined by DownloadOrBuildLLVM)
 include(DownloadLLVM601Binaries)
 
+# Macro for building llvm6.0.1 from source.
+include(BuildLLVMFromSource)
+
+# Macro defining error for directory not found
+include(CheckDirectoryExists)
+
+# macro for setting a variable with cross platform independent values
+include(SetCrossPlatform)
+
 #############################################################
 #   Configuration Options
 #
 
+# Users should try to install LLVM6.0.1 on their own, outside
+# the context of roadrunner. This is because LLVM is huge, and generally
+# slows the performance of IDE's due to increased indexing.
+# When users are providing their own LLVM6.0.1 installation, they give the root
+# directory as argument to LLVM_INSTALL_PREFIX.
+set(LLVM_INSTALL_PREFIX CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
+
 
 # Find vcpkg root if you can
-LocateVcpkg()
+#LocateVcpkg()
 
 ####################################################
 #   Dependencies
 
+# We begin by setting some paths. These are in predictable locations
+# dependencies are embedded.
+
 # Root of the dependencies
 set(THIRD_PARTY_DIRECTORY "${CMAKE_SOURCE_DIR}/third_party")
+CheckDirectoryExists("third_party directory" "${THIRD_PARTY_DIRECTORY}")
 
-message(STATUS "VCPKG_LIB_DIR ${VCPKG_LIB_DIR}")
+# clapack
+set(CLAPACK_SOURCE_DIR ${THIRD_PARTY_DIRECTORY}/clapack3.2.1)
+set(CLAPACK_INCLUDE_DIR "${CLAPACK_SOURCE_DIR}/include")
+CheckDirectoryExists("clapack source" "${CLAPACK_SOURCE_DIR}")
 
-# First we handle the LLVM dependency
+# libsbml (dependencies already taken care of)
+set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
+CheckDirectoryExists("libsbml source" "${LIBSBML_SOURCE_DIR}")
+set(LIBSBML_INSTALL_PREFIX "${LIBSBML_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+set(LIBSBML_INCLUDE_DIR "${LIBSBML_INSTALL_PREFIX}/inlcude")
+set(LIBSBML_STATIC_LIBRARY "${LIBSBML_INSTALL_PREFIX}/lib/libsbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}")
+set(LIBSBML_LIBRARY "${LIBSBML_INSTALL_PREFIX}/lib/libsbml${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
-# Set the root of llvm to be in the third_party directory. Note
-# that we need to separate different compilers
-set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
 
-# set llvm source directory. This is only used when we are in LLVM build mode
-set(LLVM_SOURCE_DIR ${LLVM_ROOT}/LLVM)
+# poco
+set(POCO_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/poco_1.5.3")
+CheckDirectoryExists("poco source" "${POCO_SOURCE_DIR}")
+set(POCO_INSTALL_PREFIX "${POCO_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+#set(POCO_INCLUDE_DIR "${POCO_INSTALL_PREFIX}/inlcude" PARENT_SCOPE)
+#set(POCO_STATIC_LIBRARY "${POCO_INSTALL_PREFIX}/lib/POCO-static${CMAKE_STATIC_LIBRARY_SUFFIX}" PARENT_SCOPE)
+#set(POCO_LIBRARY "${POCO_INSTALL_PREFIX}/lib/POCO${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)
 
-# set a place to put the binaries
-set(LLVM_INSTALL_DIR ${LLVM_ROOT}/llvm6.0.1-ubuntu)
 
-# first try to find an existing LLVM version
-find_package(LLVM)
+# Sundials
+set(SUNDIALS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/sundials")
+CheckDirectoryExists("sundials source" "${SUNDIALS_SOURCE_DIR}")
+set(SUNDIALS_INSTALL_PREFIX "${SUNDIALS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+#set(SUNDIALS_INCLUDE_DIR "${SUNDIALS_INSTALL_PREFIX}/inlcude" PARENT_SCOPE)
+#set(SUNDIALS_STATIC_LIBRARY "${SUNDIALS_INSTALL_PREFIX}/lib/SUNDIALS-static${CMAKE_STATIC_LIBRARY_SUFFIX}" PARENT_SCOPE)
+#set(SUNDIALS_LIBRARY "${SUNDIALS_INSTALL_PREFIX}/lib/SUNDIALS${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)
 
-# if it was found, validate the version
-if (LLVM_FOUND)
-    set(LLVM_VERSION "${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
-    if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
-        message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found \
-${LLVM_VERSION}")
-    endif ()
-else ()
-    # Otherwise we download binaries or sources
 
-    # defines two boolean variables
-    #   - BUILD_LLVM
-    #   - DOWNLOAD_LLVM_BINARIES
-    # They are mutually exclusive and determine the flow of the next step
-    #    DownloadOrBuildLLVM()
+# handle the LLVM dependency
+if (${LLVM_INSTALL_PREFIX})
+    # This is the preferred way to handle the LLVM dependency.
+    message(STATUS "Detected user defined installation of LLVM")
+#    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
 
-    # temporary: for testing
-    set(BUILD_LLVM ON)
-    set(DOWNLOAD_LLVM_BINARIES OFF)
-    # Whatever I do here with llvm, it needs to be a target
-    if (${DOWNLOAD_LLVM_BINARIES})
-        DownloadLLVM601Binaries()
-    endif ()
+else (${LLVM_INSTALL_PREFIX})
+    # But we can fall back and download binaries or build from source as well
 
-    # if not we can build LLVM from source, which will take a while
-    if (BUILD_LLVM)
-        set(LLVM_SOURCE_URL "https://github.com/CiaranWelsh/LLVM6.0.1/archive/v0.0.1.zip")
-        set(LLVM_SOURCE_ZIP "${LLVM_ROOT}/llvm6.0.1-source.zip")
-        set(LLVM_LIBRARIES
-               "LLVMAnalysis"
-               "LLVMAsmPrinter"
-               "LLVMBinaryFormat"
-               "LLVMBitReader"
-               "LLVMBitWriter"
-               "LLVMCodeGen"
-               "LLVMCore"
-               "LLVMDebugInfoCodeView"
-               "LLVMDebugInfoMSF"
-               "LLVMDemangle"
-               "LLVMExecutionEngine"
-               "LLVMGlobalISel"
-               "LLVMInstCombine"
-               "LLVMMC"
-               "LLVMMCDisassembler"
-               "LLVMMCJIT"
-               "LLVMMCParser"
-               "LLVMObject"
-               "LLVMProfileData"
-               "LLVMRuntimeDyld"
-               "LLVMScalarOpts"
-               "LLVMSelectionDAG"
-               "LLVMSupport"
-               "LLVMTarget"
-               "LLVMTransformUtils"
-               "LLVMX86AsmParser"
-               "LLVMX86AsmPrinter"
-               "LLVMX86CodeGen"
-               "LLVMX86Desc"
-               "LLVMX86Info"
-               "LLVMX86Utils"
-                )
+    # Set the root of llvm to be in the third_party directory. Note
+    # that we need to separate different compilers
+    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
 
-        set(LLVM_SOURCE_DIR "${LLVM_ROOT}/llvm6.0.1-source")
-        set(LLVM_BINARY_DIR "${LLVM_ROOT}/llvm6.0.1-source")
-        ExternalProject_Add(LLVM
-                PREFIX ${LLVM_SOURCE_DIR}
-                INSTALL_DIR ${LLVM_INSTALL_DIR}
-                URL ${LLVM_SOURCE_URL}
-                CMAKE_ARGS
-                -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_DIR}
-                --target ${LLVM_LIBRARIES}
-                )
+    # set llvm source directory. This is only used when we are in LLVM build mode
+    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
 
-    endif (BUILD_LLVM)
+    # set a place to put the binaries
+    SetCrossPlatform(LLVM_INSTALL_PREFIX
+            "${LLVM_ROOT}/llvm6.0.1-msvc"
+            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
+            "${LLVM_ROOT}/llvm6.0.1-mac"
+            )
 
-endif ()
+    ## first try to find an existing LLVM version
+    find_package(LLVM)
 
-# first find dependencies that we can get from vcpkg
-#FindDependencies()
+    # if it was found, validate the version
+    if (LLVM_FOUND)
+        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
+            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
+        endif ()
+    else ()
+        # Otherwise we download binaries or build from source
 
-# add the third_party directory as dependencies
+        # defines two boolean variables
+        #   - BUILD_LLVM
+        #   - DOWNLOAD_LLVM_BINARIES
+        # They are mutually exclusive and determine the flow of the next step
+        DownloadOrBuildLLVM()
+
+        # If conditions are met we can use precompiled binaries
+        if (${DOWNLOAD_LLVM_BINARIES})
+            DownloadLLVM601Binaries()
+        endif ()
+
+        # if not we can build LLVM from source, which will take a while
+        if (BUILD_LLVM)
+            BuildLLVMFromSource()
+        endif (BUILD_LLVM)
+
+        # Now we try again to find llvm
+#        find_package(LLVM)
+
+    endif (LLVM_FOUND)
+endif (${LLVM_INSTALL_PREFIX})
+
+#
+## add the third_party directory as dependencies
 #add_subdirectory(third_party)
-
+#
+#
+## TODO: add some logic to automatically set based on compiler version
+#set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
+#
 
 # print out the configuration summary
 ConfigurationSummary()

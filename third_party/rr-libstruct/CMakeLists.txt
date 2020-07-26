@@ -20,18 +20,10 @@ lsLUResult
 
 include_directories(
 .
-${THIRD_PARTY_FOLDER}/clapack/3.2.1/INCLUDE
-${THIRD_PARTY_FOLDER}/${RR_LIBSBML}/src
+${THIRD_PARTY_DIRECTORY}/clapack3.2.1/include
+${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source/src
 )
 
-#add_library(${target} SHARED ${sources})
-#
-#set_property(TARGET ${target}  
-#             PROPERTY  COMPILE_DEFINITIONS 
-#                       WIN32
-#                       SHARED_NLEQ
-#             ) 
-#
 #Then the static version
 add_library(${target}-static STATIC ${sources})
 
@@ -47,6 +39,18 @@ ${static_compile_definitions}
 WIN32
 ) 
 endif()
+
+
+
+target_include_directories(${target}-static PRIVATE
+#        ${LIBSBML_INCLUDE_DIR}
+        ${CLAPACK_INCLUDE_DIR}
+        /mnt/d/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-GNU/include
+        )
+
+target_link_libraries(${target}-static PRIVATE ${LIBSBML_STATIC_LIBRARY})
+add_dependencies(${target}-static libsbml lapack)
+
 
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 

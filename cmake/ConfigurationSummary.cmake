@@ -50,17 +50,28 @@ Dependencies
     GOOGLETEST_SOURCE                   ${GOOGLETEST_SOURCE}
 
     clapack:
-        CLAPACK_STATIC_LIBRARY          ${CLAPACK_STATIC_LIBRARY}
+        CLAPACK_SOURCE_DIR              ${CLAPACK_SOURCE_DIR}
         CLAPACK_INCLUDE_DIR             ${CLAPACK_INCLUDE_DIR}
+        CLAPACK_STATIC_LIBRARY          ${CLAPACK_STATIC_LIBRARY}
     libsbml:
-        LIBSBML_STATIC_LIBRARY          ${LIBSBML_STATIC_LIBRARY}
+        LIBSBML_SOURCE_DIR              ${LIBSBML_SOURCE_DIR}
+        LIBSBML_INSTALL_PREFIX          ${LIBSBML_INSTALL_PREFIX}
         LIBSBML_INCLUDE_DIR             ${LIBSBML_INCLUDE_DIR}
+        LIBSBML_STATIC_LIBRARY          ${LIBSBML_STATIC_LIBRARY}
+        LIBSBML_LIBRARY                 ${LIBSBML_LIBRARY}
     poco:
+        POCO_SOURCE_DIR                 ${POCO_SOURCE_DIR}
         POCO_STATIC_LIBRARY             ${POCO_STATIC_LIBRARY}
         POCO_INCLUDE_DIR                ${POCO_INCLUDE_DIR}
     sundials:
+        SUNDIALS_SOURCE_DIR             ${SUNDIALS_SOURCE_DIR}
         SUNDIALS_STATIC_LIBRARY         ${SUNDIALS_STATIC_LIBRARY}
         SUNDIALS_INCLUDE_DIR            ${SUNDIALS_INCLUDE_DIR}
+    LLVM
+        BUILD_LLVM                      ${BUILD_LLVM}
+        DOWNLOAD_LLVM_BINARIES          ${DOWNLOAD_LLVM_BINARIES}
+        LLVM_ROOT                       ${LLVM_ROOT}
+        LLVM_INSTALL_PREFIX             ${LLVM_INSTALL_PREFIX}
 
 Build variables
 ---------------

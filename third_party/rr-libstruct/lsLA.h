@@ -376,7 +376,7 @@ LIB_EXTERN void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& o
 //        //public static double[][] GetGaussJordan2(double[][] oMatrix)
 //
 //        /// <summary>
-//        /// Lib clapack _fully pivoted gauss jordan
+//        /// Lib clapack3.2.1 _fully pivoted gauss jordan
 //        /// </summary>
 //        /// <param name="inMatrix">In matrix</param>
 //        /// <param name="numRows">Number rows</param>
@@ -397,7 +397,7 @@ LIB_EXTERN void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& o
 //
 //
 //        /// <summary>
-//        /// Lib clapack _gauss jordan
+//        /// Lib clapack3.2.1 _gauss jordan
 //        /// </summary>
 //        /// <param name="inMatrix">In matrix</param>
 //        /// <param name="numRows">Number rows</param>
@@ -554,7 +554,7 @@ LIB_EXTERN void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& o
 //
 //
 //        /// <summary>
-//        /// Lib clapack _get rank
+//        /// Lib clapack3.2.1 _get rank
 //        /// </summary>
 //        /// <param name="inMatrix">In matrix</param>
 //        /// <param name="numRows">Number rows</param>
@@ -1599,7 +1599,7 @@ LIB_EXTERN void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& o
 ////        //}
 ////
 ////        /// <summary>
-////        /// Lib clapack _fully pivoted gauss jordan
+////        /// Lib clapack3.2.1 _fully pivoted gauss jordan
 ////        /// </summary>
 ////        /// <param name="inMatrix">In matrix</param>
 ////        /// <param name="numRows">Number rows</param>
@@ -1620,7 +1620,7 @@ LIB_EXTERN void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& o
 ////
 ////
 ////        /// <summary>
-////        /// Lib clapack _gauss jordan
+////        /// Lib clapack3.2.1 _gauss jordan
 ////        /// </summary>
 ////        /// <param name="inMatrix">In matrix</param>
 ////        /// <param name="numRows">Number rows</param>
@@ -1777,7 +1777,7 @@ LIB_EXTERN void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& o
 ////
 ////
 ////        /// <summary>
-////        /// Lib clapack _get rank
+////        /// Lib clapack3.2.1 _get rank
 ////        /// </summary>
 ////        /// <param name="inMatrix">In matrix</param>
 ////        /// <param name="numRows">Number rows</param>

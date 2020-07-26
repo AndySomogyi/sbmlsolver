@@ -52,31 +52,39 @@ function(TRANSFORM_VERSION numerical_result version)
     set(${numerical_result} ${internal_numerical_result} PARENT_SCOPE)
 endfunction(TRANSFORM_VERSION)
 
-#todo move my llvm acquisition code to here.
-
-
+# first try to find llvm-config
 find_program(LLVM_CONFIG_EXECUTABLE
         NAMES llvm-config-${LLVM_MIN_VERSION_TEXT} llvm-config
         PATHS /opt/local/bin /usr/local/bin
         HINTS
-        "$ENV{LLVM_DIR}/bin"
-        C:/LLVM
-        C:/LLVM6.0.1
-        C:/llvm
-        C:/llvm6.0.1
-        D:/LLVM
-        D:/LLVM6.0.1
-        D:/llvm
-        D:/llvm6.0.1
-        ~/LLVM
-        ~/LLVM6.0.1
-        ~/llvm
-        ~/llvm6.0.1
+        ${LLVM_INSTALL_PREFIX}/bin
+        $ENV{LLVM_DIR}/bin
+        C:/LLVM/bin
+        C:/LLVM6.0.1/bin
+        C:/llvm/bin
+        C:/llvm6.0.1/bin
+        D:/LLVM/bin
+        D:/LLVM6.0.1/bin
+        D:/llvm/bin
+        D:/llvm6.0.1/bin
+        ~/LLVM/bin
+        ~/LLVM6.0.1/bin
+        ~/llvm/bin
+        ~/llvm6.0.1/bin
         DOC "llvm-config executable"
         )
 
+message(STATUS "LLVM_CONFIG_EXECUTABLE ${LLVM_CONFIG_EXECUTABLE}")
+
+
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
+
+    execute_process(
+            COMMAND chmod -x ${LLVM_CONFIG_EXECUTABLE}
+            #            OUTPUT_VARIABLE LLVM_VERSION
+            #            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
     execute_process(
             COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
@@ -84,17 +92,14 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
+    message(STATUS "LLVM_VERSION ${LLVM_VERSION}")
+
     # Version Info
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION)
-    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR
-            "${LLVM_VERSION}")
-    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\2" LLVM_VERSION_MINOR
-            "${LLVM_VERSION}")
-    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\3" LLVM_VERSION_PATCH
-            "${LLVM_VERSION}")
-    message(STATUS "LLVM_VERSION_MAJOR: ${LLVM_VERSION_MAJOR}")
-    message(STATUS "LLVM_VERSION_MINOR: ${LLVM_VERSION_MINOR}")
-    message(STATUS "LLVM_VERSION_PATCH: ${LLVM_VERSION_PATCH}")
+    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR "${LLVM_VERSION}")
+    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\2" LLVM_VERSION_MINOR "${LLVM_VERSION}")
+    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\3" LLVM_VERSION_PATCH "${LLVM_VERSION}")
+    message(STATUS "LLVM_VERSION: ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
 
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR)
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR)
@@ -140,7 +145,7 @@ if (LLVM_CONFIG_EXECUTABLE)
     STRING(REPLACE "-Woverloaded-virtual" "" LLVM_FLAGS ${LLVM_FLAGS})
 
     # some LLVMs add these options
-    # -Wall -W -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic 
+    # -Wall -W -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic
     # -Wno-long-long -Wno-uninitialized -Wnon-virtual-dtor
 
 
@@ -160,39 +165,9 @@ if (LLVM_CONFIG_EXECUTABLE)
 
     # link libraries, currently only need core, jit and native.
     # TODO: in future, replace this with something like LLVM_CORE_LIBS, LLVM_JIT_LIBS...
-    set(LLVM_LIBRARIES
-            "LLVMX86AsmParser"
-            "LLVMX86CodeGen"
-            "LLVMGlobalISel"
-            "LLVMSelectionDAG"
-            "LLVMAsmPrinter"
-            "LLVMDebugInfoCodeView"
-            "LLVMDebugInfoMSF"
-            "LLVMCodeGen"
-            "LLVMScalarOpts"
-            "LLVMInstCombine"
-            "LLVMTransformUtils"
-            "LLVMBitWriter"
-            "LLVMX86Desc"
-            "LLVMMCDisassembler"
-            "LLVMX86Info"
-            "LLVMX86AsmPrinter"
-            "LLVMX86Utils"
-            "LLVMMCJIT"
-            "LLVMExecutionEngine"
-            "LLVMTarget"
-            "LLVMAnalysis"
-            "LLVMProfileData"
-            "LLVMRuntimeDyld"
-            "LLVMObject"
-            "LLVMMCParser"
-            "LLVMBitReader"
-            "LLVMMC"
-            "LLVMCore"
-            "LLVMBinaryFormat"
-            "LLVMSupport"
-            "LLVMDemangle"
-            )
+    # Replaced this with manually set variable LLVM_LIBRARIES
+    #   The advantage is that we can pass these in as targets to
+    # the llvm build and not have to build everything.
     execute_process(
             COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core mcjit native
             OUTPUT_VARIABLE LLVM_LIBRARIES
@@ -223,8 +198,8 @@ if (LLVM_CONFIG_EXECUTABLE)
             set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
 
 
-            # LLVM 3.5 seems to require zlib, at least on OSX 10.9. 
-            # no big deal to just add it on UNIX in general as it already there. 
+            # LLVM 3.5 seems to require zlib, at least on OSX 10.9.
+            # no big deal to just add it on UNIX in general as it already there.
             if (LLVM_VERSION_MINOR GREATER 4)
                 message("LLVM > 3.4, looking for zlib")
                 find_package(ZLIB REQUIRED)

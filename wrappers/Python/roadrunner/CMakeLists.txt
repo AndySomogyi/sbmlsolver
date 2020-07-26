@@ -142,7 +142,7 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
 
 #FILE(GLOB Mac_CPP "*_Mac.cpp")
 
-#INSTALL(FILES ${python_files_path}/roadrunner.py
+#install(FILES ${python_files_path}/roadrunner.py
 #    DESTINATION site-packages/roadrunner )
 
 install(

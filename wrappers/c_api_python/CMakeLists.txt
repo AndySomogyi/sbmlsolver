@@ -8,7 +8,7 @@ if(INSTALL_EXAMPLES)
 add_subdirectory(Examples)
 endif()
 
-#=============== INSTALL =====================
+#=============== install =====================
 install(
     FILES 
     rrPython.py README.txt

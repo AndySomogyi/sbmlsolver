@@ -486,7 +486,7 @@ if(BUILD_TEST_TOOLS)
     add_subdirectory(testing)
 endif()
 
-#--- INSTALL STUFF
+#--- install STUFF
 if(${INSTALL_CXX_API})
 
     #if(INSTALL_STATIC_LIB)

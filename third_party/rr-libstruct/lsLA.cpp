@@ -853,7 +853,7 @@ void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& oReal, Doubl
 ////        //}
 ////
 ////        /// <summary>
-////        /// Lib clapack _fully pivoted gauss jordan
+////        /// Lib clapack3.2.1 _fully pivoted gauss jordan
 ////        /// </summary>
 ////        /// <param name="inMatrix">In matrix</param>
 ////        /// <param name="numRows">Number rows</param>
@@ -874,7 +874,7 @@ void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& oReal, Doubl
 ////
 ////
 ////        /// <summary>
-////        /// Lib clapack _gauss jordan
+////        /// Lib clapack3.2.1 _gauss jordan
 ////        /// </summary>
 ////        /// <param name="inMatrix">In matrix</param>
 ////        /// <param name="numRows">Number rows</param>
@@ -1031,7 +1031,7 @@ void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& oReal, Doubl
 ////
 ////
 ////        /// <summary>
-////        /// Lib clapack _get rank
+////        /// Lib clapack3.2.1 _get rank
 ////        /// </summary>
 ////        /// <param name="inMatrix">In matrix</param>
 ////        /// <param name="numRows">Number rows</param>

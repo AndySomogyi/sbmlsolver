@@ -1,10 +1,10 @@
 macro(FindDependencies)
 
-    # clapack, libsbml, poco, sundials
+    # clapack3.2.1, libsbml, poco, sundials
 
-    # clapack
+    # clapack3.2.1
 #    find_library(CLAPACK_STATIC_LIBRARY
-#            NAMES clapack.lib clapack.a
+#            NAMES clapack3.2.1.lib clapack3.2.1.a
 #            PATHS ${VCPKG_LIB_DIR}
 #            NO_DEFAULT_PATH
 #            )
