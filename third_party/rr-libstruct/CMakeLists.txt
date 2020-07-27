@@ -5,77 +5,79 @@ project(rr-libstruct)
 # ----------------------------------------------------------------
 OPTION(LIBSTRUCT_BUILD_STATIC_LIBS "Build static libraries" ON)
 OPTION(LIBSTRUCT_BUILD_SHARED_LIBS "Build shared libraries" OFF)
-set(target rr-libstruct) 
 
-set(sources 
-lsMatrix
-lsLibStructural
-lsSBMLModel
-lsUtils
-lsLibla
-lsLA
-lsLUResult
-)
+get_filename_component(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
+set(LIBSBML_INSTALL_PREFIX ${THIRD_PARTY_DIR}/libSBML-5.18.1-experimental-Source/install-${CMAKE_CXX_COMPILER_ID}
+        CACHE PATH "Path to the root of libsbml installation")
+set(CLAPACK_INSTALL_PREFIX ${THIRD_PARTY_DIR}/clapack3.2.1/install-${CMAKE_CXX_COMPILER_ID}
+        CACHE PATH "Path to the root of clapack installation")
 
-include_directories(
-.
-${THIRD_PARTY_DIRECTORY}/clapack3.2.1/include
-${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source/src
-)
+set(target rr-libstruct)
+
+set(sources
+        lsMatrix
+        lsLibStructural
+        lsSBMLModel
+        lsUtils
+        lsLibla
+        lsLA
+        lsLUResult
+        )
+
+set(CLAPACK_INCLUDE_DIR ${CLAPACK_INSTALL_PREFIX}/include/clapack)
+set(LIBSBML_INCLUDE_DIR ${LIBSBML_INSTALL_PREFIX}/include)
+
 
 #Then the static version
 add_library(${target}-static STATIC ${sources})
 
 set(static_compile_definitions
-STATIC_LIBSTRUCT
-LIBSBML_USE_CPP_NAMESPACE
-LIBSBML_STATIC
-)
+        STATIC_LIBSTRUCT
+        LIBSBML_USE_CPP_NAMESPACE
+        LIBSBML_STATIC
+        )
 
-if(WIN32)
-set(static_compile_definitions 
-${static_compile_definitions}
-WIN32
-) 
-endif()
-
-
+if (WIN32)
+    set(static_compile_definitions
+            ${static_compile_definitions}
+            WIN32
+            )
+endif ()
 
 target_include_directories(${target}-static PRIVATE
-#        ${LIBSBML_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
         ${CLAPACK_INCLUDE_DIR}
-        /mnt/d/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-GNU/include
+        ${LIBSBML_INCLUDE_DIR}
         )
 
 target_link_libraries(${target}-static PRIVATE ${LIBSBML_STATIC_LIBRARY})
-add_dependencies(${target}-static libsbml lapack)
 
 
-set_property(TARGET ${target}-static  
-             PROPERTY  COMPILE_DEFINITIONS 
-             ${static_compile_definitions}
-             ) 
+set_property(TARGET ${target}-static
+        PROPERTY COMPILE_DEFINITIONS
+        ${static_compile_definitions}
+        )
 
 #libraries to link with
-if(${MINGW})
-else()
-#target_link_libraries (${target} libf2c)
-#target_link_libraries (${target}-static libf2c)
-endif()
+if (${MINGW})
+else ()
+    #target_link_libraries (${target} libf2c)
+    #target_link_libraries (${target}-static libf2c)
+endif ()
 
-set(headers 
-lsExporter.h
-lsMatrix.h
-lsLibStructural.h
-lsLA.h
-lsLibla.h
-lsLUResult.h
-lsUtils.h
-)
+set(headers
+        lsExporter.h
+        lsMatrix.h
+        lsLibStructural.h
+        lsLA.h
+        lsLibla.h
+        lsLUResult.h
+        lsUtils.h
+        )
 
 #Install required files
-install(FILES ${headers} 
+install(FILES ${headers}
         DESTINATION include/rr-libstruct)
 
 #install(TARGETS ${target} 
@@ -83,7 +85,7 @@ install(FILES ${headers}
 #        ARCHIVE DESTINATION lib
 #        RUNTIME DESTINATION bin)
 #
-install(TARGETS ${target}-static 
-        LIBRARY DESTINATION lib 
+install(TARGETS ${target}-static
+        LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 

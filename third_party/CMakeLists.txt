@@ -10,21 +10,44 @@
 
 include(ExternalProject)
 
-# add nleq1 subdirectory. No dependencies.
-add_subdirectory(nleq1)
+ExternalProject_Add(
+        nleq1
+        SOURCE_DIR ${NLEQ1_SOURCE_DIR}
+        LOG_DIR ${NLEQ1_SOURCE_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${NLEQ1_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+)
 
-# add nleq2 subdirectory. No dependencies.
-add_subdirectory(nleq2)
+ExternalProject_Add(
+        nleq2
+        SOURCE_DIR ${NLEQ2_SOURCE_DIR}
+        LOG_DIR ${NLEQ2_SOURCE_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${NLEQ2_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+)
 
 # clapack3.2.1
-add_subdirectory(clapack3.2.1)
+ExternalProject_Add(
+        clapack
+        SOURCE_DIR ${CLAPACK_SOURCE_DIR}
+        LOG_DIR ${CLAPACK_SOURCE_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CLAPACK_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCLAPACK_INCLUDE_DIR=${CLAPACK_INCLUDE_DIR}
+        -DLIBSBML_INCLUDE_DIR=${LIBSBML_INCLUDE_DIR}
+)
 
 # libsbml dependencies
 ExternalProject_Add(
         libsbml_dependencies
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies
         LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/dependencies
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/dependencies
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 )
 
 
@@ -33,22 +56,37 @@ ExternalProject_Add(
         libsbml
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source
         LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX} -DLIBSBML_USE_CPP_NAMESPACE=ON
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DLIBSBML_USE_CPP_NAMESPACE=ON
         DEPENDS libsbml_dependencies
 )
 
 
 # add rr-libstruct subdirectory. Depends on libsbml
-add_subdirectory(rr-libstruct)
-add_dependencies(rr-libstruct-static libsbml lapack)
-
+#add_subdirectory(rr-libstruct)
+ExternalProject_Add(
+        rr-libstruct
+        SOURCE_DIR ${RR_LIBSTRUCT_DIR}
+        LOG_DIR ${RR_LIBSTRUCT_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${RR_LIBSTRUCT_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        # These should default to the correct location inside rr-libstruct anyway
+        -DLIBSBML_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
+        -DCLAPACK_INSTALL_PREFIX=${CLAPACK_INSTALL_PREFIX}
+)
+add_dependencies(rr-libstruct libsbml clapack)
 
 # poco
 ExternalProject_Add(
         poco
         SOURCE_DIR ${POCO_SOURCE_DIR}
         LOG_DIR ${POCO_SOURCE_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${POCO_INSTALL_PREFIX}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${POCO_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 )
 
 # sundials
@@ -56,21 +94,25 @@ ExternalProject_Add(
         sundials
         SOURCE_DIR ${SUNDIALS_SOURCE_DIR}
         LOG_DIR ${SUNDIALS_SOURCE_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${SUNDIALS_INSTALL_PREFIX}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${SUNDIALS_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 )
 
 add_custom_target(all-dependencies)
+
 add_dependencies(all-dependencies
         libsbml
         poco
-        blas
-        arithchk
         sundials
-        f2c
-        lapack
-        nleq1-static
-        nleq2-static
-        rr-libstruct-static
+        nleq1
+        nleq2
+        clapack
+        libsbml_dependencies
+        libsbml
+        poco
+        sundials
+        rr-libstruct
         )
 
 

@@ -104,11 +104,6 @@ if (BUILD_TESTS OR BUILD_JAVA_INTERFACE)
 endif ()
 
 
-if (BUILD_LLVM AND NOT LLVM_FOUND)
-    message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM installation was found")
-endif ()
-
-
 mark_as_advanced(
         BUILD_LEGACY_C
         INSTALL_APPS
@@ -264,8 +259,11 @@ CheckDirectoryExists("third_party directory" "${THIRD_PARTY_DIRECTORY}")
 
 # clapack
 set(CLAPACK_SOURCE_DIR ${THIRD_PARTY_DIRECTORY}/clapack3.2.1)
-set(CLAPACK_INCLUDE_DIR "${CLAPACK_SOURCE_DIR}/include")
-CheckDirectoryExists("clapack source" "${CLAPACK_SOURCE_DIR}")
+CheckDirectoryExists("clapack" "${CLAPACK_SOURCE_DIR}")
+set(CLAPACK_INSTALL_PREFIX "${CLAPACK_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+
+# we would need to refactor quite a lot to make this end at "include"
+set(CLAPACK_INCLUDE_DIR "${CLAPACK_INSTALL_PREFIX}/include/clapack")
 
 # libsbml (dependencies already taken care of)
 set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
@@ -294,6 +292,17 @@ set(SUNDIALS_INSTALL_PREFIX "${SUNDIALS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER
 #set(SUNDIALS_STATIC_LIBRARY "${SUNDIALS_INSTALL_PREFIX}/lib/SUNDIALS-static${CMAKE_STATIC_LIBRARY_SUFFIX}" PARENT_SCOPE)
 #set(SUNDIALS_LIBRARY "${SUNDIALS_INSTALL_PREFIX}/lib/SUNDIALS${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)
 
+# nleq1
+set(NLEQ1_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/nleq1")
+set(NLEQ1_INSTALL_PREFIX "${NLEQ1_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+
+# nleq2
+set(NLEQ2_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/nleq2")
+set(NLEQ2_INSTALL_PREFIX "${NLEQ2_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+
+# rr-libstruct
+set(RR_LIBSTRUCT_DIR "${THIRD_PARTY_DIRECTORY}/rr-libstruct")
+set(RR_LIBSTRUCT_INSTALL_PREFIX "${RR_LIBSTRUCT_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
 
 # handle the LLVM dependency
 if (${LLVM_INSTALL_PREFIX})

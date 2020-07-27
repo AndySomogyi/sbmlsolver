@@ -1049,7 +1049,7 @@ public:
 	/*
 	* Add an event to the current model
 	* @param eid: the ID of the event to be added
-	* @param useValuesFromTriggerTime: indicate the moment at which the event’s assignments are to be evaluated
+	* @param useValuesFromTriggerTime: indicate the moment at which the eventï¿½s assignments are to be evaluated
 	* @param trigger: the math formula of event trigger
 	* @param forceRegenerate: a boolean value to indicate if the model is regenerated
 	*					      after this function call
