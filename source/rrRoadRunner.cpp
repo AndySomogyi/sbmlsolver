@@ -1097,6 +1097,8 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(mCurrentSBML));
         impl->model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
     } catch (const rr::UninitializedValueException& e) {
+        // catch specifically for UninitializedValueException, otherwise for some
+        // reason the message is erased, and an 'unknown error' is displayed to the user.
         throw e;
     } catch (const std::exception& e) {
         string errors = validateSBML(mCurrentSBML);
