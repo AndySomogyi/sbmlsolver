@@ -6,7 +6,7 @@
  */
 #pragma hdrstop
 #include "LLVMModelDataSymbols.h"
-#include "lsLibStructural.h"
+#include "rr-libstruct/lsLibStructural.h"
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"

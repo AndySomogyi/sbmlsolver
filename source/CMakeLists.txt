@@ -2,7 +2,10 @@
 #
 set(target roadrunner)
 
+# Configures
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h)
 
 #####################################
 # Get a list of source file to build
@@ -311,7 +314,14 @@ target_include_directories(${target}-static PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
         /mnt/d/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-GNU/include
         /mnt/d/rrbuild/roadrunner/third_party/poco_1.5.3/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/rr-libstruct
+        /mnt/d/rrbuild/roadrunner/third_party/rr-libstruct/install-GNU/include
+        /mnt/d/rrbuild/roadrunner/third_party/clapack3.2.1/install-GNU/include
+        /mnt/d/rrbuild/roadrunner/third_party/nleq1/install-GNU/include
+        /mnt/d/rrbuild/roadrunner/third_party/nleq2/install-GNU/include
+        /mnt/d/rrbuild/roadrunner/third_party/sundials/install-GNU/include
+        /mnt/d/LLVM6.0.1/install-gcc7/include
+        /mnt/d/rrbuild/roadrunner/source
+
         )
 
 if (BUILD_SHARED_LIBS)
