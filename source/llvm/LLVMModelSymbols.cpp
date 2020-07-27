@@ -67,7 +67,6 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
             if (model->getInitialAssignment(id) == NULL &&
                     model->getAssignmentRule(id) == NULL)
             {
-                value->setValue(0.0);
                 std::stringstream ss;
                 ss << "Global parameter '" << param->getId() << "' missing value and missing init assignment and assignment rule!";
                 rr::UninitializedValue(ss.str());
