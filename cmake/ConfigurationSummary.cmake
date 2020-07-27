@@ -2,11 +2,28 @@
 macro(ConfigurationSummary)
     message(STATUS "
 ########################################################
-# Build Summary for libroadrunner ${ROADRUNNER_VERSION}#
+# Build Summary for libroadrunner ${ROADRUNNER_VERSION}
 ########################################################
+
+For up-to-date news and releases visit libroadrunner.org
+
+Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
+
+Options
+-------
+    Host OS                             ${CMAKE_SYSTEM_NAME}
+    Host architecture                   ${CMAKE_SYSTEM_PROCESSOR}
+    With LLVM?                          ${BUILD_LLVM}
+    With legacy C? (DEP)                ${BUILD_LEGACY_C}
+    Enable Python interface?            ${BUILD_PYTHON}
+    Enable Java interface?              ${BUILD_JAVA_INTERFACE}
+    Enable test suite?                  ${BUILD_TESTS}
 
 CMake variables and options
 ---------------------------
+    CMAKE_C_COMPILER                   ${CMAKE_C_COMPILER}
+    CMAKE_CXX_COMPILER                 ${CMAKE_CXX_COMPILER}
+    BUILD_DEFINITIONS                  ${BUILD_DEFINITIONS}
     CMAKE_SYSTEM_VERSION               ${CMAKE_SYSTEM_VERSION}
     ROADRUNNER_VERSION                 ${ROADRUNNER_VERSION}
     CMAKE_CXX_COMPILER_ID              ${CMAKE_CXX_COMPILER_ID}
@@ -33,21 +50,17 @@ CMake variables and options
     BUILD_DOCS                         ${BUILD_DOCS}
     BUILD_TESTS                        ${BUILD_TESTS}
 
-VCPKG config
-------------
-    VCPKG_ROOT                          ${VCPKG_ROOT}
-    CMAKE_TOOLCHAIN_FILE                ${CMAKE_TOOLCHAIN_FILE}
-    VCPKG_ARCH                          ${VCPKG_ARCH}
-    VCPKG_INSTALLED_PACKAGES            ${VCPKG_INSTALLED_PACKAGES}
-    VCPKG_STATIC_INSTALLED_PACKAGES     ${VCPKG_STATIC_INSTALLED_PACKAGES}
-    VCPKG_STATIC_LIB_DIR                ${VCPKG_STATIC_LIB_DIR}
-    VCPKG_LIB_DIR                       ${VCPKG_LIB_DIR}
-    VCPKG_BIN_DIR                       ${VCPKG_BIN_DIR}
-    VCPKG_INCLUDE_DIR                   ${VCPKG_INCLUDE_DIR}
-
 Dependencies
 ------------
     GOOGLETEST_SOURCE                   ${GOOGLETEST_SOURCE}
+    LLVM:
+        LLVM_LIBRARIES                  ${LLVM_LIBRARIES}
+        LLVM_INCLUDE_DIRS               ${LLVM_INCLUDE_DIRS}
+        LLVM_CONFIG_EXECUTABLE          ${LLVM_CONFIG_EXECUTABLE}
+        BUILD_LLVM                      ${BUILD_LLVM}
+        DOWNLOAD_LLVM_BINARIES          ${DOWNLOAD_LLVM_BINARIES}
+        LLVM_ROOT                       ${LLVM_ROOT}
+        LLVM_INSTALL_PREFIX             ${LLVM_INSTALL_PREFIX}
 
     clapack:
         CLAPACK_SOURCE_DIR              ${CLAPACK_SOURCE_DIR}
@@ -67,14 +80,6 @@ Dependencies
         SUNDIALS_SOURCE_DIR             ${SUNDIALS_SOURCE_DIR}
         SUNDIALS_STATIC_LIBRARY         ${SUNDIALS_STATIC_LIBRARY}
         SUNDIALS_INCLUDE_DIR            ${SUNDIALS_INCLUDE_DIR}
-    LLVM
-        BUILD_LLVM                      ${BUILD_LLVM}
-        DOWNLOAD_LLVM_BINARIES          ${DOWNLOAD_LLVM_BINARIES}
-        LLVM_ROOT                       ${LLVM_ROOT}
-        LLVM_INSTALL_PREFIX             ${LLVM_INSTALL_PREFIX}
-
-Build variables
----------------
 
 End Summary
 ########################################################################################

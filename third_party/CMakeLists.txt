@@ -33,7 +33,7 @@ ExternalProject_Add(
         libsbml
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source
         LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX} -DLIBSBML_USE_CPP_NAMESPACE=ON
         DEPENDS libsbml_dependencies
 )
 
@@ -59,7 +59,19 @@ ExternalProject_Add(
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${SUNDIALS_INSTALL_PREFIX}
 )
 
-
+add_custom_target(all-dependencies)
+add_dependencies(all-dependencies
+        libsbml
+        poco
+        blas
+        arithchk
+        sundials
+        f2c
+        lapack
+        nleq1-static
+        nleq2-static
+        rr-libstruct-static
+        )
 
 
 

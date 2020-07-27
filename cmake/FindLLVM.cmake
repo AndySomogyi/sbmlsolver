@@ -80,11 +80,11 @@ message(STATUS "LLVM_CONFIG_EXECUTABLE ${LLVM_CONFIG_EXECUTABLE}")
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
 
-    execute_process(
-            COMMAND chmod -x ${LLVM_CONFIG_EXECUTABLE}
-            #            OUTPUT_VARIABLE LLVM_VERSION
-            #            OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+#    execute_process(
+#            COMMAND chmod -x ${LLVM_CONFIG_EXECUTABLE}
+#            #            OUTPUT_VARIABLE LLVM_VERSION
+#            #            OUTPUT_STRIP_TRAILING_WHITESPACE
+#    )
 
     execute_process(
             COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
