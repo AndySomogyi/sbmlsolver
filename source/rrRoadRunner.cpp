@@ -2324,43 +2324,53 @@ DoubleMatrix RoadRunner::getFullJacobian()
 
     get_self();
 
+    // function pointers to the model get values and get init values based on
+    // if we are doing amounts or concentrations.
+    typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
+        double *values);
+    typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
+        double const *values);
+    typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
+        double const* values);
+
+    GetValueFuncPtr getValuePtr = 0;
+    GetValueFuncPtr getInitValuePtr = 0;
+    SetValueFuncPtr setValuePtr = 0;
+    SetValueFuncPtrSize setInitValuePtr = 0;
+
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+        == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+    {
+        getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
+        getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
+        setValuePtr = &ExecutableModel::setFloatingSpeciesAmounts;
+        setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitAmounts;
+    }
+    else
+    {
+        getValuePtr = &ExecutableModel::getFloatingSpeciesConcentrations;
+        getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitConcentrations;
+        setValuePtr = &ExecutableModel::setFloatingSpeciesConcentrations;
+        setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitConcentrations;
+    }
+
+
     if (self.model->getNumReactions() == 0 && self.model->getNumRateRules() > 0)
     {
+        if (self.model->getNumFloatingSpecies() < self.model->getNumRateRules()) {
+            std::stringstream errSS;
+            errSS << "cannot compute full Jacobian because there are fewer floating species (" <<
+                self.model->getNumFloatingSpecies() << ")" << " than rate rules (" << self.model->getNumRateRules() << ").";
+            errSS << " You may need to declare one or more of your variables as a species. See " <<
+                "https://tellurium.readthedocs.io/en/latest/antimony.html#rate-rules if you are using Antimony.";
+            throw std::out_of_range(errSS.str());
+        }
         DoubleMatrix jac(self.model->getNumRateRules(), self.model->getNumRateRules());
 
         for (int i = 0; i < self.model->getNumRateRules(); i++)
         {
             for (int j = 0; j < self.model->getNumRateRules(); j++)
             {
-                // function pointers to the model get values and get init values based on
-                // if we are doing amounts or concentrations.
-                typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
-                    double *values);
-                typedef int (ExecutableModel::*SetValueFuncPtr)(size_t len, int const *indx,
-                    double const *values);
-                typedef int (ExecutableModel::* SetValueFuncPtrSize)(size_t len, int const* indx,
-                    double const* values);
-
-                GetValueFuncPtr getValuePtr = 0;
-                GetValueFuncPtr getInitValuePtr = 0;
-                SetValueFuncPtr setValuePtr = 0;
-                SetValueFuncPtrSize setInitValuePtr = 0;
-
-                if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
-                    == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
-                {
-                    getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
-                    getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
-                    setValuePtr = &ExecutableModel::setFloatingSpeciesAmounts;
-                    setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitAmounts;
-                }
-                else
-                {
-                    getValuePtr = &ExecutableModel::getFloatingSpeciesConcentrations;
-                    getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitConcentrations;
-                    setValuePtr = &ExecutableModel::setFloatingSpeciesConcentrations;
-                    setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitConcentrations;
-                }
 
                 double value;
                 double originalConc = 0;
