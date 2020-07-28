@@ -13,6 +13,8 @@ set(LIBSBML_INSTALL_PREFIX ${THIRD_PARTY_DIR}/libSBML-5.18.1-experimental-Source
 set(CLAPACK_INSTALL_PREFIX ${THIRD_PARTY_DIR}/clapack3.2.1/install-${CMAKE_CXX_COMPILER_ID}
         CACHE PATH "Path to the root of clapack installation")
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(target rr-libstruct)
 
 set(sources

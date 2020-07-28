@@ -94,6 +94,7 @@ option(RR_BUILD_SHARED_CORE "Build RoadRunner Core Shared library" ON)
 option(BUILD_TESTS "Build the SBML C API test suite" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" ON)
 option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
+OPTION(USE_POCO_NET "Use poco net library" ON)
 
 ##################################################
 #   Settings derived from options
@@ -171,27 +172,27 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
-if(BUILD_LLVM)
-#    message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
-#
-#    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
-#    message(STATUS "LLVM_FLAGS: ${LLVM_FLAGS}")
-#    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
-#    message(STATUS "LLVM_LIBRARY_DIRS: ${LLVM_LIBRARY_DIRS}")
+if (BUILD_LLVM)
+    #    message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
+    #
+    #    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+    #    message(STATUS "LLVM_FLAGS: ${LLVM_FLAGS}")
+    #    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
+    #    message(STATUS "LLVM_LIBRARY_DIRS: ${LLVM_LIBRARY_DIRS}")
     add_definitions(-DBUILD_LLVM)
     # Don't use add_definitions for LLVM flags per http://stackoverflow.com/questions/13638408/cmake-override-compile-flags-for-single-files
-#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
-#    include_directories(BEFORE ${LLVM_INCLUDE_DIRS})
-else()
+    #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
+    #    include_directories(BEFORE ${LLVM_INCLUDE_DIRS})
+else ()
     message(STATUS "NOT using LLVM")
-endif(BUILD_LLVM)
+endif (BUILD_LLVM)
 
-if(BUILD_LEGACY_C)
+if (BUILD_LEGACY_C)
     message(STATUS "building legacy C backend")
     add_definitions(-DBUILD_LEGACY_C)
-else()
+else ()
     message(STATUS "not building legacy C backend")
-endif(BUILD_LEGACY_C)
+endif (BUILD_LEGACY_C)
 
 
 #####################################################
@@ -239,10 +240,10 @@ if (${BORLAND})
 endif ()
 
 
-if(UNIX)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-endif()
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+endif ()
 
 # Find vcpkg root if you can
 #LocateVcpkg()
@@ -262,48 +263,210 @@ set(CLAPACK_SOURCE_DIR ${THIRD_PARTY_DIRECTORY}/clapack3.2.1)
 CheckDirectoryExists("clapack" "${CLAPACK_SOURCE_DIR}")
 set(CLAPACK_INSTALL_PREFIX "${CLAPACK_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
 
-# we would need to refactor quite a lot to make this end at "include"
-set(CLAPACK_INCLUDE_DIR "${CLAPACK_INSTALL_PREFIX}/include/clapack")
+# Note: Technically these dependencies are in a predictable location, so
+# find_* functions might be overkill here. But, this way allows users
+# produce their own version of the dependency by passing in *_INSTALL_PREFIX.
+find_library(CLAPACK_STATIC_LIBRARY
+        NAMES
+        liblapack${CMAKE_STATIC_LIBRARY_SUFFIX}
+        lapack${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${CLAPACK_INSTALL_PREFIX}/lib
+        )
+find_library(BLAS_STATIC_LIBRARY
+        NAMES
+        libblas${CMAKE_STATIC_LIBRARY_SUFFIX}
+        blas${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${CLAPACK_INSTALL_PREFIX}/lib
+        )
+find_library(F2C_STATIC_LIBRARY
+        NAMES
+        libf2c${CMAKE_STATIC_LIBRARY_SUFFIX}
+        f2c${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${CLAPACK_INSTALL_PREFIX}/lib
+        )
+
+set(CLAPACK_STATIC_LIBRARIES
+        ${CLAPACK_STATIC_LIBRARY}
+        ${BLAS_STATIC_LIBRARY}
+        ${F2C_STATIC_LIBRARY})
+
+find_path(CLAPACK_INCLUDE_DIR
+        NAMES clapack/clapack.h
+        HINTS ${CLAPACK_INSTALL_PREFIX}/include
+        )
+
 
 # libsbml (dependencies already taken care of)
 set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
 CheckDirectoryExists("libsbml source" "${LIBSBML_SOURCE_DIR}")
 
 set(LIBSBML_INSTALL_PREFIX "${LIBSBML_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-set(LIBSBML_INCLUDE_DIR "${LIBSBML_INSTALL_PREFIX}/inlcude")
-set(LIBSBML_STATIC_LIBRARY "${LIBSBML_INSTALL_PREFIX}/lib/libsbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}")
-set(LIBSBML_LIBRARY "${LIBSBML_INSTALL_PREFIX}/lib/libsbml${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
+find_library(LIBSBML_STATIC_LIBRARY
+        NAMES
+        libsbml${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sbml${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${LIBSBML_INSTALL_PREFIX}/lib
+        )
+
+find_path(LIBSBML_INCLUDE_DIR
+        NAMES sbml/SBMLTypes.h
+        HINTS ${LIBSBML_INSTALL_PREFIX}/include
+        )
 
 # poco
 set(POCO_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/poco_1.5.3")
 CheckDirectoryExists("poco source" "${POCO_SOURCE_DIR}")
 set(POCO_INSTALL_PREFIX "${POCO_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-#set(POCO_INCLUDE_DIR "${POCO_INSTALL_PREFIX}/inlcude" PARENT_SCOPE)
-#set(POCO_STATIC_LIBRARY "${POCO_INSTALL_PREFIX}/lib/POCO-static${CMAKE_STATIC_LIBRARY_SUFFIX}" PARENT_SCOPE)
-#set(POCO_LIBRARY "${POCO_INSTALL_PREFIX}/lib/POCO${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)
+
+find_library(POCO_FOUNDATION_STATIC_LIBRARY
+        NAMES
+        libPocoFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PocoFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${POCO_INSTALL_PREFIX}/lib
+        )
+find_library(POCO_NET_STATIC_LIBRARY
+        NAMES
+        libPocoNet${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PocoNet${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${POCO_INSTALL_PREFIX}/lib
+        )
+find_library(POCO_UTIL_STATIC_LIBRARY
+        NAMES
+        libPocoUtil${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PocoUtil${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${POCO_INSTALL_PREFIX}/lib
+        )
+find_library(POCO_XML_STATIC_LIBRARY
+        NAMES
+        libPocoXML${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PocoXML${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${POCO_INSTALL_PREFIX}/lib
+        )
+find_library(POCO_ZIP_STATIC_LIBRARY
+        NAMES
+        libPocoZip${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PocoZip${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${POCO_INSTALL_PREFIX}/lib
+        )
+
+set(POCO_STATICLIBRARIES
+        ${POCO_FOUNDATION_STATIC_LIBRARY}
+        ${POCO_NET_STATIC_LIBRARY}
+        ${POCO_UTIL_STATIC_LIBRARY}
+        ${POCO_XML_STATIC_LIBRARY}
+        ${POCO_ZIP_STATIC_LIBRARY}
+        )
+
+find_path(POCO_INCLUDE_DIR
+        NAMES Poco/Poco.h
+        HINTS ${POCO_INSTALL_PREFIX}/include
+        )
 
 
 # Sundials
 set(SUNDIALS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/sundials")
 CheckDirectoryExists("sundials source" "${SUNDIALS_SOURCE_DIR}")
 set(SUNDIALS_INSTALL_PREFIX "${SUNDIALS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-#set(SUNDIALS_INCLUDE_DIR "${SUNDIALS_INSTALL_PREFIX}/inlcude" PARENT_SCOPE)
-#set(SUNDIALS_STATIC_LIBRARY "${SUNDIALS_INSTALL_PREFIX}/lib/SUNDIALS-static${CMAKE_STATIC_LIBRARY_SUFFIX}" PARENT_SCOPE)
-#set(SUNDIALS_LIBRARY "${SUNDIALS_INSTALL_PREFIX}/lib/SUNDIALS${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)
+
+find_library(SUNDIALS_CVODE_STATIC_LIBRARY
+        NAMES
+        libsundials_cvode${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sundials_cvode${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+        )
+
+find_library(SUNDIALS_CVODES_STATIC_LIBRARY
+        NAMES
+        libsundials_cvodes${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sundials_cvodes${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+        )
+
+find_library(SUNDIALS_IDA_STATIC_LIBRARY
+        NAMES
+        libsundials_ida${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sundials_ida${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+        )
+
+find_library(SUNDIALS_IDAS_STATIC_LIBRARY
+        NAMES
+        libsundials_idas${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sundials_idas${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+        )
+
+find_library(SUNDIALS_KINSOL_STATIC_LIBRARY
+        NAMES
+        libsundials_kinsol${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sundials_kinsol${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+        )
+
+find_library(SUNDIALS_NVECSERIAL_STATIC_LIBRARY
+        NAMES
+        libsundials_nvecserial${CMAKE_STATIC_LIBRARY_SUFFIX}
+        sundials_nvecserial${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+        )
+
+find_path(SUNDIALS_INCLUDE_DIR
+        NAMES cvode/cvode.h
+        HINTS ${SUNDIALS_INSTALL_PREFIX}/include
+        )
+
+set(SUNDIALS_STATICLIBRARIES
+        ${SUNDIALS_CVODE_STATIC_LIBRARY}
+        ${SUNDIALS_CVODES_STATIC_LIBRARY}
+        ${SUNDIALS_IDA_STATIC_LIBRARY}
+        ${SUNDIALS_IDAS_STATIC_LIBRARY}
+        ${SUNDIALS_KINSOL_STATIC_LIBRARY}
+        ${SUNDIALS_NVECSERIAL_STATIC_LIBRARY}
+        )
 
 # nleq1
 set(NLEQ1_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/nleq1")
 set(NLEQ1_INSTALL_PREFIX "${NLEQ1_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+find_library(NLEQ1_STATIC_LIBRARY
+        NAMES
+        libnleq1-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+        nleq1-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${NLEQ1_INSTALL_PREFIX}/lib
+        )
+find_path(NLEQ1_INCLUDE_DIR
+        NAMES nleq1/nleq1.h
+        HINTS ${NLEQ1_INSTALL_PREFIX}/include
+        )
+
 
 # nleq2
 set(NLEQ2_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/nleq2")
 set(NLEQ2_INSTALL_PREFIX "${NLEQ2_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+find_library(NLEQ2_STATIC_LIBRARY
+        NAMES
+        libnleq2-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+        nleq2-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${NLEQ2_INSTALL_PREFIX}/lib
+        )
+find_path(NLEQ2_INCLUDE_DIR
+        NAMES nleq2/nleq2.h
+        HINTS ${NLEQ2_INSTALL_PREFIX}/include
+        )
 
 # rr-libstruct
 set(RR_LIBSTRUCT_DIR "${THIRD_PARTY_DIRECTORY}/rr-libstruct")
 set(RR_LIBSTRUCT_INSTALL_PREFIX "${RR_LIBSTRUCT_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
+find_library(RR_LIBSTRUCT_STATIC_LIBRARY
+        NAMES
+        librr-libstruct-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+        rr-libstruct-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS ${RR_LIBSTRUCT_INSTALL_PREFIX}/lib
+        )
+find_path(RR_LIBSTRUCT_INCLUDE_DIR
+        NAMES rr-libstruct/lsMatrix.h
+        HINTS ${RR_LIBSTRUCT_INSTALL_PREFIX}/include
+        )
 # handle the LLVM dependency
 if (${LLVM_INSTALL_PREFIX})
     # This is the preferred way to handle the LLVM dependency.

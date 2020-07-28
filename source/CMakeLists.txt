@@ -2,10 +2,52 @@
 #
 set(target roadrunner)
 
+# pre-process the GitInfo.h.in file and insert the response from git about
+# last commit and current branch.
+# may not have git, set default replacement strings then.
+find_program(GIT git)
+
+if (GIT)
+    message("found git: ${GIT}")
+    execute_process(
+            COMMAND ${GIT} symbolic-ref -q --short HEAD
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+            OUTPUT_VARIABLE ROADRUNNER_GIT_BRANCH
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+
+    execute_process(
+            COMMAND ${GIT} log -1 --format=%H
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+            OUTPUT_VARIABLE ROADRUNNER_GIT_LAST_COMMIT
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else ()
+    # could not find GIT
+    message("could not find git")
+
+    set(ROADRUNNER_GIT_BRANCH "git not found, unknown git branch")
+    set(ROADRUNNER_GIT_LAST_COMMIT "git not found, unknown git commit")
+endif (GIT)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h DESTINATION include/rr)
+
+# writes the results of the git commands to GitInfo.h
+message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
+message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
+
+
 # Configures
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/roadrunner.pc.in ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner.pc @ONLY)
+
+# Create the .pc file
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig)
+
 
 #####################################
 # Get a list of source file to build
@@ -253,78 +295,104 @@ if (BUILD_LEGACY_C)
 endif (BUILD_LEGACY_C)
 
 
-configure_file(rrConfigure.h.in rrConfigure.h)
-
-
-set(LINK_LIBRARIES
-        "sundials_cvode"
-        "sundials_nvecserial"
-        "blas"
-        "lapack"
-        "nleq1-static"
-        "nleq2-static"
-        "rr-libstruct-static"
-        "PocoNet"
-        "PocoFoundation"
-        )
-
-if (UNIX)
-    set(LINK_LIBRARIES "${LINK_LIBRARIES}" "xml2")
-elseif (${MSVC})
-    set(LINK_LIBRARIES "${LINK_LIBRARIES} libxml2")
-elseif (${BORLAND})
-    set(LINK_LIBRARIES "${LINK_LIBRARIES} libxml2_xe")
-endif ()
-
-
 #Link with static libs
 add_library(${target}-static STATIC ${rrSources})
 
 # set version
 set_target_properties(${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
 
+add_dependencies(${target}-static all-dependencies)
 
+
+# TODO figure out what this does
+#  I got a successful compile with only libsbml namespace.
+#  Leave it like this until you have a reason to uncommment
 set_property(TARGET ${target}-static
         PROPERTY COMPILE_DEFINITIONS
-        STATIC_RR
         LIBSBML_USE_CPP_NAMESPACE
-        LIBSBML_STATIC
-        LIBLAX_STATIC
-        STATIC_LIBSTRUCT
-        STATIC_PUGI
-        STATIC_NLEQ1
-        STATIC_NLEQ2
-        POCO_STATIC
-        POCO_NO_AUTOMATIC_LIBS
+        )
+#        STATIC_RR
+#        LIBSBML_STATIC
+#        LIBLAX_STATIC
+#        STATIC_LIBSTRUCT
+#        STATIC_PUGI
+#        STATIC_NLEQ1
+#        STATIC_NLEQ2
+#        POCO_STATIC
+#        POCO_NO_AUTOMATIC_LIBS
+#        )
+
+
+set(LINK_LIBRARIES
+        ${SUNDIALS_LIBRARIES}
+        ${CLAPACK_STATIC_LIBRARIES}
+        ${NLEQ1_STATIC_LIBRARY}
+        ${NLEQ2_STATIC_LIBRARY}
+        ${RR_LIBSTRUCT_STATIC_LIBRARY}
+        ${POCO_STATIC_LIBRARIES}
+        ${LLVM_LIBRARIES}
         )
 
-target_link_libraries (${target}-static
-    sundials_cvode
-    sundials_nvecserial
-    blas
-    lapack
-    nleq1-static
-    nleq2-static
-    rr-libstruct-static
-    PocoNet
-    PocoFoundation
-    )
+target_link_libraries(${target}-static ${LINK_LIBRARIES})
 
-target_include_directories(${target}-static PRIVATE
+set(INCLUDE_DIRECTORIES
         ${CMAKE_CURRENT_SOURCE_DIR}
-        /mnt/d/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/poco_1.5.3/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/rr-libstruct/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/clapack3.2.1/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/nleq1/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/nleq2/install-GNU/include
-        /mnt/d/rrbuild/roadrunner/third_party/sundials/install-GNU/include
-        /mnt/d/LLVM6.0.1/install-gcc7/include
-        /mnt/d/rrbuild/roadrunner/source
-
+        ${LIBSBML_INCLUDE_DIR}
+        ${POCO_INCLUDE_DIR}
+        ${RR_LIBSTRUCT_INCLUDE_DIR}
+        ${CLAPACK_INCLUDE_DIR}
+        ${NLEQ1_INCLUDE_DIR}
+        ${NLEQ2_INCLUDE_DIR}
+        ${SUNDIALS_INCLUDE_DIR}
+        ${LLVM_INCLUDE_DIRS}
         )
+target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
+
 
 if (BUILD_SHARED_LIBS)
+
+    add_library(${target} SHARED ${rrSources})
+    set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
+    add_dependencies(${target} all-dependencies)
+
+    set_property(TARGET ${target}
+            PROPERTY COMPILE_DEFINITIONS
+            EXPORT_RR
+            LIBSBML_USE_CPP_NAMESPACE
+            LIBSBML_STATIC
+            LIBLAX_STATIC
+            STATIC_LIBSTRUCT
+            STATIC_PUGI
+            STATIC_NLEQ1
+            STATIC_NLEQ2
+            POCO_STATIC
+            POCO_NO_AUTOMATIC_LIBS
+            )
+
+    if (UNIX)
+        list(APPEND LINK_LIBRARIES "pthread" "dl")
+#        set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl)
+    elseif (WIN32)
+        list(APPEND LINK_LIBRARIES "ws2_32" "iphlpapi")
+#        set(LINK_LIBRARIES "${LINK_LIBRARIES} ws2_32 iphlpapi")
+    endif (UNIX)
+
+    target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
+    target_link_libraries(${target} PRIVATE ${LINK_LIBRARIES})
+
+
+    if (${INSTALL_CXX_API})
+        install(TARGETS ${target}
+                RUNTIME DESTINATION bin COMPONENT rr_core
+                LIBRARY DESTINATION lib COMPONENT rr_core
+                ARCHIVE DESTINATION lib COMPONENT rr_core
+                )
+
+        if (${BUILD_PYTHON})
+            install(TARGETS roadrunner DESTINATION ${PYTHON_PACKAGE_DEST_DIR})
+        endif ()
+    endif ()
+
 
 endif (BUILD_SHARED_LIBS)
 

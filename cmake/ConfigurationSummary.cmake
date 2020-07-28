@@ -52,11 +52,20 @@ CMake variables and options
 
 Dependencies
 ------------
+    THIRD_PARTY_DIRECTORY               ${THIRD_PARTY_DIRECTORY}
     GOOGLETEST_SOURCE                   ${GOOGLETEST_SOURCE}
+
     LLVM:
-        LLVM_LIBRARIES                  ${LLVM_LIBRARIES}
+        LLVM_FOUND                      ${LLVM_FOUND}
         LLVM_INCLUDE_DIRS               ${LLVM_INCLUDE_DIRS}
-        LLVM_CONFIG_EXECUTABLE          ${LLVM_CONFIG_EXECUTABLE}
+        LLVM_LIBRARY_DIRS               ${LLVM_LIBRARY_DIRS}
+        LLVM_LDFLAGS                    ${LLVM_LDFLAGS}
+        LLVM_LIBRARIES                  ${LLVM_LIBRARIES}
+        LLVM_FLAGS                      ${LLVM_FLAGS}
+        LLVM_VERSION_MAJOR              ${LLVM_VERSION_MAJOR}
+        LLVM_VERSION_MINOR              ${LLVM_VERSION_MINOR}
+        LLVM_VERSION_PATCH              ${LLVM_VERSION_PATCH}
+
         BUILD_LLVM                      ${BUILD_LLVM}
         DOWNLOAD_LLVM_BINARIES          ${DOWNLOAD_LLVM_BINARIES}
         LLVM_ROOT                       ${LLVM_ROOT}
@@ -64,22 +73,54 @@ Dependencies
 
     clapack:
         CLAPACK_SOURCE_DIR              ${CLAPACK_SOURCE_DIR}
+        CLAPACK_INSTALL_PREFIX          ${CLAPACK_INSTALL_PREFIX}
         CLAPACK_INCLUDE_DIR             ${CLAPACK_INCLUDE_DIR}
         CLAPACK_STATIC_LIBRARY          ${CLAPACK_STATIC_LIBRARY}
+        BLAS_STATIC_LIBRARY             ${BLAS_STATIC_LIBRARY}
+        F2C_STATIC_LIBRARY              ${F2C_STATIC_LIBRARY}
+        CLAPACK_STATIC_LIBRARIES        ${CLAPACK_STATIC_LIBRARIES}
+
     libsbml:
         LIBSBML_SOURCE_DIR              ${LIBSBML_SOURCE_DIR}
         LIBSBML_INSTALL_PREFIX          ${LIBSBML_INSTALL_PREFIX}
         LIBSBML_INCLUDE_DIR             ${LIBSBML_INCLUDE_DIR}
         LIBSBML_STATIC_LIBRARY          ${LIBSBML_STATIC_LIBRARY}
-        LIBSBML_LIBRARY                 ${LIBSBML_LIBRARY}
+
     poco:
         POCO_SOURCE_DIR                 ${POCO_SOURCE_DIR}
-        POCO_STATIC_LIBRARY             ${POCO_STATIC_LIBRARY}
+        POCO_INSTALL_PREFIX             ${POCO_INSTALL_PREFIX}
         POCO_INCLUDE_DIR                ${POCO_INCLUDE_DIR}
+        POCO_FOUNDATION_STATIC_LIBRARY  ${POCO_FOUNDATION_STATIC_LIBRARY}
+        POCO_NET_STATIC_LIBRARY         ${POCO_NET_STATIC_LIBRARY}
+        POCO_UTIL_STATIC_LIBRARY        ${POCO_UTIL_STATIC_LIBRARY}
+        POCO_XML_STATIC_LIBRARY         ${POCO_XML_STATIC_LIBRARY}
+        POCO_ZIP_STATIC_LIBRARY         ${POCO_ZIP_STATIC_LIBRARY}
+        POCO_STATIC_LIBRARIES           ${POCO_STATIC_LIBRARIES}
+
     sundials:
         SUNDIALS_SOURCE_DIR             ${SUNDIALS_SOURCE_DIR}
+        SUNDIALS_INSTALL_PREFIX         ${SUNDIALS_INSTALL_PREFIX}
         SUNDIALS_STATIC_LIBRARY         ${SUNDIALS_STATIC_LIBRARY}
         SUNDIALS_INCLUDE_DIR            ${SUNDIALS_INCLUDE_DIR}
+        SUNDIALS_STATIC_LIBRARIES       ${SUNDIALS_STATIC_LIBRARIES}
+
+    nleq1:
+        NLEQ1_SOURCE_DIR                ${NLEQ1_SOURCE_DIR}
+        NLEQ1_INSTALL_PREFIX            ${NLEQ1_INSTALL_PREFIX}
+        NLEQ1_STATIC_LIBRARY            ${NLEQ1_STATIC_LIBRARY}
+        NLEQ1_INCLUDE_DIR               ${NLEQ1_INCLUDE_DIR}
+
+    nleq1:
+        NLEQ2_SOURCE_DIR                ${NLEQ2_SOURCE_DIR}
+        NLEQ2_INSTALL_PREFIX            ${NLEQ2_INSTALL_PREFIX}
+        NLEQ2_STATIC_LIBRARY            ${NLEQ2_STATIC_LIBRARY}
+        NLEQ2_INCLUDE_DIR               ${NLEQ2_INCLUDE_DIR}
+
+    rr-libstruct:
+        RR_LIBSTRUCT_DIR                ${RR_LIBSTRUCT_DIR}
+        RR_LIBSTRUCT_INSTALL_PREFIX     ${RR_LIBSTRUCT_INSTALL_PREFIX}
+        RR_LIBSTRUCT_STATIC_LIBRARY     ${RR_LIBSTRUCT_STATIC_LIBRARY}
+        RR_LIBSTRUCT_INCLUDE_DIR        ${RR_LIBSTRUCT_INCLUDE_DIR}
 
 End Summary
 ########################################################################################
