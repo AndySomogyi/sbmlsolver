@@ -294,6 +294,9 @@ if (BUILD_LEGACY_C)
             )
 endif (BUILD_LEGACY_C)
 
+##############################################################
+#   Build the static library
+#
 
 #Link with static libs
 add_library(${target}-static STATIC ${rrSources})
@@ -304,27 +307,45 @@ set_target_properties(${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION
 add_dependencies(${target}-static all-dependencies)
 
 
-# TODO figure out what this does
+if (WIN32)
+    # See rrExporter for why we need STATIC_RR when building static lib.
+    set_target_properties(${target}-static
+            PROPERTIES COMPILE_FLAGS -DSTATIC_RR)
+
+    # set msvc runtime
+    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set_property(TARGET ${target}-static PROPERTY
+                MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
+    elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+        set_property(TARGET ${target}-static PROPERTY
+                MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    else ()
+        message(FATAL_ERROR "Only Debug and Release configurations are supported")
+    endif ()
+
+endif ()
+
+
 #  I got a successful compile with only libsbml namespace.
 #  Leave it like this until you have a reason to uncommment
 set_property(TARGET ${target}-static
         PROPERTY COMPILE_DEFINITIONS
         LIBSBML_USE_CPP_NAMESPACE
+        STATIC_RR
+        #        LIBSBML_STATIC
+        #        LIBLAX_STATIC
+        #        STATIC_LIBSTRUCT
+        #        STATIC_PUGI
+        #        STATIC_NLEQ1
+        #        STATIC_NLEQ2
+        #        POCO_STATIC
         )
-#        STATIC_RR
-#        LIBSBML_STATIC
-#        LIBLAX_STATIC
-#        STATIC_LIBSTRUCT
-#        STATIC_PUGI
-#        STATIC_NLEQ1
-#        STATIC_NLEQ2
-#        POCO_STATIC
-#        POCO_NO_AUTOMATIC_LIBS
-#        )
 
 
 set(LINK_LIBRARIES
-        ${SUNDIALS_LIBRARIES}
+        ${LIBSBML_DEPENDENCIES_LIBRARIES}
+        ${LIBSBML_STATIC_LIBRARY}
+        ${SUNDIALS_STATIC_LIBRARIES}
         ${CLAPACK_STATIC_LIBRARIES}
         ${NLEQ1_STATIC_LIBRARY}
         ${NLEQ2_STATIC_LIBRARY}
@@ -332,6 +353,8 @@ set(LINK_LIBRARIES
         ${POCO_STATIC_LIBRARIES}
         ${LLVM_LIBRARIES}
         )
+# make available to parent
+set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
 
 target_link_libraries(${target}-static ${LINK_LIBRARIES})
 
@@ -346,6 +369,7 @@ set(INCLUDE_DIRECTORIES
         ${SUNDIALS_INCLUDE_DIR}
         ${LLVM_INCLUDE_DIRS}
         )
+set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
 
 
@@ -355,6 +379,27 @@ if (BUILD_SHARED_LIBS)
     set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
     add_dependencies(${target} all-dependencies)
 
+    if (WIN32)
+        # EXPORT_RR - on windows we want EXPORT_RR defined when compiling roadrunner
+        # /EHsc (see https://docs.microsoft.com/en-us/cpp/build/reference/eh-exception-handling-model?view=vs-2019):
+        #   - EH = Exception Handling
+        #   - s = Enables standard C++ stack unwinding
+        #   - c =  assumes that functions declared as extern "C" never throw a C++ exception.
+        add_definitions(-DEXPORT_RR /EHsc)
+
+        # set msvc runtime
+        if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+            set_property(TARGET ${target} PROPERTY
+                    MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+        elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+            set_property(TARGET ${target} PROPERTY
+                    MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+        else ()
+            message(FATAL_ERROR "Only Debug and Release configurations are supported")
+        endif ()
+
+
+    endif ()
     set_property(TARGET ${target}
             PROPERTY COMPILE_DEFINITIONS
             EXPORT_RR
@@ -371,15 +416,14 @@ if (BUILD_SHARED_LIBS)
 
     if (UNIX)
         list(APPEND LINK_LIBRARIES "pthread" "dl")
-#        set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl)
     elseif (WIN32)
         list(APPEND LINK_LIBRARIES "ws2_32" "iphlpapi")
-#        set(LINK_LIBRARIES "${LINK_LIBRARIES} ws2_32 iphlpapi")
-    endif (UNIX)
+    elseif (APPLE)
+        # sad face =[
+    endif ()
 
     target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
     target_link_libraries(${target} PRIVATE ${LINK_LIBRARIES})
-
 
     if (${INSTALL_CXX_API})
         install(TARGETS ${target}

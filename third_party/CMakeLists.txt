@@ -17,6 +17,7 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${NLEQ1_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 
 ExternalProject_Add(
@@ -26,6 +27,7 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${NLEQ2_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 
 # clapack3.2.1
@@ -36,6 +38,7 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${CLAPACK_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
         -DCLAPACK_INCLUDE_DIR=${CLAPACK_INCLUDE_DIR}
         -DLIBSBML_INCLUDE_DIR=${LIBSBML_INCLUDE_DIR}
 )
@@ -48,6 +51,7 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/dependencies
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 
 
@@ -59,7 +63,8 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        -DLIBSBML_USE_CPP_NAMESPACE=ON
+        -DWITH_CPP_NAMESPACE=ON
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
         DEPENDS libsbml_dependencies
 )
 
@@ -76,6 +81,7 @@ ExternalProject_Add(
         # These should default to the correct location inside rr-libstruct anyway
         -DLIBSBML_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
         -DCLAPACK_INSTALL_PREFIX=${CLAPACK_INSTALL_PREFIX}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 add_dependencies(rr-libstruct libsbml clapack)
 
@@ -87,6 +93,9 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${POCO_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DFoundation_EXPORTS=ON
+
 )
 
 # sundials
@@ -97,6 +106,7 @@ ExternalProject_Add(
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${SUNDIALS_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 
 add_custom_target(all-dependencies)

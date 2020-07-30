@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.17)
 project(rr)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
@@ -25,7 +25,7 @@ include(LocateVcpkg)
 # but it can get quite long so I like to put it out of sight.
 include(ConfigurationSummary)
 
-# a macro for locating the vcpkg dependencies
+# a macro for isolating the code for finding dependencies
 include(FindDependencies)
 
 # function for locating llvm
@@ -94,7 +94,8 @@ option(RR_BUILD_SHARED_CORE "Build RoadRunner Core Shared library" ON)
 option(BUILD_TESTS "Build the SBML C API test suite" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" ON)
 option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
-OPTION(USE_POCO_NET "Use poco net library" ON)
+option(USE_POCO_NET "Use poco net library" ON)
+option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
 
 ##################################################
 #   Settings derived from options
@@ -195,6 +196,8 @@ else ()
 endif (BUILD_LEGACY_C)
 
 
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
 #####################################################
 #    Apply project/compiler settings
 #
@@ -208,6 +211,9 @@ if (RR_USE_CXX14)
     endif ()
 endif ()
 
+# We always want LIBSBML_USE_CPP_NAMESPACE to be on
+add_definitions(-DLIBSBML_USE_CPP_NAMESPACE=ON)
+
 if (${MSVC})
     add_definitions(
             -DPOCO_NO_AUTOMATIC_LIBS
@@ -215,13 +221,18 @@ if (${MSVC})
             -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
     )
 
-    #  4251 About exporting std classes
-    #  4018 Comparing unsigned/signed ints
-    #  4996 Deprecated functions
-    add_definitions("/wd4251 /wd4018 /wd4996 /nologo")
+    # 4251 About exporting std classes
+    # 4018 Comparing unsigned/signed ints
+    # 4996 Deprecated functions
+    # EHsc
+    #   - https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4530?view=vs-2019
+    #   - Fixes the compiler warning:
+    #       - C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\ostream(747):
+    #         warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
+    #
+    add_definitions("/wd4251 /wd4018 /wd4996 /EHsc")
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc ")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
+    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 endif ()
 
@@ -229,15 +240,15 @@ if (${MINGW})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
 
-if (${BORLAND})
-    add_definitions(
-            -DUSE_PCH                   #Enable pre-compiled headers
-            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-            -w-8012                     #Comparing signed /unsigned
-            -w-8057                     #Parameter never used
-            -w-8004                     #'var' is assigned a value that is never used
-    )
-endif ()
+#if (${BORLAND})
+#    add_definitions(
+#            -DUSE_PCH                   #Enable pre-compiled headers
+#            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+#            -w-8012                     #Comparing signed /unsigned
+#            -w-8057                     #Parameter never used
+#            -w-8004                     #'var' is assigned a value that is never used
+#    )
+#endif ()
 
 
 if (UNIX)
@@ -251,222 +262,13 @@ endif ()
 ####################################################
 #   Dependencies
 
-# We begin by setting some paths. These are in predictable locations
-# dependencies are embedded.
+# We begin by setting some paths.
 
-# Root of the dependencies
-set(THIRD_PARTY_DIRECTORY "${CMAKE_SOURCE_DIR}/third_party")
-CheckDirectoryExists("third_party directory" "${THIRD_PARTY_DIRECTORY}")
+# We technically do not *need this to be a function, since it is only
+#  used once. But it improves the readability of the main build script to
+#  put the dependency locating code in a separate macro.
+FindDependencies()
 
-# clapack
-set(CLAPACK_SOURCE_DIR ${THIRD_PARTY_DIRECTORY}/clapack3.2.1)
-CheckDirectoryExists("clapack" "${CLAPACK_SOURCE_DIR}")
-set(CLAPACK_INSTALL_PREFIX "${CLAPACK_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
-# Note: Technically these dependencies are in a predictable location, so
-# find_* functions might be overkill here. But, this way allows users
-# produce their own version of the dependency by passing in *_INSTALL_PREFIX.
-find_library(CLAPACK_STATIC_LIBRARY
-        NAMES
-        liblapack${CMAKE_STATIC_LIBRARY_SUFFIX}
-        lapack${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${CLAPACK_INSTALL_PREFIX}/lib
-        )
-find_library(BLAS_STATIC_LIBRARY
-        NAMES
-        libblas${CMAKE_STATIC_LIBRARY_SUFFIX}
-        blas${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${CLAPACK_INSTALL_PREFIX}/lib
-        )
-find_library(F2C_STATIC_LIBRARY
-        NAMES
-        libf2c${CMAKE_STATIC_LIBRARY_SUFFIX}
-        f2c${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${CLAPACK_INSTALL_PREFIX}/lib
-        )
-
-set(CLAPACK_STATIC_LIBRARIES
-        ${CLAPACK_STATIC_LIBRARY}
-        ${BLAS_STATIC_LIBRARY}
-        ${F2C_STATIC_LIBRARY})
-
-find_path(CLAPACK_INCLUDE_DIR
-        NAMES clapack/clapack.h
-        HINTS ${CLAPACK_INSTALL_PREFIX}/include
-        )
-
-
-# libsbml (dependencies already taken care of)
-set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
-CheckDirectoryExists("libsbml source" "${LIBSBML_SOURCE_DIR}")
-
-set(LIBSBML_INSTALL_PREFIX "${LIBSBML_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
-find_library(LIBSBML_STATIC_LIBRARY
-        NAMES
-        libsbml${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sbml${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${LIBSBML_INSTALL_PREFIX}/lib
-        )
-
-find_path(LIBSBML_INCLUDE_DIR
-        NAMES sbml/SBMLTypes.h
-        HINTS ${LIBSBML_INSTALL_PREFIX}/include
-        )
-
-# poco
-set(POCO_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/poco_1.5.3")
-CheckDirectoryExists("poco source" "${POCO_SOURCE_DIR}")
-set(POCO_INSTALL_PREFIX "${POCO_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
-find_library(POCO_FOUNDATION_STATIC_LIBRARY
-        NAMES
-        libPocoFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
-        PocoFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${POCO_INSTALL_PREFIX}/lib
-        )
-find_library(POCO_NET_STATIC_LIBRARY
-        NAMES
-        libPocoNet${CMAKE_STATIC_LIBRARY_SUFFIX}
-        PocoNet${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${POCO_INSTALL_PREFIX}/lib
-        )
-find_library(POCO_UTIL_STATIC_LIBRARY
-        NAMES
-        libPocoUtil${CMAKE_STATIC_LIBRARY_SUFFIX}
-        PocoUtil${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${POCO_INSTALL_PREFIX}/lib
-        )
-find_library(POCO_XML_STATIC_LIBRARY
-        NAMES
-        libPocoXML${CMAKE_STATIC_LIBRARY_SUFFIX}
-        PocoXML${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${POCO_INSTALL_PREFIX}/lib
-        )
-find_library(POCO_ZIP_STATIC_LIBRARY
-        NAMES
-        libPocoZip${CMAKE_STATIC_LIBRARY_SUFFIX}
-        PocoZip${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${POCO_INSTALL_PREFIX}/lib
-        )
-
-set(POCO_STATICLIBRARIES
-        ${POCO_FOUNDATION_STATIC_LIBRARY}
-        ${POCO_NET_STATIC_LIBRARY}
-        ${POCO_UTIL_STATIC_LIBRARY}
-        ${POCO_XML_STATIC_LIBRARY}
-        ${POCO_ZIP_STATIC_LIBRARY}
-        )
-
-find_path(POCO_INCLUDE_DIR
-        NAMES Poco/Poco.h
-        HINTS ${POCO_INSTALL_PREFIX}/include
-        )
-
-
-# Sundials
-set(SUNDIALS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/sundials")
-CheckDirectoryExists("sundials source" "${SUNDIALS_SOURCE_DIR}")
-set(SUNDIALS_INSTALL_PREFIX "${SUNDIALS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
-find_library(SUNDIALS_CVODE_STATIC_LIBRARY
-        NAMES
-        libsundials_cvode${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sundials_cvode${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
-        )
-
-find_library(SUNDIALS_CVODES_STATIC_LIBRARY
-        NAMES
-        libsundials_cvodes${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sundials_cvodes${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
-        )
-
-find_library(SUNDIALS_IDA_STATIC_LIBRARY
-        NAMES
-        libsundials_ida${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sundials_ida${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
-        )
-
-find_library(SUNDIALS_IDAS_STATIC_LIBRARY
-        NAMES
-        libsundials_idas${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sundials_idas${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
-        )
-
-find_library(SUNDIALS_KINSOL_STATIC_LIBRARY
-        NAMES
-        libsundials_kinsol${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sundials_kinsol${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
-        )
-
-find_library(SUNDIALS_NVECSERIAL_STATIC_LIBRARY
-        NAMES
-        libsundials_nvecserial${CMAKE_STATIC_LIBRARY_SUFFIX}
-        sundials_nvecserial${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
-        )
-
-find_path(SUNDIALS_INCLUDE_DIR
-        NAMES cvode/cvode.h
-        HINTS ${SUNDIALS_INSTALL_PREFIX}/include
-        )
-
-set(SUNDIALS_STATICLIBRARIES
-        ${SUNDIALS_CVODE_STATIC_LIBRARY}
-        ${SUNDIALS_CVODES_STATIC_LIBRARY}
-        ${SUNDIALS_IDA_STATIC_LIBRARY}
-        ${SUNDIALS_IDAS_STATIC_LIBRARY}
-        ${SUNDIALS_KINSOL_STATIC_LIBRARY}
-        ${SUNDIALS_NVECSERIAL_STATIC_LIBRARY}
-        )
-
-# nleq1
-set(NLEQ1_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/nleq1")
-set(NLEQ1_INSTALL_PREFIX "${NLEQ1_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-find_library(NLEQ1_STATIC_LIBRARY
-        NAMES
-        libnleq1-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-        nleq1-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${NLEQ1_INSTALL_PREFIX}/lib
-        )
-find_path(NLEQ1_INCLUDE_DIR
-        NAMES nleq1/nleq1.h
-        HINTS ${NLEQ1_INSTALL_PREFIX}/include
-        )
-
-
-# nleq2
-set(NLEQ2_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/nleq2")
-set(NLEQ2_INSTALL_PREFIX "${NLEQ2_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-find_library(NLEQ2_STATIC_LIBRARY
-        NAMES
-        libnleq2-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-        nleq2-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${NLEQ2_INSTALL_PREFIX}/lib
-        )
-find_path(NLEQ2_INCLUDE_DIR
-        NAMES nleq2/nleq2.h
-        HINTS ${NLEQ2_INSTALL_PREFIX}/include
-        )
-
-# rr-libstruct
-set(RR_LIBSTRUCT_DIR "${THIRD_PARTY_DIRECTORY}/rr-libstruct")
-set(RR_LIBSTRUCT_INSTALL_PREFIX "${RR_LIBSTRUCT_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-find_library(RR_LIBSTRUCT_STATIC_LIBRARY
-        NAMES
-        librr-libstruct-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-        rr-libstruct-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS ${RR_LIBSTRUCT_INSTALL_PREFIX}/lib
-        )
-find_path(RR_LIBSTRUCT_INCLUDE_DIR
-        NAMES rr-libstruct/lsMatrix.h
-        HINTS ${RR_LIBSTRUCT_INSTALL_PREFIX}/include
-        )
 # handle the LLVM dependency
 if (${LLVM_INSTALL_PREFIX})
     # This is the preferred way to handle the LLVM dependency.
@@ -545,6 +347,71 @@ add_subdirectory(third_party)
 
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
+
+# install the rr_support if building legacy c
+if(BUILD_LEGACY_C)
+    add_subdirectory(rr_support)
+endif(BUILD_LEGACY_C)
+
+##########################################################
+# Build tests
+
+
+if(BUILD_TESTS AND BUILD_TEST_TOOLS)
+#    message(STATUS "building tests")
+#    file (GLOB TEST_FILES "testing/*" )
+#
+#    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
+#    list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
+#
+#    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+#
+#    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+#
+#    foreach( f ${TEST_FILES} )
+#        if(NOT IS_DIRECTORY ${f})
+#            get_filename_component( FILE_NAME ${f} NAME )
+#            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
+#            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
+#        endif()
+#    endforeach()
+#
+#    foreach( f ${PYTHON_TEST_DATA} )
+#        if(NOT IS_DIRECTORY ${f})
+#            get_filename_component( FILE_NAME ${f} NAME )
+#            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+#        endif()
+#    endforeach()
+#
+#    foreach( f ${TEST_DATA_XML} )
+#        if(NOT IS_DIRECTORY ${f})
+#            get_filename_component( FILE_NAME ${f} NAME )
+#            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+#        endif()
+#    endforeach()
+#
+#    add_subdirectory(testing)
+#    add_subdirectory(autotest)
+else()
+    message(STATUS "NOT building tests")
+endif()
+
+
+##################################################
+#   Build wrappers etc
+
+
+#if(INSTALL_CXX_API)
+#    if(INSTALL_APPS)
+#        add_subdirectory(apps)
+#    endif()
+#
+#    if(INSTALL_EXAMPLES)
+#        add_subdirectory(examples)
+#    endif()
+#endif(INSTALL_CXX_API)
+#
+#add_subdirectory(wrappers)
 
 # print out the configuration summary
 ConfigurationSummary()
