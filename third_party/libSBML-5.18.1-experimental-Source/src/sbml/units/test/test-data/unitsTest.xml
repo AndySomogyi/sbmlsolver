@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
+  <model timeUnits="second">
+    <listOfUnitDefinitions>
+      <unitDefinition id="m_per_sec">
+        <listOfUnits>
+          <unit kind="metre"/>
+          <unit kind="second" exponent="-1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfParameters>
+      <parameter id="k" units="metre" constant="false"/>
+      <parameter id="b" units="second" constant="false" value="2"/>
+      <parameter id="k1" units="metre"/>
+      <parameter id="k2" units="m_per_sec"/>
+      <parameter id="k3" units="m_per_sec"/>
+      <parameter id="a" units="dimensionless" constant="false" value="3.5"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="k1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <rem/>
+            <ci> k </ci>
+            <ci> b </ci>
+            
+          </apply>
+        </math>       
+      </assignmentRule>
+      <assignmentRule variable="k2">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <quotient/>
+            <ci> k </ci>
+            <ci> b </ci>
+            
+          </apply>
+        </math>       
+      </assignmentRule>
+      <assignmentRule variable="k3">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/rateOf"> rateOf </csymbol>
+            <ci> k </ci>
+          </apply>
+        </math>       
+      </assignmentRule>
+    </listOfRules>
+  </model>
+</sbml>
