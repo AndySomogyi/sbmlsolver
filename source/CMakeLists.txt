@@ -98,10 +98,6 @@ set(rrCoreSources
         conservation/ConservationDocumentPlugin.cpp
         conservation/ConservedMoietyPlugin.cpp
         conservation/ConservedMoietyConverter.cpp
-        testing/CXXExecutableModel.cpp
-        testing/CXXEnzymeExecutableModel.cpp
-        testing/CXXBrusselatorExecutableModel.cpp
-        testing/CXXPiecewiseExecutableModel.cpp
         rrConfig.h
         rrSteadyStateSolver.h
         rrConstants.h
@@ -145,10 +141,10 @@ set(rrCoreSources
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
-        testing/CXXExecutableModel.h
-        testing/CXXEnzymeExecutableModel.h
-        testing/CXXBrusselatorExecutableModel.h
-        testing/CXXPiecewiseExecutableModel.h
+        testing/CXXExecutableModel.cpp
+        testing/CXXEnzymeExecutableModel.cpp
+        testing/CXXBrusselatorExecutableModel.cpp
+        testing/CXXPiecewiseExecutableModel.cpp
         )
 
 set(rrSources ${rrCoreSources})
@@ -229,10 +225,14 @@ if (BUILD_LLVM)
             llvm/Random.h
             )
 
-    # set up appropriate flags for using LLVM
-    if (LLVM_FLAGS)
-        set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
+    if (NOT LLVM_FLAGS)
+        message(FATAL_ERROR "No LLVM_FLAGS variable found")
     endif ()
+    # Don't use add_definitions for LLVM flags per http://stackoverflow.com/questions/13638408/cmake-override-compile-flags-for-single-files
+    # Line below kept commented out on purpose - we don't want this.
+    #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
+    # set up appropriate flags for using LLVM
+    set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
     set(rrSources ${rrSources} ${rrLLVMSources})
 endif (BUILD_LLVM)
@@ -341,22 +341,176 @@ set_property(TARGET ${target}-static
         #        POCO_STATIC
         )
 
-
+# Order matters for linux builds. Do not change.
 set(LINK_LIBRARIES
-        ${LIBSBML_DEPENDENCIES_LIBRARIES}
+        ${RR_LIBSTRUCT_STATIC_LIBRARY}
         ${LIBSBML_STATIC_LIBRARY}
         ${SUNDIALS_STATIC_LIBRARIES}
-        ${CLAPACK_STATIC_LIBRARIES}
-        ${NLEQ1_STATIC_LIBRARY}
         ${NLEQ2_STATIC_LIBRARY}
-        ${RR_LIBSTRUCT_STATIC_LIBRARY}
+        ${NLEQ1_STATIC_LIBRARY}
+        ${CLAPACK_STATIC_LIBRARIES}
         ${POCO_STATIC_LIBRARIES}
         ${LLVM_LIBRARIES}
+        ${ZLIB_STATIC_LIBRARY}
+        ${LIBBZ2_STATIC_LIBRARY}
+        ${LIBXML2_STATIC_LIBRARY}
+
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64AsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64AsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64CodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64Desc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64Disassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64Info.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAArch64Utils.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAMDGPUUtils.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMARMUtils.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAnalysis.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBPFAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBPFAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBPFCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBPFDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBPFDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBPFInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBinaryFormat.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBitReader.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMBitWriter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMCore.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMCoroutines.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMCoverage.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMDebugInfoCodeView.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMDebugInfoDWARF.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMDebugInfoMSF.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMDebugInfoPDB.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMDemangle.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMDlltoolDriver.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMExecutionEngine.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMFuzzMutate.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMGlobalISel.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMHexagonAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMHexagonCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMHexagonDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMHexagonDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMHexagonInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMIRReader.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMInstCombine.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMInstrumentation.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMInterpreter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLTO.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLanaiAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLanaiAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLanaiCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLanaiDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLanaiDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLanaiInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLibDriver.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLineEditor.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMLinker.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMC.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMCDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMCJIT.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMCParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMIRParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMSP430AsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMSP430CodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMSP430Desc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMSP430Info.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMipsAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMipsAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMipsCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMipsDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMipsDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMMipsInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMNVPTXAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMNVPTXCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMNVPTXDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMNVPTXInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMObjCARCOpts.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMObject.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMObjectYAML.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMOption.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMOrcJIT.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPasses.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPowerPCAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPowerPCAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPowerPCCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPowerPCDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPowerPCDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMPowerPCInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMProfileData.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMRuntimeDyld.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMScalarOpts.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSelectionDAG.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSparcAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSparcAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSparcCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSparcDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSparcDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSparcInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSupport.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSymbolize.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSystemZAsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSystemZAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSystemZCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSystemZDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSystemZDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSystemZInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMTableGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMTarget.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMTransformUtils.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMVectorize.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMWindowsManifest.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86AsmParser.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86AsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86CodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86Desc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86Disassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86Info.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMX86Utils.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMXCoreAsmPrinter.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMXCoreCodeGen.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMXCoreDesc.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMXCoreDisassembler.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMXCoreInfo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMXRay.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMipo.a
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLTO.so
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLTO.so.6
+        /mnt/d/LLVM6.0.1/install-gcc7/lib/libLTO.so.6.0.1
         )
+
+# Extra platform specific libraries
+# These were not needed to actually build roadrunner binaries
+# but linking the tests fails without them.
+if (UNIX)
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m icui18n icuuc lzma)
+elseif (WIN32)
+
+elseif (APPLE)
+
+endif ()
+
+
 # make available to parent
 set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
 
 target_link_libraries(${target}-static ${LINK_LIBRARIES})
+
+message(STATUS "LLVM_INCLUDE_DIRS ${LLVM_INCLUDE_DIRS}")
 
 set(INCLUDE_DIRECTORIES
         ${CMAKE_CURRENT_SOURCE_DIR}

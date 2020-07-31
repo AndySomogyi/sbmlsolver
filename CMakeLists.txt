@@ -174,16 +174,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 if (BUILD_LLVM)
-    #    message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
-    #
-    #    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
-    #    message(STATUS "LLVM_FLAGS: ${LLVM_FLAGS}")
-    #    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
-    #    message(STATUS "LLVM_LIBRARY_DIRS: ${LLVM_LIBRARY_DIRS}")
+    # todo needed?
     add_definitions(-DBUILD_LLVM)
-    # Don't use add_definitions for LLVM flags per http://stackoverflow.com/questions/13638408/cmake-override-compile-flags-for-single-files
-    #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
-    #    include_directories(BEFORE ${LLVM_INCLUDE_DIRS})
 else ()
     message(STATUS "NOT using LLVM")
 endif (BUILD_LLVM)
@@ -211,8 +203,6 @@ if (RR_USE_CXX14)
     endif ()
 endif ()
 
-# We always want LIBSBML_USE_CPP_NAMESPACE to be on
-add_definitions(-DLIBSBML_USE_CPP_NAMESPACE=ON)
 
 if (${MSVC})
     add_definitions(
@@ -286,7 +276,23 @@ if (${LLVM_INSTALL_PREFIX})
     if (NOT EXISTS ${LLVM_CONFIG})
         message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
     endif ()
+
+    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
+        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
+    endif ()
     message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
+
+    # Use the propper LLVM supplied CMake files.
+    # prepend the cmake module path with the LLVM modules
+    set(CMAKE_MODULE_PATH "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" ${CMAKE_MODULE_PATH})
+
+    include(LLVMConfig)
+
+    # we're building a JIT compiler with support for binary code (no interpreter):
+    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
+    # to link with.
+    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
+
 
 else (${LLVM_INSTALL_PREFIX})
     # But we can fall back and download binaries or build from source as well
@@ -349,52 +355,78 @@ add_subdirectory(third_party)
 add_subdirectory(source)
 
 # install the rr_support if building legacy c
-if(BUILD_LEGACY_C)
+if (BUILD_LEGACY_C)
     add_subdirectory(rr_support)
-endif(BUILD_LEGACY_C)
+endif (BUILD_LEGACY_C)
 
 ##########################################################
 # Build tests
 
+if (BUILD_TESTS AND BUILD_TEST_TOOLS)
 
-if(BUILD_TESTS AND BUILD_TEST_TOOLS)
-#    message(STATUS "building tests")
-#    file (GLOB TEST_FILES "testing/*" )
-#
-#    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
-#    list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
-#
-#    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
-#
-#    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
-#
-#    foreach( f ${TEST_FILES} )
-#        if(NOT IS_DIRECTORY ${f})
-#            get_filename_component( FILE_NAME ${f} NAME )
-#            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
-#            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
-#        endif()
-#    endforeach()
-#
-#    foreach( f ${PYTHON_TEST_DATA} )
-#        if(NOT IS_DIRECTORY ${f})
-#            get_filename_component( FILE_NAME ${f} NAME )
-#            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
-#        endif()
-#    endforeach()
-#
-#    foreach( f ${TEST_DATA_XML} )
-#        if(NOT IS_DIRECTORY ${f})
-#            get_filename_component( FILE_NAME ${f} NAME )
-#            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
-#        endif()
-#    endforeach()
-#
-#    add_subdirectory(testing)
-#    add_subdirectory(autotest)
-else()
+    # I really have no idea what this code is doing. (cw)
+    # This code comes with no comments, so i'll add some as I'm
+    # trying to figure out what its doing
+    message(STATUS "building tests")
+
+    # Collect a list of all files inside "testing" folder.
+    # This includes CMakeLists.txt for some reason.
+    file(GLOB TEST_FILES "testing/*")
+
+    MESSAGE(STATUS "TEST_FILES ${TEST_FILES}")
+
+    # Collect the set of Python test files.
+    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
+
+    MESSAGE(STATUS "PYTHON_TEST_FILES ${PYTHON_TEST_FILES}")
+
+    # and combine the two list of test files
+    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
+
+    # Collect all python and xml test data
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+
+    # Oh, I think I see what has happened here.
+    # This code makes a copy of each test fle, both python and otherwise
+    foreach (f ${TEST_FILES})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            message(STATUS ${FILE_NAME})
+            # This command copies into the main testing directory under project root.
+            # Dont know why though.
+            # Could be that somebody just committed these files and they havent been deleted.
+            configure_file(${f} testing/${FILE_NAME} COPYONLY)
+
+            # Uncertain why these have been copied here. Presumably its only the Python files
+            # That need to go into a site packages directory, though still no idea
+            # Why a site packages directory is needed. Also, I still havent found this
+            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
+
+    foreach (f ${PYTHON_TEST_DATA})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
+
+    foreach (f ${TEST_DATA_XML})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
+
+    # I don't understand. The testing directory doesn't build anything???
+    add_subdirectory(testing)
+    add_subdirectory(autotest)
+    add_subdirectory(source/testing)
+else ()
     message(STATUS "NOT building tests")
-endif()
+endif ()
 
 
 ##################################################
@@ -410,7 +442,7 @@ endif()
 #        add_subdirectory(examples)
 #    endif()
 #endif(INSTALL_CXX_API)
-#
+
 #add_subdirectory(wrappers)
 
 # print out the configuration summary

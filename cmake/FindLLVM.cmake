@@ -80,11 +80,11 @@ message(STATUS "LLVM_CONFIG_EXECUTABLE ${LLVM_CONFIG_EXECUTABLE}")
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
 
-#    execute_process(
-#            COMMAND chmod -x ${LLVM_CONFIG_EXECUTABLE}
-#            #            OUTPUT_VARIABLE LLVM_VERSION
-#            #            OUTPUT_STRIP_TRAILING_WHITESPACE
-#    )
+    #    execute_process(
+    #            COMMAND chmod -x ${LLVM_CONFIG_EXECUTABLE}
+    #            #            OUTPUT_VARIABLE LLVM_VERSION
+    #            #            OUTPUT_STRIP_TRAILING_WHITESPACE
+    #    )
 
     execute_process(
             COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
@@ -183,37 +183,30 @@ if (LLVM_CONFIG_EXECUTABLE)
 
     # starting with LLVM 3.4 (at least on Ubuntu) it requres functions in
     # ncurses for console IO formatting. So, we find ncurses here.
+    if (UNIX)
+        #message("UNIX true")
+        message("LLVM VERSION >= 3.4, looking for curses library")
+        # sudo apt-get install libncurses5-dev libncursesw5-dev
+        find_package(Curses REQUIRED)
+        message(STATUS "curses: ${CURSES_FOUND}")
+        message(STATUS "curdir: ${CURSES_INCLUDE_DIR}")
+        message(STATUS "curlib: ${CURSES_LIBRARIES}")
+        message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
-    if (((LLVM_VERSION_MAJOR GREATER 3) OR (LLVM_VERSION_MAJOR EQUAL 3)) AND
-    (LLVM_VERSION_MINOR GREATER 4) OR (LLVM_VERSION_MINOR EQUAL 4))
-        if (UNIX)
-            #message("UNIX true")
-            message("LLVM VERSION >= 3.4, looking for curses library")
-            find_package(Curses REQUIRED)
-            message("curses: ${CURSES_FOUND}")
-            message("curdir: ${CURSES_INCLUDE_DIR}")
-            message("curlib: ${CURSES_LIBRARIES}")
-            message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
-
-            set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
+        set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
 
 
-            # LLVM 3.5 seems to require zlib, at least on OSX 10.9.
-            # no big deal to just add it on UNIX in general as it already there.
-            if (LLVM_VERSION_MINOR GREATER 4)
-                message("LLVM > 3.4, looking for zlib")
-                find_package(ZLIB REQUIRED)
-                set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${ZLIB_LIBRARY}")
-            endif ()
-            message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
-
-        else ()
-            #message("NOT UNIX")
+        # LLVM 3.5 seems to require zlib, at least on OSX 10.9.
+        # no big deal to just add it on UNIX in general as it already there.
+        if (LLVM_VERSION_MINOR GREATER 4)
+            message("LLVM > 3.4, looking for zlib")
+            find_package(ZLIB REQUIRED)
+            set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${ZLIB_LIBRARY}")
         endif ()
+        message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
-    else ()
-        #message("LLVM VERSION < 3.4")
     endif ()
+
 
     if (LLVM_INCLUDE_DIRS)
         set(LLVM_FOUND TRUE)

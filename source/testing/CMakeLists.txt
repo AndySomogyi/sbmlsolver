@@ -4,76 +4,52 @@ PROJECT(RR_CXX_API_TESTS)
 set(target cxx_api_tests)
 
 set(tests
-tests/base
-tests/sbml_test_suite
-tests/steady_state
-tests/stoichiometric
-tests/model_editing
-tests/state_saving
-)
+        tests/base
+        tests/sbml_test_suite
+        tests/steady_state
+        tests/stoichiometric
+        tests/model_editing
+        tests/state_saving
+        )
 
-add_executable( ${target} 
-main
-src/Args
-src/rrTestUtils
-${tests}
-)
+add_executable(${target}
+        main
+        src/Args
+        src/rrTestUtils
+        ${tests}
+        )
 
-set_property(TARGET ${target}  
-             PROPERTY  COMPILE_DEFINITIONS 
-LIBSBML_USE_CPP_NAMESPACE
-LIBSBML_STATIC
-STATIC_LIBSTRUCT
-STATIC_PUGI
-STATIC_RR
-STATIC_NLEQ1
-STATIC_NLEQ2
-) 
+#set(CMAKE_CXX_FLAGS "-fno-rtti ${CMAKE_CXX_FLAGS}")
 
-link_directories(
-${THIRD_PARTY_INSTALL_FOLDER}/lib
-)
+set_property(TARGET ${target}
+        PROPERTY COMPILE_DEFINITIONS
+        LIBSBML_USE_CPP_NAMESPACE
+        LIBSBML_STATIC
+        STATIC_LIBSTRUCT
+        STATIC_PUGI
+        STATIC_RR
+        STATIC_NLEQ1
+        STATIC_NLEQ2
+        )
 
-include_directories(
-src
-${RR_ROOT}
-${THIRD_PARTY_FOLDER}/unit_test/src
-)
 
-if(UNIX)
-set(staticLibPrefix ".a")
-set(sharedLibPrefix ".so")
-else()
-set(staticLibPrefix "")
-set(sharedLibPrefix "")
-endif()
+target_include_directories(${target} PRIVATE
+        src
+        ${UNIT_TEST_INCLUDE_DIR}
+        ${INCLUDE_DIRECTORIES}
+        )
 
-if(WIN32)
-target_link_libraries (${target} 
-roadrunner-static
-unit_test-static${staticLibPrefix}
-)
-endif()
 
-if(UNIX) #Don't know why static roadrunner fails....?
-target_link_libraries (${target} 
-roadrunner-static
-libunit_test-static${staticLibPrefix}
-#nleq-static.a
-#rr-libstruct-static
-lapack
-blas
-f2c
-#libsbml-static.a
-#libxml2.so
-#sundials_nvecserial.a
-#sundials_cvode.a
-#pthread
-#poco_foundation-static.a
-#dl
-)
-endif()
-
+target_link_libraries(${target} PRIVATE
+        $<TARGET_FILE:roadrunner-static>
+        ${UNIT_TEST_STATIC_LIBRARY}
+        ${LINK_LIBRARIES}
+        "/mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSupport.a"
+        )
+add_dependencies(${target} unittest roadrunner-static)
+if (UNIX)
+    target_compile_options(${target} PRIVATE -frtti)
+endif ()
 #set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
 #
 #if(${BORLAND})
@@ -95,7 +71,7 @@ endif()
 #endif()
 #
 #Message("SupportCodeFolder is: " ${supportCodeFolder})
-# Call like this -mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp -sSupportCodeFolder -lCompilerFolder
+# Call like this -mr:/rrl/models -rr:/rrl/wiki/reports/file -tr:/rrTemp -sSupportCodeFolder -lCompilerFolder
 #add_custom_command(
 #    OUTPUT ${resultsFile}
 #    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
@@ -111,15 +87,15 @@ endif()
 #
 #)
 
-install (TARGETS ${target}  		
-DESTINATION bin 
-COMPONENT testing
-)
+install(TARGETS ${target}
+        DESTINATION bin
+        COMPONENT testing
+        )
 
 install(
-FILES run_cpp_tests.bat 
-DESTINATION bin
-COMPONENT testing
+        FILES run_cpp_tests.bat
+        DESTINATION bin
+        COMPONENT testing
 )
 
 

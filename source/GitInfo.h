@@ -17,12 +17,12 @@
 
 
 static const char* getGitBranch() {
-    return "develop-ciaran";
+    return "develop";
 }
 
 
 static const char* getGitLastCommit() {
-    return "0b9e4f88286c9cc49599a06d57277d5b11df85dd";
+    return "10e615a014c5b30be1a055c2471059c7e10fbbb8";
 }
 
 #endif

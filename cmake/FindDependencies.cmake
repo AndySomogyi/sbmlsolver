@@ -17,31 +17,39 @@ macro(FindDependencies)
             liblapack${CMAKE_STATIC_LIBRARY_SUFFIX}
             lapack${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${CLAPACK_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
+
     find_library(BLAS_STATIC_LIBRARY
             NAMES
             libblas${CMAKE_STATIC_LIBRARY_SUFFIX}
             blas${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${CLAPACK_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
+
     find_library(F2C_STATIC_LIBRARY
             NAMES
             libf2c${CMAKE_STATIC_LIBRARY_SUFFIX}
             f2c${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${CLAPACK_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     set(CLAPACK_STATIC_LIBRARIES
             ${CLAPACK_STATIC_LIBRARY}
             ${BLAS_STATIC_LIBRARY}
-            ${F2C_STATIC_LIBRARY})
+            ${F2C_STATIC_LIBRARY}
+            )
 
     find_path(CLAPACK_INCLUDE_DIR
             NAMES clapack/clapack.h
             HINTS ${CLAPACK_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 
-    set(LIBSBML_DEPS_INSTALL_PREFIX "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source/dependencies")
+    set(LIBSBML_DEPS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-dependencies")
+    set(LIBSBML_DEPS_INSTALL_PREFIX "${LIBSBML_DEPS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
 
     # libsbml
     set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
@@ -54,58 +62,75 @@ macro(FindDependencies)
             libsbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             sbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${LIBSBML_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_path(LIBSBML_INCLUDE_DIR
             NAMES sbml/SBMLTypes.h
             HINTS ${LIBSBML_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 
-        # libsbml dependencies - These are not needed here for libsbml itself
+    # libsbml dependencies - These are not needed here for libsbml itself
     # as the libsbml-dependencies target is built into libsbml inside a directory
     # called dependencies. libsbml knows about this folder and uses it.
-    # However, it seems we need libsbml dependencies for creating a DLL on windows.
-    if (WIN32)
-        find_library(EXPAT_STATIC_LIBRARY
-                NAMES expat.lib
-                PATHS ${LIBSBML_INSTALL_PREFIX}/lib
-                )
+    find_library(EXPAT_STATIC_LIBRARY
+            NAMES
+            expat${CMAKE_STATIC_LIBRARY_SUFFIX}
+            libexpat${CMAKE_STATIC_LIBRARY_SUFFIX}
+            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
 
-        find_library(LIBBZ2_STATIC_LIBRARY
-                NAMES libbz2.lib
-                PATHS ${LIBSBML_INSTALL_PREFIX}/lib
-                )
+    find_library(LIBBZ2_STATIC_LIBRARY
+            NAMES
+            libbz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+            bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
 
-        find_library(LIBCHECK_STATIC_LIBRARY
-                NAMES libcheck.lib
-                PATHS ${LIBSBML_INSTALL_PREFIX}/lib
-                )
+    find_library(LIBCHECK_STATIC_LIBRARY
+            NAMES
+            libcheck${CMAKE_STATIC_LIBRARY_SUFFIX}
+            check${CMAKE_STATIC_LIBRARY_SUFFIX}
+            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
 
-        find_library(LIBICONV_STATIC_LIBRARY
-                NAMES libiconv.lib
-                PATHS ${LIBSBML_INSTALL_PREFIX}/lib
-                )
+    find_library(LIBICONV_STATIC_LIBRARY
+            NAMES
+            libiconv${CMAKE_STATIC_LIBRARY_SUFFIX}
+            iconv${CMAKE_STATIC_LIBRARY_SUFFIX}
+            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
 
-        find_library(LIBXML2_STATIC_LIBRARY
-                NAMES libxml2.lib
-                PATHS ${LIBSBML_INSTALL_PREFIX}/lib
-                )
+    find_library(LIBXML2_STATIC_LIBRARY
+            NAMES
+            libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+            xml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
 
-        find_library(ZDLL_STATIC_LIBRARY
-                NAMES zdll.lib
-                PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-                )
+    find_library(ZLIB_STATIC_LIBRARY
+            NAMES
+            zdll${CMAKE_STATIC_LIBRARY_SUFFIX}
+            libz${CMAKE_STATIC_LIBRARY_SUFFIX}
+            libzlib${CMAKE_STATIC_LIBRARY_SUFFIX}
+            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
 
-        set(LIBSBML_DEPENDENCIES_LIBRARIES
-                ${EXPAT_STATIC_LIBRARY}
-                ${LIBBZ2_STATIC_LIBRARY}
-                ${LIBCHECK_STATIC_LIBRARY}
-                ${LIBICONV_STATIC_LIBRARY}
-                ${LIBXML2_STATIC_LIBRARY}
-                ${ZDLL_STATIC_LIBRARY}
-                )
-
-    endif ()
+    set(LIBSBML_DEPENDENCIES_LIBRARIES
+            ${LIBXML2_STATIC_LIBRARY}
+            ${EXPAT_STATIC_LIBRARY}
+            ${LIBBZ2_STATIC_LIBRARY}
+            ${LIBCHECK_STATIC_LIBRARY}
+            ${LIBICONV_STATIC_LIBRARY}
+            ${ZDLL_STATIC_LIBRARY}
+            )
 
 
     # poco
@@ -118,43 +143,50 @@ macro(FindDependencies)
             libPocoFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
             PocoFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${POCO_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_library(POCO_NET_STATIC_LIBRARY
             NAMES
             libPocoNet${CMAKE_STATIC_LIBRARY_SUFFIX}
             PocoNet${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${POCO_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_library(POCO_UTIL_STATIC_LIBRARY
             NAMES
             libPocoUtil${CMAKE_STATIC_LIBRARY_SUFFIX}
             PocoUtil${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${POCO_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_library(POCO_XML_STATIC_LIBRARY
             NAMES
             libPocoXML${CMAKE_STATIC_LIBRARY_SUFFIX}
             PocoXML${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${POCO_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_library(POCO_ZIP_STATIC_LIBRARY
             NAMES
             libPocoZip${CMAKE_STATIC_LIBRARY_SUFFIX}
             PocoZip${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${POCO_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
+    # Ordering is important for linux builds.
     set(POCO_STATIC_LIBRARIES
-            ${POCO_FOUNDATION_STATIC_LIBRARY}
             ${POCO_NET_STATIC_LIBRARY}
             ${POCO_UTIL_STATIC_LIBRARY}
             ${POCO_XML_STATIC_LIBRARY}
             ${POCO_ZIP_STATIC_LIBRARY}
+            ${POCO_FOUNDATION_STATIC_LIBRARY}
             )
 
     find_path(POCO_INCLUDE_DIR
             NAMES Poco/Poco.h
             HINTS ${POCO_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 
 
@@ -168,6 +200,7 @@ macro(FindDependencies)
             libsundials_cvode${CMAKE_STATIC_LIBRARY_SUFFIX}
             sundials_cvode${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_library(SUNDIALS_CVODES_STATIC_LIBRARY
@@ -175,6 +208,7 @@ macro(FindDependencies)
             libsundials_cvodes${CMAKE_STATIC_LIBRARY_SUFFIX}
             sundials_cvodes${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_library(SUNDIALS_IDA_STATIC_LIBRARY
@@ -182,6 +216,7 @@ macro(FindDependencies)
             libsundials_ida${CMAKE_STATIC_LIBRARY_SUFFIX}
             sundials_ida${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_library(SUNDIALS_IDAS_STATIC_LIBRARY
@@ -189,6 +224,7 @@ macro(FindDependencies)
             libsundials_idas${CMAKE_STATIC_LIBRARY_SUFFIX}
             sundials_idas${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_library(SUNDIALS_KINSOL_STATIC_LIBRARY
@@ -196,6 +232,7 @@ macro(FindDependencies)
             libsundials_kinsol${CMAKE_STATIC_LIBRARY_SUFFIX}
             sundials_kinsol${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_library(SUNDIALS_NVECSERIAL_STATIC_LIBRARY
@@ -203,11 +240,13 @@ macro(FindDependencies)
             libsundials_nvecserial${CMAKE_STATIC_LIBRARY_SUFFIX}
             sundials_nvecserial${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${SUNDIALS_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
 
     find_path(SUNDIALS_INCLUDE_DIR
             NAMES cvode/cvode.h
             HINTS ${SUNDIALS_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 
     set(SUNDIALS_STATIC_LIBRARIES
@@ -227,10 +266,12 @@ macro(FindDependencies)
             libnleq1-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             nleq1-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${NLEQ1_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_path(NLEQ1_INCLUDE_DIR
             NAMES nleq1/nleq1.h
             HINTS ${NLEQ1_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 
 
@@ -242,10 +283,12 @@ macro(FindDependencies)
             libnleq2-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             nleq2-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${NLEQ2_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_path(NLEQ2_INCLUDE_DIR
             NAMES nleq2/nleq2.h
             HINTS ${NLEQ2_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 
     # rr-libstruct
@@ -256,9 +299,27 @@ macro(FindDependencies)
             librr-libstruct-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             rr-libstruct-static${CMAKE_STATIC_LIBRARY_SUFFIX}
             HINTS ${RR_LIBSTRUCT_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
             )
     find_path(RR_LIBSTRUCT_INCLUDE_DIR
             NAMES rr-libstruct/lsMatrix.h
             HINTS ${RR_LIBSTRUCT_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
+            )
+
+    # unittest
+    set(UNIT_TEST_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/unit_test")
+    set(UNIT_TEST_INSTALL_PREFIX "${UNIT_TEST_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+    find_library(UNIT_TEST_STATIC_LIBRARY
+            NAMES
+            libunit_test-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+            unit_test-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+            HINTS ${UNIT_TEST_INSTALL_PREFIX}/lib
+            NO_DEFAULT_PATH
+            )
+    find_path(UNIT_TEST_INCLUDE_DIR
+            NAMES unit_test/Test.h
+            HINTS ${UNIT_TEST_INSTALL_PREFIX}/include
+            NO_DEFAULT_PATH
             )
 endmacro()

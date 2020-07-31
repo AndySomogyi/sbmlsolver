@@ -49,7 +49,7 @@ ExternalProject_Add(
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies
         LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/logs-${CMAKE_CXX_COMPILER_ID}
         CMAKE_ARGS
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/dependencies
+        -DCMAKE_INSTALL_PREFIX=${LIBSBML_DEPS_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
@@ -61,6 +61,7 @@ ExternalProject_Add(
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source
         LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/logs-${CMAKE_CXX_COMPILER_ID}
         CMAKE_ARGS
+        -DLIBSBML_DEPENDENCY_DIR=${LIBSBML_DEPS_INSTALL_PREFIX}
         -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DWITH_CPP_NAMESPACE=ON
@@ -109,6 +110,17 @@ ExternalProject_Add(
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 
+# unit_test
+ExternalProject_Add(
+        unittest
+        SOURCE_DIR ${UNIT_TEST_SOURCE_DIR}
+        LOG_DIR ${UNIT_TEST_SOURCE_DIR}/logs-${CMAKE_CXX_COMPILER_ID}
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${UNIT_TEST_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+)
+
 add_custom_target(all-dependencies)
 
 add_dependencies(all-dependencies
@@ -123,6 +135,7 @@ add_dependencies(all-dependencies
         poco
         sundials
         rr-libstruct
+        unittest
         )
 
 
