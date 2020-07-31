@@ -129,7 +129,7 @@ macro(FindDependencies)
             ${LIBBZ2_STATIC_LIBRARY}
             ${LIBCHECK_STATIC_LIBRARY}
             ${LIBICONV_STATIC_LIBRARY}
-            ${ZDLL_STATIC_LIBRARY}
+            ${ZLIB_STATIC_LIBRARY}
             )
 
 

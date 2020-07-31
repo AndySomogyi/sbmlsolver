@@ -44,7 +44,6 @@ target_link_libraries(${target} PRIVATE
         $<TARGET_FILE:roadrunner-static>
         ${UNIT_TEST_STATIC_LIBRARY}
         ${LINK_LIBRARIES}
-        "/mnt/d/LLVM6.0.1/install-gcc7/lib/libLLVMSupport.a"
         )
 add_dependencies(${target} unittest roadrunner-static)
 if (UNIX)
