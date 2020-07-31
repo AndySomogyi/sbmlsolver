@@ -1089,14 +1089,18 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
 		}
 	}
     try {
-		
-    // the following lines load and compile the model. If anything fails here,
-    // we validate the model to provide explicit details about where it
-    // failed. Its *VERY* expensive to pre-validate the model.
-		libsbml::SBMLReader reader;
-		impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(mCurrentSBML));
-		impl->model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
-    } catch (std::exception& e) {
+
+        // the following lines load and compile the model. If anything fails here,
+        // we validate the model to provide explicit details about where it
+        // failed. Its *VERY* expensive to pre-validate the model.
+        libsbml::SBMLReader reader;
+        impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(mCurrentSBML));
+        impl->model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
+    } catch (const rr::UninitializedValueException& e) {
+        // catch specifically for UninitializedValueException, otherwise for some
+        // reason the message is erased, and an 'unknown error' is displayed to the user.
+        throw e;
+    } catch (const std::exception& e) {
         string errors = validateSBML(mCurrentSBML);
 
         if(!errors.empty()) {
