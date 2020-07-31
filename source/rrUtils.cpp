@@ -472,6 +472,20 @@ bool hasUnimplementedTags(const string& descriptionFileName)
     return false;
 }
 
+bool isSemiStochasticTest(const string& descriptionFileName)
+{
+    ifstream descfile(descriptionFileName);
+    if (descfile.good()) {
+        string line;
+        while (getline(descfile, line)) {
+            if (line.find("synopsis") != string::npos && line.find("STOCHASTIC") != string::npos) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool isFBCTest(const string& descriptionFileName)
 {
     ifstream descfile(descriptionFileName);
