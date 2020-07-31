@@ -467,7 +467,19 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access floating species id at index " + rr::toStringSize(indx));
+    std::stringstream errSS;
+    errSS << "attempted to access floating species id at index " << indx << ", but ";
+    auto size = floatingSpeciesMap.size();
+    if (size == 0) {
+        errSS << "there are no floating species in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single floating species in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << "floating species in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
 }
 
 
@@ -567,8 +579,19 @@ std::string rrllvm::LLVMModelDataSymbols::getRateRuleId(size_t indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access rate rule id at index " +
-            rr::toStringSize(indx));
+    std::stringstream errSS;
+    errSS << "attempted to access global parameter at index " << indx << ", but ";
+    auto size = rateRules.size();
+    if (size == 0) {
+        errSS << "there are no rate rules in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single rate rule in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << "rate rules in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
 }
 
 bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
@@ -1017,7 +1040,19 @@ std::string LLVMModelDataSymbols::getGlobalParameterId(size_t indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access global parameter id at index " + rr::toStringSize(indx));
+    std::stringstream errSS;
+    errSS << "attempted to access global parameter at index " << indx << ", but ";
+    auto size = globalParametersMap.size();
+    if (size == 0) {
+        errSS << "there are no global parameters in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single global parameter in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << "global parameters in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
 }
 
 int LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
@@ -1494,7 +1529,19 @@ std::string LLVMModelDataSymbols::getEventId(size_t indx) const
         }
     }
 
-    throw std::out_of_range("attempted to access event id at index " + rr::toStringSize(indx));
+    std::stringstream errSS;
+    errSS << "attempted to access event id at index " << indx << ", but ";
+    auto size = eventIds.size();
+    if (size == 0) {
+        errSS << "there are no events in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single event in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << "events in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
 }
 
 int LLVMModelDataSymbols::getEventIndex(const std::string& id) const
