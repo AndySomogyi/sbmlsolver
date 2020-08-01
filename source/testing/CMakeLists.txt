@@ -39,52 +39,47 @@ target_include_directories(${target} PRIVATE
         ${INCLUDE_DIRECTORIES}
         )
 
-
 target_link_libraries(${target} PRIVATE
         $<TARGET_FILE:roadrunner-static>
         ${UNIT_TEST_STATIC_LIBRARY}
         ${LINK_LIBRARIES}
+        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml.lib
+#        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml-static.lib
         )
 add_dependencies(${target} unittest roadrunner-static)
 if (UNIX)
     target_compile_options(${target} PRIVATE -frtti)
 endif ()
-#set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
-#
-#if(${BORLAND})
-#set(resultsFile "${resultsDir}/cpp_api_tests-cg_xe1.xml")
-#elseif(${MSVC})
-#set(resultsFile "${resultsDir}/cpp_api_tests-vs_2010.xml")
-#elseif(CMAKE_COMPILER_IS_GNUCC)
-#set(resultsFile "${resultsDir}/cpp_api_tests-gcc.xml")
-#else()
-#set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
-#endif()
-#
-#set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
-#set(compilerFolder      "${CMAKE_SOURCE_DIR}/third_party/compilers/tcc")
-#set(supportCodeFolder   "/r/rrl/rr_support")
-#
-#if(UNIX)
-#set(compilerFolder     "")
-#endif()
-#
-#Message("SupportCodeFolder is: " ${supportCodeFolder})
+set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
+set(resultsFile "${resultsDir}/cpp_api_tests-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
+
+# TODO move the models directory
+set(sbmlModelsDir "${CMAKE_SOURCE_DIR}/models")
+set(compilerFolder "${CMAKE_SOURCE_DIR}/third_party/compilers/tcc")
+set(supportCodeFolder "${CMAKE_CURRENT_SOURCE_DIR}/rr_support")
+
+if (UNIX)
+    set(compilerFolder "")
+endif ()
+
+Message("SupportCodeFolder is: " ${supportCodeFolder})
 # Call like this -mr:/rrl/models -rr:/rrl/wiki/reports/file -tr:/rrTemp -sSupportCodeFolder -lCompilerFolder
-#add_custom_command(
-#    OUTPUT ${resultsFile}
-#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
-#    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-#    COMMENT "=========== Generating CPP-API Wiki reports =============="
-#    VERBATIM 
-#    )
-#
-#add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
-#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v 
-#    COMMENT "=========== Generating CPP-API Wiki reports =============="
-#    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
-#
-#)
+add_custom_command(
+    OUTPUT ${resultsFile}
+    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    COMMENT "=========== Generating CPP-API Wiki reports =============="
+    VERBATIM
+    )
+
+add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
+    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v
+    COMMENT "=========== Generating CPP-API Wiki reports =============="
+    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
+
+)
+
+add_dependencies(cppTestingReport cxx_api_tests)
 
 install(TARGETS ${target}
         DESTINATION bin

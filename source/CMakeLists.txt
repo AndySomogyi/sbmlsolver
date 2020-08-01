@@ -365,6 +365,7 @@ if (UNIX)
 #    icui18n icuuc
     set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m lzma)
 elseif (WIN32)
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} Ws2_32)
 
 elseif (APPLE)
 
