@@ -53,6 +53,12 @@ include(CheckLibraryExists)
 # macro for setting a variable with cross platform independent values
 include(SetCrossPlatform)
 
+# convenience function for querying presently defined cmake variables
+include(QueryCMakeVariables)
+
+# Convenience functions for setting MSVC runtime
+include(SetTargetMSVCRuntimeStatic)
+include(SetTargetMSVCRuntimeDll)
 #############################################################
 #   Configuration Options
 #
@@ -364,6 +370,12 @@ endif (BUILD_LEGACY_C)
 
 if (BUILD_TESTS AND BUILD_TEST_TOOLS)
 
+    add_subdirectory(third_party/googletest)
+
+    add_subdirectory(tests)
+
+    QueryCMakeVariables()
+
     # I really have no idea what this code is doing. (cw)
     # This code comes with no comments, so i'll add some as I'm
     # trying to figure out what its doing
@@ -393,7 +405,7 @@ if (BUILD_TESTS AND BUILD_TEST_TOOLS)
     foreach (f ${TEST_FILES})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            message(STATUS ${FILE_NAME})
+#            message(STATUS ${FILE_NAME})
             # This command copies into the main testing directory under project root.
             # Dont know why though.
             # Could be that somebody just committed these files and they havent been deleted.

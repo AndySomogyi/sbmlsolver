@@ -74,7 +74,6 @@ find_program(LLVM_CONFIG_EXECUTABLE
         DOC "llvm-config executable"
         )
 
-message(STATUS "LLVM_CONFIG_EXECUTABLE ${LLVM_CONFIG_EXECUTABLE}")
 
 
 if (LLVM_CONFIG_EXECUTABLE)
@@ -92,7 +91,7 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-    message(STATUS "LLVM_VERSION ${LLVM_VERSION}")
+#    message(STATUS "LLVM_VERSION ${LLVM_VERSION}")
 
     # Version Info
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION)
@@ -103,8 +102,8 @@ if (LLVM_CONFIG_EXECUTABLE)
 
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR)
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR)
-    MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
-    MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
+#    MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
+#    MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
 
     # Include Dir
     execute_process(
@@ -112,7 +111,7 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_VARIABLE LLVM_INCLUDE_DIRS
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
+#    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
 
     # Lib Dir
     execute_process(
@@ -120,7 +119,7 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_VARIABLE LLVM_LIBRARY_DIRS
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
+#    message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
 
     # C++ Flags, strip out stuff that CMake build adds
     execute_process(
@@ -160,7 +159,7 @@ if (LLVM_CONFIG_EXECUTABLE)
     STRING(REPLACE "-Wnon-virtual-dtor" "" LLVM_FLAGS ${LLVM_FLAGS})
 
 
-    MESSAGE(STATUS "LLVM_FLAGS: " ${LLVM_FLAGS})
+#    MESSAGE(STATUS "LLVM_FLAGS: " ${LLVM_FLAGS})
 
 
     # link libraries, currently only need core, jit and native.
@@ -179,19 +178,19 @@ if (LLVM_CONFIG_EXECUTABLE)
     endif ()
     # we get a space sep list from llvm-config, make it a cmake ; separated list.
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
-    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+#    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
     # starting with LLVM 3.4 (at least on Ubuntu) it requres functions in
     # ncurses for console IO formatting. So, we find ncurses here.
     if (UNIX)
         #message("UNIX true")
-        message("LLVM VERSION >= 3.4, looking for curses library")
+#        message("LLVM VERSION >= 3.4, looking for curses library")
         # sudo apt-get install libncurses5-dev libncursesw5-dev
         find_package(Curses REQUIRED)
-        message(STATUS "curses: ${CURSES_FOUND}")
-        message(STATUS "curdir: ${CURSES_INCLUDE_DIR}")
-        message(STATUS "curlib: ${CURSES_LIBRARIES}")
-        message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+#        message(STATUS "curses: ${CURSES_FOUND}")
+#        message(STATUS "curdir: ${CURSES_INCLUDE_DIR}")
+#        message(STATUS "curlib: ${CURSES_LIBRARIES}")
+#        message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
         set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
 
@@ -203,7 +202,6 @@ if (LLVM_CONFIG_EXECUTABLE)
             find_package(ZLIB REQUIRED)
             set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${ZLIB_LIBRARY}")
         endif ()
-        message("LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
     endif ()
 

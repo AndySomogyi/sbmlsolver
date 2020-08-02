@@ -313,16 +313,8 @@ if (WIN32)
             PROPERTIES COMPILE_FLAGS -DSTATIC_RR)
 
     # set msvc runtime
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        set_property(TARGET ${target}-static PROPERTY
-                MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
-    elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-        set_property(TARGET ${target}-static PROPERTY
-                MSVC_RUNTIME_LIBRARY "MultiThreaded")
-    else ()
-        message(FATAL_ERROR "Only Debug and Release configurations are supported")
-    endif ()
-
+    set_property(TARGET ${target}-static PROPERTY
+            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif ()
 
 
@@ -332,15 +324,18 @@ set_property(TARGET ${target}-static
         PROPERTY COMPILE_DEFINITIONS
         LIBSBML_USE_CPP_NAMESPACE
         STATIC_RR
-        #        LIBSBML_STATIC
-        #        LIBLAX_STATIC
-        #        STATIC_LIBSTRUCT
-        #        STATIC_PUGI
-        #        STATIC_NLEQ1
-        #        STATIC_NLEQ2
-        #        POCO_STATIC
+        LIBSBML_STATIC
+        LIBLAX_STATIC
+        STATIC_LIBSTRUCT
+        STATIC_PUGI
+        STATIC_NLEQ1
+        STATIC_NLEQ2
+        POCO_STATIC
         )
 
+if (WIN32)
+    target_link_options(${target}-static PUBLIC /WHOLE_ARCHIVE)
+endif ()
 # Order matters for linux builds. Do not change.
 set(LINK_LIBRARIES
         ${RR_LIBSTRUCT_STATIC_LIBRARY}
@@ -362,7 +357,7 @@ set(LINK_LIBRARIES
 # These were not needed to actually build roadrunner binaries
 # but linking the tests fails without them.
 if (UNIX)
-#    icui18n icuuc
+    #    icui18n icuuc
     set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m lzma)
 elseif (WIN32)
     set(LINK_LIBRARIES ${LINK_LIBRARIES} Ws2_32)
@@ -377,10 +372,11 @@ set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
 
 target_link_libraries(${target}-static ${LINK_LIBRARIES})
 
-message(STATUS "LLVM_INCLUDE_DIRS ${LLVM_INCLUDE_DIRS}")
+set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
 
 set(INCLUDE_DIRECTORIES
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
         ${LIBSBML_INCLUDE_DIR}
         ${POCO_INCLUDE_DIR}
         ${RR_LIBSTRUCT_INCLUDE_DIR}
@@ -389,6 +385,7 @@ set(INCLUDE_DIRECTORIES
         ${NLEQ2_INCLUDE_DIR}
         ${SUNDIALS_INCLUDE_DIR}
         ${LLVM_INCLUDE_DIRS}
+        ${gtest_SOURCE_DIR}
         )
 set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
@@ -407,18 +404,15 @@ if (BUILD_SHARED_LIBS)
         #   - s = Enables standard C++ stack unwinding
         #   - c =  assumes that functions declared as extern "C" never throw a C++ exception.
         add_definitions(-DEXPORT_RR /EHsc)
+        #todo find where LLVM_FLAGS are being added to CXX_FLAGS. We need to
+        # add this after since right now it is just being overriden by LLVM_flags.
 
         # set msvc runtime
-        if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-            set_property(TARGET ${target} PROPERTY
-                    MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
-        elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-            set_property(TARGET ${target} PROPERTY
-                    MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
-        else ()
-            message(FATAL_ERROR "Only Debug and Release configurations are supported")
-        endif ()
+        set_property(TARGET ${target}-static PROPERTY
+                MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
+        get_target_property(x ${target}-static MSVC_RUNTIME_LIBRARY)
+        message(STATUS "x is ' ${x}")
 
     endif ()
     set_property(TARGET ${target}
