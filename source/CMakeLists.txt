@@ -317,7 +317,7 @@ if (WIN32)
 
     # set msvc runtime
     set_property(TARGET ${target}-static PROPERTY
-            MSVC_RUNTIME_LIBRARY "MultiThreaded>")
+            MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
 endif ()
 
@@ -380,7 +380,7 @@ set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
 
 set(INCLUDE_DIRECTORIES
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
         ${DEPENDENCY_INCLUDE_DIRS}
         ${LLVM_INCLUDE_DIRS}
         )
@@ -398,7 +398,8 @@ set(INCLUDE_DIRECTORIES
 set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
 
-
+# turn off shared zlib for roadruner (Ciaran welsh)
+#set(BUILD_SHARED_LIBS OFF)
 if (BUILD_SHARED_LIBS)
 
     add_library(${target} SHARED ${rrSources})
@@ -416,7 +417,7 @@ if (BUILD_SHARED_LIBS)
         # add this after since right now it is just being overriden by LLVM_flags.
 
         # set msvc runtime
-        set_property(TARGET ${target}-static PROPERTY
+        set_property(TARGET ${target} PROPERTY
                 MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
         get_target_property(x ${target}-static MSVC_RUNTIME_LIBRARY)
@@ -445,11 +446,31 @@ if (BUILD_SHARED_LIBS)
         # sad face =[
     endif ()
 
-    target_include_directories(${target} PRIVATE
-            ${DEPENDENCY_INCLUDE_DIRS}
-            ${LLVM_INCLUDE_DIRS}
+    target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
+    target_link_libraries(${target} PRIVATE
+            blas
+            f2c
+            lapack
+            libsbml-static
+            libiconv
+            libxml2
+            zlibstatic
+            nleq1-static
+            nleq2-static
+            PocoFoundation
+            PocoNet
+            PocoUtil
+            PocoXML
+            PocoZip
+            rr-libstruct-static
+            sundials_cvode_static
+            sundials_cvodes_static
+            sundials_ida_static
+            sundials_idas_static
+            sundials_kinsol_static
+            sundials_nvecserial_static
+            unit_test-static
             )
-    target_link_libraries(${target} PRIVATE ${LINK_LIBRARIES})
 
     if (${INSTALL_CXX_API})
         install(TARGETS ${target}

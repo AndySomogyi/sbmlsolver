@@ -73,7 +73,18 @@ add_subdirectory(unit_test)
 set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/unit_test")
 set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
 
-#include_directories(unit_test/src)
+# zlib
+message(STATUS "Adding zlib as subdirectory")
+add_subdirectory(zlib-1.2.11)
+set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zlib-1.2.11")
+set(ZLIB_INCLUDE_DIR "${ZLIB_INCLUDE_DIR}" PARENT_SCOPE)
+
+# libxml2
+message(STATUS "Adding libxml2 as subdirectory")
+add_subdirectory(libxml2)
+set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libxml2")
+set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
+
 
 set(DEPENDENCY_INCLUDE_DIRS
         ${NLEQ1_INCLUDE_DIR}
@@ -121,13 +132,12 @@ set(ALL_DEPENDENCY_TARGETS ${ALL_DEPENDENCY_TARGETS} PARENT_SCOPE)
 
 add_dependencies(all-dependencies
         blas
-        arithchk
         f2c
         lapack
         libsbml-static
         libiconv
         libxml2
-        zdll
+        zlibstatic
         nleq1-static
         nleq2-static
         PocoFoundation
