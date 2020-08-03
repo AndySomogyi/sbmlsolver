@@ -314,7 +314,8 @@ if (WIN32)
 
     # set msvc runtime
     set_property(TARGET ${target}-static PROPERTY
-            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+            MSVC_RUNTIME_LIBRARY "MultiThreaded>")
+
 endif ()
 
 
@@ -339,19 +340,33 @@ endif ()
 # Order matters for linux builds. Do not change.
 set(LINK_LIBRARIES
         ${RR_LIBSTRUCT_STATIC_LIBRARY}
-        ${LIBSBML_STATIC_LIBRARY}
+#        ${LIBSBML_STATIC_LIBRARY}
         ${SUNDIALS_STATIC_LIBRARIES}
         ${NLEQ2_STATIC_LIBRARY}
         ${NLEQ1_STATIC_LIBRARY}
         ${CLAPACK_STATIC_LIBRARIES}
         ${POCO_STATIC_LIBRARIES}
-        ${LLVM_LIBRARIES}
-        ${ZLIB_STATIC_LIBRARY}
-        ${LIBBZ2_STATIC_LIBRARY}
-        ${LIBXML2_STATIC_LIBRARY}
-        ${LIBICONV_STATIC_LIBRARY}
-        ${ZLIB_STATIC_LIBRARY}
+#        ${LLVM_LIBRARIES}
+#        ${ZLIB_STATIC_LIBRARY}
+#        ${LIBBZ2_STATIC_LIBRARY}
+#        ${LIBXML2_STATIC_LIBRARY}
+#        ${LIBICONV_STATIC_LIBRARY}
+#        ${ZLIB_STATIC_LIBRARY}
         )
+
+# make available to parent
+set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
+
+set(HAVE_DEPENDENCIES ON)
+foreach (lib ${LINK_LIBRARIES})
+    message(STATUS "Looking for dependency lib \"${lib}\"")
+    if (NOT lib)
+        message(STATUS "Dependency ${lib} not found. Setting \"HAVE_DEPENDENCIES\" to OFF")
+        set(HAVE_DEPENDENCIES OFF)
+        break()
+    endif ()
+endforeach ()
+set(HAVE_DEPENDENCIES ${HAVE_DEPENDENCIES} PARENT_SCOPE)
 
 # Extra platform specific libraries
 # These were not needed to actually build roadrunner binaries
@@ -365,10 +380,6 @@ elseif (WIN32)
 elseif (APPLE)
 
 endif ()
-
-
-# make available to parent
-set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
 
 target_link_libraries(${target}-static ${LINK_LIBRARIES})
 

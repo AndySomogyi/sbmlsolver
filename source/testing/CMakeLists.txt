@@ -43,7 +43,7 @@ target_link_libraries(${target} PRIVATE
         $<TARGET_FILE:roadrunner-static>
         ${UNIT_TEST_STATIC_LIBRARY}
         ${LINK_LIBRARIES}
-        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml.lib
+#        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml.lib
 #        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml-static.lib
         )
 add_dependencies(${target} unittest roadrunner-static)

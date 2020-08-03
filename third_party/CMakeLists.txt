@@ -67,6 +67,8 @@ ExternalProject_Add(
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DWITH_CPP_NAMESPACE=ON
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DWITH_STATIC_RUNTIME=ON
+        -- target libsbml-static
         DEPENDS libsbml_dependencies
 )
 

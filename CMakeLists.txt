@@ -265,6 +265,12 @@ endif ()
 #  put the dependency locating code in a separate macro.
 FindDependencies()
 
+set(HAVE_DEPENDENCIES ON)
+foreach (lib ${LINK_LIBRARIES})
+    message(STATUS "library: ${lib}")
+endforeach ()
+
+
 # handle the LLVM dependency
 if (${LLVM_INSTALL_PREFIX})
     # This is the preferred way to handle the LLVM dependency.
@@ -405,7 +411,7 @@ if (BUILD_TESTS AND BUILD_TEST_TOOLS)
     foreach (f ${TEST_FILES})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-#            message(STATUS ${FILE_NAME})
+            #            message(STATUS ${FILE_NAME})
             # This command copies into the main testing directory under project root.
             # Dont know why though.
             # Could be that somebody just committed these files and they havent been deleted.
