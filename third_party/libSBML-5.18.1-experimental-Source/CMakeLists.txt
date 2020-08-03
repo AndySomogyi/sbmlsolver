@@ -127,15 +127,6 @@ add_custom_target(dist-sbml COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 add_custom_target(check-sbml COMMAND ${CMAKE_MAKE_PROGRAM} test)
 
 
-################################################################
-#   Added by Ciaran welsh
-#   Since we are using sbml as a subdirectory in rr we do not
-#   have the installed headers for including. We can include the sources
-#   directly but need to configure file
-#
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/sbml/common/libsbml-namespace.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/sbml/common/libsbml-namespace.h)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/sbml/common/libsbml-config-common.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/sbml/common/libsbml-config-common.h)
-
 ###############################################################################
 #
 # The next lines configure the parameters for packaging the binaries.

@@ -36,8 +36,7 @@ set(WITH_CHECK OFF)
 
 
 add_subdirectory(libSBML-5.18.1-experimental-Source)
-include_directories(libSBML-5.18.1-experimental-Source/src)
-include_directories(libSBML-5.18.1-experimental-Source/src/sbml)
+include_directories(libSBML-5.18.1-experimental-Source/include)
 
 message(STATUS "Adding rr-libstruct as subdirectory")
 add_subdirectory(rr-libstruct)
