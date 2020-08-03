@@ -8,10 +8,10 @@ OPTION(LIBSTRUCT_BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 get_filename_component(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
-set(LIBSBML_INSTALL_PREFIX ${THIRD_PARTY_DIR}/libSBML-5.18.1-experimental-Source/install-${CMAKE_CXX_COMPILER_ID}
-        CACHE PATH "Path to the root of libsbml installation")
-set(CLAPACK_INSTALL_PREFIX ${THIRD_PARTY_DIR}/clapack3.2.1/install-${CMAKE_CXX_COMPILER_ID}
-        CACHE PATH "Path to the root of clapack installation")
+#set(LIBSBML_INSTALL_PREFIX ${THIRD_PARTY_DIR}/libSBML-5.18.1-experimental-Source/install-${CMAKE_CXX_COMPILER_ID}
+#        CACHE PATH "Path to the root of libsbml installation")
+#set(CLAPACK_INSTALL_PREFIX ${THIRD_PARTY_DIR}/clapack3.2.1/install-${CMAKE_CXX_COMPILER_ID}
+#        CACHE PATH "Path to the root of clapack installation")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -26,9 +26,6 @@ set(sources
         lsLA
         lsLUResult
         )
-
-set(CLAPACK_INCLUDE_DIR ${CLAPACK_INSTALL_PREFIX}/include/clapack)
-set(LIBSBML_INCLUDE_DIR ${LIBSBML_INSTALL_PREFIX}/include)
 
 
 #Then the static version
@@ -78,16 +75,23 @@ set(headers
         lsUtils.h
         )
 
-#Install required files
-install(FILES ${headers}
-        DESTINATION include/rr-libstruct)
+# install the headers at configure time so we can build rr without the full install configuration
+set(RR_STRUCT_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+file(MAKE_DIRECTORY ${RR_STRUCT_INCLUDE_DIR})
+file(COPY ${headers} DESTINATION "${RR_STRUCT_INCLUDE_DIR}/rr-libstruct")
+set(RR_STRUCT_INCLUDE_DIR ${RR_STRUCT_INCLUDE_DIR} PARENT_SCOPE)
 
-#install(TARGETS ${target} 
-#        LIBRARY DESTINATION lib 
-#        ARCHIVE DESTINATION lib
-#        RUNTIME DESTINATION bin)
-#
 install(TARGETS ${target}-static
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
+
+#Install required files
+#install(FILES ${headers}
+#        DESTINATION include/rr-libstruct)
+
+#install(TARGETS ${target}
+#        LIBRARY DESTINATION lib
+#        ARCHIVE DESTINATION lib
+#        RUNTIME DESTINATION bin)
+#
 

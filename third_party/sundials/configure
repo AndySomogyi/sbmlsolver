@@ -1907,7 +1907,7 @@ echo "${ECHO_T}no" >&6
 fi
 
 
-# Defines install (sets to path of "install" program)
+# Defines INSTALL (sets to path of "install" program)
 # Also sets INSTALL_PROGRAM and INSTALL_SCRIPT
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -1937,7 +1937,7 @@ do
 case $as_dir/ in
   ./ | .// | /cC/* | \
   /etc/* | /usr/sbin/* | /usr/etc/* | /sbin/* | /usr/afsws/bin/* | \
-  ?:\\/os2\\/install\\/* | ?:\\/OS2\\/install\\/* | \
+  ?:\\/os2\\/install\\/* | ?:\\/OS2\\/INSTALL\\/* | \
   /usr/ucb/* ) ;;
   *)
     # OSF1 and SCO ODT 3.0 have their own names for install.
@@ -1971,7 +1971,7 @@ fi
     INSTALL=$ac_cv_path_install
   else
     # As a last resort, use the slow shell script.  We don't cache a
-    # path for install within a source directory, because that will
+    # path for INSTALL within a source directory, because that will
     # break other packages using the cache if that directory is
     # removed, or if the path is relative.
     INSTALL=$ac_install_sh
@@ -8479,7 +8479,7 @@ echo "${ECHO_T}$acx_blas_ok" >&6
   LIBS="$save_LIBS"
 fi
 
-# blas linked to by default?  (happens on some supercomputers)
+# BLAS linked to by default?  (happens on some supercomputers)
 if test $acx_blas_ok = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS"
   as_ac_var=`echo "ac_cv_func_$dgemm" | $as_tr_sh`
@@ -8580,7 +8580,7 @@ fi
   LIBS="$save_LIBS"
 fi
 
-# blas in Alpha CXML library?
+# BLAS in Alpha CXML library?
 if test $acx_blas_ok = no; then
   as_ac_Lib=`echo "ac_cv_lib_cxml_$dgemm" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $dgemm in -lcxml" >&5
@@ -8653,7 +8653,7 @@ fi
 
 fi
 
-# blas in Alpha DXML library? (now called CXML, see above)
+# BLAS in Alpha DXML library? (now called CXML, see above)
 if test $acx_blas_ok = no; then
   as_ac_Lib=`echo "ac_cv_lib_dxml_$dgemm" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $dgemm in -ldxml" >&5
@@ -8726,7 +8726,7 @@ fi
 
 fi
 
-# blas in Sun Performance library?
+# BLAS in Sun Performance library?
 if test $acx_blas_ok = no; then
   if test "x$GCC" != xyes; then # only works with Sun CC
     echo "$as_me:$LINENO: checking for acosp in -lsunmath" >&5
@@ -8869,7 +8869,7 @@ fi
   fi
 fi
 
-# blas in SCSL library?  (SGI/Cray Scientific Library)
+# BLAS in SCSL library?  (SGI/Cray Scientific Library)
 if test $acx_blas_ok = no; then
   as_ac_Lib=`echo "ac_cv_lib_scs_$dgemm" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $dgemm in -lscs" >&5
@@ -8942,7 +8942,7 @@ fi
 
 fi
 
-# blas in SGIMATH library?
+# BLAS in SGIMATH library?
 if test $acx_blas_ok = no; then
   as_ac_Lib=`echo "ac_cv_lib_complib.sgimath_$dgemm" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $dgemm in -lcomplib.sgimath" >&5
@@ -9015,7 +9015,7 @@ fi
 
 fi
 
-# blas in IBM ESSL library? (requires generic blas lib, too)
+# BLAS in IBM ESSL library? (requires generic BLAS lib, too)
 if test $acx_blas_ok = no; then
  as_ac_Lib=`echo "ac_cv_lib_blas_$dgemm" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $dgemm in -lblas" >&5
@@ -9156,7 +9156,7 @@ fi
 
 fi
 
-# Generic blas library?
+# Generic BLAS library?
 if test $acx_blas_ok = no; then
   as_ac_Lib=`echo "ac_cv_lib_blas_$dgemm" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $dgemm in -lblas" >&5
@@ -9308,7 +9308,7 @@ echo "${ECHO_T}$acx_lapack_ok" >&6
 fi
 fi
 
-# LAPACK linked to by default?  (is sometimes included in blas lib)
+# LAPACK linked to by default?  (is sometimes included in BLAS lib)
 if test $acx_lapack_ok = no; then
   save_LIBS="$LIBS"
   LIBS="$LIBS $BLAS_LIBS $FLIBS"

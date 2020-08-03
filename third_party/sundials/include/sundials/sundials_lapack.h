@@ -11,7 +11,7 @@
  * For details, see the LICENSE file.
  * -----------------------------------------------------------------
  * This is the header file for a generic package of direct matrix
- * operations for use with blas/LAPACK.
+ * operations for use with BLAS/LAPACK.
  * -----------------------------------------------------------------
  */
 
@@ -66,12 +66,12 @@ extern "C" {
 
 #endif
 
-/* Level-1 blas */
+/* Level-1 BLAS */
   
 extern void dcopy_f77(int *n, const double *x, const int *inc_x, double *y, const int *inc_y);
 extern void dscal_f77(int *n, const double *alpha, double *x, const int *inc_x);
 
-/* Level-2 blas */
+/* Level-2 BLAS */
 
 extern void dgemv_f77(const char *trans, int *m, int *n, const double *alpha, const double *a, 
 		      int *lda, const double *x, int *inc_x, const double *beta, double *y, int *inc_y, 
@@ -81,7 +81,7 @@ extern void dtrsv_f77(const char *uplo, const char *trans, const char *diag, con
 		      const double *a, const int *lda, double *x, const int *inc_x, 
 		      int len_uplo, int len_trans, int len_diag);
 
-/* Level-3 blas */
+/* Level-3 BLAS */
 
 extern void dsyrk_f77(const char *uplo, const char *trans, const int *n, const int *k, 
 		      const double *alpha, const double *a, const int *lda, const double *beta, 

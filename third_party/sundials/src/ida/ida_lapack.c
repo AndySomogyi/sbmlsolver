@@ -11,7 +11,7 @@
  * For details, see the LICENSE file.
  * -----------------------------------------------------------------
  * This is the implementation file for a IDA dense linear solver
- * using blas and LAPACK functions.
+ * using BLAS and LAPACK functions.
  * -----------------------------------------------------------------
  */
 

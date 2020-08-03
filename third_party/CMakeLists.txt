@@ -5,28 +5,27 @@ CheckDirectoryExists("third_party directory" "${THIRD_PARTY_DIRECTORY}")
 ## nleq1
 message(STATUS "Adding nleq1 as subdirectory")
 add_subdirectory(nleq1)
-set(NLEQ1_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nleq1)
-set(NLEQ1_INCLUDE_DIR ${NLEQ1_INCLUDE_DIR} PARENT_SCOPE)
+set(NLEQ1_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nleq1/include")
+set(NLEQ1_INCLUDE_DIR "${NLEQ1_INCLUDE_DIR}" PARENT_SCOPE)
 
 ## nleq2
 message(STATUS "Adding nleq2 as subdirectory")
 add_subdirectory(nleq2)
-set(NLEQ2_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nleq2)
-set(NLEQ2_INCLUDE_DIR ${NLEQ2_INCLUDE_DIR} PARENT_SCOPE)
+set(NLEQ2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nleq2/include")
+set(NLEQ2_INCLUDE_DIR "${NLEQ2_INCLUDE_DIR}" PARENT_SCOPE)
 
 ## clapack3.2.1
 message(STATUS "Adding clapack3.2.1 as subdirectory")
 add_subdirectory(clapack3.2.1)
 #include_directories(clapack3.2.1/include)
-set(CLAPACK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/clapack3.2.1/include)
-set(CLAPACK_INCLUDE_DIR ${CLAPACK_INCLUDE_DIR} PARENT_SCOPE)
+set(CLAPACK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/clapack3.2.1/include")
+set(CLAPACK_INCLUDE_DIR "${CLAPACK_INCLUDE_DIR}" PARENT_SCOPE)
 
 ## libsbml dependencies
 message(STATUS "Adding libSBML-dependencies as subdirectory")
 add_subdirectory(libSBML-dependencies)
-include_directories(libSBML-dependencies/libiconv/source/include)
-include_directories(libSBML-dependencies/libxml2/include)
-include_directories(libSBML-dependencies/zlib/source)
+set(LIBSBML_DEPS_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/include")
+set(LIBSBML_DEPS_INCLUDE_DIR "${LIBSBML_DEPS_INCLUDE_DIR}")
 
 # set the variables needed by libsbml here:
 message(STATUS "Adding libSBML as subdirectory")
@@ -40,26 +39,54 @@ set(WITH_CHECK OFF)
 
 
 add_subdirectory(libSBML-5.18.1-experimental-Source)
-include_directories(libSBML-5.18.1-experimental-Source/include)
+set(LIBSBML_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/include")
+set(LIBSBML_INCLUDE_DIR "${LIBSBML_INCLUDE_DIR}" PARENT_SCOPE)
 
 message(STATUS "Adding rr-libstruct as subdirectory")
 add_subdirectory(rr-libstruct)
-include_directories(rr-libstruct)
+#set(RR_STRUCT_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rr-libstruct")
+set(RR_STRUCT_INCLUDE_DIR "${RR_STRUCT_INCLUDE_DIR}" PARENT_SCOPE)
+
+#include_directories(rr-libstruct)
 ## poco
 message(STATUS "Adding poco as subdirectory")
 add_subdirectory(poco_1.5.3)
-include_directories(poco_1.5.3/include)
-include_directories(D:/rrbuild/roadrunner/third_party/poco_1.5.3/include)
+set(POCO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/poco_1.5.3/include")
+set(POCO_INCLUDE_DIR "${POCO_INCLUDE_DIR}" PARENT_SCOPE)
+#include_directories(poco_1.5.3/include)
+#include_directories(D:/rrbuild/roadrunner/third_party/poco_1.5.3/include)
 
 ## sundials
 message(STATUS "Adding sundials as subdirectory")
+set(SUNDIALS_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sundials")
+set(SUNDIALS_SOURCE_DIR "${SUNDIALS_SOURCE_DIR}" PARENT_SCOPE)
+
 add_subdirectory(sundials)
-include_directories(sundials/include)
+set(SUNDIALS_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sundials/include")
+set(SUNDIALS_INCLUDE_DIR "${SUNDIALS_INCLUDE_DIR}" PARENT_SCOPE)
+
+#include_directories(sundials/include)
 
 ## unit_test
 message(STATUS "Adding unit-test as subdirectory")
 add_subdirectory(unit_test)
-include_directories(unit_test/src)
+set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/unit_test")
+set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
+
+#include_directories(unit_test/src)
+
+set(DEPENDENCY_INCLUDE_DIRS
+        ${NLEQ1_INCLUDE_DIR}
+        ${NLEQ2_INCLUDE_DIR}
+        ${CLAPACK_INCLUDE_DIR}
+        ${LIBSBML_DEPS_INCLUDE_DIR}
+        ${LIBSBML_INCLUDE_DIR}
+        ${RR_STRUCT_INCLUDE_DIR}
+        ${POCO_INCLUDE_DIR}
+        ${SUNDIALS_INCLUDE_DIR}
+        ${UNITTEST_INCLUDE_DIR}
+        )
+set(DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS} PARENT_SCOPE)
 
 add_custom_target(all-dependencies)
 

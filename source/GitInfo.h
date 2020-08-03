@@ -22,7 +22,7 @@ static const char* getGitBranch() {
 
 
 static const char* getGitLastCommit() {
-    return "42720aaa671e28670b7c72dd1a2d892617aa67db";
+    return "3e137e2c56abeecd09b53249624aac14ae945761";
 }
 
 #endif

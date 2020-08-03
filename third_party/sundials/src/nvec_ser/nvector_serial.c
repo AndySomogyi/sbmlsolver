@@ -402,12 +402,12 @@ void N_VLinearSum_Serial(realtype a, N_Vector x, realtype b, N_Vector y, N_Vecto
 
   xd = yd = zd = NULL;
 
-  if ((b == ONE) && (z == y)) {    /* blas usage: axpy y <- ax+y */
+  if ((b == ONE) && (z == y)) {    /* BLAS usage: axpy y <- ax+y */
     Vaxpy_Serial(a,x,y);
     return;
   }
 
-  if ((a == ONE) && (z == x)) {    /* blas usage: axpy x <- by+x */
+  if ((a == ONE) && (z == x)) {    /* BLAS usage: axpy x <- by+x */
     Vaxpy_Serial(b,y,x);
     return;
   }
@@ -538,7 +538,7 @@ void N_VScale_Serial(realtype c, N_Vector x, N_Vector z)
 
   xd = zd = NULL;
 
-  if (z == x) {  /* blas usage: scale x <- cx */
+  if (z == x) {  /* BLAS usage: scale x <- cx */
     VScaleBy_Serial(c, x);
     return;
   }

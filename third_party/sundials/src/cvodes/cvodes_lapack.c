@@ -11,7 +11,7 @@
  * For details, see the LICENSE file.
  * -----------------------------------------------------------------
  * This is the implementation file for a dense or banded CVODES 
- * linear solver using blas and LAPACK functions.
+ * linear solver using BLAS and LAPACK functions.
  * -----------------------------------------------------------------
  */
 

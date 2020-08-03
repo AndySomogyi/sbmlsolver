@@ -18,7 +18,7 @@
 
 # Require a fairly recent cmake version
 
-#CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
 
 # Project SUNDIALS (initially only C supported)
 
@@ -188,7 +188,6 @@ ENDIF(IS_DIRECTORY "${sundials_SOURCE_DIR}/src/cpodes")
 
 OPTION(BUILD_STATIC_LIBS "Build static libraries" ON)
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-set(BUILD_SHARED_LIBS OFF FORCE)
 
 # Prepare substitution variable SUNDIALS_EXPORT for sundials_config.h
 # When building shared SUNDIALS libraries under Windows, use
@@ -252,7 +251,7 @@ ELSE(BUILD_CVODE OR BUILD_IDA OR BUILD_KINSOL)
 ENDIF(BUILD_CVODE OR BUILD_IDA OR BUILD_KINSOL)
 
 # -------------------------------------------------------------
-# Enable blas/LAPACK support?
+# Enable BLAS/LAPACK support?
 # -------------------------------------------------------------
 
 OPTION(LAPACK_ENABLE "Enable Lapack support" OFF)
@@ -515,6 +514,11 @@ ENDIF(MPI_ENABLE)
 CONFIGURE_FILE(
   ${PROJECT_SOURCE_DIR}/include/sundials/sundials_config.in
   ${PROJECT_BINARY_DIR}/include/sundials/sundials_config.h
+  )
+# Also put it in the include dir for roadrunner (ciaran welsh)
+CONFIGURE_FILE(
+  ${PROJECT_SOURCE_DIR}/include/sundials/sundials_config.in
+  ${PROJECT_SOURCE_DIR}/include/sundials/sundials_config.h
   )
 
 # Add the include directory in the source tree and the one in

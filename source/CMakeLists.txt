@@ -341,35 +341,25 @@ if (WIN32)
     target_link_options(${target}-static PUBLIC /WHOLE_ARCHIVE)
 endif ()
 # Order matters for linux builds. Do not change.
-set(LINK_LIBRARIES
-        ${RR_LIBSTRUCT_STATIC_LIBRARY}
-        #        ${LIBSBML_STATIC_LIBRARY}
-        ${SUNDIALS_STATIC_LIBRARIES}
-        ${NLEQ2_STATIC_LIBRARY}
-        ${NLEQ1_STATIC_LIBRARY}
-        ${CLAPACK_STATIC_LIBRARIES}
-        ${POCO_STATIC_LIBRARIES}
-        #        ${LLVM_LIBRARIES}
-        #        ${ZLIB_STATIC_LIBRARY}
-        #        ${LIBBZ2_STATIC_LIBRARY}
-        #        ${LIBXML2_STATIC_LIBRARY}
-        #        ${LIBICONV_STATIC_LIBRARY}
-        #        ${ZLIB_STATIC_LIBRARY}
-        )
-
-# make available to parent
-set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
-
-set(HAVE_DEPENDENCIES ON)
-foreach (lib ${LINK_LIBRARIES})
-    message(STATUS "Looking for dependency lib \"${lib}\"")
-    if (NOT lib)
-        message(STATUS "Dependency ${lib} not found. Setting \"HAVE_DEPENDENCIES\" to OFF")
-        set(HAVE_DEPENDENCIES OFF)
-        break()
-    endif ()
-endforeach ()
-set(HAVE_DEPENDENCIES ${HAVE_DEPENDENCIES} PARENT_SCOPE)
+#set(LINK_LIBRARIES
+#        ${RR_LIBSTRUCT_STATIC_LIBRARY}
+#        #        ${LIBSBML_STATIC_LIBRARY}
+#        ${SUNDIALS_STATIC_LIBRARIES}
+#        ${NLEQ2_STATIC_LIBRARY}
+#        ${NLEQ1_STATIC_LIBRARY}
+#        ${CLAPACK_STATIC_LIBRARIES}
+#        ${POCO_STATIC_LIBRARIES}
+#        #        ${LLVM_LIBRARIES}
+#        #        ${ZLIB_STATIC_LIBRARY}
+#        #        ${LIBBZ2_STATIC_LIBRARY}
+#        #        ${LIBXML2_STATIC_LIBRARY}
+#        #        ${LIBICONV_STATIC_LIBRARY}
+#        #        ${ZLIB_STATIC_LIBRARY}
+#        )
+#
+## make available to parent
+#set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
+#
 
 # Extra platform specific libraries
 # These were not needed to actually build roadrunner binaries
@@ -390,17 +380,21 @@ set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
 
 set(INCLUDE_DIRECTORIES
-        ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
-        ${LIBSBML_INCLUDE_DIR}
-        ${POCO_INCLUDE_DIR}
-        ${RR_LIBSTRUCT_INCLUDE_DIR}
-        ${CLAPACK_INCLUDE_DIR}
-        ${NLEQ1_INCLUDE_DIR}
-        ${NLEQ2_INCLUDE_DIR}
-        ${SUNDIALS_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${DEPENDENCY_INCLUDE_DIRS}
         ${LLVM_INCLUDE_DIRS}
-        ${gtest_SOURCE_DIR}
         )
+#        ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
+#        ${LIBSBML_INCLUDE_DIR}
+#        ${POCO_INCLUDE_DIR}
+#        ${RR_LIBSTRUCT_INCLUDE_DIR}
+#        ${CLAPACK_INCLUDE_DIR}
+#        ${NLEQ1_INCLUDE_DIR}
+#        ${NLEQ2_INCLUDE_DIR}
+#        ${SUNDIALS_INCLUDE_DIR}
+#        ${LLVM_INCLUDE_DIRS}
+#        ${gtest_SOURCE_DIR}
+#        )
 set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
 
@@ -451,7 +445,10 @@ if (BUILD_SHARED_LIBS)
         # sad face =[
     endif ()
 
-    target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
+    target_include_directories(${target} PRIVATE
+            ${DEPENDENCY_INCLUDE_DIRS}
+            ${LLVM_INCLUDE_DIRS}
+            )
     target_link_libraries(${target} PRIVATE ${LINK_LIBRARIES})
 
     if (${INSTALL_CXX_API})

@@ -9,7 +9,7 @@
 # All rights reserved.
 # For details, see the LICENSE file.
 # ---------------------------------------------------------------
-# blas/LAPACK tests for SUNDIALS CMake-based configuration.
+# BLAS/LAPACK tests for SUNDIALS CMake-based configuration.
 #
 # 
 

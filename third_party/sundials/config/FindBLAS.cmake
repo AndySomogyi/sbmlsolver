@@ -1,17 +1,17 @@
-# - Find blas library
-# This module finds an installed fortran library that implements the blas
+# - Find BLAS library
+# This module finds an installed fortran library that implements the BLAS 
 # linear-algebra interface (see http://www.netlib.org/blas/).  
 # The list of libraries searched for is taken
 # from the autoconf macro file, acx_blas.m4 (distributed at
 # http://ac-archive.sourceforge.net/ac-archive/acx_blas.html).
 #
 # This module sets the following variables:
-#  BLAS_FOUND - set to true if a library implementing the blas interface
+#  BLAS_FOUND - set to true if a library implementing the BLAS interface
 #    is found
 #  BLAS_LINKER_FLAGS - uncached list of required linker flags (excluding -l
 #    and -L).
 #  BLAS_LIBRARIES - uncached list of libraries (using full path name) to 
-#    link against to use blas
+#    link against to use BLAS
 #
 
 include(CheckFortranFunctionExists)
@@ -61,7 +61,7 @@ endmacro(Check_Fortran_Libraries)
 set(BLAS_LINKER_FLAGS)
 set(BLAS_LIBRARIES)
 if(NOT BLAS_LIBRARIES)
-  # blas in ATLAS library? (http://math-atlas.sourceforge.net/)
+  # BLAS in ATLAS library? (http://math-atlas.sourceforge.net/)
   check_fortran_libraries(
   BLAS_LIBRARIES
   BLAS
@@ -71,7 +71,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# blas in PhiPACK libraries? (requires generic blas lib, too)
+# BLAS in PhiPACK libraries? (requires generic BLAS lib, too)
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -82,7 +82,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# blas in Alpha CXML library?
+# BLAS in Alpha CXML library?
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -93,7 +93,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# blas in Alpha DXML library? (now called CXML, see above)
+# BLAS in Alpha DXML library? (now called CXML, see above)
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -104,7 +104,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# blas in Sun Performance library?
+# BLAS in Sun Performance library?
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -119,7 +119,7 @@ if(NOT BLAS_LIBRARIES)
   
 endif(NOT BLAS_LIBRARIES)
 
-# blas in SCSL library?  (SGI/Cray Scientific Library)
+# BLAS in SCSL library?  (SGI/Cray Scientific Library)
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -130,7 +130,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# blas in SGIMATH library?
+# BLAS in SGIMATH library?
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -141,7 +141,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# blas in IBM ESSL library? (requires generic blas lib, too)
+# BLAS in IBM ESSL library? (requires generic BLAS lib, too)
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES
@@ -152,7 +152,7 @@ if(NOT BLAS_LIBRARIES)
   )
 endif(NOT BLAS_LIBRARIES)
 
-# Generic blas library?
+# Generic BLAS library?
 if(NOT BLAS_LIBRARIES)
   check_fortran_libraries(
   BLAS_LIBRARIES

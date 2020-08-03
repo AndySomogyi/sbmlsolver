@@ -31,7 +31,7 @@
 #include <sbml/SBMLDocument.h>
 
 // default values of model reset
-#include <rrSelectionRecord.h>
+#include "rrSelectionRecord.h"
 
 using Poco::Mutex;
 using Poco::RegularExpression;

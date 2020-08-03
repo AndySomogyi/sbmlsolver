@@ -25,7 +25,7 @@ endif(LAPACK_FIND_QUIETLY OR NOT LAPACK_FIND_REQUIRED)
 
 if(BLAS_FOUND)
   set(LAPACK_LINKER_FLAGS ${BLAS_LINKER_FLAGS})
-  # LAPACK linked to by default?  (is sometimes included in blas lib)
+  # LAPACK linked to by default?  (is sometimes included in BLAS lib)
   set(CMAKE_REQUIRED_LIBRARIES ${BLAS_LINKER_FLAGS} ${BLAS_LIBRARIES})
   check_fortran_function_exists(cheev LAPACK_BLAS_WORKS)
   mark_as_advanced(LAPACK_BLAS_WORKS)
