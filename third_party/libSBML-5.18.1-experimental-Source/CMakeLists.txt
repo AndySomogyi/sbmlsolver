@@ -124,8 +124,8 @@ endif()
 
 # add make dist and make check target as they are already familiar for
 # everyone using the gnumake build
-add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
-add_custom_target(check COMMAND ${CMAKE_MAKE_PROGRAM} test)
+add_custom_target(dist-sbml COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+add_custom_target(check-sbml COMMAND ${CMAKE_MAKE_PROGRAM} test)
 
 ###############################################################################
 #
@@ -1517,7 +1517,7 @@ CONFIGURE_FILE(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
   IMMEDIATE @ONLY)
-ADD_CUSTOM_TARGET(uninstall
+ADD_CUSTOM_TARGET(uninstall-sbml
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dev/utilities/sboTree/updateSBO.cmake")

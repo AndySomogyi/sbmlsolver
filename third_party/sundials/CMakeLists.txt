@@ -188,6 +188,7 @@ ENDIF(IS_DIRECTORY "${sundials_SOURCE_DIR}/src/cpodes")
 
 OPTION(BUILD_STATIC_LIBS "Build static libraries" ON)
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+set(BUILD_SHARED_LIBS OFF FORCE)
 
 # Prepare substitution variable SUNDIALS_EXPORT for sundials_config.h
 # When building shared SUNDIALS libraries under Windows, use
