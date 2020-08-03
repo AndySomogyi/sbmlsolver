@@ -48,80 +48,80 @@ macro(FindDependencies)
             NO_DEFAULT_PATH
             )
 
-    set(LIBSBML_DEPS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-dependencies")
-    set(LIBSBML_DEPS_INSTALL_PREFIX "${LIBSBML_DEPS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
-    # libsbml
-    set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
-    CheckDirectoryExists("libsbml source" "${LIBSBML_SOURCE_DIR}")
-
-    set(LIBSBML_INSTALL_PREFIX "${LIBSBML_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
-
-    find_library(LIBSBML_STATIC_LIBRARY
-            NAMES
-            libsbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-            sbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
-            HINTS ${LIBSBML_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
-
-    find_path(LIBSBML_INCLUDE_DIR
-            NAMES sbml/SBMLTypes.h
-            HINTS ${LIBSBML_INSTALL_PREFIX}/include
-            NO_DEFAULT_PATH
-            )
-
+#    set(LIBSBML_DEPS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-dependencies")
+#    set(LIBSBML_DEPS_INSTALL_PREFIX "${LIBSBML_DEPS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+#
+#    # libsbml
+#    set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
+#    CheckDirectoryExists("libsbml source" "${LIBSBML_SOURCE_DIR}")
+#
+#    set(LIBSBML_INSTALL_PREFIX "${LIBSBML_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+#
+#    find_library(LIBSBML_STATIC_LIBRARY
+#            NAMES
+#            libsbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            sbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            HINTS ${LIBSBML_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
+#
+#    find_path(LIBSBML_INCLUDE_DIR
+#            NAMES sbml/SBMLTypes.h
+#            HINTS ${LIBSBML_INSTALL_PREFIX}/include
+#            NO_DEFAULT_PATH
+#            )
+#
     # libsbml dependencies - These are not needed here for libsbml itself
     # as the libsbml-dependencies target is built into libsbml inside a directory
     # called dependencies. libsbml knows about this folder and uses it.
-    find_library(EXPAT_STATIC_LIBRARY
-            NAMES
-            expat${CMAKE_STATIC_LIBRARY_SUFFIX}
-            libexpat${CMAKE_STATIC_LIBRARY_SUFFIX}
-            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
-
-    find_library(LIBBZ2_STATIC_LIBRARY
-            NAMES
-            libbz2${CMAKE_STATIC_LIBRARY_SUFFIX}
-            bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
-            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
-
-    find_library(LIBCHECK_STATIC_LIBRARY
-            NAMES
-            libcheck${CMAKE_STATIC_LIBRARY_SUFFIX}
-            check${CMAKE_STATIC_LIBRARY_SUFFIX}
-            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
-
-    find_library(LIBICONV_STATIC_LIBRARY
-            NAMES
-            libiconv${CMAKE_STATIC_LIBRARY_SUFFIX}
-            iconv${CMAKE_STATIC_LIBRARY_SUFFIX}
-            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
-
-    find_library(LIBXML2_STATIC_LIBRARY
-            NAMES
-            libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
-            xml2${CMAKE_STATIC_LIBRARY_SUFFIX}
-            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
-
-    find_library(ZLIB_STATIC_LIBRARY
-            NAMES
-            zdll${CMAKE_STATIC_LIBRARY_SUFFIX}
-            libz${CMAKE_STATIC_LIBRARY_SUFFIX}
-            libzlib${CMAKE_STATIC_LIBRARY_SUFFIX}
-            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
-            NO_DEFAULT_PATH
-            )
+#    find_library(EXPAT_STATIC_LIBRARY
+#            NAMES
+#            expat${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            libexpat${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
+#
+#    find_library(LIBBZ2_STATIC_LIBRARY
+#            NAMES
+#            libbz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
+#
+#    find_library(LIBCHECK_STATIC_LIBRARY
+#            NAMES
+#            libcheck${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            check${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
+#
+#    find_library(LIBICONV_STATIC_LIBRARY
+#            NAMES
+#            libiconv${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            iconv${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
+#
+#    find_library(LIBXML2_STATIC_LIBRARY
+#            NAMES
+#            libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            xml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
+#
+#    find_library(ZLIB_STATIC_LIBRARY
+#            NAMES
+#            zdll${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            libz${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            libzlib${CMAKE_STATIC_LIBRARY_SUFFIX}
+#            PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+#            NO_DEFAULT_PATH
+#            )
 
     set(LIBSBML_DEPENDENCIES_LIBRARIES
             ${LIBXML2_STATIC_LIBRARY}

@@ -10,6 +10,11 @@
 
 include(ExternalProject)
 
+# Root of the dependencies
+set(THIRD_PARTY_DIRECTORY "${CMAKE_SOURCE_DIR}/third_party")
+CheckDirectoryExists("third_party directory" "${THIRD_PARTY_DIRECTORY}")
+
+
 add_subdirectory(nleq1)
 #
 #ExternalProject_Add(
@@ -56,47 +61,109 @@ add_subdirectory(clapack3.2.1)
 #set(LIBXML2_SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/libxml2)
 #set(ZLIB_SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/zlib)
 
-ExternalProject_Add(
-        libsbml_dependencies
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies
-        LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS
-        -DCMAKE_INSTALL_PREFIX=${LIBSBML_DEPS_INSTALL_PREFIX}
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-#        -DWITH_STATIC_RUNTIME=ON
-)
+set(LIBSBML_DEPS_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-dependencies")
+set(LIBSBML_DEPS_INSTALL_PREFIX "${LIBSBML_DEPS_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+set(HAVE_LIBSBML_DEPS OFF)
+find_library(LIBICONV_STATIC_LIBRARY
+        NAMES
+        libiconv${CMAKE_STATIC_LIBRARY_SUFFIX}
+        iconv${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+        NO_DEFAULT_PATH
+        )
+
+find_library(LIBXML2_STATIC_LIBRARY
+        NAMES
+        libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+        xml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+        NO_DEFAULT_PATH
+        )
+
+find_library(ZLIB_STATIC_LIBRARY
+        NAMES
+        zdll${CMAKE_STATIC_LIBRARY_SUFFIX}
+        libz${CMAKE_STATIC_LIBRARY_SUFFIX}
+        libzlib${CMAKE_STATIC_LIBRARY_SUFFIX}
+        PATHS ${LIBSBML_DEPS_INSTALL_PREFIX}/lib
+        NO_DEFAULT_PATH
+        )
+set(LIBSBML_DEPENDENCIES_LIBRARIES
+        ${LIBXML2_STATIC_LIBRARY}
+        ${LIBICONV_STATIC_LIBRARY}
+        ${ZLIB_STATIC_LIBRARY}
+        )
+foreach (lib ${LIBSBML_DEPENDENCIES_LIBRARIES})
+    if (NOT EXISTS ${lib})
+        set(HAVE_LIBSBML_DEPENDENCIES OFF)
+        break()
+    endif ()
+endforeach ()
+
+if (NOT ${HAVE_LIBSBML_DEPS})
+    project(build-libsbml-dependencies)
+    ExternalProject_Add(
+            libsbml_dependencies
+            SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies
+            LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/logs-${CMAKE_CXX_COMPILER_ID}
+            CMAKE_ARGS
+            -DCMAKE_INSTALL_PREFIX=${LIBSBML_DEPS_INSTALL_PREFIX}
+            -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+            #        -DWITH_STATIC_RUNTIME=ON
+    )
+
+endif ()
 #
 #
 ## libsbml - looks for its dependencies in a folder called `dependencies` at libsbml root.
-set(LIBSBML_ROOT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source)
-message(STATUS "1: LIBSBML_ROOT_SOURCE_DIR ${LIBSBML_ROOT_SOURCE_DIR}")
+#set(LIBSBML_ROOT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source)
+#message(STATUS "1: LIBSBML_ROOT_SOURCE_DIR ${LIBSBML_ROOT_SOURCE_DIR}")
+#set(LIBSBML_SOURCE_DIR "${THIRD_PARTY_DIRECTORY}/libSBML-5.18.1-experimental-Source")
+#CheckDirectoryExists("libsbml source" "${LIBSBML_SOURCE_DIR}")
+#
+#set(LIBSBML_INSTALL_PREFIX "${LIBSBML_SOURCE_DIR}/install-${CMAKE_CXX_COMPILER_ID}")
+#
+#find_library(LIBSBML_STATIC_LIBRARY
+#        NAMES
+#        libsbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+#        sbml-static${CMAKE_STATIC_LIBRARY_SUFFIX}
+#        HINTS ${LIBSBML_INSTALL_PREFIX}/lib
+#        NO_DEFAULT_PATH
+#        )
+#
+#find_path(LIBSBML_INCLUDE_DIR
+#        NAMES sbml/SBMLTypes.h
+#        HINTS ${LIBSBML_INSTALL_PREFIX}/include
+#        NO_DEFAULT_PATH
+#        )
 # Adding sbml as a subdirectory causes ALL sorts of problems. The sbml
 # build sript was not intended to be used this way and therefore it is
 # hard to do. Preference would be to add_subdirectory but instead we
 # add as external project:
 #add_subdirectory(libSBML-5.18.1-experimental-Source)
 
-ExternalProject_Add(
-        libsbml
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source
-        LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/logs-${CMAKE_CXX_COMPILER_ID}
-        CMAKE_ARGS
-        -DLIBSBML_DEPENDENCY_DIR=${LIBSBML_DEPS_INSTALL_PREFIX}
-        -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        -DWITH_CPP_NAMESPACE=ON
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-#        -DWITH_STATIC_RUNTIME=ON # causes problems.
-        DEPENDS libsbml_dependencies
-)
+set(HAVE_LIBSBML OFF)
 
 
-#
-#
-## add rr-libstruct subdirectory. Depends on libsbml
+#ExternalProject_Add(
+#        libsbml
+#        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source
+#        LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source/logs-${CMAKE_CXX_COMPILER_ID}
+#        CMAKE_ARGS
+#        -DLIBSBML_DEPENDENCY_DIR=${LIBSBML_DEPS_INSTALL_PREFIX}
+#        -DCMAKE_INSTALL_PREFIX=${LIBSBML_INSTALL_PREFIX}
+#        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+#        -DWITH_CPP_NAMESPACE=ON
+#        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+#        #        -DWITH_STATIC_RUNTIME=ON # causes problems.
+#        DEPENDS libsbml_dependencies
+#)
+
+
+# add rr-libstruct subdirectory. Depends on libsbml
 #add_subdirectory(rr-libstruct)
-##add_subdirectory(rr-libstruct)
+#add_subdirectory(rr-libstruct)
 #ExternalProject_Add(
 #        rr-libstruct
 #        SOURCE_DIR ${RR_LIBSTRUCT_DIR}
