@@ -17,12 +17,12 @@
 
 
 static const char* getGitBranch() {
-    return "develop";
+    return "develop-add-subdirectory-dependencies";
 }
 
 
 static const char* getGitLastCommit() {
-    return "1b987ed12b8f992f0d2aca7d420f0de1fefe3a9f";
+    return "6635c3a07b64b627350d923a8705cf9774e69581";
 }
 
 #endif
