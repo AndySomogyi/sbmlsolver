@@ -32,7 +32,7 @@
  #
 
 if (ENABLE_L3V2EXTENDEDMATH)
-message(STATUS "2: LIBSBML_ROOT_SOURCE_DIR ${LIBSBML_ROOT_SOURCE_DIR}")
+get_filename_component(LIBSBML_ROOT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 include(${LIBSBML_ROOT_SOURCE_DIR}/l3v2extendedmath-package.cmake)
 
  # build up sources

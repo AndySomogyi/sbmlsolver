@@ -47,9 +47,7 @@ set(LIBSBML_SOURCES)
 #
 file(GLOB PACKAGE_OPTIONS "*package.cmake")
 foreach (package ${PACKAGE_OPTIONS})
-
     include(${package})
-
 endforeach ()
 
 ###############################################################################

@@ -49,7 +49,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfi
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig)
 
 
-#####################################
+############################################################
 # Get a list of source file to build
 #
 
@@ -141,6 +141,7 @@ set(rrCoreSources
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
+        #todo pull test files out of main library sources.
         testing/CXXExecutableModel.cpp
         testing/CXXEnzymeExecutableModel.cpp
         testing/CXXBrusselatorExecutableModel.cpp
@@ -292,6 +293,8 @@ if (BUILD_LEGACY_C)
             c/rrCompiledExecutableModel.h
             c/rrRandom.h
             )
+    # install the rr_support if building legacy c
+    add_subdirectory(rr_support)
 endif (BUILD_LEGACY_C)
 
 ##############################################################
@@ -340,18 +343,18 @@ endif ()
 # Order matters for linux builds. Do not change.
 set(LINK_LIBRARIES
         ${RR_LIBSTRUCT_STATIC_LIBRARY}
-#        ${LIBSBML_STATIC_LIBRARY}
+        #        ${LIBSBML_STATIC_LIBRARY}
         ${SUNDIALS_STATIC_LIBRARIES}
         ${NLEQ2_STATIC_LIBRARY}
         ${NLEQ1_STATIC_LIBRARY}
         ${CLAPACK_STATIC_LIBRARIES}
         ${POCO_STATIC_LIBRARIES}
-#        ${LLVM_LIBRARIES}
-#        ${ZLIB_STATIC_LIBRARY}
-#        ${LIBBZ2_STATIC_LIBRARY}
-#        ${LIBXML2_STATIC_LIBRARY}
-#        ${LIBICONV_STATIC_LIBRARY}
-#        ${ZLIB_STATIC_LIBRARY}
+        #        ${LLVM_LIBRARIES}
+        #        ${ZLIB_STATIC_LIBRARY}
+        #        ${LIBBZ2_STATIC_LIBRARY}
+        #        ${LIBXML2_STATIC_LIBRARY}
+        #        ${LIBICONV_STATIC_LIBRARY}
+        #        ${ZLIB_STATIC_LIBRARY}
         )
 
 # make available to parent

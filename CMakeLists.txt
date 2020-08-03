@@ -263,12 +263,7 @@ endif ()
 # We technically do not *need this to be a function, since it is only
 #  used once. But it improves the readability of the main build script to
 #  put the dependency locating code in a separate macro.
-FindDependencies()
-
-set(HAVE_DEPENDENCIES ON)
-foreach (lib ${LINK_LIBRARIES})
-    message(STATUS "library: ${lib}")
-endforeach ()
+#FindDependencies()
 
 
 # handle the LLVM dependency
@@ -365,12 +360,6 @@ add_subdirectory(third_party)
 
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
-
-# install the rr_support if building legacy c
-# todo if rr_support is source, then it should be a subdirectory of the source directory.
-if (BUILD_LEGACY_C)
-    add_subdirectory(rr_support)
-endif (BUILD_LEGACY_C)
 
 ##########################################################
 # Build tests
