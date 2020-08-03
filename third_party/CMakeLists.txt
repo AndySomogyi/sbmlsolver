@@ -5,17 +5,21 @@ CheckDirectoryExists("third_party directory" "${THIRD_PARTY_DIRECTORY}")
 ## nleq1
 message(STATUS "Adding nleq1 as subdirectory")
 add_subdirectory(nleq1)
-include_directories(nleq1)
+set(NLEQ1_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nleq1)
+set(NLEQ1_INCLUDE_DIR ${NLEQ1_INCLUDE_DIR} PARENT_SCOPE)
 
 ## nleq2
 message(STATUS "Adding nleq2 as subdirectory")
 add_subdirectory(nleq2)
-include_directories(nleq2)
+set(NLEQ2_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nleq2)
+set(NLEQ2_INCLUDE_DIR ${NLEQ2_INCLUDE_DIR} PARENT_SCOPE)
 
 ## clapack3.2.1
 message(STATUS "Adding clapack3.2.1 as subdirectory")
 add_subdirectory(clapack3.2.1)
-include_directories(clapack3.2.1/include)
+#include_directories(clapack3.2.1/include)
+set(CLAPACK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/clapack3.2.1/include)
+set(CLAPACK_INCLUDE_DIR ${CLAPACK_INCLUDE_DIR} PARENT_SCOPE)
 
 ## libsbml dependencies
 message(STATUS "Adding libSBML-dependencies as subdirectory")
@@ -44,11 +48,8 @@ include_directories(rr-libstruct)
 ## poco
 message(STATUS "Adding poco as subdirectory")
 add_subdirectory(poco_1.5.3)
-include_directories(poco_1.5.3/Foundation/include)
-include_directories(poco_1.5.3/Net/include)
-include_directories(poco_1.5.3/Util/include)
-include_directories(poco_1.5.3/XML/include)
-include_directories(poco_1.5.3/Zip/include)
+include_directories(poco_1.5.3/include)
+include_directories(D:/rrbuild/roadrunner/third_party/poco_1.5.3/include)
 
 ## sundials
 message(STATUS "Adding sundials as subdirectory")
