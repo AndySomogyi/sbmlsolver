@@ -43,7 +43,7 @@ IF(BUILD_STATIC_LIBS)
 
 
   if (WIN32)
-    SetTargetMSVCRuntimeStatic(sundials_nvecserial_static)
+
   endif ()
 
 ENDIF(BUILD_STATIC_LIBS)

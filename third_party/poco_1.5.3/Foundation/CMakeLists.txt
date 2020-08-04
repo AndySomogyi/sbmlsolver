@@ -242,7 +242,7 @@ if (${CMAKE_CXX_COMPILER_ID} MATCHES "SunPro")
 endif (${CMAKE_CXX_COMPILER_ID} MATCHES "SunPro")
 target_link_libraries(${LIBNAME} ${SYSLIBS})
 
-    SetTargetMSVCRuntimeStatic(${LIBNAME})
+
 
 
 install(

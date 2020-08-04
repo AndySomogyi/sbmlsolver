@@ -94,7 +94,7 @@ IF(BUILD_STATIC_LIBS)
 
 
     if (WIN32)
-        SetTargetMSVCRuntimeStatic(sundials_idas_static)
+
     endif ()
 
   # Install the IDA library

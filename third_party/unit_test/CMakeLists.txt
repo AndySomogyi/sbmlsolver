@@ -66,7 +66,7 @@ set_property(TARGET ${target}-static
         WIN32
         )
 if (WIN32)
-    SetTargetMSVCRuntimeStatic(${target}-static)
+
 endif ()
 
 #endif()

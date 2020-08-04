@@ -531,7 +531,7 @@ if (NOT LIBSBML_SKIP_SHARED_LIBRARY)
 endif ()
 
 add_library(${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES})
-SetTargetMSVCRuntimeStatic(${LIBSBML_LIBRARY}-static)
+
 
 if (WIN32 AND NOT CYGWIN)
     # don't decorate static library 

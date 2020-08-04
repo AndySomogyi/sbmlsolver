@@ -33,7 +33,7 @@ endif ()
 
 target_link_libraries(${target}-static f2c)
 
-SetTargetMSVCRuntimeStatic(${target}-static)
+
 
 #Install required files
 install(FILES ${headers}

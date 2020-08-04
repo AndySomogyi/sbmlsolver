@@ -50,7 +50,7 @@ IF (BUILD_STATIC_LIBS)
     INSTALL(TARGETS sundials_nvecparallel_static DESTINATION lib)
 
     if (WIN32)
-        SetTargetMSVCRuntimeStatic(sundials_nvecparallel_static)
+
     endif ()
 
 ENDIF (BUILD_STATIC_LIBS)

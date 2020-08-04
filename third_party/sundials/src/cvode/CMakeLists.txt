@@ -97,7 +97,7 @@ IF (BUILD_STATIC_LIBS)
     INSTALL(TARGETS sundials_cvode_static DESTINATION lib)
 
     if (WIN32)
-        SetTargetMSVCRuntimeStatic(sundials_cvode_static)
+
     endif ()
 
 ENDIF (BUILD_STATIC_LIBS)

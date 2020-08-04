@@ -82,7 +82,7 @@ file(COPY ${headers} DESTINATION "${RR_STRUCT_INCLUDE_DIR}/rr-libstruct")
 set(RR_STRUCT_INCLUDE_DIR ${RR_STRUCT_INCLUDE_DIR} PARENT_SCOPE)
 
 if (WIN32)
-    SetTargetMSVCRuntimeStatic(${target}-static)
+
 endif ()
 
 install(TARGETS ${target}-static

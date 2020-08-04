@@ -143,7 +143,7 @@ if (UNIX)
 endif ()
 
 if (WIN32)
-    SetTargetMSVCRuntimeStatic(${target})
+
 endif ()
 target_link_libraries(${target} f2c)
 

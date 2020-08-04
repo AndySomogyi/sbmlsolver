@@ -13,7 +13,7 @@ set_target_properties(${LIBNAME}
 target_link_libraries(${LIBNAME} PocoUtil PocoXML PocoFoundation)
 
 if (WIN32)
-    SetTargetMSVCRuntimeStatic(${LIBNAME})
+
 endif ()
 
 install(

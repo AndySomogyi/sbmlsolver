@@ -71,7 +71,7 @@ add_library(${target} STATIC
 
 set_property(TARGET f2c PROPERTY PREFIX lib)
 if (WIN32)
-    SetTargetMSVCRuntimeStatic(f2c)
+
 endif ()
 install(TARGETS ${target} 
         LIBRARY DESTINATION lib 

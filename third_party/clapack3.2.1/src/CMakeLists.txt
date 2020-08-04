@@ -381,7 +381,7 @@ add_library(${target} STATIC ${ALLOBJ} ${ALLXOBJ})
 #target_link_libraries(lapack blas f2c)
 
 if (WIN32)
-    SetTargetMSVCRuntimeStatic(${target})
+
 endif ()
 
 install(TARGETS ${target}

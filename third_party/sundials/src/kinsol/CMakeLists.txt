@@ -87,7 +87,7 @@ IF(BUILD_STATIC_LIBS)
 
 
     if (WIN32)
-        SetTargetMSVCRuntimeStatic(sundials_kinsol_static)
+
     endif ()
 
   # Set the library name and make sure it is not deleted
