@@ -80,7 +80,7 @@ public:
         BasicBlock *basicBlock = BasicBlock::Create(context, "entry", func);
         builder.SetInsertPoint(basicBlock);
 
-        assert(func->arg_size().size() == N);
+        assert(func->arg_size() == N);
 
         int i = 0;
 
