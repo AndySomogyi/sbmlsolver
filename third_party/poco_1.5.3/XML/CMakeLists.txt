@@ -10,6 +10,10 @@ set_target_properties( ${LIBNAME}
 	VERSION ${SHARED_LIBRARY_VERSION} SOVERSION ${SHARED_LIBRARY_VERSION} )
 target_link_libraries( ${LIBNAME} PocoFoundation)
 
+if (WIN32)
+    SetTargetMSVCRuntimeStatic(${LIBNAME})
+endif ()
+
 install(
     DIRECTORY include/Poco
     DESTINATION include

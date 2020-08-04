@@ -459,23 +459,27 @@ set(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${XML_SOURCES})
 #
 # this is a directory level operation!
 #
-if (MSVC)
-    if (WITH_STATIC_RUNTIME)
-        foreach (flag_var
-                CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
-                CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-                CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
 
-            if (${flag_var} MATCHES "/MD")
-                string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-            endif (${flag_var} MATCHES "/MD")
-
-
-        endforeach (flag_var)
-        add_definitions(-D_MT)
-    endif (WITH_STATIC_RUNTIME)
-endif (MSVC)
+# This code has been replaced with safer code on a per target basis
+#  for roadrunner specifically (Ciaran welsh). Otherwise the flags get
+#  modified for all targets
+#if (MSVC)
+#    if (WITH_STATIC_RUNTIME)
+#        foreach (flag_var
+#                CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+#                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
+#                CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+#                CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
+#
+#            if (${flag_var} MATCHES "/MD")
+#                string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+#            endif (${flag_var} MATCHES "/MD")
+#
+#
+#        endforeach (flag_var)
+#        add_definitions(-D_MT)
+#    endif (WITH_STATIC_RUNTIME)
+#endif (MSVC)
 
 ###############################################################################
 #
@@ -527,13 +531,26 @@ if (NOT LIBSBML_SKIP_SHARED_LIBRARY)
 endif ()
 
 add_library(${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES})
+SetTargetMSVCRuntimeStatic(${LIBSBML_LIBRARY}-static)
 
 if (WIN32 AND NOT CYGWIN)
     # don't decorate static library 
     set_target_properties(${LIBSBML_LIBRARY}-static PROPERTIES COMPILE_DEFINITIONS "LIBLAX_STATIC=1;LIBSBML_STATIC=1")
 endif (WIN32 AND NOT CYGWIN)
 
-target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
+# this line replaced with line below (ciaran welsh)
+#target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
+
+target_link_libraries(${LIBSBML_LIBRARY}-static
+        zlibstatic
+        libxml2-static
+        libiconv-static
+        )
+add_dependencies(${LIBSBML_LIBRARY}-static
+        zlibstatic
+        libxml2-static
+        libiconv-static
+        )
 
 INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
         EXPORT ${LIBSBML_LIBRARY}-static-config
@@ -543,23 +560,23 @@ INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
         ${INCLUDE_DESTINATION}
         )
 
-# and install the exported target configuration
-INSTALL(EXPORT ${LIBSBML_LIBRARY}-static-config
-        DESTINATION ${PACKAGE_CONFIG_DIR}
-        )
-
-if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
-    WRITE_BASIC_PACKAGE_VERSION_FILE(
-            ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
-            VERSION ${PROJECT_VERSION}
-            COMPATIBILITY AnyNewerVersion
-    )
-
-    INSTALL(FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
-            DESTINATION ${PACKAGE_CONFIG_DIR}
-            )
-endif ()
+## and install the exported target configuration
+#INSTALL(EXPORT ${LIBSBML_LIBRARY}-static-config
+#        DESTINATION ${PACKAGE_CONFIG_DIR}
+#        )
+#
+#if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+#    WRITE_BASIC_PACKAGE_VERSION_FILE(
+#            ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
+#            VERSION ${PROJECT_VERSION}
+#            COMPATIBILITY AnyNewerVersion
+#    )
+#
+#    INSTALL(FILES
+#            ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
+#            DESTINATION ${PACKAGE_CONFIG_DIR}
+#            )
+#endif ()
 
 ##############################################################################
 #

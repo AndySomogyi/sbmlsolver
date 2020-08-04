@@ -40,6 +40,12 @@ IF(BUILD_STATIC_LIBS)
   SET_TARGET_PROPERTIES(sundials_nvecserial_static
     PROPERTIES OUTPUT_NAME sundials_nvecserial CLEAN_DIRECT_OUTPUT 1)
   INSTALL(TARGETS sundials_nvecserial_static DESTINATION lib)
+
+
+  if (WIN32)
+    SetTargetMSVCRuntimeStatic(sundials_nvecserial_static)
+  endif ()
+
 ENDIF(BUILD_STATIC_LIBS)
 
 # Rules for building and installing the shared library:

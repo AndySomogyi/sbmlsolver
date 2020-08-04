@@ -1227,11 +1227,11 @@ endif ()
 # Add check that at least one XML library was selection
 #
 
-if (LIBRARY_COUNT EQUAL 0)
-    message(FATAL_ERROR
-            "A XML library must be selected. Please select one of the following
-options: WITH_LIBXML, WITH_EXPAT or WITH_XERCES.")
-endif ()
+#if (LIBRARY_COUNT EQUAL 0)
+#    message(FATAL_ERROR
+#            "A XML library must be selected. Please select one of the following
+#options: WITH_LIBXML, WITH_EXPAT or WITH_XERCES.")
+#endif ()
 
 ###############################################################################
 #

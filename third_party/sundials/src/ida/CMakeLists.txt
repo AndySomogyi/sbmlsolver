@@ -86,6 +86,9 @@ IF(BUILD_STATIC_LIBS)
   ADD_LIBRARY(sundials_ida_static STATIC 
     ${ida_SOURCES}  ${ida_BL_SOURCES}  ${shared_SOURCES})
 
+    if (WIN32)
+        SetTargetMSVCRuntimeStatic(sundials_ida_static)
+    endif ()
   # Set the library name and make sure it is not deleted
   SET_TARGET_PROPERTIES(sundials_ida_static
     PROPERTIES OUTPUT_NAME sundials_ida CLEAN_DIRECT_OUTPUT 1)

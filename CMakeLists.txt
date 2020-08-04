@@ -102,7 +102,8 @@ option(INSTALL_SBML_MODELS "Install SBML Models" ON)
 option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
 option(USE_POCO_NET "Use poco net library" ON)
 option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
-
+set(CMAKE_STANDARD 14 CACHE STRING "set the cmake standard to use")
+set(CMAKE_VERBOSE_MAKEFILE:BOOL TRUE)
 ##################################################
 #   Settings derived from options
 #
@@ -194,20 +195,14 @@ else ()
 endif (BUILD_LEGACY_C)
 
 
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
-
 #####################################################
 #    Apply project/compiler settings
 #
 
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
 # Set C++14 flags
-if (RR_USE_CXX14)
-    if (NOT MSVC)
-        set(CMAKE_CXX_FLAGS "-std=c++14 ${CMAKE_CXX_FLAGS}")
-    else ()
-        message(STATUS "RR_USE_CXX14 enabled but has no effect on Microsoft compilers")
-    endif ()
-endif ()
+set(CMAKE_CXX_STANDARD ${CMAKE_STANDARD})
 
 
 if (${MSVC})
@@ -265,6 +260,8 @@ endif ()
 #  put the dependency locating code in a separate macro.
 #FindDependencies()
 
+# add the third_party directory as dependencies
+add_subdirectory(third_party)
 
 # handle the LLVM dependency
 if (${LLVM_INSTALL_PREFIX})
@@ -291,69 +288,73 @@ if (${LLVM_INSTALL_PREFIX})
 
     # Use the propper LLVM supplied CMake files.
     # prepend the cmake module path with the LLVM modules
-    set(CMAKE_MODULE_PATH "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" ${CMAKE_MODULE_PATH})
+    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
+    if (NOT EXISTS "${LLVM_MODULE_PATH}")
+        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
+    endif()
+    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
 
     include(LLVMConfig)
+
 
     # we're building a JIT compiler with support for binary code (no interpreter):
     # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
     # to link with.
     llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
 
+endif()
+#else (${LLVM_INSTALL_PREFIX})
+#    # But we can fall back and download binaries or build from source as well
+#
+#    # Set the root of llvm to be in the third_party directory. Note
+#    # that we need to separate different compilers
+#    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
+#
+#    # set llvm source directory. This is only used when we are in LLVM build mode
+#    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
+#
+#    # set a place to put the binaries
+#    SetCrossPlatform(LLVM_INSTALL_PREFIX
+#            "${LLVM_ROOT}/llvm6.0.1-msvc"
+#            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
+#            "${LLVM_ROOT}/llvm6.0.1-mac"
+#            )
+#
+#    ## first try to find an existing LLVM version
+#    find_package(LLVM)
+#
+#    # if it was found, validate the version
+#    if (LLVM_FOUND)
+#        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
+#            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
+#        endif ()
+#    else ()
+#        # Otherwise we download binaries or build from source
+#
+#        # defines two boolean variables
+#        #   - BUILD_LLVM
+#        #   - DOWNLOAD_LLVM_BINARIES
+#        # They are mutually exclusive and determine the flow of the next step
+#        DownloadOrBuildLLVM()
+#
+#        # If conditions are met we can use precompiled binaries
+#        if (${DOWNLOAD_LLVM_BINARIES})
+#            DownloadLLVM601Binaries()
+#        endif ()
+#
+#        # if not we can build LLVM from source, which will take a while
+#        if (BUILD_LLVM)
+#            BuildLLVMFromSource()
+#        endif (BUILD_LLVM)
+#
+#        # Now we try again to find llvm
+#        #        find_package(LLVM)
+#
+#    endif (LLVM_FOUND)
+#endif (${LLVM_INSTALL_PREFIX})
 
-else (${LLVM_INSTALL_PREFIX})
-    # But we can fall back and download binaries or build from source as well
-
-    # Set the root of llvm to be in the third_party directory. Note
-    # that we need to separate different compilers
-    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
-
-    # set llvm source directory. This is only used when we are in LLVM build mode
-    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
-
-    # set a place to put the binaries
-    SetCrossPlatform(LLVM_INSTALL_PREFIX
-            "${LLVM_ROOT}/llvm6.0.1-msvc"
-            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
-            "${LLVM_ROOT}/llvm6.0.1-mac"
-            )
-
-    ## first try to find an existing LLVM version
-    find_package(LLVM)
-
-    # if it was found, validate the version
-    if (LLVM_FOUND)
-        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
-            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
-        endif ()
-    else ()
-        # Otherwise we download binaries or build from source
-
-        # defines two boolean variables
-        #   - BUILD_LLVM
-        #   - DOWNLOAD_LLVM_BINARIES
-        # They are mutually exclusive and determine the flow of the next step
-        DownloadOrBuildLLVM()
-
-        # If conditions are met we can use precompiled binaries
-        if (${DOWNLOAD_LLVM_BINARIES})
-            DownloadLLVM601Binaries()
-        endif ()
-
-        # if not we can build LLVM from source, which will take a while
-        if (BUILD_LLVM)
-            BuildLLVMFromSource()
-        endif (BUILD_LLVM)
-
-        # Now we try again to find llvm
-        #        find_package(LLVM)
-
-    endif (LLVM_FOUND)
-endif (${LLVM_INSTALL_PREFIX})
 
 
-# add the third_party directory as dependencies
-add_subdirectory(third_party)
 
 ##########################################################
 # Add roadrunner source directories to the build

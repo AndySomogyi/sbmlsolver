@@ -22,10 +22,37 @@ set(CLAPACK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/clapack3.2.1/include")
 set(CLAPACK_INCLUDE_DIR "${CLAPACK_INCLUDE_DIR}" PARENT_SCOPE)
 
 ## libsbml dependencies
-message(STATUS "Adding libSBML-dependencies as subdirectory")
-add_subdirectory(libSBML-dependencies)
-set(LIBSBML_DEPS_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/include")
-set(LIBSBML_DEPS_INCLUDE_DIR "${LIBSBML_DEPS_INCLUDE_DIR}")
+#message(STATUS "Adding libSBML-dependencies as subdirectory")
+#add_subdirectory(libSBML-dependencies)
+#set(LIBSBML_DEPS_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libSBML-dependencies/include")
+#set(LIBSBML_DEPS_INCLUDE_DIR "${LIBSBML_DEPS_INCLUDE_DIR}")
+
+
+
+# zlib
+message(STATUS "Adding zlib as subdirectory")
+add_subdirectory(zlib-1.2.11)
+set(ZLIB_INCLUDE_DIR "${ZLIB_INCLUDE_DIR}" PARENT_SCOPE)
+
+# lzma
+message(STATUS "Adding lzma as subdirectory")
+add_subdirectory(lzma)
+set(LZMA_INCLUDE_DIR "${LZMA_INCLUDE_DIR}" PARENT_SCOPE)
+
+# iconv
+message(STATUS "Adding iconv as subdirectory")
+add_subdirectory(iconv)
+# NOTE: this is set within iconv
+#set(ICONV_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/iconv")
+set(ICONV_INCLUDE_DIR "${ICONV_INCLUDE_DIR}" PARENT_SCOPE)
+
+# libxml2
+message(STATUS "Adding libxml2 as subdirectory")
+add_subdirectory(libxml2)
+set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libxml2")
+set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
+
+
 
 # set the variables needed by libsbml here:
 message(STATUS "Adding libSBML as subdirectory")
@@ -50,6 +77,7 @@ set(RR_STRUCT_INCLUDE_DIR "${RR_STRUCT_INCLUDE_DIR}" PARENT_SCOPE)
 #include_directories(rr-libstruct)
 ## poco
 message(STATUS "Adding poco as subdirectory")
+set(POCO_STATIC TRUE)
 add_subdirectory(poco_1.5.3)
 set(POCO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/poco_1.5.3/include")
 set(POCO_INCLUDE_DIR "${POCO_INCLUDE_DIR}" PARENT_SCOPE)
@@ -65,6 +93,7 @@ add_subdirectory(sundials)
 set(SUNDIALS_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sundials/include")
 set(SUNDIALS_INCLUDE_DIR "${SUNDIALS_INCLUDE_DIR}" PARENT_SCOPE)
 
+message(STATUS "CVODE BUILD_SHARED_LIBS after : ${BUILD_SHARED_LIBS}")
 #include_directories(sundials/include)
 
 ## unit_test
@@ -72,18 +101,6 @@ message(STATUS "Adding unit-test as subdirectory")
 add_subdirectory(unit_test)
 set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/unit_test")
 set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
-
-# zlib
-message(STATUS "Adding zlib as subdirectory")
-add_subdirectory(zlib-1.2.11)
-set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zlib-1.2.11")
-set(ZLIB_INCLUDE_DIR "${ZLIB_INCLUDE_DIR}" PARENT_SCOPE)
-
-# libxml2
-message(STATUS "Adding libxml2 as subdirectory")
-add_subdirectory(libxml2)
-set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libxml2")
-set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
 
 
 set(DEPENDENCY_INCLUDE_DIRS
@@ -101,42 +118,43 @@ set(DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS} PARENT_SCOPE)
 
 add_custom_target(all-dependencies)
 
-set(ALL_DEPENDENCY_TARGETS
-        all-dependencies
-        blas
-        arithchk
-        f2c
-        lapack
-        libsbml-static
-        libiconv
-        libxml2
-        zdll
-        nleq1-static
-        nleq2-static
-        PocoFoundation
-        PocoNet
-        PocoUtil
-        PocoXML
-        PocoZip
-        rr-libstruct-static
-        sundials_cvode_static
-        sundials_cvodes_static
-        sundials_ida_static
-        sundials_idas_static
-        sundials_kinsol_static
-        sundials_nvecserial_static
-        unit_test-static)
+#set(ALL_DEPENDENCY_TARGETS
+#        all-dependencies
+#        blas
+#        f2c
+#        lapack
+#        libLZMA-static
+#        libsbml-static
+#        libiconv-static
+#        libxml2-static
+#        zdll
+#        nleq1-static
+#        nleq2-static
+#        PocoFoundation
+#        PocoNet
+#        PocoUtil
+#        PocoXML
+#        PocoZip
+#        rr-libstruct-static
+#        sundials_cvode_static
+#        sundials_cvodes_static
+#        sundials_ida_static
+#        sundials_idas_static
+#        sundials_kinsol_static
+#        sundials_nvecserial_static
+#        unit_test-static)
 
 # ensure available from whole project
-set(ALL_DEPENDENCY_TARGETS ${ALL_DEPENDENCY_TARGETS} PARENT_SCOPE)
+#set(ALL_DEPENDENCY_TARGETS ${ALL_DEPENDENCY_TARGETS} PARENT_SCOPE)
 
 add_dependencies(all-dependencies
         blas
         f2c
         lapack
         libsbml-static
-        libiconv
-        libxml2
+        libiconv-static
+        libxml2-static
+        libLZMA-static
         zlibstatic
         nleq1-static
         nleq2-static

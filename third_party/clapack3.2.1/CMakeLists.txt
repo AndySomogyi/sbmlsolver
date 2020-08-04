@@ -19,6 +19,8 @@ if(NOT USE_BLAS_WRAP)
   add_definitions(-DNO_BLAS_WRAP)
 endif()
 message(STATUS "CLAPACK_INCLUDE_DIR ${CLAPACK_INCLUDE_DIR}")
+
+
 include_directories(include)
 add_subdirectory(f2clibs)
 add_subdirectory(blas)

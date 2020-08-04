@@ -58,19 +58,19 @@ set(target blas)
 #  Comment out the next 6 definitions if you already have
 #  the Level 1 blas.
 #---------------------------------------------------------
-set(SBLAS1 isamax.c sasum.c saxpy.c scopy.c sdot.c snrm2.c 
-	srot.c srotg.c sscal.c sswap.c sdsdot.c srotmg.c srotm.c)
+set(SBLAS1 isamax.c sasum.c saxpy.c scopy.c sdot.c snrm2.c
+        srot.c srotg.c sscal.c sswap.c sdsdot.c srotmg.c srotm.c)
 
-set(CBLAS1 scabs1.c scasum.c scnrm2.c icamax.c caxpy.c ccopy.c 
-	cdotc.c cdotu.c csscal.c crotg.c cscal.c cswap.c csrot.c)
+set(CBLAS1 scabs1.c scasum.c scnrm2.c icamax.c caxpy.c ccopy.c
+        cdotc.c cdotu.c csscal.c crotg.c cscal.c cswap.c csrot.c)
 
-set(DBLAS1 idamax.c dasum.c daxpy.c dcopy.c ddot.c dnrm2.c 
-	drot.c drotg.c dscal.c dsdot.c dswap.c drotmg.c drotm.c)
+set(DBLAS1 idamax.c dasum.c daxpy.c dcopy.c ddot.c dnrm2.c
+        drot.c drotg.c dscal.c dsdot.c dswap.c drotmg.c drotm.c)
 
-set(ZBLAS1 dcabs1.c dzasum.c dznrm2.c izamax.c zaxpy.c zcopy.c 
-	zdotc.c zdotu.c zdscal.c zrotg.c zscal.c zswap.c zdrot.c)
+set(ZBLAS1 dcabs1.c dzasum.c dznrm2.c izamax.c zaxpy.c zcopy.c
+        zdotc.c zdotu.c zdscal.c zrotg.c zscal.c zswap.c zdrot.c)
 
-set(CB1AUX  isamax.c sasum.c saxpy.c scopy.c snrm2.c sscal.c)
+set(CB1AUX isamax.c sasum.c saxpy.c scopy.c snrm2.c sscal.c)
 
 set(ZB1AUX idamax.c dasum.c daxpy.c dcopy.c dnrm2.c dscal.c)
 
@@ -79,72 +79,76 @@ set(ZB1AUX idamax.c dasum.c daxpy.c dcopy.c dnrm2.c dscal.c)
 #  Level 2 and Level 3 blas.  Comment it out only if you already have
 #  both the Level 2 and 3 blas.
 #---------------------------------------------------------------------
-set(ALLBLAS  lsame.c xerbla.c xerbla_array.c)
+set(ALLBLAS lsame.c xerbla.c xerbla_array.c)
 
 #---------------------------------------------------------
 #  Comment out the next 4 definitions if you already have
 #  the Level 2 blas.
 #---------------------------------------------------------
-set(SBLAS2 sgemv.c sgbmv.c ssymv.c ssbmv.c sspmv.c 
-	strmv.c stbmv.c stpmv.c strsv.c stbsv.c stpsv.c 
-	sger.c ssyr.c sspr.c ssyr2.c sspr2.c)
+set(SBLAS2 sgemv.c sgbmv.c ssymv.c ssbmv.c sspmv.c
+        strmv.c stbmv.c stpmv.c strsv.c stbsv.c stpsv.c
+        sger.c ssyr.c sspr.c ssyr2.c sspr2.c)
 
-set(CBLAS2 cgemv.c cgbmv.c chemv.c chbmv.c chpmv.c 
-	ctrmv.c ctbmv.c ctpmv.c ctrsv.c ctbsv.c ctpsv.c 
-	cgerc.c cgeru.c cher.c chpr.c cher2.c chpr2.c)
+set(CBLAS2 cgemv.c cgbmv.c chemv.c chbmv.c chpmv.c
+        ctrmv.c ctbmv.c ctpmv.c ctrsv.c ctbsv.c ctpsv.c
+        cgerc.c cgeru.c cher.c chpr.c cher2.c chpr2.c)
 
-set(DBLAS2 dgemv.c dgbmv.c dsymv.c dsbmv.c dspmv.c 
-	dtrmv.c dtbmv.c dtpmv.c dtrsv.c dtbsv.c dtpsv.c 
-	dger.c dsyr.c dspr.c dsyr2.c dspr2.c)
+set(DBLAS2 dgemv.c dgbmv.c dsymv.c dsbmv.c dspmv.c
+        dtrmv.c dtbmv.c dtpmv.c dtrsv.c dtbsv.c dtpsv.c
+        dger.c dsyr.c dspr.c dsyr2.c dspr2.c)
 
-set(ZBLAS2 zgemv.c zgbmv.c zhemv.c zhbmv.c zhpmv.c 
-	ztrmv.c ztbmv.c ztpmv.c ztrsv.c ztbsv.c ztpsv.c 
-	zgerc.c zgeru.c zher.c zhpr.c zher2.c zhpr2.c)
+set(ZBLAS2 zgemv.c zgbmv.c zhemv.c zhbmv.c zhpmv.c
+        ztrmv.c ztbmv.c ztpmv.c ztrsv.c ztbsv.c ztpsv.c
+        zgerc.c zgeru.c zher.c zhpr.c zher2.c zhpr2.c)
 
 #---------------------------------------------------------
 #  Comment out the next 4 definitions if you already have
 #  the Level 3 blas.
 #---------------------------------------------------------
-set(SBLAS3 sgemm.c ssymm.c ssyrk.c ssyr2k.c strmm.c strsm.c )
+set(SBLAS3 sgemm.c ssymm.c ssyrk.c ssyr2k.c strmm.c strsm.c)
 
-set(CBLAS3 cgemm.c csymm.c csyrk.c csyr2k.c ctrmm.c ctrsm.c 
-	chemm.c cherk.c cher2k.c)
+set(CBLAS3 cgemm.c csymm.c csyrk.c csyr2k.c ctrmm.c ctrsm.c
+        chemm.c cherk.c cher2k.c)
 
 set(DBLAS3 dgemm.c dsymm.c dsyrk.c dsyr2k.c dtrmm.c dtrsm.c)
 
-set(ZBLAS3 zgemm.c zsymm.c zsyrk.c zsyr2k.c ztrmm.c ztrsm.c 
-	zhemm.c zherk.c zher2k.c)
+set(ZBLAS3 zgemm.c zsymm.c zsyrk.c zsyr2k.c ztrmm.c ztrsm.c
+        zhemm.c zherk.c zher2k.c)
 # default build all of it
-set(ALLOBJ ${SBLAS1} ${SBLAS2} ${SBLAS3} ${DBLAS1} ${DBLAS2} ${DBLAS3}	
-	${CBLAS1} ${CBLAS2} ${CBLAS3} ${ZBLAS1} 
-	${ZBLAS2} ${ZBLAS3} ${ALLBLAS})
+set(ALLOBJ ${SBLAS1} ${SBLAS2} ${SBLAS3} ${DBLAS1} ${DBLAS2} ${DBLAS3}
+        ${CBLAS1} ${CBLAS2} ${CBLAS3} ${ZBLAS1}
+        ${ZBLAS2} ${ZBLAS3} ${ALLBLAS})
 
-if(BLAS_SINGLE)
-  set(ALLOBJ ${SBLAS1} ${ALLBLAS} 
-	${SBLAS2} ${SBLAS3})
-endif()
-if(BLAS_DOUBLE)
-  set(ALLOBJ ${DBLAS1} ${ALLBLAS} 
-	${DBLAS2} ${DBLAS3})
-endif()
-if(BLAS_COMPLEX)
-  set(ALLOBJ  ${BLASLIB} ${CBLAS1} ${CB1AUX} 
-	${ALLBLAS} ${CBLAS2})
-endif()
-if(BLAS_COMPLEX16)
-  set(ALLOBJ  ${BLASLIB} ${ZBLAS1} ${ZB1AUX} 
-	${ALLBLAS} ${ZBLAS2} ${ZBLAS3})
-endif()
-  
-  
+if (BLAS_SINGLE)
+    set(ALLOBJ ${SBLAS1} ${ALLBLAS}
+            ${SBLAS2} ${SBLAS3})
+endif ()
+if (BLAS_DOUBLE)
+    set(ALLOBJ ${DBLAS1} ${ALLBLAS}
+            ${DBLAS2} ${DBLAS3})
+endif ()
+if (BLAS_COMPLEX)
+    set(ALLOBJ ${BLASLIB} ${CBLAS1} ${CB1AUX}
+            ${ALLBLAS} ${CBLAS2})
+endif ()
+if (BLAS_COMPLEX16)
+    set(ALLOBJ ${BLASLIB} ${ZBLAS1} ${ZB1AUX}
+            ${ALLBLAS} ${ZBLAS2} ${ZBLAS3})
+endif ()
+
+
 add_library(${target} STATIC ${ALLOBJ})
-if(UNIX)
-  target_link_libraries(${target} m)
-endif()
+if (UNIX)
+    target_link_libraries(${target} m)
+endif ()
+
+if (WIN32)
+    SetTargetMSVCRuntimeStatic(${target})
+endif ()
 target_link_libraries(${target} f2c)
 
-install(TARGETS ${target} 
-        LIBRARY DESTINATION lib 
+install(TARGETS ${target}
+        LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         RUNTIME DESTINATION bin)
 

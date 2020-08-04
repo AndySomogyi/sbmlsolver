@@ -65,7 +65,9 @@ set_property(TARGET ${target}-static
         PROPERTY COMPILE_DEFINITIONS
         WIN32
         )
-
+if (WIN32)
+    SetTargetMSVCRuntimeStatic(${target}-static)
+endif ()
 
 #endif()
 #Install required files

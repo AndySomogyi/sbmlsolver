@@ -92,12 +92,18 @@ IF(BUILD_STATIC_LIBS)
   ADD_LIBRARY(sundials_cvodes_static STATIC 
     ${cvodes_SOURCES}  ${cvodes_BL_SOURCES}  ${shared_SOURCES})
 
+
+    if (WIN32)
+        SetTargetMSVCRuntimeStatic(sundials_cvodes_static)
+    endif ()
+
   # Set the library name and make sure it is not deleted
   SET_TARGET_PROPERTIES(sundials_cvodes_static
     PROPERTIES OUTPUT_NAME sundials_cvodes CLEAN_DIRECT_OUTPUT 1)
 
   # Install the CVODES library
   INSTALL(TARGETS sundials_cvodes_static DESTINATION lib)
+
 
 ENDIF(BUILD_STATIC_LIBS)
 

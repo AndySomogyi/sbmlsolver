@@ -92,6 +92,11 @@ IF(BUILD_STATIC_LIBS)
   SET_TARGET_PROPERTIES(sundials_idas_static
     PROPERTIES OUTPUT_NAME sundials_idas CLEAN_DIRECT_OUTPUT 1)
 
+
+    if (WIN32)
+        SetTargetMSVCRuntimeStatic(sundials_idas_static)
+    endif ()
+
   # Install the IDA library
   INSTALL(TARGETS sundials_idas_static DESTINATION lib)
 

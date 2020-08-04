@@ -236,6 +236,7 @@ if (BUILD_LLVM)
     set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
     set(rrSources ${rrSources} ${rrLLVMSources})
+    #cl   /TP -DBUILD_LLVM -DCRT_NONSTDC_NO_DEPRECATE -DLIBLAX_STATIC -DLIBSBML_STATIC -DLIBSBML_USE_CPP_NAMESPACE -DPOCO_NO_AUTOMATIC_LIBS -DPOCO_STATIC -DSTATIC_LIBSTRUCT -DSTATIC_NLEQ1 -DSTATIC_NLEQ2 -DSTATIC_PUGI -DSTATIC_RR -D_CRT_SECURE_NO_WARNINGS -ID:\rrbuild\roadrunner\source -ID:\rrbuild\roadrunner\third_party\nleq1\include -ID:\rrbuild\roadrunner\third_party\nleq2\include -ID:\rrbuild\roadrunner\third_party\clapack3.2.1\include -ID:\rrbuild\roadrunner\third_party\libSBML-5.18.1-experimental-Source\include -ID:\rrbuild\roadrunner\third_party\rr-libstruct\include -ID:\rrbuild\roadrunner\third_party\poco_1.5.3\include -ID:\rrbuild\roadrunner\third_party\sundials\include -ID:\rrbuild\roadrunner\third_party\unit_test -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS /GR /EHsc /O2 /Ob2 /DNDEBUG -MT   /wd4251 /wd4018 /wd4996 /EHsc -DSTATIC_RR -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS   /Zc:inline /Zc:strictStrings /Oi /Zc:rvalueCast /W4 -wd4141 -wd4146 -wd4180 -wd4244 -wd4258 -wd4267 -wd4291 -wd4345 -wd4351 -wd4355 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4800 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4324 -w14062 -we4238 /MD /O2 /Ob2 /DNDEBUG  /EHsc /GR -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS -DUNICODE -D_UNICODE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS /FoCMakeFiles\roadrunner-static.dir\llvm\Random.cpp.obj /FdCMakeFiles\roadrunner-static.dir\roadrunner-static.pdb /FS -c D:\rrbuild\roadrunner\source\llvm\Random.cpp
 endif (BUILD_LLVM)
 
 # Add C legacy code to sources if needed
@@ -316,14 +317,17 @@ if (WIN32)
             PROPERTIES COMPILE_FLAGS -DSTATIC_RR)
 
     # set msvc runtime
-    set_property(TARGET ${target}-static PROPERTY
-            MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    SetTargetMSVCRuntimeStatic(${target}-static)
+
+    # We have a problem where a librry (maybe llvm) is enforcing their
+    #  compile flags on us and overriding the msvc runtime.
+    get_target_property(static_flags ${target}-static "CMAKE_CXX_FLAGS")
+    MESSAGE(STATUS "static_flags ${static_flags}")
+#    foreach(flag)
 
 endif ()
 
 
-#  I got a successful compile with only libsbml namespace.
-#  Leave it like this until you have a reason to uncommment
 set_property(TARGET ${target}-static
         PROPERTY COMPILE_DEFINITIONS
         LIBSBML_USE_CPP_NAMESPACE
@@ -338,7 +342,8 @@ set_property(TARGET ${target}-static
         )
 
 if (WIN32)
-    target_link_options(${target}-static PUBLIC /WHOLE_ARCHIVE)
+    #    set_target_properties(${target}-static PROPERTIES LINK_FLAGS "/WHOLEARCHIVE")
+    #    target_link_options(${target}-static PUBLIC /WHOLE_ARCHIVE)
 endif ()
 # Order matters for linux builds. Do not change.
 #set(LINK_LIBRARIES
@@ -404,7 +409,7 @@ if (BUILD_SHARED_LIBS)
 
     add_library(${target} SHARED ${rrSources})
     set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
-    add_dependencies(${target} all-dependencies)
+    #    add_dependencies(${target} all-dependencies)
 
     if (WIN32)
         # EXPORT_RR - on windows we want EXPORT_RR defined when compiling roadrunner
@@ -412,16 +417,18 @@ if (BUILD_SHARED_LIBS)
         #   - EH = Exception Handling
         #   - s = Enables standard C++ stack unwinding
         #   - c =  assumes that functions declared as extern "C" never throw a C++ exception.
-        add_definitions(-DEXPORT_RR /EHsc)
+        #        add_definitions(-DEXPORT_RR /EHsc)
         #todo find where LLVM_FLAGS are being added to CXX_FLAGS. We need to
         # add this after since right now it is just being overriden by LLVM_flags.
 
-        # set msvc runtime
-        set_property(TARGET ${target} PROPERTY
-                MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+        target_link_options(${target} PUBLIC /WHOLE_ARCHIVE)
 
-        get_target_property(x ${target}-static MSVC_RUNTIME_LIBRARY)
+        # set msvc runtime
+        SetTargetMSVCRuntimeDll(${target})
+
+        get_target_property(x ${target} MSVC_RUNTIME_LIBRARY)
         message(STATUS "x is ' ${x}")
+
 
     endif ()
     set_property(TARGET ${target}
@@ -452,8 +459,9 @@ if (BUILD_SHARED_LIBS)
             f2c
             lapack
             libsbml-static
-            libiconv
-            libxml2
+            libiconv-static
+            libLZMA-static
+            libxml2-static
             zlibstatic
             nleq1-static
             nleq2-static
@@ -462,6 +470,7 @@ if (BUILD_SHARED_LIBS)
             PocoUtil
             PocoXML
             PocoZip
+            PocoJSON
             rr-libstruct-static
             sundials_cvode_static
             sundials_cvodes_static
@@ -470,6 +479,7 @@ if (BUILD_SHARED_LIBS)
             sundials_kinsol_static
             sundials_nvecserial_static
             unit_test-static
+            ${LLVM_LIBRARIES}
             )
 
     if (${INSTALL_CXX_API})

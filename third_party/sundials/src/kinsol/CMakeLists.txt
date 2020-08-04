@@ -85,6 +85,11 @@ IF(BUILD_STATIC_LIBS)
   ADD_LIBRARY(sundials_kinsol_static STATIC
     ${kinsol_SOURCES} ${kinsol_BL_SOURCES} ${shared_SOURCES})
 
+
+    if (WIN32)
+        SetTargetMSVCRuntimeStatic(sundials_kinsol_static)
+    endif ()
+
   # Set the library name and make sure it is not deleted
   SET_TARGET_PROPERTIES(sundials_kinsol_static
     PROPERTIES OUTPUT_NAME sundials_kinsol CLEAN_DIRECT_OUTPUT 1)
