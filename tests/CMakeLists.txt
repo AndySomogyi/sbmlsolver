@@ -38,7 +38,6 @@ if (WIN32)
             -DSTATIC_NLEQ1
             -DSTATIC_NLEQ2
             -DPOCO_STATIC)
-    set_property(TARGET ${target} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
 
 endif ()

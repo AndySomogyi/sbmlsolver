@@ -317,7 +317,7 @@ if (WIN32)
             PROPERTIES COMPILE_FLAGS -DSTATIC_RR)
 
     # set msvc runtime
-    SetTargetMSVCRuntimeStatic(${target}-static)
+#    SetTargetMSVCRuntimeStatic(${target}-static)
 
     # We have a problem where a librry (maybe llvm) is enforcing their
     #  compile flags on us and overriding the msvc runtime.
@@ -421,10 +421,10 @@ if (BUILD_SHARED_LIBS)
         #todo find where LLVM_FLAGS are being added to CXX_FLAGS. We need to
         # add this after since right now it is just being overriden by LLVM_flags.
 
-        target_link_options(${target} PUBLIC /WHOLE_ARCHIVE)
+#        target_link_options(${target} PUBLIC /WHOLEARCHIVE)
 
         # set msvc runtime
-        SetTargetMSVCRuntimeDll(${target})
+#        SetTargetMSVCRuntimeDll(${target})
 
         get_target_property(x ${target} MSVC_RUNTIME_LIBRARY)
         message(STATUS "x is ' ${x}")
@@ -453,9 +453,8 @@ if (BUILD_SHARED_LIBS)
         # sad face =[
     endif ()
 
-    target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
-    target_link_libraries(${target} PRIVATE
-            blas
+    set(LINK_TARGETS
+                        blas
             f2c
             lapack
             libsbml-static
@@ -481,6 +480,9 @@ if (BUILD_SHARED_LIBS)
             unit_test-static
             ${LLVM_LIBRARIES}
             )
+
+    target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
+    target_link_libraries(${target} PRIVATE ${LINK_TARGETS})
 
     if (${INSTALL_CXX_API})
         install(TARGETS ${target}

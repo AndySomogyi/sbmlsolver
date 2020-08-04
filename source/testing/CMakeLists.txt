@@ -46,7 +46,7 @@ target_link_libraries(${target} PRIVATE
 #        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml.lib
 #        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml-static.lib
         )
-add_dependencies(${target} unittest roadrunner-static)
+add_dependencies(${target} unit_test-static roadrunner-static)
 if (UNIX)
     target_compile_options(${target} PRIVATE -frtti)
 endif ()
