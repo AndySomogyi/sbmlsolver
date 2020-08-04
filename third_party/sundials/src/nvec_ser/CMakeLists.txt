@@ -41,7 +41,6 @@ IF(BUILD_STATIC_LIBS)
     PROPERTIES OUTPUT_NAME sundials_nvecserial CLEAN_DIRECT_OUTPUT 1)
   INSTALL(TARGETS sundials_nvecserial_static DESTINATION lib)
 
-
   if (WIN32)
 
   endif ()

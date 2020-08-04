@@ -102,8 +102,10 @@ option(INSTALL_SBML_MODELS "Install SBML Models" ON)
 option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
 option(USE_POCO_NET "Use poco net library" ON)
 option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
+option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
+
 set(CMAKE_STANDARD 14 CACHE STRING "set the cmake standard to use")
-set(CMAKE_VERBOSE_MAKEFILE:BOOL TRUE)
+
 ##################################################
 #   Settings derived from options
 #
@@ -253,13 +255,6 @@ endif ()
 ####################################################
 #   Dependencies
 
-# We begin by setting some paths.
-
-# We technically do not *need this to be a function, since it is only
-#  used once. But it improves the readability of the main build script to
-#  put the dependency locating code in a separate macro.
-#FindDependencies()
-
 # add the third_party directory as dependencies
 add_subdirectory(third_party)
 
@@ -291,18 +286,17 @@ if (${LLVM_INSTALL_PREFIX})
     set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
     if (NOT EXISTS "${LLVM_MODULE_PATH}")
         message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
-    endif()
+    endif ()
     set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
 
     include(LLVMConfig)
-
 
     # we're building a JIT compiler with support for binary code (no interpreter):
     # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
     # to link with.
     llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
 
-endif()
+endif ()
 #else (${LLVM_INSTALL_PREFIX})
 #    # But we can fall back and download binaries or build from source as well
 #
@@ -353,9 +347,61 @@ endif()
 #    endif (LLVM_FOUND)
 #endif (${LLVM_INSTALL_PREFIX})
 
+# Collect our include directories into a convenient variable
+set(DEPENDENCY_INCLUDE_DIRS
+        "${NLEQ1_INCLUDE_DIR}"
+        "${NLEQ2_INCLUDE_DIR}"
+        "${CLAPACK_INCLUDE_DIR}"
+        "${LIBSBML_DEPS_INCLUDE_DIR}"
+        "${LIBSBML_INCLUDE_DIR}"
+        "${RR_STRUCT_INCLUDE_DIR}"
+        "${POCO_INCLUDE_DIR}"
+        "${SUNDIALS_INCLUDE_DIR}"
+        "${UNITTEST_INCLUDE_DIR}"
+        )
 
 
+# Collect all dependency targets into a single list
+# Note the exclusion of LLVM libraries, which are not targets
+set(LINK_TARGETS
+        "blas"
+        "f2c"
+        "lapack"
+        "libsbml-static"
+        "libiconv-static"
+        "libLZMA-static"
+        "libxml2-static"
+        "zlibstatic"
+        "nleq1-static"
+        "nleq2-static"
+        "PocoFoundation"
+        "PocoNet"
+        "PocoUtil"
+        "PocoXML"
+        "PocoZip"
+        "PocoJSON"
+        "rr-libstruct-static"
+        "sundials_cvode_static"
+        "sundials_cvodes_static"
+        "sundials_ida_static"
+        "sundials_idas_static"
+        "sundials_kinsol_static"
+        "sundials_nvecserial_static"
 
+        )
+
+# note: unit test will be replaced by gtest eventually
+set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
+
+# create new custom target so we can build all-dependencies and
+#  build all deps with single command
+add_custom_target(all-dependencies)
+add_dependencies(all-dependencies ${LINK_TARGETS})
+
+# now add LLVM.
+set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
+
+message(STATUS "LINK_LIBRARIES ${LINK_LIBRARIES}")
 ##########################################################
 # Add roadrunner source directories to the build
 
@@ -371,7 +417,7 @@ if (BUILD_TESTS AND BUILD_TEST_TOOLS)
 
     add_subdirectory(tests)
 
-#    QueryCMakeVariables()
+    #    QueryCMakeVariables()
 
     # I really have no idea what this code is doing. (cw)
     # This code comes with no comments, so i'll add some as I'm

@@ -53,7 +53,6 @@ set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libxml2")
 set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
 
 
-
 # set the variables needed by libsbml here:
 message(STATUS "Adding libSBML as subdirectory")
 set(LIBSBML_ROOT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libSBML-5.18.1-experimental-Source)
@@ -101,81 +100,6 @@ message(STATUS "Adding unit-test as subdirectory")
 add_subdirectory(unit_test)
 set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/unit_test")
 set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
-
-
-set(DEPENDENCY_INCLUDE_DIRS
-        ${NLEQ1_INCLUDE_DIR}
-        ${NLEQ2_INCLUDE_DIR}
-        ${CLAPACK_INCLUDE_DIR}
-        ${LIBSBML_DEPS_INCLUDE_DIR}
-        ${LIBSBML_INCLUDE_DIR}
-        ${RR_STRUCT_INCLUDE_DIR}
-        ${POCO_INCLUDE_DIR}
-        ${SUNDIALS_INCLUDE_DIR}
-        ${UNITTEST_INCLUDE_DIR}
-        )
-set(DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS} PARENT_SCOPE)
-
-add_custom_target(all-dependencies)
-
-#set(ALL_DEPENDENCY_TARGETS
-#        all-dependencies
-#        blas
-#        f2c
-#        lapack
-#        libLZMA-static
-#        libsbml-static
-#        libiconv-static
-#        libxml2-static
-#        zdll
-#        nleq1-static
-#        nleq2-static
-#        PocoFoundation
-#        PocoNet
-#        PocoUtil
-#        PocoXML
-#        PocoZip
-#        rr-libstruct-static
-#        sundials_cvode_static
-#        sundials_cvodes_static
-#        sundials_ida_static
-#        sundials_idas_static
-#        sundials_kinsol_static
-#        sundials_nvecserial_static
-#        unit_test-static)
-
-# ensure available from whole project
-#set(ALL_DEPENDENCY_TARGETS ${ALL_DEPENDENCY_TARGETS} PARENT_SCOPE)
-
-add_dependencies(all-dependencies
-        blas
-        f2c
-        lapack
-        libsbml-static
-        libiconv-static
-        libxml2-static
-        libLZMA-static
-        zlibstatic
-        nleq1-static
-        nleq2-static
-        PocoFoundation
-        PocoNet
-        PocoUtil
-        PocoXML
-        PocoZip
-        rr-libstruct-static
-        sundials_cvode_static
-        sundials_cvodes_static
-        sundials_ida_static
-        sundials_idas_static
-        sundials_kinsol_static
-        sundials_nvecserial_static
-        unit_test-static
-        )
-
-
-
-
 
 
 

@@ -379,7 +379,7 @@ elseif (APPLE)
 
 endif ()
 
-target_link_libraries(${target}-static ${LINK_LIBRARIES})
+target_link_libraries(${target}-static "${LINK_LIBRARIES}")
 
 set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
@@ -453,36 +453,9 @@ if (BUILD_SHARED_LIBS)
         # sad face =[
     endif ()
 
-    set(LINK_TARGETS
-                        blas
-            f2c
-            lapack
-            libsbml-static
-            libiconv-static
-            libLZMA-static
-            libxml2-static
-            zlibstatic
-            nleq1-static
-            nleq2-static
-            PocoFoundation
-            PocoNet
-            PocoUtil
-            PocoXML
-            PocoZip
-            PocoJSON
-            rr-libstruct-static
-            sundials_cvode_static
-            sundials_cvodes_static
-            sundials_ida_static
-            sundials_idas_static
-            sundials_kinsol_static
-            sundials_nvecserial_static
-            unit_test-static
-            ${LLVM_LIBRARIES}
-            )
 
-    target_include_directories(${target} PRIVATE ${INCLUDE_DIRECTORIES})
-    target_link_libraries(${target} PRIVATE ${LINK_TARGETS})
+    target_include_directories(${target} PRIVATE "${INCLUDE_DIRECTORIES}")
+    target_link_libraries(${target} PRIVATE "${LINK_LIBRARIES}")
 
     if (${INSTALL_CXX_API})
         install(TARGETS ${target}
