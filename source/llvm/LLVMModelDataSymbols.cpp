@@ -1204,9 +1204,6 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
             if (isValidFloatingSpeciesReference(p, "product"))
             {
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
-                if (speciesIdx < 0) {
-                    continue;
-                }
 
                 UIntUMap::const_iterator si = speciesMap.find(speciesIdx);
 
