@@ -496,17 +496,17 @@ endif ()
 #   Build wrappers etc
 
 
-if(INSTALL_CXX_API)
-    if(INSTALL_APPS)
+if (INSTALL_CXX_API)
+    if (INSTALL_APPS)
         add_subdirectory(apps)
-    endif()
+    endif ()
 
-    if(INSTALL_EXAMPLES)
+    if (INSTALL_EXAMPLES)
         add_subdirectory(examples)
-    endif()
-endif(INSTALL_CXX_API)
+    endif ()
+endif (INSTALL_CXX_API)
 
-#add_subdirectory(wrappers)
+add_subdirectory(wrappers)
 
 # print out the configuration summary
 ConfigurationSummary()

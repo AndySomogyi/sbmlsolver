@@ -1,5 +1,7 @@
 set(target roadrunner_c_api)
 
+set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} "${RR_CAPI_INCLUDE_DIR}")
+
 #The C-api is built as a shared library..
 add_library(${target} SHARED
         rrcStringList.cpp
@@ -25,52 +27,30 @@ add_library(${target} SHARED
         )
 
 target_include_directories(${target} PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/C
+        ${RR_CAPI_INCLUDE_DIR}
         ${CMAKE_SOURCE_DIR}/source
         ${INCLUDE_DIRECTORIES}
         ${RR_GENERATED_HEADER_PATH}
         )
 
-target_link_libraries(${target} PRIVATE
-        $<TARGET_FILE:roadrunner-static>
-        D:/rrbuild/roadrunner/third_party/rr-libstruct/install-MSVC/lib/rr-libstruct-static.lib
-        D:/rrbuild/roadrunner/third_party/libSBML-5.18.1-experimental-Source/install-MSVC/lib/libsbml-static.lib
-        ${LINK_LIBRARIES}
-        )
+target_link_libraries(${target} PRIVATE roadrunner-static)
 add_dependencies(${target} roadrunner-static)
 
 if (WIN32)
-    set_property(TARGET ${target}
-            PROPERTY COMPILE_DEFINITIONS
-            EXPORT_RRC
-            LIBSBML_STATIC
-            LIBLAX_STATIC
-            POCO_STATIC
-            STATIC_LIBSTRUCT
-            STATIC_RR
-            )
-    # set msvc runtime
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        set_property(TARGET ${target} PROPERTY
-                MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
-    elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-        set_property(TARGET ${target} PROPERTY
-                MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
-    else ()
-        message(FATAL_ERROR "Only Debug and Release configurations are supported")
-    endif ()
-
-    target_link_libraries(${target} PRIVATE Ws2_32)
+    target_compile_definitions(${target} PRIVATE EXPORT_RRC STATIC_RR)
 endif ()
-#add_subdirectory(Apps)
-#add_subdirectory(ApiTest)
-#if (INSTALL_EXAMPLES)
-#    add_subdirectory(Examples)
-#endif ()
-#
-#if (BUILD_TEST_TOOLS)
-#    add_subdirectory(Testing)
-#endif ()
+
+
+add_subdirectory(Apps)
+add_subdirectory(ApiTest)
+
+if (INSTALL_EXAMPLES)
+    add_subdirectory(Examples)
+endif ()
+
+if (BUILD_TESTS)
+    add_subdirectory(Testing)
+endif ()
 
 #=============== install =====================
 #Glob all header files
