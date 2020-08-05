@@ -18,7 +18,7 @@
 #ifndef _LOCALCHARSET_H
 #define _LOCALCHARSET_H
 
-#if 0 /*HAVE_VISIBILITY*/ && BUILDING_LIBCHARSET
+#if 1 && BUILDING_LIBCHARSET
 #define LIBCHARSET_DLL_EXPORTED __attribute__((__visibility__("default")))
 #elif defined _MSC_VER && BUILDING_LIBCHARSET
 #define LIBCHARSET_DLL_EXPORTED __declspec(dllexport)

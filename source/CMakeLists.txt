@@ -399,22 +399,15 @@ if (BUILD_SHARED_LIBS)
 endif (BUILD_SHARED_LIBS)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Note: Comment made from upstream (for ciaran, delete before merge into main repo)
+# libraries to link with static lib
+#======== We need to split up this one to satisfy linking in both windows and posix.
+#=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
+#if(BUILD_LLVM)
+#    target_link_libraries(${target}
+#        ${LLVM_LIBRARIES}
+#        ${LLVM_SYSTEM_LIBS_THISOS}
+#        )
+#endif(BUILD_LLVM)
 
 

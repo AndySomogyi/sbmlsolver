@@ -9,7 +9,7 @@ project(rr)
 
 set(ROADRUNNER_VERSION_MAJOR 2)
 set(ROADRUNNER_VERSION_MINOR 0)
-set(ROADRUNNER_VERSION_PATCH 0)
+set(ROADRUNNER_VERSION_PATCH 1)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 
@@ -155,7 +155,7 @@ set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS ON)
-
+set(BUILD_SHARED_LIBS            ON)
 set(RR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(RR_SOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/source)
 set(THIRD_PARTY_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
@@ -195,18 +195,18 @@ else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
 
-
 #####################################################
 #    Apply project/compiler settings
 #
-
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
-
 # Set C++14 flags
 set(CMAKE_CXX_STANDARD ${CMAKE_STANDARD})
 
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 if (${MSVC})
+    # Here we set all flags that are needed for dependency packages.
+    # Since we link to everything statically, we need these flags.
+    # Individual targets will need RR_STATIC or RR_EXPORT.
     add_definitions(
             -DLIBSBML_USE_CPP_NAMESPACE
             -DLIBSBML_STATIC
@@ -232,8 +232,6 @@ if (${MSVC})
     #         warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
     #
     add_definitions("/wd4251 /wd4018 /wd4996 /EHsc")
-
-    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 endif ()
 
@@ -364,6 +362,20 @@ set(DEPENDENCY_INCLUDE_DIRS
         "${SUNDIALS_INCLUDE_DIR}"
         "${UNITTEST_INCLUDE_DIR}"
         )
+if(${MINGW})
+    SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+endif()
+
+#if(${BORLAND})
+#    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
+#add_definitions(
+#    -DUSE_PCH                   #Enable pre-compiled headers
+#    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+#    -w-8012                     #Comparing signed /unsigned
+#    -w-8057                     #Parameter never used
+#    -w-8004                     #'var' is assigned a value that is never used
+#    )
+#endif()
 
 
 # Collect all dependency targets into a single list
@@ -495,7 +507,6 @@ endif ()
 ##################################################
 #   Build wrappers etc
 
-
 if (INSTALL_CXX_API)
     if (INSTALL_APPS)
         add_subdirectory(apps)
@@ -509,17 +520,32 @@ endif (INSTALL_CXX_API)
 add_subdirectory(wrappers)
 
 # print out the configuration summary
-ConfigurationSummary()
+# note configure summary not current, uncomment once its fixed
+#ConfigurationSummary()
 
+## make or copy installers into root directory
+#add_subdirectory(installer)
+#
+##=== ThirdParties
+#if(${BORLAND})
+#    set(CG_RUNTIMES        cc32110MT.dll)
+#    foreach(runtime ${CG_RUNTIMES})
+#        install (FILES
+#            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
+#            DESTINATION bin
+#            COMPONENT rr_core)
+#    endforeach()
+#endif()
 
+configure_file(VERSION.txt.in VERSION.txt @ONLY)
 
-
-
-
-
-
-
-
+install(
+    FILES
+    NOTICE.txt
+    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
+    NEWS.txt
+    DESTINATION .
+)
 
 
 

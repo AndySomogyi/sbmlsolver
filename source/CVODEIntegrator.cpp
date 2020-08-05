@@ -1176,8 +1176,9 @@ namespace rr
 				Log(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16) << "[";
 				vector<double> v = getValueAsDoubleVector("absolute_tolerance");
 				for (int i = 0; i < v.size(); i++) {
-					if (i != 0)
+					if (i != 0) {
 						Log(Logger::LOG_INFORMATION) << ", ";
+					}
 					Log(Logger::LOG_INFORMATION) << v[i];
 				}
 				Log(Logger::LOG_INFORMATION) << "], rel: " << getValueAsDouble("relative_tolerance") << endl;

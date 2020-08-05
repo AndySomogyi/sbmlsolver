@@ -23,7 +23,6 @@ add_executable(${target}
 
 add_compile_definitions(${target} STATIC_RR)
 
-
 target_include_directories(${target} PRIVATE
         src
         ${UNIT_TEST_INCLUDE_DIR}
