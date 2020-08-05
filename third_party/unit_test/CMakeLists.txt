@@ -81,6 +81,14 @@ install(FILES ${win32_headers}
 install(FILES ${posix_headers}
         DESTINATION include/unit_test/Posix
         )
+set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
+file(MAKE_DIRECTORY "${UNITTEST_INCLUDE_DIR}/unit_test")
+file(MAKE_DIRECTORY "${UNITTEST_INCLUDE_DIR}/unit_test/Win32")
+file(MAKE_DIRECTORY "${UNITTEST_INCLUDE_DIR}/unit_test/Posix")
+file(COPY ${headers} DESTINATION "${UNITTEST_INCLUDE_DIR}/unit_test")
+file(COPY ${win32_headers} DESTINATION "${UNITTEST_INCLUDE_DIR}/unit_test/Win32")
+file(COPY ${posix_headers} DESTINATION "${UNITTEST_INCLUDE_DIR}/unit_test/Posix")
 
 install(TARGETS ${target}-static
         LIBRARY DESTINATION lib

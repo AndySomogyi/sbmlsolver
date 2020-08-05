@@ -98,7 +98,6 @@ message(STATUS "CVODE BUILD_SHARED_LIBS after : ${BUILD_SHARED_LIBS}")
 ## unit_test
 message(STATUS "Adding unit-test as subdirectory")
 add_subdirectory(unit_test)
-set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/unit_test")
 set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
 
 

@@ -58,6 +58,7 @@ endif ()
 # Check for unistd.h
 #
 check_include_file(unistd.h Z_HAVE_UNISTD_H)
+message(STATUS "DSDVSDV Z_HAVE_UNISTD_H ${Z_HAVE_UNISTD_H}")
 
 if (MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
@@ -82,7 +83,7 @@ set(ZLIB_PC ${CMAKE_CURRENT_BINARY_DIR}/zlib.pc)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zlib.pc.cmakein
         ${ZLIB_PC} @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zconf.h.cmakein
-        ${CMAKE_CURRENT_BINARY_DIR}/zconf.h @ONLY)
+        ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 
 
@@ -91,7 +92,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 #============================================================================
 
 set(ZLIB_PUBLIC_HDRS
-        ${CMAKE_CURRENT_BINARY_DIR}/zconf.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h
         zlib.h
         )
 set(ZLIB_PRIVATE_HDRS
@@ -184,7 +185,7 @@ if (MINGW)
 endif (MINGW)
 
 #add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
-add_library(zlibstatic STATIC ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
+add_library(zlibstatic STATIC "${ZLIB_SRCS}" "${ZLIB_ASMS}" "${ZLIB_PUBLIC_HDRS}" "${ZLIB_PRIVATE_HDRS}")
 #set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
 #set_target_properties(zlib PROPERTIES SOVERSION 1)
 
@@ -229,6 +230,14 @@ if (NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL)
     install(FILES ${ZLIB_PC} DESTINATION "${INSTALL_PKGCONFIG_DIR}")
 endif ()
 
+
+set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(ZLIB_INCLUDE_DIR ${ZLIB_INCLUDE_DIR} PARENT_SCOPE)
+file(MAKE_DIRECTORY ${ZLIB_INCLUDE_DIR}/zlib)
+file(COPY ${ZLIB_PUBLIC_HDRS} DESTINATION "${ZLIB_INCLUDE_DIR}/zlib")
+file(COPY ${ZLIB_PUBLIC_HDRS} DESTINATION "${ZLIB_INCLUDE_DIR}")
+
+
 #============================================================================
 # Example binaries
 #============================================================================
@@ -252,10 +261,4 @@ endif ()
 #    set_target_properties(minigzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
 #endif ()
 
-
-set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(ZLIB_INCLUDE_DIR ${ZLIB_INCLUDE_DIR} PARENT_SCOPE)
-file(MAKE_DIRECTORY ${ZLIB_INCLUDE_DIR}/zlib)
-file(COPY ${ZLIB_PUBLIC_HDRS} DESTINATION "${ZLIB_INCLUDE_DIR}/zlib")
-file(COPY ${ZLIB_PUBLIC_HDRS} DESTINATION "${ZLIB_INCLUDE_DIR}")
 

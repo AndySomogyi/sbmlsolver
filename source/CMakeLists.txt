@@ -327,44 +327,13 @@ if (WIN32)
 
 endif ()
 
-
-set_property(TARGET ${target}-static
-        PROPERTY COMPILE_DEFINITIONS
-        LIBSBML_USE_CPP_NAMESPACE
-        STATIC_RR
-        LIBSBML_STATIC
-        LIBLAX_STATIC
-        STATIC_LIBSTRUCT
-        STATIC_PUGI
-        STATIC_NLEQ1
-        STATIC_NLEQ2
-        POCO_STATIC
-        )
+# This is the only flag specifically needed by static target
+target_compile_definitions(${target}-static PRIVATE STATIC_RR)
 
 if (WIN32)
     #    set_target_properties(${target}-static PROPERTIES LINK_FLAGS "/WHOLEARCHIVE")
     #    target_link_options(${target}-static PUBLIC /WHOLE_ARCHIVE)
 endif ()
-# Order matters for linux builds. Do not change.
-#set(LINK_LIBRARIES
-#        ${RR_LIBSTRUCT_STATIC_LIBRARY}
-#        #        ${LIBSBML_STATIC_LIBRARY}
-#        ${SUNDIALS_STATIC_LIBRARIES}
-#        ${NLEQ2_STATIC_LIBRARY}
-#        ${NLEQ1_STATIC_LIBRARY}
-#        ${CLAPACK_STATIC_LIBRARIES}
-#        ${POCO_STATIC_LIBRARIES}
-#        #        ${LLVM_LIBRARIES}
-#        #        ${ZLIB_STATIC_LIBRARY}
-#        #        ${LIBBZ2_STATIC_LIBRARY}
-#        #        ${LIBXML2_STATIC_LIBRARY}
-#        #        ${LIBICONV_STATIC_LIBRARY}
-#        #        ${ZLIB_STATIC_LIBRARY}
-#        )
-#
-## make available to parent
-#set(LINK_LIBRARIES ${LINK_LIBRARIES} PARENT_SCOPE)
-#
 
 # Extra platform specific libraries
 # These were not needed to actually build roadrunner binaries
@@ -389,61 +358,18 @@ set(INCLUDE_DIRECTORIES
         ${DEPENDENCY_INCLUDE_DIRS}
         ${LLVM_INCLUDE_DIRS}
         )
-#        ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
-#        ${LIBSBML_INCLUDE_DIR}
-#        ${POCO_INCLUDE_DIR}
-#        ${RR_LIBSTRUCT_INCLUDE_DIR}
-#        ${CLAPACK_INCLUDE_DIR}
-#        ${NLEQ1_INCLUDE_DIR}
-#        ${NLEQ2_INCLUDE_DIR}
-#        ${SUNDIALS_INCLUDE_DIR}
-#        ${LLVM_INCLUDE_DIRS}
-#        ${gtest_SOURCE_DIR}
-#        )
 set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
 
 # turn off shared zlib for roadruner (Ciaran welsh)
-#set(BUILD_SHARED_LIBS OFF)
 if (BUILD_SHARED_LIBS)
 
     add_library(${target} SHARED ${rrSources})
     set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
-    #    add_dependencies(${target} all-dependencies)
 
     if (WIN32)
-        # EXPORT_RR - on windows we want EXPORT_RR defined when compiling roadrunner
-        # /EHsc (see https://docs.microsoft.com/en-us/cpp/build/reference/eh-exception-handling-model?view=vs-2019):
-        #   - EH = Exception Handling
-        #   - s = Enables standard C++ stack unwinding
-        #   - c =  assumes that functions declared as extern "C" never throw a C++ exception.
-        #        add_definitions(-DEXPORT_RR /EHsc)
-        #todo find where LLVM_FLAGS are being added to CXX_FLAGS. We need to
-        # add this after since right now it is just being overriden by LLVM_flags.
-
-#        target_link_options(${target} PUBLIC /WHOLEARCHIVE)
-
-        # set msvc runtime
-#        SetTargetMSVCRuntimeDll(${target})
-
-        get_target_property(x ${target} MSVC_RUNTIME_LIBRARY)
-        message(STATUS "x is ' ${x}")
-
-
+        target_compile_definitions(${target} PRIVATE EXPORT_RR)
     endif ()
-    set_property(TARGET ${target}
-            PROPERTY COMPILE_DEFINITIONS
-            EXPORT_RR
-            LIBSBML_USE_CPP_NAMESPACE
-            LIBSBML_STATIC
-            LIBLAX_STATIC
-            STATIC_LIBSTRUCT
-            STATIC_PUGI
-            STATIC_NLEQ1
-            STATIC_NLEQ2
-            POCO_STATIC
-            POCO_NO_AUTOMATIC_LIBS
-            )
 
     if (UNIX)
         list(APPEND LINK_LIBRARIES "pthread" "dl")

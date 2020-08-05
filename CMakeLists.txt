@@ -209,9 +209,18 @@ set(CMAKE_CXX_STANDARD ${CMAKE_STANDARD})
 
 if (${MSVC})
     add_definitions(
+            -DLIBSBML_USE_CPP_NAMESPACE
+            -DLIBSBML_STATIC
+            -DLIBLAX_STATIC
+            -DSTATIC_LIBSTRUCT
+            -DSTATIC_PUGI
+            -DSTATIC_NLEQ1
+            -DSTATIC_NLEQ2
+            -DPOCO_STATIC
             -DPOCO_NO_AUTOMATIC_LIBS
             -DCRT_NONSTDC_NO_DEPRECATE
             -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
+            -D_WIN32 # used as switch in zlib macro
     )
 
     # 4251 About exporting std classes
@@ -387,7 +396,6 @@ set(LINK_TARGETS
         "sundials_idas_static"
         "sundials_kinsol_static"
         "sundials_nvecserial_static"
-
         )
 
 # note: unit test will be replaced by gtest eventually
@@ -401,7 +409,6 @@ add_dependencies(all-dependencies ${LINK_TARGETS})
 # now add LLVM.
 set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
 
-message(STATUS "LINK_LIBRARIES ${LINK_LIBRARIES}")
 ##########################################################
 # Add roadrunner source directories to the build
 
