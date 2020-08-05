@@ -420,7 +420,11 @@ add_subdirectory(source)
 
 if (BUILD_TESTS AND BUILD_TEST_TOOLS)
 
-    add_subdirectory(third_party/googletest)
+    set(GOOGLETEST_SOURCE_DIR third_party/googletest)
+    set(GOOGLETEST_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googletest)
+    set(GOOGLEMOCK_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googlemock)
+
+    add_subdirectory(${GOOGLETEST_SOURCE_DIR})
 
     add_subdirectory(tests)
 
@@ -486,6 +490,7 @@ if (BUILD_TESTS AND BUILD_TEST_TOOLS)
     add_subdirectory(testing)
     add_subdirectory(autotest)
     add_subdirectory(source/testing)
+    add_subdirectory(source/llvm_testing)
 else ()
     message(STATUS "NOT building tests")
 endif ()

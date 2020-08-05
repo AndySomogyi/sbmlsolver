@@ -33,7 +33,7 @@ target_include_directories(${target} PRIVATE
 target_link_libraries(${target} PRIVATE
         roadrunner-static
         ${TEST_TARGETS}
-#        ${LINK_LIBRARIES}
+        #        ${LINK_LIBRARIES}
         )
 
 add_dependencies(${target} unit_test-static roadrunner-static)
@@ -44,8 +44,8 @@ set(resultsDir "${CMAKE_CURRENT_SOURCE_DIR}/reports")
 set(resultsFile "${resultsDir}/cpp_api_tests-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 
 # TODO move the models directory
-set(sbmlModelsDir "${CMAKE_SOURCE_DIR}/models")
-set(compilerFolder "${CMAKE_SOURCE_DIR}/third_party/compilers/tcc")
+set(sbmlModelsDir "${CMAKE_CURRENT_SOURCE_DIR}/models")
+set(compilerFolder "${CMAKE_CURRENT_SOURCE_DIR}/compilers")
 set(supportCodeFolder "${CMAKE_CURRENT_SOURCE_DIR}/rr_support")
 
 if (UNIX)
@@ -61,14 +61,17 @@ Message("SupportCodeFolder is: " ${supportCodeFolder})
 #    COMMENT "=========== Generating CPP-API Wiki reports =============="
 #    VERBATIM
 #    )
+#
+set(CMD "${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v")
+MESSAGE(STATUS "CMD ${CMD}")
+add_custom_target(cppTestingReport ALL
+        COMMAND ${CMD}
+        COMMENT "=========== Generating CPP-API Wiki reports =============="
+        COMMENT ${CMD}
+        COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
+        )
 
-add_custom_target(cppTestingReport ALL DEPENDS ${resultsFile}
-    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v
-    COMMENT "=========== Generating CPP-API Wiki reports =============="
-    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
-)
-
-add_dependencies(cppTestingReport cxx_api_tests)
+#add_dependencies(cppTestingReport cxx_api_tests)
 #
 #install(TARGETS ${target}
 #        DESTINATION bin
