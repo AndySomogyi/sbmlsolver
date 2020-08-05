@@ -88,7 +88,6 @@ if (BUILD_PYTHON)
     set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
 endif ()
 
-# should we build the swig Java wrapper?
 option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
 option(INSTALL_CXX_API "Generate C++ api" ON)
 option(INSTALL_C_API "Generate C API" ON)
@@ -252,14 +251,10 @@ endif ()
 #    )
 #endif ()
 
-
 if (UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif ()
-
-# Find vcpkg root if you can
-#LocateVcpkg()
 
 ####################################################
 #   Dependencies
@@ -306,6 +301,7 @@ if (${LLVM_INSTALL_PREFIX})
     llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
 
 endif ()
+# This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
 #else (${LLVM_INSTALL_PREFIX})
 #    # But we can fall back and download binaries or build from source as well
 #
@@ -500,15 +496,15 @@ endif ()
 #   Build wrappers etc
 
 
-#if(INSTALL_CXX_API)
-#    if(INSTALL_APPS)
-#        add_subdirectory(apps)
-#    endif()
-#
-#    if(INSTALL_EXAMPLES)
-#        add_subdirectory(examples)
-#    endif()
-#endif(INSTALL_CXX_API)
+if(INSTALL_CXX_API)
+    if(INSTALL_APPS)
+        add_subdirectory(apps)
+    endif()
+
+    if(INSTALL_EXAMPLES)
+        add_subdirectory(examples)
+    endif()
+endif(INSTALL_CXX_API)
 
 #add_subdirectory(wrappers)
 

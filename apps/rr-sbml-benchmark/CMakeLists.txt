@@ -5,13 +5,11 @@ set(target rr-sbml-benchmark)
 
 add_executable(${target} main.cpp)
 
-target_link_libraries(${target} PRIVATE
-        $<TARGET_FILE:roadrunner-static>
-        "${LINK_LIBRARIES}"
-        "${UNIT_TEST_STATIC_LIBRARY}"
+target_link_libraries(${target} PRIVATE roadrunner-static ${UNIT_TEST_STATIC_LIBRARY})
+target_include_directories(${target} PRIVATE
+        ${INCLUDE_DIRECTORIES}
         )
-target_include_directories(${target} PRIVATE "${INCLUDE_DIRECTORIES}")
-add_dependencies(${target} unittest roadrunner-static)
+add_dependencies(${target} unit_test-static roadrunner-static)
 
 install(TARGETS ${target}
         DESTINATION bin
