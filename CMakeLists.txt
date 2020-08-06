@@ -384,7 +384,7 @@ set(LINK_TARGETS
         "blas"
         "f2c"
         "lapack"
-        "libsbml-static"
+        "sbml-static"
         "libiconv-static"
         "libLZMA-static"
         "libxml2-static"
@@ -412,16 +412,16 @@ set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
 # create new custom target so we can build all-dependencies and
 #  build all deps with single command
 add_custom_target(all-dependencies)
-#add_dependencies(all-dependencies ${LINK_TARGETS})
-#
-## now add LLVM.
-#set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
+add_dependencies(all-dependencies ${LINK_TARGETS})
+
+# now add LLVM.
+set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
 
 ##########################################################
 # Add roadrunner source directories to the build
 
 # We always have to build the roadrunner core, everything depends on this
-#add_subdirectory(source)
+add_subdirectory(source)
 
 ##########################################################
 # Build tests
