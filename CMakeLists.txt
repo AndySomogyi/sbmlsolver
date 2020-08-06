@@ -412,140 +412,140 @@ set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
 # create new custom target so we can build all-dependencies and
 #  build all deps with single command
 add_custom_target(all-dependencies)
-add_dependencies(all-dependencies ${LINK_TARGETS})
-
-# now add LLVM.
-set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
+#add_dependencies(all-dependencies ${LINK_TARGETS})
+#
+## now add LLVM.
+#set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
 
 ##########################################################
 # Add roadrunner source directories to the build
 
 # We always have to build the roadrunner core, everything depends on this
-add_subdirectory(source)
+#add_subdirectory(source)
 
 ##########################################################
 # Build tests
 
-if (BUILD_TESTS AND BUILD_TEST_TOOLS)
-
-    set(GOOGLETEST_SOURCE_DIR third_party/googletest)
-    set(GOOGLETEST_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googletest)
-    set(GOOGLEMOCK_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googlemock)
-
-    add_subdirectory(${GOOGLETEST_SOURCE_DIR})
-
-    add_subdirectory(tests)
-
-    #    QueryCMakeVariables()
-
-    # I really have no idea what this code is doing. (cw)
-    # This code comes with no comments, so i'll add some as I'm
-    # trying to figure out what its doing
-    message(STATUS "building tests")
-
-    # Collect a list of all files inside "testing" folder.
-    # This includes CMakeLists.txt for some reason.
-    file(GLOB TEST_FILES "testing/*")
-
-    MESSAGE(STATUS "TEST_FILES ${TEST_FILES}")
-
-    # Collect the set of Python test files.
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
-
-    MESSAGE(STATUS "PYTHON_TEST_FILES ${PYTHON_TEST_FILES}")
-
-    # and combine the two list of test files
-    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
-
-    # Collect all python and xml test data
-    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
-
-    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
-
-    # Oh, I think I see what has happened here.
-    # This code makes a copy of each test fle, both python and otherwise
-    foreach (f ${TEST_FILES})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            #            message(STATUS ${FILE_NAME})
-            # This command copies into the main testing directory under project root.
-            # Dont know why though.
-            # Could be that somebody just committed these files and they havent been deleted.
-            configure_file(${f} testing/${FILE_NAME} COPYONLY)
-
-            # Uncertain why these have been copied here. Presumably its only the Python files
-            # That need to go into a site packages directory, though still no idea
-            # Why a site packages directory is needed. Also, I still havent found this
-            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    foreach (f ${PYTHON_TEST_DATA})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    foreach (f ${TEST_DATA_XML})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    # I don't understand. The testing directory doesn't build anything???
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
-    add_subdirectory(source/testing)
-    add_subdirectory(source/llvm_testing)
-else ()
-    message(STATUS "NOT building tests")
-endif ()
-
-
-##################################################
-#   Build wrappers etc
-
-if (INSTALL_CXX_API)
-    if (INSTALL_APPS)
-        add_subdirectory(apps)
-    endif ()
-
-    if (INSTALL_EXAMPLES)
-        add_subdirectory(examples)
-    endif ()
-endif (INSTALL_CXX_API)
-
-add_subdirectory(wrappers)
-
-# print out the configuration summary
-# note configure summary not current, uncomment once its fixed
-#ConfigurationSummary()
-
-## make or copy installers into root directory
-#add_subdirectory(installer)
+#if (BUILD_TESTS AND BUILD_TEST_TOOLS)
 #
-##=== ThirdParties
-#if(${BORLAND})
-#    set(CG_RUNTIMES        cc32110MT.dll)
-#    foreach(runtime ${CG_RUNTIMES})
-#        install (FILES
-#            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
-#            DESTINATION bin
-#            COMPONENT rr_core)
-#    endforeach()
-#endif()
-
-configure_file(VERSION.txt.in VERSION.txt @ONLY)
-
-install(
-    FILES
-    NOTICE.txt
-    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
-    NEWS.txt
-    DESTINATION .
-)
-
+#    set(GOOGLETEST_SOURCE_DIR third_party/googletest)
+#    set(GOOGLETEST_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googletest)
+#    set(GOOGLEMOCK_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googlemock)
+#
+#    add_subdirectory(${GOOGLETEST_SOURCE_DIR})
+#
+#    add_subdirectory(tests)
+#
+#    #    QueryCMakeVariables()
+#
+#    # I really have no idea what this code is doing. (cw)
+#    # This code comes with no comments, so i'll add some as I'm
+#    # trying to figure out what its doing
+#    message(STATUS "building tests")
+#
+#    # Collect a list of all files inside "testing" folder.
+#    # This includes CMakeLists.txt for some reason.
+#    file(GLOB TEST_FILES "testing/*")
+#
+#    MESSAGE(STATUS "TEST_FILES ${TEST_FILES}")
+#
+#    # Collect the set of Python test files.
+#    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
+#
+#    MESSAGE(STATUS "PYTHON_TEST_FILES ${PYTHON_TEST_FILES}")
+#
+#    # and combine the two list of test files
+#    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
+#
+#    # Collect all python and xml test data
+#    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+#
+#    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+#
+#    # Oh, I think I see what has happened here.
+#    # This code makes a copy of each test fle, both python and otherwise
+#    foreach (f ${TEST_FILES})
+#        if (NOT IS_DIRECTORY ${f})
+#            get_filename_component(FILE_NAME ${f} NAME)
+#            #            message(STATUS ${FILE_NAME})
+#            # This command copies into the main testing directory under project root.
+#            # Dont know why though.
+#            # Could be that somebody just committed these files and they havent been deleted.
+#            configure_file(${f} testing/${FILE_NAME} COPYONLY)
+#
+#            # Uncertain why these have been copied here. Presumably its only the Python files
+#            # That need to go into a site packages directory, though still no idea
+#            # Why a site packages directory is needed. Also, I still havent found this
+#            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+#        endif ()
+#    endforeach ()
+#
+#    foreach (f ${PYTHON_TEST_DATA})
+#        if (NOT IS_DIRECTORY ${f})
+#            get_filename_component(FILE_NAME ${f} NAME)
+#            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+#        endif ()
+#    endforeach ()
+#
+#    foreach (f ${TEST_DATA_XML})
+#        if (NOT IS_DIRECTORY ${f})
+#            get_filename_component(FILE_NAME ${f} NAME)
+#            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+#        endif ()
+#    endforeach ()
+#
+#    # I don't understand. The testing directory doesn't build anything???
+#    add_subdirectory(testing)
+#    add_subdirectory(autotest)
+#    add_subdirectory(source/testing)
+#    add_subdirectory(source/llvm_testing)
+#else ()
+#    message(STATUS "NOT building tests")
+#endif ()
+#
+#
+###################################################
+##   Build wrappers etc
+#
+##if (INSTALL_CXX_API)
+##    if (INSTALL_APPS)
+##        add_subdirectory(apps)
+##    endif ()
+##
+##    if (INSTALL_EXAMPLES)
+##        add_subdirectory(examples)
+##    endif ()
+##endif (INSTALL_CXX_API)
+##
+##add_subdirectory(wrappers)
+#
+## print out the configuration summary
+## note configure summary not current, uncomment once its fixed
+##ConfigurationSummary()
+#
+### make or copy installers into root directory
+##add_subdirectory(installer)
+##
+###=== ThirdParties
+##if(${BORLAND})
+##    set(CG_RUNTIMES        cc32110MT.dll)
+##    foreach(runtime ${CG_RUNTIMES})
+##        install (FILES
+##            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
+##            DESTINATION bin
+##            COMPONENT rr_core)
+##    endforeach()
+##endif()
+#
+#configure_file(VERSION.txt.in VERSION.txt @ONLY)
+#
+#install(
+#    FILES
+#    NOTICE.txt
+#    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
+#    NEWS.txt
+#    DESTINATION .
+#)
+#
 
 
