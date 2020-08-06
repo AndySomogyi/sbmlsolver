@@ -490,6 +490,7 @@ if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
     set(INCLUDE_DESTINATION INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif ()
 
+# Ensure we skip this for roadrunner (ciaran welsh)
 if (NOT LIBSBML_SKIP_SHARED_LIBRARY)
 
     add_library(${LIBSBML_LIBRARY} SHARED ${LIBSBML_SOURCES})
@@ -527,33 +528,37 @@ if (NOT LIBSBML_SKIP_SHARED_LIBRARY)
         )
     endif ()
 
-
 endif ()
 
-add_library(${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES})
+# Something odd: When I use ${LIBSBML_LIBRARY}-static rather than sbml-static
+# as I have here, we get two targets: one for libsbml-static and another for sbml-static.
+# really not sure what is going on here, it looks like a bug in cmake.
+# So keep the name sbml-static for now and change back to ${LIBSBML_LIBRARY}-static later
+# if it matters. Ciaran Welsh.
+add_library(sbml-static STATIC ${LIBSBML_SOURCES})
 
 
 if (WIN32 AND NOT CYGWIN)
-    # don't decorate static library 
-    set_target_properties(${LIBSBML_LIBRARY}-static PROPERTIES COMPILE_DEFINITIONS "LIBLAX_STATIC=1;LIBSBML_STATIC=1")
+    # don't decorate static library
+    set_target_properties(sbml-static PROPERTIES COMPILE_DEFINITIONS "LIBLAX_STATIC=1;LIBSBML_STATIC=1")
 endif (WIN32 AND NOT CYGWIN)
 
 # this line replaced with line below (ciaran welsh)
-#target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
+#target_link_libraries(sbml-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
-target_link_libraries(${LIBSBML_LIBRARY}-static
+target_link_libraries(sbml-static
         zlibstatic
         libxml2-static
         libiconv-static
         )
-add_dependencies(${LIBSBML_LIBRARY}-static
+add_dependencies(sbml-static
         zlibstatic
         libxml2-static
         libiconv-static
         )
 
-INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
-        EXPORT ${LIBSBML_LIBRARY}-static-config
+INSTALL(TARGETS sbml-static
+        EXPORT sbml-static-config
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -561,19 +566,19 @@ INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
         )
 
 ## and install the exported target configuration
-#INSTALL(EXPORT ${LIBSBML_LIBRARY}-static-config
+#INSTALL(EXPORT sbml-static-config
 #        DESTINATION ${PACKAGE_CONFIG_DIR}
 #        )
 #
 #if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
 #    WRITE_BASIC_PACKAGE_VERSION_FILE(
-#            ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
+#            ${CMAKE_CURRENT_BINARY_DIR}/sbml-static-config-version.cmake
 #            VERSION ${PROJECT_VERSION}
 #            COMPATIBILITY AnyNewerVersion
 #    )
 #
 #    INSTALL(FILES
-#            ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
+#            ${CMAKE_CURRENT_BINARY_DIR}/sbml-static-config-version.cmake
 #            DESTINATION ${PACKAGE_CONFIG_DIR}
 #            )
 #endif ()

@@ -28,30 +28,30 @@ string(REPLACE "!defined(LIBXML_STATIC)" "0" XMLEXPORTS_H "${XMLEXPORTS_H}")
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/xmlexports.h "${XMLEXPORTS_H}")
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
-    configure_file(include/win32config.h config.h COPYONLY)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    configure_file("${PORT_DIR}/config.osx.h" config.h COPYONLY)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    configure_file("${PORT_DIR}/config.linux.h" config.h COPYONLY)
-else()
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
+    configure_file(include/win32config.h ${CMAKE_CURRENT_SOURCE_DIR}/config.h COPYONLY)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/config.osx.h" ${CMAKE_CURRENT_SOURCE_DIR}/config.h COPYONLY)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/config.linux.h" ${CMAKE_CURRENT_SOURCE_DIR}/config.h COPYONLY)
+else ()
     message(FATAL_ERROR "No config.h checked in for the target platform. Please run ./configure for libxml2 and add the resulting config.h into this port.")
-endif()
+endif ()
 
 message(STATUS "Reading version info from configure.ac")
 
 file(STRINGS "configure.ac"
-    _libxml_version_defines REGEX "LIBXML_(MAJOR|MINOR|MICRO)_VERSION=([0-9]+)$")
+        _libxml_version_defines REGEX "LIBXML_(MAJOR|MINOR|MICRO)_VERSION=([0-9]+)$")
 
-foreach(ver ${_libxml_version_defines})
-    if(ver MATCHES "LIBXML_(MAJOR|MINOR|MICRO)_VERSION=([0-9]+)$")
+foreach (ver ${_libxml_version_defines})
+    if (ver MATCHES "LIBXML_(MAJOR|MINOR|MICRO)_VERSION=([0-9]+)$")
         set(LIBXML_${CMAKE_MATCH_1}_VERSION "${CMAKE_MATCH_2}" CACHE INTERNAL "")
-    endif()
-endforeach()
+    endif ()
+endforeach ()
 
 set(VERSION ${LIBXML_MAJOR_VERSION}.${LIBXML_MINOR_VERSION}.${LIBXML_MICRO_VERSION})
 math(EXPR LIBXML_VERSION_NUMBER
-    "${LIBXML_MAJOR_VERSION} * 10000 + ${LIBXML_MINOR_VERSION} * 100 + ${LIBXML_MICRO_VERSION}")
+        "${LIBXML_MAJOR_VERSION} * 10000 + ${LIBXML_MINOR_VERSION} * 100 + ${LIBXML_MICRO_VERSION}")
 
 message(STATUS "LIBXML_MAJOR_VERSION: ${LIBXML_MAJOR_VERSION}")
 message(STATUS "LIBXML_MINOR_VERSION: ${LIBXML_MINOR_VERSION}")
@@ -94,10 +94,10 @@ set(MODULE_EXTENSION ".so")
 set(WITH_ZLIB 1)
 set(WITH_LZMA 1)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
+if (CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
     set(WITH_CATALOG 0)
     set(WITH_MODULES 0)
-endif()
+endif ()
 
 message(STATUS "Generating xmlversion.h")
 
@@ -106,19 +106,19 @@ configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/include/libxml/xmlversion.h)
 
 add_library(libxml2-static STATIC ${SOURCES})
-if(INSTALL_HEADERS)
-file(GLOB PUBLIC_HEADERS include/libxml/*.h ${CMAKE_CURRENT_BINARY_DIR}/include/libxml/xmlversion.h)
-list(FILTER PUBLIC_HEADERS EXCLUDE REGEX "xmlexports\\.h$")
-list(APPEND PUBLIC_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/xmlexports.h)
+if (INSTALL_HEADERS)
+    file(GLOB PUBLIC_HEADERS include/libxml/*.h ${CMAKE_CURRENT_BINARY_DIR}/include/libxml/xmlversion.h)
+    list(FILTER PUBLIC_HEADERS EXCLUDE REGEX "xmlexports\\.h$")
+    list(APPEND PUBLIC_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/xmlexports.h)
 
-# added by ciaranwelsh specifically for roadrunner
-set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
-file(MAKE_DIRECTORY "${LIBXML2_INCLUDE_DIR}/xml2")
-file(COPY ${PUBLIC_HEADERS} DESTINATION "${LIBXML2_INCLUDE_DIR}/xml2")
+    # added by ciaranwelsh specifically for roadrunner
+    set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
+    file(MAKE_DIRECTORY "${LIBXML2_INCLUDE_DIR}/xml2")
+    file(COPY ${PUBLIC_HEADERS} DESTINATION "${LIBXML2_INCLUDE_DIR}/xml2")
 
-set_target_properties(libxml2-static PROPERTIES PUBLIC_HEADER "${PUBLIC_HEADERS}")
-endif()
+    set_target_properties(libxml2-static PROPERTIES PUBLIC_HEADER "${PUBLIC_HEADERS}")
+endif ()
 
 message(STATUS "LZMA_INCLUDE_DIR ${LZMA_INCLUDE_DIR}")
 target_include_directories(libxml2-static PRIVATE
@@ -136,34 +136,34 @@ target_include_directories(libxml2-static PRIVATE
 #    ${LIBLZMA_LIBRARIES}
 #)
 target_link_libraries(libxml2-static PRIVATE
-    libiconv-static
-    zlibstatic
-    libLZMA-static
-)
+        libiconv-static
+        zlibstatic
+        libLZMA-static
+        )
 
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
     target_include_directories(libxml2-static PRIVATE win32/vc10)
     target_link_libraries(libxml2-static PRIVATE
-        wsock32.lib
-        ws2_32.lib
-    )
+            wsock32.lib
+            ws2_32.lib
+            )
     target_compile_definitions(libxml2-static PRIVATE
-        -DHAVE_WIN32_THREADS
-        _WINSOCK_DEPRECATED_NO_WARNINGS
-    )
-#    target_sources(libxml2-static PRIVATE win32/libxml2.rc)
-#    set_source_files_properties(win32/libxml2.rc PROPERTIES COMPILE_FLAGS "-DLIBXML_MAJOR_VERSION=${LIBXML_MAJOR_VERSION} -DLIBXML_MINOR_VERSION=${LIBXML_MINOR_VERSION} -DLIBXML_MICRO_VERSION=${LIBXML_MICRO_VERSION} -DLIBXML_DOTTED_VERSION=\\\"${VERSION}\\\"")
-endif()
+            -DHAVE_WIN32_THREADS
+            _WINSOCK_DEPRECATED_NO_WARNINGS
+            )
+    #    target_sources(libxml2-static PRIVATE win32/libxml2.rc)
+    #    set_source_files_properties(win32/libxml2.rc PROPERTIES COMPILE_FLAGS "-DLIBXML_MAJOR_VERSION=${LIBXML_MAJOR_VERSION} -DLIBXML_MINOR_VERSION=${LIBXML_MINOR_VERSION} -DLIBXML_MICRO_VERSION=${LIBXML_MICRO_VERSION} -DLIBXML_DOTTED_VERSION=\\\"${VERSION}\\\"")
+endif ()
 
 target_compile_definitions(libxml2-static PRIVATE
-    -D_CRT_SECURE_NO_DEPRECATE
-    -D_CRT_NONSTDC_NO_DEPRECATE
-    -D_REENTRANT
-    -DNOLIBTOOL
-    -DHAVE_ZLIB_H
-    -DHAVE_LZMA_H
-)
+        -D_CRT_SECURE_NO_DEPRECATE
+        -D_CRT_NONSTDC_NO_DEPRECATE
+        -D_REENTRANT
+        -DNOLIBTOOL
+        -DHAVE_ZLIB_H
+        -DHAVE_LZMA_H
+        )
 #if(NOT BUILD_SHARED_LIBS)
 #    target_compile_definitions(libxml2-static PRIVATE -DLIBXML_STATIC)
 #endif()
@@ -172,14 +172,14 @@ target_compile_definitions(libxml2-static PRIVATE
 target_compile_definitions(libxml2-static PRIVATE -DLIBXML_STATIC)
 
 set(TARGET_INSTALL_OPTIONS)
-if(INSTALL_HEADERS)
+if (INSTALL_HEADERS)
     set(TARGET_INSTALL_OPTIONS PUBLIC_HEADER DESTINATION include/libxml)
-endif()
+endif ()
 
 install(TARGETS libxml2-static
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    ${TARGET_INSTALL_OPTIONS}
-)
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        ${TARGET_INSTALL_OPTIONS}
+        )
 

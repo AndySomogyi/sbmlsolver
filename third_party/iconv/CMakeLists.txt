@@ -66,21 +66,28 @@ else ()
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/autoconf)
 
     message(STATUS "running ./configure for iconv")
-    execute_process(
-            COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/configure --enable-relocatable ${STATIC_SHARED} --without-libiconv-prefix --without-libintl-prefix
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/autoconf
-    )
+    set(_bindir_autoconf_iconv_h "${CMAKE_CURRENT_BINARY_DIR}/autoconf/config.h")
+    if (NOT EXISTS ${_bindir_autoconf_iconv_h})
+        # we only need to run this once, and it takes ages.
+        # so check for existance of ${_bindir_autoconf_iconv_h}
+        # if it exists then we assume configure has been run by a previous
+        # execution of cmake.
+        execute_process(
+                COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/configure --enable-relocatable ${STATIC_SHARED} --without-libiconv-prefix --without-libintl-prefix
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/autoconf
+        )
+    endif ()
 
     # this was here before
-    configure_file(${CMAKE_CURRENT_BINARY_DIR}/autoconf/lib/config.h config.h @ONLY)
-    configure_file(${CMAKE_CURRENT_BINARY_DIR}/autoconf/include/iconv.h iconv.h @ONLY)
-    configure_file(${CMAKE_CURRENT_BINARY_DIR}/autoconf/libcharset/include/localcharset.h localcharset.h @ONLY)
+    configure_file(${CMAKE_CURRENT_BINARY_DIR}/autoconf/lib/config.h config.h)
+    configure_file(${CMAKE_CURRENT_BINARY_DIR}/autoconf/include/iconv.h iconv.h)
+    configure_file(${CMAKE_CURRENT_BINARY_DIR}/autoconf/libcharset/include/localcharset.h localcharset.h)
 
     # I added these (ciaran welsh)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/lib/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/lib/config.h @ONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/iconv.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/iconv.h @ONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/localcharset.h.in ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/localcharset.h @ONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/libcharset.h.in ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/libcharset.h @ONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/lib/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/lib/config.h)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/iconv/iconv.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/iconv/iconv.h)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/localcharset.h.in ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/localcharset.h)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/libcharset.h.in ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/libcharset.h)
 endif ()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
@@ -111,10 +118,21 @@ if (WIN32)
 endif ()
 target_link_libraries(libiconv-static PRIVATE libcharset)
 add_dependencies(libiconv-static libcharset)
-target_include_directories(libiconv-static PUBLIC #$<INSTALL_INTERFACE:include>
+target_include_directories(libiconv-static PUBLIC
         ${LIBICHARSET_INCLUDE_DIR}
         ${LIBICONV_INCLUDE_DIR}
         ${GNULIB_LOCAL_INCLUDE_DIR}
+        )
+
+# Make sure we have an iconv include directory without the need
+#  for actually installing iconv (Ciaran welsh)
+set(ICONV_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/iconv")
+set(ICONV_INCLUDE_DIR "${ICONV_INCLUDE_DIR}" PARENT_SCOPE)
+file(MAKE_DIRECTORY "${ICONV_INCLUDE_DIR}")
+file(COPY
+        ${CMAKE_CURRENT_BINARY_DIR}/iconv.h
+        ${CMAKE_CURRENT_BINARY_DIR}/localcharset.h
+        DESTINATION "${ICONV_INCLUDE_DIR}"
         )
 
 #install(TARGETS libcharset libiconv-static EXPORT unofficial-iconv-targets
@@ -138,14 +156,7 @@ target_include_directories(libiconv-static PUBLIC #$<INSTALL_INTERFACE:include>
 #        NAMESPACE unofficial::iconv::
 #        DESTINATION share/unofficial-iconv
 #)
-#set(ICONV_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/iconv")
-#set(ICONV_INCLUDE_DIR "${ICONV_INCLUDE_DIR}" PARENT_SCOPE)
-#file(MAKE_DIRECTORY "${ICONV_INCLUDE_DIR}")
-#file(COPY
-#        ${CMAKE_CURRENT_BINARY_DIR}/iconv.h
-#        ${CMAKE_CURRENT_BINARY_DIR}/localcharset.h
-#        DESTINATION "${ICONV_INCLUDE_DIR}"
-#        )
+
 
 
 

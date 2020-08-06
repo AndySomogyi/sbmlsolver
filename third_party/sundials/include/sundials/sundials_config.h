@@ -47,7 +47,7 @@
  * If it was decided that generic math functions can be used, then
  *     #define SUNDIALS_USE_GENERIC_MATH
  */
-#define SUNDIALS_USE_GENERIC_MATH
+
 
 /* Blas/Lapack available
  * If working libraries for Blas/lapack support were found, then

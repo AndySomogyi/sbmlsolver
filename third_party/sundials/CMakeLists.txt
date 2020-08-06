@@ -18,7 +18,7 @@
 
 # Require a fairly recent cmake version
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 # Project SUNDIALS (initially only C supported)
 
