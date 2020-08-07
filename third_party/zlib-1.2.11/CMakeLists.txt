@@ -54,11 +54,9 @@ if (NOT HAVE_FSEEKO)
     add_definitions(-DNO_FSEEKO)
 endif ()
 
-#
+
 # Check for unistd.h
-#
 check_include_file(unistd.h Z_HAVE_UNISTD_H)
-message(STATUS "DSDVSDV Z_HAVE_UNISTD_H ${Z_HAVE_UNISTD_H}")
 
 if (MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
@@ -80,10 +78,8 @@ if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
 endif ()
 
 set(ZLIB_PC ${CMAKE_CURRENT_BINARY_DIR}/zlib.pc)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zlib.pc.cmakein
-        ${ZLIB_PC} @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zconf.h.cmakein
-        ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zlib.pc.cmakein ${ZLIB_PC} @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zconf.h.cmakein ${CMAKE_CURRENT_BINARY_DIR}/zconf.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 
 
@@ -92,7 +88,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 #============================================================================
 
 set(ZLIB_PUBLIC_HDRS
-        ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h
+        ${CMAKE_CURRENT_BINARY_DIR}/zconf.h
         zlib.h
         )
 set(ZLIB_PRIVATE_HDRS
@@ -184,8 +180,10 @@ if (MINGW)
     set(ZLIB_DLL_SRCS ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj)
 endif (MINGW)
 
-#add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 add_library(zlibstatic STATIC "${ZLIB_SRCS}" "${ZLIB_ASMS}" "${ZLIB_PUBLIC_HDRS}" "${ZLIB_PRIVATE_HDRS}")
+
+# comment out shared library for roadrunner (ciaran welsh)
+#add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 #set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
 #set_target_properties(zlib PROPERTIES SOVERSION 1)
 
@@ -230,10 +228,16 @@ if (NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL)
     install(FILES ${ZLIB_PC} DESTINATION "${INSTALL_PKGCONFIG_DIR}")
 endif ()
 
-
-set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+# An include folder containing the headers we need
+# to zlib is created in the build tree. Its important to put it
+# in the build tree because otherwise the same files are overwitten by
+# different toolchains. This is particurarly important when developing
+# roadrunner on windows and linux on a single IDE - Ciaran welsh.
+set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/include")
 set(ZLIB_INCLUDE_DIR ${ZLIB_INCLUDE_DIR} PARENT_SCOPE)
 file(MAKE_DIRECTORY ${ZLIB_INCLUDE_DIR}/zlib)
+
+# Note - we should only put this in the binary tree.
 file(COPY ${ZLIB_PUBLIC_HDRS} DESTINATION "${ZLIB_INCLUDE_DIR}/zlib")
 file(COPY ${ZLIB_PUBLIC_HDRS} DESTINATION "${ZLIB_INCLUDE_DIR}")
 
