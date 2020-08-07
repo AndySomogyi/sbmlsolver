@@ -1926,6 +1926,11 @@ bool RunTest(int caseNumber)
     else {
         if (!first.empty()) {
             ret = RunTest(first, caseNumber);
+            if (!ret && isSemiStochasticTest(modelFilePath + "/" + descriptionFileName)) {
+                //semistochastic tests fail once in a great while, but very very rarely twice in a row.
+                Log(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
+                ret = RunTest(first, caseNumber);
+            }
         }
         else {
             Log(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;

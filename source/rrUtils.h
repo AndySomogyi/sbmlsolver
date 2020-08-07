@@ -109,6 +109,8 @@ RR_DECLSPEC string          getTestSuiteSubFolderName(int caseNr);
 
 RR_DECLSPEC bool            hasUnimplementedTags(const string& descriptionFileName);
 
+RR_DECLSPEC bool            isSemiStochasticTest(const string& descriptionFileName);
+
 RR_DECLSPEC bool            isFBCTest(const string& descriptionFileName);
 
 //CArray utilities
