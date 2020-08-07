@@ -1,23 +1,25 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(rrWrappers)
 
-if(INSTALL_C_API)
-add_subdirectory("C")
-endif()
+set(RR_CAPI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/C)
+if (INSTALL_C_API)
+    add_subdirectory("C")
+endif ()
 
-if(INSTALL_C_API_PYTHON)
-add_subdirectory("c_api_python")
-endif()
-
-if(INSTALL_DELPHI)
-add_subdirectory("Delphi")
-endif()
-
-if(BUILD_PYTHON)
+if (BUILD_PYTHON)
     add_subdirectory("Python")
-endif()
+endif ()
 
-if(BUILD_JAVA_INTERFACE)
-    add_subdirectory("Java")
-endif()
+if (INSTALL_C_API_PYTHON)
+    add_subdirectory("c_api_python")
+endif ()
+
+#if (INSTALL_DELPHI)
+#    add_subdirectory("Delphi")
+#endif ()
+#
+#
+#if (BUILD_JAVA_INTERFACE)
+#    add_subdirectory("Java")
+#endif ()
 

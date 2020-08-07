@@ -1,0 +1,97 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+project(unit_test)
+
+set(target unit_test)
+
+FILE(GLOB headers
+        src/*.h
+        )
+
+FILE(GLOB win32_headers
+        src/Win32/*.h
+        )
+
+FILE(GLOB posix_headers
+        src/Posix/*.h
+        )
+
+set(sources
+        src/AssertException
+        src/Checks
+        src/CurrentTest
+        src/DeferredTestReporter
+        src/DeferredTestResult
+        src/MemoryOutStream
+        src/ReportAssert
+        src/Test
+        src/TestDetails
+        src/TestList
+        src/TestReporter
+        src/TestReporterStdout
+        src/TestResults
+        src/TestRunner
+        src/TimeConstraint
+        src/XmlTestReporter
+        )
+
+if (WIN32)
+    set(sources
+            ${sources}
+            src/Win32/TimeHelpers
+            )
+
+    set(sources
+            ${sources}
+            )
+
+endif ()
+if (UNIX)
+    set(sources
+            ${sources}
+            src/Posix/TimeHelpers
+            src/Posix/SignalTranslator
+            )
+endif ()
+
+#This library is only be built as static
+add_library(${target}-static STATIC ${sources})
+set_property(TARGET ${target}-static
+        PROPERTY COMPILE_DEFINITIONS
+        STATIC_UNIT_TEST
+        )
+
+#if(WIN32)
+set_property(TARGET ${target}-static
+        PROPERTY COMPILE_DEFINITIONS
+        WIN32
+        )
+if (WIN32)
+
+endif ()
+
+#endif()
+#Install required files
+install(FILES ${headers}
+        DESTINATION include/unit_test)
+
+install(FILES ${win32_headers}
+        DESTINATION include/unit_test/Win32
+        )
+
+install(FILES ${posix_headers}
+        DESTINATION include/unit_test/Posix
+        )
+set(UNITTEST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(UNITTEST_INCLUDE_DIR "${UNITTEST_INCLUDE_DIR}" PARENT_SCOPE)
+file(MAKE_DIRECTORY "${UNITTEST_INCLUDE_DIR}/unit_test")
+file(MAKE_DIRECTORY "${UNITTEST_INCLUDE_DIR}/unit_test/Win32")
+file(MAKE_DIRECTORY "${UNITTEST_INCLUDE_DIR}/unit_test/Posix")
+file(COPY ${headers} DESTINATION "${UNITTEST_INCLUDE_DIR}/unit_test")
+file(COPY ${win32_headers} DESTINATION "${UNITTEST_INCLUDE_DIR}/unit_test/Win32")
+file(COPY ${posix_headers} DESTINATION "${UNITTEST_INCLUDE_DIR}/unit_test/Posix")
+
+install(TARGETS ${target}-static
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        )
+

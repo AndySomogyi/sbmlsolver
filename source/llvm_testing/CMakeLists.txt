@@ -51,59 +51,19 @@ endif()
 
 add_executable( ${target} ${llvm_testing_src} )
 
-set_property(TARGET ${target}
-    PROPERTY  COMPILE_DEFINITIONS
-    LIBSBML_USE_CPP_NAMESPACE
-    LIBSBML_STATIC
-    STATIC_LIBSTRUCT
-    STATIC_PUGI
-    STATIC_RR
-    STATIC_NLEQ1
-    STATIC_NLEQ2
-    )
+# The additional required flags are set at global level. Here
+# we only need to tell it about static rr.
+target_compile_definitions(${target} PRIVATE STATIC_RR)
 
-link_directories(
-    ${THIRD_PARTY_INSTALL_FOLDER}/lib
-    )
-
-include_directories(
-    src
-    ${RR_ROOT}
-    ${RR_ROOT}/wrappers/C
-    ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
-    )
+target_link_libraries(${target} PRIVATE unit_test-static roadrunner-static )
+target_include_directories(${target} PRIVATE
+        src
+        ${INCLUDE_DIRECTORIES}
+        )
 
 if (BUILD_PYTHON)
-    target_link_libraries (${target} ${PYTHON_LIBRARIES})
+    target_link_libraries (${target} PRIVATE ${PYTHON_LIBRARIES})
 endif(BUILD_PYTHON)
-
-if(UNIX)
-    set(staticLibPrefix ".a")
-    set(sharedLibPrefix ".so")
-else()
-    set(staticLibPrefix "")
-    set(sharedLibPrefix "")
-endif()
-
-
-if(WIN32)
-    target_link_libraries (${target}
-        roadrunner-static
-        unit_test-static${staticLibPrefix}
-        )
-endif()
-
-if(UNIX)
-    target_link_libraries (${target}
-        roadrunner_c_api
-        roadrunner-static
-        libunit_test-static${staticLibPrefix}
-        lapack
-        blas
-        f2c
-        dl
-        )
-endif()
 
 install (TARGETS ${target}
     DESTINATION bin
