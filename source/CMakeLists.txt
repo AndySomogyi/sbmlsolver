@@ -344,7 +344,7 @@ if (UNIX)
 elseif (WIN32)
     set(LINK_LIBRARIES ${LINK_LIBRARIES} Ws2_32)
 elseif (APPLE)
-    message(WARNING "Lucian - mac specific link libraries should go here, I don't know if they
+    message(WARNING "mac specific link libraries should go here, I don't know if they
 will be different from linux Please remove this warning. (Ciaran)")
 endif ()
 

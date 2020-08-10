@@ -157,7 +157,7 @@ set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS ON)
-set(BUILD_SHARED_LIBS            ON)
+set(BUILD_SHARED_LIBS ON)
 set(RR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(RR_SOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/source)
 set(THIRD_PARTY_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
@@ -196,6 +196,10 @@ if (BUILD_LEGACY_C)
 else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
+
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif ()
 
 #####################################################
 #    Apply project/compiler settings
@@ -364,9 +368,9 @@ set(DEPENDENCY_INCLUDE_DIRS
         "${SUNDIALS_INCLUDE_DIR}"
         "${UNITTEST_INCLUDE_DIR}"
         )
-if(${MINGW})
-    SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-endif()
+if (${MINGW})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+endif ()
 
 #if(${BORLAND})
 #    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
@@ -551,11 +555,11 @@ ConfigurationSummary()
 configure_file(VERSION.txt.in VERSION.txt @ONLY)
 
 install(
-    FILES
-    NOTICE.txt
-    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
-    NEWS.txt
-    DESTINATION .
+        FILES
+        NOTICE.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
+        NEWS.txt
+        DESTINATION .
 )
 
 
