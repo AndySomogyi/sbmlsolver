@@ -194,8 +194,7 @@ include_directories(
 )
 set(GNULIB_LOCAL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gnulib-local/lib")
 
-#set(LIBICHARSET_INCLUDE_DIR ${LIBICHARSET_INCLUDE_DIR} PARENT_SCOPE)
-#set(LIBICONV_INCLUDE_DIR ${LIBICONV_INCLUDE_DIR} PARENT_SCOPE)
+set(LIBICONV_INCLUDE_DIR ${LIBICONV_INCLUDE_DIR} PARENT_SCOPE)
 
 add_library(libcharset STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/lib/localcharset.c
@@ -208,8 +207,8 @@ target_include_directories(libcharset PUBLIC
 add_library(libiconv-static STATIC
         "${CMAKE_CURRENT_SOURCE_DIR}/lib/iconv.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/lib/relocatable.c")
-if (WIN32)
 
+if (WIN32)
     target_compile_definitions(libiconv-static PRIVATE
             -Dset_relocation_prefix=libiconv_set_relocation_prefix
             -Drelocate=libiconv_relocate -Drelocate2=libiconv_relocate2

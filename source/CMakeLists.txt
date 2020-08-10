@@ -339,13 +339,13 @@ endif ()
 # These were not needed to actually build roadrunner binaries
 # but linking the tests fails without them.
 if (UNIX)
-    #    icui18n icuuc
+    #    icui18n icuuc (can be used instead of iconv)
     set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m lzma)
 elseif (WIN32)
     set(LINK_LIBRARIES ${LINK_LIBRARIES} Ws2_32)
-
 elseif (APPLE)
-
+    message(WARNING "Lucian - mac specific link libraries should go here, I don't know if they
+will be different from linux Please remove this warning. (Ciaran)")
 endif ()
 
 target_link_libraries(${target}-static "${LINK_LIBRARIES}")
@@ -361,7 +361,6 @@ set(INCLUDE_DIRECTORIES
 set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
 
-# turn off shared zlib for roadruner (Ciaran welsh)
 if (BUILD_SHARED_LIBS)
 
     add_library(${target} SHARED ${rrSources})
@@ -379,7 +378,6 @@ if (BUILD_SHARED_LIBS)
         # sad face =[
     endif ()
 
-
     target_include_directories(${target} PRIVATE "${INCLUDE_DIRECTORIES}")
     target_link_libraries(${target} PRIVATE "${LINK_LIBRARIES}")
 
@@ -395,12 +393,16 @@ if (BUILD_SHARED_LIBS)
         endif ()
     endif ()
 
-
 endif (BUILD_SHARED_LIBS)
 
 
+# todo Note that this comment should be removed before merge into main repository:
 # Note: Comment made from upstream (for ciaran, delete before merge into main repo)
 # libraries to link with static lib
+# response to upstream: since the targets are
+# used directly now (i.e. not using paths to libraries but the targets themselves)
+# I think its safe to remove this.
+
 #======== We need to split up this one to satisfy linking in both windows and posix.
 #=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
 #if(BUILD_LLVM)

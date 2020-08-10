@@ -49,13 +49,11 @@ set(LZMA_INCLUDE_DIR "${LZMA_INCLUDE_DIR}" PARENT_SCOPE)
 # iconv
 message(STATUS "Adding iconv as subdirectory")
 add_subdirectory(iconv)
-set(ICONV_INCLUDE_DIR "${ICONV_INCLUDE_DIR}" PARENT_SCOPE)
-message(STATUS "ICONV_INCLUDE_DIR ${ICONV_INCLUDE_DIR}")
+set(LIBICONV_INCLUDE_DIR "${LIBICONV_INCLUDE_DIR}" PARENT_SCOPE)
 
 # libxml2
 message(STATUS "Adding libxml2 as subdirectory")
 add_subdirectory(libxml2)
-set(LIBXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libxml2")
 set(LIBXML2_INCLUDE_DIR "${LIBXML2_INCLUDE_DIR}" PARENT_SCOPE)
 
 
