@@ -464,6 +464,7 @@ endif (WITH_EXPAT)
 #
 set(USE_LIBXML OFF)
 if (WITH_LIBXML)
+    
     # The find libxml code has been commented out by ciaran welsh.
     # Since we have libxml as a target we have used generator expressions
     # in third_party/CMakeLists.txt to set these variables.
