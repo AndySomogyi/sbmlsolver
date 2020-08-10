@@ -340,7 +340,7 @@ endif ()
 # but linking the tests fails without them.
 if (UNIX)
     #    icui18n icuuc (can be used instead of iconv)
-    set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m lzma)
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m)
 elseif (WIN32)
     set(LINK_LIBRARIES ${LINK_LIBRARIES} Ws2_32)
 elseif (APPLE)
