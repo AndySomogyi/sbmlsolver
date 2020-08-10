@@ -472,30 +472,30 @@ if (WITH_LIBXML)
     # roadrunners build of libsbml and the official.
 
 
-        if (NOT LIBXML_LIBRARY)
-            find_library(LIBXML_LIBRARY
-                    NAMES libxml2.lib xml2
-                    PATHS /usr/lib /usr/local/lib
-                    ${LIBSBML_DEPENDENCY_DIR}/lib
-                    NO_DEFAULT_PATH
-                    DOC "The file name of the libxml2 library."
-                    )
-        endif ()
-
-        MESSAGE(STATIC "ASF LIBXML_INCLUDE_DIR ${LIBXML_INCLUDE_DIR}")
-        if (NOT LIBXML_INCLUDE_DIR)
-            find_path(LIBXML_INCLUDE_DIR
-                    NAMES libxml/parser.h
-                    PATHS ${LIBSBML_DEPENDENCY_DIR}/include
-                    /usr/include /usr/local/include
-                    /usr/include/libxml2
-                    ${CMAKE_OSX_SYSROOT}/usr/include/libxml2
-                    /usr/local/include/libxml2
-                    NO_DEFAULT_PATH
-
-                    DOC "The directory containing the libxml2 include files."
-                    )
-        endif ()
+    #    if (NOT LIBXML_LIBRARY)
+    #        find_library(LIBXML_LIBRARY
+    #                NAMES libxml2.lib xml2
+    #                PATHS /usr/lib /usr/local/lib
+    #                ${LIBSBML_DEPENDENCY_DIR}/lib
+    #                NO_DEFAULT_PATH
+    #                DOC "The file name of the libxml2 library."
+    #                )
+    #    endif ()
+    #
+    #    MESSAGE(STATIC "ASF LIBXML_INCLUDE_DIR ${LIBXML_INCLUDE_DIR}")
+    #    if (NOT LIBXML_INCLUDE_DIR)
+    #        find_path(LIBXML_INCLUDE_DIR
+    #                NAMES libxml/parser.h
+    #                PATHS ${LIBSBML_DEPENDENCY_DIR}/include
+    #                /usr/include /usr/local/include
+    #                /usr/include/libxml2
+    #                ${CMAKE_OSX_SYSROOT}/usr/include/libxml2
+    #                /usr/local/include/libxml2
+    #                NO_DEFAULT_PATH
+    #
+    #                DOC "The directory containing the libxml2 include files."
+    #                )
+    #    endif ()
 
     add_definitions(-DUSE_LIBXML)
     list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)
