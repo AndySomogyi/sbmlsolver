@@ -137,11 +137,11 @@ else ()
 endif ()
 
 
-set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING
         "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING
             "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
   CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
 endif ()

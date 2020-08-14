@@ -75,7 +75,6 @@ find_program(LLVM_CONFIG_EXECUTABLE
         )
 
 
-
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
 
@@ -91,7 +90,7 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-#    message(STATUS "LLVM_VERSION ${LLVM_VERSION}")
+    #    message(STATUS "LLVM_VERSION ${LLVM_VERSION}")
 
     # Version Info
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION)
@@ -102,8 +101,8 @@ if (LLVM_CONFIG_EXECUTABLE)
 
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR)
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR)
-#    MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
-#    MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
+    #    MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
+    #    MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
 
     # Include Dir
     execute_process(
@@ -111,7 +110,7 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_VARIABLE LLVM_INCLUDE_DIRS
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-#    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
+    #    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
 
     # Lib Dir
     execute_process(
@@ -119,22 +118,22 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_VARIABLE LLVM_LIBRARY_DIRS
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-#    message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
+    #    message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
 
     # System libs
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --system-libs
-        OUTPUT_VARIABLE LLVM_SYSTEM_LIBS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --system-libs
+            OUTPUT_VARIABLE LLVM_SYSTEM_LIBS
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
     message(STATUS "LLVM_SYSTEM_LIBS:  ${LLVM_SYSTEM_LIBS}")
     # For some reason, the return value for system-libs for macos is of the
     # form '-llib1 -llib2 ...", but the return value for system-libs for windows
     # is of the form "lib1.lib lib2.lib ..." which doesn't work the same way.
     # The only system it was failing for was macos, so we'll just set it for that.
-    if(APPLE)
+    if (APPLE)
         set(LLVM_SYSTEM_LIBS_THISOS ${LLVM_SYSTEM_LIBS})
-    endif()
+    endif ()
     message(STATUS "LLVM_SYSTEM_LIBS_THISOS:  ${LLVM_SYSTEM_LIBS_THISOS}")
 
     # C++ Flags, strip out stuff that CMake build adds
@@ -143,6 +142,14 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_VARIABLE LLVM_FLAGS
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
+    if (NOT LLVM_FLAGS)
+        message(FATAL_ERROR "The LLVM_FLAGS variable does not exist. This means
+that the llvm-config binary could not be executed by cmake to query for
+LLVM flags. Sometimes this happens because you do not have execution permissions
+on llvm-config. Other times this happens when LLVM_INSTALL_PREFIX does not point to the
+correct location. ")
+    endif ()
+    message(STATUS "LLVM_FLAGS ${LLVM_FLAGS}")
     # strip this from llvm's version, we should add this ourselves in
     # production mode to main CFLAGS
     STRING(REPLACE "-DNDEBUG" "" LLVM_FLAGS ${LLVM_FLAGS})
@@ -175,7 +182,7 @@ if (LLVM_CONFIG_EXECUTABLE)
     STRING(REPLACE "-Wnon-virtual-dtor" "" LLVM_FLAGS ${LLVM_FLAGS})
 
 
-#    MESSAGE(STATUS "LLVM_FLAGS: " ${LLVM_FLAGS})
+    #    MESSAGE(STATUS "LLVM_FLAGS: " ${LLVM_FLAGS})
 
 
     # link libraries, currently only need core, jit and native.
@@ -194,19 +201,19 @@ if (LLVM_CONFIG_EXECUTABLE)
     endif ()
     # we get a space sep list from llvm-config, make it a cmake ; separated list.
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
-#    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+    #    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
     # starting with LLVM 3.4 (at least on Ubuntu) it requres functions in
     # ncurses for console IO formatting. So, we find ncurses here.
     if (UNIX)
         #message("UNIX true")
-#        message("LLVM VERSION >= 3.4, looking for curses library")
+        #        message("LLVM VERSION >= 3.4, looking for curses library")
         # sudo apt-get install libncurses5-dev libncursesw5-dev
         find_package(Curses REQUIRED)
-#        message(STATUS "curses: ${CURSES_FOUND}")
-#        message(STATUS "curdir: ${CURSES_INCLUDE_DIR}")
-#        message(STATUS "curlib: ${CURSES_LIBRARIES}")
-#        message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+        #        message(STATUS "curses: ${CURSES_FOUND}")
+        #        message(STATUS "curdir: ${CURSES_INCLUDE_DIR}")
+        #        message(STATUS "curlib: ${CURSES_LIBRARIES}")
+        #        message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
 
         set(LLVM_LIBRARIES "${LLVM_LIBRARIES};${CURSES_LIBRARIES}")
 
