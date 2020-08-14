@@ -1987,6 +1987,31 @@ namespace std { class ostream{}; }
         return pyList;
     }
 
+    /**
+     * creates a function signature of
+     * SWIGINTERN PyObject *rr_ExecutableModel_getEventIds(rr::ExecutableModel *self);
+     */
+    PyObject *getEventIds() {
+        std::list<std::string> ids;
+
+        ($self)->getEventIds(ids);
+
+        size_t size = ids.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+        {
+            const std::string& id  = *i;
+            PyObject* pyStr = PyString_FromString(id.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+
     /***
      ** get values section
      ***/
@@ -2142,7 +2167,7 @@ namespace std { class ostream{}; }
     }
 
     PyObject *getEventIds() {
-        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::EVENT);
+        return rr_ExecutableModel_getEventIds($self);
     }
 
     %pythoncode %{

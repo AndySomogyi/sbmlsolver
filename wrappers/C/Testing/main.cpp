@@ -118,7 +118,15 @@ int main(int argc, char* argv[])
 
         clog << "Running Suite SBML_l2v4\n";
         clog << "ModelPath " << gTSModelsPath << endl;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE", True(), 0);
+        struct Only
+        {
+
+            bool operator()(const Test* const test) const
+            {
+                return test->m_details.testName == "966";
+            }
+        };
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE", Only(), 0);
     }
     if (args.Suites.find('F') != std::string::npos)
     {

@@ -397,6 +397,9 @@ std::string CXXPiecewiseExecutableModel::getEventId(int index)
     return "";
 }
 
+void CXXPiecewiseExecutableModel::getEventIds(std::list<std::string>&) {
+}
+
 void CXXPiecewiseExecutableModel::setEventListener(int index,
         rr::EventListenerPtr eventHandler)
 {

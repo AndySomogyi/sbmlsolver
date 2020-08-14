@@ -664,6 +664,7 @@ public:
      */
     virtual int getEventIndex(const std::string& eid) = 0;
     virtual std::string getEventId(size_t index) = 0;
+    virtual void getEventIds(std::list<std::string>&) = 0;
     virtual void setEventListener(size_t index, EventListenerPtr eventHandler) = 0;
     virtual EventListenerPtr getEventListener(size_t index) = 0;
 
