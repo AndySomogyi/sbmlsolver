@@ -37,7 +37,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/lib
 include_directories(
 src
 ${RR_ROOT}
-${THIRD_PARTY_FOLDER}/unit_test/src
+${THIRD_PARTY_INSTALL_FOLDER}/include/
 )
 
 if(UNIX)

@@ -25,7 +25,8 @@
     // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
-    #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+    //Can't require new API on MacOS 10.9
+    //#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
     #ifdef _MSC_VER
     #pragma warning(disable: 26812)

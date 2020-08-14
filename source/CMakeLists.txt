@@ -397,6 +397,7 @@ if(RR_BUILD_SHARED_CORE)
     if(BUILD_LLVM)
         target_link_libraries(${target}
             ${LLVM_LIBRARIES}
+            ${LLVM_SYSTEM_LIBS_THISOS}
             )
     endif(BUILD_LLVM)
 
@@ -428,6 +429,7 @@ set_property(TARGET ${target}-static
 if(BUILD_LLVM)
     target_link_libraries(${target}-static
         ${LLVM_LIBRARIES}
+        ${LLVM_SYSTEM_LIBS_THISOS}
         )
 endif(BUILD_LLVM)
 
