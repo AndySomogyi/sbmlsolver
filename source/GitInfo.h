@@ -17,12 +17,12 @@
 
 
 static const char* getGitBranch() {
-    return "develop-ubuntu";
+    return "master";
 }
 
 
 static const char* getGitLastCommit() {
-    return "c472760bd47259407baddf240cd90a3e595ef2b5";
+    return "8d9e45f5ffae84a7ae82118e1ebe0ef3c2b0fb77";
 }
 
 #endif

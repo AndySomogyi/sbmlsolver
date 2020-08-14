@@ -4,12 +4,12 @@ project(CLAPACK C)
 #include(CTest)
 
 if(WIN32 AND NOT CYGWIN)
-  set(SECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/winsecond.c)
-  set(DSECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/windsecnd.c)
+  set(SECOND_SRC  ${CLAPACK_SOURCE_DIR}/install/winsecond.c)
+  set(DSECOND_SRC  ${CLAPACK_SOURCE_DIR}/install/windsecnd.c)
   add_definitions(-DNO_ISATTY -DMSDOS -DUSE_CLOCK)
 else()
-  set(SECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/second.c)
-  set(DSECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/dsecnd.c)
+  set(SECOND_SRC  ${CLAPACK_SOURCE_DIR}/install/second.c)
+  set(DSECOND_SRC  ${CLAPACK_SOURCE_DIR}/install/dsecnd.c)
 endif()
 #enable_testing()
 #option(USE_BLAS_WRAP "pre-pend f2c_ to each function in blas" OFF)
@@ -32,10 +32,10 @@ set(CPACK_PACKAGE_VERSION_MINOR 2)
 set(CPACK_PACKAGE_VERSION_PATCH 1)
 
 
-
-include(CPack)
-export(TARGETS f2c blas lapack FILE clapack-targets.cmake)
-configure_file(${CLAPACK_SOURCE_DIR}/clapack-config-version.cmake.in
-  ${CLAPACK_BINARY_DIR}/clapack-config-version.cmake @ONLY)
-configure_file(${CLAPACK_SOURCE_DIR}/clapack-config.cmake.in
-  ${CLAPACK_BINARY_DIR}/clapack-config.cmake @ONLY)
+# commented out by ciaran welsh. Not needed for the rr build.
+#include(CPack)
+#export(TARGETS f2c blas lapack FILE clapack-targets.cmake)
+#configure_file(${CLAPACK_SOURCE_DIR}/clapack-config-version.cmake.in
+#  ${CLAPACK_BINARY_DIR}/clapack-config-version.cmake @ONLY)
+#configure_file(${CLAPACK_SOURCE_DIR}/clapack-config.cmake.in
+#  ${CLAPACK_BINARY_DIR}/clapack-config.cmake @ONLY)

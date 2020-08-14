@@ -20,6 +20,8 @@
 /* This file defines all the converters. */
 
 
+#include "iconv.h"
+
 /* Our own notion of wide character, as UCS-4, according to ISO-10646-1. */
 typedef unsigned int ucs4_t;
 

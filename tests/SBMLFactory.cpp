@@ -11,14 +11,13 @@ namespace rrtest {
 
 
     std::string SBMLFactory(ModelType modelType) {
-            if (modelType == BISTABLE)
-                return Bistable().str();
-            else if (modelType == SBML_NOT_ANNOTATED)
-                return SBMLNotAnnotated().strModel();
-            else {
-                throw std::invalid_argument("ModelType is not a valid argument.");
-            }
+        if (modelType == BISTABLE) {
+            return Bistable().str();
+//            else if (modelType == SBML_NOT_ANNOTATED)
+//                return SBMLNotAnnotated().strModel();
+        } else {
+            throw std::invalid_argument("ModelType is not a valid argument.");
         }
     }
-
 }
+

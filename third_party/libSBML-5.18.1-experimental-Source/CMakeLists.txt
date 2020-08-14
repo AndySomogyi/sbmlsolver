@@ -31,7 +31,7 @@
 #
 ###############################################################################
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.16)
 project(libsbml)
 
 if (POLICY CMP0054)
@@ -464,41 +464,57 @@ endif (WITH_EXPAT)
 #
 set(USE_LIBXML OFF)
 if (WITH_LIBXML)
-    if (NOT LIBXML_LIBRARY)
-        find_library(LIBXML_LIBRARY
-                NAMES libxml2.lib xml2
-                PATHS /usr/lib /usr/local/lib
-                ${LIBSBML_DEPENDENCY_DIR}/lib
-                DOC "The file name of the libxml2 library."
-                )
-    endif ()
 
-    if (NOT LIBXML_INCLUDE_DIR)
-        find_path(LIBXML_INCLUDE_DIR
-                NAMES libxml/parser.h
-                PATHS ${LIBSBML_DEPENDENCY_DIR}/include
-                /usr/include /usr/local/include
-                /usr/include/libxml2
-                ${CMAKE_OSX_SYSROOT}/usr/include/libxml2
-                /usr/local/include/libxml2
+    # The find libxml code has been commented out by ciaran welsh.
+    # Since we have libxml as a target we have used generator expressions
+    # in third_party/CMakeLists.txt to set these variables.
+    # Keep commented out to help highlight the differences between
+    # roadrunners build of libsbml and the official.
 
-                DOC "The directory containing the libxml2 include files."
-                )
-    endif ()
+
+    #    if (NOT LIBXML_LIBRARY)
+    #        find_library(LIBXML_LIBRARY
+    #                NAMES libxml2.lib xml2
+    #                PATHS /usr/lib /usr/local/lib
+    #                ${LIBSBML_DEPENDENCY_DIR}/lib
+    #                NO_DEFAULT_PATH
+    #                DOC "The file name of the libxml2 library."
+    #                )
+    #    endif ()
+    #
+    #    MESSAGE(STATIC "ASF LIBXML_INCLUDE_DIR ${LIBXML_INCLUDE_DIR}")
+    #    if (NOT LIBXML_INCLUDE_DIR)
+    #        find_path(LIBXML_INCLUDE_DIR
+    #                NAMES libxml/parser.h
+    #                PATHS ${LIBSBML_DEPENDENCY_DIR}/include
+    #                /usr/include /usr/local/include
+    #                /usr/include/libxml2
+    #                ${CMAKE_OSX_SYSROOT}/usr/include/libxml2
+    #                /usr/local/include/libxml2
+    #                NO_DEFAULT_PATH
+    #
+    #                DOC "The directory containing the libxml2 include files."
+    #                )
+    #    endif ()
 
     add_definitions(-DUSE_LIBXML)
     list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)
     set(USE_LIBXML ON)
 
+    message(STATUS "BEFORE: LIBXML_INCLUDE_DIR ${LIBXML_INCLUDE_DIR}")
+
     set(LIBSBML_XML_LIBRARY "libxml2")
     set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
     set(LIBSBML_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
 
-    if (NOT EXISTS "${LIBXML_INCLUDE_DIR}/libxml/parser.h")
-        message(FATAL_ERROR
-                "The include directory specified for libxml appears to be invalid.
-It should contain the file libxml/parser.h, but it does not.")
-    endif ()
+    message(STATUS "AFTER: LIBXML_INCLUDE_DIR ${LIBXML_INCLUDE_DIR}")
+    #   This check is inappropriate for roadrunner because of the way the build system is comnfigured
+    #   to use generator expressions
+    #    if (NOT EXISTS "${LIBXML_INCLUDE_DIR}/libxml/parser.h")
+    #        message(FATAL_ERROR
+    #                "The include directory specified for libxml appears to be invalid.
+    #It should contain the file libxml/parser.h, but it does not.")
+    #    endif ()
 endif (WITH_LIBXML)
 
 

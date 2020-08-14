@@ -22,7 +22,7 @@
 
 #define _LIBICONV_VERSION 0x0110    /* version number: (major<<8) + minor */
 
-#if 1 && BUILDING_LIBICONV
+#if 1        /*HAVE_VISIBILITY*/ && BUILDING_LIBICONV
 #define LIBICONV_DLL_EXPORTED __attribute__((__visibility__("default")))
 #elif defined _MSC_VER && BUILDING_LIBICONV
 #define LIBICONV_DLL_EXPORTED __declspec(dllexport)
@@ -87,7 +87,7 @@ extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char*
 #ifndef LIBICONV_PLUG
 #define iconv libiconv
 #endif
-extern LIBICONV_DLL_EXPORTED size_t iconv (iconv_t cd,  char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
+extern LIBICONV_DLL_EXPORTED size_t iconv (iconv_t cd, const    /*ICONV_CONST*/ char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
 
 /* Frees resources allocated for conversion descriptor ‘cd’. */
 #ifndef LIBICONV_PLUG
@@ -105,8 +105,8 @@ extern LIBICONV_DLL_EXPORTED int iconv_close (iconv_t cd);
 
 /* Nonstandard extensions. */
 
-#if 1
-#if 0
+#if 1        /*USE_MBSTATE_T*/
+#if 0        /*BROKEN_WCHAR_H*/
 /* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
    <wchar.h>.
    BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
@@ -126,7 +126,7 @@ extern "C" {
    A pointer to such an object can be used as an iconv_t. */
 typedef struct {
   void* dummy1[28];
-#if 1
+#if 1        /*USE_MBSTATE_T*/
   mbstate_t dummy2;
 #endif
 } iconv_allocation_t;
@@ -173,7 +173,7 @@ typedef void (*iconv_unicode_uc_to_mb_fallback)
                                          void* callback_arg),
               void* callback_arg,
               void* data);
-#if 1
+#if 0        /*HAVE_WCHAR_T*/
 /* Fallback function.  Invoked when a number of bytes could not be converted to
    a wide character.  This function should process all bytes from inbuf and may
    produce replacement wide characters by calling the write_replacement

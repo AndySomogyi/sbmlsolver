@@ -23,6 +23,8 @@ include(LocateVcpkg)
 # defines a macro for printing out a configuration summary
 # Technically this doesn't need to be a macro
 # but it can get quite long so I like to put it out of sight.
+# note: this configuration summary macro is out of date and not presently in use. (ciaran)
+# todo fix the configuration summary by adding useful  information and have it print out at the end of cmake command
 include(ConfigurationSummary)
 
 # a macro for isolating the code for finding dependencies
@@ -155,7 +157,7 @@ set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS ON)
-set(BUILD_SHARED_LIBS            ON)
+set(BUILD_SHARED_LIBS ON)
 set(RR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(RR_SOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/source)
 set(THIRD_PARTY_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
@@ -194,6 +196,10 @@ if (BUILD_LEGACY_C)
 else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
+
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif ()
 
 #####################################################
 #    Apply project/compiler settings
@@ -362,9 +368,9 @@ set(DEPENDENCY_INCLUDE_DIRS
         "${SUNDIALS_INCLUDE_DIR}"
         "${UNITTEST_INCLUDE_DIR}"
         )
-if(${MINGW})
-    SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-endif()
+if (${MINGW})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+endif ()
 
 #if(${BORLAND})
 #    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
@@ -507,6 +513,16 @@ endif ()
 ###################################################
 ##   Build wrappers etc
 #
+
+######################################################
+#   Note (Ciaran welsh)
+#
+#   Some work has been done on the wrappers and tests, but not much.
+#   They will need some work to get them to where we want.
+#   For now I leave this commented out as I focus on getting roadrunner
+#   and roadrunner-static targets built.
+#
+
 ##if (INSTALL_CXX_API)
 ##    if (INSTALL_APPS)
 ##        add_subdirectory(apps)
@@ -519,9 +535,8 @@ endif ()
 ##
 ##add_subdirectory(wrappers)
 #
-## print out the configuration summary
-## note configure summary not current, uncomment once its fixed
-##ConfigurationSummary()
+# print out the configuration summary
+ConfigurationSummary()
 #
 ### make or copy installers into root directory
 ##add_subdirectory(installer)
@@ -537,15 +552,15 @@ endif ()
 ##    endforeach()
 ##endif()
 #
-#configure_file(VERSION.txt.in VERSION.txt @ONLY)
-#
-#install(
-#    FILES
-#    NOTICE.txt
-#    ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
-#    NEWS.txt
-#    DESTINATION .
-#)
-#
+configure_file(VERSION.txt.in VERSION.txt @ONLY)
+
+install(
+        FILES
+        NOTICE.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
+        NEWS.txt
+        DESTINATION .
+)
+
 
 
