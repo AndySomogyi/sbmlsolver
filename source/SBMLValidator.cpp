@@ -103,6 +103,35 @@ static bool isStoichDefined(const SpeciesReference* s) {
     return (s->isSetStoichiometry() || s->isSetStoichiometryMath());
 }
 
+void setSpeciesRefId(SpeciesReference* sr, const string& idbase) 
+{
+    Model* model = const_cast<Model*>(sr->getModel());
+    const SBase* sbase = model->getElementBySId(idbase);
+    int i = 0;
+    std::stringstream newid(idbase);
+    while (sbase != NULL) {
+        i++;
+        newid.clear();
+        newid << idbase << i;
+        sbase = model->getElementBySId(newid.str());
+    }
+    int setret = sr->setId(newid.str());
+    if (setret != LIBSBML_OPERATION_SUCCESS && sr->getLevel() == 2 && sr->getVersion() == 1) {
+        // Might have to move to l2v2 to get ids on speciesReferences.
+        //  They don't officially exist in l2v1, but setId usually works
+        //  anyway because there's special layout code to handle it.
+        //
+        // If we do update the doc l/v, the objects remain the same, so it's OK
+        //  to continue in the same loops.
+        SBMLDocument* doc = model->getSBMLDocument();
+        doc->setLevelAndVersion(2, 2, false);
+        setret = sr->setId(newid.str());
+    }
+    if (setret != LIBSBML_OPERATION_SUCCESS) {
+        throw std::runtime_error("Unable to set variable stoichiometry ID.");
+    }
+}
+
 std::string fixMissingStoich(const std::string sbml) {
     SBMLDocument *doc = NULL;
 
@@ -151,19 +180,7 @@ std::string fixMissingStoich(const std::string sbml) {
                 if (s->isSetStoichiometryMath()) {
                     string id = s->getId();
                     if (!s->isSetId()) {
-                        int idset = s->setId(r->getId() + "_reactant_" + s->getSpecies() + "_stoichiometry");
-                        if (idset != LIBSBML_OPERATION_SUCCESS) {
-                            if (s->getLevel() == 2 && s->getVersion() == 1) {
-                                //Have to move to l2v2 to get ids on speciesReferences.
-                                //However, this code doesn't get tested because the
-                                // speciesReference is given an ID anyway in l2v1 because
-                                // of the layout extension, somehow.
-                                doc->setLevelAndVersion(2, 2, false);
-                                string newversion = writeSBMLToStdString(doc);
-                                delete doc;
-                                return fixMissingStoich(newversion);
-                            }
-                        }
+                        setSpeciesRefId(s, r->getId() + "_reactant_" + s->getSpecies() + "_stoichiometry");
                     }
                 }
             }
@@ -177,16 +194,7 @@ std::string fixMissingStoich(const std::string sbml) {
                 if (s->isSetStoichiometryMath()) {
                     string id = s->getId();
                     if (!s->isSetId()) {
-                        if (s->setId(r->getId() + "_product_" + s->getSpecies() + "_stoichiometry") != LIBSBML_OPERATION_SUCCESS) {
-                            if (s->getLevel() == 2 && s->getVersion() == 1) {
-                                //Have to move to l2v2 to get ids on speciesReferences.
-                                doc->setLevelAndVersion(2, 2, false);
-                                string newversion = writeSBMLToStdString(doc);
-                                delete doc;
-                                return fixMissingStoich(newversion);
-                            }
-                            throw std::runtime_error("Unable to set variable stoichiometry ID.");
-                        }
+                        setSpeciesRefId(s, r->getId() + "_product_" + s->getSpecies() + "_stoichiometry");
                     }
                 }
             }
