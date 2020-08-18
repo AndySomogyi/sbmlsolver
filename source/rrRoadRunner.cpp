@@ -1071,14 +1071,9 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         impl->loadOpt = LoadSBMLOptions(dict);
     }
 
-    // TODO: streamline so SBML document is not read several times
-    // check that stoichiometry is defined
-    if (!isStoichDefined(mCurrentSBML)) {
-        // if any reactions are missing stoich, the simulation results will be wrong
-        // fix sbml by assuming unit stoich where missing
-        mCurrentSBML = fixMissingStoich(mCurrentSBML);
-        Log(Logger::LOG_WARNING)<<"Stoichiometry is not defined for all reactions; assuming unit stoichiometry where missing";
-    }
+    // Check that stoichiometry is defined and, if variable in L2, named.
+    //  If not, define it to be 1.0, and name it.
+    mCurrentSBML = fixMissingStoich(mCurrentSBML);
 
 	// TODO: add documentation for validations
 	if ((impl->loadOpt.loadFlags & LoadSBMLOptions::TURN_ON_VALIDATION) != 0)
