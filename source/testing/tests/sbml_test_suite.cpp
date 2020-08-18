@@ -995,7 +995,7 @@ SUITE(SBML_test_suite_part1)
     TEST(970) { CHECK(RunTest(970)); }
     TEST(971) { CHECK(RunTest(971)); }
     TEST(972) { CHECK(RunTest(972)); }
-    //TEST(973) { CHECK(RunTest(973)); } //l2v1 fails, but l2v5 passes.
+    TEST(973) { CHECK(RunTest(973)); }
     TEST(974) { CHECK(RunTest(974)); }
     TEST(975) { CHECK(RunTest(975)); }
     TEST(976) { CHECK(RunTest(976)); }
@@ -1011,12 +1011,12 @@ SUITE(SBML_test_suite_part1)
     TEST(986) { CHECK(RunTest(986)); }
     TEST(987) { CHECK(RunTest(987)); }
     TEST(988) { CHECK(RunTest(988)); }
-    //TEST(989) { CHECK(RunTest(989)); } //l2v1 fails, l2v5 passes
-    //TEST(990) { CHECK(RunTest(990)); } //l2v1 fails, l2v5 passes
-    //TEST(991) { CHECK(RunTest(991)); } //l2v1 fails, l2v5 passes
-    //TEST(992) { CHECK(RunTest(992)); } //l2v1 fails, l2v5 passes
+    TEST(989) { CHECK(RunTest(989)); }
+    TEST(990) { CHECK(RunTest(990)); }
+    TEST(991) { CHECK(RunTest(991)); }
+    TEST(992) { CHECK(RunTest(992)); }
     //TEST(993) { CHECK(RunTest(993)); } // Throws because uninitialized value
-    //TEST(994) { CHECK(RunTest(994)); } //l2v1 fails, l2v5 passes
+    TEST(994) { CHECK(RunTest(994)); }
     TEST(995) { CHECK(RunTest(995)); }
     TEST(996) { CHECK(RunTest(996)); }
     TEST(997) { CHECK(RunTest(997)); }
@@ -1607,11 +1607,11 @@ SUITE(SBML_test_suite_part2)
     TEST(1578) { CHECK(RunTest(1578)); }    
     //TEST(1579) { CHECK(RunTest(1579)); } // Throws because uninitialized value
     TEST(1580) { CHECK(RunTest(1580)); }
-    //TEST(1581) { CHECK(RunTest(1581)); } // Fail l2v1, pass l2v5
+    TEST(1581) { CHECK(RunTest(1581)); }
     TEST(1582) { CHECK(RunTest(1582)); }
     TEST(1583) { CHECK(RunTest(1583)); }
     TEST(1584) { CHECK(RunTest(1584)); }
-    //TEST(1585) { CHECK(RunTest(1585)); } // Fail l2v1, pass l2v5
+    TEST(1585) { CHECK(RunTest(1585)); }
     TEST(1586) { CHECK(RunTest(1586)); }
     TEST(1587) { CHECK(RunTest(1587)); }
     TEST(1588) { CHECK(RunTest(1588)); }
@@ -1769,15 +1769,15 @@ SUITE(SBML_test_suite_part2)
     TEST(1740) { CHECK(RunTest(1740)); }
     TEST(1741) { CHECK(RunTest(1741)); }
     TEST(1742) { CHECK(RunTest(1742)); }
-    //TEST(1743) { CHECK(RunTest(1743)); } // l2v1 fail; l2v5 pass
+    TEST(1743) { CHECK(RunTest(1743)); }
     TEST(1744) { CHECK(RunTest(1744)); }
-    //TEST(1745) { CHECK(RunTest(1745)); } // l2v1 fail; l2v5 pass
+    TEST(1745) { CHECK(RunTest(1745)); }
     TEST(1746) { CHECK(RunTest(1746)); }
     TEST(1747) { CHECK(RunTest(1747)); }
     TEST(1748) { CHECK(RunTest(1748)); }
-    //TEST(1749) { CHECK(RunTest(1749)); } // l2v1 fail; l2v5 pass
+    TEST(1749) { CHECK(RunTest(1749)); }
     TEST(1750) { CHECK(RunTest(1750)); }
-    //TEST(1751) { CHECK(RunTest(1751)); } // l2v1 fail; l2v5 pass
+    TEST(1751) { CHECK(RunTest(1751)); }
     TEST(1752) { CHECK(RunTest(1752)); }
     TEST(1753) { CHECK(RunTest(1753)); }
     TEST(1754) { CHECK(RunTest(1754)); }
