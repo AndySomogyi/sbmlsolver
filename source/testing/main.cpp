@@ -93,6 +93,8 @@ int main(int argc, char* argv[])
     //    runner1.RunTestsIf(Test::GetTestList(), "Stoichiometric",       True(), 0);
 
     //    clog<<"Running TestSuite Tests\n";
+    runner1.RunTestsIf(Test::GetTestList(), "Other", True(), 0);
+
     runner1.RunTestsIf(Test::GetTestList(), "SBML_test_suite_part1", True(), 0);
 
     runner1.RunTestsIf(Test::GetTestList(), "SBML_test_suite_part2", True(), 0);
