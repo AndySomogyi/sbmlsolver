@@ -3707,9 +3707,6 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
     check_model();
 
-    // make sure no rate rules or events
-    metabolicControlCheck(self.model.get());
-
     // function pointers to the model get values and get init values based on
     // if we are doing amounts or concentrations.
     typedef int (ExecutableModel::*GetValueFuncPtr)(size_t len, int const *indx,
@@ -5149,16 +5146,9 @@ void RoadRunner::applySimulateOptions()
 
 static void metabolicControlCheck(ExecutableModel *model)
 {
-    static const char* e1 = "Metabolic control analysis only valid "
-            "for primitive reaction kinetics models. ";
-    /*if (model->getNumRateRules() > 0)
-    {
-        throw std::invalid_argument(string(e1) + "This model has rate rules");
-    }*/
-
     if (model->getNumEvents() > 0 && !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
     {
-        throw std::invalid_argument(string(e1) + "This model has events. Set ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to True to override. "
+        throw std::invalid_argument("The steady state cannot be calculated in a model with events, which this model has. Set ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to True to override. "
         "To override, run 'Config.setValue(Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS, True)'.");
     }
 }

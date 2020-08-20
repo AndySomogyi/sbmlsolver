@@ -10,6 +10,7 @@ tests/steady_state
 tests/stoichiometric
 tests/model_editing
 tests/state_saving
+tests/other_tests
 )
 
 add_executable( ${target} 
