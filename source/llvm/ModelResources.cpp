@@ -12,16 +12,30 @@
 #include <rrStringUtils.h>
 #undef min
 #undef max
+#include "source/llvm/SBMLSupportFunctions.h"
+#include "rrRoadRunnerOptions.h"
+
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
 #include "llvm/Bitcode/BitcodeWriter.h"
 #include "llvm/Bitcode/BitcodeReader.h"
 #include "llvm/Support/Error.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/ExecutionEngine/SectionMemoryManager.h"
 #include "llvm/Support/DynamicLibrary.h"
-#include "source/llvm/SBMLSupportFunctions.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Target/TargetMachine.h"
-#include "rrRoadRunnerOptions.h"
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 using rr::Logger;
 using rr::getLogger;
@@ -71,9 +85,6 @@ void ModelResources::addGlobalMappings()
 {
     using namespace llvm;
     Type *double_type = Type::getDoubleTy(*context);
-    Type *int_type = Type::getInt32Ty(*context);
-    Type* args_i1[] = { int_type };
-    Type* args_d1[] = { double_type };
     Type* args_d2[] = { double_type, double_type };
 
     llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr);

@@ -452,7 +452,7 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, const char* substanceUnit);
+C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 /*!
  \brief Add a species to the current model, without regenerating it
@@ -465,7 +465,7 @@ C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const 
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, const char* substanceUnit);
+C_DECL_SPEC bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 
 /*!
@@ -710,6 +710,15 @@ C_DECL_SPEC bool rrcCallConv setKineticLaw(RRHandle handle, const char* rid, con
 */
 C_DECL_SPEC bool rrcCallConv setKineticLawNoRegen(RRHandle handle, const char* rid, const char* kineticLaw);
 
+
+/*!
+ \brief Get the kinetic law for a existing reaction in the current model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] rid ID of reaction to be modified
+ \return Returns the kinetic law.
+ \ingroup edit
+*/
+C_DECL_SPEC char* rrcCallConv getKineticLaw(RRHandle handle, const char* rid);
 
 /*!
  \brief Add a parameter to the current model

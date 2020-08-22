@@ -191,7 +191,7 @@ int main(int argc, char** argv)
             }
         }
     }
-    catch (std::exception& ex)
+    catch (std::exception&)
     {
         return false;
     }

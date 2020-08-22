@@ -102,6 +102,22 @@ if (LLVM_CONFIG_EXECUTABLE)
         )
     message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
 
+    # System libs
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --system-libs
+        OUTPUT_VARIABLE LLVM_SYSTEM_LIBS
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    message(STATUS "LLVM_SYSTEM_LIBS:  ${LLVM_SYSTEM_LIBS}")
+    # For some reason, the return value for system-libs for macos is of the
+    # form '-llib1 -llib2 ...", but the return value for system-libs for windows
+    # is of the form "lib1.lib lib2.lib ..." which doesn't work the same way.
+    # The only system it was failing for was macos, so we'll just set it for that.
+    if(APPLE)
+        set(LLVM_SYSTEM_LIBS_THISOS ${LLVM_SYSTEM_LIBS})
+    endif()
+    message(STATUS "LLVM_SYSTEM_LIBS_THISOS:  ${LLVM_SYSTEM_LIBS_THISOS}")
+
     # C++ Flags, strip out stuff that CMake build adds
     execute_process(
         COMMAND ${LLVM_CONFIG_EXECUTABLE} --cxxflags

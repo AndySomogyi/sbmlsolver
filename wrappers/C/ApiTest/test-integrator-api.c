@@ -320,10 +320,7 @@ int main(int argc, char* argv[])
     setCurrentIntegrator(_handle, "gillespie");
 
     for(n = 0; n<(sizeof(raw_sbml)/sizeof(raw_sbml[0])); ++n) {
-        struct RRStringArray *strArray;
-        char *settingName, *settingDesc, *settingHint;
-        char *_intgList;
-        int settingType;
+        struct RRStringArray;
         int k;
 
         // load the model

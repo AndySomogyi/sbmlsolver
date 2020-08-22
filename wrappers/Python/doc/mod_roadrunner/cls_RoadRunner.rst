@@ -427,8 +427,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addSpecies("s1", "compartment", 0.1, "concentration", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addSpecies("s2", "compartment", 0.1, "concentration", true)  # new model is generated and saved
+   >>> r.addSpecies("s1", "compartment", 0.1, "concentration", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addSpecies("s2", "compartment", 0.1, "concentration", True)  # new model is generated and saved
   
    :param str sid: the ID of the species to be added
    :param str compartment: the compartment of the species to be added
@@ -484,8 +484,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addReaction("r1", ["s1"], ["s2"], "s1 * k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addReaction("r2", ["s2"], ["s1"], "s2 * k1", true)  # new model is generated and saved
+   >>> r.addReaction("r1", ["s1"], ["s2"], "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addReaction("r2", ["s2"], ["s1"], "s2 * k1", True)  # new model is generated and saved
   
   
    :param str rid: the ID of the reaction to be added
@@ -525,8 +525,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeReaction("r1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeReaction("r2", true)  # new model is generated and saved
+   >>> r.removeReaction("r1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeReaction("r2", True)  # new model is generated and saved
 
    :param str rid: the ID of the reaction to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -546,8 +546,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addParameter("p1", 0.1, false) # it will not regenerate the model, nothing actually happened
-   >>> r.addParameter("p2", 0.1, true)  # new model is generated and saved
+   >>> r.addParameter("p1", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> r.addParameter("p2", 0.1, True)  # new model is generated and saved
   
    :param str pid: the ID of the parameter to be added
    :param double value: the initial value of the parameter to be added
@@ -579,8 +579,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeParameter("p1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeParameter("p2", true)  # new model is generated and saved
+   >>> r.removeParameter("p1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeParameter("p2", True)  # new model is generated and saved
 
    :param str pid: the ID of the parameter to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -601,8 +601,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addCompartment("c1", 0.1, false) # it will not regenerate the model, nothing actually happened
-   >>> r.addCompartment("c2", 0.1, true)  # new model is generated and saved
+   >>> r.addCompartment("c1", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> r.addCompartment("c2", 0.1, True)  # new model is generated and saved
   
    :param str cid: the ID of the compartment to be added
    :param double initVolume: the initial volume of the compartment to be added
@@ -634,8 +634,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeCompartment("c1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeCompartment("c2", true)  # new model is generated and saved
+   >>> r.removeCompartment("c1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeCompartment("c2", True)  # new model is generated and saved
 
    :param str cid: the ID of the compartment to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -655,8 +655,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.setKineticLaw("r1", "s1 * k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.setKineticLaw("r2", "s2 * k1", true)  # new model is generated and saved
+   >>> r.setKineticLaw("r1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.setKineticLaw("r2", "s2 * k1", True)  # new model is generated and saved
   
   
    :param str rid: the ID of the reaction to be modified
@@ -677,8 +677,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addAssignmentRule("s1", "s1 * k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addAssignmentRule("s2", "s2 * k1", true)  # new model is generated and saved
+   >>> r.addAssignmentRule("s1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addAssignmentRule("s2", "s2 * k1", True)  # new model is generated and saved
   
   
    :param str vid: the ID of the variable that the new rule assigns formula to
@@ -699,8 +699,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addRateRule("s1", "k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addRateRule("s2", "k1", true)  # new model is generated and saved
+   >>> r.addRateRule("s1", "k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addRateRule("s2", "k1", True)  # new model is generated and saved
   
   
    :param str vid: the ID of the variable that the new rule assigns formula to
@@ -725,8 +725,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeRules("s1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeRules("s2", true)  # new model is generated and saved
+   >>> r.removeRules("s1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeRules("s2", True)  # new model is generated and saved
 
    :param str vid: the ID of the variables that rules assign formula to
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -746,8 +746,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addEvent("e1", false, "s1 > 0", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addEvent("e2", false, "s2 == s1", true)  # new model is generated and saved
+   >>> r.addEvent("e1", False, "s1 > 0", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addEvent("e2", False, "s2 == s1", True)  # new model is generated and saved
   
   
    :param str eid: the ID of the event to be added
@@ -771,8 +771,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addTrigger("e1", "s1 > 0", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addTrigger("e2", "s2 == s1", true)  # new model is generated and saved
+   >>> r.addTrigger("e1", "s1 > 0", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addTrigger("e2", "s2 == s1", True)  # new model is generated and saved
   
   
    :param str eid: the ID of the event to add the trigger to
@@ -832,8 +832,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.addEventAssignment("e1", "s1", "k1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.addEventAssignment("e2", "s2", "s1", true)  # new model is generated and saved
+   >>> r.addEventAssignment("e1", "s1", "k1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addEventAssignment("e2", "s2", "s1", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event to add the event assignment to
@@ -857,8 +857,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.removeEventAssignment("e1", "s1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeEventAssignment("e2", "s2", true)  # new model is generated and saved
+   >>> r.removeEventAssignment("e1", "s1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeEventAssignment("e2", "s2", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event 
@@ -882,8 +882,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.removeEvent("e1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeEvent("e2", true)  # new model is generated and saved
+   >>> r.removeEvent("e1", False) # it will not regenerate the model, nothing actually happened
+   >>> r.removeEvent("e2", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event to be removed
@@ -902,39 +902,46 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
    :module: RoadRunner
 
 
+    Simulate current SBML model.
 
-   Simulate and optionally plot current SBML model. This is the one stop shopping method
-   for simulation and plotting. 
+    simulate accepts up to five positional arguments. 
 
-   simulate accepts a up to four positional arguments. 
-
-   The first four (optional) arguments are treated as:
+    The first five (optional) arguments are treated as:
             
-      1: Start Time, if this is a number. 
+        1: Start Time, if this is a number. 
 
-      2: End Time, if this is a number.
+        2: End Time, if this is a number.
 
-      3: Number of points, if this is a number.
+        3: Number of points, if this is a number.
             
-      4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
+        4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
 
-   All four of the positional arguments are optional. If any of the positional arguments are
-   a list of string instead of a number, then they are interpreted as a list of selections. 
-   
-   There are a number of ways to call simulate.
+        5: output file path. The file to which simulation results will be written. If this is specified and
+        nonempty, simulation output will be written to output_file every Config::K_ROWS_PER_WRITE generated.
+        Note that simulate() will not return the result matrix if it is writing to output_file.
+        It will also not keep any simulation data, so in that case one should not call ``r.plot()``
+        without arguments. This should be specified when one cannot, or does not want to, keep the 
+        entire result matrix in memory.
 
-   1: With no arguments. In this case, the current set of options from the previous 
+
+    All five of the positional arguments are optional. If any of the positional arguments are
+    a list of string instead of a number, then they are interpreted as a list of selections. 
+
+    There are a number of ways to call simulate.
+
+    1: With no arguments. In this case, the current set of options from the previous 
       ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
       then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).
 
-   2: With up to four positions arguments, described above. 
-   
-   Finally, you can pass steps keyword argument instead of points. 
-   
-   steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
+    2: With up to five positions arguments, described above. 
+
+    Finally, you can pass steps keyword argument instead of points. 
+
+    steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
 
    :returns: a numpy array with each selected output time series being a
-             column vector, and the 0'th column is the simulation time.
+             column vector, and the 0'th column is the simulation time; or
+             if output_file is specified and nonempty, a message string
    :rtype: numpy.ndarray
 
    

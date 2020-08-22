@@ -29,7 +29,6 @@ extern string gCompiler;
 
 bool validateModifiedSBML(std::string sbml)
 {
-
 	libsbml::SBMLDocument *doc = readSBMLFromString(sbml.c_str());
 	bool result = true;
 	
@@ -73,7 +72,7 @@ bool RunModelEditingTest(void(*modification)(RoadRunner*),std::string version = 
 	string testName(UnitTest::CurrentTest::Details()->testName);
 	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
 
-	libsbml::SBMLDocument *doc;
+	libsbml::SBMLDocument *doc = nullptr;
 
 	try
 	{
@@ -196,7 +195,9 @@ bool RunModelEditingTest(void(*modification)(RoadRunner*),std::string version = 
 	{
 		string error = ex.what();
 		cerr << "Case " << testName << ": Exception: " << error << endl;
-		delete doc;
+        if (doc) {
+            delete doc;
+        }
 		return false;
 	}
 
@@ -215,8 +216,6 @@ bool RunTestModelFromScratch(void(*generate)(RoadRunner*),std::string version = 
 
 	string testName(UnitTest::CurrentTest::Details()->testName);
 	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
-
-	libsbml::SBMLDocument *doc;
 
 	try
 	{
@@ -357,7 +356,7 @@ bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunn
 		rr.getIntegrator()->setValue("stiff", false);
 
 		//Create a log file name
-		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName, dummy);
 		if (!createFolder(dataOutputFolder))
 		{
 			string msg("Failed creating output folder for data output: " + dataOutputFolder);
@@ -381,7 +380,7 @@ bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunn
 		string modelFileName;
 
 		simulation.SetCaseNumber(caseNumber);
-		createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+		createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, dummy);
 
 		//The following will load and compile and simulate the sbml model in the file
 		simulation.SetModelFilePath(modelFilePath);
@@ -507,9 +506,7 @@ void readdAllSpecies(RoadRunner *rri, libsbml::SBMLDocument *doc)
 		next = speciesToAdd->get(i);
 		if (std::find(currSpeciesIds.begin(), currSpeciesIds.end(), next->getId()) == currSpeciesIds.end())
 		{
-			rri->addSpecies(next->getId(), next->getCompartment(), next->getInitialAmount(), next->getSubstanceUnits());
-			rri->setBoundary(next->getId(), next->getBoundaryCondition());
-			rri->setHasOnlySubstanceUnits(next->getId(), next->getHasOnlySubstanceUnits());
+			rri->addSpecies(next->getId(), next->getCompartment(), next->getInitialAmount(), next->getHasOnlySubstanceUnits(), next->getBoundaryCondition(), next->getSubstanceUnits());
 		}
 	}
 }
@@ -609,6 +606,19 @@ void removeAndReaddAllCompartments(RoadRunner *rri, libsbml::SBMLDocument *doc)
 
 SUITE(MODEL_EDITING_TEST_SUITE)
 {
+	TEST(CLEAR_MODEL_1)
+	{
+		RoadRunner rri;
+		rri.addCompartment("compartment", 3.14159);
+		rri.addSpecies("S1", "compartment", 1.0, false, false);
+		CHECK(rri.isModelLoaded());
+		rri.clearModel();
+		CHECK(!rri.isModelLoaded());
+		rri.addCompartment("compartment", 3.14159);
+		rri.addSpecies("S2", "compartment", 2.0, false, false);
+		std::cout << rri.getNumberOfFloatingSpecies() << std::endl;
+		CHECK(rri.getNumberOfFloatingSpecies() == 1);
+	}
 	TEST(ALLOW_EVENT_ASSIGNMENT_AND_RATE_LAW_1)
 	{
 		std::cout << "ALLOW_EVENT_ASSIGNMENT_AND_RATE_LAW_1" << std::endl;
@@ -793,14 +803,14 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
-			rri->addSpecies("S3", "compartment", 0.0015, "substance");
+			rri->addSpecies("S3", "compartment", 0.0015, true, false);
 		}));
 	}
 	TEST(ADD_REACTION_3)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
-			rri->addSpecies("S3", "compartment", 0.015, "substance", false);
+			rri->addSpecies("S3", "compartment", 0.015, false, false);
 			rri->addReaction("reaction3", { "S2" }, { "S3" }, "k2*S2");
 		}));
 	}
@@ -808,7 +818,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
-			rri->addSpecies("S3", "compartment", 0.015, "substance");
+			rri->addSpecies("S3", "compartment", 0.015, false);
 			rri->addReaction("reaction3", { "S2" }, { "S3" }, "k2*S2");
 		}));
 	}
@@ -816,8 +826,15 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
-			rri->addSpecies("S3", "compartment", 0.15, "substance", false);
+			rri->addSpecies("S3", "compartment", 0.15, false, false);
 			rri->addReaction("reaction3", { "S3" }, { "S1" }, "k2*S3");
+		}));
+	}
+	TEST(ADD_REACTION_6)
+	{
+		CHECK(RunModelEditingTest([](RoadRunner *rri)
+		{
+			rri->addReaction("reaction3", { "S3" }, { "S4" }, "C * k3 * S3 * time");
 		}));
 	}
 	TEST(REMOVE_SPECIES_1)
@@ -825,7 +842,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
 			rri->removeSpecies("S2", false);
-			rri->addSpecies("S3", "compartment", 0.00030, "substance", false);
+			rri->addSpecies("S3", "compartment", 0.00030, false, false);
 			rri->addReaction("reaction1", { "S1" }, { "S3" }, "k1*S1", false);
 			rri->addReaction("reaction2", { "S3" }, { "S1" }, "k2*S3", true);
 		}));
@@ -966,6 +983,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
 			rri->setKineticLaw("reaction2", "compartment * k2 * S3");
+			CHECK(rri->getKineticLaw("reaction2") == "compartment * k2 * S3");
 		}));
 	}
 
@@ -975,6 +993,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		{
 			rri->setKineticLaw("reaction1", "compartment * k1 * S1 * S2");
 			rri->setKineticLaw("reaction2", "compartment * k2 * S3 * S4");
+			CHECK(rri->getKineticLaw("reaction1") == "compartment * k1 * S1 * S2");
+			CHECK(rri->getKineticLaw("reaction2") == "compartment * k2 * S3 * S4");
 		}));
 	}
 
@@ -984,6 +1004,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		{
 			rri->setKineticLaw("reaction1", "compartment * k1 * S1 * S2", false);
 			rri->setKineticLaw("reaction2", "compartment * k2 * S3 * S4", true);
+			CHECK(rri->getKineticLaw("reaction1") == "compartment * k1 * S1 * S2");
+			CHECK(rri->getKineticLaw("reaction2") == "compartment * k2 * S3 * S4");
 		}));
 	}
 
@@ -993,10 +1015,10 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		{
 			rri->removeSpecies("S1", true);
 			rri->removeSpecies("S2", true);
-			rri->addSpecies("S1", "compartment", 0.001, "substance", true);
-			rri->addSpecies("S2", "compartment", 0.001, "substance", true);
-			rri->addSpecies("S3", "compartment", 0.002, "substance", true);
-			rri->addSpecies("S4", "compartment", 0.001, "substance", true);
+			rri->addSpecies("S1", "compartment", 0.001);
+			rri->addSpecies("S2", "compartment", 0.001);
+			rri->addSpecies("S3", "compartment", 0.002);
+			rri->addSpecies("S4", "compartment", 0.001);
 			rri->removeParameter("k1", true);
 			rri->addParameter("k1", 750, true);
 			rri->addParameter("k2", 250, true);
@@ -1028,7 +1050,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
 			rri->simulate();
-			rri->addSpecies("S5", "compartment", 0.001, "substance");
+			rri->addSpecies("S5", "compartment", 0.001, true);
 		}));
 	}
 
@@ -1251,8 +1273,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0.00015, "substance");
-			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 0.00015, true);
+			rri->addSpecies("S2", "compartment", 0);
 			rri->addParameter("k1", 1);
 			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
 		}));
@@ -1263,8 +1285,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 1, "substance");
-			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 1, true);
+			rri->addSpecies("S2", "compartment", 0, true);
 			rri->addParameter("k1", 1);
 			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
 			rri->addEvent("event1", true, "S1 < 0.1");
@@ -1278,7 +1300,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 0, true);
 			rri->addRateRule("S1", "7");
 		}));
 	}
@@ -1288,7 +1310,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 7, "substance");
+			rri->addSpecies("S1", "compartment", 7, true);
 			rri->addAssignmentRule("S1", "7");
 		}));
 	}
@@ -1298,14 +1320,159 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 1, "substance");
-			rri->addSpecies("S2", "compartment", 1.5e-15, "substance");
-			rri->addSpecies("S3", "compartment", 1, "substance");
+			rri->addSpecies("S1", "compartment", 1, true);
+			rri->addSpecies("S2", "compartment", 1.5e-15, true);
+			rri->addSpecies("S3", "compartment", 1, true);
 			rri->addParameter("k1", 0.75);
 			rri->addParameter("k2", 50);
 			rri->addAssignmentRule("S3", "k1*S2");
 			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k2 * S1");
 		}));
+	}
+
+	TEST(FROM_SCRATCH_1_L2V5)
+	{
+		RoadRunner rri(2, 5);
+		rri.addCompartment("compartment", 1);
+		rri.addSpecies("S1", "compartment", 0.00015, true);
+		rri.addSpecies("S2", "compartment", 0, true);
+		rri.addParameter("k1", 1);
+		rri.addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
+		bool valid = validateModifiedSBML(rri.getCurrentSBML());
+		std::cout << "FROM_SCRATCH_1_L2V5 valid: " << valid << std::endl;
+		CHECK(valid);
+	}
+
+	TEST(FROM_SCRATCH_1_L3V2)
+	{
+		RoadRunner rri;
+		rri.addCompartment("compartment", 1);
+		rri.addSpecies("S1", "compartment", 0.00015);
+		rri.addSpecies("S2", "compartment", 0);
+		rri.addParameter("k1", 1);
+		rri.addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
+		bool valid = validateModifiedSBML(rri.getCurrentSBML());
+		std::cout << "FROM_SCRATCH_1_L3V2 valid: " << valid << std::endl;
+		CHECK(valid);
+	}
+
+	TEST(FROM_SCRATCH_2_L3V2)
+	{
+		RoadRunner rri;
+		rri.addCompartment("compartment", 1);
+		rri.addSpecies("S1", "compartment", 0.00015);
+		rri.addSpecies("S2", "compartment", 0);
+		rri.addSpecies("S3", "compartment", 0);
+		rri.addParameter("k1", 1);
+		rri.addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1 * S3");
+		bool valid = validateModifiedSBML(rri.getCurrentSBML());
+		std::cout << "FROM_SCRATCH_2_L3V2 valid: " << valid << std::endl;
+		CHECK(valid);
+	}
+
+	TEST(FROM_SCRATCH_3_L3V2)
+	{
+		RoadRunner rri;
+		rri.addCompartment("compartment", 1);
+		rri.addSpecies("S1", "compartment", 0.00015);
+		rri.addSpecies("S2", "compartment", 0);
+		rri.addSpecies("S3", "compartment", 0);
+		rri.addParameter("k1", 1);
+		rri.addReaction("reaction1", {"S1"}, {"S2"}, "S3");
+		bool valid = validateModifiedSBML(rri.getCurrentSBML());
+		std::cout << "FROM_SCRATCH_3_L3V2 valid: " << valid << std::endl;
+		CHECK(valid);
+	}
+
+	TEST(FROM_SCRATCH_2_VALID_L3V1)
+	{
+		RoadRunner rri(3, 1);
+		rri.addCompartment("compartment", 1);
+		rri.addSpecies("S1", "compartment", 0.00015);
+		rri.addSpecies("S2", "compartment", 0);
+		rri.addSpecies("S3", "compartment", 0);
+		rri.addParameter("k1", 1);
+		rri.addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1 * S3");
+		bool valid = validateModifiedSBML(rri.getCurrentSBML());
+		std::cout << "FROM_SCRATCH_2_VALID_L3V1 valid: " << valid << std::endl;
+		CHECK(valid);
+	}
+
+	TEST(FROM_SCRATCH_3_VALID_L3V1)
+	{
+		RoadRunner rri(3, 1);
+		rri.addCompartment("compartment", 1);
+		rri.addSpecies("S1", "compartment", 0.00015);
+		rri.addSpecies("S2", "compartment", 0);
+		rri.addSpecies("S3", "compartment", 0);
+		rri.addParameter("k1", 1);
+		rri.addReaction("reaction1", {"S1"}, {"S2"}, "S3");
+		bool valid = validateModifiedSBML(rri.getCurrentSBML());
+		std::cout << "FROM_SCRATCH_3_VALID_L3V1 valid: " << valid << std::endl;
+		CHECK(valid);
+	}
+
+
+	TEST(FROM_SCRATCH_1_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 0.00015);
+			rri->addSpecies("S2", "compartment", 0);
+			rri->addParameter("k1", 1);
+			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
+		}, "l3v1"));
+	}
+
+	TEST(FROM_SCRATCH_2_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 1);
+			rri->addSpecies("S2", "compartment", 0);
+			rri->addParameter("k1", 1);
+			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
+			rri->addEvent("event1", true, "S1 < 0.1");
+			rri->addDelay("event1", "1");
+			rri->addEventAssignment("event1", "S1", "1");
+		}, "l3v1"));
+	}
+
+	TEST(FROM_SCRATCH_3_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 0);
+			rri->addRateRule("S1", "7");
+		}, "l3v1"));
+	}
+	
+	TEST(FROM_SCRATCH_4_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 7);
+			rri->addAssignmentRule("S1", "7");
+		}, "l3v1"));
+	}
+
+	TEST(FROM_SCRATCH_5_L3V1)
+	{
+		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
+		{
+			rri->addCompartment("compartment", 1);
+			rri->addSpecies("S1", "compartment", 1);
+			rri->addSpecies("S2", "compartment", 1.5e-15);
+			rri->addSpecies("S3", "compartment", 1);
+			rri->addParameter("k1", 0.75);
+			rri->addParameter("k2", 50);
+			rri->addAssignmentRule("S3", "k1*S2");
+			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k2 * S1");
+		}, "l3v1"));
 	}
 
 	TEST(FROM_SCRATCH_6)
@@ -1409,13 +1576,13 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner* rri)
 		{
-			rri->addSpecies("S1", "C", 0.0, "", false);
+			rri->addSpecies("S1", "C", 0.0);
 			rri->setInitConcentration("S1", 0.0004, false);
-			rri->addSpecies("S2", "C", 0.0, "", false);
+			rri->addSpecies("S2", "C", 0.0);
 			rri->setInitConcentration("S2", 0.00048, false);
-			rri->addSpecies("S3", "C", 0.0, "", false);
+			rri->addSpecies("S3", "C", 0.0);
 			rri->setInitConcentration("S3", 0.0008, false);
-			rri->addSpecies("S4", "C", 0.0, "", false);
+			rri->addSpecies("S4", "C", 0.0);
 			rri->setInitConcentration("S4", 0.0004);
 
 			rri->addReaction("reaction1", {"S1", "S2"}, {"S3", "S4"}, "C * k1 * S1 * S2", false);
@@ -1583,4 +1750,14 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			}
 		}
 	}
+
+    TEST(ONE_ASSIGNMENT_RULE)
+    {
+        CHECK(RunModelEditingTest([](RoadRunner* rri)
+        {
+            // Do nothing. This is here for a convenient test of issue #610, where
+            // reaction rates should be updated due to assignmentRules but are not
+            // due to optimization.
+        }));
+    }
 }

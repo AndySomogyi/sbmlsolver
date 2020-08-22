@@ -62,7 +62,7 @@ Value* EvalVolatileStoichCodeGen::codeGen()
             if (p->isSetId() && p->getId().length() > 0 &&
                     !isConstantSpeciesReference(p))
             {
-                Log(Logger::LOG_NOTICE) <<
+                Log(Logger::LOG_INFORMATION) <<
                         "generating update code for non-constant species "
                         "reference product " << p->getId();
 
@@ -111,7 +111,7 @@ Value* EvalVolatileStoichCodeGen::codeGen()
             if (r->isSetId() && r->getId().length() > 0
                     && !isConstantSpeciesReference(r))
             {
-                Log(Logger::LOG_NOTICE) <<
+                Log(Logger::LOG_INFORMATION) <<
                         "generating update code for non-constant species "
                          "reference reactant " << r->getId();
 
@@ -142,8 +142,12 @@ Value* EvalVolatileStoichCodeGen::codeGen()
 bool EvalVolatileStoichCodeGen::isConstantSpeciesReference(
         const libsbml::SimpleSpeciesReference* ref) const
 {
-    const SpeciesReference *s = dynamic_cast<const SpeciesReference*>(ref);
-    if (!s)
+    const SpeciesReference* s = NULL;
+    if (ref->getTypeCode() == SBML_SPECIES_REFERENCE)
+    {
+        s = static_cast<const SpeciesReference*>(ref);
+    }
+    else
     {
         return false;
     }
@@ -167,20 +171,45 @@ bool EvalVolatileStoichCodeGen::isConstantSpeciesReference(
 template<typename type>
 static bool isSetConstant(const SBase* e, bool& isSetConst)
 {
-    const type* p = dynamic_cast<const type*>(e);
-    if (p)
+    isSetConst = false;
+    if (!e)
     {
-        if (p->getLevel() >= 3 && p->getVersion() >= 1)
-        {
-            isSetConst = p->isSetConstant();
-        }
-        else
-        {
-            isSetConst = false;
-        }
-        return true;
+        return false;
     }
-    return false;
+    switch (e->getTypeCode())
+    {
+    case SBML_SPECIES:
+    {
+        const Species* species = static_cast<const Species*>(e);
+        isSetConst = species->getConstant();
+        break;
+    }
+    case SBML_COMPARTMENT:
+    {
+        const Compartment* comp = static_cast<const Compartment*>(e);
+        isSetConst = comp->getConstant();
+        break;
+    }
+    case SBML_PARAMETER:
+    {
+        const Parameter* param = static_cast<const Parameter*>(e);
+        isSetConst = param->getConstant();
+        break;
+    }
+    case SBML_LOCAL_PARAMETER:
+    {
+        const LocalParameter* lp = static_cast<const LocalParameter*>(e);
+        isSetConst = lp->getConstant();
+        break;
+    }
+    case SBML_SPECIES_REFERENCE:
+    {
+        const SpeciesReference* sr = static_cast<const SpeciesReference*>(e);
+        isSetConst = sr->getConstant();
+        break;
+    }
+    }
+    return true;
 }
 
 bool EvalVolatileStoichCodeGen::isConstantASTNode(const ASTNode *ast) const

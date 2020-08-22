@@ -2,10 +2,19 @@
 #define rrRoadRunnerH
 
 #include "rrOSSpecifics.h"
-#include "rr-libstruct/lsMatrix.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerOptions.h"
 #include "sbml/Species.h"
+
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
+#include "rr-libstruct/lsMatrix.h"
+#ifdef _MSC_VER
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
+#endif
 
 #include <string>
 #include <vector>
@@ -38,15 +47,10 @@ class RR_DECLSPEC RoadRunner
 
 public:
 
-    /**
-     * create an empty RoadRunner object.
-     */
-    RoadRunner();
-
 	/**
 	 * create an empty RoadRunner object with given SBML level and version.
 	 */
-	RoadRunner(unsigned int level, unsigned int version);
+	RoadRunner(unsigned int level = 3, unsigned int version = 2);
 
     /**
      * load an sbml document from anywhere.
@@ -73,6 +77,12 @@ public:
      */
     RoadRunner(const std::string& compiler, const std::string& tempDir,
             const std::string& supportCodeDir);
+
+    /**
+    * RoadRunner copy constructor
+    * Explicitly defined because of Python.
+    */
+    RoadRunner(const RoadRunner& rr);
 
     /**
      * free any memory this class allocated
@@ -238,10 +248,19 @@ public:
      * is only used by the deterministic solvers, and it is safely ignored by the
      * stochastic solvers. Also, the "seed" sets the random seed that the integrator
      * uses. For more information about all of the avaialble options for each integrator,
+     *
+     * If one wants to not store the result matrix in memory and instead write it
+     * to a file during simulation, one can set the output_file option. When 
+     * output file is nonempty, simulate() will write to its path once every 
+     * Config::K_ROWS_PER_WRITE rows are generated and clear the matrix. So an
+     * empty result matrix is returned, and the last simulation results are not
+     * stored.
+     *
      * @see IntegratorFactory::getIntegratorOptions".
      *
      * @throws an std::exception if any options are invalid.
-     * @returns a borrowed reference to a DoubleMatrix object if successfull.
+     * @returns a borrowed reference to a DoubleMatrix object if successful. The matrix
+     * will be empty if output_file is specified and nonempty.
      */
     const ls::DoubleMatrix *simulate(const Dictionary* options = 0);
 
@@ -737,7 +756,7 @@ public:
 	 *						   to save time for editing for multiple times, one could 
      *					       set this flag to true only in the last call of editing 
 	 */
-	void addSpecies(const std::string& sid, const std::string& compartment, double initAmount = 0, const std::string& substanceUnits = "", bool forceRegenerate = true);
+	void addSpecies(const std::string& sid, const std::string& compartment, double initAmount = 0, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
 
 
 	/*
@@ -895,6 +914,12 @@ public:
 	*					      set this flag to true only in the last call of editing
 	*/
 	void setKineticLaw(const std::string& rid, const std::string& kineticLaw, bool forceRegenerate = true);
+
+    /**
+    * Get the kinetic law of an existing reaction in the current model.
+    * @param rid: the ID of reaction to be modified
+    */
+    std::string getKineticLaw(const std::string& rid);
 
 
 	/**
@@ -1441,7 +1466,7 @@ public:
      * @internal
      * @deprecated use ExecutableModel::getNumGlobalParameters
      */
-    RR_DEPRECATED(int getNumberOfGlobalParameters());
+    RR_DEPRECATED(size_t getNumberOfGlobalParameters());
 
     /**
      * @internal
@@ -1513,8 +1538,8 @@ private:
     void fixDependentSpeciesValues(int except, double* ref);
 
 
-    int createDefaultSteadyStateSelectionList();
-    int createDefaultTimeCourseSelectionList();
+    size_t createDefaultSteadyStateSelectionList();
+    size_t createDefaultTimeCourseSelectionList();
 
     /**
      * copies the current selection values into the n'th row of the
@@ -1531,7 +1556,7 @@ private:
     bool populateResult();
 
 
-    double getNthSelectedOutput(unsigned index, double currentTime);
+    double getNthSelectedOutput(size_t index, double currentTime);
 
 	bool isParameterUsed(const std::string& sid);
 
@@ -1565,7 +1590,7 @@ private:
      * creates a selection list from the amounts / conc / variables ivars of the
      * SimulationOptions struct.
      */
-    int createTimeCourseSelectionList();
+    size_t createTimeCourseSelectionList();
 
     std::vector<SelectionRecord> getSelectionList();
 

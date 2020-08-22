@@ -10,6 +10,7 @@ tests/steady_state
 tests/stoichiometric
 tests/model_editing
 tests/state_saving
+tests/other_tests
 )
 
 add_executable( ${target} 
@@ -37,7 +38,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/lib
 include_directories(
 src
 ${RR_ROOT}
-${THIRD_PARTY_FOLDER}/unit_test/src
+${THIRD_PARTY_INSTALL_FOLDER}/include/
 )
 
 if(UNIX)

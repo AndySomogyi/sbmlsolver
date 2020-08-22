@@ -15,11 +15,24 @@
 #include "conservation/ConservationExtension.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrConfig.h"
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
 #include "llvm/IR/DataLayout.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Support/DynamicLibrary.h"
 //#include "llvm/ExecutionEngine/OrcMCJITReplacement.h"
 #include "llvm/ExecutionEngine/SectionMemoryManager.h"
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 #include <sbml/SBMLReader.h>
 #include <string>
@@ -189,7 +202,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         // Random adds mappings, need call after llvm objs created
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
         const DistribSBMLDocumentPlugin* distrib =
-                dynamic_cast<const DistribSBMLDocumentPlugin*>(
+                static_cast<const DistribSBMLDocumentPlugin*>(
                         doc->getPlugin("distrib"));
         if(distrib)
         {
@@ -215,8 +228,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
     unsigned options) :
         ownedDoc(0),
         doc(_doc),
-        symbols(new LLVMModelDataSymbols(_doc->getModel(), options)),
-        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
+        symbols(NULL),
+        modelSymbols(NULL),
         errString(new string()),
         context(0),
         executionEngine(0),
@@ -266,11 +279,6 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             this->doc = _doc;
         }
 
-        symbols = new LLVMModelDataSymbols(getModel(), options);
-
-        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-
         // initialize LLVM
         // TODO check result
         InitializeNativeTarget();
@@ -294,8 +302,12 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
 
         addGlobalMappings();
 
-		//I'm just hoping that none of these functions try to call delete on module
+        //I'm just hoping that none of these functions try to call delete on module
         createLibraryFunctions(module);
+
+        symbols = new LLVMModelDataSymbols(getModel(), options);
+
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
 
         ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
 
@@ -303,7 +315,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         // Random adds mappings, need call after llvm objs created
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
         const DistribSBMLDocumentPlugin* distrib =
-                dynamic_cast<const DistribSBMLDocumentPlugin*>(
+                static_cast<const DistribSBMLDocumentPlugin*>(
                         _doc->getPlugin("distrib"));
         if(distrib)
         {

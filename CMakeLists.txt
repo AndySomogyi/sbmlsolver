@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.12)
 project(rr)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
 
-set(ROADRUNNER_VERSION_MAJOR 1)
-set(ROADRUNNER_VERSION_MINOR 6)
-set(ROADRUNNER_VERSION_PATCH 0)
+set(ROADRUNNER_VERSION_MAJOR 2)
+set(ROADRUNNER_VERSION_MINOR 0)
+set(ROADRUNNER_VERSION_PATCH 1)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 
@@ -143,7 +143,6 @@ set(BUILD_SHARED_LIBS            ON)
 
 set(RR_ROOT                      ${CMAKE_CURRENT_SOURCE_DIR})
 set(RR_SOURCE_ROOT               ${CMAKE_CURRENT_SOURCE_DIR}/source)
-set(THIRD_PARTY_FOLDER           ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 set(exe_path                     ${PROJECT_BINARY_DIR}/bin)
 set(lib_path                     ${PROJECT_BINARY_DIR}/lib)
@@ -191,7 +190,7 @@ endif()
 
 include_directories(
     ${RR_ROOT}
-    ${THIRD_PARTY_FOLDER}
+    ${THIRD_PARTY_INSTALL_FOLDER}
 )
 
 # TODO libxml2 handling is excedingly hackish, it is all homegrown
@@ -239,7 +238,6 @@ endif()
 if (${BUILD_LLVM})
     link_directories(
         ${LIBRARY_OUTPUT_PATH}
-        ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
         ${THIRD_PARTY_INSTALL_FOLDER}/lib
         ${THIRD_PARTY_INSTALL_FOLDER}/lib64
         ${LLVM_LIBRARY_DIRS}
@@ -247,7 +245,6 @@ if (${BUILD_LLVM})
 else()
     link_directories(
         ${LIBRARY_OUTPUT_PATH}
-        ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
         ${THIRD_PARTY_INSTALL_FOLDER}/lib
         ${THIRD_PARTY_INSTALL_FOLDER}/lib64
     )
@@ -281,7 +278,7 @@ if(${MINGW})
 endif()
 
 if(${BORLAND})
-    link_directories(${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib)
+    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
 add_definitions(
     -DUSE_PCH                   #Enable pre-compiled headers
     -H=${PROJECT_BINARY_DIR}/rr_pch.csm
@@ -442,7 +439,7 @@ if(${BORLAND})
     set(CG_RUNTIMES        cc32110MT.dll)
     foreach(runtime ${CG_RUNTIMES})
         install (FILES
-            ${THIRD_PARTY_FOLDER}/dependencies/cg/xe/${runtime}
+            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
             DESTINATION bin
             COMPONENT rr_core)
     endforeach()

@@ -14,8 +14,10 @@ only:
 - develop
 - master
 - llvm-6
+- issue-574
 - issue-534
-- issue-573
+- issue-611-warnings-take-2
+- /^issue-.*$/
 
 before_install:
 # print the distro information

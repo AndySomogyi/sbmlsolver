@@ -79,6 +79,37 @@ Initial Value: ``init()``
 Stoichiometry: ``stoich(ParameterId, ReactionId)``
     Represents the stoichiometric coefficient for a given species and reaction.
 
+
+
+Getting/Setting the Amount/Concentration of a Species
+-----------------------------------------------------
+To retrieve the *amount* of a species "S1", one may do any one of::
+
+
+    >>> rr.S1_amt
+    >>> rr["S1"]
+    >>> rr.getValue("S1")
+
+To retrive the *concentration* of a species "S1", one may do any one of::
+
+
+    >>> rr.S1_conc
+    >>> rr["[S1]")
+    >>> rr.getValue("[S1]")
+
+
+Note that for backwards-compatibility reasons, the following gets the *concentration* of a species::
+
+
+    >>> rr.S1  # gets concentration
+
+Finally, the syntax for setting the value of a species is analogous to above, e.g.::
+
+    >>> rr.S1_amt = 42  # sets amount
+    >>> rr["[S1]"] = 1.4  # sets concentration
+
+
+
 Experimenting With Selections
 -----------------------------
 One might try individual selection string using the :meth:`~roadrunner.RoadRunner.getValue()` method. This

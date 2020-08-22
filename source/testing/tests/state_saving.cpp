@@ -208,7 +208,7 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version = 
 bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::string version = "l2v4")
 {
 	bool result(false);
-	RoadRunner *rr;
+	RoadRunner *rr, *rr2, *rr3;
 
 	//Create instance..
 	rr = new RoadRunner();
@@ -230,7 +230,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		rr->getIntegrator()->setValue("stiff", false);
 
 		//Create a log file name
-		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName, dummy);
 		if (!createFolder(dataOutputFolder))
 		{
 			string msg("Failed creating output folder for data output: " + dataOutputFolder);
@@ -252,7 +252,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		string modelFileName;
 
 		simulation.SetCaseNumber(caseNumber);
-		createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+		createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName, dummy);
 
 		//The following will load and compile and simulate the sbml model in the file
 		simulation.SetModelFilePath(modelFilePath);
@@ -302,7 +302,15 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 			throw(Exception("Failed loading simulation settings"));
 		}
 		//Perform the model editing action
-		modification(rr);
+		rr2 = new RoadRunner(*rr);
+		int rr2id = rr2->getInstanceID();
+		modification(rr2);
+		CHECK(rr2->getInstanceID() == rr2id);
+		rr3 = new RoadRunner(*rr2);
+		CHECK(rr->getInstanceID() != rr2->getInstanceID());
+		CHECK(rr->getInstanceID() != rr3->getInstanceID());
+		CHECK(rr2->getInstanceID() != rr3->getInstanceID());
+		simulation.UseEngine(rr3);
 		//Then Simulate model
 		if (!simulation.Simulate())
 		{
@@ -344,6 +352,8 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 	}
 
 	delete rr;
+	delete rr2;
+	delete rr3;
 	delete doc;
 	return result;
 }
@@ -358,8 +368,6 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*),std::string versi
 
 	string testName(UnitTest::CurrentTest::Details()->testName);
 	string suiteName(UnitTest::CurrentTest::Details()->suiteName);
-
-	libsbml::SBMLDocument *doc;
 
 	try
 	{
@@ -482,6 +490,13 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*),std::string versi
 
 SUITE(STATE_SAVING_TEST_SUITE)
 {
+	TEST(COPY_RR)
+	{
+		RoadRunner rr(3, 2);
+		RoadRunner rr2(rr);
+		CHECK(rr.getInstanceID() != rr2.getInstanceID());
+
+	}
 	TEST(SAVE_STATE_1)
 	{
 		CHECK(RunStateSavingTest(1, [](RoadRunner *rri)
@@ -718,8 +733,8 @@ SUITE(STATE_SAVING_TEST_SUITE)
 			rri->addCompartment("compartment", 1);
 			rri->saveState("test-save-state.rr");
 			rri->loadState("test-save-state.rr");
-			rri->addSpecies("S1", "compartment", 0.00015, "substance");
-			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 0.00015, true);
+			rri->addSpecies("S2", "compartment", 0, true);
 			rri->addParameter("k1", 1);
 			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
 		}));
@@ -730,8 +745,8 @@ SUITE(STATE_SAVING_TEST_SUITE)
 		CHECK(StateRunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 1, "substance");
-			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 1, true);
+			rri->addSpecies("S2", "compartment", 0, true);
 
 			rri->saveState("test-save-state.rr");
 			rri->loadState("test-save-state.rr");
@@ -749,7 +764,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 		CHECK(StateRunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 0, true);
 			rri->addRateRule("S1", "7");
 			
 			rri->saveState("test-save-state.rr");
@@ -765,11 +780,11 @@ SUITE(STATE_SAVING_TEST_SUITE)
 
 			rri->saveState("test-save-state.rr");
 
-			rri->addSpecies("S1", "compartment", 7, "substance");
+			rri->addSpecies("S1", "compartment", 7, true);
 
 			rri->loadState("test-save-state.rr");
 
-			rri->addSpecies("S1", "compartment", 7, "substance");
+			rri->addSpecies("S1", "compartment", 7, true);
 			rri->addAssignmentRule("S1", "7");
 		}));
 	}
@@ -781,9 +796,9 @@ SUITE(STATE_SAVING_TEST_SUITE)
 			rri->addCompartment("compartment", 1);
 			rri->saveState("test-save-state.rr");
 			rri->loadState("test-save-state.rr");
-			rri->addSpecies("S1", "compartment", 1, "substance");
-			rri->addSpecies("S2", "compartment", 1.5e-15, "substance");
-			rri->addSpecies("S3", "compartment", 1, "substance");
+			rri->addSpecies("S1", "compartment", 1, true);
+			rri->addSpecies("S2", "compartment", 1.5e-15, true);
+			rri->addSpecies("S3", "compartment", 1, true);
 			rri->addParameter("k1", 0.75);
 			rri->addParameter("k2", 50);
 			rri->addAssignmentRule("S3", "k1*S2");
@@ -834,8 +849,8 @@ SUITE(STATE_SAVING_TEST_SUITE)
 			rri->saveState("test-save-state.rr");
 			rri->clearModel();
 			rri->loadState("test-save-state.rr");
-			rri->addSpecies("S1", "compartment", 0.00015, "substance");
-			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 0.00015, true);
+			rri->addSpecies("S2", "compartment", 0, true);
 			rri->addParameter("k1", 1);
 			rri->addReaction("reaction1", {"S1"}, {"S2"}, "compartment * k1 * S1");
 		}));
@@ -846,8 +861,8 @@ SUITE(STATE_SAVING_TEST_SUITE)
 		CHECK(StateRunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 1, "substance");
-			rri->addSpecies("S2", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 1, true);
+			rri->addSpecies("S2", "compartment", 0, true);
 
 			rri->saveState("test-save-state.rr");
 			rri->clearModel();
@@ -866,7 +881,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 		CHECK(StateRunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0, "substance");
+			rri->addSpecies("S1", "compartment", 0, true);
 			rri->addRateRule("S1", "7");
 			
 			rri->saveState("test-save-state.rr");
