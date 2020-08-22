@@ -428,7 +428,7 @@ endif(INSTALL_CXX_API)
 
 
 # should we build and install RRPlugins with the roadrunner?
-option (INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
+option (INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" OFF)
 
 if(INSTALL_RRPLUGINS)
     add_subdirectory(rrplugins)
