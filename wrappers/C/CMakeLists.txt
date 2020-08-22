@@ -125,3 +125,5 @@ install(
     ARCHIVE DESTINATION lib COMPONENT c_api
     LIBRARY DESTINATION lib COMPONENT c_api
     )
+
+install(TARGETS roadrunner_c_api DESTINATION site-packages/roadrunner)
