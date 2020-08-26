@@ -13,9 +13,11 @@ include_directories(
 
 add_subdirectory(released)
 
+#[[
 if (TLP_BUILD_BETA_PLUGINS)
   add_subdirectory(beta)
 endif()
+]]
 
 install(
   FILES README.txt

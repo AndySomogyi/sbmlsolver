@@ -206,7 +206,7 @@ endif()
 add_subdirectory(rrplugins)
 
 add_subdirectory(plugins)
-add_subdirectory(scripts)
+#add_subdirectory(scripts)
 add_subdirectory(wrappers)
 
 #[[if(TLP_BUILD_APPS)

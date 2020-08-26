@@ -1,4 +1,0 @@
-Release 0.5 (2014-02-05)
-==========================
-- Initial commit of plugin (TK)
-
