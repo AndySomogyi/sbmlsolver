@@ -108,6 +108,8 @@ if(${MSVC})
   add_definitions( "/W3 /D_CRT_SECURE_NO_WARNINGS /wd4251 /wd4018 /wd4996 /nologo" )
 endif()
 
+#[[
 if(BUILD_TESTS)
     add_subdirectory(testing)
 endif()
+]]

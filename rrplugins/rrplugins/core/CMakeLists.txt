@@ -99,6 +99,8 @@ if(${MSVC})
 
 endif()
 
+#[[
 if(BUILD_TESTS)
     add_subdirectory(testing)
 endif()
+]]
