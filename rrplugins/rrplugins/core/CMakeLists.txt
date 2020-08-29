@@ -12,7 +12,7 @@ ${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/
 
 set(sources
 
-  ../../../wrappers/C/rrc_api
+  ../../../wrappers/C/rrc_api 				#fix these relative path
   ../../../wrappers/C/rrc_utilities
 
   ${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/telCPlugin
@@ -99,8 +99,9 @@ if(${MSVC})
 
 endif()
 
+#build test are also used in roadrunner need to rename build_test
 #[[
-if(BUILD_TESTS)
+if(BUILD_TESTS)			
     add_subdirectory(testing)
 endif()
 ]]
