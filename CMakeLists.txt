@@ -21,10 +21,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(LocateVcpkg)
 
 # defines a macro for printing out a configuration summary
-# Technically this doesn't need to be a macro
-# but it can get quite long so I like to put it out of sight.
-# note: this configuration summary macro is out of date and not presently in use. (ciaran)
-# todo fix the configuration summary by adding useful  information and have it print out at the end of cmake command
 include(ConfigurationSummary)
 
 # a macro for isolating the code for finding dependencies
@@ -58,9 +54,6 @@ include(SetCrossPlatform)
 # convenience function for querying presently defined cmake variables
 include(QueryCMakeVariables)
 
-# Convenience functions for setting MSVC runtime
-include(SetTargetMSVCRuntimeStatic)
-include(SetTargetMSVCRuntimeDll)
 #############################################################
 #   Configuration Options
 #
