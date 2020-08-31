@@ -18,6 +18,16 @@ add_subdirectory(zlib)
 message(STATUS "Adding iconv as subdirectory")
 add_subdirectory(iconv)
 
+## clapack
+message(STATUS "Adding clapack as subdirectory")
+add_subdirectory(CLAPACK)
+
+
+## libxml2
+message(STATUS "Adding libxml2 as subdirectory")
+add_subdirectory(libxml2)
+
+
 
 
 ### nleq1
