@@ -12,11 +12,7 @@ compiler: gcc
 branches:
 only:
 - develop
-- master
-- llvm-6
-- issue-574
-- issue-534
-- issue-611-warnings-take-2
+- release
 - /^issue-.*$/
 
 before_install:
