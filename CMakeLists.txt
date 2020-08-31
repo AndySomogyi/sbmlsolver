@@ -58,9 +58,6 @@ include(SetCrossPlatform)
 # convenience function for querying presently defined cmake variables
 include(QueryCMakeVariables)
 
-# Convenience functions for setting MSVC runtime
-include(SetTargetMSVCRuntimeStatic)
-include(SetTargetMSVCRuntimeDll)
 #############################################################
 #   Configuration Options
 #
@@ -260,307 +257,309 @@ if (UNIX)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif ()
 
+set(CMAKE_DEBUG_POSTFIX "d")
+
 ####################################################
 #   Dependencies
 
 # add the third_party directory as dependencies
 add_subdirectory(third_party)
 
-# handle the LLVM dependency
-if (${LLVM_INSTALL_PREFIX})
-    # This is the preferred way to handle the LLVM dependency.
-    message(STATUS "Detected user defined installation of LLVM")
-    #    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
-    # Do some checks then load
-    message(STATUS "looking for llvm-config...:")
-    find_program(LLVM_CONFIG
-            NAMES llvm-config
-            PATHS
-            ${LLVM_INSTALL_PREFIX}/bin/llvm-config
-            ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
-            )
-
-    if (NOT EXISTS ${LLVM_CONFIG})
-        message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
-    endif ()
-
-    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
-        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
-    endif ()
-    message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
-
-    # Use the propper LLVM supplied CMake files.
-    # prepend the cmake module path with the LLVM modules
-    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
-    if (NOT EXISTS "${LLVM_MODULE_PATH}")
-        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
-    endif ()
-    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
-
-    include(LLVMConfig)
-
-    # we're building a JIT compiler with support for binary code (no interpreter):
-    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
-    # to link with.
-    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
-
-endif ()
-# This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
-#else (${LLVM_INSTALL_PREFIX})
-#    # But we can fall back and download binaries or build from source as well
-#
-#    # Set the root of llvm to be in the third_party directory. Note
-#    # that we need to separate different compilers
-#    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
-#
-#    # set llvm source directory. This is only used when we are in LLVM build mode
-#    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
-#
-#    # set a place to put the binaries
-#    SetCrossPlatform(LLVM_INSTALL_PREFIX
-#            "${LLVM_ROOT}/llvm6.0.1-msvc"
-#            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
-#            "${LLVM_ROOT}/llvm6.0.1-mac"
+## handle the LLVM dependency
+#if (${LLVM_INSTALL_PREFIX})
+#    # This is the preferred way to handle the LLVM dependency.
+#    message(STATUS "Detected user defined installation of LLVM")
+#    #    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
+#    # Do some checks then load
+#    message(STATUS "looking for llvm-config...:")
+#    find_program(LLVM_CONFIG
+#            NAMES llvm-config
+#            PATHS
+#            ${LLVM_INSTALL_PREFIX}/bin/llvm-config
+#            ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
 #            )
 #
-#    ## first try to find an existing LLVM version
-#    find_package(LLVM)
+#    if (NOT EXISTS ${LLVM_CONFIG})
+#        message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
+#    endif ()
 #
-#    # if it was found, validate the version
-#    if (LLVM_FOUND)
-#        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
-#            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
-#        endif ()
-#    else ()
-#        # Otherwise we download binaries or build from source
+#    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
+#        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
+#    endif ()
+#    message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
 #
-#        # defines two boolean variables
-#        #   - BUILD_LLVM
-#        #   - DOWNLOAD_LLVM_BINARIES
-#        # They are mutually exclusive and determine the flow of the next step
-#        DownloadOrBuildLLVM()
+#    # Use the propper LLVM supplied CMake files.
+#    # prepend the cmake module path with the LLVM modules
+#    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
+#    if (NOT EXISTS "${LLVM_MODULE_PATH}")
+#        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
+#    endif ()
+#    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
 #
-#        # If conditions are met we can use precompiled binaries
-#        if (${DOWNLOAD_LLVM_BINARIES})
-#            DownloadLLVM601Binaries()
-#        endif ()
+#    include(LLVMConfig)
 #
-#        # if not we can build LLVM from source, which will take a while
-#        if (BUILD_LLVM)
-#            BuildLLVMFromSource()
-#        endif (BUILD_LLVM)
+#    # we're building a JIT compiler with support for binary code (no interpreter):
+#    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
+#    # to link with.
+#    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
 #
-#        # Now we try again to find llvm
-#        #        find_package(LLVM)
-#
-#    endif (LLVM_FOUND)
-#endif (${LLVM_INSTALL_PREFIX})
-
-# Collect our include directories into a convenient variable
-set(DEPENDENCY_INCLUDE_DIRS
-        "${NLEQ1_INCLUDE_DIR}"
-        "${NLEQ2_INCLUDE_DIR}"
-        "${CLAPACK_INCLUDE_DIR}"
-        "${LIBSBML_DEPS_INCLUDE_DIR}"
-        "${LIBSBML_INCLUDE_DIR}"
-        "${RR_STRUCT_INCLUDE_DIR}"
-        "${POCO_INCLUDE_DIR}"
-        "${SUNDIALS_INCLUDE_DIR}"
-        "${UNITTEST_INCLUDE_DIR}"
-        )
-if (${MINGW})
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-endif ()
-
-#if(${BORLAND})
-#    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
-#add_definitions(
-#    -DUSE_PCH                   #Enable pre-compiled headers
-#    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-#    -w-8012                     #Comparing signed /unsigned
-#    -w-8057                     #Parameter never used
-#    -w-8004                     #'var' is assigned a value that is never used
-#    )
-#endif()
-
-
-# Collect all dependency targets into a single list
-# Note the exclusion of LLVM libraries, which are not targets
-set(LINK_TARGETS
-        "blas"
-        "f2c"
-        "lapack"
-        "sbml-static"
-        "libiconv-static"
-        "libLZMA-static"
-        "libxml2-static"
-        "zlibstatic"
-        "nleq1-static"
-        "nleq2-static"
-        "PocoFoundation"
-        "PocoNet"
-        "PocoUtil"
-        "PocoXML"
-        "PocoZip"
-        "PocoJSON"
-        "rr-libstruct-static"
-        "sundials_cvode_static"
-        "sundials_cvodes_static"
-        "sundials_ida_static"
-        "sundials_idas_static"
-        "sundials_kinsol_static"
-        "sundials_nvecserial_static"
-        )
-
-# note: unit test will be replaced by gtest eventually
-set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
-
-# create new custom target so we can build all-dependencies and
-#  build all deps with single command
-add_custom_target(all-dependencies)
-add_dependencies(all-dependencies ${LINK_TARGETS})
-
-# now add LLVM.
-set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
-
-##########################################################
-# Add roadrunner source directories to the build
-
-# We always have to build the roadrunner core, everything depends on this
-add_subdirectory(source)
-
-##########################################################
-# Build tests
-
-if (BUILD_TESTS AND BUILD_TEST_TOOLS)
-
-    set(GOOGLETEST_SOURCE_DIR third_party/googletest)
-    set(GOOGLETEST_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googletest)
-    set(GOOGLEMOCK_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googlemock)
-
-    add_subdirectory(${GOOGLETEST_SOURCE_DIR})
-
-    add_subdirectory(tests)
-
-    #    QueryCMakeVariables()
-
-    # I really have no idea what this code is doing. (cw)
-    # This code comes with no comments, so i'll add some as I'm
-    # trying to figure out what its doing
-    message(STATUS "building tests")
-
-    # Collect a list of all files inside "testing" folder.
-    # This includes CMakeLists.txt for some reason.
-    file(GLOB TEST_FILES "testing/*")
-
-    MESSAGE(STATUS "TEST_FILES ${TEST_FILES}")
-
-    # Collect the set of Python test files.
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
-
-    MESSAGE(STATUS "PYTHON_TEST_FILES ${PYTHON_TEST_FILES}")
-
-    # and combine the two list of test files
-    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
-
-    # Collect all python and xml test data
-    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
-
-    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
-
-    # Oh, I think I see what has happened here.
-    # This code makes a copy of each test fle, both python and otherwise
-    foreach (f ${TEST_FILES})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            #            message(STATUS ${FILE_NAME})
-            # This command copies into the main testing directory under project root.
-            # Dont know why though.
-            # Could be that somebody just committed these files and they havent been deleted.
-            configure_file(${f} testing/${FILE_NAME} COPYONLY)
-
-            # Uncertain why these have been copied here. Presumably its only the Python files
-            # That need to go into a site packages directory, though still no idea
-            # Why a site packages directory is needed. Also, I still havent found this
-            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    foreach (f ${PYTHON_TEST_DATA})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    foreach (f ${TEST_DATA_XML})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    # I don't understand. The testing directory doesn't build anything???
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
-    add_subdirectory(source/testing)
-    add_subdirectory(source/llvm_testing)
-else ()
-    message(STATUS "NOT building tests")
-endif ()
-
-#
-###################################################
-##   Build wrappers etc
-#
-
-######################################################
-#   Note (Ciaran welsh)
-#
-#   Some work has been done on the wrappers and tests, but not much.
-#   They will need some work to get them to where we want.
-#   For now I leave this commented out as I focus on getting roadrunner
-#   and roadrunner-static targets built.
-#
-
-##if (INSTALL_CXX_API)
-##    if (INSTALL_APPS)
-##        add_subdirectory(apps)
-##    endif ()
+#endif ()
+## This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
+##else (${LLVM_INSTALL_PREFIX})
+##    # But we can fall back and download binaries or build from source as well
 ##
-##    if (INSTALL_EXAMPLES)
-##        add_subdirectory(examples)
-##    endif ()
-##endif (INSTALL_CXX_API)
+##    # Set the root of llvm to be in the third_party directory. Note
+##    # that we need to separate different compilers
+##    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
 ##
-##add_subdirectory(wrappers)
-#
-# print out the configuration summary
-ConfigurationSummary()
-#
-### make or copy installers into root directory
-##add_subdirectory(installer)
+##    # set llvm source directory. This is only used when we are in LLVM build mode
+##    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
 ##
-###=== ThirdParties
+##    # set a place to put the binaries
+##    SetCrossPlatform(LLVM_INSTALL_PREFIX
+##            "${LLVM_ROOT}/llvm6.0.1-msvc"
+##            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
+##            "${LLVM_ROOT}/llvm6.0.1-mac"
+##            )
+##
+##    ## first try to find an existing LLVM version
+##    find_package(LLVM)
+##
+##    # if it was found, validate the version
+##    if (LLVM_FOUND)
+##        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
+##            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
+##        endif ()
+##    else ()
+##        # Otherwise we download binaries or build from source
+##
+##        # defines two boolean variables
+##        #   - BUILD_LLVM
+##        #   - DOWNLOAD_LLVM_BINARIES
+##        # They are mutually exclusive and determine the flow of the next step
+##        DownloadOrBuildLLVM()
+##
+##        # If conditions are met we can use precompiled binaries
+##        if (${DOWNLOAD_LLVM_BINARIES})
+##            DownloadLLVM601Binaries()
+##        endif ()
+##
+##        # if not we can build LLVM from source, which will take a while
+##        if (BUILD_LLVM)
+##            BuildLLVMFromSource()
+##        endif (BUILD_LLVM)
+##
+##        # Now we try again to find llvm
+##        #        find_package(LLVM)
+##
+##    endif (LLVM_FOUND)
+##endif (${LLVM_INSTALL_PREFIX})
+#
+## Collect our include directories into a convenient variable
+#set(DEPENDENCY_INCLUDE_DIRS
+#        "${NLEQ1_INCLUDE_DIR}"
+#        "${NLEQ2_INCLUDE_DIR}"
+#        "${CLAPACK_INCLUDE_DIR}"
+#        "${LIBSBML_DEPS_INCLUDE_DIR}"
+#        "${LIBSBML_INCLUDE_DIR}"
+#        "${RR_STRUCT_INCLUDE_DIR}"
+#        "${POCO_INCLUDE_DIR}"
+#        "${SUNDIALS_INCLUDE_DIR}"
+#        "${UNITTEST_INCLUDE_DIR}"
+#        )
+#if (${MINGW})
+#    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+#endif ()
+#
 ##if(${BORLAND})
-##    set(CG_RUNTIMES        cc32110MT.dll)
-##    foreach(runtime ${CG_RUNTIMES})
-##        install (FILES
-##            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
-##            DESTINATION bin
-##            COMPONENT rr_core)
-##    endforeach()
+##    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
+##add_definitions(
+##    -DUSE_PCH                   #Enable pre-compiled headers
+##    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+##    -w-8012                     #Comparing signed /unsigned
+##    -w-8057                     #Parameter never used
+##    -w-8004                     #'var' is assigned a value that is never used
+##    )
 ##endif()
 #
-configure_file(VERSION.txt.in VERSION.txt @ONLY)
-
-install(
-        FILES
-        NOTICE.txt
-        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
-        NEWS.txt
-        DESTINATION .
-)
+#
+## Collect all dependency targets into a single list
+## Note the exclusion of LLVM libraries, which are not targets
+#set(LINK_TARGETS
+#        "blas"
+#        "f2c"
+#        "lapack"
+#        "sbml-static"
+#        "libiconv-static"
+#        "libLZMA-static"
+#        "libxml2-static"
+#        "zlibstatic"
+#        "nleq1-static"
+#        "nleq2-static"
+#        "PocoFoundation"
+#        "PocoNet"
+#        "PocoUtil"
+#        "PocoXML"
+#        "PocoZip"
+#        "PocoJSON"
+#        "rr-libstruct-static"
+#        "sundials_cvode_static"
+#        "sundials_cvodes_static"
+#        "sundials_ida_static"
+#        "sundials_idas_static"
+#        "sundials_kinsol_static"
+#        "sundials_nvecserial_static"
+#        )
+#
+## note: unit test will be replaced by gtest eventually
+#set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
+#
+## create new custom target so we can build all-dependencies and
+##  build all deps with single command
+#add_custom_target(all-dependencies)
+#add_dependencies(all-dependencies ${LINK_TARGETS})
+#
+## now add LLVM.
+#set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
+#
+###########################################################
+## Add roadrunner source directories to the build
+#
+## We always have to build the roadrunner core, everything depends on this
+#add_subdirectory(source)
+#
+###########################################################
+## Build tests
+#
+#if (BUILD_TESTS AND BUILD_TEST_TOOLS)
+#
+#    set(GOOGLETEST_SOURCE_DIR third_party/googletest)
+#    set(GOOGLETEST_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googletest)
+#    set(GOOGLEMOCK_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googlemock)
+#
+#    add_subdirectory(${GOOGLETEST_SOURCE_DIR})
+#
+#    add_subdirectory(tests)
+#
+#    #    QueryCMakeVariables()
+#
+#    # I really have no idea what this code is doing. (cw)
+#    # This code comes with no comments, so i'll add some as I'm
+#    # trying to figure out what its doing
+#    message(STATUS "building tests")
+#
+#    # Collect a list of all files inside "testing" folder.
+#    # This includes CMakeLists.txt for some reason.
+#    file(GLOB TEST_FILES "testing/*")
+#
+#    MESSAGE(STATUS "TEST_FILES ${TEST_FILES}")
+#
+#    # Collect the set of Python test files.
+#    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
+#
+#    MESSAGE(STATUS "PYTHON_TEST_FILES ${PYTHON_TEST_FILES}")
+#
+#    # and combine the two list of test files
+#    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
+#
+#    # Collect all python and xml test data
+#    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+#
+#    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+#
+#    # Oh, I think I see what has happened here.
+#    # This code makes a copy of each test fle, both python and otherwise
+#    foreach (f ${TEST_FILES})
+#        if (NOT IS_DIRECTORY ${f})
+#            get_filename_component(FILE_NAME ${f} NAME)
+#            #            message(STATUS ${FILE_NAME})
+#            # This command copies into the main testing directory under project root.
+#            # Dont know why though.
+#            # Could be that somebody just committed these files and they havent been deleted.
+#            configure_file(${f} testing/${FILE_NAME} COPYONLY)
+#
+#            # Uncertain why these have been copied here. Presumably its only the Python files
+#            # That need to go into a site packages directory, though still no idea
+#            # Why a site packages directory is needed. Also, I still havent found this
+#            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+#        endif ()
+#    endforeach ()
+#
+#    foreach (f ${PYTHON_TEST_DATA})
+#        if (NOT IS_DIRECTORY ${f})
+#            get_filename_component(FILE_NAME ${f} NAME)
+#            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+#        endif ()
+#    endforeach ()
+#
+#    foreach (f ${TEST_DATA_XML})
+#        if (NOT IS_DIRECTORY ${f})
+#            get_filename_component(FILE_NAME ${f} NAME)
+#            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+#        endif ()
+#    endforeach ()
+#
+#    # I don't understand. The testing directory doesn't build anything???
+#    add_subdirectory(testing)
+#    add_subdirectory(autotest)
+#    add_subdirectory(source/testing)
+#    add_subdirectory(source/llvm_testing)
+#else ()
+#    message(STATUS "NOT building tests")
+#endif ()
+#
+##
+####################################################
+###   Build wrappers etc
+##
+#
+#######################################################
+##   Note (Ciaran welsh)
+##
+##   Some work has been done on the wrappers and tests, but not much.
+##   They will need some work to get them to where we want.
+##   For now I leave this commented out as I focus on getting roadrunner
+##   and roadrunner-static targets built.
+##
+#
+###if (INSTALL_CXX_API)
+###    if (INSTALL_APPS)
+###        add_subdirectory(apps)
+###    endif ()
+###
+###    if (INSTALL_EXAMPLES)
+###        add_subdirectory(examples)
+###    endif ()
+###endif (INSTALL_CXX_API)
+###
+###add_subdirectory(wrappers)
+##
+## print out the configuration summary
+#ConfigurationSummary()
+##
+#### make or copy installers into root directory
+###add_subdirectory(installer)
+###
+####=== ThirdParties
+###if(${BORLAND})
+###    set(CG_RUNTIMES        cc32110MT.dll)
+###    foreach(runtime ${CG_RUNTIMES})
+###        install (FILES
+###            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
+###            DESTINATION bin
+###            COMPONENT rr_core)
+###    endforeach()
+###endif()
+##
+#configure_file(VERSION.txt.in VERSION.txt @ONLY)
+#
+#install(
+#        FILES
+#        NOTICE.txt
+#        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
+#        NEWS.txt
+#        DESTINATION .
+#)
 
 
 
