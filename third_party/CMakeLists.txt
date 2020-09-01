@@ -13,20 +13,12 @@ add_subdirectory(bzip2)
 ## zlib
 message(STATUS "Adding zlib as subdirectory")
 add_subdirectory(zlib)
-if (NOT ZLIB_INCLUDE_DIR)
-    set(
-            ZLIB_INCLUDE_DIR
-                "${CMAKE_CURRENT_SOURCE_DIR}/zlib"
-                "${CMAKE_CURRENT_BINARY_DIR}/zlib"
-        ) # for libxml2
-endif ()
+set(ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zlib;${CMAKE_CURRENT_BINARY_DIR}/zlib" CACHE PATH "absolute path to zlib include dir")
 
 ## iconv
 message(STATUS "Adding iconv as subdirectory")
 add_subdirectory(iconv)
-if (NOT LIBICONV_INCLUDE_DIR)
-    set(LIBICONV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/iconv/include)
-endif ()
+set(LIBICONV_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/iconv/include" CACHE PATH "aboslute path to libiconv include dir")
 
 ## clapack
 message(STATUS "Adding clapack as subdirectory")
@@ -46,6 +38,14 @@ add_subdirectory(nleq2)
 message(STATUS "Adding libxml2 as subdirectory")
 add_subdirectory(libxml2)
 add_dependencies(LibXml2 zlib libiconv-static)
+
+## poco
+#message(STATUS "Adding poco as subdirectory")
+#add_subdirectory(poco)
+
+# rr-libstruct
+message(STATUS "Adding rr-libstruct as subdirectory")
+add_subdirectory(rr-libstruct)
 
 
 ### nleq1
