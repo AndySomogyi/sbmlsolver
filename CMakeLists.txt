@@ -234,7 +234,7 @@ if (${MSVC})
     #       - C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\ostream(747):
     #         warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
     #
-    add_definitions("/wd4251 /wd4018 /wd4996 /EHsc")
+    SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "/wd4251 /wd4018 /wd4996 /EHsc")
 
 endif ()
 
