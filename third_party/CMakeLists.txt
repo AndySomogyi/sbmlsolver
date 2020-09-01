@@ -46,7 +46,7 @@ add_dependencies(LibXml2 zlib libiconv-static)
 # rr-libstruct
 message(STATUS "Adding rr-libstruct as subdirectory")
 add_subdirectory(rr-libstruct)
-
+#$<TARGET_PROPERTY:INCLUDE_DIRECTORIES>
 
 ### nleq1
 #message(STATUS "Adding nleq1 as subdirectory")
