@@ -27,6 +27,14 @@ add_subdirectory(CLAPACK)
 message(STATUS "Adding libxml2 as subdirectory")
 add_subdirectory(libxml2)
 
+## nleq1
+message(STATUS "Adding nleq1 as subdirectory")
+add_subdirectory(nleq1)
+
+
+## nleq2
+message(STATUS "Adding nleq2 as subdirectory")
+add_subdirectory(nleq2)
 
 
 

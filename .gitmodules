@@ -13,6 +13,9 @@
 [submodule "third_party/googletest"]
 	path = third_party/googletest
 	url = https://github.com/google/googletest.git
-[submodule "third_party/libxml2"]
-	path = third_party/libxml2
-	url = https://github.com/CiaranWelsh/libxml2.git
+[submodule "third_party/nleq2"]
+	path = third_party/nleq2
+	url = https://github.com/CiaranWelsh/nleq2.git
+[submodule "third_party/nleq1"]
+	path = third_party/nleq1
+	url = https://github.com/CiaranWelsh/nleq1.git
