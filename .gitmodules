@@ -22,3 +22,6 @@
 [submodule "third_party/libxml2"]
 	path = third_party/libxml2
 	url = https://github.com/CiaranWelsh/libxml2.git
+[submodule "third_party/poco"]
+	path = third_party/poco
+	url = https://github.com/CiaranWelsh/poco.git
