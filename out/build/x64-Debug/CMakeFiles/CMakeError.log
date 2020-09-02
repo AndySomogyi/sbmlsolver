@@ -1,0 +1,163 @@
+Determining size of off64_t failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0308a && [1/2] Building C object CMakeFiles\cmTC_0308a.dir\OFF64_T.c.obj
+FAILED: CMakeFiles/cmTC_0308a.dir/OFF64_T.c.obj 
+C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\HostX64\x64\cl.exe  /nologo -DHAVE_STDDEF_H -DHAVE_STDINT_H -DHAVE_SYS_TYPES_H -D_LARGEFILE64_SOURCE=1  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_0308a.dir\OFF64_T.c.obj /FdCMakeFiles\cmTC_0308a.dir\ /FS -c D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckTypeSize\OFF64_T.c
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckTypeSize\OFF64_T.c(25): error C2065: 'off64_t': undeclared identifier
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckTypeSize\OFF64_T.c(26): error C2065: 'off64_t': undeclared identifier
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckTypeSize\OFF64_T.c(27): error C2065: 'off64_t': undeclared identifier
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckTypeSize\OFF64_T.c(28): error C2065: 'off64_t': undeclared identifier
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckTypeSize\OFF64_T.c(29): error C2065: 'off64_t': undeclared identifier
+ninja: build stopped: subcommand failed.
+
+
+D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CheckTypeSize/OFF64_T.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#elif defined(__aarch64__)
+# define KEY '_','_','a','a','r','c','h','6','4','_','_'
+#elif defined(__ARM_ARCH_7A__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','A','_','_'
+#elif defined(__ARM_ARCH_7S__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','S','_','_'
+#endif
+
+#define SIZE (sizeof(off64_t))
+static char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining if the function fseeko exists failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_06f1b && [1/2] Building C object CMakeFiles\cmTC_06f1b.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_06f1b.exe
+FAILED: cmTC_06f1b.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_06f1b.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_06f1b.dir\CheckFunctionExists.c.obj  /out:cmTC_06f1b.exe /implib:cmTC_06f1b.lib /pdb:cmTC_06f1b.pdb /version:0.0  /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cmd.exe /C "cd /D D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CMakeTmp && powershell -noprofile -executionpolicy Bypass -file D:/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp/cmTC_06f1b.exe -installedDir D:/vcpkg/installed/x64-windows/debug/bin -OutVariable out""
+LINK Pass 1: command "C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_06f1b.dir\CheckFunctionExists.c.obj /out:cmTC_06f1b.exe /implib:cmTC_06f1b.lib /pdb:cmTC_06f1b.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_06f1b.dir/intermediate.manifest CMakeFiles\cmTC_06f1b.dir/manifest.res" failed (exit code 1120) with the following output:
+CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol fseeko referenced in function main
+cmTC_06f1b.exe : fatal error LNK1120: 1 unresolved externals
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the include file unistd.h exists failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_43872 && [1/2] Building C object CMakeFiles\cmTC_43872.dir\CheckIncludeFile.c.obj
+FAILED: CMakeFiles/cmTC_43872.dir/CheckIncludeFile.c.obj 
+C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\HostX64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_43872.dir\CheckIncludeFile.c.obj /FdCMakeFiles\cmTC_43872.dir\ /FS -c CheckIncludeFile.c
+CheckIncludeFile.c(1): fatal error C1083: Cannot open include file: 'unistd.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the include file pthread.h exists failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_27ae4 && [1/2] Building C object CMakeFiles\cmTC_27ae4.dir\CheckIncludeFile.c.obj
+FAILED: CMakeFiles/cmTC_27ae4.dir/CheckIncludeFile.c.obj 
+C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\HostX64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_27ae4.dir\CheckIncludeFile.c.obj /FdCMakeFiles\cmTC_27ae4.dir\ /FS -c CheckIncludeFile.c
+CheckIncludeFile.c(1): fatal error C1083: Cannot open include file: 'pthread.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if files check.h exist failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e45a0 && [1/2] Building C object CMakeFiles\cmTC_e45a0.dir\HAVE_CHECK_H.c.obj
+FAILED: CMakeFiles/cmTC_e45a0.dir/HAVE_CHECK_H.c.obj 
+C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\HostX64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Z7 /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_e45a0.dir\HAVE_CHECK_H.c.obj /FdCMakeFiles\cmTC_e45a0.dir\ /FS -c D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\HAVE_CHECK_H.c
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\HAVE_CHECK_H.c(2): fatal error C1083: Cannot open include file: 'check.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+Source:
+/* */
+#include <check.h>
+
+
+int main(void){return 0;}
+
+Determining if files expat.h exist failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_5c236 && [1/2] Building C object CMakeFiles\cmTC_5c236.dir\HAVE_EXPAT_H.c.obj
+FAILED: CMakeFiles/cmTC_5c236.dir/HAVE_EXPAT_H.c.obj 
+C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\HostX64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Z7 /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_5c236.dir\HAVE_EXPAT_H.c.obj /FdCMakeFiles\cmTC_5c236.dir\ /FS -c D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\HAVE_EXPAT_H.c
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\HAVE_EXPAT_H.c(2): fatal error C1083: Cannot open include file: 'expat.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+Source:
+/* */
+#include <expat.h>
+
+
+int main(void){return 0;}
+
+Determining if files ieeefp.h exist failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_234dd && [1/2] Building C object CMakeFiles\cmTC_234dd.dir\HAVE_IEEEFP_H.c.obj
+FAILED: CMakeFiles/cmTC_234dd.dir/HAVE_IEEEFP_H.c.obj 
+C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\HostX64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Z7 /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_234dd.dir\HAVE_IEEEFP_H.c.obj /FdCMakeFiles\cmTC_234dd.dir\ /FS -c D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\HAVE_IEEEFP_H.c
+D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\HAVE_IEEEFP_H.c(2): fatal error C1083: Cannot open include file: 'ieeefp.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+Source:
+/* */
+#include <ieeefp.h>
+
+
+int main(void){return 0;}
+
+Determining if the function sqrt exists in the m failed with the following output:
+Change Dir: D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f82a8 && [1/2] Building C object CMakeFiles\cmTC_f82a8.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_f82a8.exe
+FAILED: cmTC_f82a8.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_f82a8.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_f82a8.dir\CheckFunctionExists.c.obj  /out:cmTC_f82a8.exe /implib:cmTC_f82a8.lib /pdb:cmTC_f82a8.pdb /version:0.0  /machine:x64  /debug /INCREMENTAL /subsystem:console  m.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cmd.exe /C "cd /D D:\rrbuild\roadrunner\out\build\x64-Debug\CMakeFiles\CMakeTmp && powershell -noprofile -executionpolicy Bypass -file D:/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/rrbuild/roadrunner/out/build/x64-Debug/CMakeFiles/CMakeTmp/cmTC_f82a8.exe -installedDir D:/vcpkg/installed/x64-windows/debug/bin -OutVariable out""
+LINK Pass 1: command "C:\PROGRA~2\MICROS~1\2019\COMMUN~1\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_f82a8.dir\CheckFunctionExists.c.obj /out:cmTC_f82a8.exe /implib:cmTC_f82a8.lib /pdb:cmTC_f82a8.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console m.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_f82a8.dir/intermediate.manifest CMakeFiles\cmTC_f82a8.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: cannot open file 'm.lib'
+ninja: build stopped: subcommand failed.
+
+
+

@@ -17,7 +17,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <fstream>      // std::ofstream
-#include <assert.h>
+#include <cassert>
 
 // TODO When we have gcc 4.4 as minimal compiler, drop poco and use C++ standard regex
 #include <Poco/RegularExpression.h>

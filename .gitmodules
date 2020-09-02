@@ -28,3 +28,6 @@
 [submodule "third_party/rr-libstruct"]
 	path = third_party/rr-libstruct
 	url = https://github.com/CiaranWelsh/rr-libstruct.git
+[submodule "third_party/sundials"]
+	path = third_party/sundials
+	url = https://github.com/CiaranWelsh/sundials.git

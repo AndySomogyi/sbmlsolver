@@ -58,6 +58,9 @@ include(SetCrossPlatform)
 # convenience function for querying presently defined cmake variables
 include(QueryCMakeVariables)
 
+# GNU standard install locations
+include(GNUInstallDirs)
+
 #############################################################
 #   Configuration Options
 #
@@ -102,7 +105,7 @@ option(USE_POCO_NET "Use poco net library" ON)
 option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
 option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
 
-set(CMAKE_STANDARD 14 CACHE STRING "set the cmake standard to use")
+set(CMAKE_STANDARD 17 CACHE STRING "set the cmake standard to use")
 
 ##################################################
 #   Settings derived from options
@@ -135,11 +138,11 @@ endif ()
 
 
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-        "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
+    "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-            "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
+        "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
   CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
 endif ()
 
@@ -225,18 +228,9 @@ if (${MSVC})
             -D_WIN32 # used as switch in zlib macro
     )
 
-    # 4251 About exporting std classes
-    # 4018 Comparing unsigned/signed ints
-    # 4996 Deprecated functions
-    # EHsc
-    #   - https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4530?view=vs-2019
-    #   - Fixes the compiler warning:
-    #       - C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\ostream(747):
-    #         warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
-    #
-    SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "/wd4251 /wd4018 /wd4996 /EHsc")
-
 endif ()
+
+QueryCMakeVariables()
 
 if (${MINGW})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
@@ -263,97 +257,99 @@ set(CMAKE_DEBUG_POSTFIX "d")
 #   Dependencies
 
 # add the third_party directory as dependencies
+message(STATUS "before CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
 add_subdirectory(third_party)
+message(STATUS "AFter CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
 
 ## handle the LLVM dependency
-#if (${LLVM_INSTALL_PREFIX})
-#    # This is the preferred way to handle the LLVM dependency.
-#    message(STATUS "Detected user defined installation of LLVM")
-#    #    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
-#    # Do some checks then load
-#    message(STATUS "looking for llvm-config...:")
-#    find_program(LLVM_CONFIG
-#            NAMES llvm-config
-#            PATHS
-#            ${LLVM_INSTALL_PREFIX}/bin/llvm-config
-#            ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
+if (${LLVM_INSTALL_PREFIX})
+    # This is the preferred way to handle the LLVM dependency.
+    message(STATUS "Detected user defined installation of LLVM")
+    #    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
+    # Do some checks then load
+    message(STATUS "looking for llvm-config...:")
+    find_program(LLVM_CONFIG
+                 NAMES llvm-config
+                 PATHS
+                 ${LLVM_INSTALL_PREFIX}/bin/llvm-config
+                 ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
+                 )
+
+    if (NOT EXISTS ${LLVM_CONFIG})
+        message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
+    endif ()
+
+    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
+        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
+    endif ()
+    message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
+
+    # Use the propper LLVM supplied CMake files.
+    # prepend the cmake module path with the LLVM modules
+    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
+    if (NOT EXISTS "${LLVM_MODULE_PATH}")
+        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
+    endif ()
+    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
+
+    include(LLVMConfig)
+
+    # we're building a JIT compiler with support for binary code (no interpreter):
+    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
+    # to link with.
+    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
+
+endif ()
+# This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
+#else (${LLVM_INSTALL_PREFIX})
+#    # But we can fall back and download binaries or build from source as well
+#
+#    # Set the root of llvm to be in the third_party directory. Note
+#    # that we need to separate different compilers
+#    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
+#
+#    # set llvm source directory. This is only used when we are in LLVM build mode
+#    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
+#
+#    # set a place to put the binaries
+#    SetCrossPlatform(LLVM_INSTALL_PREFIX
+#            "${LLVM_ROOT}/llvm6.0.1-msvc"
+#            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
+#            "${LLVM_ROOT}/llvm6.0.1-mac"
 #            )
 #
-#    if (NOT EXISTS ${LLVM_CONFIG})
-#        message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
-#    endif ()
+#    ## first try to find an existing LLVM version
+#    find_package(LLVM)
 #
-#    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
-#        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
-#    endif ()
-#    message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
+#    # if it was found, validate the version
+#    if (LLVM_FOUND)
+#        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
+#            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
+#        endif ()
+#    else ()
+#        # Otherwise we download binaries or build from source
 #
-#    # Use the propper LLVM supplied CMake files.
-#    # prepend the cmake module path with the LLVM modules
-#    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
-#    if (NOT EXISTS "${LLVM_MODULE_PATH}")
-#        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
-#    endif ()
-#    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
+#        # defines two boolean variables
+#        #   - BUILD_LLVM
+#        #   - DOWNLOAD_LLVM_BINARIES
+#        # They are mutually exclusive and determine the flow of the next step
+#        DownloadOrBuildLLVM()
 #
-#    include(LLVMConfig)
+#        # If conditions are met we can use precompiled binaries
+#        if (${DOWNLOAD_LLVM_BINARIES})
+#            DownloadLLVM601Binaries()
+#        endif ()
 #
-#    # we're building a JIT compiler with support for binary code (no interpreter):
-#    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
-#    # to link with.
-#    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
+#        # if not we can build LLVM from source, which will take a while
+#        if (BUILD_LLVM)
+#            BuildLLVMFromSource()
+#        endif (BUILD_LLVM)
 #
-#endif ()
-## This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
-##else (${LLVM_INSTALL_PREFIX})
-##    # But we can fall back and download binaries or build from source as well
-##
-##    # Set the root of llvm to be in the third_party directory. Note
-##    # that we need to separate different compilers
-##    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
-##
-##    # set llvm source directory. This is only used when we are in LLVM build mode
-##    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
-##
-##    # set a place to put the binaries
-##    SetCrossPlatform(LLVM_INSTALL_PREFIX
-##            "${LLVM_ROOT}/llvm6.0.1-msvc"
-##            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
-##            "${LLVM_ROOT}/llvm6.0.1-mac"
-##            )
-##
-##    ## first try to find an existing LLVM version
-##    find_package(LLVM)
-##
-##    # if it was found, validate the version
-##    if (LLVM_FOUND)
-##        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
-##            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
-##        endif ()
-##    else ()
-##        # Otherwise we download binaries or build from source
-##
-##        # defines two boolean variables
-##        #   - BUILD_LLVM
-##        #   - DOWNLOAD_LLVM_BINARIES
-##        # They are mutually exclusive and determine the flow of the next step
-##        DownloadOrBuildLLVM()
-##
-##        # If conditions are met we can use precompiled binaries
-##        if (${DOWNLOAD_LLVM_BINARIES})
-##            DownloadLLVM601Binaries()
-##        endif ()
-##
-##        # if not we can build LLVM from source, which will take a while
-##        if (BUILD_LLVM)
-##            BuildLLVMFromSource()
-##        endif (BUILD_LLVM)
-##
-##        # Now we try again to find llvm
-##        #        find_package(LLVM)
-##
-##    endif (LLVM_FOUND)
-##endif (${LLVM_INSTALL_PREFIX})
+#        # Now we try again to find llvm
+#        #        find_package(LLVM)
+#
+#    endif (LLVM_FOUND)
+#endif (${LLVM_INSTALL_PREFIX})
 #
 ## Collect our include directories into a convenient variable
 #set(DEPENDENCY_INCLUDE_DIRS
@@ -422,12 +418,12 @@ add_subdirectory(third_party)
 ## now add LLVM.
 #set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
 #
-###########################################################
-## Add roadrunner source directories to the build
-#
-## We always have to build the roadrunner core, everything depends on this
-#add_subdirectory(source)
-#
+##########################################################
+# Add roadrunner source directories to the build
+
+# We always have to build the roadrunner core, everything depends on this
+add_subdirectory(source)
+
 ###########################################################
 ## Build tests
 #

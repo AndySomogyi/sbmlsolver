@@ -1,0 +1,13 @@
+prefix=D:/rrbuild/roadrunner/out/install/x64-Debug
+exec_prefix=D:/rrbuild/roadrunner/out/install/x64-Debug
+libdir=D:/rrbuild/roadrunner/out/install/x64-Debug/lib
+sharedlibdir=D:/rrbuild/roadrunner/out/install/x64-Debug/lib
+includedir=D:/rrbuild/roadrunner/out/install/x64-Debug/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

@@ -1,0 +1,13 @@
+Name: libSBML
+Description: A library for reading/writing/manipulating SBML
+URL: http://sbml.org/Software/libSBML
+Version: 5.18.1
+
+prefix=D:/rrbuild/roadrunner/out/install/x64-Debug
+libdir=D:/rrbuild/roadrunner/out/install/x64-Debug/lib
+includedir=D:/rrbuild/roadrunner/out/install/x64-Debug/include
+
+Libs: -L${libdir} -lsbml
+Libs.private:        $<TARGET_FILE:LibXml2> D:/vcpkg/installed/x64-windows/lib/bz2.lib D:/CppLibraries/libsbml-without-namespace/lib/zdll.lib -lstdc++ -lm
+Cflags: -I${includedir}
+Requires.private: libxml-2.0 >= 2.6.22

@@ -548,12 +548,12 @@ endif (WIN32 AND NOT CYGWIN)
 
 target_link_libraries(sbml-static
         zlibstatic
-        libxml2-static
+        LibXml2
         libiconv-static
         )
 add_dependencies(sbml-static
         zlibstatic
-        libxml2-static
+        LibXml2
         libiconv-static
         )
 
@@ -565,23 +565,23 @@ INSTALL(TARGETS sbml-static
         ${INCLUDE_DESTINATION}
         )
 
-## and install the exported target configuration
-#INSTALL(EXPORT sbml-static-config
-#        DESTINATION ${PACKAGE_CONFIG_DIR}
-#        )
-#
-#if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
-#    WRITE_BASIC_PACKAGE_VERSION_FILE(
-#            ${CMAKE_CURRENT_BINARY_DIR}/sbml-static-config-version.cmake
-#            VERSION ${PROJECT_VERSION}
-#            COMPATIBILITY AnyNewerVersion
-#    )
-#
-#    INSTALL(FILES
-#            ${CMAKE_CURRENT_BINARY_DIR}/sbml-static-config-version.cmake
-#            DESTINATION ${PACKAGE_CONFIG_DIR}
-#            )
-#endif ()
+# and install the exported target configuration
+INSTALL(EXPORT sbml-static-config
+        DESTINATION ${PACKAGE_CONFIG_DIR}
+        )
+
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+    WRITE_BASIC_PACKAGE_VERSION_FILE(
+            ${CMAKE_CURRENT_BINARY_DIR}/sbml-static-config-version.cmake
+            VERSION ${PROJECT_VERSION}
+            COMPATIBILITY AnyNewerVersion
+    )
+
+    INSTALL(FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/sbml-static-config-version.cmake
+            DESTINATION ${PACKAGE_CONFIG_DIR}
+            )
+endif ()
 
 ##############################################################################
 #

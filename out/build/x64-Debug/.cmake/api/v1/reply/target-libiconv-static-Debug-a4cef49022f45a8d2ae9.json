@@ -1,0 +1,316 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/libiconv-staticd.lib"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_library",
+			"add_library",
+			"install",
+			"add_dependencies",
+			"add_compile_options",
+			"add_definitions",
+			"target_compile_definitions",
+			"include_directories",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"D:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"third_party/iconv/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 185,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 372,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 204,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 196,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 42,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 185,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 213,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 45,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 190,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 146,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 166,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 1,
+				"line" : 197,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd  "
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "/wd4018"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "BUILD_LLVM"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "CRT_NONSTDC_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "ENABLE_RELOCATABLE=1"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "INSTALLDIR="
+				},
+				{
+					"backtrace" : 9,
+					"define" : "IN_LIBRARY=1"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "LIBDIR="
+				},
+				{
+					"backtrace" : 8,
+					"define" : "LIBLAX_STATIC"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "LIBSBML_STATIC"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "LIBSBML_USE_CPP_NAMESPACE"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "NO_XMALLOC=1"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "POCO_NO_AUTOMATIC_LIBS"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "POCO_STATIC"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "STATIC_LIBSTRUCT"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "STATIC_NLEQ1"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "STATIC_NLEQ2"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "STATIC_PUGI"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "_CRT_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "_WIN32"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "relocate2=libiconv_relocate2"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "relocate=libiconv_relocate"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "set_relocation_prefix=libiconv_set_relocation_prefix"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 11,
+					"path" : "D:/rrbuild/roadrunner/third_party/iconv"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "D:/rrbuild/roadrunner/third_party/iconv/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "D:/rrbuild/roadrunner/out/build/x64-Debug/third_party/iconv"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "D:/rrbuild/roadrunner/out/build/x64-Debug/third_party/iconv/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "D:/rrbuild/roadrunner/out/build/x64-Debug/third_party/iconv/libcharset/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "D:/rrbuild/roadrunner/out/build/x64-Debug/third_party/iconv/autoconf"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "D:/rrbuild/roadrunner/third_party/iconv/gnulib-local/lib"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "libcharset::@526727ac2767f07d5b33"
+		}
+	],
+	"id" : "libiconv-static::@526727ac2767f07d5b33",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/rrbuild/roadrunner/out/install/x64-Debug"
+		}
+	},
+	"name" : "libiconv-static",
+	"nameOnDisk" : "libiconv-staticd.lib",
+	"paths" : 
+	{
+		"build" : "third_party/iconv",
+		"source" : "third_party/iconv"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "third_party/iconv/lib/iconv.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "third_party/iconv/lib/relocatable.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

@@ -39,10 +39,10 @@ message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 
 
 # Configures
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/roadrunner.pc.in ${CMAKE_CURRENT_SOURCE_DIR}/roadrunner.pc @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h.in ${CMAKE_CURRENT_BINARY_DIR}/rrConfigure.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h.in ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h.in ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/roadrunner.pc.in ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc @ONLY)
 
 # Create the .pc file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig)
@@ -233,6 +233,7 @@ if (BUILD_LLVM)
     # Line below kept commented out on purpose - we don't want this.
     #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
     # set up appropriate flags for using LLVM
+    message(INFO "llvm flags are being set here" )
     set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
     set(rrSources ${rrSources} ${rrLLVMSources})
@@ -308,7 +309,7 @@ add_library(${target}-static STATIC ${rrSources})
 # set version
 set_target_properties(${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
 
-add_dependencies(${target}-static all-dependencies)
+add_dependencies(${target}-static ${DEPENDENCY_TARGETS})
 
 
 if (WIN32)
@@ -353,6 +354,7 @@ target_link_libraries(${target}-static "${LINK_LIBRARIES}")
 set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
 
+message(STATUS "DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS}")
 set(INCLUDE_DIRECTORIES
         ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
         ${DEPENDENCY_INCLUDE_DIRS}
@@ -360,6 +362,12 @@ set(INCLUDE_DIRECTORIES
         )
 set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
+
+add_custom_target(printGenex2
+COMMENT "Result of generator expression:"
+COMMAND ${CMAKE_COMMAND} -E echo "${INCLUDE_DIRECTORIES}"
+VERBATIM
+)
 
 if (BUILD_SHARED_LIBS)
 

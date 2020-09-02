@@ -1,0 +1,526 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "third_party",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5,
+						11,
+						12,
+						13,
+						14
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "third_party"
+				},
+				{
+					"build" : "third_party/bzip2",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "third_party/bzip2",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "third_party/zlib",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "third_party/zlib",
+					"targetIndexes" : 
+					[
+						12,
+						13
+					]
+				},
+				{
+					"build" : "third_party/iconv",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0.0"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "third_party/iconv",
+					"targetIndexes" : 
+					[
+						5,
+						6
+					]
+				},
+				{
+					"build" : "third_party/CLAPACK",
+					"childIndexes" : 
+					[
+						6,
+						8,
+						10
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 4,
+					"source" : "third_party/CLAPACK"
+				},
+				{
+					"build" : "third_party/CLAPACK/F2CLIBS",
+					"childIndexes" : 
+					[
+						7
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "third_party/CLAPACK/F2CLIBS"
+				},
+				{
+					"build" : "third_party/CLAPACK/F2CLIBS/libf2c",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 4,
+					"source" : "third_party/CLAPACK/F2CLIBS/libf2c",
+					"targetIndexes" : 
+					[
+						1,
+						3
+					]
+				},
+				{
+					"build" : "third_party/CLAPACK/BLAS",
+					"childIndexes" : 
+					[
+						9
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "third_party/CLAPACK/BLAS"
+				},
+				{
+					"build" : "third_party/CLAPACK/BLAS/SRC",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 4,
+					"source" : "third_party/CLAPACK/BLAS/SRC",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "third_party/CLAPACK/SRC",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "third_party/CLAPACK/SRC",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "third_party/nleq1",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 5,
+					"source" : "third_party/nleq1",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "third_party/nleq2",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 6,
+					"source" : "third_party/nleq2",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "third_party/libxml2",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 7,
+					"source" : "third_party/libxml2",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "third_party/libSBML-5.18.1-experimental-Source",
+					"childIndexes" : 
+					[
+						15
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 8,
+					"source" : "third_party/libSBML-5.18.1-experimental-Source"
+				},
+				{
+					"build" : "third_party/libSBML-5.18.1-experimental-Source/src",
+					"childIndexes" : 
+					[
+						16,
+						17
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 14,
+					"projectIndex" : 8,
+					"source" : "third_party/libSBML-5.18.1-experimental-Source/src",
+					"targetIndexes" : 
+					[
+						7,
+						11
+					]
+				},
+				{
+					"build" : "third_party/libSBML-5.18.1-experimental-Source/src/sbml",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 15,
+					"projectIndex" : 8,
+					"source" : "third_party/libSBML-5.18.1-experimental-Source/src/sbml"
+				},
+				{
+					"build" : "third_party/libSBML-5.18.1-experimental-Source/src/bindings",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 15,
+					"projectIndex" : 8,
+					"source" : "third_party/libSBML-5.18.1-experimental-Source/src/bindings"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "rr"
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "bzip2",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "zlib",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						12,
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "libiconv",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					],
+					"name" : "CLAPACK",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						11
+					],
+					"name" : "nleq1",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						12
+					],
+					"name" : "nleq2",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						13
+					],
+					"name" : "libxml2",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						14,
+						15,
+						16,
+						17
+					],
+					"name" : "libsbml",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						7,
+						11
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 13,
+					"id" : "LibXml2::@2d8a12dcad0d4664dda0",
+					"jsonFile" : "target-LibXml2-Debug-d0bab734a691cc3c72d0.json",
+					"name" : "LibXml2",
+					"projectIndex" : 7
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "arithchk::@d84d0100f6007c7b8da7",
+					"jsonFile" : "target-arithchk-Debug-5ddcba221dd69b7c3d2f.json",
+					"name" : "arithchk",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "blas::@34c75442bbb1e4cfc35f",
+					"jsonFile" : "target-blas-Debug-50214309b81f024b2bf0.json",
+					"name" : "blas",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "f2c::@d84d0100f6007c7b8da7",
+					"jsonFile" : "target-f2c-Debug-67620c6367a58c71f57f.json",
+					"name" : "f2c",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "lapack::@0626b1c502793ad69f85",
+					"jsonFile" : "target-lapack-Debug-ddc84cd418721c7faf03.json",
+					"name" : "lapack",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "libcharset::@526727ac2767f07d5b33",
+					"jsonFile" : "target-libcharset-Debug-c89b2eb703b8fed0aa0f.json",
+					"name" : "libcharset",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "libiconv-static::@526727ac2767f07d5b33",
+					"jsonFile" : "target-libiconv-static-Debug-a4cef49022f45a8d2ae9.json",
+					"name" : "libiconv-static",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "libsbml::@508cce3a7efc9bae1874",
+					"jsonFile" : "target-libsbml-Debug-7f9fb3f2200c3e04c0da.json",
+					"name" : "libsbml",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "libz2::@45b30a155646508d6e9c",
+					"jsonFile" : "target-libz2-Debug-4d034080147333650fb2.json",
+					"name" : "libz2",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "nleq1-static::@5cad6cb4232fdebcd34d",
+					"jsonFile" : "target-nleq1-static-Debug-8dd9b0e85dd041eaddaf.json",
+					"name" : "nleq1-static",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "nleq2-static::@48b9bbe6eb46ab3ade11",
+					"jsonFile" : "target-nleq2-static-Debug-d6fb35b349792eb001b5.json",
+					"name" : "nleq2-static",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "sbml-static::@508cce3a7efc9bae1874",
+					"jsonFile" : "target-sbml-static-Debug-3e1616b10331cd6136bd.json",
+					"name" : "sbml-static",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "zlib::@88168bcd04ba00925e4e",
+					"jsonFile" : "target-zlib-Debug-e3770f36fb860822bbdb.json",
+					"name" : "zlib",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "zlibstatic::@88168bcd04ba00925e4e",
+					"jsonFile" : "target-zlibstatic-Debug-694f52a97935f8022e82.json",
+					"name" : "zlibstatic",
+					"projectIndex" : 2
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/rrbuild/roadrunner/out/build/x64-Debug",
+		"source" : "D:/rrbuild/roadrunner"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}
