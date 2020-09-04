@@ -105,7 +105,7 @@ option(USE_POCO_NET "Use poco net library" ON)
 option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
 option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
 
-set(CMAKE_STANDARD 17 CACHE STRING "set the cmake standard to use")
+set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
 ##################################################
 #   Settings derived from options
@@ -205,8 +205,9 @@ endif ()
 #    Apply project/compiler settings
 #
 # Set C++14 flags
-set(CMAKE_CXX_STANDARD ${CMAKE_STANDARD})
+set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
 
+# Enable cmake printing out commands
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 if (${MSVC})
