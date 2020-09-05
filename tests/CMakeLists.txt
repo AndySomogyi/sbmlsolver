@@ -6,11 +6,11 @@ add_executable(${target}
         )
 
 target_include_directories(${target} PRIVATE
-        ${INCLUDE_DIRECTORIES}
         ${GOOGLETEST_INCLUDE_DIR}
         )
 
-target_link_libraries(${target} PRIVATE roadrunner-static ${TEST_TARGETS})
+target_link_libraries(${target} PRIVATE roadrunner-static)
+add_dependencies(${target} roadrunner-static)
 
 #add_dependencies(${target} roadrunner-static
 #        blas
@@ -37,17 +37,3 @@ target_link_libraries(${target} PRIVATE roadrunner-static ${TEST_TARGETS})
 #        PocoJSON
 #        rr-libstruct-static
 #        )
-
-if (WIN32)
-    # Indicate that we want to link to static roadrunner
-    target_compile_options(${target} PRIVATE -DSTATIC_RR -DLIBXML_STATIC
-            -DLIBSBML_STATIC
-            -DLIBLAX_STATIC
-            -DSTATIC_LIBSTRUCT
-            -DSTATIC_PUGI
-            -DSTATIC_NLEQ1
-            -DSTATIC_NLEQ2
-            -DPOCO_STATIC)
-
-
-endif ()

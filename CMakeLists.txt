@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.17)
-project(rr)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
@@ -12,6 +11,12 @@ set(ROADRUNNER_VERSION_MINOR 0)
 set(ROADRUNNER_VERSION_PATCH 1)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
+project(
+        rr
+        DESCRIPTION "roadrunner project"
+        VERSION ${ROADRUNNER_VERSION}
+        LANGUAGES CXX
+)
 
 set(CMAKE_MACOSX_RPATH 1)
 
@@ -61,6 +66,8 @@ include(QueryCMakeVariables)
 # GNU standard install locations
 include(GNUInstallDirs)
 
+# generate automatic export headers
+include(GenerateExportHeader)
 #############################################################
 #   Configuration Options
 #
@@ -71,7 +78,6 @@ include(GNUInstallDirs)
 # When users are providing their own LLVM6.0.1 installation, they give the root
 # directory as argument to LLVM_INSTALL_PREFIX.
 set(LLVM_INSTALL_PREFIX CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
-
 
 # should we build and install Testing tools?
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
@@ -111,6 +117,11 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 #   Settings derived from options
 #
 
+# On msvc default visibility is hidden while on gcc and clang
+#  default is not-hidden. Here we set all to hidden.
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+
 if (BUILD_TESTS OR BUILD_JAVA_INTERFACE)
     enable_testing()
 endif ()
@@ -140,11 +151,7 @@ endif ()
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING
     "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-        "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
-  CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
-endif ()
+
 
 ###################################################
 #   Set some paths used in the build process
@@ -156,8 +163,7 @@ set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
-set(BUILD_SHARED_LIBS ON)
-set(BUILD_SHARED_LIBS ON)
+option(BUILD_SHARED_LIBS ON)
 set(RR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(RR_SOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/source)
 set(THIRD_PARTY_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
@@ -231,8 +237,6 @@ if (${MSVC})
 
 endif ()
 
-QueryCMakeVariables()
-
 if (${MINGW})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
@@ -257,10 +261,27 @@ set(CMAKE_DEBUG_POSTFIX "d")
 ####################################################
 #   Dependencies
 
-# add the third_party directory as dependencies
-message(STATUS "before CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
-add_subdirectory(third_party)
-message(STATUS "AFter CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
+set(RR_DEPENDENCIES_INSTALL_PREFIX "dependencies" CACHE PATH "Absolute path to roadrunner dependency package")
+set(DEPENDENCY_INCLUDE_DIR "${RR_DEPENDENCIES_INSTALL_PREFIX}/include")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
+message(STATUS "DEPENDENCY_CMAKE_CONFIG_PATHS ${DEPENDENCY_CMAKE_CONFIG_PATHS}")
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
+
+find_package(zlib CONFIG REQUIRED)
+find_package(bzip2 CONFIG REQUIRED)
+find_package(iconv CONFIG REQUIRED)
+find_package(Threads) # for libxml2
+find_package(LibXml2 CONFIG REQUIRED)
+find_package(sbml-static CONFIG REQUIRED)
+find_package(rr-libstruct CONFIG REQUIRED)
+find_package(clapack CONFIG REQUIRED)
+find_package(nleq1 CONFIG REQUIRED)
+find_package(nleq2 CONFIG REQUIRED)
+find_package(PocoFoundation CONFIG REQUIRED)
+find_package(PocoNet CONFIG REQUIRED)
+find_package(Sundials CONFIG REQUIRED)
+
 
 ## handle the LLVM dependency
 if (${LLVM_INSTALL_PREFIX})
@@ -351,25 +372,15 @@ endif ()
 #
 #    endif (LLVM_FOUND)
 #endif (${LLVM_INSTALL_PREFIX})
-#
-## Collect our include directories into a convenient variable
-#set(DEPENDENCY_INCLUDE_DIRS
-#        "${NLEQ1_INCLUDE_DIR}"
-#        "${NLEQ2_INCLUDE_DIR}"
-#        "${CLAPACK_INCLUDE_DIR}"
-#        "${LIBSBML_DEPS_INCLUDE_DIR}"
-#        "${LIBSBML_INCLUDE_DIR}"
-#        "${RR_STRUCT_INCLUDE_DIR}"
-#        "${POCO_INCLUDE_DIR}"
-#        "${SUNDIALS_INCLUDE_DIR}"
-#        "${UNITTEST_INCLUDE_DIR}"
-#        )
+
+#todo build on mingw to test requirements before uncommenting
 #if (${MINGW})
 #    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 #endif ()
-#
-##if(${BORLAND})
-##    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
+
+#todo build on BORLAND to test requirements before uncommenting
+#if(${BORLAND})
+#    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
 ##add_definitions(
 ##    -DUSE_PCH                   #Enable pre-compiled headers
 ##    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
@@ -379,51 +390,13 @@ endif ()
 ##    )
 ##endif()
 #
-#
-## Collect all dependency targets into a single list
-## Note the exclusion of LLVM libraries, which are not targets
-#set(LINK_TARGETS
-#        "blas"
-#        "f2c"
-#        "lapack"
-#        "sbml-static"
-#        "libiconv-static"
-#        "libLZMA-static"
-#        "libxml2-static"
-#        "zlibstatic"
-#        "nleq1-static"
-#        "nleq2-static"
-#        "PocoFoundation"
-#        "PocoNet"
-#        "PocoUtil"
-#        "PocoXML"
-#        "PocoZip"
-#        "PocoJSON"
-#        "rr-libstruct-static"
-#        "sundials_cvode_static"
-#        "sundials_cvodes_static"
-#        "sundials_ida_static"
-#        "sundials_idas_static"
-#        "sundials_kinsol_static"
-#        "sundials_nvecserial_static"
-#        )
-#
-## note: unit test will be replaced by gtest eventually
-#set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
-#
-## create new custom target so we can build all-dependencies and
-##  build all deps with single command
-#add_custom_target(all-dependencies)
-#add_dependencies(all-dependencies ${LINK_TARGETS})
-#
-## now add LLVM.
-#set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
-#
 ##########################################################
 # Add roadrunner source directories to the build
 
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
+
+add_subdirectory(tests)
 
 ###########################################################
 ## Build tests

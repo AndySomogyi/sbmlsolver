@@ -97,7 +97,7 @@ if (LLVM_CONFIG_EXECUTABLE)
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR "${LLVM_VERSION}")
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\2" LLVM_VERSION_MINOR "${LLVM_VERSION}")
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\3" LLVM_VERSION_PATCH "${LLVM_VERSION}")
-    message(STATUS "LLVM_VERSION: ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
+#    message(STATUS "LLVM_VERSION: ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
 
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR)
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR)
@@ -126,7 +126,7 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_VARIABLE LLVM_SYSTEM_LIBS
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    message(STATUS "LLVM_SYSTEM_LIBS:  ${LLVM_SYSTEM_LIBS}")
+#    message(STATUS "LLVM_SYSTEM_LIBS:  ${LLVM_SYSTEM_LIBS}")
     # For some reason, the return value for system-libs for macos is of the
     # form '-llib1 -llib2 ...", but the return value for system-libs for windows
     # is of the form "lib1.lib lib2.lib ..." which doesn't work the same way.
@@ -134,7 +134,7 @@ if (LLVM_CONFIG_EXECUTABLE)
     if (APPLE)
         set(LLVM_SYSTEM_LIBS_THISOS ${LLVM_SYSTEM_LIBS})
     endif ()
-    message(STATUS "LLVM_SYSTEM_LIBS_THISOS:  ${LLVM_SYSTEM_LIBS_THISOS}")
+#    message(STATUS "LLVM_SYSTEM_LIBS_THISOS:  ${LLVM_SYSTEM_LIBS_THISOS}")
 
     # C++ Flags, strip out stuff that CMake build adds
     execute_process(
@@ -149,7 +149,7 @@ LLVM flags. Sometimes this happens because you do not have execution permissions
 on llvm-config. Other times this happens when LLVM_INSTALL_PREFIX does not point to the
 correct location. ")
     endif ()
-    message(STATUS "LLVM_FLAGS ${LLVM_FLAGS}")
+#    message(STATUS "LLVM_FLAGS ${LLVM_FLAGS}")
     # strip this from llvm's version, we should add this ourselves in
     # production mode to main CFLAGS
     STRING(REPLACE "-DNDEBUG" "" LLVM_FLAGS ${LLVM_FLAGS})

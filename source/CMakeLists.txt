@@ -34,8 +34,8 @@ endif (GIT)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h DESTINATION include/rr)
 
 # writes the results of the git commands to GitInfo.h
-message("ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
-message("ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
+message(INFO "ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
+message(INFO "ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
 
 
 # Configures
@@ -43,7 +43,13 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrConfigure.h.in ${CMAKE_CURRENT_BINA
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rrVersionInfo.h.in ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GitInfo.h.in ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/roadrunner.pc.in ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc @ONLY)
-
+set(
+        GENERATED_HEADERS
+        ${CMAKE_CURRENT_BINARY_DIR}/rrConfigure.h
+        ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h
+        ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h
+        ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc
+)
 # Create the .pc file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig)
@@ -151,8 +157,9 @@ set(rrCoreSources
 set(rrSources ${rrCoreSources})
 
 # https://cmake.org/cmake/help/v3.3/prop_sf/GENERATED.html
-set_source_files_properties(rrVersionInfo.h PROPERTIES GENERATED TRUE)
-
+#TODO set other generated files as generated too
+set_source_files_properties(${GENERATED_HEADERS} PROPERTIES GENERATED TRUE)
+#
 # Add the LLVM sources to compilation
 if (BUILD_LLVM)
     set(rrLLVMSources
@@ -233,7 +240,7 @@ if (BUILD_LLVM)
     # Line below kept commented out on purpose - we don't want this.
     #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
     # set up appropriate flags for using LLVM
-    message(INFO "llvm flags are being set here")
+    # TODO remove the code below and check for errors. Are these actually needed?
     set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
     set(rrSources ${rrSources} ${rrLLVMSources})
@@ -241,7 +248,7 @@ if (BUILD_LLVM)
 endif (BUILD_LLVM)
 
 # Add C legacy code to sources if needed
-if (BUILD_LEGACY_C)
+if (${BUILD_LEGACY_C})
     set(rrSources
         ${rrSources}
         c/rrStringList.cpp
@@ -297,130 +304,163 @@ if (BUILD_LEGACY_C)
         )
     # install the rr_support if building legacy c
     add_subdirectory(rr_support)
-endif (BUILD_LEGACY_C)
+endif (${BUILD_LEGACY_C})
 
 ##############################################################
 #   Build the static library
 #
 
-#Link with static libs
 add_library(${target}-static STATIC ${rrSources})
 
-# set version
-set_target_properties(${target}-static PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
 
-add_dependencies(${target}-static ${DEPENDENCY_TARGETS})
+# we add compiler flag to announce the static library.
+# make it public so consumers of the library do not need to manually
+# specify STATIC_RR
+target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 
+set(
+        RR_INCLUDE_DIRECTORIES
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
+        "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
+        "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+)
 
-if (WIN32)
-    # See rrExporter for why we need STATIC_RR when building static lib.
-    set_target_properties(${target}-static
-                          PROPERTIES COMPILE_FLAGS -DSTATIC_RR)
-
-    # set msvc runtime
-    #    SetTargetMSVCRuntimeStatic(${target}-static)
-
-    # We have a problem where a librry (maybe llvm) is enforcing their
-    #  compile flags on us and overriding the msvc runtime.
-    get_target_property(static_flags ${target}-static "CMAKE_CXX_FLAGS")
-    MESSAGE(STATUS "static_flags ${static_flags}")
-    #    foreach(flag)
-
-endif ()
-
-# This is the only flag specifically needed by static target
-target_compile_definitions(${target}-static PRIVATE STATIC_RR)
-
-if (WIN32)
-    #    set_target_properties(${target}-static PROPERTIES LINK_FLAGS "/WHOLEARCHIVE")
-    #    target_link_options(${target}-static PUBLIC /WHOLE_ARCHIVE)
-endif ()
+target_include_directories(${target}-static PUBLIC ${RR_INCLUDE_DIRECTORIES})
 
 # Extra platform specific libraries
 # These were not needed to actually build roadrunner binaries
 # but linking the tests fails without them.
+set(PLATFORM_SPECIFIC_LIBS)
 if (UNIX)
     #    icui18n icuuc (can be used instead of iconv)
-    set(LINK_LIBRARIES ${LINK_LIBRARIES} pthread dl m)
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m)
 elseif (WIN32)
-    set(LINK_LIBRARIES ${LINK_LIBRARIES} Ws2_32)
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32)
 elseif (APPLE)
     message(WARNING "mac specific link libraries should go here, I don't know if they
 will be different from linux Please remove this warning. (Ciaran)")
 endif ()
 
-target_link_libraries(${target}-static "${LINK_LIBRARIES}")
-
-set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
-
-message(STATUS "DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS}")
-set(INCLUDE_DIRECTORIES
-    ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
-    ${DEPENDENCY_INCLUDE_DIRS}
-    ${LLVM_INCLUDE_DIRS}
-    )
-set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
-target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
-
-add_custom_target(
-        printIncludeDirectoriesGenEx
-        COMMENT "Result of generator expression:"
-        COMMAND ${CMAKE_COMMAND} -E echo "${INCLUDE_DIRECTORIES}"
-        VERBATIM
+set(
+        RR_LINK_LIBRARIES
+        ${LLVM_LIBRARIES}
+        clapack::lapack clapack::blas clapack::f2c
+        bzip2::libz2
+        LibXml2::LibXml2
+        nleq1::nleq1-static
+        nleq2::nleq2-static
+        PocoFoundation::PocoFoundation
+        PocoNet::PocoNet
+        rr-libstruct::rr-libstruct-static
+        sbml-static
+        sundials::sundials_cvode_static sundials::sundials_nvecserial_static
+        zlib::zlibstatic
+        iconv::libcharset iconv::libiconv-static
+        ${PLATFORM_SPECIFIC_LIBS}
 )
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+target_link_libraries(${target}-static PUBLIC ${RR_LINK_LIBRARIES})
 
-if (BUILD_SHARED_LIBS)
-
+if (${BUILD_SHARED_LIBS})
     add_library(${target} SHARED ${rrSources})
-    set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
+    target_compile_definitions(${target} PRIVATE EXPORT_RR)
+    target_link_libraries(${target} PUBLIC ${RR_LINK_LIBRARIES})
+    target_include_directories(${target} PUBLIC ${RR_INCLUDE_DIRECTORIES})
+endif ()
 
-    if (WIN32)
-        target_compile_definitions(${target} PRIVATE EXPORT_RR)
-    endif ()
+#
+#
+##add_dependencies(${target}-static )
+#
+##add_dependencies(${target}-static ${DEPENDENCY_TARGETS})
+#
+#if (WIN32)
+#    # This is the only flag specifically needed by static target
+#    # See rrExporter for why we need STATIC_RR when building static lib.
+#    target_compile_definitions(${target}-static PRIVATE STATIC_RR)
+#    # We have a problem where a librry (maybe llvm) is enforcing their
+#    #  compile flags on us and overriding the msvc runtime.
+#    get_target_property(static_flags ${target}-static "CMAKE_CXX_FLAGS")
+#
+#endif ()
+#
+#
 
-    if (UNIX)
-        list(APPEND LINK_LIBRARIES "pthread" "dl")
-    elseif (WIN32)
-        list(APPEND LINK_LIBRARIES "ws2_32" "iphlpapi")
-    elseif (APPLE)
-        # sad face =[
-    endif ()
-
-    target_include_directories(${target} PRIVATE "${INCLUDE_DIRECTORIES}")
-    target_link_libraries(${target} PRIVATE "${LINK_LIBRARIES}")
-
-    if (${INSTALL_CXX_API})
-        install(TARGETS ${target}
-                RUNTIME DESTINATION bin COMPONENT rr_core
-                LIBRARY DESTINATION lib COMPONENT rr_core
-                ARCHIVE DESTINATION lib COMPONENT rr_core
-                )
-
-        if (${BUILD_PYTHON})
-            install(TARGETS roadrunner DESTINATION ${PYTHON_PACKAGE_DEST_DIR})
-        endif ()
-    endif ()
-
-endif (BUILD_SHARED_LIBS)
-
-
-# todo Note that this comment should be removed before merge into main repository:
-# Note: Comment made from upstream (for ciaran, delete before merge into main repo)
-# libraries to link with static lib
-# response to upstream: since the targets are
-# used directly now (i.e. not using paths to libraries but the targets themselves)
-# I think its safe to remove this.
-
-#======== We need to split up this one to satisfy linking in both windows and posix.
-#=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
-#if(BUILD_LLVM)
-#    target_link_libraries(${target}
-#        ${LLVM_LIBRARIES}
-#        ${LLVM_SYSTEM_LIBS_THISOS}
-#        )
-#endif(BUILD_LLVM)
-
-
+#target_link_libraries(${target}-static "${LINK_LIBRARIES}")
+#
+#set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+#set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
+#
+#message(STATUS "DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS}")
+#set(INCLUDE_DIRECTORIES
+#    ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
+#    ${DEPENDENCY_INCLUDE_DIRS}
+#    ${LLVM_INCLUDE_DIRS}
+#    "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/include"
+#    )
+#set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
+#target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
+#
+#add_custom_target(
+#        printIncludeDirectoriesGenEx
+#        COMMENT "Result of generator expression:"
+#        COMMAND ${CMAKE_COMMAND} -E echo "${INCLUDE_DIRECTORIES}"
+#        VERBATIM
+#)
+#
+#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+#
+#if (BUILD_SHARED_LIBS)
+#
+#    add_library(${target} SHARED ${rrSources})
+#    set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
+#
+#    if (WIN32)
+#        target_compile_definitions(${target} PRIVATE EXPORT_RR)
+#    endif ()
+#
+#    if (UNIX)
+#        list(APPEND LINK_LIBRARIES "pthread" "dl")
+#    elseif (WIN32)
+#        list(APPEND LINK_LIBRARIES "ws2_32" "iphlpapi")
+#    elseif (APPLE)
+#        # sad face =[
+#    endif ()
+#
+#    target_include_directories(${target} PRIVATE "${INCLUDE_DIRECTORIES}")
+#    target_link_libraries(${target} PRIVATE "${LINK_LIBRARIES}")
+#
+#    if (${INSTALL_CXX_API})
+#        install(TARGETS ${target}
+#                RUNTIME DESTINATION bin COMPONENT rr_core
+#                LIBRARY DESTINATION lib COMPONENT rr_core
+#                ARCHIVE DESTINATION lib COMPONENT rr_core
+#                )
+#
+#        if (${BUILD_PYTHON})
+#            install(TARGETS roadrunner DESTINATION ${PYTHON_PACKAGE_DEST_DIR})
+#        endif ()
+#    endif ()
+#
+#endif (BUILD_SHARED_LIBS)
+#
+#
+## todo Note that this comment should be removed before merge into main repository:
+## Note: Comment made from upstream (for ciaran, delete before merge into main repo)
+## libraries to link with static lib
+## response to upstream: since the targets are
+## used directly now (i.e. not using paths to libraries but the targets themselves)
+## I think its safe to remove this.
+#
+##======== We need to split up this one to satisfy linking in both windows and posix.
+##=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
+##if(BUILD_LLVM)
+##    target_link_libraries(${target}
+##        ${LLVM_LIBRARIES}
+##        ${LLVM_SYSTEM_LIBS_THISOS}
+##        )
+##endif(BUILD_LLVM)
+#
+#
