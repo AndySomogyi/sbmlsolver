@@ -866,18 +866,18 @@ def createProperty(name, the_type, hint="", value=None):
         ptr = rrpLib.tpCreateProperty(name, the_type, hint, None)
         if not ptr:
             raise TypeError('Unable to create property {}'.format(name))
-        if the_type is "bool":
+        if the_type == "bool":
            setBoolProperty (ptr, value)
-        elif the_type is "int":
+        elif the_type == "int":
            setIntProperty (ptr, value)
-        elif the_type is "float":
+        elif the_type == "float":
            setDoubleProperty (ptr, value)
-        elif the_type is "double":
+        elif the_type == "double":
            setDoubleProperty (ptr, value)
-        elif the_type is "string":
+        elif the_type == "string":
            if not setStringProperty (ptr, value):
              raise TypeError('Unable to create property {}'.format(name))
-        elif the_type is "std::string":
+        elif the_type == "std::string":
            if not setStringProperty (ptr, value):
              raise TypeError('Unable to create property {}'.format(name))
 

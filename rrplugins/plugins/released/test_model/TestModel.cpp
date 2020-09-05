@@ -7,6 +7,8 @@
 
 #include "add_noise.h"
 
+#include "gaussianNoise.h"
+
 
 extern string theModel;
 namespace testModel {
@@ -60,12 +62,10 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         RRPLOG(lInfo) << "Executing the TestModel plugin by J Kyle Medley and Totte Karlsson";
         RRPLOG(lInfo) << "Using SBML model: \n" << mModel.getValue();
 
-        const char* sbmlModel =(mModel.getValue()).c_str();
-
         rrc::RRHandle rrHandle = mhostInterface->createRRInstance();
         rrc::RRCDataPtr result = NULL;
 
-        mhostInterface->loadSBML(rrHandle, sbmlModel);
+        mhostInterface->loadSBML(rrHandle, (mModel.getValue()).c_str());
 
         result = mhostInterface->simulateEx(rrHandle, 0, 10, 14);
 
@@ -90,15 +90,17 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         data.setData(output);
         mTestData.setValue(data);
 
-        addNoise::AddNoise noise;
-
         mTestDataWithNoise.setValue(mTestData.getValue());
 
+        addNoise::AddNoise noise;           //replace this
         noise.setPropertyValue("Sigma", mSigma.getValueHandle());
         noise.setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
+        noise.execute();        
+        mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));
+
+        GaussianNoise::gaussianAddNoise noise(mSigma.getValueHandle(), mTestDataWithNoise.getValueHandle());
         noise.execute();
         
-        mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));
 
         //Add weights
         addWeights();
