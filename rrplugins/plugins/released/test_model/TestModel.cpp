@@ -7,7 +7,7 @@
 
 #include "add_noise.h"
 
-#include "gaussianNoise.h"
+//#include "gaussianNoise.h"
 
 
 extern string theModel;
@@ -98,7 +98,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         noise.execute();        
         mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));
 
-        GaussianNoise::gaussianAddNoise noise(mSigma.getValueHandle(), mTestDataWithNoise.getValueHandle());
+        //GaussianNoise::gaussianAddNoise noise(mSigma.getValueHandle(), mTestDataWithNoise.getValueHandle());
         noise.execute();
         
 
