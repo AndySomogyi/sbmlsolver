@@ -297,8 +297,8 @@ add_subdirectory(tests)
 add_subdirectory(wrappers)
 
 
-if (BUILD_PACKAGING)
-    #todo raise question of deleting the installer folder (cw)
+if (${BUILD_PACKAGING})
+    #todo raise question of deleting the "installer" folder (cw)
     # it doesn't look that useful and we now have the contents of
     # packaging that will automate production of binary releases.
     add_subdirectory(packaging)

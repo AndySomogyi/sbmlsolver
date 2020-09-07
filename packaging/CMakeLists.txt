@@ -49,8 +49,7 @@ add_dependencies(RR_INSTALL ${all_targets})
 # mickey mouse target for collecting packaging targets
 add_custom_target(packaging)
 add_dependencies(packaging RR_INSTALL)
-
-if (WIN32)
+if (${WIN32})
     add_custom_target(
             packaging-zip
             COMMENT "Create a zip binary distribution"

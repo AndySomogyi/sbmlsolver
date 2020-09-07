@@ -52,7 +52,7 @@ set(
         ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc
 )
 set_source_files_properties(${GENERATED_HEADERS} PROPERTIES GENERATED TRUE)
-s
+
 # Create the .pc file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig)
