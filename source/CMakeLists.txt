@@ -386,7 +386,6 @@ if (${BUILD_SHARED_LIBS})
             FILE ${target}-config.cmake
             COMPONENT ${target}
     )
-
 endif ()
 
 #################################################################3
