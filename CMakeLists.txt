@@ -22,9 +22,6 @@ set(CMAKE_MACOSX_RPATH 1)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-# defines a macro for finding vcpkg root
-include(LocateVcpkg)
-
 # defines a macro for printing out a configuration summary
 # Technically this doesn't need to be a macro
 # but it can get quite long so I like to put it out of sight.
@@ -32,30 +29,8 @@ include(LocateVcpkg)
 # todo fix the configuration summary by adding useful  information and have it print out at the end of cmake command
 include(ConfigurationSummary)
 
-# a macro for isolating the code for finding dependencies
-include(FindDependencies)
-
-# function for locating llvm
-include(FindLLVM)
-
 # External project. Try to avoid
 include(ExternalProject)
-
-# Macro for determining whether to build or download the LLVM dependency.
-# Put into a separate macro to increase readability in the main CMake script.
-include(DownloadOrBuildLLVM)
-
-# Macro for downloading binaries, when conditions are right (as determined by DownloadOrBuildLLVM)
-include(DownloadLLVM601Binaries)
-
-# Macro for building llvm6.0.1 from source.
-include(BuildLLVMFromSource)
-
-# Macro defining error for directory not found
-include(CheckDirectoryExists)
-
-# Macro for raising error when file not exist
-include(CheckLibraryExists)
 
 # macro for setting a variable with cross platform independent values
 include(SetCrossPlatform)
@@ -72,12 +47,20 @@ include(GenerateExportHeader)
 #   Configuration Options
 #
 
-# Users should try to install LLVM6.0.1 on their own, outside
-# the context of roadrunner. This is because LLVM is huge, and generally
-# slows the performance of IDE's due to increased indexing.
-# When users are providing their own LLVM6.0.1 installation, they give the root
-# directory as argument to LLVM_INSTALL_PREFIX.
-set(LLVM_INSTALL_PREFIX CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
+# any of these directories are accepted as default directories.
+# this supports multi platform builds on a single system
+SetCrossPlatform(
+        RR_DEPENDENCIES_INSTALL_PREFIX
+        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
+        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
+        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac"
+)
+
+# This variable provides users a way of providing their own LLVM installation.
+# The two options are: 1) build llvm along with the other dependencies or
+# 2) build the other dependencies and llvm separate. If the latter is chosen,
+# users will need to provide their own argument to LLVM_INSTALL_PREFIX
+set(LLVM_INSTALL_PREFIX ${RR_DEPENDENCIES_INSTALL_PREFIX} CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
 
 # should we build and install Testing tools?
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
@@ -96,6 +79,8 @@ if (BUILD_PYTHON)
     set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
 endif ()
 
+#TODO remove options that arent really options
+
 option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
 option(INSTALL_CXX_API "Generate C++ api" ON)
 option(INSTALL_C_API "Generate C API" ON)
@@ -105,7 +90,7 @@ option(INSTALL_EXAMPLES "Build and install Examples" OFF)
 option(INSTALL_STATIC_LIB "Install RoadRunner CXX static lib" OFF)
 option(RR_BUILD_SHARED_CORE "Build RoadRunner Core Shared library" ON)
 option(BUILD_TESTS "Build the SBML C API test suite" OFF)
-option(INSTALL_SBML_MODELS "Install SBML Models" ON)
+option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
 option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
 option(USE_POCO_NET "Use poco net library" ON)
 option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
@@ -149,13 +134,15 @@ endif ()
 
 
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-    "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
+        "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
 
 
 ###################################################
 #   Set some paths used in the build process
 #
+
+#todo clean up unused variables
 
 set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
 set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
@@ -261,8 +248,22 @@ set(CMAKE_DEBUG_POSTFIX "d")
 ####################################################
 #   Dependencies
 
-set(RR_DEPENDENCIES_INSTALL_PREFIX "dependencies" CACHE PATH "Absolute path to roadrunner dependency package")
+if (NOT EXISTS ${RR_DEPENDENCIES_INSTALL_PREFIX})
+    message(FATAL_ERROR "The path given to -DRR_DEPENDENCIES_INSTALL_PREFIX (\"${RR_DEPENDENCIES_INSTALL_PREFIX}\") does not exist. Please \
+build the dependency package. If you set
+    -DCMAKE_INSTALL_PREFIX=/path/to/roadrunner/root/dependencies
+they will be found automatically. If not, you will need to pass in
+    -DRR_DEPENDENCIES_INSTALL_PREFIX=\"/full/path/to/dependency/install/tree\"
+to the roadrunner cmake command.")
+endif ()
 set(DEPENDENCY_INCLUDE_DIR "${RR_DEPENDENCIES_INSTALL_PREFIX}/include")
+
+if (NOT EXISTS ${DEPENDENCY_INCLUDE_DIR})
+    message(FATAL_ERROR "Cannot find the dependency include directory in your \
+dependency install tree. Please ensure the path you have given to -DRR_DEPENDENCIES_INSTALL_PREFIX \
+exists and is the full path to the installed dependency tree.")
+endif ()
+
 set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
 message(STATUS "DEPENDENCY_CMAKE_CONFIG_PATHS ${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
@@ -281,99 +282,45 @@ find_package(nleq2 CONFIG REQUIRED)
 find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(Sundials CONFIG REQUIRED)
+find_package(LLVM REQUIRED)
+
+### handle the LLVM dependency
+#find_program(LLVM_CONFIG
+#        NAMES llvm-config llvm-config.exe
+#        PATHS
+#        ${LLVM_INSTALL_PREFIX}/bin
+#        ${LLVM_INSTALL_PREFIX}/bin/llvm-config
+#        ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
+#        )
+#
+#if (NOT EXISTS ${LLVM_CONFIG})
+#    message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
+#endif ()
+#
+## Use the propper LLVM supplied CMake files.
+## prepend the cmake module path with the LLVM modules
+#set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/cmake/llvm")
+#if (NOT EXISTS "${LLVM_MODULE_PATH}")
+#    message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
+#endif ()
+#set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH}" "${CMAKE_MODULE_PATH}")
+#
+#include(LLVMConfig)
+
+# we're building a JIT compiler with support for binary code (no interpreter):
+# this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
+# to link with.
+#llvm_map_components_to_libnames(LLVM_LIBRARIES jit native)
+#message(STATUS "LLVM_LIBRARIES ${LLVM_LIBRARIES}")
 
 
-## handle the LLVM dependency
-if (${LLVM_INSTALL_PREFIX})
-    # This is the preferred way to handle the LLVM dependency.
-    message(STATUS "Detected user defined installation of LLVM")
-    #    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
-    # Do some checks then load
-    message(STATUS "looking for llvm-config...:")
-    find_program(LLVM_CONFIG
-                 NAMES llvm-config
-                 PATHS
-                 ${LLVM_INSTALL_PREFIX}/bin/llvm-config
-                 ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
-                 )
 
-    if (NOT EXISTS ${LLVM_CONFIG})
-        message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
-    endif ()
 
-    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
-        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
-    endif ()
-    message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
 
-    # Use the propper LLVM supplied CMake files.
-    # prepend the cmake module path with the LLVM modules
-    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
-    if (NOT EXISTS "${LLVM_MODULE_PATH}")
-        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
-    endif ()
-    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
 
-    include(LLVMConfig)
 
-    # we're building a JIT compiler with support for binary code (no interpreter):
-    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
-    # to link with.
-    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
 
-endif ()
-# This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
-#else (${LLVM_INSTALL_PREFIX})
-#    # But we can fall back and download binaries or build from source as well
-#
-#    # Set the root of llvm to be in the third_party directory. Note
-#    # that we need to separate different compilers
-#    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
-#
-#    # set llvm source directory. This is only used when we are in LLVM build mode
-#    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
-#
-#    # set a place to put the binaries
-#    SetCrossPlatform(LLVM_INSTALL_PREFIX
-#            "${LLVM_ROOT}/llvm6.0.1-msvc"
-#            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
-#            "${LLVM_ROOT}/llvm6.0.1-mac"
-#            )
-#
-#    ## first try to find an existing LLVM version
-#    find_package(LLVM)
-#
-#    # if it was found, validate the version
-#    if (LLVM_FOUND)
-#        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
-#            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
-#        endif ()
-#    else ()
-#        # Otherwise we download binaries or build from source
-#
-#        # defines two boolean variables
-#        #   - BUILD_LLVM
-#        #   - DOWNLOAD_LLVM_BINARIES
-#        # They are mutually exclusive and determine the flow of the next step
-#        DownloadOrBuildLLVM()
-#
-#        # If conditions are met we can use precompiled binaries
-#        if (${DOWNLOAD_LLVM_BINARIES})
-#            DownloadLLVM601Binaries()
-#        endif ()
-#
-#        # if not we can build LLVM from source, which will take a while
-#        if (BUILD_LLVM)
-#            BuildLLVMFromSource()
-#        endif (BUILD_LLVM)
-#
-#        # Now we try again to find llvm
-#        #        find_package(LLVM)
-#
-#    endif (LLVM_FOUND)
-#endif (${LLVM_INSTALL_PREFIX})
-
-#todo build on mingw to test requirements before uncommenting
+##todo build on mingw to test requirements before uncommenting
 #if (${MINGW})
 #    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 #endif ()
@@ -397,6 +344,8 @@ endif ()
 add_subdirectory(source)
 
 add_subdirectory(tests)
+
+add_subdirectory(wrappers)
 
 ###########################################################
 ## Build tests
@@ -492,18 +441,18 @@ add_subdirectory(tests)
 ##   and roadrunner-static targets built.
 ##
 #
-###if (INSTALL_CXX_API)
-###    if (INSTALL_APPS)
-###        add_subdirectory(apps)
-###    endif ()
-###
-###    if (INSTALL_EXAMPLES)
-###        add_subdirectory(examples)
-###    endif ()
-###endif (INSTALL_CXX_API)
-###
-###add_subdirectory(wrappers)
-##
+#if (INSTALL_CXX_API)
+#    if (INSTALL_APPS)
+#        add_subdirectory(apps)
+#    endif ()
+#
+#    if (INSTALL_EXAMPLES)
+#        add_subdirectory(examples)
+#    endif ()
+#endif (INSTALL_CXX_API)
+
+#add_subdirectory(wrappers)
+#
 ## print out the configuration summary
 #ConfigurationSummary()
 ##

@@ -61,98 +61,98 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgcon
 
 # add core sources. These are always needed
 set(rrCoreSources
-    rrConfig.cpp
-    rrSteadyStateSolver.cpp
-    rrConstants.cpp
-    rrException.cpp
-    rrGetOptions.cpp
-    rrLogger.cpp
-    rrExecutableModel.cpp
-    rrRoadRunner.cpp
-    rrRoadRunnerOptions.cpp
-    rrStringUtils.cpp
-    rrUtils.cpp
-    Integrator.cpp
-    IntegratorRegistration.cpp
-    CVODEIntegrator.cpp
-    Dictionary.cpp
-    GillespieIntegrator.cpp
-    RK4Integrator.cpp
-    RK45Integrator.cpp
-    NLEQ1Solver.cpp
-    NLEQ2Solver.cpp
-    rrNLEQ1Interface.cpp
-    rrNLEQ2Interface.cpp
-    rrTestSuiteModelSimulation.cpp
-    rrIniKey.cpp
-    rrIniSection.cpp
-    rrIniFile.cpp
-    rrFileName.cpp
-    rrRoadRunnerData.cpp
-    rrSelectionRecord.cpp
-    ExecutableModelFactory.cpp
-    rrVersionInfo.cpp
-    rrSparse.cpp
-    rrSBMLModelSimulation.cpp
-    rrSBMLReader.cpp
-    SBMLValidator.cpp
-    SteadyStateSolver.cpp
-    Solver.cpp
-    SolverRegistration.cpp
-    Variant.cpp
-    conservation/ConservationExtension.cpp
-    conservation/ConservationDocumentPlugin.cpp
-    conservation/ConservedMoietyPlugin.cpp
-    conservation/ConservedMoietyConverter.cpp
-    rrConfig.h
-    rrSteadyStateSolver.h
-    rrConstants.h
-    rrException.h
-    rrGetOptions.h
-    rrLogger.h
-    rrExecutableModel.h
-    rrRoadRunner.h
-    rrRoadRunnerOptions.h
-    rrStringUtils.h
-    rrUtils.h
-    Integrator.h
-    IntegratorRegistration.h
-    CVODEIntegrator.h
-    Dictionary.h
-    GillespieIntegrator.h
-    RK4Integrator.h
-    RK45Integrator.h
-    NLEQ1Solver.h
-    NLEQ2Solver.h
-    rrNLEQ1Interface.h
-    rrNLEQ2Interface.h
-    rrTestSuiteModelSimulation.h
-    rrIniKey.h
-    rrIniSection.h
-    rrIniFile.h
-    rrFileName.h
-    rrRoadRunnerData.h
-    rrSelectionRecord.h
-    ExecutableModelFactory.h
-    rrVersionInfo.h
-    rrSparse.h
-    rrSBMLModelSimulation.h
-    rrSBMLReader.h
-    SBMLValidator.h
-    SteadyStateSolver.h
-    Solver.h
-    SolverRegistration.h
-    Variant.h
-    conservation/ConservationExtension.h
-    conservation/ConservationDocumentPlugin.h
-    conservation/ConservedMoietyPlugin.h
-    conservation/ConservedMoietyConverter.h
-    #todo pull test files out of main library sources.
-    testing/CXXExecutableModel.cpp
-    testing/CXXEnzymeExecutableModel.cpp
-    testing/CXXBrusselatorExecutableModel.cpp
-    testing/CXXPiecewiseExecutableModel.cpp
-    )
+        rrConfig.cpp
+        rrSteadyStateSolver.cpp
+        rrConstants.cpp
+        rrException.cpp
+        rrGetOptions.cpp
+        rrLogger.cpp
+        rrExecutableModel.cpp
+        rrRoadRunner.cpp
+        rrRoadRunnerOptions.cpp
+        rrStringUtils.cpp
+        rrUtils.cpp
+        Integrator.cpp
+        IntegratorRegistration.cpp
+        CVODEIntegrator.cpp
+        Dictionary.cpp
+        GillespieIntegrator.cpp
+        RK4Integrator.cpp
+        RK45Integrator.cpp
+        NLEQ1Solver.cpp
+        NLEQ2Solver.cpp
+        rrNLEQ1Interface.cpp
+        rrNLEQ2Interface.cpp
+        rrTestSuiteModelSimulation.cpp
+        rrIniKey.cpp
+        rrIniSection.cpp
+        rrIniFile.cpp
+        rrFileName.cpp
+        rrRoadRunnerData.cpp
+        rrSelectionRecord.cpp
+        ExecutableModelFactory.cpp
+        rrVersionInfo.cpp
+        rrSparse.cpp
+        rrSBMLModelSimulation.cpp
+        rrSBMLReader.cpp
+        SBMLValidator.cpp
+        SteadyStateSolver.cpp
+        Solver.cpp
+        SolverRegistration.cpp
+        Variant.cpp
+        conservation/ConservationExtension.cpp
+        conservation/ConservationDocumentPlugin.cpp
+        conservation/ConservedMoietyPlugin.cpp
+        conservation/ConservedMoietyConverter.cpp
+        rrConfig.h
+        rrSteadyStateSolver.h
+        rrConstants.h
+        rrException.h
+        rrGetOptions.h
+        rrLogger.h
+        rrExecutableModel.h
+        rrRoadRunner.h
+        rrRoadRunnerOptions.h
+        rrStringUtils.h
+        rrUtils.h
+        Integrator.h
+        IntegratorRegistration.h
+        CVODEIntegrator.h
+        Dictionary.h
+        GillespieIntegrator.h
+        RK4Integrator.h
+        RK45Integrator.h
+        NLEQ1Solver.h
+        NLEQ2Solver.h
+        rrNLEQ1Interface.h
+        rrNLEQ2Interface.h
+        rrTestSuiteModelSimulation.h
+        rrIniKey.h
+        rrIniSection.h
+        rrIniFile.h
+        rrFileName.h
+        rrRoadRunnerData.h
+        rrSelectionRecord.h
+        ExecutableModelFactory.h
+        rrVersionInfo.h
+        rrSparse.h
+        rrSBMLModelSimulation.h
+        rrSBMLReader.h
+        SBMLValidator.h
+        SteadyStateSolver.h
+        Solver.h
+        SolverRegistration.h
+        Variant.h
+        conservation/ConservationExtension.h
+        conservation/ConservationDocumentPlugin.h
+        conservation/ConservedMoietyPlugin.h
+        conservation/ConservedMoietyConverter.h
+        #todo pull test files out of main library sources.
+        testing/CXXExecutableModel.cpp
+        testing/CXXEnzymeExecutableModel.cpp
+        testing/CXXBrusselatorExecutableModel.cpp
+        testing/CXXPiecewiseExecutableModel.cpp
+        )
 
 set(rrSources ${rrCoreSources})
 
@@ -163,75 +163,75 @@ set_source_files_properties(${GENERATED_HEADERS} PROPERTIES GENERATED TRUE)
 # Add the LLVM sources to compilation
 if (BUILD_LLVM)
     set(rrLLVMSources
-        llvm/AssignmentRuleEvaluator.cpp
-        llvm/ASTNodeCodeGen.cpp
-        llvm/ASTNodeFactory.cpp
-        llvm/ModelResources.cpp
-        llvm/CodeGenBase.cpp
-        llvm/LLVMCompiler.cpp
-        llvm/EvalConversionFactorCodeGen.cpp
-        llvm/EvalInitialConditionsCodeGen.cpp
-        llvm/EvalRateRuleRatesCodeGen.cpp
-        llvm/EvalReactionRatesCodeGen.cpp
-        llvm/EventAssignCodeGen.cpp
-        llvm/EventTriggerCodeGen.cpp
-        llvm/EventQueue.cpp
-        llvm/FunctionResolver.cpp
-        llvm/LLVMExecutableModel.cpp
-        llvm/GetValuesCodeGen.cpp
-        llvm/LoadSymbolResolverBase.cpp
-        llvm/GetInitialValuesCodeGen.cpp
-        llvm/GetEventValuesCodeGen.cpp
-        llvm/KineticLawParameterResolver.cpp
-        llvm/LLVMModelData.cpp
-        llvm/ModelDataIRBuilder.cpp
-        llvm/ModelDataSymbolResolver.cpp
-        llvm/ModelInitialValueSymbolResolver.cpp
-        llvm/LLVMModelDataSymbols.cpp
-        llvm/LLVMModelGenerator.cpp
-        llvm/ModelGeneratorContext.cpp
-        llvm/LLVMModelSymbols.cpp
-        llvm/SetValuesCodeGen.cpp
-        llvm/SetInitialValuesCodeGen.cpp
-        llvm/SBMLSupportFunctions.cpp
-        llvm/EvalVolatileStoichCodeGen.cpp
-        llvm/SBMLInitialValueSymbolResolver.cpp
-        llvm/Random.cpp
-        llvm/AssignmentRuleEvaluator.h
-        llvm/ASTNodeCodeGen.h
-        llvm/ASTNodeFactory.h
-        llvm/ModelResources.h
-        llvm/CodeGenBase.h
-        llvm/LLVMCompiler.h
-        llvm/EvalConversionFactorCodeGen.h
-        llvm/EvalInitialConditionsCodeGen.h
-        llvm/EvalRateRuleRatesCodeGen.h
-        llvm/EvalReactionRatesCodeGen.h
-        llvm/EventAssignCodeGen.h
-        llvm/EventTriggerCodeGen.h
-        llvm/EventQueue.h
-        llvm/FunctionResolver.h
-        llvm/LLVMExecutableModel.h
-        llvm/GetValuesCodeGen.h
-        llvm/LoadSymbolResolverBase.h
-        llvm/GetInitialValuesCodeGen.h
-        llvm/GetEventValuesCodeGen.h
-        llvm/KineticLawParameterResolver.h
-        llvm/LLVMModelData.h
-        llvm/ModelDataIRBuilder.h
-        llvm/ModelDataSymbolResolver.h
-        llvm/ModelInitialValueSymbolResolver.h
-        llvm/LLVMModelDataSymbols.h
-        llvm/LLVMModelGenerator.h
-        llvm/ModelGeneratorContext.h
-        llvm/LLVMModelSymbols.h
-        llvm/SetValuesCodeGen.h
-        llvm/SetInitialValuesCodeGen.h
-        llvm/SBMLSupportFunctions.h
-        llvm/EvalVolatileStoichCodeGen.h
-        llvm/SBMLInitialValueSymbolResolver.h
-        llvm/Random.h
-        )
+            llvm/AssignmentRuleEvaluator.cpp
+            llvm/ASTNodeCodeGen.cpp
+            llvm/ASTNodeFactory.cpp
+            llvm/ModelResources.cpp
+            llvm/CodeGenBase.cpp
+            llvm/LLVMCompiler.cpp
+            llvm/EvalConversionFactorCodeGen.cpp
+            llvm/EvalInitialConditionsCodeGen.cpp
+            llvm/EvalRateRuleRatesCodeGen.cpp
+            llvm/EvalReactionRatesCodeGen.cpp
+            llvm/EventAssignCodeGen.cpp
+            llvm/EventTriggerCodeGen.cpp
+            llvm/EventQueue.cpp
+            llvm/FunctionResolver.cpp
+            llvm/LLVMExecutableModel.cpp
+            llvm/GetValuesCodeGen.cpp
+            llvm/LoadSymbolResolverBase.cpp
+            llvm/GetInitialValuesCodeGen.cpp
+            llvm/GetEventValuesCodeGen.cpp
+            llvm/KineticLawParameterResolver.cpp
+            llvm/LLVMModelData.cpp
+            llvm/ModelDataIRBuilder.cpp
+            llvm/ModelDataSymbolResolver.cpp
+            llvm/ModelInitialValueSymbolResolver.cpp
+            llvm/LLVMModelDataSymbols.cpp
+            llvm/LLVMModelGenerator.cpp
+            llvm/ModelGeneratorContext.cpp
+            llvm/LLVMModelSymbols.cpp
+            llvm/SetValuesCodeGen.cpp
+            llvm/SetInitialValuesCodeGen.cpp
+            llvm/SBMLSupportFunctions.cpp
+            llvm/EvalVolatileStoichCodeGen.cpp
+            llvm/SBMLInitialValueSymbolResolver.cpp
+            llvm/Random.cpp
+            llvm/AssignmentRuleEvaluator.h
+            llvm/ASTNodeCodeGen.h
+            llvm/ASTNodeFactory.h
+            llvm/ModelResources.h
+            llvm/CodeGenBase.h
+            llvm/LLVMCompiler.h
+            llvm/EvalConversionFactorCodeGen.h
+            llvm/EvalInitialConditionsCodeGen.h
+            llvm/EvalRateRuleRatesCodeGen.h
+            llvm/EvalReactionRatesCodeGen.h
+            llvm/EventAssignCodeGen.h
+            llvm/EventTriggerCodeGen.h
+            llvm/EventQueue.h
+            llvm/FunctionResolver.h
+            llvm/LLVMExecutableModel.h
+            llvm/GetValuesCodeGen.h
+            llvm/LoadSymbolResolverBase.h
+            llvm/GetInitialValuesCodeGen.h
+            llvm/GetEventValuesCodeGen.h
+            llvm/KineticLawParameterResolver.h
+            llvm/LLVMModelData.h
+            llvm/ModelDataIRBuilder.h
+            llvm/ModelDataSymbolResolver.h
+            llvm/ModelInitialValueSymbolResolver.h
+            llvm/LLVMModelDataSymbols.h
+            llvm/LLVMModelGenerator.h
+            llvm/ModelGeneratorContext.h
+            llvm/LLVMModelSymbols.h
+            llvm/SetValuesCodeGen.h
+            llvm/SetInitialValuesCodeGen.h
+            llvm/SBMLSupportFunctions.h
+            llvm/EvalVolatileStoichCodeGen.h
+            llvm/SBMLInitialValueSymbolResolver.h
+            llvm/Random.h
+            )
 
     if (NOT LLVM_FLAGS)
         message(FATAL_ERROR "No LLVM_FLAGS variable found")
@@ -250,58 +250,58 @@ endif (BUILD_LLVM)
 # Add C legacy code to sources if needed
 if (${BUILD_LEGACY_C})
     set(rrSources
-        ${rrSources}
-        c/rrStringList.cpp
-        c/mtrand.cpp
-        c/rrStringBuilder.cpp
-        c/rrStringListContainer.cpp
-        c/rrSBMLSymbolDependencies.cpp
-        c/rrSBMLSymbol.cpp
-        c/rrHashTable.cpp
-        c/rrRule.cpp
-        c/rrModelSymbols.cpp
-        c/rrSymbol.cpp
-        c/rrSymbolList.cpp
-        c/rrCompiledModelState.cpp
-        c/rrNOMSupport.cpp
-        c/rrPendingAssignment.cpp
-        c/rrCompiledModelGenerator.cpp
-        c/rrCModelGenerator.cpp
-        c/rrCodeBuilder.cpp
-        c/rrCCompiler.cpp
-        c/rrScanner.cpp
-        c/rrToken.cpp
-        c/rrEvent.cpp
-        c/rrModelSharedLibrary.cpp
-        c/rrCModelDataUtil.cpp
-        c/rrCompiledExecutableModel.cpp
-        c/rrRandom.cpp
-        c/rrStringList.h
-        c/mtrand.h
-        c/rrStringBuilder.h
-        c/rrStringListContainer.h
-        c/rrSBMLSymbolDependencies.h
-        c/rrSBMLSymbol.h
-        c/rrHashTable.h
-        c/rrRule.h
-        c/rrModelSymbols.h
-        c/rrSymbol.h
-        c/rrSymbolList.h
-        c/rrCompiledModelState.h
-        c/rrNOMSupport.h
-        c/rrPendingAssignment.h
-        c/rrCompiledModelGenerator.h
-        c/rrCModelGenerator.h
-        c/rrCodeBuilder.h
-        c/rrCCompiler.h
-        c/rrScanner.h
-        c/rrToken.h
-        c/rrEvent.h
-        c/rrModelSharedLibrary.h
-        c/rrCModelDataUtil.h
-        c/rrCompiledExecutableModel.h
-        c/rrRandom.h
-        )
+            ${rrSources}
+            c/rrStringList.cpp
+            c/mtrand.cpp
+            c/rrStringBuilder.cpp
+            c/rrStringListContainer.cpp
+            c/rrSBMLSymbolDependencies.cpp
+            c/rrSBMLSymbol.cpp
+            c/rrHashTable.cpp
+            c/rrRule.cpp
+            c/rrModelSymbols.cpp
+            c/rrSymbol.cpp
+            c/rrSymbolList.cpp
+            c/rrCompiledModelState.cpp
+            c/rrNOMSupport.cpp
+            c/rrPendingAssignment.cpp
+            c/rrCompiledModelGenerator.cpp
+            c/rrCModelGenerator.cpp
+            c/rrCodeBuilder.cpp
+            c/rrCCompiler.cpp
+            c/rrScanner.cpp
+            c/rrToken.cpp
+            c/rrEvent.cpp
+            c/rrModelSharedLibrary.cpp
+            c/rrCModelDataUtil.cpp
+            c/rrCompiledExecutableModel.cpp
+            c/rrRandom.cpp
+            c/rrStringList.h
+            c/mtrand.h
+            c/rrStringBuilder.h
+            c/rrStringListContainer.h
+            c/rrSBMLSymbolDependencies.h
+            c/rrSBMLSymbol.h
+            c/rrHashTable.h
+            c/rrRule.h
+            c/rrModelSymbols.h
+            c/rrSymbol.h
+            c/rrSymbolList.h
+            c/rrCompiledModelState.h
+            c/rrNOMSupport.h
+            c/rrPendingAssignment.h
+            c/rrCompiledModelGenerator.h
+            c/rrCModelGenerator.h
+            c/rrCodeBuilder.h
+            c/rrCCompiler.h
+            c/rrScanner.h
+            c/rrToken.h
+            c/rrEvent.h
+            c/rrModelSharedLibrary.h
+            c/rrCModelDataUtil.h
+            c/rrCompiledExecutableModel.h
+            c/rrRandom.h
+            )
     # install the rr_support if building legacy c
     add_subdirectory(rr_support)
 endif (${BUILD_LEGACY_C})
@@ -318,16 +318,15 @@ add_library(${target}-static STATIC ${rrSources})
 # specify STATIC_RR
 target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 
-set(
-        RR_INCLUDE_DIRECTORIES
+target_include_directories(
+        ${target}-static PUBLIC
+        ${LLVM_INCLUDE_DIRS}
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-
-target_include_directories(${target}-static PUBLIC ${RR_INCLUDE_DIRECTORIES})
 
 # Extra platform specific libraries
 # These were not needed to actually build roadrunner binaries
@@ -343,8 +342,11 @@ elseif (APPLE)
 will be different from linux Please remove this warning. (Ciaran)")
 endif ()
 
-set(
-        RR_LINK_LIBRARIES
+MESSAGE(STATUS "LLVM_INCLUDE_DIRS ${LLVM_INCLUDE_DIRS}")
+
+target_link_libraries(
+        ${target}-static
+        PUBLIC
         ${LLVM_LIBRARIES}
         clapack::lapack clapack::blas clapack::f2c
         bzip2::libz2
@@ -361,106 +363,11 @@ set(
         ${PLATFORM_SPECIFIC_LIBS}
 )
 
-target_link_libraries(${target}-static PUBLIC ${RR_LINK_LIBRARIES})
-
 if (${BUILD_SHARED_LIBS})
     add_library(${target} SHARED ${rrSources})
     target_compile_definitions(${target} PRIVATE EXPORT_RR)
-    target_link_libraries(${target} PUBLIC ${RR_LINK_LIBRARIES})
-    target_include_directories(${target} PUBLIC ${RR_INCLUDE_DIRECTORIES})
+    target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
+    target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
+
 endif ()
 
-#
-#
-##add_dependencies(${target}-static )
-#
-##add_dependencies(${target}-static ${DEPENDENCY_TARGETS})
-#
-#if (WIN32)
-#    # This is the only flag specifically needed by static target
-#    # See rrExporter for why we need STATIC_RR when building static lib.
-#    target_compile_definitions(${target}-static PRIVATE STATIC_RR)
-#    # We have a problem where a librry (maybe llvm) is enforcing their
-#    #  compile flags on us and overriding the msvc runtime.
-#    get_target_property(static_flags ${target}-static "CMAKE_CXX_FLAGS")
-#
-#endif ()
-#
-#
-
-#target_link_libraries(${target}-static "${LINK_LIBRARIES}")
-#
-#set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-#set(ROADRUNNER_INTERNAL_INCLUDE_DIRS ${ROADRUNNER_INTERNAL_INCLUDE_DIRS} PARENT_SCOPE)
-#
-#message(STATUS "DEPENDENCY_INCLUDE_DIRS ${DEPENDENCY_INCLUDE_DIRS}")
-#set(INCLUDE_DIRECTORIES
-#    ${ROADRUNNER_INTERNAL_INCLUDE_DIRS}
-#    ${DEPENDENCY_INCLUDE_DIRS}
-#    ${LLVM_INCLUDE_DIRS}
-#    "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/include"
-#    )
-#set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
-#target_include_directories(${target}-static PRIVATE ${INCLUDE_DIRECTORIES})
-#
-#add_custom_target(
-#        printIncludeDirectoriesGenEx
-#        COMMENT "Result of generator expression:"
-#        COMMAND ${CMAKE_COMMAND} -E echo "${INCLUDE_DIRECTORIES}"
-#        VERBATIM
-#)
-#
-#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-#
-#if (BUILD_SHARED_LIBS)
-#
-#    add_library(${target} SHARED ${rrSources})
-#    set_target_properties(${target} PROPERTIES SOVERSION ${ROADRUNNER_VERSION})
-#
-#    if (WIN32)
-#        target_compile_definitions(${target} PRIVATE EXPORT_RR)
-#    endif ()
-#
-#    if (UNIX)
-#        list(APPEND LINK_LIBRARIES "pthread" "dl")
-#    elseif (WIN32)
-#        list(APPEND LINK_LIBRARIES "ws2_32" "iphlpapi")
-#    elseif (APPLE)
-#        # sad face =[
-#    endif ()
-#
-#    target_include_directories(${target} PRIVATE "${INCLUDE_DIRECTORIES}")
-#    target_link_libraries(${target} PRIVATE "${LINK_LIBRARIES}")
-#
-#    if (${INSTALL_CXX_API})
-#        install(TARGETS ${target}
-#                RUNTIME DESTINATION bin COMPONENT rr_core
-#                LIBRARY DESTINATION lib COMPONENT rr_core
-#                ARCHIVE DESTINATION lib COMPONENT rr_core
-#                )
-#
-#        if (${BUILD_PYTHON})
-#            install(TARGETS roadrunner DESTINATION ${PYTHON_PACKAGE_DEST_DIR})
-#        endif ()
-#    endif ()
-#
-#endif (BUILD_SHARED_LIBS)
-#
-#
-## todo Note that this comment should be removed before merge into main repository:
-## Note: Comment made from upstream (for ciaran, delete before merge into main repo)
-## libraries to link with static lib
-## response to upstream: since the targets are
-## used directly now (i.e. not using paths to libraries but the targets themselves)
-## I think its safe to remove this.
-#
-##======== We need to split up this one to satisfy linking in both windows and posix.
-##=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
-##if(BUILD_LLVM)
-##    target_link_libraries(${target}
-##        ${LLVM_LIBRARIES}
-##        ${LLVM_SYSTEM_LIBS_THISOS}
-##        )
-##endif(BUILD_LLVM)
-#
-#
