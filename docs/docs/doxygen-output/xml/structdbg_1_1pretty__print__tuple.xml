@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structdbg_1_1pretty__print__tuple" kind="struct" language="C++" prot="public">
+    <compoundname>dbg::pretty_print_tuple</compoundname>
+    <templateparamlist>
+      <param>
+        <type>size_t</type>
+        <declname>Idx</declname>
+        <defname>Idx</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structdbg_1_1pretty__print__tuple_1a17c2bca6c330e88da2082efa4c3a9be5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Ts</declname>
+            <defname>Ts</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void dbg::pretty_print_tuple&lt; Idx &gt;::print</definition>
+        <argsstring>(std::ostream &amp;stream, const std::tuple&lt; Ts... &gt; &amp;tuple)</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::tuple&lt; Ts... &gt; &amp;</type>
+          <declname>tuple</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="422" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="422" bodyend="426"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/dbg.h" line="420" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="420" bodyend="427"/>
+    <listofallmembers>
+      <member refid="structdbg_1_1pretty__print__tuple_1a17c2bca6c330e88da2082efa4c3a9be5" prot="public" virt="non-virtual"><scope>dbg::pretty_print_tuple</scope><name>print</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+\hypertarget{classredland_1_1LibrdfModel}{}\section{redland\+:\+:Librdf\+Model Class Reference}
+\label{classredland_1_1LibrdfModel}\index{redland\+::\+Librdf\+Model@{redland\+::\+Librdf\+Model}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a1a8a3f9aad0520d6788aa2816ffb318e}\label{classredland_1_1LibrdfModel_a1a8a3f9aad0520d6788aa2816ffb318e}} 
+bool {\bfseries operator==} (const \hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&rhs) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a8cdaab0ea4c70808f015bfb6846b20bb}\label{classredland_1_1LibrdfModel_a8cdaab0ea4c70808f015bfb6846b20bb}} 
+bool {\bfseries operator!=} (const \hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&rhs) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a5a35c032585e38b1d41bc18f057128c1}\label{classredland_1_1LibrdfModel_a5a35c032585e38b1d41bc18f057128c1}} 
+{\bfseries Librdf\+Model} (const \hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&model)=delete
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a583e0eaecfe167ccbbeac5d768bcd644}\label{classredland_1_1LibrdfModel_a583e0eaecfe167ccbbeac5d768bcd644}} 
+{\bfseries Librdf\+Model} (\hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&\&model) noexcept
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a7bd07324b31fa8eb8f5f2e51b15044fc}\label{classredland_1_1LibrdfModel_a7bd07324b31fa8eb8f5f2e51b15044fc}} 
+\hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \& {\bfseries operator=} (const \hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&model)=delete
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a9007acfb92943e018d20d6985c811033}\label{classredland_1_1LibrdfModel_a9007acfb92943e018d20d6985c811033}} 
+\hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \& {\bfseries operator=} (\hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&\&model) noexcept
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a8b7d3063e030ce8613dcd6def7463a5a}\label{classredland_1_1LibrdfModel_a8b7d3063e030ce8613dcd6def7463a5a}} 
+{\bfseries Librdf\+Model} (librdf\+\_\+model $\ast$model)
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a355e16664fa50a8a3085f4070347106f}\label{classredland_1_1LibrdfModel_a355e16664fa50a8a3085f4070347106f}} 
+{\bfseries Librdf\+Model} (librdf\+\_\+storage $\ast$storage, const char $\ast$options=nullptr)
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_ae1b996f1785adfe9b4a1824a73643248}\label{classredland_1_1LibrdfModel_ae1b996f1785adfe9b4a1824a73643248}} 
+librdf\+\_\+model $\ast$ {\bfseries get} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a9bbced9329b4b9ef915789a37bf857b6}\label{classredland_1_1LibrdfModel_a9bbced9329b4b9ef915789a37bf857b6}} 
+\hyperlink{classredland_1_1LibrdfQueryResults}{Librdf\+Query\+Results} {\bfseries query} (const \hyperlink{classredland_1_1LibrdfQuery}{Librdf\+Query} \&query) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a646ed92896c4030de31c9e17b881bd2a}\label{classredland_1_1LibrdfModel_a646ed92896c4030de31c9e17b881bd2a}} 
+\hyperlink{classredland_1_1LibrdfStream}{Librdf\+Stream} {\bfseries to\+Stream} ()
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a3067eb5bae1353ab5c86f135c4b401ad}\label{classredland_1_1LibrdfModel_a3067eb5bae1353ab5c86f135c4b401ad}} 
+int {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a2b565a7d705e24d6163c068a40040087}\label{classredland_1_1LibrdfModel_a2b565a7d705e24d6163c068a40040087}} 
+void {\bfseries add\+Statement} (const \hyperlink{classredland_1_1LibrdfStatement}{Librdf\+Statement} \&statement) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a643c3e3d3363f4f06330ede73dc19514}\label{classredland_1_1LibrdfModel_a643c3e3d3363f4f06330ede73dc19514}} 
+void {\bfseries add\+Statement} (librdf\+\_\+statement $\ast$statement) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_ad145b8f46be49434bb8bd0b90a904770}\label{classredland_1_1LibrdfModel_ad145b8f46be49434bb8bd0b90a904770}} 
+void {\bfseries free\+Model} ()
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a807784594a1515e5633ec7d08858dd57}\label{classredland_1_1LibrdfModel_a807784594a1515e5633ec7d08858dd57}} 
+void {\bfseries remove\+Statement} (librdf\+\_\+statement $\ast$statement) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a2cd4394b2c4fee69ce557eafd585c243}\label{classredland_1_1LibrdfModel_a2cd4394b2c4fee69ce557eafd585c243}} 
+void {\bfseries remove\+Statement} (const \hyperlink{classredland_1_1LibrdfStatement}{Librdf\+Statement} \&statement) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a6c40f1adbd292e5278ee6db5db356b34}\label{classredland_1_1LibrdfModel_a6c40f1adbd292e5278ee6db5db356b34}} 
+librdf\+\_\+storage $\ast$ {\bfseries get\+Storage} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a21ddc6bf105a14ed3ad2a3bdfaf8c23d}\label{classredland_1_1LibrdfModel_a21ddc6bf105a14ed3ad2a3bdfaf8c23d}} 
+int {\bfseries commit\+Transaction} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_ac869cf4095da3cc748b52e30d6b5a95b}\label{classredland_1_1LibrdfModel_ac869cf4095da3cc748b52e30d6b5a95b}} 
+int {\bfseries start\+Transaction} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_ac6734571f6488dbabd4fdab2640f49b3}\label{classredland_1_1LibrdfModel_ac6734571f6488dbabd4fdab2640f49b3}} 
+void $\ast$ {\bfseries get\+Transaction\+Handle} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a65b5be3bf67ef89173df06fc6190334e}\label{classredland_1_1LibrdfModel_a65b5be3bf67ef89173df06fc6190334e}} 
+int {\bfseries start\+Transaction\+With\+Handle} (void $\ast$handle) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_abf9471d407147d24bbbda8c200d92791}\label{classredland_1_1LibrdfModel_abf9471d407147d24bbbda8c200d92791}} 
+int {\bfseries get\+Transaction\+Rollback} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a3699be0e707d05cfabd88e31240707c4}\label{classredland_1_1LibrdfModel_a3699be0e707d05cfabd88e31240707c4}} 
+void {\bfseries add\+Statement} (const librdf\+\_\+statement \&statement) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfModel_a64915c9b196d061d1547f9a659177ea9}\label{classredland_1_1LibrdfModel_a64915c9b196d061d1547f9a659177ea9}} 
+int {\bfseries supports\+Contexts} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/redland/\+Redland\+Wrapper/src/Librdf\+Model.\+h\item 
+src/redland/\+Redland\+Wrapper/src/Librdf\+Model.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacedbg_1_1detail__detector" kind="namespace" language="C++">
+    <compoundname>dbg::detail_detector</compoundname>
+    <innerclass refid="structdbg_1_1detail__detector_1_1detector" prot="public">dbg::detail_detector::detector</innerclass>
+    <innerclass refid="structdbg_1_1detail__detector_1_1detector_3_01Default_00_01void__t_3_01Op_3_01Args_8_8_8_01_4_01_4_00_01Op_00_01Args_8_8_8_01_4" prot="public">dbg::detail_detector::detector&lt; Default, void_t&lt; Op&lt; Args... &gt; &gt;, Op, Args... &gt;</innerclass>
+    <innerclass refid="structdbg_1_1detail__detector_1_1nonesuch" prot="public">dbg::detail_detector::nonesuch</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="dbg_8h_1a1dbadccf461338e71c55ea392d4ed47c" prot="public" static="no">
+        <type>void</type>
+        <definition>using dbg::detail_detector::void_t = typedef void</definition>
+        <argsstring></argsstring>
+        <name>void_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="261" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/dbg.h" line="251" column="1"/>
+  </compounddef>
+</doxygen>

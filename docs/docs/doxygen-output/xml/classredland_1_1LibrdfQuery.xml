@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classredland_1_1LibrdfQuery" kind="class" language="C++" prot="public">
+    <compoundname>redland::LibrdfQuery</compoundname>
+    <innerclass refid="structredland_1_1LibrdfQuery_1_1deleter" prot="private">redland::LibrdfQuery::deleter</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classredland_1_1LibrdfQuery_1ad943b58709569703e33ccfb604b67fa1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; librdf_query, deleter &gt;</type>
+        <definition>std::unique_ptr&lt;librdf_query, deleter&gt; redland::LibrdfQuery::query_</definition>
+        <argsstring></argsstring>
+        <name>query_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/LibrdfQuery.h" line="22" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQuery.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classredland_1_1LibrdfQuery_1ae2e2f6b0e18590195bd89663085ff5f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>redland::LibrdfQuery::LibrdfQuery</definition>
+        <argsstring>()=default</argsstring>
+        <name>LibrdfQuery</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/LibrdfQuery.h" line="24" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classredland_1_1LibrdfQuery_1aacca5302206092fbd8908934d2236021" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>redland::LibrdfQuery::LibrdfQuery</definition>
+        <argsstring>(librdf_query *query)</argsstring>
+        <name>LibrdfQuery</name>
+        <param>
+          <type>librdf_query *</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/LibrdfQuery.h" line="26" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQuery.cpp" bodystart="10" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classredland_1_1LibrdfQuery_1a63a49930cc3c54938203683eab2c96fb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>redland::LibrdfQuery::LibrdfQuery</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;name=&quot;sparql&quot;, const unsigned char *uri=nullptr, const char *base_uri=nullptr)</argsstring>
+        <name>LibrdfQuery</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;sparql&quot;</defval>
+        </param>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>uri</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>base_uri</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/LibrdfQuery.h" line="28" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQuery.cpp" bodystart="13" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classredland_1_1LibrdfQuery_1a0302f24051ae2050bc2e802a59364554" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>librdf_query *</type>
+        <definition>librdf_query * redland::LibrdfQuery::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/LibrdfQuery.h" line="33" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQuery.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/redland/RedlandWrapper/src/LibrdfQuery.h" line="16" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQuery.h" bodystart="16" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classredland_1_1LibrdfQuery_1a0302f24051ae2050bc2e802a59364554" prot="public" virt="non-virtual"><scope>redland::LibrdfQuery</scope><name>get</name></member>
+      <member refid="classredland_1_1LibrdfQuery_1ae2e2f6b0e18590195bd89663085ff5f1" prot="public" virt="non-virtual"><scope>redland::LibrdfQuery</scope><name>LibrdfQuery</name></member>
+      <member refid="classredland_1_1LibrdfQuery_1aacca5302206092fbd8908934d2236021" prot="public" virt="non-virtual"><scope>redland::LibrdfQuery</scope><name>LibrdfQuery</name></member>
+      <member refid="classredland_1_1LibrdfQuery_1a63a49930cc3c54938203683eab2c96fb" prot="public" virt="non-virtual"><scope>redland::LibrdfQuery</scope><name>LibrdfQuery</name></member>
+      <member refid="classredland_1_1LibrdfQuery_1ad943b58709569703e33ccfb604b67fa1" prot="private" virt="non-virtual"><scope>redland::LibrdfQuery</scope><name>query_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

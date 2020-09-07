@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1Predicate" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::Predicate</compoundname>
+    <derivedcompoundref refid="classomexmeta_1_1BiomodelsBiologyQualifier" prot="public" virt="non-virtual">omexmeta::BiomodelsBiologyQualifier</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1BiomodelsModelQualifier" prot="public" virt="non-virtual">omexmeta::BiomodelsModelQualifier</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1DCTerm" prot="public" virt="non-virtual">omexmeta::DCTerm</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1Foaf" prot="public" virt="non-virtual">omexmeta::Foaf</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1SemSim" prot="public" virt="non-virtual">omexmeta::SemSim</derivedcompoundref>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1Predicate_1afc79b0cc43eb11e4bc2fe0b305e551bc" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Predicate::namespace_</definition>
+        <argsstring></argsstring>
+        <name>namespace_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="32" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Predicate_1ab626a5fd9fa8f302767d4ca544a9eff2" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Predicate::term_</definition>
+        <argsstring></argsstring>
+        <name>term_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="32" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Predicate_1a5dfbbc85f7bdc5a3e4da72913f6ce306" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Predicate::prefix_</definition>
+        <argsstring></argsstring>
+        <name>prefix_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="32" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Predicate_1a4fe359b93a9dea9b60f7bc28c1aa913b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Predicate::uri_</definition>
+        <argsstring></argsstring>
+        <name>uri_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="33" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Predicate_1ad0548a6d31dbc6f32734032b1540e58f" prot="protected" static="no" mutable="no">
+        <type>librdf_node *</type>
+        <definition>librdf_node* omexmeta::Predicate::node_</definition>
+        <argsstring></argsstring>
+        <name>node_</name>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="34" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Predicate_1a14ae7768fbd3aaf444bcde8650910c0b" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; omexmeta::Predicate::valid_terms_</definition>
+        <argsstring></argsstring>
+        <name>valid_terms_</name>
+        <initializer>{&quot;All&quot;}</initializer>
+        <briefdescription>
+<para>predicates can only have type uri </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="35" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a157c4e95f9869d4f22cd07332ff7621a" prot="protected" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Predicate::Predicate</definition>
+        <argsstring>(librdf_node *node)</argsstring>
+        <name>Predicate</name>
+        <param>
+          <type>librdf_node *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="37" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="23" bodyend="69"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a897a506f4c1b31e38e42abd7b0f8314a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Predicate::Predicate</definition>
+        <argsstring>()=default</argsstring>
+        <name>Predicate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="40" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1ad5a91eb29204202d2f18816d09677622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Predicate::Predicate</definition>
+        <argsstring>(const std::string &amp;namespace_, std::string term, std::string prefix)</argsstring>
+        <name>Predicate</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>namespace_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="67" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="11" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a5db1e6150f8cfd7605e82996e2aebb50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Predicate::operator==</definition>
+        <argsstring>(const Predicate &amp;rhs) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Predicate" kindref="compound">Predicate</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="70" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="198" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a7bf4b8769eb9801eb26cc976723b56f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Predicate::operator!=</definition>
+        <argsstring>(const Predicate &amp;rhs) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Predicate" kindref="compound">Predicate</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="72" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="202" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a9d51ebf565f39fb4d6d4f58c1b030edf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Predicate::str</definition>
+        <argsstring>()</argsstring>
+        <name>str</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="78" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a144efc75a923b9d85b9f8eaccf0400bb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>librdf_node *</type>
+        <definition>librdf_node * omexmeta::Predicate::getNode</definition>
+        <argsstring>() const</argsstring>
+        <name>getNode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="104" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1aee19b8fc8b21f8e5ffd5b64691e1e530" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; omexmeta::Predicate::getValidTerms</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidTerms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="112" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1add4ab1cd86f83de3512279bbfdad947c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Predicate::getNamespace</definition>
+        <argsstring>() const</argsstring>
+        <name>getNamespace</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="119" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a54a15176bd697d37d00573bf86954630" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Predicate::getTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getTerm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="125" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a0147e977f71604db05763815ae6b553f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Predicate::getPrefix</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrefix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="131" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a27fa7d62ad9a5182f3dd642bc61c8d9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Predicate::getUri</definition>
+        <argsstring>() const</argsstring>
+        <name>getUri</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="138" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a718a37ff90ac0f2d7cc129e8351a2c7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Predicate::freeNode</definition>
+        <argsstring>()</argsstring>
+        <name>freeNode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="152" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a0bf6030510247a6999d81cada92c1e51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Predicate::setNode</definition>
+        <argsstring>(librdf_node *node)</argsstring>
+        <name>setNode</name>
+        <param>
+          <type>librdf_node *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="168" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a1291e3cd9727871f568e864e0f5af3f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; omexmeta::Predicate::namespaceMap</definition>
+        <argsstring>()</argsstring>
+        <name>namespaceMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="46" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="98" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a1e7e59b8a48c9f89eeec73f3bbaea19c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Predicate::verify</definition>
+        <argsstring>(std::vector&lt; std::string &gt; valid_terms, const std::string &amp;term)</argsstring>
+        <name>verify</name>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>valid_terms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="88" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="130" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a8381c8b0c7bbaa27de29608cbff08bf5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Predicate::namespaceKnown</definition>
+        <argsstring>(const std::string &amp;ns)</argsstring>
+        <name>namespaceKnown</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="97" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Predicate_1a4cda551beb4e1354ac56d692f0eb78cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Predicate::addSeenNamespaceToSerializer</definition>
+        <argsstring>(librdf_world *world, librdf_serializer *serializer, librdf_node *predicate)</argsstring>
+        <name>addSeenNamespaceToSerializer</name>
+        <param>
+          <type>librdf_world *</type>
+          <declname>world</declname>
+        </param>
+        <param>
+          <type>librdf_serializer *</type>
+          <declname>serializer</declname>
+        </param>
+        <param>
+          <type>librdf_node *</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="161" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="159" bodyend="196"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="172">
+        <label>omexmeta::DCTerm</label>
+        <link refid="classomexmeta_1_1DCTerm"/>
+        <childnode refid="169" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="171">
+        <label>omexmeta::BiomodelsModelQualifier</label>
+        <link refid="classomexmeta_1_1BiomodelsModelQualifier"/>
+        <childnode refid="169" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="170">
+        <label>omexmeta::BiomodelsBiologyQualifier</label>
+        <link refid="classomexmeta_1_1BiomodelsBiologyQualifier"/>
+        <childnode refid="169" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="174">
+        <label>omexmeta::SemSim</label>
+        <link refid="classomexmeta_1_1SemSim"/>
+        <childnode refid="169" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="173">
+        <label>omexmeta::Foaf</label>
+        <link refid="classomexmeta_1_1Foaf"/>
+        <childnode refid="169" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="169">
+        <label>omexmeta::Predicate</label>
+        <link refid="classomexmeta_1_1Predicate"/>
+      </node>
+    </inheritancegraph>
+    <location file="src/omexmeta/Predicate.h" line="29" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="29" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1Predicate_1a4cda551beb4e1354ac56d692f0eb78cd" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>addSeenNamespaceToSerializer</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a718a37ff90ac0f2d7cc129e8351a2c7b" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>freeNode</name></member>
+      <member refid="classomexmeta_1_1Predicate_1add4ab1cd86f83de3512279bbfdad947c" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>getNamespace</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a144efc75a923b9d85b9f8eaccf0400bb" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>getNode</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a0147e977f71604db05763815ae6b553f" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>getPrefix</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a54a15176bd697d37d00573bf86954630" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>getTerm</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a27fa7d62ad9a5182f3dd642bc61c8d9f" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>getUri</name></member>
+      <member refid="classomexmeta_1_1Predicate_1aee19b8fc8b21f8e5ffd5b64691e1e530" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>getValidTerms</name></member>
+      <member refid="classomexmeta_1_1Predicate_1afc79b0cc43eb11e4bc2fe0b305e551bc" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>namespace_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a8381c8b0c7bbaa27de29608cbff08bf5" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>namespaceKnown</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a1291e3cd9727871f568e864e0f5af3f0" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>namespaceMap</name></member>
+      <member refid="classomexmeta_1_1Predicate_1ad0548a6d31dbc6f32734032b1540e58f" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>node_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a7bf4b8769eb9801eb26cc976723b56f2" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>operator!=</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a5db1e6150f8cfd7605e82996e2aebb50" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>operator==</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a157c4e95f9869d4f22cd07332ff7621a" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>Predicate</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a897a506f4c1b31e38e42abd7b0f8314a" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>Predicate</name></member>
+      <member refid="classomexmeta_1_1Predicate_1ad5a91eb29204202d2f18816d09677622" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>Predicate</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a5dfbbc85f7bdc5a3e4da72913f6ce306" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>prefix_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a0bf6030510247a6999d81cada92c1e51" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>setNode</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a9d51ebf565f39fb4d6d4f58c1b030edf" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>str</name></member>
+      <member refid="classomexmeta_1_1Predicate_1ab626a5fd9fa8f302767d4ca544a9eff2" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>term_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a4fe359b93a9dea9b60f7bc28c1aa913b" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>uri_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a14ae7768fbd3aaf444bcde8650910c0b" prot="protected" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>valid_terms_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a1e7e59b8a48c9f89eeec73f3bbaea19c" prot="public" virt="non-virtual"><scope>omexmeta::Predicate</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

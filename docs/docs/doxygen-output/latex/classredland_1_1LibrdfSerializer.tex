@@ -1,0 +1,56 @@
+\hypertarget{classredland_1_1LibrdfSerializer}{}\section{redland\+:\+:Librdf\+Serializer Class Reference}
+\label{classredland_1_1LibrdfSerializer}\index{redland\+::\+Librdf\+Serializer@{redland\+::\+Librdf\+Serializer}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_a084920f2dadf9aff9abff2fbe4e302e9}\label{classredland_1_1LibrdfSerializer_a084920f2dadf9aff9abff2fbe4e302e9}} 
+{\bfseries Librdf\+Serializer} (const \hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} \&serializer)=delete
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_ac0df7aa8f6a63de75d63f33d9eb3b201}\label{classredland_1_1LibrdfSerializer_ac0df7aa8f6a63de75d63f33d9eb3b201}} 
+{\bfseries Librdf\+Serializer} (\hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} \&\&serializer) noexcept
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_a07c9ec356305e42c4990357dffb6bfd1}\label{classredland_1_1LibrdfSerializer_a07c9ec356305e42c4990357dffb6bfd1}} 
+\hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} \& {\bfseries operator=} (const \hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} \&serializer)=delete
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_a3f1049838f6c9b3baee42fd1ab99d9e3}\label{classredland_1_1LibrdfSerializer_a3f1049838f6c9b3baee42fd1ab99d9e3}} 
+\hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} \& {\bfseries operator=} (\hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} \&\&serializer) noexcept
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_aadcc241a243f87fce5152dc6420d1625}\label{classredland_1_1LibrdfSerializer_aadcc241a243f87fce5152dc6420d1625}} 
+{\bfseries Librdf\+Serializer} (const char $\ast$format, const char $\ast$mime\+\_\+type=nullptr, const char $\ast$type\+\_\+uri=nullptr)
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_ab5ef7eaa294357a931b826acc1ab932f}\label{classredland_1_1LibrdfSerializer_ab5ef7eaa294357a931b826acc1ab932f}} 
+librdf\+\_\+serializer $\ast$ {\bfseries get} () const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_ab621a575b7244c9d39e756b5e133766b}\label{classredland_1_1LibrdfSerializer_ab621a575b7244c9d39e756b5e133766b}} 
+void {\bfseries set\+Namespace} (const std\+::string \&ns, const std\+::string \&prefix) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_abe500f5c5a1de1bdac86ab196a002b46}\label{classredland_1_1LibrdfSerializer_abe500f5c5a1de1bdac86ab196a002b46}} 
+void {\bfseries set\+Feature} (const std\+::string \&ns, const std\+::string \&prefix) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_ac205990ca1dbf0ff1e56ea45e82ec8d2}\label{classredland_1_1LibrdfSerializer_ac205990ca1dbf0ff1e56ea45e82ec8d2}} 
+std\+::string {\bfseries to\+String} (const std\+::string \&uri, const \hyperlink{classredland_1_1LibrdfModel}{Librdf\+Model} \&model)
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_aa185a5c5708bf4b08dfa5eb6a8b897b1}\label{classredland_1_1LibrdfSerializer_aa185a5c5708bf4b08dfa5eb6a8b897b1}} 
+void {\bfseries free\+Serializer} ()
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_a4ea50f1f63c3cb7bb63da3fc55994fee}\label{classredland_1_1LibrdfSerializer_a4ea50f1f63c3cb7bb63da3fc55994fee}} 
+void {\bfseries validate\+Serializer\+Name} (std\+::string name)
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_a970fa3d23ba08a63533c758417de1808}\label{classredland_1_1LibrdfSerializer_a970fa3d23ba08a63533c758417de1808}} 
+void {\bfseries set\+Option} (const std\+::string \&option, const std\+::string \&value) const
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_ad2cb2ddcd225119a2a9a33001da22478}\label{classredland_1_1LibrdfSerializer_ad2cb2ddcd225119a2a9a33001da22478}} 
+void {\bfseries set\+Options} () const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classredland_1_1LibrdfSerializer_a58915bb2aa6b7c0eb438b5cc0148ef45}\label{classredland_1_1LibrdfSerializer_a58915bb2aa6b7c0eb438b5cc0148ef45}} 
+static \hyperlink{classredland_1_1LibrdfSerializer}{Librdf\+Serializer} {\bfseries from\+Raw\+Ptr} (librdf\+\_\+serializer $\ast$serializer)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/redland/\+Redland\+Wrapper/src/Librdf\+Serializer.\+h\item 
+src/redland/\+Redland\+Wrapper/src/Librdf\+Serializer.\+cpp\end{DoxyCompactItemize}

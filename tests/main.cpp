@@ -1,9 +1,6 @@
-//
-// Created by Ciaran on 01/08/2020.
-//
-// What is the public API for Roadrunner?
+
+#include <string>
 #include "rrRoadRunner.h"
-#include "gtest/gtest.h"
 
 //using namespace rr;
 using namespace std;
@@ -481,4 +478,6 @@ int main(){
                        "  </model>\n"
                        "</sbml>";
     rr::RoadRunner r(sbml);
+    std::string sbml2 = r.getSBML();
+    std::cout << sbml2 << std::endl;
 }

@@ -1,0 +1,32 @@
+\hypertarget{structdbg_1_1detail_1_1is__container}{}\section{dbg\+:\+:detail\+:\+:is\+\_\+container$<$ T $>$ Struct Template Reference}
+\label{structdbg_1_1detail_1_1is__container}\index{dbg\+::detail\+::is\+\_\+container$<$ T $>$@{dbg\+::detail\+::is\+\_\+container$<$ T $>$}}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr bool {\bfseries value}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structdbg_1_1detail_1_1is__container_aa9a4594488352384b65b36198ac414f8}\label{structdbg_1_1detail_1_1is__container_aa9a4594488352384b65b36198ac414f8}} 
+\index{dbg\+::detail\+::is\+\_\+container@{dbg\+::detail\+::is\+\_\+container}!value@{value}}
+\index{value@{value}!dbg\+::detail\+::is\+\_\+container@{dbg\+::detail\+::is\+\_\+container}}
+\subsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr bool \hyperlink{structdbg_1_1detail_1_1is__container}{dbg\+::detail\+::is\+\_\+container}$<$ T $>$\+::value\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+      is\_detected<detect\_begin\_t, T>::value &&
+      is\_detected<detect\_end\_t, T>::value &&
+      is\_detected<detect\_size\_t, T>::value &&
+      !std::is\_same<std::string,
+                    \textcolor{keyword}{typename} std::remove\_cv<
+                        \textcolor{keyword}{typename} std::remove\_reference<T>::type>::type>::value
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/omexmeta/dbg.\+h\end{DoxyCompactItemize}

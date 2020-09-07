@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structdbg_1_1detail_1_1has__ostream__operator" kind="struct" language="C++" prot="public">
+    <compoundname>dbg::detail::has_ostream_operator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">is_detected&lt; ostream_operator_t, T &gt;</basecompoundref>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="68">
+        <label>dbg::detail::has_ostream_operator&lt; T &gt;</label>
+        <link refid="structdbg_1_1detail_1_1has__ostream__operator"/>
+        <childnode refid="69" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>is_detected&lt; ostream_operator_t, T &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="70">
+        <label>dbg::detail::has_ostream_operator&lt; T &gt;</label>
+        <link refid="structdbg_1_1detail_1_1has__ostream__operator"/>
+        <childnode refid="71" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>is_detected&lt; ostream_operator_t, T &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/omexmeta/dbg.h" line="329" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="329" bodyend="329"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

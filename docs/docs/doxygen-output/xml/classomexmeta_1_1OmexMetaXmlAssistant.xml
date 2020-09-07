@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1OmexMetaXmlAssistant" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::OmexMetaXmlAssistant</compoundname>
+    <derivedcompoundref refid="classomexmeta_1_1CellMLAssistant" prot="public" virt="non-virtual">omexmeta::CellMLAssistant</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1SBMLAssistant" prot="public" virt="non-virtual">omexmeta::SBMLAssistant</derivedcompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1OmexMetaXmlAssistant_1aa746a5f71818ee691b7000f796a9c800" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::OmexMetaXmlAssistant::xml_</definition>
+        <argsstring></argsstring>
+        <name>xml_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="24" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1OmexMetaXmlAssistant_1ab2d882ce37c3eea4c6e903ccac3319f7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::OmexMetaXmlAssistant::metaid_base_</definition>
+        <argsstring></argsstring>
+        <name>metaid_base_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="25" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1OmexMetaXmlAssistant_1ad2b752c9179bcfb5adde258012e1ed49" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int omexmeta::OmexMetaXmlAssistant::metaid_num_digits_</definition>
+        <argsstring></argsstring>
+        <name>metaid_num_digits_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="26" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1OmexMetaXmlAssistant_1a008dbd37e28e78b753ac88abb6d65f7e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool omexmeta::OmexMetaXmlAssistant::generate_new_metaids_</definition>
+        <argsstring></argsstring>
+        <name>generate_new_metaids_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="27" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1a87a3e3164561f0f6af654730b6fa690b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::OmexMetaXmlAssistant::addMetaIdsRecursion</definition>
+        <argsstring>(xmlNode *a_node, std::vector&lt; std::string &gt; &amp;seen_metaids)</argsstring>
+        <name>addMetaIdsRecursion</name>
+        <param>
+          <type>xmlNode *</type>
+          <declname>a_node</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>seen_metaids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="29" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="28" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1a7e3de20ee9dc8e62e479bc43053a6c72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::OmexMetaXmlAssistant::generateMetaId</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;seen_metaids, long count, const MetaID &amp;metaid_gen, std::string &amp;id)</argsstring>
+        <name>generateMetaId</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>seen_metaids</declname>
+        </param>
+        <param>
+          <type>long</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1MetaID" kindref="compound">MetaID</ref> &amp;</type>
+          <declname>metaid_gen</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="31" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="18" bodyend="26"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1a69bb3ac99f1585b6f567b80e88f52642" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::OmexMetaXmlAssistant::getMetaidBase</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetaidBase</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="36" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1a4c9759afd4af42595a4f0a4feb913524" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int omexmeta::OmexMetaXmlAssistant::getMetaidNumDigits</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetaidNumDigits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="38" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1a9ff89057f4fe7e8cb2e25f5431bf2bb5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::OmexMetaXmlAssistant::generateNewMetaids</definition>
+        <argsstring>() const</argsstring>
+        <name>generateNewMetaids</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="40" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1af619a65dd28d04dfabd1930ff4110ce0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::OmexMetaXmlAssistant::OmexMetaXmlAssistant</definition>
+        <argsstring>(std::string xml, std::string metaid_base=&quot;MetaID&quot;, int metaid_num_digits=4, bool generate_new_metaids=false)</argsstring>
+        <name>OmexMetaXmlAssistant</name>
+        <param>
+          <type>std::string</type>
+          <declname>xml</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>metaid_base</declname>
+          <defval>&quot;MetaID&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>metaid_num_digits</declname>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>generate_new_metaids</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="42" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="8" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1aeef7e70a554aaf70fb694297e37e7cc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; std::string, std::vector&lt; std::string &gt; &gt; omexmeta::OmexMetaXmlAssistant::addMetaIds</definition>
+        <argsstring>()</argsstring>
+        <name>addMetaIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="44" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="70" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1a3a6631e92df490f87f469abca81e1ba1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; omexmeta::OmexMetaXmlAssistant::getValidElements</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidElements</name>
+        <reimplementedby refid="classomexmeta_1_1SBMLAssistant_1afcc69d3e7a12673071632f757290d798">getValidElements</reimplementedby>
+        <reimplementedby refid="classomexmeta_1_1CellMLAssistant_1ad0fa4e23c94197d5682a0f8e1dec0889">getValidElements</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="46" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1OmexMetaXmlAssistant_1adbfc8d96f2adffa35ee01726a97dbcce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string omexmeta::OmexMetaXmlAssistant::metaIdTagName</definition>
+        <argsstring>() const</argsstring>
+        <name>metaIdTagName</name>
+        <reimplementedby refid="classomexmeta_1_1SBMLAssistant_1ad3c3ab0ac3004961e5c2951568528d8a">metaIdTagName</reimplementedby>
+        <reimplementedby refid="classomexmeta_1_1CellMLAssistant_1a4aaccf21ed47201abaf20d67ad7bfaab">metaIdTagName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="48" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="135">
+        <label>omexmeta::OmexMetaXmlAssistant</label>
+        <link refid="classomexmeta_1_1OmexMetaXmlAssistant"/>
+      </node>
+      <node id="136">
+        <label>omexmeta::CellMLAssistant</label>
+        <link refid="classomexmeta_1_1CellMLAssistant"/>
+        <childnode refid="135" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="137">
+        <label>omexmeta::SBMLAssistant</label>
+        <link refid="classomexmeta_1_1SBMLAssistant"/>
+        <childnode refid="135" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="23" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="23" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1aeef7e70a554aaf70fb694297e37e7cc8" prot="public" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>addMetaIds</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a87a3e3164561f0f6af654730b6fa690b" prot="private" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>addMetaIdsRecursion</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a008dbd37e28e78b753ac88abb6d65f7e" prot="private" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>generate_new_metaids_</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a7e3de20ee9dc8e62e479bc43053a6c72" prot="private" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>generateMetaId</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a9ff89057f4fe7e8cb2e25f5431bf2bb5" prot="public" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>generateNewMetaids</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a69bb3ac99f1585b6f567b80e88f52642" prot="public" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>getMetaidBase</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a4c9759afd4af42595a4f0a4feb913524" prot="public" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>getMetaidNumDigits</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a3a6631e92df490f87f469abca81e1ba1" prot="public" virt="virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>getValidElements</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1ab2d882ce37c3eea4c6e903ccac3319f7" prot="private" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>metaid_base_</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1ad2b752c9179bcfb5adde258012e1ed49" prot="private" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>metaid_num_digits_</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1adbfc8d96f2adffa35ee01726a97dbcce" prot="public" virt="virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>metaIdTagName</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1af619a65dd28d04dfabd1930ff4110ce0" prot="public" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>OmexMetaXmlAssistant</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1aa746a5f71818ee691b7000f796a9c800" prot="private" virt="non-virtual"><scope>omexmeta::OmexMetaXmlAssistant</scope><name>xml_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

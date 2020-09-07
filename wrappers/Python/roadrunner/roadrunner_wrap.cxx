@@ -177,7 +177,7 @@ template <typename T> T SwigValueInit() {
 /* -----------------------------------------------------------------------------
  * swigrun.swg
  *
- * This file contains generic C API SWIG runtime support for pointer
+ * This file contains generic C wrappers SWIG runtime support for pointer
  * type checking.
  * ----------------------------------------------------------------------------- */
 
@@ -788,7 +788,7 @@ SWIG_UnpackDataName(const char *c, void *ptr, size_t sz, const char *name) {
 #  define Py_TYPE(op) ((op)->ob_type)
 #endif
 
-/* SWIG APIs for compatibility of both Python 2 & 3 */
+/* SWIG wrappers for compatibility of both Python 2 & 3 */
 
 #if PY_VERSION_HEX >= 0x03000000
 #  define SWIG_Python_str_FromFormat PyUnicode_FromFormat
@@ -1119,7 +1119,7 @@ SWIG_Python_AddErrorMsg(const char* mesg)
 #endif
 
 /* -----------------------------------------------------------------------------
- * Python API portion that goes into the runtime
+ * Python wrappers portion that goes into the runtime
  * ----------------------------------------------------------------------------- */
 
 #ifdef __cplusplus
@@ -1175,7 +1175,7 @@ SWIGRUNTIME PyObject* SWIG_PyInstanceMethod_New(PyObject *SWIGUNUSEDPARM(self), 
  *
  * ----------------------------------------------------------------------------- */
 
-/* Common SWIG API */
+/* Common SWIG wrappers */
 
 /* for raw pointers */
 #define SWIG_Python_ConvertPtr(obj, pptr, type, flags)  SWIG_Python_ConvertPtrAndOwn(obj, pptr, type, flags, 0)
@@ -1211,7 +1211,7 @@ SWIGRUNTIME PyObject* SWIG_PyInstanceMethod_New(PyObject *SWIGUNUSEDPARM(self), 
 #define SWIG_NewMemberObj(ptr, sz, type)                SWIG_Python_NewPackedObj(ptr, sz, type)
 
 
-/* Runtime API */
+/* Runtime wrappers */
 
 #define SWIG_GetModule(clientdata)                      SWIG_Python_GetModule(clientdata)
 #define SWIG_SetModule(clientdata, pointer)             SWIG_Python_SetModule(pointer)
@@ -1224,7 +1224,7 @@ SWIGRUNTIME PyObject* SWIG_PyInstanceMethod_New(PyObject *SWIGUNUSEDPARM(self), 
 #define SWIG_fail                        		goto fail					   
 
 
-/* Runtime API implementation */
+/* Runtime wrappers implementation */
 
 /* Error manipulation */
 
@@ -37456,7 +37456,7 @@ SWIG_PropagateClientData(void) {
 extern "C" {
 #endif
   
-  /* Python-specific SWIG API */
+  /* Python-specific SWIG wrappers */
 #define SWIG_newvarlink()                             SWIG_Python_newvarlink()
 #define SWIG_addvarlink(p, name, get_attr, set_attr)  SWIG_Python_addvarlink(p, name, get_attr, set_attr)
 #define SWIG_InstallConstants(d, constants)           SWIG_Python_InstallConstants(d, constants)

@@ -57,7 +57,7 @@ Message("SupportCodeFolder is: " ${supportCodeFolder})
 #    OUTPUT ${resultsFile}
 #    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
 #    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-#    COMMENT "=========== Generating CPP-API Wiki reports =============="
+#    COMMENT "=========== Generating CPP-wrappers Wiki reports =============="
 #    VERBATIM
 #    )
 #

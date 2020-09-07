@@ -1,0 +1,77 @@
+\hypertarget{classomexmeta_1_1OmexMetaUtils}{}\section{omexmeta\+:\+:Omex\+Meta\+Utils Class Reference}
+\label{classomexmeta_1_1OmexMetaUtils}\index{omexmeta\+::\+Omex\+Meta\+Utils@{omexmeta\+::\+Omex\+Meta\+Utils}}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_ab72b362607e6bbdd0025eefa574cd073}\label{classomexmeta_1_1OmexMetaUtils_ab72b362607e6bbdd0025eefa574cd073}} 
+static bool {\bfseries exists} (const std\+::string \&filename)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a9c445a8e0cc6589b25d6fa630686c171}\label{classomexmeta_1_1OmexMetaUtils_a9c445a8e0cc6589b25d6fa630686c171}} 
+static int {\bfseries remove\+File} (const std\+::string \&filename)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a8e629136cb2685ed839ea3a0e88094e6}\label{classomexmeta_1_1OmexMetaUtils_a8e629136cb2685ed839ea3a0e88094e6}} 
+static void {\bfseries remove\+If\+Exists} (const std\+::string \&filename)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a046b603d6308242b70b55de6cb72325c}\label{classomexmeta_1_1OmexMetaUtils_a046b603d6308242b70b55de6cb72325c}} 
+static void {\bfseries download} (const std\+::string \&url, std\+::string filename)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_aac769ce6e901f32820cd7dc3fef989fa}\label{classomexmeta_1_1OmexMetaUtils_aac769ce6e901f32820cd7dc3fef989fa}} 
+static std\+::vector$<$ std\+::string $>$ {\bfseries split\+String\+By} (const std\+::string \&str, char delimiter)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a4700231d455a5f65f7cc290d98d2b0ec}\label{classomexmeta_1_1OmexMetaUtils_a4700231d455a5f65f7cc290d98d2b0ec}} 
+static std\+::string {\bfseries generate\+Unique\+Metaid} (librdf\+\_\+model $\ast$model, const std\+::string \&metaid\+\_\+base, std\+::vector$<$ std\+::string $>$ \&exclusions)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a6694715cf3f5dccd33d416ecc84ff375}\label{classomexmeta_1_1OmexMetaUtils_a6694715cf3f5dccd33d416ecc84ff375}} 
+static std\+::string {\bfseries prepare\+Base\+Uri} (std\+::string str, bool absolute\+\_\+path=false)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a0956bde073b212596d8e4b2ffc983e47}\label{classomexmeta_1_1OmexMetaUtils_a0956bde073b212596d8e4b2ffc983e47}} 
+static std\+::string {\bfseries get\+Namespace\+From\+Uri} (const std\+::string \&uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_af663724f2efb0324a64c6a57e8491c13}\label{classomexmeta_1_1OmexMetaUtils_af663724f2efb0324a64c6a57e8491c13}} 
+static bool {\bfseries is\+Formatted\+Uri} (std\+::string uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a9c2b712b85f74fff9740477660f7b371}\label{classomexmeta_1_1OmexMetaUtils_a9c2b712b85f74fff9740477660f7b371}} 
+static bool {\bfseries ends\+With} (std\+::string const \&full\+\_\+string, std\+::string const \&ending)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a4ec81c80bf33d232331ea9ef0b94da61}\label{classomexmeta_1_1OmexMetaUtils_a4ec81c80bf33d232331ea9ef0b94da61}} 
+static bool {\bfseries assert\+Regex\+Match\+Split\+By\+New\+Line} (const std\+::string \&expected\+\_\+string, const std\+::string \&actual\+\_\+string)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a6ddc16d56f238ef7ff3c8ab355163ef7}\label{classomexmeta_1_1OmexMetaUtils_a6ddc16d56f238ef7ff3c8ab355163ef7}} 
+static bool {\bfseries assert\+Match\+By\+New\+Line} (const std\+::string \&expected\+\_\+string, const std\+::string \&actual\+\_\+string)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a744a0575136f1cc60b76a6560a5595e9}\label{classomexmeta_1_1OmexMetaUtils_a744a0575136f1cc60b76a6560a5595e9}} 
+static std\+::vector$<$ std\+::string $>$ {\bfseries configure\+Prefix\+Strings} (std\+::string repository\+\_\+name, std\+::string omex\+\_\+name, std\+::string model\+\_\+name)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_ae645af49ce57dac8bd0e0eba9e39a6c0}\label{classomexmeta_1_1OmexMetaUtils_ae645af49ce57dac8bd0e0eba9e39a6c0}} 
+static std\+::string {\bfseries concat\+Meta\+Id\+And\+Uri} (std\+::string metaid, std\+::string uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_aca2230ca99338b9dc0fc7d296b0c553b}\label{classomexmeta_1_1OmexMetaUtils_aca2230ca99338b9dc0fc7d296b0c553b}} 
+static std\+::string {\bfseries string\+Replace} (std\+::string str, const std\+::string \&string\+\_\+to\+\_\+replace, const std\+::string \&replacement)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a66d58e0ebcbee1857b23ead70c87de7f}\label{classomexmeta_1_1OmexMetaUtils_a66d58e0ebcbee1857b23ead70c87de7f}} 
+static bool {\bfseries starts\+With} (const std\+::string \&full\+\_\+string, const std\+::string \&start)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a6f8e406b8798bd2f1f0ae0d1bd07ed2b}\label{classomexmeta_1_1OmexMetaUtils_a6f8e406b8798bd2f1f0ae0d1bd07ed2b}} 
+static bool {\bfseries string\+In\+Vector} (std\+::vector$<$ std\+::string $>$ vec, const std\+::string \&string)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a718710d8ba7fc7598bd73a5456b3d903}\label{classomexmeta_1_1OmexMetaUtils_a718710d8ba7fc7598bd73a5456b3d903}} 
+static xml\+Doc $\ast$ {\bfseries parse\+Xml\+Document} (const std\+::string \&xml\+\_\+string)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a29cc8222c809162eadbc424a0687cbf3}\label{classomexmeta_1_1OmexMetaUtils_a29cc8222c809162eadbc424a0687cbf3}} 
+static std\+::string {\bfseries get\+Xml\+Node\+Property} (xml\+Node $\ast$node, const std\+::string \&property)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a1dbcd874b2b72531e7f4f9e82524d8e8}\label{classomexmeta_1_1OmexMetaUtils_a1dbcd874b2b72531e7f4f9e82524d8e8}} 
+static xml\+Node $\ast$ {\bfseries get\+Child\+Element\+Called} (xml\+Node $\ast$node, const std\+::string \&name)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a4d6f7d2140c42435be9339edf975b949}\label{classomexmeta_1_1OmexMetaUtils_a4d6f7d2140c42435be9339edf975b949}} 
+static std\+::vector$<$ xml\+Node $\ast$ $>$ {\bfseries get\+All\+Child\+Elements} (xml\+Node $\ast$node)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1OmexMetaUtils_a96e93667c8799b9569cb30fc102b129b}\label{classomexmeta_1_1OmexMetaUtils_a96e93667c8799b9569cb30fc102b129b}} 
+static bool {\bfseries is\+Sub\+String} (const std\+::string \&full\+\_\+string, const std\+::string \&substring)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/omexmeta/Omex\+Meta\+Utils.\+h\item 
+src/omexmeta/Omex\+Meta\+Utils.\+cpp\end{DoxyCompactItemize}

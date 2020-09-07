@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_805176f2c4714c569bc16cfd6a26a0cb" kind="dir">
+    <compoundname>src/omexmeta</compoundname>
+    <innerfile refid="AnnotationType_8h">AnnotationType.h</innerfile>
+    <innerfile refid="CurlGet_8cpp">CurlGet.cpp</innerfile>
+    <innerfile refid="CurlGet_8h">CurlGet.h</innerfile>
+    <innerfile refid="dbg_8h">dbg.h</innerfile>
+    <innerfile refid="Editor_8cpp">Editor.cpp</innerfile>
+    <innerfile refid="Editor_8h">Editor.h</innerfile>
+    <innerfile refid="ElementExtractor_8cpp">ElementExtractor.cpp</innerfile>
+    <innerfile refid="ElementExtractor_8h">ElementExtractor.h</innerfile>
+    <innerfile refid="Error_8h">Error.h</innerfile>
+    <innerfile refid="MarkupIdentifier_8cpp">MarkupIdentifier.cpp</innerfile>
+    <innerfile refid="MarkupIdentifier_8h">MarkupIdentifier.h</innerfile>
+    <innerfile refid="MetaID_8cpp">MetaID.cpp</innerfile>
+    <innerfile refid="MetaID_8h">MetaID.h</innerfile>
+    <innerfile refid="OmexMeta_8h">OmexMeta.h</innerfile>
+    <innerfile refid="OmexMetaCApi_8cpp">OmexMetaCApi.cpp</innerfile>
+    <innerfile refid="OmexMetaCApi_8h">OmexMetaCApi.h</innerfile>
+    <innerfile refid="OmexMetaUtils_8cpp">OmexMetaUtils.cpp</innerfile>
+    <innerfile refid="OmexMetaUtils_8h">OmexMetaUtils.h</innerfile>
+    <innerfile refid="OmexMetaXmlAssistant_8cpp">OmexMetaXmlAssistant.cpp</innerfile>
+    <innerfile refid="OmexMetaXmlAssistant_8h">OmexMetaXmlAssistant.h</innerfile>
+    <innerfile refid="OmexMetaXmlType_8h">OmexMetaXmlType.h</innerfile>
+    <innerfile refid="Participant_8cpp">Participant.cpp</innerfile>
+    <innerfile refid="Participant_8h">Participant.h</innerfile>
+    <innerfile refid="PersonalInformation_8cpp">PersonalInformation.cpp</innerfile>
+    <innerfile refid="PersonalInformation_8h">PersonalInformation.h</innerfile>
+    <innerfile refid="PhysicalEntity_8cpp">PhysicalEntity.cpp</innerfile>
+    <innerfile refid="PhysicalEntity_8h">PhysicalEntity.h</innerfile>
+    <innerfile refid="PhysicalForce_8cpp">PhysicalForce.cpp</innerfile>
+    <innerfile refid="PhysicalForce_8h">PhysicalForce.h</innerfile>
+    <innerfile refid="PhysicalPhenomenon_8cpp">PhysicalPhenomenon.cpp</innerfile>
+    <innerfile refid="PhysicalPhenomenon_8h">PhysicalPhenomenon.h</innerfile>
+    <innerfile refid="PhysicalProcess_8cpp">PhysicalProcess.cpp</innerfile>
+    <innerfile refid="PhysicalProcess_8h">PhysicalProcess.h</innerfile>
+    <innerfile refid="PhysicalProperty_8cpp">PhysicalProperty.cpp</innerfile>
+    <innerfile refid="PhysicalProperty_8h">PhysicalProperty.h</innerfile>
+    <innerfile refid="Predicate_8cpp">Predicate.cpp</innerfile>
+    <innerfile refid="Predicate_8h">Predicate.h</innerfile>
+    <innerfile refid="Query_8cpp">Query.cpp</innerfile>
+    <innerfile refid="Query_8h">Query.h</innerfile>
+    <innerfile refid="RDF_8cpp">RDF.cpp</innerfile>
+    <innerfile refid="RDF_8h">RDF.h</innerfile>
+    <innerfile refid="Resource_8cpp">Resource.cpp</innerfile>
+    <innerfile refid="Resource_8h">Resource.h</innerfile>
+    <innerfile refid="SBMLSemanticExtraction_8cpp">SBMLSemanticExtraction.cpp</innerfile>
+    <innerfile refid="SBMLSemanticExtraction_8h">SBMLSemanticExtraction.h</innerfile>
+    <innerfile refid="Subject_8cpp">Subject.cpp</innerfile>
+    <innerfile refid="Subject_8h">Subject.h</innerfile>
+    <innerfile refid="Triple_8cpp">Triple.cpp</innerfile>
+    <innerfile refid="Triple_8h">Triple.h</innerfile>
+    <innerfile refid="Triples_8cpp">Triples.cpp</innerfile>
+    <innerfile refid="Triples_8h">Triples.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/"/>
+  </compounddef>
+</doxygen>

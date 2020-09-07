@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1Foaf" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::Foaf</compoundname>
+    <basecompoundref refid="classomexmeta_1_1Predicate" prot="public" virt="non-virtual">omexmeta::Predicate</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1Foaf_1a5a91260f5319adc671c749a09ef0cf0a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; omexmeta::Foaf::valid_terms_</definition>
+        <argsstring></argsstring>
+        <name>valid_terms_</name>
+        <initializer>{
+                &quot;Agent&quot;, &quot;Person&quot;, &quot;name&quot;, &quot;title&quot;, &quot;img&quot;, &quot;depiction&quot;, &quot;familyName&quot;, &quot;givenName&quot;, &quot;knows&quot;,
+                &quot;based_near&quot;, &quot;age&quot;, &quot;made&quot;, &quot;primaryTopic&quot;, &quot;Project&quot;, &quot;Organization&quot;, &quot;Group&quot;, &quot;member&quot;,
+                &quot;Document&quot;, &quot;Image&quot;, &quot;nick&quot;, &quot;mbox&quot;, &quot;homepage&quot;, &quot;weblog&quot;, &quot;openid&quot;, &quot;jabberID&quot;, &quot;mbox_sha1sum&quot;,
+                &quot;interest&quot;, &quot;topic_interest&quot;, &quot;topic&quot;, &quot;workplaceHomepage&quot;, &quot;workInfoHomepage&quot;, &quot;schoolHomepage&quot;,
+                &quot;publications&quot;, &quot;currentProject&quot;, &quot;pastProject&quot;, &quot;account&quot;, &quot;OnlineAccount&quot;, &quot;accountName&quot;,
+                &quot;accountServiceHomepage&quot;, &quot;PersonalProfileDocument&quot;, &quot;tipjar&quot;, &quot;sha1&quot;, &quot;thumbnail&quot;, &quot;logo&quot;,}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="342" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1Foaf_1a8e86983793ae4dda976ef2af94b9bcf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Foaf::Foaf</definition>
+        <argsstring>()=default</argsstring>
+        <name>Foaf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="350" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Foaf_1af60965a79363573d9df78010936e1c81" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Foaf::Foaf</definition>
+        <argsstring>(const std::string &amp;term)</argsstring>
+        <name>Foaf</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="352" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="249" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Foaf_1a044d1eedbaf2be1ac6fcd160e3365a16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Foaf::verify</definition>
+        <argsstring>()</argsstring>
+        <name>verify</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Predicate.h" line="354" column="1" bodyfile="src/omexmeta/Predicate.cpp" bodystart="254" bodyend="256"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="64">
+        <label>omexmeta::Foaf</label>
+        <link refid="classomexmeta_1_1Foaf"/>
+        <childnode refid="65" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>omexmeta::Predicate</label>
+        <link refid="classomexmeta_1_1Predicate"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="66">
+        <label>omexmeta::Foaf</label>
+        <link refid="classomexmeta_1_1Foaf"/>
+        <childnode refid="67" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>omexmeta::Predicate</label>
+        <link refid="classomexmeta_1_1Predicate"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/omexmeta/Predicate.h" line="340" column="1" bodyfile="src/omexmeta/Predicate.h" bodystart="340" bodyend="358"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1Predicate_1a4cda551beb4e1354ac56d692f0eb78cd" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>addSeenNamespaceToSerializer</name></member>
+      <member refid="classomexmeta_1_1Foaf_1a8e86983793ae4dda976ef2af94b9bcf7" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>Foaf</name></member>
+      <member refid="classomexmeta_1_1Foaf_1af60965a79363573d9df78010936e1c81" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>Foaf</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a718a37ff90ac0f2d7cc129e8351a2c7b" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>freeNode</name></member>
+      <member refid="classomexmeta_1_1Predicate_1add4ab1cd86f83de3512279bbfdad947c" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>getNamespace</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a144efc75a923b9d85b9f8eaccf0400bb" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>getNode</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a0147e977f71604db05763815ae6b553f" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>getPrefix</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a54a15176bd697d37d00573bf86954630" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>getTerm</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a27fa7d62ad9a5182f3dd642bc61c8d9f" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>getUri</name></member>
+      <member refid="classomexmeta_1_1Predicate_1aee19b8fc8b21f8e5ffd5b64691e1e530" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>getValidTerms</name></member>
+      <member refid="classomexmeta_1_1Predicate_1afc79b0cc43eb11e4bc2fe0b305e551bc" prot="protected" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>namespace_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a8381c8b0c7bbaa27de29608cbff08bf5" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>namespaceKnown</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a1291e3cd9727871f568e864e0f5af3f0" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>namespaceMap</name></member>
+      <member refid="classomexmeta_1_1Predicate_1ad0548a6d31dbc6f32734032b1540e58f" prot="protected" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>node_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a7bf4b8769eb9801eb26cc976723b56f2" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>operator!=</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a5db1e6150f8cfd7605e82996e2aebb50" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>operator==</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a157c4e95f9869d4f22cd07332ff7621a" prot="protected" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>Predicate</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a897a506f4c1b31e38e42abd7b0f8314a" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>Predicate</name></member>
+      <member refid="classomexmeta_1_1Predicate_1ad5a91eb29204202d2f18816d09677622" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>Predicate</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a5dfbbc85f7bdc5a3e4da72913f6ce306" prot="protected" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>prefix_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a0bf6030510247a6999d81cada92c1e51" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>setNode</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a9d51ebf565f39fb4d6d4f58c1b030edf" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>str</name></member>
+      <member refid="classomexmeta_1_1Predicate_1ab626a5fd9fa8f302767d4ca544a9eff2" prot="protected" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>term_</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a4fe359b93a9dea9b60f7bc28c1aa913b" prot="protected" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>uri_</name></member>
+      <member refid="classomexmeta_1_1Foaf_1a5a91260f5319adc671c749a09ef0cf0a" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>valid_terms_</name></member>
+      <member refid="classomexmeta_1_1Foaf_1a044d1eedbaf2be1ac6fcd160e3365a16" prot="public" virt="non-virtual"><scope>omexmeta::Foaf</scope><name>verify</name></member>
+      <member refid="classomexmeta_1_1Predicate_1a1e7e59b8a48c9f89eeec73f3bbaea19c" prot="public" virt="non-virtual" ambiguityscope="omexmeta::Predicate::"><scope>omexmeta::Foaf</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

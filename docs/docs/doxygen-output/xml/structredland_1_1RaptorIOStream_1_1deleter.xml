@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structredland_1_1RaptorIOStream_1_1deleter" kind="struct" language="C++" prot="private">
+    <compoundname>redland::RaptorIOStream::deleter</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structredland_1_1RaptorIOStream_1_1deleter_1aee1bffa3eb2e372cf056e8fdef420616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void redland::RaptorIOStream::deleter::operator()</definition>
+        <argsstring>(raptor_iostream *iostream)</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>raptor_iostream *</type>
+          <declname>iostream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/RaptorIOStream.h" line="19" column="1" bodyfile="src/redland/RedlandWrapper/src/RaptorIOStream.cpp" bodystart="10" bodyend="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/redland/RedlandWrapper/src/RaptorIOStream.h" line="18" column="1" bodyfile="src/redland/RedlandWrapper/src/RaptorIOStream.h" bodystart="18" bodyend="20"/>
+    <listofallmembers>
+      <member refid="structredland_1_1RaptorIOStream_1_1deleter_1aee1bffa3eb2e372cf056e8fdef420616" prot="public" virt="non-virtual"><scope>redland::RaptorIOStream::deleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

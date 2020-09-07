@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structredland_1_1LibrdfQueryResults_1_1deleter" kind="struct" language="C++" prot="private">
+    <compoundname>redland::LibrdfQueryResults::deleter</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structredland_1_1LibrdfQueryResults_1_1deleter_1af2a63855ecfbf3f7725bbe97a14be8f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void redland::LibrdfQueryResults::deleter::operator()</definition>
+        <argsstring>(librdf_query_results *query_results)</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>librdf_query_results *</type>
+          <declname>query_results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/redland/RedlandWrapper/src/LibrdfQueryResults.h" line="19" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQueryResults.cpp" bodystart="8" bodyend="11"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/redland/RedlandWrapper/src/LibrdfQueryResults.h" line="18" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfQueryResults.h" bodystart="18" bodyend="20"/>
+    <listofallmembers>
+      <member refid="structredland_1_1LibrdfQueryResults_1_1deleter_1af2a63855ecfbf3f7725bbe97a14be8f9" prot="public" virt="non-virtual"><scope>redland::LibrdfQueryResults::deleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

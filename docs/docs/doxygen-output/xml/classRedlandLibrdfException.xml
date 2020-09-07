@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classRedlandLibrdfException" kind="class" language="C++" prot="public">
+    <compoundname>RedlandLibrdfException</compoundname>
+    <basecompoundref refid="classException" prot="public" virt="non-virtual">Exception</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="190">
+        <label>RedlandLibrdfException</label>
+        <link refid="classRedlandLibrdfException"/>
+        <childnode refid="191" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="191">
+        <label>Exception</label>
+        <link refid="classException"/>
+        <childnode refid="192" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="192">
+        <label>std::exception</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="193">
+        <label>RedlandLibrdfException</label>
+        <link refid="classRedlandLibrdfException"/>
+        <childnode refid="194" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="194">
+        <label>Exception</label>
+        <link refid="classException"/>
+        <childnode refid="195" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="195">
+        <label>std::exception</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/redland/RedlandWrapper/src/LibrdfException.h" line="53" column="1" bodyfile="src/redland/RedlandWrapper/src/LibrdfException.h" bodystart="53" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classException_1ac541ead5c20548813d7dea73c28c7fab" prot="public" virt="non-virtual"><scope>RedlandLibrdfException</scope><name>Exception</name></member>
+      <member refid="classException_1a0b1693d4d5007815322070c907ee5cc2" prot="public" virt="non-virtual"><scope>RedlandLibrdfException</scope><name>Exception</name></member>
+      <member refid="classException_1a5d59cc46086c61391ed26773ce861780" prot="protected" virt="non-virtual"><scope>RedlandLibrdfException</scope><name>msg_</name></member>
+      <member refid="classException_1ae7ba8334eb35e001b4b0c6df9339c0dc" prot="public" virt="non-virtual"><scope>RedlandLibrdfException</scope><name>what</name></member>
+      <member refid="classException_1ab834fdbc275748cf287b994503521ada" prot="public" virt="non-virtual"><scope>RedlandLibrdfException</scope><name>~Exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
