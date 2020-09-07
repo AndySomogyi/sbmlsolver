@@ -69,6 +69,7 @@ else ()
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             VERBATIM
     )
+
     add_custom_target(
             packaging-tar
             COMMENT "Create a tarball binary distribution"
@@ -76,6 +77,7 @@ else ()
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             VERBATIM
     )
+
     add_dependencies(
             packaging packaging-deb packaging-tar
     )
