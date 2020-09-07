@@ -50,6 +50,8 @@ set(
         ${CMAKE_CURRENT_BINARY_DIR}/GitInfo.h
         ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc
 )
+set_source_files_properties(${GENERATED_HEADERS} PROPERTIES GENERATED TRUE)
+
 # Create the .pc file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig)
@@ -156,9 +158,6 @@ set(rrCoreSources
 
 set(rrSources ${rrCoreSources})
 
-# https://cmake.org/cmake/help/v3.3/prop_sf/GENERATED.html
-#TODO set other generated files as generated too
-set_source_files_properties(${GENERATED_HEADERS} PROPERTIES GENERATED TRUE)
 #
 # Add the LLVM sources to compilation
 if (BUILD_LLVM)
@@ -320,7 +319,7 @@ target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 
 target_include_directories(
         ${target}-static PUBLIC
-        ${LLVM_INCLUDE_DIRS}
+        "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
@@ -342,23 +341,23 @@ elseif (APPLE)
 will be different from linux Please remove this warning. (Ciaran)")
 endif ()
 
-MESSAGE(STATUS "LLVM_INCLUDE_DIRS ${LLVM_INCLUDE_DIRS}")
-
+# link the libraries -- remember that order here
+#   is important on linux builds so don't change
 target_link_libraries(
         ${target}-static
         PUBLIC
         ${LLVM_LIBRARIES}
-        clapack::lapack clapack::blas clapack::f2c
-        bzip2::libz2
-        LibXml2::LibXml2
-        nleq1::nleq1-static
-        nleq2::nleq2-static
-        PocoFoundation::PocoFoundation
-        PocoNet::PocoNet
         rr-libstruct::rr-libstruct-static
         sbml-static
-        sundials::sundials_cvode_static sundials::sundials_nvecserial_static
+        bzip2::libz2
         zlib::zlibstatic
+        LibXml2::LibXml2
+        nleq2::nleq2-static
+        nleq1::nleq1-static
+        clapack::lapack clapack::blas clapack::f2c
+        sundials::sundials_cvode_static sundials::sundials_nvecserial_static
+        PocoFoundation::PocoFoundation
+        PocoNet::PocoNet
         iconv::libcharset iconv::libiconv-static
         ${PLATFORM_SPECIFIC_LIBS}
 )
@@ -369,5 +368,55 @@ if (${BUILD_SHARED_LIBS})
     target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
     target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
+
+    install(
+            TARGETS ${target}
+            EXPORT ${target}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ${target}
+    )
+
+    # install export info so roadrunner can be used with find_package in CONFIG mode
+    install(
+            EXPORT ${target}
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+            NAMESPACE ${target}::
+            FILE ${target}-config.cmake
+            COMPONENT ${target}
+    )
+
 endif ()
+
+#################################################################3
+#   install code for COMPONENT RR
+#
+
+install(
+        TARGETS ${target}-static
+        EXPORT ${target}-static
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}-static
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}-static
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}-static
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ${target}-static
+)
+
+# install export info so roadrunner can be used with find_package in CONFIG mode
+install(
+        EXPORT ${target}-static
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+        NAMESPACE ${target}-static::
+        FILE ${target}-static-config.cmake
+        COMPONENT ${target}-static
+)
+
+
+
+
+
+
+
+
+
 

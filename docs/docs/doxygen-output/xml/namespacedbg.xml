@@ -1,0 +1,957 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacedbg" kind="namespace" language="C++">
+    <compoundname>dbg</compoundname>
+    <innerclass refid="classdbg_1_1DebugOutput" prot="public">dbg::DebugOutput</innerclass>
+    <innerclass refid="structdbg_1_1last" prot="public">dbg::last</innerclass>
+    <innerclass refid="structdbg_1_1last_3_01T_01_4" prot="public">dbg::last&lt; T &gt;</innerclass>
+    <innerclass refid="structdbg_1_1pretty__print__tuple" prot="public">dbg::pretty_print_tuple</innerclass>
+    <innerclass refid="structdbg_1_1pretty__print__tuple_3_010_01_4" prot="public">dbg::pretty_print_tuple&lt; 0 &gt;</innerclass>
+    <innerclass refid="structdbg_1_1print__formatted" prot="public">dbg::print_formatted</innerclass>
+    <innerclass refid="structdbg_1_1print__type" prot="public">dbg::print_type</innerclass>
+    <innerclass refid="structdbg_1_1time" prot="public">dbg::time</innerclass>
+    <innerclass refid="structdbg_1_1type__tag" prot="public">dbg::type_tag</innerclass>
+    <innernamespace refid="namespacedbg_1_1detail">dbg::detail</innernamespace>
+    <innernamespace refid="namespacedbg_1_1detail__detector">dbg::detail_detector</innernamespace>
+    <innernamespace refid="namespacedbg_1_1pretty__function">dbg::pretty_function</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="dbg_8h_1a4fff29dc9282f3e887a7c1290477708c" prot="public" static="no">
+        <type>typename <ref refid="structdbg_1_1detail__detector_1_1detector" kindref="compound">detail_detector::detector</ref>&lt; <ref refid="structdbg_1_1detail__detector_1_1nonesuch" kindref="compound">detail_detector::nonesuch</ref>, void, Op, Args... &gt;::value_t</type>
+        <definition>using dbg::is_detected = typedef typename detail_detector:: detector&lt;detail_detector::nonesuch, void, Op, Args...&gt;::value_t</definition>
+        <argsstring></argsstring>
+        <name>is_detected</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="282" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="dbg_8h_1a4754c7365d6eb31696a4613230e21ac4" prot="public" static="no">
+        <type>typename <ref refid="structdbg_1_1last" kindref="compound">last</ref>&lt; T... &gt;::type</type>
+        <definition>using dbg::last_t = typedef typename last&lt;T...&gt;::type</definition>
+        <argsstring></argsstring>
+        <name>last_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="638" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="638" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="dbg_8h_1a4dffa8fa9b0dd86306608691d534a050" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool dbg::isColorizedOutputEnabled</definition>
+        <argsstring>()</argsstring>
+        <name>isColorizedOutputEnabled</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="72" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1afe9f0e1588144f8bb978cdc78d346682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structdbg_1_1print__formatted" kindref="compound">print_formatted</ref>&lt; T &gt;</type>
+        <definition>print_formatted&lt;T&gt; dbg::hex</definition>
+        <argsstring>(T value)</argsstring>
+        <name>hex</name>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="135" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1af52f01dbdbb25506c5cfecab4c57d52a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structdbg_1_1print__formatted" kindref="compound">print_formatted</ref>&lt; T &gt;</type>
+        <definition>print_formatted&lt;T&gt; dbg::oct</definition>
+        <argsstring>(T value)</argsstring>
+        <name>oct</name>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="140" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a554c31997738273466a9f1fd426a3369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structdbg_1_1print__formatted" kindref="compound">print_formatted</ref>&lt; T &gt;</type>
+        <definition>print_formatted&lt;T&gt; dbg::bin</definition>
+        <argsstring>(T value)</argsstring>
+        <name>bin</name>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="145" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1aaf90b7c26aa95f1666f2446996973cac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>const char *</type>
+        <definition>const char* dbg::type_name_impl</definition>
+        <argsstring>()</argsstring>
+        <name>type_name_impl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="152" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a20edc7ca4e92e4b3bddc6b983384aa00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>int &amp;...</type>
+            <declname>ExplicitArgumentBarrier</declname>
+            <defname>ExplicitArgumentBarrier</defname>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; T &gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; T &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="160" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="160" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1aab63fa619583229308f148088ffac7a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::type_name</definition>
+        <argsstring>()</argsstring>
+        <name>type_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="169" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="169" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a77b693006b8b158eb9a4604fba56a782" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; short &gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; short &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="196" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="196" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1ae70efee8c9a9d398975f71b216602097" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; unsigned short &gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; unsigned short &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="200" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a380f1bf409dda5e8c67a269b27d14aee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; long &gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; long &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="204" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="204" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a5316d9f58e72c20cfbb14496326d89f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; unsigned long &gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; unsigned long &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="208" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="208" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a3bcf58cf4aba1da7a34e79b0fb2ce036" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; std::string &gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; std::string &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="212" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="212" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a09680fe23089b62fd2879bd1f38897a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; std::vector&lt; T, std::allocator&lt; T &gt;&gt;&gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; std::vector&lt; T, std::allocator&lt; T &gt;&gt;&gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="217" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1aa4daf4ad755b0a3b4206debc162f064d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T1</type>
+          </param>
+          <param>
+            <type>typename T2</type>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; std::pair&lt; T1, T2 &gt;&gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; std::pair&lt; T1, T2 &gt;&gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="222" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="222" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1aef0097e53230ee373eaabc4981048cac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>T</declname>
+            <defname>T</defname>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::type_list_to_string</definition>
+        <argsstring>()</argsstring>
+        <name>type_list_to_string</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="227" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="227" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a1d187f8063d8c8c024e57a7985bcac78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>T</declname>
+            <defname>T</defname>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; std::tuple&lt; T... &gt;&gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; std::tuple&lt; T... &gt;&gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="240" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="240" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a6224c816a1c695160e869f427854d569" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::get_type_name</definition>
+        <argsstring>(type_tag&lt; print_formatted&lt; T &gt;&gt;)</argsstring>
+        <name>get_type_name</name>
+        <param>
+          <type><ref refid="structdbg_1_1type__tag" kindref="compound">type_tag</ref>&lt; <ref refid="structdbg_1_1print__formatted" kindref="compound">print_formatted</ref>&lt; T &gt;&gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="245" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="245" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a2365d80e3a3525e6025040383ff8661b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structdbg_1_1print__type" kindref="compound">print_type</ref>&lt; T &gt;</type>
+        <definition>print_type&lt;T&gt; dbg::type</definition>
+        <argsstring>()</argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="338" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="338" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a4ba5b016ce65b09fef3935a945310904" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const T &amp;value, std::true_type)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::true_type</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="345" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="345" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1ab875770941388a1d8279e9b5257e5a93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;, const T &amp;, std::false_type)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+        </param>
+        <param>
+          <type>std::false_type</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="350" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="350" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a4920208faa7096e0333f9d14119a9c2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::enable_if&lt;!<ref refid="structdbg_1_1detail_1_1is__container" kindref="compound">detail::is_container</ref>&lt; const T &amp; &gt;::value &amp;&amp;!std::is_enum&lt; T &gt;::value, bool &gt;::type</type>
+        <definition>std::enable_if&lt;!detail::is_container&lt;const T&amp;&gt;::value &amp;&amp; !std::is_enum&lt;T&gt;::value, bool&gt;::type dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const T &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="359" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="359" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a4f9989bfef507d5034cc50d015654ca4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const bool &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="365" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="365" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1acc6a678f0c3954671e247468e249e5a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const char &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const char &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="370" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="370" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a2194ca6a2105fd8c57e5cb43f688d240" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename P</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, P *const &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>P *const &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="383" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="383" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a6cbcb99c1fdd640925d80c390af3954a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Deleter</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, std::unique_ptr&lt; T, Deleter &gt; &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; T, Deleter &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="393" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="393" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1ae36a726fc12c4b6c13878e051f4f3ad7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, std::shared_ptr&lt; T &gt; &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; T &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="400" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="400" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1adb407af036065563d2e8ef131305475a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>N</declname>
+            <defname>N</defname>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const char(&amp;value)[N])</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const char(&amp;)</type>
+          <declname>value</declname>
+          <array>[N]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="408" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="408" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a17cebbee60948a473318356a59d7f825" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const char *const &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const char *const &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="414" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="414" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a48e38a2e7f91709c4eac1c3ff1532f35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Ts</declname>
+            <defname>Ts</defname>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const std::tuple&lt; Ts... &gt; &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::tuple&lt; Ts... &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="438" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="438" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a077f3d4254963a89c600b07eb1b8608b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const std::tuple&lt;&gt; &amp;)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::tuple&lt;&gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="447" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="447" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a43fb1da62bd4a702ea7ca37e665c53c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const time &amp;)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structdbg_1_1time" kindref="compound">time</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="454" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="454" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1acbbd001b36aaa78716ea7d9d2aeb3e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string dbg::decimalToBinary</definition>
+        <argsstring>(T n)</argsstring>
+        <name>decimalToBinary</name>
+        <param>
+          <type>T</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="470" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="470" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a3f0682f5939ac9a18ba7ee86a5c63243" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const print_formatted&lt; T &gt; &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structdbg_1_1print__formatted" kindref="compound">print_formatted</ref>&lt; T &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="484" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="484" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1abb85fb70314b6ada2e66eebeafcd15bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const print_type&lt; T &gt; &amp;)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structdbg_1_1print__type" kindref="compound">print_type</ref>&lt; T &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="518" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="518" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1acd3034b7476cdf474e46eb2bbca6e0d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Enum</type>
+          </param>
+        </templateparamlist>
+        <type>std::enable_if&lt; std::is_enum&lt; Enum &gt;::value, bool &gt;::type</type>
+        <definition>std::enable_if&lt;std::is_enum&lt;Enum&gt;::value, bool&gt;::type dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, Enum const &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>Enum const &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="543" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="543" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1ae620aa6031e088dc11e1df853e38f5fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const std::string &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="550" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="550" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1adf02078069da78815c208dd638a01640" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T1</type>
+          </param>
+          <param>
+            <type>typename T2</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const std::pair&lt; T1, T2 &gt; &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const std::pair&lt; T1, T2 &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="565" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="565" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a1212dc990d58f20efcf5d66eb4a5781c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Container</type>
+          </param>
+        </templateparamlist>
+        <type>std::enable_if&lt; <ref refid="structdbg_1_1detail_1_1is__container" kindref="compound">detail::is_container</ref>&lt; const Container &amp; &gt;::value, bool &gt;::type</type>
+        <definition>std::enable_if&lt;detail::is_container&lt;const Container&amp;&gt;::value, bool&gt;::type dbg::pretty_print</definition>
+        <argsstring>(std::ostream &amp;stream, const Container &amp;value)</argsstring>
+        <name>pretty_print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const Container &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="604" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="604" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a23f10decf1edf2d34e226437e5562452" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T &amp;&amp;</type>
+        <definition>T&amp;&amp; dbg::identity</definition>
+        <argsstring>(T &amp;&amp;t)</argsstring>
+        <name>identity</name>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="728" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="728" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="dbg_8h_1a2f87ce2acfce330c46dba7f4c62c2fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>U</declname>
+            <defname>U</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto dbg::identity</definition>
+        <argsstring>(T &amp;&amp;, U &amp;&amp;... u) -&gt; last_t&lt; U... &gt;</argsstring>
+        <name>identity</name>
+        <param>
+          <type>T &amp;&amp;</type>
+        </param>
+        <param>
+          <type>U &amp;&amp;...</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="733" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="733" bodyend="735"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/dbg.h" line="65" column="1"/>
+  </compounddef>
+</doxygen>

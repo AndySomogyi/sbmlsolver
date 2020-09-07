@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1SBMLAssistant" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::SBMLAssistant</compoundname>
+    <basecompoundref refid="classomexmeta_1_1OmexMetaXmlAssistant" prot="public" virt="non-virtual">omexmeta::OmexMetaXmlAssistant</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1SBMLAssistant_1afcc69d3e7a12673071632f757290d798" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; omexmeta::SBMLAssistant::getValidElements</definition>
+        <argsstring>() const override</argsstring>
+        <name>getValidElements</name>
+        <reimplements refid="classomexmeta_1_1OmexMetaXmlAssistant_1a3a6631e92df490f87f469abca81e1ba1">getValidElements</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="55" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1SBMLAssistant_1ad3c3ab0ac3004961e5c2951568528d8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string omexmeta::SBMLAssistant::metaIdTagName</definition>
+        <argsstring>() const override</argsstring>
+        <name>metaIdTagName</name>
+        <reimplements refid="classomexmeta_1_1OmexMetaXmlAssistant_1adbfc8d96f2adffa35ee01726a97dbcce">metaIdTagName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="59" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="205">
+        <label>omexmeta::OmexMetaXmlAssistant</label>
+        <link refid="classomexmeta_1_1OmexMetaXmlAssistant"/>
+      </node>
+      <node id="204">
+        <label>omexmeta::SBMLAssistant</label>
+        <link refid="classomexmeta_1_1SBMLAssistant"/>
+        <childnode refid="205" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="207">
+        <label>omexmeta::OmexMetaXmlAssistant</label>
+        <link refid="classomexmeta_1_1OmexMetaXmlAssistant"/>
+      </node>
+      <node id="206">
+        <label>omexmeta::SBMLAssistant</label>
+        <link refid="classomexmeta_1_1SBMLAssistant"/>
+        <childnode refid="207" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="52" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="52" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1aeef7e70a554aaf70fb694297e37e7cc8" prot="public" virt="non-virtual"><scope>omexmeta::SBMLAssistant</scope><name>addMetaIds</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a9ff89057f4fe7e8cb2e25f5431bf2bb5" prot="public" virt="non-virtual"><scope>omexmeta::SBMLAssistant</scope><name>generateNewMetaids</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a69bb3ac99f1585b6f567b80e88f52642" prot="public" virt="non-virtual"><scope>omexmeta::SBMLAssistant</scope><name>getMetaidBase</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1a4c9759afd4af42595a4f0a4feb913524" prot="public" virt="non-virtual"><scope>omexmeta::SBMLAssistant</scope><name>getMetaidNumDigits</name></member>
+      <member refid="classomexmeta_1_1SBMLAssistant_1afcc69d3e7a12673071632f757290d798" prot="public" virt="virtual"><scope>omexmeta::SBMLAssistant</scope><name>getValidElements</name></member>
+      <member refid="classomexmeta_1_1SBMLAssistant_1ad3c3ab0ac3004961e5c2951568528d8a" prot="public" virt="virtual"><scope>omexmeta::SBMLAssistant</scope><name>metaIdTagName</name></member>
+      <member refid="classomexmeta_1_1OmexMetaXmlAssistant_1af619a65dd28d04dfabd1930ff4110ce0" prot="public" virt="non-virtual"><scope>omexmeta::SBMLAssistant</scope><name>OmexMetaXmlAssistant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

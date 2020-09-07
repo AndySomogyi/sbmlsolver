@@ -8,7 +8,7 @@
 #-------------------------------------------------------------
 # Tests for steady state and stoichiometric calculations in
 # roadRunner. Herbert M Sauro November 2012
-# Nov 2013: Modified to test Andy's SWIG API
+# Nov 2013: Modified to test Andy's SWIG wrappers
 #-------------------------------------------------------------
 
 #------------------------------------------

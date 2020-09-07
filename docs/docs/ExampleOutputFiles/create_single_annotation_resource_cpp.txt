@@ -1,0 +1,17 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix bqbiol: <http://biomodels.net/biology-qualifiers/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix OMEXlib: <http://omex-library.org/> .
+@prefix myOMEX: <http://omex-library.org/NewOmex.omex/> .
+@prefix local: <http://omex-library.org/NewOmex.omex/NewModel.rdf#> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#OmexMetaId0001>
+    dcterms:description _:BlankIdentifier .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#OmexMetaId0002>
+    bqbiol:is <https://identifiers.org/string1/string2>, <https://identifiers.org/uniprot/PD1234> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#ToyModel>
+    dcterms:description "This is a toy model for demonstration purposes"^^rdf:string .
+
+

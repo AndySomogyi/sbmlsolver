@@ -1,0 +1,154 @@
+The tyon2003 model annotations in turtle syntax is
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix bqbiol: <http://biomodels.net/biology-qualifiers/> .
+@prefix OMEXlib: <http://omex-library.org/> .
+@prefix myOMEX: <http://omex-library.org/NewOmex.omex/> .
+@prefix local: <http://omex-library.org/NewOmex.omex/NewModel.rdf#> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#OmexMetaId0000>
+    bqbiol:is <https://identifiers.org/uniprot/PD12345> .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774235>
+    bqbiol:hasPart [
+        rdf:_1 <http://identifiers.org/go/GO:0007243> ;
+        a rdf:Bag
+    ] ;
+    bqbiol:hasProperty [
+        rdf:_1 <http://identifiers.org/mamo/MAMO_0000046> ;
+        a rdf:Bag
+    ] ;
+    bqbiol:hasTaxon [
+        rdf:_1 <http://identifiers.org/taxonomy/131567> ;
+        a rdf:Bag
+    ] ;
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0051098> ;
+        a rdf:Bag
+    ] ;
+    <http://biomodels.net/model-qualifiers/is> [
+        rdf:_1 <http://identifiers.org/biomodels.db/MODEL1102100004> ;
+        a rdf:Bag
+    ], [
+        rdf:_1 <http://identifiers.org/biomodels.db/BIOMD0000000308> ;
+        a rdf:Bag
+    ] ;
+    <http://biomodels.net/model-qualifiers/isDescribedBy> [
+        rdf:_1 <http://identifiers.org/pubmed/12648679> ;
+        a rdf:Bag
+    ] ;
+    <http://purl.org/dc/elements/1.1/creator> [
+        rdf:_1 [
+            <http://www.w3.org/2001/vcard-rdf/3.0#EMAIL> "lukas@ebi.ac.uk" ;
+            <http://www.w3.org/2001/vcard-rdf/3.0#N> [
+                <http://www.w3.org/2001/vcard-rdf/3.0#Family> "Endler" ;
+                <http://www.w3.org/2001/vcard-rdf/3.0#Given> "Lukas"
+            ] ;
+            <http://www.w3.org/2001/vcard-rdf/3.0#ORG> [
+                <http://www.w3.org/2001/vcard-rdf/3.0#Orgname> "EMBL-EBI"
+            ]
+        ] ;
+        rdf:_2 [
+            <http://www.w3.org/2001/vcard-rdf/3.0#EMAIL> "tyson@vt.edu" ;
+            <http://www.w3.org/2001/vcard-rdf/3.0#N> [
+                <http://www.w3.org/2001/vcard-rdf/3.0#Family> "Tyson" ;
+                <http://www.w3.org/2001/vcard-rdf/3.0#Given> "John J"
+            ] ;
+            <http://www.w3.org/2001/vcard-rdf/3.0#ORG> [
+                <http://www.w3.org/2001/vcard-rdf/3.0#Orgname> "Department of Biology, Virginia Polytechnic Institute and State University, Blacksburg, VA 24061, USA"
+            ]
+        ] ;
+        a rdf:Bag
+    ] ;
+    <http://purl.org/dc/terms/created> [
+        <http://purl.org/dc/terms/W3CDTF> "2011-02-10T03:49:32Z"
+    ] ;
+    <http://purl.org/dc/terms/modified> [
+        <http://purl.org/dc/terms/W3CDTF> "2014-04-06T20:03:14Z"
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774236>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0005623> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774238>
+    bqbiol:hasVersion [
+        rdf:_1 <http://identifiers.org/psimod/MOD:00696> ;
+        a rdf:Bag
+    ] ;
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/kegg.compound/C00562> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774241>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/chebi/CHEBI:36080> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774242>
+    bqbiol:hasProperty [
+        rdf:_1 <http://identifiers.org/go/GO:0016301> ;
+        a rdf:Bag
+    ] ;
+    bqbiol:hasVersion [
+        rdf:_1 <http://identifiers.org/psimod/MOD:00696> ;
+        a rdf:Bag
+    ] ;
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/kegg.compound/C00562> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774246>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/chebi/CHEBI:36080> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774249>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/chebi/CHEBI:36080> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774250>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0009058> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774251>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0009056> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774252>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0006468> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774253>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0006470> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774256>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0006468> ;
+        a rdf:Bag
+    ] .
+
+<https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000308.2?filename=BIOMD0000000308_url.xml#_774257>
+    bqbiol:isVersionOf [
+        rdf:_1 <http://identifiers.org/go/GO:0006470> ;
+        a rdf:Bag
+    ] .
+
+

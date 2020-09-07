@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_b65acc6ced5d737b2c7790d05db72194" kind="dir">
+    <compoundname>src/redland/RedlandWrapper</compoundname>
+    <innerdir refid="dir_e793c0dc4ccd224149063390ee134027">src/redland/RedlandWrapper/src</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/redland/RedlandWrapper/"/>
+  </compounddef>
+</doxygen>

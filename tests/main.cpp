@@ -1,7 +1,6 @@
 
 #include <string>
 #include "rrRoadRunner.h"
-#include "gtest/gtest.h"
 
 //using namespace rr;
 using namespace std;

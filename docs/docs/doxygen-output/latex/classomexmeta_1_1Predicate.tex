@@ -1,0 +1,95 @@
+\hypertarget{classomexmeta_1_1Predicate}{}\section{omexmeta\+:\+:Predicate Class Reference}
+\label{classomexmeta_1_1Predicate}\index{omexmeta\+::\+Predicate@{omexmeta\+::\+Predicate}}
+Inheritance diagram for omexmeta\+:\+:Predicate\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=0.978166cm]{classomexmeta_1_1Predicate}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_ad5a91eb29204202d2f18816d09677622}\label{classomexmeta_1_1Predicate_ad5a91eb29204202d2f18816d09677622}} 
+{\bfseries Predicate} (const std\+::string \&namespace\+\_\+, std\+::string term, std\+::string prefix)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a5db1e6150f8cfd7605e82996e2aebb50}\label{classomexmeta_1_1Predicate_a5db1e6150f8cfd7605e82996e2aebb50}} 
+bool {\bfseries operator==} (const \hyperlink{classomexmeta_1_1Predicate}{Predicate} \&rhs) const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a7bf4b8769eb9801eb26cc976723b56f2}\label{classomexmeta_1_1Predicate_a7bf4b8769eb9801eb26cc976723b56f2}} 
+bool {\bfseries operator!=} (const \hyperlink{classomexmeta_1_1Predicate}{Predicate} \&rhs) const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a9d51ebf565f39fb4d6d4f58c1b030edf}\label{classomexmeta_1_1Predicate_a9d51ebf565f39fb4d6d4f58c1b030edf}} 
+std\+::string {\bfseries str} ()
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a144efc75a923b9d85b9f8eaccf0400bb}\label{classomexmeta_1_1Predicate_a144efc75a923b9d85b9f8eaccf0400bb}} 
+librdf\+\_\+node $\ast$ {\bfseries get\+Node} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_aee19b8fc8b21f8e5ffd5b64691e1e530}\label{classomexmeta_1_1Predicate_aee19b8fc8b21f8e5ffd5b64691e1e530}} 
+const std\+::vector$<$ std\+::string $>$ \& {\bfseries get\+Valid\+Terms} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_add4ab1cd86f83de3512279bbfdad947c}\label{classomexmeta_1_1Predicate_add4ab1cd86f83de3512279bbfdad947c}} 
+const std\+::string \& {\bfseries get\+Namespace} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a54a15176bd697d37d00573bf86954630}\label{classomexmeta_1_1Predicate_a54a15176bd697d37d00573bf86954630}} 
+const std\+::string \& {\bfseries get\+Term} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a0147e977f71604db05763815ae6b553f}\label{classomexmeta_1_1Predicate_a0147e977f71604db05763815ae6b553f}} 
+const std\+::string \& {\bfseries get\+Prefix} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a27fa7d62ad9a5182f3dd642bc61c8d9f}\label{classomexmeta_1_1Predicate_a27fa7d62ad9a5182f3dd642bc61c8d9f}} 
+const std\+::string \& {\bfseries get\+Uri} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a718a37ff90ac0f2d7cc129e8351a2c7b}\label{classomexmeta_1_1Predicate_a718a37ff90ac0f2d7cc129e8351a2c7b}} 
+void {\bfseries free\+Node} ()
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a0bf6030510247a6999d81cada92c1e51}\label{classomexmeta_1_1Predicate_a0bf6030510247a6999d81cada92c1e51}} 
+void {\bfseries set\+Node} (librdf\+\_\+node $\ast$node)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a1291e3cd9727871f568e864e0f5af3f0}\label{classomexmeta_1_1Predicate_a1291e3cd9727871f568e864e0f5af3f0}} 
+static std\+::unordered\+\_\+map$<$ std\+::string, std\+::string $>$ {\bfseries namespace\+Map} ()
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a1e7e59b8a48c9f89eeec73f3bbaea19c}\label{classomexmeta_1_1Predicate_a1e7e59b8a48c9f89eeec73f3bbaea19c}} 
+static void {\bfseries verify} (std\+::vector$<$ std\+::string $>$ valid\+\_\+terms, const std\+::string \&term)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a8381c8b0c7bbaa27de29608cbff08bf5}\label{classomexmeta_1_1Predicate_a8381c8b0c7bbaa27de29608cbff08bf5}} 
+static bool {\bfseries namespace\+Known} (const std\+::string \&ns)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a4cda551beb4e1354ac56d692f0eb78cd}\label{classomexmeta_1_1Predicate_a4cda551beb4e1354ac56d692f0eb78cd}} 
+static void {\bfseries add\+Seen\+Namespace\+To\+Serializer} (librdf\+\_\+world $\ast$world, librdf\+\_\+serializer $\ast$serializer, librdf\+\_\+node $\ast$predicate)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a157c4e95f9869d4f22cd07332ff7621a}\label{classomexmeta_1_1Predicate_a157c4e95f9869d4f22cd07332ff7621a}} 
+{\bfseries Predicate} (librdf\+\_\+node $\ast$node)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_afc79b0cc43eb11e4bc2fe0b305e551bc}\label{classomexmeta_1_1Predicate_afc79b0cc43eb11e4bc2fe0b305e551bc}} 
+std\+::string {\bfseries namespace\+\_\+}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_ab626a5fd9fa8f302767d4ca544a9eff2}\label{classomexmeta_1_1Predicate_ab626a5fd9fa8f302767d4ca544a9eff2}} 
+std\+::string {\bfseries term\+\_\+}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a5dfbbc85f7bdc5a3e4da72913f6ce306}\label{classomexmeta_1_1Predicate_a5dfbbc85f7bdc5a3e4da72913f6ce306}} 
+std\+::string {\bfseries prefix\+\_\+}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a4fe359b93a9dea9b60f7bc28c1aa913b}\label{classomexmeta_1_1Predicate_a4fe359b93a9dea9b60f7bc28c1aa913b}} 
+std\+::string {\bfseries uri\+\_\+}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_ad0548a6d31dbc6f32734032b1540e58f}\label{classomexmeta_1_1Predicate_ad0548a6d31dbc6f32734032b1540e58f}} 
+librdf\+\_\+node $\ast$ {\bfseries node\+\_\+} = nullptr
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Predicate_a14ae7768fbd3aaf444bcde8650910c0b}\label{classomexmeta_1_1Predicate_a14ae7768fbd3aaf444bcde8650910c0b}} 
+std\+::vector$<$ std\+::string $>$ \hyperlink{classomexmeta_1_1Predicate_a14ae7768fbd3aaf444bcde8650910c0b}{valid\+\_\+terms\+\_\+} \{\char`\"{}All\char`\"{}\}
+\begin{DoxyCompactList}\small\item\em predicates can only have type uri \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/omexmeta/Predicate.\+h\item 
+src/omexmeta/Predicate.\+cpp\end{DoxyCompactItemize}

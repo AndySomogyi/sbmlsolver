@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1Exception" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::Exception</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">exception</basecompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1AnnotationBuilderException" prot="public" virt="non-virtual">omexmeta::AnnotationBuilderException</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1InappropriateResourceException" prot="public" virt="non-virtual">omexmeta::InappropriateResourceException</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1LibRDFException" prot="public" virt="non-virtual">omexmeta::LibRDFException</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1NotImplementedException" prot="public" virt="non-virtual">omexmeta::NotImplementedException</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1NullPointerException" prot="public" virt="non-virtual">omexmeta::NullPointerException</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1ValueException" prot="public" virt="non-virtual">omexmeta::ValueException</derivedcompoundref>
+    <includes refid="Error_8h" local="no">Error.h</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1Exception_1a99067aa4ed7e38cf27b986cca3734512" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Exception::msg_</definition>
+        <argsstring></argsstring>
+        <name>msg_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Error message. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Error.h" line="44" column="1" bodyfile="src/omexmeta/Error.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1Exception_1ad09e2a190a245199974678e2790e81ff" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Exception::Exception</definition>
+        <argsstring>(const char *message)</argsstring>
+        <name>Exception</name>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor (C strings). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>C-style string error message. The string contents are copied upon construction. Hence, responsibility for deleting the char* lies with the caller. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Error.h" line="17" column="1" bodyfile="src/omexmeta/Error.h" bodystart="17" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Exception_1ac50b0a25504303cc1a4a1a20de0127eb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Exception::Exception</definition>
+        <argsstring>(std::string message)</argsstring>
+        <name>Exception</name>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor (C++ STL strings). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error message. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Error.h" line="24" column="1" bodyfile="src/omexmeta/Error.h" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Exception_1aaa08b2467c40a3e28586c0da5da45736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Exception::~Exception</definition>
+        <argsstring>() noexcept override=default</argsstring>
+        <name>~Exception</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor. Virtual to allow for subclassing. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Error.h" line="30" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Exception_1af9c3f258e4715dd2102f5c2db5fbe260" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char* omexmeta::Exception::what</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>what</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a pointer to the (constant) error description. <simplesect kind="return"><para>A pointer to a const char*. The underlying memory is in posession of the <ref refid="classomexmeta_1_1Exception" kindref="compound">Exception</ref> object. Callers must not attempt to free the memory. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Error.h" line="37" column="1" bodyfile="src/omexmeta/Error.h" bodystart="37" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ulink url="https://stackoverflow.com/questions/8152720/correct-way-to-inherit-from-stdexception">https://stackoverflow.com/questions/8152720/correct-way-to-inherit-from-stdexception</ulink> </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="53">
+        <label>omexmeta::NotImplementedException</label>
+        <link refid="classomexmeta_1_1NotImplementedException"/>
+        <childnode refid="48" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>omexmeta::NullPointerException</label>
+        <link refid="classomexmeta_1_1NullPointerException"/>
+        <childnode refid="48" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>exception</label>
+      </node>
+      <node id="52">
+        <label>omexmeta::LibRDFException</label>
+        <link refid="classomexmeta_1_1LibRDFException"/>
+        <childnode refid="48" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>omexmeta::ValueException</label>
+        <link refid="classomexmeta_1_1ValueException"/>
+        <childnode refid="48" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>omexmeta::InappropriateResourceException</label>
+        <link refid="classomexmeta_1_1InappropriateResourceException"/>
+        <childnode refid="48" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>omexmeta::AnnotationBuilderException</label>
+        <link refid="classomexmeta_1_1AnnotationBuilderException"/>
+        <childnode refid="48" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>omexmeta::Exception</label>
+        <link refid="classomexmeta_1_1Exception"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="57">
+        <label>exception</label>
+      </node>
+      <node id="56">
+        <label>omexmeta::Exception</label>
+        <link refid="classomexmeta_1_1Exception"/>
+        <childnode refid="57" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/omexmeta/Error.h" line="9" column="1" bodyfile="src/omexmeta/Error.h" bodystart="9" bodyend="45"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1Exception_1ad09e2a190a245199974678e2790e81ff" prot="public" virt="non-virtual"><scope>omexmeta::Exception</scope><name>Exception</name></member>
+      <member refid="classomexmeta_1_1Exception_1ac50b0a25504303cc1a4a1a20de0127eb" prot="public" virt="non-virtual"><scope>omexmeta::Exception</scope><name>Exception</name></member>
+      <member refid="classomexmeta_1_1Exception_1a99067aa4ed7e38cf27b986cca3734512" prot="protected" virt="non-virtual"><scope>omexmeta::Exception</scope><name>msg_</name></member>
+      <member refid="classomexmeta_1_1Exception_1af9c3f258e4715dd2102f5c2db5fbe260" prot="public" virt="non-virtual"><scope>omexmeta::Exception</scope><name>what</name></member>
+      <member refid="classomexmeta_1_1Exception_1aaa08b2467c40a3e28586c0da5da45736" prot="public" virt="non-virtual"><scope>omexmeta::Exception</scope><name>~Exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

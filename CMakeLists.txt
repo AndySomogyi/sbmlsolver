@@ -12,7 +12,7 @@ set(ROADRUNNER_VERSION_PATCH 1)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
-        rr
+        roadrunner
         DESCRIPTION "roadrunner project"
         VERSION ${ROADRUNNER_VERSION}
         LANGUAGES CXX
@@ -69,6 +69,7 @@ option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
 option(BUILD_LLVM "Build the LLVM back end" ON)
 
 
+# todo consider when to remove the legacy backend?
 option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
 
 
@@ -95,8 +96,13 @@ option(WITH_CONDA_BUILDER "Include files required to build the conda package" OF
 option(USE_POCO_NET "Use poco net library" ON)
 option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
 option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
+option(BUILD_PACKAGING "Build binary distributions" OFF)
+option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool" OFF)
 
 set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
+
+# todo replace roadrunner exporter with cmake standard generated exporter
+#   - use generate_export_header()
 
 ##################################################
 #   Settings derived from options
@@ -123,6 +129,8 @@ mark_as_advanced(
 )
 
 # TODO: add some logic to automatically set based on compiler version
+# todo: turn on C++17 and see if it errors.
+#   - it does. Therefore todo: fix errors with c++17
 set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
 
 # new clang on OSX and msvc use std namespace.
@@ -137,40 +145,16 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING
         "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
 
+if (WITH_ADDRESS_SANITIZER)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+endif()
 
 ###################################################
 #   Set some paths used in the build process
 #
 
-#todo clean up unused variables
-
-set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
-set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
-set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
-set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
-option(BUILD_SHARED_LIBS ON)
-set(RR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-set(RR_SOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/source)
-set(THIRD_PARTY_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
-
-set(exe_path ${PROJECT_BINARY_DIR}/bin)
-set(lib_path ${PROJECT_BINARY_DIR}/lib)
-
-if (WIN32)
-    if (${MSVC})
-        if (CMAKE_BUILD_TYPE MATCHES "Debug")
-            set(exe_path ${exe_path}/Debug)
-            set(lib_path ${lib_path}/Debug)
-        else (CMAKE_BUILD_TYPE MATCHES "Debug")
-            set(exe_path ${exe_path}/Release)
-            set(lib_path ${lib_path}/Release)
-        endif (CMAKE_BUILD_TYPE MATCHES "Debug")
-    else (WIN32)
-        # Linux
-    endif (${MSVC})
-endif (WIN32)
+option(BUILD_SHARED_LIBS "Turns on building shared libraries in addition to static libraries which are always build" ON)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
@@ -190,10 +174,6 @@ else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
 
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif ()
-
 #####################################################
 #    Apply project/compiler settings
 #
@@ -206,7 +186,10 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 if (${MSVC})
     # Here we set all flags that are needed for dependency packages.
     # Since we link to everything statically, we need these flags.
-    # Individual targets will need RR_STATIC or RR_EXPORT.
+    # Individual targets will need RR_STATIC or RR_EXPORT but otherwise
+    # these flags are set globally.
+    # todo consider whether this is desirable behaviour in the scenario that
+    #   roadrunner is being used as a embedded package
     add_definitions(
             -DLIBSBML_USE_CPP_NAMESPACE
             -DLIBSBML_STATIC
@@ -269,10 +252,11 @@ message(STATUS "DEPENDENCY_CMAKE_CONFIG_PATHS ${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 
+find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
+find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
 find_package(zlib CONFIG REQUIRED)
 find_package(bzip2 CONFIG REQUIRED)
 find_package(iconv CONFIG REQUIRED)
-find_package(Threads) # for libxml2
 find_package(LibXml2 CONFIG REQUIRED)
 find_package(sbml-static CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
@@ -283,41 +267,6 @@ find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
-
-### handle the LLVM dependency
-#find_program(LLVM_CONFIG
-#        NAMES llvm-config llvm-config.exe
-#        PATHS
-#        ${LLVM_INSTALL_PREFIX}/bin
-#        ${LLVM_INSTALL_PREFIX}/bin/llvm-config
-#        ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
-#        )
-#
-#if (NOT EXISTS ${LLVM_CONFIG})
-#    message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
-#endif ()
-#
-## Use the propper LLVM supplied CMake files.
-## prepend the cmake module path with the LLVM modules
-#set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/cmake/llvm")
-#if (NOT EXISTS "${LLVM_MODULE_PATH}")
-#    message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
-#endif ()
-#set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH}" "${CMAKE_MODULE_PATH}")
-#
-#include(LLVMConfig)
-
-# we're building a JIT compiler with support for binary code (no interpreter):
-# this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
-# to link with.
-#llvm_map_components_to_libnames(LLVM_LIBRARIES jit native)
-#message(STATUS "LLVM_LIBRARIES ${LLVM_LIBRARIES}")
-
-
-
-
-
-
 
 
 ##todo build on mingw to test requirements before uncommenting
@@ -337,8 +286,11 @@ find_package(LLVM REQUIRED)
 ##    )
 ##endif()
 #
+
+
 ##########################################################
 # Add roadrunner source directories to the build
+#
 
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
@@ -346,6 +298,24 @@ add_subdirectory(source)
 add_subdirectory(tests)
 
 add_subdirectory(wrappers)
+
+
+if (BUILD_PACKAGING)
+    #todo raise question of deleting the installer folder (cw)
+    # it doesn't look that useful and we now have the contents of
+    # packaging that will automate production of binary releases.
+    add_subdirectory(packaging)
+endif ()
+
+
+# print out configuration summary
+ConfigurationSummary()
+
+# note: end of cmake script. The below
+# is kept only temporarily while the new
+# build system matures.
+# Still need to add the tests and docs however.
+
 
 ###########################################################
 ## Build tests

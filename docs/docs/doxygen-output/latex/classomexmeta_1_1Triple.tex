@@ -1,0 +1,84 @@
+\hypertarget{classomexmeta_1_1Triple}{}\section{omexmeta\+:\+:Triple Class Reference}
+\label{classomexmeta_1_1Triple}\index{omexmeta\+::\+Triple@{omexmeta\+::\+Triple}}
+Inheritance diagram for omexmeta\+:\+:Triple\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classomexmeta_1_1Triple}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_aaed857f9356dc3a7414f06f393a75ba0}\label{classomexmeta_1_1Triple_aaed857f9356dc3a7414f06f393a75ba0}} 
+{\bfseries Triple} (const \hyperlink{classomexmeta_1_1Subject}{Subject} \&subject, const Predicate\+Ptr \&predicate\+\_\+ptr, const \hyperlink{classomexmeta_1_1Resource}{Resource} \&resource)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_adc457c78ec059eb71602e7ea4f763582}\label{classomexmeta_1_1Triple_adc457c78ec059eb71602e7ea4f763582}} 
+{\bfseries Triple} (librdf\+\_\+node $\ast$subject, librdf\+\_\+node $\ast$predicate, librdf\+\_\+node $\ast$resource)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a1cb45dd3a5778f0e0e92e4a185da9400}\label{classomexmeta_1_1Triple_a1cb45dd3a5778f0e0e92e4a185da9400}} 
+const std\+::string \& {\bfseries get\+Local\+Uri} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a6694daa46597ea91dda045aa0d5e6cfc}\label{classomexmeta_1_1Triple_a6694daa46597ea91dda045aa0d5e6cfc}} 
+void {\bfseries set\+Local\+Uri} (std\+::string local\+Uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_afd918ecccfa23079d9cb70f2e1a3e9b0}\label{classomexmeta_1_1Triple_afd918ecccfa23079d9cb70f2e1a3e9b0}} 
+void {\bfseries set\+Model\+Uri} (const std\+::string \&model\+\_\+uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_aabfef726172656b6c61c602b4d8d33e5}\label{classomexmeta_1_1Triple_aabfef726172656b6c61c602b4d8d33e5}} 
+std\+::string {\bfseries str} (const std\+::string \&format=\char`\"{}turtle\char`\"{}, const std\+::string \&base=(std\+::filesystem\+::current\+\_\+path()/=\char`\"{}annotations.\+rdf\char`\"{}).string(), std\+::string omex\+\_\+name=\char`\"{}New\+Omex.\+omex/\char`\"{}, std\+::string model\+\_\+name=\char`\"{}New\+Model.\+xml\#\char`\"{}) const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a3f3868622349d3a3e14ed3e4b21d49a9}\label{classomexmeta_1_1Triple_a3f3868622349d3a3e14ed3e4b21d49a9}} 
+void {\bfseries free\+Triple} ()
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a2b673a8166a19fb4feae0fc42d31c105}\label{classomexmeta_1_1Triple_a2b673a8166a19fb4feae0fc42d31c105}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+About} (std\+::string omex\+\_\+name, const std\+::string \&model\+\_\+name, std\+::string metaid)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a6329b09efb05005d248790e8a3d507f3}\label{classomexmeta_1_1Triple_a6329b09efb05005d248790e8a3d507f3}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+About} (std\+::string metaid)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a69df88d19e2f9077fccfa9543dadd15f}\label{classomexmeta_1_1Triple_a69df88d19e2f9077fccfa9543dadd15f}} 
+std\+::string {\bfseries get\+About} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a886240fe50becaaa47ca171f2d454ba4}\label{classomexmeta_1_1Triple_a886240fe50becaaa47ca171f2d454ba4}} 
+librdf\+\_\+statement $\ast$ {\bfseries get\+Statement} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a57b4521321178af38415e76cd483207e}\label{classomexmeta_1_1Triple_a57b4521321178af38415e76cd483207e}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+Predicate} (const std\+::string \&namespace\+\_\+, const std\+::string \&term)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a7358812badc8d0d5589a0165af4ad375}\label{classomexmeta_1_1Triple_a7358812badc8d0d5589a0165af4ad375}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+Resource\+Literal} (const std\+::string \&literal)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_ae6836c6e9d06a310a120345aa95a4daa}\label{classomexmeta_1_1Triple_ae6836c6e9d06a310a120345aa95a4daa}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+Resource\+Uri} (const std\+::string \&identifiers\+\_\+uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a90ffe9b74d354cc3fe3132a07546f6d1}\label{classomexmeta_1_1Triple_a90ffe9b74d354cc3fe3132a07546f6d1}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+Resource\+Blank} (const std\+::string \&blank\+\_\+id)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a34832780748d58b0fddea6f6f079217a}\label{classomexmeta_1_1Triple_a34832780748d58b0fddea6f6f079217a}} 
+bool {\bfseries is\+Empty} ()
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a1a99a566a9d1883c6329a023f4dbc056}\label{classomexmeta_1_1Triple_a1a99a566a9d1883c6329a023f4dbc056}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+Predicate} (const std\+::string \&uri)
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_ab89993902b551b98d9e17e4fe5ebed6b}\label{classomexmeta_1_1Triple_ab89993902b551b98d9e17e4fe5ebed6b}} 
+void {\bfseries free\+Triple\+And\+Uris} ()
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_ac379e5410a41c1946e91d581f023c7f5}\label{classomexmeta_1_1Triple_ac379e5410a41c1946e91d581f023c7f5}} 
+const std\+::string \& {\bfseries get\+Model\+Uri} () const
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_a44d31389b0056ab4f1d8689521a25032}\label{classomexmeta_1_1Triple_a44d31389b0056ab4f1d8689521a25032}} 
+\hyperlink{classomexmeta_1_1Triple}{Triple} \& {\bfseries set\+Resource\+With\+Model\+Uri} (const std\+::string \&metaid)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classomexmeta_1_1Triple_af03c0ce3392c0ff30f13772209ac873c}\label{classomexmeta_1_1Triple_af03c0ce3392c0ff30f13772209ac873c}} 
+static \hyperlink{classomexmeta_1_1Triple}{Triple} {\bfseries from\+Raw\+Statement\+Ptr} (librdf\+\_\+statement $\ast$statement)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/omexmeta/Triple.\+h\item 
+src/omexmeta/Triple.\+cpp\end{DoxyCompactItemize}

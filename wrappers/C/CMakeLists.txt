@@ -15,6 +15,8 @@ set(
         rrc_cpp_support.h
 )
 
+set_source_files_properties(${HEADERS} PROPERTIES PUBLIC_HEADER TRUE)
+
 set(
         SOURCES
         rrcStringList.cpp
@@ -33,33 +35,42 @@ set(
 add_library(${target} SHARED ${HEADERS} ${SOURCES})
 
 # link statically so users of the c library will not also need the shared.
-target_link_libraries(${target} PRIVATE roadrunner-static ${LLVM_LIBRARIES} )
-MESSAGE(STATUS "C LLVM_INCLUDE_DIRS ${LLVM_INCLUDE_DIRS}")
-#target_include_directories(
-#        ${target} PUBLIC
-#        "D:/LLVM6.0.1/LLVM6.0.1-windows10-msvc2019/include/llvm"
-#        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-#        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-#        "${LLVM_INCLUDE_DIRS}"
-#        "${RR_INCLUDE_DIRECTORIES}"
-#)
+# Note: properties of roadrunner-static are transitive. Link libraries and
+# include_directories for roadrunner-static all come with the
+# roadrunner-static target automatically.
+target_link_libraries(${target} PRIVATE roadrunner-static)
 
 add_dependencies(${target} roadrunner-static)
 
 target_compile_definitions(${target} PRIVATE EXPORT_RRC STATIC_RR)
 
-#
-#target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-##        ${CMAKE_SOURCE_DIR}/source
-##        ${RR_CAPI_INCLUDE_DIR}
-##        ${INCLUDE_DIRECTORIES}
-##        ${RR_GENERATED_HEADER_PATH}
-##        )
-#
-#target_link_libraries(${target} PRIVATE roadrunner-static)
-#
-#
-#
+
+
+install(
+        TARGETS ${target}
+        EXPORT ${target}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ${target}
+)
+
+# install export info
+install(
+        EXPORT ${target}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+        NAMESPACE ${target}::
+        FILE ${target}-config.cmake
+        COMPONENT ${target}
+)
+
+
+
+# note cmake script ends here. Below is commented out
+# until build system matures. Other folders have not yet been added
+# to the new build system.
+
+
 #add_subdirectory(Apps)
 #add_subdirectory(ApiTest)
 #
@@ -81,9 +92,3 @@ target_compile_definitions(${target} PRIVATE EXPORT_RRC STATIC_RR)
 #        DESTINATION include/rr/C COMPONENT c_api
 #)
 #
-#install(
-#        TARGETS ${target}
-#        RUNTIME DESTINATION bin COMPONENT c_api
-#        ARCHIVE DESTINATION lib COMPONENT c_api
-#        LIBRARY DESTINATION lib COMPONENT c_api
-#)

@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classdbg_1_1DebugOutput" kind="class" language="C++" prot="public">
+    <compoundname>dbg::DebugOutput</compoundname>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classdbg_1_1DebugOutput_1a5d9b38d5b9276cb584c0e20e9b1a2045" prot="public" static="no">
+        <type>const char *</type>
+        <definition>using dbg::DebugOutput::expr_t =  const char*</definition>
+        <argsstring></argsstring>
+        <name>expr_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="643" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1af626f4d2f09e78ece5492b9df69f58df" prot="private" static="no" mutable="no">
+        <type>const bool</type>
+        <definition>const bool dbg::DebugOutput::m_use_colorized_output</definition>
+        <argsstring></argsstring>
+        <name>m_use_colorized_output</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="710" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="710" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1a5129a41dd8c87a9cdb009c3bdc3250f1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string dbg::DebugOutput::m_location</definition>
+        <argsstring></argsstring>
+        <name>m_location</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="712" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="712" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1acf2cc53ec39909789035f106d2ed1cf3" prot="private" static="yes" mutable="no">
+        <type>constexpr std::size_t</type>
+        <definition>constexpr std::size_t dbg::DebugOutput::MAX_PATH_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_PATH_LENGTH</name>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="714" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1a7e7b548e7a03faade2349485ec7a7ade" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_EMPTY</definition>
+        <argsstring></argsstring>
+        <name>ANSI_EMPTY</name>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="716" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1a6c396ee72fac81dcdd1f3384ece77317" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_DEBUG</definition>
+        <argsstring></argsstring>
+        <name>ANSI_DEBUG</name>
+        <initializer>= &quot;\x1b[02m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="717" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1a4a66118a0bad86d45003eadb778ced73" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_WARN</definition>
+        <argsstring></argsstring>
+        <name>ANSI_WARN</name>
+        <initializer>= &quot;\x1b[33m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="718" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="718" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1a5b609e5d823487dc431c67b034ad531f" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_EXPRESSION</definition>
+        <argsstring></argsstring>
+        <name>ANSI_EXPRESSION</name>
+        <initializer>= &quot;\x1b[36m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="719" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="719" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1ad49f5d4e25793317f6203140e3a695ff" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_VALUE</definition>
+        <argsstring></argsstring>
+        <name>ANSI_VALUE</name>
+        <initializer>= &quot;\x1b[01m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="720" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1add9fbcebdb024f3c05f9e5b4ad7bfde7" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_TYPE</definition>
+        <argsstring></argsstring>
+        <name>ANSI_TYPE</name>
+        <initializer>= &quot;\x1b[32m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="721" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="721" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdbg_1_1DebugOutput_1ab8f5e6f9a6d1c6f3e7217c59231f5ddb" prot="private" static="yes" mutable="no">
+        <type>constexpr const char *const</type>
+        <definition>constexpr const char* const dbg::DebugOutput::ANSI_RESET</definition>
+        <argsstring></argsstring>
+        <name>ANSI_RESET</name>
+        <initializer>= &quot;\x1b[0m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="722" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="722" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdbg_1_1DebugOutput_1a7bb0378758aa1006e2423eff57ee36a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>dbg::DebugOutput::DebugOutput</definition>
+        <argsstring>(const char *filepath, int line, const char *function_name)</argsstring>
+        <name>DebugOutput</name>
+        <param>
+          <type>const char *</type>
+          <declname>filepath</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>function_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="645" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="645" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classdbg_1_1DebugOutput_1aa135787802db4a6b0b4eb185185e13ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>T</declname>
+            <defname>T</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto dbg::DebugOutput::print</definition>
+        <argsstring>(std::initializer_list&lt; expr_t &gt; exprs, std::initializer_list&lt; std::string &gt; types, T &amp;&amp;... values) -&gt; last_t&lt; T... &gt;</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::initializer_list&lt; expr_t &gt;</type>
+          <declname>exprs</declname>
+        </param>
+        <param>
+          <type>std::initializer_list&lt; std::string &gt;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>T &amp;&amp;...</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="659" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="659" bodyend="669"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classdbg_1_1DebugOutput_1ac7341e39e815f6cccf94a40b237533a0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T &amp;&amp;</type>
+        <definition>T&amp;&amp; dbg::DebugOutput::print_impl</definition>
+        <argsstring>(const expr_t *expr, const std::string *type, T &amp;&amp;value)</argsstring>
+        <name>print_impl</name>
+        <param>
+          <type>const expr_t *</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>const std::string *</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="673" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="673" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classdbg_1_1DebugOutput_1a2bcceba90497630c8a5944d8d8e50c5f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>U</declname>
+            <defname>U</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto dbg::DebugOutput::print_impl</definition>
+        <argsstring>(const expr_t *exprs, const std::string *types, T &amp;&amp;value, U &amp;&amp;... rest) -&gt; last_t&lt; T, U... &gt;</argsstring>
+        <name>print_impl</name>
+        <param>
+          <type>const expr_t *</type>
+          <declname>exprs</declname>
+        </param>
+        <param>
+          <type>const std::string *</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>U &amp;&amp;...</type>
+          <declname>rest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="694" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="694" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classdbg_1_1DebugOutput_1a34a7f003d727fa30f9a523fde7058ba2" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char* dbg::DebugOutput::ansi</definition>
+        <argsstring>(const char *code) const</argsstring>
+        <name>ansi</name>
+        <param>
+          <type>const char *</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/dbg.h" line="702" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="702" bodyend="708"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/dbg.h" line="640" column="1" bodyfile="src/omexmeta/dbg.h" bodystart="640" bodyend="723"/>
+    <listofallmembers>
+      <member refid="classdbg_1_1DebugOutput_1a34a7f003d727fa30f9a523fde7058ba2" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ansi</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a6c396ee72fac81dcdd1f3384ece77317" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_DEBUG</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a7e7b548e7a03faade2349485ec7a7ade" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_EMPTY</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a5b609e5d823487dc431c67b034ad531f" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_EXPRESSION</name></member>
+      <member refid="classdbg_1_1DebugOutput_1ab8f5e6f9a6d1c6f3e7217c59231f5ddb" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_RESET</name></member>
+      <member refid="classdbg_1_1DebugOutput_1add9fbcebdb024f3c05f9e5b4ad7bfde7" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_TYPE</name></member>
+      <member refid="classdbg_1_1DebugOutput_1ad49f5d4e25793317f6203140e3a695ff" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_VALUE</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a4a66118a0bad86d45003eadb778ced73" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>ANSI_WARN</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a7bb0378758aa1006e2423eff57ee36a2" prot="public" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>DebugOutput</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a5d9b38d5b9276cb584c0e20e9b1a2045" prot="public" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>expr_t</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a5129a41dd8c87a9cdb009c3bdc3250f1" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>m_location</name></member>
+      <member refid="classdbg_1_1DebugOutput_1af626f4d2f09e78ece5492b9df69f58df" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>m_use_colorized_output</name></member>
+      <member refid="classdbg_1_1DebugOutput_1acf2cc53ec39909789035f106d2ed1cf3" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>MAX_PATH_LENGTH</name></member>
+      <member refid="classdbg_1_1DebugOutput_1aa135787802db4a6b0b4eb185185e13ca" prot="public" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>print</name></member>
+      <member refid="classdbg_1_1DebugOutput_1ac7341e39e815f6cccf94a40b237533a0" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>print_impl</name></member>
+      <member refid="classdbg_1_1DebugOutput_1a2bcceba90497630c8a5944d8d8e50c5f" prot="private" virt="non-virtual"><scope>dbg::DebugOutput</scope><name>print_impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,514 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1Participant" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::Participant</compoundname>
+    <derivedcompoundref refid="classomexmeta_1_1MediatorParticipant" prot="public" virt="non-virtual">omexmeta::MediatorParticipant</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1SinkParticipant" prot="public" virt="non-virtual">omexmeta::SinkParticipant</derivedcompoundref>
+    <derivedcompoundref refid="classomexmeta_1_1SourceParticipant" prot="public" virt="non-virtual">omexmeta::SourceParticipant</derivedcompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1a978c915388e0105434ac5da3172e2ff9" prot="private" static="no" mutable="no">
+        <type>librdf_model *</type>
+        <definition>librdf_model* omexmeta::Participant::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="26" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1aa947afd3fb5d53a7bd2029261f5be45e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::metaid_template_str_</definition>
+        <argsstring></argsstring>
+        <name>metaid_template_str_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="27" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1acc6eb18feca176230dfd107f94a7b0db" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::semsim_predicate_term_</definition>
+        <argsstring></argsstring>
+        <name>semsim_predicate_term_</name>
+        <briefdescription>
+<para>like <ref refid="classomexmeta_1_1SourceParticipant" kindref="compound">SourceParticipant</ref> in SourceParticipant0000 </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="28" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1a16f1f408871af50730db7eaae4950bf2" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int omexmeta::Participant::multiplier_</definition>
+        <argsstring></argsstring>
+        <name>multiplier_</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="29" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1ae0d944207f96c78ccfc0002a7084d861" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::physicalEntityReference_</definition>
+        <argsstring></argsstring>
+        <name>physicalEntityReference_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="30" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1a2d1b200f736249f791559b5b65afea2d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::local_participant_metaid_</definition>
+        <argsstring></argsstring>
+        <name>local_participant_metaid_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="34" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1adc7f331875342471ca28c8b0ccc9f625" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::model_uri_</definition>
+        <argsstring></argsstring>
+        <name>model_uri_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="36" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1Participant_1a3c5e24de1d42e00ebf0b9d05fda0bdab" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::local_uri_</definition>
+        <argsstring></argsstring>
+        <name>local_uri_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="37" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a97c047d67dc86db1e617c3528bf8035e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::setMultiplier</definition>
+        <argsstring>(int multiplier)</argsstring>
+        <name>setMultiplier</name>
+        <param>
+          <type>int</type>
+          <declname>multiplier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="53" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a415c1205762dff6943426d830d74edcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::setPhysicalEntityReference</definition>
+        <argsstring>(const std::string &amp;physicalEntityReference)</argsstring>
+        <name>setPhysicalEntityReference</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>physicalEntityReference</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="59" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a8a6626e17aca48b76465d66928eee78f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Participant::getLocalParticipantMetaid</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalParticipantMetaid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="67" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="165" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a5e8f680950f55230587c0f85498c5047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::setUniqueParticipantMetaid</definition>
+        <argsstring>(const std::string &amp;uniqueParticipantMetaid)</argsstring>
+        <name>setUniqueParticipantMetaid</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>uniqueParticipantMetaid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="75" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="169" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a6bf4c724ab5212d10f2a89893f369cd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Participant::getLocalUri</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalUri</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="80" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="173" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a595323ae0681f42a7ba5981e2ee840f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::setLocalUri</definition>
+        <argsstring>(const std::string &amp;localUri)</argsstring>
+        <name>setLocalUri</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>localUri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="85" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="177" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a395bc8d2561149a77371ed80e2ed1517" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::free</definition>
+        <argsstring>()</argsstring>
+        <name>free</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="91" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a95c8c86650d1b0d31bb47eb618ff81b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Participant::Participant</definition>
+        <argsstring>(librdf_model *model, std::string base_metaid, const std::string &amp;model_uri, const std::string &amp;local_uri, std::string semsim_predicate_term, int multiplier, std::string physicalEntityReference)</argsstring>
+        <name>Participant</name>
+        <param>
+          <type>librdf_model *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>base_metaid</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_uri</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_uri</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>semsim_predicate_term</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multiplier</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>physicalEntityReference</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="107" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="12" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a78529cee5b9d5b30d76f937af652d4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Participant::~Participant</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Participant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="112" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1ad3db317039b403fdb7728885152cbeda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Participant::operator==</definition>
+        <argsstring>(const Participant &amp;rhs) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Participant" kindref="compound">Participant</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="114" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1aa4baa62cb4ccffe8443262382490328d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Participant::operator!=</definition>
+        <argsstring>(const Participant &amp;rhs) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Participant" kindref="compound">Participant</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="116" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a6757eea8a56972eb369e0e102ae5bfc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1Triples" kindref="compound">Triples</ref></type>
+        <definition>Triples omexmeta::Participant::toTriples</definition>
+        <argsstring>(const std::string &amp;subject_metaid, std::vector&lt; std::string &gt; &amp;metaid_exclusions)</argsstring>
+        <name>toTriples</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_metaid</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>metaid_exclusions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="125" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="31" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a03a1ffc7e9efaed5c0e94a62f7c72650" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Participant::createMetaid</definition>
+        <argsstring>(const std::string &amp;base, std::vector&lt; std::string &gt; &amp;metaid_exclusions) const</argsstring>
+        <name>createMetaid</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>metaid_exclusions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="131" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1aa09f8c5736dd172b03d7898519d9478d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::basic_string&lt; char &gt;</type>
+        <definition>std::basic_string&lt; char &gt; omexmeta::Participant::getPredicate</definition>
+        <argsstring>()</argsstring>
+        <name>getPredicate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="139" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a1188d6a2036514eb6b649ce1e08eca4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::setPredicate</definition>
+        <argsstring>(const std::string &amp;semsim_predicate_string)</argsstring>
+        <name>setPredicate</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>semsim_predicate_string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="147" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a232d2e7fe124ee13650d666fdfc3b866" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Participant::getSubject</definition>
+        <argsstring>() const</argsstring>
+        <name>getSubject</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="154" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1ac7121064734a05141a57f39dce10e71a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int omexmeta::Participant::getMultiplier</definition>
+        <argsstring>() const</argsstring>
+        <name>getMultiplier</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="160" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1a40a5858db6aaae7ec7095b320de838d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Participant::getPhysicalEntityReference</definition>
+        <argsstring>() const</argsstring>
+        <name>getPhysicalEntityReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="166" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1ae78613f8d39ccfc23fc3624deb960fb0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; omexmeta::Participant::getModelUri</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelUri</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="171" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Participant_1abea74e8605f7314a51db8dc723961462" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Participant::setModelUri</definition>
+        <argsstring>(const std::string &amp;model_uri)</argsstring>
+        <name>setModelUri</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Participant.h" line="176" column="1" bodyfile="src/omexmeta/Participant.cpp" bodystart="185" bodyend="187"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="139">
+        <label>omexmeta::Participant</label>
+        <link refid="classomexmeta_1_1Participant"/>
+      </node>
+      <node id="142">
+        <label>omexmeta::SourceParticipant</label>
+        <link refid="classomexmeta_1_1SourceParticipant"/>
+        <childnode refid="139" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="141">
+        <label>omexmeta::SinkParticipant</label>
+        <link refid="classomexmeta_1_1SinkParticipant"/>
+        <childnode refid="139" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="140">
+        <label>omexmeta::MediatorParticipant</label>
+        <link refid="classomexmeta_1_1MediatorParticipant"/>
+        <childnode refid="139" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="src/omexmeta/Participant.h" line="24" column="1" bodyfile="src/omexmeta/Participant.h" bodystart="24" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1Participant_1a03a1ffc7e9efaed5c0e94a62f7c72650" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>createMetaid</name></member>
+      <member refid="classomexmeta_1_1Participant_1a395bc8d2561149a77371ed80e2ed1517" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>free</name></member>
+      <member refid="classomexmeta_1_1Participant_1a8a6626e17aca48b76465d66928eee78f" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getLocalParticipantMetaid</name></member>
+      <member refid="classomexmeta_1_1Participant_1a6bf4c724ab5212d10f2a89893f369cd1" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getLocalUri</name></member>
+      <member refid="classomexmeta_1_1Participant_1ae78613f8d39ccfc23fc3624deb960fb0" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getModelUri</name></member>
+      <member refid="classomexmeta_1_1Participant_1ac7121064734a05141a57f39dce10e71a" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getMultiplier</name></member>
+      <member refid="classomexmeta_1_1Participant_1a40a5858db6aaae7ec7095b320de838d1" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getPhysicalEntityReference</name></member>
+      <member refid="classomexmeta_1_1Participant_1aa09f8c5736dd172b03d7898519d9478d" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getPredicate</name></member>
+      <member refid="classomexmeta_1_1Participant_1a232d2e7fe124ee13650d666fdfc3b866" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>getSubject</name></member>
+      <member refid="classomexmeta_1_1Participant_1a2d1b200f736249f791559b5b65afea2d" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>local_participant_metaid_</name></member>
+      <member refid="classomexmeta_1_1Participant_1a3c5e24de1d42e00ebf0b9d05fda0bdab" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>local_uri_</name></member>
+      <member refid="classomexmeta_1_1Participant_1aa947afd3fb5d53a7bd2029261f5be45e" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>metaid_template_str_</name></member>
+      <member refid="classomexmeta_1_1Participant_1a978c915388e0105434ac5da3172e2ff9" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>model_</name></member>
+      <member refid="classomexmeta_1_1Participant_1adc7f331875342471ca28c8b0ccc9f625" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>model_uri_</name></member>
+      <member refid="classomexmeta_1_1Participant_1a16f1f408871af50730db7eaae4950bf2" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>multiplier_</name></member>
+      <member refid="classomexmeta_1_1Participant_1aa4baa62cb4ccffe8443262382490328d" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>operator!=</name></member>
+      <member refid="classomexmeta_1_1Participant_1ad3db317039b403fdb7728885152cbeda" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>operator==</name></member>
+      <member refid="classomexmeta_1_1Participant_1a95c8c86650d1b0d31bb47eb618ff81b9" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>Participant</name></member>
+      <member refid="classomexmeta_1_1Participant_1ae0d944207f96c78ccfc0002a7084d861" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>physicalEntityReference_</name></member>
+      <member refid="classomexmeta_1_1Participant_1acc6eb18feca176230dfd107f94a7b0db" prot="private" virt="non-virtual"><scope>omexmeta::Participant</scope><name>semsim_predicate_term_</name></member>
+      <member refid="classomexmeta_1_1Participant_1a595323ae0681f42a7ba5981e2ee840f1" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>setLocalUri</name></member>
+      <member refid="classomexmeta_1_1Participant_1abea74e8605f7314a51db8dc723961462" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>setModelUri</name></member>
+      <member refid="classomexmeta_1_1Participant_1a97c047d67dc86db1e617c3528bf8035e" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>setMultiplier</name></member>
+      <member refid="classomexmeta_1_1Participant_1a415c1205762dff6943426d830d74edcd" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>setPhysicalEntityReference</name></member>
+      <member refid="classomexmeta_1_1Participant_1a1188d6a2036514eb6b649ce1e08eca4d" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>setPredicate</name></member>
+      <member refid="classomexmeta_1_1Participant_1a5e8f680950f55230587c0f85498c5047" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>setUniqueParticipantMetaid</name></member>
+      <member refid="classomexmeta_1_1Participant_1a6757eea8a56972eb369e0e102ae5bfc8" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>toTriples</name></member>
+      <member refid="classomexmeta_1_1Participant_1a78529cee5b9d5b30d76f937af652d4f0" prot="public" virt="non-virtual"><scope>omexmeta::Participant</scope><name>~Participant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,123 @@
+Running main() from /mnt/d/libOmexMeta/third_party/googletest/googletest/src/gtest_main.cc
+[==========] Running 2 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from EditorSBMLExtractTests1
+[ RUN      ] EditorSBMLExtractTests1.test
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix semsim: <http://www.bhi.washington.edu/semsim#> .
+@prefix bqbiol: <http://biomodels.net/biology-qualifiers/> .
+@prefix OMEXlib: <http://omex-library.org/> .
+@prefix myOMEX: <http://omex-library.org/NewOmex.omex/> .
+@prefix local: <http://omex-library.org/NewOmex.omex/NewModel.rdf#> .
+
+local:MediatorParticipant0000
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesB> .
+
+local:PhysicalProcess0000
+    semsim:hasSinkParticipant local:SinkParticipant0000 ;
+    semsim:hasSourceParticipant local:SourceParticipant0000 .
+
+local:PhysicalProcess0001
+    semsim:hasSinkParticipant local:SinkParticipant0001 ;
+    semsim:hasSourceParticipant local:SourceParticipant0001 .
+
+local:PhysicalProcess0002
+    semsim:hasMediatorParticipant local:MediatorParticipant0000 ;
+    semsim:hasSinkParticipant local:SinkParticipant0002 ;
+    semsim:hasSourceParticipant local:SourceParticipant0002 .
+
+local:PhysicalProcess0003
+    semsim:hasSinkParticipant local:SinkParticipant0003 ;
+    semsim:hasSourceParticipant local:SourceParticipant0003 .
+
+local:SinkParticipant0000
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesB> .
+
+local:SinkParticipant0001
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesA> .
+
+local:SinkParticipant0002
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesD> .
+
+local:SinkParticipant0003
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesC> .
+
+local:SourceParticipant0000
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesA> .
+
+local:SourceParticipant0001
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesB> .
+
+local:SourceParticipant0002
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesC> .
+
+local:SourceParticipant0003
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesD> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#Reaction_r1>
+    bqbiol:isPropertyOf local:PhysicalProcess0000 ;
+    bqbiol:isVersionOf <https://identifiers.org/opb/OPB_00592> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#Reaction_r2>
+    bqbiol:isPropertyOf local:PhysicalProcess0001 ;
+    bqbiol:isVersionOf <https://identifiers.org/opb/OPB_00592> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#Reaction_r3>
+    bqbiol:isPropertyOf local:PhysicalProcess0002 ;
+    bqbiol:isVersionOf <https://identifiers.org/opb/OPB_00592> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#Reaction_r4>
+    bqbiol:isPropertyOf local:PhysicalProcess0003 ;
+    bqbiol:isVersionOf <https://identifiers.org/opb/OPB_00592> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesA>
+    bqbiol:isPartOf <http://omex-library.org/NewOmex.omex/NewModel.xml#nucleus> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesB>
+    bqbiol:isPartOf <http://omex-library.org/NewOmex.omex/NewModel.xml#nucleus> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesC>
+    bqbiol:isPartOf <http://omex-library.org/NewOmex.omex/NewModel.xml#cytosol> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesD>
+    bqbiol:isPartOf <http://omex-library.org/NewOmex.omex/NewModel.xml#cytosol> .
+
+
+[       OK ] EditorSBMLExtractTests1.test (103 ms)
+[----------] 1 test from EditorSBMLExtractTests1 (103 ms total)
+
+[----------] 1 test from EditorSBMLExtractTests2
+[ RUN      ] EditorSBMLExtractTests2.test
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix semsim: <http://www.bhi.washington.edu/semsim#> .
+@prefix bqbiol: <http://biomodels.net/biology-qualifiers/> .
+@prefix OMEXlib: <http://omex-library.org/> .
+@prefix myOMEX: <http://omex-library.org/NewOmex.omex/> .
+@prefix local: <http://omex-library.org/NewOmex.omex/NewModel.rdf#> .
+
+local:PhysicalProcess0000
+    semsim:hasSinkParticipant local:SinkParticipant0000 .
+
+local:SinkParticipant0000
+    semsim:hasMultiplier "1"^^rdf:int ;
+    semsim:hasPhysicalEntityReference <http://omex-library.org/NewOmex.omex/NewModel.xml#SpeciesA> .
+
+<http://omex-library.org/NewOmex.omex/NewModel.xml#Reaction_r1>
+    bqbiol:isPropertyOf local:PhysicalProcess0000 ;
+    bqbiol:isVersionOf <https://identifiers.org/opb/OPB_00592> .
+
+
+[       OK ] EditorSBMLExtractTests2.test (2 ms)
+[----------] 1 test from EditorSBMLExtractTests2 (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 2 test suites ran. (110 ms total)
+[  PASSED  ] 2 tests.

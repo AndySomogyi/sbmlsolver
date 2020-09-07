@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1PhysicalForce" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::PhysicalForce</compoundname>
+    <basecompoundref refid="classomexmeta_1_1PhysicalPhenomenon" prot="public" virt="non-virtual">omexmeta::PhysicalPhenomenon</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1PhysicalForce_1a79c5d2ad46b427dea58ab7058c8cd78b" prot="private" static="no" mutable="no">
+        <type>Sources</type>
+        <definition>Sources omexmeta::PhysicalForce::sources_</definition>
+        <argsstring></argsstring>
+        <name>sources_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="30" column="1" bodyfile="src/omexmeta/PhysicalForce.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1PhysicalForce_1a42c0ae3fe54ba4b69a709feefb01cee3" prot="private" static="no" mutable="no">
+        <type>Sinks</type>
+        <definition>Sinks omexmeta::PhysicalForce::sinks_</definition>
+        <argsstring></argsstring>
+        <name>sinks_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="31" column="1" bodyfile="src/omexmeta/PhysicalForce.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classomexmeta_1_1PhysicalForce_1a4ffbcd8ede36ce82b5b76910f533cb85" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string omexmeta::PhysicalForce::physical_force_id_</definition>
+        <argsstring></argsstring>
+        <name>physical_force_id_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="32" column="1" bodyfile="src/omexmeta/PhysicalForce.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1ad5b43ea5489891c45f5ebc4c9b62e44e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::PhysicalForce::PhysicalForce</definition>
+        <argsstring>()=delete</argsstring>
+        <name>PhysicalForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="44" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1ad549162ec04a7aeb5b2c35f996f044a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::PhysicalForce::~PhysicalForce</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PhysicalForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="46" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a8761d703a67c6dc81b4a71b90391b20f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::PhysicalForce::PhysicalForce</definition>
+        <argsstring>(librdf_model *model, std::string model_uri, std::string local_uri, PhysicalProperty physicalProperty, Sources sources, Sinks sinks)</argsstring>
+        <name>PhysicalForce</name>
+        <param>
+          <type>librdf_model *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>model_uri</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>local_uri</declname>
+        </param>
+        <param>
+          <type><ref refid="classomexmeta_1_1PhysicalProperty" kindref="compound">PhysicalProperty</ref></type>
+          <declname>physicalProperty</declname>
+        </param>
+        <param>
+          <type>Sources</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type>Sinks</type>
+          <declname>sinks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="49" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="10" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a41cd6c9904f3287bb8cbbab2b9d2ada3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::PhysicalForce::free</definition>
+        <argsstring>()</argsstring>
+        <name>free</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="64" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="108" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a673e6810fe969bcd087ab88c62e5e041" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::PhysicalForce::PhysicalForce</definition>
+        <argsstring>(librdf_model *model)</argsstring>
+        <name>PhysicalForce</name>
+        <param>
+          <type>librdf_model *</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="75" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="94" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a2ff9aecd73a5356be701d8ba7e9bf71c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::PhysicalForce::PhysicalForce</definition>
+        <argsstring>(librdf_model *model, const std::string &amp;model_uri, const std::string &amp;local_uri)</argsstring>
+        <name>PhysicalForce</name>
+        <param>
+          <type>librdf_model *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_uri</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="87" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="97" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1ae0a9ec4689b4765d985ab8f7a8878f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string omexmeta::PhysicalForce::createMetaId</definition>
+        <argsstring>()</argsstring>
+        <name>createMetaId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="93" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1aa42b8e04573d2ae88f952c76b146d5ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Sources &amp;</type>
+        <definition>const std::vector&lt; SourceParticipant &gt; &amp; omexmeta::PhysicalForce::getSources</definition>
+        <argsstring>() const</argsstring>
+        <name>getSources</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="99" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1ab37bbe3a0f762066fdb43e5c2ce608eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Sinks &amp;</type>
+        <definition>const std::vector&lt; SinkParticipant &gt; &amp; omexmeta::PhysicalForce::getSinks</definition>
+        <argsstring>() const</argsstring>
+        <name>getSinks</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="105" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a39dd511aee85130d07cb6ffb3f8e87f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classomexmeta_1_1Triples" kindref="compound">Triples</ref></type>
+        <definition>Triples omexmeta::PhysicalForce::toTriples</definition>
+        <argsstring>() override</argsstring>
+        <name>toTriples</name>
+        <reimplements refid="classomexmeta_1_1PhysicalPhenomenon_1a30617e685bd8b155a76d38ab5a9db273">toTriples</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="114" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="31" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a081aecc43d16b2fc8826c4050eb2055d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1PhysicalForce" kindref="compound">PhysicalForce</ref> &amp;</type>
+        <definition>PhysicalForce &amp; omexmeta::PhysicalForce::setPhysicalProperty</definition>
+        <argsstring>(PhysicalProperty physicalProperty)</argsstring>
+        <name>setPhysicalProperty</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1PhysicalProperty" kindref="compound">PhysicalProperty</ref></type>
+          <declname>physicalProperty</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="127" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a3f979432322d40efc8a15cf5ee883100" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1PhysicalForce" kindref="compound">PhysicalForce</ref> &amp;</type>
+        <definition>PhysicalForce &amp; omexmeta::PhysicalForce::setPhysicalProperty</definition>
+        <argsstring>(std::string subject_metaid, std::string physical_property)</argsstring>
+        <name>setPhysicalProperty</name>
+        <param>
+          <type>std::string</type>
+          <declname>subject_metaid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>physical_property</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="135" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="70" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1ace7d3703d7e4bdb9a256208f456f2c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1PhysicalForce" kindref="compound">PhysicalForce</ref> &amp;</type>
+        <definition>PhysicalForce &amp; omexmeta::PhysicalForce::addSource</definition>
+        <argsstring>(int multiplier, const std::string &amp;physical_entity_reference)</argsstring>
+        <name>addSource</name>
+        <param>
+          <type>int</type>
+          <declname>multiplier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>physical_entity_reference</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="147" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a8ec5e262b82526ac914d8c7f10b6c2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1PhysicalForce" kindref="compound">PhysicalForce</ref> &amp;</type>
+        <definition>PhysicalForce &amp; omexmeta::PhysicalForce::addSink</definition>
+        <argsstring>(int multiplier, const std::string &amp;physical_entity_reference)</argsstring>
+        <name>addSink</name>
+        <param>
+          <type>int</type>
+          <declname>multiplier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>physical_entity_reference</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="159" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a9910c8edac57daf70faa1f1e2e0208d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int omexmeta::PhysicalForce::getNumSources</definition>
+        <argsstring>()</argsstring>
+        <name>getNumSources</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="166" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1a1135c75705b59afa7037bab313009534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int omexmeta::PhysicalForce::getNumSinks</definition>
+        <argsstring>()</argsstring>
+        <name>getNumSinks</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="173" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1affa0a1f3cdce0a3336d56658a92c65f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::PhysicalForce::operator==</definition>
+        <argsstring>(const PhysicalForce &amp;rhs) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1PhysicalForce" kindref="compound">PhysicalForce</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="175" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1PhysicalForce_1aeb7adb235c0caac04c7aa599f98f258a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::PhysicalForce::operator!=</definition>
+        <argsstring>(const PhysicalForce &amp;rhs) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1PhysicalForce" kindref="compound">PhysicalForce</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/PhysicalForce.h" line="177" column="1" bodyfile="src/omexmeta/PhysicalForce.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="152">
+        <label>omexmeta::PhysicalPhenomenon</label>
+        <link refid="classomexmeta_1_1PhysicalPhenomenon"/>
+      </node>
+      <node id="151">
+        <label>omexmeta::PhysicalForce</label>
+        <link refid="classomexmeta_1_1PhysicalForce"/>
+        <childnode refid="152" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="155">
+        <label>omexmeta::PhysicalProperty</label>
+        <link refid="classomexmeta_1_1PhysicalProperty"/>
+      </node>
+      <node id="154">
+        <label>omexmeta::PhysicalPhenomenon</label>
+        <link refid="classomexmeta_1_1PhysicalPhenomenon"/>
+        <childnode refid="155" relation="usage">
+          <edgelabel>physical_property_</edgelabel>
+        </childnode>
+      </node>
+      <node id="153">
+        <label>omexmeta::PhysicalForce</label>
+        <link refid="classomexmeta_1_1PhysicalForce"/>
+        <childnode refid="154" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/omexmeta/PhysicalForce.h" line="28" column="1" bodyfile="src/omexmeta/PhysicalForce.h" bodystart="28" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1PhysicalForce_1a8ec5e262b82526ac914d8c7f10b6c2f1" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>addSink</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1ace7d3703d7e4bdb9a256208f456f2c4f" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>addSource</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1ae0a9ec4689b4765d985ab8f7a8878f38" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>createMetaId</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a41cd6c9904f3287bb8cbbab2b9d2ada3" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>free</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1afe71a5c6399b992922eb6eeda6de49bd" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>generateMetaId</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a8be912d1256d6b913c4965f96f1b730b" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getAbout</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a2d59ebbc920a40348d102af31ed6661a" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getLocalUri</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a5528b12e5dbc702c0c270328662e7031" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getModelUri</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a54d90cf6db78e98bd091f478dc5bd74a" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getNewMetaidExclusionList</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a1135c75705b59afa7037bab313009534" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getNumSinks</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a9910c8edac57daf70faa1f1e2e0208d1" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getNumSources</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1ac741cab1f6df58b0de484fc1771ef839" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getPhysicalProperty</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1aca53e0f8ce8139a919f48372b254a5d0" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getPhysicalPropertyId</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1ab37bbe3a0f762066fdb43e5c2ce608eb" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getSinks</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1aa42b8e04573d2ae88f952c76b146d5ac" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getSources</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1ae99e667cbceff2da0c4c0f5c64a8ba8f" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getSubjectStr</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a9676a1dcc458247a19d19cda16d640f4" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>getType</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a114864dfae1f79ce4e3f430b7711516c" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>local_uri_</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a9de43fc3fd94d3463c7fb9b8f684e78b" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>model_</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a696cbc4f6490dd55d6bd41c7711cd0ec" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>model_uri_</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a710756d611350395539dfa9f7fbf764e" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>new_metaid_exclusion_list_</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1aeb7adb235c0caac04c7aa599f98f258a" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>operator!=</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a2c726263714e31c7c19d6e73c2c593f8" prot="public" virt="non-virtual" ambiguityscope="omexmeta::PhysicalPhenomenon::"><scope>omexmeta::PhysicalForce</scope><name>operator!=</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1aac3920bfe9bf16e071ebdd8ed4fabe2f" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>operator=</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1af15355b4c2a361b4b02dca02d3877aed" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>operator=</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1affa0a1f3cdce0a3336d56658a92c65f3" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>operator==</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a1c3322453b3c6831668ffa98d9f4b6af" prot="public" virt="non-virtual" ambiguityscope="omexmeta::PhysicalPhenomenon::"><scope>omexmeta::PhysicalForce</scope><name>operator==</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a4ffbcd8ede36ce82b5b76910f533cb85" prot="private" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>physical_force_id_</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a9e17807d60d9e3f797d6c02ef85cdfc6" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>physical_property_</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1ad5b43ea5489891c45f5ebc4c9b62e44e" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalForce</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a8761d703a67c6dc81b4a71b90391b20f" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalForce</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a673e6810fe969bcd087ab88c62e5e041" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalForce</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a2ff9aecd73a5356be701d8ba7e9bf71c" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalForce</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1af5416111e5358d3582ff598ad51d62a9" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalPhenomenon</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1ad823dad75504adb78975c810e5f1ff94" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalPhenomenon</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1aeb95aedf1756ded154ec6753108a691e" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalPhenomenon</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1aa140516da97b03960175f9bc04ecf865" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalPhenomenon</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a5c831ca76c36121b0fbc7b122b5539ac" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalPhenomenon</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a93bf263f7fdb65bd3e8de97983a7186b" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>PhysicalPhenomenon</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a0a9c54b0c4bfad62b618766474dc70f8" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setAbout</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a84cae9aa96ca00df45b0f81dd8d3ffd4" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setLocalUri</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1aa1fd9929fb2e07fa20081b1a4c00c9d2" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setModelUri</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a081aecc43d16b2fc8826c4050eb2055d" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setPhysicalProperty</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a3f979432322d40efc8a15cf5ee883100" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setPhysicalProperty</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1afad41dbf096b22ab9b64441cb25e9db9" prot="public" virt="non-virtual" ambiguityscope="omexmeta::PhysicalPhenomenon::"><scope>omexmeta::PhysicalForce</scope><name>setPhysicalProperty</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a715b76003eba8e5808fe44a768199fab" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setPhysicalPropertyId</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a4c27a0b0e430df95b3cffaf268973eec" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>setType</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a42c0ae3fe54ba4b69a709feefb01cee3" prot="private" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>sinks_</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a79c5d2ad46b427dea58ab7058c8cd78b" prot="private" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>sources_</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1a39dd511aee85130d07cb6ffb3f8e87f0" prot="public" virt="virtual"><scope>omexmeta::PhysicalForce</scope><name>toTriples</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a74e88adb2099099e411b55cb9aa460a0" prot="protected" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>type_</name></member>
+      <member refid="classomexmeta_1_1PhysicalForce_1ad549162ec04a7aeb5b2c35f996f044a9" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>~PhysicalForce</name></member>
+      <member refid="classomexmeta_1_1PhysicalPhenomenon_1a215daebc00eed1cf7d9eddeaed0d1603" prot="public" virt="non-virtual"><scope>omexmeta::PhysicalForce</scope><name>~PhysicalPhenomenon</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

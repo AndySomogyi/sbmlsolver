@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1InappropriateResourceException" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::InappropriateResourceException</compoundname>
+    <basecompoundref refid="classomexmeta_1_1Exception" prot="public" virt="non-virtual">omexmeta::Exception</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="74">
+        <label>exception</label>
+      </node>
+      <node id="72">
+        <label>omexmeta::InappropriateResourceException</label>
+        <link refid="classomexmeta_1_1InappropriateResourceException"/>
+        <childnode refid="73" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>omexmeta::Exception</label>
+        <link refid="classomexmeta_1_1Exception"/>
+        <childnode refid="74" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="77">
+        <label>exception</label>
+      </node>
+      <node id="75">
+        <label>omexmeta::InappropriateResourceException</label>
+        <link refid="classomexmeta_1_1InappropriateResourceException"/>
+        <childnode refid="76" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>omexmeta::Exception</label>
+        <link refid="classomexmeta_1_1Exception"/>
+        <childnode refid="77" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/omexmeta/Error.h" line="51" column="1" bodyfile="src/omexmeta/Error.h" bodystart="51" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1Exception_1ad09e2a190a245199974678e2790e81ff" prot="public" virt="non-virtual"><scope>omexmeta::InappropriateResourceException</scope><name>Exception</name></member>
+      <member refid="classomexmeta_1_1Exception_1ac50b0a25504303cc1a4a1a20de0127eb" prot="public" virt="non-virtual"><scope>omexmeta::InappropriateResourceException</scope><name>Exception</name></member>
+      <member refid="classomexmeta_1_1Exception_1a99067aa4ed7e38cf27b986cca3734512" prot="protected" virt="non-virtual"><scope>omexmeta::InappropriateResourceException</scope><name>msg_</name></member>
+      <member refid="classomexmeta_1_1Exception_1af9c3f258e4715dd2102f5c2db5fbe260" prot="public" virt="non-virtual"><scope>omexmeta::InappropriateResourceException</scope><name>what</name></member>
+      <member refid="classomexmeta_1_1Exception_1aaa08b2467c40a3e28586c0da5da45736" prot="public" virt="non-virtual"><scope>omexmeta::InappropriateResourceException</scope><name>~Exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

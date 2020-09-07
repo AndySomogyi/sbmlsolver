@@ -2817,7 +2817,7 @@ DoubleMatrix RoadRunner::getL0Matrix()
     ls::LibStructural *ls = getLibStruct();
 
     // the libstruct getL0Matrix returns a NEW matrix,
-    // nice consistent API yes?!?!?
+    // nice consistent wrappers yes?!?!?
     DoubleMatrix *tmp = ls->getL0Matrix();
     DoubleMatrix m = *tmp;
     delete tmp;
@@ -6262,7 +6262,7 @@ void RoadRunner::addRateRule(const std::string& vid, const std::string& formula,
 	regenerate(forceRegenerate);
 }
 
-// TODO: update C API
+// TODO: update C wrappers
 void RoadRunner::removeRules(const std::string& vid, bool useInitialValueAsCurrent, bool forceRegenerate)
 {
 	using namespace libsbml;
@@ -7046,7 +7046,7 @@ void RoadRunner::getAllVariables(const libsbml::ASTNode* node, std::vector<std::
 bool RoadRunner::hasVariable(const libsbml::ASTNode* node, const string& sid) 
 {
 	// DFS
-	// TODO: faster API to iterate all childeren node?
+	// TODO: faster wrappers to iterate all childeren node?
 	if (node == NULL) return false;
 	const char* temp = node->getName();
 	if (!node->isOperator() && !node->isNumber() && sid.compare(node->getName()) == 0) 

@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1Triples" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::Triples</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classomexmeta_1_1Triples_1ac1bedb4d0e572623208e032280abd634" prot="private" static="no" mutable="no">
+        <type>TripleVector</type>
+        <definition>TripleVector omexmeta::Triples::triples_</definition>
+        <argsstring></argsstring>
+        <name>triples_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="40" column="1" bodyfile="src/omexmeta/Triples.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a4976c39ce5f0c652ef8b366fcdd92a58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Triples::Triples</definition>
+        <argsstring>()</argsstring>
+        <name>Triples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="43" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a32ea34c1fd3bfe9887c2221377392efe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Triples::Triples</definition>
+        <argsstring>(int size)</argsstring>
+        <name>Triples</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="49" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="215" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a733eea0f6a2c206eb96771bc7a8cb430" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Triples::Triples</definition>
+        <argsstring>(Triple &amp;triple)</argsstring>
+        <name>Triples</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>triple</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="59" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a71a3ff7b185a5420eabd9bf4e9637196" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>omexmeta::Triples::Triples</definition>
+        <argsstring>(std::vector&lt; Triple &gt; triples)</argsstring>
+        <name>Triples</name>
+        <param>
+          <type>std::vector&lt; <ref refid="classomexmeta_1_1Triple" kindref="compound">Triple</ref> &gt;</type>
+          <declname>triples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="65" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="16" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a8c6e00fe9e694d9c52e1fa37a82ae489" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Triples::operator==</definition>
+        <argsstring>(const Triples &amp;rhs) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Triples" kindref="compound">Triples</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="67" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="207" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a8c9df0d37572179d682127cb7368dd82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Triples::operator!=</definition>
+        <argsstring>(const Triples &amp;rhs) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Triples" kindref="compound">Triples</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="69" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a88dcf4b950f105acb621bd07f07a38a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::move_back</definition>
+        <argsstring>(Triple &amp;triple)</argsstring>
+        <name>move_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>triple</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="76" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a9882f6f582e8d2e34e09d2f7076a0e2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(Subject subject, const PredicatePtr &amp;predicatePtr, const Resource &amp;resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Subject" kindref="compound">Subject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const PredicatePtr &amp;</type>
+          <declname>predicatePtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="83" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1acab4513889a9a42c77b3044aac941728" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(Subject subject, const Predicate &amp;predicate, const Resource &amp;resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Subject" kindref="compound">Subject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Predicate" kindref="compound">Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="91" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a862d672c0ac9d877261947cf5a7061db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(Subject subject, BiomodelsBiologyQualifier predicate, const Resource &amp;resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Subject" kindref="compound">Subject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type><ref refid="classomexmeta_1_1BiomodelsBiologyQualifier" kindref="compound">BiomodelsBiologyQualifier</ref></type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="99" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a87cdc3aacef07c2aebbfe06342bd70f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(Subject subject, BiomodelsModelQualifier predicate, const Resource &amp;resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Subject" kindref="compound">Subject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type><ref refid="classomexmeta_1_1BiomodelsModelQualifier" kindref="compound">BiomodelsModelQualifier</ref></type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="107" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a9f3f3152592f99ac95f65e0e7ce3b450" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(Subject subject, DCTerm predicate, const Resource &amp;resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Subject" kindref="compound">Subject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type><ref refid="classomexmeta_1_1DCTerm" kindref="compound">DCTerm</ref></type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="115" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a55e7ed1c3212ae19d2189a386b81422e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(Subject subject, SemSim predicate, const Resource &amp;resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type><ref refid="classomexmeta_1_1Subject" kindref="compound">Subject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type><ref refid="classomexmeta_1_1SemSim" kindref="compound">SemSim</ref></type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classomexmeta_1_1Resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="123" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a3a8c150cff4d1e78aa360d62d3d6604e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::emplace_back</definition>
+        <argsstring>(librdf_node *subject, librdf_node *predicate, librdf_node *resource)</argsstring>
+        <name>emplace_back</name>
+        <param>
+          <type>librdf_node *</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>librdf_node *</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>librdf_node *</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="130" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a5234882414a2aaaca603eacd805df3d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; omexmeta::Triples::getSubjectsStr</definition>
+        <argsstring>()</argsstring>
+        <name>getSubjectsStr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="138" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a63639c08caac19e6c5cbf30bb28292d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; omexmeta::Triples::getPredicates</definition>
+        <argsstring>()</argsstring>
+        <name>getPredicates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="146" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1aa875120a73cb1618be9e699e8bfb08c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; omexmeta::Triples::getResources</definition>
+        <argsstring>()</argsstring>
+        <name>getResources</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="154" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1adc86427b3563d04849336a8da7566451" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int omexmeta::Triples::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="160" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1aa6735eb506ff0d5a3179fab3af3b2602" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TripleVector::iterator</type>
+        <definition>TripleVector::iterator omexmeta::Triples::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="166" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a4312337b242280bcb119908c0334bfd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TripleVector::iterator</type>
+        <definition>TripleVector::iterator omexmeta::Triples::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="172" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1ad2510c5b335b0266b05507c53bcc64af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string omexmeta::Triples::str</definition>
+        <argsstring>(const std::string &amp;format=&quot;turtle&quot;, std::string base=(std::filesystem::current_path()/=&quot;annotations.rdf&quot;).string(), std::string omex_name=&quot;NewOmex.omex/&quot;, std::string model_name=&quot;NewModel.xml#&quot;)</argsstring>
+        <name>str</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+          <defval>&quot;turtle&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>base</declname>
+          <defval>(std::filesystem::current_path()/=&quot;annotations.rdf&quot;).string()</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>omex_name</declname>
+          <defval>&quot;NewOmex.omex/&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>model_name</declname>
+          <defval>&quot;NewModel.xml#&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="185" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="109" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1ad0c5839b0f49d6427cf53004baf9b0f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void omexmeta::Triples::freeTriples</definition>
+        <argsstring>()</argsstring>
+        <name>freeTriples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="191" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="193" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a5dad8f2cde0a3f6c0ce341338f80b0cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1Triple" kindref="compound">Triple</ref></type>
+        <definition>Triple omexmeta::Triples::pop</definition>
+        <argsstring>()</argsstring>
+        <name>pop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="201" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="175" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a43d540423a436986d9f72d7cf0f02d72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classomexmeta_1_1Triple" kindref="compound">Triple</ref> &amp;</type>
+        <definition>const Triple &amp; omexmeta::Triples::operator[]</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="211" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="203" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a48ab93d0e38e3cfcb4eac9264b047f0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool omexmeta::Triples::isEmpty</definition>
+        <argsstring>()</argsstring>
+        <name>isEmpty</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="220" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1abb333b83c7a8ed1f210816ef88c8d3a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classomexmeta_1_1Triple" kindref="compound">Triple</ref></type>
+        <definition>Triple omexmeta::Triples::pop_front</definition>
+        <argsstring>()</argsstring>
+        <name>pop_front</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="227" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="184" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classomexmeta_1_1Triples_1a1f7ba9d5cd575ba5c63ed9dbbd1f279c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int omexmeta::Triples::capacity</definition>
+        <argsstring>()</argsstring>
+        <name>capacity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/Triples.h" line="233" column="1" bodyfile="src/omexmeta/Triples.cpp" bodystart="219" bodyend="221"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/Triples.h" line="37" column="1" bodyfile="src/omexmeta/Triples.h" bodystart="37" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1Triples_1aa6735eb506ff0d5a3179fab3af3b2602" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>begin</name></member>
+      <member refid="classomexmeta_1_1Triples_1a1f7ba9d5cd575ba5c63ed9dbbd1f279c" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>capacity</name></member>
+      <member refid="classomexmeta_1_1Triples_1a9882f6f582e8d2e34e09d2f7076a0e2e" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1acab4513889a9a42c77b3044aac941728" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a862d672c0ac9d877261947cf5a7061db" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a87cdc3aacef07c2aebbfe06342bd70f5" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a9f3f3152592f99ac95f65e0e7ce3b450" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a55e7ed1c3212ae19d2189a386b81422e" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a3a8c150cff4d1e78aa360d62d3d6604e" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>emplace_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a4312337b242280bcb119908c0334bfd8" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>end</name></member>
+      <member refid="classomexmeta_1_1Triples_1ad0c5839b0f49d6427cf53004baf9b0f4" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>freeTriples</name></member>
+      <member refid="classomexmeta_1_1Triples_1a63639c08caac19e6c5cbf30bb28292d0" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>getPredicates</name></member>
+      <member refid="classomexmeta_1_1Triples_1aa875120a73cb1618be9e699e8bfb08c4" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>getResources</name></member>
+      <member refid="classomexmeta_1_1Triples_1a5234882414a2aaaca603eacd805df3d6" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>getSubjectsStr</name></member>
+      <member refid="classomexmeta_1_1Triples_1a48ab93d0e38e3cfcb4eac9264b047f0a" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>isEmpty</name></member>
+      <member refid="classomexmeta_1_1Triples_1a88dcf4b950f105acb621bd07f07a38a0" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>move_back</name></member>
+      <member refid="classomexmeta_1_1Triples_1a8c9df0d37572179d682127cb7368dd82" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>operator!=</name></member>
+      <member refid="classomexmeta_1_1Triples_1a8c6e00fe9e694d9c52e1fa37a82ae489" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>operator==</name></member>
+      <member refid="classomexmeta_1_1Triples_1a43d540423a436986d9f72d7cf0f02d72" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>operator[]</name></member>
+      <member refid="classomexmeta_1_1Triples_1a5dad8f2cde0a3f6c0ce341338f80b0cd" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>pop</name></member>
+      <member refid="classomexmeta_1_1Triples_1abb333b83c7a8ed1f210816ef88c8d3a0" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>pop_front</name></member>
+      <member refid="classomexmeta_1_1Triples_1adc86427b3563d04849336a8da7566451" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>size</name></member>
+      <member refid="classomexmeta_1_1Triples_1ad2510c5b335b0266b05507c53bcc64af" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>str</name></member>
+      <member refid="classomexmeta_1_1Triples_1a4976c39ce5f0c652ef8b366fcdd92a58" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>Triples</name></member>
+      <member refid="classomexmeta_1_1Triples_1a32ea34c1fd3bfe9887c2221377392efe" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>Triples</name></member>
+      <member refid="classomexmeta_1_1Triples_1a733eea0f6a2c206eb96771bc7a8cb430" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>Triples</name></member>
+      <member refid="classomexmeta_1_1Triples_1a71a3ff7b185a5420eabd9bf4e9637196" prot="public" virt="non-virtual"><scope>omexmeta::Triples</scope><name>Triples</name></member>
+      <member refid="classomexmeta_1_1Triples_1ac1bedb4d0e572623208e032280abd634" prot="private" virt="non-virtual"><scope>omexmeta::Triples</scope><name>triples_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

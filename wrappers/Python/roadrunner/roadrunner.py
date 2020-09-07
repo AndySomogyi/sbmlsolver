@@ -3811,10 +3811,10 @@ class RoadRunner(_object):
             will have N+1 data rows.
 
         stiff
-            DEPRECATED: use solver API (this setting only available for some solvers).
+            DEPRECATED: use solver wrappers (this setting only available for some solvers).
 
         seed
-            DEPRECATED: use solver API (this setting only available for some solvers).
+            DEPRECATED: use solver wrappers (this setting only available for some solvers).
 
 
         :returns: a numpy array with each selected output time series being a
@@ -3944,7 +3944,7 @@ class RoadRunner(_object):
     # check if variableStep was explicitly specified, this overrides the steps
     # positional arg
             if k == "variableStep":
-                raise KeyError('Do NOT pass variableStep to simulate. Use integrator API: r.getIntegrator().setValue("variable_step_size", True)')
+                raise KeyError('Do NOT pass variableStep to simulate. Use integrator wrappers: r.getIntegrator().setValue("variable_step_size", True)')
                 haveVariableStep = True
                 self.getIntegrator().setValue('variable_step_size', v)
                 if not stepsSpecified:
@@ -3960,7 +3960,7 @@ class RoadRunner(_object):
                 continue
 
             if k == "stiff" and self.getIntegrator().hasValue('stiff'):
-                raise KeyError('Do NOT pass stiff to simulate. Use the integrator API: r.getIntegrator().setValue("stiff", True)')
+                raise KeyError('Do NOT pass stiff to simulate. Use the integrator wrappers: r.getIntegrator().setValue("stiff", True)')
                 def stiff_restore(v):
                     def f():
                         self.getIntegrator().setValue('stiff', v)

@@ -4,7 +4,7 @@
 * @author WBC, JKM
 * @date July 2015
 * @copyright Apache License, Version 2.0
-* @brief Tests the RoadRunner integrator C API
+* @brief Tests the RoadRunner integrator C wrappers
 **/
 
 #include "rrc_api.h"

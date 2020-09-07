@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classomexmeta_1_1SemsimXmlAssistantFactory" kind="class" language="C++" prot="public">
+    <compoundname>omexmeta::SemsimXmlAssistantFactory</compoundname>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classomexmeta_1_1SemsimXmlAssistantFactory_1acd1e70258ce2a70ff459f9ff905c2371" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>XmlAssistantPtr</type>
+        <definition>XmlAssistantPtr omexmeta::SemsimXmlAssistantFactory::generate</definition>
+        <argsstring>(const std::string &amp;xml, OmexMetaXmlType type, bool generate_new_metaids=false, std::string metaid_base=&quot;#OmexMetaId&quot;, int metaid_num_digits=4)</argsstring>
+        <name>generate</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml</declname>
+        </param>
+        <param>
+          <type>OmexMetaXmlType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>generate_new_metaids</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>metaid_base</declname>
+          <defval>&quot;#OmexMetaId&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>metaid_num_digits</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="79" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.cpp" bodystart="145" bodyend="163"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/omexmeta/OmexMetaXmlAssistant.h" line="76" column="1" bodyfile="src/omexmeta/OmexMetaXmlAssistant.h" bodystart="76" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classomexmeta_1_1SemsimXmlAssistantFactory_1acd1e70258ce2a70ff459f9ff905c2371" prot="public" virt="non-virtual"><scope>omexmeta::SemsimXmlAssistantFactory</scope><name>generate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

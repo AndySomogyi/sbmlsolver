@@ -376,7 +376,7 @@ SUITE(TEST_MODEL)
         {
             double val;
 
-            //API Function getValue
+            //wrappers Function getValue
             if(!getValue(gRR, vals[i].c_str(), &val))
             {
                 CHECK(false);
@@ -581,7 +581,7 @@ SUITE(TEST_MODEL)
             IniKey *aKey = aSection->GetKey(i);
             double val;
 
-            //API Function getValue
+            //wrappers Function getValue
             if(!getValue(gRR, aKey->mKey.c_str(), &val))
             {
                 CHECK(false);
