@@ -12,12 +12,9 @@ compiler: gcc
 branches:
 only:
 - develop
-- master
-- llvm-6
-- issue-574
-- issue-534
-- issue-611-warnings-take-2
+- release
 - /^issue-.*$/
+
 
 before_install:
 # print the distro information
@@ -27,7 +24,7 @@ before_install:
 - sudo apt-get update -qq
 
 # install dependencies
-- sudo apt-get -y install cmake swig python-dev python-numpy llvm-6.0-dev
+- sudo apt-get -y install cmake swig3.0 python-dev python-numpy llvm-6.0-dev
 
 # install roadrunner dependencies via apt:
 - mkdir ~/debs
