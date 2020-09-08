@@ -15,8 +15,6 @@ set(
         rrc_cpp_support.h
 )
 
-set_source_files_properties(${HEADERS} PROPERTIES PUBLIC_HEADER TRUE)
-
 set(
         SOURCES
         rrcStringList.cpp
@@ -52,8 +50,9 @@ install(
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ${target}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr COMPONENT ${target}
 )
+install(FILES ${HEADERS} DESTINATION "${CMAK_INSTALL_INCLUDEDIR}/rr")
 
 # install export info
 install(
@@ -62,6 +61,7 @@ install(
         NAMESPACE ${target}::
         FILE ${target}-config.cmake
         COMPONENT ${target}
+        EXPORT_LINK_INTERFACE_LIBRARIES
 )
 
 

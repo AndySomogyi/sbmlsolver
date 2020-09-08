@@ -1,42 +1,8 @@
 #####################################
 #
+include(GNUInstallDirs)
+
 set(target roadrunner)
-
-# pre-process the GitInfo.h.in file and insert the response from git about
-# last commit and current branch.
-# may not have git, set default replacement strings then.
-find_program(GIT git)
-
-if (GIT)
-    message("found git: ${GIT}")
-    execute_process(
-            COMMAND ${GIT} symbolic-ref -q --short HEAD
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-            OUTPUT_VARIABLE ROADRUNNER_GIT_BRANCH
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-
-    execute_process(
-            COMMAND ${GIT} log -1 --format=%H
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-            OUTPUT_VARIABLE ROADRUNNER_GIT_LAST_COMMIT
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-else ()
-    # could not find GIT
-    message("could not find git")
-
-    set(ROADRUNNER_GIT_BRANCH "git not found, unknown git branch")
-    set(ROADRUNNER_GIT_LAST_COMMIT "git not found, unknown git commit")
-endif (GIT)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h DESTINATION include/rr)
-
-# writes the results of the git commands to GitInfo.h
-message(INFO "ROADRUNNER_GIT_BRANCH ${ROADRUNNER_GIT_BRANCH}")
-message(INFO "ROADRUNNER_GIT_LAST_COMMIT: ${ROADRUNNER_GIT_LAST_COMMIT}")
-
 
 # Configures
 
@@ -56,14 +22,19 @@ set_source_files_properties(${GENERATED_HEADERS} PROPERTIES GENERATED TRUE)
 # Create the .pc file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION lib/pkgconfig)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/roadrunner.pc DESTINATION share/pkgconfig)
+install(FILES ${GENERATED_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
 
 ############################################################
 # Get a list of source file to build
 #
 
+set(rrSources)
+set(rrHeaders)
+
 # add core sources. These are always needed
-set(rrCoreSources
+set(
+        rrCoreSources
         rrConfig.cpp
         rrSteadyStateSolver.cpp
         rrConstants.cpp
@@ -107,6 +78,15 @@ set(rrCoreSources
         conservation/ConservationDocumentPlugin.cpp
         conservation/ConservedMoietyPlugin.cpp
         conservation/ConservedMoietyConverter.cpp
+        #todo pull test files out of main library sources.
+        testing/CXXExecutableModel.cpp
+        testing/CXXEnzymeExecutableModel.cpp
+        testing/CXXBrusselatorExecutableModel.cpp
+        testing/CXXPiecewiseExecutableModel.cpp
+)
+
+set(
+        rrCoreHeaders
         rrConfig.h
         rrSteadyStateSolver.h
         rrConstants.h
@@ -150,14 +130,11 @@ set(rrCoreSources
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
-        #todo pull test files out of main library sources.
-        testing/CXXExecutableModel.cpp
-        testing/CXXEnzymeExecutableModel.cpp
-        testing/CXXBrusselatorExecutableModel.cpp
-        testing/CXXPiecewiseExecutableModel.cpp
-        )
+)
 
-set(rrSources ${rrCoreSources})
+set(rrSources ${rrSources} ${rrCoreSources})
+set(rrHeaders ${rrHeaders} ${rrCoreHeaders})
+
 
 #
 # Add the LLVM sources to compilation
@@ -197,6 +174,9 @@ if (BUILD_LLVM)
             llvm/EvalVolatileStoichCodeGen.cpp
             llvm/SBMLInitialValueSymbolResolver.cpp
             llvm/Random.cpp
+            )
+
+    set(rrLLVMHeaders
             llvm/AssignmentRuleEvaluator.h
             llvm/ASTNodeCodeGen.h
             llvm/ASTNodeFactory.h
@@ -233,6 +213,9 @@ if (BUILD_LLVM)
             llvm/Random.h
             )
 
+    set(rrSources ${rrSources} ${rrLLVMSources})
+    set(rrHeaders ${rrHeaders} ${rrLLVMHeaders})
+
     if (NOT LLVM_FLAGS)
         message(FATAL_ERROR "No LLVM_FLAGS variable found")
     endif ()
@@ -243,14 +226,14 @@ if (BUILD_LLVM)
     # TODO remove the code below and check for errors. Are these actually needed?
     set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
-    set(rrSources ${rrSources} ${rrLLVMSources})
+    set(rrSources ${rrSources} ${rrLLVMSources} ${rrLLVMHeaders})
     #cl   /TP -DBUILD_LLVM -DCRT_NONSTDC_NO_DEPRECATE -DLIBLAX_STATIC -DLIBSBML_STATIC -DLIBSBML_USE_CPP_NAMESPACE -DPOCO_NO_AUTOMATIC_LIBS -DPOCO_STATIC -DSTATIC_LIBSTRUCT -DSTATIC_NLEQ1 -DSTATIC_NLEQ2 -DSTATIC_PUGI -DSTATIC_RR -D_CRT_SECURE_NO_WARNINGS -ID:\rrbuild\roadrunner\source -ID:\rrbuild\roadrunner\third_party\nleq1\include -ID:\rrbuild\roadrunner\third_party\nleq2\include -ID:\rrbuild\roadrunner\third_party\clapack3.2.1\include -ID:\rrbuild\roadrunner\third_party\libSBML-5.18.1-experimental-Source\include -ID:\rrbuild\roadrunner\third_party\rr-libstruct\include -ID:\rrbuild\roadrunner\third_party\poco_1.5.3\include -ID:\rrbuild\roadrunner\third_party\sundials\include -ID:\rrbuild\roadrunner\third_party\unit_test -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS /GR /EHsc /O2 /Ob2 /DNDEBUG -MT   /wd4251 /wd4018 /wd4996 /EHsc -DSTATIC_RR -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS   /Zc:inline /Zc:strictStrings /Oi /Zc:rvalueCast /W4 -wd4141 -wd4146 -wd4180 -wd4244 -wd4258 -wd4267 -wd4291 -wd4345 -wd4351 -wd4355 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4800 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4324 -w14062 -we4238 /MD /O2 /Ob2 /DNDEBUG  /EHsc /GR -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS -DUNICODE -D_UNICODE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS /FoCMakeFiles\roadrunner-static.dir\llvm\Random.cpp.obj /FdCMakeFiles\roadrunner-static.dir\roadrunner-static.pdb /FS -c D:\rrbuild\roadrunner\source\llvm\Random.cpp
 endif (BUILD_LLVM)
 
 # Add C legacy code to sources if needed
 if (${BUILD_LEGACY_C})
-    set(rrSources
-            ${rrSources}
+    set(
+            rrCSources
             c/rrStringList.cpp
             c/mtrand.cpp
             c/rrStringBuilder.cpp
@@ -276,6 +259,9 @@ if (${BUILD_LEGACY_C})
             c/rrCModelDataUtil.cpp
             c/rrCompiledExecutableModel.cpp
             c/rrRandom.cpp
+    )
+    set(
+            rrCHeaders
             c/rrStringList.h
             c/mtrand.h
             c/rrStringBuilder.h
@@ -301,7 +287,11 @@ if (${BUILD_LEGACY_C})
             c/rrCModelDataUtil.h
             c/rrCompiledExecutableModel.h
             c/rrRandom.h
-            )
+    )
+
+    set(rrSources ${rrSources} ${rrCSources})
+    set(rrHeaders ${rrHeaders} ${rrCHeaders})
+
     # install the rr_support if building legacy c
     add_subdirectory(rr_support)
 endif (${BUILD_LEGACY_C})
@@ -376,7 +366,7 @@ if (${BUILD_SHARED_LIBS})
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
-            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ${target}
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr COMPONENT ${target}
     )
 
     # install export info so roadrunner can be used with find_package in CONFIG mode
@@ -386,6 +376,7 @@ if (${BUILD_SHARED_LIBS})
             NAMESPACE ${target}::
             FILE ${target}-config.cmake
             COMPONENT ${target}
+            EXPORT_LINK_INTERFACE_LIBRARIES
     )
 endif ()
 
@@ -399,7 +390,7 @@ install(
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}-static
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}-static
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}-static
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ${target}-static
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr COMPONENT ${target}-static
 )
 
 # install export info so roadrunner can be used with find_package in CONFIG mode
@@ -409,7 +400,12 @@ install(
         NAMESPACE ${target}-static::
         FILE ${target}-static-config.cmake
         COMPONENT ${target}-static
+        EXPORT_LINK_INTERFACE_LIBRARIES
 )
+
+# Not needed for the shared target since we only ever build the
+# static or the static AND the shared library. They share headers.
+install(FILES ${rrHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
 
 

@@ -40,6 +40,10 @@ include(GNUInstallDirs)
 # generate automatic export headers
 include(GenerateExportHeader)
 
+# Custom macro for containing the git related stuff.
+include(WriteGitInfo)
+write_git_info() # write the git branch and commit hash to console
+
 #############################################################
 #   Configuration Options
 #
@@ -261,8 +265,13 @@ find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
 # install dependencies so clients can use roadrunner from c++/cmake
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_INSTALL_PREFIX})
 
+# install a cmake script for consumer libraries to easily import roadrunner targets
+install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
 
 ##todo build on mingw to test requirements before uncommenting
 #if (${MINGW})
@@ -309,7 +318,7 @@ add_subdirectory(wrappers)
 # API's
 #
 
-add_subdirectory(docs)
+#add_subdirectory(docs)
 
 
 ##########################################################

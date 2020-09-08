@@ -3,6 +3,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
+
 using namespace rr;
 
 int main(int argc, char** argv)
