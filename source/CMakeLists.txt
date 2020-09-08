@@ -87,6 +87,8 @@ set(
 
 set(
         rrCoreHeaders
+        rrExporter.h
+        rrOSSpecifics.h
         rrConfig.h
         rrSteadyStateSolver.h
         rrConstants.h
