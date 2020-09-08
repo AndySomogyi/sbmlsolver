@@ -374,6 +374,10 @@ endif(INSTALL_CXX_API)
 
 add_subdirectory(wrappers)
 
+if(BUILD_TESTS)
+    add_subdirectory(test)
+endif(BUILD_TESTS)
+
 if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     message(STATUS "building tests")
     file (GLOB TEST_FILES "testing/*" )
