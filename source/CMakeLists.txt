@@ -128,14 +128,31 @@ set(
         Solver.h
         SolverRegistration.h
         Variant.h
+)
+install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
+
+
+set(
+        rrCoreConservationHeaders
         conservation/ConservationExtension.h
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
+
 )
+install(FILES ${rrCoreConservationHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/conservation)
+set(
+        rrCoreTr1ProxyHeaders
+        tr1proxy/cxx11_ns.h
+        tr1proxy/rr_memory.h
+        tr1proxy/rr_random.h
+        tr1proxy/rr_unordered_map.h
+
+)
+install(FILES ${rrCoreTr1ProxyHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/tr1proxy)
 
 set(rrSources ${rrSources} ${rrCoreSources})
-set(rrHeaders ${rrHeaders} ${rrCoreHeaders})
+set(rrHeaders ${rrHeaders} ${rrCoreHeaders} ${rrCoreConservationHeaders} ${rrCoreTr1ProxyHeaders})
 
 
 #
@@ -214,6 +231,8 @@ if (BUILD_LLVM)
             llvm/SBMLInitialValueSymbolResolver.h
             llvm/Random.h
             )
+    install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)
+
 
     set(rrSources ${rrSources} ${rrLLVMSources})
     set(rrHeaders ${rrHeaders} ${rrLLVMHeaders})
@@ -290,6 +309,8 @@ if (${BUILD_LEGACY_C})
             c/rrCompiledExecutableModel.h
             c/rrRandom.h
     )
+
+    install(FILES ${rrCHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/c)
 
     set(rrSources ${rrSources} ${rrCSources})
     set(rrHeaders ${rrHeaders} ${rrCHeaders})
@@ -404,11 +425,6 @@ install(
         COMPONENT ${target}-static
         EXPORT_LINK_INTERFACE_LIBRARIES
 )
-
-# Not needed for the shared target since we only ever build the
-# static or the static AND the shared library. They share headers.
-install(FILES ${rrHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
-
 
 
 
