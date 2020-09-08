@@ -24,8 +24,7 @@ before_install:
 - sudo apt-get update -qq
 
 # install dependencies
-- sudo apt-get -y install cmake swig3.0 python-dev python-numpy llvm-6.0-dev
-
+- sudo apt-get -y install cmake swig3.0 python3.8-dev python3.8-numpy python-is-python3 llvm-6.0-dev
 # install roadrunner dependencies via apt:
 - mkdir ~/debs
 - cd ~/debs
