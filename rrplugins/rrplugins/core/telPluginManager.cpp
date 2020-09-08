@@ -266,10 +266,12 @@ bool PluginManager::loadPlugin(const string& _libName)
         //Check plugin language
         const char* language = getImplementationLanguage(libHandle);
 
-        hostInterfacePtr setHostInterface = (hostInterfacePtr)libHandle->getSymbol(string(exp_fnc_prefix) + "setHostInterface");
-
-        setHostInterface(hostInterface);
-
+        if (libHandle->hasSymbol(string(exp_fnc_prefix) + "setHostInterface")) {
+            hostInterfacePtr setHostInterface = (hostInterfacePtr)libHandle->getSymbol(string(exp_fnc_prefix) + "setHostInterface");
+            setHostInterface(hostInterface);
+        }
+        else 
+            RRPLOG(lError) << "Roadrunner functionality can't be loaded. If plugin needed roadrunner support plugins won't work\n";
 
         //throw exception if not get loaded
         if(strcmp(language, "C") == 0)

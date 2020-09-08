@@ -5,13 +5,12 @@
 #include "telUtils.h"
 #include "test_model_doc.h"
 
-#include "add_noise.h"
-
-//#include "gaussianNoise.h"
+#include "../add_noise/add_noise.h"
 
 
 extern string theModel;
 namespace testModel {
+    rrc::THostInterface* mhostInterface;
     //---------------------------------------------------------------------------
     TestModel::TestModel() :
         CPPPlugin("TestModel", "Examples"),//Construct Base
@@ -64,7 +63,6 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
         rrc::RRHandle rrHandle = mhostInterface->createRRInstance();
         rrc::RRCDataPtr result = NULL;
-
         mhostInterface->loadSBML(rrHandle, (mModel.getValue()).c_str());
 
         result = mhostInterface->simulateEx(rrHandle, 0, 10, 14);
@@ -92,14 +90,36 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
         mTestDataWithNoise.setValue(mTestData.getValue());
 
+
+
+        // ****************************
+        /*typedef void* (*setPropertyValuePtr) (const string& nameOf, const void* value);
+        void* handle = LoadSharedLibrary("AddNoise");
+        if (!handle){
+            stringstream msg;
+            msg << "The TestModel plugin dependes on the AddNoise plugin, which is able to load.";
+            throw(Exception(msg.str()));
+        }
+        setPropertyValuePtr setPropertyValue=(setPropertyValuePtr)GetFunction(handle, "setPropertyValue");*/
+
+        
+    /*
+    const PluginManager* PM = this->getPluginManager();
+    Plugin* noise = PM->getPlugin("AddNoise");
+    noise->setPropertyValue("Sigma", mSigma.getValueHandle());
+    noise->setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
+    noise->execute();
+    */
+
         addNoise::AddNoise noise;           //replace this
         noise.setPropertyValue("Sigma", mSigma.getValueHandle());
         noise.setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
         noise.execute();        
+
+
         mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));
 
         //GaussianNoise::gaussianAddNoise noise(mSigma.getValueHandle(), mTestDataWithNoise.getValueHandle());
-        noise.execute();
         
 
         //Add weights
@@ -155,6 +175,8 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
     }
 
+
+    #ifdef EXPORT_TEST_MODEL
     // Plugin factory function
     Plugin* plugins_cc createPlugin()
     {
@@ -170,6 +192,8 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
     void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
         mhostInterface = _hostInterface;
     }
+    #endif 
+
 
 }
 string  theModel =

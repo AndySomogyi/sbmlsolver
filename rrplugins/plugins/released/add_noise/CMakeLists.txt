@@ -17,6 +17,7 @@ set(RRP_ADD_NOISE_SOURCES
 add_definitions(
   -DEXPORT_TEL_PLUGIN
   -DPOCO_STATIC
+  -DEXPORT_ADD_NOISE
 )
 
 add_library(tel_add_noise MODULE ${RRP_ADD_NOISE_SOURCES})
@@ -30,7 +31,7 @@ set_property(TARGET tel_add_noise
 )
 
 target_link_libraries ( tel_add_noise
-  telplugins_common
+  #telplugins_common
   telpluginsBaseClass
   telplugins_math
   ${RRPLUGINS_COMMON_SHARED_LIBS}

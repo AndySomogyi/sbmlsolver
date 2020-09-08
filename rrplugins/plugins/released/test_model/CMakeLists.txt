@@ -9,16 +9,17 @@ set(RRP_TEST_MODEL_SOURCES
   TestModel.cpp
   test_model_doc.cpp
   
-  add_noise.cpp
+  ../add_noise/add_noise.cpp
   ../add_noise/add_noise_worker.cpp
   ../add_noise/noise.cpp
-  add_noise.h
+  ../add_noise/add_noise.h
   ../add_noise/add_noise_worker.h
   ../add_noise/noise.h
 )
 
 add_definitions(
   -DEXPORT_TEL_PLUGIN
+  -DEXPORT_TEST_MODEL
   -DPOCO_STATIC
 )
 

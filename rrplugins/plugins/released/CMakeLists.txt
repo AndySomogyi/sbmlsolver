@@ -11,11 +11,11 @@ if (TLP_BUILD_ADD_NOISE_PLUGIN)
     add_subdirectory(add_noise)
 endif()
 
-#[[
 if (TLP_BUILD_CHISQUARE_PLUGIN)
     add_subdirectory(chisquare)
 endif()
 
+#[[
 if (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
     add_subdirectory(levenberg_marquardt)
 endif()

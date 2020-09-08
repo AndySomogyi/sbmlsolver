@@ -5,10 +5,11 @@
 #include "noise.h"
 #include "add_noise_doc.h"
 
-rrc::THostInterface* mhostInterface;
+
 //---------------------------------------------------------------------------
 namespace addNoise
 {
+rrc::THostInterface* mhostInterface;
 
 AddNoise::AddNoise(rrc::THostInterface* mhost, PluginEvent fn1, PluginEvent fn2, PluginEvent fn3):
 CPPPlugin(  "AddNoise",                 "Signal Processing"),//Construct Base
@@ -87,6 +88,7 @@ mProgress.setDescription(s.str());
 s.str("");
 
 }
+#ifdef EXPORT_ADD_NOISE
 
 // Plugin factory function
 Plugin* plugins_cc createPlugin()
@@ -103,6 +105,8 @@ const char* plugins_cc getImplementationLanguage()
 void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
     mhostInterface = _hostInterface;
 }
+
+#endif
 
 }
 
