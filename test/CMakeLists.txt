@@ -1,4 +1,5 @@
 set(TESTDIRS
+        model_editing
         semantic_STS
    )
 

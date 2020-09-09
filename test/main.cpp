@@ -2,6 +2,7 @@
 
 
 std::string     gRRTestDir= "";
+std::string     gRROutputDir = "";
 
 
 int main(int argc, char** argv)
@@ -19,6 +20,16 @@ int main(int argc, char** argv)
         return 1;
     }
     gRRTestDir += "/";
+
+    //Setup the output directory (will be the relative directory "output/" by default)
+    char* outdir = getenv("outdir");
+    if (outdir) {
+        gRROutputDir = outdir;
+    }
+    if (gRROutputDir.empty()) {
+        gRROutputDir = "output";
+    }
+    gRROutputDir += "/";
 
     //Run the tests.
     int ret = RUN_ALL_TESTS();

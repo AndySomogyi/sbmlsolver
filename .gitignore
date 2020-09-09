@@ -35,3 +35,7 @@ wrappers/C/Testing/alexTestOutput.xml
 .swo
 
 .vs/*
+install-release
+build-debug
+build-release
+install-debug
