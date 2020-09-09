@@ -37,7 +37,7 @@ foreach(dirid IN LISTS TESTDIRS)
              STATIC_RR
              STATIC_NLEQ1
              STATIC_NLEQ2
-     ) 
+     )
 
      link_directories(
         ${THIRD_PARTY_INSTALL_FOLDER}/lib
@@ -49,7 +49,16 @@ foreach(dirid IN LISTS TESTDIRS)
         ${THIRD_PARTY_INSTALL_FOLDER}/include/
      )
 
-     
+     if(UNIX) #Don't know why static roadrunner fails....?
+          target_link_libraries (${testid}
+              roadrunner-static
+              ${GTESTLIB}
+              lapack
+              blas
+              f2c
+          )
+     endif()
+
 
      target_link_libraries(${testid} roadrunner-static ${GTESTLIB})
      add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid} )
