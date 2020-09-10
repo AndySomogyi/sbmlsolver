@@ -1,6 +1,10 @@
 set(TESTDIRS
+        model_analysis
         model_editing
+        sbml_features
         semantic_STS
+        state_saving
+        steady_state
    )
 
 set(GTESTLIB gtest)
@@ -20,10 +24,12 @@ message(STATUS "GTestLib = ${GTESTLIB}")
 foreach(dirid IN LISTS TESTDIRS)
     #message(STATUS "dirid = ${dirid}")
     file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp )
+    file(GLOB UTIL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp )
+    file(GLOB UTIL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/test_util.h )
     file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.cpp )
     file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.h )
 
-    set(TEST_FILES ${MAIN_FILE} ${CPP_FILES} ${H_FILES})
+    set(TEST_FILES ${MAIN_FILE} ${UTIL_FILE} ${UTIL_HEADER} ${CPP_FILES} ${H_FILES})
 
     set(testid "test_${dirid}")
     add_executable(${testid} ${TEST_FILES})

@@ -58,4 +58,3 @@ script:
   - ctest -V
   # display results of compiled tests
   - cat autotest/compiled-test-suite/results.xml
-  - cat tests.out

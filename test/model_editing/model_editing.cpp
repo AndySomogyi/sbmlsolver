@@ -5,6 +5,7 @@
 #include "rrTestSuiteModelSimulation.h"
 #include "sbml/SBMLTypes.h"
 #include "sbml/SBMLReader.h"
+#include "../test_util.h"
 
 using namespace testing;
 using namespace rr;
@@ -14,7 +15,6 @@ using namespace std;
 extern string gRRTestDir;
 extern string gRROutputDir;
 
-bool validateModifiedSBML(std::string sbml);
 bool RunModelEditingTest(void(*modification)(RoadRunner*), std::string version = "l2v4");
 bool RunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version = "l2v4");
 bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunner*, libsbml::SBMLDocument*), std::string editName);
@@ -741,7 +741,7 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_1_L2V5)
     rri.addSpecies("S2", "compartment", 0, true);
     rri.addParameter("k1", 1);
     rri.addReaction("reaction1", { "S1" }, { "S2" }, "compartment * k1 * S1");
-    ASSERT_TRUE(validateModifiedSBML(rri.getCurrentSBML()));
+    ASSERT_TRUE(testValidateSBML(rri.getCurrentSBML()));
 }
 
 TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_1_L3V2)
@@ -752,7 +752,7 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_1_L3V2)
     rri.addSpecies("S2", "compartment", 0);
     rri.addParameter("k1", 1);
     rri.addReaction("reaction1", { "S1" }, { "S2" }, "compartment * k1 * S1");
-    ASSERT_TRUE(validateModifiedSBML(rri.getCurrentSBML()));
+    ASSERT_TRUE(testValidateSBML(rri.getCurrentSBML()));
 }
 
 TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_2_L3V2)
@@ -764,7 +764,7 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_2_L3V2)
     rri.addSpecies("S3", "compartment", 0);
     rri.addParameter("k1", 1);
     rri.addReaction("reaction1", { "S1" }, { "S2" }, "compartment * k1 * S1 * S3");
-    ASSERT_TRUE(validateModifiedSBML(rri.getCurrentSBML()));
+    ASSERT_TRUE(testValidateSBML(rri.getCurrentSBML()));
 }
 
 TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_3_L3V2)
@@ -776,7 +776,7 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_3_L3V2)
     rri.addSpecies("S3", "compartment", 0);
     rri.addParameter("k1", 1);
     rri.addReaction("reaction1", { "S1" }, { "S2" }, "S3");
-    ASSERT_TRUE(validateModifiedSBML(rri.getCurrentSBML()));
+    ASSERT_TRUE(testValidateSBML(rri.getCurrentSBML()));
 }
 
 TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_2_VALID_L3V1)
@@ -788,7 +788,7 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_2_VALID_L3V1)
     rri.addSpecies("S3", "compartment", 0);
     rri.addParameter("k1", 1);
     rri.addReaction("reaction1", { "S1" }, { "S2" }, "compartment * k1 * S1 * S3");
-    ASSERT_TRUE(validateModifiedSBML(rri.getCurrentSBML()));
+    ASSERT_TRUE(testValidateSBML(rri.getCurrentSBML()));
 }
 
 TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_3_VALID_L3V1)
@@ -800,7 +800,7 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_3_VALID_L3V1)
     rri.addSpecies("S3", "compartment", 0);
     rri.addParameter("k1", 1);
     rri.addReaction("reaction1", { "S1" }, { "S2" }, "S3");
-    ASSERT_TRUE(validateModifiedSBML(rri.getCurrentSBML()));
+    ASSERT_TRUE(testValidateSBML(rri.getCurrentSBML()));
 }
 
 
@@ -1121,30 +1121,6 @@ TEST(MODEL_EDITING_TEST_SUITE, ONE_ASSIGNMENT_RULE)
 
 
 
-bool validateModifiedSBML(std::string sbml)
-{
-	libsbml::SBMLDocument* doc = libsbml::readSBMLFromString(sbml.c_str());
-	bool result = true;
-
-	doc->setConsistencyChecks(libsbml::LIBSBML_CAT_MODELING_PRACTICE, false);
-	doc->setConsistencyChecks(libsbml::LIBSBML_CAT_UNITS_CONSISTENCY, false);
-    doc->checkConsistency();
-    libsbml::SBMLErrorLog* log = doc->getErrorLog();
-	for (int i = 0; i < log->getNumFailsWithSeverity(2); i++)
-	{
-		std::cout << log->getErrorWithSeverity(i, 2)->getMessage() << std::endl;
-        result = false;
-    }
-	delete doc;
-	return result;
-}
-
-
-string getModelDir(string base, string suite, string name)
-{
-    return base + "models/" + suite + "/" + name + "/";
-}
-
 bool RunModelEditingTest(void(*modification)(RoadRunner*), std::string version)
 {
 	bool result(false);
@@ -1254,7 +1230,7 @@ bool RunModelEditingTest(void(*modification)(RoadRunner*), std::string version)
 		result = simulation.Pass();
 		result = simulation.SaveAllData() && result;
 		result = simulation.SaveModelAsXML(dataOutputFolder) && result;
-		result = validateModifiedSBML(rr.getCurrentSBML()) && result;
+		result = testValidateSBML(rr.getCurrentSBML()) && result;
 	}
 	catch (std::exception& ex)
 	{
@@ -1372,7 +1348,7 @@ bool RunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version)
 		result = simulation.Pass();
 		result = simulation.SaveAllData() && result;
 		result = simulation.SaveModelAsXML(dataOutputFolder) && result;
-		result = validateModifiedSBML(rr.getCurrentSBML()) && result;
+		result = testValidateSBML(rr.getCurrentSBML()) && result;
 	}
 	catch (std::exception& ex)
 	{
@@ -1501,7 +1477,7 @@ bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunn
 		result = simulation.Pass();
 		result = simulation.SaveAllData() && result;
 		result = simulation.SaveModelAsXML(dataOutputFolder) && result;
-		result = validateModifiedSBML(rr.getCurrentSBML()) && result;
+		result = testValidateSBML(rr.getCurrentSBML()) && result;
 	}
 	catch (std::exception& ex)
 	{
