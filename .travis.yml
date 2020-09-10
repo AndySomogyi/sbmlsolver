@@ -56,5 +56,3 @@ script:
   - cd ~/build/roadrunner
   - make -j2 && make install
   - ctest -V
-  # display results of compiled tests
-  - cat autotest/compiled-test-suite/results.xml
