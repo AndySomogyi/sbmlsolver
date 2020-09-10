@@ -15,6 +15,7 @@
 #include "sbml/math/FormulaFormatter.h"
 #include "sbml/math/L3FormulaFormatter.h"
 #include "sbml/math/FormulaParser.h"
+#include "llvm/Config/llvm-config.h"
 
 #include "../test_util.h"
 
@@ -29,6 +30,21 @@ extern string gRROutputDir;
 bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version = "l2v4");
 bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::string version = "l2v4");
 bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version = "l2v4");
+
+// IN LLVM 6.0.1, this test results in llvm calling *exit* instead of throwing.
+//#if LLVM_VERSION_PATCH > 1
+TEST(STATE_SAVING_TEST_SUITE, LOAD_INVALID_FILE)
+{
+    RoadRunner rri;
+    EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::runtime_error);
+}
+//#endif
+
+TEST(STATE_SAVING_TEST_SUITE, LOAD_NONEXISTENT_FILE)
+{
+    RoadRunner rri;
+    EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/nonexistent-save-state.rr"), std::invalid_argument);
+}
 
 TEST(STATE_SAVING_TEST_SUITE, COPY_RR)
 {
