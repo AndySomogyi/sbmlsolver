@@ -31,14 +31,16 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version = 
 bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::string version = "l2v4");
 bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version = "l2v4");
 
-// IN LLVM 6.0.1, this test results in llvm calling *exit* instead of throwing.
+// IN LLVM 6.0.1, this test can result, depending on the OS, 
+//  in llvm calling *exit* instead of throwing.  We changed this 
+//  in our own updated version of llvm, and updated the patch value 
+//  accordingly.  The reverse can't be tested, since it'll either
+//  exit or throw, depending.
 TEST(STATE_SAVING_TEST_SUITE, LOAD_INVALID_FILE)
 {
-	RoadRunner rri;
 #if LLVM_VERSION_PATCH > 1
+    RoadRunner rri;
     EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::runtime_error);
-#else
-    EXPECT_DEATH(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), "LLVM ERROR: Invalid data was encountered while parsing the file");
 #endif
 }
 
