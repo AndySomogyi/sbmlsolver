@@ -1,4 +1,5 @@
 set(TESTDIRS
+        c_api_core
         model_analysis
         model_editing
         sbml_features
@@ -44,6 +45,9 @@ foreach(dirid IN LISTS TESTDIRS)
              STATIC_RR
              STATIC_NLEQ1
              STATIC_NLEQ2
+             POCO_STATIC
+             XML_STATIC
+             POCO_NO_AUTOMATIC_LIBS
      )
 
      link_directories(
@@ -67,7 +71,12 @@ foreach(dirid IN LISTS TESTDIRS)
      endif()
 
 
-     target_link_libraries(${testid} roadrunner-static ${GTESTLIB})
+     target_link_libraries(${testid}
+        roadrunner-static
+        roadrunner_c_api
+        PocoXML
+        ${GTESTLIB}
+     )
      add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid} )
      set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT 
           "testdir=${RR_ROOT}/test")
