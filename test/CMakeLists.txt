@@ -2,9 +2,10 @@ set(TESTDIRS
         model_analysis
         model_editing
         sbml_features
-        semantic_STS
         state_saving
         steady_state
+#List the semantic_STS last, since it takes much longer to run than the others.
+        semantic_STS
    )
 
 set(GTESTLIB gtest)
