@@ -1,8 +1,12 @@
 #include "gtest/gtest.h"
+#include "wrappers/C/rrc_api.h"
+#include "rrIniFile.h"
 
 
 std::string     gRRTestDir= "";
 std::string     gRROutputDir = "";
+rrc::RRHandle gRR = rrc::createRRInstance();;
+rr::IniFile iniFile;
 
 
 int main(int argc, char** argv)
@@ -33,5 +37,6 @@ int main(int argc, char** argv)
 
     //Run the tests.
     int ret = RUN_ALL_TESTS();
+    delete gRR;
     return ret;
 }

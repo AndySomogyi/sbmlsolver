@@ -16,12 +16,12 @@ using rr::fileExists;
 
 extern string gRRTestDir;
 extern string gRROutputDir;
+extern rr::IniFile iniFile;
+extern RRHandle gRR;
 
 //This tests is mimicking the Python tests
 string TestDataFileName = "models/C_API_CORE/TestModel_1.dat";
-rr::IniFile iniFile;
 string TestModelFileName;
-RRHandle gRR = createRRInstance();
 
 TEST(C_API_EXCEPTIONS, DATA_FILES)
 {

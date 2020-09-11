@@ -14,11 +14,11 @@ using namespace ls;
 
 extern string gRRTestDir;
 extern string gRROutputDir;
+extern IniFile iniFile;
 
 //Global to this unit
 RoadRunner *aRR = NULL;
 string TestDataFileName     = "TestModel_1.dat";
-IniFile iniFile;
 string TestModelFileName;
 string gTestDataFolder = joinPath(gRRTestDir, "tests");
 
