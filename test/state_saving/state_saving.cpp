@@ -32,13 +32,15 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version = "l2v4");
 
 // IN LLVM 6.0.1, this test results in llvm calling *exit* instead of throwing.
-//#if LLVM_VERSION_PATCH > 1
 TEST(STATE_SAVING_TEST_SUITE, LOAD_INVALID_FILE)
 {
+#if LLVM_VERSION_PATCH > 1
     RoadRunner rri;
     EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::runtime_error);
+#else
+    EXPECT_DEATH(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::runtime_error), "LLVM ERROR: Invalid data was encountered while parsing the file");
+#endif
 }
-//#endif
 
 TEST(STATE_SAVING_TEST_SUITE, LOAD_NONEXISTENT_FILE)
 {
