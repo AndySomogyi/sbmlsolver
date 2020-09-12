@@ -50,19 +50,25 @@ write_git_info() # write the git branch and commit hash to console
 
 # any of these directories are accepted as default directories.
 # this supports multi platform builds on a single system
-SetCrossPlatform(
-        RR_DEPENDENCIES_INSTALL_PREFIX
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac"
-)
+if (${WIN32})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows" CACHE PATH "Dependency install tree")
+elseif (${UNIX})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix" CACHE PATH "Dependency install tree")
+elseif (£{APPLE})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac" CACHE PATH "Dependency install tree")
+endif ()
+
+if (NOT EXISTS ${RR_DEPENDENCIES_INSTALL_PREFIX})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" CACHE PATH "Dependency install tree")
+endif()#will error if not exist later.
+
 
 # This variable provides users a way of providing their own LLVM installation.
 # The two options are: 1) build llvm along with the other dependencies or
 # 2) build the other dependencies and llvm separate. If the latter is chosen,
 # users will need to provide their own argument to LLVM_INSTALL_PREFIX
 set(LLVM_INSTALL_PREFIX ${RR_DEPENDENCIES_INSTALL_PREFIX} CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
-
+set(LLVM_ROOT_DIR "${LLVM_ROOT_DIR}")
 # should we build and install Testing tools?
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
 
@@ -148,7 +154,7 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING
 
 if (WITH_ADDRESS_SANITIZER)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-endif()
+endif ()
 
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
@@ -331,7 +337,6 @@ if (${BUILD_PACKAGING})
     # packaging that will automate production of binary releases.
     add_subdirectory(packaging)
 endif ()
-
 
 
 ##########################################################
