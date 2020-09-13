@@ -50,12 +50,22 @@ write_git_info() # write the git branch and commit hash to console
 
 # any of these directories are accepted as default directories.
 # this supports multi platform builds on a single system
-SetCrossPlatform(
-        RR_DEPENDENCIES_INSTALL_PREFIX
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac"
-)
+if (${WIN32})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
+            CACHE PATH "Path to dependency package"
+            )
+elseif (${UNIX})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
+            CACHE PATH "Path to dependency package"
+            )
+elseif (${APPLE})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "{CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac"
+            CACHE PATH "Path to dependency package"
+            )
+else ()
+    message(FATAL_ERROR "Unknown operating system")
+endif ()
+
 
 # This variable provides users a way of providing their own LLVM installation.
 # The two options are: 1) build llvm along with the other dependencies or
@@ -148,7 +158,7 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING
 
 if (WITH_ADDRESS_SANITIZER)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-endif()
+endif ()
 
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
@@ -331,7 +341,6 @@ if (${BUILD_PACKAGING})
     # packaging that will automate production of binary releases.
     add_subdirectory(packaging)
 endif ()
-
 
 
 ##########################################################
