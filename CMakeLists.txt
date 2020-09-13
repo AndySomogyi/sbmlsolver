@@ -51,17 +51,20 @@ write_git_info() # write the git branch and commit hash to console
 # any of these directories are accepted as default directories.
 # this supports multi platform builds on a single system
 if (${WIN32})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows" CACHE PATH "Dependency install tree")
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
+            CACHE PATH "Path to dependency package"
+            )
 elseif (${UNIX})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix" CACHE PATH "Dependency install tree")
-elseif (£{APPLE})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac" CACHE PATH "Dependency install tree")
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
+            CACHE PATH "Path to dependency package"
+            )
+elseif (${APPLE})
+    set(RR_DEPENDENCIES_INSTALL_PREFIX "{CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac"
+            CACHE PATH "Path to dependency package"
+            )
+else ()
+    message(FATAL_ERROR "Unknown operating system")
 endif ()
-
-if (NOT EXISTS ${RR_DEPENDENCIES_INSTALL_PREFIX})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" CACHE PATH "Dependency install tree")
-endif()#will error if not exist later.
-
 
 # This variable provides users a way of providing their own LLVM installation.
 # The two options are: 1) build llvm along with the other dependencies or

@@ -210,21 +210,21 @@ $env:Path = \"$project_bin;$env:Path\"
   cxx_test(gtest_no_test_unittest gtest)
   cxx_test(googletest-options-test gtest_main)
   cxx_test(googletest-param-test-test gtest
-          test/googletest-param-test2-test.cc)
+    test/googletest-param-test2-test.cc)
   cxx_test(googletest-port-test gtest_main)
   cxx_test(gtest_pred_impl_unittest gtest_main)
   cxx_test(gtest_premature_exit_test gtest
-          test/gtest_premature_exit_test.cc)
+    test/gtest_premature_exit_test.cc)
   cxx_test(googletest-printers-test gtest_main)
   cxx_test(gtest_prod_test gtest_main
-          test/production.cc)
+    test/production.cc)
   cxx_test(gtest_repeat_test gtest)
   cxx_test(gtest_sole_header_test gtest_main)
   cxx_test(gtest_stress_test gtest)
   cxx_test(googletest-test-part-test gtest_main)
   cxx_test(gtest_throw_on_failure_ex_test gtest)
   cxx_test(gtest-typed-test_test gtest_main
-          test/gtest-typed-test2_test.cc)
+    test/gtest-typed-test2_test.cc)
   cxx_test(gtest_unittest gtest_main)
   cxx_test(gtest-unittest-api_test gtest)
   cxx_test(gtest_skip_in_environment_setup_test gtest_main)
@@ -236,12 +236,12 @@ $env:Path = \"$project_bin;$env:Path\"
   # MSVC 7.1 does not support STL with exceptions disabled.
   if (NOT MSVC OR MSVC_VERSION GREATER 1310)
     cxx_library(gtest_no_exception "${cxx_no_exception}"
-            src/gtest-all.cc)
+      src/gtest-all.cc)
     cxx_library(gtest_main_no_exception "${cxx_no_exception}"
-            src/gtest-all.cc src/gtest_main.cc)
+      src/gtest-all.cc src/gtest_main.cc)
   endif()
   cxx_library(gtest_main_no_rtti "${cxx_no_rtti}"
-          src/gtest-all.cc src/gtest_main.cc)
+    src/gtest-all.cc src/gtest_main.cc)
 
   cxx_test_with_flags(gtest-death-test_ex_nocatch_test
     "${cxx_exception} -DGTEST_ENABLE_CATCH_EXCEPTIONS_=0"
@@ -254,7 +254,7 @@ $env:Path = \"$project_bin;$env:Path\"
     gtest_main_no_rtti test/gtest_unittest.cc)
 
   cxx_shared_library(gtest_dll "${cxx_default}"
-          src/gtest-all.cc src/gtest_main.cc)
+    src/gtest-all.cc src/gtest_main.cc)
 
   cxx_executable_with_flags(gtest_dll_test_ "${cxx_default}"
     gtest_dll test/gtest_all_test.cc)
@@ -277,14 +277,14 @@ $env:Path = \"$project_bin;$env:Path\"
       googletest-catch-exceptions-no-ex-test_
       "${cxx_no_exception}"
       gtest_main_no_exception
-            test/googletest-catch-exceptions-test_.cc)
+      test/googletest-catch-exceptions-test_.cc)
   endif()
 
   cxx_executable_with_flags(
     googletest-catch-exceptions-ex-test_
     "${cxx_exception}"
     gtest_main
-          test/googletest-catch-exceptions-test_.cc)
+    test/googletest-catch-exceptions-test_.cc)
   py_test(googletest-catch-exceptions-test)
 
   cxx_executable(googletest-color-test_ test gtest)
