@@ -66,13 +66,12 @@ else ()
     message(FATAL_ERROR "Unknown operating system")
 endif ()
 
-
 # This variable provides users a way of providing their own LLVM installation.
 # The two options are: 1) build llvm along with the other dependencies or
 # 2) build the other dependencies and llvm separate. If the latter is chosen,
 # users will need to provide their own argument to LLVM_INSTALL_PREFIX
 set(LLVM_INSTALL_PREFIX ${RR_DEPENDENCIES_INSTALL_PREFIX} CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
-
+set(LLVM_ROOT_DIR "${LLVM_ROOT_DIR}")
 # should we build and install Testing tools?
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
 
