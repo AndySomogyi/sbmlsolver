@@ -43,21 +43,21 @@ add_dependencies(${target} roadrunner-static)
 target_compile_definitions(${target} PRIVATE EXPORT_RRC STATIC_RR)
 
 
-
+message(STATUS "CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}")
 install(
         TARGETS ${target}
         EXPORT ${target}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr COMPONENT ${target}
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${target}
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT ${target}
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT ${target}
+        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/rr" COMPONENT ${target}
 )
-install(FILES ${HEADERS} DESTINATION "${CMAK_INSTALL_INCLUDEDIR}/rr")
+install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/rr")
 
 # install export info
 install(
         EXPORT ${target}
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
         NAMESPACE ${target}::
         FILE ${target}-config.cmake
         COMPONENT ${target}
