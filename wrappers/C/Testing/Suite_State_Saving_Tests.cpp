@@ -56,8 +56,6 @@ bool RunStateSavingTest(void(*modification)(RRHandle), std::string version = "l2
 	{
 		Log(Logger::LOG_NOTICE) << "Running Test: " << testName << endl;
 		string dataOutputFolder(joinPath(gTempFolder, suiteName));
-		string dummy;
-		string settingsFileName;
 
 		setCurrentIntegratorParameterBoolean(gRR, "stiff", 0);
 
@@ -81,14 +79,11 @@ bool RunStateSavingTest(void(*modification)(RRHandle), std::string version = "l2
 		simulation.UseHandle(gRR);
 
 		//Read SBML models.....
-		string modelFilePath(joinPath(getParentFolder(getParentFolder(getParentFolder(gTSModelsPath))), suiteName));
-		string modelFileName;
-
 		simulation.SetCaseNumber(0);
 
-		modelFilePath = joinPath(modelFilePath, testName);
-		modelFileName = testName + "-sbml-" + version + ".xml";
-		settingsFileName = testName + "-settings.txt";
+		string modelFilePath = getParentFolder(modelFilePath) + "models/" + suiteName + "/" + testName + "/";
+		string modelFileName = testName + "-sbml-" + version + ".xml";
+		string settingsFileName = testName + "-settings.txt";
 
 		//The following will load and compile and simulate the sbml model in the file
 		simulation.SetModelFilePath(modelFilePath);
