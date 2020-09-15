@@ -5519,7 +5519,7 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
 
     libsbml::Model* model = impl->document->getModel();
 
-    if (model->getCompartment(compartment) == NULL)
+    if (forceRegenerate && model->getCompartment(compartment) == NULL)
     {
         throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
     }
@@ -5797,25 +5797,20 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 	// no need to check reactants.size() + products.size() > 0
 	for (int i = 0; i < reactants.size(); i++) 
 	{
-		char* sid = 0;
 		double stoichiometry = 1;
-		parseSpecies(reactants[i], &stoichiometry, &sid);
-		Species* s;
-
-		if (sid)
-		{
-			s = sbmlModel->getSpecies(sid);
-		}
-		else
-		{
-			throw std::invalid_argument("Roadrunner::addReaction failed, invalid stoichiomety value and species ID " + reactants[0]);
-		}
-		
-		if (s == NULL)
-		{
-			throw std::invalid_argument("Roadrunner::addReaction failed, no species with ID " + reactants[0] + " existed in the model");
-		}
-		newReaction->addReactant(s, stoichiometry);
+        char* sid = NULL;
+        parseSpecies(reactants[i], &stoichiometry, &sid);
+        if (sid == NULL) {
+            throw std::invalid_argument("Roadrunner::addReaction failed, invalid stoichiomety value and species ID " + reactants[0]);
+        }
+        if (forceRegenerate && sbmlModel->getSpecies(sid) == NULL) {
+            throw std::invalid_argument("Roadrunner::addReaction failed, no species with ID " + reactants[i] + " existed in the model");
+        }
+        SpeciesReference sr(newReaction->getSBMLNamespaces());
+        sr.setStoichiometry(stoichiometry);
+        sr.setConstant(true);
+        sr.setSpecies(sid);
+        newReaction->addReactant(&sr);
 	}
 
 	for (int i = 0; i < products.size(); i++)
@@ -5823,26 +5818,20 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 		char* sid = 0;
 		double stoichiometry = 1;
 		parseSpecies(products[i], &stoichiometry, &sid);
-		Species* s;
-
-		if (sid)
-		{
-			s = sbmlModel->getSpecies(sid);
-		}
-		else
-		{
-			throw std::invalid_argument("Roadrunner::addReaction failed, invalid stoichiomety value and species ID " + reactants[0]);
-		}
-		
-		if (s == NULL)
-		{
-			throw std::invalid_argument("Roadrunner::addReaction failed, no species with ID " + products[0] + " existed in the model");
-		}
-
-		newReaction->addProduct(s, stoichiometry);
+        if (sid == NULL) {
+            throw std::invalid_argument("Roadrunner::addReaction failed, invalid stoichiomety value and species ID " + products[i]);
+        }
+        if (forceRegenerate && sbmlModel->getSpecies(sid) == NULL) {
+            throw std::invalid_argument("Roadrunner::addReaction failed, no species with ID " + products[i] + " existed in the model");
+        }
+        SpeciesReference sr(newReaction->getSBMLNamespaces());
+        sr.setStoichiometry(stoichiometry);
+        sr.setConstant(true);
+        sr.setSpecies(sid);
+        newReaction->addProduct(&sr);
 	}
 
-	// illegal formular will be catched during the regeneration
+	// illegal formulas will be caught during the regeneration
 	ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
 	KineticLaw* kLaw = newReaction->createKineticLaw();
 	kLaw->setMath(mathRoot);
@@ -5877,36 +5866,34 @@ void RoadRunner::removeReaction(const std::string& rid, bool deleteUnusedParamet
 		throw std::invalid_argument("Roadrunner::removeReaction failed, no reaction with ID " + rid + " existed in the model");
 	}
 	Log(Logger::LOG_DEBUG) << "Removing reaction " << rid << "..." << endl;
-	if (deleteUnusedParameters)
-	{
-		std::vector<std::string> toCheck;
-		getAllVariables(toDelete->getKineticLaw()->getMath(), toCheck);
-		if (impl->document->getLevel() == 2)
-		{
-			// only Level 2 support StoichiometryMath
-			const ListOfSpeciesReferences* reactants = toDelete->getListOfReactants();
-			for (uint j = 0; j < reactants->size(); j++)
-			{
-				// TODO: better way to cast?
-				SpeciesReference* reactant = (SpeciesReference*)reactants->get(j);
-				if (reactant->getStoichiometryMath() != NULL) 
-				{
-					getAllVariables(reactant->getStoichiometryMath()->getMath(), toCheck);
-				}
-				
-			}
+    if (deleteUnusedParameters)
+    {
+        std::set<std::string> toCheck;
+        getAllVariables(toDelete->getKineticLaw()->getMath(), toCheck);
+        for (uint j = 0; j < toDelete->getNumReactants(); j++)
+        {
+            SpeciesReference* reactant = toDelete->getReactant(j);
+            if (reactant->isSetId()) {
+                toCheck.insert(reactant->getId());
+            }
+            // only Level 2 support StoichiometryMath
+            if (reactant->getStoichiometryMath() != NULL)
+            {
+                getAllVariables(reactant->getStoichiometryMath()->getMath(), toCheck);
+            }
+        }
 
-			const libsbml::ListOfSpeciesReferences* products = toDelete->getListOfProducts();
-			for (uint j = 0; j < products->size(); j++)
-			{
-				SpeciesReference* product = (SpeciesReference*)products->get(j);
-				if (product->getStoichiometryMath() != NULL)
-				{
-					getAllVariables(product->getStoichiometryMath()->getMath(), toCheck);
-				}
-				
-			}
-		}
+        for (uint j = 0; j < toDelete->getNumProducts(); j++)
+        {
+            SpeciesReference* product = toDelete->getProduct(j);
+            if (product->isSetId()) {
+                toCheck.insert(product->getId());
+            }
+            if (product->getStoichiometryMath() != NULL)
+            {
+                getAllVariables(product->getStoichiometryMath()->getMath(), toCheck);
+            }
+        }
 		for (std::string sid : toCheck)
 		{
 			if (!isParameterUsed(sid))
@@ -6011,62 +5998,41 @@ void RoadRunner::setReversible(const std::string& rid,bool reversible, bool forc
 void RoadRunner::setKineticLaw(const std::string& rid, const std::string& kineticLaw, bool forceRegenerate)
 {
 
-	using namespace libsbml;
-	Model* sbmlModel = impl->document->getModel();
-	Reaction* reaction = sbmlModel->getReaction(rid);
+    using namespace libsbml;
+    Model* sbmlModel = impl->document->getModel();
+    Reaction* reaction = sbmlModel->getReaction(rid);
 
-	if (reaction == NULL)
-	{
-		throw std::invalid_argument("Roadrunner::setKineticLaw failed, no reaction with ID " + rid + " existed in the model");
-	}
+    if (reaction == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::setKineticLaw failed, no reaction with ID " + rid + " existed in the model");
+    }
 
-	Log(Logger::LOG_DEBUG) << "Setting kinetic law for reaction " << rid << "..." << endl;
+    Log(Logger::LOG_DEBUG) << "Setting kinetic law for reaction " << rid << "..." << endl;
 
 
-	KineticLaw* law = reaction->getKineticLaw();
-	if (law == NULL) {
-		law = reaction->createKineticLaw();
-	}
+    KineticLaw* law = reaction->getKineticLaw();
+    if (law == NULL) {
+        law = reaction->createKineticLaw();
+    }
 
-	// need to do this instead of setFormula() for L3 parsing
-	ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
-	law->setMath(mathRoot);
-	delete mathRoot;
+    // need to do this instead of setFormula() for L3 parsing
+    ASTNode* mathRoot = SBML_parseL3Formula(kineticLaw.c_str());
+    law->setMath(mathRoot);
+    delete mathRoot;
 
-	std::vector<string> kLawSpeciesIds;
-	getSpeciesIdsFromAST(law->getMath(), kLawSpeciesIds);
-	for (string s : kLawSpeciesIds)
-	{
-		bool isProduct = false;
-		ListOfSpeciesReferences *products = reaction->getListOfProducts();
-		for (int i = 0; i < products->size(); i++)
-		{
-			if (products->get(i)->getId() == s)
-			{
-				isProduct = true;
-				break;
-			}
-		}
+    std::vector<string> kLawSpeciesIds;
+    getSpeciesIdsFromAST(law->getMath(), kLawSpeciesIds);
+    for (string s : kLawSpeciesIds)
+    {
+        if (reaction->getProduct(s) != NULL) {
+            continue;
+        }
 
-		if (!isProduct)
-		{
-			bool isReactant = false;
-			ListOfSpeciesReferences *reactants = reaction->getListOfReactants();
-			for (int i = 0; i < reactants->size(); i++)
-			{
-				if (reactants->get(i)->getId() == s)
-				{
-					isReactant = true;
-					break;
-				}
-			}
-
-			if (!isReactant)
-			{
-				reaction->addModifier(sbmlModel->getSpecies(s));
-			}
-		}
-	}
+        if (reaction->getReactant(s) != NULL) {
+            continue;
+        }
+        reaction->addModifier(sbmlModel->getSpecies(s));
+    }
 
 	regenerate(forceRegenerate);
 }
@@ -6184,21 +6150,58 @@ void RoadRunner::removeCompartment(const std::string& cid, bool forceRegenerate)
 	regenerate(forceRegenerate);
 }
 
+void checkAddRule(const std::string& vid, libsbml::Model* sbmlModel)
+{
+    libsbml::SBase* sbase = sbmlModel->getElementBySId(vid);
+    if (sbase == NULL) {
+        throw std::invalid_argument("Roadrunner::addAssignmentRule failed, no variable with ID " + vid + " existed in the model");
+    }
+    switch (sbase->getTypeCode()) {
+    case libsbml::SBML_COMPARTMENT:
+    {
+        libsbml::Compartment* comp = static_cast<libsbml::Compartment*>(sbase);
+        comp->setConstant(false);
+    }
+    break;
+    case libsbml::SBML_SPECIES:
+    {
+        libsbml::Species* species = static_cast<libsbml::Species*>(sbase);
+        species->setConstant(false);
+        species->setBoundaryCondition(true);
+    }
+    break;
+    case libsbml::SBML_PARAMETER:
+    {
+        libsbml::Parameter* param = static_cast<libsbml::Parameter*>(sbase);
+        param->setConstant(false);
+    }
+    break;
+    case libsbml::SBML_SPECIES_REFERENCE:
+    {
+        libsbml::SpeciesReference* sr = static_cast<libsbml::SpeciesReference*>(sbase);
+        sr->setConstant(false);
+    }
+    break;
+    default:
+    {
+        const char* code = libsbml::SBMLTypeCode_toString(sbase->getTypeCode(), "core");
+        throw std::invalid_argument("Roadrunner::addAssignmentRule failed, the variable with ID " + vid + " is a " + code + ", which does not have mathematical meaning.");
+    }
+    }
+
+    if (sbmlModel->getRule(vid) != NULL)
+    {
+        throw std::invalid_argument("Roadrunner::addAssignmentRule failed, variable " + vid + " already has a rule existing in the model");
+    }
+}
+
 
 void RoadRunner::addAssignmentRule(const std::string& vid, const std::string& formula, bool forceRegenerate)
 {
 	using namespace libsbml;
 	Model* sbmlModel = impl->document->getModel();
+    checkAddRule(vid, sbmlModel);
 
-	if (sbmlModel->getCompartment(vid) == NULL && sbmlModel->getSpecies(vid) == NULL && sbmlModel->getParameter(vid) == NULL && sbmlModel->getSpeciesReference(vid) == NULL)
-	{
-		throw std::invalid_argument("Roadrunner::addAssignmentRule failed, no variable with ID " + vid + " existed in the model");
-	}
-
-	if (sbmlModel->getRule(vid) != NULL)
-	{
-		throw std::invalid_argument("Roadrunner::addAssignmentRule failed, variable " + vid + " already has a rule existing in the model");
-	}
 
 	Log(Logger::LOG_DEBUG) << "Adding assignment rule for" << vid << "..." << endl;
 	AssignmentRule* newRule = sbmlModel->createAssignmentRule();
@@ -6219,19 +6222,7 @@ void RoadRunner::addRateRule(const std::string& vid, const std::string& formula,
 	using namespace libsbml;
 	Model* sbmlModel = impl->document->getModel();
 
-	// TODO : check vid is not constant, currently will be catched in validation
-	if (sbmlModel->getCompartment(vid) == NULL && sbmlModel->getSpecies(vid) == NULL && sbmlModel->getParameter(vid) == NULL && sbmlModel->getSpeciesReference(vid) == NULL)
-	{
-		throw std::invalid_argument("Roadrunner::addRateRule failed, no variable with ID " + vid + " existed in the model");
-	}
-
-
-
-	if (sbmlModel->getRule(vid) != NULL)
-	{
-		throw std::invalid_argument("Roadrunner::addRateRule failed, variable " + vid + " already has a rule existing in the model");
-	}
-
+    checkAddRule(vid, sbmlModel);
 
 	Log(Logger::LOG_DEBUG) << "Adding rate rule for" << vid << "..." << endl;
 	RateRule* newRule = sbmlModel->createRateRule();
@@ -7015,20 +7006,20 @@ void RoadRunner::removeVariable(const std::string& sid) {
 	checkGlobalParameters();
 }
 
-void RoadRunner::getAllVariables(const libsbml::ASTNode* node, std::vector<std::string>& ids)
+void RoadRunner::getAllVariables(const libsbml::ASTNode* node, std::set<std::string>& ids)
 {
-	if (node == NULL) return;
-	if (!node->isOperator() && !node->isNumber()) 
-	{
-		ids.push_back(std::string(node->getName()));
-	}
-	for (uint i = 0; i < node->getNumChildren(); i++)
-	{
-		getAllVariables(node->getChild(i), ids);
-	}
+    if (node == NULL) return;
+    if (!node->isOperator() && !node->isNumber())
+    {
+        ids.insert(std::string(node->getName()));
+    }
+    for (uint i = 0; i < node->getNumChildren(); i++)
+    {
+        getAllVariables(node->getChild(i), ids);
+    }
 }
 
-bool RoadRunner::hasVariable(const libsbml::ASTNode* node, const string& sid) 
+bool RoadRunner::hasVariable(const libsbml::ASTNode* node, const string& sid)
 {
 	// DFS
 	// TODO: faster API to iterate all childeren node?
