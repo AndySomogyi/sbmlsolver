@@ -1252,7 +1252,7 @@ public:
     /**
      * Regenerate this RoadRunner instance's ExecutableModel based on the model in its SBMLDocument
      */
-    void regenerate(bool forceRegenerate, bool reset = false);
+    void regenerate(bool forceRegenerate = true, bool reset = false);
 
     /******************************* End Steady State Section *********************/
     #endif /***********************************************************************/
