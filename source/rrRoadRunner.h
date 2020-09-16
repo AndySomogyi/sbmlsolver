@@ -19,6 +19,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <set>
 
 namespace ls
 {
@@ -1248,6 +1249,11 @@ public:
      */
     ls::DoubleMatrix getSteadyStateValuesNamedArray();
 
+    /**
+     * Regenerate this RoadRunner instance's ExecutableModel based on the model in its SBMLDocument
+     */
+    void regenerate(bool forceRegenerate = true, bool reset = false);
+
     /******************************* End Steady State Section *********************/
     #endif /***********************************************************************/
     /******************************************************************************/
@@ -1526,7 +1532,7 @@ public:
      */
     std::string getTempDir();
 
-    #endif // #ifndef SWIG
+#endif // #ifndef SWIG
 
 
     /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
@@ -1560,7 +1566,7 @@ private:
 
 	bool isParameterUsed(const std::string& sid);
 
-	void getAllVariables(const libsbml::ASTNode* node, std::vector<std::string>& ids);
+    void getAllVariables(const libsbml::ASTNode* node, std::set<std::string>& ids);
 
     /// Get the row index of the time variable in the output array (returns -1 if time is not selected)
     int getTimeRowIndex();
@@ -1618,11 +1624,6 @@ private:
     * Check if the id already existed in the model
     */
     void checkID(const std::string& functionName, const std::string& sid);
-    
-    /*
-    * Regenerate this RoadRunner instance's ExecutableModel based on the model in its SBMLDocument
-    */
-    void regenerate(bool forceRegenerate, bool reset = false);
     
     /*
     * Parse a string with format stoichiometry + sID and return its stoichiometry value and sID
