@@ -6154,7 +6154,7 @@ void checkAddRule(const std::string& vid, libsbml::Model* sbmlModel)
 {
     libsbml::SBase* sbase = sbmlModel->getElementBySId(vid);
     if (sbase == NULL) {
-        throw std::invalid_argument("Roadrunner::addAssignmentRule failed, no variable with ID " + vid + " existed in the model");
+        throw std::invalid_argument("Unable to add rule because no variable with ID " + vid + " was found in the model.");
     }
     switch (sbase->getTypeCode()) {
     case libsbml::SBML_COMPARTMENT:
@@ -6167,6 +6167,9 @@ void checkAddRule(const std::string& vid, libsbml::Model* sbmlModel)
     {
         libsbml::Species* species = static_cast<libsbml::Species*>(sbase);
         species->setConstant(false);
+        if (species->isSetBoundaryCondition() && species->getBoundaryCondition()==false) {
+            throw std::invalid_argument("Unable to add rule because the species with ID " + vid + " is not a boundary species, and therefore may only change due to reactions.  To change this, the boundary species flag can be set with the function 'setBoundary(id, value)' or when added with 'addSpecies'.");
+        }
         species->setBoundaryCondition(true);
     }
     break;
@@ -6185,13 +6188,13 @@ void checkAddRule(const std::string& vid, libsbml::Model* sbmlModel)
     default:
     {
         const char* code = libsbml::SBMLTypeCode_toString(sbase->getTypeCode(), "core");
-        throw std::invalid_argument("Roadrunner::addAssignmentRule failed, the variable with ID " + vid + " is a " + code + ", which does not have mathematical meaning.");
+        throw std::invalid_argument("Unable to add rule because the variable with ID " + vid + " is a " + code + ", which does not have mathematical meaning.");
     }
     }
 
     if (sbmlModel->getRule(vid) != NULL)
     {
-        throw std::invalid_argument("Roadrunner::addAssignmentRule failed, variable " + vid + " already has a rule existing in the model");
+        throw std::invalid_argument("Unable to add rule because the variable " + vid + " already has a rule existing in the model.");
     }
 }
 

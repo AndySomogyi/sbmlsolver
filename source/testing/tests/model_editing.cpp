@@ -930,6 +930,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
+			rri->setBoundary("S1", true);
 			rri->addAssignmentRule("S1", "7");
 		}));
 	}
@@ -938,6 +939,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
+			rri->setBoundary("S1", true);
 			rri->addAssignmentRule("S1", "7");
 		}));
 	}
@@ -946,6 +948,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
+			rri->setBoundary("S3", true);
 			rri->addAssignmentRule("S3", "k1 * S2");
 		}));
 	}
@@ -954,6 +957,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
+			rri->setBoundary("S1", true);
 			rri->addRateRule("S1", "7");
 		}));
 	}
@@ -963,6 +967,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
+			rri->setBoundary("S1", true);
+			rri->setBoundary("S2", true);
 			rri->addRateRule("S1", "-1 * k1 * S1", false);
 			rri->addRateRule("S2", "k1 * S1", true);
 		}));
@@ -972,6 +978,8 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunModelEditingTest([](RoadRunner *rri)
 		{
+			rri->setBoundary("S1", true);
+			rri->setBoundary("S2", true);
 			rri->addRateRule("S1", "-1 * k1 * S1");
 			rri->addRateRule("S2", "k1 * S1");
 		}));
@@ -1300,7 +1308,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0, true);
+			rri->addSpecies("S1", "compartment", 0, true, true);
 			rri->addRateRule("S1", "7");
 		}));
 	}
@@ -1310,7 +1318,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 7, true);
+			rri->addSpecies("S1", "compartment", 7, true, true);
 			rri->addAssignmentRule("S1", "7");
 		}));
 	}
@@ -1322,7 +1330,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			rri->addCompartment("compartment", 1);
 			rri->addSpecies("S1", "compartment", 1, true);
 			rri->addSpecies("S2", "compartment", 1.5e-15, true);
-			rri->addSpecies("S3", "compartment", 1, true);
+			rri->addSpecies("S3", "compartment", 1, true, true);
 			rri->addParameter("k1", 0.75);
 			rri->addParameter("k2", 50);
 			rri->addAssignmentRule("S3", "k1*S2");
@@ -1445,7 +1453,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0);
+			rri->addSpecies("S1", "compartment", 0, false, true);
 			rri->addRateRule("S1", "7");
 		}, "l3v1"));
 	}
@@ -1455,7 +1463,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 7);
+			rri->addSpecies("S1", "compartment", 7, false, true);
 			rri->addAssignmentRule("S1", "7");
 		}, "l3v1"));
 	}
@@ -1467,7 +1475,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			rri->addCompartment("compartment", 1);
 			rri->addSpecies("S1", "compartment", 1);
 			rri->addSpecies("S2", "compartment", 1.5e-15);
-			rri->addSpecies("S3", "compartment", 1);
+			rri->addSpecies("S3", "compartment", 1, false, true);
 			rri->addParameter("k1", 0.75);
 			rri->addParameter("k2", 50);
 			rri->addAssignmentRule("S3", "k1*S2");
@@ -1539,6 +1547,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunModelEditingTest([](RoadRunner* rri)
 		{
 			rri->setConstant("S1", false, false);
+			rri->setBoundary("S1", true);
 			rri->addRateRule("S1", "7");
 		}));
 	}
