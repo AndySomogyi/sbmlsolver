@@ -465,6 +465,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
+			setBoundary(rri, "S1", true);
 			addAssignmentRule(rri, "S1", "7");
 		}));
 	}
@@ -473,6 +474,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 	{
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
+			setBoundary(rri, "S1", true);
 			addRateRule(rri, "S1", "7");
 		}));
 	}
@@ -565,6 +567,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestWithModification([](RRHandle rri)
 		{
 			setConstantNoRegen(rri, "S1", false);
+			setBoundary(rri, "S1", true);
 			addRateRule(rri, "S1", "7");
 		}));
 	}
@@ -753,7 +756,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 0, false, false);
+			addSpecies(rri, "S1", "compartment", 0, false, true);
 			addRateRule(rri, "S1", "7");
 		}));
 	}
@@ -763,7 +766,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 		CHECK(RunTestModelFromScratch([](RRHandle rri)
 		{
 			addCompartment(rri, "compartment", 1);
-			addSpecies(rri, "S1", "compartment", 7, false, false);
+			addSpecies(rri, "S1", "compartment", 7, false, true);
 			addAssignmentRule(rri, "S1", "7");
 		}));
 	}
@@ -775,7 +778,7 @@ SUITE(MODEL_EDITING_TEST_SUITE)
 			addCompartment(rri, "compartment", 1);
 			addSpecies(rri, "S1", "compartment", 1, false, false);
 			addSpecies(rri, "S2", "compartment", 1.5e-15, false, false);
-			addSpecies(rri, "S3", "compartment", 1, false, false);
+			addSpecies(rri, "S3", "compartment", 1, false, true);
 			addParameter(rri, "k1", 0.75);
 			addParameter(rri, "k2", 50);
 			addAssignmentRule(rri, "S3", "k1*S2");
