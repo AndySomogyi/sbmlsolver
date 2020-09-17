@@ -61,19 +61,15 @@ foreach(dirid IN LISTS TESTDIRS)
      )
 
      if(UNIX) #Don't know why static roadrunner fails....?
-          target_link_libraries (${testid}
-              roadrunner-static
-              ${GTESTLIB}
-              lapack
-              blas
-              f2c
-          )
+          set(staticLibPrefix ".a")
+          set(sharedLibPrefix ".so")
      endif()
 
-
+     # This order is important:  on linux, including the core library before the C api library
+     # causes the resulting program to crash in Poco.
      target_link_libraries(${testid}
-        roadrunner-static
         roadrunner_c_api
+        roadrunner-static
         PocoXML
         ${GTESTLIB}
      )

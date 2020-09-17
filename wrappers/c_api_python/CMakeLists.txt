@@ -6,7 +6,7 @@ add_subdirectory(Testing)
 
 if(INSTALL_EXAMPLES)
 add_subdirectory(Examples)
-endif()
+endif(INSTALL_EXAMPLES)
 
 #=============== INSTALL =====================
 install(
@@ -15,4 +15,4 @@ install(
     DESTINATION c_api_python  	
     COMPONENT testing
     )
-endif(BUILD_TEST_TOOLS)
+endif(BUILD_TESTS)
