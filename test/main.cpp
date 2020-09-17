@@ -37,6 +37,6 @@ int main(int argc, char** argv)
 
     //Run the tests.
     int ret = RUN_ALL_TESTS();
-    delete gRR;
+    rrc::freeRRInstance(gRR);
     return ret;
 }
