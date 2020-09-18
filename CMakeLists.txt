@@ -376,9 +376,9 @@ add_subdirectory(wrappers)
 
 if(BUILD_TESTS)
     add_subdirectory(test)
-endif(BUILD_TESTS)
+    add_subdirectory(testing)
+    add_subdirectory(autotest)
 
-if(BUILD_TESTS AND BUILD_TEST_TOOLS)
     message(STATUS "building tests")
     file (GLOB TEST_FILES "testing/*" )
 
@@ -411,8 +411,6 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
         endif()
     endforeach()
 
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
 else()
     message(STATUS "NOT building tests")
 endif()
