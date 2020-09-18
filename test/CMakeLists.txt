@@ -1,3 +1,6 @@
+add_subdirectory(python)
+add_subdirectory(rrtest_files)
+
 set(TESTDIRS
         c_api_core
         model_analysis

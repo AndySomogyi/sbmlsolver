@@ -376,8 +376,6 @@ add_subdirectory(wrappers)
 
 if(BUILD_TESTS)
     add_subdirectory(test)
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
 
     message(STATUS "building tests")
     file (GLOB TEST_FILES "testing/*" )

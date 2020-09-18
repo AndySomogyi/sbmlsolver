@@ -32,7 +32,7 @@ endif()
 
 set(CMAKE_SWIG_OUTDIR ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner)
 
-SWIG_ADD_MODULE(roadrunner python roadrunner.i PyUtils PyLoggerStream)
+SWIG_ADD_LIBRARY(roadrunner LANGUAGE python SOURCES roadrunner.i PyUtils PyLoggerStream)
 
 
 

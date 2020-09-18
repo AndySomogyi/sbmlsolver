@@ -4,7 +4,7 @@ include(${RR_SOURCE_PATH}/cmake/SlicerMacroGetOperatingSystemArchitectureBitness
 
 message(STATUS "Testing/utils...")
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     execute_process(
         COMMAND ${CMAKE_CXX_COMPILER} --version
         OUTPUT_VARIABLE _compiler_output
