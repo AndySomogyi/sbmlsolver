@@ -167,13 +167,13 @@ install(
     FILES_MATCHING PATTERN "*.*"
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/testing/*.rrtest")
+file(GLOB rrtest_files "${RR_ROOT}/test/rrtest_files/*.rrtest")
 install(
     FILES ${rrtest_files}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/testing/*.xml")
+file(GLOB rrtest_files "${RR_ROOT}/test/rrtest_files/*.xml")
 install(
     FILES ${rrtest_files}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data

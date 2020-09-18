@@ -378,14 +378,14 @@ if(BUILD_TESTS)
     add_subdirectory(test)
 
     message(STATUS "building tests")
-    file (GLOB TEST_FILES "testing/*" )
+    file (GLOB TEST_FILES "test/rrtest_files/*" )
 
-    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
+    file (GLOB PYTHON_TEST_FILES "test/python/*" )
     list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
 
-    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
-    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.xml")
 
     foreach( f ${TEST_FILES} )
         if(NOT IS_DIRECTORY ${f})
