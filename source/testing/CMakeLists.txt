@@ -4,13 +4,14 @@ PROJECT(RR_CXX_API_TESTS)
 set(target cxx_api_tests)
 
 set(tests
-        tests/base
-        tests/sbml_test_suite
-        tests/steady_state
-        tests/stoichiometric
-        tests/model_editing
-        tests/state_saving
-        )
+tests/base
+tests/sbml_test_suite
+tests/steady_state
+tests/stoichiometric
+tests/model_editing
+tests/state_saving
+tests/other_tests
+)
 
 add_executable(${target}
         main

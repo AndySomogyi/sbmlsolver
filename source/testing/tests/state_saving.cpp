@@ -764,7 +764,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 		CHECK(StateRunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0, true);
+			rri->addSpecies("S1", "compartment", 0, true, true);
 			rri->addRateRule("S1", "7");
 			
 			rri->saveState("test-save-state.rr");
@@ -784,7 +784,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 
 			rri->loadState("test-save-state.rr");
 
-			rri->addSpecies("S1", "compartment", 7, true);
+			rri->addSpecies("S1", "compartment", 7, true, true);
 			rri->addAssignmentRule("S1", "7");
 		}));
 	}
@@ -798,7 +798,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 			rri->loadState("test-save-state.rr");
 			rri->addSpecies("S1", "compartment", 1, true);
 			rri->addSpecies("S2", "compartment", 1.5e-15, true);
-			rri->addSpecies("S3", "compartment", 1, true);
+			rri->addSpecies("S3", "compartment", 1, true, true);
 			rri->addParameter("k1", 0.75);
 			rri->addParameter("k2", 50);
 			rri->addAssignmentRule("S3", "k1*S2");
@@ -881,7 +881,7 @@ SUITE(STATE_SAVING_TEST_SUITE)
 		CHECK(StateRunTestModelFromScratch([](RoadRunner *rri)
 		{
 			rri->addCompartment("compartment", 1);
-			rri->addSpecies("S1", "compartment", 0, true);
+			rri->addSpecies("S1", "compartment", 0, true, true);
 			rri->addRateRule("S1", "7");
 			
 			rri->saveState("test-save-state.rr");
@@ -894,6 +894,6 @@ SUITE(STATE_SAVING_TEST_SUITE)
 	{
 		RoadRunner rri;
 		rri.loadState("test-save-state.rr");
-		CHECK(rri.getFloatingSpeciesByIndex(0) == 0);
+		CHECK(rri.getBoundarySpeciesByIndex(0) == 0);
 	}
 }

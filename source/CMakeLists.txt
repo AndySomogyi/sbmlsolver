@@ -376,32 +376,35 @@ target_link_libraries(
         ${PLATFORM_SPECIFIC_LIBS}
 )
 
-if (${BUILD_SHARED_LIBS})
-    add_library(${target} SHARED ${rrSources})
-    target_compile_definitions(${target} PRIVATE EXPORT_RR)
-    target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
-    target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
+add_library(${target} SHARED ${rrSources})
+target_compile_definitions(${target} PRIVATE EXPORT_RR)
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
+target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
+
+generate_export_header(
+        ${target} BASE_NAME ROADRUNNER
+)
 
 
-    install(
-            TARGETS ${target}
-            EXPORT ${target}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
-            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
-            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr COMPONENT ${target}
-    )
 
-    # install export info so roadrunner can be used with find_package in CONFIG mode
-    install(
-            EXPORT ${target}
-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
-            NAMESPACE ${target}::
-            FILE ${target}-config.cmake
-            COMPONENT ${target}
-            EXPORT_LINK_INTERFACE_LIBRARIES
-    )
-endif ()
+install(
+        TARGETS ${target}
+        EXPORT ${target}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${target}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${target}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr COMPONENT ${target}
+)
+
+# install export info so roadrunner can be used with find_package in CONFIG mode
+install(
+        EXPORT ${target}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+        NAMESPACE ${target}::
+        FILE ${target}-config.cmake
+        COMPONENT ${target}
+        EXPORT_LINK_INTERFACE_LIBRARIES
+)
 
 #################################################################3
 #   install code for COMPONENT RR
