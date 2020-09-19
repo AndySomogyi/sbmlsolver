@@ -381,11 +381,11 @@ target_compile_definitions(${target} PRIVATE EXPORT_RR)
 target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
+
+# autogenerate the export header. This is different on each system so will be generated to the build tree
 generate_export_header(
         ${target} BASE_NAME ROADRUNNER
 )
-
-
 
 install(
         TARGETS ${target}
