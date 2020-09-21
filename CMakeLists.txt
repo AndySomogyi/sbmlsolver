@@ -120,8 +120,8 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
 # On msvc default visibility is hidden while on gcc and clang
 #  default is not-hidden. Here we set all to hidden.
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+#set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 if (BUILD_TESTS OR BUILD_JAVA_INTERFACE)
     enable_testing()
