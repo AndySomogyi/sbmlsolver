@@ -156,8 +156,18 @@ install(
 )
 
 install(
+    FILES testing/__init__.py 
+    	  testing/__main__.py 
+    	  testing/README.txt 
+    	  testing/tester.py 
+    	  testing/testfiles.py 
+    	  testing/SBMLTest.py
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing
+)
+
+install(
     DIRECTORY testing
-    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/
     FILES_MATCHING PATTERN "*.*"
 )
 
@@ -167,14 +177,20 @@ install(
     FILES_MATCHING PATTERN "*.*"
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/test/rrtest_files/*.rrtest")
+file(GLOB rrtest_files1 "${RR_ROOT}/test/rrtest_files/*.rrtest")
 install(
-    FILES ${rrtest_files}
+    FILES ${rrtest_files1}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/test/rrtest_files/*.xml")
+file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml")
 install(
-    FILES ${rrtest_files}
+    FILES ${rrtest_files2}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
+)
+
+file(GLOB rrtest_files3 "${CMAKE_CURRENT_DIRECTORY}/testing/*.*")
+install(
+    FILES ${rrtest_files3}
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/
 )
