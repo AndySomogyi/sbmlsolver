@@ -61,7 +61,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         RRPLOG(lInfo) << "Executing the TestModel plugin by J Kyle Medley and Totte Karlsson";
         RRPLOG(lInfo) << "Using SBML model: \n" << mModel.getValue();
 
-        rrc::RRHandle rrHandle = mhostInterface->createRRInstance();
+        rrc::RRHandle rrHandle = mhostInterface->createRRInstance();        //start
         rrc::RRCDataPtr result = NULL;
         mhostInterface->loadSBML(rrHandle, (mModel.getValue()).c_str());
 
@@ -72,7 +72,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
         for (int i = 0; i < result->RSize; ++i) {       //costly, 
             for (int j = 0; j < result->CSize; ++j) {
-                    output(i, j) = (result->Data)[i * result->CSize + j];
+                output(i, j) = (result->Data)[i * result->CSize + j];
             }
         }
 
@@ -85,22 +85,10 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         output.setColNames(selections.begin(), selections.end());
 
         TelluriumData data;
-        data.setData(output);
+        data.setData(output);       //end 
         mTestData.setValue(data);
 
         mTestDataWithNoise.setValue(mTestData.getValue());
-
-
-
-        // ****************************
-        /*typedef void* (*setPropertyValuePtr) (const string& nameOf, const void* value);
-        void* handle = LoadSharedLibrary("AddNoise");
-        if (!handle){
-            stringstream msg;
-            msg << "The TestModel plugin dependes on the AddNoise plugin, which is able to load.";
-            throw(Exception(msg.str()));
-        }
-        setPropertyValuePtr setPropertyValue=(setPropertyValuePtr)GetFunction(handle, "setPropertyValue");*/
 
         
     /*

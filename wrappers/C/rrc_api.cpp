@@ -750,6 +750,47 @@ bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double va
     catch_bool_macro
 }
 
+// RRPLugins
+double rrcCallConv _getTime(RRHandle handle) {
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        ExecutableModel* model = rri->getModel();
+        return model->getTime();
+    catch_double_macro
+}
+
+int rrcCallConv _getNumIndFloatingSpecies(RRHandle handle) {
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        ExecutableModel* model = rri->getModel();
+        return model->getNumIndFloatingSpecies();
+    catch_int_macro
+}
+
+int rrcCallConv _getStateVector(RRHandle handle) {
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        ExecutableModel* model = rri->getModel();
+        return model->getStateVector(NULL);
+    catch_int_macro
+}
+
+void rrcCallConv _getStateVectorRate(RRHandle handle, double time, double* value) {
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        ExecutableModel* model = rri->getModel();
+        model->getStateVectorRate(time, NULL,value);
+    catch_void_macro
+}
+
+int rrcCallConv _getNumRateRules(RRHandle handle) {
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        ExecutableModel* model = rri->getModel();
+        return model->getNumRateRules();
+    catch_int_macro
+}
+
 RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
 {
     start_try
@@ -1235,8 +1276,8 @@ bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        std::cerr << "rrcCallConv steadyState\n";
-        Log(Logger::LOG_DEBUG) << "rrcCallConv steadyState ";
+        //std::cerr << "rrcCallConv steadyState\n";
+        //Log(Logger::LOG_DEBUG) << "rrcCallConv steadyState";
         *value = rri->steadyState();
         return true;
     catch_bool_macro

@@ -622,12 +622,42 @@ std::string getPluginOSPrefix()
 rrc::THostInterface *initializeRoadRunnerAPI()
 {
     rrc::THostInterface* host_Interface=NULL;
-    host_Interface = (rrc::THostInterface*)malloc(sizeof(rrc::THostInterface));     //wrong practise
-    host_Interface->createRRInstance = rrc::createRRInstance;
-    host_Interface->getInfo = rrc::getInfo;
-    host_Interface->loadSBML = rrc::loadSBML;
-    host_Interface->simulateEx = rrc::simulateEx;
-
+    //host_Interface = (rrc::THostInterface*)malloc(sizeof(rrc::THostInterface));     //wrong practise
+    host_Interface = new rrc::THostInterface;
+    if (host_Interface) 
+    {
+        host_Interface->createRRInstance = rrc::createRRInstance;
+        host_Interface->getInfo = rrc::getInfo;
+        host_Interface->loadSBML = rrc::loadSBML;
+        host_Interface->simulateEx = rrc::simulateEx;
+        host_Interface->setCurrentSteadyStateSolver=rrc::setCurrentSteadyStateSolver;
+        host_Interface->setCurrentSteadyStateSolverParameterBoolean=rrc::setCurrentSteadyStateSolverParameterBoolean;
+        host_Interface->setCurrentSteadyStateSolverParameterDouble=rrc::setCurrentSteadyStateSolverParameterDouble;
+        host_Interface->setTempFolder = rrc::setTempFolder;
+        host_Interface->steadyState = rrc::steadyState;
+        host_Interface->setBoundarySpeciesByIndex = rrc::setBoundarySpeciesByIndex;
+        host_Interface->setValue = rrc::setValue;
+        host_Interface->simulateEx = rrc::simulateEx;
+        host_Interface->simulate=rrc::simulate;
+        host_Interface->getBoundarySpeciesByIndex = rrc::getBoundarySpeciesByIndex;
+        host_Interface->getGlobalParameterByIndex = rrc::getGlobalParameterByIndex;
+        host_Interface->getSteadyStateSelectionList = rrc::getSteadyStateSelectionList;
+        host_Interface->getGlobalParameterIds = rrc::getGlobalParameterIds;
+        host_Interface->getBoundarySpeciesIds = rrc::getBoundarySpeciesIds;
+        host_Interface->setComputeAndAssignConservationLaws = rrc::setComputeAndAssignConservationLaws;
+        host_Interface->_getNumIndFloatingSpecies = rrc::_getNumIndFloatingSpecies;
+        host_Interface->_getNumRateRules = rrc::_getNumRateRules;
+        host_Interface->getFloatingSpeciesConcentrations = rrc::getFloatingSpeciesConcentrations;
+        host_Interface->setFloatingSpeciesConcentrations = rrc::setFloatingSpeciesConcentrations;
+        host_Interface->getRatesOfChange = rrc::getRatesOfChange;
+        host_Interface->_getTime = rrc::_getTime;
+        host_Interface->_getStateVector = rrc::_getStateVector;
+        host_Interface->_getStateVectorRate = rrc::_getStateVectorRate;
+    }
+    else
+    {
+        RRPLOG(lError) << " No memory avilable in heap ";
+    }
     return host_Interface;
 }
 

@@ -15,6 +15,10 @@ if (TLP_BUILD_CHISQUARE_PLUGIN)
     add_subdirectory(chisquare)
 endif()
 
+if (TLP_BUILD_AUTO2000_PLUGIN)
+    add_subdirectory(auto2000)
+endif()
+
 #[[
 if (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
     add_subdirectory(levenberg_marquardt)
@@ -26,10 +30,6 @@ endif()
 
 if (TLP_BUILD_MONTE_CARLO_BS_PLUGIN)
     add_subdirectory(monte_carlo_bs)
-endif()
-
-if (TLP_BUILD_AUTO2000_PLUGIN)
-    add_subdirectory(auto2000)
 endif()
 
 if (TLP_BUILD_STAT_PLUGIN)

@@ -371,8 +371,8 @@ class CORE_DECLSPEC Plugin
          * A pointer to a RoadRunner instance which the plugin
          * uses.
          */
-        //rrc::THostInterface                  *mRR;
-
+        //rrc::THostInterface                  *mRR;          
+        rrc::RRHandle                   rrHandle;
         /**
          * A pointer to the PluginManager that loaded the Plugin
          * uses.
