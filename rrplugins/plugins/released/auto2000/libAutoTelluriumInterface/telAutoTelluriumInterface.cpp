@@ -2,7 +2,8 @@
 #include <stdexcept>
 #include "telAutoTelluriumInterface.h"
 //#include "rr/rrRoadRunner.h"
-#include "rr/rrExecutableModel.h"
+//#include "rr/rrExecutableModel.h"
+#include "../../../source/rrExecutableModel.h"
 #include "../libAuto/vsAuto.h"
 #include "telLogger.h"
 #include "telStringList.h"
