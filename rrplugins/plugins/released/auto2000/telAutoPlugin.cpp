@@ -2,7 +2,7 @@
 #include <sstream>
 #include "telLogger.h"
 //#include "rr/rrRoadRunner.h"
-#include "rr/SteadyStateSolver.h"
+#include "../../../source/SteadyStateSolver.h"
 #include "telTelluriumData.h"
 #include "telAutoPlugin.h"
 #include "telUtils.h"

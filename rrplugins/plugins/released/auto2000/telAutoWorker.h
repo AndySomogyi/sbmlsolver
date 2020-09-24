@@ -3,7 +3,7 @@
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
 //#include "rr/rrRoadRunner.h"
-#include "rr/rrOSSpecifics.h"
+#include "../../../source/rrOSSpecifics.h"
 #include "telTelluriumData.h"
 #include "auto_utils.h"
 #include "rrplugins/core/tel_api.h"

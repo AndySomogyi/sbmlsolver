@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include <iostream>
 #include <string>
-#include "rr/c/rrc_api.h"
+#include "../../../wrappers/C/rrc_api.h"
 #include "telplugins_c_api.h"
 
 using namespace std;
