@@ -20,17 +20,16 @@ extern rr::IniFile iniFile;
 extern RRHandle gRR;
 
 //This tests is mimicking the Python tests
-string TestDataFileName = "models/C_API_CORE/TestModel_1.dat";
-string TestModelFileName;
+extern string TestModelFileName;
 
 TEST(C_API_EXCEPTIONS, DATA_FILES)
 {
-    string testDataFileName = joinPath(gRRTestDir, TestDataFileName);
+    string testDataFileName = joinPath(gRRTestDir, "models/C_API_CORE/TestModel_1.dat");
 
     ASSERT_TRUE(fileExists(testDataFileName));
     ASSERT_TRUE(iniFile.Load(testDataFileName));
 
-    clog << "Loaded test data from file: " << testDataFileName;
+    //clog << "Loaded test data from file: " << testDataFileName;
     if (iniFile.GetSection("SBML_FILE"))
     {
         rr::IniSection* sbml = iniFile.GetSection("SBML_FILE");
@@ -49,7 +48,7 @@ TEST(C_API_EXCEPTIONS, DATA_FILES)
 
 TEST(C_API_EXCEPTIONS, LOAD_SBML)
 {
-        EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.c_str()));
+    EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.c_str()));
 }
 
 TEST(C_API_EXCEPTIONS, SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)

@@ -3,6 +3,7 @@ add_subdirectory(rrtest_files)
 
 set(TESTDIRS
         c_api_core
+        c_api_rrtests
         model_analysis
         model_editing
         sbml_features

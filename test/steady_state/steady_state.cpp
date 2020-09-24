@@ -14,12 +14,12 @@ using namespace ls;
 
 extern string gRRTestDir;
 extern string gRROutputDir;
+extern string TestModelFileName;
 extern IniFile iniFile;
 
 //Global to this unit
 RoadRunner *aRR = NULL;
 string TestDataFileName     = "TestModel_1.dat";
-string TestModelFileName;
 string gTestDataFolder = joinPath(gRRTestDir, "tests");
 
 //This test-suite tests various steady state functions, using the model TestModel_1.xml
@@ -32,7 +32,7 @@ TEST(DISABLED_STEADY_STATE, DATA_FILES)
 
     ASSERT_TRUE(fileExists(TestDataFileName));
     ASSERT_TRUE(iniFile.Load(TestDataFileName));
-    clog << "Loaded test data from file: " << TestDataFileName;
+    //clog << "Loaded test data from file: " << TestDataFileName;
     if (iniFile.GetSection("SBML_FILES"))
     {
         IniSection* sbml = iniFile.GetSection("SBML_FILES");

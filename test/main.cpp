@@ -5,6 +5,7 @@
 
 std::string     gRRTestDir= "";
 std::string     gRROutputDir = "";
+std::string     TestModelFileName = "";
 rrc::RRHandle gRR = rrc::createRRInstance();;
 rr::IniFile iniFile;
 

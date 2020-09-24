@@ -1371,7 +1371,7 @@ bool RunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version)
 
 bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunner*, libsbml::SBMLDocument*), std::string editName)
 {
-    Log(Logger::LOG_NOTICE) << "Running Test: " << editName << ", " << caseNumber << endl;
+    //Log(Logger::LOG_NOTICE) << "Running Test: " << editName << ", " << caseNumber << endl;
     bool result(false);
 	RoadRunner rr;
 
