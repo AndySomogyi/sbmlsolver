@@ -3464,6 +3464,44 @@ void RoadRunner::setGlobalParameterByIndex(const int index, const double value)
     impl->model->setGlobalParameterValues(1, &index, &value);
 }
 
+void RoadRunner::setGlobalParameterByName(const std::string& param, const double value)
+{
+    if (!impl->model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+    int index_of_param;
+    std::vector<std::string> global_parameter_ids = getGlobalParameterIds();
+    auto iterator = std::find(global_parameter_ids.begin(), global_parameter_ids.end(), param);
+    if (iterator == global_parameter_ids.end()){
+        throw std::invalid_argument("std::invalid_argument: RoadRunner::setGlobalParameterByName "
+                                    "Parameter \""+param+"\" not found in model");
+    } else {
+        index_of_param = std::distance(global_parameter_ids.begin(), iterator);
+    }
+    impl->model->setGlobalParameterValues(1, &index_of_param, &value);
+}
+
+double RoadRunner::getGlobalParameterByName(const std::string& param)
+{
+    if (!impl->model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+    int index_of_param;
+    std::vector<std::string> global_parameter_ids = getGlobalParameterIds();
+    auto iterator = std::find(global_parameter_ids.begin(), global_parameter_ids.end(), param);
+    if (iterator == global_parameter_ids.end()){
+        throw std::invalid_argument("std::invalid_argument: RoadRunner::setGlobalParameterByName "
+                                    "Parameter \""+param+"\" not found in model");
+    } else {
+        index_of_param = std::distance(global_parameter_ids.begin(), iterator);
+    }
+    double value;
+    impl->model->getGlobalParameterValues(1, &index_of_param, &value);
+    return value;
+}
+
 // Help("Returns the value of a global parameter by its index")
 double RoadRunner::getGlobalParameterByIndex(const int& index)
 {

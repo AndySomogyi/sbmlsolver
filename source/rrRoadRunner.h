@@ -1303,6 +1303,20 @@ namespace rr
          */
         double getGlobalParameterByIndex(const int& index);
 
+        /**
+         * @author ciaran welsh
+         * @brief set the parameter with id @param param to @param value
+         */
+        void setGlobalParameterByName(const std::string& param, double value);
+
+        /**
+         * @author ciaran welsh
+         * @brief get the @param value of global parameter with id @param param
+         *
+         */
+        double getGlobalParameterByName(const std::string& param);
+
+
 
         /******** !!! DEPRECATED INTERNAL METHODS * THESE WILL BE REMOVED!!! **********/
 #if (1) /**********************************************************************/
@@ -1479,6 +1493,7 @@ namespace rr
          * @deprecated use ExecutableModel::setGlobalParameterValues
          */
         RR_DEPRECATED(void setGlobalParameterByIndex(const int index, const double value));
+
 
         /**
          * @internal
