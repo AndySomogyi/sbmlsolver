@@ -149,41 +149,6 @@ int findCloseTimepoint(const DoubleMatrix* m, double t, double tol)
 
 std::set<std::string> getTestFiles(const std::string& dir)
 {
-    Poco::Path path;
-
-    if (dir.length() == 0)
-    {
-        // default testing dir
-        // path of current prog
-        string prog = rr::getCurrentExeFolder();
-
-        Log(Logger::LOG_NOTICE) << "prog: " << prog;
-
-        path = Poco::Path(prog);
-
-        Log(Logger::LOG_NOTICE) << "path: " << path.toString();
-
-        path.makeParent();
-
-
-        Log(Logger::LOG_NOTICE) << "popdir: " << path.toString();
-
-        path.pushDirectory("testing");
-    }
-    else
-    {
-        path = Poco::Path(dir + "\\");
-    }
-
-    path.makeAbsolute();
-
-    Log(Logger::LOG_WARNING) << "Looking in " << path.toString() << " for test files";
-
-    //         path.setFileName("*.rrtest");
-
-    //         std::set<std::string> files;
-
-    //         Poco::Glob::glob(path, files);
 
     const char* rrtest_files[] = {
         //"Add_Species1.rrtest"
@@ -214,9 +179,7 @@ std::set<std::string> getTestFiles(const std::string& dir)
     std::set<std::string> result;
 
     for (int n = 0; n < sizeof(rrtest_files) / sizeof(rrtest_files[0]); ++n) {
-        Poco::Path testfile(path);
-        testfile.append(rrtest_files[n]);
-        result.insert(testfile.toString());
+        result.insert(joinPath(dir, rrtest_files[n]));
     }
 
     return result;
@@ -2132,7 +2095,7 @@ void check_FREE_RR_INSTANCE()
 
 TEST(C_API_SECONDARY, RRTESTS)
 {
-    set<string> files = getTestFiles(gRRTestDir + "rrtest_files/");
+    set<string> files = getTestFiles(joinPath(gRRTestDir, "rrtest_files"));
     for (set<string>::iterator file = files.begin(); file != files.end(); file++) {
         rrTestFileName = *file;
         check_DATA_FILES();
