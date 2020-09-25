@@ -1,3 +1,0 @@
-
-The development of Tellurium Plugins was funded through the generous support
-of the NIH/NIGMS. Grant Number: GM081070

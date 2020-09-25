@@ -350,11 +350,6 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 
 	//theModel->convertToAmounts();
 
-	// 1) Check* Check the values and check and they are identical*************************************************************
-	// 2) Replace the commented line
-	// 3) 
-
-	
 	double  time            = mHostInterface->_getTime(mRR);
 	int     stateVecSize    = mHostInterface->_getStateVector(mRR);
 	double* dydts           = new double[stateVecSize];
@@ -367,17 +362,6 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 		oResult[i] = dydts[i];
 	}
 	delete[] dydts;
-
-	/*
-	oResult=(mHostInterface->getRatesOfChange(mRR))->Data;
-	int size = (mHostInterface->getRatesOfChange(mRR))->Count;
-
-	RRPLOG(lError) << "ORESULTS:\n";
-	for (int i = 0; i < size; ++i) {
-		RRPLOG(lError) << oResult[i] << " ";
-	}*/
-
-
 
 }
 

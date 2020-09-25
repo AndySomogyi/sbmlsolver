@@ -6,9 +6,9 @@ project( auto2000 )
 add_subdirectory(libAuto)
 add_subdirectory(libAutoTelluriumInterface)
 
-if (TLP_BUILD_EXAMPLES)
-  add_subdirectory(examples)
-endif()
+#if (TLP_BUILD_EXAMPLES)
+#  add_subdirectory(examples)
+#endif()
 
 # Auto2k lib includes
 include_directories(libAutoTelluriumInterface)
