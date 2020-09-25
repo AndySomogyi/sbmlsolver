@@ -2093,7 +2093,7 @@ void check_FREE_RR_INSTANCE()
     gRR = NULL;
 }
 
-TEST(C_API_SECONDARY, RRTESTS)
+TEST(C_API_RRTESTS, RRTESTS)
 {
     set<string> files = getTestFiles(joinPath(gRRTestDir, "rrtest_files"));
     for (set<string>::iterator file = files.begin(); file != files.end(); file++) {

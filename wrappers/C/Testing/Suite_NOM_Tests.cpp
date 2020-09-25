@@ -34,7 +34,7 @@ RRHandle gRR = NULL;
         CHECK(fileExists(testDataFileName));
         CHECK(iniFile.Load(testDataFileName));
 
-        clog<<"Loaded test data from file: "<< testDataFileName;
+        //clog<<"Loaded test data from file: "<< testDataFileName;
         if(iniFile.GetSection(sec))
         {
             IniSection* sbml = iniFile.GetSection(sec);

@@ -37,7 +37,7 @@ string TestModelFileName;
 
         CHECK(fileExists(TestDataFileName));
         CHECK(iniFile.Load(TestDataFileName));
-        clog<<"Loaded test data from file: "<< TestDataFileName;
+        //clog<<"Loaded test data from file: "<< TestDataFileName;
         if(iniFile.GetSection("SBML_FILES"))
         {
             IniSection* sbml = iniFile.GetSection("SBML_FILES");
