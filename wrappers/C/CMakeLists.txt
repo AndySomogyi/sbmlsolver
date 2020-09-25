@@ -105,10 +105,6 @@ if(INSTALL_EXAMPLES)
     add_subdirectory(Examples)
 endif()
 
-if(BUILD_TEST_TOOLS)
-    add_subdirectory(Testing)
-endif()
-
 #=============== INSTALL =====================
 #Glob all header files
 FILE (GLOB headers rrc*.h)
