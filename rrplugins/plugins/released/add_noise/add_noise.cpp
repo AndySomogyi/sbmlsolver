@@ -42,7 +42,8 @@ The AddNoise plugin was developed at the University of Washington by Totte Karls
 }
 
 AddNoise::~AddNoise()
-{}
+{
+}
 
 unsigned char* AddNoise::getManualAsPDF() const
 {
@@ -62,7 +63,6 @@ bool AddNoise::isWorking() const
 bool AddNoise::execute(bool inThread)
 {
     RRPLOG(lDebug)<<"Executing the AddNoise plugin by Totte Karlsson";
-
     //go away and carry out the work in a thread
     return mAddNoiseWorker.start(inThread);
 }

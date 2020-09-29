@@ -16,7 +16,7 @@
 #   LIBROADRUNNER_VERSION_STRING - the version of libRoadRunner found
 
 #=============================================================================
-# Copyright 2015 J. Kyle Medley
+# Copyright 2015 J. Kyle Medley, Debashsish Roy
 #
 # Licensed under the Apache License, Version 2.0
 #
@@ -27,67 +27,6 @@
 # Based on FindLibXml2.cmake
 #
 #=============================================================================
-
-#[[
-
-# find version info file
-find_file(LIBROADRUNNER_VERSION_FILE NAME "VERSION.txt"
-  HINTS
-  ${LIBROADRUNNER_PATH}
-  )
-
-if(LIBROADRUNNER_VERSION_FILE AND EXISTS "${LIBROADRUNNER_VERSION_FILE}" AND NOT IS_DIRECTORY ${LIBROADRUNNER_VERSION_FILE})
-  file(STRINGS "${LIBROADRUNNER_VERSION_FILE}" LIBROADRUNNER_VERSION_STRING
-      REGEX "^[0-9]+.[0-9]+.[0-9]+")
-endif()
-
-# include dirs
-find_path(LIBROADRUNNER_INCLUDE_DIR NAMES rrRoadRunner.h
-  HINTS
-  ${LIBROADRUNNER_PATH}/include/rr
-  )
-
-# libraries
-find_library(LIBROADRUNNER_LIBRARY NAMES roadrunner
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-
-
-find_library(SUNDIALS_CVODE_LIBRARY NAMES sundials_cvode
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-
-find_library(SUNDIALS_NVECSERIAL_LIBRARY NAMES sundials_nvecserial
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-
-find_library(F2C_LIBRARY
-  NAMES
-  f2c
-  libf2c.lib # Windows
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-
-find_library(BLAS_LIBRARY NAMES blas
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-
-find_library(LAPACK_LIBRARY NAMES lapack
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-
-find_library(NLEQ_LIBRARY_STATIC NAMES nleq-static nleq1-static
-  HINTS
-  ${LIBROADRUNNER_PATH}/lib
-  )
-  ]]
-
 
 find_library(RR_LIBSTRUCT_LIBRARY_STATIC NAMES rr-libstruct-static
   HINTS
@@ -112,12 +51,7 @@ get_filename_component(SBML_LIBRARY_DIR  ${SBML_LIBRARY} DIRECTORY)
 
 set ( LIBROADRUNNER_LIBRARIES 
       ${POCO_FOUNDATION_LIBRARY_STATIC};${SBML_LIBRARY_BARE};${RR_LIBSTRUCT_LIBRARY_STATIC}
-
-      #[[${SUNDIALS_CVODE_LIBRARY};${LIBROADRUNNER_LIBRARY};
-      ${SUNDIALS_NVECSERIAL_LIBRARY};${F2C_LIBRARY};${BLAS_LIBRARY};${LAPACK_LIBRARY};
-      ${NLEQ_LIBRARY_STATIC};]]
-      
-      )
+)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   find_library(ICONV_LIBRARY
@@ -141,12 +75,7 @@ message( STATUS "LIBROADRUNNER_LIBRARIES: ${LIBROADRUNNER_LIBRARIES}" )
 
 include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
 
-
-
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(LibRoadRunner
                                   REQUIRED_VARS LIBROADRUNNER_LIBRARIES)
-                                  #[[LIBROADRUNNER_INCLUDE_DIR
-                                  VERSION_VAR LIBROADRUNNER_VERSION_STRING)]]
-
 
 mark_as_advanced(LIBROADRUNNER_LIBRARIES)

@@ -1,7 +1,6 @@
 #pragma hdrstop
 #include <sstream>
 #include "telLogger.h"
-//#include "rr/rrRoadRunner.h"
 #include "../../../source/SteadyStateSolver.h"
 #include "telTelluriumData.h"
 #include "telAutoPlugin.h"
@@ -97,20 +96,12 @@ mMaxColumns(                        7,         "MaxColumns",                    
     
     //Create a roadrunner to use
 
-    /*mRR = new RoadRunner;
-    mRR->setSteadyStateSolver("nleq2");
-    mRR->getSteadyStateSolver()->setValue("allow_presimulation", true);
-    mRR->getSteadyStateSolver()->setValue("allow_approx", true);
-    mRR->getSteadyStateSolver()->setValue("relative_tolerance", 1e-16);
-    mRR->getSteadyStateSolver()->setValue("minimum_damping", 1e-4);
-    mRRAuto.assignRoadRunner(mRR);*/
-
     rrHandle = mhostInterface->createRRInstance();
-    mhostInterface->setCurrentSteadyStateSolver(rrHandle, "nleq2");
-    mhostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, "allow_presimulation", 1);
-    mhostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, "allow_approx", 1);
-    mhostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, "relative_tolerance", 1e-16);
-    mhostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, "minimum_damping", 1e-4);
+    mhostInterface->setCurrentSteadyStateSolver(rrHandle, (char *)"nleq2");
+    mhostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char *)"allow_presimulation", 1);
+    mhostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char*)"allow_approx", 1);
+    mhostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"relative_tolerance", 1e-16);
+    mhostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"minimum_damping", 1e-4);
 
     mRRAuto.assignRoadRunner(rrHandle,mhostInterface);
     mAutoWorker.assignRoadRunner(rrHandle,mhostInterface);
@@ -125,7 +116,7 @@ ideas on how to create a usable interface to the AUTO 2000 library.";
 
 AutoPlugin::~AutoPlugin()
 {
-    delete rrHandle;
+    rrHandle=NULL; 
 }
 
 AutoTellurimInterface& AutoPlugin::getRRAuto()
@@ -191,13 +182,11 @@ bool AutoPlugin::execute(bool inThread)
     if(getTempFolder() == ".")
     {
         mhostInterface->setTempFolder(rrHandle, getCWD().c_str());
-        //mRR->setTempDir(getCWD());
         mRRAuto.setTempFolder(getCWD());
     }
     else
     {
         mhostInterface->setTempFolder(rrHandle, getTempFolder().c_str());
-        //mRR->setTempDir(getTempFolder());
         mRRAuto.setTempFolder(getTempFolder());
     }
 

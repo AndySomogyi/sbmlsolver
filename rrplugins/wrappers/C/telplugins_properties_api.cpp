@@ -9,7 +9,7 @@
 #include "telplugins_cpp_support.h"
 #include "rrplugins/common/telProperty.h"
 #include "rrplugins/common/telPropertyBase.h"
-
+#include "tel_macros.h"
 #include <iostream>
 //---------------------------------------------------------------------------
 
@@ -17,82 +17,6 @@ using namespace std;
 using namespace tlp;
 using namespace tlpc;
 //using tlp::TelluriumData;
-
-#include "telplugins_cpp_support.h"
-#include "tel_macros.h"
-
-#define start_try                                           \
-        try                                                 \
-        {
-
-/*!
- \brief macro for catch statement in a routine returning a bool
- \ingroup macros
-*/
-#define  catch_bool_macro                                   \
-    }                                                       \
-    catch(exception& ex)                                    \
-    {                                                       \
-        stringstream msg;                                   \
-        msg<<"Tellurium exception: "<<ex.what();            \
-        tpSetError(msg.str());                                \
-        return false;                                       \
-    }
-
-/*!
- \brief macro for catch statement in a routine returning a pointer
- \ingroup macros
-*/
-#define  catch_ptr_macro                                    \
-    }                                                       \
-    catch(exception& ex)                                    \
-    {                                                       \
-        stringstream msg;                                   \
-        msg<<"Tellurium exception: "<<ex.what();            \
-        tpSetError(msg.str());                                \
-        return NULL;                                        \
-    }
-
-/*!
- \brief macro for catch statement in a routine returning a positive integer
- \ingroup macros
-*/
-#define catch_int_macro                                     \
-    }                                                       \
-    catch(exception& ex)                                    \
-    {                                                       \
-        stringstream msg;                                   \
-        msg<<"Tellurium exception: "<<ex.what();            \
-        tpSetError(msg.str());                                \
-        return -1;                                          \
-    }
-
-/*!
- \brief macro for catch statement in a routine returning an unsigned integer
- \ingroup macros
-*/
-#define catch_uint_macro                                     \
-    }                                                       \
-    catch(exception& ex)                                    \
-    {                                                       \
-        stringstream msg;                                   \
-        msg<<"Tellurium exception: "<<ex.what();            \
-        tpSetError(msg.str());                                \
-        return 0;                                          \
-    }
-
-/*!
- \brief macro for catch statement in a routine returning void
- \ingroup macros
-*/
-#define catch_void_macro                                    \
-    }                                                       \
-    catch(const exception& ex)                              \
-    {                                                       \
-        stringstream msg;                                   \
-        msg<<"Tellurium exception: "<<ex.what();            \
-        tpSetError(msg.str());                                \
-    }
 
 
 TELHandle tlp_cc tpCreateProperty(const char* label, const char* type, const char* _hint, void* value)
@@ -219,7 +143,7 @@ TELHandle tlp_cc tpCreateProperty(const char* label, const char* type, const cha
         }
 
         return NULL;
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpFreeProperty(TELHandle paraHandle)
@@ -228,7 +152,7 @@ bool tlp_cc tpFreeProperty(TELHandle paraHandle)
         PropertyBase* para   = castHandle<PropertyBase>(paraHandle, __FUNC__);
         delete para;
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 TELHandle tlp_cc tpCreatePropertyList()
@@ -244,7 +168,7 @@ TELHandle tlp_cc tpCreatePropertyList()
         {
             return props;
         }
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpFreeProperties(TELHandle handle)
@@ -253,7 +177,7 @@ bool tlp_cc tpFreeProperties(TELHandle handle)
         Properties* props   = castHandle<Properties>(handle, __FUNC__);
         delete props;
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpAddPropertyToList(TELHandle handle, TELHandle para)
@@ -263,7 +187,7 @@ bool tlp_cc tpAddPropertyToList(TELHandle handle, TELHandle para)
         PropertyBase* bPara = castHandle<PropertyBase>(para, __FUNC__);
         paras->add(bPara, false);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetPropertyInfo(TELHandle handle)
@@ -273,7 +197,7 @@ char* tlp_cc tpGetPropertyInfo(TELHandle handle)
         stringstream s;
         s<<"Name="<<para->getName()<<"\tType="<<para->getType()<<"\tDescription="<<para->getDescription()<<"\tHint="<<para->getHint();
         return tlp::createText(s.str());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpSetPropertyDescription(TELHandle handle, const char* value)
@@ -282,7 +206,7 @@ bool tlp_cc tpSetPropertyDescription(TELHandle handle, const char* value)
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         para->setDescription(string(value));
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetPropertyDescription(TELHandle handle)
@@ -290,7 +214,7 @@ char* tlp_cc tpGetPropertyDescription(TELHandle handle)
     start_try
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         return tlp::createText(para->getDescription());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpSetPropertyHint(TELHandle handle, const char* value)
@@ -299,7 +223,7 @@ bool tlp_cc tpSetPropertyHint(TELHandle handle, const char* value)
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         para->setHint(string(value));
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetPropertyByString(TELHandle handle, const char* value)
@@ -313,7 +237,7 @@ bool tlp_cc tpSetPropertyByString(TELHandle handle, const char* value)
             return true;
         }
         return false;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetBoolProperty(TELHandle handle, bool value)
@@ -322,7 +246,7 @@ bool tlp_cc tpSetBoolProperty(TELHandle handle, bool value)
         Property<bool>* para = castHandle< Property<bool> >(handle, __FUNC__);
         para->setValue(value);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetBoolProperty(TELHandle handle, bool* value)
@@ -331,7 +255,7 @@ bool tlp_cc tpGetBoolProperty(TELHandle handle, bool* value)
         Property<bool>* para = castHandle< Property<bool> >(handle, __FUNC__);
         (*value) = para->getValue();
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetIntProperty(TELHandle handle, int value)
@@ -340,7 +264,7 @@ bool tlp_cc tpSetIntProperty(TELHandle handle, int value)
         Property<int>* para = castHandle< Property<int> >(handle,__FUNC__);
         para->setValue(value);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetIntProperty(TELHandle handle, int *value)
@@ -349,7 +273,7 @@ bool tlp_cc tpGetIntProperty(TELHandle handle, int *value)
         Property<int>* para = castHandle< Property<int> >(handle, __FUNC__);
         (*value) = para->getValue();
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetDoubleProperty(TELHandle handle, double value)
@@ -358,7 +282,7 @@ bool tlp_cc tpSetDoubleProperty(TELHandle handle, double value)
         Property<double>* para = castHandle< Property<double> >(handle, __FUNC__);
         para->setValue(value);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetDoubleProperty(TELHandle handle, double *value)
@@ -367,7 +291,7 @@ bool tlp_cc tpGetDoubleProperty(TELHandle handle, double *value)
         Property<double>* para = castHandle< Property<double> >(handle, __FUNC__);
         (*value) = para->getValue();
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetStringProperty(TELHandle handle, char* value)
@@ -391,7 +315,7 @@ bool tlp_cc tpSetStringProperty(TELHandle handle, char* value)
         string temp(value);
         para->setValueFromString(temp);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetStringProperty(TELHandle handle, const char* (*value))
@@ -401,7 +325,7 @@ bool tlp_cc tpGetStringProperty(TELHandle handle, const char* (*value))
 
         (*value) = para->getValue().c_str();
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetListProperty(TELHandle handle, void* value)
@@ -410,7 +334,7 @@ bool tlp_cc tpSetListProperty(TELHandle handle, void* value)
         Property<Properties>* para = castHandle< Property<Properties> >(handle, __FUNC__);
         para->setValue((Properties*)(value));
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetListProperty(TELHandle handle, void* (value))
@@ -421,7 +345,7 @@ bool tlp_cc tpGetListProperty(TELHandle handle, void* (value))
 
         (assignTo) = (para->getValuePointer());
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetTelluriumDataProperty(TELHandle handle, void* value)
@@ -441,7 +365,7 @@ bool tlp_cc tpSetTelluriumDataProperty(TELHandle handle, void* value)
         data->byteCheck();
         para->setValue(*data);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetTelluriumDataProperty(TELHandle handle, void* value)
@@ -451,7 +375,7 @@ bool tlp_cc tpGetTelluriumDataProperty(TELHandle handle, void* value)
         TelluriumData* assignTo = castHandle< TelluriumData >(value, __FUNC__);
         (*assignTo) = (para->getValueReference());
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetPropertyValueAsString(TELHandle handle)
@@ -460,7 +384,7 @@ char* tlp_cc tpGetPropertyValueAsString(TELHandle handle)
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         string val = para->getValueAsString();
         return tlp::createText(val);
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 void* tlp_cc tpGetPropertyValueHandle(TELHandle handle)
@@ -468,7 +392,7 @@ void* tlp_cc tpGetPropertyValueHandle(TELHandle handle)
     start_try
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         return para->getValueHandle();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPropertyName(TELHandle handle)
@@ -476,7 +400,7 @@ char* tlp_cc tpGetPropertyName(TELHandle handle)
     start_try
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         return tlp::createText(para->getName());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPropertyHint(TELHandle handle)
@@ -484,7 +408,7 @@ char* tlp_cc tpGetPropertyHint(TELHandle handle)
     start_try
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         return tlp::createText(para->getHint());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPropertyType(TELHandle handle)
@@ -493,7 +417,7 @@ char* tlp_cc tpGetPropertyType(TELHandle handle)
         PropertyBase* para = castHandle<PropertyBase>(handle, __FUNC__);
         char* text = tlp::createText(para->getType());
         return text;
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetFirstProperty(TELHandle handle)
@@ -501,7 +425,7 @@ TELHandle tlp_cc tpGetFirstProperty(TELHandle handle)
     start_try
         Properties *paras = castHandle<Properties>(handle, __FUNC__);
         return paras->getFirst();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetNextProperty(TELHandle handle)
@@ -509,7 +433,7 @@ TELHandle tlp_cc tpGetNextProperty(TELHandle handle)
     start_try
         Properties *paras = castHandle<Properties>(handle, __FUNC__);
         return paras->getNext();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetPreviousProperty(TELHandle handle)
@@ -517,7 +441,7 @@ TELHandle tlp_cc tpGetPreviousProperty(TELHandle handle)
     start_try
         Properties *paras = castHandle<Properties>(handle, __FUNC__);
         return paras->getPrevious();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetCurrentProperty(TELHandle handle)
@@ -525,7 +449,7 @@ TELHandle tlp_cc tpGetCurrentProperty(TELHandle handle)
     start_try
         Properties *paras = castHandle<Properties>(handle, __FUNC__);
         return paras->getCurrent();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpClearPropertyList(TELHandle handle)
@@ -533,7 +457,7 @@ bool tlp_cc tpClearPropertyList(TELHandle handle)
     start_try
         Properties* paras = castHandle<Properties>(handle, __FUNC__);
         return paras->clear();
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 TELHandle tlp_cc tpGetProperty(TELHandle handle, const char* name)
@@ -541,7 +465,7 @@ TELHandle tlp_cc tpGetProperty(TELHandle handle, const char* name)
     start_try
         Properties* props = castHandle<Properties>(handle, __FUNC__);
         return props->getProperty(name);
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetNamesFromPropertyList(TELHandle handle)
@@ -555,5 +479,5 @@ char* tlp_cc tpGetNamesFromPropertyList(TELHandle handle)
         }
         return tlp::createText(aList.asString().c_str());
 
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }

@@ -47,22 +47,12 @@
 #include "rrplugins/common/telProperties.h"
 #include "rrplugins/core/tel_api.h"
 
-//#include "../../../wrappers/C/tel_api.h"
-
-/*namespace rr
-{
-class RoadRunner;
-}*/
-
 
 namespace tlp
-{
-    //using rr::RoadRunner;
-    
+{    
     using tlp::gEmptyString;
     using tlp::gNoneString;
     using std::string;
-    //class PluginManager;
 
 /**
  * Typedef for a Plugin event function
@@ -103,9 +93,7 @@ class CORE_DECLSPEC Plugin
         */
         Plugin(const string& name = gEmptyString,
             const string& cat = gNoneString,
-            //rrc::THostInterface* aRR = NULL,
-            const string& language = gNoneString);// ,
-                                                //const PluginManager* pm = NULL);
+            const string& language = gNoneString);
 
         /**
             Destroy the plugin.
@@ -153,11 +141,6 @@ class CORE_DECLSPEC Plugin
             Get plugin copyright text
         */
         string                          getCopyright();
-
-        /**
-            Retrieves the RoadRunner instance the plugin is using. Can be NULL.
-        */
-        //rrc::THostInterface*                     getRoadRunnerInstance();
 
         /**
             Retrieves various plugin information
@@ -234,13 +217,6 @@ class CORE_DECLSPEC Plugin
 
                                         //!check if the plugin is working
         virtual bool                    isWorking() const;
-
-                                        //!Assign a roadrunner instance for the plugin to use
-        //virtual bool                    assignRoadRunnerInstance(rrc::THostInterface* rr);
-
-                                        //Initialize structure of function pointers to there desired roadrunner C API functions 
-        //virtual rrc::THostInterface*         initializeFunctionPointers(rrc::THostInterface* hostInterface);
-
 
         /**
             Assign function pointer and data the event
@@ -328,11 +304,6 @@ class CORE_DECLSPEC Plugin
         */
         virtual bool                    execute(bool inAThread = false) = 0;
 
-        /**
-            Get a pointer to the plugins manager
-        */
-        //const PluginManager*            getPluginManager();
-
 
     protected:                          //! Name of Plugin
         string                          mName;
@@ -366,18 +337,8 @@ class CORE_DECLSPEC Plugin
 
                                         //! Boolean flag indicating if the plugin is working
         bool                            mIsWorking;
-
-        /**
-         * A pointer to a RoadRunner instance which the plugin
-         * uses.
-         */
-        //rrc::THostInterface                  *mRR;          
+        
         rrc::RRHandle                   rrHandle;
-        /**
-         * A pointer to the PluginManager that loaded the Plugin
-         * uses.
-         */
-        //const PluginManager            *mPM;
 
         /**
          * Set the name of the shared library
@@ -434,9 +395,6 @@ class CORE_DECLSPEC Plugin
          * Property data values can be exchanged to/from the plugin by accessing individual properties.
          */
          Properties                     mProperties;
-
-         //public:
-         //rrc::THostInterface*           mhostInterface;
 };
 
 }

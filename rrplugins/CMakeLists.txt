@@ -1,5 +1,6 @@
 # M Totte Karlsson
 # J Kyle Medley
+# Debashish Roy
 
 cmake_minimum_required(VERSION 3.2)
 project( rrplugins )
@@ -36,12 +37,8 @@ endif()
 # Feature selection
 set ( TLP_BUILD_SHARED_LIB ON  CACHE BOOL   "Build shared library" )
 set ( TLP_BUILD_STATIC_LIB ON  CACHE BOOL   "Build static library" )
-set ( TLP_BUILD_APPS       ON  CACHE BOOL   "Build apps" )
-set ( TLP_BUILD_EXAMPLES   OFF CACHE BOOL   "Build examples" )
-set ( TLP_BUILD_TEST_TOOLS OFF CACHE BOOL   "Build test tools" )
 set ( TLP_BUILD_PLUGINS_C_API ON CACHE BOOL      "Build Plugins C API")
 set ( TLP_BUILD_PLUGINS_PYTHON_API ON CACHE BOOL "Build Plugins Python API")
-set ( TLP_BUILD_BETA_PLUGINS  ON CACHE BOOL      "Build beta (unreleased) plugins" )
 set ( RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES TRUE CACHE BOOL "Install libs to roadrunner site-packages directory")
 set ( RRP_PLUGINS_DIR site-packages/roadrunner CACHE PATH "Destination for plugins")
 
@@ -51,10 +48,8 @@ set (TLP_BUILD_TEST_MODEL_PLUGIN ON CACHE BOOL "Build the Test Model Plugin")
 set (TLP_BUILD_ADD_NOISE_PLUGIN ON CACHE BOOL "Build the Add Noise Plugin")
 set (TLP_BUILD_CHISQUARE_PLUGIN ON CACHE BOOL "Build the ChiSquare Plugin")
 set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
-set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
-set (TLP_BUILD_MONTE_CARLO_BS_PLUGIN ON CACHE BOOL "Build the Monte Carlo BS (bootstrap) Plugin")
+set (TLP_BUILD_NELDER_MEAD_PLUGIN OFF CACHE BOOL "Build the Nelder-Mead Plugin")
 set (TLP_BUILD_AUTO2000_PLUGIN ON CACHE BOOL "Build the Auto 2000 Plugin")
-set (TLP_BUILD_STAT_PLUGIN OFF CACHE BOOL "Build the STAT (statistics) Plugin")
 
 # Dependencies
 
@@ -67,7 +62,7 @@ find_package ( Poco REQUIRED )
 set( LIBXML2_PATH "${TLP_DEPENDENCIES_PATH}" )
 find_package ( LibXml2 REQUIRED )
 
-# libRoadRunner
+# Non llvm dependencies
 # - Shared
 
 set( LIBROADRUNNER_PATH "${TLP_DEPENDENCIES_PATH}" )
@@ -76,13 +71,6 @@ find_package ( LibRoadRunner REQUIRED )
 set( LIBROADRUNNERSTATIC_PATH "${TLP_DEPENDENCIES_PATH}" )
 find_package ( LibRoadRunnerStatic REQUIRED )
 
-#[[
-# roadrunner C API, currently not available in static config
-find_library(LIBROADRUNNER_C_API_LIBRARY NAMES roadrunner_c_api
-  HINTS
-  ${TLP_DEPENDENCIES_PATH}/lib
-  )
-]]
 
 # Threading
 if(UNIX)
@@ -94,20 +82,9 @@ message(STATUS "
 rrplugins
 -------------------------------------------------------------------------------
 
-    For up-to-date news, releases, and documentation, please visit:
-    http://libroadrunner.org/
-
-    Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
-      host OS:                  ${CMAKE_SYSTEM_NAME}
-      host architecture         ${CMAKE_SYSTEM_PROCESSOR}
-
     Features:
       Enable shared libs?       ${TLP_BUILD_SHARED_LIB}
       Enable static libs?       ${TLP_BUILD_STATIC_LIB}
-      Enable beta plugins?      ${TLP_BUILD_BETA_PLUGINS}
-      Enable apps?              ${TLP_BUILD_APPS}
-      Enable examples?          ${TLP_BUILD_EXAMPLES}
-      Enable test tools?        ${TLP_BUILD_TEST_TOOLS}
 
     Language bindings:
       Enable C bindings?        ${TLP_BUILD_PLUGINS_C_API}
@@ -119,20 +96,9 @@ rrplugins
       Chi-squared               ${TLP_BUILD_CHISQUARE_PLUGIN}
       Levenberg-Marquardt       ${TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN}
       Nelder Mead               ${TLP_BUILD_NELDER_MEAD_PLUGIN}
-      Monte Carlo Bootstrap     ${TLP_BUILD_MONTE_CARLO_BS_PLUGIN}
       Bifurcation Auto2k        ${TLP_BUILD_AUTO2000_PLUGIN}
-      Stat                      ${TLP_BUILD_STAT_PLUGIN}
 
-    General flags:
-      CC                        ${CMAKE_C_COMPILER}
-      CXX                       ${CMAKE_CXX_COMPILER}
-      CFLAGS                    ${CMAKE_C_FLAGS}
-      CXXFLAGS                  ${CMAKE_CXX_FLAGS}
-      LDFLAGS                   ${CMAKE_EXE_LINKER_FLAGS}
-
-    Installation prefix:        ${CMAKE_INSTALL_PREFIX}
-
-    Dependencies (packages marked with *** are required):
+    Dependencies (packages marked with *** are required for rrplugins):
     "
 )
 
@@ -142,15 +108,13 @@ link_directories(${SBML_LIBRARY_DIR})
 
 
 if(LIBROADRUNNER_FOUND)
-    message( "  *** roadrunner libs             ${LIBROADRUNNER_LIBRARIES}")
-    message( "  *** roadrunner includes         ${LIBROADRUNNER_INCLUDE_DIR}")
+    message( "  *** third-party libs             ${LIBROADRUNNER_LIBRARIES}")
 else()
     message( "  *** roadrunner                  *N/A")
 endif()
 
 if(LIBROADRUNNERSTATIC_FOUND)
-    message( "  *** roadrunner static libs      ${LIBROADRUNNERSTATIC_LIBRARIES}")
-    message( "  *** roadrunner static includes  ${LIBROADRUNNERSTATIC_INCLUDE_DIR}")
+    message( "  *** third-party static libs      ${LIBROADRUNNERSTATIC_LIBRARIES}")
 else()
     message( "  *** roadrunner static           *N/A")
 endif()
@@ -174,6 +138,7 @@ include_directories(
   ${TLP_ROOT}
   ${TLP_ROOT}/manager
   ${Poco_INCLUDE_DIRS}
+  ${LIBROADRUNNER_INCLUDE_DIR}
 )
 
 if(UNIX)
@@ -206,36 +171,6 @@ endif()
 add_subdirectory(rrplugins)
 
 add_subdirectory(plugins)
-#add_subdirectory(scripts)
+
 add_subdirectory(wrappers)
 
-#[[if(TLP_BUILD_APPS)
-    add_subdirectory(apps)
-endif()
-
-if(TLP_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
-if(TLP_BUILD_TEST_TOOLS)
-  add_subdirectory(testing)
-endif()
-]]
-
-#======================= INSTALL FILES ============================
-#[[ FILE (GLOB installerFiles installer/windows/*.*)
-# install ( FILES ${installerFiles} DESTINATION ./installer/windows )
-
-install(
-  FILES
-  RRP_README.txt
-  RRP_LICENSE.txt
-  RRP_AUTHORS.txt
-  RRP_FUNDING.txt
-  RRP_VERSION.txt
-  RRP_NEWS.txt
-  RRP_NOTICE.txt
-  RRP_CHANGELOG.txt
-  DESTINATION .
-)
-]]

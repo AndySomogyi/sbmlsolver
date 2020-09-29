@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include "Poco/Glob.h"
 #include "Poco/SharedLibrary.h"
-//#include "rr/rrRoadRunner.h"
 #include "telException.h"
 #include "telLogger.h"
 #include "telPluginManager.h"
@@ -15,13 +14,14 @@
 #include "telStringList.h"
 #include "telUtils.h"
 
-//---------------------------------------------------------------------------
+
 namespace tlp
 {
 static bool  hasFileExtension(const string& fName);
 static std::string getPluginExtension();
 static std::string getPluginOSPrefix();
 static std::string getPluginLibNamePrefix();
+rrc::THostInterface* host_Interface=NULL;
 
 #if defined(__BORLANDC__)
     #define exp_fnc_prefix "_"
@@ -58,6 +58,7 @@ hostInterface(initializeRoadRunnerAPI())
 PluginManager::~PluginManager()
 {
     //No matter what.. here shared libs need to be unloaded and deleted
+    if(host_Interface)delete host_Interface;
     unloadAll();
 }
 
@@ -262,10 +263,11 @@ bool PluginManager::loadPlugin(const string& _libName)
             info<<"The plugin: "<<_libName<<" has not implemented the function getImplementationLanguage properly. Plugin can not be loaded";
             throw std::runtime_error(info.str());
         }
-
+        
         //Check plugin language
         const char* language = getImplementationLanguage(libHandle);
 
+        // Intialize roadrunner function as a structure, containing function pointer
         if (libHandle->hasSymbol(string(exp_fnc_prefix) + "setHostInterface")) {
             hostInterfacePtr setHostInterface = (hostInterfacePtr)libHandle->getSymbol(string(exp_fnc_prefix) + "setHostInterface");
             setHostInterface(hostInterface);
@@ -404,6 +406,7 @@ bool PluginManager::unload(Plugin* plugin)
                 //Then unload
                 if(pluginLibHandle)
                 {
+
                     pluginLibHandle->unload();
                     //Research this delete pluginLibHandle;
                 }
@@ -588,7 +591,7 @@ bool destroyRRPlugin(Plugin *plugin)
     catch(...)
     {
         //Bad stuff!
-        clog<<"Failed deleting RoadRunner plugin..";
+        RRPLOG(lError) << "Failed deleting RoadRunner plugin..";
         return false;
     }
 }
@@ -621,8 +624,6 @@ std::string getPluginOSPrefix()
 
 rrc::THostInterface *initializeRoadRunnerAPI()
 {
-    rrc::THostInterface* host_Interface=NULL;
-    //host_Interface = (rrc::THostInterface*)malloc(sizeof(rrc::THostInterface));     //wrong practise
     host_Interface = new rrc::THostInterface;
     if (host_Interface) 
     {
@@ -653,6 +654,7 @@ rrc::THostInterface *initializeRoadRunnerAPI()
         host_Interface->_getTime = rrc::_getTime;
         host_Interface->_getStateVector = rrc::_getStateVector;
         host_Interface->_getStateVectorRate = rrc::_getStateVectorRate;
+        host_Interface->getVersionStr = rrc::getVersionStr;
     }
     else
     {

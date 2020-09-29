@@ -19,7 +19,6 @@ AutoWorker::AutoWorker(AutoPlugin& host)
 :
 mTheHost(host),
 mRRAuto(mTheHost.getRRAuto())
-//mhostInterface(mTheHost.mhostInterface)
 {
 }
 
@@ -58,7 +57,6 @@ void AutoWorker::assignRoadRunner(rrc::RRHandle _rrHandle,rrc::THostInterface* t
 
 void AutoWorker::run()
 {
-    //mTheHost.rrHandle = mhostInterface->createRRInstance();
     if(mTheHost.hasStartedEvent())
     {
         pair<void*, void*> passTroughData = mTheHost.getWorkStartedData();
@@ -154,7 +152,6 @@ bool AutoWorker::setupAuto()
     }
     else
     {
-        //mTheHost.mRR->setConservedMoietyAnalysis(false);
         mTheHost.mhostInterface->setComputeAndAssignConservationLaws(mTheHost.rrHandle, false);
     }
 

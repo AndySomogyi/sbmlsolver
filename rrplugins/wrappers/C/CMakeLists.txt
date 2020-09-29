@@ -20,7 +20,6 @@ target_link_libraries ( telplugins_c_api
   telplugins_common
   telplugins_math
   telpluginsBaseClass
-  roadrunner_c_api
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
 message(STATUS "C API: RRPLUGINS_COMMON_SHARED_LIBS = ${RRPLUGINS_COMMON_SHARED_LIBS}")

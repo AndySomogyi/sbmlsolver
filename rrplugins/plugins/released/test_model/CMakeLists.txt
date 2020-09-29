@@ -1,5 +1,15 @@
 # M Totte Karlsson
 # J Kyle Medley
+# Debashish Roy
+
+include_directories(
+
+${C_API_INCLUDE_ROOT}
+${RR_ROOT}/source
+${RR_ROOT}
+${THIRD_PARTY_INSTALL_FOLDER}/include
+${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/
+)
 
 project( test_model )
 

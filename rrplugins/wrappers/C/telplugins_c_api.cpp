@@ -1,7 +1,6 @@
 #pragma hdrstop
 #include <sstream>
 #include "rr-libstruct/lsMatrix.h"
-//#include "rr/rrRoadRunner.h"
 #include "rrplugins/common/telLogger.h"
 #include "rrplugins/common/telTelluriumData.h"
 #include "rrplugins/common/telUtils.h"
@@ -17,7 +16,6 @@
 #include "rrplugins/core/telVersionInfo.h"
 
 using namespace std;
-//using rr::RoadRunner;
 using namespace tlp;
 using namespace tlpc;
 //using tlp::TelluriumData;
@@ -33,7 +31,7 @@ TELHandle tlp_cc tpCreatePluginManager(const char* _pluginDir)
         gHM.registerHandle(pm, typeid(pm).name());
 
         return pm;
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 /**
@@ -45,7 +43,7 @@ bool tlp_cc tpFreePluginManager(TELHandle handle)
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         delete pm;
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 TELHandle tlp_cc tpGetFirstPlugin(TELHandle handle)
@@ -53,7 +51,7 @@ TELHandle tlp_cc tpGetFirstPlugin(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return pm->getFirstPlugin();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetNextPlugin(TELHandle handle)
@@ -61,7 +59,7 @@ TELHandle tlp_cc tpGetNextPlugin(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return pm->getNextPlugin();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetPreviousPlugin(TELHandle handle)
@@ -69,7 +67,7 @@ TELHandle tlp_cc tpGetPreviousPlugin(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return pm->getPreviousPlugin();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetCurrentPlugin(TELHandle handle)
@@ -77,7 +75,7 @@ TELHandle tlp_cc tpGetCurrentPlugin(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return pm->getCurrentPlugin();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpLoadPlugin(TELHandle handle, const char* pluginName)
@@ -102,7 +100,7 @@ TELHandle tlp_cc tpLoadPlugin(TELHandle handle, const char* pluginName)
             tpSetError(s.str());
             return NULL;
         }
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpLoadPlugins(TELHandle handle)
@@ -122,7 +120,7 @@ bool tlp_cc tpLoadPlugins(TELHandle handle)
         };
 
         return pm->hasLoadErrors() ? false : true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetPluginLoadErrors(TELHandle handle)
@@ -131,7 +129,7 @@ char* tlp_cc tpGetPluginLoadErrors(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return createText(pm->getLoadErrors());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpUnLoadPlugins(TELHandle handle)
@@ -139,7 +137,7 @@ bool tlp_cc tpUnLoadPlugins(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return pm->unload();
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpUnLoadPlugin(TELHandle handle, TELHandle plugin)
@@ -156,7 +154,7 @@ bool tlp_cc tpUnLoadPlugin(TELHandle handle, TELHandle plugin)
         {
             return false;
         }
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 int tlp_cc tpGetNumberOfPlugins(TELHandle handle)
@@ -164,7 +162,7 @@ int tlp_cc tpGetNumberOfPlugins(TELHandle handle)
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         return pm->getNumberOfPlugins();
-    catch_int_macro
+    tel_catch_int_macro
 }
 
 TELHandle tlp_cc tpGetPlugin(TELHandle handle, const char* pluginName)
@@ -173,7 +171,7 @@ TELHandle tlp_cc tpGetPlugin(TELHandle handle, const char* pluginName)
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         Plugin* aPlugin = pm->getPlugin(pluginName);
         return aPlugin;
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 /*TELHandle tlp_cc tpGetRoadRunnerHandleFromPlugin(TELHandle handle)
@@ -181,7 +179,7 @@ TELHandle tlp_cc tpGetPlugin(TELHandle handle, const char* pluginName)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->getRoadRunnerInstance();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }*/
 
 char* tlp_cc tpGetPluginNames(TELHandle handle)
@@ -190,7 +188,7 @@ char* tlp_cc tpGetPluginNames(TELHandle handle)
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         StringList names = pm->getPluginNames();
         return createText(names.asString());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginLibraryNames(TELHandle handle)
@@ -199,7 +197,7 @@ char* tlp_cc tpGetPluginLibraryNames(TELHandle handle)
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
         StringList names = pm->getPluginLibraryNames();
         return createText(names.asString());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginName(TELHandle handle)
@@ -207,7 +205,7 @@ char* tlp_cc tpGetPluginName(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getName());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginCategory(TELHandle handle)
@@ -215,7 +213,7 @@ char* tlp_cc tpGetPluginCategory(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getCategory());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginDescription(TELHandle handle)
@@ -223,7 +221,7 @@ char* tlp_cc tpGetPluginDescription(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getDescription());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TLP_C_DS char* tlp_cc tpGetPluginAuthor(TELHandle handle)
@@ -231,7 +229,7 @@ TLP_C_DS char* tlp_cc tpGetPluginAuthor(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getAuthor());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TLP_C_DS char* tlp_cc tpGetPluginCopyright(TELHandle handle)
@@ -239,7 +237,7 @@ TLP_C_DS char* tlp_cc tpGetPluginCopyright(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getCopyright());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TLP_C_DS char* tlp_cc tpGetPluginVersion(TELHandle handle)
@@ -247,7 +245,7 @@ TLP_C_DS char* tlp_cc tpGetPluginVersion(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getVersion());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginHint(TELHandle handle)
@@ -255,7 +253,7 @@ char* tlp_cc tpGetPluginHint(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
     return createText(aPlugin->getHint());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetPluginProperties(TELHandle handle)
@@ -263,7 +261,7 @@ TELHandle tlp_cc tpGetPluginProperties(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->getProperties();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetListOfPluginPropertyNames(TELHandle handle)
@@ -271,7 +269,7 @@ char* tlp_cc tpGetListOfPluginPropertyNames(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getPropertyNames().asString());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetPluginProperty(TELHandle handle, const char* parameterName)
@@ -279,7 +277,7 @@ TELHandle tlp_cc tpGetPluginProperty(TELHandle handle, const char* parameterName
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->getProperty(parameterName);
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpGetPluginPropertyValueHandle(TELHandle handle, const char* parameterName)
@@ -295,7 +293,7 @@ TELHandle tlp_cc tpGetPluginPropertyValueHandle(TELHandle handle, const char* pa
         {
             return NULL;
         }
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginPropertyValueAsString(TELHandle handle, const char* parameterName)
@@ -311,7 +309,7 @@ char* tlp_cc tpGetPluginPropertyValueAsString(TELHandle handle, const char* para
         {
             return NULL;
         }
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpSetPluginProperty(TELHandle handle, const char* parameterName, const char* value)
@@ -326,7 +324,7 @@ bool tlp_cc tpSetPluginProperty(TELHandle handle, const char* parameterName, con
             throw(tlp::Exception(msg.str()));
         }
         return tpSetPropertyByString(aProperty, value);
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetPluginInfo(TELHandle handle)
@@ -334,7 +332,7 @@ char* tlp_cc tpGetPluginInfo(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getInfo());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 unsigned int tlp_cc tpGetPluginManualNrOfBytes(TELHandle handle)
@@ -342,7 +340,7 @@ unsigned int tlp_cc tpGetPluginManualNrOfBytes(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->getPDFManualByteSize();
-    catch_uint_macro
+    tel_catch_uint_macro
 }
 
 unsigned char* tlp_cc tpGetPluginManualAsPDF(TELHandle handle)
@@ -350,7 +348,7 @@ unsigned char* tlp_cc tpGetPluginManualAsPDF(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->getManualAsPDF();
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetPluginStatus(TELHandle handle)
@@ -358,7 +356,7 @@ char* tlp_cc tpGetPluginStatus(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getStatus());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 /*bool tlp_cc tpAssignRoadRunnerInstance(TELHandle handle, TELHandle rrHandle)
@@ -366,7 +364,7 @@ char* tlp_cc tpGetPluginStatus(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return (aPlugin) ? aPlugin->assignRoadRunnerInstance(static_cast<RoadRunner*>(rrHandle)) : false;
-    catch_bool_macro
+    tel_catch_bool_macro
 }*/
 
 bool tlp_cc tpExecutePlugin(TELHandle handle)
@@ -379,7 +377,7 @@ bool tlp_cc tpExecutePluginEx(TELHandle handle, bool inAThread)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return (aPlugin) ? aPlugin->execute(inAThread) : false;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpAssignOnStartedEvent(TELHandle handle, tlpc::PluginEvent theCB, void* userData1, void* userData2)
@@ -387,7 +385,7 @@ bool tlp_cc tpAssignOnStartedEvent(TELHandle handle, tlpc::PluginEvent theCB, vo
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return (aPlugin) ? aPlugin->assignOnStartedEvent(theCB, userData1, userData2) : false;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpAssignOnProgressEvent(TELHandle handle, tlpc::PluginEvent theCB, void* userData1, void* userData2)
@@ -395,7 +393,7 @@ bool tlp_cc tpAssignOnProgressEvent(TELHandle handle, tlpc::PluginEvent theCB, v
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return (aPlugin) ? aPlugin->assignOnProgressEvent(theCB, userData1, userData2) : false;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpAssignOnFinishedEvent(TELHandle handle, tlpc::PluginEvent theCB, void* userData1, void* userData2)
@@ -403,7 +401,7 @@ bool tlp_cc tpAssignOnFinishedEvent(TELHandle handle, tlpc::PluginEvent theCB, v
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return (aPlugin) ? aPlugin->assignOnFinishedEvent(theCB, userData1, userData2) : false;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetPluginResult(TELHandle handle)
@@ -411,7 +409,7 @@ char* tlp_cc tpGetPluginResult(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getResult());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpResetPlugin(TELHandle handle)
@@ -419,7 +417,7 @@ bool tlp_cc tpResetPlugin(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->resetPlugin();
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpIsBeingTerminated(TELHandle handle)
@@ -427,7 +425,7 @@ bool tlp_cc tpIsBeingTerminated(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->isBeingTerminated();
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 void tlp_cc tpTerminateWork(TELHandle handle)
@@ -435,7 +433,7 @@ void tlp_cc tpTerminateWork(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         aPlugin->terminate();
-    catch_void_macro
+    tel_catch_void_macro
 }
 
 bool tlp_cc tpWasTerminated(TELHandle handle)
@@ -443,7 +441,7 @@ bool tlp_cc tpWasTerminated(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->wasTerminated();
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpIsPluginWorking(TELHandle handle)
@@ -451,7 +449,7 @@ bool tlp_cc tpIsPluginWorking(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return aPlugin->isWorking();
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetLastError()
@@ -469,33 +467,33 @@ char* tlp_cc tpGetPluginPropertiesAsXML(TELHandle handle)
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
         return createText(aPlugin->getPluginPropertiesAsXML().c_str());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TELHandle tlp_cc tpRegisterHandle(TELHandle handle, char* name)
 {
     start_try
         return gHM.registerHandle(handle, name);
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpUnRegisterHandle(TELHandle handle)
 {
     start_try
         return gHM.unRegisterHandle(handle);
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 TLP_C_DS char* tlp_cc tpGetVersion()
 {
     start_try
         return createText(tlp::getVersion());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 TLP_C_DS char* tlp_cc tpGetCopyright()
 {
     start_try
         return createText(tlp::getCopyright());
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }

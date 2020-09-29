@@ -40,12 +40,12 @@
 */
 #ifndef tel_macrosH
 #define tel_macrosH
-
 //=================== MACROS ================================
 /*!
  \brief macro to open a try/catch statement
  \ingroup macros
 */
+
 #define start_try                                           \
         try                                                 \
         {
@@ -54,7 +54,8 @@
  \brief macro for catch statement in a routine returning a bool
  \ingroup macros
 */
-#define  catch_bool_macro                                   \
+
+#define  tel_catch_bool_macro                                   \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -68,7 +69,7 @@
  \brief macro for catch statement in a routine returning a pointer
  \ingroup macros
 */
-#define  catch_ptr_macro                                    \
+#define  tel_catch_ptr_macro                                    \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -82,7 +83,7 @@
  \brief macro for catch statement in a routine returning a positive integer
  \ingroup macros
 */
-#define catch_int_macro                                     \
+#define tel_catch_int_macro                                     \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -96,7 +97,7 @@
  \brief macro for catch statement in a routine returning an unsigned integer
  \ingroup macros
 */
-#define catch_uint_macro                                     \
+#define tel_catch_uint_macro                                   \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -110,7 +111,7 @@
  \brief macro for catch statement in a routine returning void
  \ingroup macros
 */
-#define catch_void_macro                                    \
+#define tel_catch_void_macro                                  \
     }                                                       \
     catch(const exception& ex)                              \
     {                                                       \

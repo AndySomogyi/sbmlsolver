@@ -2,7 +2,6 @@
 #define telAutoWorkerH
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
-//#include "rr/rrRoadRunner.h"
 #include "../../../source/rrOSSpecifics.h"
 #include "telTelluriumData.h"
 #include "auto_utils.h"
@@ -28,7 +27,6 @@ class AutoWorker : public Poco::Runnable
         void                                        run();
         bool                                        isRunning() const;
         void                                        assignRoadRunner(rrc::RRHandle _rrHandle,rrc::THostInterface* tHostInterface);
-        //rrc::RRHandle                               rrHandle;
         rrc::THostInterface*                        mhostInterface;
     protected:
         Poco::Thread                                mThread;

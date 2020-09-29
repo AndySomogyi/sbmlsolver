@@ -1,8 +1,6 @@
 #pragma hdrstop
 #include <stdexcept>
 #include "telAutoTelluriumInterface.h"
-//#include "rr/rrRoadRunner.h"
-//#include "rr/rrExecutableModel.h"
 #include "../../../source/rrExecutableModel.h"
 #include "../libAuto/vsAuto.h"
 #include "telLogger.h"
@@ -19,7 +17,7 @@ using namespace tlp;
 using namespace autolib;
 
 //Statics
-rrc::RRHandle AutoTellurimInterface::mRR = NULL;		//#RoadRunner*     AutoTellurimInterface::mRR  = NULL;
+rrc::RRHandle AutoTellurimInterface::mRR = NULL;		
 rrc::THostInterface *AutoTellurimInterface::mHostInterface = NULL;
 
 Properties*     AutoTellurimInterface::mProperties              = NULL;
@@ -28,7 +26,7 @@ string          AutoTellurimInterface::mPCPParameterName        = gEmptyString;
 StringList      AutoTellurimInterface::mModelParameters         = StringList();
 StringList      AutoTellurimInterface::mModelBoundarySpecies    = StringList();
 
-AutoTellurimInterface::AutoTellurimInterface(rrc::RRHandle rr)	//#AutoTellurimInterface::AutoTellurimInterface(RoadRunner* rr)
+AutoTellurimInterface::AutoTellurimInterface(rrc::RRHandle rr)	
 {
     mRR = rr;
 }
@@ -113,14 +111,6 @@ void AutoTellurimInterface::setInitialPCPValue()
 
 	if(mAutoConstants.PreSimulation)
 	{
-		/*rr::BasicDictionary opt;
-		opt.setItem("start", mAutoConstants.PreSimulationStart);
-		opt.setItem("duration", mAutoConstants.PreSimulationDuration);
-		opt.setItem("steps", mAutoConstants.PreSimulationSteps);
-		opt.setItem("stiff", true);
-		mRR->simulate(&opt);			// TODO: Why are two simulate calls necessary? If there is only a single call, simulation does not tend towards steady-state, even with long simulation times.
-		mRR->simulate(&opt);*/
-
 		// Two simulations gives better results. 
 		mHostInterface->simulateEx(mRR, mAutoConstants.PreSimulationStart, mAutoConstants.PreSimulationDuration, mAutoConstants.PreSimulationSteps);
 		mHostInterface->simulateEx(mRR, mAutoConstants.PreSimulationStart, mAutoConstants.PreSimulationDuration, mAutoConstants.PreSimulationSteps);
@@ -152,12 +142,10 @@ void AutoTellurimInterface::run()
 
 bool AutoTellurimInterface::setupUsingCurrentModel()
 {
-    //mAutoConstants.NDIM = mRR->getModel()->getNumIndFloatingSpecies() + mRR->getModel()->getNumRateRules();
 	mAutoConstants.NDIM = mHostInterface->_getNumIndFloatingSpecies(mRR) + mHostInterface->_getNumRateRules(mRR);
     //k1,k2 etc
 	rrc::RRStringArrayPtr lists= mHostInterface->getGlobalParameterIds(mRR);
 	StringList list1(lists->String,lists->Count);
-	//mModelParameters        = mRR->getGlobalParameterIds(rrHandle);
 	mModelParameters = list1;
 
 	lists= mHostInterface->getBoundarySpeciesIds(mRR);
@@ -167,7 +155,7 @@ bool AutoTellurimInterface::setupUsingCurrentModel()
 
     //Set initial value of Primary continuation parameter
     setInitialPCPValue();
-    setCallbackStpnt(ModelInitializationCallback);	///*************************** Check
+    setCallbackStpnt(ModelInitializationCallback);	
     setCallbackFunc2(ModelFunctionCallback);
     return true;
 }
@@ -175,8 +163,6 @@ bool AutoTellurimInterface::setupUsingCurrentModel()
 //Called by Auto
 int autoCallConv AutoTellurimInterface::ModelInitializationCallback(long ndim, double t, double* u, double* par)
 {
-	//rr::ExecutableModel* theModel = mRR->getModel();
-
 	//The continuation parameter can be a 'parameter' or a boundary species
 	int numBoundaries(0), numParameters(0);
 
@@ -238,7 +224,6 @@ int autoCallConv AutoTellurimInterface::ModelInitializationCallback(long ndim, d
 	int    nrIndFloatingSpecies = mHostInterface->_getNumIndFloatingSpecies(mRR)+mHostInterface->_getNumRateRules(mRR);
 	double* floatCon            = new double[nrIndFloatingSpecies];
 
-	//theModel->getFloatingSpeciesConcentrations(nrIndFloatingSpecies, NULL, floatCon);
 	floatCon = (mHostInterface->getFloatingSpeciesConcentrations(mRR))->Data;
 
 	int nMin = min(nrIndFloatingSpecies, ndim);
@@ -267,7 +252,6 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 		numParameters = 1;
 	}
 
-	//rr::ExecutableModel* theModel = mRR->getModel();
 	if (numBoundaries > 0)
 	{
 		vector<double> oBoundary(numBoundaries);
@@ -297,17 +281,9 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 		mHostInterface->setValue(mRR, mPCPParameterName.c_str(), oParameters[0]);
 	}
 		
-	//vector<rr::SelectionRecord>  selRecs = mRR->getSteadyStateSelectionList(rrHandle);	//incompatible type
-	
-	//vector<rr::SelectionRecord>  selRecs;
 	rrc::RRStringArrayPtr temp= mHostInterface->getSteadyStateSelectionList(mRR);
 	tlp::StringList selRecs(temp->String, temp->Count);
-	/*for (int i = 0; i < temp->Count; ++i) {							//recheck***********************************
-		rr::SelectionRecord record(*(temp->String+i));
-		selRecs.push_back(record);
-	}
 
-	tlp::StringList              selList = getRecordsAsStrings(selRecs);*/
 	tlp::StringList              selList = selRecs;
 	vector<double> variableTemp(selList.size());
 	int ndim = mAutoConstants.NDIM;
@@ -337,9 +313,6 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 		}
 	}
 
-
-	//theModel->setFloatingSpeciesConcentrations(numIndFloatingSpecies, NULL, tempConc);
-
 	rrc::RRVectorPtr intermediate= new rrc::RRVector;
 	intermediate->Count = numIndFloatingSpecies;
 	intermediate->Data = tempConc;
@@ -347,8 +320,6 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 
 
 	delete [] tempConc;
-
-	//theModel->convertToAmounts();
 
 	double  time            = mHostInterface->_getTime(mRR);
 	int     stateVecSize    = mHostInterface->_getStateVector(mRR);

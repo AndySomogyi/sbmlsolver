@@ -1,5 +1,6 @@
 #pragma once
 
+//Debashish Roy
 // API used to connect roadrunner functionality with plugins
 
 #include "../../../wrappers/C/rrc_types.h"		//decleration of types such as rrhandle		
@@ -242,6 +243,10 @@ typedef struct {			// THostInterface
 		\return getsteadyvectorrate
 	*/
 	void (*_getStateVectorRate)(RRHandle handle, double time, double* value);
+
+	/*Print the current version of roadrunner*/
+
+	char* (*getVersionStr)();
 
 } THostInterface;
 

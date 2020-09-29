@@ -18,35 +18,25 @@ using namespace std;
 
 Plugin::Plugin( const string&           name,
                 const string&           category,
-                //rrc::THostInterface*             aRR,
-                const string&           language)//,
-                //const PluginManager*    pm)
-:
-mName(name),
+                const string&           language)
+:mName(name),
 mAuthor("Totte Karlsson, J Kyle Medley and Wilbert Copeland"),
 mCategory(category),
 mDescription("<none>"),
 mHint("<none>"),
 mVersion("0.0"),
 mCopyright("Totte Karlsson, J Kyle Medley, Wilbert Copeland and Herbert Sauro, Systems Biology, UW 2012-2015"),
-//mRR(aRR),
 mWorkStartedEvent(NULL),
 mWorkProgressEvent(NULL),
 mWorkFinishedEvent(NULL),
-mProperties(),//name, category),
+mProperties(),
 mImplementationLanguage(language),
-//mPM(pm),
 mTerminate(false),
 mIsWorking(false)
 {}
 
 Plugin::~Plugin()
 {}
-/*
-const PluginManager* Plugin::getPluginManager()
-{
-    return mPM;
-}*/
 
 void Plugin::terminate()
 {
@@ -118,29 +108,6 @@ void Plugin::WorkFinishedEvent(void* data1, void* data2)
         mWorkFinishedEvent(data1, data2);
     }
 }
-
-/*bool Plugin::assignRoadRunnerInstance(rrc::THostInterface* rr)
-{
-    mRR = rr;
-    return mRR ? true : false;
-}
-
-
-
-rrc::THostInterface* initializeFunctionPointers(rrc::THostInterface* hostInterface) {
-
-    
-    hostInterface = initialize_Function_Pointers(hostInterface);
-    /*hostInterface->createRRInstance = createRRInstance;
-    hostInterface->getInfo = getInfo;
-    return hostInterface;
-
-}*/
-
-/*rrc::THostInterface* Plugin::getRoadRunnerInstance()
-{
-    return mRR;
-}*/
 
 bool Plugin::resetPlugin()
 {
@@ -298,10 +265,6 @@ string Plugin::getCategory()
 {
     return mCategory;
 }
-
-/*void Plugin::setHostInterface(rrc::THostInterface * _hostInterface) {
-    mhostInterface = _hostInterface;
-}*/
 
 string Plugin::getDescription()
 {

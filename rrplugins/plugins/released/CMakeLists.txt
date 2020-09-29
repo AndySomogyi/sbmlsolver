@@ -19,11 +19,11 @@ if (TLP_BUILD_AUTO2000_PLUGIN)
     add_subdirectory(auto2000)
 endif()
 
-#[[
-if (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
-    add_subdirectory(levenberg_marquardt)
-endif()
+#if (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
+#    add_subdirectory(levenberg_marquardt)
+#endif()
 
+#[[
 if (TLP_BUILD_NELDER_MEAD_PLUGIN)
     add_subdirectory(nelder_mead)
 endif()

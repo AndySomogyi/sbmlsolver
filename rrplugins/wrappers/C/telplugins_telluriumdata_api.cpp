@@ -1,4 +1,5 @@
 #pragma hdrstop
+#include "tel_macros.h"
 #include "rrplugins/common/telOSSpecifics.h"
 #include "telplugins_telluriumdata_api.h"
 
@@ -7,22 +8,24 @@
 #include "rrplugins/common/telStringUtils.h"
 #include "rrplugins/common/telTelluriumData.h"
 #include "rrplugins/common/telLogger.h"
+#include "telplugins_cpp_support.h"
+
 
 using namespace std;
 using tlp::TelluriumData;
 using tlp::StringList;
 
-#include "telplugins_cpp_support.h"
-#include "tel_macros.h"
+/*
 #define start_try                                           \
         try                                                 \
         {
-
+*/
 /*!
  \brief macro for catch statement in a routine returning a bool
  \ingroup macros
 */
-#define  catch_bool_macro                                   \
+            /*
+#define  tel_catch_bool_macro                                   \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -30,13 +33,13 @@ using tlp::StringList;
         msg<<"Tellurium exception: "<<ex.what();            \
         tpSetError(msg.str());                                \
         return false;                                       \
-    }
+    }*/
 
 /*!
  \brief macro for catch statement in a routine returning a pointer
  \ingroup macros
 */
-#define  catch_ptr_macro                                    \
+/*#define  tel_catch_ptr_macro                                    \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -44,13 +47,13 @@ using tlp::StringList;
         msg<<"Tellurium exception: "<<ex.what();            \
         tpSetError(msg.str());                                \
         return NULL;                                        \
-    }
+    }*/
 
 /*!
  \brief macro for catch statement in a routine returning a positive integer
  \ingroup macros
 */
-#define catch_int_macro                                     \
+/*#define tel_catch_int_macro                                     \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -58,13 +61,14 @@ using tlp::StringList;
         msg<<"Tellurium exception: "<<ex.what();            \
         tpSetError(msg.str());                                \
         return -1;                                          \
-    }
+    }*/
 
 /*!
  \brief macro for catch statement in a routine returning an unsigned integer
  \ingroup macros
 */
-#define catch_uint_macro                                     \
+    /*
+#define tel_catch_uint_macro                                     \
     }                                                       \
     catch(exception& ex)                                    \
     {                                                       \
@@ -72,13 +76,15 @@ using tlp::StringList;
         msg<<"Tellurium exception: "<<ex.what();            \
         tpSetError(msg.str());                                \
         return 0;                                          \
-    }
+    }*/
 
 /*!
  \brief macro for catch statement in a routine returning void
  \ingroup macros
 */
-#define catch_void_macro                                    \
+
+/*
+#define tel_catch_void_macro                                    \
     }                                                       \
     catch(const exception& ex)                              \
     {                                                       \
@@ -86,7 +92,7 @@ using tlp::StringList;
         msg<<"Tellurium exception: "<<ex.what();            \
         tpSetError(msg.str());                                \
     }
-
+*/
 
 
 bool tlp_cc tpGetTelluriumDataElement(TELHandle handle, int row, int col, double* value)
@@ -95,7 +101,7 @@ bool tlp_cc tpGetTelluriumDataElement(TELHandle handle, int row, int col, double
         TelluriumData* rrData = castHandle< TelluriumData >(handle, __FILE__);
         *value = rrData->getDataElement(row, col);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetTelluriumDataElement(TELHandle handle, int row, int col, double value)
@@ -104,7 +110,7 @@ bool tlp_cc tpSetTelluriumDataElement(TELHandle handle, int row, int col, double
         TelluriumData* rrData = castHandle< TelluriumData >(handle, __FUNC__);
         rrData->setDataElement(row, col, value);
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpGetTelluriumDataWeight(TELHandle handle, int row, int col, double* value)
@@ -121,7 +127,7 @@ bool tlp_cc tpGetTelluriumDataWeight(TELHandle handle, int row, int col, double*
         {
             return false;
         }
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetTelluriumDataWeight(TELHandle handle, int row, int col, double value)
@@ -137,7 +143,7 @@ bool tlp_cc tpSetTelluriumDataWeight(TELHandle handle, int row, int col, double 
         {
             return false;
         }
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpHasWeights(TELHandle handle, bool* value)
@@ -146,7 +152,7 @@ bool tlp_cc tpHasWeights(TELHandle handle, bool* value)
         TelluriumData* Data = castHandle< TelluriumData >(handle, __FUNC__);
         (*value) = Data->hasWeights();
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpAllocateWeights(TELHandle handle, bool* success)
@@ -156,7 +162,7 @@ bool tlp_cc tpAllocateWeights(TELHandle handle, bool* success)
         Data->allocateWeights();
         (*success) = Data->hasWeights();
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 char* tlp_cc tpGetTelluriumDataColumnHeader(TELHandle handle)
@@ -165,7 +171,7 @@ char* tlp_cc tpGetTelluriumDataColumnHeader(TELHandle handle)
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         char* text = tpCreateText(data->getColumnNamesAsString());
         return text;
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 char* tlp_cc tpGetTelluriumDataColumnHeaderByIndex(TELHandle handle, int index)
@@ -174,7 +180,7 @@ char* tlp_cc tpGetTelluriumDataColumnHeaderByIndex(TELHandle handle, int index)
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         StringList cols = data->getColumnNames();
         return tpCreateText(cols[index]);
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpSetTelluriumDataColumnHeader(TELHandle handle, char* hdr)
@@ -183,7 +189,7 @@ bool tlp_cc tpSetTelluriumDataColumnHeader(TELHandle handle, char* hdr)
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         StringList hdrList(hdr, ", ");
         return data->setColumnNames(hdrList);
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpSetTelluriumDataColumnHeaderByIndex(TELHandle handle, int index, char* hdr)
@@ -191,7 +197,7 @@ bool tlp_cc tpSetTelluriumDataColumnHeaderByIndex(TELHandle handle, int index, c
     start_try
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         return data->setColumnName(index, hdr);
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 int tlp_cc tpGetTelluriumDataNumRows(TELHandle handle)
@@ -199,7 +205,7 @@ int tlp_cc tpGetTelluriumDataNumRows(TELHandle handle)
     start_try
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         return data->rSize();
-    catch_int_macro
+    tel_catch_int_macro
 }
 
 int tlp_cc tpGetTelluriumDataNumCols(TELHandle handle)
@@ -207,7 +213,7 @@ int tlp_cc tpGetTelluriumDataNumCols(TELHandle handle)
     start_try
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         return data->cSize();
-    catch_int_macro
+    tel_catch_int_macro
 }
 
 TELHandle tlp_cc tpCreateTelluriumData(int nRows, int nCols, char* colNames)
@@ -222,7 +228,7 @@ TELHandle tlp_cc tpCreateTelluriumData(int nRows, int nCols, char* colNames)
             data->setColumnNames(colNames);
         }
         return data;
-    catch_ptr_macro
+    tel_catch_ptr_macro
 }
 
 bool tlp_cc tpFreeTelluriumData(TELHandle handle)
@@ -231,7 +237,7 @@ bool tlp_cc tpFreeTelluriumData(TELHandle handle)
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         delete data;
         return true;
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpWriteTelluriumDataToFile(TELHandle handle, const char* fName)
@@ -239,7 +245,7 @@ bool tlp_cc tpWriteTelluriumDataToFile(TELHandle handle, const char* fName)
     start_try
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         return data->write(fName);
-    catch_bool_macro
+    tel_catch_bool_macro
 }
 
 bool tlp_cc tpReadTelluriumDataFromFile(TELHandle handle, const char* fName)
@@ -248,6 +254,6 @@ bool tlp_cc tpReadTelluriumDataFromFile(TELHandle handle, const char* fName)
         TelluriumData* data = castHandle< TelluriumData >(handle, __FUNC__);
         //Check if file exists first
         return data->read(fName);
-    catch_bool_macro
+    tel_catch_bool_macro
 
 }

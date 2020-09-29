@@ -90,15 +90,6 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
         mTestDataWithNoise.setValue(mTestData.getValue());
 
-        
-    /*
-    const PluginManager* PM = this->getPluginManager();
-    Plugin* noise = PM->getPlugin("AddNoise");
-    noise->setPropertyValue("Sigma", mSigma.getValueHandle());
-    noise->setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
-    noise->execute();
-    */
-
         addNoise::AddNoise noise;           //replace this
         noise.setPropertyValue("Sigma", mSigma.getValueHandle());
         noise.setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
@@ -106,9 +97,6 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
 
         mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));
-
-        //GaussianNoise::gaussianAddNoise noise(mSigma.getValueHandle(), mTestDataWithNoise.getValueHandle());
-        
 
         //Add weights
         addWeights();

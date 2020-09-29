@@ -3,6 +3,7 @@
 # Debashish Roy
 
 include_directories(
+
 ${C_API_INCLUDE_ROOT}
 ${RR_ROOT}/source
 ${RR_ROOT}
@@ -12,8 +13,8 @@ ${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/
 
 set(sources
 
-  ../../../wrappers/C/rrc_api 				#fix these relative path
-  ../../../wrappers/C/rrc_utilities
+  ${RR_ROOT}/wrappers/C/rrc_api 				
+  ${RR_ROOT}/wrappers/C/rrc_utilities
 
   ${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/telCPlugin
   ${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/telCPPPlugin
@@ -98,10 +99,3 @@ if(${MSVC})
     add_definitions( "/W3 /D_CRT_SECURE_NO_WARNINGS /wd4251 /wd4018 /wd4996 /nologo" )
 
 endif()
-
-#build test are also used in roadrunner need to rename build_test
-#[[
-if(BUILD_TESTS)			
-    add_subdirectory(testing)
-endif()
-]]
