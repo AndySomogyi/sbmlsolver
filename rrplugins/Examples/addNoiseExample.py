@@ -4,7 +4,7 @@ import rrplugins as tel
 
 rr = roadrunner.RoadRunner() 
 
-rr.load("path to the model") 
+rr.load("path to any model. Eg. some models are provided in source code, like, sbml_test_0001") 
 
 data = rr.simulate(0, 10, 511)
 
