@@ -655,6 +655,9 @@ rrc::THostInterface *initializeRoadRunnerAPI()
         host_Interface->_getStateVector = rrc::_getStateVector;
         host_Interface->_getStateVectorRate = rrc::_getStateVectorRate;
         host_Interface->getVersionStr = rrc::getVersionStr;
+        host_Interface->reset = rrc::reset;
+        host_Interface->getSimulationResult = rrc::getSimulationResult;
+        host_Interface->setTimeCourseSelectionList = rrc::setTimeCourseSelectionList;
     }
     else
     {

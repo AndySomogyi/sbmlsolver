@@ -248,6 +248,42 @@ typedef struct {			// THostInterface
 
 	char* (*getVersionStr)();
 
+	// --------------------------------------------------------------------------------
+	// Reset methods
+	// --------------------------------------------------------------------------------
+
+	/*!
+	\brief Resets all variables of the model to their current initial values.
+	Does not change the parameters.
+	\param[in] handle Handle to a RoadRunner instance
+	\return Boolean indicating success
+	\ingroup reset
+	*/
+	bool (*reset)(RRHandle handle);
+
+	/*!
+	\brief Retrieve the result of the last simulation.
+	\param[in] handle Handle to a RoadRunner instance
+	\return Returns an array (RRCDataPtr) of columns containing the results of the
+	simulation including string labels for the individual columns. The client is
+	responsible for freeing the resulting RRCDataPtr structure.
+	\ingroup simulation
+	*/
+	RRCDataPtr (*getSimulationResult)(RRHandle handle);
+
+	/*!
+	\brief Set the selection list for output from simulate(void) or simulateEx(void)
+	Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.
+	Example: \code setTimeCourseSelectionList ("Time, S1, J1, J2"); \endcode
+	or
+	setTimeCourseSelectionList ("Time S1 J1 J2")
+	\param[in] handle Handle to a RoadRunner instance
+	\param[in] list A string of Ids separated by spaces <b>or</b> comma characters
+	\return Returns true if successful
+	\ingroup simulation
+	*/
+	bool (*setTimeCourseSelectionList)(RRHandle handle, const char* list);
+
 } THostInterface;
 
 //THostInterface hostInterfaceMain;
