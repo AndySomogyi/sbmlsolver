@@ -155,6 +155,7 @@
             </listOfReactants>
             <listOfProducts>
                <speciesReference species = "S2" stoichiometry = "1"/>
+               <speciesReference species = "S3" stoichiometry = "1"/>
             </listOfProducts>
             <kineticLaw>
                <math xmlns = "http://www.w3.org/1998/Math/MathML">
@@ -191,6 +192,7 @@
          <reaction id = "test2" reversible = "true">
             <listOfReactants>
                <speciesReference species = "S3" stoichiometry = "1"/>
+               <speciesReference species = "S2" stoichiometry = "1"/>
             </listOfReactants>
             <listOfProducts>
                <speciesReference species = "S4" stoichiometry = "1"/>
@@ -270,10 +272,8 @@
    </model>
 </sbml>
 
-[EDITING]
 [Remove Compartment]
 compartment1 True
-[END_EDITING]
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"

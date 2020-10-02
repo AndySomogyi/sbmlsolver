@@ -306,7 +306,7 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
         rri->setConservedMoietyAnalysis(OnOrOff);
         return true;
     } catch (std::exception& e) {
-        std::cerr << "Error in conserved moeity analysis " << e.what() << std::endl;
+        std::cerr << "Error in conserved moeity analysis: " << e.what() << std::endl;
         return false;
     }
     //catch_bool_macro
@@ -1235,7 +1235,7 @@ bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        std::cerr << "rrcCallConv steadyState\n";
+        //std::cerr << "rrcCallConv steadyState\n";
         Log(Logger::LOG_DEBUG) << "rrcCallConv steadyState ";
         *value = rri->steadyState();
         return true;

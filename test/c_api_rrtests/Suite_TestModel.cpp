@@ -58,11 +58,11 @@ void compareJacobians(RRHandle gRR)
 
 void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
 {
-    clog << "Reference Matrix:" << endl;
-    clog << ref << endl;
+    //clog << "Reference Matrix:" << endl;
+    //clog << ref << endl;
 
-    clog << "Calculated Matrix:" << endl;
-    clog << calc << endl;
+    //clog << "Calculated Matrix:" << endl;
+    //clog << calc << endl;
 
     ASSERT_TRUE(calc.RSize() == ref.RSize());
     ASSERT_TRUE(calc.CSize() == ref.CSize());
@@ -72,7 +72,7 @@ void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
         for (int j = 0; j < ref.CSize(); j++)
         {
             if (abs(ref(i, j) - calc(i, j)) > abs((ref(i,j)+1e-7)*1e-4))
-              clog <<  "check close failed zzxx\n";
+              //clog <<  "check close failed zzxx\n";
             EXPECT_NEAR(ref(i, j), calc(i, j), abs((ref(i,j)+1e-7)*1e-4));
         }
     }
@@ -81,14 +81,14 @@ void compareMatrices(const ls::DoubleMatrix& ref, const ls::DoubleMatrix& calc)
 
 void compareMatrices(const ls::DoubleMatrix& ref, const std::vector<ls::Complex> calc)
 {
-    clog<<"Reference Matrix:" << endl;
-    clog<<ref<<endl;
+    //clog<<"Reference Matrix:" << endl;
+    //clog<<ref<<endl;
 
-    clog<<"Calculated Matrix:" << endl;
-    for(int i = 0; i < calc.size(); ++i)
-    {
-        clog << calc[i] << endl;
-    }
+    //clog<<"Calculated Matrix:" << endl;
+    //for(int i = 0; i < calc.size(); ++i)
+    //{
+    //    clog << calc[i] << endl;
+    //}
 
     ASSERT_TRUE(ref.CSize() == 2);
     ASSERT_TRUE(calc.size() == ref.RSize());
@@ -104,11 +104,11 @@ void compareMatrices(const ls::DoubleMatrix& ref, RRDoubleMatrixPtr calc)
 {
     ASSERT_TRUE(calc);
 
-    clog<<"Reference Matrix:\n";
-    clog<<ref<<endl;
+    //clog<<"Reference Matrix:\n";
+    //clog<<ref<<endl;
 
-    clog<<"Calculated Matrix:";
-    clog<<matrixToString(calc);
+    //clog<<"Calculated Matrix:";
+    //clog<<matrixToString(calc);
 
     ASSERT_TRUE(calc->RSize == ref.RSize());
     ASSERT_TRUE(calc->CSize == ref.CSize());
@@ -147,48 +147,111 @@ int findCloseTimepoint(const DoubleMatrix* m, double t, double tol)
     return -1;
 }
 
+/* Returns a list of files in a directory (except the ones that begin with a dot) */
+/* Courtesy of Thomas Bonini; https://stackoverflow.com/questions/306533/how-do-i-get-a-list-of-files-in-a-directory-in-c */
+vector<string> GetFilesInDirectory(const string& directory)
+{
+    std::vector<string> ret;
+#ifdef WIN32
+    HANDLE dir;
+    WIN32_FIND_DATA file_data;
+
+    if ((dir = FindFirstFile((directory + "/*").c_str(), &file_data)) == INVALID_HANDLE_VALUE)
+        return ret; /* No files found */
+
+    do {
+        const string file_name = file_data.cFileName;
+        const string full_file_name = directory + "/" + file_name;
+        const bool is_directory = (file_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+
+        if (file_name[0] == '.')
+            continue;
+
+        if (is_directory)
+            continue;
+
+        ret.push_back(full_file_name);
+    } while (FindNextFile(dir, &file_data));
+
+    FindClose(dir);
+#else
+    DIR* dir;
+    class dirent* ent;
+    class stat st;
+
+    dir = opendir(directory);
+    while ((ent = readdir(dir)) != NULL) {
+        const string file_name = ent->d_name;
+        const string full_file_name = directory + "/" + file_name;
+
+        if (file_name[0] == '.')
+            continue;
+
+        if (stat(full_file_name.c_str(), &st) == -1)
+            continue;
+
+        const bool is_directory = (st.st_mode & S_IFDIR) != 0;
+
+        if (is_directory)
+            continue;
+
+        ret.push_back(full_file_name);
+    }
+    closedir(dir);
+#endif
+    return ret;
+} // GetFilesInDirectory
+
 std::set<std::string> getTestFiles(const std::string& dir)
 {
+    vector<string> rrtest_files = GetFilesInDirectory(dir);
 
-    const char* rrtest_files[] = {
-        //"Add_Species1.rrtest"
-        "Bimolecular_end.rrtest",
-        "Comp.rrtest",
-        "Conserved_Cycle_and_Branch.rrtest",
-        "Conserved_Cycle.rrtest",
-        "Cycle_across_branches.rrtest",
-        "Cycle.rrtest",
-        "Cycle_to_Input_and_Branch.rrtest",
-        "Four_Steps.rrtest",
-        "Futile_Cycle.rrtest",
-        "jacobian_1.rrtest",
-        "Multibranch1.rrtest",
-        "MultiBranch2.rrtest",
-        "oscli.rrtest",
-        "reversible_Jacobian.rrtest",
-        "Simple_Branch.rrtest",
-        "Test_1.rrtest",
-        "Test_2.rrtest",
-        "Test_3.rrtest",
-        "Three_Steps.rrtest",
-        "Two_Cycles.rrtest",
-        "Two_Steps.rrtest"
-        //           "variable_time_step.rrtest"
-    };
+    //const char* rrtest_files[] = {
+    //    //"Add_Species1.rrtest"
+    //    "Bimolecular_end.rrtest",
+    //    "Comp.rrtest",
+    //    "Conserved_Cycle_and_Branch.rrtest",
+    //    "Conserved_Cycle.rrtest",
+    //    "Cycle_across_branches.rrtest",
+    //    "Cycle.rrtest",
+    //    "Cycle_to_Input_and_Branch.rrtest",
+    //    "Four_Steps.rrtest",
+    //    "Futile_Cycle.rrtest",
+    //    "jacobian_1.rrtest",
+    //    "Multibranch1.rrtest",
+    //    "MultiBranch2.rrtest",
+    //    "oscli.rrtest",
+    //    "reversible_Jacobian.rrtest",
+    //    "Simple_Branch.rrtest",
+    //    "Test_1.rrtest",
+    //    "Test_2.rrtest",
+    //    "Test_3.rrtest",
+    //    "Three_Steps.rrtest",
+    //    "Two_Cycles.rrtest",
+    //    "Two_Steps.rrtest"
+    //    //           "variable_time_step.rrtest"
+    //};
 
     std::set<std::string> result;
 
-    for (int n = 0; n < sizeof(rrtest_files) / sizeof(rrtest_files[0]); ++n) {
-        result.insert(joinPath(dir, rrtest_files[n]));
+    for (int n = 0; n < rrtest_files.size(); ++n) {
+        string file = rrtest_files[n];
+        if (file.find(".rrtest") == string::npos) {
+            continue;
+        }
+        result.insert(rrtest_files[n]);
     }
 
     return result;
 }
 
 //These tests are intended to duplicate the Python tests
-void check_DATA_FILES()
+void check_LoadData()
 {
-    Log(Logger::LOG_NOTICE) << "Running Test Suite TEST_MODEL on " << rrTestFileName;
+    //clog << "============================================" << endl;
+    //clog << "============================================" << endl;
+    //clog << "Running test file " << rrTestFileName << endl;
+    //clog << "============================================" << endl;
 
     gRR = createRRInstance();
 
@@ -219,26 +282,19 @@ void check_DATA_FILES()
     }
 }
 
-void check_SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS()
+void check_SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
     bool res = setComputeAndAssignConservationLaws(gRR, true);
     EXPECT_TRUE(res);
-    clog << "\nConservation laws: " << res << endl;
+    //clog << "\nConservation laws: " << res << endl;
 }
 
-void check_SET_STEADY_STATE_SELECTION_LIST()
+void check_SET_STEADY_STATE_SELECTION_LIST(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Load reference data
-    IniSection* aSection = iniFile.GetSection("Set Steady State Selection List");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SET_STEADY_STATE_SELECTION_LIST ====" << endl << endl;
+    clog << "==== SET_STEADY_STATE_SELECTION_LIST ====" << endl;
     aSection->mIsUsed = true;
+
+    setComputeAndAssignConservationLaws(gRR, true);
 
     string keys = Trim(aSection->GetNonKeysAsString());
 
@@ -249,14 +305,9 @@ void check_SET_STEADY_STATE_SELECTION_LIST()
     trySteadyState(gRR);
 }
 
-void check_GET_STEADY_STATE_SELECTION_LIST()
+void check_GET_STEADY_STATE_SELECTION_LIST(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Get Steady State Selection List");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_STEADY_STATE_SELECTION_LIST ====" << endl << endl;
+    clog << "==== GET_STEADY_STATE_SELECTION_LIST ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -277,22 +328,14 @@ void check_GET_STEADY_STATE_SELECTION_LIST()
     }
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);;
     }
     freeStringArray(list);
 }
 
-void check_SPECIES_CONCENTRATIONS()
+void check_SPECIES_CONCENTRATIONS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Species Concentrations");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SPECIES_CONCENTRATIONS ====" << endl << endl;
+    clog << "==== SPECIES_CONCENTRATIONS ====" << endl;
     aSection->mIsUsed = true;
 
     string valstr = Trim(aSection->GetNonKeysAsString());
@@ -309,22 +352,14 @@ void check_SPECIES_CONCENTRATIONS()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(vals[i]), val, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << vals[i] << "\tActual:\t " << val << endl;
+        //clog << "\n";
+        //clog << "Ref:\t" << vals[i] << "\tActual:\t " << val << endl;
     }
 }
 
-void check_GET_SPECIES_INITIAL_CONCENTRATIONS()
+void check_GET_SPECIES_INITIAL_CONCENTRATIONS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Species Initial Concentrations");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_SPECIES_INITIAL_CONCENTRATIONS ====" << endl << endl;
+    clog << "==== GET_SPECIES_INITIAL_CONCENTRATIONS ====" << endl;
     aSection->mIsUsed = true;
 
     for (int i = 0; i < aSection->KeyCount(); i++)
@@ -338,22 +373,14 @@ void check_GET_SPECIES_INITIAL_CONCENTRATIONS()
 
         //Check concentrations
         EXPECT_NEAR(aKey->AsFloat(), val, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << aKey->AsFloat() << "\tActual:\t " << val << endl;
+        //clog << "\n";
+        //clog << "Ref:\t" << aKey->AsFloat() << "\tActual:\t " << val << endl;
     }
 }
 
-void check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX()
+void check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Species Initial Concentrations By Index");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl << endl;
+    clog << "==== GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl;
     aSection->mIsUsed = true;
 
     string valstr = Trim(aSection->GetNonKeysAsString());
@@ -369,22 +396,14 @@ void check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(vals[i]), val, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(vals[i]) << "\tActual:\t " << val << endl;
+        //clog << "\n";
+        //clog << "Ref:\t" << toDouble(vals[i]) << "\tActual:\t " << val << endl;
     }
 }
 
-void check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS()
+void check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Initial Floating Species Concs");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS ====" << endl << endl;
+    clog << "==== GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -405,23 +424,15 @@ void check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX()
+void check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Set Species Initial Concentrations By Index");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl << endl;
+    clog << "==== SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX ====" << endl;
     aSection->mIsUsed = true;
 
     string valstr = Trim(aSection->GetNonKeysAsString());
@@ -441,22 +452,14 @@ void check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX()
 
         //Check concentrations
         EXPECT_NEAR(newval, val, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << newval << "\tActual:\t " << val << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << newval << "\tActual:\t " << val << endl;
     }
 }
 
-void check_SET_SPECIES_INITIAL_CONCENTRATIONS()
+void check_SET_SPECIES_INITIAL_CONCENTRATIONS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Set Species Initial Concentrations");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SET_SPECIES_INITIAL_CONCENTRATIONS ====" << endl << endl;
+    clog << "==== SET_SPECIES_INITIAL_CONCENTRATIONS ====" << endl;
     aSection->mIsUsed = true;
 
     for (int i = 0; i < aSection->KeyCount(); i++)
@@ -475,8 +478,8 @@ void check_SET_SPECIES_INITIAL_CONCENTRATIONS()
 
         //Check concentrations
         EXPECT_NEAR(aKey->AsFloat(), val, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << aKey->AsFloat() << "\tActual:\t " << val << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << aKey->AsFloat() << "\tActual:\t " << val << endl;
     }
 
     //We need to set back the values to concentrations, after running steady state..
@@ -484,18 +487,9 @@ void check_SET_SPECIES_INITIAL_CONCENTRATIONS()
     trySteadyState(gRR);
 }
 
-void check_STEADY_STATE_FLUXES()
+void check_STEADY_STATE_FLUXES(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Steady State Fluxes");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-
-    clog << endl << "==== STEADY STATE FLUXES ====" << endl << endl;
+    clog << "==== STEADY STATE FLUXES ====" << endl;
     aSection->mIsUsed = true;
 
     reset(gRR);
@@ -514,19 +508,14 @@ void check_STEADY_STATE_FLUXES()
 
         //Check concentrations
         EXPECT_NEAR(aKey->AsFloat(), val, max(1e-9, abs(val * 1e-5)));
-        clog << "\n";
-        clog << "Ref:\t" << aKey->AsFloat() << "\tActual:\t " << val << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << aKey->AsFloat() << "\tActual:\t " << val << endl;
     }
 }
 
-void check_FULL_JACOBIAN()
+void check_FULL_JACOBIAN(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Full Jacobian");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== FULL JACOBIAN ====" << endl << endl;
+    clog << "==== FULL JACOBIAN ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -539,14 +528,9 @@ void check_FULL_JACOBIAN()
     compareMatrices(jRef, jActual);
 }
 
-void check_REDUCED_JACOBIAN()
+void check_REDUCED_JACOBIAN(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Reduced Jacobian");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== REDUCED JACOBIAN ====" << endl << endl;
+    clog << "==== REDUCED JACOBIAN ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -558,14 +542,9 @@ void check_REDUCED_JACOBIAN()
     compareMatrices(jRef, jActual);
 }
 
-void check_AMOUNT_JACOBIAN()
+void check_AMOUNT_JACOBIAN(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Amount Jacobian");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== AMOUNT JACOBIAN ====" << endl << endl;
+    clog << "==== AMOUNT JACOBIAN ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
@@ -577,14 +556,9 @@ void check_AMOUNT_JACOBIAN()
     compareMatrices(jRef, jActual);
 }
 
-void check_INDIVIDUAL_EIGENVALUES()
+void check_INDIVIDUAL_EIGENVALUES(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Individual Eigenvalues");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== INDIVIDUAL_EIGENVALUES ====" << endl << endl;
+    clog << "==== INDIVIDUAL_EIGENVALUES ====" << endl;
     aSection->mIsUsed = true;
 
     RoadRunner* rri = castToRoadRunner(gRR);
@@ -593,25 +567,20 @@ void check_INDIVIDUAL_EIGENVALUES()
     for (int i = 0; i < aSection->KeyCount(); i++)
     {
         IniKey* aKey = aSection->GetKey(i);
-        clog << "\n";
-        clog << "Ref_EigenValue: " << aKey->mKey << ": " << aKey->mValue << endl;
+        //clog <<"\n";
+        //clog <<"Ref_EigenValue: " << aKey->mKey << ": " << aKey->mValue << endl;
 
         string eigenValueLabel = "eigenReal(" + aKey->mKey + ")";
         double val = rri->getValue(eigenValueLabel.c_str());
 
-        clog << "EigenValue " << i << ": " << val << endl;
+        //clog <<"EigenValue " << i << ": " << val << endl;
         EXPECT_NEAR(aKey->AsFloat(), val, abs(val * 1e-4));
     }
 }
 
-void check_INDIVIDUAL_AMOUNT_EIGENVALUES()
+void check_INDIVIDUAL_AMOUNT_EIGENVALUES(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Individual Amount Eigenvalues");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== INDIVIDUAL AMOUNT EIGENVALUES ====" << endl << endl;
+    clog << "==== INDIVIDUAL AMOUNT EIGENVALUES ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
@@ -619,29 +588,20 @@ void check_INDIVIDUAL_AMOUNT_EIGENVALUES()
     for (int i = 0; i < aSection->KeyCount(); i++)
     {
         IniKey* aKey = aSection->GetKey(i);
-        clog << "\n";
-        clog << "Ref_EigenValue: " << aKey->mKey << ": " << aKey->mValue << endl;
+        //clog <<"\n";
+        //clog <<"Ref_EigenValue: " << aKey->mKey << ": " << aKey->mValue << endl;
 
         string eigenValueLabel = "eigenReal(" + aKey->mKey + ")";
         double val = rri->getValue(eigenValueLabel.c_str());
 
-        clog << "EigenValue " << i << ": " << val << endl;
+        //clog <<"EigenValue " << i << ": " << val << endl;
         EXPECT_NEAR(aKey->AsFloat(), val, 1e-5);
     }
 }
 
-void check_GET_EIGENVALUE_MATRIX()
+void check_GET_EIGENVALUE_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Eigenvalue Matrix");
-
-    //Read in the reference data, from the ini file
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_EIGENVALUE_MATRIX ====" << endl << endl;
+    clog << "==== GET_EIGENVALUE_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -652,18 +612,9 @@ void check_GET_EIGENVALUE_MATRIX()
 }
 
 
-void check_GET_EIGENVALUE_AMOUNT_MATRIX()
+void check_GET_EIGENVALUE_AMOUNT_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Eigenvalue Amount Matrix");
-
-    //Read in the reference data, from the ini file
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_EIGENVALUE AMOUNT MATRIX ====" << endl << endl;
+    clog << "==== GET_EIGENVALUE AMOUNT MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
@@ -675,18 +626,9 @@ void check_GET_EIGENVALUE_AMOUNT_MATRIX()
 }
 
 
-void check_GET_REDUCED_EIGENVALUE_MATRIX()
+void check_GET_REDUCED_EIGENVALUE_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Reduced Eigenvalue Matrix");
-
-    //Read in the reference data, from the ini file
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_REDUCED_EIGENVALUE_MATRIX ====" << endl << endl;
+    clog << "==== GET_REDUCED_EIGENVALUE_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -698,17 +640,9 @@ void check_GET_REDUCED_EIGENVALUE_MATRIX()
 }
 
 
-void check_STOICHIOMETRY_MATRIX()
+void check_STOICHIOMETRY_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Stoichiometry Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== STOICHIOMETRY_MATRIX ====" << endl << endl;
+    clog << "==== STOICHIOMETRY_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -717,17 +651,9 @@ void check_STOICHIOMETRY_MATRIX()
     compareMatrices(ref, matrix);
 }
 
-void check_REDUCED_STOICHIOMETRY_MATRIX()
+void check_REDUCED_STOICHIOMETRY_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Reduced Stoichiometry Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== REDUCED STOICHIOMETRY_MATRIX ====" << endl << endl;
+    clog << "==== REDUCED STOICHIOMETRY_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -736,17 +662,9 @@ void check_REDUCED_STOICHIOMETRY_MATRIX()
     compareMatrices(ref, matrix);
 }
 
-void check_LINK_MATRIX()
+void check_LINK_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Link Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== LINK_MATRIX ====" << endl << endl;
+    clog << "==== LINK_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -756,17 +674,9 @@ void check_LINK_MATRIX()
     freeMatrix(matrix);
 }
 
-void check_UNSCALED_ELASTICITY_MATRIX()
+void check_UNSCALED_ELASTICITY_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Unscaled Elasticity Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== UNSCALED_ELASTICITY_MATRIX ====\n\n";
+    clog << "==== UNSCALED_ELASTICITY_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -778,17 +688,9 @@ void check_UNSCALED_ELASTICITY_MATRIX()
     compareMatrices(ref, matrix);
 }
 
-void check_UNSCALED_ELASTICITY_AMOUNT_MATRIX()
+void check_UNSCALED_ELASTICITY_AMOUNT_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Unscaled Elasticity Amount Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== UNSCALED_ELASTICITY_AMOUNT_MATRIX ====\n\n";
+    clog << "==== UNSCALED_ELASTICITY_AMOUNT_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
@@ -800,17 +702,9 @@ void check_UNSCALED_ELASTICITY_AMOUNT_MATRIX()
     compareMatrices(ref, matrix);
 }
 
-void check_SCALED_ELASTICITY_MATRIX()
+void check_SCALED_ELASTICITY_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Scaled Elasticity Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== SCALED_ELASTICITY_MATRIX ====\n\n";
+    clog << "==== SCALED_ELASTICITY_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -822,17 +716,9 @@ void check_SCALED_ELASTICITY_MATRIX()
     compareMatrices(ref, matrix);
 }
 
-void check_SCALED_ELASTICITY_AMOUNT_MATRIX()
+void check_SCALED_ELASTICITY_AMOUNT_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Scaled Elasticity Amount Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== SCALED_ELASTICITY_AMOUNT_MATRIX ====\n\n";
+    clog << "==== SCALED_ELASTICITY_AMOUNT_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
@@ -844,18 +730,9 @@ void check_SCALED_ELASTICITY_AMOUNT_MATRIX()
     compareMatrices(ref, matrix);
 }
 
-void check_UNSCALED_CONCENTRATION_CONTROL_MATRIX()
+void check_UNSCALED_CONCENTRATION_CONTROL_MATRIX(IniSection* aSection)
 {
-
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("UnScaled Concentration Control Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
+    clog << "==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -868,17 +745,9 @@ void check_UNSCALED_CONCENTRATION_CONTROL_MATRIX()
     freeMatrix(matrix);
 }
 
-void check_SCALED_CONCENTRATION_CONTROL_MATRIX()
+void check_SCALED_CONCENTRATION_CONTROL_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Scaled Concentration Control Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== SCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
+    clog << "==== SCALED_CONCENTRATION_CONTROL_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
@@ -891,17 +760,9 @@ void check_SCALED_CONCENTRATION_CONTROL_MATRIX()
     freeMatrix(matrix);
 }
 
-void check_UNSCALED_FLUX_CONTROL_MATRIX()
+void check_UNSCALED_FLUX_CONTROL_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Unscaled Flux Control Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << "\n==== UNSCALED_FLUX_CONTROL_MATRIX ====\n\n";
+    clog << "==== UNSCALED_FLUX_CONTROL_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -912,17 +773,9 @@ void check_UNSCALED_FLUX_CONTROL_MATRIX()
     freeMatrix(matrix);
 }
 
-void check_SCALED_FLUX_CONTROL_MATRIX()
+void check_SCALED_FLUX_CONTROL_MATRIX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Scaled Flux Control Matrix");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SCALED_FLUX_CONTROL_MATRIX ====" << endl << endl;
+    clog << "==== SCALED_FLUX_CONTROL_MATRIX ====" << endl;
     aSection->mIsUsed = true;
 
     ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
@@ -934,16 +787,9 @@ void check_SCALED_FLUX_CONTROL_MATRIX()
     freeMatrix(matrix);
 }
 
-void check_GET_CONTROL_COEFFICIENT()
+void check_GET_CONTROL_COEFFICIENT(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Get Control Coefficient");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_CONTROL_COEFFICIENT ====" << endl << endl;
+    clog << "==== GET_CONTROL_COEFFICIENT ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -956,20 +802,13 @@ void check_GET_CONTROL_COEFFICIENT()
     getCC(gRR, variable, parameter, &value);
 
     EXPECT_NEAR(toDouble(refList[2]), value, 1e-6);
-    clog << "\n";
-    clog << "Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
+    //clog <<"\n";
+    //clog <<"Ref:\t" << toDouble(refList[2]) << "\tActual:\t " << value << endl;
 }
 
-void check_CHECK_RESET()
+void check_CHECK_RESET(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Test Reset");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_RESET ====" << endl << endl;
+    clog << "==== CHECK_RESET ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1001,16 +840,9 @@ void check_CHECK_RESET()
     EXPECT_EQ(d_value, d_value_r);
 }
 
-void check_CHECK_RESETALL()
+void check_CHECK_RESETALL(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Test ResetAll");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_RESET_ALL ====" << endl << endl;
+    clog << "==== CHECK_RESET_ALL ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1036,16 +868,9 @@ void check_CHECK_RESETALL()
     EXPECT_EQ(d_value, d_value_r);
 }
 
-void check_CHECK_RESETTOORIGIN()
+void check_CHECK_RESETTOORIGIN(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Test ResetToOrigin");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_RESET_TO_ORIGIN ====" << endl << endl;
+    clog << "==== CHECK_RESET_TO_ORIGIN ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1065,16 +890,9 @@ void check_CHECK_RESETTOORIGIN()
     EXPECT_TRUE(d_value != d_value_r);
 }
 
-void check_CHECK_RK4_OUTPUT()
+void check_CHECK_RK4_OUTPUT(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Check RK4 Output");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_RK4_OUTPUT ====" << endl << endl;
+    clog << "==== CHECK_RK4_OUTPUT ====" << endl;
     aSection->mIsUsed = true;
 
     RoadRunner* rri = castToRoadRunner(gRR);
@@ -1083,12 +901,12 @@ void check_CHECK_RK4_OUTPUT()
     opt.duration = 10;
 
     // cvode
-    clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+    //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
     const DoubleMatrix* cvode = rri->simulate(&opt);
 
     // rk4
     opt.setItem("integrator", "rk4");
-    clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+    //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
     const DoubleMatrix* rk4 = rri->simulate(&opt);
 
     for (int k = 0; k < cvode->CSize(); k++)
@@ -1097,16 +915,9 @@ void check_CHECK_RK4_OUTPUT()
     }
 }
 
-void check_CHECK_RK45_OUTPUT()
+void check_CHECK_RK45_OUTPUT(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Check RK45 Output");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_RK45_OUTPUT ====" << endl << endl;
+    clog << "==== CHECK_RK45_OUTPUT ====" << endl;
     aSection->mIsUsed = true;
 
     RoadRunner* rri = castToRoadRunner(gRR);
@@ -1115,12 +926,12 @@ void check_CHECK_RK45_OUTPUT()
     opt.duration = 10;
 
     // cvode
-    clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+    //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
     const DoubleMatrix* cvode = rri->simulate(&opt);
 
     // rk4
     opt.setItem("integrator", "rk45");
-    clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+    //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
     const DoubleMatrix* rk45 = rri->simulate(&opt);
 
     for (int k = 0; k < cvode->CSize(); k++) {
@@ -1129,29 +940,17 @@ void check_CHECK_RK45_OUTPUT()
 }
 
 // Placeholder for testing setValues which are not implemented in C++ yet
-void check_CHECK_SETVALUES()
+void check_CHECK_SETVALUES(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Test SetValues");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_SETVALUES ====" << endl << endl;
+    clog << "==== CHECK_SETVALUES ====" << endl;
     aSection->mIsUsed = true;
 
     EXPECT_TRUE(true);
 }
 
-void check_FLOATING_SPECIES_IDS()
+void check_FLOATING_SPECIES_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Floating Species Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== FLOATING_SPECIES_IDS ====" << endl << endl;
+    clog << "==== FLOATING_SPECIES_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1169,20 +968,15 @@ void check_FLOATING_SPECIES_IDS()
     if (list) {
         for (int i = 0; i < selList.size(); i++)
         {
-            EXPECT_TRUE(selList[i] == list->String[i]);
+            EXPECT_EQ(selList[i], list->String[i]);;
         }
         freeStringArray(list);
     }
 }
 
-void check_BOUNDARY_SPECIES_IDS()
+void check_BOUNDARY_SPECIES_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Boundary Species Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== BOUNDARY_SPECIES_IDS ====" << endl << endl;
+    clog << "==== BOUNDARY_SPECIES_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1200,20 +994,15 @@ void check_BOUNDARY_SPECIES_IDS()
     if (list) {
         for (int i = 0; i < selList.size(); i++)
         {
-            EXPECT_TRUE(selList[i] == list->String[i]);
+            EXPECT_EQ(selList[i], list->String[i]);;
         }
         freeStringArray(list);
     }
 }
 
-void check_GLOBAL_PARAMETER_IDS()
+void check_GLOBAL_PARAMETER_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Global Parameter Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GLOBAL_PARAMETER_IDS ====" << endl << endl;
+    clog << "==== GLOBAL_PARAMETER_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1231,20 +1020,15 @@ void check_GLOBAL_PARAMETER_IDS()
     if (list) {
         for (int i = 0; i < selList.size(); i++)
         {
-            EXPECT_TRUE(selList[i] == list->String[i]);
+            EXPECT_EQ(selList[i], list->String[i]);;
         }
         freeStringArray(list);
     }
 }
 
-void check_COMPARTMENT_IDS()
+void check_COMPARTMENT_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Compartment Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== COMPARTMENT_IDS ====" << endl << endl;
+    clog << "==== COMPARTMENT_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1260,19 +1044,14 @@ void check_COMPARTMENT_IDS()
     EXPECT_TRUE(selList.size() == list->Count);
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);;
     }
     freeStringArray(list);
 }
 
-void check_REACTION_IDS()
+void check_REACTION_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Reaction Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== REACTION_IDS ====" << endl << endl;
+    clog << "==== REACTION_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1281,116 +1060,76 @@ void check_REACTION_IDS()
 
     vector<string> selList = splitString(keys, " ,");
 
-    if (!list && selList.size())
-    {
-        EXPECT_TRUE(false);
-        return;
-    }
-    EXPECT_TRUE((selList.size() == 0 && !list) || (selList.size() == list->Count));
+    ASSERT_TRUE((selList.size() == 0 && !list) || (selList.size() == list->Count));
     if (list) {
         for (int i = 0; i < selList.size(); i++)
         {
-            EXPECT_TRUE(selList[i] == list->String[i]);
+            EXPECT_EQ(selList[i], list->String[i]);
         }
         freeStringArray(list);
     }
 }
 
-void check_SPECIES_INITIAL_CONDITION_IDS()
+void check_SPECIES_INITIAL_CONDITION_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Species Initial Concentration Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SPECIES_INITIAL_CONDITION_IDS ====" << endl << endl;
+    clog << "==== SPECIES_INITIAL_CONDITION_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
 
     RRStringArrayPtr list = getFloatingSpeciesInitialConditionIds(gRR);
 
-    if (!list)
-    {
-        EXPECT_TRUE(false);
-        return;
-    }
+    ASSERT_TRUE(list != NULL);
     vector<string> selList = splitString(keys, " ,");
-    EXPECT_TRUE(selList.size() == list->Count);
+    ASSERT_TRUE(selList.size() == list->Count);
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);
     }
     freeStringArray(list);
 }
 
-void check_GET_EIGENVALUE_IDS()
+void check_GET_EIGENVALUE_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Get Eigenvalue Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_EIGENVALUE_IDS ====" << endl << endl;
+    clog << "==== GET_EIGENVALUE_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
 
     RRStringArrayPtr list = getEigenvalueIds(gRR);
 
-    if (!list)
-    {
-        EXPECT_TRUE(false);
-        return;
-    }
+    ASSERT_TRUE(list);
     vector<string> selList = splitString(keys, " ,");
-    EXPECT_TRUE(selList.size() == list->Count);
+    ASSERT_TRUE(selList.size() == list->Count);
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);;
     }
     freeStringArray(list);
 }
 
-void check_GET_RATES_OF_CHANGE_IDS()
+void check_GET_RATES_OF_CHANGE_IDS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Get Rates Of Change Ids");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_RATES_OF_CHANGE_IDS ====" << endl << endl;
+    clog << "==== GET_RATES_OF_CHANGE_IDS ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
 
     RRStringArrayPtr list = getRatesOfChangeIds(gRR);
 
-    if (!list)
-    {
-        EXPECT_TRUE(false);
-        return;
-    }
+    ASSERT_TRUE(list);
     vector<string> selList = splitString(keys, " ,");
     EXPECT_TRUE(selList.size() == list->Count);
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);;
     }
     freeStringArray(list);
 }
 
-void check_SET_STEADY_STATE_SELECTION_LIST_2()
+void check_SET_STEADY_STATE_SELECTION_LIST_2(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Load reference data
-    IniSection* aSection = iniFile.GetSection("Set Steady State Selection List 2");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SET_STEADY_STATE_SELECTION_LIST_2 ====" << endl << endl;
+    clog << "==== SET_STEADY_STATE_SELECTION_LIST_2 ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1399,45 +1138,28 @@ void check_SET_STEADY_STATE_SELECTION_LIST_2()
     EXPECT_TRUE(res);
 }
 
-void check_GET_STEADY_STATE_SELECTION_LIST_2()
+void check_GET_STEADY_STATE_SELECTION_LIST_2(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Get Steady State Selection List 2");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_STEADY_STATE_SELECTION_LIST_2 ====" << endl << endl;
+    clog << "==== GET_STEADY_STATE_SELECTION_LIST_2 ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
 
     RRStringArrayPtr list = getSteadyStateSelectionList(gRR);
 
-    if (!list)
-    {
-        EXPECT_TRUE(false);
-        return;
-    }
+    ASSERT_TRUE(list);
     vector<string> selList = splitString(keys, " ,");
     EXPECT_TRUE(selList.size() == list->Count);
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);;
     }
     freeStringArray(list);
 }
 
-void check_SET_TIME_COURSE_SELECTION_LIST()
+void check_SET_TIME_COURSE_SELECTION_LIST(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Load reference data
-    IniSection* aSection = iniFile.GetSection("Set Time Course Selection List");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== SET_TIME_COURSE_SELECTION_LIST ====" << endl << endl;
+    clog << "==== SET_TIME_COURSE_SELECTION_LIST ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1446,42 +1168,28 @@ void check_SET_TIME_COURSE_SELECTION_LIST()
     EXPECT_TRUE(res);
 }
 
-void check_GET_TIME_COURSE_SELECTION_LIST()
+void check_GET_TIME_COURSE_SELECTION_LIST(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Get Time Course Selection List");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_TIME_COURSE_SELECTION_LIST ====" << endl << endl;
+    clog << "==== GET_TIME_COURSE_SELECTION_LIST ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
 
     RRStringArrayPtr list = getTimeCourseSelectionList(gRR);
 
-    if (!list)
-    {
-        EXPECT_TRUE(false);
-        return;
-    }
+    ASSERT_TRUE(list);
     vector<string> selList = splitString(keys, " ,");
     EXPECT_TRUE(selList.size() == list->Count);
     for (int i = 0; i < selList.size(); i++)
     {
-        EXPECT_TRUE(selList[i] == list->String[i]);
+        EXPECT_EQ(selList[i], list->String[i]);;
     }
     freeStringArray(list);
 }
 
-void check_COMPUTE_STEADY_STATE_VALUES()
+void check_COMPUTE_STEADY_STATE_VALUES(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Compute Steady State Values");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== COMPUTE_STEADY_STATE_VALUES ====" << endl << endl;
+    clog << "==== COMPUTE_STEADY_STATE_VALUES ====" << endl;
     aSection->mIsUsed = true;
 
     RRVector* values = computeSteadyStateValues(gRR);
@@ -1492,23 +1200,15 @@ void check_COMPUTE_STEADY_STATE_VALUES()
     {
         //Check concentrations
         EXPECT_NEAR(toDouble(vals[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << vals[i] << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << vals[i] << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_FLOATING_SPECIES_CONCENTRATIONS()
+void check_FLOATING_SPECIES_CONCENTRATIONS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Floating Species Concentrations");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== FLOATING_SPECIES_CONCENTRATIONS ====" << endl << endl;
+    clog << "==== FLOATING_SPECIES_CONCENTRATIONS ====" << endl;
     aSection->mIsUsed = true;
 
     RRVector* values = getFloatingSpeciesConcentrations(gRR);
@@ -1519,23 +1219,15 @@ void check_FLOATING_SPECIES_CONCENTRATIONS()
     {
         //Check concentrations
         EXPECT_NEAR(toDouble(vals[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << vals[i] << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << vals[i] << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_BOUNDARY_SPECIES_CONCENTRATIONS()
+void check_BOUNDARY_SPECIES_CONCENTRATIONS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Boundary Species Concentrations");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== BOUNDARY_SPECIES_CONCENTRATIONS ====" << endl << endl;
+    clog << "==== BOUNDARY_SPECIES_CONCENTRATIONS ====" << endl;
     aSection->mIsUsed = true;
 
     RRVector* values = getBoundarySpeciesConcentrations(gRR);
@@ -1546,23 +1238,15 @@ void check_BOUNDARY_SPECIES_CONCENTRATIONS()
     {
         //Check concentrations
         EXPECT_NEAR(toDouble(vals[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << vals[i] << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << vals[i] << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_GET_GLOBAL_PARAMETER_VALUES()
+void check_GET_GLOBAL_PARAMETER_VALUES(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Global Parameter Values");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_GLOBAL_PARAMETER_VALUES ====" << endl << endl;
+    clog << "==== GET_GLOBAL_PARAMETER_VALUES ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1583,23 +1267,15 @@ void check_GET_GLOBAL_PARAMETER_VALUES()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_GET_REACTION_RATES()
+void check_GET_REACTION_RATES(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Reaction Rates");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_REACTION_RATES ====" << endl << endl;
+    clog << "==== GET_REACTION_RATES ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1620,23 +1296,15 @@ void check_GET_REACTION_RATES()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), values->Data[i], max(1e-9, abs(values->Data[i] * 1e-4)));
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_GET_REACTION_RATE_BY_INDEX()
+void check_GET_REACTION_RATE_BY_INDEX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Reaction Rates By Index");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_REACTION_RATE_BY_INDEX ====" << endl << endl;
+    clog << "==== GET_REACTION_RATE_BY_INDEX ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1659,19 +1327,14 @@ void check_GET_REACTION_RATE_BY_INDEX()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), value, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << value << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << value << endl;
     }
 }
 
-void check_NUMBER_OF_DEPENDENT_SPECIES()
+void check_NUMBER_OF_DEPENDENT_SPECIES(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Number of Dependent Species");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== NUMBER_OF_DEPENDENT_SPECIES ====" << endl << endl;
+    clog << "==== NUMBER_OF_DEPENDENT_SPECIES ====" << endl;
     aSection->mIsUsed = true;
 
     string key = Trim(aSection->GetNonKeysAsString());
@@ -1680,14 +1343,9 @@ void check_NUMBER_OF_DEPENDENT_SPECIES()
     EXPECT_TRUE(toInt(key) == val);
 }
 
-void check_NUMBER_OF_INDEPENDENT_SPECIES()
+void check_NUMBER_OF_INDEPENDENT_SPECIES(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Number of Independent Species");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== NUMBER_OF_INDEPENDENT_SPECIES ====" << endl << endl;
+    clog << "==== NUMBER_OF_INDEPENDENT_SPECIES ====" << endl;
     aSection->mIsUsed = true;
 
     string key = Trim(aSection->GetNonKeysAsString());
@@ -1696,14 +1354,9 @@ void check_NUMBER_OF_INDEPENDENT_SPECIES()
     EXPECT_TRUE(toInt(key) == val);
 }
 
-void check_NUMBER_OF_RATE_RULES()
+void check_NUMBER_OF_RATE_RULES(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Number of Rate Rules");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== NUMBER_OF_RATE_RULES ====" << endl << endl;
+    clog << "==== NUMBER_OF_RATE_RULES ====" << endl;
     aSection->mIsUsed = true;
 
     string key = Trim(aSection->GetNonKeysAsString());
@@ -1712,17 +1365,9 @@ void check_NUMBER_OF_RATE_RULES()
     EXPECT_TRUE(toInt(key) == val);
 }
 
-void check_GET_RATES_OF_CHANGE()
+void check_GET_RATES_OF_CHANGE(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Rates Of Change");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_RATES_OF_CHANGE ====" << endl << endl;
+    clog << "==== GET_RATES_OF_CHANGE ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1742,23 +1387,15 @@ void check_GET_RATES_OF_CHANGE()
     {
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
 }
 
-void check_GET_REACTION_RATES_EX()
+void check_GET_REACTION_RATES_EX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Reaction Rates Ex");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_REACTION_RATES_EX ====" << endl << endl;
+    clog << "==== GET_REACTION_RATES_EX ====" << endl;
     aSection->mIsUsed = true;
 
     IniKey* conc = aSection->GetKey("concentrations");
@@ -1800,24 +1437,16 @@ void check_GET_REACTION_RATES_EX()
     {
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
     freeVector(aVector);
 }
 
-void check_GET_RATES_OF_CHANGE_EX()
+void check_GET_RATES_OF_CHANGE_EX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Rates Of Change Ex");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_RATES_OF_CHANGE_EX ====" << endl << endl;
+    clog << "==== GET_RATES_OF_CHANGE_EX ====" << endl;
     aSection->mIsUsed = true;
 
     IniKey* conc = aSection->GetKey("concentrations");
@@ -1859,24 +1488,16 @@ void check_GET_RATES_OF_CHANGE_EX()
     {
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), values->Data[i], 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << values->Data[i] << endl;
     }
     freeVector(values);
     freeVector(aVector);
 }
 
-void check_GET_RATES_OF_CHANGE_BY_INDEX()
+void check_GET_RATES_OF_CHANGE_BY_INDEX(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    //Read in the reference data, from the ini file
-    IniSection* aSection = iniFile.GetSection("Get Rates Of Change By Index");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== GET_RATES_OF_CHANGE_BY_INDEX ====" << endl << endl;
+    clog << "==== GET_RATES_OF_CHANGE_BY_INDEX ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1899,19 +1520,14 @@ void check_GET_RATES_OF_CHANGE_BY_INDEX()
 
         //Check concentrations
         EXPECT_NEAR(toDouble(refList[i]), value, 1e-6);
-        clog << "\n";
-        clog << "Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << value << endl;
+        //clog <<"\n";
+        //clog <<"Ref:\t" << toDouble(refList[i]) << "\tActual:\t " << value << endl;
     }
 }
 
-void check_AMOUNT_CONCENTRATION_JACOBIANS()
+void check_AMOUNT_CONCENTRATION_JACOBIANS(IniSection* aSection)
 {
-    IniSection* aSection = iniFile.GetSection("Amount/Concentration Jacobians");
-    if (!aSection)
-    {
-        return;
-    }
-    clog << endl << "==== AMOUNT_CONCENTRATION_JACOBIANS ====" << endl << endl;
+    clog << "==== AMOUNT_CONCENTRATION_JACOBIANS ====" << endl;
     aSection->mIsUsed = true;
     rr::Variant saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
@@ -1921,16 +1537,9 @@ void check_AMOUNT_CONCENTRATION_JACOBIANS()
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, saved);
 }
 
-void check_CHECK_DEFAULT_TIME_STEP()
+void check_CHECK_DEFAULT_TIME_STEP(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Check Default Time Step");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_DEFAULT_TIME_STEP ====" << endl << endl;
+    clog << "==== CHECK_DEFAULT_TIME_STEP ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1946,34 +1555,20 @@ void check_CHECK_DEFAULT_TIME_STEP()
     if (result->RSize() != NumPts)
     {
         EXPECT_TRUE(false);
-        clog << "Default time step does not match" << endl;
+        //clog <<"Default time step does not match" << endl;
     }
 }
 
-void check_CHECK_SIMULATE_POINTS_VS_STEPS()
+void check_CHECK_SIMULATE_POINTS_VS_STEPS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Check Simulate Points vs Steps");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK SIMULATE POINTS VS STEPS ====" << endl << endl;
+    clog << "==== CHECK SIMULATE POINTS VS STEPS ====" << endl;
     // Python-only test
     aSection->mIsUsed = true;
 }
 
-void check_CHECK_MONOTONIC_TIMEPOINTS()
+void check_CHECK_MONOTONIC_TIMEPOINTS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Check Monotonic Timepoints");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK MONOTONIC TIMEPOINTS ====" << endl << endl;
+    clog << "==== CHECK MONOTONIC TIMEPOINTS ====" << endl;
 
     aSection->mIsUsed = true;
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -1995,7 +1590,7 @@ void check_CHECK_MONOTONIC_TIMEPOINTS()
     // For fixed step
     opt.steps = toInt(refList.at(2));
     rri->getIntegrator()->setValue("variable_step_size", false);
-    clog << endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
+    //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
     result = rri->simulate(&opt);
 
     for (int k = 1; k < result->RSize(); ++k) {
@@ -2003,16 +1598,9 @@ void check_CHECK_MONOTONIC_TIMEPOINTS()
     }
 }
 
-void check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS()
+void check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Check Event Pre and Postfire Timepoints");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK EVENT PRE AND POSTFIRE TIMEPOINTS ====" << endl << endl;
+    clog << "==== CHECK EVENT PRE AND POSTFIRE TIMEPOINTS ====" << endl;
 
     aSection->mIsUsed = true;
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -2041,16 +1629,9 @@ void check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS()
     }
 }
 
-void check_CHECK_RESETCONSERVEDTOTAL()
+void check_CHECK_RESETCONSERVEDTOTAL(IniSection* aSection)
 {
-    EXPECT_TRUE(gRR != NULL);
-
-    IniSection* aSection = iniFile.GetSection("Test ResetConservedTotal");
-    if (!aSection || !gRR)
-    {
-        return;
-    }
-    clog << endl << "==== CHECK_RESET_CONSERVED_TOTAL ====" << endl << endl;
+    clog << "==== CHECK_RESET_CONSERVED_TOTAL ====" << endl;
     aSection->mIsUsed = true;
 
     string keys = Trim(aSection->GetNonKeysAsString());
@@ -2068,7 +1649,7 @@ void check_CHECK_RESETCONSERVEDTOTAL()
 
     getValue(gRR, ct, &ct_val);
 
-    EXPECT_TRUE(ct_val != 1000.);
+    EXPECT_NE(ct_val, 1000.);
 
     resetAll(gRR);
 
@@ -2081,8 +1662,6 @@ void check_CHECK_UNUSED_TESTS()
     {
         if (!iniFile.GetSection(i)->mIsUsed && iniFile.GetSection(i)->mName != "Conservation Laws")
         {
-            EXPECT_TRUE(false);
-            clog << "Unused section:\t" << iniFile.GetSection(i)->mName << endl;
         }
     }
 }
@@ -2093,79 +1672,333 @@ void check_FREE_RR_INSTANCE()
     gRR = NULL;
 }
 
+bool check_Unimplemented()
+{
+    if (iniFile.GetSection("Add Parameter") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Add Rule") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Add Species") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Add Reaction") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Add Event Assignment") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Remove Compartment") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Remove Parameter") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Remove Rule") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Remove Species") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Set Kinetic Law") != NULL) {
+        //clog <<"Testing editing models is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Set Vector Amount Absolute Tolerance") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Set Scalar Concentration Absolute Tolerance") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Set Vector Concentration Absolute Tolerance") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Gillespie Seed") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Gillespie Value") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Gillespie Fixed Time Interval") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+
+    if (iniFile.GetSection("Get Variable End Time") != NULL) {
+        //clog <<"Testing setting vector tolerances is currently not supported outside of Python." << endl;
+        return true;
+    }
+    return false;
+}
+
+//Function to get around inability of C to switch on strings, courtesy
+// of Nick at https://stackoverflow.com/questions/650162/why-the-switch-statement-cannot-be-applied-on-strings
+constexpr unsigned int hashc(const char* s, int off = 0) {
+    return !s[off] ? 5381 : (hashc(s, off + 1) * 33) ^ s[off];
+}
+
+
 TEST(C_API_RRTESTS, RRTESTS)
 {
+    disableLoggingToConsole();
     set<string> files = getTestFiles(joinPath(gRRTestDir, "rrtest_files"));
     for (set<string>::iterator file = files.begin(); file != files.end(); file++) {
         rrTestFileName = *file;
-        check_DATA_FILES();
-        check_SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS();
-        check_SET_STEADY_STATE_SELECTION_LIST();
-        check_GET_STEADY_STATE_SELECTION_LIST();
-        check_SPECIES_CONCENTRATIONS();
-        check_GET_SPECIES_INITIAL_CONCENTRATIONS();
-        check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX();
-        check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS();
-        check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX();
-        check_SET_SPECIES_INITIAL_CONCENTRATIONS();
-        check_STEADY_STATE_FLUXES();
-        check_FULL_JACOBIAN();
-        check_REDUCED_JACOBIAN();
-        check_AMOUNT_JACOBIAN();
-        check_INDIVIDUAL_EIGENVALUES();
-        check_INDIVIDUAL_AMOUNT_EIGENVALUES();
-        check_GET_EIGENVALUE_MATRIX();
-        check_GET_EIGENVALUE_AMOUNT_MATRIX();
-        check_GET_REDUCED_EIGENVALUE_MATRIX();
-        check_STOICHIOMETRY_MATRIX();
-        check_REDUCED_STOICHIOMETRY_MATRIX();
-        check_LINK_MATRIX();
-        check_UNSCALED_ELASTICITY_MATRIX();
-        check_UNSCALED_ELASTICITY_AMOUNT_MATRIX();
-        check_SCALED_ELASTICITY_MATRIX();
-        check_SCALED_ELASTICITY_AMOUNT_MATRIX();
-        check_UNSCALED_CONCENTRATION_CONTROL_MATRIX();
-        check_SCALED_CONCENTRATION_CONTROL_MATRIX();
-        check_UNSCALED_FLUX_CONTROL_MATRIX();
-        check_SCALED_FLUX_CONTROL_MATRIX();
-        check_GET_CONTROL_COEFFICIENT();
-        check_CHECK_RESET();
-        check_CHECK_RESETALL();
-        check_CHECK_RESETTOORIGIN();
-        check_CHECK_RK4_OUTPUT();
-        check_CHECK_RK45_OUTPUT();
-        check_CHECK_SETVALUES();
-        check_FLOATING_SPECIES_IDS();
-        check_BOUNDARY_SPECIES_IDS();
-        check_GLOBAL_PARAMETER_IDS();
-        check_COMPARTMENT_IDS();
-        check_REACTION_IDS();
-        check_SPECIES_INITIAL_CONDITION_IDS();
-        check_GET_EIGENVALUE_IDS();
-        check_GET_RATES_OF_CHANGE_IDS();
-        check_SET_STEADY_STATE_SELECTION_LIST_2();
-        check_GET_STEADY_STATE_SELECTION_LIST_2();
-        check_SET_TIME_COURSE_SELECTION_LIST();
-        check_GET_TIME_COURSE_SELECTION_LIST();
-        check_COMPUTE_STEADY_STATE_VALUES();
-        check_FLOATING_SPECIES_CONCENTRATIONS();
-        check_BOUNDARY_SPECIES_CONCENTRATIONS();
-        check_GET_GLOBAL_PARAMETER_VALUES();
-        check_GET_REACTION_RATES();
-        check_GET_REACTION_RATE_BY_INDEX();
-        check_NUMBER_OF_DEPENDENT_SPECIES();
-        check_NUMBER_OF_INDEPENDENT_SPECIES();
-        check_NUMBER_OF_RATE_RULES();
-        check_GET_RATES_OF_CHANGE();
-        check_GET_REACTION_RATES_EX();
-        check_GET_RATES_OF_CHANGE_EX();
-        check_GET_RATES_OF_CHANGE_BY_INDEX();
-        check_AMOUNT_CONCENTRATION_JACOBIANS();
-        check_CHECK_DEFAULT_TIME_STEP();
-        check_CHECK_SIMULATE_POINTS_VS_STEPS();
-        check_CHECK_MONOTONIC_TIMEPOINTS();
-        check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS();
-        check_CHECK_RESETCONSERVEDTOTAL();
+        check_LoadData();
+        if (check_Unimplemented()) {
+            clog << "Skipping file " << rrTestFileName << ": unimplemented tests" << endl;
+            check_FREE_RR_INSTANCE();
+            continue;
+        }
+        clog << endl << "Checking file " << rrTestFileName << endl;
+        ASSERT_TRUE(gRR != NULL);
+        for (size_t sec = 0; sec < iniFile.GetNumberOfSections(); sec++) {
+            IniSection* aSection = iniFile.GetSection(sec);
+            aSection->mIsUsed = true;
+            switch (hashc(toLower(aSection->mName).c_str())) {
+            case hashc("sbml"):
+                //Already managed this section in DATA_FILES
+                break;
+            case hashc("conservation laws"):
+                check_SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS(aSection);
+                break;
+            case hashc("set steady state selection list"):
+                check_SET_STEADY_STATE_SELECTION_LIST(aSection);
+                break;
+            case hashc("get steady state selection list"):
+                check_GET_STEADY_STATE_SELECTION_LIST(aSection);
+                break;
+            case hashc("species concentrations"):
+                check_SPECIES_CONCENTRATIONS(aSection);
+                break;
+            case hashc("get species initial concentrations"):
+                check_GET_SPECIES_INITIAL_CONCENTRATIONS(aSection);
+                break;
+            case hashc("get species initial concentrations by index"):
+                check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(aSection);
+                break;
+            case hashc("get initial floating species concs"):
+                check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS(aSection);
+                break;
+            case hashc("set species initial concentrations by index"):
+                check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(aSection);
+                break;
+            case hashc("set species initial concentrations"):
+                check_SET_SPECIES_INITIAL_CONCENTRATIONS(aSection);
+                break;
+            case hashc("steady state fluxes"):
+                check_STEADY_STATE_FLUXES(aSection);
+                break;
+            case hashc("full jacobian"):
+                check_FULL_JACOBIAN(aSection);
+                break;
+            case hashc("reduced jacobian"):
+                check_REDUCED_JACOBIAN(aSection);
+                break;
+            case hashc("amount jacobian"):
+                check_AMOUNT_JACOBIAN(aSection);
+                break;
+            case hashc("individual eigenvalues"):
+                check_INDIVIDUAL_EIGENVALUES(aSection);
+                break;
+            case hashc("individual amount eigenvalues"):
+                check_INDIVIDUAL_AMOUNT_EIGENVALUES(aSection);
+                break;
+            case hashc("eigenvalue matrix"):
+                check_GET_EIGENVALUE_MATRIX(aSection);
+                break;
+            case hashc("eigenvalue amount matrix"):
+                check_GET_EIGENVALUE_AMOUNT_MATRIX(aSection);
+                break;
+            case hashc("reduced eigenvalue matrix"):
+                check_GET_REDUCED_EIGENVALUE_MATRIX(aSection);
+                break;
+            case hashc("stoichiometry matrix"):
+                check_STOICHIOMETRY_MATRIX(aSection);
+                break;
+            case hashc("reduced stoichiometry matrix"):
+                check_REDUCED_STOICHIOMETRY_MATRIX(aSection);
+                break;
+            case hashc("link matrix"):
+                check_LINK_MATRIX(aSection);
+                break;
+            case hashc("unscaled elasticity matrix"):
+                check_UNSCALED_ELASTICITY_MATRIX(aSection);
+                break;
+            case hashc("unscaled elasticity amount matrix"):
+                check_UNSCALED_ELASTICITY_AMOUNT_MATRIX(aSection);
+                break;
+            case hashc("scaled elasticity matrix"):
+                check_SCALED_ELASTICITY_MATRIX(aSection);
+                break;
+            case hashc("scaled elasticity amount matrix"):
+                check_SCALED_ELASTICITY_AMOUNT_MATRIX(aSection);
+                break;
+            case hashc("unscaled concentration control matrix"):
+                check_UNSCALED_CONCENTRATION_CONTROL_MATRIX(aSection);
+                break;
+            case hashc("scaled concentration control matrix"):
+                check_SCALED_CONCENTRATION_CONTROL_MATRIX(aSection);
+                break;
+            case hashc("unscaled flux control matrix"):
+                check_UNSCALED_FLUX_CONTROL_MATRIX(aSection);
+                break;
+            case hashc("scaled flux control matrix"):
+                check_SCALED_FLUX_CONTROL_MATRIX(aSection);
+                break;
+            case hashc("get control coefficient"):
+                check_GET_CONTROL_COEFFICIENT(aSection);
+                break;
+            case hashc("test reset"):
+                check_CHECK_RESET(aSection);
+                break;
+            case hashc("test resetall"):
+                check_CHECK_RESETALL(aSection);
+                break;
+            case hashc("test resettoorigin"):
+                check_CHECK_RESETTOORIGIN(aSection);
+                break;
+            case hashc("check rk4 output"):
+                check_CHECK_RK4_OUTPUT(aSection);
+                break;
+            case hashc("check rk45 output"):
+                check_CHECK_RK45_OUTPUT(aSection);
+                break;
+            case hashc("test setvalues"):
+                check_CHECK_SETVALUES(aSection);
+                break;
+            case hashc("floating species ids"):
+                check_FLOATING_SPECIES_IDS(aSection);
+                break;
+            case hashc("boundary species ids"):
+                check_BOUNDARY_SPECIES_IDS(aSection);
+                break;
+            case hashc("global parameter ids"):
+                check_GLOBAL_PARAMETER_IDS(aSection);
+                break;
+            case hashc("compartment ids"):
+                check_COMPARTMENT_IDS(aSection);
+                break;
+            case hashc("reaction ids"):
+                check_REACTION_IDS(aSection);
+                break;
+            case hashc("species initial concentration ids"):
+                check_SPECIES_INITIAL_CONDITION_IDS(aSection);
+                break;
+            case hashc("get eigenvalue ids"):
+                check_GET_EIGENVALUE_IDS(aSection);
+                break;
+            case hashc("get rates of change ids"):
+                check_GET_RATES_OF_CHANGE_IDS(aSection);
+                break;
+            case hashc("set steady state selection list 2"):
+                check_SET_STEADY_STATE_SELECTION_LIST_2(aSection);
+                break;
+            case hashc("get steady state selection list 2"):
+                check_GET_STEADY_STATE_SELECTION_LIST_2(aSection);
+                break;
+            case hashc("set time course selection list"):
+                check_SET_TIME_COURSE_SELECTION_LIST(aSection);
+                break;
+            case hashc("get time course selection list"):
+                check_GET_TIME_COURSE_SELECTION_LIST(aSection);
+                break;
+            case hashc("compute steady state values"):
+                check_COMPUTE_STEADY_STATE_VALUES(aSection);
+                break;
+            case hashc("floating species concentrations"):
+                check_FLOATING_SPECIES_CONCENTRATIONS(aSection);
+                break;
+            case hashc("boundary species concentrations"):
+                check_BOUNDARY_SPECIES_CONCENTRATIONS(aSection);
+                break;
+            case hashc("get global parameter values"):
+                check_GET_GLOBAL_PARAMETER_VALUES(aSection);
+                break;
+            case hashc("get reaction rates"):
+                check_GET_REACTION_RATES(aSection);
+                break;
+            case hashc("get reaction rates by index"):
+                check_GET_REACTION_RATE_BY_INDEX(aSection);
+                break;
+            case hashc("number of dependent species"):
+                check_NUMBER_OF_DEPENDENT_SPECIES(aSection);
+                break;
+            case hashc("number of independent species"):
+                check_NUMBER_OF_INDEPENDENT_SPECIES(aSection);
+                break;
+            case hashc("number of rate rules"):
+                check_NUMBER_OF_RATE_RULES(aSection);
+                break;
+            case hashc("get rates of change"):
+                check_GET_RATES_OF_CHANGE(aSection);
+                break;
+            case hashc("get reaction rates ex"):
+                check_GET_REACTION_RATES_EX(aSection);
+                break;
+            case hashc("get rates of change ex"):
+                check_GET_RATES_OF_CHANGE_EX(aSection);
+                break;
+            case hashc("get rates of change by index"):
+                check_GET_RATES_OF_CHANGE_BY_INDEX(aSection);
+                break;
+            case hashc("amount/concentration jacobians"):
+                check_AMOUNT_CONCENTRATION_JACOBIANS(aSection);
+                break;
+            case hashc("check default time step"):
+                check_CHECK_DEFAULT_TIME_STEP(aSection);
+                break;
+            case hashc("check simulate points vs steps"):
+                check_CHECK_SIMULATE_POINTS_VS_STEPS(aSection);
+                break;
+            case hashc("check monotonic timepoints"):
+                check_CHECK_MONOTONIC_TIMEPOINTS(aSection);
+                break;
+            case hashc("check event pre and postfire timepoints"):
+                check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS(aSection);
+                break;
+            case hashc("test resetconservedtotal"):
+                check_CHECK_RESETCONSERVEDTOTAL(aSection);
+                break;
+            //case hashc(""):
+            //    (aSection);
+            //    break;
+            default:
+                EXPECT_TRUE(false);
+                clog << "Unused section:\t" << aSection->mName << endl;
+                break;
+            }
+        }
         check_CHECK_UNUSED_TESTS();
         check_FREE_RR_INSTANCE();
     }

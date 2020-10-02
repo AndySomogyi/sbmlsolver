@@ -60,10 +60,8 @@
   </model>
 </sbml>
 
-[EDITING]
 [Add Event Assignment]
 E1 S3 5 True
-[END_EDITING]
 
 [Check Monotonic Timepoints]
 0 7 10

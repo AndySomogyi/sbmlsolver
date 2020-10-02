@@ -16,20 +16,40 @@
          <species id = "S3" boundaryCondition = "false" initialConcentration = "0.1" compartment = "compartment"/>
       </listOfSpecies>
       <listOfParameters>
-         <parameter id = "kk1" value = "1"/>
-         <parameter id = "k1" value = "0.1"/>
-         <parameter id = "k_1" value = "0.05"/>
-         <parameter id = "kk2" value = "1"/>
-         <parameter id = "k2" value = "0.15"/>
-         <parameter id = "k_2" value = "0.067"/>
-         <parameter id = "kk3" value = "1"/>
-         <parameter id = "k3" value = "0.4"/>
-         <parameter id = "test"/>
-         <parameter id = "k_3" value = "0.09"/>
-         <parameter id = "kk4" value = "1"/>
-         <parameter id = "k4" value = "0.55"/>
-         <parameter id = "k_4" value = "0.01"/>
+         <parameter id = "kk1" value = "1" constant="true"/>
+         <parameter id = "k1" value = "0.1" constant="true"/>
+         <parameter id = "k_1" value = "0.05" constant="true"/>
+         <parameter id = "kk2" value = "1" constant="true"/>
+         <parameter id = "k2" value = "0.15" constant="true"/>
+         <parameter id = "k_2" value = "0.067" constant="true"/>
+         <parameter id = "kk3" value = "1" constant="true"/>
+         <parameter id = "k3" value = "0.4" constant="true"/>
+         <parameter id = "test" constant="false"/>
+         <parameter id = "k_3" value = "0.09" constant="true"/>
+         <parameter id = "kk4" value = "1" constant="true"/>
+         <parameter id = "k4" value = "0.55" constant="true"/>
+         <parameter id = "k_4" value = "0.01" constant="false"/>
       </listOfParameters>
+      <listOfRules>
+        <rateRule variable="k_4">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+               <times/>
+              <cn type="integer"> -1 </cn>
+              <ci> test </ci>
+            </apply>
+          </math>
+        </rateRule>
+        <assignmentRule variable="test">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <cn type="integer"> -1 </cn>
+              <ci> S2 </ci>
+            </apply>
+          </math>
+        </assignmentRule>
+      </listOfRules>
       <listOfReactions>
          <reaction id = "J1" reversible = "true">
             <listOfReactants>
@@ -188,33 +208,14 @@
             </kineticLaw>
          </reaction>
       </listOfReactions>
-      <listOfRules>
-      <rateRule variable="S3">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <times/>
-            <cn type="integer"> -1 </cn>
-            <ci> test </ci>
-          </apply>
-        </math>
-      </rateRule>
-      <assignmentRule variable="test">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <times/>
-            <cn type="integer"> -1 </cn>
-            <ci> S2 </ci>
-          </apply>
-        </math>
-      </assignmentRule>
-    </listOfRules>
    </model>
 </sbml>
 
-[EDITING]
-[Remove Rules]
+[Remove Rule]
 test True True
-[END_EDITING]
+
+[Set Boundary]
+S3 False
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"

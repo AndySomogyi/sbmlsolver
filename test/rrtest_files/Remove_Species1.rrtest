@@ -269,10 +269,8 @@
    </model>
 </sbml>
 
-[EDITING]
 [Remove Species]
 S4 True
-[END_EDITING]
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"

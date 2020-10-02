@@ -151,12 +151,11 @@
    </model>
 </sbml>
 
-[EDITING]
 [Add Reaction]
 J4 S3 X1 kk4*(k4*S3-k_4*X1) False
+
 [Set Reversible]
 J1 True True
-[END_EDITING]
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"

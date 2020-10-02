@@ -122,7 +122,7 @@
       </functionDefinition>
     </listOfFunctionDefinitions>
     <listOfParameters>
-         <parameter id = "test" value = "0.05"/>
+         <parameter id = "test" value = "0.05" constant="true"/>
       </listOfParameters>
     <listOfCompartments>
       <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
@@ -223,11 +223,8 @@
   </model>
 </sbml>
 
-[EDITING]
 [Remove Parameter]
 test True
-[END_EDITING]
-
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"

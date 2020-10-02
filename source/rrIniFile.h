@@ -65,6 +65,7 @@ class RR_DECLSPEC IniFile
 
         size_t             GetNumberOfSections(){return mSections.size();}
         IniSection*        GetSection(int i){return mSections[i];}
+        IniSection*        GetSection(size_t i) { return mSections[i]; }
 
         // File handling methods
         string             GetFilePath(){return mIniFileName.GetPath();}

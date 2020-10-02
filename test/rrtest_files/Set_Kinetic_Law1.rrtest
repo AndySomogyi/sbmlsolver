@@ -159,10 +159,8 @@
    </model>
 </sbml>
 
-[EDITING]
 [Set Kinetic Law]
 J2 kk2*(k2*S1-k_2*S2) True
-[END_EDITING]
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"

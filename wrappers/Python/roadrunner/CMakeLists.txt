@@ -166,12 +166,6 @@ install(
 )
 
 install(
-    DIRECTORY testing
-    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/
-    FILES_MATCHING PATTERN "*.*"
-)
-
-install(
     DIRECTORY stochastic
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
     FILES_MATCHING PATTERN "*.*"
@@ -187,10 +181,4 @@ file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml")
 install(
     FILES ${rrtest_files2}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
-)
-
-file(GLOB rrtest_files3 "${CMAKE_CURRENT_DIRECTORY}/testing/*.*")
-install(
-    FILES ${rrtest_files3}
-    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/
 )

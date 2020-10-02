@@ -11,7 +11,7 @@
          <species id = "waste" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
          <species id = "Xo" boundaryCondition = "true" initialConcentration = "1" compartment = "compartment"/>
          <species id = "X1" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
-         <species id = "S1" boundaryCondition = "false" initialConcentration = "0.1" compartment = "compartment"/>
+         <species id = "S1" boundaryCondition = "true" initialConcentration = "0.1" compartment = "compartment"/>
          <species id = "S2" boundaryCondition = "false" initialConcentration = "0.25" compartment = "compartment"/>
          <species id = "S3" boundaryCondition = "false" initialConcentration = "0.1" compartment = "compartment"/>
       </listOfSpecies>
@@ -201,10 +201,11 @@
    </model>
 </sbml>
 
-[EDITING]
-[Remove Rules]
+[Remove Rule]
 S1 True True
-[END_EDITING]
+
+[Set Boundary]
+S1 false
 
 [Set Steady State Selection List]
 "[S1] [S2] [S3]"
