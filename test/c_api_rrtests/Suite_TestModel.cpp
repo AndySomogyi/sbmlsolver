@@ -1,4 +1,12 @@
 #include <string>
+#include <algorithm>
+#include <sys/types.h>
+#ifndef WIN32
+#include <dirent.h>
+#endif
+
+#include "Poco/Path.h"
+#include "Poco/Glob.h"
 #include "gtest/gtest.h"
 #include "rrConfig.h"
 #include "rrIniFile.h"
@@ -8,10 +16,6 @@
 #include "wrappers/C/rrc_api.h"
 #include "wrappers/C/rrc_cpp_support.h"
 #include "../test_util.h"
-#include <algorithm>
-
-#include "Poco/Path.h"
-#include "Poco/Glob.h"
 
 //using..
 using namespace std;
@@ -179,7 +183,7 @@ vector<string> GetFilesInDirectory(const string& directory)
     class dirent* ent;
     class stat st;
 
-    dir = opendir(directory);
+    dir = opendir(directory.c_str());
     while ((ent = readdir(dir)) != NULL) {
         const string file_name = ent->d_name;
         const string full_file_name = directory + "/" + file_name;
