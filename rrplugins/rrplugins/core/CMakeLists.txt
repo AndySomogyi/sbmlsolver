@@ -4,9 +4,10 @@
 
 include_directories(
 
+${RR_GENERATED_HEADER_PATH}     #we have to do this to get the generated header, NEEDED FOR rrVersionInfo.h file
 ${C_API_INCLUDE_ROOT}
 ${RR_ROOT}/source
-${RR_ROOT}
+${RR_ROOT}  
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 ${RR_ROOT}/rrplugins/rrplugins/pluginBaseClass/
 )

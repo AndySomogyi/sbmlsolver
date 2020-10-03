@@ -24,9 +24,9 @@ if (TLP_BUILD_HELLO_PLUGIN)
 	add_subdirectory(helloWorld)
 endif()
 
-if (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
-    add_subdirectory(levenberg_marquardt)
-endif()
+#if (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
+#add_subdirectory(levenberg_marquardt)
+#endif()
 
 #[[
 if (TLP_BUILD_NELDER_MEAD_PLUGIN)

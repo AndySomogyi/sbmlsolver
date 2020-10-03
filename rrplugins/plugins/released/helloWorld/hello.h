@@ -1,6 +1,7 @@
 #pragma once
 #include "rrplugins/pluginBaseClass/telCPPPlugin.h"
 #include "rrplugins/core/tel_api.h"
+#include "telProperty.h"
 
 namespace hello
 {
@@ -8,11 +9,13 @@ namespace hello
 
     class Hello : public CPPPlugin
     {
-        private:
-            char* mVersion;
-        public:            
+        private:    
+            char*               mVersion;
+
+        public:
             Hello();
-            bool            execute(bool inThread = false);
+            bool                execute(bool inThread = false);
+            string              message;
     };
 
     #ifdef EXPORT_HELLO

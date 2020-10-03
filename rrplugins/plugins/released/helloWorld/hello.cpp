@@ -8,15 +8,13 @@ namespace hello
     rrc::THostInterface* mhostInterface;
 
     Hello::Hello():CPPPlugin("Hello","General Plugin")//Construct Base
-    {
-        mVersion=0;
-    }
+    {}
 
     bool Hello::execute(bool inThread)
     {
-        if (mhostInterface)mVersion = mhostInterface->getVersionStr();
+        if (mhostInterface)mVersion= mhostInterface->getVersionStr();
         else return false;
-        std::cout << "Executing the Hello plugin by Debashish Roy: " << mVersion << std::endl;
+        std::cout<< "Executing the Hello plugin by Debashish Roy: " << mVersion << std::endl;
         return true;
     }
 

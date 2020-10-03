@@ -2,9 +2,9 @@ set(target roadrunner_c_api)
 
 set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 
-include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
 include_directories(
+${RR_GENERATED_HEADER_PATH}     #we have to do this to get the generated header, NEEDED FOR rrVersionInfo.h file
 ${C_API_INCLUDE_ROOT}
 ${RR_ROOT}/source
 ${THIRD_PARTY_INSTALL_FOLDER}/include

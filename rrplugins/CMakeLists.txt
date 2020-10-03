@@ -44,11 +44,11 @@ set ( RRP_PLUGINS_DIR site-packages/roadrunner CACHE PATH "Destination for plugi
 
 # Plugin selection: Released
 
-set (TLP_BUILD_TEST_MODEL_PLUGIN ON CACHE BOOL "Build the Test Model Plugin")
-set (TLP_BUILD_ADD_NOISE_PLUGIN ON CACHE BOOL "Build the Add Noise Plugin")
-set (TLP_BUILD_CHISQUARE_PLUGIN ON CACHE BOOL "Build the ChiSquare Plugin")
+set (TLP_BUILD_TEST_MODEL_PLUGIN OFF CACHE BOOL "Build the Test Model Plugin")
+set (TLP_BUILD_ADD_NOISE_PLUGIN OFF CACHE BOOL "Build the Add Noise Plugin")
+set (TLP_BUILD_CHISQUARE_PLUGIN OFF CACHE BOOL "Build the ChiSquare Plugin")
 #set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
-#set (TLP_BUILD_NELDER_MEAD_PLUGIN OFF CACHE BOOL "Build the Nelder-Mead Plugin")
+#set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
 set (TLP_BUILD_AUTO2000_PLUGIN ON CACHE BOOL "Build the Auto 2000 Plugin")
 set (TLP_BUILD_HELLO_PLUGIN ON CACHE BOOL "Build the Demo Plugin")
 
