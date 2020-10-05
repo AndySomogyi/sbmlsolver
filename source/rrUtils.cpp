@@ -453,8 +453,6 @@ bool hasUnimplementedTags(const string& descriptionFileName)
     badtags.push_back("fbc");
     badtags.push_back("BoolNumericSwap");
     badtags.push_back("FastReaction");
-    badtags.push_back("AlgebraicRule");
-    badtags.push_back("AlgebraicRule");
     ifstream descfile(descriptionFileName);
     if (descfile.good()) {
         string line;

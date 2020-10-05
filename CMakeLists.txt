@@ -134,7 +134,7 @@ OPTION (INSTALL_APPS            "Build and install Apps"                        
 OPTION (INSTALL_EXAMPLES        "Build and install Examples"                     OFF)
 OPTION (INSTALL_STATIC_LIB      "Install RoadRunner CXX static lib"              OFF)
 OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"           ON)
-OPTION (BUILD_TESTS             "Build the SBML C API test suite"                OFF)
+OPTION (BUILD_TESTS             "Build the RoadRunner tests"                     OFF)
 OPTION (INSTALL_SBML_MODELS     "Install SBML Models"                            ON )
 OPTION (WITH_CONDA_BUILDER      "Include files required to build the conda package" OFF)
 
@@ -374,18 +374,18 @@ endif(INSTALL_CXX_API)
 
 add_subdirectory(wrappers)
 
-if(BUILD_TESTS AND BUILD_TEST_TOOLS)
+if(BUILD_TESTS)
+    add_subdirectory(test)
+
     message(STATUS "building tests")
-    file (GLOB TEST_FILES "testing/*" )
 
-    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
-    list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
+    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*" )
 
-    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
-    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
-
-    foreach( f ${TEST_FILES} )
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.xml")
+    
+    foreach( f ${PYTHON_TEST_FILES} )
         if(NOT IS_DIRECTORY ${f})
             get_filename_component( FILE_NAME ${f} NAME )
             configure_file( ${f} testing/${FILE_NAME} COPYONLY )
@@ -407,8 +407,6 @@ if(BUILD_TESTS AND BUILD_TEST_TOOLS)
         endif()
     endforeach()
 
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
 else()
     message(STATUS "NOT building tests")
 endif()

@@ -32,7 +32,7 @@ endif()
 
 set(CMAKE_SWIG_OUTDIR ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner)
 
-SWIG_ADD_MODULE(roadrunner python roadrunner.i PyUtils PyLoggerStream)
+SWIG_ADD_LIBRARY(roadrunner LANGUAGE python SOURCES roadrunner.i PyUtils PyLoggerStream)
 
 
 
@@ -156,9 +156,13 @@ install(
 )
 
 install(
-    DIRECTORY testing
-    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
-    FILES_MATCHING PATTERN "*.*"
+    FILES testing/__init__.py 
+    	  testing/__main__.py 
+    	  testing/README.txt 
+    	  testing/tester.py 
+    	  testing/testfiles.py 
+    	  testing/SBMLTest.py
+    DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing
 )
 
 install(
@@ -167,14 +171,14 @@ install(
     FILES_MATCHING PATTERN "*.*"
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/testing/*.rrtest")
+file(GLOB rrtest_files1 "${RR_ROOT}/test/rrtest_files/*.rrtest")
 install(
-    FILES ${rrtest_files}
+    FILES ${rrtest_files1}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/testing/*.xml")
+file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml")
 install(
-    FILES ${rrtest_files}
+    FILES ${rrtest_files2}
     DESTINATION ${PYTHON_PACKAGE_DEST_DIR}/testing/test_data
 )
