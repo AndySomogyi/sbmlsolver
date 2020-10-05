@@ -2996,6 +2996,35 @@ C_DECL_SPEC int rrcCallConv getConfigInt(const char* key);
 */
 C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
 
+
+//RRPLugins
+/*!
+    \return the number of floating species pointed by the model by handle
+*/
+
+C_DECL_SPEC int rrcCallConv _getNumIndFloatingSpecies(RRHandle handle);
+
+/*!
+    \return the number of rate rules pointed by the model by handle
+*/
+C_DECL_SPEC int rrcCallConv _getNumRateRules(RRHandle handle);
+
+/*!
+    \return the time for getsteadyvectorrate
+*/
+C_DECL_SPEC double rrcCallConv _getTime(RRHandle handle);
+
+/*!
+    \return getsteadyvectorrate
+*/
+C_DECL_SPEC int rrcCallConv _getStateVector(RRHandle handle);
+
+/*!
+    \return getsteadyvectorrate
+*/
+C_DECL_SPEC void rrcCallConv _getStateVectorRate(RRHandle handle,double time, double *value);
+
+
 /*!
  \brief Get a double configuration value
 

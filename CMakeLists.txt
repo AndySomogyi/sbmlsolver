@@ -426,6 +426,14 @@ if(INSTALL_CXX_API)
         COMPONENT rr_core)
 endif(INSTALL_CXX_API)
 
+
+# should we build and install RRPlugins with the roadrunner?
+option (INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
+
+if(INSTALL_RRPLUGINS)
+    add_subdirectory(rrplugins)
+endif()
+
 install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
         DESTINATION .
         COMPONENT info
