@@ -1246,7 +1246,6 @@ double RoadRunner::steadyState(const Dictionary* dict)
     {
         throw CoreException(gEmptyModelMessage);
     }
-
     if (!impl->loadOpt.getConservedMoietyConversion() &&
             (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
                 & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
@@ -1256,7 +1255,6 @@ double RoadRunner::steadyState(const Dictionary* dict)
                                     "via the configuration file or the Config class setValue, see roadrunner documentation";
         Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
-
     metabolicControlCheck(impl->model.get());
 
     if (!impl->steady_state_solver) {
@@ -1265,7 +1263,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
     }
 
     Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
-
+    
     double ss;
 
     // Rough estimation
@@ -1308,7 +1306,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
         Log(Logger::LOG_DEBUG) << "Steady state presimulation done";
     }
-
+    
     // NLEQ
     if (impl->steady_state_solver->getValueAsBool("allow_approx"))
     {
@@ -1324,7 +1322,6 @@ double RoadRunner::steadyState(const Dictionary* dict)
             {
                 Log(Logger::LOG_ERROR) << "Steady State solver failed...";
             }
-
             return ss;
         }
         catch (NLEQException& e1)
