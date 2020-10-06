@@ -9,8 +9,10 @@ For up-to-date news and releases visit libroadrunner.org
 
 Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
 
+-------------------------------------------------------------------------------
 Options
--------
+-------------------------------------------------------------------------------
+
     Host OS                             ${CMAKE_SYSTEM_NAME}
     Host architecture                   ${CMAKE_SYSTEM_PROCESSOR}
     With LLVM?                          ${BUILD_LLVM}
@@ -19,8 +21,9 @@ Options
     Enable Java interface?              ${BUILD_JAVA_INTERFACE}
     Enable test suite?                  ${BUILD_TESTS}
 
+-------------------------------------------------------------------------------
 CMake variables and options
----------------------------
+-------------------------------------------------------------------------------
     CMAKE_C_COMPILER                   ${CMAKE_C_COMPILER}
     CMAKE_CXX_COMPILER                 ${CMAKE_CXX_COMPILER}
     BUILD_DEFINITIONS                  ${BUILD_DEFINITIONS}
@@ -50,8 +53,9 @@ CMake variables and options
     BUILD_DOCS                         ${BUILD_DOCS}
     BUILD_TESTS                        ${BUILD_TESTS}
 
+-------------------------------------------------------------------------------
 Dependencies
-------------
+-------------------------------------------------------------------------------
     GOOGLETEST_SOURCE                   ${GOOGLETEST_SOURCE}
 
     LLVM:
@@ -97,6 +101,28 @@ Dependencies
         CXX_STANDARD                    ${CXX_STANDARD}
         CMAKE_CXX_VISIBILITY_PRESET     ${CMAKE_CXX_VISIBILITY_PRESET}
         CMAKE_VISIBILITY_INLINES_HIDDEN ${CMAKE_VISIBILITY_INLINES_HIDDEN}
+
+-------------------------------------------------------------------------------
+rrplugins
+-------------------------------------------------------------------------------
+
+    Features:
+      Enable shared libs?       ${TLP_BUILD_SHARED_LIB}
+      Enable static libs?       ${TLP_BUILD_STATIC_LIB}
+
+    Language bindings:
+      Enable C bindings?        ${TLP_BUILD_PLUGINS_C_API}
+      Enable python bindings?   ${TLP_BUILD_PLUGINS_PYTHON_API}
+
+    Released plugins:
+      Test Model                ${TLP_BUILD_TEST_MODEL_PLUGIN}
+      Add Noise                 ${TLP_BUILD_ADD_NOISE_PLUGIN}
+      Chi-squared               ${TLP_BUILD_CHISQUARE_PLUGIN}
+      Bifurcation Auto2k        ${TLP_BUILD_AUTO2000_PLUGIN}
+      Demo Plugin               ${TLP_BUILD_HELLO_PLUGIN}
+
+    Dependencies (packages marked with *** are required for rrplugins):
+
 
 End Summary
 ########################################################################################

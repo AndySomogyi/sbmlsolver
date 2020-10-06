@@ -109,17 +109,33 @@ option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
 option(BUILD_PACKAGING "Build binary distributions" OFF)
 option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool" OFF)
 
-set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
+# teplugin options
 
-# todo replace roadrunner exporter with cmake standard generated exporter
-#   - use generate_export_header()
+## Feature selection
+option(TLP_BUILD_SHARED_LIB "TLP_BUILD_SHARED_LIB" ON)
+option(TLP_BUILD_STATIC_LIB "TLP_BUILD_STATIC_LIB" ON)
+option(TLP_BUILD_PLUGINS_C_API "Build Plugins C API" ON)
+option(TLP_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON)
+option(RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES "Install libs to roadrunner site-packages directory" ON)
+set(RRP_PLUGINS_DIR site-packages/roadrunner CACHE PATH "Destination for plugins")
+# Plugin selection: Released
+option(TLP_BUILD_TEST_MODEL_PLUGIN   "Build the Test Model Plugin"  OFF)
+option(TLP_BUILD_ADD_NOISE_PLUGIN  "Build the Add Noise Plugin"  OFF)
+option(TLP_BUILD_CHISQUARE_PLUGIN  "Build the ChiSquare Plugin"  OFF)
+#set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
+#set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
+set(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON )
+set(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON)
+
+
+set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
 ##################################################
 #   Settings derived from options
 #
 
-# On msvc default visibility is hidden while on gcc and clang
-#  default is not-hidden. Here we set all to hidden.
+# Would be nice to set these options but I tried it and we cannot without
+# breaking the build
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
@@ -216,15 +232,15 @@ if (${MINGW})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
 
-#if (${BORLAND})
-#    add_definitions(
-#            -DUSE_PCH                   #Enable pre-compiled headers
-#            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-#            -w-8012                     #Comparing signed /unsigned
-#            -w-8057                     #Parameter never used
-#            -w-8004                     #'var' is assigned a value that is never used
-#    )
-#endif ()
+if (${BORLAND})
+    add_definitions(
+            -DUSE_PCH                   #Enable pre-compiled headers
+            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+            -w-8012                     #Comparing signed /unsigned
+            -w-8057                     #Parameter never used
+            -w-8004                     #'var' is assigned a value that is never used
+    )
+endif ()
 
 if (UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -282,23 +298,21 @@ install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_IN
 # install a cmake script for consumer libraries to easily import roadrunner targets
 install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
 
-##todo build on mingw to test requirements before uncommenting
-#if (${MINGW})
-#    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-#endif ()
+if (${MINGW})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+endif ()
 
-#todo build on BORLAND to test requirements before uncommenting
-#if(${BORLAND})
-#    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
-##add_definitions(
-##    -DUSE_PCH                   #Enable pre-compiled headers
-##    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-##    -w-8012                     #Comparing signed /unsigned
-##    -w-8057                     #Parameter never used
-##    -w-8004                     #'var' is assigned a value that is never used
-##    )
-##endif()
-#
+if(${BORLAND})
+    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
+add_definitions(
+    -DUSE_PCH                   #Enable pre-compiled headers
+    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+    -w-8012                     #Comparing signed /unsigned
+    -w-8057                     #Parameter never used
+    -w-8004                     #'var' is assigned a value that is never used
+    )
+endif()
+
 
 
 ##########################################################
@@ -346,8 +360,97 @@ endif ()
 # Configuration summary
 #
 
+if(BUILD_TESTS AND BUILD_TEST_TOOLS)
+    message(STATUS "building tests")
+    file (GLOB TEST_FILES "testing/*" )
+
+    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
+    list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
+
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+
+    foreach( f ${TEST_FILES} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
+    foreach( f ${PYTHON_TEST_DATA} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
+    foreach( f ${TEST_DATA_XML} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
+
+    add_subdirectory(testing)
+    add_subdirectory(autotest)
+else()
+    message(STATUS "NOT building tests")
+endif()
+
+
+#======================= INSTALL STUFF ========================================================
+#What sub folders to move into...?
+if(${INSTALL_SBML_MODELS})
+    add_subdirectory(models)
+endif()
+
+if(INSTALL_CXX_API)
+    install(FILES source/rr_pch.h
+        DESTINATION include
+        COMPONENT rr_core)
+endif(INSTALL_CXX_API)
+
+
+# should we build and install RRPlugins with the roadrunner?
+option (INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
+
+if(INSTALL_RRPLUGINS)
+    add_subdirectory(rrplugins)
+endif()
+
+install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
+        DESTINATION .
+        COMPONENT info
+        )
+
+# make or copy installers into root directory
+add_subdirectory(installer)
+
+#=== ThirdParties
+if(${BORLAND})
+    set(CG_RUNTIMES        cc32110MT.dll)
+    foreach(runtime ${CG_RUNTIMES})
+        install (FILES
+            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
+            DESTINATION bin
+            COMPONENT rr_core)
+    endforeach()
+endif()
+
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in
+        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt @ONLY
+)
+
+install(
+    FILES
+    NOTICE.txt
+    NEWS.txt
+    DESTINATION .
+)
 # print out configuration summary
 ConfigurationSummary()
-
 
 

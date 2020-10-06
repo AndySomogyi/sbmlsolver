@@ -13,6 +13,16 @@ set(
         rrc_libstruct_api.h
         rrc_utilities.h
         rrc_cpp_support.h
+#=======
+#set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
+
+
+#include_directories(
+#${RR_GENERATED_HEADER_PATH}     #we have to do this to get the generated header, NEEDED FOR rrVersionInfo.h file
+#${C_API_INCLUDE_ROOT}
+#${RR_ROOT}/source
+#${THIRD_PARTY_INSTALL_FOLDER}/include
+#>>>>>>> 32624909156eb38d84edf40566b07980f7435fca
 )
 
 set(
@@ -70,6 +80,7 @@ install(
 # until build system matures. Other folders have not yet been added
 # to the new build system.
 
+#<<<<<<< HEAD
 
 #add_subdirectory(Apps)
 #add_subdirectory(ApiTest)
@@ -92,3 +103,13 @@ install(
 #        DESTINATION include/rr/C COMPONENT c_api
 #)
 #
+#=======
+#install(
+#    TARGETS ${target}
+#    RUNTIME DESTINATION bin COMPONENT c_api
+#    ARCHIVE DESTINATION lib COMPONENT c_api
+#    LIBRARY DESTINATION lib COMPONENT c_api
+#    )
+#
+#install(TARGETS roadrunner_c_api DESTINATION site-packages/roadrunner)
+#>>>>>>> 32624909156eb38d84edf40566b07980f7435fca
