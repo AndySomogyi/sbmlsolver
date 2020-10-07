@@ -222,8 +222,8 @@ if (${MSVC})
             -DPOCO_STATIC
             -DPOCO_NO_AUTOMATIC_LIBS
             -DCRT_NONSTDC_NO_DEPRECATE
-            -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
-            -D_WIN32 # used as switch in zlib macro
+            -D_CRT_SECURE_NO_WARNINGS    # MS wanting you to changes basically all standard C functions :(
+            -D_WIN32                     # used as switch in zlib macro
     )
 
 endif ()

@@ -363,13 +363,21 @@ endif ()
 
 # link the libraries -- remember that order here
 #   is important on linux builds so don't change
+
+# Note: find_package for bzip is not playing ball and have no idea why.
+# temporarily locate the bzip library using find_library instead
+find_library(BZIP_STATIC_LIBRARY
+        NAMES bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib"
+        )
+
 target_link_libraries(
         ${target}-static
         PUBLIC
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         sbml-static
-        BZip2::BZip2::BZip2
+        ${BZIP_STATIC_LIBRARY}
         zlib::zlibstatic
         LibXml2::LibXml2
         nleq2::nleq2-static
@@ -377,6 +385,7 @@ target_link_libraries(
         clapack::lapack clapack::blas clapack::f2c
         sundials::sundials_cvode_static sundials::sundials_nvecserial_static
         PocoFoundation::PocoFoundation
+#        "D:/libroadrunner-deps/install-msvc-release/lib/PocoFoundation.lib"
         PocoNet::PocoNet
         iconv::libcharset iconv::libiconv-static
         ${PLATFORM_SPECIFIC_LIBS}
@@ -384,14 +393,9 @@ target_link_libraries(
 
 add_library(${target} SHARED ${rrSources})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
-target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> )
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
-
-# autogenerate the export header. This is different on each system so will be generated to the build tree
-generate_export_header(
-        ${target} BASE_NAME ROADRUNNER
-)
 
 install(
         TARGETS ${target}
