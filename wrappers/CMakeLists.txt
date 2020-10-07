@@ -5,10 +5,10 @@ if (INSTALL_C_API)
     add_subdirectory("C")
 endif ()
 
-#if (BUILD_PYTHON)
-#    add_subdirectory("Python")
-#endif ()
-#≥
+if (BUILD_PYTHON)
+    add_subdirectory("Python")
+endif ()
+
 #if (INSTALL_C_API_PYTHON)
 #    add_subdirectory("c_api_python")
 #endif ()
