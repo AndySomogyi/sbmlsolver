@@ -367,8 +367,11 @@ endif ()
 # Note: find_package for bzip is not playing ball and have no idea why.
 # temporarily locate the bzip library using find_library instead
 find_library(BZIP_STATIC_LIBRARY
-        NAMES bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib"
+        NAMES
+            bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+            libbz2${CMAKE_STATIC_LIBRARY_SUFFIX}
+        HINTS
+            "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib"
         )
 
 target_link_libraries(
@@ -385,7 +388,6 @@ target_link_libraries(
         clapack::lapack clapack::blas clapack::f2c
         sundials::sundials_cvode_static sundials::sundials_nvecserial_static
         PocoFoundation::PocoFoundation
-#        "D:/libroadrunner-deps/install-msvc-release/lib/PocoFoundation.lib"
         PocoNet::PocoNet
         iconv::libcharset iconv::libiconv-static
         ${PLATFORM_SPECIFIC_LIBS}
