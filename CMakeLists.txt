@@ -332,7 +332,6 @@ add_subdirectory(source)
 #
 ###########################################################
 ## API's
-#test
 
 add_subdirectory(wrappers)
 

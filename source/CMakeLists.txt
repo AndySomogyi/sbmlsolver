@@ -369,7 +369,7 @@ target_link_libraries(
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         sbml-static
-        bzip2::libz2
+        BZip2::BZip2::BZip2
         zlib::zlibstatic
         LibXml2::LibXml2
         nleq2::nleq2-static
