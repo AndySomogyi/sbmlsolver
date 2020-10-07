@@ -29,25 +29,21 @@ set(RRP_AUTO2000_SOURCES
 
 add_library(tel_auto2000 MODULE ${RRP_AUTO2000_SOURCES})
 target_compile_definitions(${target} PRIVATE
-        -DEXPORT_TEL_PLUGIN
-        -DEXPORT_ADD_NOISE
-        -DSTATIC_AUTO
-        -DSTATIC_TEL_AUTO
-        -DEXPORT_AUTO2000
+        EXPORT_TEL_PLUGIN
+        STATIC_AUTO
+        STATIC_TEL_AUTO
+        EXPORT_AUTO2000
         )
 
 
 target_include_directories(${target}
-        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libAutoTelluriumInterface
-        $<TARGET_PROPERTY:roadrunner,INCLUDE_DIRECTORIES>
+        PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libAutoTelluriumInterface"
+        "$<TARGET_PROPERTY:roadrunner,INCLUDE_DIRECTORIES>"
         )
 
-target_link_libraries(${target}
-        telpluginsBaseClass
+target_link_libraries(${target} PRIVATE
+        telplugins_c_api
         libTelluriumAutoInterface-static
-        libAuto-static
-        rr-libstruct::rr-libstruct-static
-        roadrunner
         ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
 

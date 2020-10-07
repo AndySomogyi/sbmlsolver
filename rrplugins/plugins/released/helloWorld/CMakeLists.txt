@@ -10,7 +10,7 @@ set(RRP_HELLO_SOURCES
 
 add_library(${target} MODULE ${RRP_HELLO_SOURCES})
 
-target_link_libraries ( ${target}
+target_link_libraries ( ${target} PUBLIC
   telpluginsBaseClass
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )

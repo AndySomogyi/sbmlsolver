@@ -15,17 +15,21 @@ set(RRP_ADD_NOISE_SOURCES
         noise.h
         )
 
-add_library(${target} SHARED ${RRP_ADD_NOISE_SOURCES})
+add_library(${target} MODULE ${RRP_ADD_NOISE_SOURCES})
 
-target_link_libraries(${target}
-        telpluginsBaseClass
-        telplugins_math
+target_link_libraries(${target} PRIVATE
+        telpluginsBaseClass-static
+        telplugins_math-static
+        telplugins_common-static
         ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
 
+#target_include_directories(${target} PRIVATE)
+
 target_compile_definitions(${target} PRIVATE
         -DEXPORT_TEL_PLUGIN
-        -DEXPORT_ADD_NOISE)
+        -DEXPORT_ADD_NOISE
+        )
 
 
 if (UNIX)

@@ -5,7 +5,7 @@ project(rrplugins_c_api)
 set(target telplugins_c_api)
 
 #The C-api is built as a shared library..
-add_library(telplugins_c_api SHARED
+add_library(${target} SHARED
         telplugins_c_api
         telplugins_properties_api
         telplugins_telluriumdata_api
@@ -16,9 +16,9 @@ add_library(telplugins_c_api SHARED
         telAPIHandleManager
         )
 
-target_link_libraries(telplugins_c_api
-        telplugins_core
+target_link_libraries(${target} PUBLIC
         telplugins_common
+        telplugins_core
         telplugins_math
         telpluginsBaseClass
         ${RRPLUGINS_COMMON_SHARED_LIBS}
@@ -28,26 +28,26 @@ message(STATUS "C API: RRPLUGINS_COMMON_SHARED_LIBS = ${RRPLUGINS_COMMON_SHARED_
 #Link C_api shared lib statically to roadrunner and libsbml
 if (WIN32)
 
-    target_compile_definitions(${target} PUBLIC -DEXPORT_RRP)
+    target_compile_definitions(${target} PUBLIC EXPORT_RRP)
 else ()
     if (APPLE)
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
-        set_target_properties(telplugins_c_api PROPERTIES INSTALL_RPATH "@loader_path;@loader_path/../roadrunner")
+        set_target_properties(${target} PROPERTIES INSTALL_RPATH "@loader_path;@loader_path/../roadrunner")
     else ()
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
         # add rpath for site-packages/rrplugins directory
-        set_target_properties(telplugins_c_api PROPERTIES INSTALL_RPATH "$ORIGIN/./")
+        set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")
     endif ()
 
 endif ()
 
 install(
-        TARGETS telplugins_c_api
+        TARGETS ${target}
         RUNTIME DESTINATION bin COMPONENT pluginsLib
         ARCHIVE DESTINATION lib COMPONENT pluginsLib
         LIBRARY DESTINATION lib COMPONENT pluginsLib
 )
 
 if (RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES)
-    install(TARGETS telplugins_c_api DESTINATION site-packages/roadrunner)
+    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
 endif ()

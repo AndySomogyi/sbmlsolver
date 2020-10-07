@@ -61,7 +61,7 @@ add_library(libAuto-static STATIC ${RRP_LIB_AUTO_SRC})
 target_include_directories(libAuto-static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libf2c)
 
 if (WIN32)
-    target_compile_definitions(libAuto-static PUBLIC -DSTATIC_AUTO)
+    target_compile_definitions(libAuto-static PUBLIC STATIC_AUTO)
 endif ()
 
 ##=============== INSTALL =====================

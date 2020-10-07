@@ -43,15 +43,15 @@ set(RRPLUGINS_COMMON_SOURCES
 # ** Shared lib ******
 if (TLP_BUILD_SHARED_LIB)
     add_library(${target} SHARED ${RRPLUGINS_COMMON_SOURCES})
-    target_compile_definitions(${target} PRIVATE EXPORT_CORE_API)
+    target_compile_definitions(${target} PRIVATE EXPORT_COMMON_API)
 
     target_link_libraries(${target} PUBLIC
             ${RRPLUGINS_COMMON_SHARED_LIBS}
-            $<TARGET_PROPERTY:roadrunner-static,LINK_LIBRARIES>
+            roadrunner roadrunner_c_api
             )
     target_include_directories(${target}
             PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
+            "$<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>"
             )
 
     if (UNIX)
@@ -76,7 +76,7 @@ if (TLP_BUILD_STATIC_LIB)
     add_library(${target}-static STATIC ${RRPLUGINS_COMMON_SOURCES})
     target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
-    target_link_libraries(${target}-static PUBLIC ${LINK_LIBRARIES} $<TARGET_PROPERTY:${target},LINK_LIBRARIES>)
+    target_link_libraries(${target}-static PUBLIC $<TARGET_PROPERTY:${target},LINK_LIBRARIES>)
     target_include_directories(${target}-static PUBLIC $<TARGET_PROPERTY:${target},INCLUDE_DIRECTORIES>)
 
     # Install

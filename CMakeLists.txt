@@ -124,8 +124,8 @@ option(TLP_BUILD_ADD_NOISE_PLUGIN  "Build the Add Noise Plugin"  OFF)
 option(TLP_BUILD_CHISQUARE_PLUGIN  "Build the ChiSquare Plugin"  OFF)
 #set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
 #set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
-set(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON )
-set(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON)
+option(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON )
+option(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON)
 
 
 set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
@@ -327,7 +327,7 @@ add_subdirectory(source)
 # Tests
 #
 
-add_subdirectory(tests)
+# Empty space ready for when tests arrive.
 
 #
 ###########################################################
@@ -338,7 +338,7 @@ add_subdirectory(wrappers)
 
 
 ##########################################################
-# API's
+# Wrappers
 #
 
 #add_subdirectory(docs)

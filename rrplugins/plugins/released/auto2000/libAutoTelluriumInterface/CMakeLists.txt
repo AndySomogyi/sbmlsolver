@@ -14,18 +14,20 @@ set(RRP_LIB_AUTO_INTERFACE_SRC
 add_library(${target} STATIC ${RRP_LIB_AUTO_INTERFACE_SRC})
 
 if (WIN32)
-    target_compile_definitions(${target}
-            -DSTATIC_AUTO
-            -DSTATIC_TEL_AUTO
+    target_compile_definitions(${target} PUBLIC
+            STATIC_AUTO
+            STATIC_TEL_AUTO
+            STATIC_LIBSTRUCT
             )
 endif ()
 
 target_link_libraries(${target} PUBLIC
-        telplugins_common
-        telplugins_core
         rr-libstruct::rr-libstruct-static
+        telplugins_core
+        libAuto-static
         )
-#target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>)
+add_dependencies(${target} telplugins_common telplugins_core)
+target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>)
 install(
         TARGETS libTelluriumAutoInterface-static
         RUNTIME DESTINATION bin

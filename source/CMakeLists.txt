@@ -339,6 +339,11 @@ target_include_directories(
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
+        # though roadrunner does not link libxml2 directly, it does
+        # so in the plugins. This next item enables targets that
+        # link to roadrunner-static to use
+        # #include "libxml/tree.h", for instance in the plugin code.
+        "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}/libxml2>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 

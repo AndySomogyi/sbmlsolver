@@ -21,10 +21,12 @@ if (TLP_BUILD_SHARED_LIB)
 
     target_compile_definitions(${target} PRIVATE EXPORT_CORE_API)
 
-    target_link_libraries(${target}
-            telplugins_common telpluginsBaseClass
+    target_link_libraries(${target} PUBLIC
+            telplugins_common
+            telpluginsBaseClass
             ${RRPLUGINS_COMMON_SHARED_LIBS}
-            roadrunner_c_api roadrunner
+            roadrunner_c_api
+            roadrunner
             )
 
     target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${TLP_ROOT})
@@ -49,11 +51,15 @@ endif ()
 
 if (TLP_BUILD_STATIC_LIB)
     add_library(${target}-static STATIC ${sources})
+    target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
-    target_link_libraries(${target}-static
+    target_link_libraries(${target}-static PUBLIC
             telplugins_common-static
             telpluginsBaseClass-static
-            ${RRPLUGINS_COMMON_STATIC_LIBS} roadrunner_c_api roadrunner-static)
+            ${RRPLUGINS_COMMON_STATIC_LIBS}
+            roadrunner_c_api
+            roadrunner-static
+            )
     target_include_directories(${target}-static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${TLP_ROOT})
 
     # Install static library

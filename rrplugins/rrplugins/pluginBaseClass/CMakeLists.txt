@@ -40,7 +40,7 @@ endif()
 
 if (TLP_BUILD_STATIC_LIB)
   add_library(${target}-static STATIC ${sources})
-  target_compile_definitions(${target}-static PRIVATE STATIC_PLUGIN_API)
+  target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
   target_link_libraries (${target}-static PUBLIC
     telplugins_common-static ${RRPLUGINS_COMMON_STATIC_LIBS})
