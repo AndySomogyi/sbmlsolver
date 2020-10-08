@@ -1,4 +1,4 @@
-include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIG.cmake) # this is slightly modified FindSWIG.cmake file -  had to tune it to work with OSX
+#include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIGIG.cmake) # this is slightly modified FindSWIG.cmake file -  had to tune it to work with OSX
 
 # defines the following:
 # SWIG_FOUND
@@ -7,6 +7,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIG.cmake) # this is slightly modified 
 # SWIG_VERSION
 # SWIG_<lang>_FOUND
 #find_package(SWIG 3.0.0 REQUIRED)
+#set(SWIG_INSTALL_PREFIX "D:/swigwin-3.0.12")
 find_package(SWIG 3.0.0 REQUIRED
         COMPONENTS python
         OPTIONAL_COMPONENTS java

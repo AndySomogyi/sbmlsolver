@@ -1,45 +1,46 @@
-#we have to do this to get the generated header
-include_directories(${RR_GENERATED_HEADER_PATH})
-
-include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/../include
-        ${RR_SOURCE_ROOT}
-        ${INCLUDE_DIRECTORIES}
-        ${PYTHON_INCLUDE_PATH}
-        ${NUMPY_INCLUDE_DIRS}
-)
-
-# configure compilation of modules for old and new player. Old player modules are compiled with ("threads"=0) option and new are compiled with ("threads"=1) option
-# set(thread_option \(\"threads\"=1\))
-
-
 # copy to /lib so we can import roadrunner in the build tree
 configure_file(__init__.py ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/__init__.py COPYONLY)
-# configure_file(roadrunner.py ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/roadrunner.py COPYONLY)
+
 
 set_source_files_properties(roadrunner.i PROPERTIES CPLUSPLUS ON)
 set_source_files_properties(roadrunner.i PROPERTIES SWIG_FLAGS "-threads")
-
 
 if (USE_TR1_CXX_NS)
     message(STATUS "Using tr1 for SWIG smart pointer namespace")
     set(CMAKE_SWIG_FLAGS "-DSWIG_SHARED_PTR_SUBNAMESPACE=tr1")
 endif ()
 
-set(CMAKE_SWIG_OUTDIR ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner)
-
 # todo replace this with swig_add_library as swig add module is deprecated.
-swig_add_module(roadrunner python roadrunner.i PyUtils PyLoggerStream)
+#swig_add_module(roadrunner_python python roadrunner.i PyUtils PyLoggerStream)
+swig_add_library(roadrunner_python
+        TYPE SHARED LANGUAGE python
+        SOURCES roadrunner.i PyUtils PyLoggerStream)
 
-set_target_properties(_roadrunner PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/python/roadrunner LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner)
+
+set_target_properties(roadrunner_python PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/python/roadrunner
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner
+        OUTPUT_NAME roadrunner
+        SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE # Needed for target_include_directories to have any effect
+        )
+
+target_include_directories(roadrunner_python PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${RR_SOURCE_ROOT}
+        "$<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>"
+        ${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct
+        ${PYTHON_INCLUDE_PATH}
+        ${NUMPY_INCLUDE_DIRS}
+        )
 
 if (WIN32)
     # changes dll name to pyd sop that it is compatible with new Python standard
-    set_target_properties(_roadrunner PROPERTIES SUFFIX ".pyd")
+    set_target_properties(roadrunner_python PROPERTIES SUFFIX ".pyd")
 
-    target_compile_definitions(_roadrunner PRIVATE EXPORT_RRC STATIC_RR)
-    swig_link_libraries(roadrunner
+    target_compile_definitions(roadrunner_python PRIVATE EXPORT_RRC STATIC_RR)
+    swig_link_libraries(roadrunner_python
             roadrunner-static
             ${PYTHON_LIBRARIES}
             )
@@ -51,93 +52,36 @@ elseif (UNIX)
     #    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 
     # Linux specific code
-    #SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
+    #SET_TARGET_PROPERTIES(roadrunner_python PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
 
 elseif (MACOS)
     # OSX section.
     # we do not link directly with python at at link time, so that at run time,
     # the hosting python would provice all the sybols, we only
     # link with the external libs that we uses.
-    set_target_properties(_roadrunner PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" INSTALL_RPATH "@loader_path/../../lib;@loader_path/" INSTALL_NAME_DIR "@rpath")
-    swig_link_libraries(roadrunner
-            roadrunner
-            rr-libstruct-static
-            nleq1-static
-            nleq2-static
-            ${LIBSBML_STATIC_LIBRARY}
-            lapack
-            blas
-            f2c
+    set_target_properties(roadrunner_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" INSTALL_RPATH "@loader_path/../../lib;@loader_path/" INSTALL_NAME_DIR "@rpath")
+    swig_link_libraries(roadrunner_python
+            roadrunner-static
             #        ${PYTHON_LIBRARIES}
             )
 else ()
     message(STATIC "system not supported")
 endif ()
 
-#if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-#
-#else ()
-##    SWIG_LINK_LIBRARIES(roadrunner
-##            roadrunner-static
-##            rr-libstruct-static
-##            nleq1-static
-##            nleq2-static
-##            ${LIBSBML_STATIC_LIBRARY}
-##            lapack
-##            blas
-##            f2c
-##            #        ${PYTHON_LIBRARIES}
-##            )
-#endif ()
-
-#        lapack
-#        blas
-#        f2c
-#        "-Wl,--whole-archive"
-#        rr-libstruct-static
-#        "-Wl,--no-whole-archive"
-#        lmfit-static
-#        sbml-static
-#        roadrunner-static
-
-
-#endif (WIN32)
-
 install(
-        TARGETS _roadrunner
+        TARGETS roadrunner_python
         DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
 )
 
-set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/Python/roadrunner/)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/roadrunner.py"
+    DESTINATION "${PYTHON_PACKAGE_DEST_DIR}" )
 
-#THIS IS EXAMPLE OF WORKING COMMAND
-# ADD_CUSTOM_COMMAND(
-#     OUTPUT CompuCell.py.mod
-#     COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/core/pyinterface/swigmodifier.py ${python_files_path}/CompuCell.py
-#     DEPENDS _CompuCell
-# )
-#
-# ADD_CUSTOM_TARGET(_swigmodifier ALL DEPENDS CompuCell.py.mod)
 
-#FILE(GLOB Mac_CPP "*_Mac.cpp")
-
-#install(FILES ${python_files_path}/roadrunner.py
-#    DESTINATION site-packages/roadrunner )
-
-install(
-        FILES ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/roadrunner.py
-        DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
-)
-
-install(
-        FILES __init__.py
-        DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
-)
 
 install(
         DIRECTORY testing
         DESTINATION ${PYTHON_PACKAGE_DEST_DIR}
-        FILES_MATCHING PATTERN "*.*"
+        FILES_MATCHING PATTERN "*"
 )
 
 install(

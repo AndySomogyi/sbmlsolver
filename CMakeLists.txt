@@ -85,8 +85,8 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
-set(PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages directory")
 if (BUILD_PYTHON)
+    set(PYTHON_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
     set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
 endif ()
 
@@ -119,12 +119,12 @@ option(TLP_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON)
 option(RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES "Install libs to roadrunner site-packages directory" ON)
 set(RRP_PLUGINS_DIR site-packages/roadrunner CACHE PATH "Destination for plugins")
 # Plugin selection: Released
-option(TLP_BUILD_TEST_MODEL_PLUGIN   "Build the Test Model Plugin"  OFF)
-option(TLP_BUILD_ADD_NOISE_PLUGIN  "Build the Add Noise Plugin"  OFF)
-option(TLP_BUILD_CHISQUARE_PLUGIN  "Build the ChiSquare Plugin"  OFF)
+option(TLP_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF)
+option(TLP_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF)
+option(TLP_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF)
 #set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
 #set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
-option(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON )
+option(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON)
 option(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON)
 
 
@@ -268,8 +268,8 @@ dependency install tree. Please ensure the path you have given to -DRR_DEPENDENC
 exists and is the full path to the installed dependency tree.")
 endif ()
 
+set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
-message(STATUS "DEPENDENCY_CMAKE_CONFIG_PATHS ${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 
@@ -302,17 +302,16 @@ if (${MINGW})
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
 
-if(${BORLAND})
+if (${BORLAND})
     link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
-add_definitions(
-    -DUSE_PCH                   #Enable pre-compiled headers
-    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-    -w-8012                     #Comparing signed /unsigned
-    -w-8057                     #Parameter never used
-    -w-8004                     #'var' is assigned a value that is never used
+    add_definitions(
+            -DUSE_PCH                   #Enable pre-compiled headers
+            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+            -w-8012                     #Comparing signed /unsigned
+            -w-8057                     #Parameter never used
+            -w-8004                     #'var' is assigned a value that is never used
     )
-endif()
-
+endif ()
 
 
 ##########################################################
@@ -359,65 +358,65 @@ endif ()
 # Configuration summary
 #
 
-if(BUILD_TESTS AND BUILD_TEST_TOOLS)
+if (BUILD_TESTS AND BUILD_TEST_TOOLS)
     message(STATUS "building tests")
-    file (GLOB TEST_FILES "testing/*" )
+    file(GLOB TEST_FILES "testing/*")
 
-    file (GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*" )
-    list( APPEND TEST_FILES ${PYTHON_TEST_FILES} )
+    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
+    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
 
     file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
 
     file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
 
-    foreach( f ${TEST_FILES} )
-        if(NOT IS_DIRECTORY ${f})
-            get_filename_component( FILE_NAME ${f} NAME )
-            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
-            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
-        endif()
-    endforeach()
+    foreach (f ${TEST_FILES})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} testing/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
 
-    foreach( f ${PYTHON_TEST_DATA} )
-        if(NOT IS_DIRECTORY ${f})
-            get_filename_component( FILE_NAME ${f} NAME )
-            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
-        endif()
-    endforeach()
+    foreach (f ${PYTHON_TEST_DATA})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
 
-    foreach( f ${TEST_DATA_XML} )
-        if(NOT IS_DIRECTORY ${f})
-            get_filename_component( FILE_NAME ${f} NAME )
-            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
-        endif()
-    endforeach()
+    foreach (f ${TEST_DATA_XML})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
 
     add_subdirectory(testing)
     add_subdirectory(autotest)
-else()
+else ()
     message(STATUS "NOT building tests")
-endif()
+endif ()
 
 
 #======================= INSTALL STUFF ========================================================
 #What sub folders to move into...?
-if(${INSTALL_SBML_MODELS})
+if (${INSTALL_SBML_MODELS})
     add_subdirectory(models)
-endif()
+endif ()
 
-if(INSTALL_CXX_API)
+if (INSTALL_CXX_API)
     install(FILES source/rr_pch.h
-        DESTINATION include
-        COMPONENT rr_core)
-endif(INSTALL_CXX_API)
+            DESTINATION include
+            COMPONENT rr_core)
+endif (INSTALL_CXX_API)
 
 
 # should we build and install RRPlugins with the roadrunner?
-option (INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
+option(INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
 
-if(INSTALL_RRPLUGINS)
+if (INSTALL_RRPLUGINS)
     add_subdirectory(rrplugins)
-endif()
+endif ()
 
 install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
         DESTINATION .
@@ -428,15 +427,15 @@ install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
 add_subdirectory(installer)
 
 #=== ThirdParties
-if(${BORLAND})
-    set(CG_RUNTIMES        cc32110MT.dll)
-    foreach(runtime ${CG_RUNTIMES})
-        install (FILES
-            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
-            DESTINATION bin
-            COMPONENT rr_core)
-    endforeach()
-endif()
+if (${BORLAND})
+    set(CG_RUNTIMES cc32110MT.dll)
+    foreach (runtime ${CG_RUNTIMES})
+        install(FILES
+                ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
+                DESTINATION bin
+                COMPONENT rr_core)
+    endforeach ()
+endif ()
 
 configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in
@@ -444,10 +443,10 @@ configure_file(
 )
 
 install(
-    FILES
-    NOTICE.txt
-    NEWS.txt
-    DESTINATION .
+        FILES
+        NOTICE.txt
+        NEWS.txt
+        DESTINATION .
 )
 # print out configuration summary
 ConfigurationSummary()
