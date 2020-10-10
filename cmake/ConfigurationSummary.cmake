@@ -83,11 +83,11 @@ Dependencies
         PYTHON_SITE_DIR                 ${PYTHON_SITE_DIR}
         BUILD_PYTHON                    ${BUILD_PYTHON}
         BUILD_JAVA_INTERFACE            ${BUILD_JAVA_INTERFACE}
-        INSTALL_CXX_API                 ${INSTALL_CXX_API}
-        INSTALL_C_API                   ${INSTALL_C_API}
-        INSTALL_C_API_PYTHON            ${INSTALL_C_API_PYTHON}
-        INSTALL_APPS                    ${INSTALL_APPS}
-        INSTALL_EXAMPLES                ${INSTALL_EXAMPLES}
+        BUILD_CXX_API                 ${BUILD_CXX_API}
+        BUILD_RR_CAPI                   ${BUILD_RR_CAPI}
+        BUILD_PYTHON_CTYPES_API            ${BUILD_PYTHON_CTYPES_API}
+        BUILD_APPS                    ${BUILD_APPS}
+        BUILD_EXAMPLES                ${BUILD_EXAMPLES}
         INSTALL_STATIC_LIB              ${INSTALL_STATIC_LIB}
         RR_BUILD_SHARED_CORE            ${RR_BUILD_SHARED_CORE}
         BUILD_TESTS                     ${BUILD_TESTS}

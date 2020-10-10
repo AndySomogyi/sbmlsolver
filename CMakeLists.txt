@@ -44,6 +44,9 @@ include(GenerateExportHeader)
 include(WriteGitInfo)
 write_git_info() # write the git branch and commit hash to console
 
+# load cmake_dependent_options
+include(CmakeDependentOption)
+
 #############################################################
 #   Configuration Options
 #
@@ -72,30 +75,25 @@ endif ()
 # users will need to provide their own argument to LLVM_INSTALL_PREFIX
 set(LLVM_INSTALL_PREFIX ${RR_DEPENDENCIES_INSTALL_PREFIX} CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
 set(LLVM_ROOT_DIR "${LLVM_ROOT_DIR}")
-# should we build and install Testing tools?
-option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
 
-# should we use LLVM ?
+# todo difference between build tests and build test tools option? (cw)
+option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
 option(BUILD_LLVM "Build the LLVM back end" ON)
 
-
-# todo consider when to remove the legacy backend?
-option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
+# note I've tried using the C backend and it no longer compiles. Could be useful to keep though
+option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" OFF)
 
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
-if (BUILD_PYTHON)
     set(PYTHON_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
     set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
-endif ()
 
-#TODO remove options that arent really options
+# This option requires BUILD_PYTHON and BUILD_RR_CAPI to be on
+cmake_dependent_option(BUILD_C_API_PYTHON "Build the ctypes python API for roadrunner" ON
+        "BUILD_PYTHON;BUILD_RR_CAPI" OFF)
 
-option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
-option(INSTALL_CXX_API "Generate C++ api" ON)
-option(INSTALL_C_API "Generate C API" ON)
-option(INSTALL_C_API_PYTHON "Package ctypes  Python wrapper for the C API" ON)
+option(BUILD_RR_CAPI "Generate C API" ON)
 option(INSTALL_APPS "Build and install Apps" ON)
 option(INSTALL_EXAMPLES "Build and install Examples" OFF)
 option(INSTALL_STATIC_LIB "Install RoadRunner CXX static lib" OFF)
@@ -103,30 +101,38 @@ option(RR_BUILD_SHARED_CORE "Build RoadRunner Core Shared library" ON)
 option(BUILD_TESTS "Build the SBML C API test suite" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
 option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
+option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
+
+# todo Is this option actually used anywhere in the code? If not then we can delete this option
 option(USE_POCO_NET "Use poco net library" ON)
-option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
-option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
-option(BUILD_PACKAGING "Build binary distributions" OFF)
-option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool" OFF)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+option(BUILD_PACKAGING "Package roadrunner into binary distributions" OFF)
+option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool (assumes address sanitizer is available)" OFF)
 
-# teplugin options
-
+# telplugin options
+option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
+# todo consider whether we want to rebrand "telplugins" to rrplugins or something similar. These are actually roadrunner plugins not tellurium.
 ## Feature selection
-option(TLP_BUILD_SHARED_LIB "TLP_BUILD_SHARED_LIB" ON)
-option(TLP_BUILD_STATIC_LIB "TLP_BUILD_STATIC_LIB" ON)
-option(TLP_BUILD_PLUGINS_C_API "Build Plugins C API" ON)
-option(TLP_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON)
-option(RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES "Install libs to roadrunner site-packages directory" ON)
+
+# These options are dependent on BUILD_RR_PLUGINS option. This reads: when BUILD_RR_PLUGINS=ON set the value of
+# TLP_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
+cmake_dependent_option(TLP_BUILD_SHARED_LIB "TLP_BUILD_SHARED_LIB" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_PLUGINS_C_API "Build Plugins C API" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_STATIC_LIB "TLP_BUILD_STATIC_LIB" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES "Install libs to roadrunner site-packages directory" ON "BUILD_RR_PLUGINS" OFF)
 set(RRP_PLUGINS_DIR site-packages/roadrunner CACHE PATH "Destination for plugins")
+
 # Plugin selection: Released
-option(TLP_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF)
-option(TLP_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF)
-option(TLP_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF)
+cmake_dependent_option(TLP_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
+
+#todo do these exist???
 #set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
 #set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
-option(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON)
-option(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON)
-
 
 set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
@@ -135,24 +141,13 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 #
 
 # Would be nice to set these options but I tried it and we cannot without
-# breaking the build
+# breaking the build (cw)
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 if (BUILD_TESTS OR BUILD_JAVA_INTERFACE)
     enable_testing()
 endif ()
-
-
-mark_as_advanced(
-        BUILD_LEGACY_C
-        INSTALL_APPS
-        INSTALL_CXX_API
-        INSTALL_C_API
-        INSTALL_C_API_PYTHON
-        INSTALL_STATIC_LIB
-        RR_USE_CXX14
-)
 
 # TODO: add some logic to automatically set based on compiler version
 # todo: turn on C++17 and see if it errors.
@@ -403,12 +398,6 @@ endif ()
 if (${INSTALL_SBML_MODELS})
     add_subdirectory(models)
 endif ()
-
-if (INSTALL_CXX_API)
-    install(FILES source/rr_pch.h
-            DESTINATION include
-            COMPONENT rr_core)
-endif (INSTALL_CXX_API)
 
 
 # should we build and install RRPlugins with the roadrunner?

@@ -2,7 +2,7 @@
 if (BUILD_TEST_TOOLS)
     add_subdirectory(Testing)
 
-    if (INSTALL_EXAMPLES)
+    if (BUILD_EXAMPLES)
         add_subdirectory(Examples)
     endif ()
 

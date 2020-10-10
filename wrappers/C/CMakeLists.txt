@@ -85,7 +85,7 @@ install(
 #add_subdirectory(Apps)
 #add_subdirectory(ApiTest)
 #
-#if (INSTALL_EXAMPLES)
+#if (BUILD_EXAMPLES)
 #    add_subdirectory(Examples)
 #endif ()
 #

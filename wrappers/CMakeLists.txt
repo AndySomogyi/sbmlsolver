@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.15..3.18 )
 
 set(RR_CAPI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/C)
-if (INSTALL_C_API)
+if (BUILD_RR_CAPI)
     add_subdirectory("C")
 endif ()
 
@@ -9,7 +9,7 @@ if (BUILD_PYTHON)
     add_subdirectory("Python")
 endif ()
 
-#if (INSTALL_C_API_PYTHON)
+#if (BUILD_PYTHON_CTYPES_API)
 #    add_subdirectory("c_api_python")
 #endif ()
 
