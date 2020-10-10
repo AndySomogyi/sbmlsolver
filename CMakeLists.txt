@@ -17,15 +17,30 @@ project(
         VERSION ${ROADRUNNER_VERSION}
         LANGUAGES CXX
 )
-message(STATUS "CMAKE_VS_PLATFORM_NAME ${CMAKE_VS_PLATFORM_NAME}")
-message(STATUS "CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P}")
-message(STATUS "CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 
-string( FIND "${CMAKE_SYSTEM_PROCESSOR}" "64" IS_64_BIT)
-if ((${IS_64_BIT} GREATER 0) AND ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4"))
-    message(WARNING "You are generating a 32-bit version of roadrunner on a \
-x64 bit machine" )
+
+if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+    message(STATUS "Build on 32-bit platform")
+else()
+    message(STATUS "Build on 64-bit platform")
 endif()
+
+
+# do some bitness checks as its an easy trap to fall into on windows.
+if (WIN32)
+    if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+        message(WARNING "You are building 32-bit binaries \
+this is unlikely what you want. If you intented to build x64-bit ensure you are using the x64-bit
+visual studio developers command prompt for running the cmake command" .)
+    endif ()
+
+    string(FIND "${CMAKE_SYSTEM_PROCESSOR}" "64" IS_64_BIT)
+    if ((${IS_64_BIT} GREATER 0) AND ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4"))
+        message(WARNING "You are generating a 32-bit version of roadrunner on a \
+x64 bit machine")
+    endif ()
+endif ()
+
 
 MESSAGE(STATUS "IS_64_BIT ${IS_64_BIT}")
 set(CMAKE_MACOSX_RPATH 1)
