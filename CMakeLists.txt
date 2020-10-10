@@ -17,7 +17,17 @@ project(
         VERSION ${ROADRUNNER_VERSION}
         LANGUAGES CXX
 )
+message(STATUS "CMAKE_VS_PLATFORM_NAME ${CMAKE_VS_PLATFORM_NAME}")
+message(STATUS "CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P}")
+message(STATUS "CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 
+string( FIND "${CMAKE_SYSTEM_PROCESSOR}" "64" IS_64_BIT)
+if ((${IS_64_BIT} GREATER 0) AND ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4"))
+    message(WARNING "You are generating a 32-bit version of roadrunner on a \
+x64 bit machine" )
+endif()
+
+MESSAGE(STATUS "IS_64_BIT ${IS_64_BIT}")
 set(CMAKE_MACOSX_RPATH 1)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -78,6 +88,7 @@ set(LLVM_ROOT_DIR "${LLVM_ROOT_DIR}")
 
 # todo difference between build tests and build test tools option? (cw)
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
+option(BUILD_TESTS "Build the SBML C API test suite" OFF)
 option(BUILD_LLVM "Build the LLVM back end" ON)
 
 # note I've tried using the C backend and it no longer compiles. Could be useful to keep though
@@ -86,26 +97,27 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
-    set(PYTHON_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
-    set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
+set(PYTHON_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
+set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
 
 # This option requires BUILD_PYTHON and BUILD_RR_CAPI to be on
-cmake_dependent_option(BUILD_C_API_PYTHON "Build the ctypes python API for roadrunner" ON
-        "BUILD_PYTHON;BUILD_RR_CAPI" OFF)
+cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
+        "BUILD_PYTHON" OFF)
+cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
+        "BUILD_PYTHON" OFF)
 
+
+#Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 option(BUILD_RR_CAPI "Generate C API" ON)
-option(INSTALL_APPS "Build and install Apps" ON)
-option(INSTALL_EXAMPLES "Build and install Examples" OFF)
-option(INSTALL_STATIC_LIB "Install RoadRunner CXX static lib" OFF)
-option(RR_BUILD_SHARED_CORE "Build RoadRunner Core Shared library" ON)
-option(BUILD_TESTS "Build the SBML C API test suite" OFF)
+
+#TODO this option yet supported in new buildsystem (cw).
+option(BUILD_APPS "Build and install Apps" ON)
+
+option(BUILD_EXAMPLES "Build and install Examples" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
-option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
+# TODO this options is not yet suppoerted in the new build system (cw)
 option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
 
-# todo Is this option actually used anywhere in the code? If not then we can delete this option
-option(USE_POCO_NET "Use poco net library" ON)
-set(CMAKE_VERBOSE_MAKEFILE ON)
 option(BUILD_PACKAGING "Package roadrunner into binary distributions" OFF)
 option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool (assumes address sanitizer is available)" OFF)
 
@@ -161,7 +173,6 @@ else ()
     option(USE_TR1_CXX_NS "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
 endif ()
 
-
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING
         "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
@@ -171,12 +182,11 @@ if (WITH_ADDRESS_SANITIZER)
 endif ()
 
 
-#Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
-option(BUILD_SHARED_LIBS "Turns on building shared libraries in addition to static libraries which are always build" ON)
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (BUILD_LLVM)
     # todo needed?
@@ -224,10 +234,12 @@ if (${MSVC})
 endif ()
 
 if (${MINGW})
+    # todo test on mingw (cw)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
 
 if (${BORLAND})
+    # todo test on borland (cw)
     add_definitions(
             -DUSE_PCH                   #Enable pre-compiled headers
             -H=${PROJECT_BINARY_DIR}/rr_pch.csm
@@ -235,11 +247,6 @@ if (${BORLAND})
             -w-8057                     #Parameter never used
             -w-8004                     #'var' is assigned a value that is never used
     )
-endif ()
-
-if (UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif ()
 
 set(CMAKE_DEBUG_POSTFIX "d")
@@ -273,8 +280,8 @@ find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
 find_package(zlib CONFIG REQUIRED)
 find_package(bzip2 CONFIG REQUIRED)
 find_package(iconv CONFIG REQUIRED)
-find_package(LibXml2 CONFIG REQUIRED)
-find_package(sbml-static CONFIG REQUIRED)
+find_package(libxml2 CONFIG REQUIRED)
+find_package(sbml-static CONFIG REQUIRED )
 find_package(rr-libstruct CONFIG REQUIRED)
 find_package(clapack CONFIG REQUIRED)
 find_package(nleq1 CONFIG REQUIRED)
