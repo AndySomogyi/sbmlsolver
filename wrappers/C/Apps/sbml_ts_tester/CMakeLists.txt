@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-set(target sbml_ts_tester)
+set(target rr_run_test_suite)
 set(rrSrc "../../../../source")
 
 add_executable(${target} 
