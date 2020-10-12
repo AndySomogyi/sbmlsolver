@@ -60,16 +60,15 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
 
     # Install shared library
     install(TARGETS ${target}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT pluginsLib
-            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT pluginsLib
-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT pluginsLib
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT rrplugins
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
             )
 
-    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
+    install(TARGETS ${target} DESTINATION site-packages/rrplugins)
 endif ()
 
 # ** Static lib ******
-
 if (RR_PLUGINS_BUILD_STATIC_LIB)
     add_library(${target}-static STATIC ${RRPLUGINS_COMMON_SOURCES})
     target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
@@ -79,8 +78,8 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
 
     # Install
     install(TARGETS ${target}-static
-            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT pluginsLib
-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT pluginsLib
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
             )
 
 endif ()

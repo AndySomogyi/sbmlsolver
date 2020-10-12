@@ -141,11 +141,9 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 # RR_PLUGINS_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
 cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_PLUGINS_C_API "Build Plugins C API" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON "BUILD_RR_PLUGINS" OFF)
-set(RR_PLUGINS_INSTALL_PREFIX site-packages/roadrunner CACHE PATH "Destination for plugins")
+set(RR_PLUGINS_INSTALL_PREFIX site-packages/plugins CACHE PATH "Destination for plugins")
 
-# Plugin selection: Released
+# Plugin selection: Releasedî
 cmake_dependent_option(RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF "BUILD_RR_PLUGINS" OFF)

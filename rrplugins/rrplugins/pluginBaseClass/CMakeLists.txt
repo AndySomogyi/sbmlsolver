@@ -26,12 +26,12 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
 
     # Install shared library
     install(TARGETS telpluginsBaseClass
-            RUNTIME DESTINATION bin COMPONENT pluginsLib
-            LIBRARY DESTINATION lib COMPONENT pluginsLib
-            ARCHIVE DESTINATION lib COMPONENT pluginsLib
+            RUNTIME DESTINATION bin COMPONENT rrplugins
+            LIBRARY DESTINATION lib COMPONENT rrplugins
+            ARCHIVE DESTINATION lib COMPONENT rrplugins
             )
 
-    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
+    install(TARGETS ${target} DESTINATION site-packages/rrplugins)
 endif ()
 
 # ** Static lib ******
@@ -47,8 +47,8 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
 
     # Install static library
     install(TARGETS telpluginsBaseClass-static
-            LIBRARY DESTINATION lib COMPONENT pluginsLib
-            ARCHIVE DESTINATION lib COMPONENT pluginsLib
+            LIBRARY DESTINATION lib COMPONENT rrplugins
+            ARCHIVE DESTINATION lib COMPONENT rrplugins
             )
 endif ()
 

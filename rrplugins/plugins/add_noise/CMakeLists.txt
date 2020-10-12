@@ -1,5 +1,4 @@
-# M Totte Karlsson
-# J Kyle Medley
+# Debashish Roy
 
 project(add_noise)
 set(target tel_add_noise)
@@ -24,8 +23,6 @@ target_link_libraries(${target} PRIVATE
         ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
 
-#target_include_directories(${target} PRIVATE)
-
 target_compile_definitions(${target} PRIVATE
         -DEXPORT_TEL_PLUGIN
         -DEXPORT_ADD_NOISE
@@ -40,3 +37,4 @@ install(TARGETS ${target}
         DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
         COMPONENT plugins
         )
+

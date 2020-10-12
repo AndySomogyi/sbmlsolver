@@ -9,8 +9,9 @@ if (USE_TR1_CXX_NS)
     set(CMAKE_SWIG_FLAGS "-DSWIG_SHARED_PTR_SUBNAMESPACE=tr1")
 endif ()
 
+# we make this target a module library (dll only on windows, so extension on mac and linux).
 swig_add_library(roadrunner_python
-        TYPE SHARED LANGUAGE python
+        TYPE MODULE LANGUAGE python
         SOURCES roadrunner.i PyUtils PyLoggerStream)
 
 
@@ -61,7 +62,7 @@ elseif (APPLE)
             INSTALL_RPATH "@loader_path/../../lib;@loader_path/;@executable_path"
             INSTALL_NAME_DIR "@rpath"
             )
-    set_target_properties(roadrunner_python PROPERTIES SUFFIX ".so") # default is dylib
+#    set_target_properties(roadrunner_python PROPERTIES SUFFIX ".so") # default is dylib
     # we use roadrunner not roadrunner-static so we can use shared libraries at runtime
     # question: If we do this with windows, would we forego the need to build a version for each python ?
     swig_link_libraries(roadrunner_python roadrunner)

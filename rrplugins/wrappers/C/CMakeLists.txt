@@ -1,7 +1,6 @@
 # M Totte Karlsson
 # J Kyle Medley
 
-project(rrplugins_c_api)
 set(target telplugins_c_api)
 
 #The C-api is built as a shared library..
@@ -27,7 +26,6 @@ message(STATUS "C API: RRPLUGINS_COMMON_SHARED_LIBS = ${RRPLUGINS_COMMON_SHARED_
 
 #Link C_api shared lib statically to roadrunner and libsbml
 if (WIN32)
-
     target_compile_definitions(${target} PUBLIC EXPORT_RRP)
 else ()
     if (APPLE)
@@ -43,9 +41,9 @@ endif ()
 
 install(
         TARGETS ${target}
-        RUNTIME DESTINATION bin COMPONENT pluginsLib
-        ARCHIVE DESTINATION lib COMPONENT pluginsLib
-        LIBRARY DESTINATION lib COMPONENT pluginsLib
+        RUNTIME DESTINATION bin COMPONENT rrplugins
+        ARCHIVE DESTINATION lib COMPONENT rrplugins
+        LIBRARY DESTINATION lib COMPONENT rrplugins
 )
 
-install(TARGETS ${target} DESTINATION site-packages/roadrunner)
+install(TARGETS ${target} DESTINATION site-packages/rrplugins)

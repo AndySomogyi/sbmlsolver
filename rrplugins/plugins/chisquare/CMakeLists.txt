@@ -1,5 +1,5 @@
-# M Totte Karlsson
-# J Kyle Medley
+# Debashish Roy
+
 project(chisquare)
 set(target tel_chisquare )
 

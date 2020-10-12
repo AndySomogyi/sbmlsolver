@@ -1,5 +1,4 @@
 # Debashish Roy
-project(Hello)
 
 set(target tel_hello)
 

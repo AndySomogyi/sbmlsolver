@@ -1,8 +1,4 @@
-# M Totte Karlsson
-# J Kyle Medley
 # Debashish Roy
-
-project(test_model)
 
 set(target teltest_model)
 

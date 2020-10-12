@@ -1,15 +1,10 @@
-# M Totte Karlsson
-# J Kyle Medley
+# Debashish Roy
 
 project(auto2000)
 set(target tel_auto2000)
 
 add_subdirectory(libAuto)
 add_subdirectory(libAutoTelluriumInterface)
-
-#if (RR_PLUGINS_BUILD_EXAMPLES)
-#  add_subdirectory(examples)
-#endif()
 
 
 set(RRP_AUTO2000_SOURCES
