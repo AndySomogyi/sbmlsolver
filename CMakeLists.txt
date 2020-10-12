@@ -78,7 +78,7 @@ if (${WIN32})
     set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
             CACHE PATH "Path to dependency package"
             )
-elseif (${UNIX})
+elseif (${UNIX} AND NOT ${APPLE})
     set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
             CACHE PATH "Path to dependency package"
             )

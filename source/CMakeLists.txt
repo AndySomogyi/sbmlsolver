@@ -365,23 +365,13 @@ endif ()
 # link the libraries -- remember that order here
 #   is important on linux builds so don't change
 
-# Note: find_package for bzip is not playing ball and have no idea why.
-# temporarily locate the bzip library using find_library instead
-find_library(BZIP_STATIC_LIBRARY
-        NAMES
-            bz2${CMAKE_STATIC_LIBRARY_SUFFIX}
-            libbz2${CMAKE_STATIC_LIBRARY_SUFFIX}
-        HINTS
-            "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib"
-        )
-
 target_link_libraries(
         ${target}-static
         PUBLIC
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         sbml-static
-        ${BZIP_STATIC_LIBRARY}
+        BZip2::libz2
         zlib::zlibstatic
         LibXml2::LibXml2
         nleq2::nleq2-static
