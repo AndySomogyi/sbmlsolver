@@ -1,15 +1,5 @@
 #include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIGIG.cmake) # this is slightly modified FindSWIG.cmake file -  had to tune it to work with OSX
 
-
-message("SWIG found: ${SWIG_EXECUTABLE}")
-if (NOT SWIG_java_FOUND)
-    message(WARNING "SWIG java bindings cannot be generated")
-endif ()
-
-message(STATUS "swig_version ${SWIG_VERSION}")
-
-include(UseSWIG)
-
 find_package(PythonInterp)
 # specify that the same python library should be found 
 # as the one the selected interpreter uses

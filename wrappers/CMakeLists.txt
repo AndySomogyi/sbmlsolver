@@ -13,9 +13,18 @@ if (${BUILD_PYTHON} OR ${BUILD_JAVA})
             OPTIONAL_COMPONENTS java
             )
     if (NOT SWIG_FOUND)
+        #todo consider automating downloading of swig if it cannot be found (use ExternalProject_Add should make this easy)
         message(FATAL_ERROR "Swig was not found")
     endif ()
 
+    message("SWIG found: ${SWIG_EXECUTABLE}")
+    if (NOT SWIG_java_FOUND)
+        message(WARNING "SWIG java bindings cannot be generated")
+    endif ()
+
+    message(STATUS "swig_version ${SWIG_VERSION}")
+
+    include(UseSWIG)
 endif ()
 
 set(RR_CAPI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/C)

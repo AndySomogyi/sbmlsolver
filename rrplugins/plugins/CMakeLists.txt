@@ -21,5 +21,5 @@ endif()
 
 install(
   FILES README.txt
-  DESTINATION plugins
+  DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
 )

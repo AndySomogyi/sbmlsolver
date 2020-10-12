@@ -41,10 +41,6 @@ x64 bit machine")
     endif ()
 endif ()
 
-
-MESSAGE(STATUS "IS_64_BIT ${IS_64_BIT}")
-set(CMAKE_MACOSX_RPATH 1)
-
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # defines a macro for printing out a configuration summary
@@ -163,13 +159,29 @@ cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON 
 set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
 ##################################################
-#   Settings derived from options
+#   Settings
 #
 
 # Would be nice to set these options but I tried it and we cannot without
 # breaking the build (cw)
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+
+#handle rpath
+set(CMAKE_MACOSX_RPATH TRUE)
+set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+
+if(APPLE AND NOT UNIX)
+    set(RPATH_BASE @loader_path)
+else()
+    set(RPATH_BASE $ORIGIN)
+endif()
+file(RELATIVE_PATH relDir
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR} )
+set(CMAKE_INSTALL_RPATH ${RPATH_BASE} ${RPATH_BASE}/${relDir})
+
+message(STATUS "relDir ${relDir}")
 
 if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()

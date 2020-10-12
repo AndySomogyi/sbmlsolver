@@ -1,7 +1,6 @@
 # copy to /lib so we can import roadrunner in the build tree
 configure_file(__init__.py ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/__init__.py COPYONLY)
 
-
 set_source_files_properties(roadrunner.i PROPERTIES CPLUSPLUS ON)
 set_source_files_properties(roadrunner.i PROPERTIES SWIG_FLAGS "-threads")
 
@@ -34,16 +33,14 @@ target_include_directories(roadrunner_python PUBLIC
         )
 
 if (WIN32)
-    # changes dll name to pyd sop that it is compatible with new Python standard
-    set_target_properties(roadrunner_python PROPERTIES SUFFIX ".pyd")
-
     target_compile_definitions(roadrunner_python PRIVATE EXPORT_RRC STATIC_RR)
 
     swig_link_libraries(roadrunner_python
             roadrunner-static
             ${PYTHON_LIBRARIES}
             )
-
+    # changes dll name to pyd sop that it is compatible with new Python standard
+    set_target_properties(roadrunner_python PROPERTIES SUFFIX ".pyd")
 elseif (UNIX AND NOT APPLE)
     # Linux specific code
     #SET_TARGET_PROPERTIES(roadrunner_python PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
@@ -63,10 +60,14 @@ elseif (APPLE)
     # we do not link directly with python at at link time, so that at run time,
     # the hosting python would provice all the symbols, we only
     # link with the external libs that we use.
-    set_target_properties(roadrunner_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" INSTALL_RPATH "@loader_path/../../lib;@loader_path/" INSTALL_NAME_DIR "@rpath")
+    set_target_properties(roadrunner_python PROPERTIES
+            LINK_FLAGS "-undefined dynamic_lookup"
+            INSTALL_RPATH "@loader_path/../../lib;@loader_path/;@executable_path"
+            INSTALL_NAME_DIR "@rpath"
+            )
     # we use roadrunner not roadrunner-static for
     swig_link_libraries(roadrunner_python
-            roadrunner-static
+            roadrunner
             ${PYTHON_LIBRARIES}
             )
 else ()
