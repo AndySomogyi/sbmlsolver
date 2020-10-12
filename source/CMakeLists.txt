@@ -481,7 +481,6 @@ if(BUILD_TEST_TOOLS)
     if(BUILD_LLVM)
         add_subdirectory(llvm_testing)
     endif(BUILD_LLVM)
-    add_subdirectory(testing)
 endif()
 
 #--- INSTALL STUFF

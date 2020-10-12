@@ -306,7 +306,7 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
         rri->setConservedMoietyAnalysis(OnOrOff);
         return true;
     } catch (std::exception& e) {
-        std::cerr << "Error in conserved moeity analysis " << e.what() << std::endl;
+        std::cerr << "Error in conserved moeity analysis: " << e.what() << std::endl;
         return false;
     }
     //catch_bool_macro

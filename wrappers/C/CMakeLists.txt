@@ -100,13 +100,8 @@ else() #Unix
 endif()
 
 add_subdirectory(Apps)
-add_subdirectory(ApiTest)
 if(INSTALL_EXAMPLES)
     add_subdirectory(Examples)
-endif()
-
-if(BUILD_TEST_TOOLS)
-    add_subdirectory(Testing)
 endif()
 
 #=============== INSTALL =====================
