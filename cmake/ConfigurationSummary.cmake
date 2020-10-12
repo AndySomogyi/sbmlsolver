@@ -18,7 +18,7 @@ Options
     With LLVM?                          ${BUILD_LLVM}
     With legacy C? (DEP)                ${BUILD_LEGACY_C}
     Enable Python interface?            ${BUILD_PYTHON}
-    Enable Java interface?              ${BUILD_JAVA_INTERFACE}
+    Enable Java interface?              ${BUILD_JAVA}
     Enable test suite?                  ${BUILD_TESTS}
 
 -------------------------------------------------------------------------------
@@ -80,9 +80,9 @@ Dependencies
         BUILD_LLVM                      ${BUILD_LLVM}
         BUILD_LEGACY_C                  ${BUILD_LEGACY_C}
         BUILD_PYTHON                    ${BUILD_PYTHON}
-        PYTHON_SITE_DIR                 ${PYTHON_SITE_DIR}
+        PYTHON_PACKAGE_SITE_DIR                 ${PYTHON_PACKAGE_SITE_DIR}
         BUILD_PYTHON                    ${BUILD_PYTHON}
-        BUILD_JAVA_INTERFACE            ${BUILD_JAVA_INTERFACE}
+        BUILD_JAVA            ${BUILD_JAVA}
         BUILD_CXX_API                 ${BUILD_CXX_API}
         BUILD_RR_CAPI                   ${BUILD_RR_CAPI}
         BUILD_PYTHON_CTYPES_API            ${BUILD_PYTHON_CTYPES_API}

@@ -6,9 +6,9 @@ set(target telplugins_core)
 
 set(
         sources
-        ${TLP_ROOT}/rrplugins/pluginBaseClass/telCPlugin
-        ${TLP_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin
-        ${TLP_ROOT}/rrplugins/pluginBaseClass/telPlugin
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPlugin
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telPlugin
         tel_api   #struct of roadrunner function pointer
         telPluginManager
         telVersionInfo
@@ -16,7 +16,7 @@ set(
 
 # ** Shared lib ******
 
-if (TLP_BUILD_SHARED_LIB)
+if (RR_PLUGINS_BUILD_SHARED_LIB)
     add_library(${target} SHARED ${sources})
 
     target_compile_definitions(${target} PRIVATE EXPORT_CORE_API)
@@ -29,7 +29,7 @@ if (TLP_BUILD_SHARED_LIB)
             roadrunner
             )
 
-    target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${TLP_ROOT})
+    target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${RR_PLUGINS_ROOT})
 
     if (UNIX)
         set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")
@@ -42,14 +42,12 @@ if (TLP_BUILD_SHARED_LIB)
             ARCHIVE DESTINATION lib COMPONENT pluginsLib
             )
 
-    if (RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES)
-        install(TARGETS ${target} DESTINATION site-packages/roadrunner)
-    endif ()
+    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
 endif ()
 
 # ** Static lib ******
 
-if (TLP_BUILD_STATIC_LIB)
+if (RR_PLUGINS_BUILD_STATIC_LIB)
     add_library(${target}-static STATIC ${sources})
     target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
@@ -60,7 +58,7 @@ if (TLP_BUILD_STATIC_LIB)
             roadrunner_c_api
             roadrunner-static
             )
-    target_include_directories(${target}-static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${TLP_ROOT})
+    target_include_directories(${target}-static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${RR_PLUGINS_ROOT})
 
     # Install static library
     install(TARGETS ${target}-static

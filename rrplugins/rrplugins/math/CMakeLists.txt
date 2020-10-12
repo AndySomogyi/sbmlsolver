@@ -13,7 +13,7 @@ set(RRPLUGINS_MATH_SOURCES
         )
 
 # ** Shared lib ******
-if (TLP_BUILD_SHARED_LIB)
+if (RR_PLUGINS_BUILD_SHARED_LIB)
     add_library(${target} SHARED ${RRPLUGINS_MATH_SOURCES})
     target_compile_definitions(${target} PRIVATE EXPORT_MATH_API)
 
@@ -32,16 +32,14 @@ if (TLP_BUILD_SHARED_LIB)
             ARCHIVE DESTINATION lib COMPONENT pluginsLib
             )
 
-    if (RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES)
-        install(TARGETS ${target} DESTINATION site-packages/roadrunner)
-    endif ()
+    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
 endif ()
 
 # ** Static lib ******
 
-if (TLP_BUILD_STATIC_LIB)
+if (RR_PLUGINS_BUILD_STATIC_LIB)
     add_library(${target}-static STATIC ${RRPLUGINS_MATH_SOURCES})
-    target_compile_definitions(${target}-static PRIVATE STATIC_PLUGIN_API )
+    target_compile_definitions(${target}-static PRIVATE STATIC_PLUGIN_API)
 
     target_link_libraries(${target}-static PUBLIC
             telplugins_common-static ${RRPLUGINS_COMMON_STATIC_LIBS})

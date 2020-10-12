@@ -30,6 +30,6 @@ if(UNIX)
 endif()
 
 install (TARGETS ${target}
-  DESTINATION ${RRP_PLUGINS_DIR}
+  DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
   COMPONENT plugins
 )

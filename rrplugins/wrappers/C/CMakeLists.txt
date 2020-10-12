@@ -48,6 +48,4 @@ install(
         LIBRARY DESTINATION lib COMPONENT pluginsLib
 )
 
-if (RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES)
-    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
-endif ()
+install(TARGETS ${target} DESTINATION site-packages/roadrunner)

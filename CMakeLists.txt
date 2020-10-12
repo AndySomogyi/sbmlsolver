@@ -112,8 +112,8 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
-set(PYTHON_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
-set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
+set(PYTHON_PACKAGE_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
+set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner)
 
 # This option requires BUILD_PYTHON and BUILD_RR_CAPI to be on
 cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
@@ -131,7 +131,7 @@ option(BUILD_APPS "Build and install Apps" ON)
 option(BUILD_EXAMPLES "Build and install Examples" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
 # TODO this options is not yet suppoerted in the new build system (cw)
-option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
+option(BUILD_JAVA "build the SWIG generated Java wrapper" OFF)
 
 option(BUILD_PACKAGING "Package roadrunner into binary distributions" OFF)
 option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool (assumes address sanitizer is available)" OFF)
@@ -142,24 +142,23 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 ## Feature selection
 
 # These options are dependent on BUILD_RR_PLUGINS option. This reads: when BUILD_RR_PLUGINS=ON set the value of
-# TLP_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
-cmake_dependent_option(TLP_BUILD_SHARED_LIB "TLP_BUILD_SHARED_LIB" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_PLUGINS_C_API "Build Plugins C API" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_STATIC_LIB "TLP_BUILD_STATIC_LIB" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES "Install libs to roadrunner site-packages directory" ON "BUILD_RR_PLUGINS" OFF)
-set(RRP_PLUGINS_DIR site-packages/roadrunner CACHE PATH "Destination for plugins")
+# RR_PLUGINS_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
+cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_PLUGINS_C_API "Build Plugins C API" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_PLUGINS_PYTHON_API "Build Plugins Python API" ON "BUILD_RR_PLUGINS" OFF)
+set(RR_PLUGINS_INSTALL_PREFIX site-packages/roadrunner CACHE PATH "Destination for plugins")
 
 # Plugin selection: Released
-cmake_dependent_option(TLP_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(TLP_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
 
 #todo do these exist???
-#set (TLP_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
-#set (TLP_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
+#set (RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
+#set (RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
 
 set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
@@ -172,7 +171,7 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
-if (BUILD_TESTS OR BUILD_JAVA_INTERFACE)
+if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()
 endif ()
 

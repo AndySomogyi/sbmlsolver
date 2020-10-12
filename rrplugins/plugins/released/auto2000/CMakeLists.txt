@@ -7,7 +7,7 @@ set(target tel_auto2000)
 add_subdirectory(libAuto)
 add_subdirectory(libAutoTelluriumInterface)
 
-#if (TLP_BUILD_EXAMPLES)
+#if (RR_PLUGINS_BUILD_EXAMPLES)
 #  add_subdirectory(examples)
 #endif()
 
@@ -53,6 +53,6 @@ if (UNIX)
 endif ()
 
 install(TARGETS ${target}
-        DESTINATION ${RRP_PLUGINS_DIR}
+        DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
         COMPONENT plugins
         )

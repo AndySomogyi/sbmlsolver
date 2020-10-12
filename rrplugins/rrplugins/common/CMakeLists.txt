@@ -41,7 +41,7 @@ set(RRPLUGINS_COMMON_SOURCES
 
 
 # ** Shared lib ******
-if (TLP_BUILD_SHARED_LIB)
+if (RR_PLUGINS_BUILD_SHARED_LIB)
     add_library(${target} SHARED ${RRPLUGINS_COMMON_SOURCES})
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON_API)
 
@@ -65,14 +65,12 @@ if (TLP_BUILD_SHARED_LIB)
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT pluginsLib
             )
 
-    if (RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES)
-        install(TARGETS ${target} DESTINATION site-packages/roadrunner)
-    endif ()
+    install(TARGETS ${target} DESTINATION site-packages/roadrunner)
 endif ()
 
 # ** Static lib ******
 
-if (TLP_BUILD_STATIC_LIB)
+if (RR_PLUGINS_BUILD_STATIC_LIB)
     add_library(${target}-static STATIC ${RRPLUGINS_COMMON_SOURCES})
     target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
