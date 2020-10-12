@@ -129,6 +129,7 @@ set(
         SolverRegistration.h
         Variant.h
 )
+message(STATUS "HERE CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}")
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
 
