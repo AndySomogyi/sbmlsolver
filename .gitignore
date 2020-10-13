@@ -50,6 +50,5 @@ dependencies
 dependencies*
 cmake-*
 .DS_Store
-
-
-out 
+build
+out

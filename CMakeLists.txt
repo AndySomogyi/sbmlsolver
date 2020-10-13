@@ -126,6 +126,8 @@ option(BUILD_APPS "Build and install Apps" OFF)
 
 option(BUILD_EXAMPLES "Build and install Examples" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
+option(BUILD_DOCS "Build the roadrunner documentation" OFF)
+
 # TODO this options is not yet suppoerted in the new build system (cw)
 option(BUILD_JAVA "build the SWIG generated Java wrapper" OFF)
 
@@ -365,11 +367,12 @@ add_subdirectory(wrappers)
 
 
 ##########################################################
-# Wrappers
+# Documentation
 #
 
-#add_subdirectory(docs)
-
+if (${BUILD_DOCS})
+    add_subdirectory(docs)
+endif()
 
 ##########################################################
 # Packaging
