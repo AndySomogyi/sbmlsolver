@@ -122,7 +122,7 @@ cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the c
 option(BUILD_RR_CAPI "Generate C API" ON)
 
 #TODO this option yet supported in new buildsystem (cw).
-option(BUILD_APPS "Build and install Apps" ON)
+option(BUILD_APPS "Build and install Apps" OFF)
 
 option(BUILD_EXAMPLES "Build and install Examples" OFF)
 option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
@@ -142,11 +142,14 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" OFF "BUILD_RR_PLUGINS" OFF)
 set(RR_PLUGINS_INSTALL_PREFIX site-packages/plugins CACHE PATH "Destination for plugins")
+cmake_dependent_option(RR_PLUGINS_BUILD_C_API "Build the RR plugin C API" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
 
-# Plugin selection: Releasedî
-cmake_dependent_option(RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" OFF "BUILD_RR_PLUGINS" OFF)
+# Plugin selection: Released
+# These options default to ON when BUILD_RR_PLUGINS=ON and OFF otherwise
+cmake_dependent_option(RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
 
