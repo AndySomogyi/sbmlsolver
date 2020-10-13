@@ -1,7 +1,7 @@
 #ifndef rrSBMLTestSuiteSimulation_CAPIH
 #define rrSBMLTestSuiteSimulation_CAPIH
 #include "rrTestSuiteModelSimulation.h"
-#include "wrappers/C/rrc_api.h"
+#include "C/rrc_api.h"
 
 bool RunTest(const string& version, int number);
 

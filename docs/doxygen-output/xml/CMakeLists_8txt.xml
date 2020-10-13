@@ -471,14 +471,17 @@
 <codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPORT_LINK_INTERFACE_LIBRARIES</highlight></codeline>
 <codeline lineno="433"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="434"><highlight class="normal"></highlight></codeline>
-<codeline lineno="435"><highlight class="normal"></highlight></codeline>
-<codeline lineno="436"><highlight class="normal"></highlight></codeline>
-<codeline lineno="437"><highlight class="normal"></highlight></codeline>
-<codeline lineno="438"><highlight class="normal"></highlight></codeline>
-<codeline lineno="439"><highlight class="normal"></highlight></codeline>
-<codeline lineno="440"><highlight class="normal"></highlight></codeline>
-<codeline lineno="441"><highlight class="normal"></highlight></codeline>
-<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal">#Libxml<sp/>we<sp/>can</highlight><highlight class="stringliteral">&apos;t<sp/>build<sp/>right<sp/>now</highlight></codeline>
+<codeline lineno="436"><highlight class="stringliteral">if(${BORLAND})</highlight></codeline>
+<codeline lineno="437"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>target_link_libraries<sp/>(${target}-static<sp/>libxml2_xe)</highlight></codeline>
+<codeline lineno="438"><highlight class="stringliteral">endif()</highlight></codeline>
+<codeline lineno="439"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="440"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="441"><highlight class="stringliteral">if(BUILD_TEST_TOOLS)</highlight></codeline>
+<codeline lineno="442"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if(BUILD_LLVM)</highlight></codeline>
+<codeline lineno="443"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_subdirectory(llvm_testing)</highlight></codeline>
+<codeline lineno="444"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>endif(BUILD_LLVM)</highlight></codeline>
+<codeline lineno="445"><highlight class="stringliteral">endif()</highlight></codeline>
     </programlisting>
     <location file="CMakeLists.txt"/>
   </compounddef>

@@ -283,6 +283,23 @@
         </inbodydescription>
         <location file="rrIniFile.h" line="67" column="27" bodyfile="rrIniFile.h" bodystart="67" bodyend="67"/>
       </memberdef>
+      <memberdef kind="function" id="classrr_1_1IniFile_1aae0d84e192854f205cc463e1781c78be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classrr_1_1IniSection" kindref="compound">IniSection</ref> *</type>
+        <definition>IniSection* rr::IniFile::GetSection</definition>
+        <argsstring>(size_t i)</argsstring>
+        <name>GetSection</name>
+        <param>
+          <type>size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrIniFile.h" line="68" column="27" bodyfile="rrIniFile.h" bodystart="68" bodyend="68"/>
+      </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ab59fe8169dc21705f942819eb61cecbc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>string</type>
         <definition>string rr::IniFile::GetFilePath</definition>
@@ -294,7 +311,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="70" column="28" bodyfile="rrIniFile.h" bodystart="70" bodyend="70"/>
+        <location file="rrIniFile.h" line="71" column="28" bodyfile="rrIniFile.h" bodystart="71" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a4584f793b8d33c4849bc4694ce2a38c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>string</type>
@@ -307,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="71" column="28" bodyfile="rrIniFile.h" bodystart="71" bodyend="71"/>
+        <location file="rrIniFile.h" line="72" column="28" bodyfile="rrIniFile.h" bodystart="72" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a81951d80e536625d8bd2204f6e58e6df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>string</type>
@@ -320,7 +337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="72" column="28" bodyfile="rrIniFile.h" bodystart="72" bodyend="72"/>
+        <location file="rrIniFile.h" line="73" column="28" bodyfile="rrIniFile.h" bodystart="73" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ac3bda93be399fa98a50685d3be10a41d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -337,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="73" column="28" bodyfile="rrIniFile.cpp" bodystart="59" bodyend="62"/>
+        <location file="rrIniFile.h" line="74" column="28" bodyfile="rrIniFile.cpp" bodystart="59" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1afcde82ef7aab2e4cf68b67ff54abdf9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -355,7 +372,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="74" column="28" bodyfile="rrIniFile.cpp" bodystart="90" bodyend="231"/>
+        <location file="rrIniFile.h" line="75" column="28" bodyfile="rrIniFile.cpp" bodystart="90" bodyend="231"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1af6b76931e49087a27695b7a27ed04a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1IniSection" kindref="compound">IniSection</ref> *</type>
@@ -372,7 +389,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="75" column="27" bodyfile="rrIniFile.cpp" bodystart="233" bodyend="352"/>
+        <location file="rrIniFile.h" line="76" column="27" bodyfile="rrIniFile.cpp" bodystart="233" bodyend="352"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a2485647178f4b9c733b5a5abb54b3bf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -390,7 +407,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="76" column="28" bodyfile="rrIniFile.cpp" bodystart="357" bodyend="421"/>
+        <location file="rrIniFile.h" line="77" column="28" bodyfile="rrIniFile.cpp" bodystart="357" bodyend="421"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1abd7e7981536ea59c2171ac3304c76ccd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -403,7 +420,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="77" column="28" bodyfile="rrIniFile.h" bodystart="77" bodyend="77"/>
+        <location file="rrIniFile.h" line="78" column="28" bodyfile="rrIniFile.h" bodystart="78" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1aff8ccbf611e3a58769005a6cdc627f8a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -416,7 +433,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="78" column="28" bodyfile="rrIniFile.h" bodystart="78" bodyend="78"/>
+        <location file="rrIniFile.h" line="79" column="28" bodyfile="rrIniFile.h" bodystart="79" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a0f6042f001ebab2e3b2e29ae69c10f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -434,7 +451,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="79" column="28" bodyfile="rrIniFile.cpp" bodystart="465" bodyend="477"/>
+        <location file="rrIniFile.h" line="80" column="28" bodyfile="rrIniFile.cpp" bodystart="465" bodyend="477"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a910bafca6c0bdcf5d267f37ee18bddfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -456,7 +473,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="83" column="31" bodyfile="rrIniFile.cpp" bodystart="570" bodyend="586"/>
+        <location file="rrIniFile.h" line="84" column="31" bodyfile="rrIniFile.cpp" bodystart="570" bodyend="586"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a67876ac86232543dcb885d5e5a20b58a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -483,7 +500,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="84" column="32" bodyfile="rrIniFile.cpp" bodystart="590" bodyend="598"/>
+        <location file="rrIniFile.h" line="85" column="32" bodyfile="rrIniFile.cpp" bodystart="590" bodyend="598"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ae9861c538c12de4141984157a1593c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -510,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="85" column="31" bodyfile="rrIniFile.cpp" bodystart="602" bodyend="612"/>
+        <location file="rrIniFile.h" line="86" column="31" bodyfile="rrIniFile.cpp" bodystart="602" bodyend="612"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1aa176fc7df6bda8f1c1472bea7a9addc6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>float</type>
@@ -537,7 +554,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="86" column="30" bodyfile="rrIniFile.h" bodystart="86" bodyend="86"/>
+        <location file="rrIniFile.h" line="87" column="30" bodyfile="rrIniFile.h" bodystart="87" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a37e6968493969d5990cf8b371d050085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -564,7 +581,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="87" column="32" bodyfile="rrIniFile.cpp" bodystart="616" bodyend="625"/>
+        <location file="rrIniFile.h" line="88" column="32" bodyfile="rrIniFile.cpp" bodystart="616" bodyend="625"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a764b97b4510f765e21d9c37d102f8d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -591,7 +608,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="88" column="29" bodyfile="rrIniFile.cpp" bodystart="629" bodyend="649"/>
+        <location file="rrIniFile.h" line="89" column="29" bodyfile="rrIniFile.cpp" bodystart="629" bodyend="649"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ad8d19bb0fb31a51b5b4619d5b44211bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -622,7 +639,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="91" column="30" bodyfile="rrIniFile.cpp" bodystart="483" bodyend="523"/>
+        <location file="rrIniFile.h" line="92" column="30" bodyfile="rrIniFile.cpp" bodystart="483" bodyend="523"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ae592cbb7a5f2605dcf49f1fded994899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -653,7 +670,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="92" column="29" bodyfile="rrIniFile.cpp" bodystart="545" bodyend="550"/>
+        <location file="rrIniFile.h" line="93" column="29" bodyfile="rrIniFile.cpp" bodystart="545" bodyend="550"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a073e519df19400685248dc67f6b57c7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -684,7 +701,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="93" column="29" bodyfile="rrIniFile.cpp" bodystart="553" bodyend="558"/>
+        <location file="rrIniFile.h" line="94" column="29" bodyfile="rrIniFile.cpp" bodystart="553" bodyend="558"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a90905ce6e586e318b978bf21a8c5558e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -715,7 +732,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="94" column="29" bodyfile="rrIniFile.cpp" bodystart="561" bodyend="566"/>
+        <location file="rrIniFile.h" line="95" column="29" bodyfile="rrIniFile.cpp" bodystart="561" bodyend="566"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a866bd7d05ee3b8b6a267661c3755d267" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -746,7 +763,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="95" column="29" bodyfile="rrIniFile.h" bodystart="95" bodyend="95"/>
+        <location file="rrIniFile.h" line="96" column="29" bodyfile="rrIniFile.h" bodystart="96" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a05b1dbd4fc8bde379736870cc26fe7db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -768,7 +785,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="96" column="30" bodyfile="rrIniFile.cpp" bodystart="525" bodyend="542"/>
+        <location file="rrIniFile.h" line="97" column="30" bodyfile="rrIniFile.cpp" bodystart="525" bodyend="542"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a368f38bf1369323541d27087a64c6633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -794,7 +811,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="99" column="29" bodyfile="rrIniFile.cpp" bodystart="424" bodyend="443"/>
+        <location file="rrIniFile.h" line="100" column="29" bodyfile="rrIniFile.cpp" bodystart="424" bodyend="443"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a09070f111aaa9380c509a6df0f51d10f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -815,7 +832,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="100" column="29" bodyfile="rrIniFile.cpp" bodystart="447" bodyend="463"/>
+        <location file="rrIniFile.h" line="101" column="29" bodyfile="rrIniFile.cpp" bodystart="447" bodyend="463"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a04bc7759e92239370fcbebb263d8d882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -837,7 +854,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="101" column="29" bodyfile="rrIniFile.cpp" bodystart="698" bodyend="718"/>
+        <location file="rrIniFile.h" line="102" column="29" bodyfile="rrIniFile.cpp" bodystart="698" bodyend="718"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a1b3bd5bfb77e49330a4c7b886d162537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -854,7 +871,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="102" column="29" bodyfile="rrIniFile.cpp" bodystart="653" bodyend="670"/>
+        <location file="rrIniFile.h" line="103" column="29" bodyfile="rrIniFile.cpp" bodystart="653" bodyend="670"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1abadf22edc3ce9e12d8ad03f554f90d3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -875,7 +892,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="103" column="29" bodyfile="rrIniFile.cpp" bodystart="672" bodyend="694"/>
+        <location file="rrIniFile.h" line="104" column="29" bodyfile="rrIniFile.cpp" bodystart="672" bodyend="694"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a7eebc3708fd1cb4b29afa08730fc3f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -906,7 +923,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="104" column="29" bodyfile="rrIniFile.cpp" bodystart="724" bodyend="739"/>
+        <location file="rrIniFile.h" line="105" column="29" bodyfile="rrIniFile.cpp" bodystart="724" bodyend="739"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1adc60e078656f62ad2fd6646b227c8ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -928,7 +945,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="107" column="29" bodyfile="rrIniFile.cpp" bodystart="745" bodyend="761"/>
+        <location file="rrIniFile.h" line="108" column="29" bodyfile="rrIniFile.cpp" bodystart="745" bodyend="761"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1aa61d11c5887653f29e7af627b8c664f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -953,7 +970,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="108" column="29" bodyfile="rrIniFile.cpp" bodystart="768" bodyend="794"/>
+        <location file="rrIniFile.h" line="109" column="29" bodyfile="rrIniFile.cpp" bodystart="768" bodyend="794"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a0af07e5fe97fc53e4f8af4be98288a8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -966,7 +983,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="111" column="29" bodyfile="rrIniFile.cpp" bodystart="797" bodyend="800"/>
+        <location file="rrIniFile.h" line="112" column="29" bodyfile="rrIniFile.cpp" bodystart="797" bodyend="800"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a3de8a80dfe82b458ab84dbe72ca48397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -979,7 +996,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="112" column="29" bodyfile="rrIniFile.cpp" bodystart="803" bodyend="812"/>
+        <location file="rrIniFile.h" line="113" column="29" bodyfile="rrIniFile.cpp" bodystart="803" bodyend="812"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ae3c57da7631c79edf4bb835d75d74ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -996,7 +1013,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="113" column="29" bodyfile="rrIniFile.cpp" bodystart="814" bodyend="819"/>
+        <location file="rrIniFile.h" line="114" column="29" bodyfile="rrIniFile.cpp" bodystart="814" bodyend="819"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a16b14b66bb99a33ef9a1f63208243c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1009,7 +1026,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="114" column="29" bodyfile="rrIniFile.cpp" bodystart="48" bodyend="57"/>
+        <location file="rrIniFile.h" line="115" column="29" bodyfile="rrIniFile.cpp" bodystart="48" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a11b30f1eaaebf63eecf83bbe71b7c792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1026,7 +1043,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="115" column="29" bodyfile="rrIniFile.cpp" bodystart="77" bodyend="85"/>
+        <location file="rrIniFile.h" line="116" column="29" bodyfile="rrIniFile.cpp" bodystart="77" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a0b35fb7a348df800676fc71eca8be989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -1043,7 +1060,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="116" column="29" bodyfile="rrIniFile.cpp" bodystart="879" bodyend="898"/>
+        <location file="rrIniFile.h" line="117" column="29" bodyfile="rrIniFile.cpp" bodystart="879" bodyend="898"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1ae00212a8f80890e04fc0d54edab53860" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1IniKey" kindref="compound">IniKey</ref> *</type>
@@ -1064,7 +1081,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="117" column="28" bodyfile="rrIniFile.cpp" bodystart="823" bodyend="841"/>
+        <location file="rrIniFile.h" line="118" column="28" bodyfile="rrIniFile.cpp" bodystart="823" bodyend="841"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1af1c349158b375e19f73be3e86119e3ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1IniSection" kindref="compound">IniSection</ref> *</type>
@@ -1086,7 +1103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="118" column="28" bodyfile="rrIniFile.cpp" bodystart="845" bodyend="869"/>
+        <location file="rrIniFile.h" line="119" column="28" bodyfile="rrIniFile.cpp" bodystart="845" bodyend="869"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a4d569729086baaed36eb80bb2acd1dd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1IniSection" kindref="compound">IniSection</ref> *</type>
@@ -1103,7 +1120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="119" column="28" bodyfile="rrIniFile.cpp" bodystart="871" bodyend="877"/>
+        <location file="rrIniFile.h" line="120" column="28" bodyfile="rrIniFile.cpp" bodystart="871" bodyend="877"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1a855673a5b2c81c72cd60cc6ac58c05ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1120,7 +1137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="120" column="29" bodyfile="rrIniFile.cpp" bodystart="64" bodyend="73"/>
+        <location file="rrIniFile.h" line="121" column="29" bodyfile="rrIniFile.cpp" bodystart="64" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IniFile_1aee0e075188471d394dad72f73a105f04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -1133,7 +1150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrIniFile.h" line="121" column="29" bodyfile="rrIniFile.h" bodystart="121" bodyend="121"/>
+        <location file="rrIniFile.h" line="122" column="29" bodyfile="rrIniFile.h" bodystart="122" bodyend="122"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1153,7 +1170,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="rrIniFile.h" line="33" column="1" bodyfile="rrIniFile.h" bodystart="34" bodyend="122"/>
+    <location file="rrIniFile.h" line="33" column="1" bodyfile="rrIniFile.h" bodystart="34" bodyend="123"/>
     <listofallmembers>
       <member refid="classrr_1_1IniFile_1a16b14b66bb99a33ef9a1f63208243c24" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>Clear</name></member>
       <member refid="classrr_1_1IniFile_1a855673a5b2c81c72cd60cc6ac58c05ef" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>ClearSection</name></member>
@@ -1171,6 +1188,7 @@
       <member refid="classrr_1_1IniFile_1ace45bcc9e356999ef4733809477d4adb" prot="private" virt="non-virtual"><scope>rr::IniFile</scope><name>GetNextWord</name></member>
       <member refid="classrr_1_1IniFile_1a039069a816202c5d1103bafda4467126" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetNumberOfSections</name></member>
       <member refid="classrr_1_1IniFile_1a8236e6ce6a56429276b25060d5e36f08" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
+      <member refid="classrr_1_1IniFile_1aae0d84e192854f205cc463e1781c78be" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
       <member refid="classrr_1_1IniFile_1af1c349158b375e19f73be3e86119e3ff" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
       <member refid="classrr_1_1IniFile_1a4d569729086baaed36eb80bb2acd1dd6" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
       <member refid="classrr_1_1IniFile_1ab792ef51065dfdf4141b81bb2add44c7" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>IniFile</name></member>

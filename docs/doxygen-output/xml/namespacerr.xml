@@ -1492,7 +1492,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="351" column="24" bodyfile="rrLogger.cpp" bodystart="351" bodyend="359" declfile="rrLogger.cpp" declline="80" declcolumn="24"/>
+        <location file="rrLogger.cpp" line="352" column="24" bodyfile="rrLogger.cpp" bodystart="352" bodyend="360" declfile="rrLogger.cpp" declline="80" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrLogger_8cpp_1abe3093e711e62b578c02180e04ceb980" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PatternFormatter *</type>
@@ -1506,7 +1506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="361" column="25" bodyfile="rrLogger.cpp" bodystart="361" bodyend="369" declfile="rrLogger.cpp" declline="85" declcolumn="25"/>
+        <location file="rrLogger.cpp" line="362" column="25" bodyfile="rrLogger.cpp" bodystart="362" bodyend="370" declfile="rrLogger.cpp" declline="85" declcolumn="25"/>
       </memberdef>
       <memberdef kind="function" id="rrLogger_8cpp_1ae64639d18affe140d67004aa158f3a3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Channel *</type>
@@ -1535,7 +1535,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="158" column="14" bodyfile="rrLogger.cpp" bodystart="158" bodyend="199" declfile="rrLogger.h" declline="305" declcolumn="26"/>
+        <location file="rrLogger.cpp" line="158" column="14" bodyfile="rrLogger.cpp" bodystart="158" bodyend="200" declfile="rrLogger.h" declline="305" declcolumn="26"/>
       </memberdef>
       <memberdef kind="function" id="rrLogger_8cpp_1a4996b05a760f1b8eeedf3abfed936cac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1548,7 +1548,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="503" column="6" bodyfile="rrLogger.cpp" bodystart="503" bodyend="506"/>
+        <location file="rrLogger.cpp" line="504" column="6" bodyfile="rrLogger.cpp" bodystart="504" bodyend="507"/>
       </memberdef>
       <memberdef kind="function" id="rrNLEQ1Interface_8cpp_1a602e172bdfe5a8eeea93fa7e1475848e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4687,7 +4687,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="448" column="6" bodyfile="rrUtils.cpp" bodystart="448" bodyend="473" declfile="rrUtils.h" declline="110" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="448" column="6" bodyfile="rrUtils.cpp" bodystart="448" bodyend="471" declfile="rrUtils.h" declline="110" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1ac8c10eccca3750d533442d96ed5bc3d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4704,7 +4704,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="475" column="6" bodyfile="rrUtils.cpp" bodystart="475" bodyend="487" declfile="rrUtils.h" declline="112" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="473" column="6" bodyfile="rrUtils.cpp" bodystart="473" bodyend="485" declfile="rrUtils.h" declline="112" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a180291b2986f505d401d76b616bf7b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4721,7 +4721,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="489" column="6" bodyfile="rrUtils.cpp" bodystart="489" bodyend="506" declfile="rrUtils.h" declline="114" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="487" column="6" bodyfile="rrUtils.cpp" bodystart="487" bodyend="504" declfile="rrUtils.h" declline="114" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1addfcc61e238fed821f4c60ad7a44759d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4738,7 +4738,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="508" column="6" bodyfile="rrUtils.cpp" bodystart="508" bodyend="527" declfile="rrUtils.h" declline="61" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="506" column="6" bodyfile="rrUtils.cpp" bodystart="506" bodyend="525" declfile="rrUtils.h" declline="61" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1ad4890ed3b9b711d0948ecbd79807dda3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4759,7 +4759,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="529" column="6" bodyfile="rrUtils.cpp" bodystart="529" bodyend="535" declfile="rrUtils.h" declline="134" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="527" column="6" bodyfile="rrUtils.cpp" bodystart="527" bodyend="533" declfile="rrUtils.h" declline="134" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a80ae4a49fa526072d04180dad9276db6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4788,7 +4788,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="537" column="6" bodyfile="rrUtils.cpp" bodystart="537" bodyend="551" declfile="rrUtils.h" declline="119" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="535" column="6" bodyfile="rrUtils.cpp" bodystart="535" bodyend="549" declfile="rrUtils.h" declline="119" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1accac610ef66274a3d39da2edf6a5b602" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4813,7 +4813,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="553" column="6" bodyfile="rrUtils.cpp" bodystart="553" bodyend="566" declfile="rrUtils.h" declline="121" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="551" column="6" bodyfile="rrUtils.cpp" bodystart="551" bodyend="564" declfile="rrUtils.h" declline="121" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1aecf6e88935ef6c9e02c16d021158b1e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4838,7 +4838,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="568" column="6" bodyfile="rrUtils.cpp" bodystart="568" bodyend="581" declfile="rrUtils.h" declline="122" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="566" column="6" bodyfile="rrUtils.cpp" bodystart="566" bodyend="579" declfile="rrUtils.h" declline="122" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a36b3ae158674372b7740fb5a7651da52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>vector&lt; double &gt;</type>
@@ -4859,7 +4859,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="583" column="8" bodyfile="rrUtils.cpp" bodystart="583" bodyend="598" declfile="rrUtils.h" declline="124" declcolumn="21"/>
+        <location file="rrUtils.cpp" line="581" column="8" bodyfile="rrUtils.cpp" bodystart="581" bodyend="596" declfile="rrUtils.h" declline="124" declcolumn="21"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1aa83cab7d89cf90ca3ff6e9894d2a9308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4884,7 +4884,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="600" column="6" bodyfile="rrUtils.cpp" bodystart="600" bodyend="614" declfile="rrUtils.h" declline="117" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="598" column="6" bodyfile="rrUtils.cpp" bodystart="598" bodyend="612" declfile="rrUtils.h" declline="117" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a918a0430a2756e2c3f76ae27e76c7131" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4909,7 +4909,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="616" column="6" bodyfile="rrUtils.cpp" bodystart="616" bodyend="630" declfile="rrUtils.h" declline="118" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="614" column="6" bodyfile="rrUtils.cpp" bodystart="614" bodyend="628" declfile="rrUtils.h" declline="118" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a6d95cc25b85b5a29a84de52893cf9131" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4934,7 +4934,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="632" column="6" bodyfile="rrUtils.cpp" bodystart="632" bodyend="646" declfile="rrUtils.h" declline="120" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="630" column="6" bodyfile="rrUtils.cpp" bodystart="630" bodyend="644" declfile="rrUtils.h" declline="120" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1acd0ce4285b263bc47651c60105c69614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double *</type>
@@ -4951,7 +4951,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="648" column="8" bodyfile="rrUtils.cpp" bodystart="648" bodyend="662" declfile="rrUtils.h" declline="123" declcolumn="28"/>
+        <location file="rrUtils.cpp" line="646" column="8" bodyfile="rrUtils.cpp" bodystart="646" bodyend="660" declfile="rrUtils.h" declline="123" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a473f23cdd4afded7551d35d316588263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -4977,7 +4977,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="664" column="8" bodyfile="rrUtils.cpp" bodystart="664" bodyend="677" declfile="rrUtils.h" declline="84" declcolumn="25"/>
+        <location file="rrUtils.cpp" line="662" column="8" bodyfile="rrUtils.cpp" bodystart="662" bodyend="675" declfile="rrUtils.h" declline="84" declcolumn="25"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1aab3c37fa859ea13109a88d6287feee1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -5007,7 +5007,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="679" column="8" bodyfile="rrUtils.cpp" bodystart="679" bodyend="683" declfile="rrUtils.h" declline="90" declcolumn="25"/>
+        <location file="rrUtils.cpp" line="677" column="8" bodyfile="rrUtils.cpp" bodystart="677" bodyend="681" declfile="rrUtils.h" declline="90" declcolumn="25"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a6ba8cdc1dac6cb93c91adfae751363fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -5040,7 +5040,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="685" column="8" bodyfile="rrUtils.cpp" bodystart="685" bodyend="689" declfile="rrUtils.h" declline="93" declcolumn="25"/>
+        <location file="rrUtils.cpp" line="683" column="8" bodyfile="rrUtils.cpp" bodystart="683" bodyend="687" declfile="rrUtils.h" declline="93" declcolumn="25"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a10af64b6f85d0b301848ea2ac1e88896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -5077,7 +5077,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="691" column="8" bodyfile="rrUtils.cpp" bodystart="691" bodyend="695" declfile="rrUtils.h" declline="97" declcolumn="25"/>
+        <location file="rrUtils.cpp" line="689" column="8" bodyfile="rrUtils.cpp" bodystart="689" bodyend="693" declfile="rrUtils.h" declline="97" declcolumn="25"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1ad1b5afe93a1b01cb209678d5657b6f5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int64_t</type>
@@ -5092,7 +5092,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="744" column="9" bodyfile="rrUtils.cpp" bodystart="744" bodyend="747" declfile="rrUtils.h" declline="144" declcolumn="21"/>
+        <location file="rrUtils.cpp" line="742" column="9" bodyfile="rrUtils.cpp" bodystart="742" bodyend="745" declfile="rrUtils.h" declline="144" declcolumn="21"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8h_1af42371c63b84f382fe10ad407d0f1c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RR_DECLSPEC size_t</type>

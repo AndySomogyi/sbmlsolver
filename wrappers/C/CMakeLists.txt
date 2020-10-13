@@ -42,11 +42,16 @@ set(
 #The C-api is built as a shared library..
 add_library(${target} SHARED ${HEADERS} ${SOURCES})
 
+target_include_directories(${target} PUBLIC
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>" # for #include "C/rrc_api.h"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+        )
+
 # link statically so users of the c library will not also need the shared.
 # Note: properties of roadrunner-static are transitive. Link libraries and
 # include_directories for roadrunner-static all come with the
 # roadrunner-static target automatically.
-target_link_libraries(${target} PRIVATE roadrunner-static)
+target_link_libraries(${target} PUBLIC roadrunner-static)
 
 add_dependencies(${target} roadrunner-static)
 

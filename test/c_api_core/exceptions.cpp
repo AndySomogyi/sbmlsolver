@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "../test_util.h"
-#include "wrappers/C/rrc_api.h"
+#include "C/rrc_api.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrIniFile.h"

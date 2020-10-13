@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "wrappers/C/rrc_api.h"
+#include "C/rrc_api.h"
 #include "rrIniFile.h"
 
 

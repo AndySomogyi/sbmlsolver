@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.h" line="28" column="5" bodyfile="rrLogger.cpp" bodystart="543" bodyend="555"/>
+        <location file="rrLogger.h" line="28" column="5" bodyfile="rrLogger.cpp" bodystart="544" bodyend="556"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoggingBuffer_1a604487b60a968da939c335195a9fba19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -95,7 +95,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.h" line="33" column="5" bodyfile="rrLogger.cpp" bodystart="557" bodyend="590"/>
+        <location file="rrLogger.h" line="33" column="5" bodyfile="rrLogger.cpp" bodystart="558" bodyend="591"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoggingBuffer_1a23c72224ad52f14bc2d52d1eb361d479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -109,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.h" line="38" column="18" bodyfile="rrLogger.cpp" bodystart="592" bodyend="595"/>
+        <location file="rrLogger.h" line="38" column="18" bodyfile="rrLogger.cpp" bodystart="593" bodyend="596"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

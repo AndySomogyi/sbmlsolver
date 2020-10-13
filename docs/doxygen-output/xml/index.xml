@@ -442,6 +442,7 @@
     <member refid="classrr_1_1IniFile_1ab27e4b972c4a7cbce24baf8ccd7b50a1" kind="function"><name>~IniFile</name></member>
     <member refid="classrr_1_1IniFile_1a039069a816202c5d1103bafda4467126" kind="function"><name>GetNumberOfSections</name></member>
     <member refid="classrr_1_1IniFile_1a8236e6ce6a56429276b25060d5e36f08" kind="function"><name>GetSection</name></member>
+    <member refid="classrr_1_1IniFile_1aae0d84e192854f205cc463e1781c78be" kind="function"><name>GetSection</name></member>
     <member refid="classrr_1_1IniFile_1ab59fe8169dc21705f942819eb61cecbc" kind="function"><name>GetFilePath</name></member>
     <member refid="classrr_1_1IniFile_1a4584f793b8d33c4849bc4694ce2a38c5" kind="function"><name>GetFileName</name></member>
     <member refid="classrr_1_1IniFile_1a81951d80e536625d8bd2204f6e58e6df" kind="function"><name>GetFullFileName</name></member>

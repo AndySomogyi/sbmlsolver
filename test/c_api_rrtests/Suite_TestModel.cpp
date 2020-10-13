@@ -13,8 +13,8 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrUtils.h"
-#include "wrappers/C/rrc_api.h"
-#include "wrappers/C/rrc_cpp_support.h"
+#include "C/rrc_api.h"
+#include "C/rrc_cpp_support.h"
 #include "../test_util.h"
 
 //using..
