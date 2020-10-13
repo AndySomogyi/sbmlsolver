@@ -184,8 +184,6 @@ file(RELATIVE_PATH relDir
         ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR} )
 set(CMAKE_INSTALL_RPATH ${RPATH_BASE} ${RPATH_BASE}/${relDir})
 
-message(STATUS "relDir ${relDir}")
-
 if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()
 endif ()
@@ -390,42 +388,40 @@ endif ()
 # Configuration summary
 #
 
-if (BUILD_TESTS AND BUILD_TEST_TOOLS)
+if(BUILD_TESTS)
+    add_subdirectory(test)
+
     message(STATUS "building tests")
-    file(GLOB TEST_FILES "testing/*")
 
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
-    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
+    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*" )
 
-    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
-    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.xml")
+    
+    foreach( f ${PYTHON_TEST_FILES} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
 
-    foreach (f ${TEST_FILES})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} testing/${FILE_NAME} COPYONLY)
-            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
+    foreach( f ${PYTHON_TEST_DATA} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
 
-    foreach (f ${PYTHON_TEST_DATA})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
+    foreach( f ${TEST_DATA_XML} )
+        if(NOT IS_DIRECTORY ${f})
+            get_filename_component( FILE_NAME ${f} NAME )
+            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
+        endif()
+    endforeach()
 
-    foreach (f ${TEST_DATA_XML})
-        if (NOT IS_DIRECTORY ${f})
-            get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
-        endif ()
-    endforeach ()
-
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
-else ()
+else()
     message(STATUS "NOT building tests")
 endif ()
 
@@ -474,6 +470,7 @@ install(
         NEWS.txt
         DESTINATION .
 )
+
 # print out configuration summary
 ConfigurationSummary()
 

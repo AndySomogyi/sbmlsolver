@@ -52,8 +52,6 @@ add_dependencies(${target} roadrunner-static)
 
 target_compile_definitions(${target} PRIVATE EXPORT_RRC STATIC_RR)
 
-
-message(STATUS "CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}")
 install(
         TARGETS ${target}
         EXPORT ${target}
@@ -76,40 +74,3 @@ install(
 
 
 
-# note cmake script ends here. Below is commented out
-# until build system matures. Other folders have not yet been added
-# to the new build system.
-
-#<<<<<<< HEAD
-
-#add_subdirectory(Apps)
-#add_subdirectory(ApiTest)
-#
-#if (BUILD_EXAMPLES)
-#    add_subdirectory(Examples)
-#endif ()
-#
-#if (BUILD_TESTS)
-#    add_subdirectory(Testing)
-#endif ()
-#
-##=============== install =====================
-##Glob all header files
-#FILE(GLOB headers rrc*.h)
-#
-#install(
-#        FILES
-#        ${headers}
-#        DESTINATION include/rr/C COMPONENT c_api
-#)
-#
-#=======
-#install(
-#    TARGETS ${target}
-#    RUNTIME DESTINATION bin COMPONENT c_api
-#    ARCHIVE DESTINATION lib COMPONENT c_api
-#    LIBRARY DESTINATION lib COMPONENT c_api
-#    )
-#
-#install(TARGETS roadrunner_c_api DESTINATION site-packages/roadrunner)
-#>>>>>>> 32624909156eb38d84edf40566b07980f7435fca

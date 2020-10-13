@@ -81,9 +81,13 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/roadrunner.py"
 
 
 install(
-        DIRECTORY testing
-        DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}
-        FILES_MATCHING PATTERN "*"
+    FILES testing/__init__.py
+    	  testing/__main__.py 
+    	  testing/README.txt 
+    	  testing/tester.py 
+    	  testing/testfiles.py 
+    	  testing/SBMLTest.py
+    DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing
 )
 
 install(
@@ -92,14 +96,13 @@ install(
         FILES_MATCHING PATTERN "*.*"
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/testing/*.rrtest")
+file(GLOB rrtest_files1 "${RR_ROOT}/test/rrtest_files/*.rrtest")
 install(
-        FILES ${rrtest_files}
-        DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
+    FILES ${rrtest_files1}
+    DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
 )
 
-file(GLOB rrtest_files "${RR_ROOT}/testing/*.xml")
-install(
-        FILES ${rrtest_files}
-        DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
+file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml"
+    FILES ${rrtest_files2}
+    DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
 )

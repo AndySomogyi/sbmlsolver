@@ -432,11 +432,14 @@ install(
         EXPORT_LINK_INTERFACE_LIBRARIES
 )
 
+#Libxml we can't build right now
+if(${BORLAND})
+    target_link_libraries (${target}-static libxml2_xe)
+endif()
 
 
-
-
-
-
-
-
+if(BUILD_TEST_TOOLS)
+    if(BUILD_LLVM)
+        add_subdirectory(llvm_testing)
+    endif(BUILD_LLVM)
+endif()
