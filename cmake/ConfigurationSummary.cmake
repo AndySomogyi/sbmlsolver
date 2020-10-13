@@ -17,12 +17,47 @@ Options
     Host architecture                   ${CMAKE_SYSTEM_PROCESSOR}
     With LLVM?                          ${BUILD_LLVM}
     With legacy C? (DEP)                ${BUILD_LEGACY_C}
-    Enable Python interface?            ${BUILD_PYTHON}
-    Enable Java interface?              ${BUILD_JAVA}
-    Enable test suite?                  ${BUILD_TESTS}
+    llvm-6.x install prefix             ${LLVM_INSTALL_PREFIX}
+    Build test tools?                   ${BUILD_TEST_TOOLS}
+    Build tests?                        ${BUILD_TESTS}
+    Build Python bindings               ${BUILD_PYTHON}
+    Site-packages directory             ${PYTHON_PACKAGE_SITE_DIR}
+    Python roadrunner install prefix    ${PYTHON_PACKAGE_INSTALL_PREFIX}
+    Build Python ctypes api             ${BUILD_PYTHON_CTYPES_API}
+    Build conda recipe                  ${WITH_CONDA_BUILDER}
+    Build roadrunner C API              ${BUILD_RR_CAPI}
+    Build apps                          ${BUILD_APPS}
+    Build examples                      ${BUILD_EXAMPLES}
+    Install sbml models?                ${INSTALL_SBML_MODELS}
+    Build Java bindings?                ${BUILD_JAVA}
+    Package roadrunner?                 ${BUILD_PACKAGING}
+    Build with address sanitizer?       ${WITH_ADDRESS_SANITIZER}
 
 -------------------------------------------------------------------------------
-CMake variables and options
+rrplugins
+-------------------------------------------------------------------------------
+
+    Features:
+        Build rrplugins package?           ${BUILD_RR_PLUGINS}
+        Build rrplugins as shared library? ${RR_PLUGINS_BUILD_SHARED_LIB}
+        Build rrplugins as static library? ${RR_PLUGINS_BUILD_STATIC_LIB}
+        Where to install rrplugins?        ${RR_PLUGINS_INSTALL_PREFIX}
+
+    Languages
+
+        Build the C API?                   ${RR_PLUGINS_BUILD_C_API}
+        Build the Python API?              ${RR_PLUGINS_BUILD_PYTHON_API}
+
+    Plugins available:
+      Test Model                           ${RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN}
+      Add Noise                            ${RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN}
+      Chi-squared                          ${RR_PLUGINS_BUILD_CHISQUARE_PLUGIN}
+      Bifurcation Auto2k                   ${RR_PLUGINS_BUILD_AUTO2000_PLUGIN}
+      Demo Plugin                          ${RR_PLUGINS_BUILD_HELLO_PLUGIN}
+
+
+-------------------------------------------------------------------------------
+CMake variables
 -------------------------------------------------------------------------------
     CMAKE_C_COMPILER                   ${CMAKE_C_COMPILER}
     CMAKE_CXX_COMPILER                 ${CMAKE_CXX_COMPILER}
@@ -47,81 +82,6 @@ CMake variables and options
     CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     CMAKE_ARCHIVE_OUTPUT_DIRECTORY     ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
     MSVC_RUNTIME_LIBRARY               ${MSVC_RUNTIME_LIBRARY}
-
-    WITH_SANITIZER                     ${WITH_SANITIZER}
-    BUILD_SHARED_LIBS                  ${BUILD_SHARED_LIBS}
-    BUILD_DOCS                         ${BUILD_DOCS}
-    BUILD_TESTS                        ${BUILD_TESTS}
-
--------------------------------------------------------------------------------
-Dependencies
--------------------------------------------------------------------------------
-    GOOGLETEST_SOURCE                   ${GOOGLETEST_SOURCE}
-
-    LLVM:
-        LLVM_FOUND                      ${LLVM_FOUND}
-        LLVM_INCLUDE_DIRS               ${LLVM_INCLUDE_DIRS}
-        LLVM_LIBRARY_DIRS               ${LLVM_LIBRARY_DIRS}
-        LLVM_LDFLAGS                    ${LLVM_LDFLAGS}
-        LLVM_LIBRARIES                  ${LLVM_LIBRARIES}
-        LLVM_FLAGS                      ${LLVM_FLAGS}
-        LLVM_VERSION_MAJOR              ${LLVM_VERSION_MAJOR}
-        LLVM_VERSION_MINOR              ${LLVM_VERSION_MINOR}
-        LLVM_VERSION_PATCH              ${LLVM_VERSION_PATCH}
-
-        BUILD_LLVM                      ${BUILD_LLVM}
-        DOWNLOAD_LLVM_BINARIES          ${DOWNLOAD_LLVM_BINARIES}
-        LLVM_ROOT                       ${LLVM_ROOT}
-        LLVM_INSTALL_PREFIX             ${LLVM_INSTALL_PREFIX}
-
-        RR_DEPENDENCIES_INSTALL_PREFIX  ${RR_DEPENDENCIES_INSTALL_PREFIX}
-        LLVM_INSTALL_PREFIX             ${LLVM_INSTALL_PREFIX}
-        BUILD_TEST_TOOLS                ${BUILD_TEST_TOOLS}
-        BUILD_LLVM                      ${BUILD_LLVM}
-        BUILD_LEGACY_C                  ${BUILD_LEGACY_C}
-        BUILD_PYTHON                    ${BUILD_PYTHON}
-        PYTHON_PACKAGE_SITE_DIR                 ${PYTHON_PACKAGE_SITE_DIR}
-        BUILD_PYTHON                    ${BUILD_PYTHON}
-        BUILD_JAVA            ${BUILD_JAVA}
-        BUILD_CXX_API                 ${BUILD_CXX_API}
-        BUILD_RR_CAPI                   ${BUILD_RR_CAPI}
-        BUILD_PYTHON_CTYPES_API            ${BUILD_PYTHON_CTYPES_API}
-        BUILD_APPS                    ${BUILD_APPS}
-        BUILD_EXAMPLES                ${BUILD_EXAMPLES}
-        INSTALL_STATIC_LIB              ${INSTALL_STATIC_LIB}
-        RR_BUILD_SHARED_CORE            ${RR_BUILD_SHARED_CORE}
-        BUILD_TESTS                     ${BUILD_TESTS}
-        INSTALL_SBML_MODELS             ${INSTALL_SBML_MODELS}
-        WITH_CONDA_BUILDER              ${WITH_CONDA_BUILDER}
-        USE_POCO_NET                    ${USE_POCO_NET}
-        VERBOSE_CMAKE                   ${VERBOSE_CMAKE}
-        CMAKE_VERBOSE_MAKEFILE          ${CMAKE_VERBOSE_MAKEFILE}
-        BUILD_PACKAGING                 ${BUILD_PACKAGING}
-        WITH_ADDRESS_SANITIZER          ${WITH_ADDRESS_SANITIZER}
-        CXX_STANDARD                    ${CXX_STANDARD}
-        CMAKE_CXX_VISIBILITY_PRESET     ${CMAKE_CXX_VISIBILITY_PRESET}
-        CMAKE_VISIBILITY_INLINES_HIDDEN ${CMAKE_VISIBILITY_INLINES_HIDDEN}
-
--------------------------------------------------------------------------------
-rrplugins
--------------------------------------------------------------------------------
-
-    Features:
-      Enable shared libs?       ${TLP_BUILD_SHARED_LIB}
-      Enable static libs?       ${TLP_BUILD_STATIC_LIB}
-
-    Language bindings:
-      Enable C bindings?        ${TLP_BUILD_PLUGINS_C_API}
-      Enable python bindings?   ${TLP_BUILD_PLUGINS_PYTHON_API}
-
-    Released plugins:
-      Test Model                ${TLP_BUILD_TEST_MODEL_PLUGIN}
-      Add Noise                 ${TLP_BUILD_ADD_NOISE_PLUGIN}
-      Chi-squared               ${TLP_BUILD_CHISQUARE_PLUGIN}
-      Bifurcation Auto2k        ${TLP_BUILD_AUTO2000_PLUGIN}
-      Demo Plugin               ${TLP_BUILD_HELLO_PLUGIN}
-
-    Dependencies (packages marked with *** are required for rrplugins):
 
 
 End Summary
