@@ -43,6 +43,11 @@ rrplugins
         Build rrplugins as static library? ${RR_PLUGINS_BUILD_STATIC_LIB}
         Where to install rrplugins?        ${RR_PLUGINS_INSTALL_PREFIX}
 
+    Languages
+
+        Build the C API?                   ${RR_PLUGINS_BUILD_C_API}
+        Build the Python API?              ${RR_PLUGINS_BUILD_PYTHON_API}
+
     Plugins available:
       Test Model                           ${RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN}
       Add Noise                            ${RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN}
