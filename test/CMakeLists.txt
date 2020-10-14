@@ -24,19 +24,6 @@ set(TESTDIRS
         semantic_STS
         )
 
-#set(GTESTLIB gtest)
-#
-##Sadly, googletest gives the debug library a different name, so we have to figure
-## out which one is being used
-#file(GLOB LIBRARIES ${THIRD_PARTY_INSTALL_FOLDER}/lib/*)
-#foreach (libid IN LISTS LIBRARIES)
-#    string(FIND ${libid} "gtestd" pos)
-#    if (pos GREATER_EQUAL 0)
-#        set(GTESTLIB gtestd)
-#    endif ()
-#endforeach ()
-#
-#message(STATUS "GTestLib = ${GTESTLIB}")
 
 foreach (dirid IN LISTS TESTDIRS)
 #    message(STATUS "dirid = ${dirid}")
