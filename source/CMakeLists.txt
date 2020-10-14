@@ -129,7 +129,6 @@ set(
         SolverRegistration.h
         Variant.h
 )
-message(STATUS "HERE CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}")
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
 
@@ -332,7 +331,6 @@ add_library(${target}-static STATIC ${rrSources})
 # specify STATIC_RR
 target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 
-message(status "DEPENDENCY_INCLUDE_DIR ${DEPENDENCY_INCLUDE_DIR}")
 target_include_directories(
         ${target}-static PUBLIC
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"

@@ -53,22 +53,29 @@ foreach (dirid IN LISTS TESTDIRS)
 
     add_compile_definitions(${testid} PRIVATE STATIC_RR)
 
-    if (UNIX) #Don't know why static roadrunner fails....?
-        set(staticLibPrefix ".a")
-        set(sharedLibPrefix ".so")
-    endif ()
-
     # This order is important:  on linux, including the core library before the C api library
     # causes the resulting program to crash in Poco.
     target_link_libraries(${testid}
             roadrunner_c_api
             roadrunner-static
-            PocoXML
-            ${GTESTLIB}
+            PocoXML::PocoXML
+            gtest gtest_main
             )
+
+    set_target_properties(${testid} PROPERTIES ENVIRONMENT
+            "testdir=${RR_ROOT}/test")
+
     target_include_directories(${testid} PRIVATE "$<TARGET_PROPERTY:roadrunner_c_api,INCLUDE_DIRECTORIES>")
     add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT
             "testdir=${RR_ROOT}/test")
 
 endforeach ()
+
+
+add_custom_target(
+        run-ctest
+            ctest ${CMAKE_BINARY_DIR}
+)
+
+set(ENV testdir "${CMAKE_CURRENT_SOURCE_DIR}")

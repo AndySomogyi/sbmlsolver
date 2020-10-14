@@ -256,6 +256,7 @@ if (${MSVC})
             -DCRT_NONSTDC_NO_DEPRECATE
             -D_CRT_SECURE_NO_WARNINGS    # MS wanting you to changes basically all standard C functions :(
             -D_WIN32                     # used as switch in zlib macro
+            -DXML_STATIC                 # for expat inside poco. The code that uses this define (poco_xml) is only used in tests.
     )
 
 endif ()
@@ -315,6 +316,7 @@ find_package(nleq1 CONFIG REQUIRED)
 find_package(nleq2 CONFIG REQUIRED)
 find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
+find_package(PocoXML CONFIG REQUIRED)
 find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
