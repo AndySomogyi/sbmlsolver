@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="A warning for windows users" href="windows_warning.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
           
 
           
@@ -73,6 +74,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -96,6 +98,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#building-the-roadrunner-plugins">Building the Roadrunner Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-roadrunner-tests">Building roadrunner tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packaging-roadrunner">Packaging Roadrunner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting-the-build">Troubleshooting the build</a></li>
 </ul>
 </li>
@@ -116,6 +120,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -154,7 +159,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Installing RoadRunner</li>
     
@@ -315,6 +320,49 @@ $ cmake --build . --target install --config Release
 </pre></div>
 </div>
 </div>
+<div class="section" id="building-roadrunner-tests">
+<h2>Building roadrunner tests<a class="headerlink" href="#building-roadrunner-tests" title="Permalink to this headline">¶</a></h2>
+<p>Use the <cite>-DBUILD_TESTS=ON</cite> option</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
+    -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> <span class="se">\</span>
+    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> <span class="se">\</span>
+    -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> <span class="se">\</span>
+    -DBUILD_TESTS<span class="o">=</span>ON
+$ cmake --build . --target install --config Release
+</pre></div>
+</div>
+<p>You can run the tests using ctest on the command line, ensuring you are in the top level
+of your build tree (D`:roadrunnerbuild` here).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ctest .
+</pre></div>
+</div>
+<p>Alternatively you can build the <cite>ctest-run</cite> target, which is more convenient
+when you want to run the test from within an IDE since you use the mouse to
+build the <cite>ctest-run</cite> target. In the background, this will run the following
+command, which you may also run manually.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake --build . --target ctest-run
+</pre></div>
+</div>
+</div>
+<div class="section" id="packaging-roadrunner">
+<h2>Packaging Roadrunner<a class="headerlink" href="#packaging-roadrunner" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Windows: produces a zip file.</p></li>
+<li><p>Linux: produces tar.gz and a debian package.</p></li>
+<li><p>Macos: produces a tar.gz file.</p></li>
+</ul>
+<p>First follow the instructions for installing roadrunner, including options for
+any other desired options such as tests, plugins or language bindings. Then rerun
+cmake using using the <cite>-DBUILD_PACKAGING=ON</cite> option.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>$ cmake -DCMAKE_INSTALL_PREFIX=”D:roadrunnerinstall-msvc2019” </dt><dd><p>-DLLVM_INSTALL_PREFIX=”D:llvm-6.xllvmllvm-6.x-msvc-x64-release” -DRR_DEPENDENCIES_INSTALL_PREFIX=”D:roadrunner-depsroadrunner-deps-install” -DCMAKE_BUILD_TYPE=”Release” -DBUILD_PACKAGING=ON</p>
+</dd>
+</dl>
+<p>$ cmake –build . –target install –config Release
+$ cmake –build . –target packaging –config Release</p>
+</div></blockquote>
+</div>
 <div class="section" id="troubleshooting-the-build">
 <h2>Troubleshooting the build<a class="headerlink" href="#troubleshooting-the-build" title="Permalink to this headline">¶</a></h2>
 <p>Section on CMake bin directory being in the path environment</p>
@@ -342,11 +390,19 @@ $ cmake --build . --target install --config Release
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -357,7 +413,6 @@ $ cmake --build . --target install --config Release
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,12 +34,9 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Accessing the SBML Model Variables" href="accessing_model.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> libRoadRunner
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
           
 
           
@@ -71,6 +73,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -78,15 +81,82 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RoadRunner API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-functions">Configuration Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#available-configuration-parameters">Available Configuration Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-main-roadrunner-class">The Main RoadRunner Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#selections">Selections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-access">Model Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-editing">Model Editing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steady-state">Steady State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metabolic-control-analysis">Metabolic control analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stoichiometric-analysis">Stoichiometric Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#solver-class">Solver Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integrator-class">Integrator Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cvode">CVODE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gillespie">Gillespie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#euler">Euler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rk4">RK4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rk45">RK45</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#steady-state-solver-class">Steady State Solver Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nleq2">NLEQ2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#selectionrecord">SelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sbml-compile-options">SBML Compile Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-the-sbml-model-variables">Accessing the SBML Model Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#floating-species">Floating Species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#floating-species-initial-conditions">Floating Species Initial Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boundary-species">Boundary Species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compartments">Compartments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#global-parameters">Global Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reactions">Reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rate-rules">Rate Rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stoichiometry">Stoichiometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conserved-moieties">Conserved Moieties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#misc">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#logging-levels">Logging Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-methods">Logging Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#jit-compilation">JIT Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous-functions">Miscellaneous Functions</a></li>
+</ul>
+</li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -125,7 +195,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>RoadRunner API Reference</li>
     
@@ -224,7 +294,7 @@ loaded via:</p>
 </pre></div>
 </div>
 <p>Note, the forward slash works on both Unix and Windows, using the forward slash eliminates the
-need to use a double back slash, “\\”.</p>
+need to use a double back slash, “\”.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4594,16 +4664,31 @@ Raises exception if the string is not a valid SBML string.</p>
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="accessing_model.html" class="btn btn-neutral float-left" title="Accessing the SBML Model Variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -4614,7 +4699,6 @@ Raises exception if the string is not a valid SBML string.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

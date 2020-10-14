@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,14 +34,10 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="LLVM-6.x dependency" href="llvm_dependency.html" />
-    <link rel="prev" title="Building Plugins" href="building_plugins.html" /> 
+    <link rel="prev" title="Installing RoadRunner" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
           
 
           
@@ -73,6 +74,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,23 +87,37 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="installation.html">Installing RoadRunner</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html#python-front-end">Python Front End</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#c-c-from-end">C/C++ From End</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="quickbuild_instructions.html">Quick Build Instructions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="building_python_bindings.html">Building Python Bindings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="building_plugins.html">Building Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#c-c-front-end">C/C++ Front End</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="installation.html#building-roadrunner-from-source">Building Roadrunner from Source</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">A warning for windows users</a></li>
 <li class="toctree-l3"><a class="reference internal" href="llvm_dependency.html">LLVM-6.x dependency</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#troubleshooting-the-build">Troubleshooting the build</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#roadrunner-optional-features">Roadrunner Optional Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-the-roadrunner-plugins">Building the Roadrunner Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-roadrunner-tests">Building roadrunner tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#packaging-roadrunner">Packaging Roadrunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#troubleshooting-the-build">Troubleshooting the build</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -140,7 +156,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="installation.html">Installing RoadRunner</a> &raquo;</li>
         
@@ -182,7 +198,7 @@
         <a href="llvm_dependency.html" class="btn btn-neutral float-right" title="LLVM-6.x dependency" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="building_plugins.html" class="btn btn-neutral float-left" title="Building Plugins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installing RoadRunner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -191,11 +207,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -206,7 +230,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
