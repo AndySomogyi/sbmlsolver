@@ -69,15 +69,15 @@ ensure you are building x64 bit application.
 
     Failure to use the "X64 Native Tools Command Prompt for VS 2019" shell may result in 32-bit binaries.
 
-Install LLVM
-------------
+1) Install LLVM
+---------------
 
-#. Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
+Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
 
 Install the Roadrunner Dependency Package
 -----------------------------------------
 
-#. Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a windows/linux/mac shell.
+Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a windows/linux/mac shell.
 
 .. code-block:: bash
 
@@ -97,7 +97,7 @@ Install the Roadrunner Dependency Package
 Install Roadrunner
 ------------------
 
-#. Install roadrunner using the following commands from a windows/linux/mac shell.
+Install roadrunner using the following commands from a windows/linux/mac shell.
 
 If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x dependency>`. The folder containing
 llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_PREFIX` below.
