@@ -55,27 +55,29 @@ You will need:
 
 If you are new to CMake, we recommend you read the `cmake tutorial <https://cmake.org/cmake/help/latest/guide/tutorial/index.html>`_ to get the basics before continuing.
 
-.. todo::
-
-    Following sections: Building the plugins, Building the Python Bindings,
-    Building the tests, Running the tests
-
 .. note::
 
     If at any point you get stuck or encounter an error please first read the :ref:`Troubleshooting the build <Troubleshooting the build>`
     page and then if the problem is not resolved, submit a github issue and we'll be more than willing to help.
 
-Ensure you have read the :ref:`windows warnings <A warning for windows users>`.
-
-#. Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
-
-#. Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a
-windows/linux/mac shell.
-
 On windows ensure you have visual studio 2019 compilers installed. Moreover on windows, it is best to
 use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by
 opening the start menu and begin typing "x64 Native Tools Command Prompt for VS 2019". This will
 ensure you are building x64 bit application.
+
+.. warning::
+
+    Failure to use the "X64 Native Tools Command Prompt for VS 2019" shell may result in 32-bit binaries.
+
+Install LLVM
+------------
+
+#. Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
+
+Install the Roadrunner Dependency Package
+-----------------------------------------
+
+#. Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a windows/linux/mac shell.
 
 .. code-block:: bash
 
@@ -87,7 +89,18 @@ ensure you are building x64 bit application.
     $ cmake --build . --target install --config Release # build the install target
     $ cd ../../ # return to directory containing roadrunner-deps
 
+.. note::
+
+    Take note of where you put the roadrunner deps install tree (`../install` here). It is required as
+    argument to `-DRR_DEPENDENCIES_INSTALL_PREFIX` below.
+
+Install Roadrunner
+------------------
+
 #. Install roadrunner using the following commands from a windows/linux/mac shell.
+
+If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x dependency>`. The folder containing
+llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_PREFIX` below.
 
 .. code-block:: bash
 
@@ -95,7 +108,7 @@ ensure you are building x64 bit application.
     $ cd roadrunner
     $ mkdir build
     $ cd build
-    $ cmake -DCMAKE_INSTALL_PREFIX="../install" -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/installed/llvm" -DRR_DEPENDENCIES_INSTALL_PREFIX="/full/path/to/where/you/installed/roadrunner/dependencies" -DCMAKE_BUILD_TYPE="Release" ..
+    $ cmake -DCMAKE_INSTALL_PREFIX="../install" -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x" -DRR_DEPENDENCIES_INSTALL_PREFIX="/full/path/to/where/you/installed/roadrunner/dependencies" -DCMAKE_BUILD_TYPE="Release" ..
     $ cmake --build . --target install --config Release
 
 Roadrunner Optional Features

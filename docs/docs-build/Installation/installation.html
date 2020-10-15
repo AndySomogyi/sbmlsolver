@@ -91,6 +91,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#building-roadrunner-from-source">Building Roadrunner from Source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="windows_warning.html">A warning for windows users</a></li>
 <li class="toctree-l3"><a class="reference internal" href="llvm_dependency.html">LLVM-6.x dependency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-llvm">Install LLVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-the-roadrunner-dependency-package">Install the Roadrunner Dependency Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-roadrunner">Install Roadrunner</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#roadrunner-optional-features">Roadrunner Optional Features</a><ul>
@@ -199,12 +202,12 @@ and build configuration (i.e. Release or Debug) matches what was used to build t
 <p>Put roadrunner binaries on sourceforce and update the links below</p>
 </div>
 <ul class="simple">
-<li><p><a href="#id3"><span class="problematic" id="id4">`VisualStudio 2019 x64 release &lt;&gt;`_</span></a></p></li>
-<li><p><a href="#id5"><span class="problematic" id="id6">`VisualStudio 2019 x64 debug&lt;&gt;`_</span></a></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">`GCC7.5.0 x64 release&lt;&gt;`_</span></a></p></li>
-<li><p><a href="#id9"><span class="problematic" id="id10">`GCC7.5.0 x64 debug&lt;&gt;`_</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">`AppleClang11.0.3 darwin19.4.0 x86-64 release&lt;&gt;`_</span></a></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">`AppleClang11.0.3 darwin19.4.0 x86-64 debug&lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id2"><span class="problematic" id="id3">`VisualStudio 2019 x64 release &lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id4"><span class="problematic" id="id5">`VisualStudio 2019 x64 debug&lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id6"><span class="problematic" id="id7">`GCC7.5.0 x64 release&lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id8"><span class="problematic" id="id9">`GCC7.5.0 x64 debug&lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id10"><span class="problematic" id="id11">`AppleClang11.0.3 darwin19.4.0 x86-64 release&lt;&gt;`_</span></a></p></li>
+<li><p><a href="#id12"><span class="problematic" id="id13">`AppleClang11.0.3 darwin19.4.0 x86-64 debug&lt;&gt;`_</span></a></p></li>
 </ul>
 <p>If you cannot use the prebuilt binaries or want to built from source please see the following instructions.</p>
 </div>
@@ -223,26 +226,30 @@ and build configuration (i.e. Release or Debug) matches what was used to build t
 <li><p><a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a></p></li>
 </ul>
 <p>If you are new to CMake, we recommend you read the <a class="reference external" href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">cmake tutorial</a> to get the basics before continuing.</p>
-<div class="admonition-todo admonition" id="id2">
-<p class="admonition-title">Todo</p>
-<p>Following sections: Building the plugins, Building the Python Bindings,
-Building the tests, Running the tests</p>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If at any point you get stuck or encounter an error please first read the <a class="reference internal" href="#troubleshooting-the-build"><span class="std std-ref">Troubleshooting the build</span></a>
 page and then if the problem is not resolved, submit a github issue and we’ll be more than willing to help.</p>
 </div>
-<p>Ensure you have read the <a class="reference internal" href="windows_warning.html#a-warning-for-windows-users"><span class="std std-ref">windows warnings</span></a>.</p>
-<ol class="arabic simple">
-<li><p>Install the <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">llvm-6.x dependency</span></a>.</p></li>
-</ol>
-<p>#. Install the <a class="reference external" href="https://github.com/CiaranWelsh/roadrunner-deps">roadrunner dependency package</a> by executing the following commands in a
-windows/linux/mac shell.</p>
 <p>On windows ensure you have visual studio 2019 compilers installed. Moreover on windows, it is best to
 use the “x64 Native Tools Command Prompt for VS 2019” shell which you can find by
 opening the start menu and begin typing “x64 Native Tools Command Prompt for VS 2019”. This will
 ensure you are building x64 bit application.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Failure to use the “X64 Native Tools Command Prompt for VS 2019” shell may result in 32-bit binaries.</p>
+</div>
+<div class="section" id="install-llvm">
+<h3>Install LLVM<a class="headerlink" href="#install-llvm" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Install the <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">llvm-6.x dependency</span></a>.</p></li>
+</ol>
+</div>
+<div class="section" id="install-the-roadrunner-dependency-package">
+<h3>Install the Roadrunner Dependency Package<a class="headerlink" href="#install-the-roadrunner-dependency-package" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Install the <a class="reference external" href="https://github.com/CiaranWelsh/roadrunner-deps">roadrunner dependency package</a> by executing the following commands in a windows/linux/mac shell.</p></li>
+</ol>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules         <span class="c1"># get the dependency package using git</span>
 $ <span class="nb">cd</span> roadrunner-deps
 $ mkdir build
@@ -252,16 +259,27 @@ $ cmake --build . --target install --config Release <span class="c1"># build the
 $ <span class="nb">cd</span> ../../ <span class="c1"># return to directory containing roadrunner-deps</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Take note of where you put the roadrunner deps install tree (<cite>../install</cite> here). It is required as
+argument to <cite>-DRR_DEPENDENCIES_INSTALL_PREFIX</cite> below.</p>
+</div>
+</div>
+<div class="section" id="install-roadrunner">
+<h3>Install Roadrunner<a class="headerlink" href="#install-roadrunner" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>Install roadrunner using the following commands from a windows/linux/mac shell.</p></li>
 </ol>
+<p>If you have not done so already, <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">download or build llvm-6.x</span></a>. The folder containing
+llvm’s <cite>bin</cite>, <cite>include</cite> and <cite>lib</cite> directories is the argument to <cite>LLVM_INSTALL_PREFIX</cite> below.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/CiaranWelsh/roadrunner.git <span class="c1"># get roadrunner</span>
 $ <span class="nb">cd</span> roadrunner
 $ mkdir build
 $ <span class="nb">cd</span> build
-$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install&quot;</span> -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/installed/llvm&quot;</span> -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/installed/roadrunner/dependencies&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
+$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install&quot;</span> -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/put/llvm-6.x&quot;</span> -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/installed/roadrunner/dependencies&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
 $ cmake --build . --target install --config Release
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="roadrunner-optional-features">
