@@ -239,11 +239,15 @@ page and then if the problem is not resolved, submit a github issue and we’ll 
 </ol>
 <p>#. Install the <a class="reference external" href="https://github.com/CiaranWelsh/roadrunner-deps">roadrunner dependency package</a> by executing the following commands in a
 windows/linux/mac shell.</p>
+<p>On windows ensure you have visual studio 2019 compilers installed. Moreover on windows, it is best to
+use the “x64 Native Tools Command Prompt for VS 2019” shell which you can find by
+opening the start menu and begin typing “x64 Native Tools Command Prompt for VS 2019”. This will
+ensure you are building x64 bit application.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules         <span class="c1"># get the dependency package using git</span>
-$ <span class="nb">cd</span> roadrunner-deps-install
+$ <span class="nb">cd</span> roadrunner-deps
 $ mkdir build
 $ <span class="nb">cd</span> build
-$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> .. <span class="c1"># configure the dependency package</span>
+$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> .. <span class="c1"># configure the dependency package</span>
 $ cmake --build . --target install --config Release <span class="c1"># build the install target</span>
 $ <span class="nb">cd</span> ../../ <span class="c1"># return to directory containing roadrunner-deps</span>
 </pre></div>
@@ -251,16 +255,11 @@ $ <span class="nb">cd</span> ../../ <span class="c1"># return to directory conta
 <ol class="arabic simple">
 <li><p>Install roadrunner using the following commands from a windows/linux/mac shell.</p></li>
 </ol>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Remember to substitute the values of <cite>-DCMAKE_INSTALL_PREFIX</cite> AND <cite>-DLLVM_INSTALL_PREFIX</cite> with
-values that work for you own system.</p>
-</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/CiaranWelsh/roadrunner.git <span class="c1"># get roadrunner</span>
 $ <span class="nb">cd</span> roadrunner
 $ mkdir build
 $ <span class="nb">cd</span> build
-$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
+$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install&quot;</span> -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/installed/llvm&quot;</span> -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/installed/roadrunner/dependencies&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
 $ cmake --build . --target install --config Release
 </pre></div>
 </div>

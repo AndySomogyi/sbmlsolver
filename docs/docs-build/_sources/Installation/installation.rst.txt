@@ -68,25 +68,26 @@ If you are new to CMake, we recommend you read the `cmake tutorial <https://cmak
 Ensure you have read the :ref:`windows warnings <A warning for windows users>`.
 
 #. Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
+
 #. Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a
 windows/linux/mac shell.
+
+On windows ensure you have visual studio 2019 compilers installed. Moreover on windows, it is best to
+use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by
+opening the start menu and begin typing "x64 Native Tools Command Prompt for VS 2019". This will
+ensure you are building x64 bit application.
 
 .. code-block:: bash
 
     $ git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules 	# get the dependency package using git
-    $ cd roadrunner-deps-install
+    $ cd roadrunner-deps
     $ mkdir build
     $ cd build
-    $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner-deps\roadrunner-deps-install" -DCMAKE_BUILD_TYPE="Release" .. # configure the dependency package
+    $ cmake -DCMAKE_INSTALL_PREFIX="../install" -DCMAKE_BUILD_TYPE="Release" .. # configure the dependency package
     $ cmake --build . --target install --config Release # build the install target
     $ cd ../../ # return to directory containing roadrunner-deps
 
 #. Install roadrunner using the following commands from a windows/linux/mac shell.
-
-.. warning::
-
-    Remember to substitute the values of `-DCMAKE_INSTALL_PREFIX` AND `-DLLVM_INSTALL_PREFIX` with
-    values that work for you own system.
 
 .. code-block:: bash
 
@@ -94,7 +95,7 @@ windows/linux/mac shell.
     $ cd roadrunner
     $ mkdir build
     $ cd build
-    $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" -DRR_DEPENDENCIES_INSTALL_PREFIX="D:\roadrunner-deps\roadrunner-deps-install" -DCMAKE_BUILD_TYPE="Release" ..
+    $ cmake -DCMAKE_INSTALL_PREFIX="../install" -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/installed/llvm" -DRR_DEPENDENCIES_INSTALL_PREFIX="/full/path/to/where/you/installed/roadrunner/dependencies" -DCMAKE_BUILD_TYPE="Release" ..
     $ cmake --build . --target install --config Release
 
 Roadrunner Optional Features
