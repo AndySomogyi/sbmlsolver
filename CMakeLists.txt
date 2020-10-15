@@ -41,7 +41,8 @@ x64 bit machine")
     endif ()
 endif ()
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 
 # defines a macro for printing out a configuration summary
 include(ConfigurationSummary)

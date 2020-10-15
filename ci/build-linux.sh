@@ -5,7 +5,11 @@ echo "Starting working directory: $current_directory"
 # get a copy of cmake 3.18.4
 wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
 tar -zxvf cmake-3.18.4-Linux-x86_64.tar.gz
-cmake_command=$(pwd)/cmake-3.18.4-Linux-x86_64/bin/cmake
+PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/bin"
+PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/share/cmake-3.18/"
+PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/share/cmake-3.18/Modules"
+PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/share/cmake-3.18/include"
+
 
 # get llvm
 wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
