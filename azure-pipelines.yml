@@ -11,7 +11,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-container: ciaranwelsh/ubuntu-build:latest
+container: ciaranwelsh/roadrunner-build:latest
 
 steps:
 - script: bash $(pwd)/ci/build-linux.sh

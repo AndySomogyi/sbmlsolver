@@ -16,8 +16,7 @@ cd roadrunner-deps || exit
 cmake_install_prefix=$(pwd)/install-azure
 mkdir build
 cd build || exit
-$cmake_command -DCMAKE_INSTALL_PREFIX=$cmake_install_prefix -DCMAKE_BUILD_TYPE="Release" ..
-
+$cmake_command -DCMAKE_INSTALL_PREFIX=$cmake_install_prefix -DCMAKE_BUILD_TYPE="Release" -DLLVM_INSTALL_PREFIX=$LLVM_INSTALL_PREFIX -DRR_DEPENDENCIES_INSTALL_PREFIX=$RR_DEPS_INSTALL_PREFIX ..
 $cmake_command --build . --target install --config Release
 
 
