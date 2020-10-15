@@ -33,8 +33,10 @@ fi
 
 # download roadrunner deps and build
 git clone https://github.com/CiaranWelsh/roadrunner.git
-cd roadrunner-deps || exit
+
 cmake_install_prefix=$(pwd)/install-azure
+
+cd roadrunner || exit
 mkdir build
 cd build || exit
 
