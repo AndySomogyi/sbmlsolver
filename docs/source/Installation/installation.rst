@@ -124,11 +124,11 @@ These are controlled by turning on or off desired options in cmake.
 Build the Python Bindings
 -------------------------
 
-    #. Download `<SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
+    1) Download `<SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
     macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
     the swig executable is under the top level swig directory.
 
-    #. Configure or reconfigure cmake using the `-DBUILD_PYTHON=ON` option. If you installed swig
+    2) Configure or reconfigure cmake using the `-DBUILD_PYTHON=ON` option. If you installed swig
     globally or add the swig directory to the PATH environment variable, you will *not* need
     the `-DSWIG_EXECUTABLE` argument as `swig.exe` will be found
     automatically. However in most circumstances you will need to provide the path to the `swig.exe` using
