@@ -24,7 +24,7 @@ set(TESTDIRS
         semantic_STS
         )
 
-
+#set(test_targets)
 foreach (dirid IN LISTS TESTDIRS)
 #    message(STATUS "dirid = ${dirid}")
     file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
