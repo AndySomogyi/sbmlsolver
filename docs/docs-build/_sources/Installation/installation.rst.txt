@@ -74,8 +74,8 @@ ensure you are building x64 bit application.
 
 Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
 
-Install the Roadrunner Dependency Package
------------------------------------------
+2) Install the Roadrunner Dependency Package
+---------------------------------------------
 
 Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a windows/linux/mac shell.
 
@@ -94,8 +94,8 @@ Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadr
     Take note of where you put the roadrunner deps install tree (`../install` here). It is required as
     argument to `-DRR_DEPENDENCIES_INSTALL_PREFIX` below.
 
-Install Roadrunner
-------------------
+3) Install Roadrunner
+----------------------
 
 Install roadrunner using the following commands from a windows/linux/mac shell.
 
