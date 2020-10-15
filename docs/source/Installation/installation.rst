@@ -124,7 +124,7 @@ These are controlled by turning on or off desired options in cmake.
 Build the Python Bindings
 -------------------------
 
-    1) Download `<SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
+    1) Download `SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
     macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
     the swig executable is under the top level swig directory.
 

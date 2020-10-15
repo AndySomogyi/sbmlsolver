@@ -292,10 +292,10 @@ is the best way to get a good oversight of the available options.</p>
 <div class="section" id="build-the-python-bindings">
 <h3>Build the Python Bindings<a class="headerlink" href="#build-the-python-bindings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>#. Download <a class="reference external" href="https://sourceforge.net/projects/swig/files/">&lt;SWIG version 3.0.0</a> for linux,
+<div><p>1) Download <a class="reference external" href="https://sourceforge.net/projects/swig/files/">SWIG version 3.0.0</a> for linux,
 macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
 the swig executable is under the top level swig directory.</p>
-<p>#. Configure or reconfigure cmake using the <cite>-DBUILD_PYTHON=ON</cite> option. If you installed swig
+<p>2) Configure or reconfigure cmake using the <cite>-DBUILD_PYTHON=ON</cite> option. If you installed swig
 globally or add the swig directory to the PATH environment variable, you will <em>not</em> need
 the <cite>-DSWIG_EXECUTABLE</cite> argument as <cite>swig.exe</cite> will be found
 automatically. However in most circumstances you will need to provide the path to the <cite>swig.exe</cite> using
