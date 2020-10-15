@@ -11,8 +11,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-container: ciaranwelsh/roadrunner-build:latest
-
 steps:
 - script: bash $(pwd)/ci/build-linux.sh
   displayName: 'Build roadrunner dependencies on Linux'
