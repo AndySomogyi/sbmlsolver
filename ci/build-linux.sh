@@ -46,9 +46,9 @@ cd build || exit
 
 # pull commands out because they are common to all roadrunner build commands.
 # later we want to reuse minimal_nessary_commands when reconfiguring for things link language bindings etc.
-minimal_necessary_commands="-DCMAKE_INSTALL_PREFIX=$cmake_install_prefix -DCMAKE_BUILD_TYPE="Release" -DLLVM_INSTALL_PREFIX=$llvm_install_prefix -DRR_DEPENDENCIES_INSTALL_PREFIX=$rr_deps_install_prefix"
-$cmake_command  $minimal_necessary_commands ..
-$cmake_command --build . --target install --config Release
+minimal_necessary_commands="-DCMAKE_INSTALL_PREFIX=$cmake_install_prefix -DCMAKE_BUILD_TYPE=\"Release\" -DLLVM_INSTALL_PREFIX=$llvm_install_prefix -DRR_DEPENDENCIES_INSTALL_PREFIX=$rr_deps_install_prefix"
+cmake  "$minimal_necessary_commands" ..
+cmake --build . --target install --config Release
 
 #run the tests
 ctest .

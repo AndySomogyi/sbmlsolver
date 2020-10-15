@@ -67,7 +67,7 @@ include(WriteGitInfo)
 write_git_info() # write the git branch and commit hash to console
 
 # load cmake_dependent_options
-include(CmakeDependentOption)
+include(CMakeDependentOption)
 
 #############################################################
 #   Configuration Options
