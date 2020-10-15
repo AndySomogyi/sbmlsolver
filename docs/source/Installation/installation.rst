@@ -15,8 +15,8 @@ The recommended way to use roadrunner is by installing the Python front end and 
 
     Find out whether we support conda package?
 
-C/C++ Front End
-===================
+Prebuilt binaries (C/C++ Front End)
+===================================
 
 If you want to use roadrunner from C++ or C, you may be able to use a prebuilt binary distribution
 if one is suitable. To determine suitability, ensure your compiler, architecture (i.e. x86 vs x64)
@@ -124,15 +124,15 @@ These are controlled by turning on or off desired options in cmake.
 Build the Python Bindings
 -------------------------
 
-#. Download `<SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
-macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
-the swig executable is under the top level swig directory.
+    #. Download `<SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
+    macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
+    the swig executable is under the top level swig directory.
 
-#. Configure or reconfigure cmake using the `-DBUILD_PYTHON=ON` option. If you installed swig
-globally or add the swig directory to the PATH environment variable, you will *not* need
-the `-DSWIG_EXECUTABLE` argument as `swig.exe` will be found
-automatically. However in most circumstances you will need to provide the path to the `swig.exe` using
-`-DSWIG_EXECUTABLE`.
+    #. Configure or reconfigure cmake using the `-DBUILD_PYTHON=ON` option. If you installed swig
+    globally or add the swig directory to the PATH environment variable, you will *not* need
+    the `-DSWIG_EXECUTABLE` argument as `swig.exe` will be found
+    automatically. However in most circumstances you will need to provide the path to the `swig.exe` using
+    `-DSWIG_EXECUTABLE`.
 
 .. code-block:: bash
 
@@ -227,12 +227,5 @@ cmake using using the `-DBUILD_PACKAGING=ON` option.
     $ cmake --build . --target packaging --config Release
 
 
-
-Troubleshooting the build
-===========================
-
-Section on CMake bin directory being in the path environment
-
-Section on forgetting the --recurse-submodules flag on git clone
 
 

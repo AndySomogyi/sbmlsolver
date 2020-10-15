@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installing RoadRunner</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#python-front-end">Python Front End</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c-c-front-end">C/C++ Front End</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prebuilt-binaries-c-c-front-end">Prebuilt binaries (C/C++ Front End)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#building-roadrunner-from-source">Building Roadrunner from Source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="windows_warning.html">A warning for windows users</a></li>
 <li class="toctree-l3"><a class="reference internal" href="llvm_dependency.html">LLVM-6.x dependency</a></li>
@@ -103,7 +103,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#building-the-roadrunner-plugins">Building the Roadrunner Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#building-roadrunner-tests">Building roadrunner tests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#packaging-roadrunner">Packaging Roadrunner</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#troubleshooting-the-build">Troubleshooting the build</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
@@ -192,8 +191,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="c-c-front-end">
-<h2>C/C++ Front End<a class="headerlink" href="#c-c-front-end" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prebuilt-binaries-c-c-front-end">
+<h2>Prebuilt binaries (C/C++ Front End)<a class="headerlink" href="#prebuilt-binaries-c-c-front-end" title="Permalink to this headline">¶</a></h2>
 <p>If you want to use roadrunner from C++ or C, you may be able to use a prebuilt binary distribution
 if one is suitable. To determine suitability, ensure your compiler, architecture (i.e. x86 vs x64)
 and build configuration (i.e. Release or Debug) matches what was used to build the binaries.</p>
@@ -228,7 +227,7 @@ and build configuration (i.e. Release or Debug) matches what was used to build t
 <p>If you are new to CMake, we recommend you read the <a class="reference external" href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">cmake tutorial</a> to get the basics before continuing.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If at any point you get stuck or encounter an error please first read the <a class="reference internal" href="#troubleshooting-the-build"><span class="std std-ref">Troubleshooting the build</span></a>
+<p>If at any point you get stuck or encounter an error please first read the <span class="xref std std-ref">Troubleshooting the build</span>
 page and then if the problem is not resolved, submit a github issue and we’ll be more than willing to help.</p>
 </div>
 <p>On windows ensure you have visual studio 2019 compilers installed. Moreover on windows, it is best to
@@ -292,7 +291,8 @@ is the best way to get a good oversight of the available options.</p>
 </div>
 <div class="section" id="build-the-python-bindings">
 <h3>Build the Python Bindings<a class="headerlink" href="#build-the-python-bindings" title="Permalink to this headline">¶</a></h3>
-<p>#. Download <a class="reference external" href="https://sourceforge.net/projects/swig/files/">&lt;SWIG version 3.0.0</a> for linux,
+<blockquote>
+<div><p>#. Download <a class="reference external" href="https://sourceforge.net/projects/swig/files/">&lt;SWIG version 3.0.0</a> for linux,
 macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
 the swig executable is under the top level swig directory.</p>
 <p>#. Configure or reconfigure cmake using the <cite>-DBUILD_PYTHON=ON</cite> option. If you installed swig
@@ -300,6 +300,7 @@ globally or add the swig directory to the PATH environment variable, you will <e
 the <cite>-DSWIG_EXECUTABLE</cite> argument as <cite>swig.exe</cite> will be found
 automatically. However in most circumstances you will need to provide the path to the <cite>swig.exe</cite> using
 <cite>-DSWIG_EXECUTABLE</cite>.</p>
+</div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> <span class="se">\</span>
     -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> <span class="se">\</span>
@@ -379,11 +380,6 @@ cmake using using the <cite>-DBUILD_PACKAGING=ON</cite> option.</p>
 <p>$ cmake –build . –target install –config Release
 $ cmake –build . –target packaging –config Release</p>
 </div></blockquote>
-</div>
-<div class="section" id="troubleshooting-the-build">
-<h2>Troubleshooting the build<a class="headerlink" href="#troubleshooting-the-build" title="Permalink to this headline">¶</a></h2>
-<p>Section on CMake bin directory being in the path environment</p>
-<p>Section on forgetting the –recurse-submodules flag on git clone</p>
 </div>
 </div>
 
