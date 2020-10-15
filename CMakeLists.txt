@@ -87,6 +87,11 @@ elseif (${APPLE})
             CACHE PATH "Path to dependency package"
             )
 else ()
+    message(STATUS "
+    WIN32               ${WIN32}
+    UNIX                ${UNIX}
+    APPLE               ${APPLE}
+    ")
     message(FATAL_ERROR "Unknown operating system")
 endif ()
 
