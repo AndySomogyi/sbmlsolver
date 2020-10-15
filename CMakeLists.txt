@@ -21,9 +21,9 @@ project(
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
     message(STATUS "Build on 32-bit platform")
-else()
+else ()
     message(STATUS "Build on 64-bit platform")
-endif()
+endif ()
 
 
 # do some bitness checks as its an easy trap to fall into on windows.
@@ -75,27 +75,9 @@ include(CMakeDependentOption)
 
 # any of these directories are accepted as default directories.
 # this supports multi platform builds on a single system
-    message(STATUS "
-    WIN32               ${WIN32}
-    UNIX                ${UNIX}
-    APPLE               ${APPLE}
-    ")
-if (${WIN32})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
-            CACHE PATH "Path to dependency package"
-            )
-elseif (${UNIX})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
-            CACHE PATH "Path to dependency package"
-            )
-elseif (${APPLE})
-    set(RR_DEPENDENCIES_INSTALL_PREFIX "{CMAKE_CURRENT_SOURCE_DIR}/dependencies-mac"
-            CACHE PATH "Path to dependency package"
-            )
-else ()
-
-    message(FATAL_ERROR "Unknown operating system")
-endif ()
+set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
+        CACHE PATH "Path to dependency package"
+        )
 
 # This variable provides users a way of providing their own LLVM installation.
 # The two options are: 1) build llvm along with the other dependencies or
@@ -181,14 +163,14 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 set(CMAKE_MACOSX_RPATH TRUE)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 
-if(APPLE AND NOT UNIX)
+if (APPLE AND NOT UNIX)
     set(RPATH_BASE @loader_path)
-else()
+else ()
     set(RPATH_BASE $ORIGIN)
-endif()
+endif ()
 file(RELATIVE_PATH relDir
         ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
-        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR} )
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 set(CMAKE_INSTALL_RPATH ${RPATH_BASE} ${RPATH_BASE}/${relDir})
 
 if (BUILD_TESTS OR BUILD_JAVA)
@@ -316,7 +298,7 @@ find_package(zlib CONFIG REQUIRED)
 find_package(bzip2 CONFIG REQUIRED)
 find_package(iconv CONFIG REQUIRED)
 find_package(libxml2 CONFIG REQUIRED)
-find_package(sbml-static CONFIG REQUIRED )
+find_package(sbml-static CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
 find_package(clapack CONFIG REQUIRED)
 find_package(nleq1 CONFIG REQUIRED)
@@ -379,7 +361,7 @@ add_subdirectory(wrappers)
 
 if (${BUILD_DOCS})
     add_subdirectory(docs)
-endif()
+endif ()
 
 ##########################################################
 # Packaging
@@ -397,40 +379,40 @@ endif ()
 # Configuration summary
 #
 
-if(BUILD_TESTS)
+if (BUILD_TESTS)
     add_subdirectory(test)
 
     message(STATUS "building tests")
 
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*" )
+    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*")
 
     file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
     file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.xml")
-    
-    foreach( f ${PYTHON_TEST_FILES} )
-        if(NOT IS_DIRECTORY ${f})
-            get_filename_component( FILE_NAME ${f} NAME )
-            configure_file( ${f} testing/${FILE_NAME} COPYONLY )
-            configure_file( ${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY )
-        endif()
-    endforeach()
 
-    foreach( f ${PYTHON_TEST_DATA} )
-        if(NOT IS_DIRECTORY ${f})
-            get_filename_component( FILE_NAME ${f} NAME )
-            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
-        endif()
-    endforeach()
+    foreach (f ${PYTHON_TEST_FILES})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} testing/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
 
-    foreach( f ${TEST_DATA_XML} )
-        if(NOT IS_DIRECTORY ${f})
-            get_filename_component( FILE_NAME ${f} NAME )
-            configure_file( ${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY )
-        endif()
-    endforeach()
+    foreach (f ${PYTHON_TEST_DATA})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
 
-else()
+    foreach (f ${TEST_DATA_XML})
+        if (NOT IS_DIRECTORY ${f})
+            get_filename_component(FILE_NAME ${f} NAME)
+            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+        endif ()
+    endforeach ()
+
+else ()
     message(STATUS "NOT building tests")
 endif ()
 

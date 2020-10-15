@@ -6,9 +6,6 @@ echo "Starting working directory: $current_directory"
 wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
 tar -zxvf cmake-3.18.4-Linux-x86_64.tar.gz
 PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/bin"
-PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/share/cmake-3.18/"
-PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/share/cmake-3.18/Modules"
-PATH="$PATH:$(pwd)/cmake-3.18.4-Linux-x86_64/share/cmake-3.18/include"
 
 
 # get llvm
@@ -37,6 +34,8 @@ fi
 
 # download roadrunner deps and build
 git clone https://github.com/CiaranWelsh/roadrunner.git
+mv roadrunner-deps-gcc7.5-x64-release roadrunner/dependencies
+
 
 cmake_install_prefix=$(pwd)/install-azure
 
@@ -46,7 +45,7 @@ cd build || exit
 
 # pull commands out because they are common to all roadrunner build commands.
 # later we want to reuse minimal_nessary_commands when reconfiguring for things link language bindings etc.
-minimal_necessary_commands="-DCMAKE_INSTALL_PREFIX=$cmake_install_prefix -DCMAKE_BUILD_TYPE=\"Release\" -DLLVM_INSTALL_PREFIX=$llvm_install_prefix -DRR_DEPENDENCIES_INSTALL_PREFIX=$rr_deps_install_prefix"
+minimal_necessary_commands="-DCMAKE_INSTALL_PREFIX=$cmake_install_prefix -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_PREFIX=$llvm_install_prefix"
 cmake  "$minimal_necessary_commands" ..
 cmake --build . --target install --config Release
 
