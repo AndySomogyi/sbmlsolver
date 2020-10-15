@@ -60,8 +60,7 @@ If you are new to CMake, we recommend you read the `cmake tutorial <https://cmak
     If at any point you get stuck or encounter an error please first read the :ref:`Troubleshooting the build <Troubleshooting the build>`
     page and then if the problem is not resolved, submit a github issue and we'll be more than willing to help.
 
-On windows ensure you have visual studio 2019 compilers installed. Moreover on windows, it is best to
-use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by
+On windows, you should use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by
 opening the start menu and begin typing "x64 Native Tools Command Prompt for VS 2019". This will
 ensure you are building x64 bit application.
 
