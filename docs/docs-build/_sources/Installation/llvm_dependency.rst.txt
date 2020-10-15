@@ -16,6 +16,8 @@ You may use prebuilt binaries if the compiler you use to build roadrunner is the
 
 	The debug binary for llvm-6.x on linux (gcc) is too big for github, so you will have to build this yourself if you want llvm in debug mode on ubuntu.
 
+After downloading llvm-6.x decompress the archive and remember where you put it. You will need this path as input to building roadrunner.
+
 Build from source
 -----------------
 
