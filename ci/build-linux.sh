@@ -25,7 +25,7 @@ echo "llvm installed to: $llvm_install_prefix"
 wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
 tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
 rr_deps_install_prefix=$(pwd)/roadrunner-deps-gcc7.5-x64-release
-if [ ! -d rr_deps_install_prefix ]
+if [ ! -d $rr_deps_install_prefix ]
 then
   echo "Path to roadrunner dependencies : \"$rr_deps_install_prefix\" does not exist"
   exit 1
