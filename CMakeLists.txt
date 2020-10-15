@@ -74,11 +74,16 @@ include(CmakeDependentOption)
 
 # any of these directories are accepted as default directories.
 # this supports multi platform builds on a single system
+    message(STATUS "
+    WIN32               ${WIN32}
+    UNIX                ${UNIX}
+    APPLE               ${APPLE}
+    ")
 if (${WIN32})
     set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-windows"
             CACHE PATH "Path to dependency package"
             )
-elseif (${UNIX} AND NOT ${APPLE})
+elseif (${UNIX})
     set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies-unix"
             CACHE PATH "Path to dependency package"
             )
@@ -87,11 +92,7 @@ elseif (${APPLE})
             CACHE PATH "Path to dependency package"
             )
 else ()
-    message(STATUS "
-    WIN32               ${WIN32}
-    UNIX                ${UNIX}
-    APPLE               ${APPLE}
-    ")
+
     message(FATAL_ERROR "Unknown operating system")
 endif ()
 
