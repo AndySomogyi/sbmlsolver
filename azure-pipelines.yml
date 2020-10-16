@@ -24,7 +24,7 @@ stages:
               tar zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
 
   - stage: GetDeps
-  - dependsOn: [ ]
+    dependsOn: [ ]
     jobs:
       - job: GetDepsJob
         continueOnError: "false"
@@ -35,7 +35,7 @@ stages:
 
 
   - stage: TestCMakeAvailability
-  - dependsOn: [ ]
+    dependsOn: [ ]
     jobs:
       - job: TestCMakeAvailabilityJob
         continueOnError: "false"
