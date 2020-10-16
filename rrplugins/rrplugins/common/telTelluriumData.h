@@ -327,19 +327,6 @@ class COMMON_DECLSPEC TelluriumData
         void setWeight(int row, int col, double val);
 
         /**
-        * \brief Set data object name.
-        * \param name The name as a string
-        * \deprecated Left over function from debugging session ??
-        */
-        void setName(const std::string& name);
-
-        /**
-        * \brief Get data object name.
-        * \deprecated Left over function from debugging session ??
-        */
-        std::string getName() const;
-
-        /**
         * \brief Return the dimension of underlying data.
         */
         std::pair<int, int> dimension() const;
