@@ -35,12 +35,12 @@ void AutoDataParser::resetOutput()
     mBifurcationLabels.clear();
 }
 
-int AutoDataParser::getNumberOfDataPoints()
+size_t AutoDataParser::getNumberOfDataPoints()
 {
     return mRawSolutionData.count();
 }
 
-int AutoDataParser::getNumberOfBifurcationPoints()
+size_t AutoDataParser::getNumberOfBifurcationPoints()
 {
     return mBifurcationPoints.size();
 }
@@ -134,12 +134,12 @@ bool AutoDataParser::parse(const string& input)
     }
 
     //Extract the data
-    int nrOfDataCols = getNrOfSolutions();
-    int nrOfDataRows = mRawSolutionData.count();
-    int nrOfParas = 1;      //This may change in the future
+    unsigned int nrOfDataCols = static_cast<unsigned int>(getNrOfSolutions());
+    unsigned int nrOfDataRows = static_cast<unsigned int>(mRawSolutionData.count());
+    unsigned int nrOfParas = 1;      //This may change in the future
 
     StringList dataHeader = StringList(getDataHeaderLine());
-    int paraCol = dataHeader.indexOf("PAR(0)");
+    ptrdiff_t paraCol = dataHeader.indexOf("PAR(0)");
     mSolutionData.reSize(nrOfDataRows, nrOfDataCols + nrOfParas);
 
     for(int row = 0; row < nrOfDataRows; row++)
@@ -158,7 +158,7 @@ bool AutoDataParser::parse(const string& input)
 
                 stringstream ss;
                 ss<<"U("<<col<<")";
-                int dataCol = dataHeader.indexOf(ss.str());
+                ptrdiff_t dataCol = dataHeader.indexOf(ss.str());
                 if(dataCol > -1)
                 {
                     double val = toDouble(aRow[dataCol]);
@@ -209,7 +209,7 @@ ScanDirection AutoDataParser::getScanDirection()
 
         if(aLine.find("DS") != std::string::npos)
         {
-            int posEqual = aLine.find("=");
+            size_t posEqual = aLine.find("=");
 
             //Extract the number after equal sign
             string nrStr = aLine.substr(posEqual + 1);
@@ -230,11 +230,11 @@ ScanDirection AutoDataParser::getScanDirection()
     throw(Exception("Failed getting scan direction. DataHeader is empty."));
 }
 
-int AutoDataParser::getNrOfSolutions()
+size_t AutoDataParser::getNrOfSolutions()
 {
     //Check the last line in the header for U(#), where the number of such tokens are the number of solutions
     //A solution is one data trace..
-    int cnt = 0;
+    size_t cnt = 0;
     string hdrStr = getDataHeaderLine();
     StringList hdr(hdrStr, " \t");
     for(int i = 0; i < hdr.count(); i++)
@@ -252,7 +252,7 @@ string AutoDataParser::getDataHeaderLine()
 {
     if(mDataHeader.count() > 0)
     {
-        return mDataHeader[mDataHeader.count() -1];
+        return mDataHeader[mDataHeader.count() - 1];
     }
 
     return "";    

@@ -31,7 +31,7 @@ class COMMON_DECLSPEC ArrayList
                                             ArrayList(const string& lbl, const StringList& stringList);
                                             ArrayList(const string& lbl, const ArrayList& stringList);
                                            ~ArrayList();
-        unsigned int                        Count() const;
+        size_t                              Count() const;
         void                                Clear();
         void                                Add(const int& item);
         void                                Add(const double& item);

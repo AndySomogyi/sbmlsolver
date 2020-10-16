@@ -31,7 +31,7 @@ class AutoConstants
 		int				PreSimulationSteps;
     public:
         // NDIM: dimension of the system of equations, as specified in the user-supplied subroutine 'func'
-        int             NDIM;
+        size_t          NDIM;
 
         /// IPS: Constant defining the problem type (-2 -> 14) : 1 : stationary states 2 : periodic solutions 4 : BVP
         int             IPS;

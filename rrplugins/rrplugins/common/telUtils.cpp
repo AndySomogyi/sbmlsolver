@@ -293,7 +293,7 @@ vector<string> getLinesInFile(const string& fName)
     return lines;
 }
 
-int indexOf(const std::vector<std::string>& vec, const std::string& elem )
+ptrdiff_t indexOf(const std::vector<std::string>& vec, const std::string& elem )
 {
     if(!vec.size())
     {
@@ -301,7 +301,7 @@ int indexOf(const std::vector<std::string>& vec, const std::string& elem )
     }
     else
     {
-        int index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
+        ptrdiff_t index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
 
         if(index > vec.size() - 1)
         {
@@ -317,7 +317,7 @@ string removeTrailingSeparator(const string& _folder, const char sep)
 {
     if((_folder.size() > 0) && (_folder[_folder.size() -1] == sep))
     {
-        const int endOfPathIndex = _folder.rfind(sep, _folder.size());
+        const size_t endOfPathIndex = _folder.rfind(sep, _folder.size());
         string folder = _folder.substr(0, endOfPathIndex);
         return folder;
     }
@@ -599,7 +599,7 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
     return errorMsg;
 }
 
-int populateFileSet(const string& folder, set<string>& files)
+size_t populateFileSet(const string& folder, set<string>& files)
 {
      //Get models file names in models folder
     string globPath =  joinPath(folder, "*.xml");

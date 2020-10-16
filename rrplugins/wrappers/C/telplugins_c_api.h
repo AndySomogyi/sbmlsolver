@@ -120,7 +120,7 @@ TLP_C_DS bool tlp_cc tpUnLoadPlugin(TELHandle handle, TELHandle plugin);
  \return Returns the number of loaded plugins, -1 if a problem is encountered
  \ingroup plugin_manager
 */
-TLP_C_DS int tlp_cc tpGetNumberOfPlugins(TELHandle handle);
+TLP_C_DS size_t tlp_cc tpGetNumberOfPlugins(TELHandle handle);
 
 /*!
  \brief Function to retrieve the names of currently loaded plugins.
@@ -276,7 +276,7 @@ TLP_C_DS unsigned char* tlp_cc tpGetPluginManualAsPDF(TELHandle handle);
  \return Returns the nr of bytes in the plugins manuals pdf file as an unsigned int.
  \ingroup plugins
 */
-TLP_C_DS unsigned int tlp_cc tpGetPluginManualNrOfBytes(TELHandle handle);
+TLP_C_DS size_t tlp_cc tpGetPluginManualNrOfBytes(TELHandle handle);
 
 /*!
  \brief Assign a roadrunner instance handle for the plugin to use.

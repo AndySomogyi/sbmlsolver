@@ -319,7 +319,7 @@ string Plugin::getExtendedInfo()
     return msg.str();
 }
 
-unsigned int Plugin::getPDFManualByteSize()
+size_t Plugin::getPDFManualByteSize()
 {
     return 0;
 }

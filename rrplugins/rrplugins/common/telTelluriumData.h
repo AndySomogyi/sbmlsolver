@@ -172,10 +172,10 @@ class COMMON_DECLSPEC TelluriumData
         std::string                             getColumnNamesAsString() const;
         bool                                    setColumnNames(const StringList& colNames);
         bool                                    setColumnName(int index, const string& colName);
-        int                                     getColumnIndex(const std::string& colName) const;
+        ptrdiff_t                               getColumnIndex(const std::string& colName) const;
         void                                    setTimeDataPrecision(const int& prec);
         void                                    setDataPrecision(const int& prec);
-        void                                    reSize(int rows, int cols);
+        void                                    reSize(unsigned int rows, unsigned int cols);
         string                                  getComments() const;
         void                                    setComments(const string& coms);
         void                                    swapRows(int r1, int r2);
@@ -325,19 +325,6 @@ class COMMON_DECLSPEC TelluriumData
         * \param val Value of new weight
         */
         void setWeight(int row, int col, double val);
-
-        /**
-        * \brief Set data object name.
-        * \param name The name as a string
-        * \deprecated Left over function from debugging session ??
-        */
-        void setName(const std::string& name);
-
-        /**
-        * \brief Get data object name.
-        * \deprecated Left over function from debugging session ??
-        */
-        std::string getName() const;
 
         /**
         * \brief Return the dimension of underlying data.

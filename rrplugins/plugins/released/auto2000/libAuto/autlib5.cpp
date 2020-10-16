@@ -747,8 +747,10 @@ inho(iap_type *iap, integer *icp, doublereal *par)
   nuzr = iap->nuzr;
   ndm = ndim;
 
+  int ignore;
+
   fp12 = fopen(fort_name[12],"r");
-  fscanf(fp12,"%ld %ld %ld %ld %ld",&blhom_1.nunstab,&blhom_1.nstab,
+  ignore = fscanf(fp12,"%ld %ld %ld %ld %ld",&blhom_1.nunstab,&blhom_1.nstab,
      &blhom_1.iequib,&blhom_1.itwist,&blhom_1.istart);
   /*go to the end of the line*/
   while(fgetc(fp12)!='\n');
@@ -756,33 +758,33 @@ inho(iap_type *iap, integer *icp, doublereal *par)
   /* updated reading in of constants for reversible equations */
   /* replaces location in datafile of compzero */
 
-  fscanf(fp12,"%ld",&blhom_1.nrev);
+  ignore = fscanf(fp12,"%ld",&blhom_1.nrev);
   /*go to the end of the line*/
   while(fgetc(fp12)!='\n');
   if (blhom_1.nrev > 0) {
     for (i = 0; i < ndm; ++i) {
-      fscanf(fp12,"%ld",&blhmp_1.irev[i]);
+        ignore = fscanf(fp12,"%ld",&blhmp_1.irev[i]);
     }
     /*go to the end of the line*/
     while(fgetc(fp12)!='\n');
   }
     
-  fscanf(fp12,"%ld",&blhom_1.nfixed);
+  ignore = fscanf(fp12,"%ld",&blhom_1.nfixed);
   /*go to the end of the line*/
   while(fgetc(fp12)!='\n');
   if (blhom_1.nfixed > 0) {
     for (i = 0; i < blhom_1.nfixed; ++i) {
-      fscanf(fp12,"%ld",&blhmp_1.ifixed[i]);
+        ignore = fscanf(fp12,"%ld",&blhmp_1.ifixed[i]);
     }
     /*go to the end of the line*/
     while(fgetc(fp12)!='\n');
   }
-  fscanf(fp12,"%ld",&blhom_1.npsi);
+  ignore = fscanf(fp12,"%ld",&blhom_1.npsi);
   /*go to the end of the line*/
   while(fgetc(fp12)!='\n');
   if (blhom_1.npsi > 0) {
     for (i = 0; i < blhom_1.npsi; ++i) {
-      fscanf(fp12,"%ld",&blhmp_1.ipsi[i]);
+        ignore = fscanf(fp12,"%ld",&blhmp_1.ipsi[i]);
     }
     /*go to the end of the line*/
     while(fgetc(fp12)!='\n');

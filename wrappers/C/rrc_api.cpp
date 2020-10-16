@@ -1092,7 +1092,7 @@ bool rrcCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, co
     catch_bool_macro
 }
 
-bool rrcCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, const double value)
+bool rrcCallConv setBoundarySpeciesByIndex (RRHandle handle, const unsigned int index, const double value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);

@@ -75,7 +75,7 @@ int TelluriumData::rSize() const
 double TelluriumData::getTimeStart() const
 {
     //Find time column
-    int timeCol = indexOf(mColumnNames, "time");
+    unsigned int timeCol = static_cast<unsigned int>(indexOf(mColumnNames, "time"));
     if(timeCol != -1)
     {
         return mTheData(0,timeCol);
@@ -86,7 +86,7 @@ double TelluriumData::getTimeStart() const
 double TelluriumData::getTimeEnd() const
 {
     //Find time column
-    int timeCol = indexOf(mColumnNames, "time");
+    unsigned int timeCol = static_cast<unsigned int>(indexOf(mColumnNames, "time"));
     if(timeCol != -1)
     {
         return mTheData(rSize() -1 ,timeCol);
@@ -224,7 +224,7 @@ string TelluriumData::getColumnName(const int col) const
     return "Bad Column..";
 }
 
-int TelluriumData::getColumnIndex(const string& colName) const
+ptrdiff_t TelluriumData::getColumnIndex(const string& colName) const
 {
     return indexOf(mColumnNames, colName);
 }
@@ -330,7 +330,7 @@ void TelluriumData::setComments(const string& coms)
     mComments = coms;
 }
 
-void TelluriumData::reSize(int rows, int cols)
+void TelluriumData::reSize(unsigned int rows, unsigned int cols)
 {
     mTheData.Allocate(rows, cols);
     mColumnNames.reSize(cols);
@@ -374,7 +374,7 @@ bool TelluriumData::readCSV(const string& fName)
     mColumnNames = splitString(lines[0], ",");
     RRPLOG(lInfo) << toString(mColumnNames);
 
-    mTheData.resize(lines.size() -1, mColumnNames.size());
+    mTheData.resize(static_cast<unsigned int>(lines.size()) -1, static_cast<unsigned int>(mColumnNames.size()));
 
     for(int i = 0; i < mTheData.RSize(); i++)
     {

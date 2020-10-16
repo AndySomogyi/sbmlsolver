@@ -159,13 +159,15 @@ TELHandle tlp_cc tpCreatePropertyList()
 {
     start_try
         Properties* props   = new Properties();
-        gHM.registerHandle(props, typeid(props).name());
         if(!props)
         {
-            throw("Failed to create a list of Properties");
+            return NULL;
+            //This is a C function; we can't throw.
+            //throw("Failed to create a list of Properties");
         }
         else
         {
+            gHM.registerHandle(props, typeid(props).name());
             return props;
         }
     tel_catch_ptr_macro

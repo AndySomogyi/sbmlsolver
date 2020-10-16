@@ -37,7 +37,7 @@ class COMMON_DECLSPEC FileName
         string                      GetPathAndFileName() const;
         string                      Get();
         string                      GetFileNameNoExtension();
-        unsigned int                size();
+        size_t                      size();
 };
 
 COMMON_DECLSPEC std::ostream& operator         <<(std::ostream &os, FileName &obj);
