@@ -4516,7 +4516,7 @@ L1:
 #if defined(_WIN32) || defined(__WIN32__)
     {
         char line_buf[1024];
-        fgets(line_buf, 1024, fp3);
+        char* ignore = fgets(line_buf, 1024, fp3);
     }
 #else
     while(fgetc(fp3)!='\n');
@@ -4611,7 +4611,7 @@ findlb(iap_type *iap, const rap_type *rap,
 #if defined(_WIN32) || defined(__WIN32__)
         {
             char line_buf[1024];
-            fgets(line_buf, 1024, fp3);
+            char* ignore = fgets(line_buf, 1024, fp3);
         }
 #else
         while(fgetc(fp3)!='\n');
@@ -4664,25 +4664,26 @@ readlb(const iap_type *iap, const rap_type *rap, doublereal *u, doublereal *par)
 
     /* Reads the restart data for algebraic problems. */
 
-    fscanf(fp3,"%ld",&ibrr);
-    fscanf(fp3,"%ld",&ntotr);
-    fscanf(fp3,"%ld",&itpr);
-    fscanf(fp3,"%ld",&labr);
-    fscanf(fp3,"%ld",&nfprr);
-    fscanf(fp3,"%ld",&iswr);
-    fscanf(fp3,"%ld",&ntplrs);
-    fscanf(fp3,"%ld",&nar);
-    fscanf(fp3,"%ld",&nskipr);
-    fscanf(fp3,"%ld",&n1);
-    fscanf(fp3,"%ld",&n2);
-    fscanf(fp3,"%ld",&nparr);
+    int ignore;
+    ignore = fscanf(fp3,"%ld",&ibrr);
+    ignore = fscanf(fp3,"%ld",&ntotr);
+    ignore = fscanf(fp3,"%ld",&itpr);
+    ignore = fscanf(fp3,"%ld",&labr);
+    ignore = fscanf(fp3,"%ld",&nfprr);
+    ignore = fscanf(fp3,"%ld",&iswr);
+    ignore = fscanf(fp3,"%ld",&ntplrs);
+    ignore = fscanf(fp3,"%ld",&nar);
+    ignore = fscanf(fp3,"%ld",&nskipr);
+    ignore = fscanf(fp3,"%ld",&n1);
+    ignore = fscanf(fp3,"%ld",&n2);
+    ignore = fscanf(fp3,"%ld",&nparr);
     ndim = nar - 1;
-    fscanf(fp3,"%le",&t);
+    ignore = fscanf(fp3,"%le",&t);
     for (i = 0; i < ndim; ++i) {
         if (i < iap->ndim) {
-            fscanf(fp3,"%le",&u[i]);
+            ignore = fscanf(fp3,"%le",&u[i]);
         } else {
-            fscanf(fp3,"%le",&scratch);
+            ignore = fscanf(fp3,"%le",&scratch);
         }
     }
     if (nparr > num_total_pars) {
@@ -4690,7 +4691,7 @@ readlb(const iap_type *iap, const rap_type *rap, doublereal *u, doublereal *par)
         fprintf(fp6, "Warning : num_total_pars too small for restart data :\n restart PAR(i) skipped for i > %3ld\n",nparr);
     }
     for (i = 0; i < nparr; ++i) {
-        fscanf(fp3,"%le",&par[i]);
+        ignore = fscanf(fp3,"%le",&par[i]);
     }
 
     return 0;
@@ -4714,7 +4715,7 @@ skip3(integer *nskip, logical *eof3)
 #if defined(_WIN32) || defined(__WIN32__)
         {
             char line_buf[1024];
-            fgets(line_buf, 1024, fp3);
+            char* ignore = fgets(line_buf, 1024, fp3);
         }
         if(feof(fp3))
         {
@@ -5858,6 +5859,8 @@ rsptbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, FUNI_TYPE((*
 
     integer ntst_fort8,ncol_fort8,junk;
 
+    int ignore;
+
 
     /* Restarts computation of a branch of solutions at point labelled IRS. */
     /* The output written on unit 8 by a previous run is now expected as */
@@ -5895,17 +5898,17 @@ rsptbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, FUNI_TYPE((*
     */
     if(iap->irs > 0) {
         findlb(iap, rap, iap->irs, &junk, &junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&junk);
-        fscanf(fp3,"%ld",&ntst_fort8);
-        fscanf(fp3,"%ld",&ncol_fort8);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&junk);
+        ignore = fscanf(fp3,"%ld",&ntst_fort8);
+        ignore = fscanf(fp3,"%ld",&ncol_fort8);
     } else {
         ntst_fort8 = iap->ntst;
         ncol_fort8 = iap->ncol;
@@ -6022,6 +6025,7 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     integer nfpr;
 
     integer i, j, k;
+    int ignore;
 
     logical found;
     integer *icprs = new integer[num_total_pars], nparr, nskip;
@@ -6056,18 +6060,18 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     nfpr = iap->nfpr;
 
     findlb(iap, rap, irs, &nfprs, &found);
-    fscanf(fp3,"%ld",&ibr);
-    fscanf(fp3,"%ld",&ntotrs);
-    fscanf(fp3,"%ld",&itprs);
-    fscanf(fp3,"%ld",&lab);
-    fscanf(fp3,"%ld",&nfprs);
-    fscanf(fp3,"%ld",&iswrs);
-    fscanf(fp3,"%ld",&ntplrs);
-    fscanf(fp3,"%ld",&nars);
-    fscanf(fp3,"%ld",&nskip);
-    fscanf(fp3,"%ld",&(*ntsrs));
-    fscanf(fp3,"%ld",&(*ncolrs));
-    fscanf(fp3,"%ld",&nparr);
+    ignore = fscanf(fp3,"%ld",&ibr);
+    ignore = fscanf(fp3,"%ld",&ntotrs);
+    ignore = fscanf(fp3,"%ld",&itprs);
+    ignore = fscanf(fp3,"%ld",&lab);
+    ignore = fscanf(fp3,"%ld",&nfprs);
+    ignore = fscanf(fp3,"%ld",&iswrs);
+    ignore = fscanf(fp3,"%ld",&ntplrs);
+    ignore = fscanf(fp3,"%ld",&nars);
+    ignore = fscanf(fp3,"%ld",&nskip);
+    ignore = fscanf(fp3,"%ld",&(*ntsrs));
+    ignore = fscanf(fp3,"%ld",&(*ncolrs));
+    ignore = fscanf(fp3,"%ld",&nparr);
     iap->ibr = ibr;
     iap->lab = lab;
 
@@ -6093,15 +6097,15 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
         for (i = 0; i < *ncolrs; ++i) {
             k1 = i * ndim;
             k2 = k1 + ndimrd - 1;
-            fscanf(fp3,"%le",&temp[i]);
+            ignore = fscanf(fp3,"%le",&temp[i]);
             for (k = k1; k <= k2; ++k) {
-                fscanf(fp3,"%lf",&ups[j][k]);
+                ignore = fscanf(fp3,"%lf",&ups[j][k]);
             }
             /*go to the end of the line*/
 #if defined(_WIN32) || defined(__WIN32__)
             {
                 char line_buf[1024];
-                fgets(line_buf, 1024, fp3);
+                char* ignore = fgets(line_buf, 1024, fp3);
             }
 #else
             while(fgetc(fp3)!='\n');
@@ -6113,15 +6117,15 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
         }
         tm[j] = temp[0];
     }
-    fscanf(fp3,"%le",&tm[*ntsrs]);
+    ignore = fscanf(fp3,"%le",&tm[*ntsrs]);
     for (k = 0; k < ndimrd; ++k) {
-        fscanf(fp3,"%le",&ups[*ntsrs][k]);
+        ignore = fscanf(fp3,"%le",&ups[*ntsrs][k]);
     }
     /*go to the end of the line*/
 #if defined(_WIN32) || defined(__WIN32__)
     {
         char line_buf[1024];
-        fgets(line_buf, 1024, fp3);
+        char* ignore = fgets(line_buf, 1024, fp3);
     }
 #else
     while(fgetc(fp3)!='\n');
@@ -6131,10 +6135,10 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     }
 
     for (i = 0; i < nfprs; ++i) {
-        fscanf(fp3,"%ld",&icprs[i]);
+        ignore = fscanf(fp3,"%ld",&icprs[i]);
     }
     for (i = 0; i < nfprs; ++i) {
-        fscanf(fp3,"%le",&rldot[i]);
+        ignore = fscanf(fp3,"%le",&rldot[i]);
     }
 
     /* Read U-dot (deriv. with respect to arclength along solution branch). */
@@ -6144,13 +6148,13 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
             k1 = i * ndim;
             k2 = k1 + ndimrd - 1;
             for (k = k1; k <= k2; ++k) {
-                fscanf(fp3,"%le",&udotps[j][k]);
+                ignore = fscanf(fp3,"%le",&udotps[j][k]);
             }
             /*go to the end of the line*/
 #if defined(_WIN32) || defined(__WIN32__)
             {
                 char line_buf[1024];
-                fgets(line_buf, 1024, fp3);
+                char* ignore = fgets(line_buf, 1024, fp3);
             }
 #else
             while(fgetc(fp3)!='\n');
@@ -6161,13 +6165,13 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
         }
     }
     for (k = 0; k < ndimrd; ++k) {
-        fscanf(fp3,"%le",&udotps[*ntsrs][k]);
+        ignore = fscanf(fp3,"%le",&udotps[*ntsrs][k]);
     }
     /*go to the end of the line*/
 #if defined(_WIN32) || defined(__WIN32__)
     {
         char line_buf[1024];
-        fgets(line_buf, 1024, fp3);
+        char* ignore = fgets(line_buf, 1024, fp3);
     }
 #else
     while(fgetc(fp3)!='\n');
@@ -6183,7 +6187,7 @@ stpnbv(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
         fprintf(fp6, "Warning : num_total_pars too small for restart data :\n restart PAR(i) skipped for i > %3ld\n",nparr);
     }
     for (i = 0; i < nparr; ++i) {
-        fscanf(fp3,"%le",&par[i]);
+        ignore = fscanf(fp3,"%le",&par[i]);
     }
     for (i = 0; i < nfpr; ++i) {
         rlcur[i] = par[icp[i]];
