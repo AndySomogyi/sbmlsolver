@@ -89,7 +89,7 @@ COMMON_DECLSPEC void           sleep(int ms);
 /*!
 \brief indexOf returns the index of an element in the vector. If not found, or if vector size is zero, it returns -1.
 */
-COMMON_DECLSPEC int             indexOf(const std::vector<std::string>& vec, const std::string& elem );
+COMMON_DECLSPEC ptrdiff_t       indexOf(const std::vector<std::string>& vec, const std::string& elem );
 COMMON_DECLSPEC bool            isNaN(const double& aNum);
 COMMON_DECLSPEC bool            isNullOrEmpty(const string& str);    //Can't be null, but empty
 COMMON_DECLSPEC void            pause(bool doIt = true, const string& msg = "");
@@ -98,7 +98,7 @@ COMMON_DECLSPEC void            pause(bool doIt = true, const string& msg = "");
 COMMON_DECLSPEC string          removeTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
 
 //File  Utilities
-COMMON_DECLSPEC int             populateFileSet(const string& modelsFolder, set<string>& models);
+COMMON_DECLSPEC size_t          populateFileSet(const string& modelsFolder, set<string>& models);
 COMMON_DECLSPEC bool            fileExists(const string& fileN);
 COMMON_DECLSPEC bool            folderExists(const string& folderN);
 COMMON_DECLSPEC bool            createFolder(const string& path);

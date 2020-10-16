@@ -33,21 +33,21 @@ class COMMON_DECLSPEC StringList
         /**
          * get the size to be compatible with vector<string>
          */
-        unsigned int size() const;
+        size_t                      size() const;
 
 
-        unsigned int                count() const;
+        size_t                      count() const;
 
 
         StringList&                 operator=(const StringList& rhs);
         StringList&                 operator=(const vector<string>& rhs);
 
-        string&                     operator[](const int& index);
-        const string&               operator[](const int& index) const;
+        string&                     operator[](const size_t& index);
+        const string&               operator[](const size_t& index) const;
         StringList                  operator-(const StringList& rhs);
         void                        removeAt(const int& index);
-        int                         find(const string& item);
-        int                         indexOf(const string& item);
+        ptrdiff_t                   find(const string& item);
+        ptrdiff_t                   indexOf(const string& item);
         void                        clear();
         void                        empty();
         bool                        contains(const string& item) const;

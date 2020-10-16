@@ -172,10 +172,10 @@ class COMMON_DECLSPEC TelluriumData
         std::string                             getColumnNamesAsString() const;
         bool                                    setColumnNames(const StringList& colNames);
         bool                                    setColumnName(int index, const string& colName);
-        int                                     getColumnIndex(const std::string& colName) const;
+        ptrdiff_t                               getColumnIndex(const std::string& colName) const;
         void                                    setTimeDataPrecision(const int& prec);
         void                                    setDataPrecision(const int& prec);
-        void                                    reSize(int rows, int cols);
+        void                                    reSize(unsigned int rows, unsigned int cols);
         string                                  getComments() const;
         void                                    setComments(const string& coms);
         void                                    swapRows(int r1, int r2);

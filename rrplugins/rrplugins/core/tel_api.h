@@ -123,7 +123,7 @@ typedef struct {			// THostInterface
 	\return Returns true if successful
 	\ingroup boundary
 	*/
-	bool (*setBoundarySpeciesByIndex)(RRHandle handle, const int index, const double value);
+	bool (*setBoundarySpeciesByIndex)(RRHandle handle, const unsigned int index, const double value);
 
 	/*!
 	\brief Set the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols

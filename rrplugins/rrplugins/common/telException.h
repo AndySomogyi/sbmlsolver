@@ -10,7 +10,7 @@ using std::exception;
 namespace tlp
 {
 
-class COMMON_DECLSPEC Exception : public std::exception
+class Exception : public std::exception
 {
     protected:
         string mMessage;   //Exception message
@@ -24,14 +24,14 @@ class COMMON_DECLSPEC Exception : public std::exception
         string                  getMessage() const;
 };
 
-class COMMON_DECLSPEC BadHandleException : public Exception
+class BadHandleException : public Exception
 {
     public:
         BadHandleException(const string& msg);
         BadHandleException(const string& msg1, const string& msg2);
 };
 
-class COMMON_DECLSPEC BadStringToNumberConversion : public Exception
+class BadStringToNumberConversion : public Exception
 {
     public:
         BadStringToNumberConversion(std::string const& s);

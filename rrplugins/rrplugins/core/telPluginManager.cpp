@@ -351,8 +351,8 @@ bool PluginManager::loadPlugin(const string& _libName)
 bool PluginManager::unloadAll()
 {
     bool result(true);
-    int nrPlugins = getNumberOfPlugins();
-    for(int i = 0; i < nrPlugins; i++)
+    size_t nrPlugins = getNumberOfPlugins();
+    for(size_t i = 0; i < nrPlugins; i++)
     {
         telPlugin* aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
@@ -388,7 +388,6 @@ bool PluginManager::unload(Plugin* plugin)
     }
 
     bool result(false);
-    int nrPlugins = getNumberOfPlugins();
 
     for(vector< telPlugin >::iterator it = mPlugins.begin(); it != mPlugins.end(); it++)
     {
@@ -463,8 +462,8 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
 StringList PluginManager::getPluginNames() const
 {
     StringList names;
-    int nrPlugins = getNumberOfPlugins();
-    for(int i = 0; i < nrPlugins; i++)
+    size_t nrPlugins = getNumberOfPlugins();
+    for(size_t i = 0; i < nrPlugins; i++)
     {
         pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
@@ -482,8 +481,8 @@ StringList PluginManager::getPluginNames() const
 StringList PluginManager::getPluginLibraryNames() const
 {
     StringList names;
-    int nrPlugins = getNumberOfPlugins();
-    for(int i = 0; i < nrPlugins; i++)
+    size_t nrPlugins = getNumberOfPlugins();
+    for(size_t i = 0; i < nrPlugins; i++)
     {
         pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
@@ -498,7 +497,7 @@ StringList PluginManager::getPluginLibraryNames() const
     return names;
 }
 
-int PluginManager::getNumberOfPlugins() const
+size_t PluginManager::getNumberOfPlugins() const
 {
     return mPlugins.size();
 }

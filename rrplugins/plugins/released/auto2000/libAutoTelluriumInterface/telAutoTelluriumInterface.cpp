@@ -99,7 +99,7 @@ void AutoTellurimInterface::setInitialPCPValue()
 
 	if(mModelBoundarySpecies.contains(mPCPParameterName))
 	{
-		int index = mModelBoundarySpecies.indexOf(mPCPParameterName);
+		unsigned int index = static_cast<unsigned int>(mModelBoundarySpecies.indexOf(mPCPParameterName));
 		
 		mHostInterface->setBoundarySpeciesByIndex(mRR,index, value);
 	}
@@ -184,7 +184,7 @@ int autoCallConv AutoTellurimInterface::ModelInitializationCallback(long ndim, d
 		double* value = new double;
 		for (int i = 0; i < numBoundaries; i++)
 		{
-			int selSpecieIndex      = mModelBoundarySpecies.indexOf(mPCPParameterName);
+			unsigned int selSpecieIndex = static_cast<unsigned int>(mModelBoundarySpecies.indexOf(mPCPParameterName));
 			mHostInterface->getBoundarySpeciesByIndex(mRR,selSpecieIndex,value);
 			boundaryValues[i] = *value;
 		}
@@ -196,7 +196,7 @@ int autoCallConv AutoTellurimInterface::ModelInitializationCallback(long ndim, d
 		double* value=new double;
 		for (int i = 0; i < numParameters; i++)
 		{
-			int selParameter    = mModelParameters.indexOf(mPCPParameterName);
+			unsigned int selParameter = static_cast<unsigned int>(mModelParameters.indexOf(mPCPParameterName));
 			mHostInterface->getGlobalParameterByIndex(mRR,selParameter,value);
 			globalParameters[i] = *value;
 		}
@@ -263,7 +263,7 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 		for (int i = 0; i < numBoundaries; i++)
 		{
 			double val = oBoundary[i];
-			int selSpecieIndex      = mModelBoundarySpecies.indexOf(mPCPParameterName);
+			unsigned int selSpecieIndex = static_cast<unsigned int>(mModelBoundarySpecies.indexOf(mPCPParameterName));
 			mHostInterface->setBoundarySpeciesByIndex(mRR,selSpecieIndex, val);
 		}
 	}
@@ -286,8 +286,8 @@ void autoCallConv AutoTellurimInterface::ModelFunctionCallback(const double* oVa
 
 	tlp::StringList              selList = selRecs;
 	vector<double> variableTemp(selList.size());
-	int ndim = mAutoConstants.NDIM;
-	int nMin = min(selList.size(), ndim);
+	size_t ndim = mAutoConstants.NDIM;
+	size_t nMin = min(selList.size(), ndim);
 
 	for (int i = 0; i < nMin; i++)
 	{

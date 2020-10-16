@@ -2019,7 +2019,7 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getGlobalParameterValues(RRHandle handle);
  \return Returns true if successful
  \ingroup boundary
 */
-C_DECL_SPEC bool rrcCallConv setBoundarySpeciesByIndex(RRHandle handle, const int index, const double value);
+C_DECL_SPEC bool rrcCallConv setBoundarySpeciesByIndex(RRHandle handle, const unsigned int index, const double value);
 
 /*!
  \brief Set the initial concentration for a particular floating species.

@@ -11,7 +11,7 @@ namespace telauto
     using namespace tlp;
     using namespace std;
 
-string getWhiteSpaces(string& line, int maxLength);
+string getWhiteSpaces(string& line, size_t maxLength);
 
 
 AutoConstants::AutoConstants()
@@ -162,7 +162,7 @@ string AutoConstants::getConstantsAsString()
     lines.add(line8);
     lines.add(line10);
 
-    int maxLength = lines.getLongest().size();
+    size_t maxLength = lines.getLongest().size();
     StringBuilder builder;
     builder << (line1 + getWhiteSpaces(line1, maxLength) + " NDIM, IPS, IRS, ILP") << endl;
     builder << (line2 + getWhiteSpaces(line2, maxLength) + " NICP,(ICP(I),I=1 NICP)")<< endl;
@@ -206,9 +206,9 @@ string AutoConstants::getICP()
     return builder.ToString();
 }
 
-string getWhiteSpaces(string& line, int maxLength)
+string getWhiteSpaces(string& line, ptrdiff_t maxLength)
 {
-    int nrSpaces =  maxLength - line.size();
+    size_t nrSpaces =  maxLength - line.size();
     return string(nrSpaces, ' ');
 }
 

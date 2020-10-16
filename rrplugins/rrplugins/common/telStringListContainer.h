@@ -26,9 +26,9 @@ class COMMON_DECLSPEC StringListContainer
         void                            Add(const StringList& coll);
         void                            Add(const string& coll);
         void                            Add(const int& coll);
-        int                             Count() const;
-        int                             ListCount() const;
-        int                             TotalCount() const;
+        size_t                          Count() const;
+        size_t                          ListCount() const;
+        size_t                          TotalCount() const;
         StringList&                     operator[](const int& index);
         const StringList&               operator[](const int& index) const;
         vector<StringList>::iterator    begin();
