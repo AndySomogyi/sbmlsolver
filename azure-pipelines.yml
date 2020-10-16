@@ -2,7 +2,7 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-
+name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   - master
   - develop
@@ -13,32 +13,63 @@ pr:
   - develop
   - azure-test
 
-jobs:
-  - job: Windows
-    pool:
-      vmImage: 'vs2019-windows2019'
-    steps:
-      - script: echo hello from Windows
-  - job: macOS
-    pool:
-      vmImage: 'macOS-10.15'
-    steps:
-      - script: echo hello from macOS
-  - job: Linux
-    pool:
-      vmImage: 'ubuntu-18.04'
-    steps:
-      - bash: |
-          echo "Hello world from $AGENT_NAME running on $AGENT_OS"
-          wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
-          tar zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
+stages:
+  - stage: GetLLVM
+    jobs:
+      - job: GetLLVMJob
+        continueOnError: "false"
+        steps:
+          - script: |
+              wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
+              tar zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
 
-      - displayName: GetLLVM
+  - stage: GetDeps
+  - dependsOn: [ ]
+    jobs:
+      - job: GetDepsJob
+        continueOnError: "false"
+        steps:
+          - script: |
+              wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
+              tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
 
-#
-#    displayName: 'Build roadrunner dependencies on Linux'
-#    pool:
-#      vmImage: 'ubuntu-18.04'
-#    steps:
-#      - script: bash $(pwd)/ci/build-linux.sh
+
+  - stage: TestCMakeAvailability
+  - dependsOn: [ ]
+    jobs:
+      - job: TestCMakeAvailabilityJob
+        continueOnError: "false"
+        steps:
+          - script: cmake --version
+
+
+
+
+
+
+
+          #stages:
+          #  pool:
+          #    vmImage: 'ubuntu-18.04'
+          #    - displayName: "Build"
+          #  jobs:
+          #    - job:
+          #        - #jobs:
+          #  - job: Windows
+          #    pool:
+          #      vmImage: 'vs2019-windows2019'
+          #    steps:
+          #      - script: echo hello from Windows
+          #  - job: macOS
+          #    pool:
+          #      vmImage: 'macOS-10.15'
+          #    steps:
+          #      - script: echo hello from macOS
+
+          #
+          #    displayName: 'Build roadrunner dependencies on Linux'
+          #    pool:
+          #      vmImage: 'ubuntu-18.04'
+          #    steps:
+          #      - script: bash $(pwd)/ci/build-linux.sh
 
