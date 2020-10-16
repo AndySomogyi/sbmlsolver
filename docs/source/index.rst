@@ -76,7 +76,6 @@ Features
     utility_functions
     accessing_model
     api_reference
-    linking_to_roadrunner_cmake
 
 
 

@@ -42,10 +42,9 @@ Building Roadrunner from Source
 .. toctree::
     :maxdepth: 1
 
-    building_python_bindings
-    building_plugins
     windows_warning
     llvm_dependency
+    troubleshooting_the_build
 
 You will need:
 
@@ -57,7 +56,7 @@ If you are new to CMake, we recommend you read the `cmake tutorial <https://cmak
 
 .. note::
 
-    If at any point you get stuck or encounter an error please first read the :ref:`Troubleshooting the build <Troubleshooting the build>`
+    If at any point you get stuck or encounter an error please first read the :ref:`Troubleshooting the build <Troubleshooting the Build>`
     page and then if the problem is not resolved, submit a github issue and we'll be more than willing to help.
 
 On windows, you should use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by
@@ -165,7 +164,7 @@ Build the Python Bindings
 
 
 Building the Roadrunner Plugins
-================================
+-------------------------------
 
 To build the plugins use the `-DBUILD_RR_PLUGINS=ON`. When set to on, the `BUILD_RR_PLUGINS`
 option automatically turns on a set of variables. These include:
@@ -192,7 +191,7 @@ while the `RR_PLUGINS_BUILD_STATIC_LIB` option remains OFF.
 
 
 Building roadrunner tests
-=========================
+--------------------------
 
 Use the `-DBUILD_TESTS=ON` option
 
@@ -223,7 +222,7 @@ command, which you may also run manually.
 
 
 Packaging Roadrunner
-======================
+------------------------
 
 * Windows: produces a zip file.
 
@@ -236,6 +235,7 @@ First follow the instructions for installing roadrunner, including options for
 any other desired options such as tests, plugins or language bindings. Then rerun
 cmake using using the `-DBUILD_PACKAGING=ON` option.
 
+.. code-block::
 
     $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
         -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" \
@@ -244,6 +244,7 @@ cmake using using the `-DBUILD_PACKAGING=ON` option.
         -DBUILD_PACKAGING=ON
     $ cmake --build . --target install --config Release
     $ cmake --build . --target packaging --config Release
+
 
 
 
