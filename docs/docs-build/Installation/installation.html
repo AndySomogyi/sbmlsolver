@@ -240,22 +240,33 @@ ensure you are building x64 bit application.</p>
 <div class="section" id="install-llvm">
 <h3>1) Install LLVM<a class="headerlink" href="#install-llvm" title="Permalink to this headline">¶</a></h3>
 <p>Install the <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">llvm-6.x dependency</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For those wanting to build roadrunner in Debug mode, remember that you will need to download or build the llvm
+debug binaries, not release.</p>
+</div>
 </div>
 <div class="section" id="install-the-roadrunner-dependency-package">
 <h3>2) Install the Roadrunner Dependency Package<a class="headerlink" href="#install-the-roadrunner-dependency-package" title="Permalink to this headline">¶</a></h3>
 <p>Install the <a class="reference external" href="https://github.com/CiaranWelsh/roadrunner-deps">roadrunner dependency package</a> by executing the following commands in a windows/linux/mac shell.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules         <span class="c1"># get the dependency package using git</span>
-$ <span class="nb">cd</span> roadrunner-deps
-$ mkdir build
-$ <span class="nb">cd</span> build
-$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> .. <span class="c1"># configure the dependency package</span>
-$ cmake --build . --target install --config Release <span class="c1"># build the install target</span>
-$ <span class="nb">cd</span> ../../ <span class="c1"># return to directory containing roadrunner-deps</span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the following set of instructions you can replace every instance of the word “Release” with the word “Debug”
+(<a class="reference external" href="https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html">or another configuration</a>) to build
+roadrunner in Debug mode.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules   <span class="c1"># get the dependency package using git</span>
+<span class="nb">cd</span> roadrunner-deps
+mkdir build
+<span class="nb">cd</span> build
+cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install-Release&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> .. <span class="c1"># configure the dependency package</span>
+cmake --build . --target install --config Release <span class="c1"># build the install target</span>
+<span class="nb">cd</span> ../../ <span class="c1"># return to directory containing roadrunner-deps</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Take note of where you put the roadrunner deps install tree (<cite>../install</cite> here). It is required as
+<p>Take note of where you put the roadrunner deps install tree (<cite>../install-Release</cite> here). It is required as
 argument to <cite>-DRR_DEPENDENCIES_INSTALL_PREFIX</cite> below.</p>
 </div>
 </div>
@@ -264,12 +275,21 @@ argument to <cite>-DRR_DEPENDENCIES_INSTALL_PREFIX</cite> below.</p>
 <p>Install roadrunner using the following commands from a windows/linux/mac shell.</p>
 <p>If you have not done so already, <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">download or build llvm-6.x</span></a>. The folder containing
 llvm’s <cite>bin</cite>, <cite>include</cite> and <cite>lib</cite> directories is the argument to <cite>LLVM_INSTALL_PREFIX</cite> below.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/CiaranWelsh/roadrunner.git <span class="c1"># get roadrunner</span>
-$ <span class="nb">cd</span> roadrunner
-$ mkdir build
-$ <span class="nb">cd</span> build
-$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install&quot;</span> -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/put/llvm-6.x&quot;</span> -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/installed/roadrunner/dependencies&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
-$ cmake --build . --target install --config Release
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.. note::
+
+    The following <span class="sb">`</span>cmake<span class="sb">`</span> <span class="nb">command</span> assumes that you are following these instruction exactly so the relative
+    path <span class="sb">`</span>-DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../../roadrunner-deps/install-Release&quot;</span><span class="sb">`</span> will point to
+    the <span class="sb">`</span>-DCMAKE_INSTALL_PREFIX<span class="sb">`</span> argument from step <span class="m">2</span>, i.e. the roadrunner-deps cmake command.
+
+git clone https://github.com/CiaranWelsh/roadrunner.git <span class="c1"># get roadrunner</span>
+<span class="nb">cd</span> roadrunner
+mkdir build
+<span class="nb">cd</span> build
+cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install-Release&quot;</span> <span class="se">\</span>
+    -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/put/llvm-6.x-release&quot;</span> <span class="se">\</span>
+    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../../roadrunner-deps/install-Release&quot;</span> <span class="se">\</span>
+    -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
+cmake --build . --target install --config Release
 </pre></div>
 </div>
 </div>
@@ -294,13 +314,13 @@ the <cite>-DSWIG_EXECUTABLE</cite> argument as <cite>swig.exe</cite> will be fou
 automatically. However in most circumstances you will need to provide the path to the <cite>swig.exe</cite> using
 <cite>-DSWIG_EXECUTABLE</cite>.</p>
 </div></blockquote>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> <span class="se">\</span>
     -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> <span class="se">\</span>
     -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> <span class="se">\</span>
     -DBUILD_PYTHON<span class="o">=</span>ON
     -DSWIG_EXECUTABLE<span class="o">=</span><span class="s2">&quot;C:\Users\Ciaran\Documents\swigwin-3.0.0\swig.exe&quot;</span> ..
-$ cmake --build . --target install --config Release
+cmake --build . --target install --config Release
 </pre></div>
 </div>
 </div>

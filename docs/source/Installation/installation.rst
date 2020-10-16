@@ -73,24 +73,35 @@ ensure you are building x64 bit application.
 
 Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
 
+.. note::
+
+    For those wanting to build roadrunner in Debug mode, remember that you will need to download or build the llvm
+    debug binaries, not release.
+
 2) Install the Roadrunner Dependency Package
 ---------------------------------------------
 
 Install the `roadrunner dependency package <https://github.com/CiaranWelsh/roadrunner-deps>`_ by executing the following commands in a windows/linux/mac shell.
 
+.. note::
+
+    In the following set of instructions you can replace every instance of the word "Release" with the word "Debug"
+    (`or another configuration <https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html>`_) to build
+    roadrunner in Debug mode.
+
 .. code-block:: bash
 
-    $ git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules 	# get the dependency package using git
-    $ cd roadrunner-deps
-    $ mkdir build
-    $ cd build
-    $ cmake -DCMAKE_INSTALL_PREFIX="../install" -DCMAKE_BUILD_TYPE="Release" .. # configure the dependency package
-    $ cmake --build . --target install --config Release # build the install target
-    $ cd ../../ # return to directory containing roadrunner-deps
+    git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules 	# get the dependency package using git
+    cd roadrunner-deps
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX="../install-Release" -DCMAKE_BUILD_TYPE="Release" .. # configure the dependency package
+    cmake --build . --target install --config Release # build the install target
+    cd ../../ # return to directory containing roadrunner-deps
 
 .. note::
 
-    Take note of where you put the roadrunner deps install tree (`../install` here). It is required as
+    Take note of where you put the roadrunner deps install tree (`../install-Release` here). It is required as
     argument to `-DRR_DEPENDENCIES_INSTALL_PREFIX` below.
 
 3) Install Roadrunner
@@ -103,12 +114,21 @@ llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_P
 
 .. code-block:: bash
 
-    $ git clone https://github.com/CiaranWelsh/roadrunner.git # get roadrunner
-    $ cd roadrunner
-    $ mkdir build
-    $ cd build
-    $ cmake -DCMAKE_INSTALL_PREFIX="../install" -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x" -DRR_DEPENDENCIES_INSTALL_PREFIX="/full/path/to/where/you/installed/roadrunner/dependencies" -DCMAKE_BUILD_TYPE="Release" ..
-    $ cmake --build . --target install --config Release
+    .. note::
+
+        The following `cmake` command assumes that you are following these instruction exactly so the relative
+        path `-DRR_DEPENDENCIES_INSTALL_PREFIX="../../roadrunner-deps/install-Release"` will point to
+        the `-DCMAKE_INSTALL_PREFIX` argument from step 2, i.e. the roadrunner-deps cmake command.
+
+    git clone https://github.com/CiaranWelsh/roadrunner.git # get roadrunner
+    cd roadrunner
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX="../install-Release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x-release" \
+        -DRR_DEPENDENCIES_INSTALL_PREFIX="../../roadrunner-deps/install-Release" \
+        -DCMAKE_BUILD_TYPE="Release" ..
+    cmake --build . --target install --config Release
 
 Roadrunner Optional Features
 =============================
@@ -135,13 +155,13 @@ Build the Python Bindings
 
 .. code-block:: bash
 
-    $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
+    cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
         -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="D:\roadrunner-deps\roadrunner-deps-install" \
         -DCMAKE_BUILD_TYPE="Release" \
         -DBUILD_PYTHON=ON
         -DSWIG_EXECUTABLE="C:\Users\Ciaran\Documents\swigwin-3.0.0\swig.exe" ..
-    $ cmake --build . --target install --config Release
+    cmake --build . --target install --config Release
 
 
 Building the Roadrunner Plugins
