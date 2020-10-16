@@ -242,7 +242,7 @@ char* autoCallConv getFort7File(int length)
     length=ftell(fp);
     fseek(fp,0,SEEK_SET);
     _sFort7=(char *)malloc(length);
-    fread(_sFort7,length,1,fp);
+    size_t ignore = fread(_sFort7,length,1,fp);
     fclose(fp);
 
     return _sFort7;
@@ -279,7 +279,7 @@ char* autoCallConv getFort8File(int length)
     length=ftell(fp);
     fseek(fp,0,SEEK_SET);
     _sFort8=(char *)malloc(length);
-    fread(_sFort8,length,1,fp);
+    size_t ignore = fread(_sFort8,length,1,fp);
     fclose(fp);
 
     return _sFort8;
@@ -318,7 +318,7 @@ char* autoCallConv getFort9File(int length)
     length=ftell(fp);
     fseek(fp,0,SEEK_SET);
     _sFort9=(char *)malloc(length);
-    fread(_sFort9,length,1,fp);
+    size_t ignore = fread(_sFort9,length,1,fp);
     fclose(fp);
 
     return _sFort9;
@@ -333,7 +333,7 @@ void autoCallConv CallAuto(const string& tempFolder)
         char cmd[512];
         strncpy(cmd, "vsAuto\0", 7);
         char *argv[] = { cmd }  ;
-        chdir(tempFolder.c_str());
+        int ignore = chdir(tempFolder.c_str());
         autolib::AUTO_main(argc, argv);                
     }
     catch(exception& e)
@@ -344,7 +344,7 @@ void autoCallConv CallAuto(const string& tempFolder)
     }
     autolib::CloseAllFiles();
     clearCallbacks();
-    chdir(oldDir);
+    int ignore = chdir(oldDir);
     free(oldDir);
 }
 
