@@ -139,7 +139,7 @@ void AutoConstants::populateFrom(Properties* props)
 
 string AutoConstants::getConstantsAsString()
 {
-    string line1  = formatN((string)"{0} {1} {2} {3}", NDIM, IPS, IRS, ILP);
+    string line1  = formatN((string)"{0} {1} {2} {3}", static_cast<unsigned int>(NDIM), IPS, IRS, ILP);
     string line2  = getICP();
     string line3  = formatN("{0} {1} {2} {3} {4} {5} {6} {7}", NTST, NCOL, IAD, ISP, ISW, IPLT, NBC, NINT);
     string line4  = formatN("{0} {1} {2} {3} {4}", NMX, RL0, RL1, A0, A1);
