@@ -92,7 +92,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 
 	char* docSBML = doc->toSBML();
 
-	ModelGeneratorContext context(std::string(docSBML), options);
+	ModelGeneratorContext context(docSBML, options);
 
 	free(docSBML);
 

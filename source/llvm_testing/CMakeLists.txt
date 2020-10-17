@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_CXX_API_TESTS)
 
-set(target llvm_testing)
+set(target rr_analysis)
 
 if (BUILD_PYTHON)
 
@@ -11,7 +11,7 @@ if (BUILD_PYTHON)
 
 endif(BUILD_PYTHON)
 
-set(llvm_testing_src
+set(rr_analysis_src
     main.cpp
     src/tests.cpp
     src/cpplapack.cpp
@@ -46,10 +46,10 @@ set(llvm_testing_src
     )
 
 if(LLVM_FLAGS)
-  set_source_files_properties(${llvm_testing_src} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
+  set_source_files_properties(${rr_analysis_src} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
 endif()
 
-add_executable( ${target} ${llvm_testing_src} )
+add_executable( ${target} ${rr_analysis_src} )
 
 # The additional required flags are set at global level. Here
 # we only need to tell it about static rr.

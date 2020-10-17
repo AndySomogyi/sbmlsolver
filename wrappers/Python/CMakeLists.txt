@@ -1,29 +1,4 @@
-include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIG.cmake) # this is slightly modified FindSWIG.cmake file -  had to tune it to work with OSX
-
-# defines the following:
-# SWIG_FOUND
-# SWIG_EXECUTABLE
-# SWIG_DIR
-# SWIG_VERSION
-# SWIG_<lang>_FOUND
-#find_package(SWIG 3.0.0 REQUIRED)
-find_package(SWIG 3.0.0 REQUIRED
-        COMPONENTS python
-        OPTIONAL_COMPONENTS java
-        )
-if (NOT SWIG_FOUND)
-    message(FATAL_ERROR "Swig was not found")
-endif ()
-
-
-message("SWIG found: ${SWIG_EXECUTABLE}")
-if (NOT SWIG_java_FOUND)
-    message(WARNING "SWIG java bindings cannot be generated")
-endif ()
-
-message(STATUS "swig_version ${SWIG_VERSION}")
-
-include(UseSWIG)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIGIG.cmake) # this is slightly modified FindSWIG.cmake file -  had to tune it to work with OSX
 
 find_package(PythonInterp)
 # specify that the same python library should be found 
@@ -38,7 +13,6 @@ message(STATUS "THIS IS PYTHON_INCLUDE_PATH " ${PYTHON_INCLUDE_PATH})
 
 set(PYINTERFACE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pyinterface)
 set(CMAKE_SWIG_FLAGS "")
-
 
 if (SWIG_FOUND)
     add_subdirectory(roadrunner)

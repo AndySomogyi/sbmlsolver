@@ -1,12 +1,10 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(rrWrappers)
 
-if (BUILD_TEST_TOOLS)
+if (${BUILD_TESTS})
     add_subdirectory(Testing)
 
     if (INSTALL_EXAMPLES)
         add_subdirectory(Examples)
-    endif ()
+    endif (INSTALL_EXAMPLES)
 
     #=============== install =====================
     install(
@@ -15,4 +13,4 @@ if (BUILD_TEST_TOOLS)
             DESTINATION c_api_python
             COMPONENT testing
     )
-endif (BUILD_TEST_TOOLS)
+endif (${BUILD_TESTS})

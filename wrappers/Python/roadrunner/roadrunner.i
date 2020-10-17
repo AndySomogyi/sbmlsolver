@@ -25,7 +25,7 @@
     // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
-    //Can't require new API on MacOS 10.9
+    //Can't require new wrappers on MacOS 10.9
     //#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
     #ifdef _MSC_VER
@@ -1368,10 +1368,10 @@ namespace std { class ostream{}; }
                 will have N+1 data rows.
 
             stiff
-                DEPRECATED: use solver API (this setting only available for some solvers).
+                DEPRECATED: use solver wrappers (this setting only available for some solvers).
 
             seed
-                DEPRECATED: use solver API (this setting only available for some solvers).
+                DEPRECATED: use solver wrappers (this setting only available for some solvers).
 
 
             :returns: a numpy array with each selected output time series being a
@@ -1501,7 +1501,7 @@ namespace std { class ostream{}; }
                 # check if variableStep was explicitly specified, this overrides the steps
                 # positional arg
                 if k == "variableStep":
-                    raise KeyError('Do NOT pass variableStep to simulate. Use integrator API: r.getIntegrator().setValue("variable_step_size", True)')
+                    raise KeyError('Do NOT pass variableStep to simulate. Use integrator wrappers: r.getIntegrator().setValue("variable_step_size", True)')
                     haveVariableStep = True
                     self.getIntegrator().setValue('variable_step_size', v)
                     if not stepsSpecified:
@@ -1517,7 +1517,7 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "stiff" and self.getIntegrator().hasValue('stiff'):
-                    raise KeyError('Do NOT pass stiff to simulate. Use the integrator API: r.getIntegrator().setValue("stiff", True)')
+                    raise KeyError('Do NOT pass stiff to simulate. Use the integrator wrappers: r.getIntegrator().setValue("stiff", True)')
                     def stiff_restore(v):
                         def f():
                             self.getIntegrator().setValue('stiff', v)

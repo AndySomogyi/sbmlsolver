@@ -1,5 +1,3 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(RR_C_API_Tests)
 
 # integration solver test
 set(target "test_integrator_api")

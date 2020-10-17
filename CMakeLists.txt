@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.17)
-project(rr)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
@@ -9,124 +8,178 @@ project(rr)
 
 set(ROADRUNNER_VERSION_MAJOR 2)
 set(ROADRUNNER_VERSION_MINOR 0)
-set(ROADRUNNER_VERSION_PATCH 1)
+set(ROADRUNNER_VERSION_PATCH 2)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
+project(
+        roadrunner
+        DESCRIPTION "roadrunner project"
+        VERSION ${ROADRUNNER_VERSION}
+        LANGUAGES CXX
+)
 
-set(CMAKE_MACOSX_RPATH 1)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+    message(STATUS "Build on 32-bit platform")
+else ()
+    message(STATUS "Build on 64-bit platform")
+endif ()
 
-# defines a macro for finding vcpkg root
-include(LocateVcpkg)
+
+# do some bitness checks as its an easy trap to fall into on windows.
+if (WIN32)
+    if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+        message(WARNING "You are building 32-bit binaries \
+this is unlikely what you want. If you intented to build x64-bit ensure you are using the x64-bit
+visual studio developers command prompt for running the cmake command" .)
+    endif ()
+
+    string(FIND "${CMAKE_SYSTEM_PROCESSOR}" "64" IS_64_BIT)
+    if ((${IS_64_BIT} GREATER 0) AND ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4"))
+        message(WARNING "You are generating a 32-bit version of roadrunner on a \
+x64 bit machine")
+    endif ()
+endif ()
+
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 
 # defines a macro for printing out a configuration summary
-# Technically this doesn't need to be a macro
-# but it can get quite long so I like to put it out of sight.
-# note: this configuration summary macro is out of date and not presently in use. (ciaran)
-# todo fix the configuration summary by adding useful  information and have it print out at the end of cmake command
 include(ConfigurationSummary)
-
-# a macro for isolating the code for finding dependencies
-include(FindDependencies)
-
-# function for locating llvm
-include(FindLLVM)
 
 # External project. Try to avoid
 include(ExternalProject)
-
-# Macro for determining whether to build or download the LLVM dependency.
-# Put into a separate macro to increase readability in the main CMake script.
-include(DownloadOrBuildLLVM)
-
-# Macro for downloading binaries, when conditions are right (as determined by DownloadOrBuildLLVM)
-include(DownloadLLVM601Binaries)
-
-# Macro for building llvm6.0.1 from source.
-include(BuildLLVMFromSource)
-
-# Macro defining error for directory not found
-include(CheckDirectoryExists)
-
-# Macro for raising error when file not exist
-include(CheckLibraryExists)
 
 # macro for setting a variable with cross platform independent values
 include(SetCrossPlatform)
 
 # convenience function for querying presently defined cmake variables
-include(QueryCMakeVariables)
+include(QueryCMakeVariables) # debbugging
 
-# Convenience functions for setting MSVC runtime
-include(SetTargetMSVCRuntimeStatic)
-include(SetTargetMSVCRuntimeDll)
+# GNU standard install locations
+include(GNUInstallDirs)
+
+# generate automatic export headers
+include(GenerateExportHeader)
+
+# Custom macro for containing the git related stuff.
+include(WriteGitInfo)
+write_git_info() # write the git branch and commit hash to console
+
+# load cmake_dependent_options
+include(CMakeDependentOption)
+
 #############################################################
 #   Configuration Options
 #
 
-# Users should try to install LLVM6.0.1 on their own, outside
-# the context of roadrunner. This is because LLVM is huge, and generally
-# slows the performance of IDE's due to increased indexing.
-# When users are providing their own LLVM6.0.1 installation, they give the root
-# directory as argument to LLVM_INSTALL_PREFIX.
-set(LLVM_INSTALL_PREFIX CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
+# any of these directories are accepted as default directories.
+# this supports multi platform builds on a single system
+set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
+        CACHE PATH "Path to dependency package"
+        )
 
+# This variable provides users a way of providing their own LLVM installation.
+# The two options are: 1) build llvm along with the other dependencies or
+# 2) build the other dependencies and llvm separate. If the latter is chosen,
+# users will need to provide their own argument to LLVM_INSTALL_PREFIX
+set(LLVM_INSTALL_PREFIX ${RR_DEPENDENCIES_INSTALL_PREFIX} CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
+set(LLVM_ROOT_DIR "${LLVM_ROOT_DIR}")
 
-# should we build and install Testing tools?
+# todo difference between build tests and build test tools option? (cw)
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
-
-# should we use LLVM ?
+option(BUILD_TESTS "Build the SBML C API test suite" OFF)
 option(BUILD_LLVM "Build the LLVM back end" ON)
 
-
-option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)")
+# note I've tried using the C backend and it no longer compiles. Could be useful to keep though
+option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" OFF)
 
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
-set(PYTHON_SITE_DIR site-packages CACHE PATH "Path to Python site packages directory")
-if (BUILD_PYTHON)
-    set(PYTHON_PACKAGE_DEST_DIR ${PYTHON_SITE_DIR}/roadrunner)
-endif ()
+set(PYTHON_PACKAGE_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
+set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner)
 
-option(BUILD_JAVA_INTERFACE "build the SWIG generated Java wrapper" OFF)
-option(INSTALL_CXX_API "Generate C++ api" ON)
-option(INSTALL_C_API "Generate C API" ON)
-option(INSTALL_C_API_PYTHON "Package ctypes  Python wrapper for the C API" ON)
-option(INSTALL_APPS "Build and install Apps" ON)
-option(INSTALL_EXAMPLES "Build and install Examples" OFF)
-option(INSTALL_STATIC_LIB "Install RoadRunner CXX static lib" OFF)
-option(RR_BUILD_SHARED_CORE "Build RoadRunner Core Shared library" ON)
-option(BUILD_TESTS "Build the SBML C API test suite" OFF)
-option(INSTALL_SBML_MODELS "Install SBML Models" ON)
-option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF)
-option(USE_POCO_NET "Use poco net library" ON)
-option(VERBOSE_CMAKE "set the VERBOSE_CMAKE flag to ON" OFF)
-option(CMAKE_VERBOSE_MAKEFILE "verbose output" ON)
+# This option requires BUILD_PYTHON and BUILD_RR_CAPI to be on
+cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
+        "BUILD_PYTHON" OFF)
+cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
+        "BUILD_PYTHON" OFF)
 
-set(CMAKE_STANDARD 14 CACHE STRING "set the cmake standard to use")
+
+#Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
+option(BUILD_RR_CAPI "Generate C API" ON)
+
+#TODO this option yet supported in new buildsystem (cw).
+option(BUILD_APPS "Build and install Apps" OFF)
+
+option(BUILD_EXAMPLES "Build and install Examples" OFF)
+option(INSTALL_SBML_MODELS "Install SBML Models" OFF)
+option(BUILD_DOCS "Build the roadrunner documentation" OFF)
+
+# TODO this options is not yet suppoerted in the new build system (cw)
+option(BUILD_JAVA "build the SWIG generated Java wrapper" OFF)
+
+option(BUILD_PACKAGING "Package roadrunner into binary distributions" OFF)
+option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool (assumes address sanitizer is available)" OFF)
+
+# telplugin options
+option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
+# todo consider whether we want to rebrand "telplugins" to rrplugins or something similar. These are actually roadrunner plugins not tellurium.
+## Feature selection
+
+# These options are dependent on BUILD_RR_PLUGINS option. This reads: when BUILD_RR_PLUGINS=ON set the value of
+# RR_PLUGINS_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
+cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" OFF "BUILD_RR_PLUGINS" OFF)
+set(RR_PLUGINS_INSTALL_PREFIX site-packages/plugins CACHE PATH "Destination for plugins")
+cmake_dependent_option(RR_PLUGINS_BUILD_C_API "Build the RR plugin C API" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
+
+# Plugin selection: Released
+# These options default to ON when BUILD_RR_PLUGINS=ON and OFF otherwise
+cmake_dependent_option(RR_PLUGINS_BUILD_TEST_MODEL_PLUGIN "Build the Test Model Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
+
+#todo do these exist???
+#set (RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
+#set (RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
+
+set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
 ##################################################
-#   Settings derived from options
+#   Settings
 #
 
-if (BUILD_TESTS OR BUILD_JAVA_INTERFACE)
+# Would be nice to set these options but I tried it and we cannot without
+# breaking the build (cw)
+#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+#set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+
+#handle rpath
+set(CMAKE_MACOSX_RPATH TRUE)
+set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+
+if (APPLE AND NOT UNIX)
+    set(RPATH_BASE @loader_path)
+else ()
+    set(RPATH_BASE $ORIGIN)
+endif ()
+file(RELATIVE_PATH relDir
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_INSTALL_RPATH ${RPATH_BASE} ${RPATH_BASE}/${relDir})
+
+if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()
 endif ()
 
-
-mark_as_advanced(
-        BUILD_LEGACY_C
-        INSTALL_APPS
-        INSTALL_CXX_API
-        INSTALL_C_API
-        INSTALL_C_API_PYTHON
-        INSTALL_STATIC_LIB
-        RR_USE_CXX14
-)
-
 # TODO: add some logic to automatically set based on compiler version
+# todo: turn on C++17 and see if it errors.
+#   - it does. Therefore todo: fix errors with c++17
 set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
 
 # new clang on OSX and msvc use std namespace.
@@ -136,52 +189,20 @@ else ()
     option(USE_TR1_CXX_NS "Use the tr1 c++ namespace for swig smart pointer" ${CMAKE_COMPILER_IS_GNUCXX})
 endif ()
 
-
-set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING
         "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
-            "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
-  CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
+
+if (WITH_ADDRESS_SANITIZER)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif ()
 
-###################################################
-#   Set some paths used in the build process
-#
-
-set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
-set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
-set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
-set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-
-#Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
-set(BUILD_SHARED_LIBS ON)
-set(BUILD_SHARED_LIBS ON)
-set(RR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-set(RR_SOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/source)
-set(THIRD_PARTY_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
-
-set(exe_path ${PROJECT_BINARY_DIR}/bin)
-set(lib_path ${PROJECT_BINARY_DIR}/lib)
-
-if (WIN32)
-    if (${MSVC})
-        if (CMAKE_BUILD_TYPE MATCHES "Debug")
-            set(exe_path ${exe_path}/Debug)
-            set(lib_path ${lib_path}/Debug)
-        else (CMAKE_BUILD_TYPE MATCHES "Debug")
-            set(exe_path ${exe_path}/Release)
-            set(lib_path ${lib_path}/Release)
-        endif (CMAKE_BUILD_TYPE MATCHES "Debug")
-    else (WIN32)
-        # Linux
-    endif (${MSVC})
-endif (WIN32)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (BUILD_LLVM)
     # todo needed?
@@ -197,22 +218,20 @@ else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
 
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif ()
 
-#####################################################
-#    Apply project/compiler settings
-#
 # Set C++14 flags
-set(CMAKE_CXX_STANDARD ${CMAKE_STANDARD})
+set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
 
+# Enable cmake printing out commands
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 if (${MSVC})
     # Here we set all flags that are needed for dependency packages.
     # Since we link to everything statically, we need these flags.
-    # Individual targets will need RR_STATIC or RR_EXPORT.
+    # Individual targets will need RR_STATIC or RR_EXPORT but otherwise
+    # these flags are set globally.
+    # todo consider whether this is desirable behaviour in the scenario that
+    #   roadrunner is being used as a embedded package
     add_definitions(
             -DLIBSBML_USE_CPP_NAMESPACE
             -DLIBSBML_STATIC
@@ -224,264 +243,157 @@ if (${MSVC})
             -DPOCO_STATIC
             -DPOCO_NO_AUTOMATIC_LIBS
             -DCRT_NONSTDC_NO_DEPRECATE
-            -D_CRT_SECURE_NO_WARNINGS    #MS wanting you to changes basically all standard C functions :(
-            -D_WIN32 # used as switch in zlib macro
+            -D_CRT_SECURE_NO_WARNINGS    # MS wanting you to changes basically all standard C functions :(
+            -D_WIN32                     # used as switch in zlib macro
+            -DXML_STATIC                 # for expat inside poco. The code that uses this define (poco_xml) is only used in tests.
     )
-
-    # 4251 About exporting std classes
-    # 4018 Comparing unsigned/signed ints
-    # 4996 Deprecated functions
-    # EHsc
-    #   - https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4530?view=vs-2019
-    #   - Fixes the compiler warning:
-    #       - C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\ostream(747):
-    #         warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
-    #
-    add_definitions("/wd4251 /wd4018 /wd4996 /EHsc")
 
 endif ()
 
 if (${MINGW})
+    # todo test on mingw (cw)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
 
-#if (${BORLAND})
-#    add_definitions(
-#            -DUSE_PCH                   #Enable pre-compiled headers
-#            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-#            -w-8012                     #Comparing signed /unsigned
-#            -w-8057                     #Parameter never used
-#            -w-8004                     #'var' is assigned a value that is never used
-#    )
-#endif ()
-
-if (UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+if (${BORLAND})
+    # todo test on borland (cw)
+    add_definitions(
+            -DUSE_PCH                   #Enable pre-compiled headers
+            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+            -w-8012                     #Comparing signed /unsigned
+            -w-8057                     #Parameter never used
+            -w-8004                     #'var' is assigned a value that is never used
+    )
 endif ()
+
+set(CMAKE_DEBUG_POSTFIX "d")
 
 ####################################################
 #   Dependencies
 
-# add the third_party directory as dependencies
-add_subdirectory(third_party)
-
-# handle the LLVM dependency
-if (${LLVM_INSTALL_PREFIX})
-    # This is the preferred way to handle the LLVM dependency.
-    message(STATUS "Detected user defined installation of LLVM")
-    #    set(LLVM_ROOT ${LLVM_INSTALL_PREFIX})
-    # Do some checks then load
-    message(STATUS "looking for llvm-config...:")
-    find_program(LLVM_CONFIG
-            NAMES llvm-config
-            PATHS
-            ${LLVM_INSTALL_PREFIX}/bin/llvm-config
-            ${LLVM_INSTALL_PREFIX}/bin/llvm-config.lib
-            )
-
-    if (NOT EXISTS ${LLVM_CONFIG})
-        message(FATAL_ERROR "Could not find llvm-config executable at ${LLVM_CONFIG}")
-    endif ()
-
-    if (NOT EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
-        message(FATAL_ERROR "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" not found)
-    endif ()
-    message(STATUS "llvm-config found at \"${LLVM_CONFIG}\"")
-
-    # Use the propper LLVM supplied CMake files.
-    # prepend the cmake module path with the LLVM modules
-    set(LLVM_MODULE_PATH "${LLVM_INSTALL_PREFIX}/lib/llvm/cmake")
-    if (NOT EXISTS "${LLVM_MODULE_PATH}")
-        message(FATAL_ERROR "LLVM module path expected at ${LLVM_MODULE_PATH} but it was not found")
-    endif ()
-    set(CMAKE_MODULE_PATH "${LLVM_MODULE_PATH} ${CMAKE_MODULE_PATH}")
-
-    include(LLVMConfig)
-
-    # we're building a JIT compiler with support for binary code (no interpreter):
-    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
-    # to link with.
-    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
-
+if (NOT EXISTS ${RR_DEPENDENCIES_INSTALL_PREFIX})
+    message(FATAL_ERROR "The path given to -DRR_DEPENDENCIES_INSTALL_PREFIX (\"${RR_DEPENDENCIES_INSTALL_PREFIX}\") does not exist. Please \
+build the dependency package. If you set
+    -DCMAKE_INSTALL_PREFIX=/path/to/roadrunner/root/dependencies
+they will be found automatically. If not, you will need to pass in
+    -DRR_DEPENDENCIES_INSTALL_PREFIX=\"/full/path/to/dependency/install/tree\"
+to the roadrunner cmake command.")
 endif ()
-# This code should not be deleted as it can be revived. Commented out for now (Ciaran welsh)
-#else (${LLVM_INSTALL_PREFIX})
-#    # But we can fall back and download binaries or build from source as well
-#
-#    # Set the root of llvm to be in the third_party directory. Note
-#    # that we need to separate different compilers
-#    set(LLVM_ROOT "${THIRD_PARTY_DIRECTORY}/LLVM6.0.1/${CMAKE_CXX_COMPILER_ID}")
-#
-#    # set llvm source directory. This is only used when we are in LLVM build mode
-#    set(LLVM_SOURCE_DIR "${LLVM_ROOT}/LLVM")
-#
-#    # set a place to put the binaries
-#    SetCrossPlatform(LLVM_INSTALL_PREFIX
-#            "${LLVM_ROOT}/llvm6.0.1-msvc"
-#            "${LLVM_ROOT}/llvm6.0.1-ubuntu"
-#            "${LLVM_ROOT}/llvm6.0.1-mac"
-#            )
-#
-#    ## first try to find an existing LLVM version
-#    find_package(LLVM)
-#
-#    # if it was found, validate the version
-#    if (LLVM_FOUND)
-#        if (NOT ${LLVM_VERSION} STREQUAL "6.0.1")
-#            message(FATAL_ERROR "Wrong version of LLVM found. Expected 6.0.1 but found ${LLVM_VERSION}")
-#        endif ()
-#    else ()
-#        # Otherwise we download binaries or build from source
-#
-#        # defines two boolean variables
-#        #   - BUILD_LLVM
-#        #   - DOWNLOAD_LLVM_BINARIES
-#        # They are mutually exclusive and determine the flow of the next step
-#        DownloadOrBuildLLVM()
-#
-#        # If conditions are met we can use precompiled binaries
-#        if (${DOWNLOAD_LLVM_BINARIES})
-#            DownloadLLVM601Binaries()
-#        endif ()
-#
-#        # if not we can build LLVM from source, which will take a while
-#        if (BUILD_LLVM)
-#            BuildLLVMFromSource()
-#        endif (BUILD_LLVM)
-#
-#        # Now we try again to find llvm
-#        #        find_package(LLVM)
-#
-#    endif (LLVM_FOUND)
-#endif (${LLVM_INSTALL_PREFIX})
+set(DEPENDENCY_INCLUDE_DIR "${RR_DEPENDENCIES_INSTALL_PREFIX}/include")
 
-# Collect our include directories into a convenient variable
-set(DEPENDENCY_INCLUDE_DIRS
-        "${NLEQ1_INCLUDE_DIR}"
-        "${NLEQ2_INCLUDE_DIR}"
-        "${CLAPACK_INCLUDE_DIR}"
-        "${LIBSBML_DEPS_INCLUDE_DIR}"
-        "${LIBSBML_INCLUDE_DIR}"
-        "${RR_STRUCT_INCLUDE_DIR}"
-        "${POCO_INCLUDE_DIR}"
-        "${SUNDIALS_INCLUDE_DIR}"
-        "${UNITTEST_INCLUDE_DIR}"
-        )
+if (NOT EXISTS ${DEPENDENCY_INCLUDE_DIR})
+    message(FATAL_ERROR "Cannot find the dependency include directory in your \
+dependency install tree. Please ensure the path you have given to -DRR_DEPENDENCIES_INSTALL_PREFIX \
+exists and is the full path to the installed dependency tree.")
+endif ()
+
+set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
+
+find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
+find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
+find_package(zlib CONFIG REQUIRED)
+find_package(bzip2 CONFIG REQUIRED)
+find_package(iconv CONFIG REQUIRED)
+find_package(libxml2 CONFIG REQUIRED)
+find_package(sbml-static CONFIG REQUIRED)
+find_package(rr-libstruct CONFIG REQUIRED)
+find_package(clapack CONFIG REQUIRED)
+find_package(nleq1 CONFIG REQUIRED)
+find_package(nleq2 CONFIG REQUIRED)
+find_package(PocoFoundation CONFIG REQUIRED)
+find_package(PocoNet CONFIG REQUIRED)
+find_package(PocoXML CONFIG REQUIRED)
+find_package(Sundials CONFIG REQUIRED)
+find_package(LLVM REQUIRED)
+
+# install dependencies so clients can use roadrunner from c++/cmake
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_INSTALL_DATAROOTDIR})
+
+# install a cmake script for consumer libraries to easily import roadrunner targets
+install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+
 if (${MINGW})
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif ()
 
-#if(${BORLAND})
-#    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
-#add_definitions(
-#    -DUSE_PCH                   #Enable pre-compiled headers
-#    -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-#    -w-8012                     #Comparing signed /unsigned
-#    -w-8057                     #Parameter never used
-#    -w-8004                     #'var' is assigned a value that is never used
-#    )
-#endif()
+if (${BORLAND})
+    link_directories(${THIRD_PARTY_INSTALL_FOLDER}/lib)
+    add_definitions(
+            -DUSE_PCH                   #Enable pre-compiled headers
+            -H=${PROJECT_BINARY_DIR}/rr_pch.csm
+            -w-8012                     #Comparing signed /unsigned
+            -w-8057                     #Parameter never used
+            -w-8004                     #'var' is assigned a value that is never used
+    )
+endif ()
 
-
-# Collect all dependency targets into a single list
-# Note the exclusion of LLVM libraries, which are not targets
-set(LINK_TARGETS
-        "blas"
-        "f2c"
-        "lapack"
-        "sbml-static"
-        "libiconv-static"
-        "libLZMA-static"
-        "libxml2-static"
-        "zlibstatic"
-        "nleq1-static"
-        "nleq2-static"
-        "PocoFoundation"
-        "PocoNet"
-        "PocoUtil"
-        "PocoXML"
-        "PocoZip"
-        "PocoJSON"
-        "rr-libstruct-static"
-        "sundials_cvode_static"
-        "sundials_cvodes_static"
-        "sundials_ida_static"
-        "sundials_idas_static"
-        "sundials_kinsol_static"
-        "sundials_nvecserial_static"
-        )
-
-# note: unit test will be replaced by gtest eventually
-set(TEST_TARGETS "unit_test-static" "gtest" "gtest_main")
-
-# create new custom target so we can build all-dependencies and
-#  build all deps with single command
-add_custom_target(all-dependencies)
-add_dependencies(all-dependencies ${LINK_TARGETS})
-
-# now add LLVM.
-set(LINK_LIBRARIES "${LINK_TARGETS}" "${LLVM_LIBRARIES}")
 
 ##########################################################
-# Add roadrunner source directories to the build
+# Building
+#
 
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
 
+
 ##########################################################
-# Build tests
+# Tests
+#
 
-if (BUILD_TESTS AND BUILD_TEST_TOOLS)
+# Empty space ready for when tests arrive.
 
-    set(GOOGLETEST_SOURCE_DIR third_party/googletest)
-    set(GOOGLETEST_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googletest)
-    set(GOOGLEMOCK_INCLUDE_DIR ${GOOGLETEST_SOURCE_DIR}/googlemock)
+#
+###########################################################
+## API's
 
-    add_subdirectory(${GOOGLETEST_SOURCE_DIR})
+add_subdirectory(wrappers)
 
-    add_subdirectory(tests)
 
-    #    QueryCMakeVariables()
+##########################################################
+# Documentation
+#
 
-    # I really have no idea what this code is doing. (cw)
-    # This code comes with no comments, so i'll add some as I'm
-    # trying to figure out what its doing
+if (${BUILD_DOCS})
+    add_subdirectory(docs)
+endif ()
+
+##########################################################
+# Packaging
+#
+
+if (${BUILD_PACKAGING})
+    #todo raise question of deleting the "installer" folder (cw)
+    # it doesn't look that useful and we now have the contents of
+    # packaging that will automate production of binary releases.
+    add_subdirectory(packaging)
+endif ()
+
+
+##########################################################
+# Configuration summary
+#
+
+if (BUILD_TESTS)
+    add_subdirectory(test)
+
     message(STATUS "building tests")
 
-    # Collect a list of all files inside "testing" folder.
-    # This includes CMakeLists.txt for some reason.
-    file(GLOB TEST_FILES "testing/*")
+    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*")
 
-    MESSAGE(STATUS "TEST_FILES ${TEST_FILES}")
+    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
-    # Collect the set of Python test files.
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*")
+    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.xml")
 
-    MESSAGE(STATUS "PYTHON_TEST_FILES ${PYTHON_TEST_FILES}")
-
-    # and combine the two list of test files
-    list(APPEND TEST_FILES ${PYTHON_TEST_FILES})
-
-    # Collect all python and xml test data
-    file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.rrtest")
-
-    file(GLOB TEST_DATA_XML "${CMAKE_CURRENT_SOURCE_DIR}/testing/*.xml")
-
-    # Oh, I think I see what has happened here.
-    # This code makes a copy of each test fle, both python and otherwise
-    foreach (f ${TEST_FILES})
+    foreach (f ${PYTHON_TEST_FILES})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            #            message(STATUS ${FILE_NAME})
-            # This command copies into the main testing directory under project root.
-            # Dont know why though.
-            # Could be that somebody just committed these files and they havent been deleted.
             configure_file(${f} testing/${FILE_NAME} COPYONLY)
-
-            # Uncertain why these have been copied here. Presumably its only the Python files
-            # That need to go into a site packages directory, though still no idea
-            # Why a site packages directory is needed. Also, I still havent found this
             configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
@@ -500,67 +412,57 @@ if (BUILD_TESTS AND BUILD_TEST_TOOLS)
         endif ()
     endforeach ()
 
-    # I don't understand. The testing directory doesn't build anything???
-    add_subdirectory(testing)
-    add_subdirectory(autotest)
-    add_subdirectory(source/testing)
-    add_subdirectory(source/llvm_testing)
 else ()
     message(STATUS "NOT building tests")
 endif ()
 
-#
-###################################################
-##   Build wrappers etc
-#
 
-######################################################
-#   Note (Ciaran welsh)
-#
-#   Some work has been done on the wrappers and tests, but not much.
-#   They will need some work to get them to where we want.
-#   For now I leave this commented out as I focus on getting roadrunner
-#   and roadrunner-static targets built.
-#
+#======================= INSTALL STUFF ========================================================
+#What sub folders to move into...?
+if (${INSTALL_SBML_MODELS})
+    add_subdirectory(models)
+endif ()
 
-##if (INSTALL_CXX_API)
-##    if (INSTALL_APPS)
-##        add_subdirectory(apps)
-##    endif ()
-##
-##    if (INSTALL_EXAMPLES)
-##        add_subdirectory(examples)
-##    endif ()
-##endif (INSTALL_CXX_API)
-##
-##add_subdirectory(wrappers)
-#
-# print out the configuration summary
-ConfigurationSummary()
-#
-### make or copy installers into root directory
-##add_subdirectory(installer)
-##
-###=== ThirdParties
-##if(${BORLAND})
-##    set(CG_RUNTIMES        cc32110MT.dll)
-##    foreach(runtime ${CG_RUNTIMES})
-##        install (FILES
-##            ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
-##            DESTINATION bin
-##            COMPONENT rr_core)
-##    endforeach()
-##endif()
-#
-configure_file(VERSION.txt.in VERSION.txt @ONLY)
+
+# should we build and install RRPlugins with the roadrunner?
+option(INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
+
+if (INSTALL_RRPLUGINS)
+    add_subdirectory(rrplugins)
+endif ()
+
+install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
+        DESTINATION .
+        COMPONENT info
+        )
+
+# make or copy installers into root directory
+add_subdirectory(installer)
+
+#=== ThirdParties
+if (${BORLAND})
+    set(CG_RUNTIMES cc32110MT.dll)
+    foreach (runtime ${CG_RUNTIMES})
+        install(FILES
+                ${THIRD_PARTY_INSTALL_FOLDER}/cg/xe/${runtime}
+                DESTINATION bin
+                COMPONENT rr_core)
+    endforeach ()
+endif ()
+
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in
+        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt @ONLY
+)
 
 install(
         FILES
         NOTICE.txt
-        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt
         NEWS.txt
         DESTINATION .
 )
 
+# print out configuration summary
+ConfigurationSummary()
 
 

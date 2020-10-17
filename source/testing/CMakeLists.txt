@@ -1,5 +1,9 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(RR_CXX_API_TESTS)
+###########################################################
+#   Roadrunner testing
+#
+
+# add the googletest subdirectory to the build
+#add_subdirectory(googletest-release-1.10.0)
 
 set(target cxx_api_tests)
 
@@ -10,6 +14,7 @@ set(tests
         tests/stoichiometric
         tests/model_editing
         tests/state_saving
+        tests/other_tests
         )
 
 add_executable(${target}
@@ -57,7 +62,7 @@ Message("SupportCodeFolder is: " ${supportCodeFolder})
 #    OUTPUT ${resultsFile}
 #    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
 #    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-#    COMMENT "=========== Generating CPP-API Wiki reports =============="
+#    COMMENT "=========== Generating CPP-wrappers Wiki reports =============="
 #    VERBATIM
 #    )
 #
